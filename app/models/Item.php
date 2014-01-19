@@ -1,0 +1,132 @@
+<?php
+
+class Item extends Eloquent {
+	private $d = array();
+
+	public function getName( $lang = null ) { return $this->localized( 'name', $lang ); }
+	public function getDescription( $lang = null ) { return $this->localized( 'desc', $lang ); }
+	public function getData( $lang = null ) { 
+		if ( !array_key_exists( $lang, $this->d ) ) {
+			$this->d[ $lang ] = json_decode( $this->localized( 'data', $lang ) );
+		}
+		return $this->d[ $lang ];
+	}
+	public function getTypeData( $lang = null) {
+		switch( $this->type ) {
+			case 'CraftingMaterial' : $t = 'crafting_material'; break;
+			case 'MiniPet' 			: $t = 'mini_pet'; break;
+			case 'UpgradeComponent' : $t = 'upgrade_component'; break;
+			default					: $t = strtolower( $this->type ); break;
+		}
+		if ( isset( $this->getData( $lang )->{$t} ) )
+			return $this->getData( $lang )->{$t};
+
+		return new stdClass();
+	}
+	public function getFlags( ) { return $this->getData()->flags; }
+	public function hasFlag( $flag ) { return in_array( $flag, $this->getFlags() ); }
+
+	private $si;
+	public function getSuffixItem( ) {
+		return isset($si) ? $si : ($si = Item::find( $this->getTypeData()->suffix_item_id ) ); 
+	}
+
+	public function getUrl( $lang = null ) {
+		if( is_null( $lang ) ) $lang = App::getLocale();
+		return URL::route( 'itemdetails', array('language' => $lang, 'item' => $this->id ));
+	}
+	public function getIconUrl( ) {
+		return '//gw2wbot.darthmaim.de/icon/' . $this->signature . '/' . $this->file_id . '.png';
+	}
+	public function getChatLink( ) {
+		return '[&'.base64_encode(chr(0x02).chr(0x01).chr($this->id%256).chr((int)($this->id/256)).chr(0x00).chr(0x00)).']';
+	}
+
+	//---- Relations
+
+	public function recipes() {
+		return $this->hasMany('Recipe', 'output_id');
+	}
+
+	public function unlocks() {
+		return $this->belongsTo('Recipe', 'unlock_id');
+	}
+
+	public function ingredientForRecipes() {
+		return Recipe::hasIngredient( $this )->withAll();
+	}
+
+	//----
+
+	public function getInfixUpgrade( $lang = null ) {
+		if ( isset( $this->getTypeData()->infix_upgrade ))
+			return $this->getTypeData()->infix_upgrade;
+		return null;
+	}
+
+	/**
+	 * @return array ['Precision': 5, 'OtherAttribute': 12]
+	 **/
+	public function getAttributes( ) {
+		$attributes = $this->getInfixAttributes();
+		foreach ($this->getBuffDescriptionAttributes() as $attribute => $modifier) {
+			if( array_key_exists($attribute, $attributes) )
+				$attributes[ $attribute ] += $modifier;
+			else
+				$attributes[ $attribute ] = $modifier;
+		}
+		return $attributes;
+	}
+
+	/**
+	 * Returns the attributes from infix_upgrade.attributes
+	 **/
+	public function getInfixAttributes( ) {
+		$infixUpgrade = $this->getInfixUpgrade();
+		if( is_null( $infixUpgrade ) || !isset( $infixUpgrade->attributes ) )
+			return array();
+		$attributes = array();
+		foreach ($infixUpgrade->attributes as $attribute) {
+			$a = str_replace( array( 'CritDamage',      'ConditionDamage',  'Healing' ), 
+							  array( 'Critical Damage', 'Condition Damage', 'Healing Power' ),
+							  $attribute->attribute );
+			$attributes[ $attribute->attribute ] = $attribute->modifier;
+		}
+		return $attributes;
+	}
+
+	/**
+	 * Parses infix_upgrade.buff.description and returns the attributes
+	 **/
+	public function getBuffDescriptionAttributes( ) {
+		$infixUpgrade = $this->getInfixUpgrade();
+		if( is_null( $infixUpgrade ) || !isset( $infixUpgrade->buff ) || !isset( $infixUpgrade->buff->description ))
+			return array();
+
+		$attributes = array();
+		$buffs = explode("\n", $infixUpgrade->buff->description);
+
+		foreach ($buffs as $buff) {
+			list( $modifier, $attribute ) = explode( ' ', $buff, 2 );
+			$modifier = intval( str_replace( array('+', '%'), array(' ', ' '), $modifier ) );
+			$attributes[ $attribute ] = $modifier; 
+		}
+
+		return $attributes;
+	}
+
+	private function localized( $property, $lang ) {
+		if( is_null( $lang ) ) $lang = App::getLocale();
+		if( $lang != 'de' && $lang != 'en' && 
+			$lang != 'es' && $lang != 'fr' )
+			return 'Invalid language: ' . $lang;
+		$localizedProperty = $property . '_' . $lang;
+		if( isset($this->{$localizedProperty}) ) {
+			return $this->{$localizedProperty};
+		} else if ( isset($this->{$property}) ) {
+			return 'Property is not localized: ' . $property;
+		} else {
+			return 'Unknown property: ' . $property;
+		}
+	}
+}

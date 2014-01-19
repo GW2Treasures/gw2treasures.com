@@ -24,11 +24,11 @@ Route::filter( 'setLocale', function( $route, $request ) {
 });
 
 //redirect all requests without language sub domain
-Route::group( array('domain' => 'test.gw2treasures.de', 'before' => 'setLocale'), function() {
+Route::group( array('domain' => Config::get('app.domain'), 'before' => 'setLocale'), function() {
 	Route::any('{x}', function() {})->where('x', '.*');
 });
 
-Route::group( array('domain' => '{language}.test.gw2treasures.de', 'before' => 'setLocale'), function() {
+Route::group( array('domain' => '{language}.' . Config::get('app.domain'), 'before' => 'setLocale'), function() {
 	Route::model('item', 'Item', function( ) {
 		throw new Exception( 'Item not found' );
 	});

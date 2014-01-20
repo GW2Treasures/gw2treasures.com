@@ -11,16 +11,16 @@
 	<!--<meta name="viewport" content="width=device-width">-->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 
-	<link rel="stylesheet" href="//gw2treasures.de/css/normalize.min.css">
-	<link rel="stylesheet" href="//gw2treasures.de/css/main.css">
-	<link rel="stylesheet" href="//gw2treasures.de/css/style.css">
+	<link rel="stylesheet" href="//assets.gw2treasures.de/css/normalize.min.css">
+	<link rel="stylesheet" href="//assets.gw2treasures.de/css/main.css">
+	<link rel="stylesheet" href="//assets.gw2treasures.de/css/style.css">
 
 	<link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,300,700|Open+Sans:400,300,600,700|Open+Sans+Condensed:300|Droid+Sans+Mono|Droid+Serif' rel='stylesheet' type='text/css'>
 
-	<link rel="icon" href="//gw2treasures.de/img/favicon.png" type="image/png" />
-	<link rel="shortcut icon" href="//gw2treasures.de/favicon.ico" />
+	<link rel="icon" href="//assets.gw2treasures.de/img/favicon.png" type="image/png" />
+	<link rel="shortcut icon" href="//assets.gw2treasures.de/favicon.ico" />
 
-	<script src="//gw2treasures.de/js/vendor/modernizr-2.6.2.min.js"></script>
+	<script src="//assets.gw2treasures.de/js/vendor/modernizr-2.6.2.min.js"></script>
 
 	<!-- alternate versions in different languages -->
 	<link rel="alternate" hreflang="x-default" href="//{{ Config::get('app.domain') .  Request::getRequestUri() }}" />

@@ -69,7 +69,7 @@
 	<div id="wrapper">
 		<h1>{{ $title or 'error' }}</h1>
 		<div class="content">{{ $description or 'Something went wrong.' }}</div>
-		<img src="//gw2treasures.de/img/logo.png" alt="" width="512" height="512">
+		<img src="//assets.gw2treasures.de/img/logo.png" alt="" width="512" height="512">
 	</div>
 </body>
 </html>

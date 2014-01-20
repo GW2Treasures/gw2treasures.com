@@ -4,5 +4,5 @@
 This is a test :)@stop
 
 @section('content')
-    Test!
+	Test!
 @stop

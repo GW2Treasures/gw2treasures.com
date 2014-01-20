@@ -55,7 +55,7 @@ App::error(function(Exception $exception, $code)
 		return Response::view('error', array( 
 			'title' => $code == 500 ? 'whoops...' : $code, 
 			'description' => 'There was an error.<br>' . $exception->getMessage() ?: '', 
-	    ), $code);
+		), $code);
 	}
 });
 
@@ -76,7 +76,7 @@ App::down(function()
 	return Response::view('error', array( 
 		'title' => 'Maintenance', 
 		'description' => 'Be right back!' 
-    ), 503);
+	), 503);
 });
 
 /*
@@ -95,8 +95,8 @@ require app_path().'/filters.php';
 
 App::missing(function($exception)
 {
-    return Response::view('error', array( 
+	return Response::view('error', array( 
 		'title' => '404', 
 		'description' => 'We couldn\'t find the file you requested.' 
-    ), 404);
+	), 404);
 });

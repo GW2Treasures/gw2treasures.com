@@ -5,9 +5,9 @@
 				<?php $i = Item::find( $infusion->item_id )->get(); ?>
 				<li>
 					<a href="{{ $i->getUrl() }}">
-                		<img src="{{ $i->getIconUrl() }}" width="16" height="16" alt="">
-                		{{ $i->getName() }}
-            		</a>
+						<img src="{{ $i->getIconUrl() }}" width="16" height="16" alt="">
+						{{ $i->getName() }}
+					</a>
 			@else
 				@if( in_array( 'Defense', $infusion->flags ) )
 					<li class="defensive">{{ trans('item.unusedDefensiveInfusionSlot') }}

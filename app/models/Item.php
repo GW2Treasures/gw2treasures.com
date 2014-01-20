@@ -14,9 +14,9 @@ class Item extends Eloquent {
 	public function getTypeData( $lang = null) {
 		switch( $this->type ) {
 			case 'CraftingMaterial' : $t = 'crafting_material'; break;
-			case 'MiniPet' 			: $t = 'mini_pet'; break;
+			case 'MiniPet'          : $t = 'mini_pet'; break;
 			case 'UpgradeComponent' : $t = 'upgrade_component'; break;
-			default					: $t = strtolower( $this->type ); break;
+			default                 : $t = strtolower( $this->type ); break;
 		}
 		if ( isset( $this->getData( $lang )->{$t} ) )
 			return $this->getData( $lang )->{$t};
@@ -88,8 +88,8 @@ class Item extends Eloquent {
 		$attributes = array();
 		foreach ($infixUpgrade->attributes as $attribute) {
 			$a = str_replace( array( 'CritDamage',      'ConditionDamage',  'Healing' ), 
-							  array( 'Critical Damage', 'Condition Damage', 'Healing Power' ),
-							  $attribute->attribute );
+			                  array( 'Critical Damage', 'Condition Damage', 'Healing Power' ),
+			                  $attribute->attribute );
 			$attributes[ $attribute->attribute ] = $attribute->modifier;
 		}
 		return $attributes;

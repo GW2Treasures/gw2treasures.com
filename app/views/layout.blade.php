@@ -6,7 +6,7 @@
 <head>
 	<meta charset="utf-8">
 	<!--<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">-->
-	<title>@yield('title') | GW2 Treasures</title>
+	<title>{{ $title }} | GW2 Treasures</title>
 	<meta name="description" content="">
 	<!--<meta name="viewport" content="width=device-width">-->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
@@ -48,7 +48,7 @@
 		</ul>
 
 		<div id="content">
-			<div class="pageWidth">@yield('content')</div>
+			<div class="pageWidth">{{ $content }}</div>
 		</div>
 
 		<footer id="footerBar"><div class="pageWidth"><a href='#'>darthmaim</a> &copy; 2014</div></footer>
@@ -94,7 +94,10 @@
 				echo 'Runtime: ' . round(( STARTTIME + microtime( true ) ) * 1000, 2 ) . 'ms' . "\n";
 				echo 'Memory usage: ' . round(memory_get_usage() / 1024 / 1024, 2) . ' MiB' . "\n";
 				echo 'DB queries: ' . count(DB::getQueryLog()) . "\n";
-				if(isset($_SERVER['HTTP_CF_CONNECTING_IP'])) {
+				if( isset( $cached ) && $cached ) {
+					echo 'cached';
+				}
+				if( isset( $_SERVER['HTTP_CF_CONNECTING_IP'] )) {
 					echo 'via cloudflare';
 				}
 			?>">

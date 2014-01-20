@@ -59,22 +59,33 @@ Route::group( array('domain' => Config::get('app.domain'), 'before' => 'setLocal
 });
 
 // all main routes
-Route::group( array('domain' => '{language}.' . Config::get('app.domain'), 'before' => 'setLocale'), function() {
-	// bind the {item} parameter in routes to the Item model
-	Route::model('item', 'Item', function( ) {
-		throw new Exception( 'Item not found' );
-	});
-
-	// mainpage
-	Route::get('/', function() {
-		return View::make('start');
-	});
+Route::group( array(
+		'domain' => '{language}.' . Config::get('app.domain'),
+		'before' => 'setLocale',
+		'after' => ''
+	), function() {
 	
-	// item details
-	Route::get('item/{item}', array( 'as' => 'itemdetails', 'uses' => 'ItemController@showDetails') );
+		// bind the {item} parameter in routes to the Item model
+		Route::model('item', 'Item', function( ) {
+			throw new Exception( 'Item not found' );
+		});
 
-	// search
-	Route::get('search', array('as' => 'search', function() {
-		return 'search';
-	}));
-});
+		// mainpage
+		Route::get('/', function() {
+			return View::make( 'layout' )
+				->nest( 'content', 'start' )
+				->with( 'title', 'Welcome!' );
+		});
+		
+		// item details
+		Route::get('item/{item}', array( 
+			'as' => 'itemdetails', 
+			'uses' => 'ItemController@showDetails'
+		));
+
+		// search
+		Route::get('search', array('as' => 'search', function() {
+			return 'search';
+		}));
+	}
+);

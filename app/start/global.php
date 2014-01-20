@@ -50,6 +50,13 @@ Log::useFiles(storage_path().'/logs/laravel.log');
 App::error(function(Exception $exception, $code)
 {
 	Log::error($exception);
+
+	if ( !Config::get( 'app.debug' ) ) {
+		return Response::view('error', array( 
+			'title' => $code == 500 ? 'whoops...' : $code, 
+			'description' => 'There was an error.<br>' . $exception->getMessage() ?: '', 
+	    ), $code);
+	}
 });
 
 /*
@@ -65,7 +72,11 @@ App::error(function(Exception $exception, $code)
 
 App::down(function()
 {
-	return Response::make("Be right back!", 503);
+	//return Response::make("Be right back!", 503);
+	return Response::view('error', array( 
+		'title' => 'Maintenance', 
+		'description' => 'Be right back!' 
+    ), 503);
 });
 
 /*
@@ -80,3 +91,12 @@ App::down(function()
 */
 
 require app_path().'/filters.php';
+
+
+App::missing(function($exception)
+{
+    return Response::view('error', array( 
+		'title' => '404', 
+		'description' => 'We couldn\'t find the file you requested.' 
+    ), 404);
+});

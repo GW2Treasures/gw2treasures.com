@@ -17,8 +17,8 @@
 
     <link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,300,700|Open+Sans:400,300,600,700|Open+Sans+Condensed:300|Droid+Sans+Mono|Droid+Serif' rel='stylesheet' type='text/css'>
 
-    <link rel="icon" href="//gw2treasures.de//img/favicon.png" type="image/png" />
-    <link rel="shortcut icon" href="//gw2treasures.de//favicon.ico" />
+    <link rel="icon" href="//gw2treasures.de/img/favicon.png" type="image/png" />
+    <link rel="shortcut icon" href="//gw2treasures.de/favicon.ico" />
 
     <script src="//gw2treasures.de/js/vendor/modernizr-2.6.2.min.js"></script>
 

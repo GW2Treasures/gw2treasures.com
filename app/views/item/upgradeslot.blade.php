@@ -3,7 +3,7 @@
 		<div class="unusedUpgradeSlot">Unused Upgrade Slot</div>
 	@else
 		<div class="upgradeSlot">
-			<img src="{{ $item->getSuffixItem( )->getIconUrl( ) }}" width="16" height="16" alt><a href="{{ $item->getSuffixItem( )->getUrl( ) }}">{{ $item->getSuffixItem( )->getName( ) }}</a>
+			<img src="{{ $item->getSuffixItem( )->getIconUrl( 16 ) }}" width="16" height="16" alt><a href="{{ $item->getSuffixItem( )->getUrl( ) }}">{{ $item->getSuffixItem( )->getName( ) }}</a>
 
 			@if( ( $suffixSubType = $item->getSuffixItem( )->subtype ) == 'Rune' )
 				(0/{{ count( $bonuses = $item->getSuffixItem( )->getTypeData( )->bonuses ) }})

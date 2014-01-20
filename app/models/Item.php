@@ -35,8 +35,19 @@ class Item extends Eloquent {
 		if( is_null( $lang ) ) $lang = App::getLocale();
 		return URL::route( 'itemdetails', array('language' => $lang, 'item' => $this->id ));
 	}
-	public function getIconUrl( ) {
-		return '//gw2wbot.darthmaim.de/icon/' . $this->signature . '/' . $this->file_id . '.png';
+	public function getIconUrl( $size = 64 ) {
+		$size = intval( $size );
+		if( !in_array( $size, array( 16, 32, 64) )) {
+			if( $size <= 16 ) { 
+				$size = 16;
+			} elseif ( $size <= 32 ) {
+				$size = 32;
+			} else {
+				$size = 64;
+			}
+		}
+
+		return '//icons.gw2treasures.de/' . $this->signature . '/' . $this->file_id . '-' . $size . 'px.png';
 	}
 	public function getChatLink( ) {
 		return '[&'.base64_encode(chr(0x02).chr(0x01).chr($this->id%256).chr((int)($this->id/256)).chr(0x00).chr(0x00)).']';

@@ -3,7 +3,7 @@
 	@if( $recipe->hasFlag( 'LearnedFromItem' ) )
 		@if( !is_null( $recipe->unlockedBy ) && $recipe->unlockedBy->unlock_type == 'CraftingRecipe' )
 			<a href="{{ $recipe->unlockedBy->getUrl() }}">
-				<img src="{{ $recipe->unlockedBy->getIconUrl() }}" width="16" height="16" alt="">
+				<img src="{{ $recipe->unlockedBy->getIconUrl( 16 ) }}" width="16" height="16" alt="">
 				{{ $recipe->unlockedBy->getName() }}
 			</a>
 		@else
@@ -19,7 +19,7 @@
 				<li>
 					<span class="count">{{ $counts[ $i ] }}</span>
 					<a href="{{ $ingredient->getUrl() }}">
-						<img src="{{ $ingredient->getIconUrl() }}" width="16" height="16" alt="">
+						<img src="{{ $ingredient->getIconUrl( 16 ) }}" width="16" height="16" alt="">
 						{{ $ingredient->getName() }}
 					</a>
 				</li>
@@ -31,7 +31,7 @@
 		<span class="count">{{ $recipe->output_count }}</span>
 		@if( !is_null( $recipe->output ) )
 			<a href="{{ $recipe->output->getUrl() }}">
-				<img src="{{ $recipe->output->getIconUrl() }}" width="16" height="16" alt="">
+				<img src="{{ $recipe->output->getIconUrl( 16 ) }}" width="16" height="16" alt="">
 				{{ $recipe->output->getName() }}
 			</a>
 		@else

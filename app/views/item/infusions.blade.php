@@ -5,7 +5,7 @@
 				<?php $i = Item::find( $infusion->item_id )->get(); ?>
 				<li>
 					<a href="{{ $i->getUrl() }}">
-						<img src="{{ $i->getIconUrl() }}" width="16" height="16" alt="">
+						<img src="{{ $i->getIconUrl( 16 ) }}" width="16" height="16" alt="">
 						{{ $i->getName() }}
 					</a>
 			@else

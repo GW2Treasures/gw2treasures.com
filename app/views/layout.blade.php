@@ -40,6 +40,13 @@
             </div>
         </header>
 
+
+        <ul id="notifications">
+            @foreach( Notification::Notifications() as $n )
+                @include( 'notification', array( 'notification' => $n ) )
+            @endforeach
+        </ul>
+
         <div id="content">
             <div class="pageWidth">@yield('content')</div>
         </div>

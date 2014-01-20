@@ -6,7 +6,7 @@ class Notification {
     protected $options = array();
 
     private static $default_options = array(
-        'dismissible' => false
+        'dismissible' => true
     );
 
     private function __construct( $name, $content, $options ) {

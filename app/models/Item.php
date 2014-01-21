@@ -47,7 +47,7 @@ class Item extends Eloquent {
 			}
 		}
 
-		return '//icons.gw2treasures.de/' . $this->signature . '/' . $this->file_id . '-' . $size . 'px.png';
+		return Helper::cdn( 'icons/' . $this->signature . '/' . $this->file_id . '-' . $size . 'px.png', $this->file_id );
 	}
 	public function getChatLink( ) {
 		return '[&'.base64_encode(chr(0x02).chr(0x01).chr($this->id%256).chr((int)($this->id/256)).chr(0x00).chr(0x00)).']';

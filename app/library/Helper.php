@@ -1,6 +1,25 @@
 <?php
 
 class Helper {
+    private static $cdn_servers = array( 
+        'callisto.darthmaim-cdn.de',
+        'europa.darthmaim-cdn.de',
+        'ganymede.darthmaim-cdn.de',
+        'io.darthmaim-cdn.de',
+        'titan.darthmaim-cdn.de',
+        'triton.darthmaim-cdn.de'
+    );
+    private static $cdn_counter = 0;
+
+    public static function cdn( $path, $server = null ) {
+        if( is_null( $server ) ) {
+            self::$cdn_counter++;
+            $server = ( self::$cdn_counter / 6 );
+        }
+        $server %= count( self::$cdn_servers );
+        return '//' . self::$cdn_servers[ $server ] . '/gw2treasures/' . $path;
+    }
+
     /* 
       determine which language out of an available set the user prefers most 
       

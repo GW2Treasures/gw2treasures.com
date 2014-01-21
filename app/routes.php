@@ -84,8 +84,9 @@ Route::group( array(
 		));
 
 		// search
-		Route::get('search', array('as' => 'search', function() {
-			return 'search';
-		}));
+		Route::get('search', array(
+			'as' => 'search', 
+			'uses' => 'ItemController@search'
+		));
 	}
 );

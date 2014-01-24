@@ -35,6 +35,11 @@
 
 @include( 'item.tooltip' )
 
+@if( $item->unlock_type = 'CraftingRecipe' && !is_null( $item->unlocks ) )
+	<h3>{{ trans('item.unlocks') }}</h3>
+	@include( 'recipe.box', array( 'recipe' => $item->unlocks ) )
+@endif
+
 @if( count( $craftedFrom = $item->recipes()->get() ) > 0 )
 	<h3>{{ trans('item.craftedFrom') }}</h3>
 	@foreach( $craftedFrom as $recipe )

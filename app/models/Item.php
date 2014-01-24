@@ -73,7 +73,7 @@ class Item extends Eloquent {
 	}
 
 	public function unlocks() {
-		return $this->belongsTo('Recipe', 'unlock_id');
+		return $this->belongsTo('Recipe', 'unlock_id', 'recipe_id');
 	}
 
 	public function ingredientForRecipes() {

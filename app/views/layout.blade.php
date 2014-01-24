@@ -23,11 +23,11 @@
 	<script src="//assets.gw2treasures.de/js/vendor/modernizr-2.6.2.min.js"></script>
 
 	<!-- alternate versions in different languages -->
-	<link rel="alternate" hreflang="x-default" href="//{{ Config::get('app.domain') .  Request::getRequestUri() }}" />
-	<link rel="alternate" hreflang="de"        href="//de.{{ Config::get('app.domain') .  Request::getRequestUri() }}" />
-	<link rel="alternate" hreflang="en"        href="//en.{{ Config::get('app.domain') .  Request::getRequestUri() }}" />
-	<link rel="alternate" hreflang="es"        href="//es.{{ Config::get('app.domain') .  Request::getRequestUri() }}" />
-	<link rel="alternate" hreflang="fr"        href="//fr.{{ Config::get('app.domain') .  Request::getRequestUri() }}" />
+	<link rel="alternate" hreflang="x-default" href="//{{    Config::get('app.domain') . Request::getRequestUri() }}" />
+	<link rel="alternate" hreflang="de"        href="//de.{{ Config::get('app.domain') . Request::getRequestUri() }}" />
+	<link rel="alternate" hreflang="en"        href="//en.{{ Config::get('app.domain') . Request::getRequestUri() }}" />
+	<link rel="alternate" hreflang="es"        href="//es.{{ Config::get('app.domain') . Request::getRequestUri() }}" />
+	<link rel="alternate" hreflang="fr"        href="//fr.{{ Config::get('app.domain') . Request::getRequestUri() }}" />
 </head>
 <body>
 	<div id="wrapper">
@@ -81,10 +81,10 @@
 				</ul>
 			<li>{{ trans('footer.language') }}
 				<ul>
-					<li><a href="#">{{ trans('footer.german') }}</a>
-					<li><a href="#">{{ trans('footer.english') }}</a>
-					<li><a href="#">{{ trans('footer.spanish') }}</a>
-					<li><a href="#">{{ trans('footer.french') }}</a>
+					<li><a hreflang="de" rel="alternate" href="//de.{{ Config::get('app.domain') . Request::getRequestUri() }}">{{ trans('footer.german') }}</a>
+					<li><a hreflang="en" rel="alternate" href="//en.{{ Config::get('app.domain') . Request::getRequestUri() }}">{{ trans('footer.english') }}</a>
+					<li><a hreflang="es" rel="alternate" href="//es.{{ Config::get('app.domain') . Request::getRequestUri() }}">{{ trans('footer.spanish') }}</a>
+					<li><a hreflang="fr" rel="alternate" href="//fr.{{ Config::get('app.domain') . Request::getRequestUri() }}">{{ trans('footer.french') }}</a>
 				</ul>
 		</ul></nav>
 		<p class="pageWidth legalNotice">{{ trans('footer.legalNotice1') }}</p>

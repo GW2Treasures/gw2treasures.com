@@ -4,6 +4,10 @@ return array(
 	'defense' =>'Defense',
 	'weaponStrength' => 'Weapon Strength',
 
+	'craftedFrom' => 'Crafted from',
+	'usedInCrafting' => 'Used in crafting',
+	'unlocks' => 'Unlocks',
+
 	'attribute' => array(
 		'AgonyResistance'   => 'Agony Resistance',
 		'BoonDuration'      => 'Boon Duration',

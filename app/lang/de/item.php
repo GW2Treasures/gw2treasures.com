@@ -4,6 +4,10 @@ return array(
 	'defense' => 'Verteidigung',
 	'weaponStrength' => 'Waffenstärke',
 
+	'craftedFrom' => 'Herstellung',
+	'usedInCrafting' => 'Verwendung',
+	'unlocks' => 'Freischaltung',
+
 	'attribute' => array(
 		'AgonyResistance'   => 'Qual-Widerstand',
 		'BoonDuration'      => 'Segensdauer',

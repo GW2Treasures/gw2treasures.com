@@ -45,28 +45,28 @@
 	{{-- disciplines --}}
 	<div class="disciplines">
 		@if( $recipe->hasDiscipline(Recipe::DISCIPLINE_ARMORSMITH) )
-			<img src="//assets.gw2treasures.de/img/Armorsmith_tango_icon_20px.png"    width="20" height="20" title="{{ trans('recipe.disciplines.armorsmith') }}"    alt="{{ trans('recipe.disciplines.armorsmith') }}">
+			<img src="{{ Helper::cdn('assets/img/Armorsmith_tango_icon_20px.png', 0) }}"    width="20" height="20" title="{{ trans('recipe.disciplines.armorsmith') }}"    alt="{{ trans('recipe.disciplines.armorsmith') }}">
 		@endif
 		@if( $recipe->hasDiscipline(Recipe::DISCIPLINE_ARTIFICER) )
-			<img src="//assets.gw2treasures.de/img/Artificer_tango_icon_20px.png"     width="20" height="20" title="{{ trans('recipe.disciplines.artificer') }}"     alt="{{ trans('recipe.disciplines.artificer') }}">
+			<img src="{{ Helper::cdn('assets/img/Artificer_tango_icon_20px.png', 1) }}"     width="20" height="20" title="{{ trans('recipe.disciplines.artificer') }}"     alt="{{ trans('recipe.disciplines.artificer') }}">
 		@endif
 		@if( $recipe->hasDiscipline(Recipe::DISCIPLINE_CHEF) )
-			<img src="//assets.gw2treasures.de/img/Chef_tango_icon_20px.png"          width="20" height="20" title="{{ trans('recipe.disciplines.chef') }}"          alt="{{ trans('recipe.disciplines.chef') }}">
+			<img src="{{ Helper::cdn('assets/img/Chef_tango_icon_20px.png', 2) }}"          width="20" height="20" title="{{ trans('recipe.disciplines.chef') }}"          alt="{{ trans('recipe.disciplines.chef') }}">
 		@endif
 		@if( $recipe->hasDiscipline(Recipe::DISCIPLINE_HUNTSMAN) )
-			<img src="//assets.gw2treasures.de/img/Huntsman_tango_icon_20px.png"      width="20" height="20" title="{{ trans('recipe.disciplines.huntsman') }}"      alt="{{ trans('recipe.disciplines.huntsman') }}">
+			<img src="{{ Helper::cdn('assets/img/Huntsman_tango_icon_20px.png', 3) }}"      width="20" height="20" title="{{ trans('recipe.disciplines.huntsman') }}"      alt="{{ trans('recipe.disciplines.huntsman') }}">
 		@endif
 		@if( $recipe->hasDiscipline(Recipe::DISCIPLINE_JEWELER) )
-			<img src="//assets.gw2treasures.de/img/Jeweler_tango_icon_20px.png"       width="20" height="20" title="{{ trans('recipe.disciplines.jeweler') }}"       alt="{{ trans('recipe.disciplines.jeweler') }}">
+			<img src="{{ Helper::cdn('assets/img/Jeweler_tango_icon_20px.png', 4) }}"       width="20" height="20" title="{{ trans('recipe.disciplines.jeweler') }}"       alt="{{ trans('recipe.disciplines.jeweler') }}">
 		@endif
 		@if( $recipe->hasDiscipline(Recipe::DISCIPLINE_LEATHERWORKER) )
-			<img src="//assets.gw2treasures.de/img/Leatherworker_tango_icon_20px.png" width="20" height="20" title="{{ trans('recipe.disciplines.leatherworker') }}" alt="{{ trans('recipe.disciplines.leatherworker') }}">
+			<img src="{{ Helper::cdn('assets/img/Leatherworker_tango_icon_20px.png', 5) }}" width="20" height="20" title="{{ trans('recipe.disciplines.leatherworker') }}" alt="{{ trans('recipe.disciplines.leatherworker') }}">
 		@endif
 		@if( $recipe->hasDiscipline(Recipe::DISCIPLINE_TAILOR) )
-			<img src="//assets.gw2treasures.de/img/Tailor_tango_icon_20px.png"        width="20" height="20" title="{{ trans('recipe.disciplines.tailor') }}"        alt="{{ trans('recipe.disciplines.tailor') }}">
+			<img src="{{ Helper::cdn('assets/img/Tailor_tango_icon_20px.png', 6) }}"        width="20" height="20" title="{{ trans('recipe.disciplines.tailor') }}"        alt="{{ trans('recipe.disciplines.tailor') }}">
 		@endif
 		@if( $recipe->hasDiscipline(Recipe::DISCIPLINE_WEAPONSMITH) )
-			<img src="//assets.gw2treasures.de/img/Weaponsmith_tango_icon_20px.png"   width="20" height="20" title="{{ trans('recipe.disciplines.weaponsmith') }}"   alt="{{ trans('recipe.disciplines.weaponsmith') }}">
+			<img src="{{ Helper::cdn('assets/img/Weaponsmith_tango_icon_20px.png', 7) }}"   width="20" height="20" title="{{ trans('recipe.disciplines.weaponsmith') }}"   alt="{{ trans('recipe.disciplines.weaponsmith') }}">
 		@endif
 		{{ $recipe->rating }}
 	</div>

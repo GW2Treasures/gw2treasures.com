@@ -35,7 +35,7 @@
 
 @include( 'item.tooltip' )
 
-@if( $item->unlock_type = 'CraftingRecipe' && !is_null( $item->unlocks ) )
+@if( $item->unlock_type == 'CraftingRecipe' && !is_null( $item->unlocks ) )
 	<h3>{{ trans('item.unlocks') }}</h3>
 	@include( 'recipe.box', array( 'recipe' => $item->unlocks ) )
 @endif

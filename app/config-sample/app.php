@@ -30,6 +30,8 @@ return array(
 
 	'domain' => 'localhost',
 
+	'trackingCode' => 'UA-XXXXXXXX-Y',
+
 	/*
 	|--------------------------------------------------------------------------
 	| Application Timezone

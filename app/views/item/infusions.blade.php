@@ -2,12 +2,16 @@
 	<ul class="infusion_slots">
 		@foreach( $item->getTypeData( )->infusion_slots as $infusion )
 			@if( isset( $infusion->item_id ) )
-				<?php $i = Item::find( $infusion->item_id )->get(); ?>
+				<?php $infusion_item = Item::find( $infusion->item_id ); ?>
 				<li>
-					<a href="{{ $i->getUrl() }}">
-						<img src="{{ $i->getIconUrl( 16 ) }}" width="16" height="16" alt="">
-						{{ $i->getName() }}
-					</a>
+					@if( !is_null( $infusion_item ))
+						<a href="{{ $infusion_item->getUrl() }}">
+							<img src="{{ $infusion_item->getIconUrl( 16 ) }}" width="16" height="16" alt="">
+							{{ $infusion_item->getName() }}
+						</a>
+					@else
+						<span style="font-style: italic">???</span>
+					@endif
 			@else
 				@if( in_array( 'Defense', $infusion->flags ) )
 					<li class="defensive"><i class="sprite-16-infusion-defense"></i> {{ trans('item.unusedDefensiveInfusionSlot') }}

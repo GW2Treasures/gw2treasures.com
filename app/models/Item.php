@@ -91,8 +91,8 @@ class Item extends Eloquent {
 	//----
 
 	public function getInfixUpgrade( $lang = null ) {
-		if ( isset( $this->getTypeData()->infix_upgrade ))
-			return $this->getTypeData()->infix_upgrade;
+		if ( isset( $this->getTypeData( $lang )->infix_upgrade ))
+			return $this->getTypeData( $lang )->infix_upgrade;
 		return null;
 	}
 
@@ -100,7 +100,7 @@ class Item extends Eloquent {
 	 * @return array ['Precision': 5, 'OtherAttribute': 12]
 	 **/
 	public function getAttributes( ) {
-		$attributes = $this->getInfixAttributes();
+		$attributes = $this->getInfixAttributes( );
 		foreach ($this->getBuffDescriptionAttributes() as $attribute => $modifier) {
 			if( array_key_exists($attribute, $attributes) )
 				$attributes[ $attribute ] += $modifier;
@@ -114,14 +114,11 @@ class Item extends Eloquent {
 	 * Returns the attributes from infix_upgrade.attributes
 	 **/
 	public function getInfixAttributes( ) {
-		$infixUpgrade = $this->getInfixUpgrade();
+		$infixUpgrade = $this->getInfixUpgrade( 'en' );
 		if( is_null( $infixUpgrade ) || !isset( $infixUpgrade->attributes ) )
 			return array();
 		$attributes = array();
 		foreach ($infixUpgrade->attributes as $attribute) {
-			$a = str_replace( array( 'CritDamage',      'ConditionDamage',  'Healing' ), 
-			                  array( 'Critical Damage', 'Condition Damage', 'Healing Power' ),
-			                  $attribute->attribute );
 			$attributes[ $attribute->attribute ] = $attribute->modifier;
 		}
 		return $attributes;
@@ -131,7 +128,7 @@ class Item extends Eloquent {
 	 * Parses infix_upgrade.buff.description and returns the attributes
 	 **/
 	public function getBuffDescriptionAttributes( ) {
-		$infixUpgrade = $this->getInfixUpgrade();
+		$infixUpgrade = $this->getInfixUpgrade( 'en' );
 		if( is_null( $infixUpgrade ) || !isset( $infixUpgrade->buff ) || !isset( $infixUpgrade->buff->description ))
 			return array();
 
@@ -141,6 +138,9 @@ class Item extends Eloquent {
 		foreach ($buffs as $buff) {
 			list( $modifier, $attribute ) = explode( ' ', $buff, 2 );
 			$modifier = intval( str_replace( array('+', '%'), array(' ', ' '), $modifier ) );
+			$attribute = str_replace( array( 'Critical Damage', 'Healing Power', ' ' ),
+			                          array( 'CritDamage',      'Healing',       '' ), 
+			                          $attribute );
 			$attributes[ $attribute ] = $modifier; 
 		}
 

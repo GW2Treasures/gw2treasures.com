@@ -95,7 +95,7 @@
 				echo 'Memory usage: ' . round(memory_get_usage() / 1024 / 1024, 2) . ' MiB' . "\n";
 				echo 'DB queries: ' . count(DB::getQueryLog()) . "\n";
 				if( isset( $cached ) && $cached ) {
-					echo 'cached';
+					echo 'cached' . "\n";
 				}
 				if( isset( $_SERVER['HTTP_CF_CONNECTING_IP'] )) {
 					echo 'via cloudflare';
@@ -121,6 +121,9 @@
 
 			ga('create', '{{ Config::get('app.trackingCode') }}', '{{ Config::get('app.domain') }}');
 			ga('send', 'pageview');
+		</script>
+		<script>
+		function outbound(a){ga('send','event','Outbound Links','click',a.href)}
 		</script>
 	</div>
 </body>

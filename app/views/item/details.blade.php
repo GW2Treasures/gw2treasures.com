@@ -22,14 +22,14 @@
 	<dd><input type="text" class="chatlink" readonly value="{{ e( $item->getChatLink() ) }}" /></dd>
 	<dt>Wiki</dt>
 	<dd>
-		<a target="_blank" href="http://wiki-de.guildwars2.com/index.php?title=Spezial:Suche&amp;search={{ urlencode( $item->getName( 'de' ) ) }}">German</a>
-		<a target="_blank" href="http://wiki.guildwars2.com/index.php?title=Special:Search&amp;search={{ urlencode( $item->getName( 'en' ) ) }}">English</a>
-		<a target="_blank" href="http://wiki-es.guildwars2.com/index.php?title=Especial:Buscar&amp;search={{ urlencode( $item->getName( 'es' ) ) }}">Spanish</a>
-		<a target="_blank" href="http://wiki-fr.guildwars2.com/index.php?title=Spécial:Recherche&amp;search={{ urlencode( $item->getName( 'fr' ) ) }}">French</a>
+		<a target="_blank" onclick="outbound(this)" href="http://wiki-de.guildwars2.com/index.php?title=Spezial:Suche&amp;search={{ urlencode( $item->getName( 'de' ) ) }}">German</a>
+		<a target="_blank" onclick="outbound(this)" href="http://wiki.guildwars2.com/index.php?title=Special:Search&amp;search={{ urlencode( $item->getName( 'en' ) ) }}">English</a>
+		<a target="_blank" onclick="outbound(this)" href="http://wiki-es.guildwars2.com/index.php?title=Especial:Buscar&amp;search={{ urlencode( $item->getName( 'es' ) ) }}">Spanish</a>
+		<a target="_blank" onclick="outbound(this)" href="http://wiki-fr.guildwars2.com/index.php?title=Spécial:Recherche&amp;search={{ urlencode( $item->getName( 'fr' ) ) }}">French</a>
 	</dd>
 	<dt>Trading Post Info</dt>
 	<dd>
-		<a target="_blank" href="http://www.gw2spidy.com/item/{{ $item->id }}">Guild Wars 2 Spidy</a>
+		<a target="_blank" onclick="outbound(this)" href="http://www.gw2spidy.com/item/{{ $item->id }}">Guild Wars 2 Spidy</a>
 	</dd>
 </dl>
 

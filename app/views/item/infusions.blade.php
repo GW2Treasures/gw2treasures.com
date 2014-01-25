@@ -10,11 +10,11 @@
 					</a>
 			@else
 				@if( in_array( 'Defense', $infusion->flags ) )
-					<li class="defensive">{{ trans('item.unusedDefensiveInfusionSlot') }}
+					<li class="defensive"><i class="sprite-16-infusion-defense"></i> {{ trans('item.unusedDefensiveInfusionSlot') }}
 				@elseif( in_array( 'Offense', $infusion->flags ) )
-					<li class="offensive">{{ trans('item.unusedOffensiveInfusionSlot') }}
+					<li class="offensive"><i class="sprite-16-infusion-offense"></i> {{ trans('item.unusedOffensiveInfusionSlot') }}
 				@elseif( in_array( 'Utility', $infusion->flags ) )
-					<li class="utility">{{ trans('item.unusedUtilityInfusionSlot') }}
+					<li class="utility"><i class="sprite-16-infusion-utility"></i> {{ trans('item.unusedUtilityInfusionSlot') }}
 				@endif
 			@endif
 		@endforeach

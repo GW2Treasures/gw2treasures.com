@@ -13,7 +13,8 @@
 
 	<link rel="stylesheet" href="{{ Helper::cdn('assets/css/normalize.min.css') }}">
 	<link rel="stylesheet" href="{{ Helper::cdn('assets/css/main.css') }}">
-	<link rel="stylesheet" href="{{ Helper::cdn('assets/css/style.css') }}">
+	<!--<link rel="stylesheet" href="{{ Helper::cdn('assets/css/style.css') }}">-->
+	<link rel="stylesheet" href="//direct.darthmaim-cdn.de/gw2treasures/assets/css/style.css">
 
 	<link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,300,700|Open+Sans:400,300,600,700|Open+Sans+Condensed:300|Droid+Sans+Mono|Droid+Serif' rel='stylesheet' type='text/css'>
 

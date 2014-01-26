@@ -42,10 +42,31 @@ class ItemController extends BaseController {
 			}
 		}
 
-		$items = Item::search( $searchTerm )->take(100)->get();
+		$items = Item::search( $searchTerm )->take( 100 )->get();
 
 		$this->layout->content = View::make( 'item.searchresults', array( 
 			'items' => $items, 'searchterm' => $searchTerm ));
 		$this->layout->title = 'searchresults';
+	}
+
+	public function searchAutocomplete( $language ) {
+		$searchTerm = trim( Input::get('q') );
+
+		//$items = Item::search( $searchTerm )->take( 10 )->get();
+		$items = Item::searchQuery( DB::table( 'items' ), $searchTerm )
+			->select( 'id', 'name_' . $language . ' as name', 'file_id', 'signature' )
+			->take( 10 )
+			->get();
+		
+		foreach ($items as $item) {
+			$item->icon = Helper::cdn( 'icons/' . $item->signature . '/' . $item->file_id . '-32px.png', $item->file_id );
+			unset( $item->file_id );
+			unset( $item->signature );
+		}
+
+		$response = new stdClass();
+		$response->items = $items;
+
+		return Response::json( $response );
 	}
 }

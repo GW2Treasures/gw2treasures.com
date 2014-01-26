@@ -88,5 +88,10 @@ Route::group( array(
 			'as' => 'search', 
 			'uses' => 'ItemController@search'
 		));
+
+		Route::get('search/autocomplete', array(
+			'as' => 'search.autocomplete',
+			'uses' => 'ItemController@searchAutocomplete'
+		));
 	}
 );

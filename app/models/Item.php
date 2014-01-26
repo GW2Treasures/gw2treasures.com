@@ -80,12 +80,16 @@ class Item extends Eloquent {
 		return Recipe::hasIngredient( $this )->withAll();
 	}
 
-	public function scopeSearch( $query, $term ) {
+	public static function searchQuery( $query, $term ) {
 		$term = strtoupper( $term );
 		return $query->  whereRaw( 'UPPER(name_de) LIKE ?', array('%'.$term.'%'))
 		             ->orWhereRaw( 'UPPER(name_de) LIKE ?', array('%'.$term.'%'))
 		             ->orWhereRaw( 'UPPER(name_de) LIKE ?', array('%'.$term.'%'))
 		             ->orWhereRaw( 'UPPER(name_de) LIKE ?', array('%'.$term.'%'));
+	}
+
+	public function scopeSearch( $query, $term ) {
+		return self::searchQuery( $query, $term );
 	}
 
 	//----

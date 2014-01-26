@@ -13,8 +13,7 @@
 
 	<link rel="stylesheet" href="{{ Helper::cdn('assets/css/normalize.min.css') }}">
 	<link rel="stylesheet" href="{{ Helper::cdn('assets/css/main.css') }}">
-	<!--<link rel="stylesheet" href="{{ Helper::cdn('assets/css/style.css') }}">-->
-	<link rel="stylesheet" href="//direct.darthmaim-cdn.de/gw2treasures/assets/css/style.css">
+	<link rel="stylesheet" href="{{ Helper::cdn('assets/css/style.css') }}">
 
 	<link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,300,700|Open+Sans:400,300,600,700|Open+Sans+Condensed:300|Droid+Sans+Mono|Droid+Serif' rel='stylesheet' type='text/css'>
 
@@ -34,7 +33,7 @@
 	<div id="wrapper">
 		<header id="header" class="clearfix">
 			<div class="pageWidth">
-				<h1 class="floatLeft">GW2 Treasures</h1>
+				<h1 class="floatLeft"><a href="/">GW2 Treasures</a></h1>
 				{{ Form::open( array( 'method' => 'GET', 'route' => array('search', App::getLocale() )) ) }}
 					{{ Form::text( 'q', null, array('placeholder' => 'Search' )) }}
 				{{ Form::close() }}

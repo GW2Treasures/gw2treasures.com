@@ -93,5 +93,15 @@ Route::group( array(
 			'as' => 'search.autocomplete',
 			'uses' => 'ItemController@searchAutocomplete'
 		));
+
+		// contact
+		Route::get('contact', array(
+			'as' => 'contact',
+			function() {
+				return View::make( 'layout' )
+					->nest( 'content', 'contact' )
+					->with( 'title', 'Contact' );
+			}
+		));
 	}
 );

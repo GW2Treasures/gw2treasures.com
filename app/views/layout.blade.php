@@ -5,22 +5,27 @@
 <!--[if gt IE 8]><!--> <html dir="ltr" xmlns="http://www.w3.org/1999/xhtml" lang="{{ App::getLocale() }}" class="no-js"> <!--<![endif]-->
 <head>
 	<meta charset="utf-8">
-	<!--<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">-->
 	<title>{{ $title }} | GW2 Treasures</title>
 	<meta name="description" content="">
-	<!--<meta name="viewport" content="width=device-width">-->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 
+	<!-- styles -->
 	<link rel="stylesheet" href="{{ Helper::cdn('assets/css/normalize.min.css') }}">
 	<link rel="stylesheet" href="{{ Helper::cdn('assets/css/main.css') }}">
-	<link rel="stylesheet" href="{{ Helper::cdn('assets/css/style.css') }}">
-	<!--<link rel="stylesheet" href="//direct.darthmaim-cdn.de/gw2treasures/assets/css/style.css">-->
+	@if( App::environment('production') )
+		<link rel="stylesheet" href="{{ Helper::cdn('assets/css/style.css') }}">
+	@else
+		<link rel="stylesheet" href="//direct.darthmaim-cdn.de/gw2treasures/assets/css/style.css">
+	@endif
 
+	<!-- fonts -->
 	<link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,300,700|Open+Sans:400,300,600,700|Open+Sans+Condensed:300|Droid+Sans+Mono|Droid+Serif' rel='stylesheet' type='text/css'>
 
+	<!-- favicons -->
 	<link rel="icon" href="{{ Helper::cdn('assets/img/favicon.png') }}" type="image/png" />
 	<link rel="shortcut icon" href="/favicon.ico" />
 
+	<!-- modernizr -->
 	<script src="{{ Helper::cdn('assets/js/vendor/modernizr-2.6.2.min.js') }}"></script>
 
 	<!-- alternate versions in different languages -->
@@ -41,6 +46,7 @@
 			</div>
 		</header>
 
+		<!-- notifications -->
 		<ul id="notifications">
 			@if( in_array( App::getLocale(), array( 'es', 'fr' )))
 				<li class="notification"><div class="pageWidth clearfix"><div class="notificationContent">
@@ -56,10 +62,12 @@
 			@endforeach
 		</ul>
 
+		<!-- content -->
 		<div id="content">
 			<div class="pageWidth">{{ $content }}</div>
 		</div>
 
+		<!-- footer -->
 		<footer id="footerBar"><div class="pageWidth"><a href="{{ URL::route('contact', App::getLocale()) }}">darthmaim</a> &copy; 2014</div></footer>
 	</div>
 
@@ -114,9 +122,9 @@
 			</span>
 		</p>
 
-		@if( isset($_GET['debug']) )
+		@if( isset($_GET['debug']) && !App::environment('production') )
 			<pre class="pageWidth">
-				{{ dd(DB::getQueryLog()) }}
+				{{ print_r(DB::getQueryLog()) }}
 			</pre>
 		@endif
 	</footer>
@@ -136,8 +144,11 @@
         <script>window.jQuery || document.write('<script src="{{ Helper::cdn('assets/js/vendor/jquery-1.10.1.min.js') }}"><\/script>')</script>
 
         <script src="{{ Helper::cdn('assets/js/plugins.js') }}"></script>
-        <script src="{{ Helper::cdn('assets/js/main.js') }}"></script>-->
-        <!--<script src="//direct.darthmaim-cdn.de/gw2treasures/assets/js/main.js"></script>-->
+		@if( App::environment('production') )
+			<script src="{{ Helper::cdn('assets/js/main.js') }}"></script>
+		@else
+			<script src="//direct.darthmaim-cdn.de/gw2treasures/assets/js/main.js"></script>
+		@endif
 	</div>
 </body>
 </html>

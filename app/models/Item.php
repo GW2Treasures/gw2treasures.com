@@ -136,16 +136,24 @@ class Item extends Eloquent {
 		if( is_null( $infixUpgrade ) || !isset( $infixUpgrade->buff ) || !isset( $infixUpgrade->buff->description ))
 			return array();
 
+		$infixUpgradeLocalized = $this->getInfixUpgrade( );
+
 		$attributes = array();
 		$buffs = explode("\n", $infixUpgrade->buff->description);
+		$buffsLocalized = explode("\n", $infixUpgradeLocalized->buff->description);
 
-		foreach ($buffs as $buff) {
-			list( $modifier, $attribute ) = explode( ' ', $buff, 2 );
-			$modifier = intval( str_replace( array('+', '%'), array(' ', ' '), $modifier ) );
-			$attribute = str_replace( array( 'Critical Damage', 'Healing Power', ' ' ),
-			                          array( 'CritDamage',      'Healing',       '' ), 
-			                          $attribute );
-			$attributes[ $attribute ] = $modifier; 
+		foreach ($buffs as $i => $buff) {
+			if( preg_match("/^\\+?([0-9]+) (.*)$/", $buff, $matches) ) {
+				$modifier = $matches[1];
+				$attribute = $matches[2];
+				$modifier = intval( str_replace( array('+', '%'), array(' ', ' '), $modifier ) );
+				$attribute = str_replace( array( 'Critical Damage', 'Healing Power', ' ' ),
+				                          array( 'CritDamage',      'Healing',       '' ), 
+				                          $attribute );
+				$attributes[ $attribute ] = $modifier; 
+			} else {
+				$attributes[ ] = $buffsLocalized[ $i ];
+			}
 		}
 
 		return $attributes;

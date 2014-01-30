@@ -8,7 +8,7 @@ class ItemController extends BaseController {
 	{
 		$key = 'itemdetails-' . $language . '-' . $item->id;
 
-		if( Cache::has( $key ) ) {
+		if( Cache::has( $key ) && !isset( $_GET['nocache'] )) {
 			$this->layout->content = Cache::get( $key );
 			$this->layout->title = $item->getName( );
 			$this->layout->cached = true;

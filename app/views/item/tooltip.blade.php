@@ -15,7 +15,7 @@
 @include( 'item.attributes' )
 
 {{-- bonus --}}
-@if( $item->subtype == 'Rune'  || $item->subtype == 'Default' )
+@if( $item->type == 'UpgradeComponent' && ($item->subtype == 'Rune'  || $item->subtype == 'Default' ))
 	<ol class="suffixBonusList">
 		@foreach( $item->getTypeData( )->bonuses as $bonus )
 			<li>{{ $bonus }}

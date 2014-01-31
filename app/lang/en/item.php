@@ -4,6 +4,7 @@ return array(
 	'defense' =>'Defense',
 	'weaponStrength' => 'Weapon Strength',
 
+	'upgradeFor' => 'Upgrade in',
 	'craftedFrom' => 'Crafted from',
 	'usedInCrafting' => 'Used in crafting',
 	'unlocks' => 'Unlocks',

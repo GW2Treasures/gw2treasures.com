@@ -4,6 +4,7 @@ return array(
 	'defense' => 'Verteidigung',
 	'weaponStrength' => 'Waffenstärke',
 
+	'upgradeFor' => 'Aufwertung in',
 	'craftedFrom' => 'Herstellung',
 	'usedInCrafting' => 'Verwendung',
 	'unlocks' => 'Freischaltung',

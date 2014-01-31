@@ -80,6 +80,10 @@ class Item extends Eloquent {
 		return Recipe::hasIngredient( $this )->withAll();
 	}
 
+	public function scopeHasUpgrade( $query, Item $item ) {
+		return $query->where( 'suffix_item_id', '=', $item->id );
+	}
+
 	public static function searchQuery( $query, $term ) {
 		$term = strtoupper( $term );
 		return $query->  whereRaw( 'UPPER(name_de) LIKE ?', array('%'.$term.'%'))

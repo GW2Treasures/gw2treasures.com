@@ -35,6 +35,18 @@
 
 @include( 'item.tooltip' )
 
+@if( $item->type == 'UpgradeComponent' && count( $upgradeFor = Item::hasUpgrade( $item )->get()) > 0 )
+	<h3>{{ trans('item.upgradeFor') }}</h3>
+	<ul class="upgradeFor">
+		@foreach ($upgradeFor as $usesThisAsUpgrade)
+			<li><a href="{{ $usesThisAsUpgrade->getUrl() }}">
+				<img src="{{ $usesThisAsUpgrade->getIconUrl( 32 ) }}" width="32" height="32" alt="">
+				{{ $usesThisAsUpgrade->getName() }}
+			</a>
+		@endforeach
+	</ul>
+@endif
+
 @if( $item->unlock_type == 'CraftingRecipe' && !is_null( $item->unlocks ) )
 	<h3>{{ trans('item.unlocks') }}</h3>
 	@include( 'recipe.box', array( 'recipe' => $item->unlocks ) )

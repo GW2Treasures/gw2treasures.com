@@ -130,25 +130,32 @@
 	</footer>
 	</div>
 	<div id="scripts">
-		<script>
-			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-			})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+		@if( App::environment('production') )
+			<script>
+				(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+				(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+				m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+				})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-			ga('create', '{{ Config::get('app.trackingCode') }}', '{{ Config::get('app.domain') }}');
-			ga('send', 'pageview');
-		</script>
+				ga('create', '{{ Config::get('app.trackingCode') }}', '{{ Config::get('app.domain') }}');
+				ga('send', 'pageview');
+			</script>
+		@endif
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="{{ Helper::cdn('assets/js/vendor/jquery-1.10.1.min.js') }}"><\/script>')</script>
 
-        <script src="{{ Helper::cdn('assets/js/plugins.js') }}"></script>
 		@if( App::environment('production') )
+        	<script src="{{ Helper::cdn('assets/js/plugins.js') }}"></script>
 			<script src="{{ Helper::cdn('assets/js/main.js') }}"></script>
+			<script src="{{ Helper::cdn('assets/js/vendor/opentip-jquery.min.js') }}"></script>
 		@else
+       		<script src="//direct.darthmaim-cdn.de/gw2treasures/assets/js/plugins.js"></script>
 			<script src="//direct.darthmaim-cdn.de/gw2treasures/assets/js/main.js"></script>
+			<script src="//direct.darthmaim-cdn.de/gw2treasures/assets/js/vendor/opentip-jquery.min.js"></script>
 		@endif
+
+		<script src=""></script>
 	</div>
 </body>
 </html>

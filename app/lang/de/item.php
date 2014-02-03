@@ -130,6 +130,12 @@ return array(
 		'Heavy' => 'Schwer',
 	),
 
+	'unusedUpgradeSlot' => 'Freier Aufwertungsplatz',
+
+	'unusedOffensiveInfusionSlot' => 'Freier Infusionsplatz (Offensiv)',
+	'unusedDefensiveInfusionSlot' => 'Freier Infusionsplatz (Defensiv)',
+	'unusedUtilityInfusionSlot' => 'Freier Infusionsplatz (Hilfe)',
+
 	'requiredLevel' => 'Erforderliches Level',
 
 	'AccountBound' => 'Accountgebunden',

@@ -4,7 +4,7 @@
 			@if( is_int( $attribute ) )
 				<dt>{{ $modifier }}</dt>
 			@else
-				<dd>+{{ $modifier }}</dd><dt>{{ trans( 'item.attribute.' .   $attribute ) }}</dt>
+				<dd>+{{ $modifier }}{{ $item->getAttributeIsPercentual( $attribute ) ? '%' : '' }}</dd><dt>{{ trans( 'item.attribute.' .   $attribute ) }}</dt>
 			@endif
 		@endforeach
 	</dl>

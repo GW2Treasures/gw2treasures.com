@@ -177,4 +177,16 @@ class Item extends Eloquent {
 			return 'Unknown property: ' . $property;
 		}
 	}
+
+	//----
+
+	public function getAttributeIsPercentual( $attribute ) {
+		return in_array( $attribute, array(
+			'AgonyResistance',
+			'BoonDuration',
+			'ConditionDuration',
+			'CritDamage',
+			'Damage'
+		));
+	}
 }

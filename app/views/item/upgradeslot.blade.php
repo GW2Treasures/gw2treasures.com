@@ -5,9 +5,8 @@
 		<div class="upgradeSlot">
 			<img src="{{ $item->getSuffixItem( )->getIconUrl( 16 ) }}" width="16" height="16" alt><a href="{{ $item->getSuffixItem( )->getUrl( ) }}">{{ $item->getSuffixItem( )->getName( ) }}</a>
 
-			@include( 'item.attributes', array('item' => $item->getSuffixItem( )) )
-
 			@if( (( $suffixSubType = $item->getSuffixItem( )->subtype ) == 'Rune' || $suffixSubType == 'Default') )
+				@include( 'item.attributes', array('item' => $item->getSuffixItem( )) )
 				@if( isset( $item->getSuffixItem( )->getTypeData( )->bonuses ) )
 					(0/{{ count( $bonuses = $item->getSuffixItem( )->getTypeData( )->bonuses ) }})
 					<ol class="suffixBonusList">

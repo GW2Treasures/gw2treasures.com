@@ -87,9 +87,9 @@ class Item extends Eloquent {
 	public static function searchQuery( $query, $term ) {
 		$term = strtoupper( $term );
 		return $query->  whereRaw( 'UPPER(name_de) LIKE ?', array('%'.$term.'%'))
-		             ->orWhereRaw( 'UPPER(name_de) LIKE ?', array('%'.$term.'%'))
-		             ->orWhereRaw( 'UPPER(name_de) LIKE ?', array('%'.$term.'%'))
-		             ->orWhereRaw( 'UPPER(name_de) LIKE ?', array('%'.$term.'%'));
+		             ->orWhereRaw( 'UPPER(name_en) LIKE ?', array('%'.$term.'%'))
+		             ->orWhereRaw( 'UPPER(name_es) LIKE ?', array('%'.$term.'%'))
+		             ->orWhereRaw( 'UPPER(name_fr) LIKE ?', array('%'.$term.'%'));
 	}
 
 	public function scopeSearch( $query, $term ) {

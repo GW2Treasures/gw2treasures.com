@@ -1,13 +1,16 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html dir="ltr" xmlns="http://www.w3.org/1999/xhtml" lang="{{ App::getLocale() }}" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html dir="ltr" xmlns="http://www.w3.org/1999/xhtml" lang="{{ App::getLocale() }}" class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html dir="ltr" xmlns="http://www.w3.org/1999/xhtml" lang="{{ App::getLocale() }}" class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html dir="ltr" xmlns="http://www.w3.org/1999/xhtml" lang="{{ App::getLocale() }}" class="no-js"> <!--<![endif]-->
+<!--[if lt IE 7]>      <html dir="ltr" xmlns="http://www.w3.org/1999/xhtml" lang="{{ App::getLocale() }}" itemscope itemtype="http://schema.org/WebPage" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html dir="ltr" xmlns="http://www.w3.org/1999/xhtml" lang="{{ App::getLocale() }}" itemscope itemtype="http://schema.org/WebPage" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html dir="ltr" xmlns="http://www.w3.org/1999/xhtml" lang="{{ App::getLocale() }}" itemscope itemtype="http://schema.org/WebPage" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html dir="ltr" xmlns="http://www.w3.org/1999/xhtml" lang="{{ App::getLocale() }}" itemscope itemtype="http://schema.org/WebPage" class="no-js"> <!--<![endif]-->
 <head>
 	<meta charset="utf-8">
 	<title>{{ $title }} | GW2 Treasures</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+
+	<meta itemprop="name" content="GW2 Treasures: The Guild Wars 2 Item Database">
+	<meta itemprop="image" content="{{ Helper::cdn('assets/img/logo.png') }}">
 
 	<!-- styles -->
 	<link rel="stylesheet" href="{{ Helper::cdn('assets/css/normalize.min.css') }}">
@@ -106,8 +109,10 @@
 		</ul></nav>
 		<p class="pageWidth legalNotice">{{ trans('footer.legalNotice1') }}</p>
 		<p class="pageWidth legalNotice">{{ trans('footer.legalNotice2') }}</p>
-		<p class="pageWidth legalNotice" style="text-align: right; margin-top: 2em">
-			<span title="<?php 
+		<div class="pageWidth legalNotice" style="margin-top: 2em">
+			<div class="g-plusone" style="float:left" data-size="small" data-href="http://gw2treasures.de/"></div>
+
+			<span style="float:right" title="<?php 
 				echo 'Runtime: ' . round(( STARTTIME + microtime( true ) ) * 1000, 2 ) . 'ms' . "\n";
 				echo 'Memory usage: ' . round(memory_get_usage() / 1024 / 1024, 2) . ' MiB' . "\n";
 				echo 'DB queries: ' . count(DB::getQueryLog()) . "\n";
@@ -120,7 +125,7 @@
 			?>">
 				generated @ <?= date(DATE_RFC822) ?>
 			</span>
-		</p>
+		</div>
 
 		@if( isset($_GET['debug']) && !App::environment('production') )
 			<pre class="pageWidth">
@@ -155,7 +160,15 @@
 			<script src="//direct.darthmaim-cdn.de/gw2treasures/assets/js/vendor/opentip-jquery.min.js"></script>
 		@endif
 
-		<script src=""></script>
+		<script type="text/javascript">
+		  window.___gcfg = {lang: '{{ App::getLocale() }}' };
+
+		  (function() {
+		    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+		    po.src = 'https://apis.google.com/js/platform.js';
+		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+		  })();
+		</script>
 	</div>
 </body>
 </html>

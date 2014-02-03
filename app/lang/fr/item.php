@@ -130,6 +130,12 @@ return array(
 		'Heavy' => 'Heavy',
 	),
 
+	'unusedUpgradeSlot' => 'Unused Upgrade Slot',
+
+	'unusedOffensiveInfusionSlot' => 'Unused Offensive Infusion Slot',
+	'unusedDefensiveInfusionSlot' => 'Unused Defensive Infusion Slot',
+	'unusedUtilityInfusionSlot' => 'Unused Utility Infusion Slot',
+	
 	'requiredLevel' => 'Required level',
 
 	'AccountBound' => 'Account Bound',

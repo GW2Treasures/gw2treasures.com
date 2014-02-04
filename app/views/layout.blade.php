@@ -29,7 +29,7 @@
 	<link rel="shortcut icon" href="/favicon.ico" />
 
 	<!-- modernizr -->
-	<script src="{{ Helper::cdn('assets/js/vendor/modernizr-2.6.2.min.js') }}"></script>
+	<script src="{{ Helper::cdn('assets/js/vendor/modernizr-2.7.1.min.js') }}"></script>
 
 	<!-- alternate versions in different languages -->
 	<link rel="alternate" hreflang="x-default" href="//{{    Config::get('app.domain') . Request::getRequestUri() }}" />

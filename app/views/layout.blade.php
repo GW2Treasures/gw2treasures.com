@@ -133,7 +133,7 @@
 			</pre>
 		@endif
 	</footer>
-	</div>
+	
 	<div id="scripts">
 		@if( App::environment('production') )
 			<script>

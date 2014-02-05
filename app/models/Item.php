@@ -113,6 +113,9 @@ class Item extends Eloquent {
 			$scoreA = $a->getScore( $parts );
 			$scoreB = $b->getScore( $parts );
 
+			if( $scoreA == $scoreB )
+				return strcmp( $a->getName(), $b->getName() );
+
 			return $scoreB - $scoreA;
 		});
 		return $collection;

@@ -85,15 +85,67 @@ class Item extends Eloquent {
 	}
 
 	public static function searchQuery( $query, $term ) {
-		$term = strtoupper( $term );
-		return $query->  whereRaw( 'UPPER(name_de) LIKE ?', array('%'.$term.'%'))
-		             ->orWhereRaw( 'UPPER(name_en) LIKE ?', array('%'.$term.'%'))
-		             ->orWhereRaw( 'UPPER(name_es) LIKE ?', array('%'.$term.'%'))
-		             ->orWhereRaw( 'UPPER(name_fr) LIKE ?', array('%'.$term.'%'));
+		$term =  mb_strtoupper( trim( $term ));
+		
+		preg_match_all( '/\S+/', $term, $matches, PREG_SET_ORDER );
+		
+		foreach ($matches as $match) {
+			$query->orWhereRaw( 'UPPER(name_de) LIKE ?', array('%'.$match[0].'%'))
+		          ->orWhereRaw( 'UPPER(name_en) LIKE ?', array('%'.$match[0].'%'))
+		          ->orWhereRaw( 'UPPER(name_es) LIKE ?', array('%'.$match[0].'%'))
+		          ->orWhereRaw( 'UPPER(name_fr) LIKE ?', array('%'.$match[0].'%'));
+		}
+
+		return $query;
 	}
 
 	public function scopeSearch( $query, $term ) {
 		return self::searchQuery( $query, $term );
+	}
+
+	public static function sortSearchResult( Illuminate\Database\Eloquent\Collection $collection, $searchterm ) {
+		$collection->sort( function( Item $a, Item $b ) use ( $searchterm ) {
+			if( $a->getName( ) == $searchterm ) return  1;
+			if( $b->getName( ) == $searchterm ) return -1;
+
+			preg_match_all( '/\S+/', $searchterm, $parts, PREG_SET_ORDER );
+
+			$scoreA = $a->getScore( $parts );
+			$scoreB = $b->getScore( $parts );
+
+			return $scoreB - $scoreA;
+		});
+		return $collection;
+	}
+
+	public function getScore( $searchtermParts ) {
+		$score = 0;
+
+		foreach( array('de', 'en', 'es', 'fr') as $lang ) {
+			$modifier = $lang == App::getLocale() ? 1 : 0.1;
+			$name = mb_strtoupper( $this->getName( $lang ));
+			preg_match_all( '/\S+/', $name, $nameParts, PREG_SET_ORDER );
+
+			foreach ($searchtermParts as $part) {
+				$part = mb_strtoupper( $part[0] );
+
+				if( starts_with( $name, $part )) {
+					$score += 5 * $modifier;
+				}
+
+				foreach ($nameParts as $namePart) {
+					$namePart = $namePart[0];
+
+					if( $namePart == $part ) {
+						$score += 5 * $modifier;
+					} else if ( starts_with( $namePart, $part )) {
+						$score += 3 * $modifier;
+					}
+				}
+			}
+		}
+
+		return $score;
 	}
 
 	//----

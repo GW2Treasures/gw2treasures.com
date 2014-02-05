@@ -42,7 +42,7 @@ class ItemController extends BaseController {
 			}
 		}
 
-		$items = Item::search( $searchTerm )->take( 100 )->get();
+		$items = Item::sortSearchResult( Item::search( $searchTerm )->take( 1000 )->get(), $searchTerm );
 
 		$this->layout->content = View::make( 'item.searchresults', array( 
 			'items' => $items, 'searchterm' => $searchTerm ));

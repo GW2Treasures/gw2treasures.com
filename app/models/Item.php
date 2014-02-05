@@ -84,31 +84,48 @@ class Item extends Eloquent {
 		return $query->where( 'suffix_item_id', '=', $item->id );
 	}
 
-	public static function searchQuery( $query, $term ) {
+	public static function searchQuery( $query, $term, $or = false ) {
 		$term =  mb_strtoupper( trim( $term ));
 		
 		preg_match_all( '/\S+/', $term, $matches, PREG_SET_ORDER );
 		
-		foreach ($matches as $match) {
-			$query->orWhereRaw( 'UPPER(name_de) LIKE ?', array('%'.$match[0].'%'))
-		          ->orWhereRaw( 'UPPER(name_en) LIKE ?', array('%'.$match[0].'%'))
-		          ->orWhereRaw( 'UPPER(name_es) LIKE ?', array('%'.$match[0].'%'))
-		          ->orWhereRaw( 'UPPER(name_fr) LIKE ?', array('%'.$match[0].'%'));
-		}
+		$query->where( function( $query ) use ( $matches, $or ) { 
+			foreach ( $matches as $match ) {
+				$match = $match[0];
+
+				if( $or ) {
+					$query->orWhereRaw( 'UPPER(name_de) LIKE ?', array('%'.$match.'%'))
+					      ->orWhereRaw( 'UPPER(name_en) LIKE ?', array('%'.$match.'%'))
+					      ->orWhereRaw( 'UPPER(name_es) LIKE ?', array('%'.$match.'%'))
+					      ->orWhereRaw( 'UPPER(name_fr) LIKE ?', array('%'.$match.'%'));
+				} else {
+					$query->where(function( $query ) use ( $match ) {
+						$query->  whereRaw( 'UPPER(name_de) LIKE ?', array('%'.$match.'%'))
+						      ->orWhereRaw( 'UPPER(name_en) LIKE ?', array('%'.$match.'%'))
+						      ->orWhereRaw( 'UPPER(name_es) LIKE ?', array('%'.$match.'%'))
+						      ->orWhereRaw( 'UPPER(name_fr) LIKE ?', array('%'.$match.'%'));
+					});
+				}
+			}
+		});
 
 		return $query;
 	}
 
-	public function scopeSearch( $query, $term ) {
-		return self::searchQuery( $query, $term );
+	public function scopeSearch( $query, $term, $or = false ) {
+		return self::searchQuery( $query, $term, $or );
 	}
 
 	public static function sortSearchResult( Illuminate\Database\Eloquent\Collection $collection, $searchterm ) {
+		if( strlen( $searchterm ) < 3 ) {
+			return $collection;
+		}
+
 		$collection->sort( function( Item $a, Item $b ) use ( $searchterm ) {
 			if( $a->getName( ) == $searchterm ) return  1;
 			if( $b->getName( ) == $searchterm ) return -1;
 
-			preg_match_all( '/\S+/', $searchterm, $parts, PREG_SET_ORDER );
+			$parts = explode( ' ', $searchterm );
 
 			$scoreA = $a->getScore( $parts );
 			$scoreB = $b->getScore( $parts );
@@ -127,7 +144,7 @@ class Item extends Eloquent {
 		foreach( array('de', 'en', 'es', 'fr') as $lang ) {
 			$modifier = $lang == App::getLocale() ? 1 : 0.1;
 			$name = mb_strtoupper( $this->getName( $lang ));
-			preg_match_all( '/\S+/', $name, $nameParts, PREG_SET_ORDER );
+			$nameParts = explode( ' ', $name );
 
 			foreach ($searchtermParts as $part) {
 				$part = mb_strtoupper( $part[0] );

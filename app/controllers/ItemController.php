@@ -25,24 +25,31 @@ class ItemController extends BaseController {
 
 	public function search( $language ) {
 		$searchTerm = trim( Input::get('q') );
-		
-		// item id
-		if( preg_match('/^[0-9]+$/', $searchTerm ) ) {
-			$item = Item::find( intval( $searchTerm ) );
-			if( !is_null( $item ) ) {
-				return Redirect::route( 'itemdetails', array( $language, $searchTerm ));
-			}
-		}
+		$items = array();
 
-		// chatlink
-		if( preg_match( '/\\[&([A-Za-z0-9+]+=*)\\]/', $searchTerm, $matches )) {
-			$id = Item::decodeChatlink( $matches[1] );
-			if( $id ) {
-				return Redirect::route( 'itemdetails', array( $language, $id ));
+		if( strlen( $searchTerm ) > 0 ) {
+			// item id
+			if( preg_match('/^[0-9]+$/', $searchTerm ) ) {
+				$item = Item::find( intval( $searchTerm ) );
+				if( !is_null( $item ) ) {
+					return Redirect::route( 'itemdetails', array( $language, $searchTerm ));
+				}
 			}
-		}
 
-		$items = Item::sortSearchResult( Item::search( $searchTerm )->take( 1000 )->get(), $searchTerm );
+			// chatlink
+			if( preg_match( '/\\[&([A-Za-z0-9+]+=*)\\]/', $searchTerm, $matches )) {
+				$id = Item::decodeChatlink( $matches[1] );
+				if( $id ) {
+					return Redirect::route( 'itemdetails', array( $language, $id ));
+				}
+			}
+
+			$items = Item::search( $searchTerm )->take( 1000 )->get();
+			if( $items->count() == 0 ) {
+				$items = Item::search( $searchTerm, true )->take( 1000 )->get();
+			}
+			$items = Item::sortSearchResult( $items , $searchTerm );
+		}
 
 		$this->layout->content = View::make( 'item.searchresults', array( 
 			'items' => $items, 'searchterm' => $searchTerm ));

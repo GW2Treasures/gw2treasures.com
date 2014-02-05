@@ -20,6 +20,14 @@ class Helper {
         return '//' . self::$cdn_servers[ $server ] . '/gw2treasures/' . $path;
     }
 
+    public static function webp( $url, $fallback, $width, $height, $alt = "" ) {
+        $out  = '<!-- webp -->';
+        $out .= '<noscript data-webp="' . $url . '" data-src="' . $fallback . '" data-width="' . $width . '" data-height="' . $height . '" data-alt="' . $alt . '">';
+        $out .= '<img src="' . $fallback . '" width="' . $width . '" height="' . $height . '" alt="' . $alt . '">';
+        $out .= '</noscript>';
+        return $out;
+    }
+
     /* 
       determine which language out of an available set the user prefers most 
       

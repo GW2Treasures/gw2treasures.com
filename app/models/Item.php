@@ -118,7 +118,9 @@ class Item extends Eloquent {
 
 	public static function sortSearchResult( Illuminate\Database\Eloquent\Collection $collection, $searchterm ) {
 		if( strlen( $searchterm ) < 3 ) {
-			return $collection;
+			return $collection->sort( function( Item $a, Item $b ) {
+				return strcmp( $a->getName(), $b->getName() );
+			});
 		}
 
 		$collection->sort( function( Item $a, Item $b ) use ( $searchterm ) {
@@ -127,9 +129,9 @@ class Item extends Eloquent {
 
 			$parts = explode( ' ', $searchterm );
 
-			$scoreA = $a->getScore( $parts );
-			$scoreB = $b->getScore( $parts );
-
+			$scoreA = round( $a->getScore( $parts ));
+			$scoreB = round( $b->getScore( $parts ));
+			
 			if( $scoreA == $scoreB )
 				return strcmp( $a->getName(), $b->getName() );
 
@@ -147,14 +149,13 @@ class Item extends Eloquent {
 			$nameParts = explode( ' ', $name );
 
 			foreach ($searchtermParts as $part) {
-				$part = mb_strtoupper( $part[0] );
+				$part = mb_strtoupper( $part );
 
 				if( starts_with( $name, $part )) {
 					$score += 5 * $modifier;
 				}
 
 				foreach ($nameParts as $namePart) {
-					$namePart = $namePart[0];
 
 					if( $namePart == $part ) {
 						$score += 5 * $modifier;

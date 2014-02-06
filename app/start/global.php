@@ -54,7 +54,7 @@ App::error(function(Exception $exception, $code)
 	if ( !Config::get( 'app.debug' ) ) {
 		return Response::view('error', array( 
 			'title' => $code == 500 ? 'whoops...' : $code, 
-			'description' => 'There was an error.<br>' . $exception->getMessage() ?: '', 
+			'description' => 'There was an error (' . get_class( $exception ) . ').<br>' . $exception->getMessage() ?: '', 
 		), $code);
 	}
 });

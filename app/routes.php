@@ -66,8 +66,12 @@ Route::group( array(
 	), function() {
 	
 		// bind the {item} parameter in routes to the Item model
-		Route::model('item', 'Item', function( ) {
-			throw new Exception( 'Item not found' );
+		Route::bind( 'item', function( $id, $route ) {
+			$item = Item::find( $id );
+			if( is_null( $item )) {
+				throw new ItemNotFoundException( $id );
+			}
+			return $item;
 		});
 
 		// mainpage

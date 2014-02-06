@@ -47,6 +47,13 @@ Log::useFiles(storage_path().'/logs/laravel.log');
 |
 */
 
+App::error( function( ItemNotFoundException $exception ) {
+	return View::make( 'layout' )
+		->with( 'content', View::make( 'item.notFound' )
+			->with( 'item', $exception->itemId ))
+		->with( 'title', 'Item ' . $exception->itemId . ' not found' );
+});
+
 App::error(function(Exception $exception, $code)
 {
 	Log::error($exception);

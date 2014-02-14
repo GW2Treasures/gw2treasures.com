@@ -2,7 +2,7 @@
 	{{-- unlockedBy --}}
 	@if( $recipe->hasFlag( 'LearnedFromItem' ) )
 		@if( !is_null( $recipe->unlockedBy ) && $recipe->unlockedBy->unlock_type == 'CraftingRecipe' )
-			<a href="{{ $recipe->unlockedBy->getUrl() }}">
+			<a data-item-id="{{ $recipe->unlockedBy->id }}" href="{{ $recipe->unlockedBy->getUrl() }}">
 				<img src="{{ $recipe->unlockedBy->getIconUrl( 16 ) }}" width="16" height="16" alt="">
 				{{ $recipe->unlockedBy->getName() }}
 			</a>
@@ -18,7 +18,7 @@
 			@if( $counts[ $i ] > 0 )
 				<li>
 					<span class="count">{{ $counts[ $i ] }}</span>
-					<a href="{{ $ingredient->getUrl() }}">
+					<a data-item-id="{{ $ingredient->id }}" href="{{ $ingredient->getUrl() }}">
 						<img src="{{ $ingredient->getIconUrl( 16 ) }}" width="16" height="16" alt="">
 						{{ $ingredient->getName() }}
 					</a>
@@ -30,7 +30,7 @@
 	<div class="output">
 		<span class="count">{{ $recipe->output_count }}</span>
 		@if( !is_null( $recipe->output ) )
-			<a href="{{ $recipe->output->getUrl() }}">
+			<a data-item-id="{{ $recipe->output->id }}" href="{{ $recipe->output->getUrl() }}">
 				<img src="{{ $recipe->output->getIconUrl( 16 ) }}" width="16" height="16" alt="">
 				{{ $recipe->output->getName() }}
 			</a>

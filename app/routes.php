@@ -87,6 +87,12 @@ Route::group( array(
 			'uses' => 'ItemController@showDetails'
 		));
 
+		// item tooltip
+		Route::get('item/{item}/tooltip', array(
+			'as' => 'itemtooltip',
+			'uses' => 'ItemController@tooltip'
+		));
+
 		// search
 		Route::get('search', array(
 			'as' => 'search', 

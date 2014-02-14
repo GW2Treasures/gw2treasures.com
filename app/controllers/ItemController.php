@@ -23,6 +23,10 @@ class ItemController extends BaseController {
 		}
 	}
 
+	public function tooltip( $language, Item $item ) {
+		return $item->getTooltip( $language );
+	}
+
 	public function search( $language ) {
 		$searchTerm = trim( Input::get('q') );
 		$items = array();

@@ -171,6 +171,15 @@ class Item extends Eloquent {
 
 	//----
 
+	public function getTooltip( $lang = null ) {
+		$key = 'itemtooltip-' . ( is_null( $lang ) ? App::getLocale() : $lang ) . '-' . $this->id;
+		return Cache::rememberForever( $key, function() {
+			$tooltip = View::make( 'item.tooltip', array( 'item' => $this ))->render();
+			$tooltip = str_replace( array( "\r", "\n", "\t" ), '', $tooltip );
+			return $tooltip;
+		});
+	}
+
 	public function getInfixUpgrade( $lang = null ) {
 		if ( isset( $this->getTypeData( $lang )->infix_upgrade ))
 			return $this->getTypeData( $lang )->infix_upgrade;

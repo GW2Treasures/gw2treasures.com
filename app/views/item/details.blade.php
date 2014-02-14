@@ -33,7 +33,7 @@
 	</dd>
 </dl>
 
-@include( 'item.tooltip' )
+{{ $item->getTooltip() }}
 
 @if( $item->type == 'UpgradeComponent' && count( $upgradeFor = Item::hasUpgrade( $item )->get()) > 0 )
 	<h3>{{ trans('item.upgradeFor') }}</h3>

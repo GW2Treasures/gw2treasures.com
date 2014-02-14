@@ -173,8 +173,9 @@ class Item extends Eloquent {
 
 	public function getTooltip( $lang = null ) {
 		$key = 'itemtooltip-' . ( is_null( $lang ) ? App::getLocale() : $lang ) . '-' . $this->id;
-		return Cache::rememberForever( $key, function() {
-			$tooltip = View::make( 'item.tooltip', array( 'item' => $this ))->render();
+		$item = $this;
+		return Cache::rememberForever( $key, function() use ($item) {
+			$tooltip = View::make( 'item.tooltip', array( 'item' => $item ))->render();
 			$tooltip = str_replace( array( "\r", "\n", "\t" ), '', $tooltip );
 			return $tooltip;
 		});

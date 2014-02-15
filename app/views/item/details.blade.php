@@ -39,7 +39,7 @@
 	<h3>{{ trans('item.upgradeFor') }}</h3>
 	<ul class="upgradeFor">
 		@foreach ($upgradeFor as $usesThisAsUpgrade)
-			<li><a data-item-id="{{ $item->id }}" href="{{ $usesThisAsUpgrade->getUrl() }}">
+			<li><a data-item-id="{{ $usesThisAsUpgrade->id }}" href="{{ $usesThisAsUpgrade->getUrl() }}">
 				<img src="{{ $usesThisAsUpgrade->getIconUrl( 32 ) }}" width="32" height="32" alt="">
 				{{ $usesThisAsUpgrade->getName() }}
 			</a>
@@ -65,4 +65,16 @@
 		@include( 'recipe.box', array( 'recipe' => $recipe ) )
 	@endforeach
 	</div>
+@endif
+
+@if( count( $similarItems = $item->getSimilarItems() ) > 0 )
+	<h3>{{ trans('item.similar') }}</h3>
+	<ul class="similarItems">
+		@foreach ($similarItems as $similarItem)
+			<li><a data-item-id="{{ $similarItem->id }}" href="{{ $similarItem->getUrl() }}">
+				<img src="{{ $similarItem->getIconUrl( 32 ) }}" width="32" height="32" alt="">
+				{{ $similarItem->getName() }}
+			</a>
+		@endforeach
+	</ul>
 @endif

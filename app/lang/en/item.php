@@ -8,6 +8,7 @@ return array(
 	'craftedFrom' => 'Crafted from',
 	'usedInCrafting' => 'Used in crafting',
 	'unlocks' => 'Unlocks',
+	'similar' => 'Similar',
 
 	'attribute' => array(
 		'AgonyResistance'   => 'Agony Resistance',

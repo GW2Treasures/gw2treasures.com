@@ -8,6 +8,7 @@ return array(
 	'craftedFrom' => 'Herstellung',
 	'usedInCrafting' => 'Verwendung',
 	'unlocks' => 'Freischaltung',
+	'similar' => 'Ähnlich',
 
 	'attribute' => array(
 		'AgonyResistance'   => 'Qual-Widerstand',

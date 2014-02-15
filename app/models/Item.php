@@ -169,6 +169,26 @@ class Item extends Eloquent {
 		return $score;
 	}
 
+	public function getSimilarItems() {
+		return Item::where( 'id', '!=', $this->id )
+		           ->where( function( $query ) {
+		            	return $query->where( 'name_de', '=', $this->getName( 'de' ))
+		            	           ->orWhere( 'name_en', '=', $this->getName( 'en' ))
+		            	           ->orWhere( 'name_es', '=', $this->getName( 'es' ))
+		            	           ->orWhere( 'name_fr', '=', $this->getName( 'fr' ))
+		            	           ->orWhere( function( $q ) {
+		            	            	return $q->where( 'signature', '=', $this->signature )
+		            	            	         ->where( 'file_id',   '=', $this->file_id ); } )
+		            	           ->orWhere( function( $q ) {
+		            	            	return $q->where( 'type',    '=', $this->type )
+		            	            	         ->where( 'subtype', '=', $this->subtype )
+		            	            	         ->where( 'weight',  '=', $this->weight )
+		            	            	         ->where( 'rarity',  '=', $this->rarity )
+		            	            	         ->where( 'value',   '=', $this->value )
+		            	            	         ->where( 'level',   '=', $this->level ); } );
+		            	})->get();
+	}
+
 	//----
 
 	public function getTooltip( $lang = null ) {

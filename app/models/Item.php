@@ -170,22 +170,23 @@ class Item extends Eloquent {
 	}
 
 	public function getSimilarItems() {
+		$that = $this;
 		return Item::where( 'id', '!=', $this->id )
-		           ->where( function( $query ) {
-		            	return $query->where( 'name_de', '=', $this->getName( 'de' ))
-		            	           ->orWhere( 'name_en', '=', $this->getName( 'en' ))
-		            	           ->orWhere( 'name_es', '=', $this->getName( 'es' ))
-		            	           ->orWhere( 'name_fr', '=', $this->getName( 'fr' ))
-		            	           ->orWhere( function( $q ) {
-		            	            	return $q->where( 'signature', '=', $this->signature )
-		            	            	         ->where( 'file_id',   '=', $this->file_id ); } )
-		            	           ->orWhere( function( $q ) {
-		            	            	return $q->where( 'type',    '=', $this->type )
-		            	            	         ->where( 'subtype', '=', $this->subtype )
-		            	            	         ->where( 'weight',  '=', $this->weight )
-		            	            	         ->where( 'rarity',  '=', $this->rarity )
-		            	            	         ->where( 'value',   '=', $this->value )
-		            	            	         ->where( 'level',   '=', $this->level ); } );
+		           ->where( function( $query ) use ( $that ) {
+		            	return $query->where( 'name_de', '=', $that->getName( 'de' ))
+		            	           ->orWhere( 'name_en', '=', $that->getName( 'en' ))
+		            	           ->orWhere( 'name_es', '=', $that->getName( 'es' ))
+		            	           ->orWhere( 'name_fr', '=', $that->getName( 'fr' ))
+		            	           ->orWhere( function( $q ) use ( $that ) {
+		            	            	return $q->where( 'signature', '=', $that->signature )
+		            	            	         ->where( 'file_id',   '=', $that->file_id ); } )
+		            	           ->orWhere( function( $q ) use ( $that ) {
+		            	            	return $q->where( 'type',    '=', $that->type )
+		            	            	         ->where( 'subtype', '=', $that->subtype )
+		            	            	         ->where( 'weight',  '=', $that->weight )
+		            	            	         ->where( 'rarity',  '=', $that->rarity )
+		            	            	         ->where( 'value',   '=', $that->value )
+		            	            	         ->where( 'level',   '=', $that->level ); } );
 		            	})->get();
 	}
 

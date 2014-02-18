@@ -35,8 +35,6 @@
 
 {{ $item->getTooltip() }}
 
-<style type="text/css">[data-item-id={{ $item->id }}] { font-weight: 600; }</style>
-
 @if( $item->type == 'UpgradeComponent' && count( $upgradeFor = Item::hasUpgrade( $item )->get()) > 0 )
 	<h3>{{ trans('item.upgradeFor') }}</h3>
 	<ul class="upgradeFor">
@@ -62,7 +60,7 @@
 @endif
 
 @if( count( $usedInCrafting = $item->ingredientForRecipes()->orderBy( 'rating' )->get()) > 0 )
-	<h3>{{ trans('item.usedInCrafting') }}</h3><div>
+	<h3>{{ trans('item.usedInCrafting') }}</h3>
 	@include( 'recipe.table', array( 'recipes' => $usedInCrafting ))
 @endif
 

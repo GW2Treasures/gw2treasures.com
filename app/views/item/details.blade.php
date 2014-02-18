@@ -35,6 +35,8 @@
 
 {{ $item->getTooltip() }}
 
+<style type="text/css">[data-item-id={{ $item->id }}] { font-weight: 600; }</style>
+
 @if( $item->type == 'UpgradeComponent' && count( $upgradeFor = Item::hasUpgrade( $item )->get()) > 0 )
 	<h3>{{ trans('item.upgradeFor') }}</h3>
 	<ul class="upgradeFor">
@@ -47,27 +49,24 @@
 	</ul>
 @endif
 
-@if( $item->unlock_type == 'CraftingRecipe' && !is_null( $item->unlocks ) )
+@if( $item->unlock_type == 'CraftingRecipe' && !is_null( $item->unlocks ))
 	<h3>{{ trans('item.unlocks') }}</h3>
-	@include( 'recipe.box', array( 'recipe' => $item->unlocks ) )
+	@include( 'recipe.box', array( 'recipe' => $item->unlocks ))
 @endif
 
-@if( count( $craftedFrom = $item->recipes()->get() ) > 0 )
+@if( count( $craftedFrom = $item->recipes()->get()) > 0 )
 	<h3>{{ trans('item.craftedFrom') }}</h3>
 	@foreach( $craftedFrom as $recipe )
-		@include( 'recipe.box', array( 'recipe' => $recipe ) )
+		@include( 'recipe.box', array( 'recipe' => $recipe ))
 	@endforeach
 @endif
 
-@if( count( $usedInCrafting = $item->ingredientForRecipes()->get() ) > 0 )
+@if( count( $usedInCrafting = $item->ingredientForRecipes()->orderBy( 'rating' )->get()) > 0 )
 	<h3>{{ trans('item.usedInCrafting') }}</h3><div>
-	@foreach( $usedInCrafting as $recipe )
-		@include( 'recipe.box', array( 'recipe' => $recipe ) )
-	@endforeach
-	</div>
+	@include( 'recipe.table', array( 'recipes' => $usedInCrafting ))
 @endif
 
-@if( count( $similarItems = $item->getSimilarItems() ) > 0 )
+@if( count( $similarItems = $item->getSimilarItems()) > 0 )
 	<h3>{{ trans('item.similar') }}</h3>
 	<ul class="similarItems">
 		@foreach ($similarItems as $similarItem)

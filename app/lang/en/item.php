@@ -143,6 +143,8 @@ return array(
 	'SoulbindOnAcquire' => 'Soulbound',
 	'SoulBindOnUse' => 'Soulbound on use',
 
+	'unique' => 'Unique',
+
 	'gold' => 'Gold',
 	'silver' => 'Silver',
 	'copper' => 'Copper',

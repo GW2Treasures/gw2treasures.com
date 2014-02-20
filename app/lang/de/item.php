@@ -143,6 +143,8 @@ return array(
 	'SoulbindOnAcquire' => 'Seelengebunden',
 	'SoulBindOnUse' => 'Bei Benutzung seelengebunden',
 
+	'unique' => 'Einzigartig',
+
 	'gold' => 'Gold',
 	'silver' => 'Silber',
 	'copper' => 'Kupfer',

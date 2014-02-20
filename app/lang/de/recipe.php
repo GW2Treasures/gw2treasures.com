@@ -15,4 +15,7 @@ return array(
 		'leatherworker' => 'Lederer',
 		'tailor'        => 'Schneider',
 		'weaponsmith'   => 'Waffenschmied' ),
+
+	'filter'         => 'Filter',
+	'filterEnableJS' => 'Aktiviere JavaScript, um die Rezepte zu filtern',
 );

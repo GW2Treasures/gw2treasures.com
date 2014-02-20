@@ -1,5 +1,5 @@
 <div class="filter">
-	<h4>{{ trans( 'filter' ) }}</h4>
+	<h4>{{ trans( 'recipe.filter' ) }}</h4>
 	<div class="only-js filterDisciplines">
 		<?php 
 			$availableDisciplines = 0;
@@ -26,9 +26,9 @@
 			}
 		?>
 	</div>
-	<div class="only-no-js filterDisciplines">
-		Enable javascript to use filters
-	</div>
+	<span class="only-no-js">
+		{{ trans( 'recipe.filterEnableJS' ) }}
+	</span>
 </div>
 <table class="recipeTable">
 	<thead><tr>

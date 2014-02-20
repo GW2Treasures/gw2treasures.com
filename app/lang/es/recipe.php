@@ -15,4 +15,7 @@ return array(
 		'leatherworker' => 'Leatherworker',
 		'tailor'        => 'Tailor',
 		'weaponsmith'   => 'Weaponsmith' ),
+
+	'filter'         => 'Filter',
+	'filterEnableJS' => 'Enable JavaScript to filter the recipes',
 );

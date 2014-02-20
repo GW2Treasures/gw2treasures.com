@@ -61,6 +61,17 @@
 		const DISCIPLINE_TAILOR = 0x40;
 		const DISCIPLINE_WEAPONSMITH = 0x80;
 
+		public static $DISCIPLINES = array(
+			self::DISCIPLINE_ARMORSMITH    => 'armorsmith',
+			self::DISCIPLINE_ARTIFICER     => 'artificer',
+			self::DISCIPLINE_CHEF          => 'chef',
+			self::DISCIPLINE_HUNTSMAN      => 'huntsman',
+			self::DISCIPLINE_JEWELER       => 'jeweler',
+			self::DISCIPLINE_LEATHERWORKER => 'leatherworker',
+			self::DISCIPLINE_TAILOR        => 'tailor',
+			self::DISCIPLINE_WEAPONSMITH   => 'weaponsmith',
+		);
+
 		public function hasDiscipline( $discipline ) {
 			return ($this->disciplines & $discipline) == $discipline;
 		}

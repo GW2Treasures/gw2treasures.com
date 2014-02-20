@@ -1,3 +1,35 @@
+<div class="filter">
+	<h4>{{ trans( 'filter' ) }}</h4>
+	<div class="only-js filterDisciplines">
+		<?php 
+			$availableDisciplines = 0;
+			foreach( $recipes as $recipe ) {
+				$availableDisciplines |= $recipe->disciplines;
+			}
+
+			foreach( Recipe::$DISCIPLINES as $dFlag => $discipline ) {
+				$available = ($availableDisciplines & $dFlag) == $dFlag;
+
+				if( $available ) {
+					?>
+						<a onClick="filter.toggle('{{ $discipline }}')" class="filterButton enabled discipline-{{ $discipline }}">
+							<i class="sprite-20-{{ $discipline }}" title="{{ trans('recipe.discipline.' . $discipline ) }}"></i>
+						</a>
+					<?php
+				} else {
+					?>
+						<a class="filterButton disabled discipline-{{ $discipline }}">
+							<i class="sprite-20-{{ $discipline }}" title="{{ trans('recipe.discipline.' . $discipline ) }}"></i>
+						</a>
+					<?php
+				}
+			}
+		?>
+	</div>
+	<div class="only-no-js filterDisciplines">
+		Enable javascript to use filters
+	</div>
+</div>
 <table class="recipeTable">
 	<thead><tr>
 		<th>{{ trans( 'recipe.output' ) }}</th>
@@ -6,7 +38,19 @@
 	</tr></thead>
 	<tbody>
 		@foreach( $recipes as $recipe )
-			<tr class="{{ $recipe->hasFlag( 'LearnedFromItem' ) ? 'learnedFromItem' : '' }}">
+			<?php
+				$classes = array();
+				if( $recipe->hasFlag( 'LearnedFromItem' )) {
+					$classes[] = 'learnedFromItem';
+				} 
+
+				foreach( Recipe::$DISCIPLINES as $dFlag => $discipline ) {
+					if( $recipe->hasDiscipline( $dFlag )) {
+						$classes[] = 'discipline-' . $discipline;
+					}
+				}
+			?>
+			<tr class="{{ implode( $classes, ' ' ) }}">
 				<td>
 					{{-- output --}}
 					<span class="count">{{ $recipe->output_count == 1 ? '' : $recipe->output_count }}</span>
@@ -37,30 +81,13 @@
 				<td>
 					{{-- disciplines --}}
 					<div class="disciplines">
-						@if( $recipe->hasDiscipline( Recipe::DISCIPLINE_ARMORSMITH ))
-							<i class="sprite-20-armorsmith"    title="{{ trans('recipe.discipline.armorsmith') }}"></i>
-						@endif
-						@if( $recipe->hasDiscipline( Recipe::DISCIPLINE_ARTIFICER ))
-							<i class="sprite-20-artificer"     title="{{ trans('recipe.discipline.artificer') }}"></i>
-						@endif
-						@if( $recipe->hasDiscipline( Recipe::DISCIPLINE_CHEF ))
-							<i class="sprite-20-chef"          title="{{ trans('recipe.discipline.chef') }}"></i>
-						@endif
-						@if( $recipe->hasDiscipline( Recipe::DISCIPLINE_HUNTSMAN ))
-							<i class="sprite-20-huntsman"      title="{{ trans('recipe.discipline.huntsman') }}"></i>
-						@endif
-						@if( $recipe->hasDiscipline( Recipe::DISCIPLINE_JEWELER ))
-							<i class="sprite-20-jeweler"       title="{{ trans('recipe.discipline.jeweler') }}"></i>
-						@endif
-						@if( $recipe->hasDiscipline( Recipe::DISCIPLINE_LEATHERWORKER ))
-							<i class="sprite-20-leatherworker" title="{{ trans('recipe.discipline.leatherworker') }}"></i>
-						@endif
-						@if( $recipe->hasDiscipline( Recipe::DISCIPLINE_TAILOR ))
-							<i class="sprite-20-tailor"        title="{{ trans('recipe.discipline.tailor') }}"></i>
-						@endif
-						@if( $recipe->hasDiscipline( Recipe::DISCIPLINE_WEAPONSMITH ))
-							<i class="sprite-20-weaponsmith"   title="{{ trans('recipe.discipline.weaponsmith') }}"></i>
-						@endif
+						<?php
+							foreach( Recipe::$DISCIPLINES as $dFlag => $discipline ) {
+								if( $recipe->hasDiscipline( $dFlag )) {
+									echo '<i class="sprite-20-' . $discipline . '" title="' . trans('recipe.discipline.' . $discipline) . '"></i>';
+								}
+							}
+						?>
 					</div>
 					{{ $recipe->rating }}
 				</td>

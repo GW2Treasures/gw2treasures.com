@@ -59,7 +59,7 @@
 	@endforeach
 @endif
 
-@if( count( $usedInCrafting = $item->ingredientForRecipes()->orderBy( 'rating' )->get()) > 0 )
+@if( count( $usedInCrafting = $item->ingredientForRecipes()->orderBy( 'rating' )->orderBy( 'disciplines' )->get()) > 0 )
 	<h3>{{ trans('item.usedInCrafting') }}</h3>
 	@include( 'recipe.table', array( 'recipes' => $usedInCrafting ))
 @endif

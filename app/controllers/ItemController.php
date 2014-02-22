@@ -19,7 +19,7 @@ class ItemController extends BaseController {
 			$this->layout->content = $content;
 			$this->layout->title = $item->getName( );
 
-			Cache::put( $key, $content, 30 );
+			Cache::forever( $key, $content );
 		}
 	}
 

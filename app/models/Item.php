@@ -200,12 +200,14 @@ class Item extends Eloquent {
 
 	public function getTooltip( $lang = null ) {
 		$key = 'itemtooltip-' . ( is_null( $lang ) ? App::getLocale() : $lang ) . '-' . $this->id;
-		$item = $this;
-		return Cache::rememberForever( $key, function() use ($item) {
-			$tooltip = View::make( 'item.tooltip', array( 'item' => $item ))->render();
+		if( Cache::has( $key )  && !isset( $_GET['nocache'] )) {
+			return Cache::get( $key );
+		} else {
+			$tooltip = View::make( 'item.tooltip', array( 'item' => $this ))->render();
 			$tooltip = str_replace( array( "\r", "\n", "\t" ), '', $tooltip );
+			Cache::forever( $key, $tooltip );
 			return $tooltip;
-		});
+		}
 	}
 
 	public function getInfixUpgrade( $lang = null ) {

@@ -123,14 +123,20 @@ class Item extends Eloquent {
 			});
 		}
 
-		$collection->sort( function( Item $a, Item $b ) use ( $searchterm ) {
+		$cache = array();
+
+		$collection->sort( function( Item $a, Item $b ) use ( $searchterm, &$cache ) {
 			if( $a->getName( ) == $searchterm ) return  1;
 			if( $b->getName( ) == $searchterm ) return -1;
 
 			$parts = explode( ' ', $searchterm );
 
-			$scoreA = round( $a->getScore( $parts ));
-			$scoreB = round( $b->getScore( $parts ));
+			$scoreA = isset( $cache[$a->id] )
+				? $cache[$a->id]
+				: ( $cache[$a->id] = round( $a->getScore( $parts )));
+			$scoreB = isset( $cache[$b->id] )
+				? $cache[$b->id]
+				: ( $cache[$b->id] = round( $b->getScore( $parts )));
 			
 			if( $scoreA == $scoreB )
 				return strcmp( $a->getName(), $b->getName() );

@@ -4,7 +4,14 @@ class Item extends Eloquent {
 	private $d = array();
 
 	public function getName( $lang = null ) { return $this->localized( 'name', $lang ); }
-	public function getDescription( $lang = null ) { return $this->localized( 'desc', $lang ); }
+
+	public function getDescription( $lang = null ) {
+		$description = $this->getData( $lang )->description;
+		$description = preg_replace( '/<c=@([^>]+)>(.*)/s', '<span class="color-$1">$2</span>', $description );
+		$description = preg_replace( '/<c=#([^>]+)>(.*)/s', '<span class="color-colored" style="color:#$1">$2</span>', $description );
+		return $description;
+	}
+
 	public function getData( $lang = null ) { 
 		if ( !array_key_exists( $lang, $this->d ) ) {
 			$this->d[ $lang ] = json_decode( str_replace('<br>', '\n', $this->localized( 'data', $lang )) );

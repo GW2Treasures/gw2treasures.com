@@ -9,6 +9,7 @@ class Item extends Eloquent {
 		$description = $this->getData( $lang )->description;
 		$description = preg_replace( '/<c=@([^>]+)>(.*)/s', '<span class="color-$1">$2</span>', $description );
 		$description = preg_replace( '/<c=#([^>]+)>(.*)/s', '<span class="color-colored" style="color:#$1">$2</span>', $description );
+		$description = preg_replace( '/\n/', '<br />', $description );
 		return $description;
 	}
 

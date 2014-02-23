@@ -40,7 +40,7 @@
 	</div>
 	{{-- time to craft --}}
 	@if( $recipe->getData( )->time_to_craft_ms > 0 )
-		<div class="timeToCraft">{{ round( $recipe->getData( )->time_to_craft_ms / 1000, 2 ) }}s <i class="sprite-20-activation"></i></div>
+		<div class="timeToCraft">{{ Helper::duration( $recipe->getData( )->time_to_craft_ms ) }} <i class="sprite-20-activation"></i></div>
 	@endif
 	{{-- disciplines --}}
 	<div class="disciplines">

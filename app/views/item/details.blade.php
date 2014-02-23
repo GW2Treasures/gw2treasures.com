@@ -65,9 +65,22 @@
 @endif
 
 @if( count( $similarItems = $item->getSimilarItems()) > 0 )
+	<?php 
+		$similarItems->sort( function( $a, $b ) use ( $item ) {
+			if( $a->getName() == $item->getName() && 
+			    $b->getName() != $item->getName() ) {
+				return -1;
+			}
+			if( $a->getName() != $item->getName() && 
+			    $b->getName() == $item->getName() ) {
+				return 1;
+			}
+			return strcmp( $a->getName(), $b->getName() );
+		});
+	?>
 	<h3>{{ trans('item.similar') }}</h3>
 	<ul class="similarItems">
-		@foreach ($similarItems as $similarItem)
+		@foreach ( $similarItems as $similarItem )
 			<li><a data-item-id="{{ $similarItem->id }}" href="{{ $similarItem->getUrl() }}">
 				<img src="{{ $similarItem->getIconUrl( 32 ) }}" width="32" height="32" alt="">
 				{{ $similarItem->getName() }}

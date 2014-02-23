@@ -290,8 +290,11 @@ class Item extends Eloquent {
 	 * Parses [type].description and returns the attributes
 	 **/
 	public function getConsumableAttributes( $lang = null ) {
-		$description = $this->getTypeData( $lang )->description;
+		if( !isset( $this->getTypeData( $lang )->description )) {
+			return array();
+		}
 
+		$description = $this->getTypeData( $lang )->description;
 		$description = str_replace( chr(194).chr(160), ' ', $description );
 
 		$attributes = array();

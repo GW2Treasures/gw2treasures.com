@@ -36,6 +36,11 @@
 {{ $item->getTooltip() }}
 
 @if( $item->type == 'UpgradeComponent' && count( $upgradeFor = Item::hasUpgrade( $item )->get()) > 0 )
+	<?php 
+		$upgradeFor->sort( function( $a, $b ) use ( $item ) {
+			return strcmp( $a->getName(), $b->getName() );
+		});
+	?>
 	<h3>{{ trans('item.upgradeFor') }}</h3>
 	<ul class="upgradeFor">
 		@foreach ($upgradeFor as $usesThisAsUpgrade)

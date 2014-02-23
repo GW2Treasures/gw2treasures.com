@@ -48,9 +48,9 @@ Route::filter( 'setLocale', function( $route, $request ) {
 });
 
 // route to hide notifications
-Route::get('notification/hide/{key}', array('as' => 'hideNotification', function( $key ) {
-	Notification::Remove( $key );
-	return Redirect::back();
+Route::get('notification/hide/{notification}', array('as' => 'hideNotification', function( $notification ) {
+	Notification::Remove( $notification );
+	return Redirect::to( Input::get( 'return', '/' ) );
 }));
 
 // redirect all requests without language sub domain

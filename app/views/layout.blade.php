@@ -161,6 +161,12 @@
 			<script src="//direct.darthmaim-cdn.de/gw2treasures/assets/js/main.js"></script>
 		@endif
 
+		@if( isset( $_GET['nocache'] ))
+			<script type="text/javascript">
+				cache.clear();
+			</script>
+		@endif
+
 		<!-- g+ -->
 		<script type="text/javascript">
 		  window.___gcfg = {lang: '{{ App::getLocale() }}' };

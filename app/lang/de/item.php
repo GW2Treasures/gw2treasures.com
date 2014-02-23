@@ -3,6 +3,7 @@
 return array(
 	'defense' => 'Verteidigung',
 	'weaponStrength' => 'Waffenstärke',
+	'duration' => 'Dauer',
 
 	'upgradeFor' => 'Aufwertung in',
 	'craftedFrom' => 'Herstellung',

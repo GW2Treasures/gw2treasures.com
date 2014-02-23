@@ -28,6 +28,25 @@ class Helper {
         return $out;
     }
 
+    public static function duration( $ms, $baseUnit = 'ms' ) {
+        $units      = array( 'ms',   's',  'm',  'h', 'd' );
+        $conversion = array( '1000', '60', '60', '24');
+        if( $baseUnit != $units[0] ) {
+            $index = array_search( $baseUnit, $units );
+            if( $index === false ) {
+                return $ms . $baseUnit; 
+            }
+            for ($i = $index; $i > 0 ; $i--) {
+                $ms *= $conversion[ $i - 1 ];
+            }
+        }
+        $i = 0;
+        while( $i < count( $units ) - 1 && $ms >= $conversion[ $i ] ) {
+            $ms /= $conversion[ $i++ ];
+        }
+        return $ms . $units[ $i ];
+    }
+
     /* 
       determine which language out of an available set the user prefers most 
       

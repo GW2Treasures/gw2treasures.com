@@ -14,6 +14,24 @@
 {{-- attributes --}}
 @include( 'item.attributes' )
 
+{{-- consumable attributes --}}
+@if( $item->type == 'Consumable' )
+	@if( isset( $item->getTypeData()->duration_ms ) )
+		{{ trans( 'item.duration' ) }}: {{ Helper::duration( $item->getTypeData()->duration_ms ) }}<br>
+	@endif
+	@if( count( $consumableAttributes = $item->getConsumableAttributes( ) ) > 0 )
+	<dl class="attributes">
+		@foreach( $consumableAttributes as $attribute => $modifier )
+			@if( is_int( $attribute ) )
+				<dt>{{ $modifier }}</dt>
+			@else
+				<dd>{{ $modifier }}</dd><dt>{{ $attribute }}</dt>
+			@endif
+		@endforeach
+	</dl>
+	@endif
+@endif
+
 {{-- bonus --}}
 @if( $item->type == 'UpgradeComponent' && ($item->subtype == 'Rune'  || $item->subtype == 'Default' ) && isset($item->getTypeData( )->bonuses) )
 	<ol class="suffixBonusList">

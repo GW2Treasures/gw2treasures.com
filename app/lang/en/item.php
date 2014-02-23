@@ -3,6 +3,7 @@
 return array(
 	'defense' =>'Defense',
 	'weaponStrength' => 'Weapon Strength',
+	'duration' => 'Duration',
 
 	'upgradeFor' => 'Upgrade in',
 	'craftedFrom' => 'Crafted from',

@@ -15,7 +15,10 @@ class Item extends Eloquent {
 
 	public function getData( $lang = null ) { 
 		if ( !array_key_exists( $lang, $this->d ) ) {
-			$this->d[ $lang ] = json_decode( str_replace('<br>', '\n', $this->localized( 'data', $lang )) );
+			$this->d[ $lang ] = json_decode( 
+				str_replace( array( '<br>' ),
+				             array( '\n'   ),
+				             $this->localized( 'data', $lang )));
 		}
 		return $this->d[ $lang ];
 	}
@@ -277,6 +280,31 @@ class Item extends Eloquent {
 				$attributes[ $attribute ] = $modifier; 
 			} else {
 				$attributes[ ] = $buffsLocalized[ $i ];
+			}
+		}
+
+		return $attributes;
+	}
+
+	/**
+	 * Parses [type].description and returns the attributes
+	 **/
+	public function getConsumableAttributes( $lang = null ) {
+		$description = $this->getTypeData( $lang )->description;
+
+		$description = str_replace( chr(194).chr(160), ' ', $description );
+
+		$attributes = array();
+		$buffs = explode("\n", $description);
+
+		foreach ($buffs as $i => $buff) {
+			if( preg_match('/^(\+?-?[0-9]+%?) (.*)$/', $buff, $matches) ) {
+				$modifier = $matches[1];
+				$attribute = $matches[2];
+				$modifier = str_replace( '-', '−', $modifier );
+				$attributes[ $attribute ] = $modifier;
+			} else {
+				$attributes[ ] = $buff;
 			}
 		}
 

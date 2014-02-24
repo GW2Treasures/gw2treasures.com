@@ -1,6 +1,7 @@
 <?php
 
-	class Recipe extends Eloquent { 
+	class Recipe extends Eloquent {
+		protected $primaryKey = 'recipe_id';
 		private $d = null;
 
 		public function getData( ) {
@@ -9,7 +10,6 @@
 			}
 			return $this->d;
 		}
-
 
 		//---- relations
 

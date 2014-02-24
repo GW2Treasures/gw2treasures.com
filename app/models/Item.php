@@ -61,20 +61,7 @@ class Item extends Eloquent {
 		return Helper::cdn( 'icons/' . $this->signature . '/' . $this->file_id . '-' . $size . 'px.png', $this->file_id );
 	}
 	public function getChatLink( ) {
-		return '[&'.base64_encode(chr(0x02).chr(0x01).chr($this->id%256).chr((int)($this->id/256)).chr(0x00).chr(0x00)).']';
-	}
-	public static function decodeChatlink( $code ) {
-		$code = base64_decode( $code );
-		$data = array();
-		for ($i=0; $i < strlen( $code ); $i++) { 
-			$data[ $i ] = ord( $code[ $i] );
-		}
-
-		// item?
-		if( $data[0] != 2 ) {
-			return false;
-		}
-		return $data[3] << 8 | $data[2];
+		return Chatlink::Encode( Chatlink::TYPE_ITEM, $this->id )->chatlink;
 	}
 
 	//---- Relations

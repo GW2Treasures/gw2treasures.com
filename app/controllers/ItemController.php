@@ -41,10 +41,13 @@ class ItemController extends BaseController {
 			}
 
 			// chatlink
-			if( preg_match( '/\\[&([A-Za-z0-9+]+=*)\\]/', $searchTerm, $matches )) {
-				$id = Item::decodeChatlink( $matches[1] );
-				if( $id ) {
-					return Redirect::route( 'itemdetails', array( $language, $id ));
+			if(( $chatlink = Chatlink::TryDecode( $searchTerm )) !== false ) {
+				switch( $chatlink->type ) {
+					case Chatlink::TYPE_ITEM:
+						return Redirect::route( 'itemdetails', array( $language, $chatlink->id ));
+					case Chatlink::TYPE_RECIPE:
+						$recipe = Recipe::find( $chatlink->id );
+						return Redirect::route( 'itemdetails', array( $language, $recipe->output_id ));
 				}
 			}
 

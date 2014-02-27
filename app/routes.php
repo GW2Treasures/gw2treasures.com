@@ -81,6 +81,12 @@ Route::group( array(
 				->with( 'title', 'Welcome!' );
 		});
 		
+		// random item
+		Route::get('item/random', array(
+			'as' => 'randomitem',
+			'uses' => 'ItemController@random'
+		));
+
 		// item details
 		Route::get('item/{item}', array( 
 			'as' => 'itemdetails', 

@@ -1,6 +1,6 @@
 <?php
 
-	class Recipe extends Eloquent {
+	class Recipe extends BaseModel {
 		protected $primaryKey = 'recipe_id';
 		private $d = null;
 

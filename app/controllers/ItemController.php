@@ -23,6 +23,11 @@ class ItemController extends BaseController {
 		}
 	}
 
+	public function random( $language ) {
+		$id = Item::random()->first()->id;
+		return Redirect::route( 'itemdetails', array( $language, $id ));
+	}
+
 	public function tooltip( $language, Item $item ) {
 		return $item->getTooltip( $language );
 	}

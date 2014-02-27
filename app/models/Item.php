@@ -1,6 +1,6 @@
 <?php
 
-class Item extends Eloquent {
+class Item extends BaseModel {
 	private $d = array();
 
 	public function getName( $lang = null ) { return $this->localized( 'name', $lang ); }

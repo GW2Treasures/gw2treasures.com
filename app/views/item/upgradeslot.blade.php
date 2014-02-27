@@ -3,7 +3,7 @@
 		<div class="unusedUpgradeSlot"><i class="sprite-18-upgradeslot"></i> {{ trans('item.unusedUpgradeSlot') }}</div>
 	@else
 		<div class="upgradeSlot">
-			<img src="{{ $item->getSuffixItem( )->getIconUrl( 16 ) }}" width="16" height="16" alt><a href="{{ $item->getSuffixItem( )->getUrl( ) }}">{{ $item->getSuffixItem( )->getName( ) }}</a>
+			<img src="{{ $item->getSuffixItem( )->getIconUrl( 16 ) }}" width="16" height="16" alt><a href="{{ $item->getSuffixItem( )->getUrl( ) }}">{{ $item->getSuffixItem( )->getName( ) }}</a> 
 
 			@if( (( $suffixSubType = $item->getSuffixItem( )->subtype ) == 'Rune' || $suffixSubType == 'Default') )
 				@include( 'item.attributes', array('item' => $item->getSuffixItem( )) )

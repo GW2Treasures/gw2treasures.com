@@ -1,0 +1,10 @@
+{ 
+    "matchUrl": "https://api.guildwars2.com/v1/wvw/matches.json",
+	"detailUrl": "https://api.guildwars2.com/v1/wvw/match_details.json",
+	"mysql": {
+		"host"      : "localhost",
+        "database"  : "",
+        "username"  : "",
+        "password"  : "",
+    }
+}

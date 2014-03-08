@@ -22,7 +22,7 @@ Setup
     `green_score` int(10) unsigned NOT NULL DEFAULT '0',
     `data` text NOT NULL,
     PRIMARY KEY (`id`)
-  ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=18 ; 
+  ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ; 
   ```
 2. `npm install`
 3. Copy the `config-sample.json` to `config.json` and adjust mysql user/db/password

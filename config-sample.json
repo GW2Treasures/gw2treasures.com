@@ -5,6 +5,6 @@
         "host"      : "localhost",
         "database"  : "",
         "username"  : "",
-        "password"  : "",
+        "password"  : ""
     }
 }

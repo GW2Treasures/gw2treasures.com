@@ -65,6 +65,17 @@ Route::group( array(
 		'after' => ''
 	), function() {
 	
+		// mainpage
+		Route::get('/', function() {
+			return View::make( 'layout' )
+				->nest( 'content', 'start' )
+				->with( 'title', 'Welcome!' );
+		});
+		
+		//================================
+		// Items
+		//================================
+	
 		// bind the {item} parameter in routes to the Item model
 		Route::bind( 'item', function( $id, $route ) {
 			$item = Item::find( $id );
@@ -72,13 +83,6 @@ Route::group( array(
 				throw new ItemNotFoundException( $id );
 			}
 			return $item;
-		});
-
-		// mainpage
-		Route::get('/', function() {
-			return View::make( 'layout' )
-				->nest( 'content', 'start' )
-				->with( 'title', 'Welcome!' );
 		});
 		
 		// random item
@@ -109,6 +113,19 @@ Route::group( array(
 			'as' => 'search.autocomplete',
 			'uses' => 'ItemController@searchAutocomplete'
 		));
+
+		//================================
+		// WVW
+		//================================
+
+		Route::get('wvw', array(
+			'as' => 'wvw',
+			'uses' => 'WVWController@overview'
+		));
+
+		//================================
+		// STUFF
+		//================================
 
 		// contact
 		Route::get('contact', array(

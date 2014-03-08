@@ -1,7 +1,7 @@
 <h2>US</h2>
 <div class="matchList">
 	@foreach( $matches as $match )
-		@if( $match->getRegion() == Match::REGION_US )
+		@if( $match->region == Match::REGION_US )
 			@include( 'wvw.smallMatchBox' )
 		@endif
 	@endforeach
@@ -10,7 +10,7 @@
 <h2>EU</h2>
 <div class="matchList">
 	@foreach( $matches as $match )
-		@if( $match->getRegion() == Match::REGION_EU )
+		@if( $match->region == Match::REGION_EU )
 			@include( 'wvw.smallMatchBox' )
 		@endif
 	@endforeach

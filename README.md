@@ -24,5 +24,6 @@ Setup
     PRIMARY KEY (`id`)
   ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=18 ; 
   ```
-2. `npm install`  
-3. `coffee index.coffee`  
+2. `npm install`
+3. Copy the `config-sample.json` to `config.json` and adjust mysql user/db/password
+4. `coffee index.coffee`  

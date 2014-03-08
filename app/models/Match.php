@@ -10,11 +10,13 @@ class Match extends BaseModel {
 
 	private $_d;
 	private $_objectives;
+	private $_oc;
 	private $_income;
 
 	protected $appends = array( 
 		'region', 
 		'objectives',
+		'objectiveCounts',
 		'income'
 	);
 
@@ -40,6 +42,47 @@ class Match extends BaseModel {
 			}
 		} 
 		return $this->_objectives;
+	}
+
+	public function getObjectiveCountsAttribute() {
+		if( !isset( $this->_oc )) {
+			$this->_oc = array(
+				self::WORLD_RED => array(
+					Objective::TYPE_CASTLE => 0,
+					Objective::TYPE_KEEP   => 0,
+					Objective::TYPE_TOWER  => 0,
+					Objective::TYPE_CAMP   => 0,
+					Objective::TYPE_RUIN   => 0
+				),
+				self::WORLD_BLUE => array(
+					Objective::TYPE_CASTLE => 0,
+					Objective::TYPE_KEEP   => 0,
+					Objective::TYPE_TOWER  => 0,
+					Objective::TYPE_CAMP   => 0,
+					Objective::TYPE_RUIN   => 0
+				),
+				self::WORLD_GREEN => array(
+					Objective::TYPE_CASTLE => 0,
+					Objective::TYPE_KEEP   => 0,
+					Objective::TYPE_TOWER  => 0,
+					Objective::TYPE_CAMP   => 0,
+					Objective::TYPE_RUIN   => 0
+				),
+				self::NEUTRAL => array(
+					Objective::TYPE_CASTLE => 0,
+					Objective::TYPE_KEEP   => 0,
+					Objective::TYPE_TOWER  => 0,
+					Objective::TYPE_CAMP   => 0,
+					Objective::TYPE_RUIN   => 0
+				),
+			);
+
+			foreach ($this->objectives as $objective) {
+				$this->_oc[ $objective->owner ][ $objective->type ]++;
+			}
+		}
+
+		return $this->_oc;
 	}
 
 	public function getIncomeAttribute() {

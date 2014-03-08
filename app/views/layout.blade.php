@@ -84,6 +84,10 @@
 					<li><a href="#" class="inactive">{{ trans('footer.armorSets') }}</a>
 					<li><a href="{{ URL::route('randomitem', App::getLocale()) }}">{{ trans('footer.randomItem') }}</a>
 				</ul>
+			<li><a href="{{ URL::route('wvw', App::getLocale()) }}">{{ trans('footer.wvw') }}</a>
+				<ul>
+					<li><a href="{{ URL::route('wvw', App::getLocale()) }}">{{ trans('footer.wvwOverview') }}</a>
+				</ul>
 			<li>{{ trans('footer.RSSFeeds') }}
 				<ul>
 					<li><a href="#" class="inactive">{{ trans('footer.newItems') }}</a>

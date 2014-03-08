@@ -8,6 +8,9 @@ return array(
 	'armorSets'            => 'Rüstungs Sets',
 	'randomItem'           => 'Zufälliger Gegenstand',
 
+	'wvw' => 'Welt gegen Welt',
+	'wvwOverview' => 'Übersicht',
+
 	'RSSFeeds'     => 'RSS Feeds',
 	'newItems'     => 'Neue Gegenstände',
 	'changedItems' => 'Geänderte Gegenstände',

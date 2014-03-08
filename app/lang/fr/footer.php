@@ -8,6 +8,9 @@ return array(
 	'armorSets'            => 'Armor Sets',
 	'randomItem'           => 'Random Item',
 
+	'wvw' => 'World versus World',
+	'wvwOverview' => 'Overview',
+	
 	'RSSFeeds'     => 'RSS Feeds',
 	'newItems'     => 'New Items',
 	'changedItems' => 'Changed Items',

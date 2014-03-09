@@ -21,10 +21,10 @@
 						<li><strong>es</strong> - Spanish
 						<li><strong>fr</strong> - French
 					</ul>
-				If you dont provide a language, we will show the widget in the language of the viewer.</td>
+				If you don't provide a language, we will show the widget in the language of the viewer.</td>
 			</tr>
 			<tr><th><code>world_id</code></th>
-				<td>The id of the world that should be displayed. The world will be marked as homeworld. Check <a href="#world_ids">below</a> for a List of all worlds and their id.</td>
+				<td>The id of the world that should be displayed. The world will be marked as homeworld. Check <a href="#world_ids">below</a> for a list of all worlds and their id.</td>
 			</tr>
 		</tbody>
 	</table>

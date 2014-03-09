@@ -5,11 +5,9 @@
 			$maxIncome = max( $match->income[ Match::WORLD_RED ], $match->income[ Match::WORLD_BLUE ], $match->income[ Match::WORLD_GREEN ] );
 			$cssClass  = array( Match::WORLD_GREEN => 'green', Match::WORLD_BLUE => 'blue', Match::WORLD_RED => 'red' )
 		?>
-		<?php  ?>
-
 		@foreach( array( Match::WORLD_GREEN, Match::WORLD_BLUE, Match::WORLD_RED ) as $world )
 			<?php $isHomeworld = isset( $homeworld ) && $homeworld == $match->worlds[ $world ]; ?>
-			<dt><a href="{{ URL::route('wvw.world', array( App::getLocale(), $match->worlds[ $world ]->id )) }}">
+			<dt><a href="{{ URL::route('wvw.world', array( App::getLocale(), $match->worlds[ $world ]->id )) }}"{{ isset( $embedded ) ? ' target="_parent"' : '' }}>
 				{{ $isHomeworld ? '<i class="sprite-16-homeworld"></i> ' : '' }}{{ $match->worlds[ $world ]->getName() }}</a></dt>
 			<dd class="score"><span class="scoreBarLabel">{{ number_format( $match->score[ $world ], 0, '.', ' ' ) }}</span>
 				<div class="scoreBar {{ $cssClass[ $world ] }}" style="width:{{ $match->score[ $world ] / $maxScore * 100 }}%">&nbsp;</div>

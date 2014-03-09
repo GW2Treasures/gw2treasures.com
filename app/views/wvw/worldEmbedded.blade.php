@@ -23,7 +23,7 @@
 			<span><i class="sprite-20-castle-gray"></i></span>
 		</span>
 	</div>
-	@include( 'wvw.smallMatchBox', array( 'match' => $world->matches()->current()->withWorlds()->first(), 'homeworld' => $world ))
+	@include( 'wvw.smallMatchBox', array( 'match' => $world->matches()->current()->withWorlds()->first(), 'homeworld' => $world, 'embedded' => true ))
 </div>
 </body>
 </html>

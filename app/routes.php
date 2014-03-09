@@ -74,6 +74,13 @@ Route::group( array(
 				->nest( 'content', 'dev.icons' )
 				->with( 'title', 'Icons' );
 		}));
+
+		Route::get('doc/embedWorldStats', array(
+			'as' => 'dev.embedWorldStats', function() {
+			return View::make( 'dev' )
+				->nest( 'content', 'dev.embedWorldStats' )
+				->with( 'title', 'Icons' );
+		}));
 	}
 );
 

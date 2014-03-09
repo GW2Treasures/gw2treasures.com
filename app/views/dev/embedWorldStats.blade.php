@@ -7,7 +7,7 @@
 	<iframe src="{{ URL::route('wvw.world.embedded', array( 'en', 1008 )) }}" seamless="seamless" height="120" width="100%" frameborder="0" scrolling="no"></iframe>
 </div>
 <p class="pageWidth">The URL for the widget is:</p>
-<pre class="pageWidth">http://<b>{language}</b>.gw2treasures.de/wvw/world/<b>{world_id}</b>/embedded</pre>
+<pre class="pageWidth">http://<b>{language}</b>.gw2treasures.de/wvw/world/<b>{world_id}</b>/embedded?style=<b>{style}</b></pre>
 
 <div class="pageWidth">
 	<table style="width:100%" class="devTable">
@@ -26,13 +26,16 @@
 			<tr><th><code>world_id</code></th>
 				<td>The id of the world that should be displayed. The world will be marked as homeworld. Check <a href="#world_ids">below</a> for a list of all worlds and their id.</td>
 			</tr>
+			<tr><th><code>style</code></th>
+				<td>Valid styles are <b><code>light</code></b> and <b><code>dark</code></b>. The default style if not specified is <b><code>light</code></b>.</td>
+			</tr>
 		</tbody>
 	</table>
 </div>
 <h3 class="pageWidth">Code</h3>
 <div class="codeWrap">
 	<pre class="pageWidth">
-&lt;iframe src="http://<b>{language}</b>.gw2treasures.de/wvw/world/<b>{world_id}</b>/embedded" seamless="seamless" height="120" width="100%" frameborder="0" scrolling="no"&gt;&lt;/iframe&gt;</pre>
+&lt;iframe src="http://<b>{language}</b>.gw2treasures.de/wvw/world/<b>{world_id}</b>/embedded?style=<b>{style}</b>" seamless="seamless" height="120" width="100%" frameborder="0" scrolling="no"&gt;&lt;/iframe&gt;</pre>
 </div>
 <h3 class="pageWidth" id="world_ids">World ID List</h3>
 <div class="pageWidth">

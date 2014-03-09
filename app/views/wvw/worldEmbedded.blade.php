@@ -10,7 +10,7 @@
 		<link rel="stylesheet" href="//direct.darthmaim-cdn.de/gw2treasures/assets/css/style.css">
 	@endif
 </head>
-<body style="min-width: 500px; min-height: 100px">
+<body class="{{ isset($_GET['style']) && in_array( $_GET['style'], array( 'light', 'dark' )) ? $_GET['style'] : 'light' }}" style="min-width: 500px; min-height: 100px">
 <div class="matchList">
 	<div class="matchListHeader clearfix">
 		<span class="world">{{ trans('wvw.world') }}</span>

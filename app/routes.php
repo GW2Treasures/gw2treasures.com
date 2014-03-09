@@ -137,9 +137,25 @@ Route::group( array(
 		// WVW
 		//================================
 
+		// bind the {item} parameter in routes to the Item model
+		Route::model( 'world', 'World');
+
+		// overview
 		Route::get('wvw', array(
 			'as' => 'wvw',
-			'uses' => 'WVWController@overview'
+			'uses' => 'WvWController@overview'
+		));
+
+		// world info embedded
+		Route::get('wvw/world/{world}/embedded', array(
+			'as' => 'wvw.world.embedded',
+			'uses' => 'WvWController@worldEmbedded'
+		));
+
+		// world info
+		Route::get('wvw/world/{world}', array(
+			'as' => 'wvw.world',
+			'uses' => 'WvWController@world'
 		));
 
 		//================================

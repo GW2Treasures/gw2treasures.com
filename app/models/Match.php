@@ -1,5 +1,7 @@
 <?php
 
+use Carbon\Carbon;
+
 class Match extends BaseModel {
 	const REGION_US = 'us';
 	const REGION_EU = 'eu';
@@ -17,8 +19,30 @@ class Match extends BaseModel {
 		'region', 
 		'objectives',
 		'objectiveCounts',
-		'income'
+		'income',
+		'scores',
+		'worlds'
 	);
+
+	public function red_world()   { return $this->belongsTo('World', 'red_world_id'); }
+	public function blue_world()  { return $this->belongsTo('World', 'blue_world_id'); }
+	public function green_world() { return $this->belongsTo('World', 'green_world_id'); }
+
+	public function scopeWithWorlds( $query ) { 
+		return $query->with('red_world', 'blue_world', 'green_world');
+	}
+
+	public function scopeHasWorld( $query, World $world ) {
+		return $query->  where(   'red_world_id', '=', $world->id )
+		             ->orWhere(  'blue_world_id', '=', $world->id )
+		             ->orWhere( 'green_world_id', '=', $world->id );
+	}
+
+	public function scopeCurrent( $query ) {
+		return $query->where('end_time', '>', Carbon::now());
+	}
+
+
 
 	public function getRegionAttribute() {
 		return $this->match_id[0] == '1' ? self::REGION_US : self::REGION_EU;
@@ -102,21 +126,19 @@ class Match extends BaseModel {
 		return $this->_income;
 	}
 
-	public static function getWorldName( $world_id, $lang = null ) {
-		if( is_null( $lang )) {
-			$lang = App::getLocale();
-		}
+	public function getScoreAttribute() {
+		return array( 
+			self::WORLD_RED   => $this->red_score,
+			self::WORLD_BLUE  => $this->blue_score,
+			self::WORLD_GREEN => $this->green_score
+		);
+	}
 
-		$json = Cache::rememberForever( 'world_names.json?lang=' . $lang, function() use ( $lang ) {
-			return file_get_contents( 'https://api.guildwars2.com/v1/world_names.json?lang=' . $lang );
-		});
-		$worlds = json_decode( $json );
-		foreach( $worlds as $world ) {
-			if( $world->id == $world_id ) {
-				return $world->name;
-			}
-		}
-
-		return 'UNKNOWN';
+	public function getWorldsAttribute() {
+		return array(
+			self::WORLD_RED   => $this->red_world,
+			self::WORLD_BLUE  => $this->blue_world,
+			self::WORLD_GREEN => $this->green_world
+		);
 	}
 }

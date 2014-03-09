@@ -17,7 +17,7 @@ Route::filter( 'setLocale', function( $route, $request ) {
 	$lang = array_key_exists( 'language', $parameters ) ? $parameters[ 'language' ] : '';
 
 	// handle invalid languages
-	if( !in_array( $lang, array( 'de', 'en', 'es', 'fr' )) ) {
+	if( !in_array( $lang, array( 'de', 'en', 'es', 'fr', 'dev' )) ) {
 
 		// check if we have a valid language in the session
 		if (Session::has( 'language' ) && in_array( Session::get( 'language'), array( 'de', 'en', 'es', 'fr' )) ) {
@@ -57,6 +57,25 @@ Route::get('notification/hide/{notification}', array('as' => 'hideNotification',
 Route::group( array('domain' => Config::get('app.domain'), 'before' => 'setLocale'), function() {
 	Route::any('{x}', function() {})->where('x', '.*');
 });
+
+Route::group( array(
+		'domain' => 'dev.' . Config::get('app.domain')
+	), function() {
+		Route::get('/', array(
+			'as' => 'dev', function() {
+			return View::make( 'dev' )
+				->nest( 'content', 'dev.overview' )
+				->with( 'title', 'dev' );
+		}));
+
+		Route::get('doc/icons', array(
+			'as' => 'dev.icons', function() {
+			return View::make( 'dev' )
+				->nest( 'content', 'dev.icons' )
+				->with( 'title', 'Icons' );
+		}));
+	}
+);
 
 // all main routes
 Route::group( array(

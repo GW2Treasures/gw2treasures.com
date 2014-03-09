@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html dir="ltr" xmlns="http://www.w3.org/1999/xhtml" lang="{{ App::getLocale() }}" itemscope itemtype="http://schema.org/WebPage" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html dir="ltr" xmlns="http://www.w3.org/1999/xhtml" lang="{{ App::getLocale() }}" itemscope itemtype="http://schema.org/WebPage" class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html dir="ltr" xmlns="http://www.w3.org/1999/xhtml" lang="{{ App::getLocale() }}" itemscope itemtype="http://schema.org/WebPage" class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html dir="ltr" xmlns="http://www.w3.org/1999/xhtml" lang="{{ App::getLocale() }}" itemscope itemtype="http://schema.org/WebPage" class="no-js"> <!--<![endif]-->
+<!--[if lt IE 7]>      <html dir="ltr" xmlns="http://www.w3.org/1999/xhtml" lang="en" itemscope itemtype="http://schema.org/WebPage" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html dir="ltr" xmlns="http://www.w3.org/1999/xhtml" lang="en" itemscope itemtype="http://schema.org/WebPage" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html dir="ltr" xmlns="http://www.w3.org/1999/xhtml" lang="en" itemscope itemtype="http://schema.org/WebPage" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html dir="ltr" xmlns="http://www.w3.org/1999/xhtml" lang="en" itemscope itemtype="http://schema.org/WebPage" class="no-js"> <!--<![endif]-->
 <head>
 	<meta charset="utf-8">
 	<title>{{ $title }} | GW2 Treasures</title>
@@ -30,13 +30,6 @@
 
 	<!-- modernizr -->
 	<script src="{{ Helper::cdn('assets/js/vendor/modernizr-3.0.0.min.js') }}"></script>
-
-	<!-- alternate versions in different languages -->
-	<link rel="alternate" hreflang="x-default" href="//{{    Config::get('app.domain') . Request::getRequestUri() }}" />
-	<link rel="alternate" hreflang="de"        href="//de.{{ Config::get('app.domain') . Request::getRequestUri() }}" />
-	<link rel="alternate" hreflang="en"        href="//en.{{ Config::get('app.domain') . Request::getRequestUri() }}" />
-	<link rel="alternate" hreflang="es"        href="//es.{{ Config::get('app.domain') . Request::getRequestUri() }}" />
-	<link rel="alternate" hreflang="fr"        href="//fr.{{ Config::get('app.domain') . Request::getRequestUri() }}" />
 </head>
 <body>
 	<div id="wrapper">
@@ -67,7 +60,7 @@
 
 		<!-- content -->
 		<div id="content">
-			<div class="pageWidth">{{ $content }}</div>
+			{{ $content }}
 		</div>
 
 		<!-- footer -->
@@ -103,10 +96,10 @@
 				</ul>
 			<li>{{ trans('footer.language') }}
 				<ul>
-					<li><a hreflang="de" rel="alternate" href="//de.{{ Config::get('app.domain') . Request::getRequestUri() }}">{{ trans('footer.german') }}</a>
-					<li><a hreflang="en" rel="alternate" href="//en.{{ Config::get('app.domain') . Request::getRequestUri() }}">{{ trans('footer.english') }}</a>
-					<li><a hreflang="es" rel="alternate" href="//es.{{ Config::get('app.domain') . Request::getRequestUri() }}">{{ trans('footer.spanish') }}</a>
-					<li><a hreflang="fr" rel="alternate" href="//fr.{{ Config::get('app.domain') . Request::getRequestUri() }}">{{ trans('footer.french') }}</a>
+					<li><a hreflang="de" rel="alternate" href="//de.{{ Config::get('app.domain') }}/">{{ trans('footer.german') }}</a>
+					<li><a hreflang="en" rel="alternate" href="//en.{{ Config::get('app.domain') }}/">{{ trans('footer.english') }}</a>
+					<li><a hreflang="es" rel="alternate" href="//es.{{ Config::get('app.domain') }}/">{{ trans('footer.spanish') }}</a>
+					<li><a hreflang="fr" rel="alternate" href="//fr.{{ Config::get('app.domain') }}/">{{ trans('footer.french') }}</a>
 				</ul>
 		</ul></nav>
 		<p class="pageWidth legalNotice">{{ trans('footer.legalNotice1') }}</p>

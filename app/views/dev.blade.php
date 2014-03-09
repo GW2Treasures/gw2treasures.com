@@ -5,7 +5,7 @@
 <!--[if gt IE 8]><!--> <html dir="ltr" xmlns="http://www.w3.org/1999/xhtml" lang="en" itemscope itemtype="http://schema.org/WebPage" class="no-js"> <!--<![endif]-->
 <head>
 	<meta charset="utf-8">
-	<title>{{ $title }} | GW2 Treasures</title>
+	<title>{{ $title }} | Dev | GW2 Treasures</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 

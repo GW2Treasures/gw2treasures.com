@@ -65,7 +65,7 @@ Route::group( array(
 			'as' => 'dev', function() {
 			return View::make( 'dev' )
 				->nest( 'content', 'dev.overview' )
-				->with( 'title', 'dev' );
+				->with( 'title', 'Overview' );
 		}));
 
 		Route::get('doc/icons', array(
@@ -79,7 +79,7 @@ Route::group( array(
 			'as' => 'dev.embedWorldStats', function() {
 			return View::make( 'dev' )
 				->nest( 'content', 'dev.embedWorldStats' )
-				->with( 'title', 'Icons' );
+				->with( 'title', 'Embedding WvW World Stats' );
 		}));
 	}
 );

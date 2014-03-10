@@ -17,7 +17,7 @@ Route::filter( 'setLocale', function( $route, $request ) {
 	$lang = array_key_exists( 'language', $parameters ) ? $parameters[ 'language' ] : '';
 
 	// handle invalid languages
-	if( !in_array( $lang, array( 'de', 'en', 'es', 'fr', 'dev' )) ) {
+	if( !in_array( $lang, array( 'de', 'en', 'es', 'fr' )) ) {
 
 		// check if we have a valid language in the session
 		if (Session::has( 'language' ) && in_array( Session::get( 'language'), array( 'de', 'en', 'es', 'fr' )) ) {
@@ -46,6 +46,29 @@ Route::filter( 'setLocale', function( $route, $request ) {
 	// save the language in the session
 	Session::put( 'language', $lang );
 });
+Route::filter( 'setLocaleDev', function( $route, $request ) {
+	if (Session::has( 'language' ) && in_array( Session::get( 'language'), array( 'de', 'en', 'es', 'fr' )) ) {
+		$lang = Session::get( 'language');
+	} else {
+		// get the prefered language for the visitor
+		$lang = Helper::prefered_language( array('en', 'de', 'es', 'fr') );
+
+		// show a notification that we changed the language
+		Notification::Add( 'language', Lang::get( 'notifications.autoLanguage', array('language' => Lang::get( 'notifications.language.' . $lang )) ) );
+	}
+
+	// set locale
+	App::setLocale( $lang );
+
+	// handle changed language
+	if( Session::has( 'language' ) && Session::get( 'language') != $lang ) {
+		// hide the autodetected language notification if its there
+		Notification::Remove( 'language' );
+	}
+
+	// save the language in the session
+	Session::put( 'language', $lang );
+});
 
 // route to hide notifications
 Route::get('notification/hide/{notification}', array('as' => 'hideNotification', function( $notification ) {
@@ -59,7 +82,8 @@ Route::group( array('domain' => Config::get('app.domain'), 'before' => 'setLocal
 });
 
 Route::group( array(
-		'domain' => 'dev.' . Config::get('app.domain')
+		'domain' => 'dev.' . Config::get('app.domain'),
+		'before' => 'setLocaleDev'
 	), function() {
 		Route::get('/', array(
 			'as' => 'dev', function() {

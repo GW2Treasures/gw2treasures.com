@@ -43,8 +43,14 @@
 		<header id="header" class="clearfix">
 			<div class="pageWidth">
 				<h1 class="floatLeft"><a href="/">GW2 Treasures</a></h1>
-				{{ Form::open( array( 'method' => 'GET', 'route' => array('search', App::getLocale() )) ) }}
-					{{ Form::text( 'q', null, array('placeholder' => 'Search' )) }}
+
+				<a class="headerButton" href="{{ URL::route('search', App::getLocale()) }}">{{ trans('header.items') }}</a>
+				<a class="headerButton" href="{{ URL::route('wvw', App::getLocale()) }}">{{ trans('header.wvw') }}</a>
+
+				{{ Form::open( array( 'method' => 'GET', 'route' => array('search', App::getLocale()), 'class' => 'searchForm', 'role' => 'search' )) }}
+					<label for='q'><i class="sprite-16-search"></i></label>
+					{{ Form::text( 'q', null, array('placeholder' => trans( 'header.search' ), 'aria-label' => trans( 'header.search' ), 'id' => 'q' )) }}
+					{{ Form::submit( trans( 'header.search' ), array( 'class' => 'submit' )) }}
 				{{ Form::close() }}
 			</div>
 		</header>
@@ -66,7 +72,7 @@
 		</ul>
 
 		<!-- content -->
-		<div id="content">
+		<div id="content" role="main">
 			<div class="pageWidth">{{ $content }}</div>
 		</div>
 
@@ -75,7 +81,7 @@
 	</div>
 
 	<footer id="footer" class="clearfix">
-		<nav><ul id="footerList" class="pageWidth">
+		<nav role="navigation"><ul id="footerList" class="pageWidth">
 			<li><a href="{{ URL::route('search', App::getLocale()) }}">{{ trans('footer.items') }}</a>
 				<ul>
 					<li><a href="#" class="inactive">{{ trans('footer.recentlyAddedItems') }}</a>
@@ -113,8 +119,8 @@
 					<li><a hreflang="fr" rel="alternate" href="//fr.{{ Config::get('app.domain') . Request::getRequestUri() }}">{{ trans('footer.french') }}</a>
 				</ul>
 		</ul></nav>
-		<p class="pageWidth legalNotice">{{ trans('footer.legalNotice1') }}</p>
-		<p class="pageWidth legalNotice">{{ trans('footer.legalNotice2') }}</p>
+		<p class="pageWidth legalNotice" role="contentinfo">{{ trans('footer.legalNotice1') }}</p>
+		<p class="pageWidth legalNotice" role="contentinfo">{{ trans('footer.legalNotice2') }}</p>
 		<div class="pageWidth legalNotice" style="margin-top: 2em">
 			<div class="g-plusone" style="float:left" data-size="small" data-href="http://gw2treasures.de/"></div>
 

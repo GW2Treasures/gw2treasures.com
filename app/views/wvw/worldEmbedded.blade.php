@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="no-js">
 <head>
-	<title></title>
+	<title>{{ $world->getName() }} | Embedded WvW World Stats | GW2 Treasures</title>
 	<link rel="stylesheet" href="{{ Helper::cdn('assets/css/normalize.min.css') }}">
 	<link rel="stylesheet" href="{{ Helper::cdn('assets/css/main.css') }}">
 	@if( App::environment('production') )
@@ -25,7 +25,7 @@
 	</div>
 	@include( 'wvw.smallMatchBox', array( 'match' => $world->matches()->current()->withWorlds()->first(), 'homeworld' => $world, 'embedded' => true ))
 </div>
-@if( App::environment( 'production' ))
+@if( App::environment( 'production' ) && !isset( $_GET['notrack'] ))
 	<!-- google analytics -->
 	<script>
 		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

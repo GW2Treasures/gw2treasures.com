@@ -2,6 +2,6 @@
 
 return array(
 	'items'  => 'Items',
-	'wvw'    => 'WvW',
+	'wvw'    => 'World versus World',
 	'search' => 'Search'
 );

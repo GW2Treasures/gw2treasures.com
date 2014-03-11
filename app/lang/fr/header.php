@@ -1,7 +1,7 @@
 <?php
 
 return array(
-	'items'  => 'Items',
-	'wvw'    => 'WvW',
+	'items'  => 'Objets',
+	'wvw'    => 'Monde contre Monde',
 	'search' => 'Rechercher'
 );

@@ -1,7 +1,7 @@
 <?php 
 
 return array(
-	'defense' =>'Defense',
+	'defense' =>'Défense',
 	'weaponStrength' => 'Weapon Strength',
 	'duration' => 'Duration',
 
@@ -138,10 +138,11 @@ return array(
 	'unusedDefensiveInfusionSlot' => 'Unused Defensive Infusion Slot',
 	'unusedUtilityInfusionSlot' => 'Unused Utility Infusion Slot',
 	
-	'requiredLevel' => 'Required level',
+	'requiredLevel' => 'Niveau requis',
+	'requiredRace' => 'Race requise',
 
 	'AccountBound' => 'Account Bound',
-	'SoulbindOnAcquire' => 'Soulbound',
+	'SoulbindOnAcquire' => 'Lié à l\'âme dès l\'acquisition',
 	'SoulBindOnUse' => 'Soulbound on use',
 
 	'unique' => 'Unique',

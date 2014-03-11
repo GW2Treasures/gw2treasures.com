@@ -1,7 +1,7 @@
 <?php 
 
 return array(
-	'defense' =>'Defense',
+	'defense' =>'Defensa',
 	'weaponStrength' => 'Weapon Strength',
 	'duration' => 'Duration',
 
@@ -14,23 +14,23 @@ return array(
 	'attribute' => array(
 		'AgonyResistance'   => 'Agony Resistance',
 		'BoonDuration'      => 'Boon Duration',
-		'ConditionDamage'   => 'Condition Damage',
+		'ConditionDamage'   => 'Daño de condición',
 		'ConditionDuration' => 'Condition Duration',
 		'CritDamage'        => 'Critical Damage',
 		'Healing'           => 'Healing Power',
 		'MagicFind'         => 'Magic Find',
-		'Power'             => 'Power',
+		'Power'             => 'Potencia',
 		'Precision'         => 'Precision',
 		'Toughness'         => 'Toughness',
-		'Vitality'          => 'Vitality',
+		'Vitality'          => 'Vitalidad',
 	),
 
 	'rarity' => array(
 		'Basic'      => 'Basic',
 		'Fine'       => 'Fine',
 		'Masterwork' => 'Masterwork',
-		'Rare'       => 'Rare',
-		'Exotic'     => 'Exotic',
+		'Rare'       => 'Excepcional',
+		'Exotic'     => 'Exótico',
 		'Ascended'   => 'Ascended',
 		'Junk'       => 'Junk',
 		'Legendary'  => 'Legendary'
@@ -56,7 +56,7 @@ return array(
 	'subtype' => array(
 		'Armor' => array(
 			'Coat'        => 'Coat', 
-			'Boots'       => 'Boots', 
+			'Boots'       => 'Armadura de pie', 
 			'Helm'        => 'Helm', 
 			'Shoulders'   => 'Shoulders', 
 			'Gloves'      => 'Gloves', 
@@ -127,21 +127,22 @@ return array(
 	),
 
 	'weight' => array(
-		'Light' => 'Light',
+		'Light' => 'Ligero',
 		'Medium' => 'Medium',
 		'Heavy' => 'Heavy',
 	),
 
-	'unusedUpgradeSlot' => 'Unused Upgrade Slot',
+	'unusedUpgradeSlot' => 'Espacio para mejoras no utilizado',
 
 	'unusedOffensiveInfusionSlot' => 'Unused Offensive Infusion Slot',
 	'unusedDefensiveInfusionSlot' => 'Unused Defensive Infusion Slot',
 	'unusedUtilityInfusionSlot' => 'Unused Utility Infusion Slot',
 	
-	'requiredLevel' => 'Required level',
+	'requiredLevel' => 'Nivel necesario',
+	'requiredRace' => 'Requiere raza',
 
 	'AccountBound' => 'Account Bound',
-	'SoulbindOnAcquire' => 'Soulbound',
+	'SoulbindOnAcquire' => 'Ligado al adquirirlo',
 	'SoulBindOnUse' => 'Soulbound on use',
 
 	'unique' => 'Unique',

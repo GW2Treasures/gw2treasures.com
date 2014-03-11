@@ -138,10 +138,11 @@ return array(
 	'unusedDefensiveInfusionSlot' => 'Unused Defensive Infusion Slot',
 	'unusedUtilityInfusionSlot' => 'Unused Utility Infusion Slot',
 
-	'requiredLevel' => 'Required level',
+	'requiredLevel' => 'Required Level',
+	'requiredRace' => 'Requires Race',
 
 	'AccountBound' => 'Account Bound',
-	'SoulbindOnAcquire' => 'Soulbound',
+	'SoulbindOnAcquire' => 'Soulbound on Acquire',
 	'SoulBindOnUse' => 'Soulbound on use',
 
 	'unique' => 'Unique',

@@ -138,7 +138,8 @@ return array(
 	'unusedDefensiveInfusionSlot' => 'Freier Infusionsplatz (Defensiv)',
 	'unusedUtilityInfusionSlot' => 'Freier Infusionsplatz (Hilfe)',
 
-	'requiredLevel' => 'Erforderliches Level',
+	'requiredLevel' => 'Erforderliche Stufe',
+	'requiredRace' => 'Erforderliches Volk',
 
 	'AccountBound' => 'Accountgebunden',
 	'SoulbindOnAcquire' => 'Seelengebunden',

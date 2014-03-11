@@ -5,6 +5,8 @@ return array(
 	'weaponStrength' => 'Weapon Strength',
 	'duration' => 'Duration',
 
+	'pvp' => 'PvP',
+
 	'upgradeFor' => 'Upgrade in',
 	'craftedFrom' => 'Crafted from',
 	'usedInCrafting' => 'Used in crafting',

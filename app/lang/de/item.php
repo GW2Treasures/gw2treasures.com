@@ -5,6 +5,8 @@ return array(
 	'weaponStrength' => 'Waffenstärke',
 	'duration' => 'Dauer',
 
+	'pvp' => 'PvP',
+
 	'upgradeFor' => 'Aufwertung in',
 	'craftedFrom' => 'Herstellung',
 	'usedInCrafting' => 'Verwendung',

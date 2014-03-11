@@ -3,7 +3,13 @@
 class Item extends BaseModel {
 	private $d = array();
 
-	public function getName( $lang = null ) { return $this->localized( 'name', $lang ); }
+	public function getName( $lang = null ) { 
+		$name = $this->localized( 'name', $lang );
+		if( $this->isPvP() ) {
+			$name = trans('item.pvp') . ' ' . $name;
+		}
+		return $name;
+	}
 
 	public function getDescription( $lang = null ) {
 		$description = $this->getData( $lang )->description;
@@ -36,6 +42,8 @@ class Item extends BaseModel {
 	}
 	public function getFlags( ) { return $this->getData()->flags; }
 	public function hasFlag( $flag ) { return in_array( $flag, $this->getFlags() ); }
+
+	public function isPvP() { return $this->getData()->game_types == array( 'Pvp', 'PvpLobby' ); }
 
 	private $si;
 	public function getSuffixItem( ) {

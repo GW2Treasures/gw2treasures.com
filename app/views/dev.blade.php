@@ -22,7 +22,7 @@
 	@endif
 
 	<!-- fonts -->
-	<link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,300,700|Open+Sans:400,300,600,700|Open+Sans+Condensed:300|Droid+Sans+Mono|Droid+Serif' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:700|Open+Sans:400,300,600,700|Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
 
 	<!-- favicons -->
 	<link rel="icon" href="{{ Helper::cdn('assets/img/favicon.png') }}" type="image/png" />

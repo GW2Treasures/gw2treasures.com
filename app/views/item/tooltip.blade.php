@@ -71,6 +71,11 @@
 	{{ trans( 'item.requiredLevel' )}}: {{ $item->level }}<br>
 @endunless
 
+{{-- requires race --}}
+@if( count( $item->getData()->restrictions ) > 0 )
+	{{ trans( 'item.requiresRace' )}}: {{ implode(', ', array_map( function( $race ) { return trans('item.race.' . $race ); }, $item->getData()->restrictions )) }}<br>
+@endunless
+
 {{-- description --}}
 @unless( $item->getDescription() == '' )
 	<p>{{ $item->getDescription() }}</p>

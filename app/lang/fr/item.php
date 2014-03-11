@@ -141,7 +141,15 @@ return array(
 	'unusedUtilityInfusionSlot' => 'Unused Utility Infusion Slot',
 	
 	'requiredLevel' => 'Niveau requis',
-	'requiredRace' => 'Race requise',
+	'requiresRace' => 'Race requise',
+
+	'race' => array(
+		'Asura'   => 'Asura',
+		'Charr'   => 'Charr',
+		'Human'   => 'Humain',
+		'Norn'    => 'Norn',
+		'Sylvari' => 'Sylvari'
+	),
 
 	'AccountBound' => 'Account Bound',
 	'SoulbindOnAcquire' => 'Lié à l\'âme dès l\'acquisition',

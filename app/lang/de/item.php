@@ -141,7 +141,15 @@ return array(
 	'unusedUtilityInfusionSlot' => 'Freier Infusionsplatz (Hilfe)',
 
 	'requiredLevel' => 'Erforderliche Stufe',
-	'requiredRace' => 'Erforderliches Volk',
+	'requiresRace' => 'Erforderliches Volk',
+
+	'race' => array(
+		'Asura'   => 'Asura',
+		'Charr'   => 'Charr',
+		'Human'   => 'Mensch',
+		'Norn'    => 'Norn',
+		'Sylvari' => 'Sylvari'
+	),
 
 	'AccountBound' => 'Accountgebunden',
 	'SoulbindOnAcquire' => 'Seelengebunden',

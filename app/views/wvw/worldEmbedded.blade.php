@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html class="no-js">
+<html dir="ltr" xmlns="http://www.w3.org/1999/xhtml" lang="{{ App::getLocale() }}" class="no-js">
 <head>
+	<meta charset="utf-8">
 	<title>{{ $world->getName() }} | Embedded WvW World Stats | GW2 Treasures</title>
+	
 	<link rel="stylesheet" href="{{ Helper::cdn('assets/css/normalize.min.css') }}">
 	<link rel="stylesheet" href="{{ Helper::cdn('assets/css/main.css') }}">
 	@if( App::environment('production') )

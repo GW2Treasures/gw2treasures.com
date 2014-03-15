@@ -3,5 +3,8 @@
 return array(
 	'items'  => 'Objetos',
 	'wvw'    => 'Mundo contra mundo',
-	'search' => 'Buscar'
+	'search' => array(
+		'label'  => 'Buscar',
+		'items'  => 'Items',
+		'recent' => 'Searched recently' ),
 );

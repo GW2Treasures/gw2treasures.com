@@ -71,14 +71,29 @@ class ItemController extends BaseController {
 	public function searchAutocomplete( $language ) {
 		$searchTerm = trim( Input::get('q') );
 
-		//$items = Item::search( $searchTerm )->take( 10 )->get();
-		$items = Item::searchQuery( DB::table( 'items' ), $searchTerm )
-			->select( 'id', 'name_' . $language . ' as name', 'file_id', 'signature' )
-			->take( 10 )
-			->get();
+		if(( $chatlink = Chatlink::TryDecode( $searchTerm )) !== false ) {
+			switch( $chatlink->type ) {
+				case Chatlink::TYPE_ITEM:
+					$items = array( DB::table( 'items' )->select( 'id', 'name_' . $language . ' as name', 'file_id', 'signature' )->find( $chatlink->id ));
+					break;
+				case Chatlink::TYPE_RECIPE:
+					$recipe = Recipe::find( $chatlink->id );
+					$items = array( DB::table( 'items' )->select( 'id', 'name_' . $language . ' as name', 'file_id', 'signature' )->find( $recipe->output_id ));
+					break;
+			}
+		} else {
+			$items = Item::searchQuery( DB::table( 'items' ), $searchTerm )
+				->select( 'id', 'name_' . $language . ' as name', 'file_id', 'signature' )
+				->take( 10 )
+				->get();
+		}
 		
+		//dd( $items );
+
 		foreach ($items as $item) {
-			$item->icon = Helper::cdn( 'icons/' . $item->signature . '/' . $item->file_id . '-32px.png', $item->file_id );
+			$item->icon16 = Helper::cdn( 'icons/' . $item->signature . '/' . $item->file_id . '-16px.png', $item->file_id );
+			$item->icon32 = Helper::cdn( 'icons/' . $item->signature . '/' . $item->file_id . '-32px.png', $item->file_id );
+			$item->icon64 = Helper::cdn( 'icons/' . $item->signature . '/' . $item->file_id . '-64px.png', $item->file_id );
 			unset( $item->file_id );
 			unset( $item->signature );
 		}

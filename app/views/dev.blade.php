@@ -37,10 +37,16 @@
 			<div class="pageWidth">
 				<h1 class="floatLeft"><a href="/">dev</a>.<a href="http://{{ Config::get('app.domain') }}/">GW2 Treasures</a></h1>
 				
-				{{ Form::open( array( 'method' => 'GET', 'route' => array('search', App::getLocale()), 'class' => 'searchForm', 'role' => 'search' )) }}
+				{{ Form::open( array( 'method' => 'GET', 'route' => array('search', App::getLocale()), 'class' => 'searchForm', 'role' => 'search', 'id' => 'search' ), 'test') }}
 					<label for='q'><i class="sprite-16-search"></i></label>
-					{{ Form::text( 'q', null, array('placeholder' => trans( 'header.search' ), 'aria-label' => trans( 'header.search' ), 'id' => 'q' )) }}
-					{{ Form::submit( trans( 'header.search' ), array( 'class' => 'submit' )) }}
+					{{ Form::text( 'q', null, array('placeholder' => trans( 'header.search.label' ), 'aria-label' => trans( 'header.search.label' ), 'id' => 'q', 'autocomplete' => 'off' )) }}
+					<div id="searchSuggestionbox">
+						<header>{{ trans('header.search.items') }}</header>
+						<ul id="searchSuggestionItems"></ul>
+						<header>{{ trans('header.search.recent') }}</header>
+						<ul id="searchSuggestionRecent"></ul>
+					</div>
+					{{ Form::submit( trans( 'header.search.label' ), array( 'class' => 'submit' )) }}
 				{{ Form::close() }}
 			</div>
 		</header>

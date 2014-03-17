@@ -9,4 +9,8 @@ class BaseModel extends Eloquent {
 		             ->orderBy( DB::raw( 'RAND()' ))
 		             ->limit( $count );
 	}
+
+	public function __toString() {
+		return '[Model (' . get_class( $this ) . ': ' . $this->attributes[ $this->primaryKey ] . ')]';
+	}
 }

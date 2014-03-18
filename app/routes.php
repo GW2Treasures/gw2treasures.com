@@ -71,7 +71,7 @@ Route::filter( 'setLocaleDev', function( $route, $request ) {
 });
 
 // route to hide notifications
-Route::get('notification/hide/{notification}', array('as' => 'hideNotification', function( $notification ) {
+Route::get( 'notification/hide/{notification}', array('as' => 'hideNotification', function( $notification ) {
 	Notification::Remove( $notification );
 	return Redirect::to( Input::get( 'return', '/' ) );
 }));

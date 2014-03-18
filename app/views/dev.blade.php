@@ -142,6 +142,7 @@
 		@endif
 	</footer>
 	
+	
 	<div id="scripts">
 		@if( App::environment('production') )
 			<!-- google analytics -->
@@ -161,6 +162,8 @@
         <script>window.jQuery || document.write('<script src="{{ Helper::cdn('assets/js/vendor/jquery-1.10.1.min.js') }}"><\/script>')</script>
 
 		<!-- my own js -->
+		<script type="text/javascript" src="http://storage.gw2treasures.de/storage.js"></script>
+		
 		@if( App::environment('production') )
         	<script src="{{ Helper::cdn('assets/js/plugins.js') }}"></script>
 			<script src="{{ Helper::cdn('assets/js/main.js') }}"></script>
@@ -174,17 +177,6 @@
 				cache.clear();
 			</script>
 		@endif
-
-		<!-- g+ -->
-		<script type="text/javascript">
-		  window.___gcfg = {lang: '{{ App::getLocale() }}' };
-
-		  (function() {
-		    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-		    po.src = 'https://apis.google.com/js/platform.js';
-		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-		  })();
-		</script>
 	</div>
 </body>
 </html>

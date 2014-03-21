@@ -2,8 +2,21 @@
 
 	class Recipe extends BaseModel {
 		protected $primaryKey = 'recipe_id';
-		private $d = null;
 
+		protected $appends = array( 
+			'totalIngredients'
+		); 
+
+
+		public function getTotalIngredientsAttribute() {
+			$ingredients = 0;
+			foreach( $this->getIngredientCounts() as $count ) {
+				$ingredients += $count > 0 ? 1 : 0;
+			}
+			return $ingredients;
+		}
+
+		private $d = null;
 		public function getData( ) {
 			if( is_null( $this->d ) ) {
 				$this->d = json_decode( $this->data );

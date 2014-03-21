@@ -4,8 +4,7 @@ class ItemController extends BaseController {
 
 	protected $layout = 'layout';
 
-	public function showDetails( $language, Item $item )
-	{
+	public function showDetails( $language, Item $item ) {
 		$key = 'itemdetails-' . $language . '-' . $item->id;
 
 		if( Cache::has( $key ) && !isset( $_GET['nocache'] )) {
@@ -21,6 +20,10 @@ class ItemController extends BaseController {
 
 			Cache::forever( $key, $content );
 		}
+	}
+
+	public function json( $language, Item $item ) {
+		return Response::json( $item->getData() );
 	}
 
 	public function random( $language ) {

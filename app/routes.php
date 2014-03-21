@@ -153,6 +153,12 @@ Route::group( array(
 			'uses' => 'ItemController@tooltip'
 		));
 
+		// json
+		Route::get('item/{item}/json', array(
+			'as' => 'itemJSON',
+			'uses' => 'ItemController@json'
+		));
+
 		// search
 		Route::get('search', array(
 			'as' => 'search', 

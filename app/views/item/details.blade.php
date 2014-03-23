@@ -3,16 +3,16 @@
 	<h2>{{ $item->getName( ) }}</h2>
 	<nav>
 		@if( App::getLocale() != 'de' )
-			<div class="lang">[<span title="Deutsch"  class='langCode'>de</span>] <a rel="alternate" hreflang="de" href="{{ $item->getUrl('de') }}">{{ $item->getName( 'de' ) }}</a></div>
+			<div class="lang">[<span title="Deutsch"  class='langCode'>de</span>] <a rel="alternate" hreflang="de" href="{{ $item->getUrl('de') }}" data-item-id="{{ $item->id }}">{{ $item->getName( 'de' ) }}</a></div>
 		@endif
 		@if( App::getLocale() != 'en' )
-			<div class="lang">[<span title="English"  class='langCode'>en</span>] <a rel="alternate" hreflang="en" href="{{ $item->getUrl('en') }}">{{ $item->getName( 'en' ) }}</a></div>
+			<div class="lang">[<span title="English"  class='langCode'>en</span>] <a rel="alternate" hreflang="en" href="{{ $item->getUrl('en') }}" data-item-id="{{ $item->id }}">{{ $item->getName( 'en' ) }}</a></div>
 		@endif
 		@if( App::getLocale() != 'es' )
-			<div class="lang">[<span title="Español"  class='langCode'>es</span>] <a rel="alternate" hreflang="es" href="{{ $item->getUrl('es') }}">{{ $item->getName( 'es' ) }}</a></div>
+			<div class="lang">[<span title="Español"  class='langCode'>es</span>] <a rel="alternate" hreflang="es" href="{{ $item->getUrl('es') }}" data-item-id="{{ $item->id }}">{{ $item->getName( 'es' ) }}</a></div>
 		@endif
 		@if( App::getLocale() != 'fr' )
-			<div class="lang">[<span title="Français" class='langCode'>fr</span>] <a rel="alternate" hreflang="fr" href="{{ $item->getUrl('fr') }}">{{ $item->getName( 'fr' ) }}</a></div>
+			<div class="lang">[<span title="Français" class='langCode'>fr</span>] <a rel="alternate" hreflang="fr" href="{{ $item->getUrl('fr') }}" data-item-id="{{ $item->id }}">{{ $item->getName( 'fr' ) }}</a></div>
 		@endif
 	</nav>
 </header>

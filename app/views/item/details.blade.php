@@ -83,13 +83,19 @@
 			return strcmp( $a->getName(), $b->getName() );
 		});
 	?>
-	<h3>{{ trans('item.similar') }}</h3>
+	<h3 id="similar">{{ trans('item.similar') }}</h3>
 	<ul class="similarItems">
-		@foreach ( $similarItems as $similarItem )
+		@for( $i = 0; $i < count( $similarItems ) && ( count( $similarItems ) < 20 || $i < 9 || isset( $_GET['showSimilar'] )); $i++ )
+			<?php $similarItem = $similarItems[ $i ] ?>
 			<li><a data-item-id="{{ $similarItem->id }}" href="{{ $similarItem->getUrl() }}">
 				<img src="{{ $similarItem->getIconUrl( 32 ) }}" width="32" height="32" alt="">
 				{{ $similarItem->getName() }}
 			</a>
-		@endforeach
+		@endfor
+		@if( count( $similarItems ) >= 20 && !isset( $_GET['showSimilar'] ))
+			<li><a href="{{ URL::route('itemdetails', array(App::getLocale(), $item->id, 'showSimilar')) }}#similar">
+				<span style="display:inline-block; width:32px; height:32px; vertical-align: middle"></span>
+				{{ trans( 'item.showMoreSimilarItems', array( 'count' => count( $similarItems ) - 9 )) }}</a>
+		@endif
 	</ul>
 @endif

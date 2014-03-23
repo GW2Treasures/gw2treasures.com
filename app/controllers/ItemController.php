@@ -5,13 +5,12 @@ class ItemController extends BaseController {
 	protected $layout = 'layout';
 
 	public function showDetails( $language, Item $item ) {
-		$key = 'itemdetails-' . $language . '-' . $item->id;
+		$key = 'itemdetails-' . $language . '-' . $item->id . ( isset( $_GET['showSimilar'] ) ? '-showSimilar' : '' );
 
 		if( Cache::has( $key ) && !isset( $_GET['nocache'] )) {
 			$this->layout->content = Cache::get( $key );
 			$this->layout->title = $item->getName( );
 			$this->layout->cached = true;
-
 		} else {
 			$content = View::make( 'item.details', array( 'item' => $item ))->render();
 

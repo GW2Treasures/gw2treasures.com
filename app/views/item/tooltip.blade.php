@@ -59,6 +59,9 @@
 {{-- infusions --}}
 @include( 'item.infusions' )
 
+{{-- color --}}
+@include( 'item.color' )
+
 {{-- rarity --}}
 @unless( $item->rarity == 'Basic' )
 	{{ trans( 'item.rarity.' . $item->rarity ) }}<br>

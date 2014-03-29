@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
+  <ShortName>GW2 Treasures</ShortName>
+  <Description>Search GW2 Treasures</Description>
+  <Tags>gw2treasures gw2 guildwars2 guildwars item items recipe recipes crafting database treasures</Tags>
+  <Url type="text/html" template="http://gw2treasures.de/search?q={searchTerms}"/>
+  <Image height="512" width="512" type="image/png">http://callisto.darthmaim-cdn.de/gw2treasures/assets/img/logo.png</Image>
+  <Image height="32" width="32" type="image/x-icon">http://en.gw2treasures.de/favicon.ico</Image>
+  <AdultContent>false</AdultContent>
+  <Language>de</Language>
+  <Language>en</Language>
+  <Language>es</Language>
+  <Language>fr</Language>
+  <OutputEncoding>UTF-8</OutputEncoding>
+  <InputEncoding>UTF-8</InputEncoding>
+</OpenSearchDescription>

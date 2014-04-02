@@ -9,6 +9,8 @@
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 
+	<meta name="gw2treasures:domain" content="{{ Config::get('app.domain') }}">
+
 	<meta itemprop="name" content="GW2 Treasures: The Guild Wars 2 Item Database">
 	<meta itemprop="image" content="{{ Helper::cdn('assets/img/logo.png') }}">
 
@@ -22,11 +24,14 @@
 	@endif
 
 	<!-- fonts -->
-	<link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:700|Open+Sans:400,300,600,700|Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+	<link href="http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:700|Open+Sans:400,300,600,700|Open+Sans+Condensed:300" rel="stylesheet" type="text/css">
 
 	<!-- favicons -->
 	<link rel="icon" href="{{ Helper::cdn('assets/img/favicon.png') }}" type="image/png" />
 	<link rel="shortcut icon" href="/favicon.ico" />
+
+	<!-- opensearch -->
+	<link rel="search" href="//{{ Config::get('app.domain') }}/opensearch.xml" type="application/opensearchdescription+xml" title="Search">
 
 	<!-- modernizr -->
 	<script src="{{ Helper::cdn('assets/js/vendor/modernizr-3.0.0.min.js') }}"></script>
@@ -47,7 +52,7 @@
 				<a class="headerButton" href="{{ URL::route('search', App::getLocale()) }}">{{ trans('header.items') }}</a>
 				<a class="headerButton" href="{{ URL::route('wvw', App::getLocale()) }}">{{ trans('header.wvw') }}</a>
 
-				{{ Form::open( array( 'method' => 'GET', 'route' => array('search', App::getLocale()), 'class' => 'searchForm', 'role' => 'search', 'id' => 'search' ), 'test') }}
+				{{ Form::open( array( 'method' => 'GET', 'route' => array('search', App::getLocale()), 'class' => 'searchForm', 'role' => 'search', 'id' => 'search' )) }}
 					<label for='q'><i class="sprite-16-search"></i></label>
 					{{ Form::text( 'q', null, array('placeholder' => trans( 'header.search.label' ), 'aria-label' => trans( 'header.search.label' ), 'id' => 'q', 'autocomplete' => 'off' )) }}
 					<div id="searchSuggestionbox">

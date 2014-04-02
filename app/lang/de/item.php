@@ -12,6 +12,7 @@ return array(
 	'usedInCrafting' => 'Verwendung',
 	'unlocks' => 'Freischaltung',
 	'similar' => 'Ähnlich',
+	'showMoreSimilarItems' => 'Zeige :count mehr ähnliche Gegenstände…',
 
 	'attribute' => array(
 		'AgonyResistance'   => 'Qual-Widerstand',

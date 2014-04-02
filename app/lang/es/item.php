@@ -12,6 +12,7 @@ return array(
 	'usedInCrafting' => 'Used in crafting',
 	'unlocks' => 'Unlocks',
 	'similar' => 'Similar',
+	'showMoreSimilarItems' => 'Show :count more similar items…',
 
 	'attribute' => array(
 		'AgonyResistance'   => 'Agony Resistance',

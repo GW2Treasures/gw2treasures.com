@@ -200,6 +200,16 @@ Route::group( array(
 		// STUFF
 		//================================
 
+		// colors
+		Route::get('colors', array(
+			'as' => 'colors',
+			function() {
+				return View::make( 'layout' )
+					->nest( 'content', 'colors' )
+					->with( 'title', 'Colors' );
+			}
+		));
+
 		// contact
 		Route::get('contact', array(
 			'as' => 'contact',

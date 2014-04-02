@@ -79,7 +79,9 @@
 
 		<!-- content -->
 		<div id="content" role="main">
-			<div class="pageWidth">{{ $content }}</div>
+			<div class="{{ isset( $fullWidth ) && $fullWidth === true ? '' : 'pageWidth' }}">
+			{{ $content }}
+			</div>
 		</div>
 
 		<!-- footer -->

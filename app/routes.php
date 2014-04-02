@@ -119,7 +119,8 @@ Route::group( array(
 		Route::get('/', function() {
 			return View::make( 'layout' )
 				->nest( 'content', 'start' )
-				->with( 'title', 'Welcome!' );
+				->with( 'title', 'Welcome!' )
+				->with( 'fullWidth', true );
 		});
 		
 		//================================

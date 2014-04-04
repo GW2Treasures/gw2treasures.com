@@ -5,7 +5,7 @@ class Item extends BaseModel {
 
 	public function getName( $lang = null ) { 
 		$name = $this->localized( 'name', $lang );
-		if( $this->isPvP() && !str_contains( strtolower($name), 'pvp' )) {
+		if( $this->isPvP() && !str_contains( strtolower($name), ' pvp ' )) {
 			$name = trans('item.pvp') . ' ' . $name;
 		}
 		return $name;

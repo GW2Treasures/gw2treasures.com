@@ -9,12 +9,10 @@ class Helper {
         'titan.darthmaim-cdn.de',
         'triton.darthmaim-cdn.de'
     );
-    private static $cdn_counter = 0;
 
     public static function cdn( $path, $server = null ) {
         if( is_null( $server ) ) {
-            self::$cdn_counter++;
-            $server = ( self::$cdn_counter / 6 );
+            $server = abs(crc32( $path ));
         }
         $server %= count( self::$cdn_servers );
         return '//' . self::$cdn_servers[ $server ] . '/gw2treasures/' . $path;

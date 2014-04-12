@@ -1,7 +1,7 @@
 <?php
 
 return array(
-	'overview' => 'WvW Übersicht',
+	'overview' => 'WvW-Übersicht',
 
 	'world'  => 'Welt',
 	'score'  => 'Punkte',

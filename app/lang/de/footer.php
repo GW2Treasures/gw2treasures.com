@@ -1,22 +1,22 @@
-<?php 
+<?php
 
 return array(
 	'items'                => 'Gegenstände',
 	'recentlyAddedItems'   => 'Kürzlich hinzugefügte Gegenstände',
 	'recentlyChangedItems' => 'Kürzlich geänderte Gegenstände',
-	'weaponSets'           => 'Waffen Sets',
-	'armorSets'            => 'Rüstungs Sets',
+	'weaponSets'           => 'Waffensets',
+	'armorSets'            => 'Rüstungssets',
 	'randomItem'           => 'Zufälliger Gegenstand',
 
 	'wvw' => 'Welt gegen Welt',
 	'wvwOverview' => 'Übersicht',
 
-	'RSSFeeds'     => 'RSS Feeds',
+	'RSSFeeds'     => 'RSS-Feeds',
 	'newItems'     => 'Neue Gegenstände',
 	'changedItems' => 'Geänderte Gegenstände',
 
 	'developer'        => 'Entwickler',
-	'APIDocumentation' => 'API Dokumentation',
+	'APIDocumentation' => 'API-Dokumentation',
 
 	'about'      => 'Über',
 	'statistics' => 'Statistiken',

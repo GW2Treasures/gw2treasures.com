@@ -5,6 +5,6 @@ return array(
 	'wvw'    => 'Mundo contra mundo',
 	'search' => array(
 		'label'  => 'Buscar',
-		'items'  => 'Items',
-		'recent' => 'Searched recently' ),
+		'items'  => 'Objetos',
+		'recent' => 'Recientemente buscado' ),
 );

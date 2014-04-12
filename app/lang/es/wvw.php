@@ -1,14 +1,14 @@
 <?php
 
 return array(
-	'overview' => 'WvW Overview',
+	'overview' => 'McM perspectiva general',
 
-	'world'  => 'World',
-	'score'  => 'Points',
-	'income' => 'Potential Points',
-	'castle' => 'Stonemist Castle',
-	'keep'   => 'Keeps',
-	'tower'  => 'Towers',
-	'camp'   => 'Camps',
-	'ruin'   => 'Ruins'
+	'world'  => 'Mundo',
+	'score'  => 'Puntos',
+	'income' => 'Puntos hipotéticos',
+	'castle' => 'Castillo Piedraniebla',
+	'keep'   => 'Fortalezas',
+	'tower'  => 'Torres',
+	'camp'   => 'Campamentos',
+	'ruin'   => 'Ruinas'
 );

@@ -1,17 +1,17 @@
 <?php 
 
 return array(
-	'defense' =>'Défense',
+	'defense'        => 'Défense',
 	'weaponStrength' => 'Weapon Strength',
-	'duration' => 'Duration',
+	'duration'       => 'Duration',
 
 	'pvp' => 'PvP',
 
-	'upgradeFor' => 'Upgrade in',
-	'craftedFrom' => 'Crafted from',
+	'upgradeFor'     => 'Upgrade in',
+	'craftedFrom'    => 'Crafted from',
 	'usedInCrafting' => 'Used in crafting',
-	'unlocks' => 'Unlocks',
-	'similar' => 'Similar',
+	'unlocks'        => 'Unlocks',
+	'similar'        => 'Similar',
 	'showMoreSimilarItems' => 'Show :count more similar items…',
 
 	'attribute' => array(
@@ -130,19 +130,19 @@ return array(
 	),
 
 	'weight' => array(
-		'Light' => 'Light',
+		'Light'  => 'Light',
 		'Medium' => 'Medium',
-		'Heavy' => 'Heavy',
+		'Heavy'  => 'Heavy',
 	),
 
 	'unusedUpgradeSlot' => 'Unused Upgrade Slot',
 
 	'unusedOffensiveInfusionSlot' => 'Unused Offensive Infusion Slot',
 	'unusedDefensiveInfusionSlot' => 'Unused Defensive Infusion Slot',
-	'unusedUtilityInfusionSlot' => 'Unused Utility Infusion Slot',
+	'unusedUtilityInfusionSlot'   => 'Unused Utility Infusion Slot',
 	
 	'requiredLevel' => 'Niveau requis',
-	'requiresRace' => 'Race requise',
+	'requiresRace'  => 'Race requise',
 
 	'race' => array(
 		'Asura'   => 'Asura',
@@ -152,13 +152,13 @@ return array(
 		'Sylvari' => 'Sylvari'
 	),
 
-	'AccountBound' => 'Account Bound',
+	'AccountBound'      => 'Account Bound',
 	'SoulbindOnAcquire' => 'Lié à l\'âme dès l\'acquisition',
-	'SoulBindOnUse' => 'Soulbound on use',
+	'SoulBindOnUse'     => 'Soulbound on use',
 
 	'unique' => 'Unique',
 
-	'gold' => 'Gold',
+	'gold'   => 'Gold',
 	'silver' => 'Silver',
 	'copper' => 'Copper',
 );

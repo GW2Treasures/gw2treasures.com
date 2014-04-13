@@ -1,17 +1,17 @@
 <?php 
 
 return array(
-	'defense' => 'Verteidigung',
+	'defense'        => 'Verteidigung',
 	'weaponStrength' => 'Waffenstärke',
-	'duration' => 'Dauer',
+	'duration'       => 'Dauer',
 
 	'pvp' => 'PvP',
 
-	'upgradeFor' => 'Aufwertung in',
-	'craftedFrom' => 'Herstellung',
+	'upgradeFor'     => 'Aufwertung in',
+	'craftedFrom'    => 'Herstellung',
 	'usedInCrafting' => 'Verwendung',
-	'unlocks' => 'Freischaltung',
-	'similar' => 'Ähnlich',
+	'unlocks'        => 'Freischaltung',
+	'similar'        => 'Ähnlich',
 	'showMoreSimilarItems' => 'Zeige :count mehr ähnliche Gegenstände…',
 
 	'attribute' => array(
@@ -130,19 +130,19 @@ return array(
 	),
 
 	'weight' => array(
-		'Light' => 'Leicht',
+		'Light'  => 'Leicht',
 		'Medium' => 'Medium',
-		'Heavy' => 'Schwer',
+		'Heavy'  => 'Schwer',
 	),
 
 	'unusedUpgradeSlot' => 'Freier Aufwertungsplatz',
 
 	'unusedOffensiveInfusionSlot' => 'Freier Infusionsplatz (Offensiv)',
 	'unusedDefensiveInfusionSlot' => 'Freier Infusionsplatz (Defensiv)',
-	'unusedUtilityInfusionSlot' => 'Freier Infusionsplatz (Hilfe)',
+	'unusedUtilityInfusionSlot'   => 'Freier Infusionsplatz (Hilfe)',
 
 	'requiredLevel' => 'Erforderliche Stufe',
-	'requiresRace' => 'Erforderliches Volk',
+	'requiresRace'  => 'Erforderliches Volk',
 
 	'race' => array(
 		'Asura'   => 'Asura',
@@ -152,13 +152,13 @@ return array(
 		'Sylvari' => 'Sylvari'
 	),
 
-	'AccountBound' => 'Accountgebunden',
+	'AccountBound'      => 'Accountgebunden',
 	'SoulbindOnAcquire' => 'Seelengebunden',
-	'SoulBindOnUse' => 'Bei Benutzung seelengebunden',
+	'SoulBindOnUse'     => 'Bei Benutzung seelengebunden',
 
 	'unique' => 'Einzigartig',
 
-	'gold' => 'Gold',
+	'gold'   => 'Gold',
 	'silver' => 'Silber',
 	'copper' => 'Kupfer',
 );

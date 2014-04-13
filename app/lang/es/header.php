@@ -2,7 +2,7 @@
 
 return array(
 	'items'  => 'Objetos',
-	'wvw'    => 'Mundo contra mundo',
+	'wvw'    => 'Mundo contra Mundo',
 	'search' => array(
 		'label'  => 'Buscar',
 		'items'  => 'Objetos',

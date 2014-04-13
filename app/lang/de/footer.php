@@ -8,7 +8,7 @@ return array(
 	'armorSets'            => 'Rüstungssets',
 	'randomItem'           => 'Zufälliger Gegenstand',
 
-	'wvw' => 'Welt gegen Welt',
+	'wvw'         => 'Welt gegen Welt',
 	'wvwOverview' => 'Übersicht',
 
 	'RSSFeeds'     => 'RSS-Feeds',
@@ -25,12 +25,12 @@ return array(
 	'bugtracker' => 'Bugtracker',
 	'contact'    => 'Kontakt',
 
-	'language' => 'Language',
+	'language' => 'Sprache',
 	'german'   => 'Deutsch',
 	'english'  => 'English',
 	'spanish'  => 'Español',
 	'french'   => 'Français',
 
 	'legalNotice1' => 'This site is not affiliated with ArenaNet, Guild Wars 2, or any of their partners. All copyrights reserved to their respective owners.',
-	'legalNotice2' => '© 2013 ArenaNet, Inc. All rights reserved. NCsoft, the interlocking NC logo, ArenaNet, Guild Wars, Guild Wars Factions, Guild Wars Nightfall, Guild Wars: Eye of the North, Guild Wars 2, and all associated logos and designs are trademarks or registered trademarks of NCsoft Corporation. All other trademarks are the property of their respective owners.',
+	'legalNotice2' => '© 2014 ArenaNet, Inc. Alle Rechte vorbehalten. NCsoft, das ineinandergreifende NC-Logo, ArenaNet, Guild Wars, Guild Wars Factions, Guild Wars Nightfall, Guild Wars: Eye of the North, Guild Wars 2 und alle damit in Verbindung stehenden Logos und Designs sind Warenzeichen oder eingetragene Warenzeichen der NCsoft Corporation. Alle anderen Warenzeichen sind das Eigentum ihrer jeweiligen Rechteinhaber.',
 );

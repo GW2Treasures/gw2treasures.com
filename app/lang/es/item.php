@@ -1,17 +1,17 @@
 <?php 
 
 return array(
-	'defense' =>'Defensa',
+	'defense'        => 'Defensa',
 	'weaponStrength' => 'Weapon Strength',
-	'duration' => 'Duration',
+	'duration'       => 'Duration',
 
 	'pvp' => 'PvP',
 
-	'upgradeFor' => 'Upgrade in',
-	'craftedFrom' => 'Crafted from',
+	'upgradeFor'     => 'Upgrade in',
+	'craftedFrom'    => 'Crafted from',
 	'usedInCrafting' => 'Used in crafting',
-	'unlocks' => 'Unlocks',
-	'similar' => 'Similar',
+	'unlocks'        => 'Unlocks',
+	'similar'        => 'Similar',
 	'showMoreSimilarItems' => 'Show :count more similar items…',
 
 	'attribute' => array(
@@ -130,19 +130,19 @@ return array(
 	),
 
 	'weight' => array(
-		'Light' => 'Ligero',
+		'Light'  => 'Ligero',
 		'Medium' => 'Medium',
-		'Heavy' => 'Heavy',
+		'Heavy'  => 'Heavy',
 	),
 
 	'unusedUpgradeSlot' => 'Espacio para mejoras no utilizado',
 
 	'unusedOffensiveInfusionSlot' => 'Unused Offensive Infusion Slot',
 	'unusedDefensiveInfusionSlot' => 'Unused Defensive Infusion Slot',
-	'unusedUtilityInfusionSlot' => 'Unused Utility Infusion Slot',
+	'unusedUtilityInfusionSlot'   => 'Unused Utility Infusion Slot',
 	
 	'requiredLevel' => 'Nivel necesario',
-	'requiresRace' => 'Requiere raza',
+	'requiresRace'  => 'Requiere raza',
 
 	'race' => array(
 		'Asura'   => 'Asura',

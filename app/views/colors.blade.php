@@ -1,4 +1,21 @@
-<?php $colors = Color::all(); ?>
+<?php 
+	$colors = Color::all();
+
+	$colors->sort( function( $a, $b ) {
+		$hueA = $a->getData('en')->leather->hue % 360;
+		$hueB = $b->getData('en')->leather->hue % 360;
+		$brightnessA = $a->getData('en')->leather->brightness;
+		$brightnessB = $b->getData('en')->leather->brightness;
+
+		$dHue = $hueA - $hueB;
+		$dBrightness = $brightnessB - $brightnessA;
+
+		if( abs($dBrightness) > 7 ) {
+			return $dBrightness;
+		}
+		return $dHue;
+	});
+?>
 <table style="width:100%">
 	<thead>
 		<tr>

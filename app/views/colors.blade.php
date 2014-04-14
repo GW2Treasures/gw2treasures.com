@@ -13,10 +13,10 @@
 		@foreach( $colors as $color )
 			<tr>
 				<th>{{ $color->getName() }}</th>
-				<!--<td style="padding:5px;color:{{ Color::readableForecolor($color->base_rgb) }};background-color:#{{ Color::toColor($color->base_rgb) }}">#{{ Color::toColor($color->base_rgb) }}</td>-->
-				<td style="padding:5px;color:{{ Color::readableForecolor($color->cloth_rgb) }};background-color:#{{ Color::toColor($color->cloth_rgb) }}">#{{ Color::toColor($color->cloth_rgb) }}</td>
-				<td style="padding:5px;color:{{ Color::readableForecolor($color->leather_rgb) }};background-color:#{{ Color::toColor($color->leather_rgb) }}">#{{ Color::toColor($color->leather_rgb) }}</td>
-				<td style="padding:5px;color:{{ Color::readableForecolor($color->metal_rgb) }};background-color:#{{ Color::toColor($color->metal_rgb) }}">#{{ Color::toColor($color->metal_rgb) }}</td>
+				<!--<td style="padding:5px;color:{{ Color::isDark($color->base_rgb) ? '#FFF' : '#111' }};background-color:#{{ Color::toHex($color->base_rgb) }}">#{{ Color::toHex($color->base_rgb) }}</td>-->
+				<td style="padding:5px;color:{{ Color::isDark($color->cloth_rgb) ? '#FFF' : '#111' }};background-color:#{{ Color::toHex($color->cloth_rgb) }}">#{{ Color::toHex($color->cloth_rgb) }}</td>
+				<td style="padding:5px;color:{{ Color::isDark($color->leather_rgb) ? '#FFF' : '#111' }};background-color:#{{ Color::toHex($color->leather_rgb) }}">#{{ Color::toHex($color->leather_rgb) }}</td>
+				<td style="padding:5px;color:{{ Color::isDark($color->metal_rgb) ? '#FFF' : '#111' }};background-color:#{{ Color::toHex($color->metal_rgb) }}">#{{ Color::toHex($color->metal_rgb) }}</td>
 			</tr>
 		@endforeach
 	</tbody>

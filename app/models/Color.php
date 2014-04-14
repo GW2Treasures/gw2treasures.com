@@ -8,17 +8,17 @@ class Color extends BaseModel {
 		return $this->{ 'name_' . $lang };
 	}
 
-	public static function toColor( $c ) {
+	public static function toHex( $c ) {
 		return substr( '000000'.dechex( $c ), -6 );
 	}
 
-	public static function readableForecolor( $c ) {
+	public static function isDark( $c ) {
 		$r = $c >> 16 & 0xFF;
 		$g = $c >>  8 & 0xFF;
 		$b = $c >>  0 & 0xFF;
 
 		$contrast = sqrt($r * $r * .241 + $g * $g * .691 + $b * $b * .068);
 
-		return $contrast > 130 ? '#111' : '#EEE';
+		return $contrast <= 130;
 	}
 }

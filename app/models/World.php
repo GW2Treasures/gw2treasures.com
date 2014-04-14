@@ -2,10 +2,7 @@
 
 class World extends BaseModel {
 	public function getName( $lang = null ) {
-		if( is_null( $lang )) {
-			$lang = App::getLocale();
-		}
-		return $this->{ 'name_' . $lang };
+		return $this->localized( 'name', $lang );
 	}
 
 	public function matches() {

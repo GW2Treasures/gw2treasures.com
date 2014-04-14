@@ -309,21 +309,6 @@ class Item extends BaseModel {
 		return $attributes;
 	}
 
-	private function localized( $property, $lang ) {
-		if( is_null( $lang ) ) $lang = App::getLocale();
-		if( $lang != 'de' && $lang != 'en' && 
-			$lang != 'es' && $lang != 'fr' )
-			return 'Invalid language: ' . $lang;
-		$localizedProperty = $property . '_' . $lang;
-		if( isset($this->{$localizedProperty}) ) {
-			return $this->{$localizedProperty};
-		} else if ( isset($this->{$property}) ) {
-			return 'Property is not localized: ' . $property;
-		} else {
-			return 'Unknown property: ' . $property;
-		}
-	}
-
 	//----
 
 	public function getAttributeIsPercentual( $attribute ) {

@@ -1,6 +1,7 @@
 <?php
 
 class Item extends BaseModel {
+	private static $i;
 	private $d = array();
 
 	public function getName( $lang = null ) { 
@@ -19,7 +20,7 @@ class Item extends BaseModel {
 		return $description;
 	}
 
-	public function getData( $lang = null ) { 
+	public function getData( $lang = null ) {
 		if ( !array_key_exists( $lang, $this->d ) ) {
 			$this->d[ $lang ] = json_decode( 
 				str_replace( array( '<br>' ),
@@ -28,6 +29,7 @@ class Item extends BaseModel {
 		}
 		return $this->d[ $lang ];
 	}
+
 	public function getTypeData( $lang = null) {
 		switch( $this->type ) {
 			case 'CraftingMaterial' : $t = 'crafting_material'; break;
@@ -115,6 +117,8 @@ class Item extends BaseModel {
 			}
 		});
 
+		$query->where('data_en','!=','');
+
 		return $query;
 	}
 
@@ -184,6 +188,7 @@ class Item extends BaseModel {
 	public function getSimilarItems() {
 		$that = $this;
 		return Item::where( 'id', '!=', $this->id )
+				   ->where('data_en','!=','')
 		           ->where( function( $query ) use ( $that ) {
 		            	return $query->where( 'name_de', '=', $that->getName( 'de' ))
 		            	           ->orWhere( 'name_en', '=', $that->getName( 'en' ))

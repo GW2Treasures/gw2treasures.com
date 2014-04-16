@@ -219,5 +219,15 @@ Route::group( array(
 					->with( 'title', 'Contact' );
 			}
 		));
+
+		// contact
+		Route::get('about', array(
+			'as' => 'about',
+			function() {
+				return View::make( 'layout' )
+					->nest( 'content', 'about' )
+					->with( 'title', 'About' );
+			}
+		));
 	}
 );

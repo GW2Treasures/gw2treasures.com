@@ -23,8 +23,14 @@ class Chatlink {
 		$this->id = $id;
 
 		$chatlink  = $this->type;
-		$chatlink .= chr( $this->id & 255 );
-		$chatlink .= chr( $this->id >> 8 );
+
+		$chatlink .= chr( $id & 0xFF );
+		$id >>= 8;
+		do {
+			$chatlink .= chr( $id & 0xFF );
+			$id >>= 8;
+		} while( $id != 0 );
+
 		$chatlink .= chr(0).chr(0);
 		$this->chatlink = '[&' . base64_encode( $chatlink ) . ']';
 	}
@@ -38,7 +44,7 @@ class Chatlink {
 
 	public static function Decode( $chatlink ) {
 		$matches = array();
-		if( preg_match( '/\\[&([A-Za-z0-9+]+=*)\\]/', $chatlink, $matches )) {
+		if( preg_match( '/\\[&([A-Za-z0-9+\/]+=*)\\]/', $chatlink, $matches )) {
 			$code = base64_decode( $matches[1] );
 
 			$index = 0;
@@ -51,7 +57,17 @@ class Chatlink {
 				}
 			}
 
-			$id  = ord( $code[ $index + 1 ] ) << 8 | ord( $code[ $index + 0 ] );
+			$id   = 0;
+			$i    = 0;
+			do {
+				$current = ord( $code[ $index + $i ] );
+				$next1 = ord( $code[ $index + $i + 1 ] );
+				$next2 = ord( $code[ $index + $i + 2 ] );
+
+				$id |= $current << ( 8 * $i );
+
+				$i++;
+			} while( $next1 != 0 || $next2 != 0 );
 
 			return new Chatlink( $type, $id );
 		} else {

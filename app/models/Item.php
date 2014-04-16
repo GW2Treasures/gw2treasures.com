@@ -209,7 +209,7 @@ class Item extends BaseModel {
 		            	            	         ->where( 'rarity',  '=', $that->rarity )
 		            	            	         ->where( 'value',   '=', $that->value )
 		            	            	         ->where( 'level',   '=', $that->level ); } );
-		            	})->get();
+		            	})->take(500)->get();
 	}
 
 	//----

@@ -49,7 +49,11 @@ class Item extends BaseModel {
 
 	private $si;
 	public function getSuffixItem( ) {
-		return isset($si) ? $si : ($si = Item::find( $this->getTypeData()->suffix_item_id ) ); 
+		return isset($this->si) ? $this->si : ($this->si = Item::find( $this->getTypeData()->suffix_item_id ) ); 
+	}
+	private $si2;
+	public function getSecondarySuffixItem( ) {
+		return isset($this->si2) ? $this->si2 : ($this->si2 = Item::find( $this->getTypeData()->secondary_suffix_item_id ) ); 
 	}
 
 	public function getUrl( $lang = null ) {
@@ -89,7 +93,8 @@ class Item extends BaseModel {
 	}
 
 	public function scopeHasUpgrade( $query, Item $item ) {
-		return $query->where( 'suffix_item_id', '=', $item->id );
+		return $query->  where( 'suffix_item_id',           '=', $item->id )
+		             ->orWhere( 'secondary_suffix_item_id', '=', $item->id );
 	}
 
 	public static function searchQuery( $query, $term, $or = false ) {

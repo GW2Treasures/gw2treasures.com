@@ -19,7 +19,7 @@ return array(
 		'BoonDuration'      => 'Segensdauer',
 		'ConditionDamage'   => 'Zustandsschaden',
 		'ConditionDuration' => 'Zustandsdauer',
-		'CritDamage'        => 'Kritischer Schaden',
+		'CritDamage'        => 'Wildheit',
 		'Healing'           => 'Heilkraft',
 		'MagicFind'         => 'Magisches Gespür',
 		'Power'             => 'Kraft',

@@ -19,7 +19,7 @@ return array(
 		'BoonDuration'      => 'Boon Duration',
 		'ConditionDamage'   => 'Condition Damage',
 		'ConditionDuration' => 'Condition Duration',
-		'CritDamage'        => 'Critical Damage',
+		'CritDamage'        => 'Ferocity',
 		'Healing'           => 'Healing Power',
 		'MagicFind'         => 'Magic Find',
 		'Power'             => 'Power',

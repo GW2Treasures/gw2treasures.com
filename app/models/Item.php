@@ -326,7 +326,6 @@ class Item extends BaseModel {
 			'AgonyResistance',
 			'BoonDuration',
 			'ConditionDuration',
-			'CritDamage',
 			'Damage'
 		));
 	}

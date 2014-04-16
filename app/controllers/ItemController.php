@@ -87,11 +87,13 @@ class ItemController extends BaseController {
 			$items = Item::search( $searchTerm )->take( 10 )->get();
 		}
 		
-		//dd( $items );
 		$response = new stdClass();
 		$response->items = array();
 
 		foreach ( $items as $item ) {
+			if( is_null($item) ) {
+				continue;
+			}
 			$i = new stdClass();
 			$i->id = $item->id;
 			$i->name = $item->getName();

@@ -97,10 +97,10 @@
 		<nav role="navigation"><ul id="footerList" class="pageWidth">
 			<li><a href="{{ URL::route('search', App::getLocale()) }}">{{ trans('footer.items') }}</a>
 				<ul>
-					<li><a href="#" class="inactive">{{ trans('footer.recentlyAddedItems') }}</a>
-					<li><a href="#" class="inactive">{{ trans('footer.recentlyChangedItems') }}</a>
-					<li><a href="#" class="inactive">{{ trans('footer.weaponSets') }}</a>
-					<li><a href="#" class="inactive">{{ trans('footer.armorSets') }}</a>
+					<li><a href="#">{{ trans('footer.recentlyAddedItems') }}</a>
+					<li><a href="#">{{ trans('footer.recentlyChangedItems') }}</a>
+					<li><a href="#">{{ trans('footer.weaponSets') }}</a>
+					<li><a href="#">{{ trans('footer.armorSets') }}</a>
 					<li><a href="{{ URL::route('randomitem', App::getLocale()) }}">{{ trans('footer.randomItem') }}</a>
 				</ul>
 			<li><a href="{{ URL::route('wvw', App::getLocale()) }}">{{ trans('footer.wvw') }}</a>
@@ -109,18 +109,18 @@
 				</ul>
 			<li>{{ trans('footer.RSSFeeds') }}
 				<ul>
-					<li><a href="#" class="inactive">{{ trans('footer.newItems') }}</a>
-					<li><a href="#" class="inactive">{{ trans('footer.changedItems') }}</a>
+					<li><a href="#">{{ trans('footer.newItems') }}</a>
+					<li><a href="#">{{ trans('footer.changedItems') }}</a>
 				</ul>
 			<li><a href="{{ URL::route('dev') }}" class="">{{ trans('footer.developer') }}</a>
 				<ul>
-					<li><a href="#" class="inactive">{{ trans('footer.APIDocumentation') }}</a>
+					<li><a href="#">{{ trans('footer.APIDocumentation') }}</a>
 				</ul>
-			<li><a href="#" class="inactive">{{ trans('footer.about') }}</a>
+			<li><a href="{{ URL::route('about', App::getLocale()) }}">{{ trans('footer.about') }}</a>
 				<ul>
-					<li><a href="#" class="inactive">{{ trans('footer.statistics') }}</a>
-					<li><a href="#" class="inactive">{{ trans('footer.changelog') }}</a>
-					<li><a href="#" class="inactive">{{ trans('footer.terms') }}</a>
+					<li><a href="#">{{ trans('footer.statistics') }}</a>
+					<li><a href="#">{{ trans('footer.changelog') }}</a>
+					<li><a href="#">{{ trans('footer.terms') }}</a>
 					<li><a href="https://github.com/darthmaim/gw2treasures-webinterface/issues">{{ trans('footer.bugtracker') }}</a>
 					<li><a href="{{ URL::route('contact', App::getLocale()) }}">{{ trans('footer.contact') }}</a>
 				</ul>

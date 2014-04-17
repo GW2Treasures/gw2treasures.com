@@ -20,6 +20,7 @@ return array(
 		'ConditionDamage'   => 'Daño de condición',
 		'ConditionDuration' => 'Condition Duration',
 		'CritDamage'        => 'Ferocity',
+		'Ferocity'          => 'Ferocity',
 		'Healing'           => 'Healing Power',
 		'MagicFind'         => 'Magic Find',
 		'Power'             => 'Potencia',

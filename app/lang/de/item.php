@@ -20,6 +20,7 @@ return array(
 		'ConditionDamage'   => 'Zustandsschaden',
 		'ConditionDuration' => 'Zustandsdauer',
 		'CritDamage'        => 'Wildheit',
+		'Ferocity'          => 'Wildheit',
 		'Healing'           => 'Heilkraft',
 		'MagicFind'         => 'Magisches Gespür',
 		'Power'             => 'Kraft',

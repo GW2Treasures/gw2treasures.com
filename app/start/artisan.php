@@ -13,3 +13,4 @@
 
 Artisan::add( new LoadColorsCommand );
 Artisan::add( new LoadSkinsCommand );
+Artisan::add( new ItemSetSkinCommand );

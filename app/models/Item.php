@@ -81,15 +81,19 @@ class Item extends BaseModel {
 	//---- Relations
 
 	public function recipes() {
-		return $this->hasMany('Recipe', 'output_id');
+		return $this->hasMany( 'Recipe', 'output_id' );
 	}
 
 	public function unlocks() {
-		return $this->belongsTo('Recipe', 'unlock_id', 'recipe_id');
+		return $this->belongsTo( 'Recipe', 'unlock_id', 'recipe_id' );
 	}
 
 	public function ingredientForRecipes() {
 		return Recipe::hasIngredient( $this )->withAll();
+	}
+
+	public function unlocksSkin() {
+		return $this->belongsTo( 'Skin', 'skin_id', 'id' );
 	}
 
 	public function scopeHasUpgrade( $query, Item $item ) {

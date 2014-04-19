@@ -12,3 +12,4 @@
 */
 
 Artisan::add( new LoadColorsCommand );
+Artisan::add( new LoadSkinsCommand );

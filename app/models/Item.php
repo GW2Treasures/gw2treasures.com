@@ -207,6 +207,9 @@ class Item extends BaseModel {
 		            	            	return $q->where( 'signature', '=', $that->signature )
 		            	            	         ->where( 'file_id',   '=', $that->file_id ); } )
 		            	           ->orWhere( function( $q ) use ( $that ) {
+		            	            	return $q->where( 'skin_id', '!=', '0' )
+		            	            	         ->where( 'skin_id', '=', $that->skin_id ); } )
+		            	           ->orWhere( function( $q ) use ( $that ) {
 		            	            	return $q->where( 'type',    '=', $that->type )
 		            	            	         ->where( 'subtype', '=', $that->subtype )
 		            	            	         ->where( 'weight',  '=', $that->weight )

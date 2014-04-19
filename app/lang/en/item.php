@@ -14,6 +14,8 @@ return array(
 	'similar'        => 'Similar',
 	'showMoreSimilarItems' => 'Show :count more similar items…',
 
+	'unlocksSkin' => 'Unlocks skin',
+
 	'attribute' => array(
 		'AgonyResistance'   => 'Agony Resistance',
 		'BoonDuration'      => 'Boon Duration',

@@ -38,4 +38,8 @@ class Skin extends BaseModel {
 
 		return Helper::cdn( 'icons/' . $this->signature . '/' . $this->file_id . '-' . $size . 'px.png', $this->file_id );
 	}
+
+	public function items() {
+		return $this->hasMany( 'Item', 'skin_id' );
+	}
 }

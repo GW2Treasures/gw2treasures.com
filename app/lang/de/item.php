@@ -14,6 +14,8 @@ return array(
 	'similar'        => 'Ähnlich',
 	'showMoreSimilarItems' => 'Zeige :count mehr ähnliche Gegenstände…',
 
+	'unlocksSkin' => 'Freigeschalteter Skin',
+
 	'attribute' => array(
 		'AgonyResistance'   => 'Qual-Widerstand',
 		'BoonDuration'      => 'Segensdauer',

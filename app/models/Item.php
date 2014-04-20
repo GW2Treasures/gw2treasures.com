@@ -265,6 +265,7 @@ class Item extends BaseModel {
 			return array();
 		$attributes = array();
 		foreach ($infixUpgrade->attributes as $attribute) {
+			$attribute->attribute = str_replace( 'CritDamage', 'Ferocity', $attribute->attribute );
 			$attributes[ $attribute->attribute ] = $attribute->modifier;
 		}
 		return $attributes;
@@ -290,7 +291,7 @@ class Item extends BaseModel {
 				$attribute = $matches[2];
 				$modifier = intval( str_replace( array('+', '%'), array(' ', ' '), $modifier ) );
 				$attribute = str_replace( array( 'Critical Damage', 'Healing Power', ' ' ),
-				                          array( 'CritDamage',      'Healing',       '' ), 
+				                          array( 'Ferocity',        'Healing',       ''  ), 
 				                          $attribute );
 				$attributes[ $attribute ] = $modifier; 
 			} else {

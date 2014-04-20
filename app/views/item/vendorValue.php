@@ -4,7 +4,7 @@
 	}
 
 	$gold = floor( $vendorValue / 10000);
-	$silver = floor( ($vendorValue % 1000) / 100 );
+	$silver = floor(( $vendorValue % 10000 ) / 100 );
 	$copper = $vendorValue % 100;
 
 	$out = '<span class="money" data-value="' . $vendorValue . '">';

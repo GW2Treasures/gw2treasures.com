@@ -62,9 +62,15 @@
 {{-- color --}}
 @include( 'item.color' )
 
+{{-- skin --}}
 @unless( $item->skin_id == 0 )
 	{{ trans( 'item.unlocksSkin' ) }}: 
-	<a href="{{ URL::route('skin.details', array( App::getLocale(), $item->unlocksSkin->id )) }}">{{ $item->unlocksSkin->getName() }}</a><br>
+	@if( !is_null( $item->unlocksSkin ))
+		<a href="{{ URL::route('skin.details', array( App::getLocale(), $item->unlocksSkin->id )) }}">{{ $item->unlocksSkin->getName() }}</a>
+	@else
+		Unknown ({{ $item->skin_id }})
+	@endif
+	<br>
 @endunless
 
 {{-- rarity --}}

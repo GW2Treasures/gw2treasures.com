@@ -27,14 +27,25 @@ class LoadSkinsCommand extends Command {
 		$this->info( 'loading skins.json' );
 
 		$skins = json_decode( file_get_contents( 'https://api.guildwars2.com/v1/skins.json' ), true );
+		$skins = $skins['skins'];
 
-		$count = count( $skins['skins'] );
+		$count = count( $skins );
 		$this->info( $count . ' skins loaded' );
+
+
+		$this->info( 'loading known skins from database' );
+		$knownSkins = DB::table('skins')->lists( 'id' );
+		$this->info( count( $knownSkins ) . ' already known' );
+
 		$this->info( 'loading skin_details.json' );
 
 		$data = array();
 
-		foreach( $skins['skins'] as $i => $id ) {
+		foreach( $skins as $i => $id ) {
+			if( in_array( $id, $knownSkins )) {
+				continue;
+			}
+
 			$de = json_decode( file_get_contents( 'https://api.guildwars2.com/v1/skin_details.json?lang=de&skin_id=' . $id ), true );
 			$en = json_decode( file_get_contents( 'https://api.guildwars2.com/v1/skin_details.json?lang=en&skin_id=' . $id ), true );
 			$es = json_decode( file_get_contents( 'https://api.guildwars2.com/v1/skin_details.json?lang=es&skin_id=' . $id ), true );

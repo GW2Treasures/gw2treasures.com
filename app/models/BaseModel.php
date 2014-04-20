@@ -1,6 +1,8 @@
 <?php
 
 class BaseModel extends Eloquent {
+	public $timestamps = false;
+
 	public function scopeRandom( $query, $count = 1 ) {
 		$count = max( 1, $count );
 		$table = $this->getTable();

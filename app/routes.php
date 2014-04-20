@@ -172,6 +172,39 @@ Route::group( array(
 		));
 
 		//================================
+		// Skins
+		//================================
+
+		// bind the {skin} parameter in routes to the Item model
+		Route::bind( 'skin', function( $id, $route ) {
+			$skin = Skin::find( $id );
+			if( is_null( $skin )) {
+				throw new SkinNotFoundException( $id );
+			}
+			return $skin;
+		});
+
+		Route::get('skin', array(
+			'as' => 'skin',
+			'uses' => 'SkinController@overview'
+		));
+
+		Route::get('skin/armor', array(
+			'as' => 'skin.armor',
+			'uses' => 'SkinController@armor'
+		));
+
+		Route::get('skin/weapon', array(
+			'as' => 'skin.weapon',
+			'uses' => 'SkinController@weapon'
+		));
+
+		Route::get('skin/{skin}', array(
+			'as' => 'skin.details',
+			'uses' => 'SkinController@details'
+		));
+
+		//================================
 		// WVW
 		//================================
 

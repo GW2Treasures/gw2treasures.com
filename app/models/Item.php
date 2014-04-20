@@ -84,15 +84,19 @@ class Item extends BaseModel {
 	//---- Relations
 
 	public function recipes() {
-		return $this->hasMany('Recipe', 'output_id');
+		return $this->hasMany( 'Recipe', 'output_id' );
 	}
 
 	public function unlocks() {
-		return $this->belongsTo('Recipe', 'unlock_id', 'recipe_id');
+		return $this->belongsTo( 'Recipe', 'unlock_id', 'recipe_id' );
 	}
 
 	public function ingredientForRecipes() {
 		return Recipe::hasIngredient( $this )->withAll();
+	}
+
+	public function unlocksSkin() {
+		return $this->belongsTo( 'Skin', 'skin_id', 'id' );
 	}
 
 	public function scopeHasUpgrade( $query, Item $item ) {
@@ -205,6 +209,9 @@ class Item extends BaseModel {
 		            	           ->orWhere( function( $q ) use ( $that ) {
 		            	            	return $q->where( 'signature', '=', $that->signature )
 		            	            	         ->where( 'file_id',   '=', $that->file_id ); } )
+		            	           ->orWhere( function( $q ) use ( $that ) {
+		            	            	return $q->where( 'skin_id', '!=', '0' )
+		            	            	         ->where( 'skin_id', '=', $that->skin_id ); } )
 		            	           ->orWhere( function( $q ) use ( $that ) {
 		            	            	return $q->where( 'type',    '=', $that->type )
 		            	            	         ->where( 'subtype', '=', $that->subtype )

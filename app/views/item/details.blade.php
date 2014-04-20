@@ -42,7 +42,7 @@
 		});
 	?>
 	<h3>{{ trans('item.upgradeFor') }}</h3>
-	<ul class="upgradeFor">
+	<ul class="itemList">
 		@foreach ($upgradeFor as $usesThisAsUpgrade)
 			<li><a data-item-id="{{ $usesThisAsUpgrade->id }}" href="{{ $usesThisAsUpgrade->getUrl() }}">
 				<img src="{{ $usesThisAsUpgrade->getIconUrl( 32 ) }}" width="32" height="32" alt="">
@@ -84,7 +84,7 @@
 		});
 	?>
 	<h3 id="similar">{{ trans('item.similar') }}</h3>
-	<ul class="similarItems">
+	<ul class="itemList">
 		@for( $i = 0; $i < count( $similarItems ) && ( count( $similarItems ) < 20 || $i < 9 || isset( $_GET['showSimilar'] )); $i++ )
 			<?php $similarItem = $similarItems[ $i ] ?>
 			<li><a data-item-id="{{ $similarItem->id }}" href="{{ $similarItem->getUrl() }}">

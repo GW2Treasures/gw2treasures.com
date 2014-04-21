@@ -33,16 +33,16 @@ class Match extends BaseModel {
 	}
 
 	public function scopeHasWorld( $query, World $world ) {
-		return $query->  where(   'red_world_id', '=', $world->id )
-		             ->orWhere(  'blue_world_id', '=', $world->id )
-		             ->orWhere( 'green_world_id', '=', $world->id );
+		return $query->where( function( $q ) use ( $world ) {
+			return $q->  where(   'red_world_id', '=', $world->id )
+			         ->orWhere(  'blue_world_id', '=', $world->id )
+			         ->orWhere( 'green_world_id', '=', $world->id );
+		});
 	}
 
 	public function scopeCurrent( $query ) {
 		return $query->where('end_time', '>', Carbon::now());
 	}
-
-
 
 	public function getRegionAttribute() {
 		return $this->match_id[0] == '1' ? self::REGION_US : self::REGION_EU;

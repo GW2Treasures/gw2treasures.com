@@ -31,6 +31,9 @@ module.exports = (grunt) ->
             modernizr:
                 src: '<%= paths.src.jsVendor %>modernizr-3.0.0.min.js'
                 dest: '<%= paths.out.jsVendor %>modernizr-3.0.0.min.js'
+            jqueryPlugins:
+                src: '<%= paths.src.jsVendor %>jquery-plugins.js'
+                dest: '<%= paths.out.jsVendor %>jquery-plugins.js'
         mkdir:
             css:      options: create: ['<%= paths.out.css %>']
             cssTemp:  options: create: ['<%= paths.out.cssTemp %>']
@@ -49,13 +52,13 @@ module.exports = (grunt) ->
                 src: ['<%= paths.src.js %>*.coffee']
                 dest: '<%= paths.out.jsCustom %>'
         coffee_jshint:
-            options: globals: ['window','module']
+            options: globals: ['window','module','$']
             all: ['<%= paths.src.js %>*.coffee']
         'closure-compiler':
             custom:
                 closurePath: '.'
                 js: '<%= paths.out.jsCustom %>*.js'
-                jsOutputFile: '<%= paths.out.js %>min.js'
+                jsOutputFile: '<%= paths.out.js %>gw2t.js'
                 noreport: true
                 options:
                     compilation_level: 'ADVANCED_OPTIMIZATIONS'
@@ -100,9 +103,10 @@ module.exports = (grunt) ->
 
     # js
     grunt.registerTask 'jquery', ['copy:jquery']
+    grunt.registerTask 'jqueryPlugins', ['copy:jqueryPlugins']
     grunt.registerTask 'modernizr', ['copy:modernizr']
 
-    grunt.registerTask 'js:vendor', ['clean:jsVendor','mkdir:jsVendor','jquery','modernizr']
+    grunt.registerTask 'js:vendor', ['clean:jsVendor','mkdir:jsVendor','jquery','jqueryPlugins','modernizr']
     grunt.registerTask 'js:custom', ['clean:jsCustom','mkdir:jsCustom','coffee:multi']
 
     grunt.registerTask 'js:minify', ['closure-compiler:custom']

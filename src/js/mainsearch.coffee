@@ -22,7 +22,7 @@ class MainSearch
                 @list['html'] html
                 @list['removeClass'] 'loading' if val == @input['val']().trim()
 
-        @input.on 'input', @onInput
+        @input.on 'input', => @onInput()
 
 if module?.exports
     module.exports = MainSearch

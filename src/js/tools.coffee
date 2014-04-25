@@ -1,5 +1,5 @@
 tools =
-	webp: ( useWebp ) ->
+	'webp': ( useWebp ) ->
 		(( $ ) ->
 			$('noscript[data-webp]')['each'] ( _, $t ) ->
 				$t = $ $t

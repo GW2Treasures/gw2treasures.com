@@ -41,6 +41,7 @@
     "grunt-contrib-nodeunit": "~0.3.3",
     "grunt-contrib-sass": "~0.7.3",
     "grunt-mkdir": "~0.1.1",
+    "grunt-regex-replace": "~0.2.6",
     "jquery": "~2.1.0"
   }
 }

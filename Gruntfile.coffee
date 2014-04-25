@@ -66,6 +66,22 @@ module.exports = (grunt) ->
             js:
                 src: ['<%= paths.out.jsVendor %>jquery.min.js', '<%= paths.out.jsVendor %>jquery-plugins.js', '<%= paths.out.jsCustom %>gw2t.js']
                 dest: '<%= paths.out.js %>gw2t.js'
+        'regex-replace':
+            js:
+                src: '<%= paths.out.js %>gw2t.js'
+                actions: [{
+                        name: 'multiline_comments'
+                        search: /\/\*[^]*?\*\//g
+                        replace: ''
+                    },{
+                        name: 'singleline_comments'
+                        search: /^\/\/.*/gm
+                        replace: ''
+                    },{
+                        name: 'empty_lines'
+                        search: /^\n/gm
+                        replace: ''
+                    }]
         sass:
             main:
                 options:
@@ -102,6 +118,7 @@ module.exports = (grunt) ->
     grunt.loadNpmTasks 'grunt-contrib-nodeunit'
     grunt.loadNpmTasks 'grunt-contrib-sass'
     grunt.loadNpmTasks 'grunt-mkdir'
+    grunt.loadNpmTasks 'grunt-regex-replace'
 
     # img
     grunt.registerTask 'img', ['clean:img','mkdir:img','webp','pngcrush']
@@ -116,7 +133,7 @@ module.exports = (grunt) ->
 
     grunt.registerTask 'js:minify', ['closure-compiler:custom']
 
-    grunt.registerTask 'js:concat', ['concat:js']
+    grunt.registerTask 'js:concat', ['concat:js', 'regex-replace:js']
 
     grunt.registerTask 'js', ['clean:js','mkdir:js','coffee:multi','js:vendor','js:minify','js:concat']
 

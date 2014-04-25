@@ -58,10 +58,14 @@ module.exports = (grunt) ->
             custom:
                 closurePath: '.'
                 js: '<%= paths.out.jsCustom %>*.js'
-                jsOutputFile: '<%= paths.out.js %>gw2t.js'
+                jsOutputFile: '<%= paths.out.jsCustom %>gw2t.js'
                 noreport: true
                 options:
                     compilation_level: 'ADVANCED_OPTIMIZATIONS'
+        concat:
+            js:
+                src: ['<%= paths.out.jsVendor %>jquery.min.js', '<%= paths.out.jsVendor %>jquery-plugins.js', '<%= paths.out.jsCustom %>gw2t.js']
+                dest: '<%= paths.out.js %>gw2t.js'
         sass:
             main:
                 options:
@@ -87,16 +91,17 @@ module.exports = (grunt) ->
     # load tasks
     grunt.loadTasks 'tasks/'
 
-    grunt.loadNpmTasks 'grunt-contrib-copy'
-    grunt.loadNpmTasks 'grunt-mkdir'
-    grunt.loadNpmTasks 'grunt-contrib-clean'
-    grunt.loadNpmTasks 'grunt-contrib-nodeunit'
-    grunt.loadNpmTasks 'grunt-contrib-coffee'
-    grunt.loadNpmTasks 'grunt-contrib-sass'
-    grunt.loadNpmTasks 'grunt-contrib-cssmin'
     grunt.loadNpmTasks 'grunt-autoprefixer'
-    grunt.loadNpmTasks 'grunt-coffee-jshint'
     grunt.loadNpmTasks 'grunt-closure-compiler'
+    grunt.loadNpmTasks 'grunt-coffee-jshint'
+    grunt.loadNpmTasks 'grunt-contrib-clean'
+    grunt.loadNpmTasks 'grunt-contrib-coffee'
+    grunt.loadNpmTasks 'grunt-contrib-concat'
+    grunt.loadNpmTasks 'grunt-contrib-copy'
+    grunt.loadNpmTasks 'grunt-contrib-cssmin'
+    grunt.loadNpmTasks 'grunt-contrib-nodeunit'
+    grunt.loadNpmTasks 'grunt-contrib-sass'
+    grunt.loadNpmTasks 'grunt-mkdir'
 
     # img
     grunt.registerTask 'img', ['clean:img','mkdir:img','webp','pngcrush']
@@ -111,7 +116,9 @@ module.exports = (grunt) ->
 
     grunt.registerTask 'js:minify', ['closure-compiler:custom']
 
-    grunt.registerTask 'js', ['clean:js','mkdir:js','coffee:multi','js:vendor','js:minify']
+    grunt.registerTask 'js:concat', ['concat:js']
+
+    grunt.registerTask 'js', ['clean:js','mkdir:js','coffee:multi','js:vendor','js:minify','js:concat']
 
     # css
     grunt.registerTask 'css:sass', ['mkdir:cssTemp', 'sass:main'] 

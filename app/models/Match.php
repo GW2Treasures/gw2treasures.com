@@ -41,7 +41,7 @@ class Match extends BaseModel {
 	}
 
 	public function scopeCurrent( $query ) {
-		return $query->where('end_time', '>', Carbon::now());
+		return $query->whereRaw('end_time > NOW()');
 	}
 
 	public function getRegionAttribute() {

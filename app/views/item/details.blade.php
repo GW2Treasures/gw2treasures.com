@@ -90,7 +90,7 @@
 			<?php $similarItem = $similarItems[ $i ] ?>
 			<li>{{ $similarItem->link( 32 ) }}
 		@endfor
-		@if( $hideSomeSimilarItems ))
+		@if( $hideSomeSimilarItems )
 			<li class="showMore"><a href="#similar">
 				<span style="display:inline-block; width:32px; height:32px; vertical-align: middle"></span>
 				{{ trans( 'item.showMoreSimilarItems', array( 'count' => count( $similarItems ) - 9 )) }}</a>

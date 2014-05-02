@@ -13,13 +13,18 @@ class ItemSetSkinCommand extends Command {
 	}
 
 	public function fire() {
-		Item::where('skin_id','!=','0')->chunk( 500, function( $items ) {
+		echo 'Setting Skin';
+		Item::where('skin_id','=','0')->chunk( 500, function( $items ) {
 			foreach( $items as $item ) {
 				if( isset( $item->getData( 'en' )->default_skin ) && $item->getData( 'en' )->default_skin != $item->skin_id ) {
 					$item->skin_id = $item->getData( 'en' )->default_skin;
+					CacheHelper::ClearItemDetails( $item );
 					$item->save();
 				}
 			}
+			echo '.';
 		});
+		echo PHP_EOL;
+		$this->info( 'done!' );
 	}
 }

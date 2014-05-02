@@ -55,7 +55,7 @@
 					{{-- output --}}
 					<span class="count">{{ $recipe->output_count == 1 ? '' : $recipe->output_count }}</span>
 					@if( !is_null( $recipe->output ) )
-						<a data-item-id="{{ $recipe->output->id }}" href="{{ $recipe->output->getUrl() }}">
+						<a data-item-id="{{ $recipe->output->id }}" data-item-rarity="{{ $recipe->output->rarity }}" href="{{ $recipe->output->getUrl() }}">
 							<img src="{{ $recipe->output->getIconUrl( 32 ) }}" width="32" height="32" alt="">
 							{{ $recipe->output->getName() }}
 						</a>

@@ -82,20 +82,29 @@
 			}
 			return strcmp( $a->getName(), $b->getName() );
 		});
+		$hideSomeSimilarItems = count( $similarItems ) > 20;
 	?>
-	<h3 id="similar">{{ trans('item.similar') }}</h3>
-	<ul class="itemList">
-		@for( $i = 0; $i < count( $similarItems ) && ( count( $similarItems ) < 20 || $i < 9 || isset( $_GET['showSimilar'] )); $i++ )
+	<h3>{{ trans('item.similar') }}</h3>
+	<ul class="itemList" id="similar">
+		@for( $i = 0; $i < count( $similarItems ) && ( $hideSomeSimilarItems ? $i < 9 : true ); $i++ )
 			<?php $similarItem = $similarItems[ $i ] ?>
-			<li><a data-item-id="{{ $similarItem->id }}" href="{{ $similarItem->getUrl() }}">
-				<img src="{{ $similarItem->getIconUrl( 32 ) }}" width="32" height="32" alt="">
-				{{ $similarItem->getName() }}
-			</a>
+			<li>{{ $similarItem->link( 32 ) }}
 		@endfor
-		@if( count( $similarItems ) >= 20 && !isset( $_GET['showSimilar'] ))
-			<li><a href="{{ URL::route('itemdetails', array(App::getLocale(), $item->id, 'showSimilar')) }}#similar">
+		@if( $hideSomeSimilarItems ))
+			<li class="showMore"><a href="#similar">
 				<span style="display:inline-block; width:32px; height:32px; vertical-align: middle"></span>
 				{{ trans( 'item.showMoreSimilarItems', array( 'count' => count( $similarItems ) - 9 )) }}</a>
+			@for( $i = 9; $i < count( $similarItems ); $i++ )
+				<?php $similarItem = $similarItems[ $i ] ?>
+				<li class="similarHidden">{{ $similarItem->link( 32 ) }}
+		@endfor
 		@endif
 	</ul>
+
+	<!-- remove style once the production server uses https://github.com/darthmaim/gw2treasures-assets -->
+	<style type="text/css">
+		.similarHidden { display: none; }
+		#similar:target .similarHidden { display: list-item; }
+		#similar:target .showMore { display: none; }
+	</style>
 @endif

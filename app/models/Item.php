@@ -63,6 +63,15 @@ class Item extends BaseModel {
 		if( is_null( $lang ) ) $lang = App::getLocale();
 		return URL::route( 'itemdetails', array('language' => $lang, 'item' => $this->id ));
 	}
+
+	public function link( $icon = 16, $lang = null ) {
+		$icon = intval( $icon );
+		return '<a data-item-id="' . $this->id . '" href="' . $this->getUrl( $lang ) . '">'
+		     . ( $icon > 0 ? '<img src="' . $this->getIconUrl( $icon ) . '" width="' . $icon . '" height="' . $icon . '" alt=""> ' : '' )
+		     . $this->getName( $lang )
+		     . '</a>';
+	}
+
 	public function getIconUrl( $size = 64 ) {
 		$size = intval( $size );
 		if( !in_array( $size, array( 16, 32, 64) )) {

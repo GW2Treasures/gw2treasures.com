@@ -1,6 +1,6 @@
 <?php
 
-class ItemNotFoundException extends Exception {
+class SkinNotFoundException extends Exception {
 	public $skin_id;
 
 	public function __construct( $skin_id ) {

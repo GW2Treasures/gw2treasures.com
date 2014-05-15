@@ -16,11 +16,10 @@
 
 	<!-- styles -->
 	<link rel="stylesheet" href="{{ Helper::cdn('assets/css/normalize.min.css') }}">
-	<link rel="stylesheet" href="{{ Helper::cdn('assets/css/main.css') }}">
 	@if( App::environment('production') )
-		<link rel="stylesheet" href="{{ Helper::cdn('assets/css/style.css') }}">
+		<link rel="stylesheet" href="{{ Helper::cdn('assets2/css/gw2t.css') }}">
 	@else
-		<link rel="stylesheet" href="//direct.darthmaim-cdn.de/gw2treasures/assets/css/style.css">
+		<link rel="stylesheet" href="//direct.darthmaim-cdn.de/gw2treasures/assets2/css/gw2t.css">
 	@endif
 
 	<!-- fonts -->
@@ -137,7 +136,7 @@
 		<div class="pageWidth legalNotice" style="margin-top: 2em">
 			<div class="g-plusone" style="float:left" data-size="small" data-href="http://gw2treasures.de/"></div>
 
-			<span style="float:right" title="<?php 
+			<span style="float:right" title="<?php
 				echo 'Runtime: ' . round(( STARTTIME + microtime( true ) ) * 1000, 2 ) . 'ms' . "\n";
 				echo 'Memory usage: ' . round(memory_get_usage() / 1024 / 1024, 2) . ' MiB' . "\n";
 				echo 'DB queries: ' . count(DB::getQueryLog()) . "\n";
@@ -158,7 +157,7 @@
 			</pre>
 		@endif
 	</footer>
-	
+
 	<div id="scripts">
 		@if( App::environment('production') )
 			<!-- google analytics -->
@@ -179,7 +178,7 @@
 
 		<!-- my own js -->
 		<script type="text/javascript" src="http://storage.gw2treasures.de/storage.js"></script>
-		
+
 		@if( App::environment('production') )
         	<script src="{{ Helper::cdn('assets/js/plugins.js') }}"></script>
 			<script src="{{ Helper::cdn('assets/js/main.js') }}"></script>

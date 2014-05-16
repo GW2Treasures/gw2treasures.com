@@ -26,7 +26,7 @@ class Crawler extends EventEmitter
             if err || !content.wvw_matches?.length
                 log 'Error: There was an error or empty response. Retrying in 10 seconds'
                 clearTimeout @_timeout if @_timeout
-                delay 10000, => @getMatches 
+                delay 10000, => @getMatches() 
             @matches = []
             nearestEndTime
             for match in content.wvw_matches
@@ -38,13 +38,13 @@ class Crawler extends EventEmitter
             clearTimeout @_timeout if @_timeout
             diff = Math.min(3600000, nearestEndTime - +new Date)
 
-            delay diff, => @getMatches 
+            delay diff, => @getMatches() 
 
             @emit 'matches', @matches
             log "done (#{@matches.length}, reloading matches in #{Math.round(diff/1000/60)}m)"
 
     getDetails: ( match ) ->
-        log 'Loading details for match ' + match.wvw_match_id
+        # log 'Loading details for match ' + match.wvw_match_id
         request { url: @detailUrl + '?match_id=' +  match.wvw_match_id, json:true }, ( err, response, content ) =>
             @emit 'details', match, content
 

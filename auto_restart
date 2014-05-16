@@ -1,0 +1,7 @@
+#!/bin/sh
+while [ 1 ]
+do
+  coffee index.coffee
+  echo "index.coffee stopped running. Restarting..."
+  sleep 1
+done

@@ -9,4 +9,13 @@ class CacheHelper {
 			Cache::forget( CacheHelper::ItemDetails( $item, $lang ));
 		}
 	}
+
+	public static function ItemTooltip( Item $item, $language ) {
+		return 'itemtooltip-' . $language . '-' . $this->id;
+	}
+	public static function ClearItemTooltip( Item $item ) {
+		foreach( array( 'de','en','es','fr' ) as $lang ) {
+			Cache::forget( CacheHelper::ItemTooltip( $item, $lang ));
+		}
+	}
 }

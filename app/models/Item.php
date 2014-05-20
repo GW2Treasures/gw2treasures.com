@@ -234,7 +234,8 @@ class Item extends BaseModel {
 	//----
 
 	public function getTooltip( $lang = null ) {
-		$key = 'itemtooltip-' . ( is_null( $lang ) ? App::getLocale() : $lang ) . '-' . $this->id;
+		$lang = is_null( $lang ) ? App::getLocale() : $lang;
+		$key = CacheHelper::ItemTooltip( $this, $lang );
 		if( Cache::has( $key )  && !isset( $_GET['nocache'] )) {
 			return Cache::get( $key );
 		} else {

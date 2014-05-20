@@ -19,6 +19,7 @@ class ItemSetSkinCommand extends Command {
 				if( isset( $item->getData( 'en' )->default_skin ) && $item->getData( 'en' )->default_skin != $item->skin_id ) {
 					$item->skin_id = $item->getData( 'en' )->default_skin;
 					CacheHelper::ClearItemDetails( $item );
+					CacheHelper::ClearItemTooltips( $item );
 					$item->save();
 				}
 			}

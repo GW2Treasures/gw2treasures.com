@@ -11,7 +11,7 @@ class CacheHelper {
 	}
 
 	public static function ItemTooltip( Item $item, $language ) {
-		return 'itemtooltip-' . $language . '-' . $this->id;
+		return 'itemtooltip-' . $language . '-' . $item->id;
 	}
 	public static function ClearItemTooltip( Item $item ) {
 		foreach( array( 'de','en','es','fr' ) as $lang ) {

@@ -375,6 +375,9 @@ ul.itemList {
 ul.ingredients {
 	list-style-type: none; 
 	margin: 0; padding: 0; }
+	ul.ingredients > li {
+		padding-left: 58px;
+		text-indent: -58px;	}
 
 .count {
 	width: 32px;

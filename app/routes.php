@@ -118,7 +118,7 @@ Route::group( array(
 		// mainpage
 		Route::get('/', function() {
 			return View::make( 'layout' )
-				->nest( 'content', 'start', array( 'newItems' => Item::orderBy('date_added', 'desc')->take(30)->get() ))
+				->nest( 'content', 'start', array( 'newItems' => Item::orderBy('update_time', 'desc')->take(30)->get() ))
 				->with( 'title', 'Welcome!' )
 				->with( 'fullWidth', true );
 		});

@@ -15,6 +15,7 @@
 <h2 class="pageWidth">{{ trans('footer.newItems') }}</h2>
 <ul class="itemList pageWidth">
 	@foreach ($newItems as $item)
-		<li>{{ $item->link(32) }} <span style="float:right; line-height: 32px">{{ (new \Carbon\Carbon($item->date_added))->diffForHumans() }}</span>
+		<?php $date_added = new \Carbon\Carbon($item->date_added) ?>
+		<li>{{ $item->link(32) }} <span style="float:right; line-height: 32px">{{ $date_added->diffForHumans() }}</span>
 	@endforeach
 </ul>

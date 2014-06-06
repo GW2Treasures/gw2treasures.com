@@ -12,7 +12,7 @@
 	</div>
 </div>
 
-<h2 class="pageWidth">{{ trans('footer.newItems') }}</h2>
+<h2 class="pageWidth">{{ trans('footer.changedItems') }}</h2>
 <ul class="itemList pageWidth">
 	@foreach ($newItems as $item)
 		<?php $update_time = \Carbon\Carbon::createFromTimeStamp($item->update_time) ?>

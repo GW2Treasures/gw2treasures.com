@@ -13,9 +13,11 @@
 </div>
 
 <h2 class="pageWidth">{{ trans('footer.changedItems') }}</h2>
-<ul class="itemList pageWidth">
-	@foreach ($newItems as $item)
-		<?php $update_time = \Carbon\Carbon::createFromTimeStamp($item->update_time) ?>
-		<li>{{ $item->link(32) }} <span style="float:right; line-height: 32px">{{ $update_time->diffForHumans() }}</span>
-	@endforeach
-</ul>
+<div class="pageWidth">
+	<ul class="itemList">
+		@foreach ($newItems as $item)
+			<?php $update_time = \Carbon\Carbon::createFromTimeStamp($item->update_time) ?>
+			<li style="clear:right">{{ $item->link(32) }} <span style="float:right; line-height: 32px;">{{ $update_time->diffForHumans() }}</span></li>
+		@endforeach
+	</ul>
+</div>

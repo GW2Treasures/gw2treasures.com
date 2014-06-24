@@ -12,12 +12,12 @@
 	</div>
 </div>
 
-<h2 class="pageWidth">{{ trans('footer.changedItems') }}</h2>
+<h2 class="pageWidth">{{ trans('footer.newItems') }}</h2>
 <div class="pageWidth">
 	<ul class="itemList">
 		@foreach ($newItems as $item)
-			<?php $update_time = \Carbon\Carbon::createFromTimeStamp($item->update_time) ?>
-			<li style="clear:right">{{ $item->link(32) }} <span style="float:right; line-height: 32px;">{{ $update_time->diffForHumans() }}</span></li>
+			<?php $date_added = new \Carbon\Carbon($item->date_added) ?>
+			<li style="clear:right">{{ $item->link(32) }} <span style="float:right; line-height: 32px;">{{ $date_added->diffForHumans() }}</span></li>
 		@endforeach
 	</ul>
 </div>

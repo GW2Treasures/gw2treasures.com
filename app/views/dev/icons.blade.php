@@ -73,28 +73,46 @@
 <h4 class="pageWidth">PHP</h4>
 <div class="codeWrap">
 	<pre class="pageWidth">function icon( $signature, $file_id, $size = 64 ) {
+    $subdomains = array('callisto', 'europa', 'ganymede', 'io', 'titan', 'triton');
+    
     if( !in_array( $size, array( 16, 32, 64) )) {
             if ( $size &lt;= 16 ) { $size = 16; }
         elseif ( $size &lt;= 32 ) { $size = 32; }
         else                   { $size = 64; }
     }
-    $subdomains = array('callisto', 'europa', 'ganymede', 'io', 'titan', 'triton');
 
     return $subdomains[ $file_id % count( $subdomains ) ] . '.darthmaim-cdn.de/gw2treasures/icons/' . $signature . '/' . $file_id . '-' . $size . 'px.png';
 }</pre>
 </div>
-<h4 class="pageWidth">JavaScript</h4>
+<h4 class="pageWidth">CoffeeScript</h4>
 <div class="codeWrap">
-	<pre class="pageWidth">function icon( signature, file_id, size ) {
-    if(!(size in [16,32,64])) {
-             if( size &lt;= 16 ) { size = 16; }
-        else if( size &lt;= 32 ) { size = 32; }
-        else                  { size = 64; }
-    }
-    var subdomains = ['callisto', 'europa', 'ganymede', 'io', 'titan', 'triton'];
+	<pre class="pageWidth">icon = ( signature, file_id, size ) ->
+    subdomains = ['callisto', 'europa', 'ganymede', 'io', 'titan', 'triton'];
 
-    return subdomains[ file_id % subdomains.length ] + '.darthmaim-cdn.de/gw2treasures/icons/' + signature + '/' + file_id + '-' + size + 'px.png';
-}</pre>
+    size = switch
+        when size &lt;= 16 then 16
+        when size &lt;= 32 then 32
+        else 64
+
+      "#{subdomains[ file_id % subdomains.length ]}.darthmaim-cdn.de/gw2treasures/icons/#{ signature }/#{ file_id }-#{ size }px.png"
+      </pre>
+</div><h4 class="pageWidth">JavaScript</h4>
+<div class="codeWrap">
+	<pre class="pageWidth">icon = function(signature, file_id, size) {
+    var subdomains;
+    subdomains = ['callisto', 'europa', 'ganymede', 'io', 'titan', 'triton'];
+    size = (function() {
+        switch (false) {
+          case !(size &lt;= 16):
+            return 16;
+          case !(size &lt;= 32):
+            return 32;
+          default:
+            return 64;
+        }
+    })();
+    return "" + subdomains[file_id % subdomains.length] + ".darthmaim-cdn.de/gw2treasures/icons/" + signature + "/" + file_id + "-" + size + "px.png";
+};</pre>
 </div>
 <h3 class="pageWidth">Disclaimer</h3>
 <p class="pageWidth" style="text-style:italic">

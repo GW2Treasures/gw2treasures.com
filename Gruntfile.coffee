@@ -121,6 +121,17 @@ module.exports = (grunt) ->
                     base: 
                         [ '<%= paths.out.base %>' ]
 
+        watch:
+            css:
+                files: '<%= paths.src.css %>*.scss'
+                tasks: [ 'build:css' ]
+            img:
+                files: '<%= paths.src.img %>*.png'
+                tasks: [ 'build:img' ]
+            js:
+                files: '<%= paths.src.css %>*.coffee'
+                tasks: [ 'build:js' ]
+
     # load tasks
     grunt.loadTasks 'tasks/'
 
@@ -136,6 +147,7 @@ module.exports = (grunt) ->
     grunt.loadNpmTasks 'grunt-contrib-cssmin'
     grunt.loadNpmTasks 'grunt-contrib-nodeunit'
     grunt.loadNpmTasks 'grunt-contrib-sass'
+    grunt.loadNpmTasks 'grunt-contrib-watch'
     grunt.loadNpmTasks 'grunt-mkdir'
     grunt.loadNpmTasks 'grunt-regex-replace'
 
@@ -183,6 +195,7 @@ module.exports = (grunt) ->
         console.log "  #{'grunt build:css'.cyan} - build #{'stylesheets'.bold}"
         console.log "  #{'grunt build:img'.cyan} - build #{'images'.bold}"
         console.log "  #{'grunt build:js'.cyan}  - build #{'scripts'.bold}"
+        console.log "  #{'You can use watch instead of build to watch for changes'.grey}"
         console.log ""
         console.log "  #{'grunt serve'.cyan}     - serve the assets on 127.0.0.1:8080"
         console.log ""

@@ -3,6 +3,7 @@ module.exports = (grunt) ->
         pkg: grunt.file.readJSON('package.json')
         paths:
             out:
+                base:     'out/'
                 css:      'out/css/'
                 cssTemp:  'out/css/.temp/'
                 img:      'out/img/'
@@ -10,6 +11,7 @@ module.exports = (grunt) ->
                 jsCustom: 'out/js/custom/'
                 jsVendor: 'out/js/vendor/'
             src:
+                base:     'src/'
                 css:      'src/css/'
                 img:      'src/img/'
                 js:       'src/js/'
@@ -58,14 +60,14 @@ module.exports = (grunt) ->
             custom:
                 closurePath: '.'
                 js: '<%= paths.out.jsCustom %>*.js'
-                jsOutputFile: '<%= paths.out.jsCustom %>gw2t.js'
+                jsOutputFile: '<%= paths.out.js %>gw2t.js'
                 noreport: true
                 options:
                     compilation_level: 'ADVANCED_OPTIMIZATIONS'
         concat:
             js:
-                src: ['<%= paths.out.jsVendor %>jquery.min.js', '<%= paths.out.jsVendor %>jquery-plugins.js', '<%= paths.out.jsCustom %>gw2t.js']
-                dest: '<%= paths.out.js %>gw2t.js'
+                src: ['<%= paths.out.jsVendor %>jquery.min.js', '<%= paths.out.jsVendor %>jquery-plugins.js']
+                dest: '<%= paths.out.js %>jquery.js'
         'regex-replace':
             js:
                 src: '<%= paths.out.js %>gw2t.js'
@@ -104,6 +106,21 @@ module.exports = (grunt) ->
             jsCustom: '<%= paths.out.jsCustom %>'
             jsVendor: '<%= paths.out.jsVendor %>'
 
+        connect:
+            rules: [
+                from: '^/assets/(.*)$',  to: '/$1'
+            ,   from: '^/assets2/(.*)%', to: '/$1'
+            ]
+            server:
+                options:
+                    port: 8080
+                    middleware: ( connect, options, middlewares ) ->
+                        middlewares.unshift require('grunt-connect-rewrite/lib/utils').rewriteRequest
+                        middlewares
+                    keepalive: true
+                    base: 
+                        [ '<%= paths.out.base %>' ]
+
     # load tasks
     grunt.loadTasks 'tasks/'
 
@@ -113,6 +130,8 @@ module.exports = (grunt) ->
     grunt.loadNpmTasks 'grunt-contrib-clean'
     grunt.loadNpmTasks 'grunt-contrib-coffee'
     grunt.loadNpmTasks 'grunt-contrib-concat'
+    grunt.loadNpmTasks 'grunt-contrib-connect'
+    grunt.loadNpmTasks 'grunt-connect-rewrite'
     grunt.loadNpmTasks 'grunt-contrib-copy'
     grunt.loadNpmTasks 'grunt-contrib-cssmin'
     grunt.loadNpmTasks 'grunt-contrib-nodeunit'
@@ -154,6 +173,9 @@ module.exports = (grunt) ->
     grunt.registerTask 'build:css', ['css']
     grunt.registerTask 'build', ['build:js', 'build:css', 'build:img']
 
+    # server
+    grunt.registerTask 'serve', [ 'configureRewriteRules', 'connect:server' ]
+
     # default/help
     grunt.registerTask 'default', ->
         console.log ""
@@ -161,6 +183,8 @@ module.exports = (grunt) ->
         console.log "  #{'grunt build:css'.cyan} - build #{'stylesheets'.bold}"
         console.log "  #{'grunt build:img'.cyan} - build #{'images'.bold}"
         console.log "  #{'grunt build:js'.cyan}  - build #{'scripts'.bold}"
+        console.log ""
+        console.log "  #{'grunt serve'.cyan}     - serve the assets on 127.0.0.1:8080"
         console.log ""
         console.log "  #{'grunt test'.cyan}      - run all unit tests"
     grunt.registerTask 'help', ['default']

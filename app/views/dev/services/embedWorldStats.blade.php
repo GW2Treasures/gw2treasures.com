@@ -4,7 +4,7 @@
 	You can embed a small widget with the current match details of a specific world on your own homepage.
 </p>
 <div class="pageWidth">
-	<iframe src="{{ URL::route('wvw.world.embedded', array( 'en', 1008 )) }}" seamless="seamless" height="120" width="100%" frameborder="0" scrolling="no"></iframe>
+	<iframe src="{{ URL::route('wvw.world.embedded', array( 'en', 1008, 'notrack' )) }}" seamless="seamless" height="120" width="100%" frameborder="0" scrolling="no"></iframe>
 </div>
 <p class="pageWidth">The URL for the widget is:</p>
 <pre class="pageWidth">http://<b>{language}</b>.gw2treasures.de/wvw/world/<b>{world_id}</b>/embedded?style=<b>{style}</b></pre>

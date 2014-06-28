@@ -35,7 +35,7 @@
 	<!-- modernizr -->
 	<script src="{{ Helper::cdn('assets/js/vendor/modernizr-3.0.0.min.js') }}"></script>
 </head>
-<body>
+<body class="developer-body">
 	<div id="wrapper">
 		<header id="header" class="clearfix">
 			<div class="pageWidth">
@@ -101,7 +101,7 @@
 				</ul>
 			<li><a href="{{ URL::route('dev') }}" class="">{{ trans('footer.developer') }}</a>
 				<ul>
-					<li><a href="#">{{ trans('footer.APIDocumentation') }}</a>
+					<li><a href="{{ URL::route('dev') }}#apiDoc">{{ trans('footer.APIDocumentation') }}</a>
 				</ul>
 			<li><a href="{{ URL::route('about', App::getLocale()) }}">{{ trans('footer.about') }}</a>
 				<ul>

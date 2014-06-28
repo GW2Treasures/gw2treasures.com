@@ -81,6 +81,8 @@ Route::group( array('domain' => Config::get('app.domain'), 'before' => 'setLocal
 	Route::any('{x}', function() {})->where('x', '.*');
 });
 
+
+// dev routes
 Route::group( array(
 		'domain' => 'dev.' . Config::get('app.domain'),
 		'before' => 'setLocaleDev'
@@ -92,17 +94,18 @@ Route::group( array(
 				->with( 'title', 'Overview' );
 		}));
 
-		Route::get('doc/icons', array(
+		// provided services
+		Route::get('services/icons', array(
 			'as' => 'dev.icons', function() {
 			return View::make( 'dev' )
-				->nest( 'content', 'dev.icons' )
+				->nest( 'content', 'dev.services.icons' )
 				->with( 'title', 'Icons' );
 		}));
 
-		Route::get('doc/embedWorldStats', array(
+		Route::get('services/embedWorldStats', array(
 			'as' => 'dev.embedWorldStats', function() {
 			return View::make( 'dev' )
-				->nest( 'content', 'dev.embedWorldStats' )
+				->nest( 'content', 'dev.services.embedWorldStats' )
 				->with( 'title', 'Embedding WvW World Stats' );
 		}));
 	}

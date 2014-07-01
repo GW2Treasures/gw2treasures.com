@@ -48,7 +48,9 @@ class Item extends BaseModel {
 	public function getFlags( ) { return $this->getData()->flags; }
 	public function hasFlag( $flag ) { return in_array( $flag, $this->getFlags() ); }
 
-	public function isPvP() { return $this->getData()->game_types == array( 'Pvp', 'PvpLobby' ); }
+	public function isPvP() { 
+		return isset( $this->getData()->game_types ) && $this->getData()->game_types == array( 'Pvp', 'PvpLobby' ); 
+	}
 
 	private $si;
 	public function getSuffixItem( ) {

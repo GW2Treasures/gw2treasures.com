@@ -69,7 +69,7 @@ class Item extends BaseModel {
 	public function link( $icon = 16, $lang = null ) {
 		$icon = intval( $icon );
 		return '<a data-item-id="' . $this->id . '" href="' . $this->getUrl( $lang ) . '">'
-		     . ( $icon > 0 ? '<img src="' . $this->getIconUrl( $icon ) . '" width="' . $icon . '" height="' . $icon . '" alt=""> ' : '' )
+		     . ( $icon > 0 ? $this->getIcon( $icon ) : '' )
 		     . $this->getName( $lang )
 		     . '</a>';
 	}
@@ -88,6 +88,20 @@ class Item extends BaseModel {
 
 		return Helper::cdn( 'icons/' . $this->signature . '/' . $this->file_id . '-' . $size . 'px.png', $this->file_id );
 	}
+
+	public function getIcon( $size = 64 ) {
+		$out  = '<img src="' . $this->getIconUrl( $size ) . '"';
+		$out .= ' width="' . $size . '"';
+		$out .= ' height="' . $size . '"';
+		$out .= ' alt=""';
+		if( $size <= 32 ) {
+			$out .= ' srcset="' . $this->getIconUrl( $size ) . ' 1x, ' . $this->getIconUrl( $size * 2 ) . ' 2x"';
+		}
+		$out .= '>';
+
+		return $out;
+	}
+
 	public function getChatLink( ) {
 		return Chatlink::Encode( Chatlink::TYPE_ITEM, $this->id )->chatlink;
 	}

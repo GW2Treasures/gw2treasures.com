@@ -4,8 +4,8 @@ class StatsController extends BaseController {
 	protected $layout = 'layout';
 
 	public function itemsNew( $language ) {
-		if( Cache::has( 'stats.items.new' ) && !isset( $_GET['nocache'] )) {
-			$this->layout->content = Cache::get( 'stats.items.new' );
+		if( Cache::has( 'stats.items.new:' . $language ) && !isset( $_GET['nocache'] )) {
+			$this->layout->content = Cache::get( 'stats.items.new:' . $language );
 			$this->layout->cached = true;
 		} else {
 			$newestDay = head( DB::select('SELECT DATE(`date_added`) as "date" FROM `items` WHERE `date_added` <> "0000-00-00 00:00:00" GROUP BY DATE(`date_added`) ORDER BY `date_added` DESC LIMIT 49,1' ))->date;
@@ -31,7 +31,7 @@ class StatsController extends BaseController {
 			$content = View::make( 'stats.items.new' )
 				->with( 'items', $itemsGroupedByDate )
 				->render();
-			Cache::put( 'stats.items.new', $content, 30 );
+			Cache::put( 'stats.items.new:' . $language, $content, 30 );
 			$this->layout->content = $content;
 		}
 			

@@ -233,6 +233,16 @@ Route::group( array(
 		));
 
 		//================================
+		// STATS
+		//================================
+
+		// new items
+		Route::get('stats/items/new', array(
+			'as' => 'stats.items.new',
+			'uses' => 'StatsController@itemsNew'
+		));
+
+		//================================
 		// STUFF
 		//================================
 

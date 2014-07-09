@@ -109,3 +109,60 @@ App::missing(function($exception)
 		'description' => 'We couldn\'t find the file you requested.' 
 	), 404);
 });
+
+
+Blade::extend(function($view, $compiler)
+{
+	$pattern = '/([\ \t]*)@highlight\(\'?([^)]+?)\'?\)(.*?)@endhighlight\s*/s';
+
+	return preg_replace_callback( $pattern, function( $match ) {
+		$indentation = $match[1];
+		$language = $match[2];
+		$content = preg_split( '/\r\n|\n|\r/', html_entity_decode( $match[3] ));
+
+		$parsedContent = array();
+
+		$firstLine = true;
+		for ( $i = 0; $i < count( $content ); $i++ ) {
+			if( $firstLine && trim( $content[ $i ] ) == '' ) {
+				continue;
+			} else {
+				if( $firstLine ) { 
+					preg_match('/^' . $indentation . '[\ \t]*/', $content[ $i ], $m );
+					$indentation = $m[0];
+				}
+				$parsedContent[] = str_replace( "\t", '    ', preg_replace( '/^' . $indentation . '/', '', $content[ $i ] ));
+			}
+			$firstLine = false;
+		}
+
+		for ( $i = count( $parsedContent ) - 1; $i >= 0; $i--) { 
+			if( trim( $parsedContent[ $i ] ) == '' ) {
+				unset( $parsedContent[ $i ] );
+			} else {
+				break;
+			}
+		}
+
+		$parsedContent = implode( "\n", $parsedContent );
+
+		$tmp = tempnam( storage_path() . '/temp', 'pygmentize_' );
+		file_put_contents( $tmp, $parsedContent );
+		$cmd = '"D:\Programme\Python\Python341\Scripts\pygmentize.exe" -f html -O nowrap,startinline -l "' . $language . '" "' . $tmp . '"';
+		exec( $cmd, $output, $returnVal );
+
+		//dd( $returnVal );
+		//dd( $output );
+
+		return implode( "\n", $output );
+
+		//dd( pygmentize( $parsedContent, $language ) );
+
+		return var_export( array( $indentation, $language, $parsedContent ), true );
+
+		return '--highlight--';
+
+	}, $view );
+
+	return preg_replace($pattern, '--highlight--', $view);
+});

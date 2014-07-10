@@ -24,7 +24,27 @@
 .itemTimelineGroupContent li {
 	display: inline-block;
 }
+
+.itemTimetable { position: relative; text-align: center; margin: 1em 0; padding: 1em 0; overflow-x: auto; }
+.itemTimetableRow { font-size: 0; clear: both; white-space: nowrap; }
+.itemTimetableCell { width: 16px; height: 16px; background: #eee; display: inline-block; margin-right: 2px; margin-bottom: 2px; }
+.itemTimetableCell[data-count] { background-color: rgb(214, 230, 133) }
 </style>
+
+<div class="itemTimetable clearfix">
+	@for( $y = 0; $y < 7; $y++ )
+		<div class="itemTimetableRow">
+			@for( $x = 1; $x <= 52; $x++ )
+				@if( isset( $table[ $y ] ) && isset( $table[ $y ][ $x ] ))
+					<div class="itemTimetableCell" style="background-color: rgba(42, 136, 145, {{ min( $table[ $y ][ $x ]->count / 40 * 0.7 + 0.3, 1) }}" title="{{ $table[ $y ][ $x ]->date }}{{ "\n" }}{{ $table[ $y ][ $x ]->count }} item(s)">
+					</div>
+				@else
+					<div class="itemTimetableCell"></div>
+				@endif
+			@endfor
+		</div>
+	@endfor
+</div>
 
 <div class="itemTimeline">
 	@foreach( $items as $itemGroup )

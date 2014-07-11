@@ -19,7 +19,7 @@
 	@if( App::environment('production') )
 		<link rel="stylesheet" href="{{ Helper::cdn('assets2/css/gw2t.css') }}">
 	@else
-		<link rel="stylesheet" href="//127.0.0.1:8080/css/gw2t.css">
+		<link rel="stylesheet" href="//direct.darthmaim-cdn.de/gw2treasures/assets2/css/gw2t.css">
 	@endif
 
 	<!-- fonts -->

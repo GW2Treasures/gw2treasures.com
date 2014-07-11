@@ -113,14 +113,16 @@
 			function icon( $signature, $file_id, $size = 64 ) {
 				$subdomains = array('callisto', 'europa', 'ganymede', 'io', 'titan', 'triton');
 
-				if( !in_array( $size, array( 16, 32, 64) )) {
-						if ( $size &lt;= 16 ) { $size = 16; }
-					elseif ( $size &lt;= 32 ) { $size = 32; }
-					else                   { $size = 64; }
-					}
+				if ( $size &lt;= 16 ) {
+					$size = 16; 
+				} elseif ( $size &lt;= 32 ) {
+					$size = 32;
+				} else { 
+					$size = 64;
+				}
 
-				return $subdomains[ $file_id % count( $subdomains ) ] . '.darthmaim-cdn.de/gw2treasures/icons/'
-					 . $signature . '/' . $file_id . '-' . $size . 'px.png';
+				return $subdomains[ $file_id % count( $subdomains ) ] . '.darthmaim-cdn.de/gw2treasures/icons/' .
+					$signature . '/' . $file_id . '-' . $size . 'px.png';
 			}
 		@endhighlight
 	</pre>
@@ -137,7 +139,7 @@
 					when size &lt;= 32 then 32
 					else 64
 
-				"#{subdomains[ file_id % subdomains.length ]}.darthmaim-cdn.de/gw2treasures/icons/\
+				"#{ subdomains[ file_id % subdomains.length ] }.darthmaim-cdn.de/gw2treasures/icons/\
 				 #{ signature }/#{ file_id }-#{ size }px.png"
 		@endhighlight
 	</pre>
@@ -148,6 +150,7 @@
 			icon = function(signature, file_id, size) {
 				var subdomains;
 				subdomains = ['callisto', 'europa', 'ganymede', 'io', 'titan', 'triton'];
+
 				size = (function() {
 					switch (false) {
 					  case !(size &lt;= 16):
@@ -158,8 +161,9 @@
 						return 64;
 					}
 				})();
-				return "" + subdomains[file_id % subdomains.length] + ".darthmaim-cdn.de/gw2treasures/icons/"
-					 + signature + "/" + file_id + "-" + size + "px.png";
+				
+				return "" + subdomains[file_id % subdomains.length] + ".darthmaim-cdn.de/gw2treasures/icons/" +
+					signature + "/" + file_id + "-" + size + "px.png";
 			};
 		@endhighlight
 	</pre>

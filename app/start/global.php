@@ -109,3 +109,83 @@ App::missing(function($exception)
 		'description' => 'We couldn\'t find the file you requested.' 
 	), 404);
 });
+
+
+Blade::extend(function($view, $compiler)
+{
+	// @highlight(<lang>)<code>@endhighlight
+	$pattern = '/([\ \t]*)@highlight\(\'?([a-zA-Z0-9]+?)\'?\)(.*?)@endhighlight\s*/s';
+
+	return preg_replace_callback( $pattern, function( $match ) {
+		$indentation = $match[1];
+		$language = $match[2];
+		$content = preg_split( '/\r\n|\n|\r/', html_entity_decode( $match[3] ));
+
+		$pygmentize = Config::get('app.pygmentize');
+		$cmd = '"' . $pygmentize . '" -f html -O nowrap,startinline -l ' . $language;
+
+		// parse the content ( remove indentations, tabs to spaces, ... )
+		
+		$parsedContent = array();
+
+		$firstLine = true;
+		for ( $i = 0; $i < count( $content ); $i++ ) {
+			if( $firstLine && trim( $content[ $i ] ) == '' ) {
+				continue;
+			} else {
+				if( $firstLine ) { 
+					preg_match('/^' . $indentation . '[\ \t]*/', $content[ $i ], $m );
+					$indentation = $m[0];
+				}
+				$parsedContent[] = str_replace( "\t", '    ', preg_replace( '/^' . $indentation . '/', '', $content[ $i ] ));
+			}
+			$firstLine = false;
+		}
+
+		// remove tailing empty lines
+		for ( $i = count( $parsedContent ) - 1; $i >= 0; $i--) { 
+			if( trim( $parsedContent[ $i ] ) == '' ) {
+				unset( $parsedContent[ $i ] );
+			} else {
+				break;
+			}
+		}
+
+		// rebuild the parsed content
+		$parsedContent = implode( "\n", $parsedContent );
+
+
+		if( !is_executable( $pygmentize )) {
+			// we cant run it, so just display the un-highlighted version with a short error message
+			return '<div style="color:red">Path to pygmentize wrong or missing -x permission</div>' . $parsedContent;
+		}
+
+		// map stdin, stdout and stderr
+		$descriptorspec = array( 
+			0 => array( 'pipe', 'r'),
+			1 => array( 'pipe', 'w' ),
+			2 => array( 'file', storage_path() . '/logs/pygmentize.log', 'a' )
+		);
+
+		// start the process
+		$process = proc_open( $cmd, $descriptorspec, $pipes );
+		if( is_resource( $process )) {
+			// write the code to stdin
+			fwrite( $pipes[0], $parsedContent );
+			fclose( $pipes[0] );
+
+			// read the highlighted html from stdout
+			$output = stream_get_contents( $pipes[1] );
+			fclose( $pipes[1] );
+
+			// close the process
+			proc_close( $process );
+
+			// return highlighted code
+			return $output;
+		} else {
+			// couldnt start pygmentize, show the un-highlighted code
+			return '<div style="color:red">Error starting pygmentize</div>' . $parsedContent;
+		}
+	}, $view );
+});

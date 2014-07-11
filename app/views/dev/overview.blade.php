@@ -26,7 +26,7 @@
 
 
 <section class="devBoxGroup">
-	<h3 class="pageWidth" id="apiDoc">Documentation, guides &amp; examples for the official GW2 API v2</h3>
+	<h3 class="pageWidth" id="apiDoc">Documentation, Guides &amp; Examples for the official GW2 API v2</h3>
 	<div class="devGrid docGrid clearfix pageWidth yellowColumns">
 		<div class="devGridRow blueColumns">
 			<div class="devGridCol">
@@ -77,7 +77,7 @@
 				</p>
 			</div>
 			<div class="devGridCol">
-				<h4><a>/v2/commerce/exchange</a></h4>
+				<h4><a>/v2/commerce/listings</a></h4>
 				<p class="description">
 					Coming soon
 				</p>

@@ -69,7 +69,7 @@ class Item extends BaseModel {
 	public function link( $icon = 16, $lang = null ) {
 		$icon = intval( $icon );
 		return '<a data-item-id="' . $this->id . '" href="' . $this->getUrl( $lang ) . '">'
-		     . ( $icon > 0 ? $this->getIcon( $icon ) : '' )
+		     . ( $icon > 0 ? $this->getIcon( $icon ) . ' ' : '' )
 		     . $this->getName( $lang )
 		     . '</a>';
 	}

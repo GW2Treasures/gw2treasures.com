@@ -20,9 +20,6 @@
 <h3>{{ trans( 'skin.itemsUnlockingThisSkin' ) }}</h3>
 <ul class="itemList">
 	@foreach( $skin->items as $item )
-		<li><a data-item-id="{{ $item->id }}" href="{{ $item->getUrl() }}">
-			<img src="{{ $item->getIconUrl( 32 ) }}" width="32" height="32" alt="">
-			{{ $item->getName() }}
-		</a>
+		<li>{{ $item->link(32) }}
 	@endforeach
 </ul>

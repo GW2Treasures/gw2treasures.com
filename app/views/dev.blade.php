@@ -113,10 +113,10 @@
 				</ul>
 			<li>{{ trans('footer.language') }}
 				<ul>
-					<li><a hreflang="de" rel="alternate" href="//de.{{ Config::get('app.domain') }}/">{{ trans('footer.german') }}</a>
-					<li><a hreflang="en" rel="alternate" href="//en.{{ Config::get('app.domain') }}/">{{ trans('footer.english') }}</a>
-					<li><a hreflang="es" rel="alternate" href="//es.{{ Config::get('app.domain') }}/">{{ trans('footer.spanish') }}</a>
-					<li><a hreflang="fr" rel="alternate" href="//fr.{{ Config::get('app.domain') }}/">{{ trans('footer.french') }}</a>
+					<li><a hreflang="de" rel="alternate" href="?l=de">{{ trans('footer.german') }}</a>
+					<li><a hreflang="en" rel="alternate" href="?l=en">{{ trans('footer.english') }}</a>
+					<li><a hreflang="es" rel="alternate" href="?l=es">{{ trans('footer.spanish') }}</a>
+					<li><a hreflang="fr" rel="alternate" href="?l=fr">{{ trans('footer.french') }}</a>
 				</ul>
 		</ul></nav>
 		<p class="pageWidth legalNotice" role="contentinfo">{{ trans('footer.legalNotice1') }}</p>

@@ -47,11 +47,13 @@ Route::filter( 'setLocale', function( $route, $request ) {
 	Session::put( 'language', $lang );
 });
 Route::filter( 'setLocaleDev', function( $route, $request ) {
-	if (Session::has( 'language' ) && in_array( Session::get( 'language'), array( 'de', 'en', 'es', 'fr' )) ) {
+	if( isset( $_GET['l'] ) && in_array( $_GET['l'], array( 'de', 'en', 'es', 'fr' )) ) {
+		$lang = $_GET['l'];
+	} elseif( Session::has( 'language' ) && in_array( Session::get( 'language'), array( 'de', 'en', 'es', 'fr' )) ) {
 		$lang = Session::get( 'language');
 	} else {
 		// get the prefered language for the visitor
-		$lang = Helper::prefered_language( array('en', 'de', 'es', 'fr') );
+		$lang = Helper::prefered_language( array( 'en', 'de', 'es', 'fr' ));
 
 		// show a notification that we changed the language
 		Notification::Add( 'language', Lang::get( 'notifications.autoLanguage', array('language' => Lang::get( 'notifications.language.' . $lang )) ) );

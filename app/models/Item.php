@@ -4,7 +4,7 @@ class Item extends BaseModel {
 	private static $i;
 	private $d = array();
 
-	public function getName( $lang = null ) { 
+	public function getName( $lang = null ) {
 		$name = $this->localized( 'name', $lang );
 		if( $this->isPvP() && !str_contains( strtolower($name), ' pvp ' )) {
 			$name = trans('item.pvp') . ' ' . $name;
@@ -16,16 +16,14 @@ class Item extends BaseModel {
 		if( !isset($this->getData( $lang )->description )) {
 			return '';
 		}
-		$description = $this->getData( $lang )->description;
-		$description = preg_replace( '/<c=@([^>]+)>(.*)<\/c>/s', '<span class="color-$1">$2</span>', $description );
-		$description = preg_replace( '/<c=#([^>]+)>(.*)<\/c>/s', '<span class="color-colored" style="color:#$1">$2</span>', $description );
-		$description = preg_replace( '/\n/', '<br />', $description );
-		return $description;
+		$search = array('/<c=@([^>]+)>(.*)<\/c>/s', '/<c=#([^>]+)>(.*)<\/c>/s', '/\n/');
+		$replace = array('<span class="color-$1">$2</span>', '<span class="color-colored" style="color:#$1">$2</span>', '<br />');
+		return preg_replace($search, $replace, $this->getData($lang)->description);
 	}
 
 	public function getData( $lang = null ) {
 		if ( !array_key_exists( $lang, $this->d ) ) {
-			$this->d[ $lang ] = json_decode( 
+			$this->d[ $lang ] = json_decode(
 				str_replace( array( '<br>' ),
 				             array( '\n'   ),
 				             $this->localized( 'data', $lang )));
@@ -48,17 +46,17 @@ class Item extends BaseModel {
 	public function getFlags( ) { return $this->getData()->flags; }
 	public function hasFlag( $flag ) { return in_array( $flag, $this->getFlags() ); }
 
-	public function isPvP() { 
-		return isset( $this->getData()->game_types ) && $this->getData()->game_types == array( 'Pvp', 'PvpLobby' ); 
+	public function isPvP() {
+		return isset( $this->getData()->game_types ) && $this->getData()->game_types == array( 'Pvp', 'PvpLobby' );
 	}
 
 	private $si;
 	public function getSuffixItem( ) {
-		return isset($this->si) ? $this->si : ($this->si = Item::find( $this->getTypeData()->suffix_item_id ) ); 
+		return isset($this->si) ? $this->si : ($this->si = Item::find( $this->getTypeData()->suffix_item_id ) );
 	}
 	private $si2;
 	public function getSecondarySuffixItem( ) {
-		return isset($this->si2) ? $this->si2 : ($this->si2 = Item::find( $this->getTypeData()->secondary_suffix_item_id ) ); 
+		return isset($this->si2) ? $this->si2 : ($this->si2 = Item::find( $this->getTypeData()->secondary_suffix_item_id ) );
 	}
 
 	public function getUrl( $lang = null ) {
@@ -77,7 +75,7 @@ class Item extends BaseModel {
 	public function getIconUrl( $size = 64 ) {
 		$size = intval( $size );
 		if( !in_array( $size, array( 16, 32, 64) )) {
-			if( $size <= 16 ) { 
+			if( $size <= 16 ) {
 				$size = 16;
 			} elseif ( $size <= 32 ) {
 				$size = 32;
@@ -131,10 +129,10 @@ class Item extends BaseModel {
 
 	public static function searchQuery( $query, $term, $or = false ) {
 		$term =  mb_strtoupper( trim( $term ));
-		
+
 		preg_match_all( '/\S+/', $term, $matches, PREG_SET_ORDER );
-		
-		$query->where( function( $query ) use ( $matches, $or ) { 
+
+		$query->where( function( $query ) use ( $matches, $or ) {
 			foreach ( $matches as $match ) {
 				$match = $match[0];
 
@@ -184,7 +182,7 @@ class Item extends BaseModel {
 			$scoreB = isset( $cache[$b->id] )
 				? $cache[$b->id]
 				: ( $cache[$b->id] = round( $b->getScore( $parts )));
-			
+
 			if( $scoreA == $scoreB )
 				return strcmp( $a->getName(), $b->getName() );
 
@@ -317,9 +315,9 @@ class Item extends BaseModel {
 				$attribute = $matches[2];
 				$modifier = intval( str_replace( array('+', '%'), array(' ', ' '), $modifier ) );
 				$attribute = str_replace( array( 'Critical Damage', 'Healing Power', ' ' ),
-				                          array( 'Ferocity',        'Healing',       ''  ), 
+				                          array( 'Ferocity',        'Healing',       ''  ),
 				                          $attribute );
-				$attributes[ $attribute ] = $modifier; 
+				$attributes[ $attribute ] = $modifier;
 			} else {
 				$attributes[ ] = $buffsLocalized[ $i ];
 			}

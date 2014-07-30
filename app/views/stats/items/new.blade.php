@@ -36,7 +36,7 @@
 		<div class="itemTimetableRow">
 			@for( $x = 1; $x <= 52; $x++ )
 				@if( isset( $table[ $y ] ) && isset( $table[ $y ][ $x ] ))
-					<div class="itemTimetableCell" style="background-color: rgba(42, 136, 145, {{ min( $table[ $y ][ $x ]->count / 40 * 0.7 + 0.3, 1) }}" title="{{ $table[ $y ][ $x ]->date }}{{ "\n" }}{{ $table[ $y ][ $x ]->count }} item(s)">
+					<div class="itemTimetableCell" style="background-color: rgba(42, 136, 145, {{ min( $table[ $y ][ $x ]->count / 40 * 0.7 + 0.3, 1) }})" title="{{ $table[ $y ][ $x ]->date }}{{ "\n" }}{{ $table[ $y ][ $x ]->count }} item(s)">
 					</div>
 				@else
 					<div class="itemTimetableCell"></div>

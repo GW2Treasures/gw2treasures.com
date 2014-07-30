@@ -32,7 +32,7 @@ return array(
 
 	'trackingCode' => 'UA-XXXXXXXX-Y',
 
-	'pygmentize' => '/usr/local/bin/pygmentize'
+	'pygmentize' => '/usr/local/bin/pygmentize',
 
 	/*
 	|--------------------------------------------------------------------------

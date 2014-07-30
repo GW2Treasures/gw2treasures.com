@@ -123,7 +123,7 @@ Route::group( array(
 		// mainpage
 		Route::get('/', function() {
 			return View::make( 'layout' )
-				->nest( 'content', 'start', array( 'newItems' => Item::orderBy('date_added', 'desc')->take(30)->remember(120)->get() ))
+				->nest( 'content', 'start', array( 'newItems' => Item::orderBy('date_added', 'desc')->take(30)->remember(10)->get() ))
 				->with( 'title', 'Welcome!' )
 				->with( 'fullWidth', true );
 		});

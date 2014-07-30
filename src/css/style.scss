@@ -53,6 +53,7 @@ hr {
 		transition: all .3s;
 		text-shadow: 0 1px #000;
 		float: left;
+		white-space: nowrap;
 		display: inline-block;
 		padding: 5px 15px;
 		color: white; }
@@ -164,8 +165,7 @@ hr {
 		background-color: #f6f6f6;
 		border-bottom: 1px solid #eee;
 		padding: 5px 20px; }
-		#notifications .notificationContent {
-			float: left; }
+		#notifications .notificationContent { }
 			#notifications .notificationContent > p:last-child {
 				margin-bottom: 0; }
 		#notifications .dismiss {

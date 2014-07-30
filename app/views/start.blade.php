@@ -17,7 +17,7 @@
 	<ul class="itemList">
 		@foreach ($newItems as $item)
 			<?php $date_added = new \Carbon\Carbon($item->date_added) ?>
-			<li style="clear:right">{{ $item->link(32) }} <span style="float:right; line-height: 32px;">{{ $date_added->diffForHumans() }}</span></li>
+			<li style="clear:right">{{ $item->link(32) }} <span style="float:right; line-height: 32px; white-space: nowrap;">{{ $date_added->diffForHumans() }}</span></li>
 		@endforeach
 	</ul>
 </div>

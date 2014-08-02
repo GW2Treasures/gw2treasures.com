@@ -53,10 +53,12 @@ Cache = (name, storage) ->
             #console.log "clear cache: #{_name}"
             for key in Object.keys _c
                 @remove key
+            return
         'clean': ->
             #console.log "clean cache: #{_name}"
             for key in Object.keys _c
                 @get key
+            return
 
     class CacheObject
         constructor: (o, value, seconds) ->

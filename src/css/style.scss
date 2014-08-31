@@ -432,7 +432,7 @@ html.js .only-no-js, html.no-js .only-js { display:none; }
 /* ITEMS */
 
 .itemHeader {
-	margin-top: 20px;
+	margin-top: 0px;
 	position: relative;
 	padding-left: 70px; }
 	.itemHeader img.icon {
@@ -1030,8 +1030,9 @@ i.loading {
 		background: white; }
 		.bannerSearch label,
 		.bannerSearch button {
-			font-family: 'Cronos Pro', 'Yanone KaffeeSatz', sans-serif;
+			font-family: 'Cronos Pro', 'Adelle', 'Bitter', sans-serif;
 			line-height: 55px;
+			font-size: 25px;
 			border: 0 solid transparent;
 			padding: 0 15px;
 			position: relative;
@@ -1192,3 +1193,72 @@ i.loading {
 .radio:checked + label:before {
 	background: #444;
 	background: radial-gradient( circle at 50% 50%, #444 0%, #555 42%, transparent 50% ); }
+
+.statistics {
+	//border: solid #ccc;
+	//border-width: 1px 0;
+	text-align: center;
+	list-style: none;
+
+	overflow: hidden;
+
+	padding: 0;
+
+	background: linear-gradient( to right, #fff, #FCFBF9 10%, #FCFBF9 90%, #fff );
+	box-shadow: inset 0 5px 5px -5px rgba(0,0,0,.1), inset 0 -3px 3px -3px rgba(0,0,0,.1);
+
+	li {
+		margin: 20px 50px;
+		display: inline-block;
+		min-width: 22%;
+		box-sizing: border-box;
+		text-align: center;
+		vertical-align: top;
+
+		strong {
+			font-size: 42px;
+			line-height: 1em;
+			font-weight: bold;
+			display: block;
+			white-space: nowrap;
+			margin-bottom: 5px;
+		}
+		em {
+			text-decoration: none;
+			font-style: normal;
+			text-transform: uppercase;
+			font-size: 10px;
+			font-weight: 700;
+			color: #aaa;
+			display: block;
+		}
+	}
+}
+
+.grid {
+	& > .row {
+		position: relative;
+		overflow: hidden;
+		clear: both;
+		width: 100%;
+
+		@for $i from 1 through 5 {
+    		@media ( min-width: 850px ) {
+				& > .column#{$i} {
+	        		width: percentage(1 / $i);
+					float: left;
+
+					padding-bottom: 1000px;
+					margin-bottom: -1000px;
+
+					&:nth-child(n+2) {
+						padding-left: 10px;
+					}
+					&:nth-last-child(n+2) {
+						padding-right: 10px;
+					}
+			    }
+			}
+		}
+	}
+}

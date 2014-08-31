@@ -417,14 +417,33 @@ html.js .only-no-js, html.no-js .only-js { display:none; }
 	padding: 10px;
 }
 
-.color-Ascended 	{ color:#fb3e8d; }
-.color-Basic 		{ color:#000000; }
-.color-Exotic 		{ color:#fda500; }
-.color-Fine 		{ color:#4f9dfe; }
-.color-Junk 		{ color:#808080; }
-.color-Legendary 	{ color:#800080; }
-.color-Masterwork 	{ color:#2dc50e; }
-.color-Rare 		{ color:#f4c900; }
+
+$ascended:   #fb3e8d;
+$basic:      #111111;
+$exotic:     #fda500;
+$fine:       #4f9dfe;
+$junk:       #808080;
+$legendary:  #800080;
+$masterwork: #2dc50e;
+$rare:       #f4c900;
+
+.color-Ascended 	{ color: $ascended; }
+.color-Basic 		{ color: $basic; }
+.color-Exotic 		{ color: $exotic; }
+.color-Fine 		{ color: $fine; }
+.color-Junk 		{ color: $junk; }
+.color-Legendary 	{ color: $legendary; }
+.color-Masterwork 	{ color: $masterwork; }
+.color-Rare 		{ color: $rare; }
+
+.border-Ascended 	{ border-color: $ascended; }
+.border-Basic 		{ border-color: $basic; }
+.border-Exotic 		{ border-color: $exotic; }
+.border-Fine 		{ border-color: $fine; }
+.border-Junk 		{ border-color: $junk; }
+.border-Legendary 	{ border-color: $legendary; }
+.border-Masterwork 	{ border-color: $masterwork; }
+.border-Rare 		{ border-color: $rare; }
 
 .chatlink {
 	border: none;

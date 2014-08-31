@@ -6,7 +6,7 @@
 			</a>
 		@endif
 		<div class="notificationContent">
-			{{ $notification->getContent() }}
+			{{ trans( $notification->getContent(), $notification->getData() ) }}
 		</div>
 	</div>
 </li>

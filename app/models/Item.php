@@ -64,11 +64,13 @@ class Item extends BaseModel {
 		return URL::route( 'itemdetails', array('language' => $lang, 'item' => $this->id ));
 	}
 
-	public function link( $icon = 16, $lang = null ) {
+	public function link( $icon = 16, $lang = null, $text = null ) {
 		$icon = intval( $icon );
-		return '<a data-item-id="' . $this->id . '" href="' . $this->getUrl( $lang ) . '">'
+		if( is_null( $lang ) ) $lang = App::getLocale();
+
+		return '<a data-item-id="' . $this->id . '" href="' . $this->getUrl( $lang ) . '" hreflang="' . $lang . '">'
 		     . ( $icon > 0 ? $this->getIcon( $icon ) . ' ' : '' )
-		     . $this->getName( $lang )
+		     . ( !is_null( $text ) ? $text : $this->getName( $lang ))
 		     . '</a>';
 	}
 

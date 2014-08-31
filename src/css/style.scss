@@ -600,21 +600,82 @@ ul.itemList {
 .additionalSimilarItems { display: none; }
 
 .recipeBox {
-	background-color: #FBFBFB;
-	padding: 15px;
 	margin: 15px;
-	width: 270px;
 	display: inline-block;
-	box-shadow: 1px 1px 3px rgba(0,0,0,.3); }
-	.recipeBox > .output {
-		border-top: 1px solid #E0E0E0;
-		padding-top: 3px;
-		margin: 4px 0 12px 0; }
-	.recipeBox > .unlockedBy {
-		margin-bottom: 5px; }
-	.recipeBox > .timeToCraft {
-		float: right; }
-	.recipeBox > .disciplines { }
+	box-shadow: 0px 1px 2px rgba(0,0,0,.2);
+	border-top-width: 3px;
+	border-top-style: solid;
+	background: #f9f9f9;
+	overflow: hidden;
+	white-space: nowrap;
+
+	header {
+		margin-bottom: 10px;
+		background: white;
+
+		.output {
+			font-family: Adelle, Bitter, Georgia, serif;
+			font-weight: bold; 
+			font-size: 1.15em;
+
+			a { 
+				display: block;
+				color: inherit;
+				line-height: 32px;
+				padding: 10px;
+
+				transition: box-shadow .2s ease;
+				box-shadow: 0 0 2px rgba(0,0,0,.2);
+
+				&:hover { 
+					text-decoration: none;				
+
+					box-shadow: 0 0 8px rgba(0,0,0,.23);
+				}
+			}
+		}
+		img {
+			margin-right: 4px;
+		}
+	}
+	.timeToCraft {
+		float: right;
+		margin-right: 15px;
+		margin-left: 25px;
+
+		i:first-of-type {
+			margin-left: 4px;
+		}
+
+	}
+	.disciplines {
+		float: left;
+		padding-left: 15px;
+		padding-bottom: 8px;
+
+		i:last-of-type {
+			margin-right: 4px;
+		}
+	}
+
+	ul.ingredients {
+		clear: both;
+		border-top: 1px solid #f0f0f0;
+
+		margin: 8px 0 0;
+		padding: 8px 10px;
+	}
+
+	.recipe {
+		padding: 8px 15px 10px 15px;
+		border-top: 1px solid #f0f0f0;
+	}
+
+	.recipeLabel {
+		margin-right: 4px;
+	}
+}
+
 ul.ingredients {
 	list-style-type: none; 
 	margin: 0; padding: 0; }

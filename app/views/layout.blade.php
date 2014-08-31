@@ -32,6 +32,11 @@
 	@if( App::getLocale() != 'fr' )
 		<meta property="og:locale:alternate" content="fr">
 	@endif
+	<!-- prefetch -->
+	@foreach( Helper::$cdn_servers as $cdn_server )
+		<link rel="dns-prefetch" href="//{{ $cdn_server }}">
+	@endforeach
+	<link rel="dns-prefetch" href="//storage.gw2treasures.de">
 
 	<!-- styles -->
 	<link rel="stylesheet" href="{{ Helper::cdn('assets/css/normalize.min.css') }}">

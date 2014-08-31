@@ -1,7 +1,7 @@
 <?php
 
 class Helper {
-    private static $cdn_servers = array( 
+    public static $cdn_servers = array( 
         'callisto.darthmaim-cdn.de',
         'europa.darthmaim-cdn.de',
         'ganymede.darthmaim-cdn.de',

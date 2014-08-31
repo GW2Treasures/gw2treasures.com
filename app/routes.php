@@ -27,7 +27,10 @@ Route::filter( 'setLocale', function( $route, $request ) {
 			$lang = Helper::prefered_language( array('en', 'de', 'es', 'fr') );
 
 			// show a notification that we changed the language
-			Notification::Add( 'language', Lang::get( 'notifications.autoLanguage', array('language' => Lang::get( 'notifications.language.' . $lang )) ) );
+			Notification::Add( 'language', 'notifications.autoLanguage', array(
+				'data' => array(
+					'language' => Lang::get( 'notifications.language.' . $lang )
+			)));
 		}
 
 		// redirect to the right subdomain
@@ -56,7 +59,10 @@ Route::filter( 'setLocaleDev', function( $route, $request ) {
 		$lang = Helper::prefered_language( array( 'en', 'de', 'es', 'fr' ));
 
 		// show a notification that we changed the language
-		Notification::Add( 'language', Lang::get( 'notifications.autoLanguage', array('language' => Lang::get( 'notifications.language.' . $lang )) ) );
+		Notification::Add( 'language', 'notifications.autoLanguage', array(
+			'data' => array(
+				'language' => Lang::get( 'notifications.language.' . $lang )
+		)));
 	}
 
 	// set locale

@@ -6,25 +6,33 @@ class Notification {
 	protected $options = array();
 
 	private static $default_options = array(
-		'dismissible' => true
+		'dismissible' => true,
+		'data' => array()
 	);
 
 	private function __construct( $name, $content, $options ) {
 		$this->name = $name;
 		$this->content = $content;
-		$this->options = $options + self::$default_options;
+		$this->options = array_merge( self::$default_options, $options );
 	}
 
 	public function getName() { return $this->name; }
 	public function getContent() { return $this->content; }
-	public function getOption( $key ) { 
-		return array_key_exists( $key, $this->options )
-			? $this->options[ $key ]
-			: array_key_exists( $key, self::$default_options )
-				? self::$default_options[ $key ]
-				: null;
+	public function getOption( $key ) {
+		if( array_key_exists( $key, $this->options )) {
+			return $this->options[ $key ];
+		} elseif( array_key_exists( $key, self::$default_options )) {
+			return self::$default_options[ $key ];
+		} else {
+			return null;
+		}
 	}
 	public function isDismissible() { return $this->getOption( 'dismissible' ); }
+
+	public function getData() { 
+		$data = $this->getOption('data');
+		return is_array( $data ) ? $data : array();
+	}
 
 	//----
 

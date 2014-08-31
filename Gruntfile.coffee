@@ -132,7 +132,7 @@ module.exports = (grunt) ->
                 files: '<%= paths.src.img %>*.png'
                 tasks: [ 'build:img' ]
             js:
-                files: '<%= paths.src.css %>*.coffee'
+                files: '<%= paths.src.js %>*.coffee'
                 tasks: [ 'build:js' ]
 
     # load tasks

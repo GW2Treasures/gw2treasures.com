@@ -134,12 +134,10 @@ Route::group( array(
 	), function() {
 	
 		// mainpage
-		Route::get('/', function() {
-			return View::make( 'layout' )
-				->nest( 'content', 'start', array( 'newItems' => Item::orderBy('date_added', 'desc')->take(30)->remember(10)->get() ))
-				->with( 'title', 'Welcome!' )
-				->with( 'fullWidth', true );
-		});
+		Route::get('/', array(
+			'as' => 'home',
+			'uses' => 'MainController@home'
+		));
 		
 		//================================
 		// Items

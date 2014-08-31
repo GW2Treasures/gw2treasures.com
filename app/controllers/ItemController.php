@@ -17,6 +17,11 @@ class ItemController extends BaseController {
 
 			Cache::forever( $key, $content );
 		}
+
+		DB::table('item_views')->insert(array(
+			'item_id' => $item->id,
+			'language' => $language,
+		));
 	}
 
 	public function json( $language, Item $item ) {

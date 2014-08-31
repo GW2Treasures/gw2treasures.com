@@ -22,62 +22,107 @@ a {
 p {
 	margin: 0 0 .5em 0; }
 
-h2,h3,h4,h5,h6,b,strong,th {
-	font-family: 'Segoe UI', 'Open Sans', sans-serif; }
+b,strong,th {
+	font-family: 'Segoe UI', 'Open Sans', sans-serif; 
+}
+h2,h3,h4,h5,h6 {
+	font-family: 'Adelle', 'Bitter', 'Segoe UI', sans-serif;
+}
 
 hr {
 	margin: 0.8em auto;
 	max-width: 1000px; }
 
 #header {
+	background-color: #222;
 	background: linear-gradient(#222, #111) #222;
-	box-shadow: 0 0 5px rgba(0,0,0,.3);
+	//box-shadow: 0 0 5px rgba(0,0,0,.3);
 	z-index: 1;
+	
 	position: relative;
+	left: 0; right: 0;
+	top: 0;
+	height: 40px;
+
 	padding: 0 20px;
+	
 	color: #eee;
-	line-height: 30px; }
+	line-height: 40px; }
+	#header > .pageWidth {
+		position: relative; }
 	#header h1 {
-		margin: 0 10px 0 0;
+		position: absolute;
+		left: 50%;
+		margin-left: -100px;
 		font-size: 22px;
-		padding: 5px 0;
-		font-family: Yanone KaffeeSatz, sans-serif; }
+		padding: 0;
+		font-size: 0;
+		color: transparent; }
+		        .js #header h1 > a  { background-image: none; }
+		     .no-js #header h1 > a ,
+		.js.no-webp #header h1 > a  { background-image: url('../img/sprites.png'); }
+		   .js.webp #header h1 > a  { background-image: url('../img/sprites.webp'); }
 		#header h1 > a {
-			color: #eee;
-			text-decoration: none; }
+			background-position: 0px -100px;
+			background-repeat: no-repeat;
+			width: 200px;
+			display: block;
+			height: 40px; }
 			#header h1 > a:hover {
-				color: #ccc;
 				text-decoration: none; }
-	#header .headerButton {
-		transition: all .3s;
-		text-shadow: 0 1px #000;
-		float: left;
-		white-space: nowrap;
-		display: inline-block;
-		padding: 5px 15px;
-		color: white; }
-		#header .headerButton:hover {
-			background: rgba(255,255,255,.3);
-			box-shadow: 0 0 10px rgba(0,0,0,.3);
-			text-decoration: none; }
+	#header .left,
+	#header .right {
+		position: absolute;
+		white-space: nowrap; 
+		text-overflow: ellipsis; }
+	#header .left {
+		left: 0;
+		right: 50%;
+		margin-right: 125px;
+		overflow: hidden;
+		text-align: left; }
+	#header .right {
+		right: 0;
+		left: 50%;
+		margin-left: 125px; 
+		text-align: right; }
+		#header .headerButton {
+			transition: background-color .3s ease;
+			background-color: transparent;
+			white-space: nowrap;
+			display: inline-block;
+			padding: 0 20px;
+			color: white; }
+			#header .headerButton:hover {
+				background-color: #666;
+				text-decoration: none; }
 	#header .searchForm {
 		float: right;
 		position: relative;
-		padding: 5px 0;	}
+		padding: 0;	}
 		#header .searchForm label {
 			position: absolute;
 			top: 0;
 			left: 0;
+			cursor: text;
 			line-height: 16px;
-			margin: 12px 3px; }
+			margin: 12px; }
 		#header .searchForm #q {
 			border: none;
 			outline: none;
-			padding: 2px 5px 2px 24px;
+			padding: 2px 5px 2px 42px;
+			width: 225px;
+			height: 40px;
 			font: inherit;
+			background: #666;
+			color: #fff;
+			transition: all .3s ease;
 			line-height: normal; }
 			#header .searchForm #q:focus {
-				box-shadow: inset 0 0 4px 0 rgba(255, 122, 0, 1); }
+				width: 353px;
+				outline: none;
+				background: #ccc;
+				color: #111; }
 		#header .searchForm .submit {
 			display: none; }
 #wrapper {
@@ -815,8 +860,9 @@ i[class^="sprite-20-"] { width: 20px; height: 20px; }
 i[class^="sprite-32-"] { width: 32px; height: 32px; }
 i[class^="sprite-40-"] { width: 40px; height: 40px; }
 
-i[class^="sprite-"][class$="-search"] { background-position: -60px -0px; }
-i[class^="sprite-"][class$="-go"]     { background-position:   0px 40px; }
+i[class^="sprite-"][class$="-search"]       { background-position: -60px  -0px; }
+i[class^="sprite-"][class$="-search-light"] { background-position: -80px  -0px; }
+i[class^="sprite-"][class$="-go"]           { background-position:   0px -60px; }
 
 i[class^="sprite-"][class$="-activation"]    { background-position: -40px -0px; }
 

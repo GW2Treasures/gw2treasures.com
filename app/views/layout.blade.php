@@ -14,24 +14,6 @@
 	<meta itemprop="name" content="GW2 Treasures: The Guild Wars 2 Item Database">
 	<meta itemprop="image" content="{{ Helper::cdn('assets/img/logo.png') }}">
 
-	<meta property="og:title" content="{{ $title }}">
-	<meta property="og:site_name" content="GW2 Treasures">
-	<meta property="og:url" content="{{ Request::url() }}">
-	<!-- <meta property="og:description" content=""> -->
-	<meta property="og:image" content="{{ Helper::cdn('assets/img/logo.png') }}">
-	<meta property="og:type" content="website">
-	<meta property="og:locale" content="{{ App::getLocale() }}">
-	@if( App::getLocale() != 'de' )<meta property="og:locale:alternate" content="de">
-	@endif
-	@if( App::getLocale() != 'en' )
-		<meta property="og:locale:alternate" content="en">
-	@endif
-	@if( App::getLocale() != 'es' )
-		<meta property="og:locale:alternate" content="es">
-	@endif
-	@if( App::getLocale() != 'fr' )
-		<meta property="og:locale:alternate" content="fr">
-	@endif
 	<!-- prefetch -->
 	@foreach( Helper::$cdn_servers as $cdn_server )
 		<link rel="dns-prefetch" href="//{{ $cdn_server }}">

@@ -68,6 +68,9 @@ module.exports = (grunt) ->
             js:
                 src: ['<%= paths.out.jsVendor %>jquery.min.js', '<%= paths.out.jsVendor %>jquery-plugins.js']
                 dest: '<%= paths.out.js %>jquery.js'
+            custom:
+                src: '<%= paths.out.jsCustom %>*.js'
+                dest: '<%= paths.out.js %>gw2t.js'
         'regex-replace':
             js:
                 src: '<%= paths.out.js %>gw2t.js'
@@ -162,7 +165,7 @@ module.exports = (grunt) ->
     grunt.registerTask 'js:vendor', ['clean:jsVendor','mkdir:jsVendor','jquery','jqueryPlugins','modernizr']
     grunt.registerTask 'js:custom', ['clean:jsCustom','mkdir:jsCustom','coffee:multi']
 
-    grunt.registerTask 'js:minify', ['closure-compiler:custom']
+    grunt.registerTask 'js:minify', [ 'concat:custom' ]
 
     grunt.registerTask 'js:concat', ['concat:js', 'regex-replace:js']
 

@@ -6,14 +6,13 @@ html, body {
 	/* enable kerning */
 	-moz-font-feature-settings:"kern" 1; 
 	-moz-font-feature-settings:"kern=1"; 
-	-ms-font-feature-settings:"kern" 1; 
-	-o-font-feature-settings:"kern" 1; 
-	-webkit-font-feature-settings:"kern" 1; 
-	font-feature-settings:"kern" 1;
+	-webkit-font-feature-settings:"kern" 1;
 	/* fix bloated fonts on mac osx */
 	-moz-osx-font-smoothing: grayscale;
 	-webkit-font-smoothing: antialiased;
 }
+
+* { box-sizing: border-box; }
 
 a { 
 	text-decoration: none;

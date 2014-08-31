@@ -29,7 +29,7 @@
 	@endif
 
 	<!-- fonts -->
-	<link href="http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:700|Open+Sans:400,300,600,700|Open+Sans+Condensed:300" rel="stylesheet" type="text/css">
+	<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,700|Open+Sans+Condensed:300|Bitter:700" rel="stylesheet" type="text/css">
 
 	<!-- favicons -->
 	<link rel="icon" href="{{ Helper::cdn('assets/img/favicon.png') }}" type="image/png" />

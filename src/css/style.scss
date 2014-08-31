@@ -1040,38 +1040,62 @@ i.loading {
 
 #searchSuggestionbox {
 	position: absolute;
-	width: 400px;
+	left: 0;
 	right: 0;
-	top: 1.7em;
-	margin-top: 9px;
-	z-index: 50;
+	top: 40px;
+	margin: 0;
+	text-align: left;
+	z-index: -1;
 	background: white;
-	box-shadow: 0 3px 3px rgba(0,0,0,.3);
 	line-height: 1em;
-	display: none; }
+	transition: transform .3s ease;
+	opacity: 0.5;
+	transform: translate3d(0,-100%,0); }
 	#searchSuggestionbox.visible {
-		display: block;	}
+		box-shadow: 0 1px 2px rgba(0,0,0,.3);
+		opacity: 1;
+		transform: translate3d(0,0,0); }
 	#searchSuggestionbox header {
-		background: #ddd;
 		font-weight: 700;
+		font-size: 12px;
+		text-transform: uppercase;
 		font-family: 'Segoe UI', 'Open Sans', sans-serif;
-		padding: 5px 10px;
+		padding: 8px 10px;
+		background: #fff;
+		background: linear-gradient(to bottom, #FAFAFA, #FFF);
 		color: #111; }
 	#searchSuggestionbox ul {
 		margin: 0;
 		padding: 0;
-		list-style-type: none; }
-	#searchSuggestionbox li:nth-last-child(n+2) {
-		border-bottom: 1px solid #ddd; }
+		list-style-type: none;
+
+		opacity: 1;
+		transition: opacity .3s ease;
+
+		&.loading {
+			opacity: 0.3;
+		}
+	}
 	#searchSuggestionbox a {
-		padding: 5px 10px;
+		padding: 6px 15px;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
 		display: block; }
 		#searchSuggestionbox a:hover,
 		#searchSuggestionbox a:focus {
 			text-decoration: none;
-			background-color: #f4f4f4; } 
+			background-color: #f4f4f4; }
 		#searchSuggestionbox a img {
+			margin-right: 10px;
 			vertical-align: text-bottom; }
+	#searchSuggestionbox mark {
+		background: none;
+		color: inherit;
+		text-decoration: underline;
+		font-family: 'Segoe UI', 'Open Sans', sans-serif;
+		font-weight: bold;
+	}
 
 .formTable {
 	min-width: 400px; }

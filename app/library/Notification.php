@@ -79,6 +79,10 @@ class Notification {
 		self::Save();
 	}
 
+	public static function has( $key ) {
+		return array_key_exists( $key, self::Notifications() );
+	}
+
 	private static $notifications = null;
 	public static function Notifications() {
 		if( is_null( self::$notifications ) ) {

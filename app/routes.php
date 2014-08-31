@@ -78,6 +78,13 @@ Route::filter( 'setLocaleDev', function( $route, $request ) {
 	Session::put( 'language', $lang );
 });
 
+Route::filter( 'acceptCookies', function( $route, $request ) {
+	if( !Session::has( 'acceptCookies' )) {
+		Session::put( 'acceptCookies', true );
+		Notification::Add( 'acceptCookies', 'notifications.cookies' );
+	}
+});
+
 // route to hide notifications
 Route::get( 'notification/hide/{notification}', array('as' => 'hideNotification', function( $notification ) {
 	Notification::Remove( $notification );
@@ -93,7 +100,7 @@ Route::group( array('domain' => Config::get('app.domain'), 'before' => 'setLocal
 // dev routes
 Route::group( array(
 		'domain' => 'dev.' . Config::get('app.domain'),
-		'before' => 'setLocaleDev'
+		'before' => 'setLocaleDev|acceptCookies'
 	), function() {
 		Route::get('/', array(
 			'as' => 'dev', function() {
@@ -122,7 +129,7 @@ Route::group( array(
 // all main routes
 Route::group( array(
 		'domain' => '{language}.' . Config::get('app.domain'),
-		'before' => 'setLocale',
+		'before' => 'setLocale|acceptCookies',
 		'after' => ''
 	), function() {
 	

@@ -92,6 +92,7 @@ class Item extends BaseModel {
 		$out .= ' width="' . $size . '"';
 		$out .= ' height="' . $size . '"';
 		$out .= ' alt=""';
+		$out .= ' crossorigin="anonymous"';
 		if( $size <= 32 ) {
 			$out .= ' srcset="' . $this->getIconUrl( $size ) . ' 1x, ' . $this->getIconUrl( $size * 2 ) . ' 2x"';
 		}

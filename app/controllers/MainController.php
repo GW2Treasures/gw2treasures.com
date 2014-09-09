@@ -11,7 +11,7 @@ class MainController extends BaseController {
 			->select('items.*')
 			->orderBy( DB::raw('MAX(item_views.time)'), 'desc' )
 			->groupBy( 'items.id' )
-			->take(5)->get();
+			->take(5)->remember(1)->get();
 		
 		$popularItems = Item::join('item_views', 'item_views.item_id', '=', 'items.id' )
 			->select('items.*', DB::raw('COUNT(*) as views') )
@@ -19,7 +19,7 @@ class MainController extends BaseController {
 			->groupBy('items.id')
 			->orderBy(DB::raw('COUNT(*)'), 'desc')
 			->orderBy( DB::raw('MAX(item_views.time)'), 'desc')
-			->take(5)->get();
+			->take(5)->remember(5)->get();
 
 		$this->layout->title = 'Welcome!';
 		$this->layout->content = View::make( 'start' )

@@ -4,7 +4,7 @@ class MainController extends BaseController {
 	protected $layout = 'layout';
 
 	public function home( $language ) {
-		$newItems            = Item::orderBy('date_added', 'desc')
+		$newItems            = Item::where('updated','=','1')->orderBy('date_added', 'desc')
 			->take(30)->remember(10)->get();
 		
 		$recentlyViewedItems = Item::join('item_views', 'item_views.item_id', '=', 'items.id' )

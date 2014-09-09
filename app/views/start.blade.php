@@ -33,6 +33,7 @@
 	</div>
 </div>
 
+{{--
 <h2 class="pageWidth">Statistics</h2>
 <div class="pageWidth">
 	<ul class="statistics">
@@ -41,6 +42,7 @@
 		<li><strong>8 532</strong><em>Recipes</em>
 	</ul>
 </div>
+--}}
 
 <h2 class="pageWidth">{{ trans('footer.newItems') }}</h2>
 <div class="pageWidth grid">

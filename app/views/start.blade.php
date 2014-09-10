@@ -17,16 +17,16 @@
 		<div class="column2">
 			<h2>Recently viewed Items</h2>
 			<ul class="itemList">
-				@foreach ($recentlyViewedItems as $item)
-					<li>{{ $item->link(32) }}</li>
+				@foreach ($recentItemViews as $view)
+					<li>{{ $view->item->link(32) }}</li>
 				@endforeach
 			</ul>
 		</div>
 		<div class="column2">
 			<h2>Most viewed Items</h2>
 			<ul class="itemList">
-				@foreach ($popularItems as $item)
-					<li style="clear:right">{{ $item->link(32) }} <span style="float:right; line-height: 32px; white-space: nowrap;">{{ $item->views }} Views</span></li>
+				@foreach ($popularItemViews as $view)
+					<li style="clear:right">{{ $view->item->link(32) }} <span style="float:right; line-height: 32px; white-space: nowrap;">{{ $view->views }} Views</span></li>
 				@endforeach
 			</ul>
 		</div>

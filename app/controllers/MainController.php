@@ -15,7 +15,7 @@ class MainController extends BaseController {
 		
 		$popularItemViews = DB::table('item_views')
 			->select('item_id', DB::raw('COUNT(*) as views'))
-			->whereRaw('DATE_SUB(CURRENT_DATE(), INTERVAL 24 DAY) <= time')
+			->whereRaw('DATE_SUB(CURRENT_DATE(), INTERVAL 1 DAY) <= time')
 			->groupBy('item_id')
 			->orderBy(DB::raw('COUNT(*)'), 'desc')
 			->orderBy( DB::raw('MAX(time)'), 'desc')

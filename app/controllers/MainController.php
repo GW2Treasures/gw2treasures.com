@@ -26,12 +26,14 @@ class MainController extends BaseController {
 		foreach( $recentItemViews  as $view ) { $idsToLoad[] = $view->item_id; }
 		foreach( $popularItemViews as $view ) { $idsToLoad[] = $view->item_id; }
 
-		// load the items and convert to dictionary
-		$items = Item::whereIn( 'id', $idsToLoad )->get()->getDictionary();
+		if( count( $idsToLoad ) > 0 ) {
+			// load the items and convert to dictionary
+			$items = Item::whereIn( 'id', $idsToLoad )->get()->getDictionary();
 
-		// assign the items to the views
-		foreach( $recentItemViews  as $view ) { $view->item = $items[ $view->item_id ]; }
-		foreach( $popularItemViews as $view ) { $view->item = $items[ $view->item_id ]; }
+			// assign the items to the views
+			foreach( $recentItemViews  as $view ) { $view->item = $items[ $view->item_id ]; }
+			foreach( $popularItemViews as $view ) { $view->item = $items[ $view->item_id ]; }
+		}
 
 		$this->layout->title = 'Welcome!';
 		$this->layout->content = View::make( 'start' )

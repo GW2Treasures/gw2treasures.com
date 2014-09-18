@@ -140,11 +140,11 @@ class Item extends BaseModel {
 	 * @return stdClass
 	 */
 	public function getData( $lang = null ) {
-		if( !array_key_exists( $lang, $this->d )) {
+		if( !array_key_exists( $lang, $this->d ) ) {
 			$this->d[ $lang ] = json_decode(
 				str_replace( array( '<br>' ),
 					array( '\n' ),
-					$this->localized( 'data', $lang )));
+					$this->localized( 'data', $lang ) ) );
 		}
 		return $this->d[ $lang ];
 	}
@@ -198,7 +198,7 @@ class Item extends BaseModel {
 	 * @return bool
 	 */
 	public function isPvP() {
-		return isset( $this->getData()->game_types ) && $this->getData()->game_types == array( 'Pvp', 'PvpLobby' );
+		return isset($this->getData()->game_types) && $this->getData()->game_types == array( 'Pvp', 'PvpLobby' );
 	}
 
 	/** @var Item|null cache for suffix item */
@@ -210,14 +210,14 @@ class Item extends BaseModel {
 	 * @return static|null
 	 */
 	public function getSuffixItem() {
-		return isset( $this->si ) ? $this->si : ($this->si = Item::find( $this->getTypeData()->suffix_item_id ));
+		return isset($this->si) ? $this->si : ($this->si = Item::find( $this->getTypeData()->suffix_item_id ));
 	}
 
 	/**
 	 * @return static|null
 	 */
 	public function getSecondarySuffixItem() {
-		return isset( $this->si2 ) ? $this->si2
+		return isset($this->si2) ? $this->si2
 			: ($this->si2 = Item::find( $this->getTypeData()->secondary_suffix_item_id ));
 	}
 
@@ -245,14 +245,14 @@ class Item extends BaseModel {
 	 */
 	public function link( $icon = 16, $lang = null, $text = null ) {
 		$icon = intval( $icon );
-		if( is_null( $lang )) {
+		if( is_null( $lang ) ) {
 			$lang = App::getLocale();
 		}
 
 		return '<a data-item-id="' . $this->id . '" href="' . $this->getUrl( $lang ) . '" hreflang="' . $lang . '">'
-			   . ($icon > 0 ? $this->getIcon( $icon ) . ' ' : '')
-			   . ( !is_null( $text ) ? $text : $this->getName( $lang ))
-			   . '</a>';
+		       . ($icon > 0 ? $this->getIcon( $icon ) . ' ' : '')
+		       . (!is_null( $text ) ? $text : $this->getName( $lang ))
+		       . '</a>';
 	}
 
 	/**
@@ -263,7 +263,7 @@ class Item extends BaseModel {
 	 */
 	public function getIconUrl( $size = 64 ) {
 		$size = intval( $size );
-		if( !in_array( $size, array( 16, 32, 64 ))) {
+		if( !in_array( $size, array( 16, 32, 64 ) ) ) {
 			if( $size <= 16 ) {
 				$size = 16;
 			} elseif( $size <= 32 ) {
@@ -355,7 +355,7 @@ class Item extends BaseModel {
 	 * @return \Illuminate\Database\Query\Builder
 	 */
 	public static function searchQuery( $query, $term, $or = false ) {
-		$term = mb_strtoupper( trim( $term ));
+		$term = mb_strtoupper( trim( $term ) );
 
 		preg_match_all( '/\S+/', $term, $matches, PREG_SET_ORDER );
 
@@ -366,17 +366,17 @@ class Item extends BaseModel {
 
 				if( $or ) {
 					$query->orWhereRaw( 'UPPER(name_de) LIKE ?', array( '%' . $match . '%' ) )
-						  ->orWhereRaw( 'UPPER(name_en) LIKE ?', array( '%' . $match . '%' ) )
-						  ->orWhereRaw( 'UPPER(name_es) LIKE ?', array( '%' . $match . '%' ) )
-						  ->orWhereRaw( 'UPPER(name_fr) LIKE ?', array( '%' . $match . '%' ) );
+					      ->orWhereRaw( 'UPPER(name_en) LIKE ?', array( '%' . $match . '%' ) )
+					      ->orWhereRaw( 'UPPER(name_es) LIKE ?', array( '%' . $match . '%' ) )
+					      ->orWhereRaw( 'UPPER(name_fr) LIKE ?', array( '%' . $match . '%' ) );
 				} else {
 					$query->where( function ( $query ) use ( $match ) {
 						/** @var \Illuminate\Database\Query\Builder $query */
 						$query->whereRaw( 'UPPER(name_de) LIKE ?', array( '%' . $match . '%' ) )
-							  ->orWhereRaw( 'UPPER(name_en) LIKE ?', array( '%' . $match . '%' ) )
-							  ->orWhereRaw( 'UPPER(name_es) LIKE ?', array( '%' . $match . '%' ) )
-							  ->orWhereRaw( 'UPPER(name_fr) LIKE ?', array( '%' . $match . '%' ) );
-					} );
+						      ->orWhereRaw( 'UPPER(name_en) LIKE ?', array( '%' . $match . '%' ) )
+						      ->orWhereRaw( 'UPPER(name_es) LIKE ?', array( '%' . $match . '%' ) )
+						      ->orWhereRaw( 'UPPER(name_fr) LIKE ?', array( '%' . $match . '%' ) );
+					});
 				}
 			}
 		} );
@@ -395,7 +395,7 @@ class Item extends BaseModel {
 	 */
 	public function scopeHasUpgrade( $query, Item $item ) {
 		return $query->where( 'suffix_item_id', '=', $item->id )
-					 ->orWhere( 'secondary_suffix_item_id', '=', $item->id );
+		             ->orWhere( 'secondary_suffix_item_id', '=', $item->id );
 	}
 
 	/**
@@ -470,7 +470,7 @@ class Item extends BaseModel {
 			foreach( $searchtermParts as $part ) {
 				$part = mb_strtoupper( $part );
 
-				if( starts_with( $name, $part )) {
+				if( starts_with( $name, $part ) ) {
 					$score += 5 * $modifier;
 				}
 
@@ -478,7 +478,7 @@ class Item extends BaseModel {
 					if( $namePart == $part ) {
 						$score += 5 * $modifier;
 					} else {
-						if( starts_with( $namePart, $part )) {
+						if( starts_with( $namePart, $part ) ) {
 							$score += 3 * $modifier;
 						}
 					}
@@ -500,10 +500,10 @@ class Item extends BaseModel {
 		           ->where( 'data_en', '!=', '' )
 		           ->where( function ( $query ) use ( $that ) {
 			           /** @var \Illuminate\Database\Query\Builder $query */
-			           return $query->where( 'name_de', '=', $that->getName( 'de' ))
-			                        ->orWhere( 'name_en', '=', $that->getName( 'en' ))
-			                        ->orWhere( 'name_es', '=', $that->getName( 'es' ))
-			                        ->orWhere( 'name_fr', '=', $that->getName( 'fr' ))
+			           return $query->where( 'name_de', '=', $that->getName( 'de' ) )
+			                        ->orWhere( 'name_en', '=', $that->getName( 'en' ) )
+			                        ->orWhere( 'name_es', '=', $that->getName( 'es' ) )
+			                        ->orWhere( 'name_fr', '=', $that->getName( 'fr' ) )
 			                        ->orWhere( function ( $q ) use ( $that ) {
 				                        /** @var \Illuminate\Database\Query\Builder $q */
 				                        return $q->where( 'signature', '=', $that->signature )
@@ -523,7 +523,7 @@ class Item extends BaseModel {
 				                                 ->where( 'value', '=', $that->value )
 				                                 ->where( 'level', '=', $that->level );
 			                        } );
-		           })->take( 500 )->get();
+		           } )->take( 500 )->get();
 	}
 
 	//----
@@ -537,10 +537,10 @@ class Item extends BaseModel {
 	public function getTooltip( $lang = null ) {
 		$lang = is_null( $lang ) ? App::getLocale() : $lang;
 		$key = CacheHelper::ItemTooltip( $this, $lang );
-		if( Cache::has( $key ) && !isset( $_GET[ 'nocache' ] )) {
+		if( Cache::has( $key ) && !isset($_GET[ 'nocache' ]) ) {
 			return Cache::get( $key );
 		} else {
-			$tooltip = View::make( 'item.tooltip', array( 'item' => $this ))->render();
+			$tooltip = View::make( 'item.tooltip', array( 'item' => $this ) )->render();
 			$tooltip = str_replace( array( "\r", "\n", "\t" ), '', $tooltip );
 			Cache::forever( $key, $tooltip );
 			return $tooltip;
@@ -554,7 +554,7 @@ class Item extends BaseModel {
 	 * @return stdClass|null
 	 */
 	public function getInfixUpgrade( $lang = null ) {
-		if( isset( $this->getTypeData( $lang )->infix_upgrade )) {
+		if( isset($this->getTypeData( $lang )->infix_upgrade) ) {
 			return $this->getTypeData( $lang )->infix_upgrade;
 		}
 		return null;
@@ -566,7 +566,7 @@ class Item extends BaseModel {
 	public function getAttributes() {
 		$attributes = $this->getInfixAttributes();
 		foreach( $this->getBuffDescriptionAttributes() as $attribute => $modifier ) {
-			if( array_key_exists( $attribute, $attributes )) {
+			if( array_key_exists( $attribute, $attributes ) ) {
 				$attributes[ $attribute ] += $modifier;
 			} else {
 				$attributes[ $attribute ] = $modifier;
@@ -582,7 +582,7 @@ class Item extends BaseModel {
 	 */
 	public function getInfixAttributes() {
 		$infixUpgrade = $this->getInfixUpgrade( 'en' );
-		if( is_null( $infixUpgrade ) || !isset( $infixUpgrade->attributes )) {
+		if( is_null( $infixUpgrade ) || !isset($infixUpgrade->attributes) ) {
 			return array();
 		}
 		$attributes = array();
@@ -600,7 +600,7 @@ class Item extends BaseModel {
 	 */
 	public function getBuffDescriptionAttributes() {
 		$infixUpgrade = $this->getInfixUpgrade( 'en' );
-		if( is_null( $infixUpgrade ) || !isset( $infixUpgrade->buff ) || !isset( $infixUpgrade->buff->description )) {
+		if( is_null( $infixUpgrade ) || !isset($infixUpgrade->buff) || !isset($infixUpgrade->buff->description) ) {
 			return array();
 		}
 
@@ -611,17 +611,17 @@ class Item extends BaseModel {
 		$buffsLocalized = explode( "\n", $infixUpgradeLocalized->buff->description );
 
 		foreach( $buffs as $i => $buff ) {
-			if( preg_match( '/^\+?([0-9]+)%? (\S+(\s\S+)?)$/', $buff, $matches )) {
+			if( preg_match( '/^\+?([0-9]+)%? (\S+(\s\S+)?)$/', $buff, $matches ) ) {
 				$modifier = $matches[ 1 ];
 				$attribute = $matches[ 2 ];
-				$modifier = intval( str_replace( array( '+', '%' ), array( ' ', ' ' ), $modifier ));
+				$modifier = intval( str_replace( array( '+', '%' ), array( ' ', ' ' ), $modifier ) );
 				$attribute = str_replace(
 					array( 'Critical Damage', 'Healing Power', ' ' ),
 					array( 'Ferocity', 'Healing', '' ),
 					$attribute );
 				$attributes[ $attribute ] = $modifier;
 			} else {
-				$attributes[] = $buffsLocalized[ $i ];
+				$attributes[ ] = $buffsLocalized[ $i ];
 			}
 		}
 
@@ -634,12 +634,12 @@ class Item extends BaseModel {
 	 * @return int[string]
 	 */
 	public function getConsumableAttributes( $lang = null ) {
-		if( !isset( $this->getTypeData( $lang )->description )) {
+		if( !isset($this->getTypeData( $lang )->description) ) {
 			return array();
 		}
 
 		$description = $this->getTypeData( $lang )->description;
-		$description = str_replace( chr(194) . chr(160), ' ', $description );
+		$description = str_replace( chr( 194 ) . chr( 160 ), ' ', $description );
 
 		$attributes = array();
 		$buffs = explode( "\n", $description );
@@ -651,7 +651,7 @@ class Item extends BaseModel {
 				$modifier = str_replace( '-', '−', $modifier );
 				$attributes[ $attribute ] = $modifier;
 			} else {
-				$attributes[] = $buff;
+				$attributes[ ] = $buff;
 			}
 		}
 
@@ -670,6 +670,6 @@ class Item extends BaseModel {
 			'BoonDuration',
 			'ConditionDuration',
 			'Damage'
-		));
+		) );
 	}
 }

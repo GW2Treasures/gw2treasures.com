@@ -125,9 +125,10 @@ class Item extends BaseModel {
 			return '';
 		}
 		$search = array( '/<c=@([^>]+)>(.*)<\/c>/s', '/<c=#([^>]+)>(.*)<\/c>/s', '/\n/' );
-		$replace = array( '<span class="color-$1">$2</span>',
-						  '<span class="color-colored" style="color:#$1">$2</span>',
-						  '<br />'
+		$replace = array(
+			'<span class="color-$1">$2</span>',
+			'<span class="color-colored" style="color:#$1">$2</span>',
+			'<br />'
 		);
 		return preg_replace( $search, $replace, $this->getData( $lang )->description );
 	}
@@ -139,11 +140,11 @@ class Item extends BaseModel {
 	 * @return stdClass
 	 */
 	public function getData( $lang = null ) {
-		if( !array_key_exists( $lang, $this->d ) ) {
+		if( !array_key_exists( $lang, $this->d )) {
 			$this->d[ $lang ] = json_decode(
 				str_replace( array( '<br>' ),
 					array( '\n' ),
-					$this->localized( 'data', $lang ) ) );
+					$this->localized( 'data', $lang )));
 		}
 		return $this->d[ $lang ];
 	}
@@ -244,13 +245,13 @@ class Item extends BaseModel {
 	 */
 	public function link( $icon = 16, $lang = null, $text = null ) {
 		$icon = intval( $icon );
-		if( is_null( $lang ) ) {
+		if( is_null( $lang )) {
 			$lang = App::getLocale();
 		}
 
 		return '<a data-item-id="' . $this->id . '" href="' . $this->getUrl( $lang ) . '" hreflang="' . $lang . '">'
 			   . ($icon > 0 ? $this->getIcon( $icon ) . ' ' : '')
-			   . ( !is_null( $text ) ? $text : $this->getName( $lang ) )
+			   . ( !is_null( $text ) ? $text : $this->getName( $lang ))
 			   . '</a>';
 	}
 
@@ -354,7 +355,7 @@ class Item extends BaseModel {
 	 * @return \Illuminate\Database\Query\Builder
 	 */
 	public static function searchQuery( $query, $term, $or = false ) {
-		$term = mb_strtoupper( trim( $term ) );
+		$term = mb_strtoupper( trim( $term ));
 
 		preg_match_all( '/\S+/', $term, $matches, PREG_SET_ORDER );
 
@@ -370,6 +371,7 @@ class Item extends BaseModel {
 						  ->orWhereRaw( 'UPPER(name_fr) LIKE ?', array( '%' . $match . '%' ) );
 				} else {
 					$query->where( function ( $query ) use ( $match ) {
+						/** @var \Illuminate\Database\Query\Builder $query */
 						$query->whereRaw( 'UPPER(name_de) LIKE ?', array( '%' . $match . '%' ) )
 							  ->orWhereRaw( 'UPPER(name_en) LIKE ?', array( '%' . $match . '%' ) )
 							  ->orWhereRaw( 'UPPER(name_es) LIKE ?', array( '%' . $match . '%' ) )
@@ -495,29 +497,33 @@ class Item extends BaseModel {
 	public function getSimilarItems() {
 		$that = $this;
 		return Item::where( 'id', '!=', $this->id )
-				   ->where( 'data_en', '!=', '' )
-				   ->where( function ( $query ) use ( $that ) {
-					   return $query->where( 'name_de', '=', $that->getName( 'de' ))
-									->orWhere( 'name_en', '=', $that->getName( 'en' ))
-									->orWhere( 'name_es', '=', $that->getName( 'es' ))
-									->orWhere( 'name_fr', '=', $that->getName( 'fr' ))
-									->orWhere( function ( $q ) use ( $that ) {
-										return $q->where( 'signature', '=', $that->signature )
-												 ->where( 'file_id', '=', $that->file_id );
-									})
-									->orWhere( function ( $q ) use ( $that ) {
-										return $q->where( 'skin_id', '!=', '0' )
-												 ->where( 'skin_id', '=', $that->skin_id );
-									})
-									->orWhere( function ( $q ) use ( $that ) {
-										return $q->where( 'type', '=', $that->type )
-												 ->where( 'subtype', '=', $that->subtype )
-												 ->where( 'weight', '=', $that->weight )
-												 ->where( 'rarity', '=', $that->rarity )
-												 ->where( 'value', '=', $that->value )
-												 ->where( 'level', '=', $that->level );
-									});
-				   })->take( 500 )->get();
+		           ->where( 'data_en', '!=', '' )
+		           ->where( function ( $query ) use ( $that ) {
+			           /** @var \Illuminate\Database\Query\Builder $query */
+			           return $query->where( 'name_de', '=', $that->getName( 'de' ))
+			                        ->orWhere( 'name_en', '=', $that->getName( 'en' ))
+			                        ->orWhere( 'name_es', '=', $that->getName( 'es' ))
+			                        ->orWhere( 'name_fr', '=', $that->getName( 'fr' ))
+			                        ->orWhere( function ( $q ) use ( $that ) {
+				                        /** @var \Illuminate\Database\Query\Builder $q */
+				                        return $q->where( 'signature', '=', $that->signature )
+				                                 ->where( 'file_id', '=', $that->file_id );
+			                        } )
+			                        ->orWhere( function ( $q ) use ( $that ) {
+				                        /** @var \Illuminate\Database\Query\Builder $q */
+				                        return $q->where( 'skin_id', '!=', '0' )
+				                                 ->where( 'skin_id', '=', $that->skin_id );
+			                        } )
+			                        ->orWhere( function ( $q ) use ( $that ) {
+				                        /** @var \Illuminate\Database\Query\Builder $q */
+				                        return $q->where( 'type', '=', $that->type )
+				                                 ->where( 'subtype', '=', $that->subtype )
+				                                 ->where( 'weight', '=', $that->weight )
+				                                 ->where( 'rarity', '=', $that->rarity )
+				                                 ->where( 'value', '=', $that->value )
+				                                 ->where( 'level', '=', $that->level );
+			                        } );
+		           })->take( 500 )->get();
 	}
 
 	//----
@@ -615,7 +621,7 @@ class Item extends BaseModel {
 					$attribute );
 				$attributes[ $attribute ] = $modifier;
 			} else {
-				$attributes[ ] = $buffsLocalized[ $i ];
+				$attributes[] = $buffsLocalized[ $i ];
 			}
 		}
 
@@ -664,6 +670,6 @@ class Item extends BaseModel {
 			'BoonDuration',
 			'ConditionDuration',
 			'Damage'
-		) );
+		));
 	}
 }

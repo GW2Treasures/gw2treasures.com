@@ -4,15 +4,20 @@ class MainController extends BaseController {
 	protected $layout = 'layout';
 
 	public function home( $language ) {
-		$newItems            = Item::where('updated','=','1')->orderBy('date_added', 'desc')
-			->take(30)->remember(10)->get();
+		$newItems = Item::where( 'updated', '=', '1' )->orderBy( 'date_added', 'desc' )
+		                ->take( 30 );
+		if( !isset( $_GET[ 'nocache' ] )) {
+			$newItems = $newItems->remember( 10 );
+		}
+		$newItems = $newItems->get();
 
-		$recentItemViews = DB::table('item_views')
-			->select('item_id')
-			->orderBy( DB::raw('MAX(item_views.time)'), 'desc' )
-			->groupBy( 'item_id' )
-			->take(5)->get();
-		
+		$recentItemViews = DB::select(
+			'SELECT view.item_id
+			 FROM (SELECT item_id, time FROM item_views ORDER BY item_views.time DESC LIMIT 30) view
+			 GROUP BY view.item_id
+			 ORDER BY view.time DESC
+			 LIMIT 5' );
+
 		$popularItemViews = DB::table('item_views')
 			->select('item_id', DB::raw('COUNT(*) as views'))
 			->whereRaw('DATE_SUB(CURRENT_DATE(), INTERVAL 1 DAY) <= time')

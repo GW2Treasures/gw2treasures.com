@@ -16,9 +16,14 @@
 
 	<!-- prefetch -->
 	@foreach( Helper::$cdn_servers as $cdn_server )
-		<link rel="dns-prefetch" href="//{{ $cdn_server }}">
+	<!-- cdn --><link rel="dns-prefetch" href="//{{ $cdn_server }}">
 	@endforeach
-	<link rel="dns-prefetch" href="//storage.gw2treasures.de">
+	<!-- storage    --><link rel="dns-prefetch" href="//storage.gw2treasures.de">
+	<!-- opensearch --><link rel="dns-prefetch" href="//gw2treasures.de">
+	<!-- font files --><link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<!-- font css   --><link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<!-- analytics  --><link rel="dns-prefetch" href="//www.google-analytics.com">
+	<!-- jquery     --><link rel="dns-prefetch" href="//ajax.googleapis.com">
 
 	<!-- styles -->
 	<link rel="stylesheet" href="{{ Helper::cdn('assets/css/normalize.min.css') }}">

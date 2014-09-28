@@ -488,12 +488,31 @@ $rare:       #f4c900;
 	font: inherit;
 	outline: none; }
 
+.item-link {
+    &:hover {
+        text-decoration: none;
+    }
+
+    img { margin-right: 0.5em; }
+}
+
+.item-link-text {
+    border-bottom: 2px solid;
+    border-color: transparent;
+
+    transition: border-color .2s ease;
+
+    .item-link:hover & {
+        border-color: inherit;
+    }
+}
+
 .tooltip {
 	display: inline-block;
 	background: white;
-	box-shadow: 0px 1px 2px rgba(0,0,0,.2); 
+	box-shadow: 0px 1px 2px rgba(0,0,0,.2);
 	max-width: 500px;
-	padding: 15px; 
+	padding: 15px;
 	margin: 15px 15px 15px 0; }
 	.tooltip > header {
 		font-family: Adelle, Bitter, Georgia, serif;
@@ -544,7 +563,7 @@ $rare:       #f4c900;
 	margin: 0; }
 	.suffixBonusList li {
 		padding: 0 0 0 .42em;
-		margin: 0 0 0 45px; 
+		margin: 0 0 0 45px;
 		counter-increment: suffixBonusList; }
 		.suffixBonusList li:before {
 			float: left;
@@ -573,7 +592,7 @@ $rare:       #f4c900;
 		position: relative }
 	.money .gold:after,
 	.money .silver:after,
-	.money .copper:after { 
+	.money .copper:after {
 		content: '';
 		position: absolute;
 		height: .9em;
@@ -615,10 +634,10 @@ ul.itemList {
 
 		.output {
 			font-family: Adelle, Bitter, Georgia, serif;
-			font-weight: bold; 
+			font-weight: bold;
 			font-size: 1.15em;
 
-			a { 
+			a {
 				display: block;
 				color: inherit;
 				line-height: 32px;
@@ -627,15 +646,12 @@ ul.itemList {
 				transition: box-shadow .2s ease;
 				box-shadow: 0 0 2px rgba(0,0,0,.2);
 
-				&:hover { 
-					text-decoration: none;				
+				&:hover {
+					text-decoration: none;
 
 					box-shadow: 0 0 8px rgba(0,0,0,.23);
 				}
 			}
-		}
-		img {
-			margin-right: 4px;
 		}
 	}
 	.timeToCraft {
@@ -677,7 +693,7 @@ ul.itemList {
 }
 
 ul.ingredients {
-	list-style-type: none; 
+	list-style-type: none;
 	margin: 0; padding: 0; }
 	ul.ingredients > li {
 		padding-left: 58px;
@@ -691,7 +707,7 @@ ul.ingredients {
 	.count:not(:empty):after {
 		content: '×';}
 
-.recipeTable { 
+.recipeTable {
 	width: 100%; }
 	.recipeTable > tbody > tr {
 		border-top: 1px solid #DDD; }
@@ -820,13 +836,13 @@ ul.ingredients {
 		border-left-style: solid; }
 	.matchListHeader > .score,
 	.smallMatchBox dd.score {
-		text-align: right; 
+		text-align: right;
 		width: 250px; }
 	.matchListHeader > .income,
 	.smallMatchBox dd.income {
 		width: 150px; }
 	.smallMatchBox .scoreBarLabel {
-		position: absolute; 
+		position: absolute;
 		left: 0;
 		margin: 0 10px; }
 	.smallMatchBox .score .scoreBarLabel {
@@ -837,13 +853,13 @@ ul.ingredients {
 		border-radius: 3px;
 		display: inline-block; }
 		.smallMatchBox .scoreBar .income { font-size: .8em; }
-		.smallMatchBox .scoreBar.red { 
+		.smallMatchBox .scoreBar.red {
 			background-color: #FF7469;
 			background: linear-gradient(to bottom, #FF8E83 0%,#FF7469 100%); }
-		.smallMatchBox .scoreBar.blue { 
+		.smallMatchBox .scoreBar.blue {
 			background-color: #33A7FF;
 			background: linear-gradient(to bottom, #4DC1FF 0%,#33A7FF 100%); }
-		.smallMatchBox .scoreBar.green { 
+		.smallMatchBox .scoreBar.green {
 			background-color: #6CD997;
 			background: linear-gradient(to bottom, #86F3B1 0%,#6CD997 100%); }
 	.matchListHeader > .objectives > span,
@@ -890,10 +906,10 @@ ul.ingredients {
 	color: #fff; }
 	.dark .matchList a {
 		color: #72ACDA; }
-		.dark .smallMatchBox .scoreBar.red { 
+		.dark .smallMatchBox .scoreBar.red {
 			background-color: #B30000;
 			background: linear-gradient(to bottom, #B30000 0%,#990000 100%); }
-		.dark .smallMatchBox .scoreBar.blue { 
+		.dark .smallMatchBox .scoreBar.blue {
 			background-color: #005BC0;
 			background: linear-gradient(to bottom, #005BC0 0%,#0041A6 100%); }
 		.dark .smallMatchBox .scoreBar.green {
@@ -953,8 +969,8 @@ i[class^="sprite-"][class$="-castle-red"]   { background-position: -140px -60px;
 i[class^="sprite-"][class$="-castle-blue"]  { background-position: -160px -60px; }
 i[class^="sprite-"][class$="-castle-green"] { background-position: -180px -60px; }
 
-i.loading { 
-	width: 3em; 
+i.loading {
+	width: 3em;
 	height: 1em;
 	position: relative;
 	display: inline-block;
@@ -1060,7 +1076,7 @@ i.loading {
 	position: relative;
 	box-sizing: border-box;
 	background-repeat: no-repeat;
-	background-position: center 0px; 
+	background-position: center 0px;
 	min-height: 250px; }
 	.js         .banner { background-image: none; }
 	.no-js      .banner,
@@ -1105,7 +1121,7 @@ i.loading {
 			color: #590000;
 			border-right-width: 1px;
 			float: left; }
-			.bannerSearch label:after { 
+			.bannerSearch label:after {
 				right: -1px; }
 		.bannerSearch button {
 			transition: all .3s;
@@ -1116,7 +1132,7 @@ i.loading {
 			float: right; }
 			.bannerSearch button:hover {
 				background: #eee; }
-			.bannerSearch button:after { 
+			.bannerSearch button:after {
 				left: -1px; }
 			.bannerSearch button i {
 				vertical-align: text-bottom; }
@@ -1224,12 +1240,12 @@ i.loading {
 	padding: .3em .75em;
 	margin: .3em; }
 	.button:hover {
-		box-shadow: 0 0 5px rgba(0,0,0,.5); }		
+		box-shadow: 0 0 5px rgba(0,0,0,.5); }
 	.button:active {
 		background: #f9f9f9;
 		box-shadow: 0 0 3px rgba(0,0,0,.5), inset 0 0 3px rgba(0,0,0,.3); }
 .radio { display: none; }
-.radio + label { 
+.radio + label {
 	display: inline-block;
 	margin: .3em; }
 .radio + label:before {

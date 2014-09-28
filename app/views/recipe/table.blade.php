@@ -42,7 +42,7 @@
 				$classes = array();
 				if( $recipe->hasFlag( 'LearnedFromItem' )) {
 					$classes[] = 'learnedFromItem';
-				} 
+				}
 
 				foreach( Recipe::$DISCIPLINES as $dFlag => $discipline ) {
 					if( $recipe->hasDiscipline( $dFlag )) {
@@ -55,10 +55,7 @@
 					{{-- output --}}
 					<span class="count">{{ $recipe->output_count == 1 ? '' : $recipe->output_count }}</span>
 					@if( !is_null( $recipe->output ) )
-						<a data-item-id="{{ $recipe->output->id }}" data-item-rarity="{{ $recipe->output->rarity }}" href="{{ $recipe->output->getUrl() }}">
-							<img src="{{ $recipe->output->getIconUrl( 32 ) }}" width="32" height="32" alt="">
-							{{ $recipe->output->getName() }}
-						</a>
+						{{ $recipe->output->link( 32 ) }}
 					@else
 						<span style="font-style: italic">???</span>
 					@endif
@@ -68,10 +65,7 @@
 						<div class="unlockedBy">
 							{{ trans('recipe.unlockedBy') }}:
 							@if( !is_null( $recipe->unlockedBy ) && $recipe->unlockedBy->unlock_type == 'CraftingRecipe' )
-								<a data-item-id="{{ $recipe->unlockedBy->id }}" href="{{ $recipe->unlockedBy->getUrl() }}">
-									<img src="{{ $recipe->unlockedBy->getIconUrl( 16 ) }}" width="16" height="16" alt="">
-									{{ $recipe->unlockedBy->getName() }}
-								</a>
+								{{ $recipe->unlockedBy->link( 16 ) }}
 							@else
 								???
 							@endif
@@ -99,10 +93,7 @@
 							@if( $counts[ $i ] > 0 )
 								<li>
 									<span class="count">{{ $counts[ $i ] }}</span>
-									<a data-item-id="{{ $ingredient->id }}" href="{{ $ingredient->getUrl() }}">
-										<img src="{{ $ingredient->getIconUrl( 16 ) }}" width="16" height="16" alt="">
-										{{ $ingredient->getName() }}
-									</a>
+									{{ $ingredient->link( 16 ) }}
 								</li>
 							@endif
 						@endforeach

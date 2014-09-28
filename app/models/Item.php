@@ -249,9 +249,9 @@ class Item extends BaseModel {
 			$lang = App::getLocale();
 		}
 
-		return '<a data-item-id="' . $this->id . '" href="' . $this->getUrl( $lang ) . '" hreflang="' . $lang . '">'
-		       . ($icon > 0 ? $this->getIcon( $icon ) . ' ' : '')
-		       . (!is_null( $text ) ? $text : $this->getName( $lang ))
+		return '<a class="item-link border-' . $this->rarity . '" data-item-id="' . $this->id . '" href="' . $this->getUrl( $lang ) . '" hreflang="' . $lang . '">'
+		       . ($icon > 0 ? $this->getIcon( $icon ) . '' : '')
+		       . '<span class="item-link-text">' . (!is_null( $text ) ? $text : $this->getName( $lang )) . '</span>'
 		       . '</a>';
 	}
 

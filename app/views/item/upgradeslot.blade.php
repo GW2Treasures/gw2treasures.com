@@ -4,7 +4,7 @@
 		<div class="unusedUpgradeSlot"><i class="sprite-18-upgradeslot"></i> {{ trans('item.unusedUpgradeSlot') }}</div>
 	@else
 		<div class="upgradeSlot">
-			<img src="{{ $item->getSuffixItem()->getIconUrl( 16 ) }}" width="16" height="16" alt><a href="{{ $item->getSuffixItem()->getUrl() }}">{{ $item->getSuffixItem()->getName() }}</a> 
+			{{ $item->getSuffixItem()->link( 16 ) }}
 
 			@if( (( $suffixSubType = $item->getSuffixItem()->subtype ) == 'Rune' || $suffixSubType == 'Default') )
 				@include( 'item.attributes', array('item' => $item->getSuffixItem()) )
@@ -30,7 +30,7 @@
 			<div class="unusedUpgradeSlot"><i class="sprite-18-upgradeslot"></i> {{ trans('item.unusedUpgradeSlot') }}</div>
 		@else
 			<div class="upgradeSlot">
-				<img src="{{ $item->getSecondarySuffixItem()->getIconUrl( 16 ) }}" width="16" height="16" alt><a href="{{ $item->getSecondarySuffixItem()->getUrl() }}">{{ $item->getSecondarySuffixItem()->getName() }}</a> 
+				{{ $item->getSecondarySuffixItem()->link( 16 ) }}
 
 				@if( (( $suffixSubType = $item->getSecondarySuffixItem()->subtype ) == 'Rune' || $suffixSubType == 'Default') )
 					@include( 'item.attributes', array('item' => $item->getSecondarySuffixItem()) )

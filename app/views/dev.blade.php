@@ -39,19 +39,34 @@
 	<div id="wrapper">
 		<header id="header" class="clearfix">
 			<div class="pageWidth">
-				<h1 class="floatLeft"><a href="/">dev</a>.<a href="http://{{ Config::get('app.domain') }}/">GW2 Treasures</a></h1>
+		        <h1><a href="/">GW2 Treasures</a></h1>
 
-				{{ Form::open( array( 'method' => 'GET', 'route' => array('search', App::getLocale()), 'class' => 'searchForm', 'role' => 'search', 'id' => 'search' ), 'test') }}
-					<label for='q'><i class="sprite-16-search"></i></label>
-					{{ Form::text( 'q', null, array('placeholder' => trans( 'header.search.label' ), 'aria-label' => trans( 'header.search.label' ), 'id' => 'q', 'autocomplete' => 'off' )) }}
-					<div id="searchSuggestionbox">
-						<header>{{ trans('header.search.items') }}</header>
-						<ul id="searchSuggestionItems"></ul>
-						<header>{{ trans('header.search.recent') }}</header>
-						<ul id="searchSuggestionRecent"></ul>
-					</div>
-					{{ Form::submit( trans( 'header.search.label' ), array( 'class' => 'submit' )) }}
-				{{ Form::close() }}
+                <div class="left"></div>
+
+                <div class="right">
+                    {{ Form::open( array(
+                        'method' => 'GET',
+                        'route' => array('search', App::getLocale()),
+                        'class' => 'searchForm',
+                        'role' => 'search',
+                        'id' => 'search'))
+                    }}
+                        <label for='q'><i class="sprite-16-search-light"></i></label>
+                        {{ Form::text( 'q', null, array(
+                            'placeholder' => trans( 'header.search.label' ),
+                            'aria-label' => trans( 'header.search.label' ),
+                            'id' => 'q',
+                            'autocomplete' => 'off' ))
+                        }}
+                        <div id="searchSuggestionbox">
+                            <header>{{ trans('header.search.items') }}</header>
+                            <ul id="searchSuggestionItems"></ul>
+                            <header>{{ trans('header.search.recent') }}</header>
+                            <ul id="searchSuggestionRecent"></ul>
+                        </div>
+                        {{ Form::submit( trans( 'header.search.label' ), array( 'class' => 'submit', 'tabindex' => '-1' )) }}
+                    {{ Form::close() }}
+                </div>
 			</div>
 		</header>
 
@@ -67,70 +82,79 @@
 	</div>
 
 	<footer id="footer" class="clearfix">
-		<nav role="navigation"><ul id="footerList" class="pageWidth">
-			<li><a href="{{ URL::route('search', App::getLocale()) }}">{{ trans('footer.items') }}</a>
-				<ul>
-					<li><a href="#">{{ trans('footer.recentlyAddedItems') }}</a>
-					<li><a href="#">{{ trans('footer.recentlyChangedItems') }}</a>
-					<li><a href="#">{{ trans('footer.weaponSets') }}</a>
-					<li><a href="#">{{ trans('footer.armorSets') }}</a>
-					<li><a href="{{ URL::route('randomitem', App::getLocale()) }}">{{ trans('footer.randomItem') }}</a>
-				</ul>
-			<li><a href="{{ URL::route('wvw', App::getLocale()) }}">{{ trans('footer.wvw') }}</a>
-				<ul>
-					<li><a href="{{ URL::route('wvw', App::getLocale()) }}">{{ trans('footer.wvwOverview') }}</a>
-				</ul>
-			<li>{{ trans('footer.RSSFeeds') }}
-				<ul>
-					<li><a href="#">{{ trans('footer.newItems') }}</a>
-					<li><a href="#">{{ trans('footer.changedItems') }}</a>
-				</ul>
-			<li><a href="{{ URL::route('dev') }}" class="">{{ trans('footer.developer') }}</a>
-				<ul>
-					<li><a href="{{ URL::route('dev') }}#apiDoc">{{ trans('footer.APIDocumentation') }}</a>
-				</ul>
-			<li><a href="{{ URL::route('about', App::getLocale()) }}">{{ trans('footer.about') }}</a>
-				<ul>
-					<li><a href="#">{{ trans('footer.statistics') }}</a>
-					<li><a href="#">{{ trans('footer.changelog') }}</a>
-					<li><a href="#">{{ trans('footer.terms') }}</a>
-					<li><a href="https://github.com/darthmaim/gw2treasures-webinterface/issues">{{ trans('footer.bugtracker') }}</a>
-					<li><a href="{{ URL::route('contact', App::getLocale()) }}">{{ trans('footer.contact') }}</a>
-				</ul>
-			<li>{{ trans('footer.language') }}
-				<ul>
-					<li><a hreflang="de" rel="alternate" href="?l=de">{{ trans('footer.german') }}</a>
-					<li><a hreflang="en" rel="alternate" href="?l=en">{{ trans('footer.english') }}</a>
-					<li><a hreflang="es" rel="alternate" href="?l=es">{{ trans('footer.spanish') }}</a>
-					<li><a hreflang="fr" rel="alternate" href="?l=fr">{{ trans('footer.french') }}</a>
-				</ul>
-		</ul></nav>
-		<p class="pageWidth legalNotice" role="contentinfo">{{ trans('footer.legalNotice1') }}</p>
-		<p class="pageWidth legalNotice" role="contentinfo">{{ trans('footer.legalNotice2') }}</p>
-		<div class="pageWidth legalNotice" style="margin-top: 2em">
-			<div class="g-plusone" style="float:left" data-size="small" data-href="http://gw2treasures.de/"></div>
+    	<nav role="navigation" class="pageWidth grid footerGrid">
+    		<div class="row">
+    			<div class="column4">
+    				<a href="{{ URL::route('search', App::getLocale()) }}">{{ trans('footer.items') }}</a>
+    				<ul>
+    					<li><a href="#">{{ trans('footer.recentlyAddedItems') }}</a>
+    					<li><a href="#">{{ trans('footer.recentlyChangedItems') }}</a>
+    					<li><a href="#">{{ trans('footer.weaponSets') }}</a>
+    					<li><a href="#">{{ trans('footer.armorSets') }}</a>
+    					<li><a href="{{ URL::route('randomitem', App::getLocale()) }}">{{ trans('footer.randomItem') }}</a>
+    				</ul>
+    				<a href="{{ URL::route('wvw', App::getLocale()) }}">{{ trans('footer.wvw') }}</a>
+    				<ul>
+    					<li><a href="{{ URL::route('wvw', App::getLocale()) }}">{{ trans('footer.wvwOverview') }}</a>
+    				</ul>
+    			</div>
+    			<div class="column4">
+    				{{ trans('footer.RSSFeeds') }}
+    				<ul>
+    					<li><a href="#">{{ trans('footer.newItems') }}</a>
+    					<li><a href="#">{{ trans('footer.changedItems') }}</a>
+    				</ul>
+    				<a href="{{ URL::route('dev') }}" class="">{{ trans('footer.developer') }}</a>
+    				<ul>
+					    <li><a href="{{ URL::route('dev') }}#apiDoc">{{ trans('footer.APIDocumentation') }}</a>
+    				</ul>
+    			</div>
+    			<div class="column4">
+    				<a href="{{ URL::route('about', App::getLocale()) }}">{{ trans('footer.about') }}</a>
+    				<ul>
+    					<li><a href="#">{{ trans('footer.statistics') }}</a>
+    					<li><a href="#">{{ trans('footer.changelog') }}</a>
+    					<li><a href="#">{{ trans('footer.terms') }}</a>
+    					<li><a href="https://github.com/darthmaim/gw2treasures-webinterface/issues">{{ trans('footer.bugtracker') }}</a>
+    					<li><a href="{{ URL::route('contact', App::getLocale()) }}">{{ trans('footer.contact') }}</a>
+    				</ul>
+    			</div>
+    			<div class="column4">
+    				{{ trans('footer.language') }}
+    				<ul>
+                        <li><a hreflang="de" rel="alternate" href="?l=de">{{ trans('footer.german') }}</a>
+                        <li><a hreflang="en" rel="alternate" href="?l=en">{{ trans('footer.english') }}</a>
+                        <li><a hreflang="es" rel="alternate" href="?l=es">{{ trans('footer.spanish') }}</a>
+                        <li><a hreflang="fr" rel="alternate" href="?l=fr">{{ trans('footer.french') }}</a>
+    				</ul>
+    			</div>
+    		</div>
+    	</nav>
 
-			<span style="float:right" title="<?php
-				echo 'Runtime: ' . round(( STARTTIME + microtime( true ) ) * 1000, 2 ) . 'ms' . "\n";
-				echo 'Memory usage: ' . round(memory_get_usage() / 1024 / 1024, 2) . ' MiB' . "\n";
-				echo 'DB queries: ' . count(DB::getQueryLog()) . "\n";
-				if( isset( $cached ) && $cached ) {
-					echo 'cached' . "\n";
-				}
-				if( isset( $_SERVER['HTTP_CF_CONNECTING_IP'] )) {
-					echo 'via cloudflare';
-				}
-			?>">
-				generated @ <?= date(DATE_RFC822) ?>
-			</span>
-		</div>
+    	<p class="pageWidth legalNotice" role="contentinfo">{{ trans('footer.legalNotice1') }}</p>
+    	<p class="pageWidth legalNotice" role="contentinfo">{{ trans('footer.legalNotice2') }}</p>
+    	<div class="pageWidth legalNotice" style="margin-top: 2em">
+    		<span style="float:right" title="<?php
+    			echo 'Runtime: ' . round(( STARTTIME + microtime( true ) ) * 1000, 2 ) . 'ms' . "\n";
+    			echo 'Memory usage: ' . round(memory_get_usage() / 1024 / 1024, 2) . ' MiB' . "\n";
+    			echo 'DB queries: ' . count(DB::getQueryLog()) . "\n";
+    			if( isset( $cached ) && $cached ) {
+    				echo 'cached' . "\n";
+    			}
+    			if( isset( $_SERVER['HTTP_CF_CONNECTING_IP'] )) {
+    				echo 'via cloudflare';
+    			}
+    		?>">
+    			generated @ <?= date(DATE_RFC822) ?>
+    		</span>
+    	</div>
 
-		@if( isset($_GET['debug']) && !App::environment('production') )
-			<pre class="pageWidth">
-				{{ print_r(DB::getQueryLog()) }}
-			</pre>
-		@endif
-	</footer>
+    	@if( isset($_GET['debug']) && !App::environment('production') )
+    		<pre class="pageWidth">
+    			{{ print_r(DB::getQueryLog()) }}
+    		</pre>
+    	@endif
+    </footer>
 
 
 	<div id="scripts">

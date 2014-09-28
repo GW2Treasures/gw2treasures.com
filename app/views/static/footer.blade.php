@@ -23,7 +23,7 @@
 				</ul>
 				<a href="{{ URL::route('dev') }}" class="">{{ trans('footer.developer') }}</a>
 				<ul>
-					<li><a href="#">{{ trans('footer.APIDocumentation') }}</a>
+                    <li><a href="{{ URL::route('dev') }}#apiDoc">{{ trans('footer.APIDocumentation') }}</a>
 				</ul>
 			</div>
 			<div class="column4">

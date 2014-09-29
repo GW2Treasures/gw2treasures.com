@@ -1,37 +1,54 @@
 <?php
 class Chatlink {
-	const TYPE_ITEM   = "\x02\x01";
-	const TYPE_MAP    = "\x04";
-	const TYPE_SKILL  = "\x07";
-	const TYPE_TRAIT  = "\x08";
-	const TYPE_RECIPE = "\x0A";
 
 	public static $TYPES = array(
-		'item'   => self::TYPE_ITEM,
-		'map'    => self::TYPE_MAP,
-		'skill'  => self::TYPE_SKILL,
-		'trait'  => self::TYPE_TRAIT,
-		'recipe' => self::TYPE_RECIPE
+		'coin'   => 1,
+		'item'   => 2,
+		'text'   => 3,
+		'map'    => 4,
+		'skill'  => 7,
+		'trait'  => 8,
+		'recipe' => 10,
+		'skin'   => 11,
+		'outfit' => 12
 	);
 
 	public $type;
 	public $id;
 	public $chatlink;
 
+	/**
+	 * @param string $type
+	 * @param int    $id
+	 *
+	 * @author {@link https://twitter.com/poke poke}
+	 * @link http://wiki.guildwars2.com/wiki/Widget:Game_link
+	 */
 	private function __construct( $type, $id ) {
 		$this->type = $type;
 		$this->id = $id;
 
-		$chatlink  = $this->type;
+		$data = [];
+		while ($id > 0) {
+			$data[] = $id & 255;
+			$id = $id >> 8;
+		}
 
-		$chatlink .= chr( $id & 0xFF );
-		$id >>= 8;
-		do {
-			$chatlink .= chr( $id & 0xFF );
-			$id >>= 8;
-		} while( $id != 0 );
+		while (count($data) < 4 || count($data) % 2 != 0) {
+			$data[] = 0;
+		}
 
-		$chatlink .= chr(0).chr(0);
+		if ($type === 2) {
+			array_unshift($data, 1);
+		}
+		array_unshift($data, self::$TYPES[$type]);
+
+		// encode data
+		$chatlink = '';
+		for ($i = 0; $i < count($data); $i++) {
+			$chatlink .= chr($data[$i]);
+		}
+
 		$this->chatlink = '[&' . base64_encode( $chatlink ) . ']';
 	}
 
@@ -42,34 +59,36 @@ class Chatlink {
 		return new Chatlink( $type, $id );
 	}
 
+	/**
+	 * @param $chatlink
+	 *
+	 * @return Chatlink
+	 *
+	 * @throws Exception
+	 *
+	 * @author {@link https://twitter.com/poke poke}
+	 * @link   http://ideone.com/0RSpAA
+	 */
 	public static function Decode( $chatlink ) {
-		$matches = array();
-		if( preg_match( '/\\[&([A-Za-z0-9+\/]+=*)\\]/', $chatlink, $matches )) {
-			$code = base64_decode( $matches[1] );
-
-			$index = 0;
-			$type = $code[ $index++ ];
-			if( !in_array( $type, self::$TYPES )) {
-				$type .= $code[ $index++ ];
-
-				if( !in_array( $type, self::$TYPES )) {
-					throw new Exception( 'Chatlink with unknown type' );
-				}
+		if(preg_match("/\[&([a-z0-9+\/]+=)\]/i", $chatlink)){
+			// decode base64 and read octets
+			$data = [];
+			foreach(str_split(base64_decode($chatlink)) as $char){
+				$data[] = ord($char);
 			}
 
-			$id   = 0;
-			$i    = 0;
-			do {
-				$current = ord( $code[ $index + $i ] );
-				$next1 = ord( $code[ $index + $i + 1 ] );
-				$next2 = ord( $code[ $index + $i + 2 ] );
+			if(!in_array($data[0], self::$TYPES)){
+				// invalid type
+				throw new Exception( 'Chatlink with unknown type' );
+			}
 
-				$id |= $current << ( 8 * $i );
+			// items have the quantity first, so set an offset
+			$o = $data[0] === 2 ? 1 : 0;
 
-				$i++;
-			} while( $next1 != 0 || $next2 != 0 );
+			// get id
+			$id = $data[3 + $o] << 16 | $data[2 + $o] << 8 | $data[1 + $o];
 
-			return new Chatlink( $type, $id );
+			return new Chatlink( array_keys(self::$TYPES, $data[0])[0], $id );
 		} else {
 			throw new Exception( 'Invalid Chatlink: ' . $chatlink );
 		}
@@ -77,7 +96,7 @@ class Chatlink {
 
 	public static function TryDecode( $chatlink ) {
 		try {
-			return self::Decode( $chatlink ); 
+			return self::Decode( $chatlink );
 		} catch( Exception $x ) {
 			return false;
 		}

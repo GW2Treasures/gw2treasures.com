@@ -42,7 +42,7 @@ class ChatlinkTest extends TestCase {
 				'[&AgGatgAA]' => 46746,
 				'[&AgHaBQEA]' => 67034,
 				'[&AgGHBgEA]' => 67207,
-			    '[&AgEUBwEA]' => 67348,
+				'[&AgEUBwEA]' => 67348,
 			), Chatlink::TYPE_RECIPE => array(
 				'[&CgEAAAA=]' =>     1,
 				'[&ClDDAAA=]' => 50000,

@@ -20,6 +20,7 @@ class Chatlink {
 	/** @const int */
 	const TYPE_OUTFIT = 12;
 
+	/** @var array */
 	public static $TYPES = array(
 		'coin'   => self::TYPE_COIN,
 		'item'   => self::TYPE_ITEM,
@@ -56,7 +57,7 @@ class Chatlink {
 			$id = $id >> 8;
 		}
 
-		while( count($data) < 4 || count($data) % 2 != 0 ) {
+		while( count($data) < 4 || count($data) % 2 !== 0 ) {
 			$data[] = 0;
 		}
 
@@ -91,16 +92,14 @@ class Chatlink {
 
 	/**
 	 * @param string $chatlink
-	 *
 	 * @return Chatlink
-	 *
 	 * @throws Exception
 	 *
 	 * @author {@link https://twitter.com/poke poke}
 	 * @link   http://ideone.com/0RSpAA
 	 */
 	public static function Decode( $chatlink ) {
-		if( preg_match( '/\[&([a-z0-9+\/]+=*)\]/i', $chatlink )) {
+		if( preg_match( '/\[&([a-z\d+\/]+=*)\]/i', $chatlink )) {
 			// decode base64 and read octets
 			$data = array();
 			foreach( str_split( base64_decode( $chatlink )) as $char ){

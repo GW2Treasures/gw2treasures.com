@@ -8,26 +8,31 @@ if iframeElement == null
     iframeElement.style.cssText = 'width:1px;height:1px;position:absolute;top:-100px'
     iframeElement.onload = ->
         iframe = iframeElement.contentWindow 
-        iframe.postMessage { storage: { loaded: true }}, 'https://storage.gw2treasures.de'
+        postMessage { storage: { loaded: true }}, 'https://storage.gw2treasures.de'
     document.body.appendChild iframeElement
 else
     iframe = iframeElement.contentWindow
-    iframe.postMessage { storage: { loaded: true }}, 'https://storage.gw2treasures.de'
+    postMessage { storage: { loaded: true }}, 'https://storage.gw2treasures.de'
 
 nextId = 1
 _loaded = 0
 registeredCallbacks = []
 queue = []
 
+postMessage = ( data, origin ) ->
+    data = JSON.stringify data
+    iframe.postMessage data, origin
+
 handleMessage = ( e ) ->
-    if e.origin == 'https://storage.gw2treasures.de' && e.data.storage
-        if e.data.storage.loaded
+    data = JSON.parse e.data
+    if e.origin == 'https://storage.gw2treasures.de' && data.storage
+        if data.storage.loaded
             _loaded++
-            iframe.postMessage x, 'https://storage.gw2treasures.de' for x in queue
-            enqueue = (data) -> iframe.postMessage data, 'https://storage.gw2treasures.de'        
-        else if registeredCallbacks[ e.data.storage.id ]
-            registeredCallbacks[ e.data.storage.id ]? e.data.storage.value
-            delete registeredCallbacks[ e.data.storage.id ]
+            postMessage x, 'https://storage.gw2treasures.de' for x in queue
+            enqueue = (data) -> postMessage data, 'https://storage.gw2treasures.de'
+        else if registeredCallbacks[ data.storage.id ]
+            registeredCallbacks[ data.storage.id ]? data.storage.value
+            delete registeredCallbacks[ data.storage.id ]
 
 enqueue = ( e ) -> queue.push e
 
@@ -39,7 +44,7 @@ enqueue = ( e ) -> queue.push e
         registeredCallbacks[id] = cb
         data = { storage: { key: key, value: value, id: id }}
         if _loaded > 0
-            iframe.postMessage data, 'https://storage.gw2treasures.de'
+            postMessage data, 'https://storage.gw2treasures.de'
         else
             enqueue data
     get: ( key, cb ) ->
@@ -47,7 +52,7 @@ enqueue = ( e ) -> queue.push e
         registeredCallbacks[id] = cb
         data = { storage: { key: key, id: id }}
         if _loaded > 0
-            iframe.postMessage data, 'https://storage.gw2treasures.de'
+            postMessage data, 'https://storage.gw2treasures.de'
         else
             enqueue data
     remove: ( key, cb ) ->
@@ -55,6 +60,6 @@ enqueue = ( e ) -> queue.push e
         registeredCallbacks[id] = cb
         data = { storage: { key: key, remove: true, id: id }}
         if _loaded > 0
-            iframe.postMessage data, 'https://storage.gw2treasures.de'
+            postMessage data, 'https://storage.gw2treasures.de'
         else
             enqueue data

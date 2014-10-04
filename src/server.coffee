@@ -27,7 +27,7 @@ trustedDomains = [
 
 handleMessage = ( e ) ->
     if e.origin not in trustedDomains
-        throw new Error 'untrusted origin'
+        throw new Error "untrusted origin"
     data = JSON.parse e.data
     if data.storage
         if data.storage.loaded
@@ -39,6 +39,6 @@ handleMessage = ( e ) ->
                 localStorage.setItem key, JSON.stringify value
             else if data.storage.remove
                 localStorage.removeItem key
-            e.source.postMessage JSON.stringify({ storage: { key, value, id: e.data.storage.id }}), e.origin
+            e.source.postMessage JSON.stringify({ storage: { key, value, id: data.storage.id }}), e.origin
 
 @addEventListener 'message', handleMessage, false

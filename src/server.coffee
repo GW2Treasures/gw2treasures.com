@@ -27,17 +27,18 @@ trustedDomains = [
 
 handleMessage = ( e ) ->
     if e.origin not in trustedDomains
-        throw new Error "untrusted origin"
-    if e.data.storage
-        if e.data.storage.loaded
-            e.source.postMessage { storage: { loaded: true }}, e.origin
-        if e.data.storage.key && e.data.storage.id
-            key = e.data.storage.key
-            value = e.data.storage.value || JSON.parse localStorage.getItem key
-            if e.data.storage.value
+        throw new Error 'untrusted origin'
+    data = JSON.parse e.data
+    if data.storage
+        if data.storage.loaded
+            e.source.postMessage JSON.stringify({ storage: { loaded: true }}), e.origin
+        if data.storage.key && data.storage.id
+            key = data.storage.key
+            value = data.storage.value || JSON.parse localStorage.getItem key
+            if data.storage.value
                 localStorage.setItem key, JSON.stringify value
-            else if e.data.storage.remove
+            else if data.storage.remove
                 localStorage.removeItem key
-            e.source.postMessage { storage: { key, value, id: e.data.storage.id }}, e.origin
+            e.source.postMessage JSON.stringify({ storage: { key, value, id: e.data.storage.id }}), e.origin
 
 @addEventListener 'message', handleMessage, false

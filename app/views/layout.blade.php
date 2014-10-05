@@ -30,11 +30,12 @@
 	@if( App::environment('production') )
 		<link rel="stylesheet" href="{{ Helper::cdn('assets2/css/gw2t.css') }}">
 	@else
-		<link rel="stylesheet" href="//direct.darthmaim-cdn.de/gw2treasures/assets2/css/gw2t.css">
+		{{--<link rel="stylesheet" href="//direct.darthmaim-cdn.de/gw2treasures/assets2/css/gw2t.css">--}}
+		<link rel="stylesheet" href="//localhost:8080/css/gw2t.css">
 	@endif
 
 	<!-- fonts -->
-	<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,700|Open+Sans+Condensed:300|Bitter:700" rel="stylesheet" type="text/css">
+	<link href="//fonts.googleapis.com/css?family=Open+Sans:400,700|Open+Sans+Condensed:300|Bitter:700" rel="stylesheet" type="text/css">
 
 	<!-- favicons -->
 	<link rel="icon" href="{{ Helper::cdn('assets/img/favicon.png') }}" type="image/png" />
@@ -90,7 +91,7 @@
         <script>window.jQuery || document.write('<script src="{{ Helper::cdn('assets/js/vendor/jquery-1.10.1.min.js') }}"><\/script>')</script>
 
 		<!-- my own js -->
-		<script type="text/javascript" src="http://storage.gw2treasures.de/storage.js"></script>
+		<script type="text/javascript" src="https://storage.gw2treasures.de/storage.js"></script>
 
 		@if( App::environment('production') )
         	<script src="{{ Helper::cdn('assets/js/plugins.js') }}"></script>

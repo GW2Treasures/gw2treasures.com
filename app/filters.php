@@ -78,3 +78,130 @@ Route::filter('csrf', function()
 		throw new Illuminate\Session\TokenMismatchException;
 	}
 });
+
+/*
+|--------------------------------------------------------------------------
+| Localization Filters
+|--------------------------------------------------------------------------
+|
+| Filters to redirect to the correct localized version of the website
+|
+*/
+
+Route::filter( 'setLocale',	function( $route, $request ) {
+	/** @var \Illuminate\Routing\Route  $route   */
+	/** @var \Illuminate\Http\Request   $request */
+	$parameters = $route->parameters();
+	$lang = array_key_exists( 'language', $parameters ) ? $parameters[ 'language' ] : '';
+
+	// available languages
+	// 'en' as first language so it gets picked if no other language matches
+	$availableLanguages = array( 'en', 'de', 'es', 'fr' );
+
+	// handle invalid languages
+	if( !in_array( $lang, $availableLanguages )) {
+		// check if we have a valid language in the session
+		if ( in_array( Session::get( 'language'), $availableLanguages )) {
+			$lang = Session::get( 'language' );
+		} else {
+			// get the preferred language for the visitor
+			$lang = Helper::prefered_language( $availableLanguages );
+
+			// show a notification that we changed the language
+			Notification::Add( 'language', 'notifications.autoLanguage', array(
+				'data' => array(
+					'language' => Lang::get( 'notifications.language.' . $lang )
+			)));
+		}
+
+		// redirect to the right subdomain
+		return Redirect::to( '//' . $lang . '.' . Config::get('app.domain') .  $request->getRequestUri() );
+	}
+
+	// set locale
+	App::setLocale( $lang );
+
+	// handle changed language
+	if( Session::has( 'language' ) && Session::get( 'language') != $lang ) {
+		// hide the autodetected language notification if its there
+		Notification::Remove( 'language' );
+	}
+
+	// save the language in the session
+	Session::put( 'language', $lang );
+});
+
+Route::filter( 'setLocaleDev', function( $route, $request ) {
+	/** @var \Illuminate\Routing\Route  $route   */
+	/** @var \Illuminate\Http\Request   $request */
+
+	// available languages
+	// 'en' as first language so it gets picked if no other language matches
+	$availableLanguages = array( 'en', 'de', 'es', 'fr' );
+
+	if( in_array( $request->get('l'), $availableLanguages )) {
+		// switching language
+		$lang = $request->get('l');
+	} elseif( in_array( Session::get( 'language'), $availableLanguages )) {
+		// get language from session
+		$lang = Session::get( 'language');
+	} else {
+		// get the preferred language for the visitor
+		$lang = Helper::prefered_language( $availableLanguages );
+
+		// show a notification that we changed the language
+		Notification::Add( 'language', 'notifications.autoLanguage', array(
+			'data' => array(
+				'language' => Lang::get( 'notifications.language.' . $lang )
+		)));
+	}
+
+	// set locale
+	App::setLocale( $lang );
+
+	// handle changed language
+	if( Session::has( 'language' ) && Session::get( 'language') != $lang ) {
+		// hide the autodetected language notification if its there
+		Notification::Remove( 'language' );
+	}
+
+	// save the language in the session
+	Session::put( 'language', $lang );
+});
+
+
+/*
+|--------------------------------------------------------------------------
+| Miscellaneous Filters
+|--------------------------------------------------------------------------
+|
+| All sorts of different filters used for different routes
+|
+*/
+
+/**
+ * Show the cookie notification if it has not been shown yet
+ */
+Route::filter( 'acceptCookies', function() {
+	if( !Session::has( 'acceptCookies' )) {
+		Session::put( 'acceptCookies', true );
+		Notification::Add( 'acceptCookies', 'notifications.cookies' );
+	}
+});
+
+/**
+ * authenticate for the translate-subdomain
+ */
+Route::filter( 'translateAuth', function( $route, $request ) {
+	/** @var \Illuminate\Routing\Route  $route   */
+	/** @var \Illuminate\Http\Request   $request */
+
+	if( Session::get( 'translate.authenticated' ) !== true ) {
+		if( $request->getUser() == 'translate' && $request->getPassword() == Config::get( 'app.translatePassword' )) {
+			Session::put( 'translate.authenticated', true );
+		} else {
+			$headers = array( 'WWW-Authenticate' => 'Basic' );
+			return Response::make( 'Invalid credentials.', 401, $headers );
+		}
+	}
+});

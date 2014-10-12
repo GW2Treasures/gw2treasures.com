@@ -34,6 +34,8 @@ return array(
 
 	'pygmentize' => '/usr/local/bin/pygmentize',
 
+    'translatePassword' => 'PASSWORD',
+
 	/*
 	|--------------------------------------------------------------------------
 	| Application Timezone

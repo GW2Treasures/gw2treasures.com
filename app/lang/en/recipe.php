@@ -1,21 +1,21 @@
-<?php 
+<?php
 
-return array(
-	'output'      => 'Output',
-	'disciplines' => 'Disciplines',
-	'ingredients' => 'Ingredients',
-	'unlockedBy'  => 'Source',
-
-	'discipline' => array(
-		'armorsmith'    => 'Armorsmith',
-		'artificer'     => 'Artificer',
-		'chef'          => 'Chef',
-		'huntsman'      => 'Huntsman',
-		'jeweler'       => 'Jeweler',
-		'leatherworker' => 'Leatherworker',
-		'tailor'        => 'Tailor',
-		'weaponsmith'   => 'Weaponsmith' ),
-
-	'filter'         => 'Filter',
-	'filterEnableJS' => 'Enable JavaScript to filter the recipes',
+return array (
+  'output' => 'Output',
+  'disciplines' => 'Disciplines',
+  'ingredients' => 'Ingredients',
+  'unlockedBy' => 'Source',
+  'discipline' => 
+  array (
+    'armorsmith' => 'Armorsmith',
+    'artificer' => 'Artificer',
+    'chef' => 'Chef',
+    'huntsman' => 'Huntsman',
+    'jeweler' => 'Jeweler',
+    'leatherworker' => 'Leatherworker',
+    'tailor' => 'Tailor',
+    'weaponsmith' => 'Weaponsmith',
+  ),
+  'filter' => 'Filter',
+  'filterEnableJS' => 'Enable JavaScript to filter the recipes',
 );

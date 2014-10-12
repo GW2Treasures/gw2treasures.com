@@ -85,6 +85,18 @@ Route::filter( 'acceptCookies', function( $route, $request ) {
 	}
 });
 
+Route::filter( 'translateAuth', function( $route, $request ) {
+	if( !Session::has( 'translate.authenticated' ) || Session::get( 'translate.authenticated' ) !== true ) {
+		if( $request->getUser() == 'translate' && $request->getPassword() == Config::get( 'app.translatePassword' )) {
+			Session::put( 'translate.authenticated', true );
+			return;
+		} else {
+			$headers = array( 'WWW-Authenticate' => 'Basic' );
+			return Response::make( 'Invalid credentials.', 401, $headers );
+		}
+	}
+});
+
 // route to hide notifications
 Route::get( 'notification/hide/{notification}', array('as' => 'hideNotification', function( $notification ) {
 	Notification::Remove( $notification );
@@ -123,6 +135,14 @@ Route::group( array(
 				->nest( 'content', 'dev.services.embedWorldStats' )
 				->with( 'title', 'Embedding WvW World Stats' );
 		}));
+	}
+);
+
+Route::group( array(
+		'domain' => 'translate.' . Config::get('app.domain'),
+		'before' => 'translateAuth|setLocaleDev|acceptCookies'
+	), function() {
+		Route::controller( '/', 'Barryvdh\TranslationManager\Controller' );
 	}
 );
 

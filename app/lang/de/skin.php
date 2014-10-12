@@ -1,5 +1,5 @@
 <?php
 
-return array(
-	'itemsUnlockingThisSkin' => 'Wird freigeschaltet durch',
+return array (
+  'itemsUnlockingThisSkin' => 'Wird freigeschaltet durch',
 );

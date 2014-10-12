@@ -1,10 +1,10 @@
 <?php
 
 return array (
-  'overview' => 'McM perspectiva general',
+  'overview' => 'Resumen de WvW',
   'world' => 'Mundo',
   'score' => 'Puntos',
-  'income' => 'Puntos hipotéticos',
+  'income' => 'Puntuación posible',
   'castle' => 'Castillo Piedraniebla',
   'keep' => 'Fortalezas',
   'tower' => 'Torres',

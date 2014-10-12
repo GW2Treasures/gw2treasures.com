@@ -7,6 +7,6 @@ return array (
   array (
     'label' => 'Buscar',
     'items' => 'Objetos',
-    'recent' => 'Recientemente buscado',
+    'recent' => 'Búsquedas recientes',
   ),
 );

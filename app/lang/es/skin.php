@@ -1,5 +1,5 @@
 <?php
 
 return array (
-  'itemsUnlockingThisSkin' => 'Unlocked by',
+  'itemsUnlockingThisSkin' => 'Desbloqueado por',
 );

@@ -75,12 +75,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/darthmaim/laravel-translation-manager.git",
-                "reference": "50f31cb5f34055565b123b4be0bd9f08b5cac0c4"
+                "reference": "315ec2c5b758cbd1bd86346ed1c96450f5b9007c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/darthmaim/laravel-translation-manager/zipball/50f31cb5f34055565b123b4be0bd9f08b5cac0c4",
-                "reference": "50f31cb5f34055565b123b4be0bd9f08b5cac0c4",
+                "url": "https://api.github.com/repos/darthmaim/laravel-translation-manager/zipball/315ec2c5b758cbd1bd86346ed1c96450f5b9007c",
+                "reference": "315ec2c5b758cbd1bd86346ed1c96450f5b9007c",
                 "shasum": ""
             },
             "require": {
@@ -116,7 +116,7 @@
             "support": {
                 "source": "https://github.com/darthmaim/laravel-translation-manager/tree/readonly"
             },
-            "time": "2014-10-12 10:06:16"
+            "time": "2014-10-12 12:05:24"
         },
         {
             "name": "classpreloader/classpreloader",
@@ -404,16 +404,16 @@
         },
         {
             "name": "doctrine/common",
-            "version": "2.4.x-dev",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/common.git",
-                "reference": "ae92d076442e27b6910dd86a1292a8867cf5cfe4"
+                "reference": "559a805125524b0bb6742638784c2979a5c5e607"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/common/zipball/ae92d076442e27b6910dd86a1292a8867cf5cfe4",
-                "reference": "ae92d076442e27b6910dd86a1292a8867cf5cfe4",
+                "url": "https://api.github.com/repos/doctrine/common/zipball/559a805125524b0bb6742638784c2979a5c5e607",
+                "reference": "559a805125524b0bb6742638784c2979a5c5e607",
                 "shasum": ""
             },
             "require": {
@@ -430,7 +430,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.4.x-dev"
+                    "dev-master": "2.5.x-dev"
                 }
             },
             "autoload": {
@@ -444,17 +444,6 @@
             ],
             "authors": [
                 {
-                    "name": "Jonathan Wage",
-                    "email": "jonwage@gmail.com",
-                    "homepage": "http://www.jwage.com/",
-                    "role": "Creator"
-                },
-                {
-                    "name": "Guilherme Blanco",
-                    "email": "guilhermeblanco@gmail.com",
-                    "homepage": "http://www.instaclick.com"
-                },
-                {
                     "name": "Roman Borschel",
                     "email": "roman@code-factory.org"
                 },
@@ -463,10 +452,16 @@
                     "email": "kontakt@beberlei.de"
                 },
                 {
+                    "name": "Guilherme Blanco",
+                    "email": "guilhermeblanco@gmail.com"
+                },
+                {
+                    "name": "Jonathan Wage",
+                    "email": "jonwage@gmail.com"
+                },
+                {
                     "name": "Johannes Schmitt",
-                    "email": "schmittjoh@gmail.com",
-                    "homepage": "https://github.com/schmittjoh",
-                    "role": "Developer of wrapped JMSSerializerBundle"
+                    "email": "schmittjoh@gmail.com"
                 }
             ],
             "description": "Common Library for Doctrine projects",
@@ -478,7 +473,7 @@
                 "persistence",
                 "spl"
             ],
-            "time": "2014-05-21 19:29:23"
+            "time": "2014-07-27 17:39:50"
         },
         {
             "name": "doctrine/dbal",

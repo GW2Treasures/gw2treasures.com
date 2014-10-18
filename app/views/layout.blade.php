@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html dir="ltr" xmlns="http://www.w3.org/1999/xhtml" lang="{{ App::getLocale() }}" itemscope itemtype="http://schema.org/WebPage" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html dir="ltr" xmlns="http://www.w3.org/1999/xhtml" lang="{{ App::getLocale() }}" itemscope itemtype="http://schema.org/WebPage" class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html dir="ltr" xmlns="http://www.w3.org/1999/xhtml" lang="{{ App::getLocale() }}" itemscope itemtype="http://schema.org/WebPage" class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html dir="ltr" xmlns="http://www.w3.org/1999/xhtml" lang="{{ App::getLocale() }}" itemscope itemtype="http://schema.org/WebPage" class="no-js"> <!--<![endif]-->
+<!--[if lt IE 7]>      <html dir="ltr" xmlns="http://www.w3.org/1999/xhtml" lang="{{ App::getLocale() }}" itemscope itemtype="http://schema.org/WebSite" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html dir="ltr" xmlns="http://www.w3.org/1999/xhtml" lang="{{ App::getLocale() }}" itemscope itemtype="http://schema.org/WebSite" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html dir="ltr" xmlns="http://www.w3.org/1999/xhtml" lang="{{ App::getLocale() }}" itemscope itemtype="http://schema.org/WebSite" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html dir="ltr" xmlns="http://www.w3.org/1999/xhtml" lang="{{ App::getLocale() }}" itemscope itemtype="http://schema.org/WebSite" class="no-js"> <!--<![endif]-->
 <head>
 	<meta charset="utf-8">
 	<title>{{ $title }} | GW2 Treasures</title>
@@ -11,6 +11,7 @@
 
 	<meta name="gw2treasures:domain" content="{{ Config::get('app.domain') }}">
 
+	<meta itemprop="url" content="//{{ Config::get('app.domain') }}/">
 	<meta itemprop="name" content="GW2 Treasures: The Guild Wars 2 Item Database">
 	<meta itemprop="image" content="{{ Helper::cdn('assets/img/logo.png') }}">
 
@@ -30,8 +31,8 @@
 	@if( App::environment('production') )
 		<link rel="stylesheet" href="{{ Helper::cdn('assets2/css/gw2t.css') }}">
 	@else
-		{{--<link rel="stylesheet" href="//direct.darthmaim-cdn.de/gw2treasures/assets2/css/gw2t.css">--}}
-		<link rel="stylesheet" href="//localhost:8080/css/gw2t.css">
+		<link rel="stylesheet" href="//direct.darthmaim-cdn.de/gw2treasures/assets2/css/gw2t.css">
+		{{--<link rel="stylesheet" href="//localhost:8080/css/gw2t.css">--}}
 	@endif
 
 	<!-- fonts -->

@@ -13,14 +13,19 @@
 				'route' => array('search', App::getLocale()),
 				'class' => 'searchForm',
 				'role' => 'search',
-				'id' => 'search'))
+				'id' => 'search',
+				'itemprop' => 'potentialAction',
+				'itemscope',
+				'itemtype' => 'http://schema.org/SearchAction' ))
 			}}
+                <meta itemprop="target" content="{{ URL::route('search', App::getLocale() ) }}?q={q}"/>
 				<label for='q'><i class="sprite-16-search-light"></i></label>
 				{{ Form::text( 'q', null, array(
 					'placeholder' => trans( 'header.search.label' ),
 					'aria-label' => trans( 'header.search.label' ),
 					'id' => 'q',
-					'autocomplete' => 'off' ))
+					'autocomplete' => 'off',
+			        'itemprop' => 'query-input' ))
 				}}
 				<div id="searchSuggestionbox">
 					<header>{{ trans('header.search.items') }}</header>

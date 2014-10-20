@@ -71,7 +71,7 @@
 		<footer id="footerBar"><div class="pageWidth"><a href="{{ URL::route('contact', App::getLocale()) }}">darthmaim</a> &copy; 2014</div></footer>
 	</div>
 
-	@include('static.footer');
+	@include('static.footer')
 
 	<div id="scripts">
 		@if( App::environment('production') )

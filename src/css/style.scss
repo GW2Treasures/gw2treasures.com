@@ -95,6 +95,7 @@ hr {
 				text-decoration: none; }
 	#header .searchForm {
 		float: right;
+        z-index: 1;
 		position: relative;
 		padding: 0;	}
 		#header .searchForm label {

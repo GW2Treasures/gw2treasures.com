@@ -54,16 +54,8 @@ module.exports = (grunt) ->
                 src: ['<%= paths.src.js %>*.coffee']
                 dest: '<%= paths.out.jsCustom %>'
         coffee_jshint:
-            options: globals: ['window','module','$']
+            options: globals: ['window','module','define','require']
             all: ['<%= paths.src.js %>*.coffee']
-        'closure-compiler':
-            custom:
-                closurePath: '.'
-                js: '<%= paths.out.jsCustom %>*.js'
-                jsOutputFile: '<%= paths.out.js %>gw2t.js'
-                noreport: true
-                options:
-                    compilation_level: 'ADVANCED_OPTIMIZATIONS'
         concat:
             js:
                 src: ['<%= paths.out.jsVendor %>jquery.min.js', '<%= paths.out.jsVendor %>jquery-plugins.js']
@@ -121,7 +113,7 @@ module.exports = (grunt) ->
                         middlewares.unshift require('grunt-connect-rewrite/lib/utils').rewriteRequest
                         middlewares
                     keepalive: true
-                    base: 
+                    base:
                         [ '<%= paths.out.base %>' ]
 
         watch:
@@ -172,7 +164,7 @@ module.exports = (grunt) ->
     grunt.registerTask 'js', ['clean:js','mkdir:js','coffee:multi','js:vendor','js:minify','js:concat']
 
     # css
-    grunt.registerTask 'css:sass', ['mkdir:cssTemp', 'sass:main'] 
+    grunt.registerTask 'css:sass', ['mkdir:cssTemp', 'sass:main']
     grunt.registerTask 'css:prefix', ['autoprefixer:main']
     grunt.registerTask 'css:minify', ['cssmin:main']
 
@@ -183,7 +175,7 @@ module.exports = (grunt) ->
     grunt.registerTask 'test', ['coffee_jshint', 'nodeunit:all']
 
     # build
-    grunt.registerTask 'build:js', ['test','js']
+    grunt.registerTask 'build:js', ['js']
     grunt.registerTask 'build:img', ['img']
     grunt.registerTask 'build:css', ['css']
     grunt.registerTask 'build', ['build:js', 'build:css', 'build:img']

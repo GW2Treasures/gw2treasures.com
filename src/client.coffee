@@ -1,4 +1,4 @@
-define 'storage', [], ->
+d = ->
     postMessage = ( data, origin ) ->
         data = JSON.stringify data
         iframe.postMessage data, origin
@@ -64,3 +64,7 @@ define 'storage', [], ->
                 postMessage data, 'https://storage.gw2treasures.de'
             else
                 enqueue data
+
+do d
+if define and define.amd
+    define? 'storage', [], d

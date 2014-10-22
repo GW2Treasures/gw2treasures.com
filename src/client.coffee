@@ -65,6 +65,7 @@ d = ->
             else
                 enqueue data
 
-do d
 if define and define.amd
     define? 'storage', [], d
+else
+    do d

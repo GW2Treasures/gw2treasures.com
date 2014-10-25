@@ -28,8 +28,9 @@ module.exports = (grunt) ->
                 dest: '<%= paths.out.img %>'
         copy:
             jquery:
-                src: 'node_modules/jquery/dist/jquery.min.js'
-                dest: '<%= paths.out.jsVendor %>jquery.min.js'
+                files:
+                    '<%= paths.out.jsVendor %>jquery.min.js': 'node_modules/jquery/dist/jquery.min.js'
+                    '<%= paths.out.jsVendor %>jquery.min.map': 'node_modules/jquery/dist/jquery.min.map'
             modernizr:
                 src: '<%= paths.src.jsVendor %>modernizr-3.0.0.min.js'
                 dest: '<%= paths.out.jsVendor %>modernizr-3.0.0.min.js'
@@ -47,16 +48,22 @@ module.exports = (grunt) ->
             all:   ['<%= paths.tests %>**/*.coffee']
             cache: ['<%= paths.tests %>cache/*.coffee']
         coffee:
-            multi:
-                expand: true
-                flatten: true
-                ext: '.js'
-                src: ['<%= paths.src.js %>*.coffee']
-                dest: '<%= paths.out.jsCustom %>'
+            custom:
+                options:
+                    sourceMap: true
+                files: [
+                    expand: true
+                    flatten: true
+                    ext: '.js'
+                    src: ['<%= paths.src.js %>*.coffee']
+                    dest: '<%= paths.out.jsCustom %>'
+                ]
         coffee_jshint:
             options: globals: ['window','module','define','require']
             all: ['<%= paths.src.js %>*.coffee']
         concat:
+            options:
+                sourceMap: true
             js:
                 src: ['<%= paths.out.jsVendor %>jquery.min.js', '<%= paths.out.jsVendor %>jquery-plugins.js']
                 dest: '<%= paths.out.js %>jquery.js'
@@ -155,13 +162,13 @@ module.exports = (grunt) ->
     grunt.registerTask 'modernizr', ['copy:modernizr']
 
     grunt.registerTask 'js:vendor', ['clean:jsVendor','mkdir:jsVendor','jquery','jqueryPlugins','modernizr']
-    grunt.registerTask 'js:custom', ['clean:jsCustom','mkdir:jsCustom','coffee:multi']
+    grunt.registerTask 'js:custom', ['clean:jsCustom','mkdir:jsCustom','coffee:custom']
 
     grunt.registerTask 'js:minify', [ 'concat:custom' ]
 
-    grunt.registerTask 'js:concat', ['concat:js', 'regex-replace:js']
+    grunt.registerTask 'js:concat', ['concat:js']
 
-    grunt.registerTask 'js', ['clean:js','mkdir:js','coffee:multi','js:vendor','js:minify','js:concat']
+    grunt.registerTask 'js', ['clean:js','mkdir:js','coffee:custom','js:vendor','js:minify','js:concat']
 
     # css
     grunt.registerTask 'css:sass', ['mkdir:cssTemp', 'sass:main']

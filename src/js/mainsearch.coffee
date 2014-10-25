@@ -1,4 +1,4 @@
-define 'mainsearch', ['jquery'], ($) ->
+define 'mainsearch', ['jquery', 'jquery.plugins'], ($, _) ->
     class MainSearch
         constructor: (@input, @list) ->
             @onInput = =>

@@ -1,15 +1,21 @@
 # webp
 require ['jquery'], ($) ->
-    useWebp = false
-    $('noscript[data-webp]').each ( _, t ) ->
-        $t = $(t)
-        img = window.document.createElement 'img'
-        img.src    = if useWebp then $t.data 'webp' else $t.data 'src'
-        img.width  = $t.data 'width'
-        img.height = $t.data 'height'
-        img.alt    = $t.data 'alt'
-        $t.replaceWith img
+    image = new Image
+    image.onerror = image.onload = (event) ->
+        supportsWebp = event.type is 'load' and image.width is 1
 
+        window.document.documentElement.className += ' ' + if supportsWebp then 'webp' else 'no-webp'
+
+        $('noscript[data-webp]').each ( _, t ) ->
+            $t = $(t)
+            img = new Image
+            img.src    = if supportsWebp then $t.data 'webp' else $t.data 'src'
+            img.width  = $t.data 'width'
+            img.height = $t.data 'height'
+            img.alt    = $t.data 'alt'
+            $t.replaceWith img
+
+    image.src = 'data:image/webp;base64,UklGRiQAAABXRUJQVlA4IBgAAAAwAQCdASoBAAEAAwA0JaQAA3AA/vuUAAA='
 
 # remove analytics parameter
 require [], ->

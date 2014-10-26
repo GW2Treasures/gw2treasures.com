@@ -65,7 +65,7 @@ d = ->
             else
                 enqueue data
 
-if define and define.amd
-    define? 'storage', [], d
+if typeof define is 'function' and define.amd
+    define 'storage', [], d
 else
     do d

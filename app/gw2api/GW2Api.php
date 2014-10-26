@@ -156,8 +156,6 @@ class GW2Api {
 		$chunks = array();
 		$urls = array();
 
-		var_dump( count( $id_chunks ));
-
 		foreach( $id_chunks as $i => $ids ) {
 			$chunks[ $i ] = array(
 			//	'ids' => $ids,
@@ -171,9 +169,6 @@ class GW2Api {
 				$curl->get( $url );
 			}
 		}
-
-		var_dump( memory_get_usage( true ) / 1024 / 1024 );
-
 
 		$_this = $this;
 		$curl->setCallback( function( \RollingCurl\Request $request, \RollingCurl\RollingCurl $rollingCurl ) use ( $_this, &$chunks, $urls, $callback ) {

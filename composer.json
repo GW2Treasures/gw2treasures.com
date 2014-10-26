@@ -3,17 +3,18 @@
 	"description": "The Laravel Framework.",
 	"keywords": ["framework", "laravel"],
 	"license": "MIT",
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/darthmaim/laravel-translation-manager"
-        }
-    ],
+	"repositories": [
+		{
+			"type": "vcs",
+			"url": "https://github.com/darthmaim/laravel-translation-manager"
+		}
+	],
 	"require": {
 		"laravel/framework": "4.1.*",
 		"barryvdh/laravel-ide-helper": "1.*",
 		"doctrine/dbal": "~2.3",
-        "barryvdh/laravel-translation-manager": "dev-readonly"
+		"barryvdh/laravel-translation-manager": "dev-readonly",
+		"chuyskywalker/rolling-curl": "*"
 	},
 	"autoload": {
 		"classmap": [
@@ -23,6 +24,7 @@
 			"app/database/migrations",
 			"app/database/seeds",
 			"app/library",
+			"app/gw2api",
 			"app/tests/TestCase.php"
 		]
 	},

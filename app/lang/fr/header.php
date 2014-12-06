@@ -6,7 +6,7 @@ return array (
   'search' => 
   array (
     'label' => 'Rechercher',
-    'items' => 'Items',
-    'recent' => 'Searched recently',
+    'items' => 'Objets',
+    'recent' => 'Récemment recherché',
   ),
 );

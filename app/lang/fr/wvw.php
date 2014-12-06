@@ -1,13 +1,13 @@
 <?php
 
 return array (
-  'overview' => 'WvW Overview',
-  'world' => 'World',
+  'overview' => 'Vue d\'ensemble du McM',
+  'world' => 'Monde',
   'score' => 'Points',
-  'income' => 'Potential Points',
-  'castle' => 'Stonemist Castle',
-  'keep' => 'Keeps',
-  'tower' => 'Towers',
+  'income' => 'Points potentiels',
+  'castle' => 'Château Brumepierre',
+  'keep' => 'Forts',
+  'tower' => 'Tours',
   'camp' => 'Camps',
-  'ruin' => 'Ruins',
+  'ruin' => 'Ruines',
 );

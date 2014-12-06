@@ -2,7 +2,7 @@
 
 return array (
   'dismiss' => 'Ausblenden',
-  'autoLanguage' => 'We have set your language preference to <strong>:language</strong>. You can update your language <a href="#footer">below</a>.',
+  'autoLanguage' => 'Wir haben deine bevorzugte Sprache auf  <strong>:language</strong>gesetzt. Du kannst deine Sprache<a href="#footer">unten</a> aktualisieren.',
   'language' => 
   array (
     'de' => 'German',

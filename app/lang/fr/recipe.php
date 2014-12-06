@@ -3,7 +3,7 @@
 return array (
   'output' => 'Output',
   'disciplines' => 'Disciplines',
-  'ingredients' => 'Ingredients',
+  'ingredients' => 'Ingrédients',
   'unlockedBy' => 'Source',
   'discipline' => 
   array (
@@ -16,6 +16,6 @@ return array (
     'tailor' => 'Tailor',
     'weaponsmith' => 'Weaponsmith',
   ),
-  'filter' => 'Filter',
-  'filterEnableJS' => 'Enable JavaScript to filter the recipes',
+  'filter' => 'Filtre',
+  'filterEnableJS' => 'Permettre à JavaScript de filtrer les recettes',
 );

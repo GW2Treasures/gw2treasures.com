@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "209a23e916d2f35fb4e21939b1b53b2f",
+    "hash": "72a8359814befd16e3d40b8ecec07046",
     "packages": [
         {
             "name": "barryvdh/laravel-ide-helper",
@@ -117,6 +117,66 @@
                 "source": "https://github.com/darthmaim/laravel-translation-manager/tree/readonly"
             },
             "time": "2014-10-12 12:05:24"
+        },
+        {
+            "name": "chuyskywalker/rolling-curl",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/chuyskywalker/rolling-curl.git",
+                "reference": "fc1d28c221962f25e9615bd3991dd82732420c8c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/chuyskywalker/rolling-curl/zipball/fc1d28c221962f25e9615bd3991dd82732420c8c",
+                "reference": "fc1d28c221962f25e9615bd3991dd82732420c8c",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "lib-curl": "*",
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "RollingCurl": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Jeff Minard",
+                    "homepage": "http://jrm.cc/",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Josh Fraser",
+                    "email": "joshfraz@gmail.com",
+                    "homepage": "http://joshfraser.com/",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Alexander Makarov",
+                    "email": "sam@rmcreative.ru",
+                    "homepage": "http://rmcreative.ru/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Rolling-Curl: A non-blocking, non-dos multi-curl library for PHP",
+            "homepage": "https://github.com/chuyskywalker/rolling-curl",
+            "keywords": [
+                "asynchronous",
+                "curl",
+                "http",
+                "multi",
+                "parallel",
+                "requests"
+            ],
+            "time": "2014-08-30 03:39:25"
         },
         {
             "name": "classpreloader/classpreloader",

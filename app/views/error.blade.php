@@ -63,13 +63,13 @@
 		}
 
 	</style>
-	<link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400|Open+Sans:400' rel='stylesheet' type='text/css'>
+	<link href='//fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400|Open+Sans:400' rel='stylesheet' type='text/css'>
 </head>
 <body>
 	<div id="wrapper">
 		<h1>{{ $title or 'error' }}</h1>
 		<div class="content">{{ $description or 'Something went wrong.' }}</div>
-		<img src="//assets.gw2treasures.de/img/logo.png" alt="" width="512" height="512">
+		<img src="{{ Helper::cdn('assets/img/logo.png') }}" alt="" width="512" height="512">
 	</div>
 	<div id="scripts">
 		<script>

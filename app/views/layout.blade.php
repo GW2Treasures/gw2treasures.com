@@ -120,7 +120,9 @@
                 };
                 resizeCanvas();
                 $(window).on('resize', resizeCanvas);
-                $(canvas).let_it_snow();
+                $(canvas).let_it_snow({
+                    speed: 0.1337
+                });
             });
         </script>
 

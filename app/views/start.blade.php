@@ -1,4 +1,5 @@
 <div class="banner">
+    <canvas id="snowcanvas"></canvas>
 	<div class="header">
 		{{ Helper::webp( Helper::cdn('assets/img/header_img.webp'), Helper::cdn('assets/img/header_img.png'), 800, 150, "GW2 Treasures" ) }}
 	</div>

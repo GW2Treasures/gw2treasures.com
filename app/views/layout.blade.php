@@ -111,11 +111,14 @@
         <script>
             $(document).ready( function() {
                 var canvas = document.getElementById('snowcanvas');
+                var $banner = $('.banner');
                 var resizeCanvas = function() {
                     var scale = window.devicePixelRatio || 1;
-                    if( canvas.width != canvas.offsetWidth * scale || canvas.height != canvas.offsetHeight * scale ) {
-                        canvas.width = canvas.offsetWidth * scale;
-                        canvas.height = canvas.offsetHeight * scale;
+                    var width  = $banner.width(),
+                        height = $banner.height();
+                    if( canvas.width != width * scale || canvas.height != height * scale ) {
+                        canvas.width = width * scale;
+                        canvas.height = height * scale;
                     }
                 };
                 resizeCanvas();

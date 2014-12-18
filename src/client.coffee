@@ -25,8 +25,15 @@ d = ->
     queue = []
 
     handleMessage = ( e ) ->
-        data = JSON.parse e.data
-        if e.origin == 'https://storage.gw2treasures.de' && data.storage
+        if e.origin isnt 'https://storage.gw2treasures.de'
+            return
+
+        data =
+            try
+                if typeof e.data is 'string' then JSON.parse e.data else e.data
+            catch
+                e.data
+        if data.storage
             if data.storage.loaded
                 _loaded++
                 postMessage x, 'https://storage.gw2treasures.de' for x in queue

@@ -1156,6 +1156,7 @@ i.loading {
     position: absolute;
     z-index: -1;
     background-color: #B0C2D2;
+    max-height: 250px;
 
     .no-canvas &,
     .no-js & { display: none; }
@@ -1165,6 +1166,8 @@ i.loading {
 	.banner .header { max-width: 400px; }
 	.banner { background-position: center -75px;
 		min-height: 175px; }
+
+    #snowcanvas { max-height: 175px; }
 }
 
 #searchSuggestionbox {

@@ -28,7 +28,14 @@ trustedDomains = [
 handleMessage = ( e ) ->
     if e.origin not in trustedDomains
         throw new Error "untrusted origin"
-    data = JSON.parse e.data
+    data =
+        try
+            if typeof e.data is 'string'
+                JSON.parse e.data
+            else
+                e.data
+        catch
+            e.data
     if data.storage
         if data.storage.loaded
             e.source.postMessage JSON.stringify({ storage: { loaded: true }}), e.origin

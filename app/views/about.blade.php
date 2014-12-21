@@ -3,7 +3,7 @@
     <section class="pageWidth">
         <p>Thanks to <strong><a href="https://github.com/codemasher">smiley&trade;</a></strong>
             for helping me out with all sorts of stuff, testing, …</p>
-        <p>Thanks to <strong>Pablo</strong> for spanish translations
+        <p>Thanks to <strong>Pablo</strong> and <strong><a href="https://www.facebook.com/hidromc">Rafa Alpañez</a></strong> for spanish translations
             and <strong><a href="https://github.com/EtienneLamoureux">Etienne Lamoureux</a></strong> for french translations.</p>
     </section>
 

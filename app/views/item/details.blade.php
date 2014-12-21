@@ -18,7 +18,7 @@
 </header>
 
 <div class="sidebar">
-    <h3>Trading Post</h3>
+    {{--<h3>Trading Post</h3>
     <dl class="sidebar-tp">
         <dt>Sell Price:</dt>
         <dd>
@@ -30,7 +30,7 @@
             @include( 'item.vendorValue', array( 'vendorValue' => 98 ) )
             <span class="amount">(119 308 ordered)</span>
         </dd>
-    </dl>
+    </dl>--}}
 
     <h3>Wikis</h3>
     <ul class="sidebar-wikis">
@@ -43,12 +43,12 @@
     <h3>Share</h3>
     <ul class="sidebar-share">
         <li class="chatlink">
-            {{ e( $item->getChatLink() ) }}
+            <input title="Share chatlink ingame" readonly value="{{ e( $item->getChatLink() ) }}" class="chatlink">
         </li>
-        <li class="google"  ><a href="#" title="Share on g+"><i class="sprite-share-google">Google</i></a></li>
-        <li class="twitter" ><a href="#" title="Share on Twitter"><i class="sprite-share-twitter">Twitter</i></a></li>
-        <li class="facebook"><a href="#" title="Share on Facebook"><i class="sprite-share-facebook">Facebook</i></a></li>
-        <li class="reddit"  ><a href="#" title="Share on reddit"><i class="sprite-share-reddit">Reddit</i></a></li>
+        <li class="twitter" ><a target="_blank" title="Share on Twitter" href="https://twitter.com/share?url={{ urlencode( 'http://' . Config::get('app.domain') . Request::getRequestUri() ) }}&via=GW2Treasures&text={{ urlencode( $item->getName() ) }}"><i class="sprite-share-twitter">Twitter</i></a></li>
+        <li class="google"  ><a target="_blank" title="Share on Google+" href="https://plus.google.com/share?url={{ urlencode( 'http://' . Config::get('app.domain') . Request::getRequestUri() ) }}"><i class="sprite-share-google">Google</i></a></li>
+        <li class="facebook"><a target="_blank" title="Share on Facebook" href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode( 'http://' . Config::get('app.domain') . Request::getRequestUri() ) }}"><i class="sprite-share-facebook">Facebook</i></a></li>
+        <li class="reddit"  ><a target="_blank" title="Submit to reddit" href="https://www.reddit.com/submit?url={{ urlencode( 'http://' . Config::get('app.domain') . Request::getRequestUri() ) }}&title={{ $item->getName() }}"><i class="sprite-share-reddit">Reddit</i></a></li>
     </ul>
 </div>
 

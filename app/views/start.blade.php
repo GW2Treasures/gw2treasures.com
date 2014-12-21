@@ -16,7 +16,7 @@
 <div class="pageWidth grid">
 	<div class="row">
 		<div class="column2">
-			<h2>Recently viewed Items</h2>
+			<h2>{{ trans('misc.recentlyViewedItems') }}</h2>
 			<ul class="itemList">
 				@foreach ($recentItemViews as $view)
 					<li>{{ $view->item->link(32) }}</li>
@@ -24,7 +24,7 @@
 			</ul>
 		</div>
 		<div class="column2">
-			<h2>Most viewed Items</h2>
+			<h2>{{ trans('misc.mostViewedItems.label', array( 'timespan' => trans('misc.mostViewedItems.day') )) }}</h2>
 			<ul class="itemList">
 				@foreach ($popularItemViews as $view)
 					<li style="clear:right">{{ $view->item->link(32) }} <span style="float:right; line-height: 32px; white-space: nowrap;">{{ $view->views }} Views</span></li>

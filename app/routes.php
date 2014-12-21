@@ -13,214 +13,210 @@
 
 // route to hide notifications
 Route::get( 'notification/hide/{notification}', array('as' => 'hideNotification', function( $notification ) {
-	Notification::Remove( $notification );
-	return Redirect::to( Input::get( 'return', '/' ) );
+    Notification::Remove( $notification );
+    return Redirect::to( Input::get( 'return', '/' ) );
 }));
 
 // redirect all requests without language sub domain
 Route::group( array('domain' => Config::get('app.domain'), 'before' => 'setLocale'), function() {
-	Route::any('{x}', function() {})->where('x', '.*');
+    Route::any('{x}', function() {})->where('x', '.*');
 });
 
 
 // dev routes
 Route::group( array(
-		'domain' => 'dev.' . Config::get('app.domain'),
-		'before' => 'setLocaleDev|acceptCookies'
-	), function() {
-		Route::get('/', array(
-			'as' => 'dev', function() {
-			return View::make( 'dev' )
-				->nest( 'content', 'dev.overview' )
-				->with( 'title', 'Overview' );
-		}));
+        'domain' => 'dev.' . Config::get('app.domain'),
+        'before' => 'setLocaleDev|acceptCookies'
+    ), function() {
+        Route::get('/', array(
+            'as' => 'dev', function() {
+            return View::make( 'dev' )
+                ->nest( 'content', 'dev.overview' )
+                ->with( 'title', 'Overview' );
+        }));
 
-		// provided services
-		Route::get('services/icons', array(
-			'as' => 'dev.icons', function() {
-			return View::make( 'dev' )
-				->nest( 'content', 'dev.services.icons' )
-				->with( 'title', 'Icons' );
-		}));
+        // provided services
+        Route::get('services/icons', array(
+            'as' => 'dev.icons', function() {
+            return View::make( 'dev' )
+                ->nest( 'content', 'dev.services.icons' )
+                ->with( 'title', 'Icons' );
+        }));
 
-		Route::get('services/embedWorldStats', array(
-			'as' => 'dev.embedWorldStats', function() {
-			return View::make( 'dev' )
-				->nest( 'content', 'dev.services.embedWorldStats' )
-				->with( 'title', 'Embedding WvW World Stats' );
-		}));
-	}
+        Route::get('services/embedWorldStats', array(
+            'as' => 'dev.embedWorldStats', function() {
+            return View::make( 'dev' )
+                ->nest( 'content', 'dev.services.embedWorldStats' )
+                ->with( 'title', 'Embedding WvW World Stats' );
+        }));
+    }
 );
 
 Route::group( array(
-		'domain' => 'translate.' . Config::get('app.domain'),
-		'before' => 'translateAuth|setLocaleDev|acceptCookies'
-	), function() {
-		Route::controller( '/', 'Barryvdh\TranslationManager\Controller' );
-	}
+        'domain' => 'translate.' . Config::get('app.domain'),
+        'before' => 'translateAuth|setLocaleDev|acceptCookies'
+    ), function() {
+        Route::controller( '/', 'Barryvdh\TranslationManager\Controller' );
+    }
 );
 
 // all main routes
 Route::group( array(
-		'domain' => '{language}.' . Config::get('app.domain'),
-		'before' => 'setLocale|acceptCookies',
-		'after' => ''
-	), function() {
-	
-		// mainpage
-		Route::get('/', array(
-			'as' => 'home',
-			'uses' => 'MainController@home'
-		));
-		
-		//================================
-		// Items
-		//================================
-	
-		// bind the {item} parameter in routes to the Item model
-		Route::bind( 'item', function( $id, $route ) {
-			$item = Item::find( $id );
-			if( is_null( $item )) {
-				throw new ItemNotFoundException( $id );
-			}
-			return $item;
-		});
-		
-		// random item
-		Route::get('item/random', array(
-			'as' => 'randomitem',
-			'uses' => 'ItemController@random'
-		));
+        'domain' => '{language}.' . Config::get('app.domain'),
+        'before' => 'setLocale|acceptCookies',
+        'after' => ''
+    ), function() {
 
-		// item details
-		Route::get('item/{item}', array( 
-			'as' => 'itemdetails', 
-			'uses' => 'ItemController@showDetails'
-		));
+        // mainpage
+        Route::get('/', array(
+            'as' => 'home',
+            'uses' => 'MainController@home'
+        ));
 
-		// item tooltip
-		Route::get('item/{item}/tooltip', array(
-			'as' => 'itemtooltip',
-			'uses' => 'ItemController@tooltip'
-		));
+        //================================
+        // Items
+        //================================
 
-		// json
-		Route::get('item/{item}/json', array(
-			'as' => 'itemJSON',
-			'uses' => 'ItemController@json'
-		));
+        // bind the {item} parameter in routes to the Item model
+        Route::bind( 'item', function( $id, $route ) {
+            $item = Item::find( $id );
+            if( is_null( $item )) {
+                throw new ItemNotFoundException( $id );
+            }
+            return $item;
+        });
 
-		// search
-		Route::get('search', array(
-			'as' => 'search', 
-			'uses' => 'ItemController@search'
-		));
+        // random item
+        Route::get('item/random', array(
+            'as' => 'randomitem',
+            'uses' => 'ItemController@random'
+        ));
 
-		Route::get('search/autocomplete', array(
-			'as' => 'search.autocomplete',
-			'uses' => 'ItemController@searchAutocomplete'
-		));
+        // item details
+        Route::get('item/{item}', array(
+            'as' => 'itemdetails',
+            'uses' => 'ItemController@showDetails'
+        ));
 
-		//================================
-		// Skins
-		//================================
+        // item tooltip
+        Route::get('item/{item}/tooltip', array(
+            'as' => 'itemtooltip',
+            'uses' => 'ItemController@tooltip'
+        ));
 
-		// bind the {skin} parameter in routes to the Item model
-		Route::bind( 'skin', function( $id, $route ) {
-			$skin = Skin::find( $id );
-			if( is_null( $skin )) {
-				throw new SkinNotFoundException( $id );
-			}
-			return $skin;
-		});
+        // json
+        Route::get('item/{item}/json', array(
+            'as' => 'itemJSON',
+            'uses' => 'ItemController@json'
+        ));
 
-		Route::get('skin', array(
-			'as' => 'skin',
-			'uses' => 'SkinController@overview'
-		));
+        // search
+        Route::get('search', array(
+            'as' => 'search',
+            'uses' => 'ItemController@search'
+        ));
 
-		Route::get('skin/armor', array(
-			'as' => 'skin.armor',
-			'uses' => 'SkinController@armor'
-		));
+        Route::get('search/autocomplete', array(
+            'as' => 'search.autocomplete',
+            'uses' => 'ItemController@searchAutocomplete'
+        ));
 
-		Route::get('skin/weapon', array(
-			'as' => 'skin.weapon',
-			'uses' => 'SkinController@weapon'
-		));
+        //================================
+        // Skins
+        //================================
 
-		Route::get('skin/{skin}', array(
-			'as' => 'skin.details',
-			'uses' => 'SkinController@details'
-		));
+        // bind the {skin} parameter in routes to the Item model
+        Route::bind( 'skin', function( $id, $route ) {
+            $skin = Skin::find( $id );
+            if( is_null( $skin )) {
+                throw new SkinNotFoundException( $id );
+            }
+            return $skin;
+        });
 
-		//================================
-		// WVW
-		//================================
+        Route::get('skin', array(
+            'as' => 'skin',
+            'uses' => 'SkinController@overview'
+        ));
 
-		// bind the {item} parameter in routes to the Item model
-		Route::model( 'world', 'World');
+        Route::get('skin/armor', array(
+            'as' => 'skin.armor',
+            'uses' => 'SkinController@armor'
+        ));
 
-		// overview
-		Route::get('wvw', array(
-			'as' => 'wvw',
-			'uses' => 'WvWController@overview'
-		));
+        Route::get('skin/weapon', array(
+            'as' => 'skin.weapon',
+            'uses' => 'SkinController@weapon'
+        ));
 
-		// world info embedded
-		Route::get('wvw/world/{world}/embedded', array(
-			'as' => 'wvw.world.embedded',
-			'uses' => 'WvWController@worldEmbedded'
-		));
+        Route::get('skin/{skin}', array(
+            'as' => 'skin.details',
+            'uses' => 'SkinController@details'
+        ));
 
-		// world info
-		Route::get('wvw/world/{world}', array(
-			'as' => 'wvw.world',
-			'uses' => 'WvWController@world'
-		));
+        //================================
+        // WVW
+        //================================
 
-		//================================
-		// STATS
-		//================================
+        // bind the {item} parameter in routes to the Item model
+        Route::model( 'world', 'World');
 
-		// new items
-		Route::get('stats/items/new', array(
-			'as' => 'stats.items.new',
-			'uses' => 'StatsController@itemsNew'
-		));
+        // overview
+        Route::get('wvw', array(
+            'as' => 'wvw',
+            'uses' => 'WvWController@overview'
+        ));
 
-		//================================
-		// STUFF
-		//================================
+        // world info embedded
+        Route::get('wvw/world/{world}/embedded', array(
+            'as' => 'wvw.world.embedded',
+            'uses' => 'WvWController@worldEmbedded'
+        ));
 
-		// colors
-		Route::get('colors', array(
-			'as' => 'colors',
-			function() {
-				return View::make( 'layout' )
-					->nest( 'content', 'colors' )
-					->with( 'title', 'Colors' );
-			}
-		));
+        // world info
+        Route::get('wvw/world/{world}', array(
+            'as' => 'wvw.world',
+            'uses' => 'WvWController@world'
+        ));
 
-		// contact
-		Route::get('contact', array(
-			'as' => 'contact',
-			function() {
-				return View::make( 'layout' )
-					->nest( 'content', 'contact' )
-					->with( 'title', 'Contact' );
-			}
-		));
+        //================================
+        // STATS
+        //================================
 
-		// contact
-		Route::get('about', array(
-			'as' => 'about',
-			function() {
-				return View::make( 'layout' )
-					->nest( 'content', 'about' )
-					->with( 'title', 'About' );
-			}
-		));
-	}
+        // new items
+        Route::get('stats/items/new', array(
+            'as' => 'stats.items.new',
+            'uses' => 'StatsController@itemsNew'
+        ));
+
+        //================================
+        // STUFF
+        //================================
+
+        // colors
+        Route::get('colors', array(
+            'as' => 'colors',
+            function() {
+                return View::make( 'layout' )
+                    ->nest( 'content', 'colors' )
+                    ->with( 'title', 'Colors' );
+            }
+        ));
+
+        // contact
+        Route::get('contact', array(
+            'as' => 'contact',
+            function() {
+                return View::make( 'layout' )
+                    ->nest( 'content', 'contact' )
+                    ->with( 'title', 'Contact' );
+            }
+        ));
+
+        // about
+        Route::get('about', array(
+            'as' => 'about',
+            'uses' => 'MainController@about'
+        ));
+    }
 );

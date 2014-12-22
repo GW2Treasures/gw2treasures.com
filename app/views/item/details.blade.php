@@ -18,38 +18,49 @@
 </header>
 
 <div class="sidebar">
-    {{--<h3>Trading Post</h3>
+    <h3>@lang('misc.tradingpost.header')</h3>
     <dl class="sidebar-tp">
-        <dt>Sell Price:</dt>
+        <dt>@lang('misc.tradingpost.sell'):</dt>
         <dd>
             @include( 'item.vendorValue', array( 'vendorValue' => 105 ) )
-            <span class="amount">(435 676 available)</span>
+            <span class="amount">({{ trans('misc.tradingpost.available', array( 'amount' => '435 676' )) }})</span>
         </dd>
-        <dt>Buy Price:</dt>
+        <dt>@lang('misc.tradingpost.buy'):</dt>
         <dd>
             @include( 'item.vendorValue', array( 'vendorValue' => 98 ) )
-            <span class="amount">(119 308 ordered)</span>
+            <span class="amount">({{ trans('misc.tradingpost.ordered', array( 'amount' => '119 308' )) }})</span>
         </dd>
-    </dl>--}}
+    </dl>
 
-    <h3>Wikis</h3>
+    <h3>@lang('misc.wiki.header')</h3>
     <ul class="sidebar-wikis">
-        <li><a target="_blank" onclick="outbound(this)" href="http://wiki-de.guildwars2.com/index.php?title=Spezial:Suche&amp;search={{ urlencode( $item->getName( 'de' ) ) }}">German</a></li>
-        <li><a target="_blank" onclick="outbound(this)" href="http://wiki.guildwars2.com/index.php?title=Special:Search&amp;search={{ urlencode( $item->getName( 'en' ) ) }}">English</a></li>
-        <li><a target="_blank" onclick="outbound(this)" href="http://wiki-es.guildwars2.com/index.php?title=Especial:Buscar&amp;search={{ urlencode( $item->getName( 'es' ) ) }}">Spanish</a></li>
-        <li><a target="_blank" onclick="outbound(this)" href="http://wiki-fr.guildwars2.com/index.php?title=Spécial:Recherche&amp;search={{ urlencode( $item->getName( 'fr' ) ) }}">French</a></li>
+        <li><a target="_blank" onclick="outbound(this)" href="http://wiki-de.guildwars2.com/index.php?title=Spezial:Suche&amp;search={{ urlencode( $item->getName( 'de' ) ) }}">@lang('misc.wiki.german')</a></li>
+        <li><a target="_blank" onclick="outbound(this)" href="http://wiki.guildwars2.com/index.php?title=Special:Search&amp;search={{ urlencode( $item->getName( 'en' ) ) }}">@lang('misc.wiki.english')</a></li>
+        <li><a target="_blank" onclick="outbound(this)" href="http://wiki-es.guildwars2.com/index.php?title=Especial:Buscar&amp;search={{ urlencode( $item->getName( 'es' ) ) }}">@lang('misc.wiki.spanish')</a></li>
+        <li><a target="_blank" onclick="outbound(this)" href="http://wiki-fr.guildwars2.com/index.php?title=Spécial:Recherche&amp;search={{ urlencode( $item->getName( 'fr' ) ) }}">@lang('misc.wiki.french')</a></li>
     </ul>
 
-    <h3>Share</h3>
+    <h3>@lang('misc.share.header')</h3>
     <ul class="sidebar-share">
         <li class="chatlink">
-            <input title="Share chatlink ingame" readonly value="{{ e( $item->getChatLink() ) }}" class="chatlink">
+            <input title="{{ trans('misc.share.chatlink') }}" readonly value="{{ e( $item->getChatLink() ) }}" class="chatlink">
         </li>
-        <li class="twitter" ><a target="_blank" title="Share on Twitter" href="https://twitter.com/share?url={{ urlencode( 'http://' . Config::get('app.domain') . Request::getRequestUri() ) }}&via=GW2Treasures&text={{ urlencode( $item->getName() ) }}"><i class="sprite-share-twitter">Twitter</i></a></li>
-        <li class="google"  ><a target="_blank" title="Share on Google+" href="https://plus.google.com/share?url={{ urlencode( 'http://' . Config::get('app.domain') . Request::getRequestUri() ) }}"><i class="sprite-share-google">Google</i></a></li>
-        <li class="facebook"><a target="_blank" title="Share on Facebook" href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode( 'http://' . Config::get('app.domain') . Request::getRequestUri() ) }}"><i class="sprite-share-facebook">Facebook</i></a></li>
-        <li class="reddit"  ><a target="_blank" title="Submit to reddit" href="https://www.reddit.com/submit?url={{ urlencode( 'http://' . Config::get('app.domain') . Request::getRequestUri() ) }}&title={{ $item->getName() }}"><i class="sprite-share-reddit">Reddit</i></a></li>
+        <li class="twitter" ><a target="_blank" title="{{ trans('misc.share.twitter')  }}" data-dialog href="https://twitter.com/share?url={{ urlencode( 'http://' . Config::get('app.domain') . Request::getRequestUri() ) }}&via=GW2Treasures&text={{ urlencode( $item->getName() ) }}"><i class="sprite-share-twitter">Twitter</i></a></li>
+        <li class="google"  ><a target="_blank" title="{{ trans('misc.share.google')   }}" data-dialog href="https://plus.google.com/share?url={{ urlencode( 'http://' . Config::get('app.domain') . Request::getRequestUri() ) }}"><i class="sprite-share-google">Google</i></a></li>
+        <li class="facebook"><a target="_blank" title="{{ trans('misc.share.facebook') }}" data-dialog href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode( 'http://' . Config::get('app.domain') . Request::getRequestUri() ) }}"><i class="sprite-share-facebook">Facebook</i></a></li>
+        <li class="reddit"  ><a target="_blank" title="{{ trans('misc.share.reddit')   }}" href="https://www.reddit.com/submit?url={{ urlencode( 'http://' . Config::get('app.domain') . Request::getRequestUri() ) }}&title={{ $item->getName() }}"><i class="sprite-share-reddit">Reddit</i></a></li>
     </ul>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            $('.sidebar-share a[data-dialog]').on('click', function(e) {
+                window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=400,width=600');
+
+                e.preventDefault();
+                return false;
+            });
+        });
+
+    </script>
 </div>
 
 <div class="itemDetails">

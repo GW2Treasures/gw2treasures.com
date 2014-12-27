@@ -1,18 +1,11 @@
 trustedDomains = [
     # default gw2treasures
-    'http://gw2treasures.de'
-    'http://de.gw2treasures.de'
-    'http://en.gw2treasures.de'
-    'http://es.gw2treasures.de'
-    'http://fr.gw2treasures.de'
-    'http://dev.gw2treasures.de'
-    # gw2treasures over https
-    'https://gw2treasures.de'
-    'https://de.gw2treasures.de'
-    'https://en.gw2treasures.de'
-    'https://es.gw2treasures.de'
-    'https://fr.gw2treasures.de'
-    'https://dev.gw2treasures.de'
+    'https://gw2treasures.com'
+    'https://de.gw2treasures.com'
+    'https://en.gw2treasures.com'
+    'https://es.gw2treasures.com'
+    'https://fr.gw2treasures.com'
+    'https://dev.gw2treasures.com'
     # local development gw2treasures
     'http://gw2treasures.local'
     'http://de.gw2treasures.local'
@@ -21,8 +14,7 @@ trustedDomains = [
     'http://fr.gw2treasures.local'
     'http://dev.gw2treasures.local'
     # trust me
-    'http://storage.gw2treasures.de'
-    'https://storage.gw2treasures.de'
+    'https://storage.gw2treasures.com'
 ]
 
 handleMessage = ( e ) ->

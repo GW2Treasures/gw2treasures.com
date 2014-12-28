@@ -18,8 +18,9 @@
 </header>
 
 <div class="sidebar">
-    {{--<h3>@lang('misc.tradingpost.header')</h3>
-    <dl class="sidebar-tp">
+    <h3>@lang('misc.tradingpost.header')</h3>
+    <a href="https://www.gw2spidy.com/item/{{ $item->id }}">Guild Wars 2 Spidy</a>
+    {{--<dl class="sidebar-tp">
         <dt>@lang('misc.tradingpost.sell'):</dt>
         <dd>
             @include( 'item.vendorValue', array( 'vendorValue' => 105 ) )

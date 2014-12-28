@@ -63,19 +63,7 @@
     <meta property="og:description" content="{{ $metaDescription or '' }}">
     <meta property="og:image" content="{{ $metaImage or Helper::cdn('assets/img/logo.png') }}">
     <meta property="og:type" content="website">
-    <meta property="og:locale" content="{{ [][App::getLocale()] }}">
-    @if( App::getLocale() != 'de' )
-        <meta property="og:locale:alternate" content="de_DE">
-    @endif
-    @if( App::getLocale() != 'en' )
-        <meta property="og:locale:alternate" content="en_US">
-    @endif
-    @if( App::getLocale() != 'es' )
-        <meta property="og:locale:alternate" content="es_ES">
-    @endif
-    @if( App::getLocale() != 'fr' )
-        <meta property="og:locale:alternate" content="fr_FR">
-    @endif
+    <meta property="og:locale" content="{{ [ 'de'=>'de_DE', 'en'=>'en_US', 'es'=>'es_ES', 'fr'=>'fr_FR' ][App::getLocale()] }}">
 
     <!-- alternate versions in different languages -->
     <link rel="alternate" hreflang="x-default" href="//{{    Config::get('app.domain') . Request::getRequestUri() }}" />

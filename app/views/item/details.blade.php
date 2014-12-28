@@ -18,7 +18,7 @@
 </header>
 
 <div class="sidebar">
-    <h3>@lang('misc.tradingpost.header')</h3>
+    {{--<h3>@lang('misc.tradingpost.header')</h3>
     <dl class="sidebar-tp">
         <dt>@lang('misc.tradingpost.sell'):</dt>
         <dd>
@@ -30,7 +30,7 @@
             @include( 'item.vendorValue', array( 'vendorValue' => 98 ) )
             <span class="amount">({{ trans('misc.tradingpost.ordered', array( 'amount' => '119 308' )) }})</span>
         </dd>
-    </dl>
+    </dl>--}}
 
     <h3>@lang('misc.wiki.header')</h3>
     <ul class="sidebar-wikis">

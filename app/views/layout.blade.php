@@ -63,18 +63,18 @@
     <meta property="og:description" content="{{ $metaDescription or '' }}">
     <meta property="og:image" content="{{ $metaImage or Helper::cdn('assets/img/logo.png') }}">
     <meta property="og:type" content="website">
-    <meta property="og:locale" content="{{ App::getLocale() }}">
+    <meta property="og:locale" content="{{ [][App::getLocale()] }}">
     @if( App::getLocale() != 'de' )
-        <meta property="og:locale:alternate" content="de">
+        <meta property="og:locale:alternate" content="de_DE">
     @endif
     @if( App::getLocale() != 'en' )
-        <meta property="og:locale:alternate" content="en">
+        <meta property="og:locale:alternate" content="en_US">
     @endif
     @if( App::getLocale() != 'es' )
-        <meta property="og:locale:alternate" content="es">
+        <meta property="og:locale:alternate" content="es_ES">
     @endif
     @if( App::getLocale() != 'fr' )
-        <meta property="og:locale:alternate" content="fr">
+        <meta property="og:locale:alternate" content="fr_FR">
     @endif
 
     <!-- alternate versions in different languages -->

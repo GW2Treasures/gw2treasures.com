@@ -31,7 +31,7 @@ class ItemController extends BaseController {
         }
 
         $this->layout->metaTitle = $item->getName();
-        $this->layout->metaImage = $item->getIconUrl(64);
+        $this->layout->metaImage = 'https:' . $item->getIconUrl(64);
         $this->layout->metaDescription = trans( 'item.rarity.' . $item->rarity ) . ' ' . $type;
 
         DB::table('item_views')->insert(array(

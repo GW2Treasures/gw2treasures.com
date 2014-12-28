@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8">
     <title>{{ $title }} | GW2 Treasures</title>
-    <meta name="description" content="">
+    <meta name="description" content="{{ $metaDescription or 'GW2 Treasures: The Guild Wars 2 Item Database' }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 
     <meta name="gw2treasures:domain" content="{{ Config::get('app.domain') }}">
@@ -17,14 +17,14 @@
 
     <!-- prefetch -->
     @foreach( Helper::$cdn_servers as $cdn_server )
-    <!-- cdn --><link rel="dns-prefetch" href="//{{ $cdn_server }}">
+    {{-- cdn --}}<link rel="dns-prefetch" href="//{{ $cdn_server }}">
     @endforeach
-    <!-- storage    --><link rel="dns-prefetch" href="//storage.gw2treasures.com">
-    <!-- opensearch --><link rel="dns-prefetch" href="//gw2treasures.com">
-    <!-- font files --><link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <!-- font css   --><link rel="dns-prefetch" href="//fonts.googleapis.com">
-    <!-- analytics  --><link rel="dns-prefetch" href="//www.google-analytics.com">
-    <!-- jquery     --><link rel="dns-prefetch" href="//ajax.googleapis.com">
+    {{-- storage    --}}<link rel="dns-prefetch" href="//storage.gw2treasures.com">
+    {{-- opensearch --}}<link rel="dns-prefetch" href="//gw2treasures.com">
+    {{-- font files --}}<link rel="dns-prefetch" href="//fonts.gstatic.com">
+    {{-- font css   --}}<link rel="dns-prefetch" href="//fonts.googleapis.com">
+    {{-- analytics  --}}<link rel="dns-prefetch" href="//www.google-analytics.com">
+    {{-- jquery     --}}<link rel="dns-prefetch" href="//ajax.googleapis.com">
 
     <!-- styles -->
     <link rel="stylesheet" href="{{ Helper::cdn('assets/css/normalize.min.css') }}">
@@ -32,7 +32,7 @@
         <link rel="stylesheet" href="{{ Helper::cdn('assets2/css/gw2t.css') }}">
     @else
         {{--<link rel="stylesheet" href="//direct.darthmaim-cdn.de/gw2treasures/assets2/css/gw2t.css">--}}
-        <link rel="stylesheet" href="//localhost:8080/css/gw2t.css">
+        <link rel="stylesheet" href="//{{ Config::get('app.domain') }}:8080/css/gw2t.css">
     @endif
 
     <!-- fonts -->
@@ -47,6 +47,23 @@
 
     <!-- modernizr -->
     <script src="{{ Helper::cdn('assets/js/vendor/modernizr-3.0.0.min.js') }}"></script>
+
+    <!-- twitter -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="{{ '@gw2treasures' }}">
+    <meta name="twitter:title" content="{{ $metaTitle or $title }}">
+    <meta name="twitter:description" content="{{ $metaDescription or '' }}">
+    <meta name="twitter:image:src" content="{{ $metaImage or Helper::cdn('assets/img/logo.png') }}">
+    <meta name="twitter:domain" content="{{ Config::get('app.domain') }}">
+
+    <!-- opengraph / facebook -->
+    <meta property="og:title" content="{{ $metaTitle or $title }}">
+    <meta property="og:site_name" content="GW2 Treasures">
+    <meta property="og:url" content="{{ Request::url() }}">
+    <meta property="og:description" content="{{ $metaDescription or '' }}">
+    <meta property="og:image" content="{{ $metaImage or Helper::cdn('assets/img/logo.png') }}">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="{{ [ 'de'=>'de_DE', 'en'=>'en_US', 'es'=>'es_ES', 'fr'=>'fr_FR' ][App::getLocale()] }}">
 
     <!-- alternate versions in different languages -->
     <link rel="alternate" hreflang="x-default" href="//{{    Config::get('app.domain') . Request::getRequestUri() }}" />

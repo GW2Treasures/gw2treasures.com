@@ -1,111 +1,126 @@
 <?php
 
 class ItemController extends BaseController {
-	protected $layout = 'layout';
+    /** @var \Illuminate\View\View|stdClass $layout  */
+    protected $layout = 'layout';
 
-	public function showDetails( $language, Item $item ) {
-		$this->layout->title = $item->getName();
 
-		$key = CacheHelper::ItemDetails( $item, $language );
+    public function showDetails( $language, Item $item ) {
+        $this->layout->title = $item->getName();
 
-		if( Cache::has( $key ) && !isset( $_GET['nocache'] )) {
-			$this->layout->content = Cache::get( $key );
-			$this->layout->cached = true;
-		} else {
-			$content = View::make( 'item.details', array( 'item' => $item ))->render();
-			$this->layout->content = $content;
+        $key = CacheHelper::ItemDetails( $item, $language );
 
-			Cache::forever( $key, $content );
-		}
+        if( Cache::has( $key ) && !isset($_GET[ 'nocache' ]) ) {
+            $this->layout->content = Cache::get( $key );
+            $this->layout->cached = true;
+        } else {
+            $content = View::make( 'item.details', array( 'item' => $item ) )->render();
+            $this->layout->content = $content;
 
-		DB::table('item_views')->insert(array(
-			'item_id' => $item->id,
-			'language' => $language,
-		));
-	}
+            Cache::forever( $key, $content );
+        }
 
-	public function json( $language, Item $item ) {
-		return Response::json( $item->getData() );
-	}
+        if( isset($item->getTypeData()->type) ) {
+            $type = trans( 'item.type.' . $item->type ) . ' (' .
+                    trans( 'item.subtype.' . $item->type . '.' . $item->getTypeData()->type ) . ')';
+        } elseif( $item->sub_type != '' ) {
+            $type = trans( 'item.type.' . $item->type ) . ' (' .
+                    trans( 'item.subtype.' . $item->type . '.' . $item->subtype ) . ')';
+        } else {
+            $type = trans( 'item.type.' . $item->type );
+        }
 
-	public function random( $language ) {
-		$id = Item::random()->first()->id;
-		return Redirect::route( 'itemdetails', array( $language, $id ));
-	}
+        $this->layout->metaTitle = $item->getName();
+        $this->layout->metaImage = $item->getIconUrl(64);
+        $this->layout->metaDescription = trans( 'item.rarity.' . $item->rarity ) . ' ' . $type;
 
-	public function tooltip( $language, Item $item ) {
-		return $item->getTooltip( $language );
-	}
+        DB::table('item_views')->insert(array(
+            'item_id' => $item->id,
+            'language' => $language,
+        ));
+    }
+    public function json( $language, Item $item ) {
+        return Response::json( $item->getData() );
+    }
 
-	public function search( $language ) {
-		$searchTerm = trim( Input::get('q') );
-		$items = array();
+    public function random( $language ) {
+        $id = Item::random()->first()->id;
+        return Redirect::route( 'itemdetails', array( $language, $id ));
+    }
 
-		if( strlen( $searchTerm ) > 0 ) {
-			// item id
-			if( preg_match('/^[0-9]+$/', $searchTerm ) ) {
-				$item = Item::find( intval( $searchTerm ) );
-				if( !is_null( $item ) ) {
-					return Redirect::route( 'itemdetails', array( $language, $searchTerm ));
-				}
-			}
+    public function tooltip( $language, Item $item ) {
+        return $item->getTooltip( $language );
+    }
 
-			// chatlink
-			if(( $chatlink = Chatlink::TryDecode( $searchTerm )) !== false ) {
-				switch( $chatlink->type ) {
-					case Chatlink::TYPE_ITEM:
-						return Redirect::route( 'itemdetails', array( $language, $chatlink->id ));
-					case Chatlink::TYPE_RECIPE:
-						$recipe = Recipe::find( $chatlink->id );
-						return Redirect::route( 'itemdetails', array( $language, $recipe->output_id ));
-				}
-			}
+    public function search( $language ) {
+        $searchTerm = trim( Input::get('q') );
+        $items = array();
 
-			$items = Item::search( $searchTerm )->take( 1000 )->get();
-			if( $items->count() == 0 ) {
-				$items = Item::search( $searchTerm, true )->take( 1000 )->get();
-			}
-			$items = Item::sortSearchResult( $items , $searchTerm );
-		}
+        if( strlen( $searchTerm ) > 0 ) {
+            // item id
+            if( preg_match('/^[0-9]+$/', $searchTerm ) ) {
+                $item = Item::find( intval( $searchTerm ) );
+                if( !is_null( $item ) ) {
+                    return Redirect::route( 'itemdetails', array( $language, $searchTerm ));
+                }
+            }
 
-		$this->layout->content = View::make( 'item.searchresults', array( 
-			'items' => $items, 'searchterm' => $searchTerm ));
-		$this->layout->title = 'searchresults';
-	}
+            // chatlink
+            if(( $chatlink = Chatlink::TryDecode( $searchTerm )) !== false ) {
+                switch( $chatlink->type ) {
+                    case Chatlink::TYPE_ITEM:
+                        return Redirect::route( 'itemdetails', array( $language, $chatlink->id ));
+                    case Chatlink::TYPE_RECIPE:
+                        $recipe = Recipe::find( $chatlink->id );
+                        return Redirect::route( 'itemdetails', array( $language, $recipe->output_id ));
+                }
+            }
 
-	public function searchAutocomplete( $language ) {
-		$searchTerm = trim( Input::get('q') );
+            $items = Item::search( $searchTerm )->take( 1000 )->get();
+            if( $items->count() == 0 ) {
+                $items = Item::search( $searchTerm, true )->take( 1000 )->get();
+            }
+            $items = Item::sortSearchResult( $items , $searchTerm );
+        }
 
-		if(( $chatlink = Chatlink::TryDecode( $searchTerm )) !== false ) {
-			switch( $chatlink->type ) {
-				case Chatlink::TYPE_ITEM:
-					$items = array( Item::find( $chatlink->id ));
-					break;
-				case Chatlink::TYPE_RECIPE:
-					$recipe = Recipe::find( $chatlink->id );
-					$items = array( Item::find( $recipe->output_id ));
-					break;
-			}
-		} else {
-			$items = Item::search( $searchTerm )->take( 10 )->get();
-		}
-		
-		$response = new stdClass();
-		$response->items = array();
+        $this->layout->content = View::make( 'item.searchresults', array(
+            'items' => $items, 'searchterm' => $searchTerm ));
+        $this->layout->title = 'searchresults';
+    }
 
-		foreach ( $items as $item ) {
-			if( is_null($item) ) {
-				continue;
-			}
-			$i = new stdClass();
-			$i->id = $item->id;
-			$i->name = $item->getName();
-			$i->icon16 = Helper::cdn( 'icons/' . $item->signature . '/' . $item->file_id . '-16px.png', $item->file_id );
-			$i->icon32 = Helper::cdn( 'icons/' . $item->signature . '/' . $item->file_id . '-32px.png', $item->file_id );
-			$i->icon64 = Helper::cdn( 'icons/' . $item->signature . '/' . $item->file_id . '-64px.png', $item->file_id );
-			$response->items[] = $i;
-		}
+    public function searchAutocomplete( $language ) {
+        $searchTerm = trim( Input::get('q') );
 
-		return Response::json( $response );
-	}
+        if(( $chatlink = Chatlink::TryDecode( $searchTerm )) !== false ) {
+            switch( $chatlink->type ) {
+                case Chatlink::TYPE_ITEM:
+                    $items = array( Item::find( $chatlink->id ));
+                    break;
+                case Chatlink::TYPE_RECIPE:
+                    $recipe = Recipe::find( $chatlink->id );
+                    $items = array( Item::find( $recipe->output_id ));
+                    break;
+            }
+        } else {
+            $items = Item::search( $searchTerm )->take( 10 )->get();
+        }
+
+        $response = new stdClass();
+        $response->items = array();
+
+        foreach ( $items as $item ) {
+            if( is_null($item) ) {
+                continue;
+            }
+            $i = new stdClass();
+            $i->id = $item->id;
+            $i->name = $item->getName();
+            $i->icon16 = Helper::cdn( 'icons/' . $item->signature . '/' . $item->file_id . '-16px.png', $item->file_id );
+            $i->icon32 = Helper::cdn( 'icons/' . $item->signature . '/' . $item->file_id . '-32px.png', $item->file_id );
+            $i->icon64 = Helper::cdn( 'icons/' . $item->signature . '/' . $item->file_id . '-64px.png', $item->file_id );
+            $response->items[] = $i;
+        }
+
+        return Response::json( $response );
+    }
 }

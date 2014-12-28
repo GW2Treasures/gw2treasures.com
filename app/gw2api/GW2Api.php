@@ -27,7 +27,7 @@ class GW2Api {
 		$curl->addOptions( array(
 			CURLOPT_CAINFO => __DIR__ . DIRECTORY_SEPARATOR . 'cacert.pem',
 			CURLOPT_HEADER => true,
-		    CURLOPT_USERAGENT => 'GW2Treasures Bot/1.0 (+https://gw2treasures.de/contact)'
+		    CURLOPT_USERAGENT => 'GW2Treasures Bot/1.0 (+https://gw2treasures.com/contact)'
 		));
 		return $curl;
 	}

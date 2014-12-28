@@ -176,7 +176,7 @@
         <script>window.jQuery || document.write('<script src="{{ Helper::cdn('assets/js/vendor/jquery-1.10.1.min.js') }}"><\/script>')</script>
 
 		<!-- my own js -->
-		<script type="text/javascript" src="https://storage.gw2treasures.de/storage.js"></script>
+		<script type="text/javascript" src="https://storage.gw2treasures.com/storage.js"></script>
 
 		@if( App::environment('production') )
         	<script src="{{ Helper::cdn('assets/js/plugins.js') }}"></script>

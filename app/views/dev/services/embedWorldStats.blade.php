@@ -7,7 +7,7 @@
 	<iframe src="{{ URL::route('wvw.world.embedded', array( 'en', 1008, 'notrack' )) }}" seamless="seamless" height="120" width="100%" frameborder="0" scrolling="no"></iframe>
 </div>
 <p class="pageWidth">The URL for the widget is:</p>
-<pre class="pageWidth">http://<b>{language}</b>.gw2treasures.de/wvw/world/<b>{world_id}</b>/embedded?style=<b>{style}</b></pre>
+<pre class="pageWidth">http://<b>{language}</b>.gw2treasures.com/wvw/world/<b>{world_id}</b>/embedded?style=<b>{style}</b></pre>
 
 <div class="pageWidth">
 	<table style="width:100%" class="devTable">
@@ -35,7 +35,7 @@
 <h3 class="pageWidth">Code</h3>
 <div class="codeWrap">
 	<pre class="pageWidth">
-&lt;iframe src="http://<b>{language}</b>.gw2treasures.de/wvw/world/<b>{world_id}</b>/embedded?style=<b>{style}</b>" seamless="seamless" height="120" width="100%" frameborder="0" scrolling="no"&gt;&lt;/iframe&gt;</pre>
+&lt;iframe src="http://<b>{language}</b>.gw2treasures.com/wvw/world/<b>{world_id}</b>/embedded?style=<b>{style}</b>" seamless="seamless" height="120" width="100%" frameborder="0" scrolling="no"&gt;&lt;/iframe&gt;</pre>
 </div>
 <h3 class="pageWidth" id="world_ids">World ID List</h3>
 <div class="pageWidth">

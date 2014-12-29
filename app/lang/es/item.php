@@ -138,7 +138,7 @@ return array (
       'Harpoon' => 'Arpón',
       'Toy' => 'Juguete',
       'TwoHandedToy' => 'A dos manos',
-      'LargeBundle' => 'Bundle grande',
+      'LargeBundle' => 'Haz',
     ),
   ),
   'weight' => 
@@ -161,7 +161,7 @@ return array (
     'Norn' => 'Norn',
     'Sylvari' => 'Sylvari',
   ),
-  'AccountBound' => 'Account Bound',
+  'AccountBound' => 'Vinculado a cuenta',
   'SoulbindOnAcquire' => 'Ligado al adquirirlo',
   'SoulBindOnUse' => 'Ligadas a la cuenta',
   'unique' => 'Unico',

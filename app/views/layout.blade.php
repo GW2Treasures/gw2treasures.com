@@ -119,32 +119,6 @@
             <script src="//direct.darthmaim-cdn.de/gw2treasures/assets/js/main.js"></script>
         @endif
 
-        {{-- winter 2014 --}}
-        @if( App::environment('production') )
-            <script src="{{ Helper::cdn('assets/js/jquery.let_it_snow.min.js') }}"></script>
-        @else
-            <script src="//direct.darthmaim-cdn.de/gw2treasures/assets/js/jquery.let_it_snow.min.js"></script>
-        @endif
-        <script>
-            $(document).ready( function() {
-                var canvas = document.getElementById('snowcanvas');
-                var resizeCanvas = function() {
-                    var scale = window.devicePixelRatio || 1;
-                    var width  = canvas.offsetWidth,
-                        height = canvas.offsetHeight;
-                    if( canvas.width != width * scale || canvas.height != height * scale ) {
-                        canvas.width = width * scale;
-                        canvas.height = height * scale;
-                    }
-                };
-                resizeCanvas();
-                $(window).on('resize', resizeCanvas);
-                $(canvas).let_it_snow({
-                    speed: 0.1337
-                });
-            });
-        </script>
-
         @if( isset( $_GET['nocache'] ))
             <script type="text/javascript">
                 cache.clear();

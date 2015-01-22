@@ -4,22 +4,26 @@
 		<div class="unusedUpgradeSlot"><i class="sprite-18-upgradeslot"></i> {{ trans('item.unusedUpgradeSlot') }}</div>
 	@else
 		<div class="upgradeSlot">
-			{{ $item->getSuffixItem()->link( 16 ) }}
+			@if( !is_null( $item->getSuffixItem() ))
+				{{ $item->getSuffixItem()->link( 16 ) }}
 
-			@if( (( $suffixSubType = $item->getSuffixItem()->subtype ) == 'Rune' || $suffixSubType == 'Default') )
-				@include( 'item.attributes', array('item' => $item->getSuffixItem()) )
-				@if( isset( $item->getSuffixItem()->getTypeData()->bonuses ) )
-					(0/{{ count( $bonuses = $item->getSuffixItem()->getTypeData()->bonuses ) }})
-					<ol class="suffixBonusList">
-						@foreach( $bonuses as $bonus )
-							<li>{{ $bonus }}
-						@endforeach
-					</ol>
+				@if( (( $suffixSubType = $item->getSuffixItem()->subtype ) == 'Rune' || $suffixSubType == 'Default') )
+					@include( 'item.attributes', array('item' => $item->getSuffixItem()) )
+					@if( isset( $item->getSuffixItem()->getTypeData()->bonuses ) )
+						(0/{{ count( $bonuses = $item->getSuffixItem()->getTypeData()->bonuses ) }})
+						<ol class="suffixBonusList">
+							@foreach( $bonuses as $bonus )
+								<li>{{ $bonus }}
+							@endforeach
+						</ol>
+					@endif
+				@elseif( $suffixSubType == 'Sigil' || $suffixSubType == 'Gem' )
+					@include( 'item.attributes', array( 'item' => $item->getSuffixItem()) )
+				@else
+					Unknown UpgradeComponent {{ $suffixSubType }}
 				@endif
-			@elseif( $suffixSubType == 'Sigil' || $suffixSubType == 'Gem' )
-				@include( 'item.attributes', array( 'item' => $item->getSuffixItem()) )
 			@else
-				Unknown UpgradeComponent {{ $suffixSubType }}
+				Unknown Upgrade ({{ $item->suffix_item_id }})
 			@endif
 		</div>
 	@endif

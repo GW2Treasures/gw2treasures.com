@@ -85,7 +85,11 @@
         </div>
 
         <!-- footer -->
-        <footer id="footerBar"><div class="pageWidth"><a href="{{ URL::route('contact', App::getLocale()) }}">darthmaim</a> &copy; 2014</div></footer>
+        <footer id="footerBar">
+            <div class="pageWidth">
+                <a href="{{ URL::route('contact', App::getLocale()) }}">darthmaim</a> © {{ date('Y') }}
+            </div>
+        </footer>
     </div>
 
     @include('static.footer')

@@ -1,6 +1,6 @@
 <div class="banner">
 	<div class="header">
-		{{ Helper::webp( Helper::cdn('assets/img/header_img.webp'), Helper::cdn('assets/img/header_img.png'), 800, 150, "GW2 Treasures" ) }}
+		{{ Helper::webp( Helper::cdn('assets2/img/header_img.webp'), Helper::cdn('assets2/img/header_img.png'), 800, 150, "GW2 Treasures" ) }}
 	</div>
 	<div class="bannerSearch">
 		{{ Form::open( array( 'method' => 'GET', 'route' => array('search', App::getLocale()), 'role' => 'search' )) }}

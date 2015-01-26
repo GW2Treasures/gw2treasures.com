@@ -274,15 +274,23 @@ hr {
     background-color: #f6f6f6; }
 
 .devTable {
-    border: 1px solid #DDD; }
-    .devTable td, .devTable th {
+    border: 1px solid #DDD;
+    td, th {
         padding: 3px 7px;
         border: 1px solid #DDD;
-        vertical-align: top; }
-    .devTable > tbody > tr > th {
-        text-align: left; }
-.devTable ul {
-    margin: 0; }
+        vertical-align: top;
+    }
+    td {
+        word-break: break-all;
+        word-break: break-word;
+    }
+    & > tbody > tr > th {
+        text-align: left;
+    }
+    ul {
+        margin: 0;
+    }
+}
 
 .docList {
     list-style: none; }
@@ -323,7 +331,15 @@ hr {
 }
 
 .codeWrap {
-    pre { font-family: Consolas, monospace; line-height: 18px; font-size: 13px; color: #333; }
+    overflow-x: auto;
+    pre {
+        font-family: Consolas, monospace;
+        line-height: 18px;
+        font-size: 13px;
+        color: #333;
+        min-width: 80ch;
+        box-sizing: content-box;
+    }
     .hll { background-color: #ffffcc }
     .c { color: #999988; font-style: italic } /* Comment */
     .err { color: #a61717; background-color: #e3d2d2 } /* Error */

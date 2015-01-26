@@ -50,7 +50,7 @@
 <h3 class="pageWidth">Code</h3>
 <div class="codeWrap">
     <pre class="pageWidth">
-&lt;iframe src="http://<b>{language}</b>.gw2treasures.com/wvw/world/<b>{world_id}</b>/embedded?style=<b>{style}</b>" seamless="seamless" height="120" width="100%" frameborder="0" scrolling="no"&gt;&lt;/iframe&gt;</pre>
+&lt;iframe src="https://<b>{language}</b>.gw2treasures.com/wvw/world/<b>{world_id}</b>/embedded?style=<b>{style}</b>" height="120" width="100%" frameborder="0" scrolling="no"&gt;&lt;/iframe&gt;</pre>
 </div>
 <h3 class="pageWidth" id="world_ids">World ID List</h3>
 <div class="pageWidth">

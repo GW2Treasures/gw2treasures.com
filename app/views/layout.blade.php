@@ -42,6 +42,9 @@
     <link rel="icon" href="{{ Helper::cdn('assets/img/favicon.png') }}" type="image/png" />
     <link rel="shortcut icon" href="/favicon.ico" />
 
+    <!-- other -->
+    <meta name="theme-color" content="#E8C754">
+
     <!-- opensearch -->
     <link rel="search" href="//{{ Config::get('app.domain') }}/opensearch.xml" type="application/opensearchdescription+xml" title="Search">
 
@@ -71,6 +74,11 @@
     <link rel="alternate" hreflang="en"        href="//en.{{ Config::get('app.domain') . Request::getRequestUri() }}" />
     <link rel="alternate" hreflang="es"        href="//es.{{ Config::get('app.domain') . Request::getRequestUri() }}" />
     <link rel="alternate" hreflang="fr"        href="//fr.{{ Config::get('app.domain') . Request::getRequestUri() }}" />
+
+    <!-- canonical url -->
+    @if( isset( $canonical ) )
+        <link rel="canonical" href="{{ $canonical }}" />
+    @endif
 </head>
 <body>
     <div id="wrapper">

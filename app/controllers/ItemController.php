@@ -73,7 +73,8 @@ class ItemController extends BaseController {
                         return Redirect::route( 'itemdetails', array( $language, $chatlink->id ));
                     case Chatlink::TYPE_RECIPE:
                         $recipe = Recipe::find( $chatlink->id );
-                        return Redirect::route( 'itemdetails', array( $language, $recipe->output_id ));
+                        $url = URL::route( 'itemdetails', [ $language, $recipe->output_id ]) . '#r' . $chatlink->id;
+                        return Redirect::to( $url );
                 }
             }
 

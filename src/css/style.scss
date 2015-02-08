@@ -715,6 +715,14 @@ ul.itemList {
     .recipeLabel {
         margin-right: 4px;
     }
+
+    .anchor {
+        top: 0;
+    }
+
+    .anchor:target + header {
+        animation: target ease-out 3s;
+    }
 }
 
 ul.ingredients {
@@ -1532,12 +1540,18 @@ i.loading {
         }
         &:target {
             > td, th {
-                animation: table-target ease-out 3s;
-
-                @keyframes table-target {
-                    from { background: #E8C754; }
-                }
+                animation: target ease-out 3s;
             }
         }
     }
+}
+
+@keyframes target {
+    from { background: #E8C754; }
+}
+
+.anchor {
+    position: absolute;
+    margin-top: -150px;
+    visibility: hidden;
 }

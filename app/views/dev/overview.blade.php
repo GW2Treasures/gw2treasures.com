@@ -18,7 +18,7 @@
 				</p>
 			</div>
 			<div class="devGridCol more">
-				<span>More coming soon...</span>
+				<span>More coming soon™...</span>
 			</div>
 		</div>
 	</div>
@@ -32,13 +32,13 @@
 			<div class="devGridCol">
 				<h4><a>Get started with /v2/</a></h4>
 				<p class="description">
-					Coming soon
+					Coming soon™
 				</p>
 			</div>
 			<div class="devGridCol">
 				<h4><a>Best practices</a></h4>
 				<p class="description">
-					Coming soon
+					Coming soon™
 				</p>
 			</div>
 		</div>
@@ -47,19 +47,19 @@
 			<div class="devGridCol">
 				<h4><a>/v2/accounts</a></h4>
 				<p class="description">
-					Coming soon
+					Coming soon™
 				</p>
 			</div>
 			<div class="devGridCol">
 				<h4><a>/v2/build</a></h4>
 				<p class="description">
-					Coming soon
+					Coming soon™
 				</p>
 			</div>
 			<div class="devGridCol">
 				<h4><a>/v2/characters</a></h4>
 				<p class="description">
-					Coming soon
+					Coming soon™
 				</p>
 			</div>
 		</div>
@@ -67,19 +67,19 @@
 			<div class="devGridCol">
 				<h4><a>/v2/colors</a></h4>
 				<p class="description">
-					Coming soon
+					Coming soon™
 				</p>
 			</div>
 			<div class="devGridCol">
 				<h4><a>/v2/commerce/exchange</a></h4>
 				<p class="description">
-					Coming soon
+					Coming soon™
 				</p>
 			</div>
 			<div class="devGridCol">
 				<h4><a>/v2/commerce/listings</a></h4>
 				<p class="description">
-					Coming soon
+					Coming soon™
 				</p>
 			</div>
 		</div>
@@ -87,19 +87,19 @@
 			<div class="devGridCol">
 				<h4><a>/v2/commerce/prices</a></h4>
 				<p class="description">
-					Coming soon
+					Coming soon™
 				</p>
 			</div>
 			<div class="devGridCol">
 				<h4><a>/v2/continents</a></h4>
 				<p class="description">
-					Coming soon
+					Coming soon™
 				</p>
 			</div>
 			<div class="devGridCol">
 				<h4><a>/v2/events</a></h4>
 				<p class="description">
-					Coming soon
+					Coming soon™
 				</p>
 			</div>
 		</div>
@@ -107,19 +107,19 @@
 			<div class="devGridCol">
 				<h4><a>/v2/events-state</a></h4>
 				<p class="description">
-					Coming soon
+					Coming soon™
 				</p>
 			</div>
 			<div class="devGridCol">
 				<h4><a>/v2/files</a></h4>
 				<p class="description">
-					Coming soon
+					Coming soon™
 				</p>
 			</div>
 			<div class="devGridCol">
 				<h4><a>/v2/floors</a></h4>
 				<p class="description">
-					Coming soon
+					Coming soon™
 				</p>
 			</div>
 		</div>
@@ -127,19 +127,19 @@
 			<div class="devGridCol">
 				<h4><a>/v2/items</a></h4>
 				<p class="description">
-					Coming soon
+					Coming soon™
 				</p>
 			</div>
 			<div class="devGridCol">
 				<h4><a>/v2/leaderboards</a></h4>
 				<p class="description">
-					Coming soon
+					Coming soon™
 				</p>
 			</div>
 			<div class="devGridCol">
 				<h4><a>/v2/maps</a></h4>
 				<p class="description">
-					Coming soon
+					Coming soon™
 				</p>
 			</div>
 		</div>
@@ -147,19 +147,19 @@
 			<div class="devGridCol">
 				<h4><a>/v2/quaggans</a></h4>
 				<p class="description">
-					Coming soon
+					Coming soon™
 				</p>
 			</div>
 			<div class="devGridCol">
 				<h4><a>/v2/recipes</a></h4>
 				<p class="description">
-					Coming soon
+					Coming soon™
 				</p>
 			</div>
 			<div class="devGridCol">
 				<h4><a>/v2/skins</a></h4>
 				<p class="description">
-					Coming soon
+					Coming soon™
 				</p>
 			</div>
 		</div>
@@ -167,19 +167,19 @@
 			<div class="devGridCol">
 				<h4><a>/v2/worlds</a></h4>
 				<p class="description">
-					Coming soon
+					Coming soon™
 				</p>
 			</div>
 			<div class="devGridCol">
 				<h4><a>/v2/wvw/matches</a></h4>
 				<p class="description">
-					Coming soon
+					Coming soon™
 				</p>
 			</div>
 			<div class="devGridCol">
 				<h4><a>/v2/wvw/objectives</a></h4>
 				<p class="description">
-					Coming soon
+					Coming soon™
 				</p>
 			</div>
 		</div>

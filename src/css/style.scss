@@ -33,98 +33,8 @@ hr {
     margin: 0.8em auto;
     max-width: 1000px; }
 
-#header {
-    background-color: #222;
-    background-image: linear-gradient(#222, #111);
-    //box-shadow: 0 0 5px rgba(0,0,0,.3);
-    z-index: 1;
+@import 'header';
 
-    height: 40px;
-
-    padding: 0 20px;
-
-    color: #eee;
-    line-height: 40px; }
-    #header > .pageWidth {
-        position: relative; }
-    #header h1 {
-        position: absolute;
-        left: 50%;
-        margin-left: -100px;
-        font-size: 22px;
-        padding: 0;
-        font-size: 0;
-        color: transparent; }
-                .js #header h1 > a  { background-image: none; }
-             .no-js #header h1 > a ,
-        .js.no-webp #header h1 > a  { background-image: url('../img/sprites.png'); }
-           .js.webp #header h1 > a  { background-image: url('../img/sprites.webp'); }
-        #header h1 > a {
-            background-position: 0px -100px;
-            background-repeat: no-repeat;
-            width: 200px;
-            display: block;
-            height: 40px; }
-            #header h1 > a:hover {
-                text-decoration: none; }
-    #header .left,
-    #header .right {
-        position: absolute;
-        white-space: nowrap;
-        text-overflow: ellipsis; }
-    #header .left {
-        left: 0;
-        right: 50%;
-        margin-right: 125px;
-        overflow: hidden;
-        text-align: left; }
-    #header .right {
-        right: 0;
-        left: 50%;
-        margin-left: 125px;
-        text-align: right; }
-        #header .headerButton {
-            transition: background-color .3s ease;
-            background-color: transparent;
-            white-space: nowrap;
-            display: inline-block;
-            padding: 0 20px;
-            color: white; }
-            #header .headerButton:hover {
-                background-color: #666;
-                text-decoration: none; }
-    #header .searchForm {
-        float: right;
-        z-index: 1;
-        position: relative;
-        margin-right: 20px;
-        padding: 0;	}
-        #header .searchForm label {
-            position: absolute;
-            top: 0;
-            left: 0;
-            cursor: text;
-            line-height: 16px;
-            margin: 12px; }
-        #header .searchForm #q {
-            border: none;
-            border-radius: 0;
-            outline: none;
-            padding: 2px 5px 2px 42px;
-            width: 225px;
-            height: 40px;
-            font: inherit;
-            background: #666;
-            color: #fff;
-            transition: all .3s ease;
-            line-height: normal; }
-            #header .searchForm #q:focus {
-                width: 353px;
-                outline: none;
-                background: #ccc;
-                color: #111; }
-        #header .searchForm .submit {
-            display: none; }
 #wrapper {
     min-height: 100%;
     position: relative;
@@ -222,7 +132,9 @@ hr {
     color: #008000;
     background: #FAFAFA;
     border: 0 solid #DDD;
-    border-width: 1px 0; }
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+}
 
 .developer-body {
     h2 {
@@ -1227,6 +1139,9 @@ i.loading {
         padding: 8px 10px;
         background: #fff;
         background: linear-gradient(to bottom, #FAFAFA, #FFF);
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
         color: #111; }
     #searchSuggestionbox ul {
         margin: 0;

@@ -1,0 +1,144 @@
+#header {
+    $headerHeight: 40px;
+
+    background-color: #222;
+    z-index: 1;
+
+    height: $headerHeight;
+
+    padding: 0 20px;
+
+    color: #eee;
+    line-height: $headerHeight;
+
+    > .pageWidth {
+        position: relative;
+    }
+
+    h1 {
+        position: absolute;
+        left: 50%;
+        margin-left: -100px;
+        padding: 0;
+        font-size: 0;
+        color: transparent;
+        > a {
+            background-image: none;
+            background-repeat: no-repeat;
+            background-position: 0px -100px;
+            width: 200px;
+            display: block;
+            height: $headerHeight;
+
+            &:hover {
+                text-decoration: none;
+            }
+
+            @include webp( '../img/sprites.webp', '../img/sprites.png' );
+        }
+    }
+
+    .left, .right {
+        position: absolute;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .left {
+        left: 0;
+        right: 50%;
+        margin-right: 125px;
+        overflow: hidden;
+        text-align: left;
+
+        .headerButton {
+            float: left;
+        }
+    }
+
+    .right {
+        right: 0;
+        left: 50%;
+        margin-left: 125px;
+        text-align: right;
+
+        .headerButton {
+            float: right;
+
+            &:first-of-type {
+                margin-right: 210px;
+
+                @media( max-width: 900px ) {
+                    margin-right: 72px;
+                }
+            }
+        }
+    }
+
+    .headerButton {
+        transition: background-color .3s ease;
+        background-color: transparent;
+        white-space: nowrap;
+        display: inline-block;
+        padding: 0 20px;
+        color: white;
+        height: $headerHeight;
+
+        &:hover {
+            background-color: #666;
+            text-decoration: none;
+        }
+    }
+    .searchForm {
+        float: right;
+        z-index: 1;
+        position: absolute;
+        right: 0;
+        margin-right: 20px;
+        padding: 0;
+        label {
+            position: absolute;
+            top: 0;
+            left: 0;
+            cursor: text;
+            line-height: 16px;
+//            margin: 12px;
+            margin: (($headerHeight - 16px) / 2) 12px;
+        }
+        #q {
+            border: none;
+            border-radius: 0;
+            outline: none;
+            padding: 2px 5px 2px 40px;
+            width: 180px;
+            height: $headerHeight;
+            font: inherit;
+            background: #666;
+            color: #fff;
+            transition: all .3s ease;
+            line-height: normal;
+            &:focus {
+                width: 353px;
+                outline: none;
+                background: #ccc;
+                color: #111; }
+        }
+        .submit {
+            display: none;
+        }
+
+        @media( max-width: 900px ) {
+            label {
+                cursor: pointer;
+            }
+            #q {
+                background: #222;
+                width: 0;
+                padding-right: 0;
+                &:focus {
+                    padding-right: 5px;
+                }
+            }
+        }
+    }
+}

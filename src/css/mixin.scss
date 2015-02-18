@@ -1,12 +1,22 @@
 @mixin clearfix {
-	&:before,
-	&:after {
-		content: " ";
-		display: table;
-	}
+    &:before,
+    &:after {
+        content: " ";
+        display: table;
+    }
 
-	&:after {
-		clear: both;
-	}
-	*zoom: 1;
+    &:after {
+        clear: both;
+    }
+    *zoom: 1;
+}
+
+@mixin webp( $webpUrl, $fallbackUrl ) {
+    html.no-js &,
+    html.js.no-webp & {
+        background-image: url( $fallbackUrl );
+    }
+    html.js.webp & {
+        background-image: url( $webpUrl );
+    }
 }

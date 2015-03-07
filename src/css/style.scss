@@ -430,6 +430,9 @@ $rare:       #f4c900;
     &:hover {
         text-decoration: none;
     }
+    &:focus {
+        outline: none;
+    }
 
     img { margin-right: 0.5em; }
 }
@@ -440,7 +443,7 @@ $rare:       #f4c900;
 
     transition: border-color .2s ease;
 
-    .item-link:hover & {
+    .item-link:hover &, .item-link:focus & {
         border-color: inherit;
     }
 }

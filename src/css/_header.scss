@@ -1,5 +1,7 @@
 #header {
     $headerHeight: 40px;
+    $hoverBackground: #444;
+    $activeBackground: #666;
 
     background-color: #222;
     z-index: 1;
@@ -66,7 +68,7 @@
             float: right;
 
             &:first-of-type {
-                margin-right: 210px;
+                margin-right: 220px;
 
                 @media( max-width: 900px ) {
                     margin-right: 72px;
@@ -83,10 +85,15 @@
         padding: 0 20px;
         color: white;
         height: $headerHeight;
+        text-shadow: 0 -1px 0 rgba(0,0,0,.5);
 
-        &:hover {
-            background-color: #666;
+        &:hover, &:focus {
+            outline: none;
+            background-color: $hoverBackground;
             text-decoration: none;
+        }
+        &:active {
+            background-color: $activeBackground;
         }
     }
     .searchForm {
@@ -102,7 +109,6 @@
             left: 0;
             cursor: text;
             line-height: 16px;
-//            margin: 12px;
             margin: (($headerHeight - 16px) / 2) 12px;
         }
         #q {
@@ -110,18 +116,20 @@
             border-radius: 0;
             outline: none;
             padding: 2px 5px 2px 40px;
-            width: 180px;
+            width: 200px;
             height: $headerHeight;
             font: inherit;
             background: #666;
             color: #fff;
             transition: all .3s ease;
             line-height: normal;
+
             &:focus {
                 width: 353px;
                 outline: none;
                 background: #ccc;
-                color: #111; }
+                color: #111;
+            }
         }
         .submit {
             display: none;

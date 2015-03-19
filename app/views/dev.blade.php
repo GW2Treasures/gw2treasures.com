@@ -30,6 +30,9 @@
     <link rel="icon" href="{{ Helper::cdn('assets/img/favicon.png') }}" type="image/png" />
     <link rel="shortcut icon" href="/favicon.ico" />
 
+    <!-- other -->
+    <meta name="theme-color" content="#F3E2A5">
+
     <!-- opensearch -->
     <link rel="search" href="//{{ Config::get('app.domain') }}/opensearch.xml" type="application/opensearchdescription+xml" title="Search">
 

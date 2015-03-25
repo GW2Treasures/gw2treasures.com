@@ -32,9 +32,9 @@
 </div>
 <table class="table recipeTable">
     <thead><tr>
-        <th>{{ trans( 'recipe.output' ) }}</th>
-        <th>{{ trans( 'recipe.disciplines' ) }}</th>
-        <th>{{ trans( 'recipe.ingredients' ) }}</th>
+        <th scope="col">{{ trans( 'recipe.output' ) }}</th>
+        <th scope="col">{{ trans( 'recipe.disciplines' ) }}</th>
+        <th scope="col">{{ trans( 'recipe.ingredients' ) }}</th>
     </tr></thead>
     <tbody>
         @foreach( $recipes as $recipe )
@@ -51,7 +51,7 @@
                 }
             ?>
             <tr class="{{ implode( $classes, ' ' ) }}" id="r{{ $recipe->recipe_id }}">
-                <th>
+                <th scope="row">
                     {{-- output --}}
                     @if( !is_null( $recipe->output ) )
                         @if( $recipe->output_count == 1 )

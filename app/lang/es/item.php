@@ -165,6 +165,10 @@ return array (
   'SoulbindOnAcquire' => 'Ligado al adquirirlo',
   'SoulBindOnUse' => 'Ligadas a la cuenta',
   'unique' => 'Unico',
+
+  'noSell' => 'Not sellable',
+  'noSalvage' => 'Not salvageable',
+
   'gold' => 'Oro',
   'silver' => 'Plata',
   'copper' => 'Cobre',

@@ -165,6 +165,10 @@ return array (
   'SoulbindOnAcquire' => 'Lié à l\'âme dès l\'acquisition',
   'SoulBindOnUse' => 'Lié à l\'âme dès l\'utilisation',
   'unique' => 'Unique',
+
+  'noSell' => 'Not sellable',
+  'noSalvage' => 'Not salvageable',
+
   'gold' => 'Or',
   'silver' => 'Argent',
   'copper' => 'Cuivre',

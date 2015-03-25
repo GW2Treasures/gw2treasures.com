@@ -122,9 +122,16 @@
 	{{ trans( 'item.SoulBindOnUse' ) }}<br>
 @endif
 
+{{-- not salvagable --}}
+@if( $item->hasFlag( 'NoSalvage' ) )
+    <span class="muted">{{ trans( 'item.noSalvage') }}</span>
+@endif
+
 {{-- vendor value --}}
-@unless( $item->hasFlag( 'NoSell' ) )
+@if( $item->hasFlag( 'NoSell' ) )
+    <span class="muted">{{ trans( 'item.noSell' ) }}</span><br>
+@else
 	@include( 'item.vendorValue' )<br>
-@endunless
+@endif
 
 </div>

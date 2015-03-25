@@ -19,10 +19,10 @@ class Helper {
     }
 
     public static function webp( $url, $fallback, $width, $height, $alt = "" ) {
-        $out  = '<!-- webp -->';
-        $out .= '<noscript data-webp="' . $url . '" data-src="' . $fallback . '" data-width="' . $width . '" data-height="' . $height . '" data-alt="' . $alt . '">';
-        $out .= '<img src="' . $fallback . '" width="' . $width . '" height="' . $height . '" alt="' . $alt . '">';
-        $out .= '</noscript>';
+        $out  = '<picture alt="'.$alt.'" width="' . $width . '" height="' . $height . '">';
+        $out .= '<source type="image/webp" srcset="'.$url.'" />';
+        $out .= '<img src="'.$fallback.'" width="' . $width . '" height="' . $height . '" alt="'.$alt.'" />';
+        $out .= '</picture>';
         return $out;
     }
 

@@ -124,7 +124,7 @@
 
 {{-- not salvagable --}}
 @if( $item->hasFlag( 'NoSalvage' ) )
-    <span class="muted">{{ trans( 'item.noSalvage') }}</span>
+    <span class="muted">{{ trans( 'item.noSalvage') }}</span><br>
 @endif
 
 {{-- vendor value --}}

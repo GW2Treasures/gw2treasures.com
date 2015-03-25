@@ -43,7 +43,7 @@
     <link rel="shortcut icon" href="/favicon.ico" />
 
     <!-- other -->
-    <meta name="theme-color" content="#E8C754">
+    <meta name="theme-color" content="#F3E2A5">
 
     <!-- opensearch -->
     <link rel="search" href="//{{ Config::get('app.domain') }}/opensearch.xml" type="application/opensearchdescription+xml" title="Search">

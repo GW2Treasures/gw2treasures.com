@@ -1,4 +1,4 @@
-<header id="header" class="clearfix">
+<header id="header" class="clearfix" role="banner">
 	<div class="pageWidth">
 		<h1><a href="/">GW2 Treasures</a></h1>
 

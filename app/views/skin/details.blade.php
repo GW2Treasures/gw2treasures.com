@@ -17,9 +17,11 @@
 	</nav>
 </header>
 
-<h3>{{ trans( 'skin.itemsUnlockingThisSkin' ) }}</h3>
-<ul class="itemList">
-	@foreach( $skin->items as $item )
-		<li>{{ $item->link(32) }}
-	@endforeach
-</ul>
+<div class="itemDetails">
+    <h3>{{ trans( 'skin.itemsUnlockingThisSkin' ) }}</h3>
+    <ul class="itemList">
+        @foreach( $skin->items as $item )
+            <li>{{ $item->link(32) }}
+        @endforeach
+    </ul>
+</div>

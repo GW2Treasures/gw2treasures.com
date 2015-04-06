@@ -573,6 +573,10 @@ ul.itemList {
     > li {
         padding-top: 4px;
         line-height: 32px;
+
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .itemListItem--with-info {

@@ -26,9 +26,9 @@
 			<h2>{{ trans('misc.mostViewedItems.label', array( 'timespan' => trans('misc.mostViewedItems.day') )) }}</h2>
 			<ul class="itemList">
 				@foreach ($popularItemViews as $view)
-					<li style="clear:right">{{ $view->item->link(32) }} <span style="float:right; line-height: 32px; white-space: nowrap;">{{ $view->views }} Views</span></li>
-				@endforeach
-			</ul>
+                    <li class="itemListItem--with-info">{{ $view->item->link(32) }} <span class="itemListInfo">{{ $view->views }} Views</span></li>
+                @endforeach
+            </ul>
 		</div>
 	</div>
 </div>
@@ -54,7 +54,7 @@
 						$item = $newItems[ $i ];
 						$date_added = new \Carbon\Carbon($item->date_added);
 					?>
-					<li style="clear:right">{{ $item->link(32) }} <span style="float:right; line-height: 32px; white-space: nowrap;">{{ $date_added->diffForHumans() }}</span></li>
+					<li class="itemListItem--with-info">{{ $item->link(32) }} <span class="itemListInfo">{{ $date_added->diffForHumans() }}</span></li>
 				@endfor
 			</ul>
 		</div>
@@ -65,7 +65,7 @@
 						$item = $newItems[ $i ];
 						$date_added = new \Carbon\Carbon($item->date_added);
 					?>
-					<li style="clear:right">{{ $item->link(32) }} <span style="float:right; line-height: 32px; white-space: nowrap;">{{ $date_added->diffForHumans() }}</span></li>
+					<li class="itemListItem--with-info">{{ $item->link(32) }} <span class="itemListInfo">{{ $date_added->diffForHumans() }}</span></li>
 				@endfor
 			</ul>
 		</div>

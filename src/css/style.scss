@@ -556,9 +556,30 @@ ul.itemList {
     -ms-column-width: 450px;
     column-width: 450px;
     list-style-type: none;
-    padding: 0; }
-    ul.itemList > li {
-        padding-top: 5px; }
+    padding: 0;
+    > li {
+        padding-top: 4px;
+    }
+
+    .itemListItem--with-info {
+        clear: right;
+        display: flex;
+
+        > .item-link {
+            flex: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding-right: 16px;
+        }
+
+        > .itemListInfo {
+            float:right;
+            line-height: 29px;
+            white-space: nowrap;
+        }
+    }
+}
 .additionalSimilarItems { display: none; }
 
 .recipeBox {

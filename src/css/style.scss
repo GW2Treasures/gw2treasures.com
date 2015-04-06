@@ -584,13 +584,13 @@ ul.itemList {
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            padding-right: 16px;
         }
 
         > .itemListInfo {
             float:right;
             line-height: 32px;
             white-space: nowrap;
+            margin-left: 16px;
         }
     }
 }

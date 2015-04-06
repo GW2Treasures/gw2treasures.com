@@ -250,7 +250,7 @@ class Item extends BaseModel {
             $lang = App::getLocale();
         }
 
-        return '<a class="item-link border-' . $this->rarity . '" '
+        return '<a class="item-link item-link-' . $icon . ' border-' . $this->rarity . '" '
                . 'data-item-id="' . $this->id . '" '
                . 'href="' . $this->getUrl( $lang ) . ( !is_null( $anchor ) ? '#' . $anchor : '' ) . '" '
                . 'hreflang="' . $lang . '">'

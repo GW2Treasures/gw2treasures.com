@@ -117,8 +117,9 @@
             });
             $hideSomeSimilarItems = count( $similarItems ) > 20;
         ?>
-        <h3>{{ trans('item.similar') }}</h3>
-        <ul class="itemList" id="similar">
+        <a class="anchor" id="similar"></a>
+        <h3 class="headerSimilar">{{ trans('item.similar') }}</h3>
+        <ul class="itemList itemListSimilar">
             @for( $i = 0; $i < count( $similarItems ) && ( $hideSomeSimilarItems ? $i < 9 : true ); $i++ )
                 <?php $similarItem = $similarItems[ $i ] ?>
                 <li>{{ $similarItem->link( 32 ) }}
@@ -133,12 +134,5 @@
             @endfor
             @endif
         </ul>
-
-        <!-- remove style once the production server uses https://github.com/darthmaim/gw2treasures-assets -->
-        <style type="text/css">
-            .similarHidden { display: none; }
-            #similar:target .similarHidden { display: list-item; }
-            #similar:target .showMore { display: none; }
-        </style>
     @endif
 </div>

@@ -601,7 +601,14 @@ ul.itemList {
         }
     }
 }
-.additionalSimilarItems { display: none; }
+
+.similarHidden { display: none; }
+#similar:target {
+    ~ .headerSimilar { clear: both; }
+    ~ .itemListSimilar .similarHidden { display: list-item; }
+    ~ .itemListSimilar .showMore { display: none; }
+}
+
 
 .recipeBox {
     margin: 15px 15px 15px 0;
@@ -1528,4 +1535,5 @@ i.loading {
     position: absolute;
     margin-top: -150px;
     visibility: hidden;
+    display: block;
 }

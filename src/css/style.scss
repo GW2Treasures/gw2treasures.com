@@ -437,6 +437,19 @@ $rare:       #f4c900;
     img { margin-right: 0.5em; }
 }
 
+.item-link-16 {
+    line-height: 16px;
+    img { vertical-align: top; }
+}
+.item-link-32 {
+    line-height: 32px;
+    img { vertical-align: top; }
+}
+.item-link-64 {
+    line-height: 64px;
+    img { vertical-align: top; }
+}
+
 .item-link-text {
     border-bottom: 2px solid;
     border-color: transparent;
@@ -559,6 +572,7 @@ ul.itemList {
     padding: 0;
     > li {
         padding-top: 4px;
+        line-height: 32px;
     }
 
     .itemListItem--with-info {
@@ -575,7 +589,7 @@ ul.itemList {
 
         > .itemListInfo {
             float:right;
-            line-height: 29px;
+            line-height: 32px;
             white-space: nowrap;
         }
     }

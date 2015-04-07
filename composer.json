@@ -11,9 +11,9 @@
     ],
     "require": {
         "php": ">=5.5.0",
-        "laravel/framework": "4.1.*",
+        "laravel/framework": "~4.2",
         "barryvdh/laravel-ide-helper": "~1.11",
-        "doctrine/dbal": "~2.3",
+        "doctrine/dbal": "~2.5",
         "barryvdh/laravel-translation-manager": "dev-readonly",
         "chuyskywalker/rolling-curl": "*"
     },

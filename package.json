@@ -1,7 +1,7 @@
 {
   "name": "gw2treasures-assets",
   "version": "0.0.0",
-  "description": "Assets for gw2treasures.de",
+  "description": "Assets for gw2treasures.com",
   "main": "",
   "scripts": {
     "test": "grunt test"

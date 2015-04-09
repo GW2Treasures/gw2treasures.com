@@ -20,18 +20,6 @@
 <div class="sidebar">
     <h3>@lang('misc.tradingpost.header')</h3>
     <a target="_blank" onclick="outbound(this)" href="https://www.gw2spidy.com/item/{{ $item->id }}">Guild Wars 2 Spidy</a>
-    {{--<dl class="sidebar-tp">
-        <dt>@lang('misc.tradingpost.sell'):</dt>
-        <dd>
-            @include( 'item.vendorValue', array( 'vendorValue' => 105 ) )
-            <span class="amount">({{ trans('misc.tradingpost.available', array( 'amount' => '435 676' )) }})</span>
-        </dd>
-        <dt>@lang('misc.tradingpost.buy'):</dt>
-        <dd>
-            @include( 'item.vendorValue', array( 'vendorValue' => 98 ) )
-            <span class="amount">({{ trans('misc.tradingpost.ordered', array( 'amount' => '119 308' )) }})</span>
-        </dd>
-    </dl>--}}
 
     <h3>@lang('misc.wiki.header')</h3>
     <ul class="sidebar-wikis">

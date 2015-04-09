@@ -1,5 +1,5 @@
 <header class="itemHeader">
-    <img class="icon" width="64" height="64" src="<?= $item->getIconUrl() ?>" alt="">
+    <img class="icon" width="64" height="64" src="{{ $item->getIconUrl() }}" alt="">
     <h2>{{ $item->getName( ) }}</h2>
     <nav>
         @if( App::getLocale() != 'de' )

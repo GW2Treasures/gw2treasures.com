@@ -153,7 +153,7 @@
                     echo 'via cloudflare';
                 }
             ?>">
-                generated @ <?= date(DATE_RFC822) ?>
+                generated @ {{ date(DATE_RFC822) }}
             </span>
         </div>
 

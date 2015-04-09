@@ -10,7 +10,7 @@
 				@if( (( $suffixSubType = $item->getSuffixItem()->subtype ) == 'Rune' || $suffixSubType == 'Default') )
 					@include( 'item.attributes', array('item' => $item->getSuffixItem()) )
 					@if( isset( $item->getSuffixItem()->getTypeData()->bonuses ) )
-						(0/{{ count( $bonuses = $item->getSuffixItem()->getTypeData()->bonuses ) }})
+						&nbsp;(0/{{ count( $bonuses = $item->getSuffixItem()->getTypeData()->bonuses ) }})
 						<ol class="suffixBonusList">
 							@foreach( $bonuses as $bonus )
 								<li>{{ $bonus }}
@@ -39,7 +39,7 @@
 				@if( (( $suffixSubType = $item->getSecondarySuffixItem()->subtype ) == 'Rune' || $suffixSubType == 'Default') )
 					@include( 'item.attributes', array('item' => $item->getSecondarySuffixItem()) )
 					@if( isset( $item->getSecondarySuffixItem()->getTypeData()->bonuses ) )
-						(0/{{ count( $bonuses = $item->getSecondarySuffixItem()->getTypeData()->bonuses ) }})
+						&nbsp;(0/{{ count( $bonuses = $item->getSecondarySuffixItem()->getTypeData()->bonuses ) }})
 						<ol class="suffixBonusList">
 							@foreach( $bonuses as $bonus )
 								<li>{{ $bonus }}

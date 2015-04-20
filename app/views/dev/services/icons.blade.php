@@ -40,7 +40,7 @@
     <p>
         The icons are available at this url:
     </p>
-    <pre>//<b>{subdomain}</b>.darthmaim-cdn.de/gw2treasures/icons/<b>{signature}</b>/<b>{file_id}</b>-<b>{size}</b>.png</pre>
+    <pre>https://<b>{subdomain}</b>.darthmaim-cdn.de/gw2treasures/icons/<b>{signature}</b>/<b>{file_id}</b>-<b>{size}</b>.png</pre>
     <table style="width:100%" class="devTable">
         <thead><tr><th>Parameter</th><th>Explanation</th></tr></thead>
         <tbody>
@@ -78,21 +78,21 @@
         <thead><tr><th>Icon</th><th>URL</th></tr></thead>
         <tbody>
             <tr>
-                <td><img src="//europa.darthmaim-cdn.de/gw2treasures/icons/18CE5D78317265000CF3C23ED76AB3CEE86BA60E/65941-64px.png" width="64" height="64" alt="">
+                <td><img src="https://europa.darthmaim-cdn.de/gw2treasures/icons/18CE5D78317265000CF3C23ED76AB3CEE86BA60E/65941-64px.png" width="64" height="64" alt="">
                 </td><td>
-                    <code>//europa.darthmaim-cdn.de/gw2treasures/icons/18CE5D78317265000CF3C23ED76AB3CEE86BA60E/65941-64px.png</code>
+                    <code>https://europa.darthmaim-cdn.de/gw2treasures/icons/18CE5D78317265000CF3C23ED76AB3CEE86BA60E/65941-64px.png</code>
                 </td>
             </tr>
             <tr>
-                <td><img src="//callisto.darthmaim-cdn.de/gw2treasures/icons/4F19A8B4E309C3042358FB194F7190331DEF27EB/631494-32px.png" width="32" height="32" alt="">
+                <td><img src="https://callisto.darthmaim-cdn.de/gw2treasures/icons/4F19A8B4E309C3042358FB194F7190331DEF27EB/631494-32px.png" width="32" height="32" alt="">
                 </td><td>
-                    <code>//callisto.darthmaim-cdn.de/gw2treasures/icons/4F19A8B4E309C3042358FB194F7190331DEF27EB/631494-32px.png</code>
+                    <code>https://callisto.darthmaim-cdn.de/gw2treasures/icons/4F19A8B4E309C3042358FB194F7190331DEF27EB/631494-32px.png</code>
                 </td>
             </tr>
             <tr>
-                <td><img src="//europa.darthmaim-cdn.de/gw2treasures/icons/027D1D382447933D074BE45F405EA1F379471DEB/63127-16px.png" width="16" height="16" alt="">
+                <td><img src="https://europa.darthmaim-cdn.de/gw2treasures/icons/027D1D382447933D074BE45F405EA1F379471DEB/63127-16px.png" width="16" height="16" alt="">
                 </td><td>
-                    <code>//europa.darthmaim-cdn.de/gw2treasures/icons/027D1D382447933D074BE45F405EA1F379471DEB/63127-16px.png</code>
+                    <code>https://europa.darthmaim-cdn.de/gw2treasures/icons/027D1D382447933D074BE45F405EA1F379471DEB/63127-16px.png</code>
                 </td>
             </tr>
         </tbody>
@@ -121,7 +121,7 @@
                     $size = 64;
                 }
 
-                return '//' . $subdomains[ $file_id % count( $subdomains ) ] . '.darthmaim-cdn.de/gw2treasures/icons/' .
+                return 'https://' . $subdomains[ $file_id % count( $subdomains ) ] . '.darthmaim-cdn.de/gw2treasures/icons/' .
                     $signature . '/' . $file_id . '-' . $size . 'px.png';
             }
         @endhighlight
@@ -139,7 +139,7 @@
                     when size &lt;= 32 then 32
                     else 64
 
-                "//#{ subdomains[ file_id % subdomains.length ] }.darthmaim-cdn.de/gw2treasures/icons/\
+                "https://#{ subdomains[ file_id % subdomains.length ] }.darthmaim-cdn.de/gw2treasures/icons/\
                  #{ signature }/#{ file_id }-#{ size }px.png"
         @endhighlight
     </pre>
@@ -162,7 +162,7 @@
                     }
                 })();
 
-                return "//" + subdomains[file_id % subdomains.length] + ".darthmaim-cdn.de/gw2treasures/icons/" +
+                return "https://" + subdomains[file_id % subdomains.length] + ".darthmaim-cdn.de/gw2treasures/icons/" +
                     signature + "/" + file_id + "-" + size + "px.png";
             };
         @endhighlight

@@ -2,12 +2,12 @@
 
 class Helper {
     public static $cdn_servers = array( 
-        'callisto.darthmaim-cdn.de',
-        'europa.darthmaim-cdn.de',
-        'ganymede.darthmaim-cdn.de',
-        'io.darthmaim-cdn.de',
-        'titan.darthmaim-cdn.de',
-        'triton.darthmaim-cdn.de'
+        'https://callisto.darthmaim-cdn.de',
+        'https://europa.darthmaim-cdn.de',
+        'https://ganymede.darthmaim-cdn.de',
+        'https://io.darthmaim-cdn.de',
+        'https://titan.darthmaim-cdn.de',
+        'https://triton.darthmaim-cdn.de'
     );
 
     public static function cdn( $path, $server = null ) {
@@ -15,7 +15,7 @@ class Helper {
             $server = abs(crc32( $path ));
         }
         $server %= count( self::$cdn_servers );
-        return '//' . self::$cdn_servers[ $server ] . '/gw2treasures/' . $path;
+        return self::$cdn_servers[ $server ] . '/gw2treasures/' . $path;
     }
 
     public static function webp( $url, $fallback, $width, $height, $alt = "" ) {

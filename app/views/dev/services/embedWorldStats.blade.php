@@ -7,7 +7,7 @@
     <iframe src="{{ URL::route('wvw.world.embedded', array( 'en', 1008, 'notrack' )) }}" seamless="seamless" height="120" width="100%" frameborder="0" scrolling="no"></iframe>
 </div>
 <p class="pageWidth">The URL for the widget is:</p>
-<pre class="pageWidth">http://<b>{language}</b>.gw2treasures.com/wvw/world/<b>{world_id}</b>/embedded?style=<b>{style}</b></pre>
+<pre class="pageWidth">https://<b>{language}</b>.gw2treasures.com/wvw/world/<b>{world_id}</b>/embedded?style=<b>{style}</b></pre>
 
 <div class="pageWidth">
     <table style="width:100%" class="devTable">

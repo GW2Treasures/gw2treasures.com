@@ -30,6 +30,7 @@
         {{ trans( 'recipe.filterEnableJS' ) }}
     </span>
 </div>
+<div class="recipeTable-overflow">
 <table class="table recipeTable">
     <thead><tr>
         <th scope="col">{{ trans( 'recipe.output' ) }}</th>
@@ -106,3 +107,4 @@
         @endforeach
     </tbody>
 </table>
+</div>

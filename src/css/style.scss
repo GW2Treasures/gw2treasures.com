@@ -720,6 +720,8 @@ ul.ingredients {
 
 
 .recipeTable {
+	min-width: 600px;
+
     > tbody {
         > tr > td:nth-child(2) {
             text-align: center;
@@ -741,6 +743,9 @@ ul.ingredients {
         text-overflow: ellipsis;
     }
     .disciplines { font-size: 0; }
+}
+.recipeTable-overflow {
+	overflow-x: auto;
 }
 
 

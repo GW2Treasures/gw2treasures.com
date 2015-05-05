@@ -175,7 +175,7 @@
                 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
                 ga('create', '{{ Config::get('app.trackingCode') }}', '{{ Config::get('app.domain') }}');
-                ga('send', 'pageview');
+                ga('send', 'pageview', { transport: 'beacon' });
             </script>
         @endif
 

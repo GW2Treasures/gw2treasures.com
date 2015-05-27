@@ -4,7 +4,7 @@
         <p>Thanks to <strong><a href="https://github.com/codemasher">smiley&trade;</a></strong>
             for helping me out with all sorts of stuff, testing, …</p>
         <p>Thanks to <strong>Pablo</strong> and <strong><a href="https://www.facebook.com/hidromc">Rafa Alpañez</a></strong> for spanish translations
-            and <strong><a href="https://github.com/EtienneLamoureux">Etienne Lamoureux</a></strong> for french translations.</p>
+            and <strong><a href="https://github.com/EtienneLamoureux">Etienne Lamoureux</a></strong> and <strong><a href="https://twitter.com/E2GJohn">John</a></strong> for french translations.</p>
     </section>
 
     <h2 id="opensource" class="pageWidth">Open source</h2>

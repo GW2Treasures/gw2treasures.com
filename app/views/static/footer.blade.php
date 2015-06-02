@@ -32,7 +32,7 @@
 					<li><a href="#">{{ trans('footer.statistics') }}</a>
 					<li><a href="#">{{ trans('footer.changelog') }}</a>
 					<li><a href="#">{{ trans('footer.terms') }}</a>
-					<li><a href="https://github.com/darthmaim/gw2treasures-webinterface/issues">{{ trans('footer.bugtracker') }}</a>
+					<li><a href="https://github.com/GW2Treasures/gw2treasures.com/issues">{{ trans('footer.bugtracker') }}</a>
 					<li><a href="{{ URL::route('contact', App::getLocale()) }}">{{ trans('footer.contact') }}</a>
 				</ul>
 			</div>

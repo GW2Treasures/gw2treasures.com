@@ -165,11 +165,9 @@ return array (
   'SoulbindOnAcquire' => 'Soulbound on Acquire',
   'SoulBindOnUse' => 'Soulbound on use',
   'unique' => 'Unique',
-
-  'noSell' => 'Not sellable',
-  'noSalvage' => 'Not salvageable',
-
   'gold' => 'Gold',
   'silver' => 'Silver',
   'copper' => 'Copper',
+  'noSell' => 'Not sellable',
+  'noSalvage' => 'Not salvageable',
 );

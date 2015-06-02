@@ -165,11 +165,9 @@ return array (
   'SoulbindOnAcquire' => 'Seelengebunden',
   'SoulBindOnUse' => 'Bei Benutzung seelengebunden',
   'unique' => 'Einzigartig',
-
-  'noSell' => 'Unverkäuflich',
-  'noSalvage' => 'Nicht wiederverwertbar',
-
   'gold' => 'Gold',
   'silver' => 'Silber',
   'copper' => 'Kupfer',
+  'noSell' => 'Unverkäuflich',
+  'noSalvage' => 'Nicht wiederverwertbar',
 );

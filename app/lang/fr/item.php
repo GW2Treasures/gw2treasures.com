@@ -2,7 +2,7 @@
 
 return array (
   'defense' => 'Défense',
-  'weaponStrength' => 'Force de l\'arme',
+  'weaponStrength' => 'Puissance de l\'arme',
   'duration' => 'Durée',
   'pvp' => 'JcJ',
   'upgradeFor' => 'Améliorer en',
@@ -51,7 +51,7 @@ return array (
     'MiniPet' => 'Miniature',
     'Tool' => 'Outil',
     'Trinket' => 'Colifichet',
-    'Trophy' => 'Trophé',
+    'Trophy' => 'Trophée',
     'UpgradeComponent' => 'Composant d\'amélioration',
     'Weapon' => 'Arme',
   ),
@@ -65,7 +65,7 @@ return array (
       'Shoulders' => 'Épaulières',
       'Gloves' => 'Gants',
       'Leggings' => 'Cuissardes',
-      'HelmAquatic' => 'Appareil respiratoire',
+      'HelmAquatic' => 'Respirateur Aquatique',
     ),
     'Consumable' => 
     array (
@@ -130,7 +130,7 @@ return array (
       'Speargun' => 'Fusil-harpon',
       'Dagger' => 'Dague',
       'Sword' => 'Épée',
-      'Mace' => 'Mace',
+      'Mace' => 'Masse',
       'Shield' => 'Bouclier',
       'Axe' => 'Hache',
       'Greatsword' => 'Espadon',
@@ -144,7 +144,7 @@ return array (
   'weight' => 
   array (
     'Light' => 'Léger',
-    'Medium' => 'Medium',
+    'Medium' => 'Intermédiaire',
     'Heavy' => 'Lourd',
   ),
   'unusedUpgradeSlot' => 'Emplacement utilitaire inutilisée',
@@ -165,11 +165,9 @@ return array (
   'SoulbindOnAcquire' => 'Lié à l\'âme dès l\'acquisition',
   'SoulBindOnUse' => 'Lié à l\'âme dès l\'utilisation',
   'unique' => 'Unique',
-
-  'noSell' => 'Not sellable',
-  'noSalvage' => 'Not salvageable',
-
   'gold' => 'Or',
   'silver' => 'Argent',
   'copper' => 'Cuivre',
+  'noSell' => 'Invendable',
+  'noSalvage' => 'Non Recyclable',
 );

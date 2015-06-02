@@ -1,7 +1,7 @@
 <?php
 
 return array (
-  'recentlyViewedItems' => 'Recently viewed Items',
+  'recentlyViewedItems' => 'Objets vus récemment',
   'mostViewedItems' => 
   array (
     'label' => 'Most viewed items :timespan',
@@ -28,7 +28,7 @@ return array (
   'share' => 
   array (
     'header' => 'Share',
-    'chatlink' => 'Share chatlink ingame',
+    'chatlink' => 'Partager lien de l\'objet',
     'twitter' => 'Share on Twitter',
     'google' => 'Share on Google+',
     'facebook' => 'Share on Facebook',

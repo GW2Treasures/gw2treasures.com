@@ -19,7 +19,7 @@
 				'itemtype' => 'http://schema.org/SearchAction' ))
 			}}
                 <meta itemprop="target" content="{{ URL::route('search', App::getLocale() ) }}?q={q}"/>
-				<label for='q'><i class="sprite-16-search-light"></i></label>
+				<label for='q'></label>
 				{{ Form::text( 'q', null, array(
 					'placeholder' => trans( 'header.search.label' ),
 					'aria-label' => trans( 'header.search.label' ),

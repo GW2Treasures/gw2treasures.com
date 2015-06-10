@@ -55,7 +55,7 @@
                         'role' => 'search',
                         'id' => 'search'))
                     }}
-                        <label for='q'><i class="sprite-16-search-light"></i></label>
+                        <label for='q'></label>
                         {{ Form::text( 'q', null, array(
                             'placeholder' => trans( 'header.search.label' ),
                             'aria-label' => trans( 'header.search.label' ),

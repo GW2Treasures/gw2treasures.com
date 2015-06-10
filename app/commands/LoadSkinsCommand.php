@@ -4,39 +4,39 @@ use Illuminate\Console\Command;
 use GW2Treasures\GW2Api\GW2Api;
 
 class LoadSkinsCommand extends Command {
-	protected $name = 'gw2treasures:loadskins';
-	protected $description = 'Load Skins from API and store in database';
+    protected $name = 'gw2treasures:loadskins';
+    protected $description = 'Load Skins from API and store in database';
 
-	public function __construct()
-	{
-		parent::__construct();
-	}
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
-	private function insertIntoDB( $data ) {
-		if( count( $data ) == 0 ) {
-			return array();
-		}
-		$this->info('Inserting ' . count( $data ) . ' entries into database...');
-		DB::table('skins')->insert( $data );
-		return array();
-	}
+    private function insertIntoDB( $data ) {
+        if( count( $data ) == 0 ) {
+            return array();
+        }
+        $this->info('Inserting ' . count( $data ) . ' entries into database...');
+        DB::table('skins')->insert( $data );
+        return array();
+    }
 
-	public function fire()
-	{
-		$this->info( 'loading skins.json' );
+    public function fire()
+    {
+        $this->info( 'loading skins.json' );
         $api = (new GW2Api())->skins();
 
-		$skins = $api->ids();
+        $skins = $api->ids();
 
-		$count = count( $skins );
-		$this->info( $count . ' skins loaded' );
+        $count = count( $skins );
+        $this->info( $count . ' skins loaded' );
 
 
-		$this->info( 'loading known skins from database' );
-		$knownSkins = DB::table('skins')->lists( 'id' );
-		$this->info( count( $knownSkins ) . ' already known' );
+        $this->info( 'loading known skins from database' );
+        $knownSkins = DB::table('skins')->lists( 'id' );
+        $this->info( count( $knownSkins ) . ' already known' );
 
-		$this->info( 'loading skin_details.json' );
+        $this->info( 'loading skin_details.json' );
 
         $unknownSkins = [];
         foreach( $skins as $id ) {
@@ -50,39 +50,39 @@ class LoadSkinsCommand extends Command {
         $skins_es = $api->lang('es')->many($unknownSkins);
         $skins_fr = $api->lang('fr')->many($unknownSkins);
 
-		$data = array();
+        $data = array();
 
-		foreach( $unknownSkins as $i => $id ) {
+        foreach( $unknownSkins as $i => $id ) {
             preg_match('/\/(?<signature>[^\/]*)\/(?<file_id>[^\/]*)\.png$/', $skins_en[$i]->icon, $icon);
             $signature = $icon['signature'];
             $file_id = $icon['file_id'];
 
-			$data[] = array(
-				'id' => $id,
+            $data[] = array(
+                'id' => $id,
 
-				'name_de' => $skins_de[$i]->name,
-				'name_en' => $skins_en[$i]->name,
-				'name_es' => $skins_es[$i]->name,
-				'name_fr' => $skins_fr[$i]->name,
+                'name_de' => $skins_de[$i]->name,
+                'name_en' => $skins_en[$i]->name,
+                'name_es' => $skins_es[$i]->name,
+                'name_fr' => $skins_fr[$i]->name,
 
-				'type' => $skins_en[$i]->type,
+                'type' => $skins_en[$i]->type,
 
-				'signature' => $signature,
-				'file_id'   => $file_id,
+                'signature' => $signature,
+                'file_id'   => $file_id,
 
-				'data_de' => json_encode( $skins_de[$i] ),
-				'data_en' => json_encode( $skins_en[$i] ),
-				'data_es' => json_encode( $skins_es[$i] ),
-				'data_fr' => json_encode( $skins_fr[$i] )
-			);
+                'data_de' => json_encode( $skins_de[$i] ),
+                'data_en' => json_encode( $skins_en[$i] ),
+                'data_es' => json_encode( $skins_es[$i] ),
+                'data_fr' => json_encode( $skins_fr[$i] )
+            );
 
-			$this->info( '(' . ($i + 1) . '/' . $count . ') Loaded [' . $id . '] ' . $skins_en[$i]->name );
+            $this->info( '(' . ($i + 1) . '/' . $count . ') Loaded [' . $id . '] ' . $skins_en[$i]->name );
 
-			if( count( $data ) == 250 ) {
-				$data = $this->insertIntoDB( $data );
-			}
-		}
-		$this->insertIntoDB( $data );
-		$this->info( 'Done.' );
-	}
+            if( count( $data ) == 250 ) {
+                $data = $this->insertIntoDB( $data );
+            }
+        }
+        $this->insertIntoDB( $data );
+        $this->info( 'Done.' );
+    }
 }

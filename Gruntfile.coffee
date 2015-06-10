@@ -153,10 +153,10 @@ module.exports = (grunt) ->
     grunt.loadNpmTasks 'grunt-contrib-copy'
     grunt.loadNpmTasks 'grunt-contrib-cssmin'
     grunt.loadNpmTasks 'grunt-contrib-nodeunit'
-    grunt.loadNpmTasks 'grunt-contrib-sass'
     grunt.loadNpmTasks 'grunt-contrib-watch'
     grunt.loadNpmTasks 'grunt-mkdir'
     grunt.loadNpmTasks 'grunt-regex-replace'
+    grunt.loadNpmTasks 'grunt-sass'
 
     # img
     grunt.registerTask 'img', ['clean:img','mkdir:img','webp','pngcrush', 'copy:svg']

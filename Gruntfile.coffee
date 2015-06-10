@@ -37,6 +37,11 @@ module.exports = (grunt) ->
             jqueryPlugins:
                 src: '<%= paths.src.jsVendor %>jquery-plugins.js'
                 dest: '<%= paths.out.jsVendor %>jquery-plugins.js'
+            svg:
+                expand: true
+                cwd: '<%= paths.src.img %>'
+                src: '*.svg'
+                dest: '<%= paths.out.img %>'
         mkdir:
             css:      options: create: ['<%= paths.out.css %>']
             cssTemp:  options: create: ['<%= paths.out.cssTemp %>']
@@ -154,7 +159,7 @@ module.exports = (grunt) ->
     grunt.loadNpmTasks 'grunt-regex-replace'
 
     # img
-    grunt.registerTask 'img', ['clean:img','mkdir:img','webp','pngcrush']
+    grunt.registerTask 'img', ['clean:img','mkdir:img','webp','pngcrush', 'copy:svg']
 
     # js
     grunt.registerTask 'jquery', ['copy:jquery']

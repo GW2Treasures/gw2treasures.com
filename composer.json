@@ -15,7 +15,7 @@
         "barryvdh/laravel-ide-helper": "~1.11",
         "doctrine/dbal": "~2.5",
         "barryvdh/laravel-translation-manager": "dev-readonly",
-        "chuyskywalker/rolling-curl": "*"
+        "gw2treasures/gw2api": "~1.4"
     },
     "autoload": {
         "classmap": [
@@ -25,7 +25,6 @@
             "app/database/migrations",
             "app/database/seeds",
             "app/library",
-            "app/gw2api",
             "app/tests/TestCase.php"
         ]
     },

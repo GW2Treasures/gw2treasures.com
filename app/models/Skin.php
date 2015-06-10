@@ -18,10 +18,13 @@ class Skin extends BaseModel {
 
 	public function getTypeData( $lang = null ) {
 		$type = strtolower( $this->type );
-		if( isset( $this->getData( $lang )->{$type} )) {
+        if( isset( $this->getData( $lang )->details )) {
+            return $this->getData( $lang )->details;
+        } elseif( isset( $this->getData( $lang )->{$type} )) {
 			return $this->getData( $lang )->{$type};
-		}
-		return new stdClass();
+		} else {
+            return new stdClass();
+        }
 	}
 
 	public function getIconUrl( $size = 64 ) {

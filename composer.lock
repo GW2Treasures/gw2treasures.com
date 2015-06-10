@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0ff82612db28c403373539e6df950cfe",
+    "hash": "7e54e9b63dc55a87829bbc0024d2e082",
     "packages": [
         {
             "name": "barryvdh/laravel-ide-helper",
@@ -117,66 +117,6 @@
                 "source": "https://github.com/darthmaim/laravel-translation-manager/tree/readonly"
             },
             "time": "2014-10-12 12:05:24"
-        },
-        {
-            "name": "chuyskywalker/rolling-curl",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/chuyskywalker/rolling-curl.git",
-                "reference": "f7ff82f5705bd44bde92fd47524b759f616e473a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/chuyskywalker/rolling-curl/zipball/f7ff82f5705bd44bde92fd47524b759f616e473a",
-                "reference": "f7ff82f5705bd44bde92fd47524b759f616e473a",
-                "shasum": ""
-            },
-            "require": {
-                "ext-curl": "*",
-                "lib-curl": "*",
-                "php": ">=5.3.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "RollingCurl": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "Jeff Minard",
-                    "homepage": "http://jrm.cc/",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Josh Fraser",
-                    "email": "joshfraz@gmail.com",
-                    "homepage": "http://joshfraser.com/",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Alexander Makarov",
-                    "email": "sam@rmcreative.ru",
-                    "homepage": "http://rmcreative.ru/",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Rolling-Curl: A non-blocking, non-dos multi-curl library for PHP",
-            "homepage": "https://github.com/chuyskywalker/rolling-curl",
-            "keywords": [
-                "asynchronous",
-                "curl",
-                "http",
-                "multi",
-                "parallel",
-                "requests"
-            ],
-            "time": "2015-03-29 02:37:47"
         },
         {
             "name": "classpreloader/classpreloader",
@@ -787,6 +727,207 @@
                 "zf2"
             ],
             "time": "2015-05-29 15:12:07"
+        },
+        {
+            "name": "guzzlehttp/guzzle",
+            "version": "5.3.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/guzzle/guzzle.git",
+                "reference": "fd861570a9c3c28d98f418feea1f43f6268bdfa0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/fd861570a9c3c28d98f418feea1f43f6268bdfa0",
+                "reference": "fd861570a9c3c28d98f418feea1f43f6268bdfa0",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/ringphp": "^1.1",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "ext-curl": "*",
+                "phpunit/phpunit": "^4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "GuzzleHttp\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                }
+            ],
+            "description": "Guzzle is a PHP HTTP client library and framework for building RESTful web service clients",
+            "homepage": "http://guzzlephp.org/",
+            "keywords": [
+                "client",
+                "curl",
+                "framework",
+                "http",
+                "http client",
+                "rest",
+                "web service"
+            ],
+            "time": "2015-06-03 05:11:42"
+        },
+        {
+            "name": "guzzlehttp/ringphp",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/guzzle/RingPHP.git",
+                "reference": "9465032ac5d6beaa55f10923403e6e1c36018d9c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/guzzle/RingPHP/zipball/9465032ac5d6beaa55f10923403e6e1c36018d9c",
+                "reference": "9465032ac5d6beaa55f10923403e6e1c36018d9c",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/streams": "~3.0",
+                "php": ">=5.4.0",
+                "react/promise": "~2.0"
+            },
+            "require-dev": {
+                "ext-curl": "*",
+                "phpunit/phpunit": "~4.0"
+            },
+            "suggest": {
+                "ext-curl": "Guzzle will use specific adapters if cURL is present"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "GuzzleHttp\\Ring\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                }
+            ],
+            "description": "Provides a simple API and specification that abstracts away the details of HTTP into a single PHP function.",
+            "time": "2015-05-21 17:23:02"
+        },
+        {
+            "name": "guzzlehttp/streams",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/guzzle/streams.git",
+                "reference": "d1f8a6c55f0f753cfd6f6755856473eb02cedb19"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/guzzle/streams/zipball/d1f8a6c55f0f753cfd6f6755856473eb02cedb19",
+                "reference": "d1f8a6c55f0f753cfd6f6755856473eb02cedb19",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "GuzzleHttp\\Stream\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                }
+            ],
+            "description": "Provides a simple abstraction over streams of data",
+            "homepage": "http://guzzlephp.org/",
+            "keywords": [
+                "Guzzle",
+                "stream"
+            ],
+            "time": "2015-01-22 00:01:34"
+        },
+        {
+            "name": "gw2treasures/gw2api",
+            "version": "1.4.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/GW2Treasures/gw2api.git",
+                "reference": "6a3d5fcc75f63d7569b681c4f3fbd4f37694c0f9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/GW2Treasures/gw2api/zipball/6a3d5fcc75f63d7569b681c4f3fbd4f37694c0f9",
+                "reference": "6a3d5fcc75f63d7569b681c4f3fbd4f37694c0f9",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "~5.2",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.6",
+                "satooshi/php-coveralls": "dev-master"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "GW2Treasures\\GW2Api\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "darthmaim",
+                    "email": "darth.maim@arcor.de"
+                }
+            ],
+            "description": "PHP wrapper for the Guild Wars 2 API.",
+            "homepage": "https://github.com/GW2Treasures/gw2api",
+            "keywords": [
+                "api",
+                "guild wars 2",
+                "guildwars2",
+                "wrapper"
+            ],
+            "time": "2015-06-10 00:40:15"
         },
         {
             "name": "ircmaxell/password-compat",
@@ -1459,6 +1600,50 @@
                 "psr-3"
             ],
             "time": "2015-06-02 13:48:41"
+        },
+        {
+            "name": "react/promise",
+            "version": "v2.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/reactphp/promise.git",
+                "reference": "365fcee430dfa4ace1fbc75737ca60ceea7eeeef"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/reactphp/promise/zipball/365fcee430dfa4ace1fbc75737ca60ceea7eeeef",
+                "reference": "365fcee430dfa4ace1fbc75737ca60ceea7eeeef",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "React\\Promise\\": "src/"
+                },
+                "files": [
+                    "src/functions_include.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jan Sorgalla",
+                    "email": "jsorgalla@googlemail.com"
+                }
+            ],
+            "description": "A lightweight implementation of CommonJS Promises/A for PHP",
+            "time": "2014-12-30 13:32:42"
         },
         {
             "name": "stack/builder",
@@ -2402,6 +2587,66 @@
         }
     ],
     "packages-dev": [
+        {
+            "name": "chuyskywalker/rolling-curl",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/chuyskywalker/rolling-curl.git",
+                "reference": "f7ff82f5705bd44bde92fd47524b759f616e473a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/chuyskywalker/rolling-curl/zipball/f7ff82f5705bd44bde92fd47524b759f616e473a",
+                "reference": "f7ff82f5705bd44bde92fd47524b759f616e473a",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "lib-curl": "*",
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "RollingCurl": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Jeff Minard",
+                    "homepage": "http://jrm.cc/",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Josh Fraser",
+                    "email": "joshfraz@gmail.com",
+                    "homepage": "http://joshfraser.com/",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Alexander Makarov",
+                    "email": "sam@rmcreative.ru",
+                    "homepage": "http://rmcreative.ru/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Rolling-Curl: A non-blocking, non-dos multi-curl library for PHP",
+            "homepage": "https://github.com/chuyskywalker/rolling-curl",
+            "keywords": [
+                "asynchronous",
+                "curl",
+                "http",
+                "multi",
+                "parallel",
+                "requests"
+            ],
+            "time": "2015-03-29 02:37:47"
+        },
         {
             "name": "doctrine/instantiator",
             "version": "dev-master",

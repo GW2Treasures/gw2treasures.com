@@ -34,10 +34,10 @@
         <li class="chatlink">
             <input title="{{ trans('misc.share.chatlink') }}" readonly value="{{ e( $item->getChatLink() ) }}" class="chatlink">
         </li>
-        <li class="twitter" ><a target="_blank" title="{{ trans('misc.share.twitter')  }}" data-dialog href="https://twitter.com/share?url={{ urlencode( 'http://' . Config::get('app.domain') . Request::getRequestUri() ) }}&via=GW2Treasures&text={{ urlencode( $item->getName() ) }}"><i class="sprite-share-twitter">Twitter</i></a></li>
-        <li class="google"  ><a target="_blank" title="{{ trans('misc.share.google')   }}" data-dialog href="https://plus.google.com/share?url={{ urlencode( 'http://' . Config::get('app.domain') . Request::getRequestUri() ) }}"><i class="sprite-share-google">Google</i></a></li>
-        <li class="facebook"><a target="_blank" title="{{ trans('misc.share.facebook') }}" data-dialog href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode( 'http://' . Config::get('app.domain') . Request::getRequestUri() ) }}"><i class="sprite-share-facebook">Facebook</i></a></li>
-        <li class="reddit"  ><a target="_blank" title="{{ trans('misc.share.reddit')   }}" href="https://www.reddit.com/submit?url={{ urlencode( 'http://' . Config::get('app.domain') . Request::getRequestUri() ) }}&title={{ $item->getName() }}"><i class="sprite-share-reddit">Reddit</i></a></li>
+        <li class="twitter" ><a target="_blank" title="{{ trans('misc.share.twitter')  }}" data-dialog href="https://twitter.com/share?url={{ urlencode( $item->getUrl() ) }}&via=GW2Treasures&text={{ urlencode( $item->getName() ) }}"><i class="sprite-share-twitter">Twitter</i></a></li>
+        <li class="google"  ><a target="_blank" title="{{ trans('misc.share.google')   }}" data-dialog href="https://plus.google.com/share?url={{ urlencode( $item->getUrl() ) }}"><i class="sprite-share-google">Google</i></a></li>
+        <li class="facebook"><a target="_blank" title="{{ trans('misc.share.facebook') }}" data-dialog href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode( $item->getUrl() ) }}"><i class="sprite-share-facebook">Facebook</i></a></li>
+        <li class="reddit"  ><a target="_blank" title="{{ trans('misc.share.reddit')   }}" href="https://www.reddit.com/submit?url={{ urlencode( (Request::secure() ? 'https://' : 'http://' ) . Config::get('app.domain') . route('itemdetails', ['language' => null, 'item' => $item->id], false) ) }}&title={{ $item->getName() }}"><i class="sprite-share-reddit">Reddit</i></a></li>
     </ul>
     <script>
         document.addEventListener("DOMContentLoaded", function() {

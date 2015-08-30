@@ -25,9 +25,6 @@
         Often you don't want to display a 64x64 version of the icon on your page, but by loading the big icon and downscaling it clientside you are wasting bandwith. We provide all icons in 64x64, 32x32 and 16x16, so you can pick the dimensions and are only downloading the bytes you need.
     </p>
     <p>
-        Browsers limit the amount of concurrent connections to a server, so the icons from ArenaNets render service have to be loaded sequential. By serving the icons on 6 different cookieless subdomains and having optimized our servers for many concurrent connections, your browser can load the images much faster.
-    </p>
-    <p>
         As you can see our service is optimized to improve loading speed on the first and all subsequent requests.
     </p>
 </section>
@@ -40,21 +37,10 @@
     <p>
         The icons are available at this url:
     </p>
-    <pre>https://<b>{subdomain}</b>.darthmaim-cdn.de/gw2treasures/icons/<b>{signature}</b>/<b>{file_id}</b>-<b>{size}</b>.png</pre>
+    <pre>https://darthmaim-cdn.de/gw2treasures/icons/<b>{signature}</b>/<b>{file_id}</b>-<b>{size}</b>.png</pre>
     <table style="width:100%" class="devTable">
         <thead><tr><th>Parameter</th><th>Explanation</th></tr></thead>
         <tbody>
-            <tr><th><code>subdomain</code></th>
-                <td>We are serving the icons from multiple subdomains. To benefit from caching you should always use the same subdomain for the same icon. The subdomains available are:
-                    <ul><li>callisto
-                        <li>europa
-                        <li>ganymede
-                        <li>io
-                        <li>titan
-                        <li>triton
-                    </ul>
-                Take a look at the sample implementations to see how to select a subdomain based on the <code>file_id</code>.</td>
-            </tr>
             <tr><th><code>signature</code></th>
                 <td>The file signature you get from the official item_details-API.</td>
             </tr>

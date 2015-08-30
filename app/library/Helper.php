@@ -2,12 +2,7 @@
 
 class Helper {
     public static $cdn_servers = array( 
-        'https://callisto.darthmaim-cdn.de',
-        'https://europa.darthmaim-cdn.de',
-        'https://ganymede.darthmaim-cdn.de',
-        'https://io.darthmaim-cdn.de',
-        'https://titan.darthmaim-cdn.de',
-        'https://triton.darthmaim-cdn.de'
+        'https://darthmaim-cdn.de',
     );
 
     public static function cdn( $path, $server = null ) {

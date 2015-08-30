@@ -17,7 +17,7 @@
 
     <!-- prefetch -->
     @foreach( Helper::$cdn_servers as $cdn_server )
-    {{-- cdn --}}<link rel="dns-prefetch" href="//{{ $cdn_server }}">
+    {{-- cdn --}}<link rel="dns-prefetch" href="{{ $cdn_server }}">
     @endforeach
     {{-- storage    --}}<link rel="dns-prefetch" href="//storage.gw2treasures.com">
     {{-- opensearch --}}<link rel="dns-prefetch" href="//gw2treasures.com">

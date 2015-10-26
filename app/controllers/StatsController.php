@@ -15,7 +15,7 @@ class StatsController extends BaseController {
 			/** TIMELINE **/
 			$newestDay = head( DB::select('SELECT DATE(`date_added`) as "date" FROM `items` WHERE `date_added` <> "0000-00-00 00:00:00" GROUP BY DATE(`date_added`) ORDER BY `date_added` DESC LIMIT 49,1' ))->date;
 
-			$items = Item::whereRaw('DATE(`date_added`) >= "'. $newestDay .'"')->orderBy('date_added', 'desc')->get();
+			$items = Item::whereRaw('DATE(`date_added`) >= "'. $newestDay .'"')->orderBy('date_added', 'desc')->select('id', 'signature', 'file_id')->remember(60)->get();
 
 			$itemsGroupedByDate = array();
 			$lastDate = null;

@@ -100,7 +100,7 @@
                                     @if( !is_null($ingredient) )
                                         {{ $ingredient->link(16) }}
                                     @else
-                                        Unknown Item ({{ $recipe->{'ing_id_'.($i+1)} }})
+                                        Unknown Item ({{ $recipe->getIngredientIDs()[$i] }})
                                     @endif
                                 </li>
                             @endif

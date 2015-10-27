@@ -53,6 +53,9 @@
 		public function getIngredients() { 
 			return array( $this->ingredient1, $this->ingredient2, $this->ingredient3, $this->ingredient4 );
 		}
+		public function getIngredientIDs() {
+			return array( $this->ing_id_1, $this->ing_id_2, $this->ing_id_3, $this->ing_id_4 );
+		}
 		public function getIngredientCounts() {
 			return array( $this->ing_count_1, $this->ing_count_2, $this->ing_count_3, $this->ing_count_4 );
 		}

@@ -357,30 +357,108 @@ html.js .only-no-js, html.no-js .only-js { display:none; }
 /* ITEMS */
 
 .itemHeader {
-    float: left;
-    margin-top: 0px;
+    margin-top: 0;
     position: relative;
-    padding-left: 70px; }
-    .itemHeader img.icon {
-        left: 0;
-        top: 5px;
-        position: absolute;	}
-    .itemHeader h2 {
-        margin: 0;
-        font: 30px/1 'Open Sans Condensed';
-        margin-bottom: 5px;
-        font-weight: 300; }
-    .itemHeader .lang {
+    background: #f9f9f9;
+    height: 84px;
+    padding: 0;
+
+    > .pageWidth {
+        padding: 10px 340px 10px 94px;
+        position: relative;
+
+        @media(max-width: 767px) {
+            padding-right: 20px;
+        }
+    }
+
+    &.skinHeader > .pageWidth {
+        padding-right: 20px;
+    }
+
+    .icon {
+        position: absolute;
+        top: 10px;
+        left: 15px;
+    }
+
+    h2 {
+        font: 24px Adelle, Bitter, Georgia, serif;
+        font-weight: bold;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        margin: 2px 0 8px;
+        display: inline-block;
+        max-width: 100%;
+
+        .overflow {
+            display: none;
+            position: absolute;
+            background: #fff;
+            white-space: normal;
+            word-break: break-all;
+            word-break: break-word;
+            word-wrap: break-word;
+            z-index: 2;
+            padding: 8px;
+            margin: -8px 25px 0 -8px;
+            border-radius: 2px;
+            box-shadow: 0 1px 2px rgba(0,0,0,.2);
+
+            @media(max-width: 767px) {
+                margin-right: 10px;
+            }
+        }
+
+        &:hover .overflow {
+            display: block;
+        }
+    }
+
+    .lang {
         color: #bbb;
-        font: 11px/1.1 'Open Sans'; }
-    .itemHeader .langCode {
+        font: 11px/1.4 'Open Sans';
+        display: inline-block;
+        max-width: 33%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        float: left;
+
+        a {
+            color: #666;
+        }
+
+        + .lang {
+            padding-left: 10px;
+        }
+    }
+
+    .langCode {
         color: #666;
-        font-family: 'Droid Sans Mono', Consolas, monospace; }
-    .itemHeader .lang a {
-        color: #666; }
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+}
 
 .itemDetails {
     clear: left;
+
+    > .tooltip {
+        box-shadow: none;
+        margin: 0 0 20px;
+        padding: 20px 0 0;
+        max-width: calc(100% - 330px);
+        
+        > header {
+            display: none;
+        }
+
+        @media(max-width: 767px) {
+            max-width: none;
+        }
+    }
 }
 
 .clear {
@@ -1374,7 +1452,9 @@ i.loading {
     width: 300px;
     padding: 10px 25px;
     background: #eee;
-    margin: 0 0 25px 25px;
+    margin: -84px 0 25px 25px;
+    position: relative;
+    overflow: hidden;
 
     h3 {
         border-bottom: 1px solid #ddd;
@@ -1393,6 +1473,13 @@ i.loading {
     dl {
         margin-top: 0;
         margin-bottom: 0;
+    }
+
+    @media(max-width: 767px) {
+        float: none;
+        margin: 0 -20px 25px;
+        padding: 10px 20px;
+        width: auto;
     }
 }
 

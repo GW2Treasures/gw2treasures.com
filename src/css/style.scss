@@ -1070,7 +1070,7 @@ i[class^="sprite-"][class$="-castle-red"]   { background-position: -140px -60px;
 i[class^="sprite-"][class$="-castle-blue"]  { background-position: -160px -60px; }
 i[class^="sprite-"][class$="-castle-green"] { background-position: -180px -60px; }
 
-i.sprite-share-google   { background-position: -100px -80px; width: 20px; height: 20px; }
+i.sprite-share-google   { background-position:  -80px -80px; width: 24px; height: 20px; }
 i.sprite-share-twitter  { background-position: -120px -80px; width: 20px; height: 20px; }
 i.sprite-share-facebook { background-position: -140px -80px; width: 20px; height: 20px; }
 i.sprite-share-reddit   { background-position: -160px -80px; width: 32px; height: 20px; }
@@ -1536,7 +1536,7 @@ i.loading {
         }
 
         &.google a {
-            background-color: #DA4C3F;
+            background-color: #DC4E41;
         }
         &.twitter a {
             background-color: #00ACED;

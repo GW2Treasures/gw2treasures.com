@@ -7,6 +7,7 @@ class ItemController extends BaseController {
 
     public function showDetails( $language, Item $item ) {
         $this->layout->title = $item->getName();
+        $this->layout->fullWidth = true;
 
         $key = CacheHelper::ItemDetails( $item, $language );
 

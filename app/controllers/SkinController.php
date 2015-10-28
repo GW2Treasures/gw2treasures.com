@@ -5,6 +5,7 @@ class SkinController extends BaseController {
 
 	public function details( $language, Skin $skin ) {
 		$this->layout->title = $skin->getName();
+		$this->layout->fullWidth = true;
 		$this->layout->content = View::make( 'skin.details' )
 			->with( 'skin', $skin );
 	}

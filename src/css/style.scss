@@ -643,10 +643,6 @@ $rare:       #f4c900;
     .money .copper:after { background: #D3824C; }
 
 ul.itemList {
-    -webkit-column-width: 450px;
-    -moz-column-width: 450px;
-    -o-column-width: 450px;
-    -ms-column-width: 450px;
     column-width: 450px;
     list-style-type: none;
     padding: 0;
@@ -656,6 +652,7 @@ ul.itemList {
         padding-top: 4px;
         line-height: 32px;
 
+        break-inside: avoid;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;

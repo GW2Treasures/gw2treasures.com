@@ -9,6 +9,7 @@ return array (
   'craftedFrom' => 'Crafted from',
   'usedInCrafting' => 'Used in crafting',
   'unlocks' => 'Unlocks',
+  'unlocksUnknownRecipe' => 'Unlocks the unknown recipe :chatlink.',
   'similar' => 'Similar',
   'showMoreSimilarItems' => 'Show :count more similar items…',
   'unlocksSkin' => 'Unlocks skin',

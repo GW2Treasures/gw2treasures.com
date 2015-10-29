@@ -9,6 +9,7 @@ return array (
   'craftedFrom' => 'Herstellung',
   'usedInCrafting' => 'Verwendung',
   'unlocks' => 'Freischaltung',
+  'unlocksUnknownRecipe' => 'Schaltet das unbekanntes Rezept :chatlink frei.',
   'similar' => 'Ähnlich',
   'showMoreSimilarItems' => 'Zeige :count mehr ähnliche Gegenstände…',
   'unlocksSkin' => 'Freigeschalteter Skin',

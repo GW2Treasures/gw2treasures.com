@@ -9,6 +9,7 @@ return array (
   'craftedFrom' => 'Créé à partir de',
   'usedInCrafting' => 'Utilisé en artisanat',
   'unlocks' => 'Débloque',
+  'unlocksUnknownRecipe' => 'Unlocks the unknown recipe :chatlink.',
   'similar' => 'Similaire',
   'showMoreSimilarItems' => 'Montrer :count objets similaires...',
   'unlocksSkin' => 'Débloque l\'apparence',

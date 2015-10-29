@@ -76,6 +76,14 @@
     @if( $item->unlock_type == 'CraftingRecipe' && !is_null( $item->unlocks ))
         <h3>{{ trans('item.unlocks') }}</h3>
         @include( 'recipe.box', array( 'recipe' => $item->unlocks ))
+    @elseif( $item->unlock_type == 'CraftingRecipe' && strpos($item->getName('en'), 'Recipe: ') === 0 )
+        <h3>{{ trans('item.unlocks') }}</h3>
+        <p>{{ trans('item.unlocksUnknownRecipe', ['chatlink' => Chatlink::Encode(Chatlink::TYPE_RECIPE, $item->getTypeData()->recipe_id)->chatlink]) }}</p>
+        <ul class="itemList">
+            @foreach( $unlockedItems = Item::whereNameEn( substr($item->getName('en'), strlen('Recipe: ')) )->get() as $unlockedItem )
+                <li>{{ $unlockedItem->link(32) }}</li>
+            @endforeach
+        </ul>
     @endif
 
     @if( count( $craftedFrom = $item->recipes()->get()) > 0 )

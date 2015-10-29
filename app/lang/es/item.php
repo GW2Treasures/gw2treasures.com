@@ -6,6 +6,7 @@ return array (
   'duration' => 'Duración',
   'pvp' => 'PvP',
   'upgradeFor' => 'Convertir en',
+  'tiers' => 'Tiers',
   'craftedFrom' => 'Elaborado a partir de',
   'usedInCrafting' => 'Usado en la recolecta',
   'unlocks' => 'Desbloquea',

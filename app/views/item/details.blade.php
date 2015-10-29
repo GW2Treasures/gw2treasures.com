@@ -56,6 +56,23 @@
         </script>
     </div>
 
+    @if( $item->type == 'UpgradeComponent' && $item->subtype == 'Rune' &&
+        count( $tiers = Item::whereType($item->type)->whereSubtype($item->subtype)->wherePvp(false)
+                            ->where('name_en', 'LIKE', DB::raw('"%'.$item->getTypeData('en')->suffix.'"'))
+                            ->orderBy('level', 'ASC')->orderBy('value', 'ASC')->get() ) > 1
+    )
+        <h3>{{ trans('item.tiers') }}</h3>
+        <ul class="itemList itemList">
+            @foreach( $tiers as $tierItem )
+                @if( $tierItem->id === $item->id )
+                    <li style="font-weight: bold;">{{ $tierItem->link(32) }}</li>
+                @else
+                    <li>{{ $tierItem->link(32) }}</li>
+                @endif
+            @endforeach
+        </ul>
+    @endif
+
     @if( $item->type == 'UpgradeComponent' && count( $upgradeFor = Item::hasUpgrade( $item )->get()) > 0 )
         <?php
             $upgradeFor->sort( function( $a, $b ) use ( $item ) {

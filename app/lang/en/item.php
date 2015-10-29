@@ -6,6 +6,7 @@ return array (
   'duration' => 'Duration',
   'pvp' => 'PvP',
   'upgradeFor' => 'Upgrade in',
+  'tiers' => 'Tiers',
   'craftedFrom' => 'Crafted from',
   'usedInCrafting' => 'Used in crafting',
   'unlocks' => 'Unlocks',

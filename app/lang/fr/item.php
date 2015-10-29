@@ -6,6 +6,7 @@ return array (
   'duration' => 'Durée',
   'pvp' => 'JcJ',
   'upgradeFor' => 'Améliorer en',
+  'tiers' => 'Tiers',
   'craftedFrom' => 'Créé à partir de',
   'usedInCrafting' => 'Utilisé en artisanat',
   'unlocks' => 'Débloque',

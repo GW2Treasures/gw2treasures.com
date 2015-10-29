@@ -6,6 +6,7 @@ return array (
   'duration' => 'Dauer',
   'pvp' => 'PvP',
   'upgradeFor' => 'Aufwertung in',
+  'tiers' => 'Versionen',
   'craftedFrom' => 'Herstellung',
   'usedInCrafting' => 'Verwendung',
   'unlocks' => 'Freischaltung',

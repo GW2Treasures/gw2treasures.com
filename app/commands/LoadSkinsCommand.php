@@ -45,38 +45,52 @@ class LoadSkinsCommand extends Command {
             }
         }
 
-        $skins_de = $api->lang('de')->many($unknownSkins);
-        $skins_en = $api->lang('en')->many($unknownSkins);
-        $skins_es = $api->lang('es')->many($unknownSkins);
-        $skins_fr = $api->lang('fr')->many($unknownSkins);
+        $keyByID = function(array $skins) {
+            $results = [];
+
+            foreach( $skins as $skin ) {
+                $results[$skin->id] = $skin;
+            }
+
+            return $results;
+        };
+
+        $skins_de = $keyByID($api->lang('de')->many($unknownSkins));
+        $skins_en = $keyByID($api->lang('en')->many($unknownSkins));
+        $skins_es = $keyByID($api->lang('es')->many($unknownSkins));
+        $skins_fr = $keyByID($api->lang('fr')->many($unknownSkins));
 
         $data = array();
 
         foreach( $unknownSkins as $i => $id ) {
-            preg_match('/\/(?<signature>[^\/]*)\/(?<file_id>[^\/]*)\.png$/', $skins_en[$i]->icon, $icon);
+            if( !isset( $skins_en[$id]->name ) ) {
+                continue;
+            }
+
+            $this->info( '(' . ($i + 1) . '/' . $count . ') Loading [' . $id . '] ' . $skins_en[$id]->name );
+
+            preg_match('/\/(?<signature>[^\/]*)\/(?<file_id>[^\/]*)\.png$/', $skins_en[$id]->icon, $icon);
             $signature = $icon['signature'];
             $file_id = $icon['file_id'];
 
             $data[] = array(
                 'id' => $id,
 
-                'name_de' => $skins_de[$i]->name,
-                'name_en' => $skins_en[$i]->name,
-                'name_es' => $skins_es[$i]->name,
-                'name_fr' => $skins_fr[$i]->name,
+                'name_de' => $skins_de[$id]->name,
+                'name_en' => $skins_en[$id]->name,
+                'name_es' => $skins_es[$id]->name,
+                'name_fr' => $skins_fr[$id]->name,
 
-                'type' => $skins_en[$i]->type,
+                'type' => $skins_en[$id]->type,
 
                 'signature' => $signature,
                 'file_id'   => $file_id,
 
-                'data_de' => json_encode( $skins_de[$i] ),
-                'data_en' => json_encode( $skins_en[$i] ),
-                'data_es' => json_encode( $skins_es[$i] ),
-                'data_fr' => json_encode( $skins_fr[$i] )
+                'data_de' => json_encode( $skins_de[$id] ),
+                'data_en' => json_encode( $skins_en[$id] ),
+                'data_es' => json_encode( $skins_es[$id] ),
+                'data_fr' => json_encode( $skins_fr[$id] )
             );
-
-            $this->info( '(' . ($i + 1) . '/' . $count . ') Loaded [' . $id . '] ' . $skins_en[$i]->name );
 
             if( count( $data ) == 250 ) {
                 $data = $this->insertIntoDB( $data );

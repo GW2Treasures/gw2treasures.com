@@ -56,13 +56,13 @@
         </script>
     </div>
 
-    @if( $item->type == 'UpgradeComponent' && $item->subtype == 'Rune' &&
+    @if( $item->type == 'UpgradeComponent' && in_array($item->subtype, ['Rune', 'Sigil']) &&
         count( $tiers = Item::whereType($item->type)->whereSubtype($item->subtype)->wherePvp(false)
                             ->where('name_en', 'LIKE', DB::raw('"%'.$item->getTypeData('en')->suffix.'"'))
                             ->orderBy('level', 'ASC')->orderBy('value', 'ASC')->get() ) > 1
     )
         <h3>{{ trans('item.tiers') }}</h3>
-        <ul class="itemList itemList">
+        <ul class="itemList itemList--singleColumn">
             @foreach( $tiers as $tierItem )
                 @if( $tierItem->id === $item->id )
                     <li style="font-weight: bold;">{{ $tierItem->link(32) }}</li>

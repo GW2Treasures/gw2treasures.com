@@ -658,6 +658,10 @@ ul.itemList {
         text-overflow: ellipsis;
     }
 
+    &.itemList--singleColumn {
+        columns: 1;
+    }
+
     .itemListItem--with-info {
         clear: right;
         display: flex;

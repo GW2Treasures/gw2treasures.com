@@ -140,6 +140,10 @@
                 outline: none;
                 background: #ccc;
                 color: #111;
+
+                @media(max-width: 600px) {
+                    width: 100vw;
+                }
             }
         }
         .submit {

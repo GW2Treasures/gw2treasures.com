@@ -82,10 +82,7 @@
         <h3>{{ trans('item.upgradeFor') }}</h3>
         <ul class="itemList">
             @foreach ($upgradeFor as $usesThisAsUpgrade)
-                <li><a data-item-id="{{ $usesThisAsUpgrade->id }}" href="{{ $usesThisAsUpgrade->getUrl() }}">
-                    <img src="{{ $usesThisAsUpgrade->getIconUrl( 32 ) }}" width="32" height="32" alt="">
-                    {{ $usesThisAsUpgrade->getName() }}
-                </a>
+                <li>{{ $usesThisAsUpgrade->link(32) }}</li>
             @endforeach
         </ul>
     @endif

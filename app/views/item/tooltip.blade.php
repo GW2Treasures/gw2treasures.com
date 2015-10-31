@@ -3,12 +3,12 @@
 
 {{-- weapon strength --}}
 @if( $item->type == 'Weapon' )
-	{{ trans( 'item.weaponStrength' ) }}: {{ $item->getTypeData( )->min_power }} – {{ $item->getTypeData( )->max_power }}
+	{{ trans( 'item.weaponStrength' ) }}: {{ $item->getTypeData( )->min_power }} – {{ $item->getTypeData( )->max_power }}<br>
 @endif
 
 {{-- defense --}}
 @if( $item->type == 'Armor' )
-	{{ trans( 'item.defense' ) }}: {{ $item->getTypeData( )->defense }}
+	{{ trans( 'item.defense' ) }}: {{ $item->getTypeData( )->defense }}<br>
 @endif
 
 {{-- attributes --}}

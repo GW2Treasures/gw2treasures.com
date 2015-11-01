@@ -6,11 +6,9 @@ return array (
   'duration' => 'Durée',
   'pvp' => 'JcJ',
   'upgradeFor' => 'Améliorer en',
-  'tiers' => 'Tiers',
   'craftedFrom' => 'Créé à partir de',
   'usedInCrafting' => 'Utilisé en artisanat',
   'unlocks' => 'Débloque',
-  'unlocksUnknownRecipe' => 'Unlocks the unknown recipe :chatlink.',
   'similar' => 'Similaire',
   'showMoreSimilarItems' => 'Montrer :count objets similaires...',
   'unlocksSkin' => 'Débloque l\'apparence',
@@ -172,4 +170,6 @@ return array (
   'copper' => 'Cuivre',
   'noSell' => 'Invendable',
   'noSalvage' => 'Non Recyclable',
+  'tiers' => 'Tiers',
+  'unlocksUnknownRecipe' => 'Unlocks the unknown recipe :chatlink.',
 );

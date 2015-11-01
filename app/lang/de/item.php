@@ -6,11 +6,9 @@ return array (
   'duration' => 'Dauer',
   'pvp' => 'PvP',
   'upgradeFor' => 'Aufwertung in',
-  'tiers' => 'Versionen',
   'craftedFrom' => 'Herstellung',
   'usedInCrafting' => 'Verwendung',
   'unlocks' => 'Freischaltung',
-  'unlocksUnknownRecipe' => 'Schaltet das unbekanntes Rezept :chatlink frei.',
   'similar' => 'Ähnlich',
   'showMoreSimilarItems' => 'Zeige :count mehr ähnliche Gegenstände…',
   'unlocksSkin' => 'Freigeschalteter Skin',
@@ -172,4 +170,6 @@ return array (
   'copper' => 'Kupfer',
   'noSell' => 'Unverkäuflich',
   'noSalvage' => 'Nicht wiederverwertbar',
+  'tiers' => 'Versionen',
+  'unlocksUnknownRecipe' => 'Schaltet das unbekannte Rezept :chatlink frei.',
 );

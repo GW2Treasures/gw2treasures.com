@@ -6,11 +6,9 @@ return array (
   'duration' => 'Duración',
   'pvp' => 'PvP',
   'upgradeFor' => 'Convertir en',
-  'tiers' => 'Tiers',
   'craftedFrom' => 'Elaborado a partir de',
   'usedInCrafting' => 'Usado en la recolecta',
   'unlocks' => 'Desbloquea',
-  'unlocksUnknownRecipe' => 'Unlocks the unknown recipe :chatlink.',
   'similar' => 'Similar',
   'showMoreSimilarItems' => 'Mostrar :count mas ítems similares',
   'unlocksSkin' => 'Desbloquea diseño',
@@ -172,4 +170,6 @@ return array (
   'copper' => 'Cobre',
   'noSell' => 'Not sellable',
   'noSalvage' => 'Not salvageable',
+  'tiers' => 'Tiers',
+  'unlocksUnknownRecipe' => 'Unlocks the unknown recipe :chatlink.',
 );

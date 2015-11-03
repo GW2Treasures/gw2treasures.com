@@ -266,6 +266,10 @@ class Item extends BaseModel {
      * @return string
      */
     public function getIconUrl( $size = 64 ) {
+        if( $this->file_id == 960304 && !is_null( $this->unlocksSkin )) {
+            return $this->unlocksSkin->getIconUrl($size);
+        }
+
         $size = intval( $size );
         if( !in_array( $size, array( 16, 32, 64 ) ) ) {
             if( $size <= 16 ) {

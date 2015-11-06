@@ -908,6 +908,8 @@ ul.ingredients {
         display: table-row; }
     .recipeTable.filtered.filter-show-weaponsmith > tbody > tr.discipline-weaponsmith {
         display: table-row; }
+    .recipeTable.filtered.filter-show-scribe > tbody > tr.discipline-scribe {
+        display: table-row; }
 
 .smallMatchBox {
     min-width: 650px;
@@ -1047,6 +1049,7 @@ i[class^="sprite-"][class$="-jeweler"]       { background-position: -120px -20px
 i[class^="sprite-"][class$="-leatherworker"] { background-position: -140px -20px; }
 i[class^="sprite-"][class$="-tailor"]        { background-position: -160px -20px; }
 i[class^="sprite-"][class$="-weaponsmith"]   { background-position: -180px -20px; }
+i[class^="sprite-"][class$="-scribe"]        { background-position:   -0px -40px; }
 
 i[class^="sprite-"][class$="-infusion-defense"] { background-position: -120px  -0px; }
 i[class^="sprite-"][class$="-infusion-offense"] { background-position: -140px  -0px; }

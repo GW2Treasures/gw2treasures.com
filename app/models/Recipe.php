@@ -76,6 +76,7 @@
 		const DISCIPLINE_LEATHERWORKER = 0x20;
 		const DISCIPLINE_TAILOR = 0x40;
 		const DISCIPLINE_WEAPONSMITH = 0x80;
+		const DISCIPLINE_SCRIBE = 0x100;
 
 		public static $DISCIPLINES = array(
 			self::DISCIPLINE_ARMORSMITH    => 'armorsmith',
@@ -86,6 +87,7 @@
 			self::DISCIPLINE_LEATHERWORKER => 'leatherworker',
 			self::DISCIPLINE_TAILOR        => 'tailor',
 			self::DISCIPLINE_WEAPONSMITH   => 'weaponsmith',
+			self::DISCIPLINE_SCRIBE        => 'scribe',
 		);
 
 		public function hasDiscipline( $discipline ) {

@@ -15,6 +15,7 @@ return array (
     'leatherworker' => 'Leatherworker',
     'tailor' => 'Tailor',
     'weaponsmith' => 'Weaponsmith',
+    'scribe' => 'Scribe',
   ),
   'filter' => 'Filter',
   'filterEnableJS' => 'Enable JavaScript to filter the recipes',

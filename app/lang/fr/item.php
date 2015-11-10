@@ -172,4 +172,5 @@ return array (
   'noSalvage' => 'Non Recyclable',
   'tiers' => 'Tiers',
   'unlocksUnknownRecipe' => 'Unlocks the unknown recipe :chatlink.',
+  'craftedFromUnknownRecipe' => 'Crafted from unknown recipe :chatlink.',
 );

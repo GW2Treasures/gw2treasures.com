@@ -172,4 +172,5 @@ return array (
   'noSalvage' => 'Not salvageable',
   'tiers' => 'Tiers',
   'unlocksUnknownRecipe' => 'Unlocks the unknown recipe :chatlink.',
+  'craftedFromUnknownRecipe' => 'Crafted from unknown recipe :chatlink.',
 );

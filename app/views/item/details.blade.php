@@ -105,6 +105,10 @@
         @foreach( $craftedFrom as $recipe )
             @include( 'recipe.box', array( 'recipe' => $recipe ))
         @endforeach
+    @elseif( !is_null( $recipe = Item::whereNameEn('Recipe: '.$item->getName('en'))->first() ))
+        <h3>{{ trans('item.craftedFrom') }}</h3>
+        <p>{{ trans('item.craftedFromUnknownRecipe', ['chatlink' => Chatlink::Encode(Chatlink::TYPE_RECIPE, $recipe->getTypeData()->recipe_id)->chatlink]) }}</p>
+        {{ $recipe->link(32) }}
     @endif
 
     @if( count( $usedInCrafting = $item->ingredientForRecipes()->orderBy( 'rating' )->orderBy( 'disciplines' )->get()) > 0 )

@@ -61,6 +61,14 @@
 			#wrapper {
 				margin-top: 100px; }
 		}
+		@media (max-height: 250px ) {
+			html {
+				background: linear-gradient(rgb(255, 255, 255) 0%, rgb(242, 242, 242));
+			}
+			#wrapper { min-width: 0; min-height: 0; margin: 10px 0; }
+			#wrapper > h1 { font-size: 50px; }
+			#wrapper > img { display: none; }
+		}
 
 	</style>
 	<link href='//fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400|Open+Sans:400' rel='stylesheet' type='text/css'>

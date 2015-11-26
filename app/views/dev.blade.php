@@ -45,7 +45,9 @@
             <div class="pageWidth">
                 <h1><a href="/">GW2 Treasures</a></h1>
 
-                <div class="left"></div>
+                <div class="left">
+                    <a class="headerButton" href="{{ '//'.Config::get('app.domain') }}">Return to Main Site</a>
+                </div>
 
                 <div class="right">
                     {{ Form::open( array(

@@ -13,6 +13,7 @@
 
     <meta itemprop="url" content="//{{ Config::get('app.domain') }}/">
     <meta itemprop="name" content="GW2 Treasures: The Guild Wars 2 Item Database">
+    <meta itemprop="alternateName" content="GW2 Treasures">
     <meta itemprop="image" content="{{ Helper::cdn('assets/img/logo.png') }}">
 
     <!-- prefetch -->

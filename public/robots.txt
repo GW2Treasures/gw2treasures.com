@@ -1,9 +1,1 @@
-# robotstxt.org/
-
 User-agent: *
-
-sitemap: http://gw2treasures.de/sitemaps/items.php
-sitemap: http://gw2treasures.de/sitemaps/items.php?lang=de
-sitemap: http://gw2treasures.de/sitemaps/items.php?lang=en
-sitemap: http://gw2treasures.de/sitemaps/items.php?lang=es
-sitemap: http://gw2treasures.de/sitemaps/items.php?lang=fr

@@ -218,5 +218,7 @@ Route::group( array(
             'as' => 'about',
             'uses' => 'MainController@about'
         ));
+
+        Route::controller('sitemap', 'SitemapController');
     }
 );

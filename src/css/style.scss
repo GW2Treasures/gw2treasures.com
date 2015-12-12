@@ -364,7 +364,7 @@ html.js .only-no-js, html.no-js .only-js { display:none; }
     padding: 0;
 
     > .pageWidth {
-        padding: 10px 340px 10px 94px;
+        padding: 10px 340px 10px 104px;
         position: relative;
 
         @media(max-width: 767px) {
@@ -379,7 +379,7 @@ html.js .only-no-js, html.no-js .only-js { display:none; }
     .icon {
         position: absolute;
         top: 10px;
-        left: 15px;
+        left: 20px;
     }
 
     h2 {

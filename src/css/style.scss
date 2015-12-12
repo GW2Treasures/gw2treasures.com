@@ -411,8 +411,17 @@ html.js .only-no-js, html.no-js .only-js { display:none; }
             }
         }
 
-        &:hover .overflow {
-            display: block;
+        &:hover {
+            user-select: none;
+
+            .overflow {
+                user-select: all;
+                display: block;
+            }
+
+            .overflow-visible {
+                display: none;
+            }
         }
     }
 

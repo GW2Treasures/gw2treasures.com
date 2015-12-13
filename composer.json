@@ -15,7 +15,7 @@
         "barryvdh/laravel-ide-helper": "~1.11",
         "doctrine/dbal": "~2.5",
         "barryvdh/laravel-translation-manager": "dev-readonly",
-        "gw2treasures/gw2api": "~1.4"
+        "gw2treasures/gw2api": "~2.3"
     },
     "autoload": {
         "classmap": [

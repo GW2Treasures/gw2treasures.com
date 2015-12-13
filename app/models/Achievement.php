@@ -17,7 +17,7 @@ class Achievement extends BaseModel {
 	}
 
 	public function getIconUrl( $size = 64 ) {
-		if($this->file_id === 0) {
+		if($this->file_id == 0) {
 			return $this->category->getIconUrl($size);
 		}
 

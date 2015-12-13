@@ -9,6 +9,10 @@
 .achievement__tiers {
     padding: 0;
     list-style: none;
+
+    & > li + li {
+        margin-top: 8px;
+    }
 }
 
 .achievement__objective--text:before,
@@ -47,6 +51,9 @@
 .ap {
     padding-right: 25px;
     position: relative;
+    color: #BB6C21;
+    font-weight: bold;
+    font-family: Adelle, Bitter, Georgia, serif;
 
     &::after {
         content: '';

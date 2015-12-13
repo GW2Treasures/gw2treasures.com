@@ -19,7 +19,6 @@ return array (
   'changelog' => 'Registre des changements',
   'terms' => 'Termes de confidentialité',
   'bugtracker' => 'Traqueur de bugs',
-  'contact' => 'Contact',
   'language' => 'Langue',
   'german' => 'Allemand',
   'english' => 'Anglais',

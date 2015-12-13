@@ -15,7 +15,6 @@ return array (
     'leatherworker' => 'Travailleur du cuir',
     'tailor' => 'Tailleur',
     'weaponsmith' => 'Forgeron d\'armes',
-    'scribe' => 'Scribe',
   ),
   'filter' => 'Filtre',
   'filterEnableJS' => 'Permettre à JavaScript de filtrer les recettes',

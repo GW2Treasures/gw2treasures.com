@@ -15,7 +15,6 @@ return array (
     'leatherworker' => 'Peletero',
     'tailor' => 'Sastre',
     'weaponsmith' => 'Armero',
-    'scribe' => 'Scribe',
   ),
   'filter' => 'Filtro',
   'filterEnableJS' => 'Activar JavaScript para filtrar las recetas',

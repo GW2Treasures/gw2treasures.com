@@ -1,0 +1,66 @@
+.achievementDetails {
+    margin-top: 20px;
+}
+
+.achievement__description {
+    color: #888;
+}
+
+.achievement__tiers {
+    padding: 0;
+    list-style: none;
+}
+
+.achievement__objective--text:before,
+.achievement__reward--unknown:before {
+    content: '?';
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    background: #eee;
+    vertical-align: top;
+    margin-right: .5em;
+    color: #999;
+    font-size: 20px;
+    text-align: center;
+}
+.achievement__objective--text:before {
+    content: '✓';
+}
+
+.achievement__reward--mastery:before {
+    content: '';
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    vertical-align: top;
+    margin-right: .5em;
+    background: url(../img/sprites.png) -32px -100px;
+}
+.achievement__reward--mastery-Tyria:before {;
+    background-position: -96px -100px;
+}
+.achievement__reward--mastery-Maguuma:before {;
+    background-position: -64px -100px;
+}
+
+.ap {
+    padding-right: 25px;
+    position: relative;
+
+    &::after {
+        content: '';
+        width: 20px;
+        height: 20px;
+        right: 1px;
+        display: inline-block;
+        background: url(../img/sprites.png) -40px -80px;
+        position: absolute;
+    }
+}
+
+.chatlink--inline:hover {
+    background: #eee;
+    border-radius: 3px;
+    cursor: pointer;
+}

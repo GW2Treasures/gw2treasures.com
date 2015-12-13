@@ -155,10 +155,31 @@ Route::group( array(
         ));
 
         //================================
+        // Achievements
+        //================================
+
+        Route::model( 'achievement', Achievement::class);
+
+        Route::get('achievement', [
+            'as' => 'achievement.overview',
+            'uses' => 'AchievementController@overview'
+        ]);
+
+        Route::get('achievement/{achievement}', [
+            'as' => 'achievement.details',
+            'uses' => 'AchievementController@details'
+        ]);
+
+        Route::get('achievement/{achievement}/json', [
+            'as' => 'achievement.json',
+            'uses' => 'AchievementController@json'
+        ]);
+
+        //================================
         // WVW
         //================================
 
-        // bind the {item} parameter in routes to the Item model
+        // bind the {world} parameter in routes to the Item model
         Route::model( 'world', 'World');
 
         // overview

@@ -1,6 +1,6 @@
 <?php
 
-class Skin extends BaseModel {
+class Achievement extends BaseModel {
 	public function getName( $lang = null ) {
 		return $this->localized( 'name', $lang );
 	}
@@ -16,18 +16,11 @@ class Skin extends BaseModel {
 		return $this->d[ $lang ];
 	}
 
-	public function getTypeData( $lang = null ) {
-		$type = strtolower( $this->type );
-        if( isset( $this->getData( $lang )->details )) {
-            return $this->getData( $lang )->details;
-        } elseif( isset( $this->getData( $lang )->{$type} )) {
-			return $this->getData( $lang )->{$type};
-		} else {
-            return new stdClass();
-        }
-	}
-
 	public function getIconUrl( $size = 64 ) {
+		if($this->file_id === 0) {
+			return $this->category->getIconUrl($size);
+		}
+
 		$size = intval( $size );
 		if( !in_array( $size, array( 16, 32, 64) )) {
 			if( $size <= 16 ) { 
@@ -63,22 +56,22 @@ class Skin extends BaseModel {
 		}
 
 		return '<a class="item-link item-link-' . $icon . '" '
-				. 'data-skin-id="' . $this->id . '" '
-				. 'href="' . $this->getUrl( $lang ) . ( !is_null( $anchor ) ? '#' . $anchor : '' ) . '" '
-				. 'hreflang="' . $lang . '">'
-				. ($icon > 0 ? $this->getIcon( $icon ) . '' : '')
-				. '<span class="item-link-text">' . (!is_null( $text ) ? $text : $this->getName( $lang )) . '</span>'
-				. '</a>';
+		        . 'data-achievement-id="' . $this->id . '" '
+		        . 'href="' . $this->getUrl( $lang ) . ( !is_null( $anchor ) ? '#' . $anchor : '' ) . '" '
+		        . 'hreflang="' . $lang . '">'
+		        . ($icon > 0 ? $this->getIcon( $icon ) . '' : '')
+		        . '<span class="item-link-text">' . (!is_null( $text ) ? $text : $this->getName( $lang )) . '</span>'
+		        . '</a>';
 	}
 
 	public function getUrl( $lang = null ) {
 		if( is_null( $lang ) ) {
 			$lang = App::getLocale();
 		}
-		return URL::route( 'skin.details', array( 'language' => $lang, 'skin' => $this->id ) );
+		return URL::route( 'achievement.details', array( 'language' => $lang, 'achievement' => $this->id ) );
 	}
 
-	public function items() {
-		return $this->hasMany( 'Item', 'skin_id' );
+	public function category() {
+		return $this->belongsTo( AchievementCategory::class, 'achievement_category_id' );
 	}
 }

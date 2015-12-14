@@ -20,38 +20,40 @@
 </header>
 
 <div class="itemDetails achievementDetails pageWidth">
-	<p class="achievement__requirement">{{ $achievement->getData()->requirement }}</p>
 	<p class="achievement__description">{{ $achievement->getData()->description }}</p>
 
-	@if(isset($achievement->getData()->bits) && count($achievement->getData()->bits) > 0)
-		<h3>{{ trans_choice('achievement.objectives.header', count($achievement->getData()->bits)) }}</h3>
-		<ul class="achievement__objectives itemList">
-			@foreach($achievement->getData()->bits as $bit)
-				@if($bit->type === 'Item')
-					<?php $objectiveItem = Item::find($bit->id) ?>
-					@if(!is_null($objectiveItem))
-						<li class="achievement__objective--item">{{ $objectiveItem->link(32) }}</li>
-					@else
-						<li class="achievement__objective--text">Unknown item <span class="chatlink--inline">{{
-						 	Chatlink::Encode(Chatlink::TYPE_ITEM, $bit->id)->chatlink
+	@if($achievement->getData()->requirement != '' || !empty($objectives))
+		<h3>{{ trans_choice('achievement.objectives.header', !empty($objectives) ? count($objectives) : 1) }}</h3>
+		@if($achievement->getData()->requirement != '')
+			<p class="achievement__requirement">{{ $achievement->getData()->requirement }}</p>
+		@endif
+		@if(!empty($objectives))
+			<ul class="achievement__objectives itemList">
+				@foreach($objectives as $bit)
+					@if($bit->type === 'Item')
+						@if(!is_null($bit->item))
+							<li class="achievement__objective--item">{{ $bit->item->link(32) }}</li>
+						@else
+							<li class="achievement__objective--text">Unknown item <span class="chatlink--inline">{{
+								Chatlink::Encode(Chatlink::TYPE_ITEM, $bit->id)->chatlink
+							}}</span></li>
+						@endif
+					@elseif($bit->type === 'Skin')
+						@if(!is_null($bit->skin))
+							<li class="achievement__objective--skin">{{ $bit->skin->link(32) }}</li>
+						@else
+							<li class="achievement__objective--text">Unknown skin <span class="chatlink--inline">{{
+							Chatlink::Encode(Chatlink::TYPE_SKIN, $bit->id)->chatlink
 						}}</span></li>
+						@endif
+					@elseif($bit->type === 'Minipet')
+						<li class="achievement__objective--text">Collect unknown minipet</li>
+					@elseif($bit->type === 'Text')
+						<li class="achievement__objective--text">{{$bit->text}}</li>
 					@endif
-				@elseif($bit->type === 'Skin')
-					<?php $objectiveSkin = Skin::find($bit->id) ?>
-					@if(!is_null($objectiveSkin))
-						<li class="achievement__objective--skin">{{ $objectiveSkin->link(32) }}</li>
-					@else
-						<li class="achievement__objective--text">Unknown skin <span class="chatlink--inline">{{
-						Chatlink::Encode(Chatlink::TYPE_SKIN, $bit->id)->chatlink
-					}}</span></li>
-					@endif
-				@elseif($bit->type === 'Minipet')
-					<li class="achievement__objective--text">Collect unknown minipet</li>
-				@elseif($bit->type === 'Text')
-					<li class="achievement__objective--text">{{$bit->text}}</li>
-				@endif
-			@endforeach
-		</ul>
+				@endforeach
+			</ul>
+		@endif
 	@endif
 
 	@if(count($achievement->getData()->tiers) > 0)
@@ -64,7 +66,7 @@
 		</ol>
 	@endif
 
-	@if(isset($achievement->getData()->rewards) && count($achievement->getData()->rewards) > 0)
+	@if(!empty($rewards))
 		<h3>{{ trans('achievement.rewards.header') }}</h3>
 		<ul class="achievement__rewards itemList">
 			@foreach($achievement->getData()->rewards as $reward)

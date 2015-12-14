@@ -4,7 +4,7 @@ return array (
   'overview' => 'All achievements',
   'objectives' => 
   array (
-    'header' => 'Objective|[1,10]Objectives|Objectives (:count)',
+    'header' => 'Objective|[2,10]Objectives|Objectives (:count)',
   ),
   'tiers' => 
   array (

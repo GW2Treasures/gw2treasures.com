@@ -14,6 +14,6 @@ return array (
   ),
   'objectives' => 
   array (
-    'header' => 'Ziel|[1,10]Ziele|Ziele (:count)',
+    'header' => 'Ziel|[2,10]Ziele|Ziele (:count)',
   ),
 );

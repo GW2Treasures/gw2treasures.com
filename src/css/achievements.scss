@@ -84,8 +84,10 @@
 }
 
 
+$dailyBoxBackground: rebeccapurple;
+
 .daily-box {
-    background: #AC219D;
+    background: $dailyBoxBackground;
     color: #fff;
 
     & > .pageWidth {
@@ -130,7 +132,7 @@
 }
 
 .daily-box__completion {
-    border-top: 1px solid #C158B6;
+    border-top: 1px solid mix(#fff, $dailyBoxBackground, 15%);
     margin-top: 10px;
     padding-top: 10px;
     line-height: 32px;
@@ -148,7 +150,7 @@
 
 .daily-box__level {
     margin-left: 39px;
-    color: #D58FCE;
+    color: mix(#fff, $dailyBoxBackground, 50%);
     font-size: 12px;
     line-height: 1;
 }

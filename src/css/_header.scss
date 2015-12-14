@@ -53,6 +53,7 @@
         margin-right: #{$headerCenterWidth * 0.5};
         overflow: hidden;
         text-align: left;
+        display: flex;
 
         .headerButton {
             float: left;
@@ -82,6 +83,8 @@
         transition: background-color .3s ease;
         background-color: transparent;
         white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
         display: inline-block;
         padding: 0 20px;
         color: white;

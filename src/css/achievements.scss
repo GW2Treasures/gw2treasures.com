@@ -55,7 +55,7 @@
     font-weight: bold;
     font-family: Adelle, Bitter, Georgia, serif;
 
-    &::after {
+    &:after {
         content: '';
         width: 20px;
         height: 20px;
@@ -64,10 +64,91 @@
         background: url(../img/sprites.png) -40px -80px;
         position: absolute;
     }
+
+    &.ap-32 {
+        padding-right: 40px;
+
+        &:after {
+            content: '';
+            width: 32px;
+            height: 32px;
+            background-position: 0 -100px;
+        }
+    }
 }
 
 .chatlink--inline:hover {
     background: #eee;
     border-radius: 3px;
     cursor: pointer;
+}
+
+
+.daily-box {
+    background: #AC219D;
+    color: #fff;
+
+    & > .pageWidth {
+        padding: 20px;
+    }
+
+    header {
+        display: flex;
+
+        h2 {
+            float: left;
+            flex: 1;
+            margin: 0;
+        }
+
+        .daily-box__reset {
+            float: right;
+        }
+    }
+
+    .itemList > li {
+        line-height: 1;
+    }
+
+    .item-link {
+        border-color: white;
+    }
+
+    .item-link-text {
+        color: white;
+    }
+}
+
+.daily-box__column {
+    width: 33%;
+    float: left;
+    padding-right: 20px;
+
+    &:last-child {
+        padding-right: 0;
+    }
+}
+
+.daily-box__completion {
+    border-top: 1px solid #C158B6;
+    margin-top: 10px;
+    padding-top: 10px;
+    line-height: 32px;
+}
+.daily-box__completion__achievement {
+    float: left;
+}
+.daily-box__completion__reward {
+    float: right;
+
+    .ap {
+        color: #F2A42D;
+    }
+}
+
+.daily-box__level {
+    margin-left: 39px;
+    color: #D58FCE;
+    font-size: 12px;
+    line-height: 1;
 }

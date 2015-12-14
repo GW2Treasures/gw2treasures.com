@@ -16,4 +16,15 @@ return array (
     'header' => 'Rewards',
     'mastery' => ':region mastery point',
   ),
+  'daily' =>
+  array (
+    'header' => 'Daily Achievements',
+    'reset' => 'Reset: :reset',
+    'type' =>
+    array(
+      'pve' => 'PvE',
+      'pvp' => 'PvP',
+      'wvw' => 'WvW',
+    )
+  ),
 );

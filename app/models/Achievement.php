@@ -18,9 +18,13 @@ class Achievement extends BaseModel {
 
 	public function getIconUrl( $size = 64 ) {
 		if($this->file_id == 0) {
-			return !is_null($this->category)
-				? $this->category->getIconUrl($size)
-				: '';
+			if(!is_null($this->category)) {
+				return $this->category->getIconUrl($size);
+			}
+
+			// daily achievements have no icon if they were loaded while they were not active
+			$this->signature = '483E3939D1A7010BDEA2970FB27703CAAD5FBB0F';
+			$this->file_id = 42684;
 		}
 
 		$size = intval( $size );
@@ -75,5 +79,15 @@ class Achievement extends BaseModel {
 
 	public function category() {
 		return $this->belongsTo( AchievementCategory::class, 'achievement_category_id' );
+	}
+
+	public function getTotalPoints() {
+		$points = 0;
+
+		foreach( $this->getData()->tiers as $tier ) {
+			$points += $tier->points;
+		}
+
+		return $points;
 	}
 }

@@ -1,9 +1,9 @@
 <div class="daily-box"><div class="pageWidth">
     <header class="clearfix">
         <h2>{{ trans('achievement.daily.header') }}</h2>
-        <span class="daily-box__reset">
+        <time datetime="{{ $daily->reset->format(\Carbon\Carbon::RFC3339) }}" class="daily-box__reset">
             {{ trans('achievement.daily.reset', ['reset' => $daily->reset->diffForHumans()]) }}
-        </span>
+        </time>
     </header>
     <div class="daily-box__content clearfix">
         @foreach(['pve', 'pvp', 'wvw'] as $type)
@@ -12,7 +12,7 @@
                 <ul class="itemList">
                     @foreach($daily->achievements->{$type} as $achievement)
                         <li>
-                            {{ $achievement->achievement->link(32) }}<br>
+                            {{ $achievement->achievement->link(32) }}
                             <span class="daily-box__level">Level {{ $achievement->level->min }} - {{ $achievement->level->max }}</span>
                         </li>
                     @endforeach

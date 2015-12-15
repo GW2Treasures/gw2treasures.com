@@ -4,6 +4,7 @@
 
 		<div class="left">
 			<a class="headerButton" href="{{ URL::route('search', App::getLocale()) }}">{{ trans('header.items') }}</a>
+			<a class="headerButton" href="{{ URL::route('achievement.overview', App::getLocale()) }}">{{ trans('header.achievements') }}</a>
 			<a class="headerButton" href="{{ URL::route('wvw', App::getLocale()) }}">{{ trans('header.wvw') }}</a>
 		</div>
 

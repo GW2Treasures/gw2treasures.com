@@ -2,6 +2,8 @@
 	<div class="pageWidth">
 		<h1><a href="/">GW2 Treasures</a></h1>
 
+		<span class="menu-button">{{ trans('header.menu') }}</span>
+
 		<div class="left">
 			<a class="headerButton" href="{{ URL::route('search', App::getLocale()) }}">{{ trans('header.items') }}</a>
 			<a class="headerButton" href="{{ URL::route('achievement.overview', App::getLocale()) }}">{{ trans('header.achievements') }}</a>

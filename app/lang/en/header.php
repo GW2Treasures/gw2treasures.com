@@ -9,5 +9,6 @@ return array (
     'items' => 'Items',
     'recent' => 'Searched recently',
   ),
-  'achievements' => 'Achievements'
+  'achievements' => 'Achievements',
+  'menu' => 'Menu'
 );

@@ -58,6 +58,45 @@
         .headerButton {
             float: left;
         }
+
+        @media(max-width: 900px) {
+            display: none;
+        }
+    }
+
+    .menu-button {
+        display: none;
+        position: absolute;
+        left: 0;
+        right: 50%;
+        margin-right: #{$headerCenterWidth * 0.5};
+        padding: 0 20px 0 48px;
+        background: url(../img/menu.svg) 20px center no-repeat;
+
+        @media(max-width: 600px) {
+            padding: 0;
+            width: 48px;
+            text-indent: 100px;
+            overflow: hidden;
+            background-position: 8px center;
+            font-size: 0;
+        }
+
+        @media(max-width: 900px) {
+            display: block;
+
+            &:hover + .left,
+            & + .left:hover {
+                display: flex;
+                z-index: 142;
+                top: $headerHeight;
+                left: 0; right: 0;
+                width: 100%;
+                margin: 0;
+                background: #333;
+                flex-direction: column;
+            }
+        }
     }
 
     .right {

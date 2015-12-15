@@ -16,6 +16,9 @@
 				<div class="lang"><span title="Français" class='langCode'>FR</span> <a rel="alternate" hreflang="fr" href="{{ URL::route('achievement.details', array('fr', $achievement->id)) }}">{{ $achievement->getName( 'fr' ) }}</a></div>
 			@endif
 		</nav>
+		<div class="achievement__points">
+			<span class="ap ap-32">{{ $achievement->getTotalPoints() }}</span>
+		</div>
 	</div>
 </header>
 

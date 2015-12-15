@@ -114,9 +114,6 @@ $dailyBoxBackground: rebeccapurple;
 
     .item-link {
         border-color: white;
-    }
-
-    .item-link-text {
         color: white;
     }
 }
@@ -153,4 +150,37 @@ $dailyBoxBackground: rebeccapurple;
     color: mix(#fff, $dailyBoxBackground, 50%);
     font-size: 12px;
     line-height: 1;
+    display: block;
+}
+
+@media(max-width: 768px) {
+    .daily-box__column {
+        width: auto;
+        float: none;
+        padding-right: 0;
+    }
+    .daily-box__level {
+        display: inline-block;
+        margin-left: 0;
+        line-height: 32px;
+        float: right;
+    }
+    .daily-box .itemList > li {
+        display: flex;
+    }
+    .daily-box .itemList > li .item-link {
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
+@media(max-width: 555px) {
+    .daily-box header {
+        flex-direction: column;
+
+        h2, .daily-box__reset {
+            float: none;
+        }
+    }
 }

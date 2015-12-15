@@ -10,5 +10,5 @@ return array (
     'recent' => 'Searched recently',
   ),
   'achievements' => 'Achievements',
-  'menu' => 'Menu'
+  'menu' => 'Menu',
 );

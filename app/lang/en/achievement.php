@@ -4,7 +4,7 @@ return array (
   'overview' => 'All achievements',
   'objectives' => 
   array (
-    'header' => 'Objective|[2,10]Objectives|Objectives (:count)',
+    'header' => 'Objective|[1,10]Objectives|Objectives (:count)',
   ),
   'tiers' => 
   array (
@@ -16,15 +16,15 @@ return array (
     'header' => 'Rewards',
     'mastery' => ':region mastery point',
   ),
-  'daily' =>
+  'daily' => 
   array (
     'header' => 'Daily Achievements',
     'reset' => 'Reset: :reset',
-    'type' =>
-    array(
+    'type' => 
+    array (
       'pve' => 'PvE',
       'pvp' => 'PvP',
       'wvw' => 'WvW',
-    )
+    ),
   ),
 );

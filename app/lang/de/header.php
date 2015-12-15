@@ -9,4 +9,6 @@ return array (
     'items' => 'Gegenstände',
     'recent' => 'Zuletzt gesucht',
   ),
+  'achievements' => 'Erfolge',
+  'menu' => 'Menü',
 );

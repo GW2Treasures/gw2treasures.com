@@ -4,10 +4,7 @@
 			<div class="column4">
 				<a href="{{ URL::route('search', App::getLocale()) }}">{{ trans('footer.items') }}</a>
 				<ul>
-					<li><a href="#">{{ trans('footer.recentlyAddedItems') }}</a>
-					<li><a href="#">{{ trans('footer.recentlyChangedItems') }}</a>
-					<li><a href="#">{{ trans('footer.weaponSets') }}</a>
-					<li><a href="#">{{ trans('footer.armorSets') }}</a>
+					<li><a href="{{ URL::route('stats.items.new', App::getLocale()) }}">{{ trans('footer.recentlyAddedItems') }}</a>
 					<li><a href="{{ URL::route('randomitem', App::getLocale()) }}">{{ trans('footer.randomItem') }}</a>
 				</ul>
 				<a href="{{ URL::route('wvw', App::getLocale()) }}">{{ trans('footer.wvw') }}</a>
@@ -16,10 +13,10 @@
 				</ul>
 			</div>
 			<div class="column4">
-				{{ trans('footer.RSSFeeds') }}
+				<a href="{{ URL::route('achievement.overview', App::getLocale()) }}">{{ trans('footer.achievements.header') }}</a>
 				<ul>
-					<li><a href="#">{{ trans('footer.newItems') }}</a>
-					<li><a href="#">{{ trans('footer.changedItems') }}</a>
+					<li><a href="{{ URL::route('achievement.overview', App::getLocale()) }}">{{ trans('footer.achievements.overview') }}</a>
+					<li><a href="#{{-- URL::route('achievement.daily', App::getLocale()) --}}">{{ trans('footer.achievements.daily') }}</a>
 				</ul>
 				<a href="{{ URL::route('dev') }}" class="">{{ trans('footer.developer') }}</a>
 				<ul>
@@ -29,10 +26,9 @@
 			<div class="column4">
 				<a href="{{ URL::route('about', App::getLocale()) }}">{{ trans('footer.about') }}</a>
 				<ul>
-					<li><a href="#">{{ trans('footer.statistics') }}</a>
-					<li><a href="#">{{ trans('footer.changelog') }}</a>
-					<li><a href="#">{{ trans('footer.terms') }}</a>
-					<li><a href="https://github.com/GW2Treasures/gw2treasures.com/issues">{{ trans('footer.bugtracker') }}</a>
+					<li><a href="{{ URL::route('about', App::getLocale()) }}">{{ trans('footer.about') }}</a>
+					<li><a href="https://github.com/GW2Treasures/gw2treasures.com" target="_blank">{{ trans('footer.sourcecode') }}</a>
+					<li><a href="https://github.com/GW2Treasures/gw2treasures.com/issues" target="_blank">{{ trans('footer.bugtracker') }}</a>
 					<li><a href="{{ URL::route('contact', App::getLocale()) }}">{{ trans('footer.contact') }}</a>
 				</ul>
 			</div>

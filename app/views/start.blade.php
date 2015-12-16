@@ -38,26 +38,48 @@
 	</div>
 </div>
 
-<div class="pageWidth grid">
-	<div class="row">
-		<div class="column2">
-			<h2>{{ trans('misc.recentlyViewedItems') }}</h2>
-			<ul class="itemList">
-				@foreach ($recentItemViews as $view)
-					<li>{{ $view->item->link(32) }}</li>
-				@endforeach
-			</ul>
-		</div>
-		<div class="column2">
-			<h2>{{ trans('misc.mostViewedItems.label', array( 'timespan' => trans('misc.mostViewedItems.day') )) }}</h2>
-			<ul class="itemList">
-				@foreach ($popularItemViews as $view)
-                    <li class="itemListItem--with-info">{{ $view->item->link(32) }} <span class="itemListInfo">{{ $view->views }} Views</span></li>
-                @endforeach
-            </ul>
+@if(!empty($recentItemViews))
+	<div class="pageWidth grid">
+		<div class="row">
+			<div class="column2">
+				<h2>{{ trans('misc.recentlyViewedItems') }}</h2>
+				<ul class="itemList">
+					@foreach ($recentItemViews as $view)
+						<li>{{ $view->item->link(32) }}</li>
+					@endforeach
+				</ul>
+			</div>
+			<div class="column2">
+				<h2>{{ trans('misc.mostViewedItems.label', array( 'timespan' => trans('misc.mostViewedItems.day') )) }}</h2>
+				<ul class="itemList">
+					@foreach(array_slice($popularItemViews, 0, 5) as $view)
+						<li class="itemListItem--with-info">{{ $view->item->link(32) }} <span class="itemListInfo">{{ $view->views }} Views</span></li>
+					@endforeach
+				</ul>
+			</div>
 		</div>
 	</div>
-</div>
+@else
+	<h2 class="pageWidth">{{ trans('misc.recentlyViewedItems') }}</h2>
+	<div class="pageWidth grid">
+		<div class="row">
+			<div class="column2">
+				<ul class="itemList">
+					@foreach(array_slice($popularItemViews, 0, 5) as $view)
+						<li class="itemListItem--with-info">{{ $view->item->link(32) }} <span class="itemListInfo">{{ $view->views }} Views</span></li>
+					@endforeach
+				</ul>
+			</div>
+			<div class="column2">
+				<ul class="itemList">
+					@foreach(array_slice($popularItemViews, 5, 5) as $view)
+						<li class="itemListItem--with-info">{{ $view->item->link(32) }} <span class="itemListInfo">{{ $view->views }} Views</span></li>
+					@endforeach
+				</ul>
+			</div>
+		</div>
+	</div>
+@endif
 
 {{--
 <h2 class="pageWidth">Statistics</h2>

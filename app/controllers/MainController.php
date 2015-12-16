@@ -12,12 +12,6 @@ class MainController extends BaseController {
         }
         $newItems = $newItems->get();
 
-        $recentItemViews = DB::select(
-            'SELECT view.item_id
-             FROM (SELECT item_id, time FROM item_views ORDER BY item_views.time DESC LIMIT 30) view
-             GROUP BY view.item_id
-             ORDER BY view.time DESC
-             LIMIT 5' );
 
         $popularItemViews = DB::table('item_views')
             ->select('item_id', DB::raw('COUNT(*) as views'))
@@ -25,7 +19,18 @@ class MainController extends BaseController {
             ->groupBy('item_id')
             ->orderBy(DB::raw('COUNT(*)'), 'desc')
             ->orderBy( DB::raw('MAX(time)'), 'desc')
-            ->take(5)->get();
+            ->take(10)->get();
+
+        if($popularItemViews[5]->views > 50) {
+            $recentItemViews = [];
+        } else {
+            $recentItemViews = DB::select(
+                'SELECT view.item_id
+                 FROM (SELECT item_id, time FROM item_views ORDER BY item_views.time DESC LIMIT 30) view
+                 GROUP BY view.item_id
+                 ORDER BY view.time DESC
+                 LIMIT 5' );
+        }
 
         // get the item_ids we need to load
         $idsToLoad = array();

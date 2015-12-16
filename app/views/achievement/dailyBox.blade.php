@@ -1,9 +1,23 @@
 <div class="daily-box"><div class="pageWidth">
     <header class="clearfix">
         <h2>{{ trans('achievement.daily.header') }}</h2>
-        <time datetime="{{ $daily->reset->format(\Carbon\Carbon::RFC3339) }}" class="daily-box__reset">
-            {{ trans('achievement.daily.reset', ['reset' => $daily->reset->diffForHumans()]) }}
-        </time>
+        <div class="daily-box__reset">
+            {{ trans('achievement.daily.reset', [
+                'reset' => '<time id="daily-reset-time" datetime="'.$daily->reset->format(\Carbon\Carbon::RFC3339).'">'.
+                    $daily->reset->diff(\Carbon\Carbon::now())->format('%H:%I:%S').'</time>'
+            ]) }}
+        </div>
+        <script>
+            (function(e) {
+                if(!e) return;
+                function f(x) { return x<0?'00':('0'+~~(x%60)).slice(-2); }
+                var d = new Date(e.getAttribute('datetime'));
+                window.setInterval(function() {
+                    var s = (d-new Date)/1000;
+                    e.innerHTML = [s/3600,s/60,s].map(f).join(':');
+                }, 1000);
+            })(document.getElementById('daily-reset-time'));
+        </script>
     </header>
     <div class="daily-box__content clearfix">
         @foreach(['pve', 'pvp', 'wvw'] as $type)

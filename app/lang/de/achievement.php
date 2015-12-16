@@ -19,7 +19,7 @@ return array (
   'daily' => 
   array (
     'header' => 'Tägliche Erfolge',
-    'reset' => 'Reset: :reset',
+    'reset' => 'Reset in :reset',
     'type' => 
     array (
       'pve' => 'PvE',

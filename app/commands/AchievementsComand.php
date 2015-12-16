@@ -49,6 +49,10 @@ class AchievementsCommand extends Command {
             $achievements = json_decode($cat->data_en)->achievements;
             DB::table('achievements')->whereIn('id', $achievements)->update(['achievement_category_id' => $cat->id]);
         };
+
+        // clear achievement caches
+        Cache::forget(AchievementController::CACHE_OVERVIEW);
+        Cache::forget(AchievementController::CACHE_DAILY);
     }
 
     public function loadEntries($name, IBulkEndpoint $endpoint, array $columns) {

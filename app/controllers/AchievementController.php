@@ -5,6 +5,9 @@ use GW2Treasures\GW2Api\GW2Api;
 use Illuminate\Support\Arr;
 
 class AchievementController extends BaseController {
+	const CACHE_OVERVIEW = 'achievements.overview';
+	const CACHE_DAILY = 'achievements.daily';
+
 	/** @var \Illuminate\View\View|stdClass $layout */
 	protected $layout = 'layout';
 
@@ -53,21 +56,21 @@ class AchievementController extends BaseController {
 	}
 
 	public function overview($language) {
-		$categories = Cache::remember('achievement.categories', 60 * 24, function() {
+		$categories = Cache::remember(self::CACHE_OVERVIEW, 60 * 24, function() {
 			return AchievementCategory::where('id', '!=', 97)
 				->with('achievements')->with('achievements.category')
 				->get();
 		});
 
-		$daily = $this->getDaylyAchievements();
+		$daily = $this->getDailyAchievements();
 
 		$this->layout->title = trans( 'achievement.overview' );
 		$this->layout->fullWidth = true;
 		$this->layout->content = View::make( 'achievement.overview' )->with(compact('categories', 'daily'));
 	}
 
-	private function getDaylyAchievements() {
-		return Cache::remember('achievements.daily', $this->getDailyReset(), function() {
+	private function getDailyAchievements() {
+		return Cache::remember(self::CACHE_DAILY, $this->getDailyReset(), function() {
 			$data = (new GW2Api())->achievements()->daily()->get();
 
 			$ids = [];
@@ -97,6 +100,5 @@ class AchievementController extends BaseController {
 	 */
 	private function getDailyReset() {
 		return Carbon::tomorrow('UTC');
-		//return Carbon::now('UTC')->addDay()->setTime(0, 0);
 	}
 }

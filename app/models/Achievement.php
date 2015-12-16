@@ -81,6 +81,21 @@ class Achievement extends BaseModel {
 		return $this->belongsTo( AchievementCategory::class, 'achievement_category_id' );
 	}
 
+	/**
+	 * @param Illuminate\Database\Query\Builder $query
+	 * @param $itemId
+	 * @return mixed
+	 */
+	public function scopeRequiresItem($query, $itemId) {
+		return $query->whereExists(function($query) use ($itemId) {
+			$query->select(DB::raw(1))
+				->from('achievement_objectives')
+				->whereRaw('achievement_id = achievements.id')
+				->where('type', '=', 'item')
+				->where('entity_id', '=', $itemId);
+		});
+	}
+
 	public function getTotalPoints() {
 		$points = 0;
 

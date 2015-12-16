@@ -116,6 +116,15 @@
         @include( 'recipe.table', array( 'recipes' => $usedInCrafting ))
     @endif
 
+    @if( count( $achievements = Achievement::requiresItem($item->id)->get() ) > 0 )
+        <h3>{{ trans('item.achievements.header') }}</h3>
+        <ul class="itemList">
+            @foreach($achievements as $achievement)
+                <li>{{ $achievement->link(32) }}</li>
+            @endforeach
+        </ul>
+    @endif
+
     @if( count( $similarItems = $item->getSimilarItems()) > 0 )
         <?php
             $similarItems->sort( function( $a, $b ) use ( $item ) {

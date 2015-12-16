@@ -6,6 +6,7 @@ use GW2Treasures\GW2Api\V2\Localization\ILocalizedEndpoint;
 use GW2Treasures\GW2Api\V2\Pagination\IPaginatedEndpoint;
 use Illuminate\Console\Command;
 use GW2Treasures\GW2Api\GW2Api;
+use Illuminate\Support\Collection;
 
 class AchievementsCommand extends Command {
     protected $name = 'gw2treasures:achievements';
@@ -49,6 +50,49 @@ class AchievementsCommand extends Command {
             $achievements = json_decode($cat->data_en)->achievements;
             DB::table('achievements')->whereIn('id', $achievements)->update(['achievement_category_id' => $cat->id]);
         };
+
+
+        Achievement::chunk(500, function($achievements) {
+            $ids = $achievements->lists('id');
+
+            $achievement_objectives =
+                (new Collection(DB::table('achievement_objectives')->whereIn('achievement_id', $ids)->get()))->groupBy('achievement_id');
+
+            $insert = [];
+
+            /** @var Achievement $achievement */
+            foreach($achievements as $achievement) {
+                $objectives = isset($achievement->getData()->bits)
+                    ? $achievement->getData()->bits
+                    : [];
+
+                foreach($objectives as $objective) {
+                    if(in_array($objective->type, ['Item', 'Skin', 'Minipet'])) {
+                        $type = strtolower($objective->type);
+                        $isKnown = false;
+                        if($achievement_objectives->has($achievement->id)) {
+                            foreach($achievement_objectives[$achievement->id] as $knownObjective) {
+                                if($knownObjective->type == $type && $knownObjective->entity_id == $objective->id) {
+                                    $isKnown = true;
+                                    break;
+                                }
+                            }
+                        }
+                        if(!$isKnown) {
+                            $insert[] = [
+                                'type' => $type,
+                                'entity_id' => $objective->id,
+                                'achievement_id' => $achievement->id
+                            ];
+                        }
+                    }
+                }
+            }
+
+            if(!empty($insert)) {
+                DB::table('achievement_objectives')->insert($insert);
+            }
+        });
 
         // clear achievement caches
         Cache::forget(AchievementController::CACHE_OVERVIEW);

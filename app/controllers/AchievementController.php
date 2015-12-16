@@ -34,7 +34,7 @@ class AchievementController extends BaseController {
 		}
 
 		$items = Item::findMany($items)->keyBy('id');
-		$skins = Item::findMany($skins)->keyBy('id');
+		$skins = Skin::findMany($skins)->keyBy('id');
 
 		foreach($objectives as &$objective) {
 			if($objective->type === 'Item') {

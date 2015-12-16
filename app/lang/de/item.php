@@ -173,4 +173,8 @@ return array (
   'tiers' => 'Versionen',
   'unlocksUnknownRecipe' => 'Schaltet das unbekannte Rezept :chatlink frei.',
   'craftedFromUnknownRecipe' => 'Wird durch das unbekannte Rezept :chatlink hergestellt.',
+  'achievements' => 
+  array (
+    'header' => 'Erfolge',
+  ),
 );

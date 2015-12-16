@@ -171,4 +171,8 @@ return array (
   'noSell' => 'Invendable',
   'noSalvage' => 'Non Recyclable',
   'tiers' => 'Tiers',
+  'achievements' => 
+  array (
+    'header' => 'Succès',
+  ),
 );

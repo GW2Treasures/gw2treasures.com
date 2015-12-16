@@ -9,4 +9,5 @@ return array (
     'items' => 'Objetos',
     'recent' => 'Búsquedas recientes',
   ),
+  'achievements' => 'Logros',
 );

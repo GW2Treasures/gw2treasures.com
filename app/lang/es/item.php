@@ -169,4 +169,8 @@ return array (
   'silver' => 'Plata',
   'copper' => 'Cobre',
   'tiers' => 'Tiers',
+  'achievements' => 
+  array (
+    'header' => 'Logros',
+  ),
 );

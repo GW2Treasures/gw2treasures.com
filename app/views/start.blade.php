@@ -60,7 +60,7 @@
 		</div>
 	</div>
 @else
-	<h2 class="pageWidth">{{ trans('misc.recentlyViewedItems') }}</h2>
+	<h2 class="pageWidth">{{ trans('misc.mostViewedItems.label', array( 'timespan' => trans('misc.mostViewedItems.day') )) }}</h2>
 	<div class="pageWidth grid">
 		<div class="row">
 			<div class="column2">

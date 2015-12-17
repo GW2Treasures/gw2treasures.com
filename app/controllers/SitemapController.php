@@ -3,7 +3,7 @@
 class SitemapController extends BaseController {
     private static $pageSize = 25000;
 
-    public function getIndex($lang=null) {
+    public function getIndex($lang = null) {
         $content = '<?xml version="1.0" encoding="UTF-8"?>';
         $content .= '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
 
@@ -12,6 +12,8 @@ class SitemapController extends BaseController {
             $url = action('SitemapController@getItems', compact('lang', 'page'));
             $content .= '<sitemap><loc>'.$url.'</loc></sitemap>';
         }
+
+        $content .= '<sitemap><loc>'.action('SitemapController@getAchievements', compact('lang')).'</loc></sitemap>';
 
         $content .= '</sitemapindex>';
 
@@ -56,6 +58,42 @@ class SitemapController extends BaseController {
 
             echo '</urlset>';
             echo '<!-- ' . round(memory_get_usage() / 1024 / 1024, 2) . 'MB -->';
+        }, 200, ['Content-Type' =>  'application/xml; charset=utf8']);
+    }
+
+    public function getAchievements($lang = null) {
+        $urlPrefix = Request::isSecure()
+            ? 'https://'
+            : 'http://';
+        $urlBase = Config::get('app.domain') . '/achievement/';
+
+        return Response::stream(function() use ( $urlPrefix, $urlBase, $lang ) {
+            echo '<?xml version="1.0" encoding="UTF-8"?>' .
+                '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">';
+
+            $achievements = Achievement::select(['id', 'updated_at'])->get();
+
+            foreach($achievements as $achievement) {
+                $url = htmlspecialchars( $urlPrefix . $lang . '.' . $urlBase . $achievement->id, ENT_XML1 );
+                $lastmod = htmlspecialchars( $achievement->updated_at->format('c') );
+                echo '<url>';
+                echo '<loc>' . $url . '</loc>';
+
+                echo '<xhtml:link rel="alternate" hreflang="x-default" href="' .
+                    htmlspecialchars( $urlPrefix . $urlBase . $achievement->id, ENT_XML1 ) . '"/>';
+
+                foreach(['de', 'en', 'es', 'fr'] as $alternate ) {
+                    if( $alternate !== $lang ) {
+                        echo '<xhtml:link rel="alternate" hreflang="' . $alternate . '" href="' .
+                            htmlspecialchars( $urlPrefix . $alternate . '.' . $urlBase . $achievement->id, ENT_XML1 ) . '"/>';
+                    }
+                }
+
+                echo '<lastmod>' . $lastmod . '</lastmod>';
+                echo '</url>';
+            }
+
+            echo '</urlset>';
         }, 200, ['Content-Type' =>  'application/xml; charset=utf8']);
     }
 }

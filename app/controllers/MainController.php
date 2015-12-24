@@ -21,7 +21,7 @@ class MainController extends BaseController {
             ->orderBy( DB::raw('MAX(time)'), 'desc')
             ->take(10)->get();
 
-        if($popularItemViews[5]->views > 50) {
+        if(count($popularItemViews) === 10 && $popularItemViews[5]->views > 100) {
             $recentItemViews = [];
         } else {
             $recentItemViews = DB::select(

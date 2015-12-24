@@ -25,26 +25,29 @@ class BaseModel extends Eloquent {
      * @param $property
      * @param $lang
      * @return string
+     *
+     * @throws Exception
      */
-    protected function localized( $property, $lang ) {
-        if( is_null( $lang ) ) {
+    protected function localized($property, $lang = null) {
+        if(is_null($lang)) {
             $lang = App::getLocale();
         }
-        if( $lang != 'de' && $lang != 'en' &&
-            $lang != 'es' && $lang != 'fr'
-        ) {
-            return 'Invalid language: ' . $lang;
+
+        if(!in_array($lang, ['de', 'en', 'es', 'fr'])) {
+            throw new Exception('Invalid language: '.$lang);
         }
-        $localizedProperty = $property . '_' . $lang;
-        if( isset($this->{$localizedProperty}) ) {
+
+        $localizedProperty = $property.'_'.$lang;
+
+        if(isset($this->{$localizedProperty})) {
             return $this->{$localizedProperty};
-        } else {
-            if( isset($this->{$property}) ) {
-                return 'Property is not localized: ' . $property;
-            } else {
-                return 'Unknown property: ' . $property;
-            }
         }
+
+        if(isset($this->{$property})) {
+            throw new Exception('Property is not localized: '.$property);
+        }
+
+        throw new Exception('Unknown property: '.$property);
     }
 
     /**

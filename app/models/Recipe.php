@@ -1,12 +1,13 @@
 <?php
 
 	class Recipe extends BaseModel {
+		use HasData;
+
 		protected $primaryKey = 'recipe_id';
 
 		protected $appends = array( 
 			'totalIngredients'
-		); 
-
+		);
 
 		public function getTotalIngredientsAttribute() {
 			$ingredients = 0;
@@ -14,14 +15,6 @@
 				$ingredients += $count > 0 ? 1 : 0;
 			}
 			return $ingredients;
-		}
-
-		private $d = null;
-		public function getData( ) {
-			if( is_null( $this->d ) ) {
-				$this->d = json_decode( $this->data );
-			}
-			return $this->d;
 		}
 
 		//---- relations

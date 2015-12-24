@@ -1,20 +1,10 @@
 <?php
 
 class Color extends BaseModel {
-	private $_d = array();
+	use HasLocalizedData;
 
 	public function getName( $lang = null ) {
 		return $this->localized( 'name', $lang );
-	}
-
-	public function getData( $lang = null ) { 
-		if ( !array_key_exists( $lang, $this->_d )) {
-			$this->_d[ $lang ] = json_decode( 
-				str_replace( array( '<br>' ),
-				             array( '\n'   ),
-				             $this->localized( 'data', $lang )));
-		}
-		return $this->_d[ $lang ];
 	}
 
 	public static function toHex( $c ) {

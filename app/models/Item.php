@@ -97,8 +97,7 @@
  * @method static \Illuminate\Database\Query\Builder|\Item whereDateAdded($value)
  */
 class Item extends BaseModel {
-    /** @var array cache for parsed json data */
-    private $d = array();
+    use HasLocalizedData, HasIcon, HasLink;
 
     /**
      * Gets the name of the item
@@ -131,22 +130,6 @@ class Item extends BaseModel {
             '<br />'
         );
         return preg_replace( $search, $replace, $this->getData( $lang )->description );
-    }
-
-    /**
-     * Gets the localized data
-     *
-     * @param null $lang
-     * @return stdClass
-     */
-    public function getData( $lang = null ) {
-        if( !array_key_exists( $lang, $this->d ) ) {
-            $this->d[ $lang ] = json_decode(
-                str_replace( array( '<br>' ),
-                    array( '\n' ),
-                    $this->localized( 'data', $lang ) ) );
-        }
-        return $this->d[ $lang ];
     }
 
     /**
@@ -234,29 +217,8 @@ class Item extends BaseModel {
         return URL::route( 'itemdetails', array( 'language' => $lang, 'item' => $this->id ) );
     }
 
-    /**
-     * Creates a localized link to the item detail page (route itemdetails)
-     * with optional icon and/or custom text
-     *
-     * @param int         $icon Size of the icon. (0 to display no item)
-     * @param string|null $lang Language of the text and link target
-     * @param string|null $text Custom text or null for item name
-     * @param string|null $anchor
-     * @return string
-     */
-    public function link( $icon = 16, $lang = null, $text = null, $anchor = null ) {
-        $icon = intval( $icon );
-        if( is_null( $lang ) ) {
-            $lang = App::getLocale();
-        }
-
-        return '<a class="item-link item-link-' . $icon . ' border-' . $this->rarity . '" '
-               . 'data-item-id="' . $this->id . '" '
-               . 'href="' . $this->getUrl( $lang ) . ( !is_null( $anchor ) ? '#' . $anchor : '' ) . '" '
-               . 'hreflang="' . $lang . '">'
-               . ($icon > 0 ? $this->getIcon( $icon ) . '' : '')
-               . '<span class="item-link-text">' . (!is_null( $text ) ? $text : $this->getName( $lang )) . '</span>'
-               . '</a>';
+    protected function getAdditionalLinkAttributes() {
+        return ['data-item-id' => $this->id];
     }
 
     /**
@@ -278,39 +240,7 @@ class Item extends BaseModel {
             }
         }
 
-        $size = intval( $size );
-        if( !in_array( $size, array( 16, 32, 64 ) ) ) {
-            if( $size <= 16 ) {
-                $size = 16;
-            } elseif( $size <= 32 ) {
-                $size = 32;
-            } else {
-                $size = 64;
-            }
-        }
-
-        return Helper::cdn( 'icons/' . $this->signature . '/' . $this->file_id . '-' . $size . 'px.png',
-            $this->file_id );
-    }
-
-    /**
-     * Gets the icon (<img>)
-     *
-     * @param int $size
-     * @return string
-     */
-    public function getIcon( $size = 64 ) {
-        $out = '<img src="' . $this->getIconUrl( $size ) . '"';
-        $out .= ' width="' . $size . '"';
-        $out .= ' height="' . $size . '"';
-        $out .= ' alt=""';
-        $out .= ' crossorigin="anonymous"';
-        if( $size <= 32 ) {
-            $out .= ' srcset="' . $this->getIconUrl( $size ) . ' 1x, ' . $this->getIconUrl( $size * 2 ) . ' 2x"';
-        }
-        $out .= '>';
-
-        return $out;
+        return $this->getInternalIconUrl($size, $this->signature, $this->file_id);
     }
 
     /**

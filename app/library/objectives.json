@@ -73,4 +73,20 @@
 "73":{"coords":[ 7163,13403],"type":"ruin",  "name":{"de":"Obstgarten-Aussichtspunkt","en":"Orchard Overlook","es":"Mirador del Huerto","fr":"Belvédère du Verger"}},
 "74":{"coords":[ 6694,13349],"type":"ruin",  "name":{"de":"Bauers Anwesen","en":"Bauer's Estate","es":"Hacienda de Bauer","fr":"Domaine de Bauer"}},
 "75":{"coords":[ 6591,13715],"type":"ruin",  "name":{"de":"Schlachten-Senke","en":"Battle's Hollow","es":"Hondonada de la Battalla","fr":"Vallon de bataille"}},
-"76":{"coords":[ 6899,13987],"type":"ruin",  "name":{"de":"Tempel der Verlorenen Gebete","en":"Temple of Lost Prayers","es":"Templo de las Pelgarias","fr":"Temple des prières perdues"}}}
+"76":{"coords":[ 6899,13987],"type":"ruin",  "name":{"de":"Tempel der Verlorenen Gebete","en":"Temple of Lost Prayers","es":"Templo de las Pelgarias","fr":"Temple des prières perdues"}},
+
+"99":  {"coords":[0,0], "type":"camp", "name":{"de":"", "en":"", "es":"", "fr":""}},
+"100": {"coords":[0,0], "type":"camp", "name":{"de":"", "en":"", "es":"", "fr":""}},
+"101": {"coords":[0,0], "type":"camp", "name":{"de":"", "en":"", "es":"", "fr":""}},
+"102": {"coords":[0,0], "type":"tower", "name":{"de":"", "en":"", "es":"", "fr":""}},
+"104": {"coords":[0,0], "type":"tower", "name":{"de":"", "en":"", "es":"", "fr":""}},
+"105": {"coords":[0,0], "type":"tower", "name":{"de":"", "en":"", "es":"", "fr":""}},
+"106": {"coords":[0,0], "type":"keep", "name":{"de":"", "en":"", "es":"", "fr":""}},
+"109": {"coords":[0,0], "type":"camp", "name":{"de":"", "en":"", "es":"", "fr":""}},
+"110": {"coords":[0,0], "type":"tower", "name":{"de":"", "en":"", "es":"", "fr":""}},
+"113": {"coords":[0,0], "type":"keep", "name":{"de":"", "en":"", "es":"", "fr":""}},
+"114": {"coords":[0,0], "type":"keep", "name":{"de":"", "en":"", "es":"", "fr":""}},
+"115": {"coords":[0,0], "type":"camp", "name":{"de":"", "en":"", "es":"", "fr":""}},
+"116": {"coords":[0,0], "type":"camp", "name":{"de":"", "en":"", "es":"", "fr":""}}
+
+}

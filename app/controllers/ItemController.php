@@ -56,7 +56,6 @@ class ItemController extends BaseController {
 
     public function search( $language ) {
         $searchTerm = trim( Input::get('q') );
-        $items = array();
 
         if( strlen( $searchTerm ) > 0 ) {
             // item id
@@ -78,17 +77,13 @@ class ItemController extends BaseController {
                         return Redirect::to( $url );
                 }
             }
-
-            $items = Item::search( $searchTerm )->take( 1000 )->get();
-            if( $items->count() == 0 ) {
-                $items = Item::search( $searchTerm, true )->take( 1000 )->get();
-            }
-            $items = Item::sortSearchResult( $items , $searchTerm );
         }
 
-        $this->layout->content = View::make( 'item.searchresults', array(
-            'items' => $items, 'searchterm' => $searchTerm ));
-        $this->layout->title = 'searchresults';
+        $query = new SearchQuery($searchTerm);
+
+        $this->layout->content = $query->renderResults();
+        $this->layout->fullWidth = true;
+        $this->layout->title = 'Search Results';
     }
 
     public function searchAutocomplete( $language ) {

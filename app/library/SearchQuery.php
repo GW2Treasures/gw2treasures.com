@@ -17,11 +17,16 @@ class SearchQuery {
         $query = Item::where(function($query) {
             foreach($this->splitSearchTerms() as $searchTerm) {
                 $searchTerm = trim($searchTerm, '"');
-                $query = $this->queryOrWhereStringContains($query, 'name_de', $searchTerm);
-                $query = $this->queryOrWhereStringContains($query, 'name_en', $searchTerm);
-                $query = $this->queryOrWhereStringContains($query, 'name_es', $searchTerm);
-                $query = $this->queryOrWhereStringContains($query, 'name_fr', $searchTerm);
+                $query = $query->where(function($query) use($searchTerm) {
+                    $query = $this->queryOrWhereStringContains($query, 'name_de', $searchTerm);
+                    $query = $this->queryOrWhereStringContains($query, 'name_en', $searchTerm);
+                    $query = $this->queryOrWhereStringContains($query, 'name_es', $searchTerm);
+                    $query = $this->queryOrWhereStringContains($query, 'name_fr', $searchTerm);
+
+                    return $query;
+                });
             }
+            return $query;
         });
 
         return $query->remember(3);
@@ -67,7 +72,7 @@ class SearchQuery {
             '%' => $e.'%',
             '_' => $e.'_'
         ];
-        $value = '%'.strtr( $value, $replacements ).'%';
+        $value = '%'.strtoupper(strtr( $value, $replacements )).'%';
 
         // run the query
         return $query->whereRaw("UPPER(`$column`) LIKE ? ESCAPE '$e'", [$value], $boolean);

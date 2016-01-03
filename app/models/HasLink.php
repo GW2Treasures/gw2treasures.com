@@ -3,7 +3,7 @@
 trait HasLink {
     public abstract function getUrl($lang = null);
 
-    protected function getAdditionalLinkAttributes() {
+    protected function getAdditionalLinkAttributes(array $defaults = []) {
         return [];
     }
 
@@ -24,12 +24,14 @@ trait HasLink {
             ? '#'.$anchor
             : '';
 
-        $attributes = [
+        $defaultAttributes = [
             'test' => 1,
             'class' => 'item-link' . ($displayIcon ? ' item-link-'.$icon : ''),
             'href' => $this->getUrl($lang).$anchor,
             'hreflang' => $lang,
-        ] + $this->getAdditionalLinkAttributes();
+        ];
+
+        $attributes = $this->getAdditionalLinkAttributes($defaultAttributes) + $defaultAttributes;
 
         $openTag = '<a '.HTML::attributes($attributes).'>';
         $closeTag = '</a>';

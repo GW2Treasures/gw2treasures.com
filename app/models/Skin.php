@@ -22,7 +22,7 @@ class Skin extends BaseModel {
 		return $this->getInternalIconUrl($size, $this->signature, $this->file_id);
 	}
 
-	protected function getAdditionalLinkAttributes() {
+	protected function getAdditionalLinkAttributes(array $defaults = []) {
 		return ['data-skin-id' => $this->id];
 	}
 

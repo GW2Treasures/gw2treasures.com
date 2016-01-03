@@ -217,8 +217,8 @@ class Item extends BaseModel {
         return URL::route( 'itemdetails', array( 'language' => $lang, 'item' => $this->id ) );
     }
 
-    protected function getAdditionalLinkAttributes() {
-        return ['data-item-id' => $this->id];
+    protected function getAdditionalLinkAttributes(array $defaults = []) {
+        return ['data-item-id' => $this->id, 'class' => $defaults['class'] . ' border-'.$this->rarity];
     }
 
     /**

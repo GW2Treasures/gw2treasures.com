@@ -510,6 +510,10 @@ $rare:       #f4c900;
 .border-Masterwork 	{ border-color: $masterwork; }
 .border-Rare 		{ border-color: $rare; }
 
+.color-format-reminder {
+    color: #777;
+}
+
 .chatlink {
     border: none;
     font: inherit;

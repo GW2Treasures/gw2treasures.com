@@ -123,13 +123,21 @@ class Item extends BaseModel {
         if( !isset($this->getData( $lang )->description) ) {
             return '';
         }
-        $search = array( '/<c=@([^>]+)>(.*)<\/c>/s', '/<c=#([^>]+)>(.*)<\/c>/s', '/\n/' );
-        $replace = array(
-            '<span class="color-$1">$2</span>',
-            '<span class="color-colored" style="color:#$1">$2</span>',
-            '<br />'
-        );
-        return preg_replace( $search, $replace, $this->getData( $lang )->description );
+
+        return $this->formatForDisplay($this->getData( $lang )->description);
+    }
+
+    protected function formatForDisplay($subject) {
+        $replacements = [
+            '/<c=@([^>]+)>(.*?)<\/c>/s' => '<span class="color-format-$1">$2</span>',
+            '/<c=#([^>]+)>(.*?)<\/c>/s' => '<span class="color-format" style="color:#$1">$2</span>',
+            '/\n/' => '<br>'
+        ];
+        return preg_replace(array_keys($replacements), array_values($replacements), $subject);
+    }
+
+    protected function normalizeRawData($data) {
+        return $data;
     }
 
     /**
@@ -567,7 +575,7 @@ class Item extends BaseModel {
                     $attribute );
                 $attributes[ $attribute ] = $modifier;
             } else {
-                $attributes[ ] = $buffsLocalized[ $i ];
+                $attributes[ ] = $this->formatForDisplay($buffsLocalized[$i]);
             }
         }
 
@@ -593,11 +601,11 @@ class Item extends BaseModel {
         foreach( $buffs as $i => $buff ) {
             if( preg_match( '/^(\+?-?[0-9]+%?) (.*)$/', $buff, $matches ) ) {
                 $modifier = $matches[ 1 ];
-                $attribute = $matches[ 2 ];
+                $attribute = $this->formatForDisplay($matches[ 2 ]);
                 $modifier = str_replace( '-', '−', $modifier );
                 $attributes[ $attribute ] = $modifier;
             } else {
-                $attributes[ ] = $buff;
+                $attributes[ ] = $this->formatForDisplay($buff);
             }
         }
 

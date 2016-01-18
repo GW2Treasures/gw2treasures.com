@@ -113,9 +113,9 @@ class ItemController extends BaseController {
             $i = new stdClass();
             $i->id = $item->id;
             $i->name = $item->getName();
-            $i->icon16 = Helper::cdn( 'icons/' . $item->signature . '/' . $item->file_id . '-16px.png', $item->file_id );
-            $i->icon32 = Helper::cdn( 'icons/' . $item->signature . '/' . $item->file_id . '-32px.png', $item->file_id );
-            $i->icon64 = Helper::cdn( 'icons/' . $item->signature . '/' . $item->file_id . '-64px.png', $item->file_id );
+            $i->icon16 = $item->getIconUrl(16);
+            $i->icon32 = $item->getIconUrl(32);
+            $i->icon64 = $item->getIconUrl(64);
             $response->items[] = $i;
         }
 

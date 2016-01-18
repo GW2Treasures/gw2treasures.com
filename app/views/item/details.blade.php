@@ -90,6 +90,11 @@
     @if( $item->unlock_type == 'CraftingRecipe' && !is_null( $item->unlocks ))
         <h3>{{ trans('item.unlocks') }}</h3>
         @include( 'recipe.box', array( 'recipe' => $item->unlocks ))
+        @if(!empty($item->getTypeData()->extra_recipe_ids))
+            @foreach(Recipe::findMany($item->getTypeData()->extra_recipe_ids) as $extraRecipe)
+                @include('recipe.box', [ 'recipe' => $extraRecipe ])
+            @endforeach
+        @endif
     @elseif( $item->unlock_type == 'CraftingRecipe' && strpos($item->getName('en'), 'Recipe: ') === 0 )
         <h3>{{ trans('item.unlocks') }}</h3>
         <p>{{ trans('item.unlocksUnknownRecipe', ['chatlink' => Chatlink::Encode(Chatlink::TYPE_RECIPE, $item->getTypeData()->recipe_id)->chatlink]) }}</p>

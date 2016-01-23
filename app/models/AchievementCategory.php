@@ -3,8 +3,12 @@
 class AchievementCategory extends BaseModel {
 	use HasLocalizedData, HasIcon, HasLink;
 
-	public function getName( $lang = null ) {
-		return $this->localized( 'name', $lang );
+	public function getName($lang = null) {
+		return $this->localized('name', $lang);
+	}
+
+	public function getDescription($lang = null) {
+		return $this->localized('description', $lang);
 	}
 
 	public function getIconUrl($size = 64) {
@@ -12,11 +16,11 @@ class AchievementCategory extends BaseModel {
 	}
 
 	public function achievements() {
-		return $this->hasMany( Achievement::class, 'achievement_category_id', 'id' );
+		return $this->hasMany(Achievement::class, 'achievement_category_id', 'id');
 	}
 
 	public function group() {
-		return $this->belongsTo( AchievementGroup::class, 'achievement_group_id' );
+		return $this->belongsTo(AchievementGroup::class, 'achievement_group_id');
 	}
 
 	public function getUrl($lang = null) {

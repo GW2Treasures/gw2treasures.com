@@ -3,6 +3,7 @@
     < {{ $category->group->getName() }}</a>
 </div>
 <h2>{{ $category->getIcon(32) }} {{ $category->getName() }}</h2>
+<p>{{ $category->getDescription() }}</p>
 <ul class="itemList">
     @foreach($category->achievements as $achievement)
         <li>{{ $achievement->link(32) }}

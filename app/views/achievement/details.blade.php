@@ -23,7 +23,7 @@
 </header>
 
 <div class="itemDetails achievementDetails pageWidth">
-	@if($achievement->achievement_category_id !== 0)
+	@if($achievement->achievement_category_id !== 0 && !is_null($achievement->category))
 		<div class="achievement__breadcrumbs">
 			<a href="{{ URL::route('achievement.overview', App::getLocale()) }}#{{ $achievement->category->group->id }}">
 				{{ $achievement->category->group->getName() }}</a>

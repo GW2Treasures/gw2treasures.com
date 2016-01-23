@@ -846,6 +846,11 @@ ul.ingredients {
 .filter {
     margin-bottom: 1em;
     float: right; }
+    h3 ~ .filter {
+        @media (max-width: 600px) {
+            margin-top: 0;
+        }
+        margin-top: -2.9em; }
     .filter > h4 {
         font-size: 13px;
         margin: 0;

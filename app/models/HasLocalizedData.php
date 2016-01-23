@@ -6,6 +6,10 @@ trait HasLocalizedData {
     private $_localizedDataCache = [];
 
     public function getData($lang = null) {
+        if(is_null($lang)) {
+            $lang = App::getLocale();
+        }
+        
         // check if we already have decoded data in cache
         if(!array_key_exists($lang, $this->_localizedDataCache)) {
             // get localized and normalized json data

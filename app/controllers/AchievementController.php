@@ -81,18 +81,34 @@ class AchievementController extends BaseController {
 
 	private function getDailyAchievements() {
 		return Cache::remember(self::CACHE_DAILY, $this->getDailyReset(), function() {
-			$data = (new GW2Api())->achievements()->daily()->get();
+			$api = new GW2Api();
 
+			// load daily achievements and daily fractals
+			$data = $api->achievements()->daily()->get();
+			$fractals = $api->achievements()->categories()->get(88);
+
+			// add daily fractals
+			$data->fractals = [];
+			foreach($fractals->achievements as $fractalAchievement) {
+				$data->fractals[] = (object)[
+					'id' => $fractalAchievement,
+					'level' => null
+				];
+			}
+
+			// get all achievement ids
 			$ids = [];
-			foreach(['pve', 'pvp', 'wvw'] as $type) {
+			foreach(['pve', 'pvp', 'wvw', 'fractals'] as $type) {
 				foreach($data->{$type} as $achievement) {
 					$ids[] = $achievement->id;
 				}
 			}
 
+			// load achievements
 			$achievements = Achievement::with('category')->findMany($ids)->keyBy('id');
 
-			foreach(['pve', 'pvp', 'wvw'] as $type) {
+			// save achievement objects for all dailies
+			foreach(['pve', 'pvp', 'wvw', 'fractals'] as $type) {
 				foreach($data->{$type} as $achievement) {
 					$achievement->achievement = $achievements[$achievement->id];
 				}

@@ -19,20 +19,28 @@
             })(document.getElementById('daily-reset-time'));
         </script>
     </header>
-    <div class="daily-box__content clearfix">
-        @foreach(['pve', 'pvp', 'wvw'] as $type)
+    <div class="daily-box__content">
+    @foreach([['pve', 'pvp'], ['wvw', 'fractals']] as $row)
+        <div class="daily-box__row clearfix">
+        @foreach($row as $type)
             <div class="daily-box__column">
                 <h3>{{ trans('achievement.daily.type.'.$type) }}</h3>
                 <ul class="itemList">
                     @foreach($daily->achievements->{$type} as $achievement)
                         <li>
                             {{ $achievement->achievement->link(32) }}
-                            <span class="daily-box__level">Level {{ $achievement->level->min }} - {{ $achievement->level->max }}</span>
+                            <span class="daily-box__level">
+                                @if(!is_null($achievement->level))
+                                    Level {{ $achievement->level->min }} - {{ $achievement->level->max }}
+                                @endif
+                            </span>
                         </li>
                     @endforeach
                 </ul>
             </div>
         @endforeach
+        </div>
+    @endforeach
     </div>
     <div class="daily-box__completion clearfix">
         <?php $completion = Achievement::find(1840); ?>

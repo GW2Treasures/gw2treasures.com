@@ -4,7 +4,8 @@
   "description": "Crawls the Guild Wars 2 WvW APIs for current scores",
   "main": "index.coffee",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "coffee index.coffee"
   },
   "repository": {
     "type": "git",

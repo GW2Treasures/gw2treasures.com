@@ -11,10 +11,10 @@ db.connect()
 
 ids = { }
 getID = ( match, cb ) ->
-    key = "#{match.wvw_match_id}_#{match.start_time}"
+    key = "#{match.id}_#{match.start_time}"
     return cb match, ids[ key ] if ids[ key ]
 
-    db.query 'SELECT id FROM matches WHERE match_id = ? AND start_time = ?', [match.wvw_match_id, match.start_time], (err, rows) ->
+    db.query 'SELECT id FROM matches WHERE match_id = ? AND start_time = ?', [match.id, match.start_time], (err, rows) ->
         throw err if err
         if !err && rows.length == 1
             ids[ key ] = rows[0]['id']
@@ -22,11 +22,11 @@ getID = ( match, cb ) ->
         return cb match, -1
 
 newMatch = ( match ) ->
-    console.log 'new match ' + match.wvw_match_id
+    console.log 'new match ' + match.id
     db.query 'INSERT INTO matches (match_id, red_world_id, blue_world_id, green_world_id, start_time, end_time) VALUES (?,?,?,?,?,?)',
-        [ match.wvw_match_id, match.red_world_id, match.blue_world_id, match.green_world_id, match.start_time, match.end_time ], (err, result) ->
+        [ match.id, match.worlds.red, match.worlds.blue, match.worlds.green, match.start_time, match.end_time ], (err, result) ->
             throw err if err
-            ids[ "#{match.wvw_match_id}_#{match.start_time}" ] = result.insertId
+            ids[ "#{match.id}_#{match.start_time}" ] = result.insertId
 
 crawler = new Crawler config.matchUrl, config.detailUrl
 
@@ -38,7 +38,7 @@ crawler.on 'matches', (matches) ->
 
 crawler.on 'details', (match, details) ->
     getID match, (match, id) =>
-        db.query 'UPDATE matches SET red_score = ?, blue_score = ?, green_score = ?, data = ? WHERE id = ?', [details.scores[0], details.scores[1], details.scores[2], JSON.stringify(details), id], (err, result) =>
+        db.query 'UPDATE matches SET red_score = ?, blue_score = ?, green_score = ?, data = ? WHERE id = ?', [details.scores.red, details.scores.blue, details.scores.green, JSON.stringify(details), id], (err, result) =>
             throw err if err
 
 crawler.start()

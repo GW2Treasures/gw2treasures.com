@@ -56,9 +56,10 @@ class AchievementController extends BaseController {
 	}
 
 	public function overview($language) {
-		$categories = Cache::remember(self::CACHE_OVERVIEW, 60 * 24, function() {
-			return AchievementCategory::where('id', '!=', 97)
-				->with('achievements')->with('achievements.category')
+		$groups = Cache::remember(self::CACHE_OVERVIEW, 60 * 24, function() {
+			return AchievementGroup::orderBy('order')
+				->with('categories')
+				->with('categories.achievements')->with('categories.achievements.category')
 				->get();
 		});
 
@@ -66,7 +67,7 @@ class AchievementController extends BaseController {
 
 		$this->layout->title = trans( 'achievement.overview' );
 		$this->layout->fullWidth = true;
-		$this->layout->content = View::make( 'achievement.overview' )->with(compact('categories', 'daily'));
+		$this->layout->content = View::make( 'achievement.overview' )->with(compact('groups', 'daily'));
 	}
 
 	private function getDailyAchievements() {

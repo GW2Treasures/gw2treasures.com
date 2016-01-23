@@ -46,11 +46,22 @@ class AchievementsCommand extends Command {
             'created_at', 'updated_at',
         ]);
 
+        $this->loadEntries('achievement_groups', $api->achievements()->groups(), [
+            'name_de', 'name_en', 'name_es', 'name_fr',
+            'description_de', 'description_en', 'description_es', 'description_fr',
+            'order', 'data_de', 'data_en', 'data_es', 'data_fr',
+            'created_at', 'updated_at',
+        ]);
+
         foreach(DB::table('achievement_categories')->get(['id', 'data_en']) as $cat) {
             $achievements = json_decode($cat->data_en)->achievements;
             DB::table('achievements')->whereIn('id', $achievements)->update(['achievement_category_id' => $cat->id]);
         };
 
+        foreach(DB::table('achievement_groups')->get(['id', 'data_en']) as $group) {
+            $categories = json_decode($group->data_en)->categories;
+            DB::table('achievement_categories')->whereIn('id', $categories)->update(['achievement_group_id' => $group->id]);
+        };
 
         Achievement::chunk(500, function($achievements) {
             $ids = $achievements->lists('id');

@@ -14,4 +14,8 @@ class AchievementCategory extends BaseModel {
 	public function achievements() {
 		return $this->hasMany( Achievement::class, 'achievement_category_id', 'id' );
 	}
+
+	public function group() {
+		return $this->belongsTo( AchievementGroup::class, 'achievement_group_id' );
+	}
 }

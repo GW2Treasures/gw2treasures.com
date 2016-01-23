@@ -4,15 +4,17 @@
     <h2>{{trans('achievement.overview')}}</h2>
 
     @foreach($groups as $group)
-        <h3>{{ $group->getName() }}</h3>
-        <p>{{ $group->getDescription() }}</p>
-        @foreach($group->categories as $category)
-            <h4>{{ $category->getIcon(32) }} {{ $category->getName() }}</h4>
+        @if(!in_array($group->id, $hidden['groups']))
+            <h3 id="{{ $group->id }}">{{ $group->getName() }}</h3>
+            <p>{{ $group->getDescription() }}</p>
+
             <ul class="itemList">
-                @foreach($category->achievements as $achievement)
-                    <li>{{ $achievement->link(32) }}
+                @foreach($group->categories as $category)
+                    @if(!in_array($category->id, $hidden['categories']))
+                        <li>{{ $category->link(32) }}
+                    @endif
                 @endforeach
             </ul>
-        @endforeach
+        @endif
     @endforeach
 </div>

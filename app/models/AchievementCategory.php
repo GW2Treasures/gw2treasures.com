@@ -1,7 +1,7 @@
 <?php
 
 class AchievementCategory extends BaseModel {
-	use HasLocalizedData, HasIcon;
+	use HasLocalizedData, HasIcon, HasLink;
 
 	public function getName( $lang = null ) {
 		return $this->localized( 'name', $lang );
@@ -17,5 +17,9 @@ class AchievementCategory extends BaseModel {
 
 	public function group() {
 		return $this->belongsTo( AchievementGroup::class, 'achievement_group_id' );
+	}
+
+	public function getUrl($lang = null) {
+		return Url::route('achievement.category', [$lang, $this->id]);
 	}
 }

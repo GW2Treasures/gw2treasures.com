@@ -23,6 +23,16 @@
 </header>
 
 <div class="itemDetails achievementDetails pageWidth">
+	@if($achievement->achievement_category_id !== 0)
+		<div class="achievement__breadcrumbs">
+			<a href="{{ URL::route('achievement.overview', App::getLocale()) }}#{{ $achievement->category->group->id }}">
+				{{ $achievement->category->group->getName() }}</a>
+			/
+			<a href="{{ URL::route('achievement.category', [App::getLocale(), $achievement->category->id]) }}">
+				{{ $achievement->category->getName() }}</a>
+		</div>
+	@endif
+
 	<p class="achievement__description">{{ $achievement->getData()->description }}</p>
 
 	@if($achievement->getData()->requirement != '' || !empty($objectives))

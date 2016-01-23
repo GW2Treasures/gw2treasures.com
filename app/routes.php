@@ -159,10 +159,16 @@ Route::group( array(
         //================================
 
         Route::model( 'achievement', Achievement::class);
+        Route::model( 'achievement_category', AchievementCategory::class);
 
         Route::get('achievement', [
             'as' => 'achievement.overview',
             'uses' => 'AchievementController@overview'
+        ]);
+
+        Route::get('achievement/category/{achievement_category}', [
+            'as' => 'achievement.category',
+            'uses' => 'AchievementController@category'
         ]);
 
         Route::get('achievement/{achievement}', [

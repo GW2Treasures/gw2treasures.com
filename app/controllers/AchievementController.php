@@ -18,6 +18,11 @@ class AchievementController extends BaseController {
 			->with($this->getAchievementData($achievement));
 	}
 
+	public function category( $language, AchievementCategory $achievement_category ) {
+		$this->layout->title = $achievement_category->getName();
+		$this->layout->content = View::make('achievement.category')->with('category', $achievement_category);
+	}
+
 	private function getAchievementData(Achievement $achievement) {
 		$objectives = isset($achievement->getData()->bits)
 			? $achievement->getData()->bits
@@ -59,15 +64,19 @@ class AchievementController extends BaseController {
 		$groups = Cache::remember(self::CACHE_OVERVIEW, 60 * 24, function() {
 			return AchievementGroup::orderBy('order')
 				->with('categories')
-				->with('categories.achievements')->with('categories.achievements.category')
 				->get();
 		});
 
 		$daily = $this->getDailyAchievements();
 
+		$hidden = [
+			'groups' => ['18DB115A-8637-4290-A636-821362A3C4A8'],
+			'categories' => [88]
+		];
+
 		$this->layout->title = trans( 'achievement.overview' );
 		$this->layout->fullWidth = true;
-		$this->layout->content = View::make( 'achievement.overview' )->with(compact('groups', 'daily'));
+		$this->layout->content = View::make( 'achievement.overview' )->with(compact('groups', 'daily', 'hidden'));
 	}
 
 	private function getDailyAchievements() {

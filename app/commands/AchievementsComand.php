@@ -7,6 +7,7 @@ use GW2Treasures\GW2Api\V2\Pagination\IPaginatedEndpoint;
 use Illuminate\Console\Command;
 use GW2Treasures\GW2Api\GW2Api;
 use Illuminate\Support\Collection;
+use Symfony\Component\Console\Input\InputOption;
 
 class AchievementsCommand extends Command {
     protected $name = 'gw2treasures:achievements';
@@ -29,6 +30,12 @@ class AchievementsCommand extends Command {
     public function fire() {
         $api = new GW2Api();
 
+        $updating = $this->option('update');
+
+        if($updating) {
+            $this->info('updating existing entries');
+        }
+
         $this->loadEntries('achievements', $api->achievements(), [
             'name_de', 'name_en', 'name_es', 'name_fr',
             'description_de', 'description_en', 'description_es', 'description_fr',
@@ -36,7 +43,7 @@ class AchievementsCommand extends Command {
             'type', 'signature', 'file_id',
             'data_de', 'data_en', 'data_es', 'data_fr',
             'created_at', 'updated_at',
-        ]);
+        ], $updating);
 
         $this->loadEntries('achievement_categories', $api->achievements()->categories(), [
             'name_de', 'name_en', 'name_es', 'name_fr',
@@ -44,14 +51,14 @@ class AchievementsCommand extends Command {
             'signature', 'file_id', 'order',
             'data_de', 'data_en', 'data_es', 'data_fr',
             'created_at', 'updated_at',
-        ]);
+        ], $updating);
 
         $this->loadEntries('achievement_groups', $api->achievements()->groups(), [
             'name_de', 'name_en', 'name_es', 'name_fr',
             'description_de', 'description_en', 'description_es', 'description_fr',
             'order', 'data_de', 'data_en', 'data_es', 'data_fr',
             'created_at', 'updated_at',
-        ]);
+        ], $updating);
 
         foreach(DB::table('achievement_categories')->get(['id', 'data_en', 'order']) as $cat) {
             $data = json_decode($cat->data_en);
@@ -113,7 +120,7 @@ class AchievementsCommand extends Command {
         Cache::forget(AchievementController::CACHE_DAILY);
     }
 
-    public function loadEntries($name, IBulkEndpoint $endpoint, array $columns) {
+    public function loadEntries($name, IBulkEndpoint $endpoint, array $columns, $updating) {
         if(!($endpoint instanceof ILocalizedEndpoint)) {
             return;
         }
@@ -133,7 +140,7 @@ class AchievementsCommand extends Command {
 
         $unknownEntries = [];
         foreach( $ids as $id ) {
-            if( !in_array( $id, $knownIds )) {
+            if( !in_array( $id, $knownIds ) || $updating) {
                 $unknownEntries[] = $id;
             }
         }
@@ -188,7 +195,14 @@ class AchievementsCommand extends Command {
                 }
             }
 
-            $data[] = $entryData;
+            if($updating && in_array($id, $knownIds)) {
+                if(array_key_exists('created_at', $entryData)) {
+                    unset($entryData['created_at']);
+                }
+                DB::table($name)->where('id', '=', $id)->update($entryData);
+            } else {
+                $data[] = $entryData;
+            }
 
             if( count( $data ) == 250 ) {
                 $data = $this->insertIntoDB( $name, $data );
@@ -197,4 +211,12 @@ class AchievementsCommand extends Command {
         $this->insertIntoDB( $name, $data );
         $this->info( 'Done.' );
     }
+
+    protected function getOptions() {
+        return [
+            ['update', 'u', InputOption::VALUE_NONE, 'Update existing achievements']
+        ];
+    }
+
+
 }

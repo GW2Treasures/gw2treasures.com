@@ -25,8 +25,13 @@ class Objective {
 	private $names;
 
 	function __construct( $id, $owner, $owner_guild = null ) {
-		$this->id          = $id;
-		$this->owner       = $owner;
+		$this->id = $id;
+
+		if(strstr($this->id, '-')) {
+			$this->id = explode('-', $this->id)[1];
+		}
+
+		$this->owner = $owner;
 		$this->owner_guild = $owner_guild;
 
 		if( !isset( self::$objectiveJSON )) {

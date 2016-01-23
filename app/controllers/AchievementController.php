@@ -63,7 +63,9 @@ class AchievementController extends BaseController {
 	public function overview($language) {
 		$groups = Cache::remember(self::CACHE_OVERVIEW, 60 * 24, function() {
 			return AchievementGroup::orderBy('order')
-				->with('categories')
+				->with(['categories' => function($query) {
+					return $query->orderBy('order');
+				}])
 				->get();
 		});
 

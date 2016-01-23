@@ -41,7 +41,7 @@ class AchievementsCommand extends Command {
         $this->loadEntries('achievement_categories', $api->achievements()->categories(), [
             'name_de', 'name_en', 'name_es', 'name_fr',
             'description_de', 'description_en', 'description_es', 'description_fr',
-            'signature', 'file_id',
+            'signature', 'file_id', 'order',
             'data_de', 'data_en', 'data_es', 'data_fr',
             'created_at', 'updated_at',
         ]);
@@ -53,9 +53,12 @@ class AchievementsCommand extends Command {
             'created_at', 'updated_at',
         ]);
 
-        foreach(DB::table('achievement_categories')->get(['id', 'data_en']) as $cat) {
-            $achievements = json_decode($cat->data_en)->achievements;
-            DB::table('achievements')->whereIn('id', $achievements)->update(['achievement_category_id' => $cat->id]);
+        foreach(DB::table('achievement_categories')->get(['id', 'data_en', 'order']) as $cat) {
+            $data = json_decode($cat->data_en);
+            DB::table('achievements')->whereIn('id', $data->achievements)->update(['achievement_category_id' => $cat->id]);
+            if($cat->order === 0) {
+                DB::table('achievement_categories')->where('id', '=', $cat->id)->update(['order' => $data->order]);
+            }
         };
 
         foreach(DB::table('achievement_groups')->get(['id', 'data_en']) as $group) {

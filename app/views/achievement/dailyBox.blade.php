@@ -42,6 +42,23 @@
         </div>
     @endforeach
     </div>
+    @if(!empty($daily->achievements->special))
+        <div class="daily-box__content clearfix">
+            <h3>{{ trans('achievement.daily.type.special') }}</h3>
+            <ul class="itemList">
+                @foreach($daily->achievements->special as $achievement)
+                    <li>
+                        {{ $achievement->achievement->link(32) }}
+                        <span class="daily-box__level">
+                            @if(!is_null($achievement->level))
+                                Level {{ $achievement->level->min }} - {{ $achievement->level->max }}
+                            @endif
+                        </span>
+                    </li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <div class="daily-box__completion clearfix">
         <?php $completion = Achievement::find(1840); ?>
         <div class="daily-box__completion__achievement">

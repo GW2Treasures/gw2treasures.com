@@ -100,7 +100,7 @@ class AchievementController extends BaseController {
 
 			// get all achievement ids
 			$ids = [];
-			foreach(['pve', 'pvp', 'wvw', 'fractals'] as $type) {
+			foreach(['pve', 'pvp', 'wvw', 'fractals', 'special'] as $type) {
 				foreach($data->{$type} as $achievement) {
 					$ids[] = $achievement->id;
 				}
@@ -110,7 +110,7 @@ class AchievementController extends BaseController {
 			$achievements = Achievement::with('category')->findMany($ids)->keyBy('id');
 
 			// save achievement objects for all dailies
-			foreach(['pve', 'pvp', 'wvw', 'fractals'] as $type) {
+			foreach(['pve', 'pvp', 'wvw', 'fractals', 'special'] as $type) {
 				foreach($data->{$type} as $achievement) {
 					$achievement->achievement = $achievements[$achievement->id];
 				}

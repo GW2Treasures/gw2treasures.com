@@ -26,6 +26,7 @@ return array (
       'pvp' => 'PvP',
       'wvw' => 'WvW',
       'fractals' => 'Fractals',
+      'special' => 'Special Event',
     ),
   ),
 );

@@ -31,7 +31,7 @@
                             {{ $achievement->achievement->link(32) }}
                             <span class="daily-box__level">
                                 @if(!is_null($achievement->level))
-                                    Level {{ $achievement->level->min }} - {{ $achievement->level->max }}
+                                    @lang('achievement.daily.level', (array)$achievement->level)
                                 @endif
                             </span>
                         </li>
@@ -51,7 +51,7 @@
                         {{ $achievement->achievement->link(32) }}
                         <span class="daily-box__level">
                             @if(!is_null($achievement->level))
-                                Level {{ $achievement->level->min }} - {{ $achievement->level->max }}
+                                @lang('achievement.daily.level', (array)$achievement->level)
                             @endif
                         </span>
                     </li>

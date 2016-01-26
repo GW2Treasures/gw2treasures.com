@@ -28,5 +28,6 @@ return array (
       'fractals' => 'Fraktale',
       'special' => 'Sonder-Event',
     ),
+    'level' => 'Level :min - :max',
   ),
 );

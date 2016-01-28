@@ -140,17 +140,30 @@ hr {
 .developer-body {
     h2 {
         margin-top: 0;
-        margin-bottom: 0;
-        font: 65px 'Open Sans Condensed', 'Open Sans', Helvetica, sans-serif; }
+        margin-bottom: 10px;
+        font: 40px Adelle, Bitter, 'Segoe UI', sans-serif;
+        font-weight: bold;
+    }
     h3 {
-        margin-top: 15px;
-        margin-bottom: 0;
-        font: 45px 'Open Sans Condensed', 'Open Sans', Helvetica, sans-serif; }
+        margin-top: 25px;
+        margin-bottom: 10px;
+        font: 32px Adelle, Bitter, 'Segoe UI', sans-serif;
+        font-weight: bold;
+    }
+}
+
+.devHeader {
+    background-color: #2c8566;
+    background-image: linear-gradient(-35deg, #2c8566, #2c8566 50%, hsla(159,50%,45%,1) 90%);
+    padding-top: 40px;
+    padding-bottom: 20px;
+    color: white;
+    text-shadow: 0 0 50px hsla(0,0%,0%,0.2);
 }
 
 .developer-body section.pageWidth p {
-    margin: 0;
-    padding: 1.6em 0 0 0;
+    margin: 1.6em 0 0 0;
+    padding: 0;
     max-width: 750px;
     font-size: 16px;
     line-height: 1.6em;
@@ -165,10 +178,10 @@ hr {
 }
 
 .toc {
-    width: 230px;
+    width: 300px;
     float:right;
     background: #eee;
-    padding: 10px;
+    padding: 25px;
     margin: 0 0 20px 20px;
     font-size: 13px;
     color: #666;
@@ -180,6 +193,13 @@ hr {
         margin: 0 0 5px 0;
         color: #444;
     }
+    ol {
+        padding-left: 15px;
+        margin: 1.6em 0 0;
+        & > li + li {
+            margin-top: 5px;
+        }
+    }
 }
 
 .devBoxGroup {
@@ -188,7 +208,11 @@ hr {
     background-color: #f6f6f6; }
 
 .devTable {
+    width: 100%;
+    margin-top: 1.6em;
     border: 1px solid #DDD;
+    border-collapse: collapse;
+
     td, th {
         padding: 8px 16px;
         border: 1px solid #DDD;
@@ -254,6 +278,8 @@ hr {
 
 .codeWrap {
     overflow-x: auto;
+    margin-top: 1.6em;
+
     pre {
         font-family: Consolas, monospace;
         line-height: 18px;
@@ -262,6 +288,7 @@ hr {
         min-width: 80ch;
         box-sizing: content-box;
         max-width: 960px;
+        word-break: break-all;
     }
     .hll { background-color: #ffffcc }
     .c { color: #999988; font-style: italic } /* Comment */

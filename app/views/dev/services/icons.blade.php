@@ -1,10 +1,12 @@
-<h2 class="pageWidth">Icons</h2>
+<div class="devHeader"><h2 class="pageWidth">Icons</h2></div>
 <section class="pageWidth">
     <div class="toc">
         <h3>Table of Contents</h3>
         <ol>
             <li><a href="#whatsWrong">Whats wrong with ArenaNets render service?</a></li>
             <li><a href="#use">Use GW2Treasures render service</a></li>
+            <li><a href="#examples">Examples</a></li>
+            <li><a href="#implementations">Sample implementations</a></li>
         </ol>
     </div>
     <p>
@@ -35,7 +37,7 @@
         The icons are available at this url:
     </p>
     <pre>https://darthmaim-cdn.de/gw2treasures/icons/<b>{signature}</b>/<b>{file_id}</b>-<b>{size}</b>.png</pre>
-    <table style="width:100%" class="devTable">
+    <table class="devTable">
         <thead><tr><th>Parameter</th><th>Explanation</th></tr></thead>
         <tbody>
             <tr><th><code>signature</code></th>
@@ -61,7 +63,7 @@
         <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#attr-srcset">MDN page about the <code>img</code> element</a>.
     </p>
 </section>
-<div class="codeWrap" style="margin-top: 1.6em">
+<div class="codeWrap">
     <pre class="pageWidth">
         @highlight('html')
             &lt;img
@@ -71,9 +73,9 @@
         @endhighlight
     </pre>
 </div>
-<h3 class="pageWidth">Examples</h3>
+<h3 class="pageWidth" id="examples">Examples</h3>
 <section class="pageWidth">
-    <table style="width:100%" class="devTable">
+    <table class="devTable">
         <thead><tr><th>Icon</th><th>URL</th></tr></thead>
         <tbody>
             <tr>
@@ -98,7 +100,7 @@
     </table>
 </section>
 
-<h3 class="pageWidth">Sample implementations</h3>
+<h3 class="pageWidth" id="implementations">Sample implementations</h3>
 <section class="pageWidth">
     <p>
         Here are some sample implementations for getting the url pointing to an icon of a specific size.

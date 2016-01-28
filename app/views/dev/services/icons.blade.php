@@ -54,7 +54,23 @@
             </tr>
         </tbody>
     </table>
+    <p>
+        To load higher resolution icons for devices with "retina" screens, you can use the <code>srcset</code> attribute.
+        Devices with lower resolutions, will still load the smaller file and save bandwith.
+        You can read more about the <code>srcset</code> attribute on the
+        <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#attr-srcset">MDN page about the <code>img</code> element</a>.
+    </p>
 </section>
+<div class="codeWrap" style="margin-top: 1.6em">
+    <pre class="pageWidth">
+        @highlight('html')
+            &lt;img
+                src="https://darthmaim-cdn.de/gw2treasures/icons/9D94B96446F269662F6ACC2531394A06C0E03951/947657-32px.png"
+                srcset="https://darthmaim-cdn.de/gw2treasures/icons/9D94B96446F269662F6ACC2531394A06C0E03951/947657-64px.png 2x"
+                width="32" height="32" alt="" crossorigin="anonymous"&gt;
+        @endhighlight
+    </pre>
+</div>
 <h3 class="pageWidth">Examples</h3>
 <section class="pageWidth">
     <table style="width:100%" class="devTable">

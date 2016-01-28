@@ -157,7 +157,7 @@ Blade::extend(function($view, $compiler)
 
 		if( !is_executable( $pygmentize )) {
 			// we cant run it, so just display the un-highlighted version with a short error message
-			return '<div style="color:red">Path to pygmentize wrong or missing -x permission</div>' . $parsedContent;
+			return '<div style="color:red">Path to pygmentize wrong or missing -x permission</div>' . e($parsedContent);
 		}
 
 		// map stdin, stdout and stderr

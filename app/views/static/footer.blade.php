@@ -16,7 +16,7 @@
 				<a href="{{ URL::route('achievement.overview', App::getLocale()) }}">{{ trans('footer.achievements.header') }}</a>
 				<ul>
 					<li><a href="{{ URL::route('achievement.overview', App::getLocale()) }}">{{ trans('footer.achievements.overview') }}</a>
-					<li><a href="#{{-- URL::route('achievement.daily', App::getLocale()) --}}">{{ trans('footer.achievements.daily') }}</a>
+					<li><a href="{{ URL::route('achievement.overview', App::getLocale()) }}">{{ trans('footer.achievements.daily') }}</a>
 				</ul>
 				<a href="{{ URL::route('dev') }}" class="">{{ trans('footer.developer') }}</a>
 				<ul>

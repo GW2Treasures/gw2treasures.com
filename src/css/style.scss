@@ -190,16 +190,24 @@ hr {
 .devTable {
     border: 1px solid #DDD;
     td, th {
-        padding: 3px 7px;
+        padding: 8px 16px;
         border: 1px solid #DDD;
         vertical-align: top;
+        text-align: left;
     }
     td {
         word-break: break-all;
         word-break: break-word;
     }
+    & > thead > tr > th {
+        background: #f6f6f6;
+    }
     & > tbody > tr > th {
         text-align: left;
+    }
+    & > tbody > tr:hover > td,
+    & > tbody > tr:hover > th {
+        background-color: #FAFAFA;
     }
     ul {
         margin: 0;

@@ -12,6 +12,10 @@ trait HasLocalizedData {
 
         // check if we already have decoded data in cache
         if(!array_key_exists($lang, $this->_localizedDataCache)) {
+            if(!isset($this->{'data_'.$lang})) {
+                return new stdClass();
+            }
+
             // get localized and normalized json data
             $json = $this->normalizeRawData($this->localized('data', $lang));
 

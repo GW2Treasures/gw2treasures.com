@@ -6,6 +6,10 @@ trait HasData {
     public function getData() {
         // check if we already have decoded data in cache
         if(is_null($this->_dataCache)) {
+            if(!isset($this->data)) {
+                return new stdClass();
+            }
+
             // get normalized json data
             $json = $this->normalizeRawData($this->data);
 

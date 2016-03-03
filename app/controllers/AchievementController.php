@@ -112,7 +112,7 @@ class AchievementController extends BaseController {
 			// save achievement objects for all dailies
 			foreach(['pve', 'pvp', 'wvw', 'fractals', 'special'] as $type) {
 				foreach($data->{$type} as $achievement) {
-					$achievement->achievement = $achievements[$achievement->id];
+					$achievement->achievement = $achievements->get($achievement->id);
 				}
 			}
 

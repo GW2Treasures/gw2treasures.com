@@ -20,7 +20,7 @@
     <iframe style="margin-top: 1.6em; clear: both" src="{{ URL::route('wvw.world.embedded', array( 'en', 1008, 'notrack' )) }}" height="120" width="100%" frameborder="0" scrolling="no"></iframe>
 </section>
 
-<h3 id="parameters" class="pageWidth">Parameters</h3>
+<h3 class="pageWidth">Parameters @include('dev.anchor', ['anchor'=>'parameters'])</h3>
 <section class="pageWidth">
     <p>The URL for the widget is:</p>
     <pre>https://<b>{language}</b>.gw2treasures.com/wvw/world/<b>{world_id}</b>/embedded?style=<b>{style}</b></pre>
@@ -62,7 +62,7 @@
         </tbody>
     </table>
 </section>
-<h3 id="code" class="pageWidth">Code</h3>
+<h3 class="pageWidth">Code @include('dev.anchor', ['anchor'=>'code'])</h3>
 <section class="pageWidth">
     <p>This is the full embed code using an <code>iframe</code>. You should not change the height.</p>
 </section>
@@ -70,7 +70,7 @@
     <pre class="pageWidth">
 &lt;iframe src="https://<b>{language}</b>.gw2treasures.com/wvw/world/<b>{world_id}</b>/embedded?style=<b>{style}</b>" height="120" width="100%" frameborder="0" scrolling="no"&gt;&lt;/iframe&gt;</pre>
 </div>
-<h3 class="pageWidth" id="world_ids">World ID List</h3>
+<h3 class="pageWidth">World ID List @include('dev.anchor', ['anchor'=>'world_ids'])</h3>
 <section class="pageWidth">
     <p>This is the list of all valid world ids.</p>
     <table class="devTable">

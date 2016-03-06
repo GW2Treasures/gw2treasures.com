@@ -15,7 +15,7 @@
 </section>
 
 
-<h3 id="whatsWrong" class="pageWidth">Whats wrong with ArenaNets render service?</h3>
+<h3 class="pageWidth">Whats wrong with ArenaNets render service? @include('dev.anchor', ['anchor'=>'whatsWrong'])</h3>
 <section class="pageWidth">
     <p>
         The icons served by ArenaNets render service are not optimized. By lossless compression and discarding metadata from the images, the filesize can be reduced by over 20% on average. If you have multiple icons on a page, saving 20% of transmitted bytes means a noticeable speed improvement.
@@ -28,7 +28,7 @@
     </p>
 </section>
 
-<h3 class="pageWidth" id="use">Use GW2Treasures render service</h3>
+<h3 class="pageWidth">Use GW2Treasures render service @include('dev.anchor', ['anchor'=>'use'])</h3>
 <section class="pageWidth">
     <p>
         We are providing thumbnails and compressed versions of all icons from ArenaNets render service. This is ideal if you use many icons or icons with smaller dimension than the default 64px. The dimensions available are 16px, 32px and 64px.
@@ -73,7 +73,7 @@
         @endhighlight
     </pre>
 </div>
-<h3 class="pageWidth" id="examples">Examples</h3>
+<h3 class="pageWidth">Examples @include('dev.anchor', ['anchor'=>'examples'])</h3>
 <section class="pageWidth">
     <table class="devTable">
         <thead><tr><th>Icon</th><th>URL</th></tr></thead>
@@ -100,7 +100,7 @@
     </table>
 </section>
 
-<h3 class="pageWidth" id="implementations">Sample implementations</h3>
+<h3 class="pageWidth">Sample implementations @include('dev.anchor', ['anchor'=>'implementations'])</h3>
 <section class="pageWidth">
     <p>
         Here are some sample implementations for getting the url pointing to an icon of a specific size.

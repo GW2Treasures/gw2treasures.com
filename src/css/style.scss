@@ -143,12 +143,14 @@ hr {
         margin-bottom: 10px;
         font: 40px Adelle, Bitter, 'Segoe UI', sans-serif;
         font-weight: bold;
+        position: relative;
     }
     h3 {
         margin-top: 25px;
         margin-bottom: 10px;
         font: 32px Adelle, Bitter, 'Segoe UI', sans-serif;
         font-weight: bold;
+        position: relative;
     }
 }
 
@@ -185,6 +187,8 @@ hr {
     margin: 0 0 20px 20px;
     font-size: 13px;
     color: #666;
+    position: relative;
+    z-index: 1;
 
     h3 {
         font-family: 'Open Sans', Helvetica, sans-serif;
@@ -371,11 +375,37 @@ hr {
 .docGrid h4 { margin: 0 0 10px; }
 .docGrid h4 a {
     display: block;
-    font: 25px 'Open Sans Condensed', 'Open Sans', Helvetica, sans-serif;
+    font-size: 20px;
     color: #fff; }
 .docGrid h4 a:not([href]) {
     color: rgba(255,255,255,.4); }
 
+.anchor-link {
+    position: absolute;
+    left: -20px;
+    top: -20px;
+    padding-top: 20px;
+    opacity: 0;
+    transition: opacity 1s 0.5s ease-out;
+    color: inherit;
+
+    outline: none !important;
+
+    & > svg {
+        fill: currentColor;
+        transition: fill .3s ease;
+    }
+
+    &:hover > svg {
+        fill: #245dc1;
+    }
+
+    h1:hover &, h2:hover &, h3:hover &, h4:hover &, h5:hover &, h6:hover & {
+        opacity: 1;
+        transition-duration: .3s;
+        transition-delay: 0s;
+    }
+}
 
 html.js .only-no-js, html.no-js .only-js { display:none; }
 

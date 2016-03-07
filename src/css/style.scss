@@ -280,6 +280,11 @@ hr {
         margin-left: 0; }
 }
 
+pre b, code b {
+    font-family: Consolas, monospace;
+    font-weight: bold;
+}
+
 .codeWrap {
     overflow-x: auto;
     margin-top: 1.6em;

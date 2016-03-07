@@ -49,6 +49,13 @@ Route::group( array(
                 ->nest( 'content', 'dev.services.embedWorldStats' )
                 ->with( 'title', 'Embedding WvW World Stats' );
         }));
+
+        Route::get('services/embedWorldStats/update', array(
+            'as' => 'dev.embedWorldStats.update', function() {
+                return View::make( 'dev' )
+                    ->nest( 'content', 'dev.services.updateWwWWidget' )
+                    ->with( 'title', 'Update WvW Widget Domain' );
+        }));
     }
 );
 

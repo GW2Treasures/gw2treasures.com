@@ -12,7 +12,12 @@
 		<link rel="stylesheet" href="//direct.darthmaim-cdn.de/gw2treasures/assets/css/style.css">
 	@endif
 </head>
-<body class="{{ isset($_GET['style']) && in_array( $_GET['style'], array( 'light', 'dark' )) ? $_GET['style'] : 'light' }}" style="min-width: 500px; min-height: 100px">
+<?php
+	$style = isset($_GET['style']) && in_array( $_GET['style'], array( 'light', 'dark' ))
+		? $_GET['style']
+		: 'light';
+?>
+<body class="{{ $style }}" style="min-width: 500px; min-height: 100px">
 <div class="matchList">
 	<div class="matchListHeader clearfix">
 		<span class="world">{{ trans('wvw.world') }}</span>
@@ -27,6 +32,39 @@
 	</div>
 	@include( 'wvw.smallMatchBox', array( 'match' => $world->matches()->current()->withWorlds()->first(), 'homeworld' => $world, 'embedded' => true ))
 </div>
+@if(Request::has('_redirectedFromOldDomain'))
+	<div class="oldDomain">
+		<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path fill="#FF7200" d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>
+		<div class="oldDomainContent">
+			This WvW widget is included from our old domain. If you are the admin of this site,
+			please update the embed code. <a target="_blank" href="{{ route('dev.embedWorldStats.update', ['language' => App::getLocale(), 'world' => $world->id, 'style' => $style]) }}">more</a></div>
+	</div>
+	<style>
+		.oldDomainContent {
+			display: none;
+		}
+		.oldDomain {
+			position: absolute;
+			right: 4px;
+			bottom: 4px;
+			float: right;
+			max-width: 250px;
+			padding: 8px;
+			font-size: 11px;
+		}
+		.oldDomain:hover {
+			background: rgba(255,255,255,.9);
+			color: #222;
+			border: 1px solid black;
+		}
+		.oldDomain:hover svg {
+			display: none
+		}
+		.oldDomain:hover .oldDomainContent {
+			display: inline-block;
+		}
+	</style>
+@endif
 @if( App::environment( 'production' ) && !isset( $_GET['notrack'] ))
 	<!-- google analytics -->
 	<script>

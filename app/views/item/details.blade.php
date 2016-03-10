@@ -124,10 +124,12 @@
     <?php
         $achievementObjective = Achievement::requiresItem($item->id)->get();
         $achievementReward = Achievement::rewardsItem($item->id)->get();
+
+        $achievementCount = count($achievementObjective) + count($achievementReward);
     ?>
 
-    @if(count($achievementObjective) + count($achievementReward) > 0)
-        <h3>{{ trans('item.achievements.header') }}</h3>
+    @if($achievementCount > 0)
+        <h3{{ $achievementCount >= 8 ? ' style="clear:both"' : '' }}>{{ trans('item.achievements.header') }}</h3>
     @endif
     @if(count($achievementObjective) > 0)
         <p>{{ trans('item.achievements.required') }}</p>

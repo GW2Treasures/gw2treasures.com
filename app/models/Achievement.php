@@ -51,6 +51,21 @@ class Achievement extends BaseModel {
 		});
 	}
 
+	/**
+	 * @param Illuminate\Database\Query\Builder $query
+	 * @param $itemId
+	 * @return mixed
+	 */
+	public function scopeRewardsItem($query, $itemId) {
+		return $query->whereExists(function($query) use ($itemId) {
+			$query->select(DB::raw(1))
+				->from('achievement_rewards')
+				->whereRaw('achievement_id = achievements.id')
+				->where('type', '=', 'item')
+				->where('entity_id', '=', $itemId);
+		});
+	}
+
 	public function getTotalPoints() {
 		$points = 0;
 

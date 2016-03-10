@@ -121,10 +121,26 @@
         @include( 'recipe.table', array( 'recipes' => $usedInCrafting ))
     @endif
 
-    @if( count( $achievements = Achievement::requiresItem($item->id)->get() ) > 0 )
+    <?php
+        $achievementObjective = Achievement::requiresItem($item->id)->get();
+        $achievementReward = Achievement::rewardsItem($item->id)->get();
+    ?>
+
+    @if(count($achievementObjective) + count($achievementReward) > 0)
         <h3>{{ trans('item.achievements.header') }}</h3>
+    @endif
+    @if(count($achievementObjective) > 0)
+        <p>{{ trans('item.achievements.required') }}</p>
         <ul class="itemList">
-            @foreach($achievements as $achievement)
+            @foreach($achievementObjective as $achievement)
+                <li>{{ $achievement->link(32) }}</li>
+            @endforeach
+        </ul>
+    @endif
+    @if(count($achievementReward) > 0)
+        <p>{{ trans('item.achievements.reward') }}</p>
+        <ul class="itemList">
+            @foreach($achievementReward as $achievement)
                 <li>{{ $achievement->link(32) }}</li>
             @endforeach
         </ul>

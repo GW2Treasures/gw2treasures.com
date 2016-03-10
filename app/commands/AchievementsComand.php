@@ -76,42 +76,57 @@ class AchievementsCommand extends Command {
         Achievement::chunk(500, function($achievements) {
             $ids = $achievements->lists('id');
 
-            $achievement_objectives =
-                (new Collection(DB::table('achievement_objectives')->whereIn('achievement_id', $ids)->get()))->groupBy('achievement_id');
+            $known = [
+                'objectives' => (new Collection(DB::table('achievement_objectives')->whereIn('achievement_id', $ids)->get()))->groupBy('achievement_id'),
+                'rewards' => (new Collection(DB::table('achievement_rewards')->whereIn('achievement_id', $ids)->get()))->groupBy('achievement_id')
+            ];
 
-            $insert = [];
+            $insert = [
+                'objectives' => [],
+                'rewards' => []
+            ];
 
             /** @var Achievement $achievement */
             foreach($achievements as $achievement) {
-                $objectives = isset($achievement->getData()->bits)
-                    ? $achievement->getData()->bits
-                    : [];
+                foreach(['objectives', 'rewards'] as $type) {
+                    $current = $type === 'objectives'
+                        ? ( isset($achievement->getData()->bits) ? $achievement->getData()->bits : [] )
+                        : ( isset($achievement->getData()->rewards) ? $achievement->getData()->rewards : []);
 
-                foreach($objectives as $objective) {
-                    if(in_array($objective->type, ['Item', 'Skin', 'Minipet'])) {
-                        $type = strtolower($objective->type);
-                        $isKnown = false;
-                        if($achievement_objectives->has($achievement->id)) {
-                            foreach($achievement_objectives[$achievement->id] as $knownObjective) {
-                                if($knownObjective->type == $type && $knownObjective->entity_id == $objective->id) {
-                                    $isKnown = true;
-                                    break;
+                    foreach($current as $entity) {
+                        if(in_array($entity->type, ['Item', 'Skin', 'Minipet'])) {
+                            $entityType = strtolower($entity->type);
+                            $isKnown = false;
+                            if($known[$type]->has($achievement->id)) {
+                                foreach($known[$type][$achievement->id] as $knownEntity) {
+                                    if($knownEntity->type == $entityType && $knownEntity->entity_id == $entity->id) {
+                                        $isKnown = true;
+                                        break;
+                                    }
                                 }
                             }
-                        }
-                        if(!$isKnown) {
-                            $insert[] = [
-                                'type' => $type,
-                                'entity_id' => $objective->id,
-                                'achievement_id' => $achievement->id
-                            ];
+
+                            if(!$isKnown) {
+                                $entityData = [
+                                    'type' => $entityType,
+                                    'entity_id' => $entity->id,
+                                    'achievement_id' => $achievement->id,
+                                ];
+                                if($type === 'rewards') {
+                                    $entityData['count'] = $entity->count;
+                                }
+                                $insert[$type][] = $entityData;
+                            }
                         }
                     }
                 }
             }
 
-            if(!empty($insert)) {
-                DB::table('achievement_objectives')->insert($insert);
+            if(!empty($insert['objectives'])) {
+                DB::table('achievement_objectives')->insert($insert['objectives']);
+            }
+            if(!empty($insert['rewards'])) {
+                DB::table('achievement_rewards')->insert($insert['rewards']);
             }
         });
 
@@ -125,7 +140,7 @@ class AchievementsCommand extends Command {
             return;
         }
 
-        $this->info('laoding '.$name);
+        $this->info('loading '.$name);
 
         $ids = $endpoint->ids();
 

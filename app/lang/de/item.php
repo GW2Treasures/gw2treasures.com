@@ -176,5 +176,7 @@ return array (
   'achievements' => 
   array (
     'header' => 'Erfolge',
+    'required' => 'Erforderlich für folgende Erfolge:',
+    'reward' => 'Belohnung für folgende Erfolge:',
   ),
 );

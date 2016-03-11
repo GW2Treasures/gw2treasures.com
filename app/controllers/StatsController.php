@@ -59,7 +59,8 @@ class StatsController extends BaseController {
 		return Cache::remember('stats.items.new.items.'.$start->format('Y-m-d'), $isCurrentWeek ? 30 : 60 * 24 * 7, function() use($start, $end) {
 			$days = new \Illuminate\Support\Collection();
 
-			$items = Item::where('date_added', '>', $start)->where('date_added', '<', $end)->with('unlocksSkin')->get();
+			$items = Item::where('date_added', '>', $start)->where('date_added', '<', $end)
+				->with('unlocksSkin')->orderBy('date_added', 'DESC')->get();
 
 			$items->each(function ($item) use ($days) {
 				$date = Carbon::parse($item->date_added)->startOfDay();
@@ -75,7 +76,7 @@ class StatsController extends BaseController {
 				$days[$key]->items[] = $item;
 			});
 
-			$days = $days->sortBy('date');
+			$days = $days->sortByDesc('date');
 
 			return $days;
 		});

@@ -34,4 +34,5 @@ return array (
     'facebook' => 'Share on Facebook',
     'reddit' => 'Submit to reddit',
   ),
+  'noNewItems' => 'No new items were added between :start and :end.',
 );

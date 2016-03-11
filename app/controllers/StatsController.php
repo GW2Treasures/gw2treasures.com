@@ -1,69 +1,153 @@
 <?php
 
+use Carbon\Carbon;
+
 class StatsController extends BaseController {
 	protected $layout = 'layout';
 
 	public function itemsNew( $language ) {
-		if( Cache::has( 'stats.items.new:' . $language ) && !isset( $_GET['nocache'] )) {
-			$this->layout->content = Cache::get( 'stats.items.new:' . $language );
-			$this->layout->cached = true;
+		$today = Carbon::today();
+
+		// TODO: make sure date is valid
+		if(Request::has('date')) {
+			$date = Carbon::createFromFormat('Y-m-d', Request::get('date'));
 		} else {
-			// SELECT WEEK(`date_added`), DAYOFWEEK(`date_added`), DATE(`date_added`), COUNT(*) FROM items WHERE `date_added` <> '0000-00-00 00:00:00' GROUP BY DATE(`date_added`) LIMIT 365
-
-			// UPDATE `gw2treasures`.`items` as t LEFT JOIN `konrad_gw2wBot`.`items` as b ON b.id = t.id SET t.`date_added` = b.added WHERE t.date_added > b.added AND b.added <> '0000-00-00 00:00:00'
-
-			/** TIMELINE **/
-			$newestDay = head( DB::select('SELECT DATE(`date_added`) as "date" FROM `items` WHERE `date_added` <> "0000-00-00 00:00:00" GROUP BY DATE(`date_added`) ORDER BY `date_added` DESC LIMIT 49,1' ))->date;
-
-			$items = Item::whereRaw('DATE(`date_added`) >= "'. $newestDay .'"')->orderBy('date_added', 'desc')->select('id', 'signature', 'file_id', 'date_added')->remember(60)->get();
-
-			$itemsGroupedByDate = array();
-			$lastDate = null;
-
-			foreach( $items as $item ) {
-				$date = new \Carbon\Carbon( $item->date_added );
-				if( $lastDate == null || $date->diff( $lastDate )->days > 0 ) {
-					$lastDate = $date;
-					$itemsGroupedByDate[] = array(
-						'items' => array(),
-						'date' => $date
-					);
-				}
-
-				$itemsGroupedByDate[ count( $itemsGroupedByDate ) - 1 ]['items'][] = $item;
-			}
-
-
-			/** TIMETABLE **/
-			$data = DB::select('SELECT 
-			                        ( YEAR(date_added) - YEAR(NOW()) + 1 ) * 52
-			                        + WEEK(date_added) - WEEK(NOW()) as x,
-			                        DAYOFWEEK(date_added) - 1 as y,
-			                        DATE(date_added) as date,
-			                        COUNT(*) as count
-			                    FROM items 
-			                    WHERE 
-			                        date_added > (now() - interval 1 year) 
-			                    GROUP BY DATE(date_added)
-			                    ORDER BY date_added DESC
-			                    LIMIT 365');
-
-			$dataTable = array();
-			foreach( $data as $record ) {
-				if( !isset( $dataTable[ $record->y ] )) {
-					$dataTable[ $record->y ] = array();
-				}
-				$dataTable[ $record->y ][ $record->x ] = $record;
-			}
-
-			$content = View::make( 'stats.items.new' )
-				->with( 'items', $itemsGroupedByDate )
-				->with( 'table', $dataTable )
-				->render();
-			Cache::put( 'stats.items.new:' . $language, $content, 30 );
-			$this->layout->content = $content;
+			$date = $today;
 		}
+
+		// get dates
+
+		$start = $date->copy()->startOfWeek();
+		$end = $date->copy()->endOfWeek();
+
+		$startPrev = $start->copy()->subWeek();
+		$endPrev = $end->copy()->subWeek();
+
+		$startNext = $start->copy()->addWeek();
+		$endNext = $end->copy()->addWeek();
+
+		$canShowNextWeek = $today->gte($startNext);
+
+
+		// get items
+
+		$days = $this->getItems($start, $end);
+
+
+		// get dropdown
+		$dropdown = $this->getDropdownValues();
+
+		$this->layout->content = View::make('stats.items.new')
+			->with(compact('today', 'start', 'end', 'startPrev', 'endPrev', 'startNext', 'endNext', 'canShowNextWeek', 'days'))
+			->with($dropdown);
 			
 		$this->layout->title = trans( 'stats.newItems' );
+		$this->layout->canonical = route('stats.items.new', [App::getLocale(), 'date' => $start->format('Y-m-d')]);
+		$this->layout->fullWidth = true;
+	}
+
+	/**
+	 * @param Carbon $start
+	 * @param Carbon $end
+	 * @return $this|\Illuminate\Support\Collection
+	 */
+	private function getItems($start, $end)
+	{
+		$today = Carbon::today();
+		$isCurrentWeek = $end->gte($today) && $start->lte($today);
+
+		return Cache::remember('stats.items.new.items.'.$start->format('Y-m-d'), $isCurrentWeek ? 30 : 60 * 24 * 7, function() use($start, $end) {
+			$days = new \Illuminate\Support\Collection();
+
+			$items = Item::where('date_added', '>', $start)->where('date_added', '<', $end)->with('unlocksSkin')->get();
+
+			$items->each(function ($item) use ($days) {
+				$date = Carbon::parse($item->date_added)->startOfDay();
+				$key = $date->format('Y-m-d');
+
+				if (!$days->offsetExists($key)) {
+					$days[$key] = (object)[
+						'date' => $date,
+						'items' => []
+					];
+				}
+
+				$days[$key]->items[] = $item;
+			});
+
+			$days = $days->sortBy('date');
+
+			return $days;
+		});
+	}
+
+	/**
+	 * @return array
+	 */
+	private function getDropdownValues()
+	{
+		return Cache::remember('stats.items.dropdown', 60 * 24, function() {
+			$today = Carbon::today();
+
+			$stats = DB::table('items')
+				->where('date_added', '!=', '0000-00-00 00:00:00')
+				->groupBy(DB::raw('DATE(`date_added`)'))
+				->select(['date_added', DB::raw('COUNT(*) as count')])->get();
+			$stats = new \Illuminate\Support\Collection($stats);
+
+			$dropDown = new \Illuminate\Support\Collection();
+
+			$oldest = $today;
+			$maxPerDay = 0;
+
+			$stats->each(function ($stats) use ($dropDown, &$oldest, &$maxPerDay) {
+				$date = Carbon::parse($stats->date_added)->startOfDay();
+				$week = $date->copy()->startOfWeek();
+				$key = $week->format('Y-m-d');
+
+				if ($week < $oldest) {
+					$oldest = $week->copy();
+				}
+				if ($stats->count > $maxPerDay) {
+					$maxPerDay = $stats->count;
+				}
+
+				if (!$dropDown->has($key)) {
+					$dropDown[$key] = (object)[
+						'start' => $week,
+						'end' => $week->copy()->endOfWeek(),
+						'days' => []
+					];
+				}
+
+				$dropDown[$key]->days[$date->format('Y-m-d')] = $stats->count;
+			});
+
+			// fill in blanks
+			for ($i = $oldest->copy(); $i <= $today;) {
+				$key = $i->format('Y-m-d');
+
+				if (!$dropDown->has($key)) {
+					$dropDown[$key] = (object)[
+						'start' => $i->copy(),
+						'end' => $i->copy()->endOfWeek(),
+						'days' => []
+					];
+				}
+
+				for ($j = 0; $j < 7; $j++, $i->addDay()) {
+					$dayKey = $i->format('Y-m-d');
+					if (!array_key_exists($dayKey, $dropDown[$key]->days)) {
+						$dropDown[$key]->days[$dayKey] = 0;
+					}
+				}
+
+				ksort($dropDown[$key]->days);
+			}
+
+			$dropDown = $dropDown->sortByDesc('start');
+
+			return compact('dropDown', 'maxPerDay');
+		});
 	}
 }

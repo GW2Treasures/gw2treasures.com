@@ -34,4 +34,5 @@ return array (
     'facebook' => 'Auf Facebook teilen',
     'reddit' => 'Bei reddit einreichen',
   ),
+  'noNewItems' => 'Zwischen dem :start und dem :end wurden keine neuen Gegenstände hinzugefügt.',
 );

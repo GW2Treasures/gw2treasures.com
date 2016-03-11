@@ -86,7 +86,7 @@
 	.date-selector__content__current__button {
 		cursor: pointer;
 		width: 100%;
-		max-height: 350px;
+		max-width: 350px;
 		display: inline-block;
 		height: 48px;
 	}

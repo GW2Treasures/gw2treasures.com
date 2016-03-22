@@ -174,6 +174,7 @@
 		max-height: calc(100vh - 200px);
 
 		overflow-y: auto;
+		-webkit-overflow-scrolling: touch;
 		cursor: default;
 
 		display: none;

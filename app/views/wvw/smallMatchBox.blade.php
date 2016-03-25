@@ -10,10 +10,10 @@
 			<dt><a href="{{ URL::route('wvw.world', array( App::getLocale(), $match->worlds[ $world ]->id )) }}"{{ isset( $embedded ) ? ' target="_parent"' : '' }}>
 				{{ $isHomeworld ? '<i class="sprite-16-homeworld"></i> ' : '' }}{{ $match->worlds[ $world ]->getName() }}</a></dt>
 			<dd class="score"><span class="scoreBarLabel">{{ number_format( $match->score[ $world ], 0, '.', ' ' ) }}</span>
-				<div class="scoreBar {{ $cssClass[ $world ] }}" style="width:{{ $match->score[ $world ] / $maxScore * 100 }}%">&nbsp;</div>
+				<div class="scoreBar {{ $cssClass[ $world ] }}" style="width:{{ $maxScore > 0 ? $match->score[ $world ] / $maxScore * 100 : 0 }}%">&nbsp;</div>
 			</dd>
 			<dd class="income"><span class="scoreBarLabel">+{{ $match->income[ $world ] }}</span>
-				<div class="scoreBar {{ $cssClass[ $world ] }}" style="width:{{ $match->income[ $world ] / $maxIncome * 100 }}%">&nbsp;</div>
+				<div class="scoreBar {{ $cssClass[ $world ] }}" style="width:{{ $maxIncome > 0 ? $match->income[ $world ] / $maxIncome * 100 : 0 }}%">&nbsp;</div>
 			</dd>
 			<dd class="objectives">
 				<span>{{ $match->objectiveCounts[ $world ][ Objective::TYPE_CAMP   ] }}</span>

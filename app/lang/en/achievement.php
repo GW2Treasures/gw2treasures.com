@@ -10,6 +10,7 @@ return array (
   array (
     'header' => 'Tiers',
     'objectivesCompleted' => ':count objectives completed',
+    'total' => 'Total',
   ),
   'rewards' => 
   array (

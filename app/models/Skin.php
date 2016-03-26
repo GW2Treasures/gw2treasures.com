@@ -23,7 +23,13 @@ class Skin extends BaseModel {
 	}
 
 	protected function getAdditionalLinkAttributes(array $defaults = []) {
-		return ['data-skin-id' => $this->id];
+		$attributes = [ 'data-skin-id' => $this->id ];
+
+		if(isset($this->getData()->rarity)) {
+			$attributes['class'] = $defaults['class'].' border-'.$this->getData()->rarity;
+		}
+
+		return $attributes;
 	}
 
 	public function getUrl( $lang = null ) {

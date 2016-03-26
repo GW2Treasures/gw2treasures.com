@@ -1,5 +1,5 @@
 .achievementDetails {
-    margin-top: 12px;
+    padding-top: 12px;
 }
 
 .achievement__points {
@@ -8,10 +8,6 @@
     top: 26px;
     right: 20px;
     font-size: 16px;
-}
-
-.achievement__breadcrumbs {
-    margin: 8px 0;
 }
 
 .achievement__description {
@@ -24,6 +20,20 @@
 
     & > li + li {
         margin-top: 8px;
+    }
+}
+
+.achievement__tiers__total {
+    position: relative;
+    padding-top: 8px;
+
+    &::before {
+        content: '';
+        width: 50px;
+        border-top: 1px solid #ccc;
+        display: block;
+        position: absolute;
+        top: 0;
     }
 }
 

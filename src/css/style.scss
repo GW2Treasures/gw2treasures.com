@@ -442,10 +442,6 @@ html.js .only-no-js, html.no-js .only-js { display:none; }
         }
     }
 
-    &.skinHeader > .pageWidth {
-        padding-right: 20px;
-    }
-
     .icon {
         position: absolute;
         top: 10px;
@@ -458,7 +454,7 @@ html.js .only-no-js, html.no-js .only-js { display:none; }
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-        margin: 2px 0 8px;
+        margin: 2px 0 4px;
         display: inline-block;
         max-width: 100%;
 
@@ -494,30 +490,23 @@ html.js .only-no-js, html.no-js .only-js { display:none; }
             }
         }
     }
+}
 
-    .lang {
-        color: #bbb;
-        font: 11px/1.4 'Open Sans';
-        display: inline-block;
-        max-width: 33%;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        float: left;
+.details__breadcrumb {
+    color: #222;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 
-        a {
-            color: #666;
-        }
-
-        + .lang {
-            padding-left: 10px;
-        }
+    a {
+        color: #222;
     }
 
-    .langCode {
-        color: #666;
-        font-weight: bold;
-        text-transform: uppercase;
+    svg {
+        width: 12px;
+        height: 12px;
+        vertical-align: -2px;
+        fill: #888;
     }
 }
 
@@ -597,7 +586,19 @@ $rare:       #f4c900;
         outline: none;
     }
 
-    img { margin-right: 0.5em; }
+    img {
+        margin-right: 0.5em;
+        //position: relative;
+
+        &:before {
+            content: '';
+            position: absolute;
+            top: 0; bottom: 0;
+            left: 0; right: 0;
+            background-color: #eaeaea;
+            display: block;
+        }
+    }
 }
 
 .item-link-16 {
@@ -1664,6 +1665,20 @@ i.loading {
     dt { clear: both; font-weight: bold; }
     dd { margin: 0 0 8px 0; }
     .money { float: right; }
+}
+
+.lang {
+    margin-bottom: 8px;
+    padding-left: 25px;
+}
+
+.langCode {
+    color: #888;
+    font-weight: bold;
+    text-transform: uppercase;
+    width: 25px;
+    margin-left: -25px;
+    float: left;
 }
 
 

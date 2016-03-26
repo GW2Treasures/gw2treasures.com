@@ -9,6 +9,7 @@ return array (
     'en' => 'English',
     'es' => 'Spanish',
     'fr' => 'French',
+    'zh' => 'Chinese',
   ),
   'cookies' => 'By using this site you accept the use of <strong>Cookies</strong> and <strong>HTML5 Local Storage</strong> to improve your experience. <a href="/about">Find out more</a>.',
 );

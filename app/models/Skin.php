@@ -33,6 +33,10 @@ class Skin extends BaseModel {
 		return URL::route( 'skin.details', array( 'language' => $lang, 'skin' => $this->id ) );
 	}
 
+	public function getChatLink() {
+		return Chatlink::Encode( Chatlink::TYPE_SKIN, $this->id )->chatlink;
+	}
+
 	public function items() {
 		return $this->hasMany( 'Item', 'skin_id' );
 	}

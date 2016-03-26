@@ -59,4 +59,31 @@
             <li>{{ $item->link(32) }}
         @endforeach
     </ul>
+
+	<?php
+		$achievementObjective = Achievement::requiresSkin($skin->id)->get();
+		$achievementReward = Achievement::rewardsSkin($skin->id)->get();
+
+		$achievementCount = count($achievementObjective) + count($achievementReward);
+	?>
+
+	@if($achievementCount > 0)
+		<h3{{ $achievementCount >= 8 ? ' style="clear:both"' : '' }}>{{ trans('item.achievements.header') }}</h3>
+	@endif
+	@if(count($achievementObjective) > 0)
+		<p>{{ trans('item.achievements.required') }}</p>
+		<ul class="itemList">
+			@foreach($achievementObjective as $achievement)
+				<li>{{ $achievement->link(32) }}</li>
+			@endforeach
+		</ul>
+	@endif
+	@if(count($achievementReward) > 0)
+		<p>{{ trans('item.achievements.reward') }}</p>
+		<ul class="itemList">
+			@foreach($achievementReward as $achievement)
+				<li>{{ $achievement->link(32) }}</li>
+			@endforeach
+		</ul>
+	@endif
 </div>

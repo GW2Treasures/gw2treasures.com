@@ -38,31 +38,69 @@ class Achievement extends BaseModel {
 
 	/**
 	 * @param Illuminate\Database\Query\Builder $query
-	 * @param $itemId
-	 * @return mixed
+	 * @param int $itemId
+	 * @return \Illuminate\Database\Query\Builder
 	 */
 	public function scopeRequiresItem($query, $itemId) {
-		return $query->whereExists(function($query) use ($itemId) {
-			$query->select(DB::raw(1))
-				->from('achievement_objectives')
-				->whereRaw('achievement_id = achievements.id')
-				->where('type', '=', 'item')
-				->where('entity_id', '=', $itemId);
-		});
+		return $this->scopeRequiresByType($query, 'item', $itemId);
 	}
 
 	/**
 	 * @param Illuminate\Database\Query\Builder $query
-	 * @param $itemId
-	 * @return mixed
+	 * @param int $itemId
+	 * @return \Illuminate\Database\Query\Builder
 	 */
 	public function scopeRewardsItem($query, $itemId) {
-		return $query->whereExists(function($query) use ($itemId) {
+		return $this->scopeRewardsByType($query, 'item', $itemId);
+	}
+
+	/**
+	 * @param Illuminate\Database\Query\Builder $query
+	 * @param int $itemId
+	 * @return \Illuminate\Database\Query\Builder
+	 */
+	public function scopeRequiresSkin($query, $itemId) {
+		return $this->scopeRequiresByType($query, 'skin', $itemId);
+	}
+
+	/**
+	 * @param Illuminate\Database\Query\Builder $query
+	 * @param int $itemId
+	 * @return \Illuminate\Database\Query\Builder
+	 */
+	public function scopeRewardsSkin($query, $itemId) {
+		return $this->scopeRewardsByType($query, 'skin', $itemId);
+	}
+
+	/**
+	 * @param \Illuminate\Database\Query\Builder $query
+	 * @param string $type
+	 * @param int $id
+	 * @return \Illuminate\Database\Query\Builder
+	 */
+	public function scopeRequiresByType($query, $type, $id) {
+		return $query->whereExists(function($query) use ($type, $id) {
+			$query->select(DB::raw(1))
+				->from('achievement_objectives')
+				->whereRaw('achievement_id = achievements.id')
+				->where('type', '=', $type)
+				->where('entity_id', '=', $id);
+		});
+	}
+
+	/**
+	 * @param \Illuminate\Database\Query\Builder $query
+	 * @param string $type
+	 * @param int $id
+	 * @return \Illuminate\Database\Query\Builder
+	 */
+	public function scopeRewardsByType($query, $type, $id) {
+		return $query->whereExists(function($query) use ($type, $id) {
 			$query->select(DB::raw(1))
 				->from('achievement_rewards')
 				->whereRaw('achievement_id = achievements.id')
-				->where('type', '=', 'item')
-				->where('entity_id', '=', $itemId);
+				->where('type', '=', $type)
+				->where('entity_id', '=', $id);
 		});
 	}
 

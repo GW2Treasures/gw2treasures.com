@@ -2,18 +2,19 @@
     <div class="pageWidth">
         <img class="icon" width="64" height="64" src="{{ $item->getIconUrl() }}" alt="">
         <h2 class="color-{{ $item->rarity }}"><div aria-hidden="true" class="overflow">{{ $item->getName() }}</div>{{ $item->getName() }}</h2>
-        <nav>
-            @if( App::getLocale() != 'de' )
-                <div class="lang"><span title="Deutsch"  class="langCode">DE</span> <a rel="alternate" hreflang="de" href="{{ $item->getUrl('de') }}" data-item-id="{{ $item->id }}">{{ $item->getName( 'de' ) }}</a></div>
-            @endif
-            @if( App::getLocale() != 'en' )
-                <div class="lang"><span title="English"  class="langCode">EN</span> <a rel="alternate" hreflang="en" href="{{ $item->getUrl('en') }}" data-item-id="{{ $item->id }}">{{ $item->getName( 'en' ) }}</a></div>
-            @endif
-            @if( App::getLocale() != 'es' )
-                <div class="lang"><span title="Español"  class="langCode">ES</span> <a rel="alternate" hreflang="es" href="{{ $item->getUrl('es') }}" data-item-id="{{ $item->id }}">{{ $item->getName( 'es' ) }}</a></div>
-            @endif
-            @if( App::getLocale() != 'fr' )
-                <div class="lang"><span title="Français" class="langCode">FR</span> <a rel="alternate" hreflang="fr" href="{{ $item->getUrl('fr') }}" data-item-id="{{ $item->id }}">{{ $item->getName( 'fr' ) }}</a></div>
+        <nav class="details__breadcrumb">
+            <strong><a href="{{ route('search', App::getLocale()) }}">{{ trans('header.items') }}</a></strong>
+            <svg fill="#000000" height="12" viewBox="0 0 24 24" width="12" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+            </svg> {{ trans('item.type.'.$item->type) }}
+            @if( isset($item->getTypeData()->type) )
+                <svg fill="#000000" height="12" viewBox="0 0 24 24" width="12" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+                </svg> {{ trans( 'item.subtype.' . $item->type . '.' . $item->getTypeData()->type ) }}
+            @elseif( $item->sub_type != '' )
+                <svg fill="#000000" height="12" viewBox="0 0 24 24" width="12" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+                </svg> {{ trans( 'item.subtype.' . $item->type . '.' . $item->subtype ) }}
             @endif
         </nav>
     </div>
@@ -23,6 +24,20 @@
     {{ $item->getTooltip() }}
 
     <div class="sidebar">
+        @if( App::getLocale() != 'de' )
+            <div class="lang"><span title="Deutsch"  class="langCode">DE</span> <a rel="alternate" hreflang="de" href="{{ $item->getUrl('de') }}" data-item-id="{{ $item->id }}">{{ $item->getName( 'de' ) }}</a></div>
+        @endif
+        @if( App::getLocale() != 'en' )
+            <div class="lang"><span title="English"  class="langCode">EN</span> <a rel="alternate" hreflang="en" href="{{ $item->getUrl('en') }}" data-item-id="{{ $item->id }}">{{ $item->getName( 'en' ) }}</a></div>
+        @endif
+        @if( App::getLocale() != 'es' )
+            <div class="lang"><span title="Español"  class="langCode">ES</span> <a rel="alternate" hreflang="es" href="{{ $item->getUrl('es') }}" data-item-id="{{ $item->id }}">{{ $item->getName( 'es' ) }}</a></div>
+        @endif
+        @if( App::getLocale() != 'fr' )
+            <div class="lang"><span title="Français" class="langCode">FR</span> <a rel="alternate" hreflang="fr" href="{{ $item->getUrl('fr') }}" data-item-id="{{ $item->id }}">{{ $item->getName( 'fr' ) }}</a></div>
+        @endif
+
+
         <h3>@lang('misc.tradingpost.header')</h3>
         <a target="_blank" onclick="outbound(this)" href="https://www.gw2spidy.com/item/{{ $item->id }}">Guild Wars 2 Spidy</a>
 

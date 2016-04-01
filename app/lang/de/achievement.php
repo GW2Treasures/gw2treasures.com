@@ -11,6 +11,7 @@ return array (
   array (
     'header' => 'Ränge',
     'objectivesCompleted' => ':count Ziele abgeschlossen',
+    'total' => 'Gesamt',
   ),
   'objectives' => 
   array (
@@ -19,7 +20,7 @@ return array (
   'daily' => 
   array (
     'header' => 'Tägliche Erfolge',
-    'reset' => 'Reset in :reset',
+    'reset' => 'Reset: :reset',
     'type' => 
     array (
       'pve' => 'PvE',

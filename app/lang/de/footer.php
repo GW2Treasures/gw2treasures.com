@@ -34,4 +34,5 @@ return array (
     'overview' => 'Alle Erfolge',
   ),
   'sourcecode' => 'Quellcode',
+  'chinese' => 'Chinesisch',
 );

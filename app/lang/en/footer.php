@@ -34,4 +34,5 @@ return array (
     'daily' => 'Todays daily achievements',
   ),
   'sourcecode' => 'Sourcecode',
+  'chinese' => 'Chinese',
 );

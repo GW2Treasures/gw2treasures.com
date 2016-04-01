@@ -1,21 +1,22 @@
-<?php
-	$types = array();
-	foreach( $skins as $skin ) {
-		$type = isset( $skin->getTypeData()->type )
-		         ? $skin->getTypeData()->type
-		         : $skin->type;
+<h2>
+	<a href="{{ route('skin', App::getLocale()) }}">{{ trans('skin.breadcrumb') }}</a>
+	/ {{ trans('item.type.'.$type->type) }}
+	/ {{ $subtype !== 'Back' ? trans( 'item.subtype.'.$type->type.'.'.$subtype->subtype ) : trans('item.type.Back') }}
+</h2>
 
-		if( !isset( $types[ $type ] ) ) {
-			$types[ $type ] = array();
-		}
-		$types[ $type ][] = $skin;
-	}
-	ksort( $types );
-?>
-
-@foreach( $types as $type => $skins )
-	<h2>{{ trans( 'skin.type.' . $type ) }}</h2>
-	@foreach( $skins as $skin )
-		<a href="{{ URL::route('skin.details', array( App::getLocale(), $skin->id )) }}"><img src="{{ $skin->getIconUrl(32) }}" srcset="{{ $skin->getIconUrl(32) }} 1x, {{ $skin->getIconUrl(64) }} 2x" width="32" height="32" title="{{ $skin->getName() }}"></a>
+@if($type->type === 'Armor' && $subtype !== 'Back')
+	@foreach($skins->groupBy(function($skin) { return $skin->getTypeData()->weight_class; }) as $weight => $skinsByWeight)
+		<h3>{{ trans('item.weight.'.$weight) }}</h3>
+		<ul class="itemList">
+			@foreach($skinsByWeight as $skin)
+				<li>{{ $skin->link(32) }}</li>
+			@endforeach
+		</ul>
 	@endforeach
-@endforeach
+@else
+	<ul class="itemList">
+		@foreach($skins as $skin)
+			<li>{{ $skin->link(32) }}</li>
+		@endforeach
+	</ul>
+@endif

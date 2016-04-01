@@ -146,6 +146,10 @@ Route::group( array(
             'uses' => 'SkinController@overview'
         ));
 
+        Route::get('skins', function() {
+            return Redirect::route('skin', App::getLocale());
+        });
+
         Route::get('skin/armor', array(
             'as' => 'skin.armor',
             'uses' => 'SkinController@armor'
@@ -160,6 +164,12 @@ Route::group( array(
             'as' => 'skin.details',
             'uses' => 'SkinController@details'
         ));
+
+        Route::get('skin/{type}/{subtype}', [
+            'as' => 'skin.byType',
+            'uses' => 'SkinController@byType'
+        ]);
+
 
         //================================
         // Achievements

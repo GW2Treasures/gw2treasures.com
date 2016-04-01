@@ -5,12 +5,9 @@
 				<?php $infusion_item = Item::find( $infusion->item_id ); ?>
 				<li>
 					@if( !is_null( $infusion_item ))
-						<a href="{{ $infusion_item->getUrl() }}">
-							<img src="{{ $infusion_item->getIconUrl( 16 ) }}" width="16" height="16" alt="">
-							{{ $infusion_item->getName() }}
-						</a>
+						{{ $infusion_item->link(16) }}
 					@else
-						<span style="font-style: italic">???</span>
+						<span style="font-style: italic">Unknown infusion ({{ $infusion->item_id }})</span>
 					@endif
 			@else
 				@if( in_array( 'Defense', $infusion->flags ) )

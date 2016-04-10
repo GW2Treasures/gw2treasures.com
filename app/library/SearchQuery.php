@@ -15,6 +15,9 @@ class SearchQuery {
         $this->searchTerm = $searchTerm;
     }
 
+    /**
+     * @return Builder
+     */
     public function getQuery() {
         // search terms
         $query = Item::where(function($query) {

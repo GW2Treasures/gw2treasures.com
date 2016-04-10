@@ -91,41 +91,22 @@ class ItemController extends BaseController {
     public function searchAutocomplete( $language ) {
         $searchTerm = trim( Input::get('q') );
 
-        try {
-            $chatlink = \GW2Treasures\GW2Tools\Chatlinks\Chatlink::decode($searchTerm);
-        } catch(Exception $e) {
-            $chatlink = false;
-        }
-
-        $items = [];
-
-        if($chatlink !== false ) {
-            if($chatlink instanceof ItemChatlink) {
-                $itemstack = $chatlink->getItemStack();
-                $ids = $itemstack->upgrades;
-                $ids[] = $itemstack->id;
-                $items = Item::whereIn('id', $ids)->get();
-            } elseif($chatlink instanceof RecipeChatlink) {
-                $items = [Recipe::find($chatlink->getId())->output];
-            }
-        } else {
-            $items = Item::search( $searchTerm )->take( 10 )->get();
-        }
+        $searchQuery = new SearchQuery($searchTerm);
 
         $response = new stdClass();
-        $response->items = array();
+        $response->items = [];
 
-        foreach ( $items as $item ) {
+        foreach ($searchQuery->getQuery()->take(10)->get() as $item ) {
             if( is_null($item) ) {
                 continue;
             }
-            $i = new stdClass();
-            $i->id = $item->id;
-            $i->name = $item->getName();
-            $i->icon16 = $item->getIconUrl(16);
-            $i->icon32 = $item->getIconUrl(32);
-            $i->icon64 = $item->getIconUrl(64);
-            $response->items[] = $i;
+            $response->items[] = [
+                'id' => $item->id,
+                'name' => $item->getName(),
+                'icon16' => $item->getIconUrl(16),
+                'icon32' => $item->getIconUrl(32),
+                'icon64' => $item->getIconUrl(64)
+            ];
         }
 
         return Response::json( $response );

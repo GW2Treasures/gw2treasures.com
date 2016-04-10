@@ -1,5 +1,9 @@
 <?php
 
+use GW2Treasures\GW2Tools\Chatlinks\ItemChatlink;
+use GW2Treasures\GW2Tools\Chatlinks\RecipeChatlink;
+use GW2Treasures\GW2Tools\Chatlinks\SkinChatlink;
+
 class ItemController extends BaseController {
     /** @var \Illuminate\View\View|stdClass $layout  */
     protected $layout = 'layout';
@@ -66,16 +70,14 @@ class ItemController extends BaseController {
                 }
             }
 
-            // chatlink
-            if(( $chatlink = Chatlink::TryDecode( $searchTerm )) !== false ) {
-                switch( $chatlink->type ) {
-                    case Chatlink::TYPE_ITEM:
-                        return Redirect::route( 'itemdetails', array( $language, $chatlink->id ));
-                    case Chatlink::TYPE_RECIPE:
-                        $recipe = Recipe::find( $chatlink->id );
-                        $url = URL::route( 'itemdetails', [ $language, $recipe->output_id ]) . '#r' . $chatlink->id;
-                        return Redirect::to( $url );
-                }
+            try {
+                $chatlink = \GW2Treasures\GW2Tools\Chatlinks\Chatlink::decode($searchTerm);
+            } catch (Exception $e) {
+                $chatlink = false;
+            }
+
+            if($chatlink instanceof SkinChatlink) {
+                return Redirect::route('skin.details', [$language, $chatlink->getId()]);
             }
         }
 
@@ -89,15 +91,22 @@ class ItemController extends BaseController {
     public function searchAutocomplete( $language ) {
         $searchTerm = trim( Input::get('q') );
 
-        if(( $chatlink = Chatlink::TryDecode( $searchTerm )) !== false ) {
-            switch( $chatlink->type ) {
-                case Chatlink::TYPE_ITEM:
-                    $items = array( Item::find( $chatlink->id ));
-                    break;
-                case Chatlink::TYPE_RECIPE:
-                    $recipe = Recipe::find( $chatlink->id );
-                    $items = array( Item::find( $recipe->output_id ));
-                    break;
+        try {
+            $chatlink = \GW2Treasures\GW2Tools\Chatlinks\Chatlink::decode($searchTerm);
+        } catch(Exception $e) {
+            $chatlink = false;
+        }
+
+        $items = [];
+
+        if($chatlink !== false ) {
+            if($chatlink instanceof ItemChatlink) {
+                $itemstack = $chatlink->getItemStack();
+                $ids = $itemstack->upgrades;
+                $ids[] = $itemstack->id;
+                $items = Item::whereIn('id', $ids)->get();
+            } elseif($chatlink instanceof RecipeChatlink) {
+                $items = [Recipe::find($chatlink->getId())->output];
             }
         } else {
             $items = Item::search( $searchTerm )->take( 10 )->get();

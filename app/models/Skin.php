@@ -1,5 +1,7 @@
 <?php
 
+use GW2Treasures\GW2Tools\Chatlinks\SkinChatlink;
+
 class Skin extends BaseModel {
 	use HasLocalizedData, HasIcon, HasLink;
 
@@ -40,7 +42,7 @@ class Skin extends BaseModel {
 	}
 
 	public function getChatLink() {
-		return Chatlink::Encode( Chatlink::TYPE_SKIN, $this->id )->chatlink;
+		return (new SkinChatlink($this->id))->encode();
 	}
 
 	public function items() {

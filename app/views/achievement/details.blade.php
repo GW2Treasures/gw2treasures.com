@@ -72,7 +72,7 @@
 								<li class="achievement__objective--item">{{ $bit->item->link(32) }}</li>
 							@else
 								<li class="achievement__objective--text">Unknown item <span class="chatlink--inline">{{
-									Chatlink::Encode(Chatlink::TYPE_ITEM, $bit->id)->chatlink
+									(new \GW2Treasures\GW2Tools\Chatlinks\ItemChatlink(\GW2Treasures\GW2Tools\Common\ItemStack::fromArray(['id' => $bit->id])))->encode();
 								}}</span></li>
 							@endif
 						@elseif($bit->type === 'Skin')
@@ -80,8 +80,8 @@
 								<li class="achievement__objective--skin">{{ $bit->skin->link(32) }}</li>
 							@else
 								<li class="achievement__objective--text">Unknown skin <span class="chatlink--inline">{{
-								Chatlink::Encode(Chatlink::TYPE_SKIN, $bit->id)->chatlink
-							}}</span></li>
+									(new \GW2Treasures\GW2Tools\Chatlinks\SkinChatlink($bit->id))->encode();
+								}}</span></li>
 							@endif
 						@elseif($bit->type === 'Minipet')
 							<li class="achievement__objective--text">Collect unknown minipet</li>
@@ -118,7 +118,7 @@
 							}}</li>
 						@else
 							<li class="achievement__reward--unknown">Unknown item <span class="chatlink--inline">{{
-								Chatlink::Encode(Chatlink::TYPE_ITEM, $reward->id)->chatlink
+								(new \GW2Treasures\GW2Tools\Chatlinks\ItemChatlink(\GW2Treasures\GW2Tools\Common\ItemStack::fromArray(['id' => $reward->id])))->encode();
 							}}</span></li>
 						@endif
 					@elseif($reward->type === 'Mastery')

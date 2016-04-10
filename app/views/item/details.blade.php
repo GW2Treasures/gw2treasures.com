@@ -112,7 +112,7 @@
         @endif
     @elseif( $item->unlock_type == 'CraftingRecipe' && strpos($item->getName('en'), 'Recipe: ') === 0 )
         <h3>{{ trans('item.unlocks') }}</h3>
-        <p>{{ trans('item.unlocksUnknownRecipe', ['chatlink' => Chatlink::Encode(Chatlink::TYPE_RECIPE, $item->getTypeData()->recipe_id)->chatlink]) }}</p>
+        <p>{{ trans('item.unlocksUnknownRecipe', ['chatlink' => (new \GW2Treasures\GW2Tools\Chatlinks\RecipeChatlink($item->getTypeData()->recipe_id))->encode()]) }}</p>
         <ul class="itemList">
             @foreach( $unlockedItems = Item::whereNameEn( substr($item->getName('en'), strlen('Recipe: ')) )->get() as $unlockedItem )
                 <li>{{ $unlockedItem->link(32) }}</li>
@@ -127,7 +127,7 @@
         @endforeach
     @elseif( !is_null( $recipe = Item::whereNameEn('Recipe: '.$item->getName('en'))->first() ))
         <h3>{{ trans('item.craftedFrom') }}</h3>
-        <p>{{ trans('item.craftedFromUnknownRecipe', ['chatlink' => Chatlink::Encode(Chatlink::TYPE_RECIPE, $recipe->getTypeData()->recipe_id)->chatlink]) }}</p>
+        <p>{{ trans('item.craftedFromUnknownRecipe', ['chatlink' => (new \GW2Treasures\GW2Tools\Chatlinks\RecipeChatlink($recipe->getTypeData()->recipe_id))->encode()]) }}</p>
         {{ $recipe->link(32) }}
     @endif
 

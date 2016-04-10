@@ -1,5 +1,8 @@
 <?php
 
+use GW2Treasures\GW2Tools\Chatlinks\Chatlink;
+use GW2Treasures\GW2Tools\Chatlinks\ItemChatlink;
+use GW2Treasures\GW2Tools\Chatlinks\RecipeChatlink;
 use Illuminate\Database\Query\Builder;
 
 class SearchQuery {
@@ -28,6 +31,27 @@ class SearchQuery {
             }
             return $query;
         });
+
+        $additionalItems = [];
+        foreach($this->splitSearchTerms() as $searchTerm) {
+            try {
+                $chatlink = Chatlink::decode($searchTerm);
+            } catch (Exception $e) {
+                $chatlink = false;
+            }
+
+            if($chatlink instanceof ItemChatlink) {
+                $itemStack = $chatlink->getItemStack();
+                $additionalItems[] = $itemStack->id;
+                foreach($itemStack->upgrades as $upgrade) {
+                    $additionalItems[] = $upgrade;
+                }
+            } elseif($chatlink instanceof RecipeChatlink) {
+                $additionalItems[] = Recipe::remember(3)->find($chatlink->getId())->output_id;
+            }
+        }
+
+        $query->orWhereIn('id', $additionalItems);
 
         return $query->remember(3);
     }

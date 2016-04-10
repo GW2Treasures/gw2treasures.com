@@ -1,4 +1,6 @@
 <?php
+use GW2Treasures\GW2Tools\Chatlinks\ItemChatlink;
+use GW2Treasures\GW2Tools\Common\ItemStack;
 
 /**
  * Class Item
@@ -258,7 +260,7 @@ class Item extends BaseModel {
      * @throws Exception
      */
     public function getChatLink() {
-        return Chatlink::Encode( Chatlink::TYPE_ITEM, $this->id )->chatlink;
+        return (new ItemChatlink(ItemStack::fromArray(['id' => $this->id])))->encode();
     }
 
     //---- Relations

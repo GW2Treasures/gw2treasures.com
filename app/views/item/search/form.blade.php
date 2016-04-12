@@ -2,11 +2,11 @@
     <div class="pageWidth">
         {{ Form::open( [ 'method' => 'GET', 'route' => ['search', App::getLocale() ]] ) }}
 
-        <h2>Search</h2>
+        <h2>{{ trans('header.search.label') }}</h2>
 
         <div class="search-box__main-input clearfix">
-            {{ Form::text( 'q', $query->searchTerm, ['placeholder' => 'Search', 'class' => 'search-box__main-input__input', 'id' => 'searchInput' ]) }}
-            <input type="submit" value="Search" class="search-box__main-input__button" />
+            {{ Form::text( 'q', $query->searchTerm, ['placeholder' => trans('header.search.label'), 'class' => 'search-box__main-input__input', 'id' => 'searchInput' ]) }}
+            <input type="submit" value="{{ trans('header.search.label') }}" class="search-box__main-input__button" />
         </div>
         {{ Form::close() }}
     </div>
@@ -26,6 +26,7 @@
     .search-box__main-input__input {
         float: left;
         width: calc(100% - 200px);
+        min-width: 66%;
 
         font: inherit;
         border: none;
@@ -34,6 +35,7 @@
     .search-box__main-input__button {
         float: right;
         width: 200px;
+        max-width: 34%;
 
         font: inherit;
         background: #ddd;

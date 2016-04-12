@@ -11,6 +11,11 @@ class SearchQuery {
     /** @var \Illuminate\Pagination\Paginator */
     protected $results;
 
+    /** @var Chatlink[] $chatlinks */
+    protected $chatlinks = [];
+
+    protected $query;
+
     public function __construct($searchTerm) {
         $this->searchTerm = $searchTerm;
     }
@@ -19,6 +24,10 @@ class SearchQuery {
      * @return Builder
      */
     public function getQuery() {
+        if(isset($this->query)) {
+            return $this->query;
+        }
+
         // search terms
         $query = Item::where(function($query) {
             foreach($this->splitSearchTerms() as $searchTerm) {
@@ -43,6 +52,10 @@ class SearchQuery {
                 $chatlink = false;
             }
 
+            if($chatlink !== false) {
+                $this->chatlinks[] = $chatlink;
+            }
+
             if($chatlink instanceof ItemChatlink) {
                 $itemStack = $chatlink->getItemStack();
                 $additionalItems[] = $itemStack->id;
@@ -56,7 +69,9 @@ class SearchQuery {
 
         $query->orWhereIn('id', $additionalItems);
 
-        return $query->remember(3);
+        $this->query = $query->remember(3);
+
+        return $this->query;
     }
 
     public function getResults() {
@@ -69,8 +84,18 @@ class SearchQuery {
         return $this->results;
     }
 
+    public function getChatlinks() {
+        $this->getQuery();
+
+        return $this->chatlinks;
+    }
+
     public function hasResults() {
         return $this->getResults()->getTotal() > 0;
+    }
+
+    public function hasChatlinks() {
+        return !empty($this->getChatlinks());
     }
 
     public function renderResults() {

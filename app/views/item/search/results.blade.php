@@ -54,6 +54,11 @@
 
 
 <style>
+	.chatlinks {
+		display: flex;
+		flex-wrap: wrap;
+	}
+
 	.chatlink-box {
 		background: #f8f8f8;
 		box-shadow: 0 1px 2px rgba(0,0,0,.2);
@@ -84,7 +89,7 @@
 		.chatlink-box {
 			display: block;
 			width: 100%;
-			margin: 8px 0 0 0;
+			margin: 8px 0 0 0 !important;
 		}
 	}
 

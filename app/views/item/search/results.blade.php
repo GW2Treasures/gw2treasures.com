@@ -2,8 +2,8 @@
 	<h2>{{ trans_choice('misc.chatlink.header', count($query->getChatlinks())) }}</h2>
 
 	<div class="chatlinks">
-		@foreach($query->getChatlinks() as $chatlink)<!--
-		--><div class="chatlink-box">
+		@foreach($query->getChatlinks() as $chatlink){{--
+		--}}<div class="chatlink-box">
 			<h3>{{ $chatlink->encode() }}</h3>
 			<div class="chatlink-box__content">
 				@if($chatlink->getType() === $chatlink::TYPE_COIN)
@@ -16,8 +16,8 @@
 					Unknown type 0x{{ substr('0'.dechex($chatlink->getType()), -2) }}
 				@endif
 			</div>
-		</div><!--
-	-->@endforeach
+		</div>{{--
+	--}}@endforeach
 	</div>
 @endif
 

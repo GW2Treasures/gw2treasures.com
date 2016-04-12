@@ -35,7 +35,7 @@ return array (
     'reddit' => 'Submit to reddit',
   ),
   'noNewItems' => 'No new items were added between :start and :end.',
-  'chatlink' =>
+  'chatlink' => 
   array (
     'header' => 'Chatlink|Chatlinks',
     'item' => 'Item',

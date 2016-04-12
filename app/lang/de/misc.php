@@ -35,4 +35,12 @@ return array (
     'reddit' => 'Bei reddit einreichen',
   ),
   'noNewItems' => 'Zwischen dem :start und dem :end wurden keine neuen Gegenstände hinzugefügt.',
+  'chatlink' => 
+  array (
+    'coins' => 'Münzen',
+    'header' => 'Chatlink|Chatlinks',
+    'item' => 'Gegenstand',
+    'skin' => 'Skin',
+    'upgrades' => 'Aufwertung|Aufwertungen',
+  ),
 );

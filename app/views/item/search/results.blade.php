@@ -1,7 +1,8 @@
 @if($query->hasChatlinks())
 	<h2>{{ trans_choice('misc.chatlink.header', count($query->getChatlinks())) }}</h2>
 
-	@foreach($query->getChatlinks() as $chatlink)<!--
+	<div class="chatlinks">
+		@foreach($query->getChatlinks() as $chatlink)<!--
 		--><div class="chatlink-box">
 			<h3>{{ $chatlink->encode() }}</h3>
 			<div class="chatlink-box__content">
@@ -17,6 +18,7 @@
 			</div>
 		</div><!--
 	-->@endforeach
+	</div>
 @endif
 
 <h2>Searchresults for "{{ $query->searchTerm }}" ({{ $query->getResults()->getTotal() }})</h2>
@@ -61,7 +63,7 @@
 		vertical-align: top;
 		width: calc((100% - 16px) / 3);
 	}
-	.chatlink-box:nth-child(3n + 1) {
+	.chatlink-box:nth-child(3n) {
 		margin-right: 0;
 	}
 
@@ -70,10 +72,10 @@
 			width: calc((100% - 8px) / 2);
 		}
 
-		.chatlink-box:nth-child(3n + 1) {
+		.chatlink-box:nth-child(3n) {
 			margin-right: 8px;
 		}
-		.chatlink-box:nth-child(2n + 1) {
+		.chatlink-box:nth-child(2n) {
 			margin-right: 0;
 		}
 	}

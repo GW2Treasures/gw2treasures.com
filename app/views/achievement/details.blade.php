@@ -109,7 +109,7 @@
 		@if(!empty($rewards))
 			<h3>{{ trans('achievement.rewards.header') }}</h3>
 			<ul class="achievement__rewards itemList">
-				@foreach($achievement->getData()->rewards as $reward)
+				@foreach($rewards as $reward)
 					@if($reward->type === 'Item')
 						<?php $rewardItem = Item::find($reward->id); ?>
 						@if(!is_null($rewardItem))

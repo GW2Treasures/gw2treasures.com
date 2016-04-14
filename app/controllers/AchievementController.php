@@ -50,8 +50,13 @@ class AchievementController extends BaseController {
 		}
 
 		$rewards = isset($achievement->getData()->rewards)
-			? isset($achievement->getData()->rewards)
+			? $achievement->getData()->rewards
 			: [];
+
+
+		if($achievement->achievement_category_id == 97) {
+			$rewards[] = (object)['type' => 'Item', 'id' => 39752, 'count' => 8];
+		}
 
 		return compact('achievement', 'objectives', 'rewards');
 	}

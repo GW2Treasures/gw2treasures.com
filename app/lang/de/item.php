@@ -146,6 +146,7 @@ return array (
     'Light' => 'Leicht',
     'Medium' => 'Medium',
     'Heavy' => 'Schwer',
+    'Clothing' => 'Kleidungsset',
   ),
   'unusedUpgradeSlot' => 'Freier Aufwertungsplatz',
   'unusedOffensiveInfusionSlot' => 'Freier Infusionsplatz (Offensiv)',

@@ -35,4 +35,8 @@ return array (
   ),
   'sourcecode' => 'Quellcode',
   'chinese' => 'Chinesisch',
+  'search' => 'Suche',
+  'skinOverview' => 'Übersicht',
+  'skins' => 'Skins',
+  'wvwWidget' => 'WvW Widget einbetten',
 );

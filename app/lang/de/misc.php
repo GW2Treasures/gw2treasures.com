@@ -43,9 +43,9 @@ return array (
     'skin' => 'Skin',
     'upgrades' => 'Aufwertung|Aufwertungen',
   ),
-  'achievements' =>
+  'achievements' => 
   array (
-    'festival_reward' =>
+    'festival_reward' => 
     array (
       'text' => 'Belohnung für :link.',
       'link' => 'aktuelle tägliche Erfolge',

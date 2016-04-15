@@ -38,5 +38,5 @@ return array (
   'search' => 'Search',
   'skins' => 'Skins',
   'skinOverview' => 'Overview',
-  'wvwWidget' => 'Embed WvW Widget'
+  'wvwWidget' => 'Embed WvW Widget',
 );

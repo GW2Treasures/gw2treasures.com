@@ -43,9 +43,9 @@ return array (
     'skin' => 'Skin',
     'coins' => 'Coins',
   ),
-  'achievements' =>
+  'achievements' => 
   array (
-    'festival_reward' =>
+    'festival_reward' => 
     array (
       'text' => 'Awarded for :link.',
       'link' => 'current daily achievements',

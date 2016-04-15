@@ -34,4 +34,8 @@ return array (
     'daily' => 'Todays daily achievements',
   ),
   'sourcecode' => 'Sourcecode',
+  'search' => 'Search',
+  'skins' => 'Skins',
+  'skinOverview' => 'Overview',
+  'wvwWidget' => 'Embed WvW Widget'
 );

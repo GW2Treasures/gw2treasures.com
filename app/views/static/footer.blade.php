@@ -22,7 +22,7 @@
 				<a href="{{ URL::route('wvw', App::getLocale()) }}">{{ trans('footer.wvw') }}</a>
 				<ul>
 					<li><a href="{{ URL::route('wvw', App::getLocale()) }}">{{ trans('footer.wvwOverview') }}</a>
-					<li><a href="{{ URL::route('dev.embedWorldStats', App::getLocale()) }}">{{ trans('footer.wvwWidget') }}</a>
+					<li><a href="{{ URL::route('dev.embedWorldStats') }}">{{ trans('footer.wvwWidget') }}</a>
 				</ul>
 			</div>
 			<div class="column4">

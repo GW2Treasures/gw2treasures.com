@@ -28,6 +28,20 @@ class LoadSkinsCommand extends Command {
             'name_de', 'name_en', 'name_es', 'name_fr',
             'type', 'signature', 'file_id',
             'data_de', 'data_en', 'data_es', 'data_fr'], $updating);
+
+        Skin::chunk(500, function($skins) {
+            /** @var Skin $skin */
+            foreach($skins as $skin) {
+                $skin->subtype = isset($skin->getTypeData()->type)
+                    ? $skin->getTypeData()->type
+                    : '';
+
+                if( $skin->isDirty() ) {
+                    $skin->save();
+                    $this->info('Updated subtype of '.$skin->id);
+                }
+            }
+        });
     }
 
     protected function getOptions() {

@@ -146,6 +146,7 @@ return array (
     'Light' => 'Light',
     'Medium' => 'Medium',
     'Heavy' => 'Heavy',
+    'Clothing' => 'Clothing',
   ),
   'unusedUpgradeSlot' => 'Unused Upgrade Slot',
   'unusedOffensiveInfusionSlot' => 'Unused Offensive Infusion Slot',

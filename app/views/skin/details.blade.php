@@ -3,7 +3,7 @@
 		<img class="icon" width="64" height="64" src="{{ $skin->getIconUrl(64) }}" alt="">
 		<h2 {{ isset($skin->getData()->rarity) ? 'class="color-'.$skin->getData()->rarity.'"' : '' }}><div aria-hidden="true" class="overflow">{{ $skin->getName() }}</div>{{ $skin->getName() }}</h2>
 		<nav class="details__breadcrumb">
-			<strong>{{ trans('skin.breadcrumb') }}</strong>
+			<strong><a href="{{ route('skin', App::getLocale()) }}">{{ trans('skin.breadcrumb') }}</a></strong>
 			<svg fill="#000000" height="12" viewBox="0 0 24 24" width="12" xmlns="http://www.w3.org/2000/svg">
 				<path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
 			</svg> {{ trans('item.type.'.$skin->type) }}
@@ -54,11 +54,15 @@
 	</div>
 
     <h3 style="margin-top: 0;padding-top: 20px;">{{ trans( 'skin.itemsUnlockingThisSkin' ) }}</h3>
-    <ul class="itemList">
-        @foreach( $skin->items as $item )
-            <li>{{ $item->link(32) }}
-        @endforeach
-    </ul>
+	@if(count($skin->items) > 0)
+		<ul class="itemList">
+			@foreach( $skin->items as $item )
+				<li>{{ $item->link(32) }}
+			@endforeach
+		</ul>
+	@else
+		{{ trans('skin.noItemsUnlockingThisSkin') }}
+	@endif
 
 	<?php
 		$achievementObjective = Achievement::requiresSkin($skin->id)->get();

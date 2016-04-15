@@ -35,4 +35,8 @@ return array (
   ),
   'sourcecode' => 'Sourcecode',
   'chinese' => 'Chinese',
+  'search' => 'Search',
+  'skins' => 'Skins',
+  'skinOverview' => 'Overview',
+  'wvwWidget' => 'Embed WvW Widget'
 );

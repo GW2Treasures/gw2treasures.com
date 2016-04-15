@@ -6,10 +6,11 @@
 				<ul>
 					<li><a href="{{ URL::route('stats.items.new', App::getLocale()) }}">{{ trans('footer.recentlyAddedItems') }}</a>
 					<li><a href="{{ URL::route('randomitem', App::getLocale()) }}">{{ trans('footer.randomItem') }}</a>
+					<li><a href="{{ URL::route('search', App::getLocale()) }}">{{ trans('footer.search') }}</a>
 				</ul>
-				<a href="{{ URL::route('wvw', App::getLocale()) }}">{{ trans('footer.wvw') }}</a>
+				<a href="{{ URL::route('skin', App::getLocale()) }}">{{ trans('footer.skins') }}</a>
 				<ul>
-					<li><a href="{{ URL::route('wvw', App::getLocale()) }}">{{ trans('footer.wvwOverview') }}</a>
+					<li><a href="{{ URL::route('skin', App::getLocale()) }}">{{ trans('footer.skinOverview') }}</a>
 				</ul>
 			</div>
 			<div class="column4">
@@ -18,18 +19,22 @@
 					<li><a href="{{ URL::route('achievement.overview', App::getLocale()) }}">{{ trans('footer.achievements.overview') }}</a>
 					<li><a href="{{ URL::route('achievement.overview', App::getLocale()) }}">{{ trans('footer.achievements.daily') }}</a>
 				</ul>
-				<a href="{{ URL::route('dev') }}" class="">{{ trans('footer.developer') }}</a>
+				<a href="{{ URL::route('wvw', App::getLocale()) }}">{{ trans('footer.wvw') }}</a>
 				<ul>
-                    <li><a href="{{ URL::route('dev') }}#apiDoc">{{ trans('footer.APIDocumentation') }}</a>
+					<li><a href="{{ URL::route('wvw', App::getLocale()) }}">{{ trans('footer.wvwOverview') }}</a>
+					<li><a href="{{ URL::route('dev.embedWorldStats', App::getLocale()) }}">{{ trans('footer.wvwWidget') }}</a>
 				</ul>
 			</div>
 			<div class="column4">
 				<a href="{{ URL::route('about', App::getLocale()) }}">{{ trans('footer.about') }}</a>
 				<ul>
-					<li><a href="{{ URL::route('about', App::getLocale()) }}">{{ trans('footer.about') }}</a>
 					<li><a href="https://github.com/GW2Treasures/gw2treasures.com" target="_blank">{{ trans('footer.sourcecode') }}</a>
 					<li><a href="https://github.com/GW2Treasures/gw2treasures.com/issues" target="_blank">{{ trans('footer.bugtracker') }}</a>
 					<li><a href="{{ URL::route('contact', App::getLocale()) }}">{{ trans('footer.contact') }}</a>
+				</ul>
+				<a href="{{ URL::route('dev') }}" class="">{{ trans('footer.developer') }}</a>
+				<ul>
+					<li><a href="{{ URL::route('dev') }}#apiDoc">{{ trans('footer.APIDocumentation') }}</a>
 				</ul>
 			</div>
 			<div class="column4">

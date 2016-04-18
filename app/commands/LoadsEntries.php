@@ -67,7 +67,15 @@ trait LoadsEntries
 
             $entryData = ['id' => $id];
 
-            foreach($columns as $column) {
+            foreach($columns as $k => $v) {
+                if(is_numeric($k) && is_string($v)) {
+                    $column = $v;
+                    $k = null;
+                } else {
+                    $entryData[$k] = $v($entries_de[$id], $entries_en[$id], $entries_es[$id], $entries_fr[$id]);
+                    continue;
+                }
+
                 if(Str::endsWith($column, ['_de', '_en', '_es', '_fr'])) {
                     $strlen = strlen($column);
                     $columnName = substr($column, 0, $strlen - 3);

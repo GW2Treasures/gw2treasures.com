@@ -69,6 +69,8 @@ class SearchQuery {
 
         $query->orWhereIn('id', $additionalItems);
 
+        $query->orderBy('views', 'desc');
+
         $this->query = $query->remember(3);
 
         return $this->query;

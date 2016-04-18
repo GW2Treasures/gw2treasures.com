@@ -479,7 +479,7 @@ class Item extends BaseModel {
                                                  ->where( 'value', '=', $that->value )
                                                  ->where( 'level', '=', $that->level );
                                     } );
-                   } )->take( 500 )->get();
+                   } )->orderBy('views', 'desc')->take( 250 )->get();
     }
 
     //----

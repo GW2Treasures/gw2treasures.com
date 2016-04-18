@@ -13,4 +13,5 @@
 
 Artisan::add( new AchievementsCommand );
 Artisan::add( new ColorsCommand );
+Artisan::add( new ItemsCommand );
 Artisan::add( new SkinsCommand );

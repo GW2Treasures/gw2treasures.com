@@ -12,6 +12,5 @@
 */
 
 Artisan::add( new LoadColorsCommand );
-Artisan::add( new LoadSkinsCommand );
-Artisan::add( new ItemSetSkinCommand );
+Artisan::add( new SkinsCommand );
 Artisan::add( new AchievementsCommand );

@@ -163,10 +163,10 @@
         </ul>
     @endif
 
-    @if($item->id === 39752)
+    {{--@if($item->id === 39752)
         <h3>{{ trans('item.achievements.header') }}</h3>
         <p>{{ trans('misc.achievements.festival_reward.text', ['link' => '<a href="'.route('achievement.overview', App::getLocale()).'">'.trans('misc.achievements.festival_reward.link').'</a>']) }}</p>
-    @endif
+    @endif--}}
 
     @if( count( $similarItems = $item->getSimilarItems()) > 0 )
         <?php

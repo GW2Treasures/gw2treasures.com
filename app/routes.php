@@ -188,6 +188,11 @@ Route::group( array(
             'uses' => 'AchievementController@category'
         ]);
 
+        Route::get('achievement/random', [
+            'as' => 'achievement.random',
+            'uses' => 'AchievementController@random'
+        ]);
+
         Route::get('achievement/{achievement}', [
             'as' => 'achievement.details',
             'uses' => 'AchievementController@details'

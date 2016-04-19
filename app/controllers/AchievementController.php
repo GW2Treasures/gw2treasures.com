@@ -65,6 +65,11 @@ class AchievementController extends BaseController {
 		return Response::json( $achievement->getData() );
 	}
 
+	public function random($language) {
+		$id = Achievement::random()->first()->id;
+		return Redirect::route('achievement.details', [$language, $id]);
+	}
+
 	public function overview($language) {
 		$groups = Cache::remember(self::CACHE_OVERVIEW, 60 * 24, function() {
 			return AchievementGroup::orderBy('order')

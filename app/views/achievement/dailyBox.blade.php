@@ -20,49 +20,30 @@
         </script>
     </header>
     <div class="daily-box__content">
-    @foreach([['pve', 'pvp'], ['wvw', 'fractals']] as $row)
         <div class="daily-box__row clearfix">
-        @foreach($row as $type)
+            @if(!empty($daily->achievements->special))
+                <div class="daily-box__column">
+                    @include('achievement.dailyBox.list', ['type' => 'pve'])
+                </div>
+                <div class="daily-box__column">
+                    @include('achievement.dailyBox.list', ['type' => 'special'])
+                </div>
+            @else
+                @include('achievement.dailyBox.list', ['type' => 'pve'])
+            @endif
+        </div>
+        <div class="daily-box__row clearfix">
             <div class="daily-box__column">
-                <h3>{{ trans('achievement.daily.type.'.$type) }}</h3>
-                <ul class="itemList">
-                    @foreach($daily->achievements->{$type} as $achievement)
-                        @if(isset($achievement->achievement))
-                            <li>
-                                {{ $achievement->achievement->link(32) }}
-                                <span class="daily-box__level">
-                                    @if(!is_null($achievement->level))
-                                        @lang('achievement.daily.level', (array)$achievement->level)
-                                    @endif
-                                </span>
-                            </li>
-                        @endif
-                    @endforeach
-                </ul>
+                @include('achievement.dailyBox.list', ['type' => 'pvp'])
             </div>
-        @endforeach
+            <div class="daily-box__column">
+                @include('achievement.dailyBox.list', ['type' => 'wvw'])
+            </div>
         </div>
-    @endforeach
+        <div class="daily-box__row clearfix">
+            @include('achievement.dailyBox.list', ['type' => 'fractals'])
+        </div>
     </div>
-    @if(!empty($daily->achievements->special))
-        <div class="daily-box__content clearfix">
-            <h3>{{ trans('achievement.daily.type.special') }}</h3>
-            <ul class="itemList">
-                @foreach($daily->achievements->special as $achievement)
-                    @if(isset($achievement->achievement))
-                        <li>
-                            {{ $achievement->achievement->link(32) }}
-                            <span class="daily-box__level">
-                                @if(!is_null($achievement->level))
-                                    @lang('achievement.daily.level', (array)$achievement->level)
-                                @endif
-                            </span>
-                        </li>
-                    @endif
-                @endforeach
-            </ul>
-        </div>
-    @endif
     <div class="daily-box__completion clearfix">
         <?php $completion = Achievement::find(1840); ?>
         <div class="daily-box__completion__achievement">
@@ -73,7 +54,3 @@
         </div>
     </div>
 </div></div>
-
-<style>
-
-</style>

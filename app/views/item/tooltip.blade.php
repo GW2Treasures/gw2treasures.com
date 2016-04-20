@@ -16,32 +16,7 @@
 
 {{-- consumable attributes --}}
 @if( $item->type == 'Consumable' )
-	<?php
-		$duration_ms = isset( $item->getTypeData()->duration_ms ) ? $item->getTypeData()->duration_ms : false;
-		$consumableAttributes = $item->getConsumableAttributes();
-		if( $duration_ms === false && count( $consumableAttributes ) == 0 ) {
-			$recipes = $item->recipes()->get();
-			if( count( $recipes ) == 1 && $recipes[0]->totalIngredients == 1 ) {
-				$ingredients = $recipes[0]->getIngredients();
-				$duration_ms = 3600000;
-				$consumableAttributes = $ingredients[0]->getConsumableAttributes();
-			}
-		}
-	?>
-	@if( $duration_ms !== false  )
-		{{ trans( 'item.duration' ) }}: {{ Helper::duration( $duration_ms ) }}<br>
-	@endif
-	@if( count( $consumableAttributes ) > 0 )
-		<dl class="attributes">
-			@foreach( $consumableAttributes as $attribute => $modifier )
-				@if( is_int( $attribute ) )
-					<dt>{{ $modifier }}</dt>
-				@else
-					<dd>{{ $modifier }}</dd><dt>{{ $attribute }}</dt>
-				@endif
-			@endforeach
-		</dl>
-	@endif
+	@include('item.consumableBuff')
 @endif
 
 {{-- bonus --}}

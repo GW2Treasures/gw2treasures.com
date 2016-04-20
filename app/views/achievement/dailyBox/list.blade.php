@@ -9,7 +9,7 @@
                         @lang('achievement.daily.level', [
                             'level' => $achievement->level->min == $achievement->level->max
                                 ? $achievement->level->min
-                                : $achievement->level->min.' – '.$achievement->level->max
+                                : $achievement->level->min.' – '.$achievement->level->max
                         ])
                     @endif
                 </span>

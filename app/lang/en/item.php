@@ -177,7 +177,7 @@ return array (
   'achievements' => 
   array (
     'header' => 'Achievements',
-    'required' => 'Required to complete the following achievements',
+    'required' => 'Required to complete the following achievements:',
     'reward' => 'Rewarded for completing the following achievements:',
   ),
 );

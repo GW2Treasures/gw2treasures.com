@@ -29,6 +29,6 @@ return array (
       'fractals' => 'Fraktale',
       'special' => 'Sonder-Event',
     ),
-    'level' => 'Level :min - :max',
+    'level' => 'Stufe :level',
   ),
 );

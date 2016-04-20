@@ -6,7 +6,11 @@
                 {{ $achievement->achievement->link(32) }}
                 <span class="daily-box__level">
                     @if(!is_null($achievement->level))
-                        @lang('achievement.daily.level', (array)$achievement->level)
+                        @lang('achievement.daily.level', [
+                            'level' => $achievement->level->min == $achievement->level->max
+                                ? $achievement->level->min
+                                : $achievement->level->min.' – '.$achievement->level->max
+                        ])
                     @endif
                 </span>
             </li>

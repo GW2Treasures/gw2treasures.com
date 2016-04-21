@@ -32,6 +32,9 @@
         @endif
 
         <div class="consumable-buff__content" style="{{ $hasIcon ? 'margin-left: 40px' : '' }}">
+            @if(isset($data->apply_count))
+                <span>{{ $data->apply_count }}×</span>
+            @endif
             @if(isset($data->name) && isset($data->duration_ms))
                 {{ $data->name }} ({{ Helper::duration($data->duration_ms) }}):<br>
             @elseif(isset($data->name))

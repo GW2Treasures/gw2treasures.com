@@ -30,7 +30,7 @@
 			<span><i class="sprite-20-castle-gray"></i></span>
 		</span>
 	</div>
-	@include( 'wvw.smallMatchBox', array( 'match' => $world->matches()->current()->withWorlds()->first(), 'homeworld' => $world, 'embedded' => true ))
+	@include( 'wvw.smallMatchBox', array( 'match' => $world->currentMatch()->withWorlds()->first(), 'homeworld' => $world, 'embedded' => true ))
 </div>
 @if(Request::has('_redirectedFromOldDomain'))
 	<div class="oldDomain">

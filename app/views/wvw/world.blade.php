@@ -12,7 +12,7 @@
 			<span><i class="sprite-20-castle-gray"></i></span>
 		</span>
 	</div>
-	@include( 'wvw.smallMatchBox', array( 'match' => $world->matches()->current()->withWorlds()->first(), 'homeworld' => $world ))
+	@include( 'wvw.smallMatchBox', array( 'match' => $world->currentMatch()->withWorlds()->first(), 'homeworld' => $world ))
 </div>
 
 <p style="margin-top: 2em; font-size: 10px">

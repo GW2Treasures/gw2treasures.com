@@ -8,4 +8,8 @@ class World extends BaseModel {
 	public function matches() {
 		return Match::hasWorld( $this );
 	}
+
+	public function currentMatch() {
+		return $this->belongsTo(Match::class, 'match_id');
+	}
 }

@@ -23,10 +23,13 @@ getID = ( match, cb ) ->
 
 newMatch = ( match ) ->
     console.log 'new match ' + match.id
-    db.query 'INSERT INTO matches (match_id, red_world_id, blue_world_id, green_world_id, start_time, end_time) VALUES (?,?,?,?,?,?)',
-        [ match.id, match.worlds.red, match.worlds.blue, match.worlds.green, match.start_time, match.end_time ], (err, result) ->
+    db.query 'INSERT INTO matches (match_id, red_world_id, blue_world_id, green_world_id, start_time, end_time, data) VALUES (?,?,?,?,?,?,?)',
+        [ match.id, match.worlds.red, match.worlds.blue, match.worlds.green, match.start_time, match.end_time, JSON.stringify(match) ], (err, result) ->
             throw err if err
             ids[ "#{match.id}_#{match.start_time}" ] = result.insertId
+            worlds = match.all_worlds.red.concat(match.all_worlds.blue, match.all_worlds.green)
+            db.query 'UPDATE worlds SET match_id = ? WHERE id IN (?)', [ result.insertId, worlds ], (err, result) ->
+                throw err if err
 
 crawler = new Crawler config.matchUrl, config.detailUrl
 

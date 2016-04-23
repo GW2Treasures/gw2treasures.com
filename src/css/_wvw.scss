@@ -1,0 +1,112 @@
+.wvw-table {
+    width: 100%;
+}
+.wvw-table * {
+    border-color: #eee !important;
+}
+.wvw-table tbody {
+    border-top: 1px solid;
+}
+.wvw-table td, .wvw-table th {
+    padding: 2px 4px;
+    white-space: nowrap;
+    box-sizing: content-box;
+}
+.wvw-table th {
+    text-align: left;
+    padding: 4px;
+}
+.wvw-table__worlds {
+    width: 1px;
+    white-space: nowrap;
+    border-right: 1px solid;
+}
+.wvw-table__score {
+    text-align: right;
+    position: relative;
+    border-right: 1px solid;
+}
+.wvw-table__score__label {
+    position: absolute;
+    right: 8px;
+}
+.wvw-table__score__bar {
+    background: red;
+    display: inline-block;
+}
+.wvw-table__income {
+    width: 20%;
+    position: relative;
+    border-right: 1px solid;
+}
+.wvw-table__income__label {
+    position: absolute;
+    left: 8px;
+}
+.wvw-table__income__bar {
+    background: red;
+    display: inline-block;
+}
+.wvw-table__objectives {
+    width: 128px;
+}
+.wvw-table__objectives > span {
+    width: 32px;
+    display: inline-block;
+    float: left;
+    text-align: center;
+}
+.wvw-table__row--red {
+    border-top: 1px solid;
+}
+
+.wvw-table__row--red td {
+    padding-top: 4px;
+}
+
+.wvw-table__row--blue td {
+    padding-bottom: 4px;
+}
+
+.wvw-table__score__bar--red,
+.wvw-table__income__bar--red {
+    background-color: #FF7469;
+}
+
+.wvw-table__score__bar--blue,
+.wvw-table__income__bar--blue {
+    background-color: #33A7FF;
+}
+
+.wvw-table__score__bar--green,
+.wvw-table__income__bar--green {
+    background-color: #6CD997;
+}
+
+
+.dark {
+    color: #FFF;
+
+    a {
+        color: #72ACDA;
+    }
+
+    .wvw-table * {
+        border-color: #555 !important;;
+    }
+
+    .wvw-table__score__bar--red,
+    .wvw-table__income__bar--red {
+        background-color: #B30000;
+    }
+
+    .wvw-table__score__bar--blue,
+    .wvw-table__income__bar--blue {
+        background-color: #005BC0;
+    }
+
+    .wvw-table__score__bar--green,
+    .wvw-table__income__bar--green {
+        background-color: #0A663D;
+    }
+}

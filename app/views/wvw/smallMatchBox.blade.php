@@ -15,7 +15,10 @@
 			@endfor
 		</td>
 		<td class="wvw-table__score">
-			<span class="wvw-table__score__label">{{ number_format( $match->score[$side], 0, '.', ' ' ) }}</span>
+			<span class="wvw-table__score__label">
+				{{ number_format( $match->score[$side], 0, '.', ' ' ) }}
+				<span class="wvw-table__score__label__income">(+{{ $match->income[$side] }})</span>
+			</span>
 			<span class="wvw-table__score__bar wvw-table__score__bar--{{ $cssClass[$side] }}"
 				  style="width:{{ $maxScore > 0 ? $match->score[$side] / $maxScore * 100 : 0 }}%">&nbsp;</span>
 		</td>

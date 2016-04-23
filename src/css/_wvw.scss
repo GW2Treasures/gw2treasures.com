@@ -83,6 +83,27 @@
     background-color: #6CD997;
 }
 
+.wvw-table__score__label__income {
+    display: none;
+}
+
+@media (max-width: 650px) {
+    .wvw-table__score__label__income {
+        display: inline;
+    }
+
+    .wvw-table__income {
+        display: none;
+    }
+
+    .wvw-table__score {
+        text-align: left;
+    }
+
+    .wvw-table__score__label {
+        left: 8px;
+    }
+}
 
 .dark {
     color: #FFF;

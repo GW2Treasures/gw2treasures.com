@@ -1,19 +1,11 @@
 <h2>{{ $world->getName() }}</h2>
 
-<div class="matchList">
-	<div class="matchListHeader clearfix">
-		<span class="world">{{ trans('wvw.world') }}</span>
-		<span class="score">{{ trans('wvw.score') }}</span>
-		<span class="income">{{ trans('wvw.income') }}</span>
-		<span class="objectives">
-			<span><i class="sprite-20-camp-gray"></i></span>
-			<span><i class="sprite-20-tower-gray"></i></span>
-			<span><i class="sprite-20-keep-gray"></i></span>
-			<span><i class="sprite-20-castle-gray"></i></span>
-		</span>
-	</div>
-	@include( 'wvw.smallMatchBox', array( 'match' => $world->currentMatch()->withWorlds()->first(), 'homeworld' => $world ))
-</div>
+<table class="wvw-table">
+	@include('wvw.head')
+	<tbody>
+		@include( 'wvw.smallMatchBox', array( 'match' => $world->currentMatch()->withWorlds()->first(), 'homeworld' => $world ))
+	</tbody>
+</table>
 
 <p style="margin-top: 2em; font-size: 10px">
 Embedding: <code>{{ URL::route( 'wvw.world.embedded', array( App::getLocale(), $world->id )) }}</code> (<a href="{{ URL::route('dev.embedWorldStats') }}">Info</a>)

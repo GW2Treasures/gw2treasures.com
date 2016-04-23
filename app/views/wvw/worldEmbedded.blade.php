@@ -5,11 +5,10 @@
 	<title>{{ $world->getName() }} | Embedded WvW World Stats | GW2 Treasures</title>
 	
 	<link rel="stylesheet" href="{{ Helper::cdn('assets/css/normalize.min.css') }}">
-	<link rel="stylesheet" href="{{ Helper::cdn('assets/css/main.css') }}">
 	@if( App::environment('production') )
-		<link rel="stylesheet" href="{{ Helper::cdn('assets/css/style.css') }}">
+		<link rel="stylesheet" href="{{ Helper::cdn('assets2/css/gw2t.css') }}">
 	@else
-		<link rel="stylesheet" href="//direct.darthmaim-cdn.de/gw2treasures/assets/css/style.css">
+		<link rel="stylesheet" href="//{{ Config::get('app.domain') }}:8888/css/gw2t.css">
 	@endif
 </head>
 <?php
@@ -18,20 +17,12 @@
 		: 'light';
 ?>
 <body class="{{ $style }}" style="min-width: 500px; min-height: 100px">
-<div class="matchList">
-	<div class="matchListHeader clearfix">
-		<span class="world">{{ trans('wvw.world') }}</span>
-		<span class="score">{{ trans('wvw.score') }}</span>
-		<span class="income">{{ trans('wvw.income') }}</span>
-		<span class="objectives">
-			<span><i class="sprite-20-camp-gray"></i></span>
-			<span><i class="sprite-20-tower-gray"></i></span>
-			<span><i class="sprite-20-keep-gray"></i></span>
-			<span><i class="sprite-20-castle-gray"></i></span>
-		</span>
-	</div>
-	@include( 'wvw.smallMatchBox', array( 'match' => $world->currentMatch()->withWorlds()->first(), 'homeworld' => $world, 'embedded' => true ))
-</div>
+<table class="wvw-table">
+	@include('wvw.head')
+	<tbody>
+		@include( 'wvw.smallMatchBox', array( 'match' => $world->currentMatch()->withWorlds()->first(), 'homeworld' => $world, 'embedded' => true ))
+	</tbody>
+</table>
 @if(Request::has('_redirectedFromOldDomain'))
 	<div class="oldDomain">
 		<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path fill="#FF7200" d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>

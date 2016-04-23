@@ -1,7 +1,5 @@
 <?php
 
-use Carbon\Carbon;
-
 class Match extends BaseModel {
 	const REGION_US = 'us';
 	const REGION_EU = 'eu';
@@ -14,6 +12,7 @@ class Match extends BaseModel {
 	private $_objectives;
 	private $_oc;
 	private $_income;
+	private $_allWorlds;
 
 	protected $appends = array( 
 		'region', 
@@ -140,5 +139,26 @@ class Match extends BaseModel {
 			self::WORLD_BLUE  => $this->blue_world,
 			self::WORLD_GREEN => $this->green_world
 		);
+	}
+
+	public function getAllWorldsAttribute() {
+		if(!isset($this->_allWorlds)) {
+			$allWorlds = $this->data->all_worlds;
+
+			$worldIDs = array_merge($allWorlds->red, $allWorlds->blue, $allWorlds->green);
+			$worlds = World::whereIn('id', $worldIDs)->get()->keyBy('id');
+
+			$idToWorld = function($id) use ($worlds) {
+				return $worlds[$id];
+			};
+
+			$this->_allWorlds = [
+				self::WORLD_RED   => array_map($idToWorld, $allWorlds->red),
+				self::WORLD_GREEN => array_map($idToWorld, $allWorlds->green),
+				self::WORLD_BLUE  => array_map($idToWorld, $allWorlds->blue),
+			];
+		}
+
+		return $this->_allWorlds;
 	}
 }

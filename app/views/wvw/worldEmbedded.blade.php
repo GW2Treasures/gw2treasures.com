@@ -3,7 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<title>{{ $world->getName() }} | Embedded WvW World Stats | GW2 Treasures</title>
-	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+
 	<link rel="stylesheet" href="{{ Helper::cdn('assets/css/normalize.min.css') }}">
 	@if( App::environment('production') )
 		<link rel="stylesheet" href="{{ Helper::cdn('assets2/css/gw2t.css') }}">
@@ -16,7 +17,7 @@
 		? $_GET['style']
 		: 'light';
 ?>
-<body class="{{ $style }}" style="min-width: 500px; min-height: 100px">
+<body class="{{ $style }}" style="min-height: 100px">
 <table class="wvw-table">
 	@include('wvw.head')
 	<tbody>

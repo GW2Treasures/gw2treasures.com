@@ -57,6 +57,19 @@
     float: left;
     text-align: center;
 }
+
+th.wvw-table__objectives {
+    padding: 0 4px;
+}
+.wvw-table svg {
+    vertical-align: middle;
+    fill: #000;
+}
+
+.wvw-table__homeworld__icon {
+    height: 1.4em;
+}
+
 .wvw-table__row--red {
     border-top: 1px solid;
 }
@@ -123,6 +136,10 @@
 
     .wvw-table * {
         border-color: #555 !important;;
+    }
+
+    .wvw-table svg {
+        fill: #FFF;
     }
 
     .wvw-table__score__bar--red,

@@ -9,7 +9,7 @@
 			@for($i = 0; $i < count($worlds); $i++)
 				<a href="{{ route('wvw.world', [App::getLocale(), $worlds[$i]->id]) }}"{{ isset($embedded) ? ' target="_parent"' : '' }}>
 				@if(isset($homeworld) && $worlds[$i] == $homeworld)
-					<i class="sprite-16-homeworld"></i>
+						<svg class="wvw-table__homeworld__icon" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg"><path d="M15 30v-9h6v9h7.5V18H33L18 4.5 3 18h4.5v12"/></svg>
 				@endif
 				{{ $worlds[$i]->getName() }}</a>{{ $i != count($worlds) - 1 ? ' / ' : '' }}
 			@endfor

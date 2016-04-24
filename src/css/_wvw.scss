@@ -20,6 +20,7 @@
     width: 1px;
     white-space: nowrap;
     border-right: 1px solid;
+    padding-left: 8px !important;
 }
 .wvw-table__score {
     text-align: right;
@@ -102,6 +103,14 @@
 
     .wvw-table__score__label {
         left: 8px;
+    }
+}
+@media (max-width: 580px) {
+    .wvw-table__objectives {
+        display: none;
+    }
+    .wvw-table__score {
+        border-right: none;
     }
 }
 

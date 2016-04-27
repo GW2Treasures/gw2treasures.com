@@ -100,8 +100,8 @@ class SearchQuery {
         return !empty($this->getChatlinks());
     }
 
-    public function renderResults() {
-        return View::make('item.search.index')->with('query', $this);
+    public function renderResults($data = []) {
+        return View::make('item.search.index')->with($data)->with('query', $this);
     }
 
     protected function splitSearchTerms() {

@@ -117,17 +117,6 @@ Route::group( array(
             'uses' => 'ItemController@json'
         ));
 
-        // search
-        Route::get('search', array(
-            'as' => 'search',
-            'uses' => 'ItemController@search'
-        ));
-
-        Route::get('search/autocomplete', array(
-            'as' => 'search.autocomplete',
-            'uses' => 'ItemController@searchAutocomplete'
-        ));
-
         //================================
         // Skins
         //================================
@@ -236,6 +225,20 @@ Route::group( array(
         Route::get('stats/items/new', array(
             'as' => 'stats.items.new',
             'uses' => 'StatsController@itemsNew'
+        ));
+
+        //================================
+        // SEARCH
+        //================================
+
+        Route::get('search',  array(
+            'as' => 'search',
+            'uses' => 'SearchController@search'
+        ));
+
+        Route::get('search/autocomplete', array(
+            'as' => 'search.autocomplete',
+            'uses' => 'SearchController@searchAutocomplete'
         ));
 
         //================================

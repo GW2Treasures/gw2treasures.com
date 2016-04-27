@@ -632,6 +632,7 @@ $rare:       #f4c900;
     box-shadow: 0 0 0 5px rgba(0,0,0,.02);
     border: 1px solid #eee;
     max-width: 500px;
+    line-height: 1.6;
     padding: 16px;
     margin: 15px 15px 15px 0; }
     .tooltip > header {
@@ -1668,6 +1669,12 @@ i.loading {
 }
 
 .sidebar-tp {
+    transition: opacity 1s ease;
+
+    &.loading {
+        opacity: 0.25;
+    }
+
     dt { clear: both; font-weight: bold; }
     dd { margin: 0 0 8px 0; }
     .money { float: right; }

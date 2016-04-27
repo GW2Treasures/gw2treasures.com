@@ -32,7 +32,7 @@
         @endif
 
         <div class="consumable-buff__content" style="{{ $hasIcon ? 'margin-left: 40px' : '' }}">
-            @if(isset($data->apply_count))
+            @if(isset($data->apply_count) && $data->apply_count > 1)
                 <span>{{ $data->apply_count }}×</span>
             @endif
             @if(isset($data->name) && isset($data->duration_ms))

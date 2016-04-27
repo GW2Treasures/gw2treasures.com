@@ -16,6 +16,7 @@ return array (
     'buy' => 'Buy Price',
     'available' => ':amount available',
     'ordered' => ':amount ordered',
+    'notTradable' => 'This item can not be sold on the Trading Post.',
   ),
   'wiki' => 
   array (

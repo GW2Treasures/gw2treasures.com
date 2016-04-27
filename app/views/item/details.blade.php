@@ -37,9 +37,27 @@
             <div class="lang"><span title="Français" class="langCode">FR</span> <a rel="alternate" hreflang="fr" href="{{ $item->getUrl('fr') }}" data-item-id="{{ $item->id }}">{{ $item->getName( 'fr' ) }}</a></div>
         @endif
 
-
         <h3>@lang('misc.tradingpost.header')</h3>
-        <a target="_blank" onclick="outbound(this)" href="https://www.gw2spidy.com/item/{{ $item->id }}">Guild Wars 2 Spidy</a>
+
+        @if(count(array_intersect(['AccountBound', 'SoulbindOnAcquire'], $item->getData()->flags)) == 0)
+            <dl class="sidebar-tp loading only-js" data-tp-item-id="{{ $item->id }}">
+                <dt>@lang('misc.tradingpost.sell'):</dt>
+                <dd>
+                    <span class="money" id="tp-a-v">…</span>
+                    <span class="amount">({{ trans('misc.tradingpost.available', array( 'amount' => '<span id="tp-a-a">0</span>' )) }})</span>
+                </dd>
+                <dt>@lang('misc.tradingpost.buy'):</dt>
+                <dd>
+                    <span class="money" id="tp-o-v">…</span>
+                    <span class="amount">({{ trans('misc.tradingpost.ordered', array( 'amount' => '<span id="tp-o-a">0</span>' )) }})</span>
+                </dd>
+            </dl>
+
+            <a class="only-no-js" target="_blank" onclick="outbound(this)" href="https://www.gw2spidy.com/item/{{ $item->id }}">Guild Wars 2 Spidy</a>
+        @else
+            <p>{{ trans('misc.tradingpost.notTradable') }}</p>
+        @endif
+
 
         <h3>@lang('misc.wiki.header')</h3>
         <ul class="sidebar-wikis">

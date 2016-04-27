@@ -137,6 +137,8 @@
                 cache.clear();
             </script>
         @endif
+
+        @include('static.scripts')
     </div>
 </body>
 </html>

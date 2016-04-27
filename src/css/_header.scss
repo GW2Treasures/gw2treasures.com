@@ -2,10 +2,11 @@
     $headerHeight: 48px;
     $headerCenterRation: 200/40;
     $headerCenterWidth: $headerCenterRation * $headerHeight;
+    $headerBackground: #222;
     $hoverBackground: #444;
     $activeBackground: #666;
 
-    background-color: #222;
+    background-color: $headerBackground;
     z-index: 1;
 
     height: $headerHeight;
@@ -148,6 +149,8 @@
         right: 0;
         margin-right: 20px;
         padding: 0;
+        border-left: 1px solid $headerBackground;
+        border-right: 1px solid $headerBackground;
 
         @media(max-width: 600px) {
             margin-right: 0;
@@ -197,7 +200,7 @@
                 cursor: pointer;
             }
             #q {
-                background: #222;
+                background: $headerBackground;
                 width: 0;
                 padding-right: 0;
                 &:focus {

@@ -48,7 +48,7 @@ hr {
     color: #444;
     height: 30px;
     line-height: 30px;
-    background-color: #f6f6f6;
+    background-color: #f9f9f9;
     border: solid #eee;
     border-width: 1px 0;
     padding: 0 20px;
@@ -57,7 +57,6 @@ hr {
 }
 
 #footer {
-    background-color: #fafafa;
     padding: 10px 0 50px 0;
 }
 
@@ -432,6 +431,7 @@ html.js .only-no-js, html.no-js .only-js { display:none; }
     background: #f9f9f9;
     height: 84px;
     padding: 0;
+    border-bottom: 1px solid #eee;
 
     > .pageWidth {
         padding: 10px 340px 10px 104px;
@@ -515,6 +515,7 @@ html.js .only-no-js, html.no-js .only-js { display:none; }
 
     > .tooltip {
         box-shadow: none;
+        border: none;
         margin: 0 0 20px;
         padding: 20px 0 0;
         max-width: calc(100% - 330px);
@@ -628,9 +629,10 @@ $rare:       #f4c900;
 .tooltip {
     display: inline-block;
     background: white;
-    box-shadow: 0px 1px 2px rgba(0,0,0,.2);
+    box-shadow: 0 0 0 5px rgba(0,0,0,.02);
+    border: 1px solid #eee;
     max-width: 500px;
-    padding: 15px;
+    padding: 16px;
     margin: 15px 15px 15px 0; }
     .tooltip > header {
         font-family: Adelle, Bitter, Georgia, serif;
@@ -777,9 +779,7 @@ ul.itemList {
 .recipeBox {
     margin: 15px 15px 15px 0;
     display: inline-block;
-    box-shadow: 0px 1px 2px rgba(0,0,0,.2);
-    border-top-width: 3px;
-    border-top-style: solid;
+    border: 1px solid #eee;
     background: #f9f9f9;
     overflow: hidden;
     white-space: nowrap;
@@ -793,6 +793,7 @@ ul.itemList {
     header {
         margin-bottom: 10px;
         background: white;
+        border-bottom: 1px solid #eee;
 
         .output {
             font-family: Adelle, Bitter, Georgia, serif;
@@ -805,18 +806,10 @@ ul.itemList {
                 line-height: 32px;
                 padding: 10px;
 
-                transition: box-shadow .2s ease;
-                box-shadow: 0 0 2px rgba(0,0,0,.2);
-
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
-
-                &:hover {
-                    text-decoration: none;
-
-                    box-shadow: 0 0 8px rgba(0,0,0,.23);
-                }
+                text-decoration: none;
             }
         }
     }
@@ -842,7 +835,7 @@ ul.itemList {
 
     ul.ingredients {
         clear: both;
-        border-top: 1px solid #f0f0f0;
+        border-top: 1px solid #eee;
 
         margin: 8px 0 0;
         padding: 8px 10px;
@@ -850,7 +843,7 @@ ul.itemList {
 
     .recipe {
         padding: 8px 15px 10px 15px;
-        border-top: 1px solid #f0f0f0;
+        border-top: 1px solid #eee;
     }
 
     .recipeLabel {
@@ -870,6 +863,7 @@ ul.ingredients {
     list-style-type: none;
     margin: 0; padding: 0; }
     ul.ingredients > li {
+        margin-bottom: 1px;
         padding-left: 58px;
         text-indent: -58px;	}
 
@@ -1258,19 +1252,23 @@ i.loading {
         opacity: .3; }
     #mainsearchAutocomplete > a {
         display: block;
-        padding: 10px;
-        font: 20px/32px 'Open Sans Condensed', sans-serif;
+        padding: 6px 12px;
+        margin: 0 8px;
+        border-radius: 1px;
+        font: 13px/32px 'Open Sans', sans-serif;
         text-decoration: none;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        transition: all .3s;
-        color: #222; }
+        transition: all .3s; }
+        #mainsearchAutocomplete > a:last-child {
+            margin-bottom: 8px; }
         #mainsearchAutocomplete > a:hover {
             text-decoration: none;
-            background-color: #eee; }
+            background-color: #f7f7f7; }
         #mainsearchAutocomplete > a > img {
-            margin-right: .5em; }
+            margin-right: .5em;
+            vertical-align: top; }
 
 .banner {
     position: relative;
@@ -1306,7 +1304,7 @@ i.loading {
             line-height: 55px;
             font-size: 25px;
             border: 0 solid transparent;
-            padding: 0 15px;
+            padding: 0 20px;
             position: relative;
             font-weight: bold; }
             .bannerSearch label:after,
@@ -1344,7 +1342,7 @@ i.loading {
         .bannerSearch #mainsearch {
             font: 30px/1 'Open Sans Condensed', sans-serif;
             box-sizing: border-box;
-            padding: 0 15px;
+            padding: 0 20px;
             width: 100%;
             height: 55px;
             border: none; }
@@ -1555,14 +1553,16 @@ i.loading {
 .sidebar {
     float: right;
     width: 300px;
-    padding: 10px 25px;
-    background: #eee;
+    padding: 10px 24px 24px;
+    background: #fff;
+    border: 1px solid #eee;
+    border-width: 0 1px 1px 1px;
     margin: -84px 0 25px 25px;
     position: relative;
     overflow: hidden;
 
     h3 {
-        border-bottom: 1px solid #ddd;
+        border-bottom: 1px solid #eee;
         padding-bottom: 8px;
         margin-bottom: 16px;
         margin-top: 16px;
@@ -1582,9 +1582,11 @@ i.loading {
 
     @media(max-width: 767px) {
         float: none;
+        background: #f7f7f7;
         margin: 0 -20px 25px;
-        padding: 10px 20px;
+        padding: 16px 20px;
         width: auto;
+        border-width: 1px 0;
     }
 }
 
@@ -1597,27 +1599,31 @@ i.loading {
         margin-bottom: 8px;
         position: relative;
         width: 25%;
+        margin-bottom: 0;
 
         &.chatlink {
             width: auto;
             background-color: #fff;
-            padding: 7px 5px 7px 42px;
+            padding: 7px 5px 7px 48px;
             float: none;
             margin-right: 8px;
+            border: 1px solid #eee;
+            margin-bottom: 8px;
 
             &:before {
                 content: '[&]';
-                background-color: #f4f4f4;
+                background-color: #fff;
                 display: block;
                 position: absolute;
                 top: 0;
                 bottom: 0;
                 left: 0;
-                width: 32px;
+                width: 40px;
                 padding: 7px 5px;
                 box-sizing: border-box;
                 text-align: center;
                 font-weight: bold;
+                border-right: 1px solid #eee;
             }
         }
 
@@ -1683,15 +1689,13 @@ i.loading {
 
 
 .table {
-    $border-color: #ededed;
-    $shadow-color: rgba(0,0,0,.1);
-    $background: #F9FBFD;
+    $border-color: #eee;
+    $background: #fafafa;
 
     width: 100%;
     border-collapse: collapse;
     border-spacing: 0;
     background: white;
-    box-shadow: 0 1px 2px $shadow-color;
     border: 1px solid $border-color;
 
     > thead > tr {
@@ -1714,15 +1718,7 @@ i.loading {
             padding: 8px 10px;
         }
         > th + td {
-            box-shadow: inset 2px 0 2px -2px $shadow-color;
-        }
-        &:first-child {
-            > td, th {
-                box-shadow: inset 0 2px 2px -2px $shadow-color;
-            }
-            > th + td {
-                box-shadow: inset 2px 2px 2px -2px $shadow-color;
-            }
+            border-left: 1px solid $border-color;
         }
 
         &:hover {
@@ -1754,4 +1750,5 @@ i.loading {
 
 @import "achievements";
 @import "pagination";
+@import "search";
 @import "wvw";

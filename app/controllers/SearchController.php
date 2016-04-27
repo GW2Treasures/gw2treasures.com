@@ -15,7 +15,7 @@ class SearchController extends BaseController {
             if(preg_match('/^[0-9]+$/', $searchTerm)) {
                 $item = Item::find(intval($searchTerm));
                 if(!is_null($item)) {
-                    return route('itemdetails', [$language, $searchTerm]);
+                    return Redirect::route('itemdetails', [$language, $searchTerm]);
                 }
             }
 

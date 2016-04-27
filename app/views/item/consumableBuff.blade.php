@@ -9,7 +9,7 @@
 
         // feasts have all exactly 1 recipe with 1 ingredient (the base food)
         // we want to show the consumable buff for this item
-        if( count( $recipes ) == 1 && $recipes[0]->totalIngredients == 1 ) {
+        if( count( $recipes ) == 1 && $recipes[0]->totalIngredients == 1 && $recipes[0]->type == 'Feast' ) {
             $consumable = head($recipes[0]->getIngredients());
 
             $data = $consumable->getTypeData();

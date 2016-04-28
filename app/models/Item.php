@@ -570,10 +570,10 @@ class Item extends BaseModel {
             if( preg_match( '/^\+?([0-9]+)%? (\S+(\s\S+)?)$/', $buff, $matches ) ) {
                 $modifier = $matches[ 1 ];
                 $attribute = $matches[ 2 ];
-                $modifier = intval( str_replace( array( '+', '%' ), array( ' ', ' ' ), $modifier ) );
+                $modifier = intval(str_replace(['+', '%'], [' ', ' '], $modifier));
                 $attribute = str_replace(
-                    array( 'Critical Damage', 'Healing Power', ' ' ),
-                    array( 'Ferocity', 'Healing', '' ),
+                    ['Critical Damage', 'Healing Power', 'condition duration.', ' '],
+                    ['Ferocity',        'Healing',       'ConditionDuration',   ''],
                     $attribute );
                 $attributes[ $attribute ] = $modifier;
             } else {

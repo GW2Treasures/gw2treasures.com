@@ -12,8 +12,8 @@ return array (
   'tradingpost' => 
   array (
     'header' => 'Handelsposten',
-    'sell' => 'Verkaufs Preis',
-    'buy' => 'Einkaufs Preis',
+    'sell' => 'Verkaufspreis',
+    'buy' => 'Einkaufspreis',
     'available' => ':amount verfügbar',
     'ordered' => ':amount bestellt',
     'notTradable' => 'Dieser Gegenstand kann nicht im Handelsposten verkauft werden.',

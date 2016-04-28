@@ -26,6 +26,9 @@ return array (
     'Precision' => 'Precision',
     'Toughness' => 'Tenacidad',
     'Vitality' => 'Vitalidad',
+    'Damage' => 'Daño',
+    'CriticalChance' => 'Probabilidad de daño crítico',
+    'StunDuration' => 'Duración de aturdimiento',
   ),
   'rarity' => 
   array (
@@ -54,6 +57,7 @@ return array (
     'Trophy' => 'Trofeo',
     'UpgradeComponent' => 'Componente de mejora',
     'Weapon' => 'Arma',
+    'Trait' => 'Guía de rasgos',
   ),
   'subtype' => 
   array (
@@ -139,6 +143,7 @@ return array (
       'Toy' => 'Juguete',
       'TwoHandedToy' => 'A dos manos',
       'LargeBundle' => 'Haz',
+      'Spear' => 'Lanza',
     ),
   ),
   'weight' => 

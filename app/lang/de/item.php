@@ -26,6 +26,9 @@ return array (
     'Precision' => 'Präzision',
     'Toughness' => 'Zähigkeit',
     'Vitality' => 'Vitalität',
+    'Damage' => 'Schaden',
+    'CriticalChance' => 'Kritische Trefferchance',
+    'StunDuration' => 'Betäubungsdauer',
   ),
   'rarity' => 
   array (
@@ -54,6 +57,7 @@ return array (
     'Trophy' => 'Trophäe',
     'UpgradeComponent' => 'Aufwertung',
     'Weapon' => 'Waffe',
+    'Trait' => 'Eigenschaftenhandbuch',
   ),
   'subtype' => 
   array (
@@ -139,6 +143,7 @@ return array (
       'Toy' => 'Spielzeug',
       'TwoHandedToy' => 'Spielzeug (Zweihändig)',
       'LargeBundle' => 'Großes Bündel',
+      'Spear' => 'Speer',
     ),
   ),
   'weight' => 

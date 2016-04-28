@@ -26,6 +26,9 @@ return array (
     'Precision' => 'Précision',
     'Toughness' => 'Robustesse',
     'Vitality' => 'Vitalité',
+    'Damage' => 'Dégâts',
+    'CriticalChance' => 'Chance de coup critique',
+    'StunDuration' => 'Durée d\'Etourdissement',
   ),
   'rarity' => 
   array (
@@ -54,6 +57,7 @@ return array (
     'Trophy' => 'Trophée',
     'UpgradeComponent' => 'Composant d\'amélioration',
     'Weapon' => 'Arme',
+    'Trait' => 'Guide des aptitudes',
   ),
   'subtype' => 
   array (
@@ -139,6 +143,7 @@ return array (
       'Toy' => 'Jouet',
       'TwoHandedToy' => 'Jouet à deux mains',
       'LargeBundle' => 'Grande arme environnementale',
+      'Spear' => 'Lance',
     ),
   ),
   'weight' => 

@@ -39,7 +39,7 @@
 
         <h3>@lang('misc.tradingpost.header')</h3>
 
-        @if(count(array_intersect(['AccountBound', 'SoulbindOnAcquire'], $item->getData()->flags)) == 0)
+        @if(count(array_intersect(['AccountBound', 'SoulbindOnAcquire', 'MonsterOnly'], $item->getData()->flags)) == 0)
             <dl class="sidebar-tp loading only-js" data-tp-item-id="{{ $item->id }}">
                 <dt>@lang('misc.tradingpost.sell'):</dt>
                 <dd>

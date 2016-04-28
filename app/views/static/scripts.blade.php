@@ -42,7 +42,13 @@
                     $tp.removeClass('loading');
                 })
                 .fail(function() {
-                    $tp.css({'display': 'none'});
+                    window.gw2t.vendorValue($tp.find('#tp-a-v'), 0);
+                    window.gw2t.vendorValue($tp.find('#tp-o-v'), 0);
+
+                    $tp.find('#tp-a-a').html(0);
+                    $tp.find('#tp-o-a').html(0);
+
+                    $tp.removeClass('loading');
                 });
         });
     })(window, jQuery);

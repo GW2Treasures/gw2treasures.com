@@ -620,12 +620,15 @@ class Item extends BaseModel {
      * @param $attribute
      * @return bool
      */
-    public function getAttributeIsPercentual( $attribute ) {
-        return in_array( $attribute, array(
+    public function getAttributeIsPercentual($attribute) {
+        return in_array($attribute, [
             'AgonyResistance',
             'BoonDuration',
             'ConditionDuration',
-            'Damage'
-        ) );
+            'StunDuration',
+            'Damage',
+            'CritChance',
+            'CriticalChance'
+        ]);
     }
 }

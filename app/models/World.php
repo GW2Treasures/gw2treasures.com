@@ -2,6 +2,10 @@
 
 class World extends BaseModel {
 	public function getUrl($lang = null) {
+		if($lang === null) {
+			$lang = App::getLocale();
+		}
+
 		return route('wvw.world', [$lang, $this->id]);
 	}
 

@@ -3,97 +3,168 @@
 class SitemapController extends BaseController {
     private static $pageSize = 25000;
 
-    public function getIndex($lang = null) {
-        $content = '<?xml version="1.0" encoding="UTF-8"?>';
-        $content .= '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
+    private $sitemaps = [];
 
-        $pages = ceil(DB::table('items')->count() / self::$pageSize);
-        for ($page=0; $page < $pages; $page++) {
-            $url = action('SitemapController@getItems', compact('lang', 'page'));
-            $content .= '<sitemap><loc>'.$url.'</loc></sitemap>';
+    public function __construct() {
+        $this->add('items', DB::table('items')->select(['id', 'update_time']), [$this, 'renderItem']);
+        $this->add('achievements', Achievement::select(['id', 'updated_at']), [$this, 'renderAchievement']);
+    }
+
+    protected function add($name, $query, callable $render) {
+        $this->sitemaps[$name] = (object)[
+            'name' => $name,
+            'query' => $query,
+            'render' => $render
+        ];
+    }
+
+    protected function renderItem($item) {
+        return [
+            'lastmod' => date('c', $item->update_time)
+        ] + $this->urls('item/'.$item->id);
+    }
+
+    protected function renderAchievement(Achievement $achievement) {
+        return [
+            'lastmod' => $achievement->updated_at->format('c')
+        ] + $this->urls('achievement/'.$achievement->id);
+    }
+
+    protected function url($url, $lang) {
+        $urlPrefix = Request::isSecure()
+            ? 'https://'
+            : 'http://';
+
+        $domain = Config::get('app.domain').'/';
+
+        $url = ltrim($url, '/');
+
+        if($lang === 'x-default') {
+            return $urlPrefix.$domain.$url;
         }
 
-        $content .= '<sitemap><loc>'.action('SitemapController@getAchievements', compact('lang')).'</loc></sitemap>';
-
-        $content .= '</sitemapindex>';
-
-        $response = Response::make($content, 200);
-        $response->header('Content-Type', 'application/xml; charset=utf8');
-        return $response;
+        return $urlPrefix.$lang.'.'.$domain.$url;
     }
 
-    public function getItems( $lang = null, $page = 0 ) {
-        $urlPrefix = Request::isSecure()
-            ? 'https://'
-            : 'http://';
-        $urlBase = Config::get('app.domain') . '/item/';
-        $pageSize = self::$pageSize;
+    protected function urls($url) {
+        $urls = [];
+        $currentLang = App::getLocale();
 
-        return Response::stream(function() use ( $urlPrefix, $urlBase, $lang, $page, $pageSize ) {
-            echo '<?xml version="1.0" encoding="UTF-8"?>' .
-                 '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">';
+        foreach(['x-default', 'de', 'en', 'es', 'fr'] as $lang) {
+            if($lang !== $currentLang) {
+                $urls['xhtml:link rel="alternate" hreflang="'.$lang.'" href="'.$this->url($url, $lang).'"'] = null;
+            } else {
+                $urls['loc'] = $this->url($url, $lang);
+            }
+        }
 
-            $items = DB::table('items')->select(['id', 'update_time'])->skip($page * $pageSize)->take($pageSize)->get();
-            //$items->chunk(25000, function( $items ) use ( $urlPrefix, $urlBase, $lang ) {
-                foreach( $items as $item ) {
-                    $url = htmlspecialchars( $urlPrefix . $lang . '.' . $urlBase . $item->id, ENT_XML1 );
-                    $lastmod = htmlspecialchars( date( 'c', $item->update_time ));
-                    echo '<url>';
-                    echo '<loc>' . $url . '</loc>';
-
-                    echo '<xhtml:link rel="alternate" hreflang="x-default" href="' .
-                         htmlspecialchars( $urlPrefix . $urlBase . $item->id, ENT_XML1 ) . '"/>';
-
-                    foreach(['de', 'en', 'es', 'fr'] as $alternate ) {
-                        if( $alternate !== $lang ) {
-                            echo '<xhtml:link rel="alternate" hreflang="' . $alternate . '" href="' .
-                                 htmlspecialchars( $urlPrefix . $alternate . '.' . $urlBase . $item->id, ENT_XML1 ) . '"/>';
-                        }
-                    }
-
-                    echo '<lastmod>' . $lastmod . '</lastmod>';
-                    echo '</url>';
-                }
-            //});
-
-            echo '</urlset>';
-            echo '<!-- ' . round(memory_get_usage() / 1024 / 1024, 2) . 'MB -->';
-        }, 200, ['Content-Type' =>  'application/xml; charset=utf8']);
+        return $urls;
     }
 
-    public function getAchievements($lang = null) {
-        $urlPrefix = Request::isSecure()
-            ? 'https://'
-            : 'http://';
-        $urlBase = Config::get('app.domain') . '/achievement/';
+    protected function sitemapIndex() {
+        $all = [];
 
-        return Response::stream(function() use ( $urlPrefix, $urlBase, $lang ) {
-            echo '<?xml version="1.0" encoding="UTF-8"?>' .
-                '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">';
+        foreach($this->sitemaps as $sitemap) {
+            $all = array_merge($all, $this->sitemapPages($sitemap));
+        }
 
-            $achievements = Achievement::select(['id', 'updated_at'])->get();
+        return $all;
+    }
 
-            foreach($achievements as $achievement) {
-                $url = htmlspecialchars( $urlPrefix . $lang . '.' . $urlBase . $achievement->id, ENT_XML1 );
-                $lastmod = htmlspecialchars( $achievement->updated_at->format('c') );
+    protected function sitemapPages($sitemap) {
+        $pages = [];
+        $pageCount = $sitemap->query->count() / self::$pageSize;
+
+        for($page = 0; $page < $pageCount; $page++) {
+            $pages[] = route('sitemap', [App::getLocale(), $sitemap->name, $page]);
+        }
+
+        return $pages;
+    }
+
+    protected function renderSitemapIndex($pages) {
+        return $this->streamXml(function() use ($pages) {
+            echo '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
+
+            foreach($pages as $page) {
+                echo '<sitemap><loc>'.$page.'</loc></sitemap>';
+            }
+
+            echo '</sitemapindex>';
+        });
+    }
+
+    protected function renderUrlSet($sitemap, $page) {
+        if(!is_numeric($page)) {
+            return $this->renderError(400, 'Invalid page.');
+        }
+
+        $pageCount = floor($sitemap->query->count() / self::$pageSize);
+        if($page < 0 || $page > $pageCount) {
+            return $this->renderError(400, "Page out of range (0-$pageCount).");
+        }
+
+        return $this->streamXml(function() use ($sitemap, $page) {
+            $entries = $sitemap->query->skip($page * self::$pageSize)->take(self::$pageSize)->get();
+
+            echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">';
+            echo '<!--'.count($entries).' '.$sitemap->name.'-->';
+
+
+            foreach($entries as $entry) {
+                $data = call_user_func($sitemap->render, $entry);
+
                 echo '<url>';
-                echo '<loc>' . $url . '</loc>';
-
-                echo '<xhtml:link rel="alternate" hreflang="x-default" href="' .
-                    htmlspecialchars( $urlPrefix . $urlBase . $achievement->id, ENT_XML1 ) . '"/>';
-
-                foreach(['de', 'en', 'es', 'fr'] as $alternate ) {
-                    if( $alternate !== $lang ) {
-                        echo '<xhtml:link rel="alternate" hreflang="' . $alternate . '" href="' .
-                            htmlspecialchars( $urlPrefix . $alternate . '.' . $urlBase . $achievement->id, ENT_XML1 ) . '"/>';
+                foreach($data as $k => $v) {
+                    if(is_null($v)) {
+                        echo "<$k/>";
+                    } else {
+                        $v = htmlspecialchars($v, ENT_XML1);
+                        echo "<$k>$v</$k>";
                     }
                 }
-
-                echo '<lastmod>' . $lastmod . '</lastmod>';
                 echo '</url>';
             }
 
             echo '</urlset>';
-        }, 200, ['Content-Type' =>  'application/xml; charset=utf8']);
+        });
+    }
+
+    protected function renderError($status, $message, $extra = []) {
+        return $this->streamXml(function() use ($status, $message, $extra) {
+            echo '<error>';
+
+            foreach(['status' => $status, 'message' => $message] + $extra as $k => $v) {
+                $v = htmlspecialchars($v, ENT_XML1);
+                echo "<$k>$v</$k>";
+            }
+
+            echo '</error>';
+        }, $status);
+    }
+
+    protected function streamXml(callable $callback, $status = 200, $extraHeader = []) {
+        return Response::stream(function() use ($callback) {
+            echo '<?xml version="1.0" encoding="UTF-8"?>';
+            $callback();
+        }, $status, ['Content-Type' =>  'application/xml; charset=utf8'] + $extraHeader);
+    }
+
+    public function getIndex($language, $sitemap = null, $page = null) {
+        if(is_null($sitemap) && is_null($page)) {
+            return $this->renderSitemapIndex($this->sitemapIndex());
+        } elseif(!is_null($sitemap)) {
+            if(!array_key_exists($sitemap, $this->sitemaps)) {
+                return $this->renderError(404, 'Not found');
+            }
+
+            if(is_null($page)) {
+                return $this->renderSitemapIndex($this->sitemapPages($this->sitemaps[$sitemap]));
+            }
+
+            return $this->renderUrlSet($this->sitemaps[$sitemap], $page);
+        }
+
+        return $this->renderError(400, 'Bad request.');
     }
 }

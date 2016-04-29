@@ -271,6 +271,10 @@ Route::group( array(
             'uses' => 'MainController@about'
         ));
 
-        Route::controller('sitemap', 'SitemapController');
+        // sitemap
+        Route::get('sitemap/{type?}/{page?}', [
+            'as' => 'sitemap',
+            'uses' => 'SitemapController@getIndex'
+        ]);
     }
 );

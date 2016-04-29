@@ -8,6 +8,7 @@ class SitemapController extends BaseController {
     public function __construct() {
         $this->add('items', DB::table('items')->select(['id', 'update_time']), [$this, 'renderItem']);
         $this->add('achievements', Achievement::select(['id', 'updated_at']), [$this, 'renderAchievement']);
+        $this->add('skins', Skin::select('id'), [$this, 'renderSkin']);
     }
 
     protected function add($name, $query, callable $render) {
@@ -28,6 +29,10 @@ class SitemapController extends BaseController {
         return [
             'lastmod' => $achievement->updated_at->format('c')
         ] + $this->urls('achievement/'.$achievement->id);
+    }
+
+    protected function renderSkin(Skin $skin) {
+        return $this->urls('skin/'.$skin->id);
     }
 
     protected function url($url, $lang) {

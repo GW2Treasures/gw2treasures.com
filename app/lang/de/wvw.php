@@ -11,7 +11,8 @@ return array (
   'camp' => 'Lager',
   'ruin' => 'Ruinen',
   'breadcrumb' => 'Welten',
-  'region' => array(
+  'region' => 
+  array (
     'na' => 'Nord Amerika',
     'eu' => 'Europa',
   ),

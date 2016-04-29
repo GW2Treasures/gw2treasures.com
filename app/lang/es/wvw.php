@@ -10,4 +10,10 @@ return array (
   'tower' => 'Torres',
   'camp' => 'Campamentos',
   'ruin' => 'Ruinas',
+  'breadcrumb' => 'Mundos',
+  'region' => 
+  array (
+    'eu' => 'Europa',
+    'na' => 'Norteamérica',
+  ),
 );

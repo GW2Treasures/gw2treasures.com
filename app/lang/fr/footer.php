@@ -26,4 +26,12 @@ return array (
   'french' => 'Français',
   'legalNotice1' => 'Ce site n\'est pas affilié à ArenaNet, Guild Wars 2, ou un de leurs partenaires. Tous droits d\'auteur réservés appartiennent à leurs propriétaires respectifs.',
   'legalNotice2' => '© 2014 ArenaNet, LLC et NCSOFT Europe Ltd. Tous droits réservés. NCSOFT, le logo NC, ArenaNet, Guild Wars, Guild Wars 2 et tous les logos et dessins associés à NCSOFT et ArenaNet sont des marques commerciales ou déposées de NCSOFT Corporation. Toutes les autres marques commerciales et/ou déposées appartiennent à leurs propriétaires respectifs.',
+  'search' => 'Rechercher',
+  'skinOverview' => 'Vue d\'ensemble',
+  'skins' => 'Apparences',
+  'achievements' => 
+  array (
+    'header' => 'Succès',
+    'daily' => 'Succès quotidiens',
+  ),
 );

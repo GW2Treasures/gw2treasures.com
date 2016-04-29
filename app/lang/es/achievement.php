@@ -11,4 +11,11 @@ return array (
     'header' => 'Recompensas',
     'mastery' => ':region punto de dominio',
   ),
+  'daily' => 
+  array (
+    'type' => 
+    array (
+      'wvw' => 'McM',
+    ),
+  ),
 );

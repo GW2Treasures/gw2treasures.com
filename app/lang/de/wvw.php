@@ -10,4 +10,10 @@ return array (
   'tower' => 'Türme',
   'camp' => 'Lager',
   'ruin' => 'Ruinen',
+  'breadcrumb' => 'Welten',
+  'region' => array(
+    'na' => 'Nord Amerika',
+    'eu' => 'Europa',
+  ),
+  'currentMatchup' => 'Aktuelle Zuordnung',
 );

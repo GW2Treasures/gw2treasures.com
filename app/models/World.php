@@ -1,6 +1,10 @@
 <?php
 
 class World extends BaseModel {
+	public function getUrl($lang = null) {
+		return route('wvw.world', [$lang, $this->id]);
+	}
+
 	public function getName( $lang = null ) {
 		return $this->localized( 'name', $lang );
 	}

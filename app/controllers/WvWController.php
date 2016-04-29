@@ -13,6 +13,7 @@ class WvWController extends BaseController {
 
 	public function world( $language, World $world ) {
 		$this->layout->title = $world->getName();
+		$this->layout->fullWidth = true;
 		$this->layout->content = View::make( 'wvw.world' )
 			->with( 'world', $world );
 	}

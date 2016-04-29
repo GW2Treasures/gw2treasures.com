@@ -10,4 +10,10 @@ return array (
   'tower' => 'Towers',
   'camp' => 'Camps',
   'ruin' => 'Ruins',
+  'breadcrumb' => 'Worlds',
+  'region' => array(
+    'na' => 'North America',
+    'eu' => 'Europe',
+  ),
+  'currentMatchup' => 'Current Matchup',
 );

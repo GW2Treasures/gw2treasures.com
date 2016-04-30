@@ -1,4 +1,5 @@
-<div class="banner" style="background-color: #d4d8e1">
+<div style="background-image: linear-gradient(#d4d8e1 250px, #fff 500px)">
+<div class="banner">
 	<div class="header">
 		<img src="{{ App::environment('production') ? Helper::cdn('assets2/img/header_img.svg') : 'http://'.Config::get('app.domain').':8888/img/header_img.svg' }}" width="800" height="150" />
 	</div>
@@ -12,7 +13,6 @@
 	</div>
 </div>
 
-<div style="background-image: linear-gradient(#d4d8e1, #fff 250px)">
 @if(!empty($recentItemViews))
 	<div class="pageWidth grid">
 		<div class="row">

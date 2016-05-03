@@ -130,8 +130,12 @@ $dailyBoxBackground: rebeccapurple;
         }
     }
 
-    .itemList > li {
-        line-height: 1;
+    .itemList {
+        column-gap: 0;
+
+        & > li {
+            line-height: 1;
+        }
     }
 
     .item-link {

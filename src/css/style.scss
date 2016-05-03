@@ -1189,57 +1189,6 @@ i.loading {
     100% { box-shadow: 0 2.0em 0 0 #aaa, -.75em 2.0em 0 0 #aaa, .75em 2.0em 0 0 #aaa; }
 }
 
-.mainpageBanner {
-    position: relative;
-    width: 900px;
-    height: 500px;
-    margin: 50px auto;
-    box-shadow: 0 0 3px black; }
-    .js .mainpageBanner { background-image: none; }
-
-         .no-js[lang="de"] .mainpageBanner,
-    .js.no-webp[lang="de"] .mainpageBanner { background-image: url('../img/mainpage_de.png'); }
-       .js.webp[lang="de"] .mainpageBanner { background-image: url('../img/mainpage_de.webp'); }
-
-         .no-js[lang="en"] .mainpageBanner,
-    .js.no-webp[lang="en"] .mainpageBanner { background-image: url('../img/mainpage_en.png'); }
-       .js.webp[lang="en"] .mainpageBanner { background-image: url('../img/mainpage_en.webp'); }
-
-         .no-js[lang="es"] .mainpageBanner,
-    .js.no-webp[lang="es"] .mainpageBanner { background-image: url('../img/mainpage_es.png'); }
-       .js.webp[lang="es"] .mainpageBanner { background-image: url('../img/mainpage_es.webp'); }
-
-         .no-js[lang="fr"] .mainpageBanner,
-    .js.no-webp[lang="fr"] .mainpageBanner { background-image: url('../img/mainpage_fr.png'); }
-       .js.webp[lang="fr"] .mainpageBanner { background-image: url('../img/mainpage_fr.webp'); }
-
-    .mainpageBanner > form {
-        position: absolute;
-        left: 462px;
-        top: 340px;
-        width: 397px;
-        height: 55px; }
-        .mainpageBanner > form > input[type="text"] {
-            border: none;
-            outline: none;
-            box-sizing: border-box;
-            padding: 13px 20px;
-            font: 28px/1 'Open Sans Condensed', sans-serif;
-            float: left;
-            height: 100%;
-            width: 341px; }
-        .mainpageBanner > form > input[type="submit"] {
-            float: right;
-            font-size: 0;
-            display: block;
-            width: 55px;
-            height: 100%;
-            padding: 0;
-            background: transparent;
-            border: none;
-            float: right;
-            box-sizing: border-box; }
-
 #mainsearchAutocomplete {
     max-height: 0px;
     background: white;
@@ -1277,18 +1226,26 @@ i.loading {
     background-repeat: no-repeat;
     background-position: center 0px;
     min-height: 250px; }
-    .js         .banner { background-image: none; }
+    .js         .banner { background-image: linear-gradient(#30373d 200px, #d4d8e1 200px); }
     .no-js      .banner,
-    .js.no-webp .banner { background-image: url(../img/header.png);  }
-    .js.webp    .banner { background-image: url(../img/header.webp); }
+    .js.no-webp .banner { background-image: url(../img/header.png), linear-gradient(#30373d 200px, #d4d8e1 200px);  }
+    .js.webp    .banner { background-image: url(../img/header.webp), linear-gradient(#30373d 200px, #d4d8e1 200px); }
 
     .banner .header {
         position: relative;
-        margin: 0 auto 25px;
+        margin: 0 auto 15px;
+        padding-top: 10px;
         max-width: 800px; }
         .banner .header img {
             width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
             height: auto; }
+    .banner .header__wrapper {
+        padding-bottom: 18.75%;
+        position: relative;
+    }
 
     .bannerSearch {
         position: relative;
@@ -1349,6 +1306,10 @@ i.loading {
             border: none; }
         .bannerSearch #mainsearch:focus {
             outline: none; }
+
+.start-wrapper {
+    background-image: linear-gradient(#d4d8e1 250px, #fff 500px);
+}
 
 #snowcanvas {
     width: 100%;

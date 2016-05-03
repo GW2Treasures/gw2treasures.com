@@ -114,7 +114,7 @@
 						<?php $rewardItem = Item::find($reward->id); ?>
 						@if(!is_null($rewardItem))
 							<li class="achievement__reward--item">{{
-								$rewardItem->link(32, null, ($reward->count > 1 ? $reward->count.' × ' : '').$rewardItem->getName())
+								$rewardItem->link(32, null, ($reward->count > 1 ? $reward->count.'× ' : '').$rewardItem->getName())
 							}}</li>
 						@else
 							<li class="achievement__reward--unknown">Unknown item <span class="chatlink--inline">{{

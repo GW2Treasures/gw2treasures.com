@@ -125,6 +125,8 @@
 						<li class="achievement__reward--mastery achievement__reward--mastery-{{$reward->region}}">{{
 							trans('achievement.rewards.mastery', ['region' => $reward->region])
 						}}</li>
+					@elseif($reward->type === 'Coins')
+						<li class="achievement__reward--coins"><img src="{{ Helper::cdn('icons/98457F504BA2FAC8457F532C4B30EDC23929ACF9/619316-64px.png') }}" width="32" height="32" style="margin-right: 5px">@include('item.vendorValue', ['vendorValue' => $reward->count])</li>
 					@endif
 				@endforeach
 			</ul>

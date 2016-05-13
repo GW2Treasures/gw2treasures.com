@@ -12,6 +12,8 @@
 					@include('item.search.chatlink.item')
 				@elseif($chatlink->getType() === $chatlink::TYPE_SKIN)
 					@include('item.search.chatlink.skin')
+				@elseif($chatlink->getType() === $chatlink::TYPE_TRAIT)
+					@include('item.search.chatlink.trait')
 				@else
 					Unknown type 0x{{ substr('0'.dechex($chatlink->getType()), -2) }}
 				@endif

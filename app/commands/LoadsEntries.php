@@ -71,6 +71,9 @@ trait LoadsEntries
                 if(is_numeric($k) && is_string($v)) {
                     $column = $v;
                     $k = null;
+                } elseif(is_string($k) && is_string($v)) {
+                    $entryData[$k] = $entries_en[$id]->{$v};
+                    continue;
                 } else {
                     $entryData[$k] = $v($entries_de[$id], $entries_en[$id], $entries_es[$id], $entries_fr[$id]);
                     continue;

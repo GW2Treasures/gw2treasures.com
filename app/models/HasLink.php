@@ -9,7 +9,7 @@ trait HasLink {
 
     abstract function getName($lang);
 
-    public function link($icon = 16, $lang = null, $text = null, $anchor = null) {
+    public function link($icon = 16, $lang = null, $text = null, $anchor = null, $extraAttributes = []) {
         if(is_null($lang)) {
             $lang = App::getLocale();
         }
@@ -25,13 +25,12 @@ trait HasLink {
             : '';
 
         $defaultAttributes = [
-            'test' => 1,
             'class' => 'item-link' . ($displayIcon ? ' item-link-'.$icon : ''),
             'href' => $this->getUrl($lang).$anchor,
             'hreflang' => $lang,
         ];
 
-        $attributes = $this->getAdditionalLinkAttributes($defaultAttributes) + $defaultAttributes;
+        $attributes = $extraAttributes + $this->getAdditionalLinkAttributes($defaultAttributes) + $defaultAttributes;
 
         $openTag = '<a '.HTML::attributes($attributes).'>';
         $closeTag = '</a>';

@@ -192,6 +192,66 @@ Route::group( array(
             'uses' => 'AchievementController@json'
         ]);
 
+
+        //================================
+        // Traits
+        //================================
+
+        Route::model('trait', Traits::class);
+
+        Route::get('trait', [
+            'as' => 'trait.overview',
+            'uses' => 'TraitController@overview'
+        ]);
+
+        Route::get('trait/random', [
+            'as' => 'trait.random',
+            'uses' => 'TraitController@random'
+        ]);
+
+        Route::get('trait/{trait}', [
+            'as' => 'trait.details',
+            'uses' => 'TraitController@details'
+        ]);
+
+        Route::get('trait/{trait}/json', [
+            'as' => 'trait.json',
+            'uses' => 'TraitController@json'
+        ]);
+
+        Route::get('trait/{trait}/tooltip', [
+            'as' => 'trait.tooltip',
+            'uses' => 'TraitController@tooltip'
+        ]);
+
+
+        //================================
+        // Specializations
+        //================================
+
+        Route::model('specialization', Specialization::class);
+
+        Route::get('specialization', [
+            'as' => 'specialization.overview',
+            'uses' => 'SpecializationController@overview'
+        ]);
+    
+        Route::get('specialization/random', [
+            'as' => 'specialization.random',
+            'uses' => 'SpecializationController@random'
+        ]);
+
+        Route::get('specialization/{specialization}', [
+            'as' => 'specialization.details',
+            'uses' => 'SpecializationController@details'
+        ]);
+
+        Route::get('specialization/{specialization}/json', [
+            'as' => 'specialization.json',
+            'uses' => 'SpecializationController@json'
+        ]);
+
+
         //================================
         // WVW
         //================================

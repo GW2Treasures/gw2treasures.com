@@ -24,7 +24,7 @@ class Specialization extends BaseModel {
 	}
 
     public function traits() {
-        return $this->hasMany('traits');
+        return $this->hasMany('Traits');
     }
 
 

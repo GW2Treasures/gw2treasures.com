@@ -58,7 +58,7 @@ class Traits extends BaseModel {
 
     public function getFactIcon($size, $icon) {
         $attributes = [
-            'src' => $this->getIconUrl($size),
+            'src' => $this->getFactIconUrl($size, $icon),
             'width' => $size,
             'height' => $size,
             'alt' => '',
@@ -79,14 +79,14 @@ class Traits extends BaseModel {
     }
 
     public function requiresTraits() {
-        return $this->belongsToMany('traits', 'traits_required', 'required_trait_id', 'trait_id');
+        return $this->belongsToMany('Traits', 'traits_required', 'required_trait_id', 'trait_id');
     }
 
     public function requiredForTraits() {
-        return $this->belongsToMany('traits', 'traits_required', 'trait_id', 'required_trait_id');
+        return $this->belongsToMany('Traits', 'traits_required', 'trait_id', 'required_trait_id');
     }
 
 	public function specialization() {
-		return $this->belongsTo('specialization');
+		return $this->belongsTo('Specialization', 'specialization_id', 'id');
 	}
 }

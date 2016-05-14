@@ -24,6 +24,8 @@ class SearchQuery {
      * @return Builder
      */
     public function getQuery() {
+        return $this->getItemQuery();
+
         if(isset($this->query)) {
             return $this->query;
         }
@@ -77,19 +79,35 @@ class SearchQuery {
     }
 
     public function getResults() {
-        if(!isset($this->results)) {
-            return $this->results = $this->getQuery()->paginate(50)->appends(
-                Input::only(['q'])
-            );
-        }
-
-        return $this->results;
+        return $this->getItems();
     }
 
     public function getChatlinks() {
-        $this->getQuery();
+        $chatlinks = [];
 
-        return $this->chatlinks;
+        foreach($this->splitSearchTerms() as $searchTerm) {
+            try {
+                $chatlink = Chatlink::decode($searchTerm);
+            } catch (Exception $e) {
+                $chatlink = false;
+            }
+
+            if($chatlink !== false) {
+                $chatlinks[] = $chatlink;
+            }
+
+//            if($chatlink instanceof ItemChatlink) {
+//                $itemStack = $chatlink->getItemStack();
+//                $additionalItems[] = $itemStack->id;
+//                foreach($itemStack->upgrades as $upgrade) {
+//                    $additionalItems[] = $upgrade;
+//                }
+//            } elseif($chatlink instanceof RecipeChatlink) {
+//                $additionalItems[] = Recipe::remember(3)->find($chatlink->getId())->output_id;
+//            }
+        }
+
+        return $chatlinks;
     }
 
     public function hasResults() {
@@ -107,6 +125,35 @@ class SearchQuery {
     protected function splitSearchTerms() {
         preg_match_all('/"(?:\\\\.|[^\\\\"])*"|\S+/', $this->searchTerm, $matches);
         return $matches[0];
+    }
+
+    protected function getItemQuery() {
+        $query = $this->queryNameContains(Item::query(), $this->splitSearchTerms());
+
+        $ids = [];
+
+        foreach($this->getChatlinks() as $chatlink) {
+            if($chatlink instanceof ItemChatlink) {
+                $ids[] = $chatlink->getItemStack()->id;
+                foreach($chatlink->getItemStack()->upgrades as $upgrade) {
+                    $ids[] = $upgrade;
+                }
+            }
+        }
+
+        $query->orWhereIn('id', $ids);
+
+        return $query->orderBy('views', 'desc')->remember(3);
+    }
+
+    protected function getItems() {
+        if(!isset($this->items)) {
+            return $this->items = $this->getItemQuery()->paginate(50)->appends(
+                Input::only(['q'])
+            );
+        }
+
+        return $this->items;
     }
 
     /**
@@ -140,5 +187,26 @@ class SearchQuery {
      */
     protected function queryOrWhereStringContains($query, $column, $value) {
         return $this->queryWhereStringContains($query, $column, $value, 'or');
+    }
+
+    /**
+     * @param Builder  $query
+     * @param string[] $searchTerms
+     * @return Builder
+     */
+    protected function queryNameContains($query, $searchTerms) {
+        return $query->orWhere(function($query) use ($searchTerms) {
+            foreach($searchTerms as $searchTerm) {
+                $searchTerm = trim($searchTerm, '"');
+                $query = $query->where(function($query) use($searchTerm) {
+                    $query = $this->queryOrWhereStringContains($query, 'name_de', $searchTerm);
+                    $query = $this->queryOrWhereStringContains($query, 'name_en', $searchTerm);
+                    $query = $this->queryOrWhereStringContains($query, 'name_es', $searchTerm);
+                    $query = $this->queryOrWhereStringContains($query, 'name_fr', $searchTerm);
+
+                    return $query;
+                });
+            }
+        });
     }
 }

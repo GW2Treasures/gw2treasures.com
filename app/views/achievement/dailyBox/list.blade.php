@@ -12,6 +12,12 @@
                                 : $achievement->level->min.' – '.$achievement->level->max
                         ])
                     @endif
+                    @if(isset($achievement->required_access) && count($achievement->required_access) == 1)
+                        @if(!is_null($achievement->level))
+                            •
+                        @endif
+                        {{ trans('achievement.access.'.$achievement->required_access[0]) }}
+                    @endif
                 </span>
             </li>
         @endif

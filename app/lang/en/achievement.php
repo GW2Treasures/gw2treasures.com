@@ -31,4 +31,8 @@ return array (
     ),
     'level' => 'Level :level',
   ),
+  'access' => array (
+    'GuildWars2' => 'Only Guild Wars 2',
+    'HeartOfThorns' => 'Only Heart Of Thorns'
+  ),
 );

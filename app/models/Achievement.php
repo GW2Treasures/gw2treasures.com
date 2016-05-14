@@ -3,11 +3,11 @@
 class Achievement extends BaseModel {
 	use HasLocalizedData, HasIcon, HasLink;
 
-	public function getName( $lang = null ) {
-		return $this->localized( 'name', $lang );
+	public function getName($lang = null) {
+		return $this->localized('name', $lang);
 	}
 
-	public function getIconUrl( $size = 64 ) {
+	public function getIconUrl($size = 64) {
 		if($this->file_id == 0) {
 			if(!is_null($this->category)) {
 				return $this->category->getIconUrl($size);
@@ -26,14 +26,14 @@ class Achievement extends BaseModel {
 	}
 
 	public function getUrl($lang = null) {
-		if( is_null( $lang ) ) {
+		if(is_null($lang)) {
 			$lang = App::getLocale();
 		}
-		return URL::route( 'achievement.details', array( 'language' => $lang, 'achievement' => $this->id ) );
+		return route('achievement.details', ['language' => $lang, 'achievement' => $this->id]);
 	}
 
 	public function category() {
-		return $this->belongsTo( AchievementCategory::class, 'achievement_category_id' );
+		return $this->belongsTo(AchievementCategory::class, 'achievement_category_id');
 	}
 
 	/**

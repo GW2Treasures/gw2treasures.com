@@ -79,14 +79,14 @@ class Traits extends BaseModel {
     }
 
     public function requiresTraits() {
-        return $this->belongsToMany('Traits', 'traits_required', 'required_trait_id', 'trait_id');
+        return $this->belongsToMany(Traits::class, 'traits_required', 'required_trait_id', 'trait_id');
     }
 
     public function requiredForTraits() {
-        return $this->belongsToMany('Traits', 'traits_required', 'trait_id', 'required_trait_id');
+        return $this->belongsToMany(Traits::class, 'traits_required', 'trait_id', 'required_trait_id');
     }
 
 	public function specialization() {
-		return $this->belongsTo('Specialization', 'specialization_id', 'id');
+		return $this->belongsTo(Specialization::class, 'specialization_id', 'id');
 	}
 }

@@ -67,7 +67,7 @@ class Skill extends BaseModel {
 
     public function getFactIcon($size, $icon) {
         $attributes = [
-            'src' => $this->getIconUrl($size),
+            'src' => $this->getFactIconUrl($size, $icon),
             'width' => $size,
             'height' => $size,
             'alt' => '',

@@ -24,6 +24,6 @@ class AchievementCategory extends BaseModel {
 	}
 
 	public function getUrl($lang = null) {
-		return Url::route('achievement.category', [$lang, $this->id]);
+		return route('achievement.category', [$lang, $this->id]);
 	}
 }

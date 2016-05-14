@@ -1,7 +1,7 @@
 <?php
 
 return array (
-  'breadcrumb' => 'Specialization',
+  'breadcrumb' => 'Specializations',
   'tier' => 
   array (
     1 => 'Adept',

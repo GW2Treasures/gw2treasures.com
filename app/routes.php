@@ -253,6 +253,32 @@ Route::group( array(
 
 
         //================================
+        // Professions
+        //================================
+
+        Route::model('profession', Profession::class);
+
+        Route::get('profession', [
+            'as' => 'profession.overview',
+            'uses' => 'ProfessionController@overview'
+        ]);
+
+        Route::get('profession/random', [
+            'as' => 'profession.random',
+            'uses' => 'ProfessionController@random'
+        ]);
+
+        Route::get('profession/{profession}', [
+            'as' => 'profession.details',
+            'uses' => 'ProfessionController@details'
+        ]);
+
+        Route::get('profession/{profession}/json', [
+            'as' => 'profession.json',
+            'uses' => 'ProfessionController@json'
+        ]);
+
+        //================================
         // WVW
         //================================
 

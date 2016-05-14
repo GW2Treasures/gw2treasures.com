@@ -28,7 +28,7 @@ class SpecializationController extends BaseController {
 
 
 	public function overview($language) {
-		$specializationsByProfession = Specialization::orderBy('profession', 'ASC')->get()->groupBy('profession');
+		$specializationsByProfession = Specialization::orderBy('profession_id', 'ASC')->get()->groupBy('profession_id');
 
 		$this->layout->title = 'Specializations'; // TODO!
 		$this->layout->content = View::make('specialization.overview')

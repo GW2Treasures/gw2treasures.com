@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "1c2e25f59049242375e59c49c6eb6e22",
-    "content-hash": "8d3367650815b95c28b49ce5d8e70b94",
+    "hash": "c228b2fa0ed70e80c6746f7290cc36ea",
+    "content-hash": "1ccf7378cf181f1a70cf77344f222da1",
     "packages": [
         {
             "name": "barryvdh/laravel-ide-helper",
@@ -902,16 +902,16 @@
         },
         {
             "name": "gw2treasures/gw2api",
-            "version": "2.4.0",
+            "version": "3.0.0-RC",
             "source": {
                 "type": "git",
                 "url": "https://github.com/GW2Treasures/gw2api.git",
-                "reference": "cfee3c156e767aa20f30a2f86c9ca4ed0c858a57"
+                "reference": "97cb06d1187fdd0f0daeebb7f0051549b92fa793"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/GW2Treasures/gw2api/zipball/cfee3c156e767aa20f30a2f86c9ca4ed0c858a57",
-                "reference": "cfee3c156e767aa20f30a2f86c9ca4ed0c858a57",
+                "url": "https://api.github.com/repos/GW2Treasures/gw2api/zipball/97cb06d1187fdd0f0daeebb7f0051549b92fa793",
+                "reference": "97cb06d1187fdd0f0daeebb7f0051549b92fa793",
                 "shasum": ""
             },
             "require": {
@@ -946,7 +946,7 @@
                 "guildwars2",
                 "wrapper"
             ],
-            "time": "2016-03-10 21:10:33"
+            "time": "2016-05-14 10:18:04"
         },
         {
             "name": "gw2treasures/gw2tools",

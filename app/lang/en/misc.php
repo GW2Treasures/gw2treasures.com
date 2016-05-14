@@ -52,16 +52,4 @@ return array (
       'link' => 'current daily achievements',
     ),
   ),
-  'profession' => 
-  array (
-    'Guardian' => 'Guardian',
-    'Warrior' => 'Warrior',
-    'Engineer' => 'Engineer',
-    'Ranger' => 'Ranger',
-    'Thief' => 'Thief',
-    'Elementalist' => 'Elementalist',
-    'Mesmer' => 'Mesmer',
-    'Necromancer' => 'Necromancer',
-    'Revenant' => 'Revenant',
-  ),
 );

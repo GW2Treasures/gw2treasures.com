@@ -52,16 +52,4 @@ return array (
       'link' => 'aktuelle tägliche Erfolge',
     ),
   ),
-  'profession' => 
-  array (
-    'Warrior' => 'Krieger',
-    'Thief' => 'Dieb',
-    'Elementalist' => 'Elementarmagier',
-    'Necromancer' => 'Nekromant',
-    'Mesmer' => 'Mesmer',
-    'Engineer' => 'Ingenieur',
-    'Ranger' => 'Waldläufer',
-    'Revenant' => 'Widergänger',
-    'Guardian' => 'Wächter',
-  ),
 );

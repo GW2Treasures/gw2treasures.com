@@ -23,10 +23,13 @@ class Specialization extends BaseModel {
 		return URL::route('specialization.details', ['language' => $lang, 'specialization' => $this->id]);
 	}
 
+	public function profession() {
+		return $this->belongsTo(Profession::class);
+	}
+
     public function traits() {
         return $this->hasMany(Traits::class);
     }
-
 
     public function getTrait($id) {
         if(!isset($this->traitsById)) {

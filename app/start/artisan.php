@@ -18,3 +18,4 @@ Artisan::add( new SkinsCommand );
 Artisan::add( new TraitsCommand );
 Artisan::add( new SpecializationsCommand );
 Artisan::add( new ProfessionCommand );
+Artisan::add( new SkillCommand );

@@ -51,33 +51,33 @@
             @endforeach
         </ul>
 
-        {{--<h2>Weapons</h2>--}}
-        {{--@foreach($profession->getData()->weapons as $weapon => $weaponDetails)--}}
-            {{--<h3>{{ $weapon }}</h3>--}}
-            {{--@if(isset($weaponDetails->specialization))--}}
-                {{--Requires {{ Specialization::remember(3)->find($weaponDetails->specialization)->link(16) }}.--}}
-            {{--@endif--}}
-            {{--<ul class="itemList">--}}
-                {{--@foreach($weaponDetails->skills as $skill)--}}
-                    {{--<li>{{ $skill->id }}</li>--}}
-                {{--@endforeach--}}
-            {{--</ul>--}}
-        {{--@endforeach--}}
+        <h2>Weapons</h2>
+        @foreach($profession->getData()->weapons as $weapon => $weaponDetails)
+            <h3>{{ $weapon }}</h3>
+            @if(isset($weaponDetails->specialization))
+                Requires {{ Specialization::remember(3)->find($weaponDetails->specialization)->link(16) }}.
+            @endif
+            <ul class="itemList">
+                @foreach($weaponDetails->skills as $skill)
+                    <li>{{ Skill::remember(3)->find($skill->id)->link(32) }}</li>
+                @endforeach
+            </ul>
+        @endforeach
 
-        {{--<h2>Training</h2>--}}
-        {{--@foreach($profession->getData()->training as $training)--}}
-            {{--<h3>{{ $training->name }} ({{ $training->category }})</h3>--}}
+        <h2>Training</h2>
+        @foreach($profession->getData()->training as $training)
+            <h3>{{ $training->name }} ({{ $training->category }})</h3>
 
-            {{--<ul class="itemList">--}}
-                {{--@foreach($training->track as $t)--}}
-                    {{--@if($t->type == 'Trait')--}}
-                        {{--<li>{{ Traits::remember(3)->find($t->trait_id)->link(32) }} ({{ $t->cost }})</li>--}}
-                    {{--@elseif($t->type == 'Skill')--}}
-                        {{--<li>{{ $t->skill_id }} ({{ $t->cost }})</li>--}}
-                    {{--@endif--}}
-                {{--@endforeach--}}
-            {{--</ul>--}}
-        {{--@endforeach--}}
+            <ul class="itemList">
+                @foreach($training->track as $t)
+                    @if($t->type == 'Trait')
+                        <li>{{ Traits::remember(3)->find($t->trait_id)->link(32) }} ({{ $t->cost }})</li>
+                    @elseif($t->type == 'Skill')
+                        <li>{{ Skill::remember(3)->find($t->skill_id)->link(32) }} ({{ $t->cost }})</li>
+                    @endif
+                @endforeach
+            </ul>
+        @endforeach
 
     </div>
 </div>

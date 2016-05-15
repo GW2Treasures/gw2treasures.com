@@ -1,6 +1,8 @@
 @extends('traits.facts.Buff')
 
 @section($section.'image')
-    {{ $trait->getFactIcon(16, $fact->prefix->icon) }}
-    {{ $trait->getFactIcon(16, $fact->icon) }}
+    <?php $parent = isset($trait) ? $trait : $skill; ?>
+
+    {{ $parent->getFactIcon(16, $fact->prefix->icon) }}
+    {{ $parent->getFactIcon(16, $fact->icon) }}
 @endsection

@@ -58,7 +58,7 @@ class Skill extends BaseModel {
 			$lang = App::getLocale();
 		}
 
-//		return URL::route('skill.details', ['language' => $lang, 'trait' => $this->id]);
+		return route('skill.details', ['language' => $lang, 'skill' => $this->id]);
 	}
 
 	public function getChatlink() {

@@ -279,6 +279,37 @@ Route::group( array(
         ]);
 
         //================================
+        // Skills
+        //================================
+
+        Route::model('skill', Skill::class);
+
+        Route::get('skill', [
+            'as' => 'skill.overview',
+            'uses' => 'SkillController@overview'
+        ]);
+
+        Route::get('skill/random', [
+            'as' => 'skill.random',
+            'uses' => 'SkillController@random'
+        ]);
+
+        Route::get('skill/{skill}', [
+            'as' => 'skill.details',
+            'uses' => 'SkillController@details'
+        ]);
+
+        Route::get('skill/{skill}/json', [
+            'as' => 'skill.json',
+            'uses' => 'SkillController@json'
+        ]);
+
+        Route::get('skill/{skill}/tooltip', [
+            'as' => 'skill.tooltip',
+            'uses' => 'SkillController@tooltip'
+        ]);
+
+        //================================
         // WVW
         //================================
 

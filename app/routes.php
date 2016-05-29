@@ -192,6 +192,11 @@ Route::group( array(
             'uses' => 'AchievementController@json'
         ]);
 
+        Route::get('achievement/{achievement}/tooltip', [
+            'as' => 'achievement.tooltip',
+            'uses' => 'AchievementController@tooltip'
+        ]);
+
 
         //================================
         // Traits

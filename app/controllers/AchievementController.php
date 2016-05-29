@@ -65,6 +65,10 @@ class AchievementController extends BaseController {
 		return Response::json( $achievement->getData() );
 	}
 
+	public function tooltip($language, Achievement $achievement) {
+		return View::make('achievement.tooltip')->with($this->getAchievementData($achievement));
+	}
+
 	public function random($language) {
 		$id = Achievement::random()->first()->id;
 		return Redirect::route('achievement.details', [$language, $id]);

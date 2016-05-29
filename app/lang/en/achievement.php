@@ -36,4 +36,8 @@ return array (
     'GuildWars2' => 'Only Guild Wars 2',
     'HeartOfThorns' => 'Only Heart Of Thorns',
   ),
+  'tooltip' =>
+  array (
+    'objectives' => '1 objective|:count objectives'
+  ),
 );

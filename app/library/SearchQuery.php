@@ -1,212 +1,69 @@
 <?php
 
-use GW2Treasures\GW2Tools\Chatlinks\Chatlink;
-use GW2Treasures\GW2Tools\Chatlinks\ItemChatlink;
-use GW2Treasures\GW2Tools\Chatlinks\RecipeChatlink;
-use Illuminate\Database\Query\Builder;
-
 class SearchQuery {
+    /** @var string */
     public $searchTerm;
 
-    /** @var \Illuminate\Pagination\Paginator */
-    protected $results;
+    /** @var string[] */
+    public $searchTerms;
 
-    /** @var Chatlink[] $chatlinks */
-    protected $chatlinks = [];
+    public static $types = [
+        'item', 'chatlink', 'achievement', 'trait', 'specialization', 'skill', 'profession', 'world'
+    ];
 
-    protected $query;
+    protected static $classMap = [
+        'item' => ItemSearchQueryResult::class,
+        'chatlink' => ChatlinkSearchQueryResult::class,
+        'achievement' => AchievementSearchQueryResult::class,
+        'trait' => TraitSearchQueryResult::class,
+        'specialization' => SpecializationSearchQueryResult::class,
+        'profession' => ProfessionSearchQueryResult::class,
+        'skill' => SkillSearchQueryResult::class,
+        'world' => WorldSearchQueryResult::class,
+    ];
 
     public function __construct($searchTerm) {
         $this->searchTerm = $searchTerm;
+        $this->searchTerms = $this->splitSearchTerms();
     }
 
     /**
-     * @return Builder
+     * @param array $data
+     * @return \Illuminate\View\View
      */
-    public function getQuery() {
-        return $this->getItemQuery();
-
-        if(isset($this->query)) {
-            return $this->query;
-        }
-
-        // search terms
-        $query = Item::where(function($query) {
-            foreach($this->splitSearchTerms() as $searchTerm) {
-                $searchTerm = trim($searchTerm, '"');
-                $query = $query->where(function($query) use($searchTerm) {
-                    $query = $this->queryOrWhereStringContains($query, 'name_de', $searchTerm);
-                    $query = $this->queryOrWhereStringContains($query, 'name_en', $searchTerm);
-                    $query = $this->queryOrWhereStringContains($query, 'name_es', $searchTerm);
-                    $query = $this->queryOrWhereStringContains($query, 'name_fr', $searchTerm);
-
-                    return $query;
-                });
-            }
-            return $query;
-        });
-
-        $additionalItems = [];
-        foreach($this->splitSearchTerms() as $searchTerm) {
-            try {
-                $chatlink = Chatlink::decode($searchTerm);
-            } catch (Exception $e) {
-                $chatlink = false;
-            }
-
-            if($chatlink !== false) {
-                $this->chatlinks[] = $chatlink;
-            }
-
-            if($chatlink instanceof ItemChatlink) {
-                $itemStack = $chatlink->getItemStack();
-                $additionalItems[] = $itemStack->id;
-                foreach($itemStack->upgrades as $upgrade) {
-                    $additionalItems[] = $upgrade;
-                }
-            } elseif($chatlink instanceof RecipeChatlink) {
-                $additionalItems[] = Recipe::remember(3)->find($chatlink->getId())->output_id;
-            }
-        }
-
-        $query->orWhereIn('id', $additionalItems);
-
-        $query->orderBy('views', 'desc');
-
-        $this->query = $query->remember(3);
-
-        return $this->query;
+    public function renderResults($data = []) {
+        return View::make('search.index')->with($data)->with('query', $this)->with('results', $this->getResults());
     }
 
     public function getResults() {
-        return $this->getItems();
-    }
+        if(!isset($this->results)) {
+            $this->results = [];
 
-    public function getChatlinks() {
-        $chatlinks = [];
-
-        foreach($this->splitSearchTerms() as $searchTerm) {
-            try {
-                $chatlink = Chatlink::decode($searchTerm);
-            } catch (Exception $e) {
-                $chatlink = false;
-            }
-
-            if($chatlink !== false) {
-                $chatlinks[] = $chatlink;
-            }
-
-//            if($chatlink instanceof ItemChatlink) {
-//                $itemStack = $chatlink->getItemStack();
-//                $additionalItems[] = $itemStack->id;
-//                foreach($itemStack->upgrades as $upgrade) {
-//                    $additionalItems[] = $upgrade;
-//                }
-//            } elseif($chatlink instanceof RecipeChatlink) {
-//                $additionalItems[] = Recipe::remember(3)->find($chatlink->getId())->output_id;
-//            }
-        }
-
-        return $chatlinks;
-    }
-
-    public function hasResults() {
-        return $this->getResults()->getTotal() > 0;
-    }
-
-    public function hasChatlinks() {
-        return !empty($this->getChatlinks());
-    }
-
-    public function renderResults($data = []) {
-        return View::make('item.search.index')->with($data)->with('query', $this);
-    }
-
-    protected function splitSearchTerms() {
-        preg_match_all('/"(?:\\\\.|[^\\\\"])*"|\S+/', $this->searchTerm, $matches);
-        return $matches[0];
-    }
-
-    protected function getItemQuery() {
-        $query = $this->queryNameContains(Item::query(), $this->splitSearchTerms());
-
-        $ids = [];
-
-        foreach($this->getChatlinks() as $chatlink) {
-            if($chatlink instanceof ItemChatlink) {
-                $ids[] = $chatlink->getItemStack()->id;
-                foreach($chatlink->getItemStack()->upgrades as $upgrade) {
-                    $ids[] = $upgrade;
+            foreach(self::$types as $type) {
+                if(array_key_exists($type, self::$classMap)) {
+                    $this->results[$type] = new self::$classMap[$type]($this);
+                } else {
+                    $this->results[$type] = new EmptySearchQueryResult($this);
                 }
             }
         }
 
-        $query->orWhereIn('id', $ids);
-
-        return $query->orderBy('views', 'desc')->remember(3);
+        return $this->results;
     }
+    
+    protected function splitSearchTerms() {
+        $searchTerms = [];
 
-    protected function getItems() {
-        if(!isset($this->items)) {
-            return $this->items = $this->getItemQuery()->paginate(50)->appends(
-                Input::only(['q'])
-            );
+        preg_match_all('/"(?:\\\\.|[^\\\\"])*"|\S+/', $this->searchTerm, $matches);
+
+        foreach($matches[0] as $searchTerm) {
+            if($searchTerm[0] == '"') {
+                $searchTerm = substr($searchTerm, 1, -1);
+            }
+
+            $searchTerms[] = str_replace(['\\\\', '\\"'], ['\\', '"'], strtolower($searchTerm));
         }
 
-        return $this->items;
-    }
-
-    /**
-     * @param Builder $query
-     * @param string  $column
-     * @param string  $value
-     * @param string  $boolean
-     * @return Builder
-     */
-    protected function queryWhereStringContains($query, $column, $value, $boolean = 'and') {
-        // custom escape character (backslashes get really weird with with quadruple escapes…)
-        $e = '=';
-
-        // escape the escape char and wildcards
-        $replacements = [
-            $e  => $e.$e,
-            '%' => $e.'%',
-            '_' => $e.'_'
-        ];
-        $value = '%'.strtoupper(strtr( $value, $replacements )).'%';
-
-        // run the query
-        return $query->whereRaw("UPPER(`$column`) LIKE ? ESCAPE '$e'", [$value], $boolean);
-    }
-
-    /**
-     * @param Builder $query
-     * @param string  $column
-     * @param string  $value
-     * @return Builder
-     */
-    protected function queryOrWhereStringContains($query, $column, $value) {
-        return $this->queryWhereStringContains($query, $column, $value, 'or');
-    }
-
-    /**
-     * @param Builder  $query
-     * @param string[] $searchTerms
-     * @return Builder
-     */
-    protected function queryNameContains($query, $searchTerms) {
-        return $query->orWhere(function($query) use ($searchTerms) {
-            foreach($searchTerms as $searchTerm) {
-                $searchTerm = trim($searchTerm, '"');
-                $query = $query->where(function($query) use($searchTerm) {
-                    $query = $this->queryOrWhereStringContains($query, 'name_de', $searchTerm);
-                    $query = $this->queryOrWhereStringContains($query, 'name_en', $searchTerm);
-                    $query = $this->queryOrWhereStringContains($query, 'name_es', $searchTerm);
-                    $query = $this->queryOrWhereStringContains($query, 'name_fr', $searchTerm);
-
-                    return $query;
-                });
-            }
-        });
+        return array_unique($searchTerms);
     }
 }

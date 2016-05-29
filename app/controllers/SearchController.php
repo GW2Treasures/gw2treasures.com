@@ -8,44 +8,44 @@ class SearchController extends BaseController {
     protected $layout = 'layout';
 
     public function search($language) {
-        $searchTerm = trim(Input::get('q'));
+        $searchTerm = $this->getSearchTerm();
 
-        if(strlen($searchTerm) > 0) {
-            // item id
-            if(preg_match('/^[0-9]+$/', $searchTerm)) {
-                $item = Item::find(intval($searchTerm));
-                if(!is_null($item)) {
-                    return Redirect::route('itemdetails', [$language, $searchTerm]);
-                }
-            }
-
-            try {
-                $chatlink = Chatlink::decode($searchTerm);
-            } catch (Exception $e) {
-                $chatlink = false;
-            }
-
-            if($chatlink instanceof SkinChatlink) {
-                return Redirect::route('skin.details', [$language, $chatlink->getId()]);
-            }
+        if($searchTerm == '') {
+            return Redirect::route('search.results', [$language, SearchQuery::$types[0]]);
         }
 
         $query = new SearchQuery($searchTerm);
 
-        $this->layout->content = $query->renderResults();
-        $this->layout->fullWidth = true;
-        $this->layout->title = 'Search Results';
+        /** @var SearchQueryResult $result */
+        foreach($query->getResults() as $type => $result) {
+            if($result->hasResults()) {
+                return Redirect::route('search.results', [$language, $type, 'q' => $searchTerm]);
+            }
+        }
+        
+        return Redirect::route('search.results', [$language, SearchQuery::$types[0], 'q' => $searchTerm]);
     }
 
-    public function searchAutocomplete($language) {
-        $searchTerm = trim(Input::get('q'));
+    public function results($language, $type) {
+        $searchTerm = $this->getSearchTerm();
+
+        $query = new SearchQuery($searchTerm);
+
+        $this->layout->content = $query->renderResults()->with('type', $type);
+        $this->layout->fullWidth = true;
+        $this->layout->title = 'Search Results'; // TODO
+    }
+
+    public function autocomplete($language) {
+        $searchTerm = $this->getSearchTerm();
 
         $searchQuery = new SearchQuery($searchTerm);
+        $items = new ItemSearchQueryResult($searchQuery);
 
         $response = new stdClass();
         $response->items = [];
 
-        foreach($searchQuery->getQuery()->take(10)->get() as $item) {
+        foreach($items->getQuery()->take(10)->get() as $item) {
             if(is_null($item)) {
                 continue;
             }
@@ -59,5 +59,12 @@ class SearchController extends BaseController {
         }
 
         return Response::json($response);
+    }
+
+    /**
+     * @return string
+     */
+    protected function getSearchTerm() {
+        return trim(Input::get('q'));
     }
 }

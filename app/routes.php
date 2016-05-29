@@ -348,14 +348,19 @@ Route::group( array(
         // SEARCH
         //================================
 
-        Route::get('search',  array(
+        Route::get('search', [
             'as' => 'search',
             'uses' => 'SearchController@search'
-        ));
+        ]);
 
         Route::get('search/autocomplete', array(
             'as' => 'search.autocomplete',
-            'uses' => 'SearchController@searchAutocomplete'
+            'uses' => 'SearchController@autocomplete'
+        ));
+
+        Route::get('search/{type}',  array(
+            'as' => 'search.results',
+            'uses' => 'SearchController@results'
         ));
 
         //================================

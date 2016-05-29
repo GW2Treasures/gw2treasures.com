@@ -109,15 +109,34 @@ hr {
 #notifications {
     margin: 0;
     padding: 0;
-    list-style: none; }
-    #notifications > li {
-        background-color: #E8C754;
-        padding: 10px 0; }
-        #notifications .notificationContent { }
-            #notifications .notificationContent > p:last-child {
-                margin-bottom: 0; }
-        #notifications .dismiss {
-            float: right; }
+    list-style: none;
+    background: #24292e;
+    color: white;
+
+    & > li {
+        padding: 10px 0;
+    }
+
+    .notificationContent {
+        & > p:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    .dismiss {
+        float: right;
+        margin-left: 20px;
+    }
+
+    a {
+        color: white;
+        text-decoration: underline;
+
+        &:hover {
+            color: #E8C754;
+        }
+    }
+}
 
 .notice {
     border: 1px solid #7FDBFF;
@@ -500,6 +519,10 @@ html.js .only-no-js, html.no-js .only-js { display:none; }
 
     a {
         color: #222;
+
+        &:hover {
+            text-decoration: underline;
+        }
     }
 
     svg {

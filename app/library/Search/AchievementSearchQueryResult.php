@@ -2,7 +2,7 @@
 
 class AchievementSearchQueryResult extends DatabaseSearchQueryResult {
     protected function getQuery() {
-        return $this->queryNameContains(Achievement::query(), $this->query->searchTerms);
+        return $this->queryNameContains(Achievement::query(), $this->query->searchTerms)->with('category');
     }
 
     public function render($data) {

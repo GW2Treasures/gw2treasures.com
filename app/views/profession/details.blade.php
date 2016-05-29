@@ -51,9 +51,9 @@
             @endforeach
         </ul>
 
-        <h2>Weapons</h2>
+        <h2>{{ trans('profession.weapons') }}</h2>
         @foreach($profession->getData()->weapons as $weapon => $weaponDetails)
-            <h3>{{ $weapon }}</h3>
+            <h3>{{ trans('item.subtype.Weapon.'.$weapon) }}</h3>
             @if(isset($weaponDetails->specialization))
                 Requires {{ Specialization::remember(3)->find($weaponDetails->specialization)->link(16) }}.
             @endif
@@ -64,9 +64,9 @@
             </ul>
         @endforeach
 
-        <h2>Training</h2>
+        <h2>{{ trans('profession.training.headline') }}</h2>
         @foreach($profession->getData()->training as $training)
-            <h3>{{ $training->name }} ({{ $training->category }})</h3>
+            <h3>{{ $training->name }} ({{ trans('profession.training.category.'.$training->category) }})</h3>
 
             <ul class="itemList">
                 @foreach($training->track as $t)

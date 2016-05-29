@@ -1,13 +1,13 @@
 <?php
 
 return array (
-  'breadcrumb' => 'Professions',
-  'weapons' => 'Weapons',
+  'breadcrumb' => 'Klassen',
+  'weapons' => 'Waffen',
   'training' => array (
     'headline' => 'Training',
     'category' => array (
-      'Skills' => 'Skills',
-      'Specializations' => 'Spezializations',
+      'Skills' => 'Fertigkeiten',
+      'Specializations' => 'Spezialisierungen',
       'EliteSpecializations' => 'Elite'
     ),
   ),

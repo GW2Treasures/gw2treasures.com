@@ -2,7 +2,8 @@
 .search-box {
     background: #f9f9f9;
     border-bottom: 1px solid #eee;
-    padding: 20px 0;
+    padding: 20px 0 0;
+    margin-bottom: 40px;
 
     h2 {
         margin-top: 0;
@@ -105,13 +106,75 @@
 .chatlink-box__content {
     padding: 8px;
 }
-.chatlink-box__table {
-    /*width: 100%;*/
-}
+
 .chatlink-box__table th {
     vertical-align: top;
     color: #222;
     font-weight: normal;
     text-align: left;
     padding-right: 8px;
+}
+
+.search-box__tab-container {
+    margin: 0 -20px;
+    position: relative;
+    bottom: -1px;
+    overflow-x: auto;
+}
+
+.search-box__tabs {
+    display: flex;
+    white-space: nowrap;
+    margin-top: 28px;
+}
+
+.search-box__tabs__tab-spacer {
+    width: 20px;
+    min-width: 20px;
+    max-width: 20px;
+    flex: 0;
+}
+
+.search-box__tabs__tab {
+    flex: 1;
+    text-align: center;
+    border: 1px solid #eee;
+    padding: 12px 12px;
+    color: #222;
+    white-space: nowrap;
+    display: inline-block;
+
+    & + & {
+        border-left: none;
+    }
+
+    &:hover {
+        background: #fff;
+        text-decoration: none;
+    }
+
+    &--active {
+        background: #fff;
+        font-weight: bold;
+        border-bottom-color: #fff;
+    }
+}
+
+.search-box__tabs__tab__count {
+    background: #eee;
+    font-size: 11px;
+    padding: 3px 8px;
+    font-weight: bold;
+    margin-left: 2px;
+    border: 1px solid #eee;
+
+    .search-box__tabs__tab:hover > & {
+        background: #f4f4f4;
+    }
+
+    .search-box__tabs__tab--active > &,
+    .search-box__tabs__tab--active:hover > & {
+        background: none;
+        border: 1px solid #eee;
+    }
 }

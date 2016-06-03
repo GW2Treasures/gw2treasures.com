@@ -11,6 +11,11 @@ class Profession extends BaseModel {
 		return $this->getInternalIconUrl($size, $this->signature, $this->file_id);
 	}
 
+	public function getBigIconUrl($size = 64) {
+		preg_match('/\/(?<signature>[^\/]*)\/(?<file_id>[^\/]*)\.png$/', $this->getData()->icon_big, $icon);
+		return $this->getInternalIconUrl($size, $icon['signature'], $icon['file_id']);
+	}
+
 	protected function getAdditionalLinkAttributes(array $defaults = []) {
 		return ['data-profession-id' => $this->id];
 	}

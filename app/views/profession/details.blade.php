@@ -1,6 +1,6 @@
 <header class="itemHeader">
     <div class="pageWidth">
-        <img class="icon" width="64" height="64" src="{{ $profession->getIconUrl(64) }}" alt="">
+        <img class="icon" width="64" height="64" src="{{ $profession->getBigIconUrl(64) }}" alt="">
         <h2><div aria-hidden="true" class="overflow">{{ $profession->getName() }}</div>{{ $profession->getName() }}</h2>
         <nav class="details__breadcrumb">
             <strong><a href="{{ route('profession.overview', App::getLocale()) }}">{{ trans('profession.breadcrumb') }}</a></strong>

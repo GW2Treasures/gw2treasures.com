@@ -97,12 +97,12 @@
 			<h3>{{ trans('achievement.tiers.header') }}</h3>
 			<ol class="achievement__tiers">
 			@foreach($achievement->getData()->tiers as $tier)
-				<li><span class="ap">{{ $tier->points }}</span>:
+				<li><span class="ap-icon">{{ $tier->points }} @include('achievement.icon')</span>:
 					{{ trans('achievement.tiers.objectivesCompleted', ['count' => number_format($tier->count, 0, '.', ' ')]) }}
 			@endforeach
 			</ol>
 			<div class="achievement__tiers__total">
-				{{ trans('achievement.tiers.total') }}: <span class="ap">{{ $achievement->getTotalPoints() }}</span>
+				{{ trans('achievement.tiers.total') }}: <span class="ap-icon">{{ $achievement->getTotalPoints() }} @include('achievement.icon')</span>
 			</div>
 		@endif
 

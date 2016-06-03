@@ -50,7 +50,7 @@
             {{ $completion->link(32) }}
         </div>
         <div class="daily-box__completion__reward">
-            <span class="ap ap-32">{{ $completion->getTotalPoints() }}</span>
+            <span class="ap-icon ap-icon--big">{{ $completion->getTotalPoints() }} @include('achievement.icon')</span>
         </div>
     </div>
 </div></div>

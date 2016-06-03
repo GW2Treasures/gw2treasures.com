@@ -27,6 +27,6 @@
                 @endif
             @endforeach
         </span>
-        <span class="ap">{{ $achievement->getTotalPoints() }}</span>
+        <span class="ap-icon">{{ $achievement->getTotalPoints() }} @include('achievement.icon')</span>
     </div>
 </div>

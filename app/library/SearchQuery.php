@@ -35,6 +35,9 @@ class SearchQuery {
         return View::make('search.index')->with($data)->with('query', $this)->with('results', $this->getResults());
     }
 
+    /**
+     * @return SearchQueryResult[]
+     */
     public function getResults() {
         if(!isset($this->results)) {
             $this->results = [];
@@ -61,7 +64,7 @@ class SearchQuery {
                 $searchTerm = substr($searchTerm, 1, -1);
             }
 
-            $searchTerms[] = str_replace(['\\\\', '\\"'], ['\\', '"'], strtolower($searchTerm));
+            $searchTerms[] = str_replace(['\\\\', '\\"'], ['\\', '"'], $searchTerm);
         }
 
         return array_unique($searchTerms);

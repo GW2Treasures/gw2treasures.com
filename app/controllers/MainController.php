@@ -55,7 +55,7 @@ class MainController extends BaseController {
     }
 
     private function getAchievementsForMainpage() {
-        $newAchievements = Achievement::orderBy('created_at', 'desc')->take(5)->get();
+        $newAchievements = Achievement::orderBy('created_at', 'desc')->take(5)->remember(10)->select('id')->get();
 
         $popularAchievementViews = DB::table('achievement_views')
             ->select('achievement_id', DB::raw('COUNT(*) as views'))
@@ -67,11 +67,17 @@ class MainController extends BaseController {
 
         $popularAchievementViews = new \Illuminate\Support\Collection($popularAchievementViews);
 
-        $achievements = Achievement::whereIn('id', $popularAchievementViews->lists('achievement_id'))->get()->getDictionary();
+        $ids = array_merge($popularAchievementViews->lists('achievement_id'), $newAchievements->lists('id'));
+
+        $achievements = Achievement::whereIn('id', $ids)->with('category')->remember(10)->get()->getDictionary();
 
         $popularAchievementViews->each(function($a) use ($achievements) {
             $a->achievement = $achievements[$a->achievement_id];
         })->toArray();
+
+        $newAchievements = $newAchievements->map(function($a) use ($achievements) {
+            return $achievements[$a->id];
+        });
 
         return compact('newAchievements', 'popularAchievementViews');
     }

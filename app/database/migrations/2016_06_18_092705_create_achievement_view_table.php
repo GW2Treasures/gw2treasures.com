@@ -21,6 +21,8 @@ class CreateAchievementViewTable extends Migration {
 			$table->integer('achievement_id')->unsigned();
 			$table->enum('language', array( 'de', 'en', 'es', 'fr', 'zh' ));
 			$table->timestamp('time')->default( DB::raw('CURRENT_TIMESTAMP') );;
+
+			$table->index(['time', 'achievement_id']);
 		});
 	}
 

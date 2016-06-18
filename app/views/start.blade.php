@@ -96,4 +96,25 @@
 		</div>
 	</div>
 </div>
+
+<div class="pageWidth grid">
+	<div class="row">
+		<div class="column2">
+			<h2>{{ trans('misc.newAchievements') }}</h2>
+			<ul class="itemList">
+				@foreach ($newAchievements as $achievement)
+					<li class="itemListItem--with-info">{{ $achievement->link(32) }} <span class="itemListInfo">@include('helper.relativeTime', ['date' => $achievement->created_at])</span></li>
+				@endforeach
+			</ul>
+		</div>
+		<div class="column2">
+			<h2>{{ trans('misc.mostViewedAchievements', array( 'timespan' => trans('misc.mostViewedItems.day') )) }}</h2>
+			<ul class="itemList">
+				@foreach($popularAchievementViews as $view)
+					<li class="itemListItem--with-info">{{ $view->achievement->link(32) }} <span class="itemListInfo">{{ $view->views }} Views</span></li>
+				@endforeach
+			</ul>
+		</div>
+	</div>
+</div>
 </div>

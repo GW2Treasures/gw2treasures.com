@@ -52,4 +52,6 @@ return array (
       'link' => 'aktuelle tägliche Erfolge',
     ),
   ),
+  'newAchievements' => 'Neue Erfolge',
+  'mostViewedAchievements' => ':timespan am meisten angesehen',
 );

@@ -11,11 +11,16 @@ class AchievementController extends BaseController {
 	/** @var \Illuminate\View\View|stdClass $layout */
 	protected $layout = 'layout';
 
-	public function details( $language, Achievement $achievement ) {
+	public function details($language, Achievement $achievement) {
 		$this->layout->title = $achievement->getName();
 		$this->layout->fullWidth = true;
-		$this->layout->content = View::make( 'achievement.details' )
+		$this->layout->content = View::make('achievement.details')
 			->with($this->getAchievementData($achievement));
+
+		DB::table('achievement_views')->insert([
+			'achievement_id' => $achievement->id,
+			'language' => $language,
+		]);
 	}
 
 	public function category( $language, AchievementCategory $achievement_category ) {

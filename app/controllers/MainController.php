@@ -55,8 +55,6 @@ class MainController extends BaseController {
     }
 
     private function getAchievementsForMainpage() {
-        $newAchievements = Achievement::orderBy('created_at', 'desc')->take(5)->remember(10)->select('id')->get();
-
         $popularAchievementViews = DB::table('achievement_views')
             ->select('achievement_id', DB::raw('COUNT(*) as views'))
             ->whereRaw('DATE_SUB(CURRENT_DATE(), INTERVAL 1 DAY) <= time')
@@ -66,6 +64,9 @@ class MainController extends BaseController {
             ->take(10)->get();
 
         $popularAchievementViews = new \Illuminate\Support\Collection($popularAchievementViews);
+
+        $newAchievements = Achievement::orderBy('created_at', 'desc')->take(max(5, $popularAchievementViews->count()))
+            ->remember(10)->select('id')->get();
 
         $ids = array_merge($popularAchievementViews->lists('achievement_id'), $newAchievements->lists('id'));
 

@@ -79,7 +79,7 @@
 						$item = $newItems[ $i ];
 						$date_added = new \Carbon\Carbon($item->date_added);
 					?>
-					<li class="itemListItem--with-info">{{ $item->link(32) }} <span class="itemListInfo">{{ $date_added->diffForHumans() }}</span></li>
+					<li class="itemListItem--with-info">{{ $item->link(32) }} <span class="itemListInfo">@include('helper.relativeTime', ['date' => $date_added])</span></li>
 				@endfor
 			</ul>
 		</div>
@@ -90,7 +90,7 @@
 						$item = $newItems[ $i ];
 						$date_added = new \Carbon\Carbon($item->date_added);
 					?>
-					<li class="itemListItem--with-info">{{ $item->link(32) }} <span class="itemListInfo">{{ $date_added->diffForHumans() }}</span></li>
+					<li class="itemListItem--with-info">{{ $item->link(32) }} <span class="itemListInfo">@include('helper.relativeTime', ['date' => $date_added])</span></li>
 				@endfor
 			</ul>
 		</div>

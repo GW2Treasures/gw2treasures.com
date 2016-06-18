@@ -120,6 +120,7 @@ Route::filter( 'setLocale',	function( $route, $request ) {
 
 	// set locale
 	App::setLocale( $lang );
+	\Carbon\Carbon::setLocale($lang);
 
 	// handle changed language
 	if( Session::has( 'language' ) && Session::get( 'language') != $lang ) {
@@ -158,6 +159,7 @@ Route::filter( 'setLocaleDev', function( $route, $request ) {
 
 	// set locale
 	App::setLocale( $lang );
+	\Carbon\Carbon::setLocale($lang);
 
 	// handle changed language
 	if( Session::has( 'language' ) && Session::get( 'language') != $lang ) {

@@ -16,6 +16,8 @@
         "barryvdh/laravel-ide-helper": "~1.11",
         "doctrine/dbal": "~2.5",
         "barryvdh/laravel-translation-manager": "dev-readonly",
+        "symfony/translation": "2.6.13 as 2.5.999",
+        "nesbot/carbon": "~1.21",
         "gw2treasures/gw2api": "~3.0",
         "gw2treasures/gw2tools": "~1.0"
     },

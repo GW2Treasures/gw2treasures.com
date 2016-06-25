@@ -51,18 +51,47 @@
             @endforeach
         </ul>
 
+
         <h2>{{ trans('profession.weapons') }}</h2>
-        @foreach($profession->getData()->weapons as $weapon => $weaponDetails)
-            <h3>{{ trans('item.subtype.Weapon.'.$weapon) }}</h3>
-            @if(isset($weaponDetails->specialization))
-                Requires {{ Specialization::remember(3)->find($weaponDetails->specialization)->link(16) }}.
-            @endif
-            <ul class="itemList">
-                @foreach($weaponDetails->skills as $skill)
-                    <li>{{ Skill::remember(3)->find($skill->id)->link(32) }}</li>
-                @endforeach
-            </ul>
-        @endforeach
+        <div class="weapon-list">
+            @foreach($profession->getData()->weapons as $weapon => $weaponDetails)
+                <div class="weapon-list__weapon">
+                    <h3>{{ trans('item.subtype.Weapon.'.$weapon) }}</h3>
+                    @if(isset($weaponDetails->specialization))
+                        <p>Requires {{ Specialization::remember(3)->find($weaponDetails->specialization)->link(16) }}.</p>
+                    @endif
+
+                    @foreach($weaponDetails->skills as $skills)
+                        @if($skills->first()->requirement !== '')
+                            {{ trans('profession.requirement.'.$skills->first()->requirement) }}
+                        @endif
+                        <ul class="weapon-slots clearfix {{ !$weaponDetails->is2Handed ? 'weapon-slots--1handed' : '' }}">
+                            @for($i = 0; $i < 5; $i++)
+                                @if(isset($skills[$i]))
+                                    @if($skills[$i]->skill != null)
+                                        <li>{{ $skills[$i]->skill->link(32, null, '') }}</li>
+                                    @else
+                                        <li><span class="empty-weapon-slot">?</span></li>
+                                    @endif
+                                @else
+                                    <li><span class="empty-weapon-slot"></span></li>
+                                @endif
+                            @endfor
+                        </ul>
+                    @endforeach
+                </div>
+            @endforeach
+        </div>
+
+        <style>
+            .weapon-list { column-width: 450px; margin-bottom: 40px; }
+            .weapon-list> .weapon-list__weapon { break-inside: avoid; overflow: hidden; }
+            .weapon-slots { list-style: none; display: block; padding: 0; }
+            .weapon-slots > li { display: inline-block; float: left; }
+            .weapon-slots--1handed > li:nth-child(3) { margin-right: .5em; border-right: 1px solid #eee; }
+            .empty-weapon-slot { width: 32px; height: 32px; display: inline-block; background: #f9f9f9;
+                border: 1px solid #eee; margin-right: .5em; vertical-align: top; }
+        </style>
 
         <h2>{{ trans('profession.training.headline') }}</h2>
         @foreach($profession->getData()->training as $training)

@@ -143,8 +143,8 @@ return array (
       'Toy' => 'Spielzeug',
       'TwoHandedToy' => 'Spielzeug (Zweihändig)',
       'LargeBundle' => 'Großes Bündel',
-      'SmallBundle' => 'Kleines Bündel',
       'Spear' => 'Speer',
+      'SmallBundle' => 'Kleines Bündel',
     ),
   ),
   'weight' => 

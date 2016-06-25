@@ -143,8 +143,8 @@ return array (
       'Toy' => 'Toy',
       'TwoHandedToy' => 'Two handed toy',
       'LargeBundle' => 'Large Bundle',
-      'SmallBundle' => 'Small Bundle',
       'Spear' => 'Spear',
+      'SmallBundle' => 'Small Bundle',
     ),
   ),
   'weight' => 

@@ -3,22 +3,27 @@
 return array (
   'breadcrumb' => 'Professions',
   'weapons' => 'Weapons',
-  'training' => array (
+  'training' => 
+  array (
     'headline' => 'Training',
-    'category' => array (
+    'category' => 
+    array (
       'Skills' => 'Skills',
       'Specializations' => 'Spezializations',
-      'EliteSpecializations' => 'Elite'
+      'EliteSpecializations' => 'Elite',
     ),
   ),
-  'requirement' => array (
-    'attunement' => array (
+  'requirement' => 
+  array (
+    'attunement' => 
+    array (
       'Air' => 'Attuned to Air',
       'Earth' => 'Attuned to Earth',
       'Fire' => 'Attuned to Fire',
       'Water' => 'Attuned to Water',
     ),
-    'offhand' => array (
+    'offhand' => 
+    array (
       'Nothing' => 'No weapon in offhand.',
       'Dagger' => 'Dagger in offhand.',
       'Pistol' => 'Pistol in offhand.',

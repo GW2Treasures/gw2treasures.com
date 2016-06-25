@@ -3,12 +3,14 @@
 return array (
   'breadcrumb' => 'Klassen',
   'weapons' => 'Waffen',
-  'training' => array (
+  'training' => 
+  array (
     'headline' => 'Training',
-    'category' => array (
+    'category' => 
+    array (
       'Skills' => 'Fertigkeiten',
       'Specializations' => 'Spezialisierungen',
-      'EliteSpecializations' => 'Elite'
+      'EliteSpecializations' => 'Elite',
     ),
   ),
 );

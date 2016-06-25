@@ -46,3 +46,9 @@
         @include('skill.tooltip')
     </div>
 </div>
+
+<style>.skillDetails > .tooltip {
+    border: none; box-shadow: none; padding: 0;
+} .skillDetails > .tooltip:nth-of-type(1) > header {
+    display: none;
+}</style>

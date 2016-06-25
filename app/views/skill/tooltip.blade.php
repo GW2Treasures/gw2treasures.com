@@ -43,13 +43,13 @@
     .skill-facts > hr {
         border-top-color: #eee;
     }
-    .skill-fact {
+    .trait-fact {
         margin-bottom: 4px;
     }
-    .skill-fact > img {
+    .trait-fact > img {
         vertical-align: -3px;
     }
-    .skill-fact__buff {
+    .trait-fact__buff {
         margin-left: 20px;
         color: #777;
     }

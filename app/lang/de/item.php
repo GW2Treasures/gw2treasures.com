@@ -157,7 +157,6 @@ return array (
   'unusedUpgradeSlot' => 'Freier Aufwertungsplatz',
   'unusedOffensiveInfusionSlot' => 'Freier Infusionsplatz (Offensiv)',
   'unusedDefensiveInfusionSlot' => 'Freier Infusionsplatz (Defensiv)',
-  'unusedAgonyInfusionSlot' => 'Freier Infusionsplatz (Qual)',
   'unusedUtilityInfusionSlot' => 'Freier Infusionsplatz (Hilfe)',
   'requiredLevel' => 'Erforderliche Stufe',
   'requiresRace' => 'Erforderliches Volk',
@@ -187,4 +186,5 @@ return array (
     'required' => 'Erforderlich für folgende Erfolge:',
     'reward' => 'Belohnung für folgende Erfolge:',
   ),
+  'unusedAgonyInfusionSlot' => 'Freier Infusionsplatz (Qual)',
 );

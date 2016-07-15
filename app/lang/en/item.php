@@ -157,7 +157,6 @@ return array (
   'unusedUpgradeSlot' => 'Unused Upgrade Slot',
   'unusedOffensiveInfusionSlot' => 'Unused Offensive Infusion Slot',
   'unusedDefensiveInfusionSlot' => 'Unused Defensive Infusion Slot',
-  'unusedAgonyInfusionSlot' => 'Unused Agony Infusion Slot',
   'unusedUtilityInfusionSlot' => 'Unused Utility Infusion Slot',
   'requiredLevel' => 'Required Level',
   'requiresRace' => 'Requires Race',
@@ -187,4 +186,5 @@ return array (
     'required' => 'Required to complete the following achievements:',
     'reward' => 'Rewarded for completing the following achievements:',
   ),
+  'unusedAgonyInfusionSlot' => 'Unused Agony Infusion Slot',
 );

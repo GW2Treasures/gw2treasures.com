@@ -153,9 +153,10 @@ return array (
     'Heavy' => 'Lourd',
   ),
   'unusedUpgradeSlot' => 'Emplacement utilitaire inutilisée',
-  'unusedOffensiveInfusionSlot' => 'Emplacement d\'infusion offensive inutilisée',
-  'unusedDefensiveInfusionSlot' => 'Emplacement d\'infusion défensive inutilisée',
-  'unusedUtilityInfusionSlot' => 'Emplacement d\'infusion utilitaire inutilisée',
+  'unusedOffensiveInfusionSlot' => 'Emplacement d\'infusion inutilisé (Offensive)',
+  'unusedDefensiveInfusionSlot' => 'Emplacement d\'infusion inutilisé (Défensive)',
+  'unusedAgonyInfusionSlot' => 'Emplacement d\'infusion inutilisé (Agonie)',
+  'unusedUtilityInfusionSlot' => 'Emplacement d\'infusion inutilisé (Utilitaire)',
   'requiredLevel' => 'Niveau requis',
   'requiresRace' => 'Race requise',
   'race' => 

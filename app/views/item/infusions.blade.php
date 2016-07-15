@@ -12,6 +12,8 @@
 			@else
 				@if( in_array( 'Defense', $infusion->flags ) )
 					<li class="defensive"><i class="sprite-16-infusion-defense"></i> {{ trans('item.unusedDefensiveInfusionSlot') }}
+				@elseif( in_array( 'Agony', $infusion->flags ) )
+					<li class="defensive"><i class="sprite-16-infusion-defense"></i> {{ trans('item.unusedAgonyInfusionSlot') }}
 				@elseif( in_array( 'Offense', $infusion->flags ) )
 					<li class="offensive"><i class="sprite-16-infusion-offense"></i> {{ trans('item.unusedOffensiveInfusionSlot') }}
 				@elseif( in_array( 'Utility', $infusion->flags ) )

@@ -54,7 +54,7 @@ class ItemsCommand extends Command {
 
                     $unlockedRecipes[] = $details->recipe_id;
                     if(isset($details->extra_recipe_ids)) {
-                        $unlockedRecipes += $details->extra_recipe_ids;
+                        $unlockedRecipes = array_merge($unlockedRecipes, $details->extra_recipe_ids);
                     }
 
                     Recipe::whereIn('recipe_id', $unlockedRecipes)->update(['unlock_item_id' => $item->id]);

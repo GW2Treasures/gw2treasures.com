@@ -40,13 +40,35 @@ class ItemsCommand extends Command {
 
 		Item::chunk(500, function($items) use ($views, $progress) {
 			foreach($items as $item) {
+			    /** @var Item $item */
+                $details = $item->getTypeData();
+
+
+			    // set item views
 				$item->views = array_key_exists($item->id, $views) ? $views[$item->id] : 0;
+
+
+                // set item for unlocked recipes
+                if($item->type == 'Consumable' && $item->subtype == 'Unlock' && $details->unlock_type == 'CraftingRecipe') {
+                    $unlockedRecipes = [];
+
+                    $unlockedRecipes[] = $details->recipe_id;
+                    if(isset($details->extra_recipe_ids)) {
+                        $unlockedRecipes += $details->extra_recipe_ids;
+                    }
+
+                    Recipe::whereIn('recipe_id', $unlockedRecipes)->update(['unlock_item_id' => $item->id]);
+                }
+
+
+                // save
 				try{
-					$item->save();
+                    $item->save();
 				} catch(Exception $e) {
 					$this->error($item->id);
 					throw $e;
 				}
+
 				$progress->advance();
 			}
 		});

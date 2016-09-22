@@ -21,7 +21,7 @@
 
 		public function output() { return $this->belongsTo('Item', 'output_id'); }
 
-		public function unlockedBy() { return $this->hasOne('Item', 'unlock_id', 'recipe_id'); } 
+		public function unlockedBy() { return $this->belongsTo('Item', 'unlock_item_id', 'id'); }
 
 		public function ingredient1() { return $this->belongsTo('Item', 'ing_id_1'); }
 		public function ingredient2() { return $this->belongsTo('Item', 'ing_id_2'); }

@@ -1,7 +1,7 @@
 <header class="itemHeader">
     <div class="pageWidth">
         <img class="icon" width="64" height="64" src="{{ $skill->getIconUrl(64) }}" alt="">
-        <h2><div aria-hidden="true" class="overflow">{{ $skill->getName() }}</div>{{ $skill->getName() }}</h2>
+        <h2>{{ $skill->getName() }}</h2>
         <nav class="details__breadcrumb">
             <strong><a href="{{ route('skill.overview', App::getLocale()) }}">{{ trans('skill.breadcrumb') }}</a></strong>
         </nav>

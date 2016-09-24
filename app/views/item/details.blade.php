@@ -1,7 +1,7 @@
 <header class="itemHeader">
     <div class="pageWidth">
         <img class="icon" width="64" height="64" src="{{ $item->getIconUrl() }}" alt="">
-        <h2 class="color-{{ $item->rarity }}"><div aria-hidden="true" class="overflow">{{ $item->getName() }}</div>{{ $item->getName() }}</h2>
+        <h2 class="color-{{ $item->rarity }}">{{ $item->getName() }}</h2>
         <nav class="details__breadcrumb">
             <strong><a href="{{ route('search', App::getLocale()) }}">{{ trans('header.items') }}</a></strong>
             <svg fill="#000000" height="12" viewBox="0 0 24 24" width="12" xmlns="http://www.w3.org/2000/svg">

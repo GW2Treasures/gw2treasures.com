@@ -1,7 +1,7 @@
 <header class="itemHeader">
 	<div class="pageWidth">
 		<img class="icon" width="64" height="64" src="{{ $achievement->getIconUrl(64) }}" alt="">
-		<h2><div aria-hidden="true" class="overflow">{{ $achievement->getName() }}</div>{{ $achievement->getName() }}</h2>
+		<h2>{{ $achievement->getName() }}</h2>
 		<nav class="details__breadcrumb">
 			<strong><a href="{{ route('achievement.overview', App::getLocale()) }}">{{ trans('header.achievements') }}</a></strong>
 

@@ -62,7 +62,7 @@ class ItemsCommand extends Command {
 
 
                 // save
-				try{
+				try {
                     $item->save();
 				} catch(Exception $e) {
 					$this->error($item->id);

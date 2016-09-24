@@ -1,6 +1,6 @@
 <header class="itemHeader">
 	<div class="pageWidth" style="padding-left: 20px;">
-		<h2><div aria-hidden="true" class="overflow">{{ $world->getName() }}</div>{{ $world->getName() }}</h2>
+		<h2>{{ $world->getName() }}</h2>
 		<nav class="details__breadcrumb">
 			<strong><a href="{{ route('wvw', App::getLocale()) }}">{{ trans('wvw.breadcrumb') }}</a></strong>
 			<svg fill="#000000" height="12" viewBox="0 0 24 24" width="12" xmlns="http://www.w3.org/2000/svg">

@@ -40,4 +40,9 @@ return array (
   array (
     'objectives' => '1 objective|:count objectives'
   ),
+  'unlock' =>
+  array (
+    'header' => 'Unlock',
+    'unknown' => 'You have to unlock this achievement.',
+  ),
 );

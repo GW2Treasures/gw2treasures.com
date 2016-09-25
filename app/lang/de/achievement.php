@@ -36,4 +36,9 @@ return array (
     'GuildWars2' => 'Nur Guild Wars 2',
     'HeartOfThorns' => 'Nur Heart Of Thorns',
   ),
+  'unlock' =>
+  array (
+    'header' => 'Freischaltung',
+    'unknown' => 'Dieser Erfolg muss erst freigeschaltet werden.',
+  ),
 );

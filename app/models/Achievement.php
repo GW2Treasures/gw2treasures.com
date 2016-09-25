@@ -1,7 +1,69 @@
 <?php
 
 class Achievement extends BaseModel {
+    const FLAG_CATEGORY_DISPLAY = 'CategoryDisplay';
+    const FLAG_HIDDEN = 'Hidden';
+    const FLAG_IGNORE_NEARLY_COMPLETE = 'IgnoreNearlyComplete';
+    const FLAG_MOVE_TO_TOP = 'MoveToTop';
+    const FLAG_PVP = 'Pvp';
+    const FLAG_REPAIR_ON_LOGIN = 'RepairOnLogin';
+    const FLAG_REPEATABLE = 'Repeatable';
+    const FLAG_REQUIRES_UNLOCK = 'RequiresUnlock';
+
 	use HasLocalizedData, HasIcon, HasLink;
+
+    /**
+     * Checks if the specified flag is set for this achievement.
+     *
+     * @param string $flag
+     * @return bool
+     */
+	public function hasFLag($flag) {
+	    return in_array($flag, $this->getData()->flags);
+    }
+
+    public function highlightLockedText($lang = null) {
+        if($lang === null) {
+            $lang = App::getLocale();
+        }
+
+        return Cache::remember('achievement.locked_text.'.$this->id.$lang, 120, function() use ($lang) {
+            $locked_text = $this->getData('en')->locked_text;
+
+            // items
+            if(preg_match('/^(Purchase|Loot|Use|Bring)( an?| the|) (.*?)( from|, found|, obtained| to)/', $locked_text, $matches)) {
+                $itemName = $matches[3];
+
+                $items = Item::where('name_en', '=', $itemName)->get();
+
+                if($items->count() === 1) {
+                    /** @var Item $item */
+                    $item = $items->first();
+                    return str_ireplace($item->getName($lang), $item->link(null), $this->getData($lang)->locked_text);
+                }
+            }
+
+            // achievements
+            if(preg_match('/^Complete( the|) (.*?)( collection|, then)/', $locked_text, $matches)) {
+                $achievementName = $matches[2];
+
+                $achievements = Achievement::where('name_en', '=', $achievementName)->orWhere('name_en', 'LIKE', $achievementName.':%')->get();
+
+                if($achievements->count() === 1) {
+                    /** @var Achievement $achievement */
+                    $achievement = $achievements->first();
+
+                    // sometimes achievements with ":" in the name are only referenced to by the first part
+                    // also normalize the horrible french translation
+                    $partialAchievementName = trim(str_replace(chr(194).chr(160), ' ', explode(':', $achievement->getName($lang))[0]));
+
+                    return str_ireplace([$achievement->getName(), $partialAchievementName], $achievement->link(null), str_replace(chr(194).chr(160), ' ', $this->getData($lang)->locked_text));
+                }
+            }
+
+            return $this->getData($lang)->locked_text;
+        });
+    }
 
 	public function getName($lang = null) {
 		return $this->localized('name', $lang);

@@ -59,6 +59,15 @@
 	<div class="achievementDetails">
 		<p class="achievement__description">{{ $achievement->getData()->description }}</p>
 
+		@if($achievement->hasFlag(Achievement::FLAG_REQUIRES_UNLOCK))
+			<h3>{{ trans('achievement.unlock.header') }}</h3>
+			@if($achievement->getData()->locked_text !== '')
+				<p>{{ $achievement->highlightLockedText() }}</p>
+			@else
+				<p>{{ trans('achievement.unlock.unknown') }}</p>
+			@endif
+		@endif
+
 		@if($achievement->getData()->requirement != '' || !empty($objectives))
 			<h3>{{ trans_choice('achievement.objectives.header', !empty($objectives) ? count($objectives) : 1) }}</h3>
 			@if($achievement->getData()->requirement != '')

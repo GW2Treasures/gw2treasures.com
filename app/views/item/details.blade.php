@@ -174,10 +174,10 @@
             @endforeach
         </ul>
     @endif
-    @if(count($achievementReward) > 0 || $isFestivalReward)
-        @if($isFestivalReward)
-            <p>{{ trans('misc.achievements.festival_reward.text', ['link' => '<a href="'.route('achievement.overview', App::getLocale()).'">'.trans('misc.achievements.festival_reward.link').'</a>']) }}</p>
-        @endif
+    @if($isFestivalReward)
+        <p>{{ trans('misc.achievements.festival_reward.text', ['link' => '<a href="'.route('achievement.overview', App::getLocale()).'">'.trans('misc.achievements.festival_reward.link').'</a>']) }}</p>
+    @endif
+    @if(count($achievementReward) > 0)
         <p>{{ trans('item.achievements.reward') }}</p>
         <ul class="itemList">
             @foreach($achievementReward as $achievement)

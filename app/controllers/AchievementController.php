@@ -92,8 +92,8 @@ class AchievementController extends BaseController {
 		$daily = $this->getDailyAchievements();
 
 		$hidden = [
-			'groups' => ['18DB115A-8637-4290-A636-821362A3C4A8'],
-			'categories' => [88]
+			'groups' => [],
+			'categories' => []
 		];
 
 		$this->layout->title = trans( 'achievement.overview' );

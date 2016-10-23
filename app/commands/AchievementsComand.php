@@ -53,9 +53,11 @@ class AchievementsCommand extends Command {
             'created_at', 'updated_at',
         ], $updating);
 
+        DB::table('achievements')->update(['historic' => true]);
+
         foreach(DB::table('achievement_categories')->get(['id', 'data_en', 'order']) as $cat) {
             $data = json_decode($cat->data_en);
-            DB::table('achievements')->whereIn('id', $data->achievements)->update(['achievement_category_id' => $cat->id]);
+            DB::table('achievements')->whereIn('id', $data->achievements)->update(['achievement_category_id' => $cat->id, 'historic' => false]);
             if($cat->order === 0) {
                 DB::table('achievement_categories')->where('id', '=', $cat->id)->update(['order' => $data->order]);
             }

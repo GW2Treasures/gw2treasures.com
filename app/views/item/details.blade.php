@@ -159,9 +159,11 @@
         $achievementReward = Achievement::rewardsItem($item->id)->get();
 
         $achievementCount = count($achievementObjective) + count($achievementReward);
+
+        $isFestivalReward = $item->id == 36038;
     ?>
 
-    @if($achievementCount > 0)
+    @if($achievementCount > 0 || $isFestivalReward)
         <h3{{ $achievementCount >= 8 ? ' style="clear:both"' : '' }}>{{ trans('item.achievements.header') }}</h3>
     @endif
     @if(count($achievementObjective) > 0)
@@ -172,7 +174,10 @@
             @endforeach
         </ul>
     @endif
-    @if(count($achievementReward) > 0)
+    @if(count($achievementReward) > 0 || $isFestivalReward)
+        @if($isFestivalReward)
+            <p>{{ trans('misc.achievements.festival_reward.text', ['link' => '<a href="'.route('achievement.overview', App::getLocale()).'">'.trans('misc.achievements.festival_reward.link').'</a>']) }}</p>
+        @endif
         <p>{{ trans('item.achievements.reward') }}</p>
         <ul class="itemList">
             @foreach($achievementReward as $achievement)
@@ -180,11 +185,6 @@
             @endforeach
         </ul>
     @endif
-
-    {{--@if($item->id === 39752)
-        <h3>{{ trans('item.achievements.header') }}</h3>
-        <p>{{ trans('misc.achievements.festival_reward.text', ['link' => '<a href="'.route('achievement.overview', App::getLocale()).'">'.trans('misc.achievements.festival_reward.link').'</a>']) }}</p>
-    @endif--}}
 
     @if( count( $similarItems = $item->getSimilarItems()) > 0 )
         <?php

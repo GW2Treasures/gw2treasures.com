@@ -59,9 +59,10 @@ class AchievementController extends BaseController {
 			: [];
 
 
-//		if($achievement->achievement_category_id == 97) {
+		if($achievement->achievement_category_id == 97) {
 //			$rewards[] = (object)['type' => 'Item', 'id' => 39752, 'count' => 8];
-//		}
+			$rewards[] = (object)['type' => 'Item', 'id' => 36038, 'count' => 1];
+		}
 
 		return compact('achievement', 'objectives', 'rewards');
 	}

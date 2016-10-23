@@ -25,7 +25,8 @@ class AchievementController extends BaseController {
 
 	public function category( $language, AchievementCategory $achievement_category ) {
 		$this->layout->title = $achievement_category->getName();
-		$this->layout->content = View::make('achievement.category')->with('category', $achievement_category);
+		$this->layout->fullWidth = true;
+        $this->layout->content = View::make('achievement.category')->with('category', $achievement_category);
 	}
 
 	private function getAchievementData(Achievement $achievement) {

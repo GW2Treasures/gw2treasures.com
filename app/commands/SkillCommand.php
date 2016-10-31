@@ -26,6 +26,36 @@ class SkillCommand extends Command {
             'data_de', 'data_en', 'data_es', 'data_fr',
             'created_at', 'updated_at',
         ], $updating);
+
+        Skill::chunk(250, function($skills) {
+            /** @var Skill $skill */
+            foreach($skills as $skill) {
+                $facts = $skill->getTraitedFacts();
+
+                /** @var \Illuminate\Support\Collection $requiredKnown */
+                $requiredKnown = $skill->requiresTraits()->get()->keyBy('id');
+
+                $facts = new \Illuminate\Support\Collection($skill->getTraitedFacts());
+                $facts = $facts->filter(function($fact) {
+                    return isset($fact->requires_trait);
+                })->lists('requires_trait');
+
+                $facts = array_unique($facts);
+
+                foreach($facts as $required) {
+                    if(!$requiredKnown->has($required)) {
+                        $skill->requiresTraits()->attach($required);
+                        $this->info('attached '.$required.' to '.$skill->id);
+                    }
+                }
+
+                foreach($requiredKnown as $knownRequiredTrait) {
+                    if(!in_array($knownRequiredTrait->id, $facts)) {
+                        $skill->requiresTraits()->detach($knownRequiredTrait->id);
+                    }
+                }
+            }
+        });
     }
 
     protected function getOptions() {

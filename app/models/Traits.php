@@ -86,6 +86,10 @@ class Traits extends BaseModel {
         return $this->belongsToMany(Traits::class, 'traits_required', 'trait_id', 'required_trait_id');
     }
 
+    public function requiredForSkills() {
+        return $this->belongsToMany(Skill::class, 'skill_traits', 'skill_id', 'required_trait_id');
+    }
+
 	public function specialization() {
 		return $this->belongsTo(Specialization::class, 'specialization_id', 'id');
 	}

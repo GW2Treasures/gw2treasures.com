@@ -69,6 +69,15 @@
             </ul>
         @endif
 
+        @if(count($trait->requiredForSkills) > 0)
+            <h3>Affects Skills</h3>
+            <ul class="itemList">
+                @foreach($trait->requiredForSkills as $requiredFor)
+                    <li>{{ $requiredFor->link(32) }}</li>
+                @endforeach
+            </ul>
+        @endif
+
         @if(count($trait->requiresTraits) > 0)
             <h3>Affected by Traits</h3>
             <ul class="itemList">

@@ -86,4 +86,8 @@ class Skill extends BaseModel {
 
         return $this->getInternalIconUrl($size, $icon['signature'], $icon['file_id']);
     }
+
+    public function requiresTraits() {
+        return $this->belongsToMany(Traits::class, 'skill_traits', 'required_trait_id', 'skill_id');
+    }
 }

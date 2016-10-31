@@ -45,6 +45,15 @@
     <div class="skillDetails">
         @include('skill.tooltip')
     </div>
+
+    @if(count($skill->requiresTraits) > 0)
+        <h3>Affected by Traits</h3>
+        <ul class="itemList">
+            @foreach($skill->requiresTraits as $requiredFor)
+                <li>{{ $requiredFor->link(32) }}</li>
+            @endforeach
+        </ul>
+    @endif
 </div>
 
 <style>.skillDetails > .tooltip {

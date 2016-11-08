@@ -60,12 +60,14 @@ App::error(function(Exception $exception, $code)
 });
 
 App::error( function( ItemNotFoundException $exception ) {
-	return Response::view(
-		'layout', array(
-			'content' => View::make( 'item.notFound' )
-				->with( 'item', $exception->itemId ),
-			'title' => 'Item ' . $exception->itemId . ' not found'
-	), 404);
+    return Response::make(
+        View::make('layout', [
+            'title' => '404 - Item '.$exception->itemId.' not found',
+            'description' => 'We couldn\'t find the item '.$exception->itemId.'.',
+            'fullWidth' => true
+        ])->with('content', View::make('errors.404-item', ['itemId' => $exception->itemId])),
+        404
+    );
 });
 
 /*
@@ -102,12 +104,16 @@ App::down(function()
 require app_path().'/filters.php';
 
 
-App::missing(function($exception)
+App::missing(function()
 {
-	return Response::view('error', array( 
-		'title' => '404', 
-		'description' => 'We couldn\'t find the file you requested.' 
-	), 404);
+    return Response::make(
+        View::make('layout', [
+            'title' => '404 - Not found',
+            'description' => 'We couldn\'t find the page you requested.',
+            'fullWidth' => true
+        ])->with('content', View::make('errors.404')),
+        404
+    );
 });
 
 

@@ -1736,6 +1736,27 @@ i.loading {
     display: block;
 }
 
+.error-header {
+    background-color: #852c2c;
+    background-image: linear-gradient(-35deg, #852c2c, #852c2c 50%, #ac3939 90%);
+    padding-top: 40px;
+    padding-bottom: 20px;
+    color: white;
+    text-shadow: 0 0 50px hsla(0,0%,0%,0.2);
+
+    h2 {
+        margin-top: 0;
+        margin-bottom: 10px;
+        font: 40px Adelle, Bitter, 'Segoe UI', sans-serif;
+        font-weight: 700;
+        position: relative;
+
+        span.error-code {
+            color: #cb8888;
+        }
+    }
+}
+
 @import "achievements";
 @import "pagination";
 @import "search";

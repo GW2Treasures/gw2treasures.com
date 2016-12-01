@@ -521,7 +521,7 @@ class Item extends BaseModel {
      */
     public function getAttributes() {
         $attributes = $this->getInfixAttributes();
-        foreach( $this->getBuffDescriptionAttributes() as $attribute => $modifier ) {
+        foreach( $this->getBuffDescriptionAttributes($attributes) as $attribute => $modifier ) {
             if( array_key_exists( $attribute, $attributes ) ) {
                 $attributes[ $attribute ] += $modifier;
             } else {
@@ -552,9 +552,9 @@ class Item extends BaseModel {
     /**
      * Parses infix_upgrade.buff.description and returns the attributes
      *
-     * @return int[string]
+     * @return int[]
      */
-    public function getBuffDescriptionAttributes() {
+    public function getBuffDescriptionAttributes($baseAttributes) {
         $infixUpgrade = $this->getInfixUpgrade( 'en' );
         if( is_null( $infixUpgrade ) || !isset($infixUpgrade->buff) || !isset($infixUpgrade->buff->description) ) {
             return array();
@@ -574,8 +574,12 @@ class Item extends BaseModel {
                 $attribute = str_replace(
                     ['Critical Damage', 'Healing Power', 'condition duration.', ' '],
                     ['Ferocity',        'Healing',       'ConditionDuration',   ''],
-                    $attribute );
-                $attributes[ $attribute ] = $modifier;
+                    $attribute
+                );
+
+                if(!array_key_exists($attribute, $baseAttributes)) {
+                    $attributes[ $attribute ] = $modifier;
+                }
             } else {
                 $attributes[ ] = $this->formatForDisplay($buffsLocalized[$i]);
             }

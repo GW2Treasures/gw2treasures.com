@@ -372,6 +372,11 @@ Route::group( array(
         // STUFF
         //================================
 
+        // api
+        Route::get('{endpoint}/{id}/api', function($lang, $endpoint, $id) {
+            return Redirect::to("https://api.guildwars2.com/v2/{$endpoint}s/$id?lang=$lang");
+        })->where('endpoint', 'item|skin|achievement|trait|profession|skill|specialization');
+
         // colors
         Route::get('colors', array(
             'as' => 'colors',

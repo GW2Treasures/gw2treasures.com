@@ -137,7 +137,26 @@ class AchievementController extends BaseController {
 				}
 			}
 
-			return (object)[
+            foreach(['pve', 'pvp', 'wvw', 'fractals', 'special'] as $type) {
+			    $data->{$type} = Helper::collect($data->{$type})->sort(function($a, $b) {
+			        if($a->level != null && $b->level != null) {
+			            $max = $a->level->max - $b->level->max;
+
+                        if($max != 0) {
+                            return $max;
+                        }
+
+                        $min = $a->level->min - $b->level->min;
+                        if($min != 0) {
+                            return $min;
+                        }
+                    }
+
+                    return Helper::compareByName($a->achievement, $b->achievement);
+                });
+            }
+
+            return (object) [
 				'reset' => $this->getDailyReset(),
 				'achievements' => $data
 			];

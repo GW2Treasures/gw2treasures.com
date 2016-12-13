@@ -21,7 +21,7 @@
     </header>
     <div class="daily-box__content">
         <div class="daily-box__row clearfix">
-            @if(!empty($daily->achievements->special))
+            @if(!$daily->achievements->special->isEmpty())
                 <div class="daily-box__column">
                     @include('achievement.dailyBox.list', ['type' => 'pve'])
                 </div>

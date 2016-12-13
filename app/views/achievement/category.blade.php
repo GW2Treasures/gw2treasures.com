@@ -52,7 +52,11 @@
     <div class="achievementDetails">
         <p class="achievement__description">{{ $category->getDescription() }}</p>
 
-        <?php list($current, $historic) =  $category->achievements->groupBy('historic')->toArray() + [[], []] ?>
+        <?php
+            list($current, $historic) =  $category->achievements
+                ->sort(Helper::sortByName())
+                ->groupBy('historic')->toArray() + [[], []]
+        ?>
 
         <ul class="itemList">
             @foreach($current as $achievement)

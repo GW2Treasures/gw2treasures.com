@@ -2,8 +2,7 @@
 
 <div class="pageWidth">
     <h2>{{trans('achievement.overview')}}</h2>
-
-    @foreach($groups as $group)
+    @foreach($groups->sort(Helper::sortByName()) as $group)
         @if(!in_array($group->id, $hidden['groups']))
             <h3 id="{{ $group->id }}">{{ $group->getName() }}</h3>
             <p>{{ $group->getDescription() }}</p>

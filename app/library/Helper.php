@@ -89,5 +89,19 @@ class Helper {
             } 
         } 
         return $bestlang; 
-    } 
+    }
+
+    public static function collect($collection) {
+        return new \Illuminate\Support\Collection($collection);
+    }
+
+    public static function compareByName($a, $b) {
+        return strnatcmp($a->getName(), $b->getName());
+    }
+
+    public static function sortByName() {
+        return function($a, $b) {
+            return Helper::compareByName($a, $b);
+        };
+    }
 }

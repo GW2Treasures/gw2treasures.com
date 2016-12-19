@@ -92,6 +92,10 @@ class Helper {
     }
 
     public static function collect($collection) {
+        if($collection instanceof \Illuminate\Support\Collection) {
+            return $collection;
+        }
+
         return new \Illuminate\Support\Collection($collection);
     }
 

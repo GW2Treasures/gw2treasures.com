@@ -98,7 +98,7 @@ use GW2Treasures\GW2Tools\Common\ItemStack;
  * @method static \Illuminate\Database\Query\Builder|\Item whereUpdateTime($value)
  * @method static \Illuminate\Database\Query\Builder|\Item whereDateAdded($value)
  */
-class Item extends BaseModel {
+class Item extends BaseModel implements IHasIcon, IHasLink {
     use HasLocalizedData, HasIcon, HasLink;
 
     /**

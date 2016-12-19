@@ -2,7 +2,7 @@
 
 use GW2Treasures\GW2Tools\Chatlinks\TraitChatlink;
 
-class Traits extends BaseModel {
+class Traits extends BaseModel implements IHasIcon, IHasLink {
 	use HasLocalizedData, HasIcon, HasLink;
 
 	public function getName($lang = null) {

@@ -1,6 +1,6 @@
 <?php
 
-class Specialization extends BaseModel {
+class Specialization extends BaseModel implements IHasIcon, IHasLink {
 	use HasLocalizedData, HasIcon, HasLink;
 
 	public function getName($lang = null) {

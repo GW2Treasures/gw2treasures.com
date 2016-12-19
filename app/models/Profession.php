@@ -1,6 +1,6 @@
 <?php
 
-class Profession extends BaseModel {
+class Profession extends BaseModel implements IHasIcon, IHasLink {
 	use HasLocalizedData, HasIcon, HasLink;
 
 	public function getName($lang = null) {

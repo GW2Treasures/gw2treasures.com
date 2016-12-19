@@ -1,6 +1,6 @@
 <?php
 
-class AchievementCategory extends BaseModel {
+class AchievementCategory extends BaseModel implements IHasIcon, IHasLink {
 	use HasLocalizedData, HasIcon, HasLink;
 
 	public function getName($lang = null) {

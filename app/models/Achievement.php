@@ -1,6 +1,6 @@
 <?php
 
-class Achievement extends BaseModel {
+class Achievement extends BaseModel implements IHasIcon, IHasLink {
     const FLAG_CATEGORY_DISPLAY = 'CategoryDisplay';
     const FLAG_HIDDEN = 'Hidden';
     const FLAG_IGNORE_NEARLY_COMPLETE = 'IgnoreNearlyComplete';

@@ -132,8 +132,6 @@
             <script src="//direct.darthmaim-cdn.de/gw2treasures/assets/js/main.js"></script>
         @endif
 
-        @yield('winter2016.script', '')
-
         @if( isset( $_GET['nocache'] ))
             <script type="text/javascript">
                 cache.clear();

@@ -160,7 +160,7 @@
 
         $achievementCount = count($achievementObjective) + count($achievementReward);
 
-        $isFestivalReward = $item->id == 77604;
+        $isFestivalReward = false && $item->id == 77604;
     ?>
 
     @if($achievementCount > 0 || $isFestivalReward)

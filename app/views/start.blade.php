@@ -1,32 +1,5 @@
 <div class="start-wrapper">
 <div class="banner">
-	<canvas id="snowcanvas"></canvas>
-
-	@section('winter2016.script')
-		<script src="{{ Helper::cdn('assets/js/jquery.let_it_snow.min.js') }}"></script>
-		<script type="text/javascript">
-            $(document).ready( function() {
-                var canvas = document.getElementById('snowcanvas');
-                var resizeCanvas = function() {
-                    var scale = window.devicePixelRatio || 1;
-                    var width  = canvas.offsetWidth,
-                        height = canvas.offsetHeight;
-                    if( canvas.width != width * scale || canvas.height != height * scale ) {
-                        canvas.width = width * scale;
-                        canvas.height = height * scale;
-                    }
-                };
-                resizeCanvas();
-                $(window).on('resize', resizeCanvas);
-                $(canvas).let_it_snow({
-                    color: '#d4d8e1',
-                    speed: 0.1337,
-                    size: 2 * (window.devicePixelRatio || 1)
-                });
-            });
-		</script>
-	@endsection
-
 	<div class="header">
 		<div class="header__wrapper">
 			<img src="{{ App::environment('production') ? Helper::cdn('assets2/img/header_img.svg') : 'http://'.Config::get('app.domain').':8888/img/header_img.svg' }}" width="800" height="150" />

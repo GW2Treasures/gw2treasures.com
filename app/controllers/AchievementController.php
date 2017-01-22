@@ -60,10 +60,12 @@ class AchievementController extends BaseController {
 			: [];
 
 
-		if($achievement->achievement_category_id == 97) {
-//			$rewards[] = (object)['type' => 'Item', 'id' => 39752, 'count' => 8];
-//			$rewards[] = (object)['type' => 'Item', 'id' => 36038, 'count' => 1];
-//			$rewards[] = (object)['type' => 'Item', 'id' => 77604, 'count' => 1];
+		if($achievement->achievement_category_id == 97 && Config::get('gw2.daily_event_reward.item')) {
+            $rewards[] = (object)[
+                'type' => 'Item',
+                'id' => Config::get('gw2.daily_event_reward.item'),
+                'count' => Config::get('gw2.daily_event_reward.count')
+            ];
 		}
 
 		return compact('achievement', 'objectives', 'rewards');

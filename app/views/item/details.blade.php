@@ -160,7 +160,7 @@
 
         $achievementCount = count($achievementObjective) + count($achievementReward);
 
-        $isFestivalReward = false && $item->id == 77604;
+        $isFestivalReward = $item->id == Config::get('gw2.daily_event_reward.item');
     ?>
 
     @if($achievementCount > 0 || $isFestivalReward)

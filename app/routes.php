@@ -408,5 +408,10 @@ Route::group( array(
             'as' => 'sitemap',
             'uses' => 'SitemapController@getIndex'
         ]);
+
+        Route::get('lye', [
+            'as' => 'lye',
+            'uses' => 'LyeController@overview'
+        ]);
     }
 );

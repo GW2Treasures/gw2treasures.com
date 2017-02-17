@@ -87,6 +87,12 @@
 "113": {"coords":[0,0], "type":"keep", "name":{"de":"", "en":"", "es":"", "fr":""}},
 "114": {"coords":[0,0], "type":"keep", "name":{"de":"", "en":"", "es":"", "fr":""}},
 "115": {"coords":[0,0], "type":"camp", "name":{"de":"", "en":"", "es":"", "fr":""}},
-"116": {"coords":[0,0], "type":"camp", "name":{"de":"", "en":"", "es":"", "fr":""}}
+"116": {"coords":[0,0], "type":"camp", "name":{"de":"", "en":"", "es":"", "fr":""}},
+
+"118": {"coords":[0,0], "type":"ruin", "name":{"de":"", "en":"", "es":"", "fr":""}},
+"119": {"coords":[0,0], "type":"ruin", "name":{"de":"", "en":"", "es":"", "fr":""}},
+"120": {"coords":[0,0], "type":"ruin", "name":{"de":"", "en":"", "es":"", "fr":""}},
+"121": {"coords":[0,0], "type":"ruin", "name":{"de":"", "en":"", "es":"", "fr":""}},
+"122": {"coords":[0,0], "type":"ruin", "name":{"de":"", "en":"", "es":"", "fr":""}}
 
 }

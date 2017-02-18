@@ -57,4 +57,11 @@ class ItemController extends BaseController {
     public function tooltip( $language, Item $item ) {
         return $item->getTooltip( $language );
     }
+
+    public function removed($language) {
+        $this->layout->title = 'Removed Items';
+        $this->layout->content = View::make('item.removed')->with([
+            'items' => Item::whereRemovedFromApi(true)->get()
+        ]);
+    }
 }

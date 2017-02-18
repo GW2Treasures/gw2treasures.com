@@ -99,6 +99,11 @@ Route::group( array(
             'uses' => 'ItemController@random'
         ));
 
+        Route::get('item/removed', [
+            'as' => 'item.removed',
+            'uses' => 'ItemController@removed'
+        ]);
+
         // item details
         Route::get('item/{item}', array(
             'as' => 'itemdetails',

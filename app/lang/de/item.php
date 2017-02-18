@@ -187,4 +187,5 @@ return array (
     'reward' => 'Belohnung für folgende Erfolge:',
   ),
   'unusedAgonyInfusionSlot' => 'Freier Infusionsplatz (Qual)',
+  'removedFromGame' => 'Dieser Gegenstand wurde aus dem Spiel entfernt.',
 );

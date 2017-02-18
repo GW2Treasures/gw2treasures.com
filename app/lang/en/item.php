@@ -187,4 +187,5 @@ return array (
     'reward' => 'Rewarded for completing the following achievements:',
   ),
   'unusedAgonyInfusionSlot' => 'Unused Agony Infusion Slot',
+  'removedFromGame' => 'This item was removed from the game.',
 );

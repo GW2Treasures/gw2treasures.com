@@ -1,6 +1,12 @@
 <div class="tooltip">
 <header class="color-{{ $item->rarity }}">{{ $item->getName( ) }}</header>
 
+@if($item->removed_from_api)
+	<div class="removed-from-api">
+		{{ trans('item.removedFromGame') }}
+	</div>
+@endif
+
 {{-- weapon strength --}}
 @if( $item->type == 'Weapon' )
 	{{ trans( 'item.weaponStrength' ) }}: {{ $item->getTypeData( )->min_power }} – {{ $item->getTypeData( )->max_power }}<br>

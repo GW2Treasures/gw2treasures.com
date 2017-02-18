@@ -228,7 +228,10 @@ class Item extends BaseModel implements IHasIcon, IHasLink {
     }
 
     protected function getAdditionalLinkAttributes(array $defaults = []) {
-        return ['data-item-id' => $this->id, 'class' => $defaults['class'] . ' border-'.$this->rarity];
+        return [
+            'data-item-id' => $this->id,
+            'class' => $defaults['class'] . ' border-'.$this->rarity . ($this->removed_from_api ? ' removed' : '')
+        ];
     }
 
     /**

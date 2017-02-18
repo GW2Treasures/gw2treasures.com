@@ -40,6 +40,14 @@ class Helper {
         return $ms . $units[ $i ];
     }
 
+    public static function cacheBustingSuffix() {
+        if(!App::environment('production') || !Config::has('app.cacheBusting')) {
+            return '';
+        }
+
+        return '?v='.Config::get('app.cacheBusting');
+    }
+
     /* 
       determine which language out of an available set the user prefers most 
       

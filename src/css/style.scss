@@ -501,6 +501,10 @@ html.js .only-no-js, html.no-js .only-js { display:none; }
                 margin-top: 42px;
             }
         }
+
+        &.removed {
+            text-decoration: line-through;
+        }
     }
 }
 
@@ -616,6 +620,10 @@ $rare:       #f4c900;
         //    display: block;
         //}
     }
+
+    &.removed .item-link-text {
+        text-decoration: line-through;
+    }
 }
 
 .item-link-16 {
@@ -645,22 +653,35 @@ $rare:       #f4c900;
 .tooltip {
     display: inline-block;
     background: white;
-    box-shadow: 0 0 0 5px rgba(0,0,0,.02);
+    box-shadow: 0 0 0 5px rgba(0, 0, 0, .02);
     border: 1px solid #eee;
     max-width: 500px;
     line-height: 1.6;
     padding: 16px;
-    margin: 15px 15px 15px 0; }
-    .tooltip > header {
+    margin: 15px 15px 15px 0;
+
+    & > header {
         font-family: Adelle, Bitter, Georgia, serif;
         font-size: 1.15em;
         margin-bottom: .4em;
         line-height: 1;
-        font-weight: bold; }
-    .tooltip > p {
-        margin: 0; color: #777; }
-    .tooltip .muted {
-        color: #777; }
+        font-weight: bold;
+    }
+
+    & > p {
+        margin: 0;
+        color: #777;
+    }
+
+    .muted {
+        color: #777;
+    }
+
+    .removed-from-api {
+        color: #d32f2f;
+        margin-bottom: 4px;
+    }
+}
 
 .attributes { overflow: hidden; margin: 1em 0; }
     .attributes > dd {

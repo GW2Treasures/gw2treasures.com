@@ -46,6 +46,36 @@
 ])
 
 @include('lye.table', [
+    'level' => 4,
+    'title' => 'Recipe Source',
+    'description' => 'These recipes have the flag <code>LearnedFromItem</code> but there are no items unlocking them.',
+    'data' => $missing_items_source,
+    'columns' => [
+        'Item' => function() { return '?'; },
+        'Source' => [
+            'recipe_id',
+            function($e) { return $e->output->link(16,null,null,'r'.$e->recipe_id); },
+        ],
+        'Created at' => function($e) { return $e->output->date_added; }
+    ]
+])
+
+@include('lye.table', [
+    'level' => 4,
+    'title' => 'Recipe Output',
+    'description' => 'These recipes have an item as output that is missing in /v2/items.',
+    'data' => $missing_items_output,
+    'columns' => [
+        'Item' => 'output_id',
+        'Source' => [
+            'recipe_id',
+            'type'
+        ],
+        'Created at' => function($e) { return '?'; }
+    ]
+])
+
+@include('lye.table', [
     'title' => 'Missing Skins',
     'description' => 'These skins get unlocked by an item but are missing in /v2/skins.',
     'data' => $missing_skins,

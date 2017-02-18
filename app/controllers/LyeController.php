@@ -11,6 +11,8 @@ class LyeController extends BaseController {
             'missing_recipes' => $this->missingRecipes(),
             'missing_items_objectives' => $this->missingItemsObjectives(),
             'missing_items_rewards' => $this->missingItemsRewards(),
+            'missing_items_source' => $this->missingItemsSource(),
+            'missing_items_output' => $this->missingItemsOutput(),
             'missing_skins' => $this->missingSkins()
         ]);
         $this->layout->title = 'API whitelist issues';
@@ -53,6 +55,32 @@ class LyeController extends BaseController {
                     ->whereNull('items.id')
                     ->where('achievement_rewards.type', '=', 'item')
                     ->get())
+            ];
+        });
+    }
+
+    private function missingItemsSource() {
+        return Cache::remember('lye.missingItemsSource', 10, function() {
+            return (object)[
+                'time' => Carbon::now(),
+                'data' => Recipe::leftJoin('items', 'unlock_item_id', '=', 'items.id')
+                    ->with('output')
+                    ->select('recipes.*')
+                    ->whereNull('items.id')
+                    ->where('from_item', '=', '1')
+                    ->get()
+            ];
+        });
+    }
+
+    private function missingItemsOutput() {
+        return Cache::remember('lye.missingItemsOutput', 10, function() {
+            return (object)[
+                'time' => Carbon::now(),
+                'data' => Recipe::leftJoin('items', 'output_id', '=', 'items.id')
+                    ->select('recipes.*')
+                    ->whereNull('items.id')
+                    ->get()
             ];
         });
     }

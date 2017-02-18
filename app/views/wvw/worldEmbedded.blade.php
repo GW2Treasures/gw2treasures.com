@@ -7,7 +7,7 @@
 
 	<link rel="stylesheet" href="{{ Helper::cdn('assets/css/normalize.min.css') }}">
 	@if( App::environment('production') )
-		<link rel="stylesheet" href="{{ Helper::cdn('assets2/css/gw2t.css') }}">
+		<link rel="stylesheet" href="{{ Helper::cdn('assets2/css/gw2t.css').Helper::cacheBustingSuffix() }}">
 	@else
 		<link rel="stylesheet" href="//{{ Config::get('app.domain') }}:8888/css/gw2t.css">
 	@endif

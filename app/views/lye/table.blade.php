@@ -4,6 +4,9 @@
     <small style="float:right">Last checked: {{$data->time}}</small>
 {{'</'.$level.'>'}}
 <p>{{ $description }}</p>
+@if(isset($ids) && !empty($data->data))
+    IDs: <input type="text" onfocus="this.select()" value="{{ json_encode(Helper::collect($data->data)->map(function($entry) use ($ids) { return $entry->{$ids}; })) }}">
+@endif
 <table class="devTable">
     <thead>
     <tr>

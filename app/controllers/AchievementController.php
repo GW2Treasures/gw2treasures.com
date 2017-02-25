@@ -111,16 +111,6 @@ class AchievementController extends BaseController {
 
 			// load daily achievements and daily fractals
 			$data = $api->achievements()->daily()->get();
-			$fractals = $api->achievements()->categories()->get(88);
-
-			// add daily fractals
-			$data->fractals = [];
-			foreach($fractals->achievements as $fractalAchievement) {
-				$data->fractals[] = (object)[
-					'id' => $fractalAchievement,
-					'level' => null
-				];
-			}
 
 			// get all achievement ids
 			$ids = [];

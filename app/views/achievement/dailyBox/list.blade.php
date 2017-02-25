@@ -5,7 +5,7 @@
             <li>
                 {{ $achievement->achievement->link(32) }}
                 <span class="daily-box__level">
-                    @if(!is_null($achievement->level))
+                    @if(!is_null($achievement->level) && $type !== 'fractals')
                         @lang('achievement.daily.level', [
                             'level' => $achievement->level->min == $achievement->level->max
                                 ? $achievement->level->min

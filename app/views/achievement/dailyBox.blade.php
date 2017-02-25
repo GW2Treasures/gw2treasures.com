@@ -1,11 +1,24 @@
 <div class="daily-box"><div class="pageWidth">
     <header class="clearfix">
-        <h2>{{ trans('achievement.daily.header') }}</h2>
+        <h2>
+            {{ trans('achievement.daily.header') }}
+            <span class="daily-box__day-selector">
+                <a class="{{ $tomorrow ? '' : 'active' }}" href="{{ route('achievement.overview', [App::getLocale()]) }}">{{ trans('achievement.daily.today') }}</a>
+                <a class="{{ $tomorrow ? 'active' : '' }}" href="{{ route('achievement.overview', [App::getLocale(), 'dailies' => 'tomorrow']) }}">{{ trans('achievement.daily.tomorrow') }}</a>
+            </span>
+        </h2>
         <div class="daily-box__reset">
-            {{ trans('achievement.daily.reset', [
-                'reset' => '<time id="daily-reset-time" datetime="'.$daily->reset->format(\Carbon\Carbon::RFC3339).'">'.
-                    $daily->reset->diff(\Carbon\Carbon::now())->format('%H:%I:%S').'</time>'
-            ]) }}
+            @if($tomorrow)
+                {{ trans('achievement.daily.start', [
+                    'start' => '<time id="daily-reset-time" datetime="'.$daily->start->format(\Carbon\Carbon::RFC3339).'">'.
+                        $daily->start->diff(\Carbon\Carbon::now())->format('%H:%I:%S').'</time>'
+                ]) }}
+            @else
+                {{ trans('achievement.daily.reset', [
+                    'reset' => '<time id="daily-reset-time" datetime="'.$daily->reset->format(\Carbon\Carbon::RFC3339).'">'.
+                        $daily->reset->diff(\Carbon\Carbon::now())->format('%H:%I:%S').'</time>'
+                ]) }}
+            @endif
         </div>
         <script>
             (function(e) {

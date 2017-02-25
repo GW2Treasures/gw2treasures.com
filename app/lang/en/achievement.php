@@ -30,6 +30,9 @@ return array (
       'special' => 'Special Event',
     ),
     'level' => 'Level :level',
+    'start' => 'Start: :start',
+    'today' => 'Today',
+    'tomorrow' => 'Tomorrow',
   ),
   'access' => 
   array (

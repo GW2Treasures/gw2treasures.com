@@ -7,6 +7,7 @@ use Illuminate\Support\Arr;
 class AchievementController extends BaseController {
 	const CACHE_OVERVIEW = 'achievements.overview';
 	const CACHE_DAILY = 'achievements.daily';
+	const CACHE_DAILY_TOMORROW = 'achievements.daily.tomorrow';
 
 	/** @var \Illuminate\View\View|stdClass $layout */
 	protected $layout = 'layout';
@@ -93,7 +94,9 @@ class AchievementController extends BaseController {
 				->get();
 		});
 
-		$daily = $this->getDailyAchievements();
+		$tomorrow = Request::query('dailies') === 'tomorrow';
+
+		$daily = $this->getDailyAchievements($tomorrow);
 
 		$hidden = [
 			'groups' => [],
@@ -102,15 +105,22 @@ class AchievementController extends BaseController {
 
 		$this->layout->title = trans( 'achievement.overview' );
 		$this->layout->fullWidth = true;
-		$this->layout->content = View::make( 'achievement.overview' )->with(compact('groups', 'daily', 'hidden'));
+		$this->layout->content = View::make( 'achievement.overview' )->with(compact('groups', 'daily', 'hidden', 'tomorrow'));
 	}
 
-	private function getDailyAchievements() {
-		return Cache::remember(self::CACHE_DAILY, $this->getDailyReset(), function() {
+    /**
+     * @param boolean $tomorrow
+     * @return mixed
+     */
+	private function getDailyAchievements($tomorrow) {
+	    $cacheKey = $tomorrow ? self::CACHE_DAILY_TOMORROW : self::CACHE_DAILY;
+		return Cache::remember($cacheKey, $this->getDailyReset($tomorrow), function() use ($tomorrow) {
 			$api = new GW2Api();
 
 			// load daily achievements and daily fractals
-			$data = $api->achievements()->daily()->get();
+			$data = $tomorrow
+                ? $api->achievements()->daily()->tomorrow()->get()
+                : $api->achievements()->daily()->get();
 
 			// get all achievement ids
 			$ids = [];
@@ -150,16 +160,18 @@ class AchievementController extends BaseController {
             }
 
             return (object) [
-				'reset' => $this->getDailyReset(),
+                'start' => $this->getDailyReset($tomorrow)->subDay(),
+				'reset' => $this->getDailyReset($tomorrow),
 				'achievements' => $data
 			];
 		});
     }
 
-	/**
-	 * @return Carbon
-	 */
-	private function getDailyReset() {
-		return Carbon::tomorrow('UTC');
+    /**
+     * @param boolean $tomorrow
+     * @return Carbon
+     */
+	private function getDailyReset($tomorrow) {
+		return Carbon::tomorrow('UTC')->addDays($tomorrow ? 1 : 0);
 	}
 }

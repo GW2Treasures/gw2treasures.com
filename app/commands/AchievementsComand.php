@@ -128,6 +128,7 @@ class AchievementsCommand extends Command {
         // clear achievement caches
         Cache::forget(AchievementController::CACHE_OVERVIEW);
         Cache::forget(AchievementController::CACHE_DAILY);
+        Cache::forget(AchievementController::CACHE_DAILY_TOMORROW);
     }
 
     protected function getOptions() {

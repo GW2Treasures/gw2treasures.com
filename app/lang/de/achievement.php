@@ -30,6 +30,9 @@ return array (
       'special' => 'Sonder-Event',
     ),
     'level' => 'Level :level',
+    'start' => 'Start: :start',
+    'today' => 'Heute',
+    'tomorrow' => 'Morgen',
   ),
   'access' => 
   array (

@@ -201,6 +201,25 @@ $dailyBoxBackground: rebeccapurple;
     display: block;
 }
 
+.daily-box__day-selector {
+    margin-left: 16px;
+    font-size: 0;
+}
+
+.daily-box__day-selector > a {
+    font: 14px Open Sans, sans-serif;
+    padding: 8px 16px;
+    background: rgba(0,0,0,.2);
+    color: rgba(255,255,255,.6)
+}
+
+.daily-box__day-selector > a.active {
+    background: rgba(255,255,255,.1);
+    color: #fff;
+    cursor: default;
+    text-decoration: none;
+}
+
 @media(max-width: 768px) {
     .daily-box__column {
         width: auto;

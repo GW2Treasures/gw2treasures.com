@@ -21,7 +21,7 @@
 <table class="wvw-table">
 	@include('wvw.head')
 	<tbody>
-		@include( 'wvw.smallMatchBox', array( 'match' => $world->currentMatch()->withWorlds()->first(), 'homeworld' => $world, 'embedded' => true ))
+		@include( 'wvw.smallMatchBox', array( 'match' => $world->matches()->current()->first(), 'homeworld' => $world, 'embedded' => true ))
 	</tbody>
 </table>
 @if(Request::has('_redirectedFromOldDomain'))

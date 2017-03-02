@@ -48,7 +48,7 @@
 	<table class="wvw-table">
 		@include('wvw.head')
 		<tbody>
-		@include( 'wvw.smallMatchBox', array( 'match' => $world->currentMatch()->withWorlds()->first(), 'homeworld' => $world ))
+		@include( 'wvw.smallMatchBox', array( 'match' => $world->matches()->current()->first(), 'homeworld' => $world ))
 		</tbody>
 	</table>
 

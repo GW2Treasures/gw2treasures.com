@@ -4,7 +4,7 @@ class WvWController extends BaseController {
 	protected $layout = 'layout';
 
 	public function overview( $language ) {
-		$matches = Match::current()->withWorlds()->get();
+		$matches = Match::current()->with('worlds')->orderBy('match_id')->get();
 
 		$this->layout->title = trans( 'wvw.overview' );
 		$this->layout->content = View::make( 'wvw.overview' )

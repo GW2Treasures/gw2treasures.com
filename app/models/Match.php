@@ -1,164 +1,106 @@
 <?php
 
+use Carbon\Carbon;
+
+/**
+ * Match
+ *
+ * @property integer $id 
+ * @property string $match_id 
+ * @property string $start_time 
+ * @property string $end_time 
+ * @property string $data 
+ * @property \Carbon\Carbon $created_at 
+ * @property \Carbon\Carbon $updated_at 
+ * @property-read \Illuminate\Database\Eloquent\Collection|World[] $worlds 
+ * @property-read mixed $region 
+ * @method static \Illuminate\Database\Query\Builder|\Match whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\Match whereMatchId($value)
+ * @method static \Illuminate\Database\Query\Builder|\Match whereStartTime($value)
+ * @method static \Illuminate\Database\Query\Builder|\Match whereEndTime($value)
+ * @method static \Illuminate\Database\Query\Builder|\Match whereData($value)
+ * @method static \Illuminate\Database\Query\Builder|\Match whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\Match whereUpdatedAt($value)
+ * @method static \Match current()
+ * @method static \BaseModel random($count = 1)
+ */
 class Match extends BaseModel {
+    use HasData;
+
 	const REGION_US = 'us';
 	const REGION_EU = 'eu';
-	const WORLD_RED   = 'Red';
-	const WORLD_BLUE  = 'Blue';
-	const WORLD_GREEN = 'Green';
-	const NEUTRAL = 'Neutral';
 
-	private $_d;
-	private $_objectives;
-	private $_oc;
-	private $_income;
-	private $_allWorlds;
+	const TEAM_RED   = 'red';
+	const TEAM_GREEN = 'green';
+	const TEAM_BLUE  = 'blue';
 
-	protected $appends = array( 
-		'region', 
-		'objectives',
-		'objectiveCounts',
-		'income',
-		'scores',
-		'worlds'
-	);
+	const NEUTRAL = 'neutral';
 
-	public function red_world()   { return $this->belongsTo('World', 'red_world_id'); }
-	public function blue_world()  { return $this->belongsTo('World', 'blue_world_id'); }
-	public function green_world() { return $this->belongsTo('World', 'green_world_id'); }
+	const OBJECTIVE_CAMP = 'Camp';
+	const OBJECTIVE_TOWER = 'Tower';
+	const OBJECTIVE_KEEP = 'Keep';
+	const OBJECTIVE_CASTLE = 'Castle';
 
-	public function scopeWithWorlds( $query ) { 
-		return $query->with('red_world', 'blue_world', 'green_world');
-	}
+	protected $appends = ['region'];
 
-	public function scopeHasWorld( $query, World $world ) {
-		return $query->where( function( $q ) use ( $world ) {
-			return $q->  where(   'red_world_id', '=', $world->id )
-			         ->orWhere(  'blue_world_id', '=', $world->id )
-			         ->orWhere( 'green_world_id', '=', $world->id );
-		});
-	}
+	public function worlds() {
+	    //return $this->hasMany(MatchWorld::class);
+        return $this->belongsToMany(World::class, 'match_worlds')->withPivot('team');
+    }
 
-	public function scopeCurrent( $query ) {
-		return $query->whereRaw('end_time > NOW()');
-	}
+    public function scopeCurrent($query) {
+	    return $query->where(function($query) {
+	        $query->where('start_time', '<', Carbon::now())->where('end_time', '>', Carbon::now());
+        });
+    }
 
-	public function getRegionAttribute() {
-		return $this->match_id[0] == '1' ? self::REGION_US : self::REGION_EU;
-	}
+    public function getRegionAttribute() {
+        return $this->match_id[0] == '1' ? self::REGION_US : self::REGION_EU;
+    }
 
-	public function getDataAttribute( $value ) {
-		if( !isset( $this->_d )) {
-			$this->_d = json_decode( $value );
-		}
-		return $this->_d;
-	}
+    public function getScore($team) {
+	    $data = $this->getData();
 
-	public function getObjectivesAttribute() {
-		if( !isset( $this->_objectives )) {
-			$this->_objectives = array();
+	    return $data->scores->{$team};
+    }
 
-			foreach ($this->data->maps as $map) {
-				foreach ($map->objectives as $objective) {
-					$this->_objectives[$objective->id ] = new Objective( $objective->id, $objective->owner, isset( $objective->owner_guild ) ? $objective->owner_guild : null );
-				}
-			}
-		} 
-		return $this->_objectives;
-	}
+    public function getIncome($team) {
+        $this->parseObjectives();
 
-	public function getObjectiveCountsAttribute() {
-		if( !isset( $this->_oc )) {
-			$this->_oc = array(
-				self::WORLD_RED => array(
-					Objective::TYPE_CASTLE => 0,
-					Objective::TYPE_KEEP   => 0,
-					Objective::TYPE_TOWER  => 0,
-					Objective::TYPE_CAMP   => 0,
-					Objective::TYPE_RUIN   => 0
-				),
-				self::WORLD_BLUE => array(
-					Objective::TYPE_CASTLE => 0,
-					Objective::TYPE_KEEP   => 0,
-					Objective::TYPE_TOWER  => 0,
-					Objective::TYPE_CAMP   => 0,
-					Objective::TYPE_RUIN   => 0
-				),
-				self::WORLD_GREEN => array(
-					Objective::TYPE_CASTLE => 0,
-					Objective::TYPE_KEEP   => 0,
-					Objective::TYPE_TOWER  => 0,
-					Objective::TYPE_CAMP   => 0,
-					Objective::TYPE_RUIN   => 0
-				),
-				self::NEUTRAL => array(
-					Objective::TYPE_CASTLE => 0,
-					Objective::TYPE_KEEP   => 0,
-					Objective::TYPE_TOWER  => 0,
-					Objective::TYPE_CAMP   => 0,
-					Objective::TYPE_RUIN   => 0
-				),
-			);
+        return $this->income[$team];
+    }
 
-			foreach ($this->objectives as $objective) {
-				$this->_oc[ $objective->owner ][ $objective->type ]++;
-			}
-		}
+    public function getObjectiveCount($team, $type) {
+	    $this->parseObjectives();
 
-		return $this->_oc;
-	}
+	    return $this->objectiveCounts[$team][$type];
+    }
 
-	public function getIncomeAttribute() {
-		if( !isset( $this->_income )) {
-			$this->_income = array( 
-				self::WORLD_RED   => 0,
-				self::WORLD_BLUE  => 0,
-				self::WORLD_GREEN => 0
-			);
+    protected $objectiveCounts;
+	protected $income;
 
-			foreach ($this->objectives as $objective) {
-				if( $objective->owner != self::NEUTRAL ) {
-					$this->_income[ $objective->owner ] += $objective->score;
-				}
-			}
-		}
-		return $this->_income;
-	}
+    protected function parseObjectives() {
+        $this->objectiveCounts = [
+            Match::TEAM_RED => ['Ruins' => 0, 'Spawn' => 0, 'Camp' => 0, 'Keep' => 0, 'Tower' => 0, 'Castle' => 0],
+            Match::TEAM_GREEN => ['Ruins' => 0, 'Spawn' => 0, 'Camp' => 0, 'Keep' => 0, 'Tower' => 0, 'Castle' => 0],
+            Match::TEAM_BLUE => ['Ruins' => 0, 'Spawn' => 0, 'Camp' => 0, 'Keep' => 0, 'Tower' => 0, 'Castle' => 0]
+        ];
 
-	public function getScoreAttribute() {
-		return array( 
-			self::WORLD_RED   => $this->red_score,
-			self::WORLD_BLUE  => $this->blue_score,
-			self::WORLD_GREEN => $this->green_score
-		);
-	}
+        $this->income = [
+            Match::TEAM_RED => 0,
+            Match::TEAM_GREEN => 0,
+            Match::TEAM_BLUE => 0
+        ];
 
-	public function getWorldsAttribute() {
-		return array(
-			self::WORLD_RED   => $this->red_world,
-			self::WORLD_BLUE  => $this->blue_world,
-			self::WORLD_GREEN => $this->green_world
-		);
-	}
+        foreach ($this->getData()->maps as $map) {
+            foreach($map->objectives as $objective) {
+                $owner = strtolower($objective->owner);
 
-	public function getAllWorldsAttribute() {
-		if(!isset($this->_allWorlds)) {
-			$allWorlds = $this->data->all_worlds;
-
-			$worldIDs = array_merge($allWorlds->red, $allWorlds->blue, $allWorlds->green);
-			$worlds = World::whereIn('id', $worldIDs)->get()->keyBy('id');
-
-			$idToWorld = function($id) use ($worlds) {
-				return $worlds[$id];
-			};
-
-			$this->_allWorlds = [
-				self::WORLD_RED   => array_map($idToWorld, $allWorlds->red),
-				self::WORLD_GREEN => array_map($idToWorld, $allWorlds->green),
-				self::WORLD_BLUE  => array_map($idToWorld, $allWorlds->blue),
-			];
-		}
-
-		return $this->_allWorlds;
-	}
+                if($owner !== Match::NEUTRAL) {
+                    $this->income[strtolower($objective->owner)] += $objective->points_tick;
+                    $this->objectiveCounts[strtolower($objective->owner)][$objective->type] += 1;
+                }
+            }
+        }
+    }
 }

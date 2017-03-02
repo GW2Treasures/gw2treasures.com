@@ -30,10 +30,26 @@ class TraitController extends BaseController {
 	}
 
 	public function overview($language) {
-		$traits = Traits::orderBy('specialization_id', 'ASC')->orderBy('tier', 'ASC')->orderBy('order', 'ASC')->get();
+	    $data = Cache::remember('trait.overview', 60, function() {
+            return [
+                'traitCount' => Traits::count(),
+                'traitMinorCount' => Traits::whereSlot('Minor')->count(),
+                'traitMajorCount' => Traits::whereSlot('Major')->count(),
+                'professions' => Profession::all()
+            ];
+        });
 
 		$this->layout->title = trans('trait.breadcrumb');
+		$this->layout->fullWidth = true;
 		$this->layout->content = View::make('traits.overview')
-			->with(compact('traits'));
+			->with($data);
 	}
+
+    public function byProfession($language, Profession $profession) {
+        $specializations = $profession->specializations()->with('traits')->remember(60)->get();
+
+        $this->layout->title = trans('trait.breadcrumb');
+        $this->layout->content = View::make('traits.byProfession')
+            ->with(compact('profession', 'specializations'));
+    }
 }

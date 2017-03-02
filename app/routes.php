@@ -214,6 +214,11 @@ Route::group( array(
             'uses' => 'TraitController@overview'
         ]);
 
+        Route::get('profession/{profession}/traits', [
+            'as' => 'trait.byProfession',
+            'uses' => 'TraitController@byProfession'
+        ]);
+
         Route::get('trait/random', [
             'as' => 'trait.random',
             'uses' => 'TraitController@random'

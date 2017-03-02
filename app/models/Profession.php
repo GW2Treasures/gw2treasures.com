@@ -16,6 +16,22 @@ class Profession extends BaseModel implements IHasIcon, IHasLink {
 		return $this->getInternalIconUrl($size, $icon['signature'], $icon['file_id']);
 	}
 
+    public function getBigIcon($size = 64) {
+        $attributes = [
+            'src' => $this->getBigIconUrl($size),
+            'width' => $size,
+            'height' => $size,
+            'alt' => '',
+            'crossorigin' => 'anonymous'
+        ];
+
+        if($size <= 32) {
+            $attributes['srcset'] = $this->getBigIconUrl($size*2).' 2x';
+        }
+
+        return '<img '.HTML::attributes($attributes).'>';
+    }
+
 	protected function getAdditionalLinkAttributes(array $defaults = []) {
 		return ['data-profession-id' => $this->id];
 	}

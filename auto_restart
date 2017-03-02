@@ -1,7 +1,7 @@
 #!/bin/sh
 while [ 1 ]
 do
-  npm run start
-  echo "index.coffee stopped running. Restarting..."
+  npm start
+  echo "wvw-crawler stopped running. Restarting..."
   sleep 1
 done

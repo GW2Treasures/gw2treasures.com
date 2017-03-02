@@ -2,10 +2,10 @@
   "name": "gw2treasures-wvw-crawler",
   "version": "0.0.0",
   "description": "Crawls the Guild Wars 2 WvW APIs for current scores",
-  "main": "index.coffee",
+  "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "coffee index.coffee"
+    "start": "node lib/index.js"
   },
   "repository": {
     "type": "git",
@@ -13,13 +13,9 @@
   },
   "keywords": [
     "gw2treasures",
-    "crawler",
     "wvw",
-    "world",
     "guild wars 2",
-    "gw2",
-    "guild wars 2 api",
-    "api"
+    "gw2"
   ],
   "author": "darthmaim",
   "license": "MIT",
@@ -29,7 +25,8 @@
   "homepage": "https://github.com/darthmaim/gw2treasures-wvw-crawler",
   "dependencies": {
     "coffee-script": "~1.7.1",
-    "mysql": "~2.1.0",
+    "gw2api-client": "^5.1.0",
+    "mysql": "^2.1.1",
     "request": "~2.34.0"
   }
 }

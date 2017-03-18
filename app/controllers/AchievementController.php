@@ -1,6 +1,7 @@
 <?php
 
 use Carbon\Carbon;
+use GW2Treasures\GW2Api\Exception\ApiException;
 use GW2Treasures\GW2Api\GW2Api;
 use Illuminate\Support\Arr;
 
@@ -96,7 +97,11 @@ class AchievementController extends BaseController {
 
 		$tomorrow = Request::query('dailies') === 'tomorrow';
 
-		$daily = $this->getDailyAchievements($tomorrow);
+		try {
+            $daily = $this->getDailyAchievements($tomorrow);
+        } catch (ApiException $x) {
+		    $daily = false;
+        }
 
 		$hidden = [
 			'groups' => [],

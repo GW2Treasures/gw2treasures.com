@@ -1,4 +1,6 @@
-@include('achievement.dailyBox')
+@if($daily !== false)
+    @include('achievement.dailyBox')
+@endif
 
 <div class="pageWidth">
     <h2>{{trans('achievement.overview')}}</h2>

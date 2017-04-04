@@ -185,6 +185,7 @@ return array (
     'header' => 'Erfolge',
     'required' => 'Erforderlich für folgende Erfolge:',
     'reward' => 'Belohnung für folgende Erfolge:',
+    'requiredSkin' => 'Der freigeschaltete Skin ist erforderlich für folgende Erfolge:',
   ),
   'unusedAgonyInfusionSlot' => 'Freier Infusionsplatz (Qual)',
   'removedFromGame' => 'Dieser Gegenstand wurde aus dem Spiel entfernt.',

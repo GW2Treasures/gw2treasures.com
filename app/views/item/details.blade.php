@@ -157,8 +157,9 @@
     <?php
         $achievementObjective = Achievement::requiresItem($item->id)->get();
         $achievementReward = Achievement::rewardsItem($item->id)->get();
+        $achievementSkinObjective = Achievement::requiresSkin($item->skin_id)->get();
 
-        $achievementCount = count($achievementObjective) + count($achievementReward);
+        $achievementCount = count($achievementObjective) + count($achievementReward) + count($achievementSkinObjective);
 
         $isFestivalReward = $item->id == Config::get('gw2.daily_event_reward.item');
     ?>
@@ -166,10 +167,19 @@
     @if($achievementCount > 0 || $isFestivalReward)
         <h3{{ $achievementCount >= 8 ? ' style="clear:both"' : '' }}>{{ trans('item.achievements.header') }}</h3>
     @endif
+    <div class="itemDetails__achievement">
     @if(count($achievementObjective) > 0)
         <p>{{ trans('item.achievements.required') }}</p>
         <ul class="itemList">
             @foreach($achievementObjective as $achievement)
+                <li>{{ $achievement->link(32) }}</li>
+            @endforeach
+        </ul>
+    @endif
+    @if(count($achievementSkinObjective) > 0)
+        <p>{{ trans('item.achievements.requiredSkin') }}</p>
+        <ul class="itemList">
+            @foreach($achievementSkinObjective as $achievement)
                 <li>{{ $achievement->link(32) }}</li>
             @endforeach
         </ul>
@@ -185,6 +195,7 @@
             @endforeach
         </ul>
     @endif
+    </div>
 
     @if( count( $similarItems = $item->getSimilarItems()) > 0 )
         <?php

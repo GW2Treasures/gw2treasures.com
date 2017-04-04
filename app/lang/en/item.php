@@ -185,6 +185,7 @@ return array (
     'header' => 'Achievements',
     'required' => 'Required to complete the following achievements:',
     'reward' => 'Rewarded for completing the following achievements:',
+    'requiredSkin' => 'The skin unlocked by this item is required to complete the following achievements:',
   ),
   'unusedAgonyInfusionSlot' => 'Unused Agony Infusion Slot',
   'removedFromGame' => 'This item was removed from the game.',

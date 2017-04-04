@@ -13,7 +13,8 @@ class LyeController extends BaseController {
             'missing_items_rewards' => $this->missingItemsRewards(),
             'missing_items_source' => $this->missingItemsSource(),
             'missing_items_output' => $this->missingItemsOutput(),
-            'missing_skins' => $this->missingSkins()
+            'missing_skins' => $this->missingSkins(),
+            'missing_skins_objectives' => $this->missingSkinsObjectives(),
         ]);
         $this->layout->title = 'API whitelist issues';
     }
@@ -94,6 +95,20 @@ class LyeController extends BaseController {
                     ->whereNull('skins.id')
                     ->where('skin_id', '!=', '0')
                     ->get()
+            ];
+        });
+    }
+
+    private function missingSkinsObjectives() {
+        return Cache::remember('lye.missingSkinsObjectives', 10, function() {
+            return (object)[
+                'time' => Carbon::now(),
+                'data' => $this->joinAchievements(DB::table('achievement_objectives')
+                    ->leftJoin('skins', 'entity_id', '=', 'skins.id')
+                    ->select('achievement_objectives.*')
+                    ->whereNull('skins.id')
+                    ->where('achievement_objectives.type', '=', 'skin')
+                    ->get())
             ];
         });
     }

@@ -79,8 +79,10 @@
     ]
 ])
 
+<h3>Missing Skins</h3>
 @include('lye.table', [
-    'title' => 'Missing Skins',
+    'level' => 4,
+    'title' => 'Default Skins',
     'ids' => 'skin_id',
     'description' => 'These skins get unlocked by an item but are missing in /v2/skins.',
     'data' => $missing_skins,
@@ -93,3 +95,20 @@
         'Created at' => 'date_added'
     ]
 ])
+
+@include('lye.table', [
+    'level' => 4,
+    'title' => 'Achievement Objectives',
+    'ids' => 'entity_id',
+    'description' => 'These skins are required for an achievement (<code>bits</code>) but missing in /v2/skins.',
+    'data' => $missing_skins_objectives,
+    'columns' => [
+        'Skin' => 'entity_id',
+        'Source' => [
+            'achievement_id',
+            function($e) { return $e->achievement->link(); },
+        ],
+        'Created at' => function($e) { return $e->achievement->created_at; }
+    ]
+])
+

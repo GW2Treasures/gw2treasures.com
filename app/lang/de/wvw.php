@@ -13,7 +13,7 @@ return array (
   'breadcrumb' => 'Welten',
   'region' => 
   array (
-    'na' => 'Nord Amerika',
+    'na' => 'Nordamerika',
     'eu' => 'Europa',
   ),
   'currentMatchup' => 'Aktuelle Zuordnung',

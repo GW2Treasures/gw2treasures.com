@@ -17,4 +17,6 @@ return array (
     'eu' => 'Europa',
   ),
   'currentMatchup' => 'Aktuelle Zuordnung',
+  'victoryPoints' => 'Siegpunkte',
+  'skirmish' => 'Scharmützel',
 );

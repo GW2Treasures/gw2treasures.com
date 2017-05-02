@@ -17,4 +17,6 @@ return array (
     'eu' => 'Europe',
   ),
   'currentMatchup' => 'Current Matchup',
+  'victoryPoints' => 'Victory Points',
+  'skirmish' => 'Current Skirmish',
 );

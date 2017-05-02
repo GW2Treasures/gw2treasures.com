@@ -70,6 +70,18 @@ class Match extends BaseModel {
         return $this->income[$team];
     }
 
+    public function getVictoryPoints($team) {
+        $data = $this->getData();
+
+        return $data->victory_points->{$team};
+    }
+
+    public function getLatestSkirmishPoints($team) {
+	    $data = $this->getData();
+
+	    return Helper::collect($data->skirmishes)->sortByDesc('id')->first()->scores->{$team};
+    }
+
     public function getObjectiveCount($team, $type) {
 	    $this->parseObjectives();
 

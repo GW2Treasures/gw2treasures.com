@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html dir="ltr" xmlns="http://www.w3.org/1999/xhtml" lang="{{ App::getLocale() }}" class="no-js">
+<html dir="ltr" xmlns="http://www.w3.org/1999/xhtml" lang="{{ App::getLocale() }}" class="no-js embedded">
 <head>
 	<meta charset="utf-8">
 	<title>{{ $world->getName() }} | Embedded WvW World Stats | GW2 Treasures</title>

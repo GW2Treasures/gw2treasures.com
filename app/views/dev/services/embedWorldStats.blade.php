@@ -23,7 +23,7 @@
 <h3 class="pageWidth">Parameters @include('dev.anchor', ['anchor'=>'parameters'])</h3>
 <section class="pageWidth">
     <p>The URL for the widget is:</p>
-    <pre>https://<b>{language}</b>.gw2treasures.com/wvw/world/<b>{world_id}</b>/embedded?style=<b>{style}</b></pre>
+    <pre>https://<b>{language}</b>.gw2treasures.com/wvw/world/<b>{world_id}</b>/embedded?style=<b>{style}</b>&columns=<b>{columns}</b></pre>
     <table style="width:100%" class="devTable">
         <thead>
         <tr>
@@ -57,6 +57,14 @@
             <td>
                 Valid styles are <b><code>light</code></b> and <b><code>dark</code></b>.
                 The default style if not specified is <b><code>light</code></b>.
+            </td>
+        </tr>
+        <tr>
+            <th><code>columns</code> <span style="font-weight: normal">(optional)</span></th>
+            <td>
+                You can define the columns that will be shown and their order by providing a comma separated list.
+                Available columns are <b><code>income</code></b>, <b><code>objectives</code></b>, <b><code>score</code></b>, <b><code>skirmish</code></b> and <b><code>victory</code></b>.
+                The default columns are <b><code>victory,skirmish</code></b>.
             </td>
         </tr>
         </tbody>

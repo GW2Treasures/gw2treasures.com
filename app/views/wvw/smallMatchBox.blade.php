@@ -1,7 +1,5 @@
 <?php
     /** @var Match $match */
-    $maxScore  = max($match->getScore(Match::TEAM_RED), $match->getScore(Match::TEAM_GREEN), $match->getScore(Match::TEAM_BLUE));
-    $maxIncome = max($match->getIncome(Match::TEAM_RED), $match->getIncome(Match::TEAM_GREEN), $match->getIncome(Match::TEAM_BLUE));
 
     $cssClass  = [Match::TEAM_GREEN => 'green', Match::TEAM_BLUE => 'blue', Match::TEAM_RED => 'red'];
 ?>
@@ -16,24 +14,19 @@
                 {{ $worlds[$i]->getName() }}</a>{{ $i != count($worlds) - 1 ? ' / ' : '' }}
             @endfor
         </td>
-        <td class="wvw-table__score">
-            <span class="wvw-table__score__label">
-                {{ number_format( $match->getScore($side), 0, '.', ' ' ) }}
-                <span class="wvw-table__score__label__income">(+{{ $match->getIncome($side) }})</span>
-            </span>
-            <span class="wvw-table__score__bar wvw-table__score__bar--{{ $cssClass[$side] }}"
-                  style="width:{{ $maxScore > 0 ? $match->getScore($side) / $maxScore * 100 : 0 }}%">&nbsp;</span>
-        </td>
-        <td class="wvw-table__income">
-            <span class="wvw-table__income__label">+{{ $match->getIncome($side) }}</span>
-            <div class="wvw-table__income__bar wvw-table__income__bar--{{ $cssClass[$side] }}"
-                 style="width:{{ $maxIncome > 0 ? $match->getIncome($side) / $maxIncome * 100 : 0 }}%">&nbsp;</div>
-        </td>
-        <td class="wvw-table__objectives">
-            <span>{{ $match->getObjectiveCount($side, Match::OBJECTIVE_CAMP) }}</span>
-            <span>{{ $match->getObjectiveCount($side, Match::OBJECTIVE_TOWER) }}</span>
-            <span>{{ $match->getObjectiveCount($side, Match::OBJECTIVE_KEEP) }}</span>
-            <span>{{ $match->getObjectiveCount($side, Match::OBJECTIVE_CASTLE) }}</span>
-        </td>
+        @foreach($columns as $column)
+            <td class="wvw-table__cell wvw-table__cell--{{$column}}">
+            @if($column === 'score')
+                @include('wvw.matchBox.score')
+            @elseif($column === 'income')
+                @include('wvw.matchBox.income')
+            @elseif($column === 'objectives')
+                @include('wvw.matchBox.objectives')
+            @elseif($column === 'victory')
+                @include('wvw.matchBox.victory')
+            @elseif($column === 'skirmish')
+                @include('wvw.matchBox.skirmish')
+            @endif
+        @endforeach
     </tr>
 @endforeach

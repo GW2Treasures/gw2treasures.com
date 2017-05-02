@@ -19,46 +19,32 @@
 .wvw-table__worlds {
     width: 1px;
     white-space: nowrap;
-    border-right: 1px solid;
     padding-left: 8px !important;
 }
-.wvw-table__score {
-    text-align: right;
+.wvw-table__cell {
+    text-align: left;
     position: relative;
-    border-right: 1px solid;
+    border-left: 1px solid;
 }
-.wvw-table__score__label {
-    position: absolute;
-    right: 8px;
-}
-.wvw-table__score__bar {
-    background: red;
-    display: inline-block;
-}
-.wvw-table__income {
-    width: 20%;
-    position: relative;
-    border-right: 1px solid;
-}
-.wvw-table__income__label {
+.wvw-table__label {
     position: absolute;
     left: 8px;
 }
-.wvw-table__income__bar {
+.wvw-table__bar {
     background: red;
     display: inline-block;
 }
-.wvw-table__objectives {
+.wvw-table__cell--objectives {
     width: 128px;
 }
-.wvw-table__objectives > span {
+.wvw-table__cell--objectives > span {
     width: 32px;
     display: inline-block;
     float: left;
     text-align: center;
 }
 
-th.wvw-table__objectives {
+th.wvw-table__cell--objectives {
     padding: 0 4px;
 }
 .wvw-table svg {
@@ -82,49 +68,16 @@ th.wvw-table__objectives {
     padding-bottom: 4px;
 }
 
-.wvw-table__score__bar--red,
-.wvw-table__income__bar--red {
+.wvw-table__bar--red {
     background-color: #FF7469;
 }
 
-.wvw-table__score__bar--blue,
-.wvw-table__income__bar--blue {
+.wvw-table__bar--blue {
     background-color: #33A7FF;
 }
 
-.wvw-table__score__bar--green,
-.wvw-table__income__bar--green {
+.wvw-table__bar--green {
     background-color: #6CD997;
-}
-
-.wvw-table__score__label__income {
-    display: none;
-}
-
-@media (max-width: 650px) {
-    .wvw-table__score__label__income {
-        display: inline;
-    }
-
-    .wvw-table__income {
-        display: none;
-    }
-
-    .wvw-table__score {
-        text-align: left;
-    }
-
-    .wvw-table__score__label {
-        left: 8px;
-    }
-}
-@media (max-width: 580px) {
-    .wvw-table__objectives {
-        display: none;
-    }
-    .wvw-table__score {
-        border-right: none;
-    }
 }
 
 .dark {
@@ -142,18 +95,45 @@ th.wvw-table__objectives {
         fill: #FFF;
     }
 
-    .wvw-table__score__bar--red,
-    .wvw-table__income__bar--red {
+    .wvw-table__bar--red {
         background-color: #B30000;
     }
 
-    .wvw-table__score__bar--blue,
-    .wvw-table__income__bar--blue {
+    .wvw-table__bar--blue {
         background-color: #005BC0;
     }
 
-    .wvw-table__score__bar--green,
-    .wvw-table__income__bar--green {
+    .wvw-table__bar--green {
         background-color: #0A663D;
     }
+}
+
+@media(max-width: 1125px) {
+    .wvw-table__cell:nth-child(6) {
+        display: none;
+    }
+}
+
+@media(max-width: 950px) {
+    .wvw-table__cell:nth-child(5) {
+        display: none;
+    }
+}
+
+
+@media(max-width: 775px) {
+    .wvw-table__cell:nth-child(4) {
+        display: none;
+    }
+}
+
+@media(max-width: 600px) {
+    .wvw-table__cell:nth-child(3) {
+        display: none;
+    }
+}
+
+html.embedded,
+.embedded > body {
+    background: none;
 }

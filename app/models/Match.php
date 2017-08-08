@@ -93,9 +93,9 @@ class Match extends BaseModel {
 
     protected function parseObjectives() {
         $this->objectiveCounts = [
-            Match::TEAM_RED => ['Ruins' => 0, 'Spawn' => 0, 'Camp' => 0, 'Keep' => 0, 'Tower' => 0, 'Castle' => 0],
-            Match::TEAM_GREEN => ['Ruins' => 0, 'Spawn' => 0, 'Camp' => 0, 'Keep' => 0, 'Tower' => 0, 'Castle' => 0],
-            Match::TEAM_BLUE => ['Ruins' => 0, 'Spawn' => 0, 'Camp' => 0, 'Keep' => 0, 'Tower' => 0, 'Castle' => 0]
+            Match::TEAM_RED => ['Ruins' => 0, 'Spawn' => 0, 'Camp' => 0, 'Keep' => 0, 'Tower' => 0, 'Castle' => 0, 'Mercenary' => 0],
+            Match::TEAM_GREEN => ['Ruins' => 0, 'Spawn' => 0, 'Camp' => 0, 'Keep' => 0, 'Tower' => 0, 'Castle' => 0, 'Mercenary' => 0],
+            Match::TEAM_BLUE => ['Ruins' => 0, 'Spawn' => 0, 'Camp' => 0, 'Keep' => 0, 'Tower' => 0, 'Castle' => 0, 'Mercenary' => 0]
         ];
 
         $this->income = [

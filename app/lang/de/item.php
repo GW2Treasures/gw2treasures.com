@@ -189,4 +189,5 @@ return array (
   ),
   'unusedAgonyInfusionSlot' => 'Freier Infusionsplatz (Qual)',
   'removedFromGame' => 'Dieser Gegenstand wurde aus dem Spiel entfernt.',
+  'api503' => 'Die offizielle API ist derzeit deaktiviert.',
 );

@@ -45,12 +45,17 @@
 	</div>
 
 	<h2 style="clear: right;">{{ trans('wvw.currentMatchup') }}</h2>
-	<table class="wvw-table">
-		@include('wvw.head')
-		<tbody>
-		@include( 'wvw.smallMatchBox', array( 'match' => $world->matches()->current()->first(), 'homeworld' => $world ))
-		</tbody>
-	</table>
+	<?php $match = $world->matches()->current()->first(); ?>
+	@if(!is_null($match))
+		<table class="wvw-table">
+			@include('wvw.head')
+			<tbody>
+			@include( 'wvw.smallMatchBox', ['homeworld' => $world])
+			</tbody>
+		</table>
+	@else
+		<p>{{ trans('wvw.noCurrentMatchup', ['world' => $world->getName()]) }}</p>
+	@endif
 
 	<p style="margin-top: 2em; font-size: 11px">
 		Embedding: <code>{{ URL::route( 'wvw.world.embedded', array( App::getLocale(), $world->id )) }}</code> (<a href="{{ URL::route('dev.embedWorldStats') }}">Info</a>)

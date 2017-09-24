@@ -16,14 +16,19 @@
 	$style = isset($_GET['style']) && in_array( $_GET['style'], array( 'light', 'dark' ))
 		? $_GET['style']
 		: 'light';
+	$match = $world->matches()->current()->first();
 ?>
 <body class="{{ $style }}" style="min-height: 100px">
-<table class="wvw-table">
-	@include('wvw.head')
-	<tbody>
-		@include( 'wvw.smallMatchBox', array( 'match' => $world->matches()->current()->first(), 'homeworld' => $world, 'embedded' => true ))
-	</tbody>
-</table>
+@if(!is_null($match))
+	<table class="wvw-table">
+		@include('wvw.head')
+		<tbody>
+			@include( 'wvw.smallMatchBox', ['homeworld' => $world, 'embedded' => true])
+		</tbody>
+	</table>
+@else
+	<p style="text-align: center; margin-top: 51px">{{ trans('wvw.noCurrentMatchup', ['world' => $world->getName()]) }}</p>
+@endif
 @if(Request::has('_redirectedFromOldDomain'))
 	<div class="oldDomain">
 		<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path fill="#FF7200" d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>

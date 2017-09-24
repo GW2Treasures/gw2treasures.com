@@ -19,4 +19,5 @@ return array (
   'currentMatchup' => 'Aktuelle Zuordnung',
   'victoryPoints' => 'Siegpunkte',
   'skirmish' => 'Scharmützel',
+  'noCurrentMatchup' => ':world ist derzeit keinem Match zugeordnet.'
 );

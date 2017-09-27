@@ -680,11 +680,11 @@ $rare:       #f4c900;
     .muted {
         color: #777;
     }
+}
 
-    .removed-from-api {
-        color: #d32f2f;
-        margin-bottom: 4px;
-    }
+.removed-from-api {
+    color: #d32f2f;
+    margin-bottom: 4px;
 }
 
 .attributes { overflow: hidden; margin: 1em 0; }

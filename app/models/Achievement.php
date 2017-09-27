@@ -31,10 +31,20 @@ class Achievement extends BaseModel implements IHasIcon, IHasLink {
             $locked_text = $this->getData('en')->locked_text;
 
             // items
-            if(preg_match('/^(Purchase|Loot|Use|Bring)( an?| the|) (.*?)( from|, found|, obtained| to)/', $locked_text, $matches)) {
+            if(preg_match('/^(Purchase|Loot|Use|Bring|Acquire)( an?| the|) (.*?)( from|, found|, obtained| to| by combining)/', $locked_text, $matches)) {
                 $itemName = $matches[3];
 
                 $items = Item::where('name_en', '=', $itemName)->get();
+
+                if($items->count() > 1) {
+                    $bitIds = array_map(function($bit) {
+                        return $bit->type === 'Item' ? $bit->id : null;
+                    }, $this->getData()->bits);
+
+                    $items = $items->filter(function($item) use ($bitIds) {
+                        return in_array($item->id, $bitIds);
+                    });
+                }
 
                 if($items->count() === 1) {
                     /** @var Item $item */

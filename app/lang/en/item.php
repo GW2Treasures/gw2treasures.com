@@ -29,6 +29,7 @@ return array (
     'Damage' => 'Damage',
     'StunDuration' => 'Stun Duration',
     'CriticalChance' => 'Critical Chance',
+    'Concentration' => 'Concentration',
   ),
   'rarity' => 
   array (

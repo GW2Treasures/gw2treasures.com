@@ -29,6 +29,7 @@ return array (
     'Damage' => 'Daño',
     'CriticalChance' => 'Probabilidad de daño crítico',
     'StunDuration' => 'Duración de aturdimiento',
+    'Concentration' => 'Concentración',
   ),
   'rarity' => 
   array (

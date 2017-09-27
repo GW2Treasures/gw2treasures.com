@@ -19,5 +19,5 @@ return array (
   'currentMatchup' => 'Current Matchup',
   'victoryPoints' => 'Victory Points',
   'skirmish' => 'Current Skirmish',
-  'noCurrentMatchup' => ':world has currently no match.'
+  'noCurrentMatchup' => ':world has currently no match.',
 );

@@ -39,11 +39,11 @@ return array (
     'GuildWars2' => 'Only Guild Wars 2',
     'HeartOfThorns' => 'Only Heart Of Thorns',
   ),
-  'tooltip' =>
+  'tooltip' => 
   array (
-    'objectives' => '1 objective|:count objectives'
+    'objectives' => '1 objective|:count objectives',
   ),
-  'unlock' =>
+  'unlock' => 
   array (
     'header' => 'Unlock',
     'unknown' => 'You have to unlock this achievement.',

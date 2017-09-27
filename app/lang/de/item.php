@@ -29,6 +29,7 @@ return array (
     'Damage' => 'Schaden',
     'CriticalChance' => 'Kritische Trefferchance',
     'StunDuration' => 'Betäubungsdauer',
+    'Concentration' => 'Konzentration',
   ),
   'rarity' => 
   array (

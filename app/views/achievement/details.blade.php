@@ -57,6 +57,12 @@
 	</div>
 
 	<div class="achievementDetails">
+		@if($achievement->removed_from_api)
+			<div class="removed-from-api">
+				{{ trans('achievement.removedFromGame') }}
+			</div>
+		@endif
+
 		<p class="achievement__description">{{ $achievement->getData()->description }}</p>
 
 		@if($achievement->hasFlag(Achievement::FLAG_REQUIRES_UNLOCK))

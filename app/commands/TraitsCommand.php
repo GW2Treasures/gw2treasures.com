@@ -60,6 +60,9 @@ class TraitsCommand extends Command {
                 }
             }
         });
+
+        Traits::query()->update(['removed_from_api' => true]);
+        Traits::query()->whereIn('id', $api->traits()->ids())->update(['removed_from_api' => false]);
     }
 
     protected function getOptions() {
@@ -67,6 +70,4 @@ class TraitsCommand extends Command {
             ['update', 'u', InputOption::VALUE_NONE, 'Update existing traits']
         ];
     }
-
-
 }

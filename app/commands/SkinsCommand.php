@@ -58,6 +58,9 @@ class SkinsCommand extends Command {
                 }
             }
         });
+
+        Skin::query()->update(['removed_from_api' => true]);
+        Skin::query()->whereIn('id', $api->skins()->ids())->update(['removed_from_api' => false]);
     }
 
     protected function getOptions() {

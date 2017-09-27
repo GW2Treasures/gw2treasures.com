@@ -7,6 +7,10 @@ trait HasLink {
         return [];
     }
 
+    protected function isRemovedFromApi() {
+        return isset($this->removed_from_api) && $this->removed_from_api;
+    }
+
     abstract function getName($lang);
 
     public function link($icon = 16, $lang = null, $text = null, $anchor = null, $extraAttributes = []) {
@@ -25,7 +29,9 @@ trait HasLink {
             : '';
 
         $defaultAttributes = [
-            'class' => 'item-link' . ($displayIcon ? ' item-link-'.$icon : ''),
+            'class' => 'item-link'
+                . ($displayIcon ? ' item-link-'.$icon : '')
+                . ($this->isRemovedFromApi() ? ' removed' : ''),
             'href' => $this->getUrl($lang).$anchor,
             'hreflang' => $lang,
         ];

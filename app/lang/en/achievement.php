@@ -48,4 +48,5 @@ return array (
     'header' => 'Unlock',
     'unknown' => 'You have to unlock this achievement.',
   ),
+  'removedFromGame' => 'This achievement was removed from the game.',
 );

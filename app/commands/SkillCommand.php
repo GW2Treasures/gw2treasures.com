@@ -56,6 +56,9 @@ class SkillCommand extends Command {
                 }
             }
         });
+
+        Skill::query()->update(['removed_from_api' => true]);
+        Skill::query()->whereIn('id', $api->skills()->ids())->update(['removed_from_api' => false]);
     }
 
     protected function getOptions() {
@@ -63,6 +66,4 @@ class SkillCommand extends Command {
             ['update', 'u', InputOption::VALUE_NONE, 'Update existing Skills']
         ];
     }
-
-
 }

@@ -30,6 +30,9 @@ class SpecializationsCommand extends Command {
             'data_de', 'data_en', 'data_es', 'data_fr',
             'created_at', 'updated_at',
         ], $updating);
+
+        Specialization::query()->update(['removed_from_api' => true]);
+        Specialization::query()->whereIn('id', $api->specializations()->ids())->update(['removed_from_api' => false]);
     }
 
     protected function getOptions() {
@@ -37,6 +40,4 @@ class SpecializationsCommand extends Command {
             ['update', 'u', InputOption::VALUE_NONE, 'Update existing specializations']
         ];
     }
-
-
 }

@@ -125,6 +125,9 @@ class AchievementsCommand extends Command {
             }
         });
 
+        Achievement::query()->update(['removed_from_api' => true]);
+        Achievement::query()->whereIn('id', $api->achievements()->ids())->update(['removed_from_api' => false]);
+
         // clear achievement caches
         Cache::forget(AchievementController::CACHE_OVERVIEW);
         Cache::forget(AchievementController::CACHE_DAILY);
@@ -136,6 +139,4 @@ class AchievementsCommand extends Command {
             ['update', 'u', InputOption::VALUE_NONE, 'Update existing achievements']
         ];
     }
-
-
 }

@@ -1,6 +1,12 @@
 <div class="tooltip">
     <header>{{ $achievement->getName() }}</header>
 
+    @if($achievement->removed_from_api)
+        <div class="removed-from-api">
+            {{ trans('achievement.removedFromGame') }}
+        </div>
+    @endif
+
     <p>{{ $achievement->getData()->description }}</p>
 
     {{ $achievement->getData()->requirement }}

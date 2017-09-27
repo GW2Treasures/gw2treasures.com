@@ -44,4 +44,5 @@ return array (
     'header' => 'Freischaltung',
     'unknown' => 'Dieser Erfolg muss erst freigeschaltet werden.',
   ),
+  'removedFromGame' => 'Dieser Erfolg wurde aus dem Spiel entfernt.',
 );

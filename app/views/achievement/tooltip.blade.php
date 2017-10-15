@@ -7,10 +7,10 @@
         </div>
     @endif
 
+    <div>{{ $achievement->getData()->requirement }}</div>
+
     <p>{{ $achievement->getData()->description }}</p>
-
-    {{ $achievement->getData()->requirement }}
-
+    
     @if(!empty($objectives))
         {{ trans_choice('achievement.tooltip.objectives', count($objectives), ['count' => count($objectives)]) }}
     @endif

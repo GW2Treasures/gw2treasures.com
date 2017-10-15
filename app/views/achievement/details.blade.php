@@ -98,6 +98,8 @@
 									(new \GW2Treasures\GW2Tools\Chatlinks\SkinChatlink($bit->id))->encode();
 								}}</span></li>
 							@endif
+						@elseif($bit->type === 'Achievement')
+							<li class="achievement__objective--achievement">{{ $bit->achievement->link(32) }}</li>
 						@elseif($bit->type === 'Minipet')
 							<li class="achievement__objective--text">Collect unknown minipet</li>
 						@elseif($bit->type === 'Text')

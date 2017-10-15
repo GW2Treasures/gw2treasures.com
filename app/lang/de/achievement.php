@@ -45,4 +45,8 @@ return array (
     'unknown' => 'Dieser Erfolg muss erst freigeschaltet werden.',
   ),
   'removedFromGame' => 'Dieser Erfolg wurde aus dem Spiel entfernt.',
+  'tooltip' => 
+  array (
+    'objectives' => '1 Ziel|:count Ziele',
+  ),
 );

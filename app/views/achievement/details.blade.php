@@ -135,8 +135,17 @@
 							}}</li>
 						@else
 							<li class="achievement__reward--unknown">Unknown item <span class="chatlink--inline">{{
-								(new \GW2Treasures\GW2Tools\Chatlinks\ItemChatlink(\GW2Treasures\GW2Tools\Common\ItemStack::fromArray(['id' => $reward->id])))->encode();
+								(new \GW2Treasures\GW2Tools\Chatlinks\ItemChatlink(\GW2Treasures\GW2Tools\Common\ItemStack::fromArray(['id' => $reward->id])))->encode()
 							}}</span></li>
+						@endif
+					@elseif($reward->type === 'Title')
+                        <?php $rewardTitle = Title::find($reward->id); ?>
+						@if(!is_null($rewardTitle))
+							<li class="achievement__reward--title">{{
+								$rewardTitle->getName()
+							}}</li>
+						@else
+							<li class="achievement__reward--unknown">Unknown title</li>
 						@endif
 					@elseif($reward->type === 'Mastery')
 						<li class="achievement__reward--mastery achievement__reward--mastery-{{$reward->region}}">{{

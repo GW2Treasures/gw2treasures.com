@@ -69,6 +69,16 @@
 .achievement__reward--mastery-Maguuma:before {;
     background-position: -64px -100px;
 }
+.achievement__reward--title:before {
+    content: '';
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    vertical-align: top;
+    margin-right: .5em;
+    //background: #eee url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMTMiIHZpZXdCb3g9IjAgMCAyMCAxMyIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNLjUgNmwzIDdjMi4xNjctLjY2NyA0LjMzMy0xIDYuNS0xczQuMzMzLjMzMyA2LjUgMWwzLTctNSAyTDEwIDAgNS41IDhsLTUtMnoiIGZpbGw9IiM5OTkiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPjwvc3ZnPg==") no-repeat center;
+    background: #eee url(../img/title.svg) no-repeat center;
+}
 
 .ap {
     padding-right: 25px;

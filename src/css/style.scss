@@ -1266,14 +1266,13 @@ i.loading {
     position: relative;
     box-sizing: border-box;
     background-repeat: no-repeat;
-    background-position: center 0px;
-    background-size: auto 250px;
+    background-position: 95% -50px, center 0px;
+    background-size: auto 234px, auto 250px;
     min-height: 250px; }
     .js         .banner { background-image: linear-gradient(#30373d 200px, #d4d8e1 200px); }
     .no-js      .banner,
-    .js.no-webp .banner { background-image: url(../img/header.png), linear-gradient(#30373d 200px, #d4d8e1 200px);  }
-    .js.webp    .banner { background-image: url(../img/header.webp), linear-gradient(#30373d 200px, #d4d8e1 200px); }
-
+    .js.no-webp .banner { background-image: url(../img/halloween.png), url(../img/header.png), linear-gradient(#30373d 200px, #d4d8e1 200px);  }
+    .js.webp    .banner { background-image: url(../img/halloween.png), url(../img/header.webp), linear-gradient(#30373d 200px, #d4d8e1 200px); }
     .banner .header {
         position: relative;
         margin: 0 auto 15px;
@@ -1368,8 +1367,8 @@ i.loading {
 @media ( max-width: 800px ) {
     .banner .header { max-width: 400px;
         min-height: 85px; }
-    .banner { background-position: center -75px;
-        background-size: auto 250px;
+    .banner { background-position: right -20px, center -75px;
+        background-size: auto 100px, auto 250px;
         min-height: 175px; }
 
     #snowcanvas { max-height: 175px; }

@@ -19,7 +19,13 @@ class AchievementController extends BaseController {
 		$this->layout->content = View::make('achievement.details')
 			->with($this->getAchievementData($achievement));
 
-		DB::table('achievement_views')->insert([
+        $this->layout->canonical = $achievement->getUrl();
+        $this->layout->metaTitle = $achievement->getName();
+        $this->layout->metaImage = $achievement->getIconUrl(64);
+        $this->layout->metaDescription = trim($achievement->getData()->requirement . ' ' . $achievement->getData()->description);
+
+
+        DB::table('achievement_views')->insert([
 			'achievement_id' => $achievement->id,
 			'language' => $language,
 		]);

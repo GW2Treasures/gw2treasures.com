@@ -22,7 +22,7 @@ class AchievementController extends BaseController {
         $this->layout->canonical = $achievement->getUrl();
         $this->layout->metaTitle = $achievement->getName();
         $this->layout->metaImage = $achievement->getIconUrl(64);
-        $this->layout->metaDescription = trim($achievement->getData()->requirement . ' ' . $achievement->getData()->description);
+        $this->layout->metaDescription = trim(strip_tags($achievement->getData()->requirement . ' ' . $achievement->getData()->description));
 
 
         DB::table('achievement_views')->insert([

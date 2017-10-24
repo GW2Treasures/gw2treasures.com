@@ -40,7 +40,7 @@ class ItemController extends BaseController {
         $this->layout->metaImage = $item->getIconUrl(64);
         $this->layout->metaDescription = trans( 'item.rarity.' . $item->rarity ) . ' ' . $type;
         if(!empty($item->getDescription())) {
-            $this->layout->metaDescription .= ': ' . htmlentities($item->getDescription());
+            $this->layout->metaDescription .= ': ' . htmlentities(strip_tags($item->getDescription()));
         }
 
         DB::table('item_views')->insert(array(

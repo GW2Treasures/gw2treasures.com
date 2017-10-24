@@ -35,10 +35,13 @@ class ItemController extends BaseController {
             $type = trans( 'item.type.' . $item->type );
         }
 
+        $this->layout->canonical = $item->getUrl();
         $this->layout->metaTitle = $item->getName();
         $this->layout->metaImage = 'https:' . $item->getIconUrl(64);
         $this->layout->metaDescription = trans( 'item.rarity.' . $item->rarity ) . ' ' . $type;
-        $this->layout->canonical = $item->getUrl();
+        if(!empty($item->getDescription())) {
+            $this->layout->metaDescription .= ': ' . htmlentities($item->getDescription());
+        }
 
         DB::table('item_views')->insert(array(
             'item_id' => $item->id,

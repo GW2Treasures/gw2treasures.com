@@ -37,7 +37,7 @@ class ItemController extends BaseController {
 
         $this->layout->canonical = $item->getUrl();
         $this->layout->metaTitle = $item->getName();
-        $this->layout->metaImage = 'https:' . $item->getIconUrl(64);
+        $this->layout->metaImage = $item->getIconUrl(64);
         $this->layout->metaDescription = trans( 'item.rarity.' . $item->rarity ) . ' ' . $type;
         if(!empty($item->getDescription())) {
             $this->layout->metaDescription .= ': ' . htmlentities($item->getDescription());

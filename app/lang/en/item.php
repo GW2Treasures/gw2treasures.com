@@ -191,4 +191,5 @@ return array (
   'unusedAgonyInfusionSlot' => 'Unused Agony Infusion Slot',
   'removedFromGame' => 'This item was removed from the game.',
   'api503' => 'The official API is currently disabled.',
+  'unusedInfusionSlot' => 'Unused Infusion Slot',
 );

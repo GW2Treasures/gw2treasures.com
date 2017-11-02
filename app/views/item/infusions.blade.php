@@ -10,15 +10,7 @@
 						<span style="font-style: italic">Unknown infusion ({{ $infusion->item_id }})</span>
 					@endif
 			@else
-				@if( in_array( 'Defense', $infusion->flags ) )
-					<li class="defensive"><i class="sprite-16-infusion-defense"></i> {{ trans('item.unusedDefensiveInfusionSlot') }}
-				@elseif( in_array( 'Agony', $infusion->flags ) )
-					<li class="defensive"><i class="sprite-16-infusion-defense"></i> {{ trans('item.unusedAgonyInfusionSlot') }}
-				@elseif( in_array( 'Offense', $infusion->flags ) )
-					<li class="offensive"><i class="sprite-16-infusion-offense"></i> {{ trans('item.unusedOffensiveInfusionSlot') }}
-				@elseif( in_array( 'Utility', $infusion->flags ) )
-					<li class="utility"><i class="sprite-16-infusion-utility"></i> {{ trans('item.unusedUtilityInfusionSlot') }}
-				@endif
+				<li class="defensive"><i class="sprite-16-infusion-defense"></i> {{ trans('item.unusedInfusion') }}
 			@endif
 		@endforeach
 	</ul>

@@ -10,7 +10,7 @@
 						<span style="font-style: italic">Unknown infusion ({{ $infusion->item_id }})</span>
 					@endif
 			@else
-				<li class="defensive"><i class="sprite-16-infusion-defense"></i> {{ trans('item.unusedInfusion') }}
+				<li class="defensive"><i class="sprite-16-infusion-defense"></i> {{ trans('item.unusedInfusionSlot') }}
 			@endif
 		@endforeach
 	</ul>

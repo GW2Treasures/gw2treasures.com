@@ -42,6 +42,10 @@ class AchievementController extends BaseController {
 			? $achievement->getData()->bits
 			: [];
 
+		$objectives = array_filter($objectives, function($objective) {
+            return $objective->type !== 'Text' || $objective->text !== '';
+        });
+
 		if($achievement->hasFLag('CategoryDisplay')) {
             /** @var Achievement $categoryAchievement */
             foreach($achievement->category->achievements as $categoryAchievement) {

@@ -19,9 +19,11 @@ class TitlesCommand extends Command {
             $this->info('updating existing entries');
         }
 
-        $this->loadEntries('titles', $api->titles(), ['id',
+        $this->loadEntries('titles', $api->titles(), [
+            'id', 'created_at', 'updated_at',
             'name_de', 'name_en', 'name_es', 'name_fr',
-            'data_de', 'data_en', 'data_es', 'data_fr'], $updating);
+            'data_de', 'data_en', 'data_es', 'data_fr'
+        ], $updating);
     }
 
     protected function getOptions() {

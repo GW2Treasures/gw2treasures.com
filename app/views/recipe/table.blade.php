@@ -71,7 +71,7 @@
                             @if( !is_null( $recipe->unlockedBy ) && $recipe->unlockedBy->unlock_type == 'CraftingRecipe' )
                                 {{ $recipe->unlockedBy->link( 16 ) }}
                             @else
-                                ???
+                                Unknown item
                             @endif
                         </div>
                     @endif
@@ -100,7 +100,9 @@
                                     @if( !is_null($ingredient) )
                                         {{ $ingredient->link(16) }}
                                     @else
-                                        Unknown Item ({{ $recipe->getIngredientIDs()[$i] }})
+                                        <span class="chatlink--inline">{{
+                                            (new \GW2Treasures\GW2Tools\Chatlinks\ItemChatlink(\GW2Treasures\GW2Tools\Common\ItemStack::fromArray(['id' => $recipe->getIngredientIDs()[$i]])))->encode()
+                                        }}</span>
                                     @endif
                                 </li>
                             @endif

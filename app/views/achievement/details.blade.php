@@ -87,7 +87,7 @@
 								<li class="achievement__objective--item">{{ $bit->item->link(32) }}</li>
 							@else
 								<li class="achievement__objective--text">Unknown item <span class="chatlink--inline">{{
-									(new \GW2Treasures\GW2Tools\Chatlinks\ItemChatlink(\GW2Treasures\GW2Tools\Common\ItemStack::fromArray(['id' => $bit->id])))->encode();
+									(new \GW2Treasures\GW2Tools\Chatlinks\ItemChatlink(\GW2Treasures\GW2Tools\Common\ItemStack::fromArray(['id' => $bit->id])))->encode()
 								}}</span></li>
 							@endif
 						@elseif($bit->type === 'Skin')
@@ -95,7 +95,7 @@
 								<li class="achievement__objective--skin">{{ $bit->skin->link(32) }}</li>
 							@else
 								<li class="achievement__objective--text">Unknown skin <span class="chatlink--inline">{{
-									(new \GW2Treasures\GW2Tools\Chatlinks\SkinChatlink($bit->id))->encode();
+									(new \GW2Treasures\GW2Tools\Chatlinks\SkinChatlink($bit->id))->encode()
 								}}</span></li>
 							@endif
 						@elseif($bit->type === 'Achievement')
@@ -159,31 +159,3 @@
 		@endif
 	</div>
 </div>
-
-<script>
-	[].slice.apply(document.getElementsByClassName('chatlink--inline')).forEach(function(chatlink) {
-		chatlink.addEventListener('click', function(e) {
-			if(e.metaKey) {
-				location = '/search?q=' + window.encodeURIComponent(chatlink.innerHTML);
-				return;
-			}
-
-			var range;
-			if (document.selection) {
-				range = document.body.createTextRange();
-				range.moveToElementText(chatlink);
-				range.select();
-			} else if (window.getSelection) {
-				range = document.createRange();
-				range.selectNode(chatlink);
-				window.getSelection().addRange(range);
-			}
-			if(document.execCommand('copy')) {
-				chatlink.classList.add('chatlink--inline--copied');
-				setTimeout(function() {
-					chatlink.classList.remove('chatlink--inline--copied');
-				}, 200);
-			}
-		});
-	});
-</script>

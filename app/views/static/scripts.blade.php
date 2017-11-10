@@ -56,4 +56,32 @@
                 });
         });
     })(window, jQuery);
+
+    [].slice.apply(document.getElementsByClassName('chatlink--inline')).forEach(function(chatlink) {
+        chatlink.addEventListener('click', function(e) {
+            if(e.metaKey) {
+                window.location = '/search?q=' + window.encodeURIComponent(chatlink.innerHTML);
+                return;
+            }
+
+            var range;
+            if (document.selection) {
+                range = document.body.createTextRange();
+                range.moveToElementText(chatlink);
+                range.select();
+            } else if (window.getSelection) {
+                range = document.createRange();
+                range.selectNode(chatlink);
+                var selection = window.getSelection();
+                selection.empty();
+                selection.addRange(range);
+            }
+            if(document.execCommand('copy')) {
+                chatlink.classList.add('chatlink--inline--copied');
+                setTimeout(function() {
+                    chatlink.classList.remove('chatlink--inline--copied');
+                }, 200);
+            }
+        });
+    });
 </script>

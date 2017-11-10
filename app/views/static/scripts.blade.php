@@ -60,7 +60,7 @@
     [].slice.apply(document.getElementsByClassName('chatlink--inline')).forEach(function(chatlink) {
         chatlink.addEventListener('click', function(e) {
             if(e.metaKey) {
-                window.location = '/search?q=' + window.encodeURIComponent(chatlink.innerHTML);
+                window.location = '/search?q=' + window.encodeURIComponent(chatlink.textContent);
                 return;
             }
 

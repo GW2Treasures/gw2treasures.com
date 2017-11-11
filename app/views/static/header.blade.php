@@ -1,6 +1,6 @@
 <header id="header" class="clearfix" role="banner">
 	<div class="pageWidth">
-		<h1><a href="/">GW2 Treasures</a></h1>
+		<h1><a href="/" accesskey="h">GW2 Treasures</a></h1>
 
 		<span class="menu-button">{{ trans('header.menu') }}</span>
 
@@ -28,6 +28,7 @@
 					'aria-label' => trans( 'header.search.label' ),
 					'id' => 'q',
 					'autocomplete' => 'off',
+					'accesskey' => 'f',
 			        'itemprop' => 'query-input' ))
 				}}
 				<div id="searchSuggestionbox">

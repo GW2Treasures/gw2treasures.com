@@ -5,7 +5,7 @@
 				<a href="{{ URL::route('search', App::getLocale()) }}">{{ trans('footer.items') }}</a>
 				<ul>
 					<li><a href="{{ URL::route('stats.items.new', App::getLocale()) }}">{{ trans('footer.recentlyAddedItems') }}</a>
-					<li><a href="{{ URL::route('randomitem', App::getLocale()) }}">{{ trans('footer.randomItem') }}</a>
+					<li><a href="{{ URL::route('randomitem', App::getLocale()) }}" accesskey="x">{{ trans('footer.randomItem') }}</a>
 					<li><a href="{{ URL::route('search', App::getLocale()) }}">{{ trans('footer.search') }}</a>
 				</ul>
 				<a href="{{ URL::route('skin', App::getLocale()) }}">{{ trans('footer.skins') }}</a>
@@ -14,7 +14,7 @@
 				</ul>
 			</div>
 			<div class="column4">
-				<a href="{{ URL::route('achievement.overview', App::getLocale()) }}">{{ trans('footer.achievements.header') }}</a>
+				<a href="{{ URL::route('achievement.overview', App::getLocale()) }}" accesskey="a">{{ trans('footer.achievements.header') }}</a>
 				<ul>
 					<li><a href="{{ URL::route('achievement.overview', App::getLocale()) }}">{{ trans('footer.achievements.overview') }}</a>
 					<li><a href="{{ URL::route('achievement.overview', App::getLocale()) }}">{{ trans('footer.achievements.daily') }}</a>

@@ -24,7 +24,6 @@ class AchievementController extends BaseController {
         $this->layout->metaImage = $achievement->getIconUrl(64);
         $this->layout->metaDescription = trim(strip_tags($achievement->getData()->requirement . ' ' . $achievement->getData()->description));
 
-
         DB::table('achievement_views')->insert([
 			'achievement_id' => $achievement->id,
 			'language' => $language,
@@ -38,67 +37,73 @@ class AchievementController extends BaseController {
 	}
 
 	private function getAchievementData(Achievement $achievement) {
-		$objectives = isset($achievement->getData()->bits)
-			? $achievement->getData()->bits
-			: [];
+	    return Cache::remember('achievement.data.'.$achievement->id, 10, function() use ($achievement) {
+	        $achievement->prerequisites->count();
+	        $achievement->prerequisiteFor->count();
+            $achievement->category->group->getName();
 
-		$objectives = array_filter($objectives, function($objective) {
-            return $objective->type !== 'Text' || $objective->text !== '';
-        });
+            $objectives = isset($achievement->getData()->bits)
+                ? $achievement->getData()->bits
+                : [];
 
-		if($achievement->hasFLag('CategoryDisplay')) {
-            /** @var Achievement $categoryAchievement */
-            foreach($achievement->category->achievements as $categoryAchievement) {
-		        $isCategoryDisplay = $categoryAchievement->hasFlag('CategoryDisplay');
-		        $isHidden = $categoryAchievement->hasFlag('Hidden');
-		        $catRewards = isset($categoryAchievement->getData()->rewards)
-                    ? $categoryAchievement->getData()->rewards : [];
-		        $isMasteryAchievement = count($catRewards) === 1 && $catRewards[0]->type === 'Mastery' && str_contains($categoryAchievement->getData('en')->requirement, 'Mastery Insight');
+            $objectives = array_filter($objectives, function ($objective) {
+                return $objective->type !== 'Text' || $objective->text !== '';
+            });
 
-		        if(!$isCategoryDisplay && !$isHidden && !$isMasteryAchievement) {
-                    $objectives[] = (object)[
-                        'type' => 'Achievement',
-                        'achievement' => $categoryAchievement
-                    ];
+            if ($achievement->hasFLag('CategoryDisplay')) {
+                /** @var Achievement $categoryAchievement */
+                foreach ($achievement->category->achievements as $categoryAchievement) {
+                    $isCategoryDisplay = $categoryAchievement->hasFlag('CategoryDisplay');
+                    $isHidden = $categoryAchievement->hasFlag('Hidden');
+                    $catRewards = isset($categoryAchievement->getData()->rewards)
+                        ? $categoryAchievement->getData()->rewards : [];
+                    $isMasteryAchievement = count($catRewards) === 1 && $catRewards[0]->type === 'Mastery' && str_contains($categoryAchievement->getData('en')->requirement, 'Mastery Insight');
+
+                    if (!$isCategoryDisplay && !$isHidden && !$isMasteryAchievement) {
+                        $objectives[] = (object)[
+                            'type' => 'Achievement',
+                            'achievement' => $categoryAchievement
+                        ];
+                    }
                 }
             }
-        }
 
-		$items = [];
-		$skins = [];
-		foreach($objectives as $objective) {
-			if($objective->type === 'Item') {
-				$items[] = $objective->id;
-			} elseif($objective->type === 'Skin') {
-				$skins[] = $objective->id;
-			}
-		}
+            $items = [];
+            $skins = [];
+            foreach ($objectives as $objective) {
+                if ($objective->type === 'Item') {
+                    $items[] = $objective->id;
+                } elseif ($objective->type === 'Skin') {
+                    $skins[] = $objective->id;
+                }
+            }
 
-		$items = Item::findMany($items)->keyBy('id');
-		$skins = Skin::findMany($skins)->keyBy('id');
+            $items = Item::findMany($items)->keyBy('id');
+            $skins = Skin::findMany($skins)->keyBy('id');
 
-		foreach($objectives as &$objective) {
-			if($objective->type === 'Item') {
-				$objective->item = Arr::get($items, $objective->id);
-			} elseif($objective->type === 'Skin') {
-				$objective->skin = Arr::get($skins, $objective->id);
-			}
-		}
+            foreach ($objectives as &$objective) {
+                if ($objective->type === 'Item') {
+                    $objective->item = Arr::get($items, $objective->id);
+                } elseif ($objective->type === 'Skin') {
+                    $objective->skin = Arr::get($skins, $objective->id);
+                }
+            }
 
-		$rewards = isset($achievement->getData()->rewards)
-			? $achievement->getData()->rewards
-			: [];
+            $rewards = isset($achievement->getData()->rewards)
+                ? $achievement->getData()->rewards
+                : [];
 
 
-		if($achievement->achievement_category_id == 97 && Config::get('gw2.daily_event_reward.item')) {
-            $rewards[] = (object)[
-                'type' => 'Item',
-                'id' => Config::get('gw2.daily_event_reward.item'),
-                'count' => Config::get('gw2.daily_event_reward.count')
-            ];
-		}
+            if ($achievement->achievement_category_id == 97 && Config::get('gw2.daily_event_reward.item')) {
+                $rewards[] = (object)[
+                    'type' => 'Item',
+                    'id' => Config::get('gw2.daily_event_reward.item'),
+                    'count' => Config::get('gw2.daily_event_reward.count')
+                ];
+            }
 
-		return compact('achievement', 'objectives', 'rewards');
+            return compact('achievement', 'objectives', 'rewards');
+        });
 	}
 
 	public function json( $language, Achievement $achievement ) {

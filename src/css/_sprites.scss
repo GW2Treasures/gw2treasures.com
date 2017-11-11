@@ -1,0 +1,59 @@
+i[class^="sprite-"] {
+    display: inline-block;
+    vertical-align: bottom; }
+
+.js i[class^="sprite-"] { background-image: none; }
+.no-js i[class^="sprite-"],
+.js.no-webp i[class^="sprite-"] { background-image: url('../img/sprites.png'); }
+.js.webp i[class^="sprite-"] { background-image: url('../img/sprites.webp'); }
+
+i[class^="sprite-16-"] { width: 16px; height: 16px; }
+i[class^="sprite-18-"] { width: 18px; height: 18px; }
+i[class^="sprite-20-"] { width: 20px; height: 20px; }
+i[class^="sprite-32-"] { width: 32px; height: 32px; }
+i[class^="sprite-40-"] { width: 40px; height: 40px; }
+
+i[class^="sprite-"][class$="-search"]       { background-position: -60px  -0px; }
+i[class^="sprite-"][class$="-search-light"] { background-position: -80px  -0px; }
+i[class^="sprite-"][class$="-go"]           { background-position:   0px -60px; }
+
+i[class^="sprite-"][class$="-activation"]    { background-position: -40px -0px; }
+i[class^="sprite-"][class$="-recharge"]      { background-position: -100px -0px; }
+
+i[class^="sprite-"][class$="-armorsmith"]    { background-position:  -40px -20px; }
+i[class^="sprite-"][class$="-artificer"]     { background-position:  -60px -20px; }
+i[class^="sprite-"][class$="-chef"]          { background-position:  -80px -20px; }
+i[class^="sprite-"][class$="-huntsman"]      { background-position: -100px -20px; }
+i[class^="sprite-"][class$="-jeweler"]       { background-position: -120px -20px; }
+i[class^="sprite-"][class$="-leatherworker"] { background-position: -140px -20px; }
+i[class^="sprite-"][class$="-tailor"]        { background-position: -160px -20px; }
+i[class^="sprite-"][class$="-weaponsmith"]   { background-position: -180px -20px; }
+i[class^="sprite-"][class$="-scribe"]        { background-position:   -0px -40px; }
+
+i[class^="sprite-"][class$="-infusion-defense"] { background-position: -120px  -0px; }
+i[class^="sprite-"][class$="-infusion-offense"] { background-position: -140px  -0px; }
+i[class^="sprite-"][class$="-infusion-utility"] { background-position: -160px  -0px; }
+i[class^="sprite-"][class$="-upgradeslot"]      { background-position: -180px  -0px; }
+
+i[class^="sprite-"][class$="-homeworld"] { background-position:  -20px -40px; }
+i[class^="sprite-"][class$="-camp-gray"]  { background-position:  -40px -40px; }
+i[class^="sprite-"][class$="-camp-red"]   { background-position:  -80px -40px; }
+i[class^="sprite-"][class$="-camp-blue"]  { background-position: -100px -40px; }
+i[class^="sprite-"][class$="-camp-green"] { background-position: -120px -40px; }
+i[class^="sprite-"][class$="-tower-gray"]  { background-position:  -60px -40px; }
+i[class^="sprite-"][class$="-tower-red"]   { background-position: -140px -40px; }
+i[class^="sprite-"][class$="-tower-blue"]  { background-position: -160px -40px; }
+i[class^="sprite-"][class$="-tower-green"] { background-position: -180px -40px; }
+i[class^="sprite-"][class$="-keep-gray"]  { background-position:  -40px -60px; }
+i[class^="sprite-"][class$="-keep-red"]   { background-position:  -80px -60px; }
+i[class^="sprite-"][class$="-keep-blue"]  { background-position: -100px -60px; }
+i[class^="sprite-"][class$="-keep-green"] { background-position: -120px -60px; }
+i[class^="sprite-"][class$="-castle-gray"]  { background-position:  -60px -60px; }
+i[class^="sprite-"][class$="-castle-red"]   { background-position: -140px -60px; }
+i[class^="sprite-"][class$="-castle-blue"]  { background-position: -160px -60px; }
+i[class^="sprite-"][class$="-castle-green"] { background-position: -180px -60px; }
+
+i.sprite-share-google   { background-position:  -80px -80px; width: 24px; height: 20px; }
+i.sprite-share-twitter  { background-position: -120px -80px; width: 20px; height: 20px; }
+i.sprite-share-facebook { background-position: -140px -80px; width: 20px; height: 20px; }
+i.sprite-share-reddit   { background-position: -160px -80px; width: 32px; height: 20px; }

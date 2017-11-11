@@ -49,4 +49,6 @@ return array (
   array (
     'objectives' => '1 Ziel|:count Ziele',
   ),
+  'prerequisites' => 'Voraussetzung',
+  'prerequisiteFor' => 'Voraussetzung für',
 );

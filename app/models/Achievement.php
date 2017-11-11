@@ -176,6 +176,14 @@ class Achievement extends BaseModel implements IHasIcon, IHasLink {
 		});
 	}
 
+    public function prerequisites() {
+        return $this->belongsToMany(Achievement::class, 'achievement_prerequisites', 'achievement_id', 'prerequisite_id');
+    }
+
+    public function prerequisiteFor() {
+        return $this->belongsToMany(Achievement::class, 'achievement_prerequisites', 'prerequisite_id', 'achievement_id');
+    }
+
 	public function getTotalPoints() {
 		$points = 0;
 

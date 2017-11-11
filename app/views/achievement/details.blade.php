@@ -1,3 +1,4 @@
+<?php /** @var Achievement $achievement */ ?>
 <header class="itemHeader">
 	<div class="pageWidth">
 		<img class="icon" width="64" height="64" src="{{ $achievement->getIconUrl(64) }}" alt="">
@@ -72,6 +73,15 @@
 			@else
 				<p>{{ trans('achievement.unlock.unknown') }}</p>
 			@endif
+		@endif
+
+		@if($achievement->prerequisites->count() > 0)
+			<h3>@lang('achievement.prerequisites')</h3>
+			<ul class="itemList">
+				@foreach($achievement->prerequisites as $prerequisite)
+					<li>{{ $prerequisite->link(32) }}</li>
+				@endforeach
+			</ul>
 		@endif
 
 		@if($achievement->getData()->requirement != '' || !empty($objectives))
@@ -154,6 +164,15 @@
 					@elseif($reward->type === 'Coins')
 						<li class="achievement__reward--coins"><img src="{{ Helper::cdn('icons/98457F504BA2FAC8457F532C4B30EDC23929ACF9/619316-64px.png') }}" width="32" height="32" style="margin-right: 5px">@include('item.vendorValue', ['vendorValue' => $reward->count])</li>
 					@endif
+				@endforeach
+			</ul>
+		@endif
+
+		@if($achievement->prerequisiteFor->count() > 0)
+			<h3>@lang('achievement.prerequisiteFor')</h3>
+			<ul class="itemList">
+				@foreach($achievement->prerequisiteFor->sort(Helper::sortByName()) as $prerequisite)
+					<li>{{ $prerequisite->link(32) }}</li>
 				@endforeach
 			</ul>
 		@endif

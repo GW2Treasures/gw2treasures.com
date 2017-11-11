@@ -49,4 +49,6 @@ return array (
     'unknown' => 'You have to unlock this achievement.',
   ),
   'removedFromGame' => 'This achievement was removed from the game.',
+  'prerequisites' => 'Prerequisite',
+  'prerequisiteFor' => 'Prerequisite for',
 );

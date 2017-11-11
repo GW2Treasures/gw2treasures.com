@@ -15,8 +15,7 @@ class AchievementsCommand extends Command {
     protected $name = 'gw2treasures:achievements';
     protected $description = 'Load Achievements from API and store in database';
 
-    public function __construct()
-    {
+    public function __construct() {
         parent::__construct();
     }
     
@@ -72,24 +71,36 @@ class AchievementsCommand extends Command {
             $ids = $achievements->lists('id');
 
             $known = [
-                'objectives' => (new Collection(DB::table('achievement_objectives')->whereIn('achievement_id', $ids)->get()))->groupBy('achievement_id'),
-                'rewards' => (new Collection(DB::table('achievement_rewards')->whereIn('achievement_id', $ids)->get()))->groupBy('achievement_id')
+                'objectives' => Helper::collect(DB::table('achievement_objectives')->whereIn('achievement_id', $ids)->get())->groupBy('achievement_id'),
+                'rewards' => Helper::collect(DB::table('achievement_rewards')->whereIn('achievement_id', $ids)->get())->groupBy('achievement_id'),
+                'prerequisites' => Helper::collect(DB::table('achievement_prerequisites')->whereIn('achievement_id', $ids)->get())->groupBy('achievement_id'),
             ];
 
             $insert = [
                 'objectives' => [],
-                'rewards' => []
+                'rewards' => [],
+                'prerequisites' => []
             ];
 
             /** @var Achievement $achievement */
             foreach($achievements as $achievement) {
-                foreach(['objectives', 'rewards'] as $type) {
-                    $current = $type === 'objectives'
-                        ? ( isset($achievement->getData()->bits) ? $achievement->getData()->bits : [] )
-                        : ( isset($achievement->getData()->rewards) ? $achievement->getData()->rewards : []);
+                foreach(['objectives', 'rewards', 'prerequisites'] as $type) {
+                    $current = [];
+
+                    switch($type) {
+                        case 'objectives':
+                            $current = isset($achievement->getData()->bits) ? $achievement->getData()->bits : [];
+                            break;
+                        case 'rewards':
+                            $current = isset($achievement->getData()->rewards) ? $achievement->getData()->rewards : [];
+                            break;
+                        case 'prerequisites':
+                            $current = isset($achievement->getData()->prerequisites) ? $achievement->getData()->prerequisites : [];
+                            break;
+                    }
 
                     foreach($current as $entity) {
-                        if(in_array($entity->type, ['Item', 'Skin', 'Minipet'])) {
+                        if(($type === 'objectives' || $type === 'rewards') && in_array($entity->type, ['Item', 'Skin', 'Minipet'])) {
                             $entityType = strtolower($entity->type);
                             $isKnown = false;
                             if($known[$type]->has($achievement->id)) {
@@ -112,6 +123,24 @@ class AchievementsCommand extends Command {
                                 }
                                 $insert[$type][] = $entityData;
                             }
+                        } elseif($type === 'prerequisites') {
+                            $isKnown = false;
+                            if($known[$type]->has($achievement->id)) {
+                                foreach($known[$type][$achievement->id] as $knownEntity) {
+                                    if($knownEntity->prerequisite_id === $entity) {
+                                        $isKnown = true;
+                                        break;
+                                    }
+                                }
+                            }
+
+                            if(!$isKnown) {
+                                $entityData = [
+                                    'achievement_id' => $achievement->id,
+                                    'prerequisite_id' => $entity
+                                ];
+                                $insert[$type][] = $entityData;
+                            }
                         }
                     }
                 }
@@ -122,6 +151,9 @@ class AchievementsCommand extends Command {
             }
             if(!empty($insert['rewards'])) {
                 DB::table('achievement_rewards')->insert($insert['rewards']);
+            }
+            if(!empty($insert['prerequisites'])) {
+                DB::table('achievement_prerequisites')->insert($insert['prerequisites']);
             }
         });
 

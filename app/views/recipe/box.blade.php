@@ -28,6 +28,13 @@
         {{ $recipe->rating }}
     </div>
 
+    @if($recipe->type === 'RefinementEctoplasm')
+        <div class="recipeBox__refinementEctoplasm">
+            <i class="sprite-20-recharge"></i>
+            @lang('recipe.refinementEctoplasm')
+        </div>
+    @endif
+
     {{-- Ingredients --}}
     <ul class="ingredients">
         <?php $counts = $recipe->getIngredientCounts(); ?>

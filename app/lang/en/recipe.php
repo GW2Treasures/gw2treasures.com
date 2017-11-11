@@ -19,4 +19,5 @@ return array (
   ),
   'filter' => 'Filter',
   'filterEnableJS' => 'Enable JavaScript to filter the recipes',
+  'refinementEctoplasm' => 'Can only be crafted once per day.',
 );

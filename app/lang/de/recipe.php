@@ -19,4 +19,5 @@ return array (
   ),
   'filter' => 'Filter',
   'filterEnableJS' => 'Aktiviere JavaScript, um die Rezepte zu filtern',
+  'refinementEctoplasm' => 'Kann nur einmal am Tag hergestellt werden.',
 );

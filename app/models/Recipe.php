@@ -56,7 +56,7 @@
 		//---- stuff
 
 		public function hasFlag( $flag ) {
-			return in_array( $flag, $this->getData( )->flags );
+			return isset($this->getData()->flags) && in_array( $flag, $this->getData()->flags );
 		}
 
 		//---- disciplines

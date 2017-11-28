@@ -73,7 +73,12 @@
         'Item' => 'output_id',
         'Source' => [
             'recipe_id',
-            'type'
+            function(Recipe $recipe) {
+                if($recipe->hasFlag('LearnedFromItem') && !is_null($recipe->unlockedBy) && $recipe->unlockedBy->unlock_type == 'CraftingRecipe') {
+                    return $recipe->unlockedBy->link(16);
+                }
+                return $recipe->type;
+            }
         ],
         'Created at' => function($e) { return '?'; }
     ]

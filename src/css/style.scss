@@ -34,6 +34,7 @@ hr {
     max-width: 1000px; }
 
 @import 'header';
+@import 'header2';
 
 #wrapper {
     min-height: 100%;
@@ -144,7 +145,7 @@ hr {
     padding: .5em;
     margin: 1em; }
 
-.pageWidth { max-width: 1000px; margin-left: auto; margin-right: auto; padding-left: 20px; padding-right: 20px }
+.pageWidth { max-width: 1200px; margin-left: auto; margin-right: auto; padding-left: 20px; padding-right: 20px }
 .floatLeft { float: left; }
 
 .codeWrap { 

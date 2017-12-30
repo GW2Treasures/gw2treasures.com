@@ -8,6 +8,7 @@ return array (
     'label' => 'Search',
     'items' => 'Items',
     'recent' => 'Searched recently',
+    'placeholder' => 'Search for items, chatlinks, …',
   ),
   'achievements' => 'Achievements',
   'menu' => 'Menu',

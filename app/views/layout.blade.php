@@ -83,7 +83,7 @@
 </head>
 <body>
     <div id="wrapper">
-        @include('static.header')
+        @include('static.header2')
         @include('static.notifications')
 
         <!-- content -->

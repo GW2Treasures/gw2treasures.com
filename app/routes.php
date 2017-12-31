@@ -378,6 +378,11 @@ Route::group( array(
             'uses' => 'SearchController@results'
         ));
 
+        Route::post('search/{type}', array(
+            'as' => 'search.filter',
+            'uses' => 'SearchController@filter',
+        ));
+
         //================================
         // STUFF
         //================================

@@ -1,5 +1,7 @@
 <?php
 
+use Carbon\Carbon;
+
 class SitemapController extends BaseController {
     private static $pageSize = 25000;
 
@@ -7,8 +9,14 @@ class SitemapController extends BaseController {
 
     public function __construct() {
         $this->add('items', DB::table('items')->select(['id', 'update_time']), [$this, 'renderItem']);
-        $this->add('achievements', Achievement::select(['id', 'updated_at']), [$this, 'renderAchievement']);
         $this->add('skins', Skin::select('id'), [$this, 'renderSkin']);
+
+        $this->addSimple('achievements', 'achievement', Achievement::select(['id', 'updated_at']));
+        $this->addSimple('skills', 'skill', Skill::select(['id', 'updated_at']));
+        $this->addSimple('professions', 'profession', Profession::select(['id', 'updated_at']));
+        $this->addSimple('traits', 'trait', Traits::select(['id', 'updated_at']));
+        $this->addSimple('specializations', 'specialization', Specialization::select(['id', 'updated_at']));
+        $this->addSimple('worlds', 'wvw/world', World::select(['id']));
     }
 
     protected function add($name, $query, callable $render) {
@@ -19,16 +27,18 @@ class SitemapController extends BaseController {
         ];
     }
 
+    protected function addSimple($name, $urlPrefix, $query) {
+        $this->add($name, $query, function(BaseModel $model) use ($urlPrefix) {
+            return (isset($model->updated_at) ? [
+                'lastmod' => $model->updated_at->format('c')
+            ] : []) + $this->urls($urlPrefix.'/'.$model->id);
+        });
+    }
+
     protected function renderItem($item) {
         return [
             'lastmod' => date('c', $item->update_time)
         ] + $this->urls('item/'.$item->id);
-    }
-
-    protected function renderAchievement(Achievement $achievement) {
-        return [
-            'lastmod' => $achievement->updated_at->format('c')
-        ] + $this->urls('achievement/'.$achievement->id);
     }
 
     protected function renderSkin(Skin $skin) {

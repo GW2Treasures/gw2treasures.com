@@ -25,6 +25,11 @@ class ChatlinkSearchQueryResult extends SearchQueryResult {
         return count($this->getResults());
     }
 
+    public function getResultArray($count) {
+        return array_slice($this->getResults(), 0, 10);
+    }
+
+
     public function hasResults() {
         return $this->getCount() > 0;
     }

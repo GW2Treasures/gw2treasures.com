@@ -1,3 +1,4 @@
+<?php /** @var SearchQuery $query */ ?>
 <div class="search-box">
     <div class="pageWidth">
         {{ Form::open( [ 'method' => 'GET', 'route' => ['search.results', App::getLocale(), $type ]] ) }}

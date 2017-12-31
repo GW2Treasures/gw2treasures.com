@@ -36,6 +36,20 @@ class SearchController extends BaseController {
         $this->layout->title = 'Search Results'; // TODO
     }
 
+    public function filter($language, $type) {
+        $searchTerm = $this->getSearchTerm();
+        $query = new SearchQuery($searchTerm);
+
+        foreach(Input::get('filter') as $name => $filter) {
+            $filters = $query->getResults()[$type]->getFilters();
+            $filters[$name]->setValue($filter);
+
+            $searchTerm .= ' '.$filters[$name]->getSearchterm();
+        }
+
+        return Redirect::route('search.results', [$language, $type, 'q' => $query->getResults()[$type]->getSearchTerm()]);
+    }
+
     public function autocomplete($language) {
         $searchTerm = $this->getSearchTerm();
 

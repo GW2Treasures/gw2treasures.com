@@ -18,7 +18,7 @@ abstract class DatabaseSearchQueryResult extends SearchQueryResult {
         }
 
         if($this->_count == null) {
-            $this->_count = $this->getQuery()->remember(5)->count();
+            $this->_count = $this->filterQuery($this->getQuery())->remember(5)->count();
         }
 
         return $this->_count;
@@ -26,10 +26,22 @@ abstract class DatabaseSearchQueryResult extends SearchQueryResult {
 
     public function getResults() {
         if($this->_results == null) {
-            $this->_results =  $this->getQuery()->remember(5)->paginate($this->getPageSize())->appends('q', $this->query->searchTerm);
+            $this->_results =  $this->filterQuery($this->getQuery())->remember(5)->paginate($this->getPageSize())->appends('q', $this->query->searchTerm);
         }
 
         return $this->_results;
+    }
+
+    public function getResultArray($count) {
+        return $this->filterQuery($this->getQuery())->remember(5)->limit($count)->get();
+    }
+
+    protected function filterQuery($query) {
+        foreach($this->getFilters() as $filter) {
+            $query = $filter->query($query);
+        }
+
+        return $query;
     }
 
     public function hasResults() {

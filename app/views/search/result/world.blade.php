@@ -5,7 +5,7 @@
         <table class="wvw-table">
             @include('wvw.head')
             <tbody>
-            @include( 'wvw.smallMatchBox', ['homeworld' => $world])
+                @include( 'wvw.smallMatchBox', ['homeworld' => $world])
             </tbody>
         </table>
     @endif

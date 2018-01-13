@@ -36,8 +36,8 @@ return array (
   ),
   'access' => 
   array (
-    'GuildWars2' => 'Guild Wars 2',
-    'HeartOfThorns' => 'Heart Of Thorns',
+    'GuildWars2' => 'Nur Guild Wars 2',
+    'HeartOfThorns' => 'Nur Heart Of Thorns',
     'required' => 'Nur :achievements',
     'PathOfFire' => 'Path of Fire',
   ),

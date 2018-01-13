@@ -36,8 +36,10 @@ return array (
   ),
   'access' => 
   array (
-    'GuildWars2' => 'Only Guild Wars 2',
-    'HeartOfThorns' => 'Only Heart Of Thorns',
+    'GuildWars2' => 'Guild Wars 2',
+    'HeartOfThorns' => 'Heart Of Thorns',
+    'required' => 'Only :achievements',
+    'PathOfFire' => 'Path of Fire',
   ),
   'tooltip' => 
   array (

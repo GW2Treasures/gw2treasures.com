@@ -12,11 +12,15 @@
                                 : $achievement->level->min.' – '.$achievement->level->max
                         ])
                     @endif
-                    @if(isset($achievement->required_access) && count($achievement->required_access) == 1)
-                        @if(!is_null($achievement->level))
+                    @if(isset($achievement->required_access) && count($achievement->required_access) < 3)
+                        @if(!is_null($achievement->level) && $type !== 'fractals')
                             •
                         @endif
-                        {{ trans('achievement.access.'.$achievement->required_access[0]) }}
+                        {{ trans('achievement.access.required', [
+                            'achievements' => join(', ', array_map(function($access) {
+                                return trans('achievement.access.'.$access);
+                            }, $achievement->required_access))
+                        ]) }}
                     @endif
                 </span>
             </li>

@@ -38,7 +38,7 @@ hr {
 @import 'header3';
 
 #wrapper {
-    min-height: 100%;
+    min-height: calc(100% - 56px);
     position: relative;
 }
 #content {

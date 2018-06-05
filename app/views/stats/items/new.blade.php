@@ -59,12 +59,14 @@
 
 <style>
 	.date-selector {
-		background: #eee;
+		background: #f9f9f9;
 		padding: 0;
 		margin-bottom: 24px;
+		border-top: 1px solid #eee;
+		border-bottom: 1px solid #eee;
 
 		position: sticky;
-		top: 0;
+		top: 56px;
 		z-index: 1;
 	}
 
@@ -74,7 +76,7 @@
 		height: 48px;
 		padding-left: 0;
 		padding-right: 0;
-		max-width: 1056px;
+		max-width: 1256px;
 	}
 
 	.date-selector__content__current {

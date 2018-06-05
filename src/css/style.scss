@@ -35,6 +35,7 @@ hr {
 
 @import 'header';
 @import 'header2';
+@import 'header3';
 
 #wrapper {
     min-height: 100%;
@@ -111,11 +112,12 @@ hr {
     margin: 0;
     padding: 0;
     list-style: none;
-    background: #24292e;
-    color: white;
+    background: #f4f4f4;
+    color: #000;
 
     & > li {
         padding: 10px 0;
+        border-bottom: 1px solid #e0e0e0;
     }
 
     .notificationContent {
@@ -127,15 +129,6 @@ hr {
     .dismiss {
         float: right;
         margin-left: 20px;
-    }
-
-    a {
-        color: white;
-        text-decoration: underline;
-
-        &:hover {
-            color: #E8C754;
-        }
     }
 }
 
@@ -438,7 +431,9 @@ html.js .only-no-js, html.no-js .only-js { display:none; }
     z-index: 100000;
     pointer-events: none;
     transition: opacity .5s;
-    opacity: 0; }
+    opacity: 0;
+    top: 0;
+    left: 0; }
     #tooltip.visible {
         transition: opacity .3s .1s;
         opacity: 1;	}
@@ -1321,35 +1316,35 @@ i.loading {
     #snowcanvas { max-height: 175px; }
 }
 
-#searchSuggestionbox {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 48px;
-    margin: 0;
-    text-align: left;
-    z-index: -1;
-    background: white;
-    line-height: 1em;
-    transition: transform .3s ease;
-    opacity: 0.5;
-    transform: translate3d(0,-100%,0); }
-    #searchSuggestionbox.visible {
-        box-shadow: 0 1px 2px rgba(0,0,0,.3);
-        opacity: 1;
-        transform: translate3d(0,0,0); }
-    #searchSuggestionbox header {
-        font-weight: 700;
-        font-size: 12px;
-        text-transform: uppercase;
-        font-family: 'Segoe UI', 'Open Sans', sans-serif;
-        padding: 8px 10px;
-        background: #fff;
-        background: linear-gradient(to bottom, #FAFAFA, #FFF);
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        color: #111; }
+//#searchSuggestionbox {
+//    position: absolute;
+//    left: 0;
+//    right: 0;
+//    top: 48px;
+//    margin: 0;
+//    text-align: left;
+//    z-index: -1;
+//    background: white;
+//    line-height: 1em;
+//    transition: transform .3s ease;
+//    opacity: 0.5;
+//    transform: translate3d(0,-100%,0); }
+//    #searchSuggestionbox.visible {
+//        box-shadow: 0 1px 2px rgba(0,0,0,.3);
+//        opacity: 1;
+//        transform: translate3d(0,0,0); }
+//    #searchSuggestionbox header {
+//        font-weight: 700;
+//        font-size: 12px;
+//        text-transform: uppercase;
+//        font-family: 'Segoe UI', 'Open Sans', sans-serif;
+//        padding: 8px 10px;
+//        background: #fff;
+//        background: linear-gradient(to bottom, #FAFAFA, #FFF);
+//        overflow: hidden;
+//        white-space: nowrap;
+//        text-overflow: ellipsis;
+//        color: #111; }
     #searchSuggestionbox ul {
         margin: 0;
         padding: 0;
@@ -1363,7 +1358,7 @@ i.loading {
         }
     }
     #searchSuggestionbox a {
-        padding: 6px 15px;
+        padding: 4px 15px;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
@@ -1371,9 +1366,9 @@ i.loading {
         #searchSuggestionbox a:hover,
         #searchSuggestionbox a:focus {
             text-decoration: none;
-            background-color: #f4f4f4; }
+            background-color: #f9f9f9; }
         #searchSuggestionbox a img {
-            margin-right: 10px;
+            margin-right: 2px;
             vertical-align: text-bottom; }
     #searchSuggestionbox mark {
         background: none;

@@ -38,6 +38,14 @@
 			<div class="lang"><span title="Français" class='langCode'>FR</span> <a rel="alternate" hreflang="fr" href="{{ URL::route('achievement.details', array('fr', $achievement->id)) }}">{{ $achievement->getName( 'fr' ) }}</a></div>
 		@endif
 
+		@if($achievement->unlocks !== null)
+			<h3>{{ trans('achievement.unlockStats.header') }}</h3>
+			<p>{{ trans('achievement.unlockStats.text', [
+				'unlocks' => '<strong>'.round($achievement->unlocks * 100, 2).'%</strong>',
+				'gw2e' => '<a href="https://gw2efficiency.com/account/unlock-statistics?filter.key=achievements" rel="noreferrer noopener" target="_blank">gw2efficiency.com</a>'
+			]) }}</p>
+		@endif
+
 		<h3>@lang('misc.wiki.header')</h3>
 		<ul class="sidebar-wikis">
 			<li><a target="_blank" onclick="outbound(this)" href="http://wiki-de.guildwars2.com/index.php?title=Spezial:Suche&amp;search={{ urlencode( $achievement->getName( 'de' ) ) }}">@lang('misc.wiki.german')</a></li>

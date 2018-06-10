@@ -67,7 +67,14 @@ class AchievementsCommand extends Command {
             DB::table('achievement_categories')->whereIn('id', $categories)->update(['achievement_group_id' => $group->id]);
         };
 
-        Achievement::chunk(500, function($achievements) {
+        $unlocks = json_decode(
+            $api->getClient()
+                ->request('GET', 'https://api.gw2efficiency.com/tracking/unlocks?id=achievements')
+                ->getBody()
+                ->getContents()
+        );
+
+        Achievement::chunk(500, function($achievements) use ($unlocks) {
             $ids = $achievements->lists('id');
 
             $known = [
@@ -144,6 +151,13 @@ class AchievementsCommand extends Command {
                         }
                     }
                 }
+
+                $unlockedBy = isset($unlocks->data->{$achievement->id})
+                    ? $unlocks->data->{$achievement->id} / $unlocks->total
+                    : null;
+
+                $achievement->unlocks = $unlockedBy;
+                $achievement->save();
             }
 
             if(!empty($insert['objectives'])) {

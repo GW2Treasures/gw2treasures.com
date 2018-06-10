@@ -10,13 +10,16 @@ class ItemSearchQueryResult extends DatabaseSearchQueryResult {
     }
 
     public function getInternalFilters() {
-        $rarities = ['Ascended','Basic','Exotic','Fine','Junk','Legendary','Masterwork','Rare'];
+        $rarities = ['Junk','Basic','Fine','Masterwork','Rare','Exotic','Ascended','Legendary'];
+        $rarityValues = array_combine($rarities, array_map(function($r) {
+            return trans('item.rarity.'.$r);
+        }, $rarities));
 
         return [
             'id' => new IntegerSearchQueryFilter('id'),
             'type' => new EnumSearchQueryFilter('type', $this->getItemTypes()),
             'level' => new RangeSearchQueryFilter('level'),
-            'rarity' => new EnumSearchQueryFilter('rarity', array_combine($rarities, $rarities)),
+            'rarity' => new EnumSearchQueryFilter('rarity', $rarityValues),
             'pvp' => new BooleanSearchQueryFilter('pvp'),
         ];
     }

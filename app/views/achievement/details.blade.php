@@ -38,6 +38,14 @@
 			<div class="lang"><span title="Français" class='langCode'>FR</span> <a rel="alternate" hreflang="fr" href="{{ URL::route('achievement.details', array('fr', $achievement->id)) }}">{{ $achievement->getName( 'fr' ) }}</a></div>
 		@endif
 
+		<h3>@lang('misc.wiki.header')</h3>
+		<ul class="sidebar-wikis">
+			<li><a target="_blank" onclick="outbound(this)" href="http://wiki-de.guildwars2.com/index.php?title=Spezial:Suche&amp;search={{ urlencode( $achievement->getName( 'de' ) ) }}">@lang('misc.wiki.german')</a></li>
+			<li><a target="_blank" onclick="outbound(this)" href="http://wiki.guildwars2.com/index.php?title=Special:Search&amp;search={{ urlencode( $achievement->getName( 'en' ) ) }}">@lang('misc.wiki.english')</a></li>
+			<li><a target="_blank" onclick="outbound(this)" href="http://wiki-es.guildwars2.com/index.php?title=Especial:Buscar&amp;search={{ urlencode( $achievement->getName( 'es' ) ) }}">@lang('misc.wiki.spanish')</a></li>
+			<li><a target="_blank" onclick="outbound(this)" href="http://wiki-fr.guildwars2.com/index.php?title=Spécial:Recherche&amp;search={{ urlencode( $achievement->getName( 'fr' ) ) }}">@lang('misc.wiki.french')</a></li>
+		</ul>
+
 		<h3>@lang('misc.share.header')</h3>
 		<ul class="sidebar-share">
 			<li class="twitter" ><a target="_blank" title="{{ trans('misc.share.twitter')  }}" data-dialog href="https://twitter.com/share?url={{ urlencode( $achievement->getUrl() ) }}&via=GW2Treasures&text={{ urlencode( $achievement->getName() ) }}"><i class="sprite-share-twitter">Twitter</i></a></li>

@@ -54,12 +54,13 @@ class AchievementController extends BaseController {
                 /** @var Achievement $categoryAchievement */
                 foreach ($achievement->category->achievements as $categoryAchievement) {
                     $isCategoryDisplay = $categoryAchievement->hasFlag('CategoryDisplay');
+                    $isHistoric = $categoryAchievement->historic;
                     $isHidden = $categoryAchievement->hasFlag('Hidden');
                     $catRewards = isset($categoryAchievement->getData()->rewards)
                         ? $categoryAchievement->getData()->rewards : [];
                     $isMasteryAchievement = count($catRewards) === 1 && $catRewards[0]->type === 'Mastery' && str_contains($categoryAchievement->getData('en')->requirement, 'Mastery Insight');
 
-                    if (!$isCategoryDisplay && !$isHidden && !$isMasteryAchievement) {
+                    if (!$isCategoryDisplay && !$isHistoric && !$isHidden && !$isMasteryAchievement) {
                         $objectives[] = (object)[
                             'type' => 'Achievement',
                             'achievement' => $categoryAchievement

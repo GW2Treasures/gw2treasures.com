@@ -43,6 +43,7 @@ return array (
     'upgrades' => 'Upgrade|Upgrades',
     'skin' => 'Skin',
     'coins' => 'Coins',
+    'skill' => 'Skill',
   ),
   'achievements' => 
   array (

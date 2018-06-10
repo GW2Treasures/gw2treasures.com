@@ -8,6 +8,8 @@
                         @include('search.result.chatlink.coin')
                     @elseif($chatlink->getType() === $chatlink::TYPE_ITEM)
                         @include('search.result.chatlink.item')
+                    @elseif($chatlink->getType() === $chatlink::TYPE_SKILL)
+                        @include('search.result.chatlink.skill')
                     @elseif($chatlink->getType() === $chatlink::TYPE_SKIN)
                         @include('search.result.chatlink.skin')
                     @elseif($chatlink->getType() === $chatlink::TYPE_TRAIT)

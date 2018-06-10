@@ -43,6 +43,7 @@ return array (
     'item' => 'Gegenstand',
     'skin' => 'Skin',
     'upgrades' => 'Aufwertung|Aufwertungen',
+    'skill' => 'Fertigkeit'
   ),
   'achievements' => 
   array (

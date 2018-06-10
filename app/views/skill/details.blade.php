@@ -23,8 +23,19 @@
             <div class="lang"><span title="Français" class='langCode'>FR</span> {{ $skill->link(null, 'fr', null, null, ['rel' => 'alternate']) }}</div>
         @endif
 
+        <h3>@lang('misc.wiki.header')</h3>
+        <ul class="sidebar-wikis">
+            <li><a target="_blank" onclick="outbound(this)" href="http://wiki-de.guildwars2.com/index.php?title=Spezial:Suche&amp;search={{ urlencode( $skill->getName( 'de' ) ) }}">@lang('misc.wiki.german')</a></li>
+            <li><a target="_blank" onclick="outbound(this)" href="http://wiki.guildwars2.com/index.php?title=Special:Search&amp;search={{ urlencode( $skill->getChatLink() ) }}">@lang('misc.wiki.english')</a></li>
+            <li><a target="_blank" onclick="outbound(this)" href="http://wiki-es.guildwars2.com/index.php?title=Especial:Buscar&amp;search={{ urlencode( $skill->getName( 'es' ) ) }}">@lang('misc.wiki.spanish')</a></li>
+            <li><a target="_blank" onclick="outbound(this)" href="http://wiki-fr.guildwars2.com/index.php?title=Spécial:Recherche&amp;search={{ urlencode( $skill->getName( 'fr' ) ) }}">@lang('misc.wiki.french')</a></li>
+        </ul>
+
         <h3>@lang('misc.share.header')</h3>
         <ul class="sidebar-share">
+            <li class="chatlink">
+                <input title="{{ trans('misc.share.chatlink') }}" readonly value="{{ e( $skill->getChatLink() ) }}" class="chatlink">
+            </li>
             <li class="twitter" ><a target="_blank" title="{{ trans('misc.share.twitter')  }}" data-dialog href="https://twitter.com/share?url={{ urlencode( $skill->getUrl() ) }}&via=GW2Treasures&text={{ urlencode( $skill->getName() ) }}"><i class="sprite-share-twitter">Twitter</i></a></li>
             <li class="google"  ><a target="_blank" title="{{ trans('misc.share.google')   }}" data-dialog href="https://plus.google.com/share?url={{ urlencode( $skill->getUrl() ) }}"><i class="sprite-share-google">Google</i></a></li>
             <li class="facebook"><a target="_blank" title="{{ trans('misc.share.facebook') }}" data-dialog href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode( $skill->getUrl() ) }}"><i class="sprite-share-facebook">Facebook</i></a></li>

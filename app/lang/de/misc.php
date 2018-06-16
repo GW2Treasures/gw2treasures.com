@@ -43,7 +43,7 @@ return array (
     'item' => 'Gegenstand',
     'skin' => 'Skin',
     'upgrades' => 'Aufwertung|Aufwertungen',
-    'skill' => 'Fertigkeit'
+    'skill' => 'Fertigkeit',
   ),
   'achievements' => 
   array (
@@ -52,6 +52,18 @@ return array (
       'text' => 'Belohnung für :link.',
       'link' => 'aktuelle tägliche Erfolge',
     ),
+  ),
+  'profession' => 
+  array (
+    'Warrior' => 'Krieger',
+    'Thief' => 'Dieb',
+    'Elementalist' => 'Elementarmagier',
+    'Necromancer' => 'Nekromant',
+    'Mesmer' => 'Mesmer',
+    'Engineer' => 'Ingenieur',
+    'Ranger' => 'Waldläufer',
+    'Revenant' => 'Widergänger',
+    'Guardian' => 'Wächter',
   ),
   'newAchievements' => 'Neue Erfolge',
   'mostViewedAchievements' => ':timespan am meisten angesehen',

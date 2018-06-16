@@ -53,9 +53,9 @@ return array (
   ),
   'prerequisites' => 'Voraussetzung',
   'prerequisiteFor' => 'Voraussetzung für',
-  'unlockStats' =>
+  'unlockStats' => 
   array (
     'header' => 'Freischaltungen',
-    'text' => 'Freigeschaltet von :unlocks Spieler auf :gw2e.',
+    'text' => 'Freigeschaltet von :unlocks aller Spieler auf :gw2e.',
   ),
 );

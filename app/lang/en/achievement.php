@@ -53,7 +53,7 @@ return array (
   'removedFromGame' => 'This achievement was removed from the game.',
   'prerequisites' => 'Prerequisite',
   'prerequisiteFor' => 'Prerequisite for',
-  'unlockStats' =>
+  'unlockStats' => 
   array (
     'header' => 'Unlocks',
     'text' => 'Unlocked by :unlocks of players on :gw2e.',

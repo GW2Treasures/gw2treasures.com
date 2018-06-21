@@ -26,6 +26,7 @@
 .achievement__tiers__total {
     position: relative;
     padding-top: 8px;
+    display: inline-block;
 
     &::before {
         content: '';

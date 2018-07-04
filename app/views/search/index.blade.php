@@ -77,12 +77,17 @@
             margin-bottom: 20px
         }
 
-        .filter--range {
+        .filter--range, .filter--comparison {
             flex: 1;
             display: flex;
         }
         .filter--range__sep {
             padding: 8px 12px;
+        }
+
+        .filter--comparison select {
+            flex: 0 0 100px;
+            margin-right: 12px;
         }
     </style>
 @endif

@@ -2,7 +2,7 @@
 
 class WorldSearchQueryResult extends DatabaseSearchQueryResult {
     protected function getQuery() {
-        return $this->queryNameContains(World::query(), $this->query->searchTerms);
+        return $this->queryNameContains(World::query(), $this->getSearchTermsWithoutFilters());
     }
 
     public function render($data) {
@@ -11,5 +11,11 @@ class WorldSearchQueryResult extends DatabaseSearchQueryResult {
 
     protected function getPageSize() {
         return 10;
+    }
+
+    protected function getInternalFilters() {
+        return [
+            'id' => new IntegerSearchQueryFilter('id'),
+        ];
     }
 }

@@ -11,7 +11,9 @@ class AchievementSearchQueryResult extends DatabaseSearchQueryResult {
 
     public function getInternalFilters() {
         return [
-            'mastery' => new AchievementMasteryQueryFilter('mastery')
+            'id' => new IntegerSearchQueryFilter('id'),
+            'mastery' => new AchievementMasteryQueryFilter('mastery'),
+            'unlocks' => new ComparisonSearchQueryFilter('unlocks', 0, 100, 100)
         ];
     }
 }

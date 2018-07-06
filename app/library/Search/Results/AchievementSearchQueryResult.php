@@ -13,7 +13,8 @@ class AchievementSearchQueryResult extends DatabaseSearchQueryResult {
         return [
             'id' => new IntegerSearchQueryFilter('id'),
             'mastery' => new AchievementMasteryQueryFilter('mastery'),
-            'unlocks' => new ComparisonSearchQueryFilter('unlocks', 0, 100, 100)
+            'unlocks' => new ComparisonSearchQueryFilter('unlocks', 0, 100, 100),
+            'ap' => (new ComparisonSearchQueryFilter('ap'))->column('total_ap')
         ];
     }
 }

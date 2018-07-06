@@ -3,6 +3,7 @@
 class ComparisonSearchQueryFilter extends SearchQueryFilter {
     static $operators = ['<', '>', '='];
     protected $name;
+    protected $columnName;
     protected $value;
     private $min;
     private $max;
@@ -10,6 +11,7 @@ class ComparisonSearchQueryFilter extends SearchQueryFilter {
 
     public function __construct($name, $min = 0, $max = null, $multiplier = 1) {
         $this->name = $name;
+        $this->columnName = $name;
         $this->min = $min;
         $this->max = $max;
         $this->multiplier = $multiplier;
@@ -73,7 +75,7 @@ class ComparisonSearchQueryFilter extends SearchQueryFilter {
 
         $operators = array_combine(static::$operators, static::$operators);
 
-        return Form::label($this->getHtmlId(), $this->getName()) . '<div class="filter--comparison">' .
+        return Form::label($this->getHtmlId(), $this->getLabel($this->getName())) . '<div class="filter--comparison">' .
             Form::select($this->getHtmlId().'[0]', $operators, $operator) .
             Form::number($this->getHtmlId().'[1]', $value, ['min' => $this->min, 'max' => $this->max]) . '</div>';
     }
@@ -82,7 +84,7 @@ class ComparisonSearchQueryFilter extends SearchQueryFilter {
         if($this->getValue()) {
             list($operator, $value) = $this->getValue();
 
-            return $query->where($this->getName(), $operator, $value / $this->multiplier);
+            return $query->where($this->columnName, $operator, $value / $this->multiplier);
         }
 
         return $query;
@@ -90,5 +92,11 @@ class ComparisonSearchQueryFilter extends SearchQueryFilter {
 
     protected function getHtmlId() {
         return 'filter['.$this->getName().']';
+    }
+
+    public function column($column) {
+        $this->columnName = $column;
+
+        return $this;
     }
 }

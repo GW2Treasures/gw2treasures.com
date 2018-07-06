@@ -35,6 +35,7 @@ class AchievementsCommand extends Command {
             'type', 'signature', 'file_id',
             'data_de', 'data_en', 'data_es', 'data_fr',
             'created_at', 'updated_at',
+            'total_ap' => function($data) { return $this->getTotalAp($data); }
         ], $updating);
 
         $this->loadEntries('achievement_categories', $api->achievements()->categories(), [
@@ -184,5 +185,13 @@ class AchievementsCommand extends Command {
         return [
             ['update', 'u', InputOption::VALUE_NONE, 'Update existing achievements']
         ];
+    }
+
+    protected function getTotalAp($achievement) {
+        if(!isset($achievement->tiers)) {
+            return 0;
+        }
+
+        return Helper::collect($achievement->tiers)->sum('points');
     }
 }

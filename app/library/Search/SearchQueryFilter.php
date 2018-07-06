@@ -11,6 +11,17 @@ abstract class SearchQueryFilter {
         $this->value = $value;
     }
 
+    protected function getLabel($name) {
+        $translator = app('translator');
+        $key = 'search.filters.'.$name;
+
+        if($translator->has($key)) {
+            return $translator->get($key);
+        }
+
+        return ucfirst($name);
+    }
+
     public function render() {
         return 'unknown filter '.get_class($this);
     }

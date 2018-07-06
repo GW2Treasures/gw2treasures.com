@@ -14,4 +14,7 @@ return array (
     'profession' => 'Professions',
     'world' => 'Worlds',
   ),
+  'filters' => array (
+    'ap' => 'Achievement Points'
+  )
 );

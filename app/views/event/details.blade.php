@@ -51,7 +51,7 @@
     </div>
 
     <div style="padding-top: 20px">
-        <p>Level: <b>{{ $event->level }}</b></p>
-        <pre>{{ json_encode($event->getData()->flags) }}</pre>
+        <h3>Rewards (level {{ $event->level }})</h3>
+        @include('event.rewards')
     </div>
 </div>

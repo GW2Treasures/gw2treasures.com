@@ -21,3 +21,4 @@ Artisan::add( new SpecializationsCommand );
 Artisan::add( new ProfessionCommand );
 Artisan::add( new SkillCommand );
 Artisan::add( new TitlesCommand );
+Artisan::add( new EventsCommand );

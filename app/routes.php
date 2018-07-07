@@ -325,6 +325,32 @@ Route::group( array(
         ]);
 
         //================================
+        // Events
+        //================================
+
+        Route::model('event', Event::class);
+
+        Route::get('event', [
+            'as' => 'event.overview',
+            'uses' => 'EventController@overview'
+        ]);
+
+        Route::get('event/random', [
+            'as' => 'event.random',
+            'uses' => 'EventController@random'
+        ]);
+
+        Route::get('event/{event}', [
+            'as' => 'event.details',
+            'uses' => 'EventController@details'
+        ]);
+
+        Route::get('event/{event}/json', [
+            'as' => 'event.json',
+            'uses' => 'EventController@json'
+        ]);
+
+        //================================
         // WVW
         //================================
 

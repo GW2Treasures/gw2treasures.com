@@ -1,6 +1,13 @@
 <div class="devHeader">
     <h2 class="pageWidth">{{ trans('trait.breadcrumb') }}</h2>
 
+    {{ Form::open( [ 'method' => 'GET', 'route' => ['search.results', App::getLocale(), 'trait' ], 'class' => 'search--traits'] ) }}
+    <div class="search-box__main-input clearfix pageWidth">
+        {{ Form::text( 'q', '', ['placeholder' => trans('header.search.label'), 'class' => 'search-box__main-input__input', 'id' => 'searchInput' ]) }}
+        <input type="submit" value="{{ trans('header.search.label') }}" class="search-box__main-input__button" />
+    </div>
+    {{ Form::close() }}
+
     <div class="stats pageWidth">
         <div class="stat">
             <div class="stat__name">{{ trans('achievement.tiers.total') }}</div>
@@ -30,6 +37,31 @@
 </div>
 
 <style>
+    .search--traits {
+        margin-bottom: 20px;
+    }
+
+    .search--traits .search-box__main-input__input {
+        background: rgba(255,255,255,.1);
+        color: #fff;
+    }
+
+    .search--traits .search-box__main-input__input:not(:focus) {
+        border-color: transparent;
+    }
+
+    .search--traits .search-box__main-input__input::placeholder {
+        color: rgba(255,255,255,.8);
+    }
+
+    .search--traits .search-box__main-input__button {
+        background: rgba(255,255,255,.2);
+        color: #fff;
+    }
+    .search--traits .search-box__main-input__button:not(:focus) {
+        border-color: transparent;
+    }
+
     .stats {
         display: flex;
     }

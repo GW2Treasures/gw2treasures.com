@@ -6,7 +6,9 @@ class WorldSearchQueryResult extends DatabaseSearchQueryResult {
     }
 
     public function render($data) {
-        return View::make('search.result.world', $data)->with('result', $this);
+        return View::make('search.result.world', $data)
+            ->with('result', $this)
+            ->with('columns', WvWController::getColumns());
     }
 
     protected function getPageSize() {

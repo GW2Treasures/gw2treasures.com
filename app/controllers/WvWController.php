@@ -9,7 +9,7 @@ class WvWController extends BaseController {
 		$this->layout->title = trans( 'wvw.overview' );
 		$this->layout->content = View::make( 'wvw.overview' )
 			->with('matches', $matches)
-            ->with('columns', $this->getColumns());
+            ->with('columns', self::getColumns());
 	}
 
 	public function world( $language, World $world ) {
@@ -17,16 +17,16 @@ class WvWController extends BaseController {
 		$this->layout->fullWidth = true;
 		$this->layout->content = View::make( 'wvw.world' )
 			->with('world', $world)
-            ->with('columns', $this->getColumns());
+            ->with('columns', self::getColumns());
 	}
 
 	public function worldEmbedded( $language, World $world ) {
 		return View::make( 'wvw.worldEmbedded' )
 			->with('world', $world)
-            ->with('columns', $this->getColumns());
+            ->with('columns', self::getColumns());
 	}
 
-	private function getColumns() {
+	public static function getColumns() {
 	    $columns = explode(',', Request::query('columns', ''));
 
 	    $columns = array_filter($columns, function($column) {

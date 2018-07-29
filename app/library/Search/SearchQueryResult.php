@@ -83,7 +83,10 @@ abstract class SearchQueryResult {
      */
     public final function getFilters() {
         if(!isset($this->_filters)) {
-            $this->_filters = $this->getInternalFilters();
+            $this->_filters = Cache::remember(
+                'search.filters.'.get_class($this), 10,
+                function() { return $this->getInternalFilters(); }
+            );
         }
 
         return $this->_filters;

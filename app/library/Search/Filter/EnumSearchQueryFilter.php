@@ -3,8 +3,8 @@
 class EnumSearchQueryFilter extends StringSearchQueryFilter {
     protected $values;
 
-    public function __construct($name, $values) {
-        parent::__construct($name);
+    public function __construct($name, $values, $column = null) {
+        parent::__construct($name, $column);
 
         $this->values = ['' => ''] + $values;
     }

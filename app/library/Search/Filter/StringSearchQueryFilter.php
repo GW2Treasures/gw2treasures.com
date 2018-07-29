@@ -3,13 +3,19 @@
 class StringSearchQueryFilter extends SearchQueryFilter {
     protected $name;
     protected $value;
+    protected $column;
 
-    public function __construct($name) {
+    public function __construct($name, $column = null) {
         $this->name = $name;
+        $this->column = is_null($column) ? $name : $column;
     }
 
     public function getName() {
         return $this->name;
+    }
+
+    public function getColumn() {
+        return $this->column;
     }
 
     public function getSearchterm() {
@@ -37,7 +43,7 @@ class StringSearchQueryFilter extends SearchQueryFilter {
 
     public function query($query) {
         if($this->getValue()) {
-            return $query->where($this->getName(), '=', $this->getValue());
+            return $query->where($this->getColumn(), '=', $this->getValue());
         }
 
         return $query;

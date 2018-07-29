@@ -15,12 +15,19 @@ class ItemSearchQueryResult extends DatabaseSearchQueryResult {
             return trans('item.rarity.'.$r);
         }, $rarities));
 
+        $materials = Material::all();
+        $materialValues = array_combine(
+            $materials->fetch('id')->toArray(),
+            $materials->map(function($material) { return $material->getName(); })->toArray()
+        );
+
         return [
             'id' => new IntegerSearchQueryFilter('id'),
             'type' => new EnumSearchQueryFilter('type', $this->getItemTypes()),
             'level' => new RangeSearchQueryFilter('level'),
             'rarity' => new EnumSearchQueryFilter('rarity', $rarityValues),
             'pvp' => new BooleanSearchQueryFilter('pvp'),
+            'material' => new EnumSearchQueryFilter('material', $materialValues, 'material_id')
         ];
     }
 

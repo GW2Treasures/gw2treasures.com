@@ -136,6 +136,27 @@
                 <li>{{ $unlockedItem->link(32) }}</li>
             @endforeach
         </ul>
+    @elseif( count($item->minis) > 0 )
+        <h3>{{ trans('item.unlocks') }}</h3>
+        @foreach($item->minis as $mini)
+            <div class="mini-box">
+                <div class="mini-box__header">
+                    {{ $mini->getIcon(32) . $mini->getName() }}
+                </div>
+                @if( strlen($mini->getUnlock()) > 0)
+                    <div class="mini-box__unlock">
+                        {{ $mini->getUnlock() }}
+                    </div>
+                @endif
+            </div>
+        @endforeach
+
+        <style>
+            .mini-box { border: 1px solid #eee; padding: 8px; max-width: fit-content; display: flex; flex-direction: column; border-radius: 3px; margin: 0 16px 16px 0; }
+            .mini-box__header { font-family: 'Adelle', 'Bitter', 'Segoe UI', sans-serif; font-size: 18px; }
+            .mini-box__header > img { margin-right: .5em; }
+            .mini-box__unlock { margin-top: 4px; }
+        </style>
     @endif
 
     @if( count( $craftedFrom = $item->recipes()->get()) > 0 )

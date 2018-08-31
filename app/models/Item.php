@@ -304,6 +304,10 @@ class Item extends BaseModel implements IHasIcon, IHasLink {
         return $this->belongsTo( 'Skin', 'skin_id', 'id' );
     }
 
+    public function minis() {
+        return $this->hasMany(Mini::class);
+    }
+
     /**
      * Searches for items matching the query
      *

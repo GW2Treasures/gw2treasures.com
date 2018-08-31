@@ -87,7 +87,7 @@ trait LoadsEntries
                     $entry = ${'entries_' . $lang}[$id];
                     $entryData[$column] = $columnName === 'data'
                         ? json_encode($entry)
-                        : $entry->{$columnName};
+                        : (isset($entry->{$columnName}) ? $entry->{$columnName} : null);
                 } elseif($column === 'signature' || $column === 'file_id') {
                     if( isset($entries_en[$id]->icon) ) {
                         preg_match('/\/(?<signature>[^\/]*)\/(?<file_id>[^\/]*)\.png$/', $entries_en[$id]->icon, $icon);
@@ -98,7 +98,7 @@ trait LoadsEntries
                 } elseif($column === 'created_at' || $column === 'updated_at') {
                     $entryData[$column] = date('Y-m-d H:i:s');
                 } else {
-                    $entryData[$column] = $entries_en[$id]->{$column};
+                    $entryData[$column] = isset($entries_en[$id]->{$column}) ? $entries_en[$id]->{$column} : null;
                 }
             }
 

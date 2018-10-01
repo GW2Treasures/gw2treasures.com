@@ -24,3 +24,4 @@ Artisan::add( new TitlesCommand );
 Artisan::add( new EventsCommand );
 Artisan::add( new MaterialsCommand );
 Artisan::add( new MinisCommand );
+Artisan::add( new MountsCommand );

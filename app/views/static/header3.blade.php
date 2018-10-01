@@ -43,6 +43,7 @@
         </a>--}}<a href="{{ URL::route('profession.overview', App::getLocale()) }}">{{ trans('profession.breadcrumb') }}
         </a><a href="{{ URL::route('trait.overview', App::getLocale()) }}">{{ trans('trait.breadcrumb') }}
         </a><a href="{{ URL::route('specialization.overview', App::getLocale()) }}">{{ trans('specialization.breadcrumb') }}
+        </a><a href="{{ URL::route('mount.overview', App::getLocale()) }}">{{ trans('mount.breadcrumb') }}
         </a><a href="{{ URL::route('wvw', App::getLocale()) }}">{{ trans('header.wvw') }}
         </a></div>
 </header>

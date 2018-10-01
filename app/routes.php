@@ -351,6 +351,48 @@ Route::group( array(
         ]);
 
         //================================
+        // Mounts
+        //================================
+
+        Route::model('mountType', MountType::class);
+        Route::model('mountSkin', MountSkin::class);
+
+        Route::get('mount', [
+            'as' => 'mount.overview',
+            'uses' => 'MountController@overview'
+        ]);
+
+        Route::get('mount/random', [
+            'as' => 'mount.random',
+            'uses' => 'MountController@random'
+        ]);
+
+        Route::get('mount/skin/random', [
+            'as' => 'mount.skin.random',
+            'uses' => 'MountController@skinRandom'
+        ]);
+
+        Route::get('mount/{mountType}', [
+            'as' => 'mount.details',
+            'uses' => 'MountController@details'
+        ]);
+
+        Route::get('mount/skin/{mountSkin}', [
+            'as' => 'mount.skin.details',
+            'uses' => 'MountController@skinDetails'
+        ]);
+
+        Route::get('mount/{mountType}/json', [
+            'as' => 'mount.json',
+            'uses' => 'MountController@json'
+        ]);
+
+        Route::get('mount/skin/{mountSkin}/json', [
+            'as' => 'mount.skin.json',
+            'uses' => 'MountController@skinJson'
+        ]);
+
+        //================================
         // WVW
         //================================
 

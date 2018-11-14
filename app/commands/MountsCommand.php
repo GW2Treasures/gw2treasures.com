@@ -32,6 +32,26 @@ class MountsCommand extends Command {
             'data_de', 'data_en', 'data_es', 'data_fr',
             'created_at', 'updated_at',
         ], $updating);
+
+        $this->info('Loading unlocks from gw2efficiency');
+
+        $unlocks = json_decode(
+            $api->getClient()
+                ->request('GET', 'https://api.gw2efficiency.com/tracking/unlocks?id=achievements')
+                ->getBody()
+                ->getContents()
+        );
+
+        MountSkin::chunk(500, function($mounts) use ($unlocks) {
+            foreach($mounts as $mount) {
+                $unlockedBy = isset($unlocks->data->{$mount->id})
+                    ? $unlocks->data->{$mount->id} / $unlocks->total
+                    : null;
+
+                $mount->unlocks = $unlockedBy;
+                $mount->save();
+            }
+        });
     }
 
     protected function getOptions() {

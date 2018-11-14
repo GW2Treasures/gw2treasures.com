@@ -25,6 +25,14 @@
             <div class="lang"><span title="Français" class='langCode'>FR</span> {{ $mount->link(null, 'fr', null, null, ['rel' => 'alternate']) }}</div>
         @endif
 
+        @if($mount->defaultSkin->unlocks !== null)
+            <h3>{{ trans('mount.unlockStats.header') }}</h3>
+            <p>{{ trans('mount.unlockStats.text', [
+                'unlocks' => '<strong>'.round($mount->defaultSkin->unlocks * 100, 2).'%</strong>',
+                'gw2e' => '<a href="https://gw2efficiency.com/account/unlock-statistics?filter.key=mounts" rel="noreferrer noopener" target="_blank">gw2efficiency.com</a>'
+            ]) }}</p>
+        @endif
+
         <h3>@lang('misc.wiki.header')</h3>
         <ul class="sidebar-wikis">
             <li><a target="_blank" onclick="outbound(this)" href="http://wiki-de.guildwars2.com/index.php?title=Spezial:Suche&amp;search={{ urlencode( $mount->getName( 'de' ) ) }}">@lang('misc.wiki.german')</a></li>

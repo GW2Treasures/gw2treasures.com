@@ -84,7 +84,7 @@ abstract class SearchQueryResult {
     public final function getFilters() {
         if(!isset($this->_filters)) {
             $this->_filters = Cache::remember(
-                'search.filters.'.get_class($this), 10,
+                'search.filters.'.App::getLocale().'.'.get_class($this), 10,
                 function() { return $this->getInternalFilters(); }
             );
         }

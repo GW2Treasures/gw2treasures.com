@@ -132,7 +132,7 @@
         <h3>{{ trans('item.unlocks') }}</h3>
         <p>{{ trans('item.unlocksUnknownRecipe', ['chatlink' => (new \GW2Treasures\GW2Tools\Chatlinks\RecipeChatlink($item->getTypeData()->recipe_id))->encode()]) }}</p>
         <ul class="itemList">
-            @foreach( $unlockedItems = Item::whereNameEn( substr($item->getName('en'), strlen('Recipe: ')) )->get() as $unlockedItem )
+            @foreach( $unlockedItems = Item::whereNameEn( substr($item->getName('en'), strlen('Recipe: ')) )->wherePvp(0)->get() as $unlockedItem )
                 <li>{{ $unlockedItem->link(32) }}</li>
             @endforeach
         </ul>

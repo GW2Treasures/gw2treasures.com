@@ -64,8 +64,5 @@
     <div style="padding-top: 20px">
         <h3>@lang($skin->mountType->default_skin === $skin->id ? 'mount.defaultSkinFor' : 'mount.skinFor')</h3>
         {{ $skin->mountType->link(32) }}
-
-        <h3>Dye Slots</h3>
-        @include('helper.dyeSlots', ['dye_slots' => $skin->getData()->dye_slots])
     </div>
 </div>

@@ -139,6 +139,7 @@
         @endif
 
         @include('static.scripts')
+        @yield('events.scripts')
     </div>
 </body>
 </html>

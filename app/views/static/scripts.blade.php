@@ -85,3 +85,4 @@
         });
     });
 </script>
+@yield('static.scripts')

@@ -1,5 +1,7 @@
 <div class="start-wrapper">
 <div class="banner">
+	@include('static.events')
+
 	<div class="header">
 		<div class="header__wrapper">
 			<img src="{{ App::environment('production') ? Helper::cdn('assets2/img/header_img.svg') : 'http://'.Config::get('app.domain').':8888/img/header_img.svg' }}" width="800" height="150" />

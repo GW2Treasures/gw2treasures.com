@@ -56,7 +56,7 @@ class MountsCommand extends Command {
 
     protected function getOptions() {
         return [
-            ['update', 'u', InputOption::VALUE_NONE, 'Update existing Materials']
+            ['update', 'u', InputOption::VALUE_NONE, 'Update existing Mounts']
         ];
     }
 }

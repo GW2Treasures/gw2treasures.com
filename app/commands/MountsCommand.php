@@ -37,7 +37,7 @@ class MountsCommand extends Command {
 
         $unlocks = json_decode(
             $api->getClient()
-                ->request('GET', 'https://api.gw2efficiency.com/tracking/unlocks?id=achievements')
+                ->request('GET', 'https://api.gw2efficiency.com/tracking/unlocks?id=mounts')
                 ->getBody()
                 ->getContents()
         );

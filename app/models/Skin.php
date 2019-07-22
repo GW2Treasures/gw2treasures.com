@@ -24,7 +24,7 @@ class Skin extends BaseModel implements IHasIcon, IHasLink {
 		return $this->getInternalIconUrl($size, $this->signature, $this->file_id);
 	}
 
-	protected function getAdditionalLinkAttributes(array $defaults = []) {
+	public function getAdditionalLinkAttributes(array $defaults = []) {
 		$attributes = [ 'data-skin-id' => $this->id ];
 
 		if(isset($this->getData()->rarity)) {

@@ -227,7 +227,7 @@ class Item extends BaseModel implements IHasIcon, IHasLink {
         return URL::route( 'itemdetails', array( 'language' => $lang, 'item' => $this->id ) );
     }
 
-    protected function getAdditionalLinkAttributes(array $defaults = []) {
+    public function getAdditionalLinkAttributes(array $defaults = []) {
         return [
             'data-item-id' => $this->id,
             'class' => $defaults['class'] . ' border-'.$this->rarity . ($this->removed_from_api ? ' removed' : '')

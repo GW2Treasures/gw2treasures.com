@@ -3,7 +3,7 @@
 trait HasLink {
     public abstract function getUrl($lang = null);
 
-    protected function getAdditionalLinkAttributes(array $defaults = []) {
+    public function getAdditionalLinkAttributes(array $defaults = []) {
         return [];
     }
 
@@ -28,13 +28,7 @@ trait HasLink {
             ? '#'.$anchor
             : '';
 
-        $defaultAttributes = [
-            'class' => 'item-link'
-                . ($displayIcon ? ' item-link-'.$icon : '')
-                . ($this->isRemovedFromApi() ? ' removed' : ''),
-            'href' => $this->getUrl($lang).$anchor,
-            'hreflang' => $lang,
-        ];
+        $defaultAttributes = $this->getDefaultLinkAttributes($icon, $lang, $this->getUrl($lang).$anchor, $displayIcon);
 
         $attributes = $extraAttributes + $this->getAdditionalLinkAttributes($defaultAttributes) + $defaultAttributes;
 
@@ -45,5 +39,24 @@ trait HasLink {
         $text = "<span class=\"item-link-text\">$text</span>";
 
         return $openTag.$icon.$text.$closeTag;
+    }
+
+    /**
+     * @param $icon
+     * @param $lang
+     * @param $anchor
+     * @param $displayIcon
+     * @return array
+     */
+    public function getDefaultLinkAttributes($icon, $lang, $href, $displayIcon) {
+        $defaultAttributes = [
+            'class' => 'item-link'
+                .($displayIcon ? ' item-link-'.$icon : '')
+                .($this->isRemovedFromApi() ? ' removed' : ''),
+            'href' => $href,
+            'hreflang' => $lang,
+        ];
+
+        return $defaultAttributes;
     }
 }

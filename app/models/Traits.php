@@ -40,7 +40,7 @@ class Traits extends BaseModel implements IHasIcon, IHasLink {
 		return $this->getInternalIconUrl($size, $this->signature, $this->file_id);
 	}
 
-	protected function getAdditionalLinkAttributes(array $defaults = []) {
+	public function getAdditionalLinkAttributes(array $defaults = []) {
 		return ['data-trait-id' => $this->id];
 	}
 

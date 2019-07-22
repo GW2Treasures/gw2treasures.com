@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @property AchievementCategory category
+ */
 class Achievement extends BaseModel implements IHasIcon, IHasLink {
     const FLAG_CATEGORY_DISPLAY = 'CategoryDisplay';
     const FLAG_HIDDEN = 'Hidden';
@@ -93,7 +96,7 @@ class Achievement extends BaseModel implements IHasIcon, IHasLink {
 		return $this->getInternalIconUrl($size, $this->signature, $this->file_id);
 	}
 
-	protected function getAdditionalLinkAttributes(array $defaults = []) {
+	public function getAdditionalLinkAttributes(array $defaults = []) {
 		return ['data-achievement-id' => $this->id];
 	}
 

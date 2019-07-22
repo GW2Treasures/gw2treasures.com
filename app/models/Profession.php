@@ -32,7 +32,7 @@ class Profession extends BaseModel implements IHasIcon, IHasLink {
         return '<img '.HTML::attributes($attributes).'>';
     }
 
-	protected function getAdditionalLinkAttributes(array $defaults = []) {
+	public function getAdditionalLinkAttributes(array $defaults = []) {
 		return ['data-profession-id' => $this->id];
 	}
 

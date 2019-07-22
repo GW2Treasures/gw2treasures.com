@@ -49,7 +49,7 @@ class Skill extends BaseModel implements IHasIcon, IHasLink {
 		return $this->getInternalIconUrl($size, $this->signature, $this->file_id);
 	}
 
-	protected function getAdditionalLinkAttributes(array $defaults = []) {
+    public function getAdditionalLinkAttributes(array $defaults = []) {
 		return ['data-skill-id' => $this->id];
 	}
 

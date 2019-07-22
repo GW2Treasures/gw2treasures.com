@@ -24,6 +24,9 @@ abstract class DatabaseSearchQueryResult extends SearchQueryResult {
         return $this->_count;
     }
 
+    /**
+     * @return \Illuminate\Pagination\Paginator
+     */
     public function getResults() {
         if($this->_results == null) {
             $this->_results = $this->filterQuery($this->getQuery())->remember(5)->paginate($this->getPageSize())->appends('q', $this->query->searchTerm);

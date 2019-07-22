@@ -67,6 +67,16 @@ Route::group( array(
     }
 );
 
+Route::group( array(
+    'domain' => 'api.' . Config::get('app.domain'),
+    'before' => ''
+), function() {
+    Route::get('search', array(
+        'as' => 'search.api',
+        'uses' => 'SearchController@api'
+    ));
+});
+
 // all main routes
 Route::group( array(
         'domain' => '{language}.' . Config::get('app.domain'),

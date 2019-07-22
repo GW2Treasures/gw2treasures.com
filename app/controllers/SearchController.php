@@ -75,6 +75,61 @@ class SearchController extends BaseController {
         return Response::json($response);
     }
 
+    public function api() {
+        $language = Input::get('l', 'en');
+
+        if(!in_array($language, ['de', 'en', 'es', 'fr'])) {
+            $language = 'en';
+        }
+
+        $searchTerm = $this->getSearchTerm();
+
+        $searchQuery = new SearchQuery($searchTerm);
+        $results = $searchQuery->getResults();
+
+        $response = [];
+
+        foreach($results as $key => $result) {
+            $response[$key] = (object)[
+                'count' => $result->getCount(),
+                'results' => Helper::collect($result->getResultArray(5))->map(function($entry) use ($language) {
+                    $out = [];
+                    if($entry instanceof BaseModel) {
+                        $out['id'] = $entry->id;
+                        $out['name'] = $entry->getName($language);
+
+                        if($entry instanceof IHasIcon) {
+                            $out['icon'] = [
+                                16 => $entry->getIconUrl(16),
+                                32 => $entry->getIconUrl(32),
+                                64 => $entry->getIconUrl(64),
+                            ];
+                        }
+
+                        if($entry instanceof IHasLink) {
+                            $out['link'] = [
+                                'url' => $entry->getUrl($language),
+                                'attributes' => $entry->getAdditionalLinkAttributes(
+                                    $entry->getDefaultLinkAttributes(16, $language, $entry->getUrl($language), true)
+                                )
+                            ];
+                        }
+                    } else {
+                        $out = $entry;
+                    }
+
+                    return $out;
+                })
+            ];
+        }
+
+        return Response::json($response)
+            ->setPublic()
+            ->setMaxAge(60)
+            ->header('content-language', $language)
+            ->header('Access-Control-Allow-Origin', Request::header('Origin'));
+    }
+
     /**
      * @return string
      */

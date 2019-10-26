@@ -129,15 +129,6 @@ class Item extends BaseModel implements IHasIcon, IHasLink {
         return $this->formatForDisplay($this->getData( $lang )->description);
     }
 
-    protected function formatForDisplay($subject) {
-        $replacements = [
-            '/<c=@([^>]+)>(.*?)<\/?c>/s' => '<span class="color-format-$1">$2</span>',
-            '/<c=#([^>]+)>(.*?)<\/?c>/s' => '<span class="color-format" style="color:#$1">$2</span>',
-            '/\n/' => '<br>'
-        ];
-        return preg_replace(array_keys($replacements), array_values($replacements), $subject);
-    }
-
     protected function normalizeRawData($data) {
         return $data;
     }

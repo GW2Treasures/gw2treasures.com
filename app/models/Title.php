@@ -4,6 +4,6 @@ class Title extends BaseModel {
 	use HasLocalizedData;
 
 	public function getName( $lang = null ) {
-		return $this->localized( 'name', $lang );
+		return $this->formatForDisplay($this->localized( 'name', $lang ));
 	}
 }

@@ -50,6 +50,15 @@ class BaseModel extends Eloquent {
         throw new Exception('Unknown property: '.$property);
     }
 
+    protected function formatForDisplay($subject) {
+        $replacements = [
+            '/<c=@([^>]+)>(.*?)<\/?c>/s' => '<span class="color-format-$1">$2</span>',
+            '/<c=#([^>]+)>(.*?)<\/?c>/s' => '<span class="color-format" style="color:#$1">$2</span>',
+            '/\n/' => '<br>'
+        ];
+        return preg_replace(array_keys($replacements), array_values($replacements), $subject);
+    }
+
     /**
      * @return string
      */

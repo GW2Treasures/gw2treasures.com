@@ -34,7 +34,7 @@ class Achievement extends BaseModel implements IHasIcon, IHasLink {
             $locked_text = $this->getData('en')->locked_text;
 
             // items
-            if(preg_match('/^(Purchase|Loot|Use|Bring|Acquire)( an?| the|) (.*?)( from|, found|, obtained| to| by combining)/', $locked_text, $matches)) {
+            if(preg_match('/^(Purchase|Loot|Use|Bring|Acquire|Create and consume)( an?| the|) (.*?)( from|, found|, obtained| to| by combining)/', $locked_text, $matches)) {
                 $itemName = $matches[3];
 
                 $items = Item::where('name_en', '=', $itemName)->get();
@@ -57,7 +57,7 @@ class Achievement extends BaseModel implements IHasIcon, IHasLink {
             }
 
             // achievements
-            if(preg_match('/^(Complete|Unlocks a short time after completing)( the|) (.*?)( collection|, then)/', $locked_text, $matches)) {
+            if(preg_match('/^(Complete|Unlocks a short time after completing)( the|) (.*?)( collection| achievement|, then)/', $locked_text, $matches)) {
                 $achievementName = $matches[3];
 
                 $achievements = Achievement::where('name_en', '=', $achievementName)->orWhere('name_en', 'LIKE', $achievementName.':%')->get();

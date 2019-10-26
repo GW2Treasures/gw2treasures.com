@@ -57,8 +57,8 @@ class Achievement extends BaseModel implements IHasIcon, IHasLink {
             }
 
             // achievements
-            if(preg_match('/^Complete( the|) (.*?)( collection|, then)/', $locked_text, $matches)) {
-                $achievementName = $matches[2];
+            if(preg_match('/^(Complete|Unlocks a short time after completing)( the|) (.*?)( collection|, then)/', $locked_text, $matches)) {
+                $achievementName = $matches[3];
 
                 $achievements = Achievement::where('name_en', '=', $achievementName)->orWhere('name_en', 'LIKE', $achievementName.':%')->get();
 

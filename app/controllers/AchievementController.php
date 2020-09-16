@@ -17,7 +17,7 @@ class AchievementController extends BaseController {
 		$this->layout->title = $achievement->getName();
 		$this->layout->fullWidth = true;
 		$this->layout->content = View::make('achievement.details')
-			->with($this->getAchievementData($achievement));
+			->with($this->getAchievementData($language, $achievement));
 
         $this->layout->canonical = $achievement->getUrl();
         $this->layout->metaTitle = $achievement->getName();
@@ -36,11 +36,11 @@ class AchievementController extends BaseController {
         $this->layout->content = View::make('achievement.category')->with('category', $achievement_category);
 	}
 
-	private function getAchievementData(Achievement $achievement) {
-	    return Cache::remember('achievement.data.'.$achievement->id, 10, function() use ($achievement) {
+	private function getAchievementData($language, Achievement $achievement) {
+	    return Cache::remember('achievement.data.'.$achievement->id.'.'.$language, 10, function() use ($achievement) {
 	        $achievement->prerequisites->count();
 	        $achievement->prerequisiteFor->count();
-            $achievement->category->group->getName();
+	        try { $achievement->category->group->getName(); } catch(\Exception $e) {}
 
             $objectives = isset($achievement->getData()->bits)
                 ? $achievement->getData()->bits
@@ -112,7 +112,7 @@ class AchievementController extends BaseController {
 	}
 
 	public function tooltip($language, Achievement $achievement) {
-		return View::make('achievement.tooltip')->with($this->getAchievementData($achievement));
+		return View::make('achievement.tooltip')->with($this->getAchievementData($language, $achievement));
 	}
 
 	public function random($language) {

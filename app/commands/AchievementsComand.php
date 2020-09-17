@@ -108,7 +108,7 @@ class AchievementsCommand extends Command {
                     }
 
                     foreach($current as $entity) {
-                        if(($type === 'objectives' || $type === 'rewards') && in_array($entity->type, ['Item', 'Skin', 'Minipet'])) {
+                        if(($type === 'objectives' || $type === 'rewards') && isset($entity->type) && in_array($entity->type, ['Item', 'Skin', 'Minipet'])) {
                             $entityType = strtolower($entity->type);
                             $isKnown = false;
                             if($known[$type]->has($achievement->id)) {

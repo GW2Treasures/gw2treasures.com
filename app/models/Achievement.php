@@ -82,6 +82,20 @@ class Achievement extends BaseModel implements IHasIcon, IHasLink {
 		return $this->localized('name', $lang);
 	}
 
+    /**
+     * Gets the localized description
+     *
+     * @param null|string $lang
+     * @return mixed|string
+     */
+    public function getDescription( $lang = null ) {
+        if( !isset($this->getData( $lang )->description) ) {
+            return '';
+        }
+
+        return $this->formatForDisplay($this->getData( $lang )->description);
+    }
+
 	public function getIconUrl($size = 64) {
 		if($this->file_id == 0) {
 			if(!is_null($this->category)) {

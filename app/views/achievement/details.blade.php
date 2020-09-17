@@ -80,7 +80,7 @@
 			</div>
 		@endif
 
-		<p class="achievement__description">{{ $achievement->getData()->description }}</p>
+		<p class="achievement__description">{{ $achievement->getDescription() }}</p>
 
 		@if($achievement->hasFlag(Achievement::FLAG_REQUIRES_UNLOCK))
 			<h3>{{ trans('achievement.unlock.header') }}</h3>

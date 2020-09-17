@@ -47,7 +47,7 @@ class AchievementController extends BaseController {
                 : [];
 
             $objectives = array_filter($objectives, function ($objective) {
-                return $objective->type !== 'Text' || $objective->text !== '';
+                return isset($objective->type) && ($objective->type !== 'Text' || $objective->text !== '');
             });
 
             if ($achievement->hasFLag('CategoryDisplay')) {

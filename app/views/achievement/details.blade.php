@@ -7,11 +7,13 @@
 			<strong><a href="{{ route('achievement.overview', App::getLocale()) }}">{{ trans('header.achievements') }}</a></strong>
 
 			@if($achievement->achievement_category_id !== 0 && !is_null($achievement->category))
-				<svg fill="#000000" height="12" viewBox="0 0 24 24" width="12" xmlns="http://www.w3.org/2000/svg">
-					<path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
-				</svg>
-				<a href="{{ URL::route('achievement.overview', App::getLocale()) }}#{{ $achievement->category->group->id }}">
-					{{ $achievement->category->group->getName() }}</a>
+				@if(!is_null($achievement->category->group))
+					<svg fill="#000000" height="12" viewBox="0 0 24 24" width="12" xmlns="http://www.w3.org/2000/svg">
+						<path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+					</svg>
+					<a href="{{ URL::route('achievement.overview', App::getLocale()) }}#{{ $achievement->category->group->id }}">
+						{{ $achievement->category->group->getName() }}</a>
+				@endif
 
 				<svg fill="#000000" height="12" viewBox="0 0 24 24" width="12" xmlns="http://www.w3.org/2000/svg">
 					<path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>

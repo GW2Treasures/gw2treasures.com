@@ -39,8 +39,16 @@ class AchievementController extends BaseController {
 	private function getAchievementData($language, Achievement $achievement) {
 	    return Cache::remember('achievement.data.'.$achievement->id.'.'.$language, 10, function() use ($achievement) {
 	        $achievement->prerequisites->count();
-	        $achievement->prerequisiteFor->count();
-	        try { $achievement->category->group->getName(); } catch(\Exception $e) {}
+            $achievement->prerequisiteFor->count();
+
+            // access category/group to add them to cache
+            if(!is_null($achievement->category)) {
+                if(!is_null($achievement->category->group)) {
+                    $achievement->category->group->getName();
+                } else {
+                    $achievement->category->getName();
+                }
+            }
 
             $objectives = isset($achievement->getData()->bits)
                 ? $achievement->getData()->bits

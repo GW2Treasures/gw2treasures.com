@@ -4,12 +4,13 @@
         <h2>{{ $category->getName() }}</h2>
         <nav class="details__breadcrumb">
             <strong><a href="{{ route('achievement.overview', App::getLocale()) }}">{{ trans('header.achievements') }}</a></strong>
-
-                <svg fill="#000000" height="12" viewBox="0 0 24 24" width="12" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
-                </svg>
-                <a href="{{ URL::route('achievement.overview', App::getLocale()) }}#{{ $category->group->id }}">
-                    {{ $category->group->getName() }}</a>
+                @if(!is_null($category->group))
+                    <svg fill="#000000" height="12" viewBox="0 0 24 24" width="12" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+                    </svg>
+                    <a href="{{ URL::route('achievement.overview', App::getLocale()) }}#{{ $category->group->id }}">
+                        {{ $category->group->getName() }}</a>
+                @endif
         </nav>
     </div>
 </header>

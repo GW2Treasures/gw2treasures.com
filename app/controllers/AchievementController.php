@@ -58,7 +58,7 @@ class AchievementController extends BaseController {
                 return isset($objective->type) && ($objective->type !== 'Text' || $objective->text !== '');
             });
 
-            if ($achievement->hasFLag('CategoryDisplay')) {
+            if ($achievement->hasFLag('CategoryDisplay') && !is_null($achievement->category)) {
                 /** @var Achievement $categoryAchievement */
                 foreach ($achievement->category->achievements as $categoryAchievement) {
                     $isCategoryDisplay = $categoryAchievement->hasFlag('CategoryDisplay');

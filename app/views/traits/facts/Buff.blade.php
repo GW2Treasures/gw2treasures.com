@@ -3,7 +3,7 @@
 
 @section($section.'text')
     {{ isset($fact->apply_count) && $fact->apply_count > 1 ? $fact->apply_count.'&times; ' : '' }}
-    {{ isset($fact->status) ? $fact->status : $fact->prefix->status }}{{ isset($fact->duration) && $fact->duration > 0 ? ' ('.$fact->duration.'s)' : '' }}:
+    {{ isset($fact->status) ? $fact->status : (isset($fact->prefix) ? $fact->prefix->status : '') }}{{ isset($fact->duration) && $fact->duration > 0 ? ' ('.$fact->duration.'s)' : '' }}:
 @endsection
 
 @section($section.'extra')

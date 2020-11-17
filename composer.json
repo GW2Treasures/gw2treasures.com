@@ -18,7 +18,7 @@
         "barryvdh/laravel-translation-manager": "dev-readonly",
         "symfony/translation": "2.6.13 as 2.5.999",
         "nesbot/carbon": "~1.21",
-        "gw2treasures/gw2api": "~3.5",
+        "gw2treasures/gw2api": "~3.7",
         "gw2treasures/gw2tools": "~1.0"
     },
     "autoload": {

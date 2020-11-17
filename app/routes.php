@@ -403,6 +403,32 @@ Route::group( array(
         ]);
 
         //================================
+        // Novelties
+        //================================
+
+        Route::model('novelty', Novelty::class);
+
+        Route::get('novelty', [
+            'as' => 'novelty.overview',
+            'uses' => 'NoveltyController@overview'
+        ]);
+
+        Route::get('novelty/random', [
+            'as' => 'novelty.random',
+            'uses' => 'NoveltyController@random'
+        ]);
+
+        Route::get('novelty/{novelty}', [
+            'as' => 'novelty.details',
+            'uses' => 'NoveltyController@details'
+        ]);
+
+        Route::get('novelty/{novelty}/json', [
+            'as' => 'novelty.json',
+            'uses' => 'NoveltyController@json'
+        ]);
+
+        //================================
         // WVW
         //================================
 

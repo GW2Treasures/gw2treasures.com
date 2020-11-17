@@ -45,6 +45,7 @@ class EventsCommand extends Command {
 class EventsApi implements IBulkEndpoint, ILocalizedEndpoint {
     private $events = [];
     private $language = 'en';
+    private $schema = '';
 
     public function __construct() {
     }
@@ -168,5 +169,15 @@ class EventsApi implements IBulkEndpoint, ILocalizedEndpoint {
      */
     public function getLang() {
         return $this->language;
+    }
+
+    public function schema($schema) {
+        $this->schema = $schema;
+
+        return $this->schema;
+    }
+
+    public function getSchema() {
+        return $this->schema;
     }
 }

@@ -75,7 +75,7 @@ return array (
     'Consumable' => 
     array (
       'Transmutation' => 'Transmutationssteine',
-      'Immediate' => '(Immediate)',
+      'Immediate' => 'Service',
       'Utility' => 'Trank',
       'Food' => 'Nahrung',
       'Generic' => 'Allgemein',
@@ -189,7 +189,7 @@ return array (
     'requiredSkin' => 'Der freigeschaltete Skin ist erforderlich für folgende Erfolge:',
   ),
   'unusedAgonyInfusionSlot' => 'Freier Infusionsplatz (Qual)',
-  'removedFromGame' => 'Dieser Gegenstand wurde aus dem Spiel entfernt.',
+  'removedFromGame' => 'Dieser Gegenstand wurde aus dem Spiel entfernt oder kann nicht mehr erhalten werden.',
   'api503' => 'Die offizielle API ist derzeit deaktiviert.',
   'unusedInfusionSlot' => 'Freier Infusionsplatz',
 );

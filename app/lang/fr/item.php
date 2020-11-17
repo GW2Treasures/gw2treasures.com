@@ -74,7 +74,7 @@ return array (
     'Consumable' => 
     array (
       'Transmutation' => 'Pierre de transmutation',
-      'Immediate' => '(Immediate)',
+      'Immediate' => 'Services',
       'Utility' => 'Tonique',
       'Food' => 'Nourriture',
       'Generic' => 'Générique',

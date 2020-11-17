@@ -75,7 +75,7 @@ return array (
     'Consumable' => 
     array (
       'Transmutation' => 'Transmutation Stone',
-      'Immediate' => '(Immediate)',
+      'Immediate' => 'Service',
       'Utility' => 'Tonic',
       'Food' => 'Food',
       'Generic' => 'Generic',
@@ -189,7 +189,7 @@ return array (
     'requiredSkin' => 'The skin unlocked by this item is required to complete the following achievements:',
   ),
   'unusedAgonyInfusionSlot' => 'Unused Agony Infusion Slot',
-  'removedFromGame' => 'This item was removed from the game.',
+  'removedFromGame' => 'This item was removed from the game or can\'t be obtained anymore.',
   'api503' => 'The official API is currently disabled.',
   'unusedInfusionSlot' => 'Unused Infusion Slot',
 );

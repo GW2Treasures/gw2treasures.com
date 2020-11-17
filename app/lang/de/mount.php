@@ -5,7 +5,7 @@ return array (
   'skins' => 'Skins',
   'skinFor' => 'Skin für',
   'defaultSkinFor' => 'Standard-Skin für',
-  'unlockStats' =>
+  'unlockStats' => 
   array (
     'header' => 'Freischaltungen',
     'text' => 'Freigeschaltet von :unlocks aller Spieler auf :gw2e.',

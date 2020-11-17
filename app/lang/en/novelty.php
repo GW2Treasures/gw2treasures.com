@@ -2,11 +2,11 @@
 
 return array (
   'breadcrumb' => 'Novelties',
-  'slot' =>
+  'slot' => 
   array (
     'HeldItem' => 'Held Item',
     'Music' => 'Music',
-    'Miscellaneous' => 'Miscellaneous',
+    'Miscellaneous' => 'Toy',
     'Chair' => 'Chair',
     'Tonic' => 'Tonic',
   ),

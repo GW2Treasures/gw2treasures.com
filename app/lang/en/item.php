@@ -4,7 +4,7 @@ return array (
   'defense' => 'Defense',
   'weaponStrength' => 'Weapon Strength',
   'duration' => 'Duration',
-  'pvp' => 'PvP',
+  'pvp' => ':name (PvP)',
   'upgradeFor' => 'Upgrade in',
   'craftedFrom' => 'Crafted from',
   'usedInCrafting' => 'Used in crafting',

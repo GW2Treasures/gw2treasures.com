@@ -4,7 +4,7 @@ return array (
   'defense' => 'Défense',
   'weaponStrength' => 'Puissance de l\'arme',
   'duration' => 'Durée',
-  'pvp' => 'JcJ',
+  'pvp' => ':name (JcJ)',
   'upgradeFor' => 'Améliorer en',
   'craftedFrom' => 'Créé à partir de',
   'usedInCrafting' => 'Utilisé en artisanat',

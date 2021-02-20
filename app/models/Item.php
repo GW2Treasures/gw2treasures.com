@@ -110,7 +110,7 @@ class Item extends BaseModel implements IHasIcon, IHasLink {
     public function getName( $lang = null ) {
         $name = $this->localized( 'name', $lang );
         if( $this->isPvP() && !preg_match('/\bPvP\b/i', $name )) {
-            $name = trans( 'item.pvp' ) . ' ' . $name;
+            $name = trans( 'item.pvp', [ 'name' => $name ], 'messages', $lang );
         }
         return $name;
     }
@@ -232,7 +232,7 @@ class Item extends BaseModel implements IHasIcon, IHasLink {
      * @return string
      */
     public function getIconUrl( $size = 64 ) {
-        if( $this->file_id == 960304 ) {
+        if( $this->file_id == 960304 || $this->file_id == 2185992 ) {
             if( !is_null( $this->unlocksSkin )) {
                 return $this->unlocksSkin->getIconUrl($size);
             } elseif( isset( $this->getData()->default_skin )) {

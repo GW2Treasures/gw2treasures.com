@@ -20,6 +20,7 @@ Artisan::add( new MinisCommand );
 Artisan::add( new MountsCommand );
 Artisan::add( new NoveltiesCommand );
 Artisan::add( new ProfessionCommand );
+Artisan::add( new RecipesCommand );
 Artisan::add( new RemovedItemsCommand );
 Artisan::add( new SkillCommand );
 Artisan::add( new SkinsCommand );

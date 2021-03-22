@@ -14,11 +14,15 @@ class CreateItemViewTable extends Migration {
 	{
 		Schema::create( 'item_views', function( $t )
 		{
+			$t->engine = 'MyISAM';
+
 			$t->increments('id');
 			
 			$t->integer('item_id')->unsigned();
 			$t->enum('language', array( 'de', 'en', 'es', 'fr' ));
-			$t->timestamp('time')->default( DB::raw('CURRENT_TIMESTAMP') );;
+			$t->timestamp('time')->default( DB::raw('CURRENT_TIMESTAMP') );
+
+			$t->index(['time', 'item_id']);
 		});
 	}
 

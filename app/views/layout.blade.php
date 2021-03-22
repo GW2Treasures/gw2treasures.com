@@ -17,9 +17,6 @@
     <meta itemprop="image" content="{{ Helper::cdn('assets/img/logo.png') }}">
 
     <!-- prefetch -->
-    @foreach( Helper::$cdn_servers as $cdn_server )
-    {{-- cdn --}}<link rel="dns-prefetch" href="{{ $cdn_server }}">
-    @endforeach
     {{-- storage    --}}<link rel="dns-prefetch" href="//storage.gw2treasures.com">
     {{-- opensearch --}}<link rel="dns-prefetch" href="//gw2treasures.com">
     {{-- font files --}}<link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -30,9 +27,9 @@
     <!-- styles -->
     <link rel="stylesheet" href="{{ Helper::cdn('assets/css/normalize.min.css') }}">
     @if( App::environment('production') )
-        <link rel="stylesheet" href="{{ Helper::cdn('assets2/css/gw2t.css').Helper::cacheBustingSuffix() }}">
+        <link rel="stylesheet" href="{{ Helper::cdn('assets/css/gw2t.css').Helper::cacheBustingSuffix() }}">
     @else
-        {{--<link rel="stylesheet" href="//direct.darthmaim-cdn.de/gw2treasures/assets2/css/gw2t.css">--}}
+        {{--<link rel="stylesheet" href="//direct.darthmaim-cdn.de/gw2treasures/assets/css/gw2t.css">--}}
         <link rel="stylesheet" href="//{{ Config::get('app.domain') }}:8080/css/gw2t.css">
     @endif
 
@@ -122,15 +119,20 @@
         <script>window.jQuery || document.write('<script src="{{ Helper::cdn('assets/js/vendor/jquery-1.10.1.min.js') }}"><\/script>')</script>
 
         <!-- my own js -->
-        <script type="text/javascript" src="https://storage.gw2treasures.com/storage.js"></script>
+        <!-- <script type="text/javascript" src="https://storage.gw2treasures.com/storage.js"></script> -->
+        <script>
+            (function(){
+                var noop=function(){};
+                window.storage={
+                    put: noop,
+                    get: noop,
+                    remove: noop
+                };
+            })();
+        </script>
 
-        @if( App::environment('production') )
-            <script src="{{ Helper::cdn('assets/js/plugins.js') }}"></script>
-            <script src="{{ Helper::cdn('assets/js/main.js').Helper::cacheBustingSuffix() }}"></script>
-        @else
-            <script src="//direct.darthmaim-cdn.de/gw2treasures/assets/js/plugins.js"></script>
-            <script src="//direct.darthmaim-cdn.de/gw2treasures/assets/js/main.js"></script>
-        @endif
+        <script src="/assets/js/plugins.js"></script>
+        <script src="/assets/js/main.js{{ Helper::cacheBustingSuffix() }}"></script>
 
         @if( isset( $_GET['nocache'] ))
             <script type="text/javascript">

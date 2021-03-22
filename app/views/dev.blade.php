@@ -17,9 +17,9 @@
     <!-- styles -->
     <link rel="stylesheet" href="{{ Helper::cdn('assets/css/normalize.min.css') }}">
     @if( App::environment('production') )
-        <link rel="stylesheet" href="{{ Helper::cdn('assets2/css/gw2t.css').Helper::cacheBustingSuffix() }}">
+        <link rel="stylesheet" href="{{ Helper::cdn('assets/css/gw2t.css').Helper::cacheBustingSuffix() }}">
     @else
-        {{--<link rel="stylesheet" href="//direct.darthmaim-cdn.de/gw2treasures/assets2/css/gw2t.css">--}}
+        {{--<link rel="stylesheet" href="//direct.darthmaim-cdn.de/gw2treasures/assets/css/gw2t.css">--}}
         <link rel="stylesheet" href="//{{ Config::get('app.domain') }}:8888/css/gw2t.css">
     @endif
 

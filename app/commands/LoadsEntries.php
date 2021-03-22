@@ -84,6 +84,10 @@ trait LoadsEntries
                     $columnName = substr($column, 0, $strlen - 3);
                     $lang = substr($column, $strlen - 2);
 
+                    if($columnName === 'desc') {
+                        $columnName = 'description';
+                    }
+
                     $entry = ${'entries_' . $lang}[$id];
                     $entryData[$column] = $columnName === 'data'
                         ? json_encode($entry)

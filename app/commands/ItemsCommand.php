@@ -5,6 +5,8 @@ use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 
 class ItemsCommand extends Command {
+    use LoadsEntries;
+
 	/**
 	 * The console command name.
 	 *
@@ -19,7 +21,6 @@ class ItemsCommand extends Command {
 	 */
 	protected $description = 'Sets aggregated item views of the last 7 days';
 
-
 	/**
 	 * Execute the console command.
 	 *
@@ -27,6 +28,33 @@ class ItemsCommand extends Command {
 	 */
 	public function fire()
 	{
+		$api = new GW2Api();
+
+        $updating = $this->option('update');
+
+        if($updating) {
+            $this->info('updating existing entries');
+        }
+
+        $this->loadEntries('items', $api->items(), [
+            'name_de', 'name_en', 'name_es', 'name_fr',
+            'signature', 'file_id',
+			'type', 'rarity', 'level', 'value' => 'vendor_value',
+			'pvp' => function($item) { return $item->game_types === ['Pvp', 'PvpLobby']; },
+			'subtype' => function($item) { return $item->details->type ?? ''; },
+			'weight' => function($item) { return $item->details->weight_class ?? 'None'; },
+			'suffix_item_id' => function($item) { return $item->details->suffix_item_id ?? 0; },
+			'secondary_suffix_item_id' => function($item) { return $item->details->secondary_suffix_item_id ?? 0; },
+			'unlock_type' => function($item) { return $item->details->unlock_type ?? ''; },
+			'unlock_id' => function($item) { return $item->details->color_id ?? ($item->details->recipe_id ?? 0); },
+            'desc_de', 'desc_en', 'desc_es', 'desc_fr',
+            'data_de', 'data_en', 'data_es', 'data_fr',
+            'update_time' => function() { return time(); },
+			'updated' => function() { return true; },
+        ], false);
+
+		$this->info('aggregating item views');
+
 		$views = (new \Illuminate\Support\Collection(DB::table('item_views')
 			->select('item_id', DB::raw('COUNT(*) as views'))
 			->whereRaw('DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY) <= time')
@@ -43,6 +71,7 @@ class ItemsCommand extends Command {
 			    /** @var Item $item */
                 $details = $item->getTypeData();
 
+				$oldViews = $item->views;
 
 			    // set item views
 				$item->views = array_key_exists($item->id, $views) ? $views[$item->id] : 0;
@@ -63,7 +92,9 @@ class ItemsCommand extends Command {
 
                 // save
 				try {
-                    $item->save();
+					if($item->views !== $oldViews) {
+						$item->save();
+					}
 				} catch(Exception $e) {
 					$this->error($item->id);
 					throw $e;
@@ -76,4 +107,10 @@ class ItemsCommand extends Command {
 		$progress->finish();
 		$this->info('');
 	}
+
+    protected function getOptions() {
+        return [
+            ['update', 'u', InputOption::VALUE_NONE, 'Update existing items']
+        ];
+    }
 }

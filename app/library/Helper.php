@@ -1,16 +1,8 @@
 <?php
 
 class Helper {
-    public static $cdn_servers = array( 
-        'https://darthmaim-cdn.de',
-    );
-
     public static function cdn( $path, $server = null ) {
-        if( is_null( $server ) ) {
-            $server = abs(crc32( $path ));
-        }
-        $server %= count( self::$cdn_servers );
-        return self::$cdn_servers[ $server ] . '/gw2treasures/' . $path;
+        return $_ENV['GW2T_ASSETS'] . '/gw2treasures/' . $path;
     }
 
     public static function webp( $url, $fallback, $width, $height, $alt = "" ) {

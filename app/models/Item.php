@@ -140,6 +140,12 @@ class Item extends BaseModel implements IHasIcon, IHasLink {
      * @return stdClass
      */
     public function getTypeData( $lang = null ) {
+        $data = $this->getData($lang);
+        
+        if(isset($data->details)) {
+            return $data->details;
+        }
+
         switch( $this->type ) {
             case 'CraftingMaterial':
                 $t = 'crafting_material';

@@ -6,7 +6,7 @@ trait HasIcon {
     protected function getInternalIconUrl($size = 64, $signature, $file_id) {
         $size = $this->getIconSize($size);
 
-        return Helper::cdn( "icons/${signature}/${file_id}-${size}px.png", $file_id );
+        return "https://icons-gw2.darthmaim-cdn.de/${signature}/${file_id}-${size}px.png";
     }
 
     protected function getIconSize($size = 64) {

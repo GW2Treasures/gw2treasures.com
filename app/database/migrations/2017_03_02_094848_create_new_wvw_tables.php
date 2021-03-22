@@ -12,7 +12,9 @@ class CreateNewWvwTables extends Migration {
 	 */
 	public function up()
 	{
-        Schema::rename('matches', 'matches_old');
+		if(Schema::hasTable('matches')) {
+			Schema::rename('matches', 'matches_old');
+		}
 
         Schema::create('matches', function(Blueprint $table) {
             $table->increments('id');
@@ -42,8 +44,10 @@ class CreateNewWvwTables extends Migration {
 	{
 		Schema::drop('match_worlds');
 		Schema::drop('matches');
-
-		Schema::rename('matches_old', 'matches');
+		
+		if(Schema::hasTable('matches_old')) {
+			Schema::rename('matches_old', 'matches');
+		}
 	}
 
 }

@@ -26,7 +26,7 @@ class SpecializationsCommand extends Command {
 
         $this->loadEntries('specializations', $api->specializations(), [
             'name_de', 'name_en', 'name_es', 'name_fr',
-            'profession', 'signature', 'file_id',
+            'profession_id' => 'profession', 'signature', 'file_id',
             'data_de', 'data_en', 'data_es', 'data_fr',
             'created_at', 'updated_at',
         ], $updating);

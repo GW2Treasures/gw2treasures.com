@@ -30,7 +30,6 @@ class RemovedItemsCommand extends Command {
 
         $ids = $api->items()->ids();
 
-        Item::query()->update(['removed_from_api' => true]);
-        Item::query()->whereIn('id', $ids)->update(['removed_from_api' => false]);
+        Item::query()->whereNotIn('id', $ids)->update(['removed_from_api' => true]);
 	}
 }

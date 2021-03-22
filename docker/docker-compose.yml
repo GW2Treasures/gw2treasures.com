@@ -1,0 +1,59 @@
+version: '3'
+
+services:
+  gw2treasures:
+    image: gw2treasures/gw2treasures
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    environment:
+      - GW2T_URL=http://gw2treasures.local/
+      - GW2T_DOMAIN=gw2treasures.local
+      - GW2T_TRANSLATE_PASSWORD=translate
+      - GW2T_DB_HOST=db
+      - GW2T_DB_USER=gw2treasures
+      - GW2T_DB_PASS=3c09b766-101c-4500-9f25-33450753e88a
+      - GW2T_DB_NAME=gw2treasures
+      - GW2T_EVENT=
+      - GW2T_TRACKING_CODE=
+      - GW2T_ASSETS=http://localhost:8082
+    restart: unless-stopped
+  db:
+    image: mariadb:latest
+    environment:
+      - MYSQL_DATABASE=gw2treasures
+      - MYSQL_USER=gw2treasures
+      - MYSQL_PASSWORD=3c09b766-101c-4500-9f25-33450753e88a
+      - MYSQL_RANDOM_ROOT_PASSWORD=true
+    volumes:
+      - gw2treasures-db:/var/lib/mysql
+    restart: unless-stopped
+  phpmyadmin:
+    image: phpmyadmin
+    restart: unless-stopped
+    environment:
+      - PMA_HOSTS=db
+      - UPLOAD_LIMIT=64M
+    depends_on:
+      - db
+  reverse-proxy:
+    image: gw2treasures/reverse-proxy
+    build: reverse-proxy
+    environment:
+      - GW2T_DOMAIN=gw2treasures.local
+      - GW2T_APP=http://gw2treasures
+      - GW2T_ASSET_DOMAIN=assets.gw2treasures-cdn.local
+      - GW2T_ASSETS=http://assets
+      - GW2T_PMA=http://phpmyadmin
+    depends_on:
+      - gw2treasures
+      - assets
+      - phpmyadmin
+    ports: 
+      - 80:80
+  assets:
+    image: gw2treasures/assets
+    restart: unless-stopped
+
+volumes: 
+  gw2treasures-db:

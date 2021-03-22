@@ -1,5 +1,5 @@
 <div id="halloween">
-    {{ Helper::webp(Helper::cdn('assets2/img/halloween.webp'), Helper::cdn('assets2/img/halloween.png'), 318, 312) }}
+    {{ Helper::webp(Helper::cdn('assets/img/halloween.webp'), Helper::cdn('assets/img/halloween.png'), 318, 312) }}
 </div>
 <style>
     #halloween {

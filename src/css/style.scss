@@ -427,7 +427,7 @@ pre b, code b {
 html.js .only-no-js, html.no-js .only-js { display:none; }
 
 #tooltip {
-    position: absolute;
+    position: fixed;
     z-index: 100000;
     pointer-events: none;
     transition: opacity .5s;

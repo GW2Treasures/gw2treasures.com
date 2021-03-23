@@ -19,3 +19,4 @@ php $PHP_OPTS artisan gw2treasures:skins -u
 php $PHP_OPTS artisan gw2treasures:specializations -u
 php $PHP_OPTS artisan gw2treasures:titles -u
 php $PHP_OPTS artisan gw2treasures:traits -u
+php $PHP_OPTS artisan gw2treasures:worlds -u

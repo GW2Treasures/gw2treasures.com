@@ -27,3 +27,4 @@ Artisan::add( new SkinsCommand );
 Artisan::add( new SpecializationsCommand );
 Artisan::add( new TitlesCommand );
 Artisan::add( new TraitsCommand );
+Artisan::add( new WorldsCommand );

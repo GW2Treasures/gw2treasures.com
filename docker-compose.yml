@@ -1,14 +1,14 @@
 version: '3'
 
 services:
-  gw2treasures:
-    image: gw2treasures/gw2treasures
+  web:
+    image: gw2treasures/web
     build:
-      context: ..
+      context: web
       dockerfile: docker/Dockerfile
     environment:
-      - GW2T_URL=http://gw2treasures.local/
-      - GW2T_DOMAIN=gw2treasures.local
+      - GW2T_URL=http://gw2treasures.localhost/
+      - GW2T_DOMAIN=gw2treasures.localhost
       - GW2T_TRANSLATE_PASSWORD=translate
       - GW2T_DB_HOST=db
       - GW2T_DB_USER=gw2treasures
@@ -16,7 +16,7 @@ services:
       - GW2T_DB_NAME=gw2treasures
       - GW2T_EVENT=
       - GW2T_TRACKING_CODE=
-      - GW2T_ASSETS=http://localhost:8082
+      - GW2T_ASSETS=http://assets.gw2treasures-cdn.localhost
     restart: unless-stopped
   db:
     image: mariadb:latest
@@ -40,19 +40,27 @@ services:
     image: gw2treasures/reverse-proxy
     build: reverse-proxy
     environment:
-      - GW2T_DOMAIN=gw2treasures.local
-      - GW2T_APP=http://gw2treasures
-      - GW2T_ASSET_DOMAIN=assets.gw2treasures-cdn.local
+      - GW2T_DOMAIN=gw2treasures.localhost
+      - GW2T_APP=http://web
+      - GW2T_ASSET_DOMAIN=assets.gw2treasures-cdn.localhost
       - GW2T_ASSETS=http://assets
       - GW2T_PMA=http://phpmyadmin
+      - GW2T_STORAGE_DOMAIN=storage.gw2treasures.localhost
+      - GW2T_STORAGE=http://storage
     depends_on:
-      - gw2treasures
+      - web
       - assets
       - phpmyadmin
+      - storage
     ports: 
       - 80:80
   assets:
     image: gw2treasures/assets
+    build: assets
+    restart: unless-stopped
+  storage:
+    image: gw2treasures/storage
+    build: storage
     restart: unless-stopped
 
 volumes: 

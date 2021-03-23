@@ -3,9 +3,11 @@ gw2treasures-wvw-crawler
 
 Crawls the Guild Wars 2 WvW APIs for current scores
 
-Setup
-=====
+# Configuration
 
-1. `npm install`
-2. Copy the `config-sample.json` to `config.json` and adjust mysql user/db/password
-3. `npm start`  
+Set the following environment variables:
+
+- MYSQL_HOST
+- MYSQL_DATABASE
+- MYSQL_USER
+- MYSQL_PASSWORD

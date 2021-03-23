@@ -1,7 +1,0 @@
-#!/bin/sh
-while [ 1 ]
-do
-  npm start
-  echo "wvw-crawler stopped running. Restarting..."
-  sleep 1
-done

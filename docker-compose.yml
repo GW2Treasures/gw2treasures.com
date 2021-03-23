@@ -62,6 +62,17 @@ services:
     image: gw2treasures/storage
     build: storage
     restart: unless-stopped
+  wvw-crawler:
+    image: gw2treasures/wvw-crawler
+    build: wvw-crawler
+    restart: unless-stopped
+    environment:
+      - MYSQL_HOST=db
+      - MYSQL_DATABASE=gw2treasures
+      - MYSQL_USER=gw2treasures
+      - MYSQL_PASSWORD=3c09b766-101c-4500-9f25-33450753e88a
+    depends_on: 
+      - db
 
 volumes: 
   gw2treasures-db:

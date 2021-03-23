@@ -1,5 +1,5 @@
 d = ->
-    url = 'https://storage.gw2treasures.com'
+    url = '${SELF}'
 
     postMessage = ( data, origin ) ->
         data = JSON.stringify data

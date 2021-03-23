@@ -119,17 +119,7 @@
         <script>window.jQuery || document.write('<script src="{{ Helper::cdn('assets/js/vendor/jquery-1.10.1.min.js') }}"><\/script>')</script>
 
         <!-- my own js -->
-        <!-- <script type="text/javascript" src="https://storage.gw2treasures.com/storage.js"></script> -->
-        <script>
-            (function(){
-                var noop=function(){};
-                window.storage={
-                    put: noop,
-                    get: noop,
-                    remove: noop
-                };
-            })();
-        </script>
+        <script type="text/javascript" src="{{ Config::get('app.storage') }}/storage.js"></script>
 
         <script src="/assets/js/plugins.js"></script>
         <script src="/assets/js/main.js{{ Helper::cacheBustingSuffix() }}"></script>

@@ -1,24 +1,7 @@
-trustedDomains = [
-    # default gw2treasures
-    'https://gw2treasures.com'
-    'https://de.gw2treasures.com'
-    'https://en.gw2treasures.com'
-    'https://es.gw2treasures.com'
-    'https://fr.gw2treasures.com'
-    'https://dev.gw2treasures.com'
-    # local development gw2treasures
-    'http://gw2treasures.local'
-    'http://de.gw2treasures.local'
-    'http://en.gw2treasures.local'
-    'http://es.gw2treasures.local'
-    'http://fr.gw2treasures.local'
-    'http://dev.gw2treasures.local'
-    # trust me
-    'https://storage.gw2treasures.com'
-]
+trustedOrigins = '${TRUSTED_ORIGINS},${SELF}'.split ','
 
 handleMessage = ( e ) ->
-    if e.origin not in trustedDomains
+    if e.origin not in trustedOrigins
         throw new Error "untrusted origin"
     data =
         try

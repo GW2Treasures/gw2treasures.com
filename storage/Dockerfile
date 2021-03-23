@@ -15,4 +15,10 @@ RUN grunt build
 
 FROM nginx:1.19-alpine
 
-COPY --from=build /usr/src/storage/out /usr/share/nginx/html
+COPY --from=build /usr/src/storage/out /usr/src/template
+COPY entrypoint.sh /
+
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT [ "/entrypoint.sh" ]
+CMD [ "nginx", "-g", "daemon off;" ]

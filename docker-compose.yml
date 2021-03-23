@@ -17,6 +17,7 @@ services:
       - GW2T_EVENT=
       - GW2T_TRACKING_CODE=
       - GW2T_ASSETS=http://assets.gw2treasures-cdn.localhost
+      - GW2T_STORAGE=http://storage.gw2treasures.localhost
     restart: unless-stopped
   db:
     image: mariadb:latest
@@ -62,6 +63,9 @@ services:
     image: gw2treasures/storage
     build: storage
     restart: unless-stopped
+    environment: 
+      - SELF=http://storage.gw2treasures.localhost
+      - TRUSTED_ORIGINS=http://de.gw2treasures.localhost,http://en.gw2treasures.localhost,http://es.gw2treasures.localhost,http://fr.gw2treasures.localhost,http://dev.gw2treasures.localhost
   wvw-crawler:
     image: gw2treasures/wvw-crawler
     build: wvw-crawler

@@ -38,6 +38,8 @@ return array(
 
     'translatePassword' => $_ENV["GW2T_TRANSLATE_PASSWORD"],
 
+	'storage' => $_ENV["GW2T_STORAGE"],
+
 	/*
 	|--------------------------------------------------------------------------
 	| Application Timezone

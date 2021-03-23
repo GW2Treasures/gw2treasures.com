@@ -5,12 +5,8 @@
 	<title>{{ $world->getName() }} | Embedded WvW World Stats | GW2 Treasures</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 
-	<link rel="stylesheet" href="{{ Helper::cdn('assets/css/normalize.min.css') }}">
-	@if( App::environment('production') )
-		<link rel="stylesheet" href="{{ Helper::cdn('assets/css/gw2t.css').Helper::cacheBustingSuffix() }}">
-	@else
-		<link rel="stylesheet" href="//{{ Config::get('app.domain') }}:8888/css/gw2t.css">
-	@endif
+	<link rel="stylesheet" href="{{ Helper::cdn('assets/css/gw2t.css').Helper::cacheBustingSuffix() }}">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400" rel="stylesheet" type="text/css">
 </head>
 <?php
 	$style = isset($_GET['style']) && in_array( $_GET['style'], array( 'light', 'dark' ))

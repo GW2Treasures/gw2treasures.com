@@ -15,16 +15,10 @@
     <meta itemprop="image" content="{{ Helper::cdn('assets/img/logo.png') }}">
 
     <!-- styles -->
-    <link rel="stylesheet" href="{{ Helper::cdn('assets/css/normalize.min.css') }}">
-    @if( App::environment('production') )
-        <link rel="stylesheet" href="{{ Helper::cdn('assets/css/gw2t.css').Helper::cacheBustingSuffix() }}">
-    @else
-        {{--<link rel="stylesheet" href="//direct.darthmaim-cdn.de/gw2treasures/assets/css/gw2t.css">--}}
-        <link rel="stylesheet" href="//{{ Config::get('app.domain') }}:8888/css/gw2t.css">
-    @endif
+    <link rel="stylesheet" href="{{ Helper::cdn('assets/css/gw2t.css').Helper::cacheBustingSuffix() }}">
 
     <!-- fonts -->
-    <link href="//fonts.googleapis.com/css?family=Yanone+Kaffeesatz:700|Open+Sans:400,300,600,700|Open+Sans+Condensed:300" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:400,700|Open+Sans+Condensed:300|Bitter:700" rel="stylesheet" type="text/css">
 
     <!-- favicons -->
     <link rel="icon" href="{{ Helper::cdn('assets/img/favicon.png') }}" type="image/png" />
@@ -150,13 +144,8 @@
         <!-- my own js -->
         <script type="text/javascript" src="https://storage.gw2treasures.com/storage.js"></script>
 
-        @if( App::environment('production') )
-            <script src="{{ Helper::cdn('assets/js/plugins.js') }}"></script>
-            <script src="{{ Helper::cdn('assets/js/main.js').Helper::cacheBustingSuffix() }}"></script>
-        @else
-            <script src="//direct.darthmaim-cdn.de/gw2treasures/assets/js/plugins.js"></script>
-            <script src="//direct.darthmaim-cdn.de/gw2treasures/assets/js/main.js"></script>
-        @endif
+        <script src="/assets/js/plugins.js"></script>
+        <script src="/assets/js/main.js{{ Helper::cacheBustingSuffix() }}"></script>
 
         @if( isset( $_GET['nocache'] ))
             <script type="text/javascript">

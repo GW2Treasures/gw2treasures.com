@@ -29,7 +29,8 @@ trait HasIcon {
             'width' => $size,
             'height' => $size,
             'alt' => '',
-            'crossorigin' => 'anonymous'
+            'crossorigin' => 'anonymous',
+            'loading' => 'lazy'
         ];
 
         if($size <= 32) {

@@ -17,21 +17,14 @@
     <meta itemprop="image" content="{{ Helper::cdn('assets/img/logo.png') }}">
 
     <!-- prefetch -->
-    {{-- storage    --}}<link rel="dns-prefetch" href="//storage.gw2treasures.com">
-    {{-- opensearch --}}<link rel="dns-prefetch" href="//gw2treasures.com">
-    {{-- font files --}}<link rel="dns-prefetch" href="//fonts.gstatic.com">
-    {{-- font css   --}}<link rel="dns-prefetch" href="//fonts.googleapis.com">
-    {{-- analytics  --}}<link rel="dns-prefetch" href="//www.google-analytics.com">
-    {{-- jquery     --}}<link rel="dns-prefetch" href="//ajax.googleapis.com">
+    {{-- storage    --}}<link rel="dns-prefetch" href="{{ Config::get('app.storage') }}">
+    {{-- font files --}}<link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    {{-- font css   --}}<link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    {{-- analytics  --}}<link rel="dns-prefetch" href="https://www.google-analytics.com">
+    {{-- jquery     --}}<link rel="dns-prefetch" href="https://ajax.googleapis.com">
 
     <!-- styles -->
-    <link rel="stylesheet" href="{{ Helper::cdn('assets/css/normalize.min.css') }}">
-    @if( App::environment('production') )
-        <link rel="stylesheet" href="{{ Helper::cdn('assets/css/gw2t.css').Helper::cacheBustingSuffix() }}">
-    @else
-        {{--<link rel="stylesheet" href="//direct.darthmaim-cdn.de/gw2treasures/assets/css/gw2t.css">--}}
-        <link rel="stylesheet" href="//{{ Config::get('app.domain') }}:8080/css/gw2t.css">
-    @endif
+    <link rel="stylesheet" href="{{ Helper::cdn('assets/css/gw2t.css').Helper::cacheBustingSuffix() }}">
 
     <!-- fonts -->
     <link href="//fonts.googleapis.com/css?family=Open+Sans:400,700|Open+Sans+Condensed:300|Bitter:700" rel="stylesheet" type="text/css">

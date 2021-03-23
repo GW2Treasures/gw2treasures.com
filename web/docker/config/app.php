@@ -34,7 +34,7 @@ return array(
 
 	'trackingCode' => $_ENV["GW2T_TRACKING_CODE"],
 
-	'pygmentize' => '/usr/local/bin/pygmentize',
+	'pygmentize' => '/usr/bin/pygmentize',
 
     'translatePassword' => $_ENV["GW2T_TRANSLATE_PASSWORD"],
 

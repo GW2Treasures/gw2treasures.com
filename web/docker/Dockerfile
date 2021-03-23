@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install -y \
     libjpeg62-turbo-dev \
     libpng-dev \
     libmcrypt-dev \
+    python3-pygments \
     wget \
   && docker-php-ext-configure gd --with-freetype-dir --with-jpeg-dir \
   && docker-php-ext-install -j$(nproc) gd pcntl pdo pdo_mysql \

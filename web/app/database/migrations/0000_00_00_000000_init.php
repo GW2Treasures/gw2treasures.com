@@ -56,7 +56,7 @@ class Init extends Migration {
 			$t->boolean('wiki_checked')->default(false);
 			$t->boolean('updated')->default(false);
 			$t->integer('update_time')->unsigned()->default(false);
-			$t->timestamp('date_added');
+			$t->timestamp('date_added')->default(DB::raw('CURRENT_TIMESTAMP'));
 
 			$t->primary('id');
 			$t->index('unlock_id');

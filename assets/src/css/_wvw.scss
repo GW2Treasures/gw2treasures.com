@@ -1,0 +1,139 @@
+.wvw-table {
+    width: 100%;
+}
+.wvw-table * {
+    border-color: #eee !important;
+}
+.wvw-table tbody {
+    border-top: 1px solid;
+}
+.wvw-table td, .wvw-table th {
+    padding: 2px 4px;
+    white-space: nowrap;
+    box-sizing: content-box;
+}
+.wvw-table th {
+    text-align: left;
+    padding: 4px;
+}
+.wvw-table__worlds {
+    width: 1px;
+    white-space: nowrap;
+    padding-left: 8px !important;
+}
+.wvw-table__cell {
+    text-align: left;
+    position: relative;
+    border-left: 1px solid;
+}
+.wvw-table__label {
+    position: absolute;
+    left: 8px;
+}
+.wvw-table__bar {
+    background: red;
+    display: inline-block;
+}
+.wvw-table__cell--objectives {
+    width: 128px;
+}
+.wvw-table__cell--objectives > span {
+    width: 32px;
+    display: inline-block;
+    float: left;
+    text-align: center;
+}
+
+th.wvw-table__cell--objectives {
+    padding: 0 4px;
+}
+.wvw-table svg {
+    vertical-align: middle;
+    fill: #000;
+}
+
+.wvw-table__homeworld__icon {
+    height: 1.4em;
+}
+
+.wvw-table__row--red {
+    border-top: 1px solid;
+}
+
+.wvw-table__row--red td {
+    padding-top: 4px;
+}
+
+.wvw-table__row--blue td {
+    padding-bottom: 4px;
+}
+
+.wvw-table__bar--red {
+    background-color: #FF7469;
+}
+
+.wvw-table__bar--blue {
+    background-color: #33A7FF;
+}
+
+.wvw-table__bar--green {
+    background-color: #6CD997;
+}
+
+.dark {
+    color: #FFF;
+
+    a {
+        color: #72ACDA;
+    }
+
+    .wvw-table * {
+        border-color: #555 !important;;
+    }
+
+    .wvw-table svg {
+        fill: #FFF;
+    }
+
+    .wvw-table__bar--red {
+        background-color: #B30000;
+    }
+
+    .wvw-table__bar--blue {
+        background-color: #005BC0;
+    }
+
+    .wvw-table__bar--green {
+        background-color: #0A663D;
+    }
+}
+
+@media(max-width: 1125px) {
+    .wvw-table__cell:nth-child(6) {
+        display: none;
+    }
+}
+
+@media(max-width: 950px) {
+    .wvw-table__cell:nth-child(5) {
+        display: none;
+    }
+}
+
+
+@media(max-width: 775px) {
+    .wvw-table__cell:nth-child(4) {
+        display: none;
+    }
+}
+
+@media(max-width: 600px) {
+    .wvw-table__cell:nth-child(3) {
+        display: none;
+    }
+}
+
+html.embedded,
+.embedded > body {
+    background: none;
+}

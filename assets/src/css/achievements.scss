@@ -1,0 +1,267 @@
+.achievementDetails {
+    padding-top: 12px;
+}
+
+.achievement__points {
+    line-height: 32px;
+    position: absolute;
+    top: 26px;
+    right: 20px;
+    font-size: 16px;
+}
+
+.achievement__description {
+    color: #888;
+}
+
+.achievement__tiers {
+    padding: 0;
+    list-style: none;
+
+    & > li + li {
+        margin-top: 8px;
+    }
+}
+
+.achievement__tiers__total {
+    position: relative;
+    padding-top: 8px;
+    display: inline-block;
+
+    &::before {
+        content: '';
+        width: 50px;
+        border-top: 1px solid #ccc;
+        display: block;
+        position: absolute;
+        top: 0;
+    }
+}
+
+.achievement__objective--text:before,
+.achievement__reward--unknown:before {
+    content: '?';
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    background: #eee;
+    vertical-align: top;
+    margin-right: .5em;
+    color: #999;
+    font-size: 20px;
+    text-align: center;
+}
+.achievement__objective--text:before {
+    content: '✓';
+}
+
+.achievement__reward--mastery:before {
+    content: '';
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    vertical-align: top;
+    margin-right: .5em;
+    background: url(../img/sprites.png) -32px -100px;
+}
+.achievement__reward--mastery-Tyria:before {;
+    background-position: -96px -100px;
+}
+.achievement__reward--mastery-Maguuma:before {;
+    background-position: -64px -100px;
+}
+.achievement__reward--mastery-Desert:before {;
+    background-position: -128px -100px;
+}
+.achievement__reward--title:before {
+    content: '';
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    vertical-align: top;
+    margin-right: .5em;
+    //background: #eee url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMTMiIHZpZXdCb3g9IjAgMCAyMCAxMyIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNLjUgNmwzIDdjMi4xNjctLjY2NyA0LjMzMy0xIDYuNS0xczQuMzMzLjMzMyA2LjUgMWwzLTctNSAyTDEwIDAgNS41IDhsLTUtMnoiIGZpbGw9IiM5OTkiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPjwvc3ZnPg==") no-repeat center;
+    background: #eee url(../img/title.svg) no-repeat center;
+}
+
+.ap {
+    padding-right: 25px;
+    position: relative;
+    color: #BB6C21;
+    font-weight: bold;
+    font-family: Adelle, Bitter, Georgia, serif;
+
+    &:after {
+        content: '';
+        width: 20px;
+        height: 20px;
+        right: 1px;
+        display: inline-block;
+        background: url(../img/sprites.png) -40px -80px;
+        position: absolute;
+    }
+
+    &.ap-32 {
+        padding-right: 40px;
+
+        &:after {
+            content: '';
+            width: 32px;
+            height: 32px;
+            background-position: 0 -100px;
+        }
+    }
+}
+
+.ap-icon {
+    color: #946118;
+    font-weight: bold;
+    font-family: Adelle, Bitter, Georgia, serif;
+
+    & > svg {
+        vertical-align: middle;
+        width: 24px;
+        height: 24px;
+    }
+
+    &--big > svg {
+        vertical-align: top;
+        width: 32px;
+        height: 32px;
+    }
+}
+
+.daily-box__completion .ap-icon {
+    color: #F6A510;
+}
+
+.chatlink--inline:hover {
+    background: #eee;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+
+$dailyBoxBackground: rebeccapurple;
+
+.daily-box {
+    background: $dailyBoxBackground;
+    color: #fff;
+
+    & > .pageWidth {
+        padding: 20px;
+    }
+
+    header {
+        display: flex;
+
+        h2 {
+            float: left;
+            flex: 1;
+            margin: 0;
+        }
+
+        .daily-box__reset {
+            float: right;
+        }
+    }
+
+    .itemList {
+        column-gap: 0;
+
+        & > li {
+            line-height: 1;
+        }
+    }
+
+    .item-link {
+        border-color: white;
+        color: white;
+    }
+}
+
+.daily-box__column {
+    width: 50%;
+    float: left;
+    padding-right: 20px;
+
+    &:last-child {
+        padding-right: 0;
+    }
+}
+
+.daily-box__completion {
+    border-top: 1px solid mix(#fff, $dailyBoxBackground, 15%);
+    margin-top: 10px;
+    padding-top: 10px;
+    line-height: 32px;
+}
+.daily-box__completion__achievement {
+    float: left;
+}
+.daily-box__completion__reward {
+    float: right;
+
+    .ap {
+        color: #F2A42D;
+    }
+}
+
+.daily-box__level {
+    margin-left: 39px;
+    color: mix(#fff, $dailyBoxBackground, 50%);
+    font-size: 12px;
+    line-height: 1;
+    display: block;
+}
+
+.daily-box__day-selector {
+    margin-left: 16px;
+    font-size: 0;
+}
+
+.daily-box__day-selector > a {
+    font: 14px Open Sans, sans-serif;
+    padding: 8px 16px;
+    background: rgba(0,0,0,.2);
+    color: rgba(255,255,255,.6)
+}
+
+.daily-box__day-selector > a.active {
+    background: rgba(255,255,255,.1);
+    color: #fff;
+    cursor: default;
+    text-decoration: none;
+}
+
+@media(max-width: 768px) {
+    .daily-box__column {
+        width: auto;
+        float: none;
+        padding-right: 0;
+    }
+    .daily-box__level {
+        display: inline-block;
+        margin-left: 20px;
+        line-height: 32px;
+        float: right;
+    }
+    .daily-box .itemList > li {
+        display: flex;
+    }
+    .daily-box .itemList > li .item-link {
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
+@media(max-width: 555px) {
+    .daily-box header {
+        flex-direction: column;
+
+        h2, .daily-box__reset {
+            float: none;
+        }
+    }
+}

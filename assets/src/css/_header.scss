@@ -1,0 +1,212 @@
+#header {
+    $headerHeight: 48px;
+    $headerCenterRation: 200/40;
+    $headerCenterWidth: $headerCenterRation * $headerHeight;
+    $headerBackground: #222;
+    $hoverBackground: #444;
+    $activeBackground: #666;
+
+    background-color: $headerBackground;
+    z-index: 1;
+
+    height: $headerHeight;
+
+    padding: 0;
+
+    color: #eee;
+    line-height: $headerHeight;
+
+    > .pageWidth {
+        position: relative;
+    }
+
+    h1 {
+        position: absolute;
+        left: 50%;
+        margin-left: #{$headerCenterWidth * -0.5};
+        padding: 0;
+        font-size: 0;
+        color: transparent;
+        > a {
+            background-image: url('../img/gw2treasures.svg');
+            background-size: $headerCenterWidth $headerHeight;
+
+            width: $headerCenterWidth;
+            height: $headerHeight;
+
+            display: block;
+
+            &:hover {
+                text-decoration: none;
+            }
+        }
+    }
+
+    .left, .right {
+        position: absolute;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .left {
+        left: 0;
+        right: 50%;
+        margin-right: #{$headerCenterWidth * 0.5};
+        overflow: hidden;
+        text-align: left;
+        display: flex;
+
+        .headerButton {
+            float: left;
+        }
+
+        @media(max-width: 900px) {
+            display: none;
+        }
+    }
+
+    .menu-button {
+        display: none;
+        position: absolute;
+        left: 0;
+        right: 50%;
+        margin-right: #{$headerCenterWidth * 0.5};
+        padding: 0 20px 0 48px;
+        background: url(../img/menu.svg) 20px center no-repeat;
+
+        @media(max-width: 600px) {
+            padding: 0;
+            width: 48px;
+            text-indent: 100px;
+            overflow: hidden;
+            background-position: 8px center;
+            font-size: 0;
+        }
+
+        @media(max-width: 900px) {
+            display: block;
+
+            &:hover + .left,
+            & + .left:hover {
+                display: flex;
+                z-index: 142;
+                top: $headerHeight;
+                left: 0; right: 0;
+                width: 100%;
+                margin: 0;
+                background: #333;
+                flex-direction: column;
+            }
+        }
+    }
+
+    .right {
+        right: 0;
+        left: 50%;
+        margin-left: #{$headerCenterWidth * 0.5};
+        text-align: right;
+
+        .headerButton {
+            float: right;
+
+            &:first-of-type {
+                margin-right: 220px;
+
+                @media( max-width: 900px ) {
+                    margin-right: 72px;
+                }
+            }
+        }
+    }
+
+    .headerButton {
+        transition: background-color .3s ease;
+        background-color: transparent;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-block;
+        padding: 0 20px;
+        color: white;
+        height: $headerHeight;
+        text-shadow: 0 -1px 0 rgba(0,0,0,.5);
+        -webkit-font-smoothing: subpixel-antialiased;
+        -moz-osx-font-smoothing: auto;
+
+        &:hover, &:focus {
+            outline: none;
+            background-color: $hoverBackground;
+            text-decoration: none;
+        }
+        &:active {
+            background-color: $activeBackground;
+        }
+    }
+    .searchForm {
+        float: right;
+        z-index: 1;
+        position: absolute;
+        right: 0;
+        margin-right: 20px;
+        padding: 0;
+        border-left: 1px solid $headerBackground;
+        border-right: 1px solid $headerBackground;
+
+        @media(max-width: 600px) {
+            margin-right: 0;
+        }
+
+        label {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: $headerHeight;
+            width: $headerHeight;
+            cursor: text;
+
+            background: url('../img/search.svg') center center no-repeat;
+            background-size: #{$headerHeight / 2} #{$headerHeight / 2};
+        }
+        #q {
+            border: none;
+            border-radius: 0;
+            outline: none;
+            padding: 2px 5px 2px $headerHeight;
+            width: 200px;
+            height: $headerHeight;
+            font: inherit;
+            background: #444;
+            color: #fff;
+            transition: all .3s ease;
+            line-height: normal;
+
+            &:focus {
+                width: 353px;
+                outline: none;
+                background: #ccc;
+                color: #111;
+
+                @media(max-width: 600px) {
+                    width: 100vw;
+                }
+            }
+        }
+        .submit {
+            display: none;
+        }
+
+        @media( max-width: 900px ) {
+            label {
+                cursor: pointer;
+            }
+            #q {
+                background: $headerBackground;
+                width: 0;
+                padding-right: 0;
+                &:focus {
+                    padding-right: 5px;
+                }
+            }
+        }
+    }
+}

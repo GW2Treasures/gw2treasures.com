@@ -1,0 +1,209 @@
+
+.header3 {
+    margin-top: 56px;
+}
+.header3__main {
+    z-index: 2;
+    height: 56px;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    line-height: 56px;
+    background: #fff;
+    padding: 0 260px;
+}
+.header3__navigation {
+    line-height: 56px;
+    text-align: center;
+}
+.header3__shadow {
+    position: sticky; top: 56px;
+    border-top: 1px solid rgba(0,0,0,0.066);
+    height: 4px;
+    margin-bottom: -4px;
+    z-index: 2;
+}
+.header3__shadow:before {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 200px;
+    right: 200px;
+    height: 1px;
+    background: #fff;
+    top: -2px;
+}
+.header3__search {
+    flex: 1;
+    max-width: 1160px;
+    height: 56px;
+    margin: 0 auto;
+    z-index: 15;
+    display: flex;
+}
+.header3__search__input {
+    flex: 1;
+    border: none;
+    border-bottom: 1px solid #eee;
+    background: #fff url(../img/search.svg) left center no-repeat;
+    padding-left: 32px;
+    border-radius: 0;
+    font: inherit;
+    outline: none;
+    transition: border-bottom-color .3s ease;
+}
+.header3__search__input:focus { border-bottom-color: #000; }
+.header3__search__submit {
+    font: inherit;
+    border: none;
+    border-bottom: 1px solid #eee;
+    border-radius: 0;
+    background: #fff;
+    font-weight: bold;
+    transition: border-bottom-color .3s ease;
+    padding: 0 16px;
+    height: 56px;
+}
+.header3__search__submit:hover, .header3__search__submit:focus {
+    border-bottom-color: #000;
+}
+.header3__navigation a {
+    color: #000;
+    padding: 0 20px;
+    text-decoration: none;
+    line-height: 32px;
+    display: inline-block;
+    transition: background-color .3s ease;
+}
+.header3__navigation a:hover {
+    background: #f9f9f9;
+}
+.header3__navigation a + a {
+    border-left: 1px solid #eee;
+}
+.header3__logo, .header3__language {
+    width: 220px;
+    position: absolute;
+}
+.header3__logo { font-family: Bitter; font-size: 24px; font-weight: bold; display: flex; left: 20px; color: #000 }
+.header3__logo img { height: 56px; width: 90px; margin-right: 8px; }
+#searchSuggestionbox {
+    position: fixed;
+    top: 56px;
+    left: -10px;
+    right: -10px;
+    padding: 20px 10px;
+    background: #fff;
+    z-index: 11;
+    /*box-shadow: 0 10px 4px -10px rgba(0,0,0,.2);*/
+    border-bottom: 1px solid rgba(0,0,0,0.066);
+    opacity: 0;
+    pointer-events: none;
+}
+#searchSuggestionbox.visible {
+    opacity: 1;
+    pointer-events: all;
+}
+#searchSuggestionbox.visible + .header3__shadow {
+    display: none;
+}
+#searchSuggestionbox header {
+    font-weight: bold;
+    margin-bottom: 20px;
+    float: left;
+    width: 150px;
+}
+#searchSuggestionbox ul {
+    padding: 0; margin: 0;
+    overflow: hidden;
+    border-left: 1px solid #eee;
+    min-height: 38px;
+}
+
+.header3__menu {
+    display: none;
+    position: absolute;
+    left: 12px;
+    background: url(../img/menu.svg) 9pt center no-repeat;
+    padding: 0 8px 0 44px;
+}
+
+.header3__search__link {
+    display: none;
+    position: absolute;
+    right: 12px;
+    background: url(../img/search.svg) 9pt center no-repeat;
+    padding: 0 8px 0 44px;
+    color: #000000;
+}
+
+.header3__search__link:hover,
+.header3__menu:hover {
+    text-decoration: none;
+    background-color: #f9f9f9;
+}
+
+@media(max-width: 920px) {
+    .header3__navigation a {
+        padding: 0 12px;
+    }
+}
+
+@media(max-width: 740px) {
+    .header3__navigation, .header3__shadow, .header3__search {
+        display: none;
+    }
+    .header3__main {
+        border-bottom: 1px solid rgba(0,0,0,.066);
+        box-sizing: content-box;
+        background-clip: padding-box;
+        padding: 0 20px;
+    }
+    .header3__logo {
+        position: static;
+        margin: 0 auto;
+    }
+
+    #menu-visible:checked ~ .header3__navigation {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        background: #fff;
+        left: 0;
+        right: 0;
+        top: 56px;
+        bottom: 0;
+        overflow-y: scroll;
+        overscroll-behavior: contain;
+        z-index: 10;
+        border-top: 1px solid #eee;
+    }
+    #menu-visible:checked ~ .header3__navigation a {
+        text-align: left;
+        border-left: none;
+        padding: 4px 16px;
+    }
+    #menu-visible:checked ~ .header3__main > .header3__menu {
+        background-image: url(../img/close.svg);
+    }
+
+    .header3__menu {
+        display: block;
+    }
+
+    .header3__search__link {
+        display: block;
+    }
+}
+
+@media(max-width: 480px) {
+    .header3__menu,
+    .header3__search__link {
+        width: 0;
+        overflow: hidden;
+        padding-right: 0;
+        padding-left: 56px;
+        background-position-x: center;
+    }
+}

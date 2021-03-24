@@ -8,11 +8,15 @@ trait LoadsEntries
     public abstract function info($string);
 
     private function insertIntoDB( $table, $data ) {
-        if( count( $data ) == 0 ) {
+        $count = count($data);
+
+        if($count === 0) {
             return array();
         }
-        $this->info('Inserting ' . count( $data ) . ' entries into database...');
-        DB::table($table)->insert( $data );
+
+        $this->info('Inserting ' . $count . ' entries into database...');
+        
+        DB::table($table)->insert($count === 1 ? $data[0] : $data);
         return array();
     }
 

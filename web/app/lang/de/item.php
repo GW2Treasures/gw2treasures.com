@@ -130,6 +130,7 @@ return array (
       'Warhorn' => 'Kriegshorn',
       'Torch' => 'Fackel',
       'Longbow' => 'Langbogen',
+      'LongBow' => 'Langbogen',
       'Pistol' => 'Pistole',
       'Rifle' => 'Gewehr',
       'Speargun' => 'Harpunenschleuder',

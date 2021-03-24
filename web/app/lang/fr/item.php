@@ -129,6 +129,7 @@ return array (
       'Warhorn' => 'Cor de guerre',
       'Torch' => 'Torche',
       'Longbow' => 'Arc long',
+      'LongBow' => 'Arc long',
       'Pistol' => 'Pistolet',
       'Rifle' => 'Fusil',
       'Speargun' => 'Fusil-harpon',

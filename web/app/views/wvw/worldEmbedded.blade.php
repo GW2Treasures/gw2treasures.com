@@ -58,7 +58,7 @@
 		}
 	</style>
 @endif
-@if( App::environment( 'production' ) && !isset( $_GET['notrack'] ))
+@if( !empty( Config::get('app.trackingCode')) && !isset( $_GET['notrack'] ))
 	<!-- google analytics -->
 	<script>
 		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

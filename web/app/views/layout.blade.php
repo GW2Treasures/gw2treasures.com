@@ -94,7 +94,7 @@
     @include('static.footer')
 
     <div id="scripts">
-        @if( App::environment('production') )
+        @if( !empty( Config::get('app.trackingCode')) )
             <!-- google analytics -->
             <script>
                 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

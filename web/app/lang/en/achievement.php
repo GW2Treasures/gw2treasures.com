@@ -34,14 +34,21 @@ return array (
     'today' => 'Today',
     'tomorrow' => 'Tomorrow',
   ),
-  'access' => 
+  'access' =>
   array (
-    'GuildWars2' => 'Only Guild Wars 2',
-    'HeartOfThorns' => 'Only Heart Of Thorns',
-    'required' => 'Only :achievements',
-    'PathOfFire' => 'Path of Fire',
+    'product' =>
+    array (
+      'GuildWars2' => 'Guild Wars 2',
+      'HeartOfThorns' => 'Heart Of Thorns',
+      'PathOfFire' => 'Path of Fire',
+    ),
+    'condition' =>
+    array (
+      'NoAccess' => 'Without :product',
+      'HasAccess' => 'Only :product',
+    ),
   ),
-  'tooltip' => 
+  'tooltip' =>
   array (
     'objectives' => '1 objective|:count objectives',
   ),

@@ -34,12 +34,19 @@ return array (
     'today' => 'Heute',
     'tomorrow' => 'Morgen',
   ),
-  'access' => 
+  'access' =>
   array (
-    'GuildWars2' => 'Nur Guild Wars 2',
-    'HeartOfThorns' => 'Nur Heart Of Thorns',
-    'required' => 'Nur :achievements',
-    'PathOfFire' => 'Path of Fire',
+    'product' =>
+    array (
+      'GuildWars2' => 'Guild Wars 2',
+      'HeartOfThorns' => 'Heart Of Thorns',
+      'PathOfFire' => 'Path of Fire',
+    ),
+    'condition' =>
+    array (
+      'NoAccess' => 'Ohne :product',
+      'HasAccess' => 'Nur :product',
+    ),
   ),
   'unlock' => 
   array (

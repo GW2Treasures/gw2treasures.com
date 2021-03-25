@@ -163,6 +163,7 @@ class AchievementController extends BaseController {
 	    $cacheKey = $tomorrow ? self::CACHE_DAILY_TOMORROW : self::CACHE_DAILY;
 		return Cache::remember($cacheKey, $this->getDailyReset($tomorrow), function() use ($tomorrow) {
 			$api = new GW2Api();
+			$api->schema('2019-05-16T00:00:00.000Z');
 
 			// load daily achievements and daily fractals
 			$data = $tomorrow
@@ -172,8 +173,8 @@ class AchievementController extends BaseController {
 			// get all achievement ids
 			$ids = [];
 			foreach(['pve', 'pvp', 'wvw', 'fractals', 'special'] as $type) {
-				foreach($data->{$type} as $achievement) {
-					$ids[] = $achievement->id;
+				foreach($data->{$type} as $daily) {
+					$ids[] = $daily->id;
 				}
 			}
 

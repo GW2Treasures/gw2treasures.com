@@ -98,8 +98,8 @@ trait LoadsEntries
                         : (isset($entry->{$columnName}) ? $entry->{$columnName} : null);
                 } elseif($column === 'signature' || $column === 'file_id') {
                     if( isset($entries_en[$id]->icon) ) {
-                        preg_match('/\/(?<signature>[^\/]*)\/(?<file_id>[^\/]*)\.png$/', $entries_en[$id]->icon, $icon);
-                        $entryData[$column] = $icon[$column];
+                        $icon = Helper::parseIconUrl($entries_en[$id]->icon);
+                        $entryData[$column] = $icon->{$column};
                     } else {
                         $entryData[$column] = $column === 'file_id' ? 0 : '';
                     }

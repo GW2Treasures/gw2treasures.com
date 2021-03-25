@@ -108,4 +108,25 @@ class Helper {
             return Helper::compareByName($a, $b);
         };
     }
+
+    public static function parseIconUrl($url) {
+        preg_match('/\/(?<signature>[^\/]*)\/(?<file_id>[^\/]*)\.png$/', $url, $icon);
+
+        return (object)[
+            'signature' => $icon['signature'],
+            'file_id' => $icon['file_id'],
+        ];
+    }
+
+    public static function getIcon($icon) {
+        if(is_string($icon)) {
+            return Helper::parseIconUrl($icon);
+        }
+
+        if(isset($icon->signature) && isset($icon->file_id)) {
+            return $icon;
+        }
+
+        return null;
+    }
 }

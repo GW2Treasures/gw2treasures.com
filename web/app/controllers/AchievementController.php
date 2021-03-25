@@ -6,18 +6,20 @@ use GW2Treasures\GW2Api\GW2Api;
 use Illuminate\Support\Arr;
 
 class AchievementController extends BaseController {
-	const CACHE_OVERVIEW = 'achievements.overview';
-	const CACHE_DAILY = 'achievements.daily';
-	const CACHE_DAILY_TOMORROW = 'achievements.daily.tomorrow';
+    const CACHE_OVERVIEW = 'achievements.overview';
+    const CACHE_DAILY = 'achievements.daily';
+    const CACHE_DAILY_TOMORROW = 'achievements.daily.tomorrow';
 
-	/** @var \Illuminate\View\View|stdClass $layout */
-	protected $layout = 'layout';
+    const DAILY_COMPLETIONIST = 1840;
 
-	public function details($language, Achievement $achievement) {
-		$this->layout->title = $achievement->getName();
-		$this->layout->fullWidth = true;
-		$this->layout->content = View::make('achievement.details')
-			->with($this->getAchievementData($language, $achievement));
+    /** @var \Illuminate\View\View|stdClass $layout */
+    protected $layout = 'layout';
+
+    public function details($language, Achievement $achievement) {
+        $this->layout->title = $achievement->getName();
+        $this->layout->fullWidth = true;
+        $this->layout->content = View::make('achievement.details')
+            ->with($this->getAchievementData($language, $achievement));
 
         $this->layout->canonical = $achievement->getUrl();
         $this->layout->metaTitle = $achievement->getName();
@@ -25,20 +27,20 @@ class AchievementController extends BaseController {
         $this->layout->metaDescription = trim(strip_tags($achievement->getData()->requirement . ' ' . $achievement->getData()->description));
 
         DB::table('achievement_views')->insert([
-			'achievement_id' => $achievement->id,
-			'language' => $language,
-		]);
-	}
+            'achievement_id' => $achievement->id,
+            'language' => $language,
+        ]);
+    }
 
-	public function category( $language, AchievementCategory $achievement_category ) {
-		$this->layout->title = $achievement_category->getName();
-		$this->layout->fullWidth = true;
+    public function category( $language, AchievementCategory $achievement_category ) {
+        $this->layout->title = $achievement_category->getName();
+        $this->layout->fullWidth = true;
         $this->layout->content = View::make('achievement.category')->with('category', $achievement_category);
-	}
+    }
 
-	private function getAchievementData($language, Achievement $achievement) {
-	    return Cache::remember('achievement.data.'.$achievement->id.'.'.$language, 10, function() use ($achievement) {
-	        $achievement->prerequisites->count();
+    private function getAchievementData($language, Achievement $achievement) {
+        return Cache::remember('achievement.data.'.$achievement->id.'.'.$language, 10, function() use ($achievement) {
+            $achievement->prerequisites->count();
             $achievement->prerequisiteFor->count();
 
             // access category/group to add them to cache
@@ -113,112 +115,116 @@ class AchievementController extends BaseController {
 
             return compact('achievement', 'objectives', 'rewards');
         });
-	}
+    }
 
-	public function json( $language, Achievement $achievement ) {
-		return Response::json( $achievement->getData() );
-	}
+    public function json( $language, Achievement $achievement ) {
+        return Response::json( $achievement->getData() );
+    }
 
-	public function tooltip($language, Achievement $achievement) {
-		return View::make('achievement.tooltip')->with($this->getAchievementData($language, $achievement));
-	}
+    public function tooltip($language, Achievement $achievement) {
+        return View::make('achievement.tooltip')->with($this->getAchievementData($language, $achievement));
+    }
 
-	public function random($language) {
-		$id = Achievement::random()->first()->id;
-		return Redirect::route('achievement.details', [$language, $id]);
-	}
+    public function random($language) {
+        $id = Achievement::random()->first()->id;
+        return Redirect::route('achievement.details', [$language, $id]);
+    }
 
-	public function overview($language) {
-		$groups = Cache::remember(self::CACHE_OVERVIEW, 60 * 24, function() {
-			return AchievementGroup::orderBy('order')
-				->with(['categories' => function($query) {
-					return $query->orderBy('order');
-				}])
-				->get();
-		});
+    public function overview($language) {
+        $groups = Cache::remember(self::CACHE_OVERVIEW, 60 * 24, function() {
+            return AchievementGroup::orderBy('order')
+                ->with(['categories' => function($query) {
+                    return $query->orderBy('order');
+                }])
+                ->get();
+        });
 
-		$tomorrow = Request::query('dailies') === 'tomorrow';
+        $tomorrow = Request::query('dailies') === 'tomorrow';
 
-		try {
+        try {
             $daily = $this->getDailyAchievements($tomorrow);
         } catch (ApiException $x) {
-		    $daily = false;
+            $daily = false;
         }
 
-		$hidden = [
-			'groups' => [],
-			'categories' => []
-		];
+        $hidden = [
+            'groups' => [],
+            'categories' => []
+        ];
 
-		$this->layout->title = trans( 'achievement.overview' );
-		$this->layout->fullWidth = true;
-		$this->layout->content = View::make( 'achievement.overview' )->with(compact('groups', 'daily', 'hidden', 'tomorrow'));
-	}
+        $this->layout->title = trans( 'achievement.overview' );
+        $this->layout->fullWidth = true;
+        $this->layout->content = View::make( 'achievement.overview' )->with(compact('groups', 'daily', 'hidden', 'tomorrow'));
+    }
 
     /**
      * @param boolean $tomorrow
      * @return mixed
      */
-	private function getDailyAchievements($tomorrow) {
-	    $cacheKey = $tomorrow ? self::CACHE_DAILY_TOMORROW : self::CACHE_DAILY;
-		return Cache::remember($cacheKey, $this->getDailyReset($tomorrow), function() use ($tomorrow) {
-			$api = new GW2Api();
+    private function getDailyAchievements($tomorrow) {
+        $cacheKey = $tomorrow ? self::CACHE_DAILY_TOMORROW : self::CACHE_DAILY;
+        return Cache::remember($cacheKey, $this->getDailyReset($tomorrow), function() use ($tomorrow) {
+            $api = new GW2Api();
+            $api->schema('2019-05-16T00:00:00.000Z');
 
-			// load daily achievements and daily fractals
-			$data = $tomorrow
+            // load daily achievements and daily fractals
+            $data = $tomorrow
                 ? $api->achievements()->daily()->tomorrow()->get()
                 : $api->achievements()->daily()->get();
 
-			// get all achievement ids
-			$ids = [];
-			foreach(['pve', 'pvp', 'wvw', 'fractals', 'special'] as $type) {
-				foreach($data->{$type} as $achievement) {
-					$ids[] = $achievement->id;
-				}
-			}
+            // get all achievement ids
+            $ids = [self::DAILY_COMPLETIONIST];
+            foreach(['pve', 'pvp', 'wvw', 'fractals', 'special'] as $type) {
+                foreach($data->{$type} as $daily) {
+                    $ids[] = $daily->id;
+                }
+            }
 
-			// load achievements
-			$achievements = Achievement::with('category')->findMany($ids)->keyBy('id');
+            // load achievements
+            $achievements = Achievement::with('category')->findMany($ids)->keyBy('id');
 
-			// save achievement objects for all dailies
-			foreach(['pve', 'pvp', 'wvw', 'fractals', 'special'] as $type) {
-				foreach($data->{$type} as $achievement) {
-					$achievement->achievement = $achievements->get($achievement->id);
-				}
-			}
+            // save achievement objects for all dailies
+            foreach(['pve', 'pvp', 'wvw', 'fractals', 'special'] as $type) {
+                foreach($data->{$type} as $daily) {
+                    $daily->achievement = $achievements->get($daily->id);
+                }
+            }
 
             foreach(['pve', 'pvp', 'wvw', 'fractals', 'special'] as $type) {
-			    $data->{$type} = Helper::collect($data->{$type})->sort(function($a, $b) {
-			        if($a->level != null && $b->level != null) {
-			            $max = $a->level->max - $b->level->max;
+                $data->{$type} = Helper::collect($data->{$type})
+                    ->filter(function($daily) { return $daily->achievement != null; })
+                    ->sort(function($a, $b) {
+                        if($a->level != null && $b->level != null) {
+                            $max = $a->level->max - $b->level->max;
 
-                        if($max != 0) {
-                            return $max;
+                            if($max != 0) {
+                                return $max;
+                            }
+
+                            $min = $a->level->min - $b->level->min;
+                            if($min != 0) {
+                                return $min;
+                            }
                         }
 
-                        $min = $a->level->min - $b->level->min;
-                        if($min != 0) {
-                            return $min;
-                        }
-                    }
-
-                    return Helper::compareByName($a->achievement, $b->achievement);
-                });
+                        return Helper::compareByName($a->achievement, $b->achievement);
+                    });
             }
 
             return (object) [
                 'start' => $this->getDailyReset($tomorrow)->subDay(),
-				'reset' => $this->getDailyReset($tomorrow),
-				'achievements' => $data
-			];
-		});
+                'reset' => $this->getDailyReset($tomorrow),
+                'achievements' => $data,
+                'reward' => $achievements->get(self::DAILY_COMPLETIONIST)
+            ];
+        });
     }
 
     /**
      * @param boolean $tomorrow
      * @return Carbon
      */
-	private function getDailyReset($tomorrow) {
-		return Carbon::tomorrow('UTC')->addDays($tomorrow ? 1 : 0);
-	}
+    private function getDailyReset($tomorrow) {
+        return Carbon::tomorrow('UTC')->addDays($tomorrow ? 1 : 0);
+    }
 }

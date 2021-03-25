@@ -21,6 +21,7 @@
     }
 
     $hasIcon = isset($data->icon);
+    $icon = Helper::getIcon($data->icon);
     $hasConsumableBuff = !empty($attributes) || $hasIcon || isset($data->name) || isset($data->duration_ms);
 ?>
 
@@ -28,7 +29,7 @@
     <div class="consumable-buff clearfix" style="position: relative">
         @if($hasIcon)
             <img style="position: absolute; left: 0; top: 0;" width="32" height="32"
-                src="{{ Helper::cdn("icons/".$data->icon->signature.'/'.$data->icon->file_id.'-64px.png', $data->icon->file_id) }}">
+                src="https://icons-gw2.darthmaim-cdn.de/{{ $icon->signature.'/'.$icon->file_id }}-64px.png">
         @endif
 
         <div class="consumable-buff__content" style="{{ $hasIcon ? 'margin-left: 40px' : '' }}">

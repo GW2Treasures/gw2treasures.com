@@ -94,6 +94,10 @@ abstract class DatabaseSearchQueryResult extends SearchQueryResult {
      * @return Builder
      */
     protected function queryNameContains($query, $searchTerms) {
+        if(empty($searchTerms)) {
+            return $query;
+        }
+
         return $query->orWhere(function($query) use ($searchTerms) {
             foreach($searchTerms as $searchTerm) {
                 $query = $query->where(function($query) use($searchTerm) {

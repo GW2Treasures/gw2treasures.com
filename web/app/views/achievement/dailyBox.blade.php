@@ -58,12 +58,11 @@
         </div>
     </div>
     <div class="daily-box__completion clearfix">
-        <?php $completion = Achievement::find(1840); ?>
         <div class="daily-box__completion__achievement">
-            {{ $completion->link(32) }}
+            {{ $daily->reward->link(32) }}
         </div>
         <div class="daily-box__completion__reward">
-            <span class="ap-icon ap-icon--big">{{ $completion->getTotalPoints() }} @include('achievement.icon')</span>
+            <span class="ap-icon ap-icon--big">{{ $daily->reward->getTotalPoints() }} @include('achievement.icon')</span>
         </div>
     </div>
 </div></div>

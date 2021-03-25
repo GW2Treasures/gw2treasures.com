@@ -10,6 +10,8 @@ class AchievementController extends BaseController {
     const CACHE_DAILY = 'achievements.daily';
     const CACHE_DAILY_TOMORROW = 'achievements.daily.tomorrow';
 
+    const DAILY_COMPLETIONIST = 1840;
+
     /** @var \Illuminate\View\View|stdClass $layout */
     protected $layout = 'layout';
 
@@ -171,7 +173,7 @@ class AchievementController extends BaseController {
                 : $api->achievements()->daily()->get();
 
             // get all achievement ids
-            $ids = [];
+            $ids = [self::DAILY_COMPLETIONIST];
             foreach(['pve', 'pvp', 'wvw', 'fractals', 'special'] as $type) {
                 foreach($data->{$type} as $daily) {
                     $ids[] = $daily->id;
@@ -212,7 +214,8 @@ class AchievementController extends BaseController {
             return (object) [
                 'start' => $this->getDailyReset($tomorrow)->subDay(),
                 'reset' => $this->getDailyReset($tomorrow),
-                'achievements' => $data
+                'achievements' => $data,
+                'reward' => $achievements->get(self::DAILY_COMPLETIONIST)
             ];
         });
     }

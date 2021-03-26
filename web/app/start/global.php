@@ -55,10 +55,15 @@ App::error(function(Exception $exception, $code)
 	Sentry::captureException($exception);
 
 	if ( !Config::get( 'app.debug' ) ) {
-		return Response::view('error', array( 
-			'title' => $code == 500 ? 'whoops...' : $code, 
-			'description' => 'There was an error (' . get_class( $exception ) . ').<br>' . $exception->getMessage() ?: '', 
-		), $code);
+		$description = 'There was an error (' . get_class( $exception ) . ').<br>' . $exception->getMessage() ?: '';
+		return Response::make(
+			View::make('layout', [
+				'title' => 'Error ('.$code.')',
+				'description' => 'There was an error', 
+				'fullWidth' => true
+			])->with('content', View::make('errors.generic', compact('description', 'code'))),
+			$code
+		);
 	}
 });
 

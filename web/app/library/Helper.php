@@ -129,4 +129,17 @@ class Helper {
 
         return null;
     }
+
+    public static function isBot() {
+        $bots = ['Googlebot', 'Yahoo! Slurp', 'bingbot', 'Yandex', 'DuckDuckBot'];
+        $userAgent = Request::header('User-Agent', '');
+
+        foreach($bots as $bot) {
+            if(str_contains($userAgent, $bot)) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
 }

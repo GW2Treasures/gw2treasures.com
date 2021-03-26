@@ -21,7 +21,7 @@
     }
 
     $hasIcon = isset($data->icon);
-    $icon = Helper::getIcon($data->icon);
+    $icon = $hasIcon ? Helper::getIcon($data->icon) : null;
     $hasConsumableBuff = !empty($attributes) || $hasIcon || isset($data->name) || isset($data->duration_ms);
 ?>
 

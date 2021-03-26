@@ -18,6 +18,7 @@ services:
       - GW2T_TRACKING_CODE=
       - GW2T_ASSETS=http://assets.gw2treasures-cdn.localhost
       - GW2T_STORAGE=http://storage.gw2treasures.localhost
+      - SENTRY_DSN=
     restart: unless-stopped
   db:
     image: mariadb:latest

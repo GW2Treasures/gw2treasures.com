@@ -19,7 +19,8 @@
         "symfony/translation": "2.7.3 as 2.5.999",
         "nesbot/carbon": "~1.21",
         "gw2treasures/gw2api": "~3.7",
-        "gw2treasures/gw2tools": "~1.0"
+        "gw2treasures/gw2tools": "~1.0",
+        "sentry/sentry-laravel": "~0.8"
     },
     "autoload": {
         "classmap": [

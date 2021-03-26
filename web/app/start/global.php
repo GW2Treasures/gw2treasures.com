@@ -52,6 +52,7 @@ Log::useErrorLog();
 App::error(function(Exception $exception, $code)
 {
 	Log::error($exception, array( Request::url() ));
+	Sentry::captureException($exception);
 
 	if ( !Config::get( 'app.debug' ) ) {
 		return Response::view('error', array( 

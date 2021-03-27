@@ -20,6 +20,10 @@ class AchievementsCommand extends Command {
     }
     
     public function fire() {
+        if($this->option('debug-locked-text')) {
+            return $this->debugLockedText();
+        }
+
         $api = new GW2Api();
 
         $updating = $this->option('update');
@@ -183,7 +187,8 @@ class AchievementsCommand extends Command {
 
     protected function getOptions() {
         return [
-            ['update', 'u', InputOption::VALUE_NONE, 'Update existing achievements']
+            ['update', 'u', InputOption::VALUE_NONE, 'Update existing achievements'],
+            ['debug-locked-text', null, InputOption::VALUE_NONE, 'Displays all locked_text without replacements']
         ];
     }
 
@@ -193,5 +198,17 @@ class AchievementsCommand extends Command {
         }
 
         return Helper::collect($achievement->tiers)->sum('points');
+    }
+
+    protected function debugLockedText() {
+        $achievements = Achievement::where('data_en', 'LIKE', '%'.Achievement::FLAG_REQUIRES_UNLOCK.'%')->get();
+
+        foreach($achievements as $achievement) {
+            $text = $achievement->highlightLockedText();
+
+            if($text === $achievement->getData()->locked_text && $text !== '') {
+                $this->info("[$achievement->id] $text");
+            }
+        }
     }
 }

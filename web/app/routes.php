@@ -506,6 +506,12 @@ Route::group( array(
             }
         ));
 
+        // map
+        Route::get('map', [
+            'as' => 'map',
+            'uses' => 'MapController@index'
+        ]);
+
         // contact
         Route::get('contact', array(
             'as' => 'contact',

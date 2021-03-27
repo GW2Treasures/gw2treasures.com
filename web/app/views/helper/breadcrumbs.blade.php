@@ -1,3 +1,5 @@
+<?php $breadcrumbs = array_values(array_filter($breadcrumbs)); ?>
+
 <nav class="details__breadcrumb">
     @for($i = 0; $i < count($breadcrumbs) - 2; $i++)
         <a href="{{$breadcrumbs[$i][1]}}" class="breadcrumb-{{$i}}">{{$breadcrumbs[$i][0]}}</a>

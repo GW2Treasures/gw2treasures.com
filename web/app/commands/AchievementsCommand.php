@@ -57,6 +57,7 @@ class AchievementsCommand extends Command {
             'created_at', 'updated_at',
         ], $updating);
 
+        $this->info('Set historic flag');
         DB::table('achievements')->update(['historic' => true]);
 
         foreach(DB::table('achievement_categories')->get(['id', 'data_en', 'order']) as $cat) {
@@ -72,6 +73,7 @@ class AchievementsCommand extends Command {
             DB::table('achievement_categories')->whereIn('id', $categories)->update(['achievement_group_id' => $group->id]);
         };
 
+        $this->info('Load unlock statistics from gw2efficiency');
         $unlocks = json_decode(
             $api->getClient()
                 ->request('GET', 'https://api.gw2efficiency.com/tracking/unlocks?id=achievements')
@@ -79,6 +81,7 @@ class AchievementsCommand extends Command {
                 ->getContents()
         );
 
+        $this->info('Setup relations');
         Achievement::chunk(500, function($achievements) use ($unlocks) {
             $ids = $achievements->lists('id');
 
@@ -176,10 +179,12 @@ class AchievementsCommand extends Command {
             }
         });
 
+        $this->info('Set removed_from_api');
         Achievement::query()->update(['removed_from_api' => true]);
         Achievement::query()->whereIn('id', $api->achievements()->ids())->update(['removed_from_api' => false]);
 
         // clear achievement caches
+        $this->info('Clear cache');
         Cache::forget(AchievementController::CACHE_OVERVIEW);
         Cache::forget(AchievementController::CACHE_DAILY);
         Cache::forget(AchievementController::CACHE_DAILY_TOMORROW);

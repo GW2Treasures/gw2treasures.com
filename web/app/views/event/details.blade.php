@@ -2,9 +2,11 @@
     <div class="pageWidth">
         <img class="icon" width="64" height="64" src="{{ $event->getIconUrl(64) }}" alt="">
         <h2>{{ $event->getName() }}</h2>
-        <nav class="details__breadcrumb">
-            <strong><a href="{{ route('event.overview', App::getLocale()) }}">{{ trans('event.breadcrumb') }}</a></strong>
-        </nav>
+        @include('helper.breadcrumbs', ['breadcrumbs' => [
+            [trans('event.breadcrumb'), route('event.overview', App::getLocale())],
+            $event->map ? [$event->map->getName(), ''] : null,
+            [$event->getName(), $event->getUrl()]
+        ]])
     </div>
 </header>
 

@@ -15,6 +15,7 @@ Artisan::add( new AchievementsCommand );
 Artisan::add( new ColorsCommand );
 Artisan::add( new EventsCommand );
 Artisan::add( new ItemsCommand );
+Artisan::add( new MapsCommand );
 Artisan::add( new MaterialsCommand );
 Artisan::add( new MinisCommand );
 Artisan::add( new MountsCommand );

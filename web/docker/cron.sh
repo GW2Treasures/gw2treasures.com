@@ -8,6 +8,7 @@ php $PHP_OPTS artisan gw2treasures:achievements -u
 php $PHP_OPTS artisan gw2treasures:colors -u
 php $PHP_OPTS artisan gw2treasures:events -u
 php $PHP_OPTS artisan gw2treasures:items
+php $PHP_OPTS artisan gw2treasures:maps -u
 php $PHP_OPTS artisan gw2treasures:materials -u
 php $PHP_OPTS artisan gw2treasures:minis -u
 php $PHP_OPTS artisan gw2treasures:mounts -u

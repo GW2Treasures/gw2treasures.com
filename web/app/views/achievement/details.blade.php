@@ -138,7 +138,7 @@
 			@endif
 		@endif
 
-		@if(count($achievement->getData()->tiers) > 0)
+		@if(count($achievement->getData()->tiers) > 1 || (count($achievement->getData()->tiers) === 1 && $achievement->getData()->tiers[0]->points > 0))
 			<h3>{{ trans('achievement.tiers.header') }}</h3>
 			<ol class="achievement__tiers">
 			@foreach($achievement->getData()->tiers as $tier)

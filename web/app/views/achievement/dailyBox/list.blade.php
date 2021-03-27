@@ -3,7 +3,7 @@
     @foreach($daily->achievements->{$type} as $achievement)
         @if(isset($achievement->achievement))
             <li>
-                {{ $achievement->achievement->link(32) }}
+                {{ $achievement->achievement->link(32, null, $achievement->name[$language]) }}
                 <span class="daily-box__level">
                     @if(!is_null($achievement->level) && $type !== 'fractals')
                         @lang('achievement.daily.level', [

@@ -19,7 +19,7 @@ class AchievementController extends BaseController {
         $this->layout->title = $achievement->getName();
         $this->layout->fullWidth = true;
         $this->layout->content = View::make('achievement.details')
-            ->with($this->getAchievementData($language, $achievement));
+            ->with($this->getAchievementData($achievement));
 
         $this->layout->canonical = $achievement->getUrl();
         $this->layout->metaTitle = $achievement->getName();
@@ -38,8 +38,8 @@ class AchievementController extends BaseController {
         $this->layout->content = View::make('achievement.category')->with('category', $achievement_category);
     }
 
-    private function getAchievementData($language, Achievement $achievement) {
-        return Cache::remember('achievement.data.'.$achievement->id.'.'.$language, 10, function() use ($achievement) {
+    private function getAchievementData(Achievement $achievement) {
+        return Cache::remember('achievement.data.'.$achievement->id, 10, function() use ($achievement) {
             $achievement->prerequisites->count();
             $achievement->prerequisiteFor->count();
 
@@ -122,7 +122,7 @@ class AchievementController extends BaseController {
     }
 
     public function tooltip($language, Achievement $achievement) {
-        return View::make('achievement.tooltip')->with($this->getAchievementData($language, $achievement));
+        return View::make('achievement.tooltip')->with($this->getAchievementData($achievement));
     }
 
     public function random($language) {
@@ -154,7 +154,8 @@ class AchievementController extends BaseController {
 
         $this->layout->title = trans( 'achievement.overview' );
         $this->layout->fullWidth = true;
-        $this->layout->content = View::make( 'achievement.overview' )->with(compact('groups', 'daily', 'hidden', 'tomorrow'));
+        $this->layout->content = View::make( 'achievement.overview' )
+            ->with(compact('groups', 'daily', 'hidden', 'tomorrow', 'language'));
     }
 
     /**
@@ -187,6 +188,12 @@ class AchievementController extends BaseController {
             foreach(['pve', 'pvp', 'wvw', 'fractals', 'special'] as $type) {
                 foreach($data->{$type} as $daily) {
                     $daily->achievement = $achievements->get($daily->id);
+                    $daily->name = [
+                        'de' => preg_replace('/^(Tägliche[rs]? (Abschluss: |PvP-|WvW-)?|Empfohlenes tägliches Fraktal: )/', '', $daily->achievement->getName('de')),
+                        'en' => preg_replace('/^Daily (Recommended Fractal—|PvP |WvW )?/', '', $daily->achievement->getName('en')),
+                        'es' => preg_replace('/((( en)? PvP|( de)? WvW)? del día)/', '', $daily->achievement->getName('es')),
+                        'fr' => $daily->achievement->getName('fr')
+                    ];
                 }
             }
 

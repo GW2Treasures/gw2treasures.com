@@ -67,4 +67,5 @@ return array (
   ),
   'newAchievements' => 'New Achievements',
   'mostViewedAchievements' => 'Most viewed Achievements :timespan',
+  'dyeSlots' => 'Dye Slots',
 );

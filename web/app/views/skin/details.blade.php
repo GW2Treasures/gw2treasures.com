@@ -53,17 +53,6 @@
 		</script>
 	</div>
 
-    <h3 style="margin-top: 0;padding-top: 20px;">{{ trans( 'skin.itemsUnlockingThisSkin' ) }}</h3>
-	@if(count($skin->items) > 0)
-		<ul class="itemList">
-			@foreach( $skin->items as $item )
-				<li>{{ $item->link(32) }}
-			@endforeach
-		</ul>
-	@else
-		{{ trans('skin.noItemsUnlockingThisSkin') }}
-	@endif
-
 	<?php
 		$achievementObjective = Achievement::requiresSkin($skin->id)->get();
 		$achievementReward = Achievement::rewardsSkin($skin->id)->get();
@@ -89,5 +78,19 @@
 				<li>{{ $achievement->link(32) }}</li>
 			@endforeach
 		</ul>
+	@endif
+
+	<h3>@lang('misc.dyeSlots')</h3>
+	@include('helper.dyeSlots', ['dye_slots' => $skin->getTypeData()->dye_slots->default])
+
+	<h3 style="margin-top: 0;padding-top: 20px;">{{ trans( 'skin.itemsUnlockingThisSkin' ) }}</h3>
+	@if(count($skin->items) > 0)
+		<ul class="itemList">
+			@foreach( $skin->items as $item )
+				<li>{{ $item->link(32) }}
+			@endforeach
+		</ul>
+	@else
+		{{ trans('skin.noItemsUnlockingThisSkin') }}
 	@endif
 </div>

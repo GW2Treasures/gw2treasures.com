@@ -7,6 +7,15 @@ class Color extends BaseModel {
 		return $this->localized( 'name', $lang );
 	}
 
+    public function getColor($material) {
+        if(!in_array($material, ['base', 'cloth', 'leather', 'metal', 'fur'])) {
+            throw new Exception("Invalid material $material to get color.");
+        }
+
+	    $rgb = $this->getData()->{$material}->rgb;
+        return '#'.Color::toHex(($rgb[0] << 16) | ($rgb[1] << 8) | $rgb[2]);
+    }
+
 	public static function toHex( $c ) {
 		return substr( '000000'.dechex( $c ), -6 );
 	}

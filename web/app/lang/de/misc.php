@@ -67,4 +67,5 @@ return array (
   ),
   'newAchievements' => 'Neue Erfolge',
   'mostViewedAchievements' => ':timespan am meisten angesehen',
+  'dyeSlots' => 'Farben',
 );

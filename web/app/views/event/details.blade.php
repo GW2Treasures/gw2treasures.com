@@ -52,8 +52,10 @@
         </script>
     </div>
 
-    <div style="padding-top: 20px">
-        <h3>Rewards (level {{ $event->level }})</h3>
-        @include('event.rewards')
-    </div>
+    @if($event->level > 0)
+        <div style="padding-top: 20px">
+            <h3>{{ trans('event.rewards.header', ['level' => $event->level]) }}</h3>
+            @include('event.rewards')
+        </div>
+    @endif
 </div>

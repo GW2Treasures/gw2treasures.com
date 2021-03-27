@@ -508,6 +508,36 @@ Route::group( array(
             'as' => 'wvw.world',
             'uses' => 'WvWController@world'
         ));
+        
+        //================================
+        // Crafting
+        //================================
+
+        Route::bind('discipline', function($discipline, $route) {
+            if(!in_array($discipline, Recipe::$DISCIPLINES)) {
+                throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
+            }
+
+            return $discipline;
+        });
+
+        // overview
+        Route::get('crafting', array(
+            'as' => 'crafting',
+            'uses' => 'CraftingController@overview'
+        ));
+
+        // details
+        Route::get('crafting/{discipline}', array(
+            'as' => 'crafting.details',
+            'uses' => 'CraftingController@details'
+        ));
+
+        // discoverable recipes
+        Route::get('crafting/{discipline}/discoverable', array(
+            'as' => 'crafting.discoverable',
+            'uses' => 'CraftingController@discoverable'
+        ));
 
         //================================
         // STATS

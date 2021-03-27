@@ -3,6 +3,10 @@
 class Event extends BaseModel implements IHasIcon, IHasLink {
 	use HasLocalizedData, HasIcon, HasLink;
 
+	public function map() {
+	    return $this->belongsTo(Map::class);
+    }
+
 	public function getName($lang = null) {
 		return $this->localized('name', $lang);
 	}
@@ -59,6 +63,7 @@ class Event extends BaseModel implements IHasIcon, IHasLink {
 
 	public function getRewards() {
 	    return [
+             0 => [    0,   0,  0,     0,   0,  0,     0,   0,  0],
              1 => [  294,  23,  5,   250,  20,  4,   221,  17,  4],
              2 => [  515,  27,  6,   438,  23,  5,   386,  21,  5],
              3 => [  327,  32,  7,   278,  27,  6,   245,  24,  5],

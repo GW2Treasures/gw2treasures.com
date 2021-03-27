@@ -2,21 +2,13 @@
     <div class="pageWidth">
         <img class="icon" width="64" height="64" src="{{ $trait->getIconUrl(64) }}" alt="">
         <h2>{{ $trait->getName() }}</h2>
-        <nav class="details__breadcrumb">
-            <strong><a href="{{ route('trait.overview', App::getLocale()) }}">{{ trans('trait.breadcrumb') }}</a></strong>
-            <svg fill="#000000" height="12" viewBox="0 0 24 24" width="12" xmlns="http://www.w3.org/2000/svg">
-                <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
-            </svg>
-            {{ $trait->specialization->profession->link(null) }}
-            <svg fill="#000000" height="12" viewBox="0 0 24 24" width="12" xmlns="http://www.w3.org/2000/svg">
-                <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
-            </svg>
-            {{ $trait->specialization->link(null) }}
-            <svg fill="#000000" height="12" viewBox="0 0 24 24" width="12" xmlns="http://www.w3.org/2000/svg">
-                <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
-            </svg>
-            {{ trans('trait.slot.'.$trait->slot) }}
-        </nav>
+        @include('helper.breadcrumbs', ['breadcrumbs' => [
+            [trans('trait.breadcrumb'), route('trait.overview', App::getLocale())],
+            [$trait->specialization->profession->getName(), $trait->specialization->profession->getUrl()],
+            [$trait->specialization->getName(), $trait->specialization->getUrl()],
+            [trans('trait.slot.'.$trait->slot), $trait->specialization->getUrl()],
+            [$trait->getName(), $trait->getUrl()]
+        ]])
     </div>
 </header>
 

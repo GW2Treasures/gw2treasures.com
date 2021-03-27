@@ -80,8 +80,10 @@
 		</ul>
 	@endif
 
-	<h3>@lang('misc.dyeSlots')</h3>
-	@include('helper.dyeSlots', ['dye_slots' => $skin->getTypeData()->dye_slots->default])
+	@if(isset($skin->getTypeData()->dye_slots))
+		<h3>@lang('misc.dyeSlots')</h3>
+		@include('helper.dyeSlots', ['dye_slots' => $skin->getTypeData()->dye_slots->default])
+	@endif
 
 	<h3 style="margin-top: 0;padding-top: 20px;">{{ trans( 'skin.itemsUnlockingThisSkin' ) }}</h3>
 	@if(count($skin->items) > 0)

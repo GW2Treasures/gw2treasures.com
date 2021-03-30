@@ -16,7 +16,7 @@
 </header>
 
 
-<div class="itemDetails pageWidth">
+<div class="itemDetails pageWidth clearfix">
     <div class="sidebar">
         @if( App::getLocale() != 'de' )
             <div class="lang"><span title="Deutsch"  class='langCode'>DE</span> <a rel="alternate" hreflang="de" href="{{ URL::route('achievement.category', array('de', $category->id)) }}">{{ $category->getName( 'de' ) }}</a></div>

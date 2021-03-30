@@ -20,7 +20,7 @@
     </div>
 </header>
 
-<div class="itemDetails pageWidth">
+<div class="itemDetails pageWidth clearfix">
     {{ $item->getTooltip() }}
 
     <div class="sidebar">

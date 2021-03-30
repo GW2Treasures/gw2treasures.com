@@ -11,7 +11,7 @@
     </div>
 </header>
 
-<div class="itemDetails pageWidth">
+<div class="itemDetails pageWidth clearfix">
     <div class="sidebar">
         @if( App::getLocale() != 'de' )
             <div class="lang"><span title="Deutsch"  class='langCode'>DE</span> {{ $novelty->link(null, 'de', null, null, ['rel' => 'alternate']) }}</div>

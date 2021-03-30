@@ -16,7 +16,7 @@
 	</div>
 </header>
 
-<div class="itemDetails pageWidth">
+<div class="itemDetails pageWidth clearfix">
 	<div class="sidebar">
 		@if( App::getLocale() != 'de' )
 			<div class="lang"><span title="Deutsch"  class='langCode'>DE</span> <a rel="alternate" hreflang="de" href="{{ URL::route('skin.details', array('de', $skin->id)) }}">{{ $skin->getName( 'de' ) }}</a></div>

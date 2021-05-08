@@ -1,10 +1,11 @@
 .summer-2021-banner {
-    padding: 128px 0 0;
     height: 256px;
     background: url(../img/summer2021.jpg) center top no-repeat;
     background-size: 1200px 256px;
     color: #fff;
     background-color: #090d18;
+    display: flex;
+    align-items: center;
 }
 
 .summer-2021-banner h2 {
@@ -91,4 +92,40 @@
 .summer-2021--eod {
     float: right;
     clear: right;
+}
+
+@media(max-width: 768px) {
+    .summer-2021--eod, .summer-2021--bonus-event {
+        float: none;
+    }
+    
+    .summer-2021-box {
+        width: auto;
+        margin-left: 40px;
+        margin-right: 0;
+    }
+    
+    .summer-2021-box + 
+    .summer-2021-box {
+        margin-top: 8px
+    }
+    
+    .summer-2021-date.summer-2021--bonus-event>div {
+        margin-left: 0;
+    }
+    
+    .summer-2021-box__content {
+        margin-right: 0;
+    }
+    
+    .summer-2021-box__content::before {
+        display: none;
+    }
+    
+    .summer-2021-timeline {
+        background-size: 8px;
+        background-repeat: no-repeat;
+        background-position: 40px;
+        padding: 16px 0;
+    }
 }

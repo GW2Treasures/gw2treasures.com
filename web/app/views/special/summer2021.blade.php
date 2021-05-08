@@ -1,6 +1,6 @@
 <div class="summer-2021-banner">
     <div class="pageWidth">
-        <h2>Summer 2021</h2>
+        <h2>{{ trans('summer2021.title') }}</h2>
     </div>
 </div>
 

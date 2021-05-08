@@ -538,5 +538,10 @@ Route::group( array(
             'as' => 'lye',
             'uses' => 'LyeController@overview'
         ]);
+
+        Route::get('summer-2021', [
+            'as' => 'summer-2021',
+            'uses' => 'MainController@summer2021'
+        ]);
     }
 );

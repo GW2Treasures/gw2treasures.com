@@ -1,5 +1,7 @@
 <?php
 
+use Carbon\Carbon;
+
 class MainController extends BaseController {
     /** @var Illuminate\View\View|stdClass $layout */
     protected $layout = 'layout';
@@ -86,6 +88,67 @@ class MainController extends BaseController {
     public function about( $language ) {
         $this->layout->title = 'About';
         $this->layout->content = View::make( 'about' );
+        $this->layout->fullWidth = true;
+    }
+
+    public function summer2021( $language ) {
+        Notification::Remove( 'summer2021' );
+
+        $events = [[
+            'date' => Carbon::createMidnightDate(2021, 5, 11),
+            'type' => 'eod',
+            'key' => '2021-5-11-skills-balance',
+        ], [
+            'date' => Carbon::createMidnightDate(2021, 5, 14),
+            'type' => 'bonus-event',
+            'key' => '2021-5-14-wvw'
+        ],
+        [
+            'date' => Carbon::createMidnightDate(2021, 5, 25),
+            'type' => 'bonus-event',
+            'key' => '2021-5-25-pvp'
+        ], [
+            'date' => Carbon::createMidnightDate(2021, 5, 25),
+            'type' => 'eod',
+            'key' => '2021-5-25-living-world'
+        ], [
+            'date' => Carbon::createMidnightDate(2021, 6, 1),
+            'type' => 'bonus-event',
+            'key' => '2021-6-1-fractals'
+        ],
+        [
+            'date' => Carbon::createMidnightDate(2021, 6, 18),
+            'type' => 'bonus-event',
+            'key' => '2021-6-18-wvw'
+        ],
+        [
+            'date' => Carbon::createMidnightDate(2021, 6, 22),
+            'type' => 'bonus-event',
+            'key' => '2021-6-22-dragon-bash'
+        ],
+        [
+            'date' => Carbon::createMidnightDate(2021, 7, 5),
+            'type' => 'bonus-event',
+            'key' => '2021-7-5-pvp-tournament'
+        ],
+        [
+            'date' => Carbon::createMidnightDate(2021, 7, 13),
+            'type' => 'eod',
+            'key' => '2021-7-13-twisted-marionette'
+        ],
+        [
+            'date' => Carbon::createMidnightDate(2021, 7, 23),
+            'type' => 'bonus-event',
+            'key' => '2021-7-23-wvw'
+        ], [
+            'date' => Carbon::createMidnightDate(2021, 7, 27),
+            'type' => 'eod',
+            'key' => '2021-7-27-eod'
+        ]];
+
+        $this->layout->title = 'Summer 2021';
+        $this->layout->content = View::make( 'special/summer2021' )
+            ->with(compact('events'));
         $this->layout->fullWidth = true;
     }
 }

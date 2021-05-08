@@ -42,6 +42,11 @@ module.exports = (grunt) ->
                 cwd: '<%= paths.src.img %>'
                 src: '*.svg'
                 dest: '<%= paths.out.img %>'
+            jpg:
+                expand: true
+                cwd: '<%= paths.src.img %>'
+                src: '*.jpg'
+                dest: '<%= paths.out.img %>'
         mkdir:
             css:      options: create: ['<%= paths.out.css %>']
             cssTemp:  options: create: ['<%= paths.out.cssTemp %>']
@@ -159,7 +164,7 @@ module.exports = (grunt) ->
     grunt.loadNpmTasks 'grunt-sass'
 
     # img
-    grunt.registerTask 'img', ['clean:img','mkdir:img','webp','pngcrush', 'copy:svg']
+    grunt.registerTask 'img', ['clean:img','mkdir:img','webp','pngcrush', 'copy:svg', 'copy:jpg']
 
     # js
     grunt.registerTask 'jquery', ['copy:jquery']

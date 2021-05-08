@@ -45,6 +45,7 @@
         </a><a href="{{ URL::route('specialization.overview', App::getLocale()) }}">{{ trans('specialization.breadcrumb') }}
         </a><a href="{{ URL::route('mount.overview', App::getLocale()) }}">{{ trans('mount.breadcrumb') }}
         </a><a href="{{ URL::route('wvw', App::getLocale()) }}">{{ trans('header.wvw') }}
+        </a><a href="/summer-2021" style="color:#009688;">{{ trans('summer2021.title') }}
         </a></div>
 </header>
 

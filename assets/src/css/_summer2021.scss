@@ -1,0 +1,94 @@
+.summer-2021-banner {
+    padding: 128px 0 0;
+    height: 256px;
+    background: url(../img/summer2021.jpg) center top no-repeat;
+    background-size: 1200px 256px;
+    color: #fff;
+    background-color: #090d18;
+}
+
+.summer-2021-banner h2 {
+    text-align: center;
+    font-size: 60px;
+    margin: 0;
+    text-shadow: 0 0 10px rgba(0, 0, 0, .5);
+}
+
+.summer-2021-timeline {
+    background: #f4f4f4;
+    background-image: linear-gradient(to right, transparent, transparent calc(50% - 2px), #aaa calc(50% - 2px), #aaa calc(50% + 2px), transparent calc(50% + 2px));
+    position: relative;
+    padding: 32px 0;
+    margin-bottom: -20px;
+}
+
+.summer-2021-date {
+    width: calc(50% + 24px);
+    display: flex;
+    margin-top: 16px;
+}
+
+.summer-2021-date.summer-2021--bonus-event > div {
+    margin-left: auto;
+}
+
+.summer-2021-date > div {
+    width: 48px;
+    height: 48px;
+    border: 1px solid #eee;
+    background: #fff;
+    text-align: center;
+    font-family: 'Bitter';
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+}
+
+.summer-2021-box {
+    width: calc(50% - 24px);
+    margin-top: -48px;
+}
+
+.summer-2021-box__content {
+    background: #fff;
+    border: 1px solid #eee;
+    margin: 0 16px;
+    padding: 16px;
+    position: relative;
+}
+
+.summer-2021-box__content::before {
+    content: '';
+    display: block;
+    width: 16px;
+    height: 16px;
+    background: #fff;
+    border: inherit;
+    border-width: 0 0 1px 1px;
+    position: absolute;
+    top: 12px;
+    left: -9px;
+    transform: translateX(-0.2px) rotate(45deg);
+}
+
+.summer-2021--bonus-event .summer-2021-box__content::before {
+    border-width: 1px 1px 0 0;
+    left: initial;
+    right: -9px;
+}
+
+.summer-2021-box__content h3 {
+    margin-top: 0;
+}
+
+.summer-2021--bonus-event {
+    float: left;
+    clear: left;
+}
+
+.summer-2021--eod {
+    float: right;
+    clear: right;
+}

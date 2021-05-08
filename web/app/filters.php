@@ -189,6 +189,11 @@ Route::filter( 'acceptCookies', function() {
 		Session::put( 'acceptCookies', true );
 		Notification::Add( 'acceptCookies', 'notifications.cookies' );
 	}
+
+	if( !Session::has( 'summer2021' )) {
+		Session::put( 'summer2021', true );
+		Notification::Add( 'summer2021', 'summer2021.notification' );
+	}
 });
 
 /**

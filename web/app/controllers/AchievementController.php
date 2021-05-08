@@ -189,9 +189,9 @@ class AchievementController extends BaseController {
                 foreach($data->{$type} as $daily) {
                     $daily->achievement = $achievements->get($daily->id);
                     $daily->name = [
-                        'de' => preg_replace('/^(Tägliche[rs]? (Abschluss: |PvP-|WvW-)?|Empfohlenes tägliches Fraktal: )/', '', $daily->achievement->getName('de')),
-                        'en' => preg_replace('/^Daily (Recommended Fractal—|PvP |WvW )?/', '', $daily->achievement->getName('en')),
-                        'es' => preg_replace('/((( en)? PvP|( de)? WvW)? del día)/', '', $daily->achievement->getName('es')),
+                        'de' => ucfirst(preg_replace('/^(Tägliche[rs]? (Abschluss: |PvP-|WvW-)?|Empfohlenes tägliches Fraktal: )/', '', $daily->achievement->getName('de'))),
+                        'en' => ucfirst(preg_replace('/^Daily (Recommended Fractal—|PvP |WvW )?/', '', $daily->achievement->getName('en'))),
+                        'es' => ucfirst(preg_replace('/((( en)? PvP|( de)? WvW)? del día)/', '', $daily->achievement->getName('es'))),
                         'fr' => $daily->achievement->getName('fr')
                     ];
                 }

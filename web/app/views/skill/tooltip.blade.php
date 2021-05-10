@@ -11,7 +11,7 @@
                 @foreach($skill->getFacts() as $fact)
                     <?php $section = uniqid('skill.fact.'); ?>
 
-                    @if(View::exists('traits.facts.'.$fact->type))
+                    @if(isset($fact->type) && View::exists('traits.facts.'.$fact->type))
                         @include('traits.facts.'.$fact->type)
                     @else
                         @include('traits.fact')

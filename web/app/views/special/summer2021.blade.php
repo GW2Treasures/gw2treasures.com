@@ -15,7 +15,7 @@
                     </div>
                 </div>
             @endunless
-            <div class="summer-2021-box summer-2021--{{ $event['type'] }}">
+            <div class="summer-2021-box summer-2021--{{ $event['type'] }}" id="{{ $event['key'] }}">
                 <div class="summer-2021-box__content">
                     <?php
                         $key = $event['key'];
@@ -31,11 +31,16 @@
                     @if($key === '2021-5-14-wvw' || $key === '2021-6-18-wvw' || $key === '2021-7-23-wvw')
                         <a href="{{ URL::route('wvw', App::getLocale()) }}">{{ trans('header.wvw') }}</a>
                     @endif
+                    @if($key === '2021-5-25-living-world')
+                        <ul class="itemList">
+                            <li>{{ Achievement::remember(60)->find(5773)->link(32) }}</li>
+                        </ul>
+                    @endif
                     @if($key === '2021-6-1-fractals')
-                        {{ AchievementCategory::find(88)->link(32) }}
+                        {{ AchievementCategory::remember(60)->find(88)->link(32) }}
                     @endif
                     @if($key === '2021-6-22-dragon-bash')
-                        {{ AchievementCategory::find(232)->link(32) }}
+                        {{ AchievementCategory::remember(60)->find(232)->link(32) }}
                     @endif
                     @if($key === '2021-7-5-pvp-tournament')
                         <a href="{{ URL::route('search.results', [App::getLocale(), 'item', 'q' => 'type:Weapon rarity:Legendary']) }}">{{ trans('summer2021.events.'.$key.'.link') }}</a>

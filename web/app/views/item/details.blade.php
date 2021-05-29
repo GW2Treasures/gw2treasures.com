@@ -112,7 +112,7 @@
                 return strcmp( $a->getName(), $b->getName() );
             });
         ?>
-        <h3>{{ trans('item.upgradeFor') }}</h3>
+        <h3 class="{{ count($upgradeFor) > 10 ? 'clear' : '' }}">{{ trans('item.upgradeFor') }}</h3>
         <ul class="itemList">
             @foreach ($upgradeFor as $usesThisAsUpgrade)
                 <li>{{ $usesThisAsUpgrade->link(32) }}</li>

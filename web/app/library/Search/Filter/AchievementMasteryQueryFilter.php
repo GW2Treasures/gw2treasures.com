@@ -4,7 +4,8 @@ class AchievementMasteryQueryFilter extends EnumSearchQueryFilter {
     protected static $REGIONS = [
         'Tyria' => 'Tyria',
         'Maguuma' => 'Maguuma (Path of Fire)',
-        'Desert' => 'Crystal Desert (Heart of Thorns)'
+        'Desert' => 'Crystal Desert (Heart of Thorns)',
+        'Tundra' => 'Tundra (Icebrood Saga)'
     ];
     protected static $ANY = '*';
 

@@ -32,8 +32,11 @@
                         <a href="{{ URL::route('wvw', App::getLocale()) }}">{{ trans('header.wvw') }}</a>
                     @endif
                     @if($key === '2021-5-25-living-world')
+                        <?php $achievements = Achievement::remember(60)->whereIn('id', [5773, 5804])->get(); ?>
                         <ul class="itemList">
-                            <li>{{ Achievement::remember(60)->find(5773)->link(32) }}</li>
+                            @foreach($achievements as $achievement)
+                                <li>{{ $achievement->link(32) }}</li>
+                            @endforeach
                         </ul>
                     @endif
                     @if($key === '2021-6-1-fractals')

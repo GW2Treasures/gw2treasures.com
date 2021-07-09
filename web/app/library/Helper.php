@@ -109,6 +109,12 @@ class Helper {
         };
     }
 
+    public static function sortByIdArrayIndex(array $array) {
+        return function($a, $b) use ($array) {
+            return array_search($a->id, $array) - array_search($b->id, $array);
+        };
+    }
+
     public static function parseIconUrl($url) {
         preg_match('/\/(?<signature>[^\/]*)\/(?<file_id>[^\/]*)\.png$/', $url, $icon);
 

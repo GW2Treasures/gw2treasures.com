@@ -41,6 +41,7 @@ services:
   reverse-proxy:
     image: gw2treasures/reverse-proxy
     build: reverse-proxy
+    restart: unless-stopped
     environment:
       - GW2T_DOMAIN=gw2treasures.localhost
       - GW2T_APP=http://web

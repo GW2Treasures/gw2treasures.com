@@ -33,7 +33,7 @@
                     @endif
                     @if($key === '2021-5-25-living-world')
                         <?php
-                            $achievementIds = [5773, 5804, 5829, 5758, 5742, 5743];
+                            $achievementIds = [5773, 5804, 5829, 5758, 5742, 5743, 5779];
                             $achievements = Achievement::remember(60)->whereIn('id', $achievementIds)->get()->sort(Helper::sortByIdArrayIndex($achievementIds));
                         ?>
                         <ul class="itemList">

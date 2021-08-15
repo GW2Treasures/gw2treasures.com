@@ -38,6 +38,14 @@ services:
       - UPLOAD_LIMIT=64M
     depends_on:
       - db
+  cache:
+    image: redis:alpine
+    restart: unless-stopped
+    command: >
+      redis-server
+      --save ""
+      --maxmemory 2gb
+      --maxmemory-policy allkeys-lru
   reverse-proxy:
     image: gw2treasures/reverse-proxy
     build: reverse-proxy

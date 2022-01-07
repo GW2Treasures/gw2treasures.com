@@ -112,26 +112,26 @@
 					@foreach($objectives as $bit)
 						@if($bit->type === 'Item')
 							@if(!is_null($bit->item))
-								<li class="achievement__objective--item">{{ $bit->item->link(32) }}</li>
+								<li class="achievement__objective--item" title="Index: {{ $bit->_index or '' }}">{{ $bit->item->link(32) }}</li>
 							@else
-								<li class="achievement__objective--text">Unknown item <span class="chatlink--inline">{{
+								<li class="achievement__objective--text" title="Index: {{ $bit->_index or '' }}">Unknown item <span class="chatlink--inline">{{
 									(new \GW2Treasures\GW2Tools\Chatlinks\ItemChatlink(\GW2Treasures\GW2Tools\Common\ItemStack::fromArray(['id' => $bit->id])))->encode()
 								}}</span></li>
 							@endif
 						@elseif($bit->type === 'Skin')
 							@if(!is_null($bit->skin))
-								<li class="achievement__objective--skin">{{ $bit->skin->link(32) }}</li>
+								<li class="achievement__objective--skin" title="Index: {{ $bit->_index or '' }}">{{ $bit->skin->link(32) }}</li>
 							@else
-								<li class="achievement__objective--text">Unknown skin <span class="chatlink--inline">{{
+								<li class="achievement__objective--text" title="Index: {{ $bit->_index or '' }}">Unknown skin <span class="chatlink--inline">{{
 									(new \GW2Treasures\GW2Tools\Chatlinks\SkinChatlink($bit->id))->encode()
 								}}</span></li>
 							@endif
 						@elseif($bit->type === 'Achievement')
-							<li class="achievement__objective--achievement">{{ $bit->achievement->link(32) }}</li>
+							<li class="achievement__objective--achievement" title="Index: {{ $bit->_index or '' }}">{{ $bit->achievement->link(32) }}</li>
 						@elseif($bit->type === 'Minipet')
-							<li class="achievement__objective--text">Collect unknown minipet</li>
+							<li class="achievement__objective--text" title="Index: {{ $bit->_index or '' }}">Collect unknown minipet</li>
 						@elseif($bit->type === 'Text')
-							<li class="achievement__objective--text">{{$bit->text}}</li>
+							<li class="achievement__objective--text" title="Index: {{ $bit->_index or '' }}">{{$bit->text}}</li>
 						@endif
 					@endforeach
 				</ul>

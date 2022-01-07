@@ -56,6 +56,12 @@ class AchievementController extends BaseController {
                 ? $achievement->getData()->bits
                 : [];
 
+
+            foreach ($objectives as $index => &$objective) {
+                $objective->_index = $index;
+            }
+            unset($objective);
+
             $objectives = array_filter($objectives, function ($objective) {
                 return isset($objective->type) && ($objective->type !== 'Text' || $objective->text !== '');
             });
@@ -92,13 +98,14 @@ class AchievementController extends BaseController {
             $items = Item::findMany($items)->keyBy('id');
             $skins = Skin::findMany($skins)->keyBy('id');
 
-            foreach ($objectives as &$objective) {
+            foreach ($objectives as $index => &$objective) {
                 if ($objective->type === 'Item') {
                     $objective->item = Arr::get($items, $objective->id);
                 } elseif ($objective->type === 'Skin') {
                     $objective->skin = Arr::get($skins, $objective->id);
                 }
             }
+            unset($objective);
 
             $rewards = isset($achievement->getData()->rewards)
                 ? $achievement->getData()->rewards

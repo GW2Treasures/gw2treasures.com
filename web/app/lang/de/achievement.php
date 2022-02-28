@@ -41,6 +41,7 @@ return array (
       'GuildWars2' => 'Guild Wars 2',
       'HeartOfThorns' => 'Heart Of Thorns',
       'PathOfFire' => 'Path of Fire',
+      'EndOfDragons' => 'End of Dragons',
     ),
     'condition' =>
     array (

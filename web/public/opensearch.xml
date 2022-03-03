@@ -4,7 +4,7 @@
   <Description>Search GW2 Treasures</Description>
   <Tags>gw2treasures gw2 guildwars2 guildwars item items recipe recipes crafting database treasures</Tags>
   <Url type="text/html" template="https://gw2treasures.com/search?q={searchTerms}"/>
-  <Image height="512" width="512" type="image/png">https://callisto.darthmaim-cdn.de/gw2treasures/assets/img/logo.png</Image>
+  <Image height="512" width="512" type="image/png">https://gw2treasures.darthmaim-cdn.com/gw2treasures/assets/img/logo.png</Image>
   <Image height="32" width="32" type="image/x-icon">https://en.gw2treasures.com/favicon.ico</Image>
   <AdultContent>false</AdultContent>
   <Language>de</Language>

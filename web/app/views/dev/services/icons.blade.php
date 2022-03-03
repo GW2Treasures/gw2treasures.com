@@ -36,7 +36,7 @@
     <p>
         The icons are available at this url:
     </p>
-    <pre>https://icons-gw2.darthmaim-cdn.de/<b>{signature}</b>/<b>{file_id}</b>-<b>{size}</b>.png</pre>
+    <pre>https://icons-gw2.darthmaim-cdn.com/<b>{signature}</b>/<b>{file_id}</b>-<b>{size}</b>.png</pre>
     <table class="devTable">
         <thead><tr><th>Parameter</th><th>Explanation</th></tr></thead>
         <tbody>
@@ -67,8 +67,8 @@
     <pre class="pageWidth">
         @highlight('html')
             &lt;img
-                src="https://icons-gw2.darthmaim-cdn.de/9D94B96446F269662F6ACC2531394A06C0E03951/947657-32px.png"
-                srcset="https://icons-gw2.darthmaim-cdn.de/9D94B96446F269662F6ACC2531394A06C0E03951/947657-64px.png 2x"
+                src="https://icons-gw2.darthmaim-cdn.com/9D94B96446F269662F6ACC2531394A06C0E03951/947657-32px.png"
+                srcset="https://icons-gw2.darthmaim-cdn.com/9D94B96446F269662F6ACC2531394A06C0E03951/947657-64px.png 2x"
                 width="32" height="32" alt="" crossorigin="anonymous"&gt;
         @endhighlight
     </pre>
@@ -79,21 +79,21 @@
         <thead><tr><th>Icon</th><th>URL</th></tr></thead>
         <tbody>
             <tr>
-                <td><img src="https://icons-gw2.darthmaim-cdn.de/18CE5D78317265000CF3C23ED76AB3CEE86BA60E/65941-64px.png" width="64" height="64" alt="">
+                <td><img src="https://icons-gw2.darthmaim-cdn.com/18CE5D78317265000CF3C23ED76AB3CEE86BA60E/65941-64px.png" width="64" height="64" alt="">
                 </td><td>
-                    <code>https://icons-gw2.darthmaim-cdn.de/18CE5D78317265000CF3C23ED76AB3CEE86BA60E/65941-64px.png</code>
+                    <code>https://icons-gw2.darthmaim-cdn.com/18CE5D78317265000CF3C23ED76AB3CEE86BA60E/65941-64px.png</code>
                 </td>
             </tr>
             <tr>
-                <td><img src="https://icons-gw2.darthmaim-cdn.de/4F19A8B4E309C3042358FB194F7190331DEF27EB/631494-32px.png" width="32" height="32" alt="">
+                <td><img src="https://icons-gw2.darthmaim-cdn.com/4F19A8B4E309C3042358FB194F7190331DEF27EB/631494-32px.png" width="32" height="32" alt="">
                 </td><td>
-                    <code>https://icons-gw2.darthmaim-cdn.de/4F19A8B4E309C3042358FB194F7190331DEF27EB/631494-32px.png</code>
+                    <code>https://icons-gw2.darthmaim-cdn.com/4F19A8B4E309C3042358FB194F7190331DEF27EB/631494-32px.png</code>
                 </td>
             </tr>
             <tr>
-                <td><img src="https://icons-gw2.darthmaim-cdn.de/027D1D382447933D074BE45F405EA1F379471DEB/63127-16px.png" width="16" height="16" alt="">
+                <td><img src="https://icons-gw2.darthmaim-cdn.com/027D1D382447933D074BE45F405EA1F379471DEB/63127-16px.png" width="16" height="16" alt="">
                 </td><td>
-                    <code>https://icons-gw2.darthmaim-cdn.de/027D1D382447933D074BE45F405EA1F379471DEB/63127-16px.png</code>
+                    <code>https://icons-gw2.darthmaim-cdn.com/027D1D382447933D074BE45F405EA1F379471DEB/63127-16px.png</code>
                 </td>
             </tr>
         </tbody>
@@ -120,7 +120,7 @@
                     $size = 64;
                 }
 
-                return 'https://icons-gw2.darthmaim-cdn.de/' .
+                return 'https://icons-gw2.darthmaim-cdn.com/' .
                     $signature . '/' . $file_id . '-' . $size . 'px.png';
             }
         @endhighlight
@@ -139,7 +139,7 @@
                     size = 64;
                 }
 
-                return "https://icons-gw2.darthmaim-cdn.de/" +
+                return "https://icons-gw2.darthmaim-cdn.com/" +
                     signature + "/" + file_id + "-" + size + "px.png";
             };
         @endhighlight

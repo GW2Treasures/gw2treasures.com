@@ -29,7 +29,7 @@
     <div class="consumable-buff clearfix" style="position: relative">
         @if($hasIcon)
             <img style="position: absolute; left: 0; top: 0;" width="32" height="32"
-                src="https://icons-gw2.darthmaim-cdn.de/{{ $icon->signature.'/'.$icon->file_id }}-64px.png">
+                src="https://icons-gw2.darthmaim-cdn.com/{{ $icon->signature.'/'.$icon->file_id }}-64px.png">
         @endif
 
         <div class="consumable-buff__content" style="{{ $hasIcon ? 'margin-left: 40px' : '' }}">

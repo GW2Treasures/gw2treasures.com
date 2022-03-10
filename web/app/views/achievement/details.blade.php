@@ -180,7 +180,7 @@
 							trans('achievement.rewards.mastery', ['region' => $reward->region])
 						}}</li>
 					@elseif($reward->type === 'Coins')
-						<li class="achievement__reward--coins"><img src="https://icons-gw2.darthmaim-cdn.de/98457F504BA2FAC8457F532C4B30EDC23929ACF9/619316-64px.png" width="32" height="32" style="margin-right: 5px">@include('item.vendorValue', ['vendorValue' => $reward->count])</li>
+						<li class="achievement__reward--coins"><img src="https://icons-gw2.darthmaim-cdn.com/98457F504BA2FAC8457F532C4B30EDC23929ACF9/619316-64px.png" width="32" height="32" style="margin-right: 5px">@include('item.vendorValue', ['vendorValue' => $reward->count])</li>
 					@endif
 				@endforeach
 			</ul>

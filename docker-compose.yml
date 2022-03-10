@@ -7,6 +7,7 @@ services:
       context: web
       dockerfile: docker/Dockerfile
     environment:
+      - GW2T_ENV=dev
       - GW2T_URL=http://gw2treasures.localhost/
       - GW2T_DOMAIN=gw2treasures.localhost
       - GW2T_TRANSLATE_PASSWORD=translate

@@ -429,6 +429,32 @@ Route::group( array(
         ]);
 
         //================================
+        // Guild Upgrades
+        //================================
+
+        Route::model('upgrade', GuildUpgrade::class);
+
+        Route::get('guild/upgrade', [
+            'as' => 'guild.upgrade.overview',
+            'uses' => 'GuildUpgradeController@overview'
+        ]);
+
+        Route::get('guild/upgrade/random', [
+            'as' => 'guild.upgrade.random',
+            'uses' => 'GuildUpgradeController@random'
+        ]);
+
+        Route::get('guild/upgrade/{upgrade}', [
+            'as' => 'guild.upgrade.details',
+            'uses' => 'GuildUpgradeController@details'
+        ]);
+
+        Route::get('guild/upgrade/{upgrade}/json', [
+            'as' => 'guild.upgrade.json',
+            'uses' => 'GuildUpgradeController@json'
+        ]);
+
+        //================================
         // WVW
         //================================
 
@@ -494,7 +520,7 @@ Route::group( array(
         // api
         Route::get('{endpoint}/{id}/api', function($lang, $endpoint, $id) {
             return Redirect::to("https://api.guildwars2.com/v2/{$endpoint}s/$id?lang=$lang");
-        })->where('endpoint', 'item|skin|achievement|trait|profession|skill|specialization');
+        })->where('endpoint', 'item|skin|achievement|trait|profession|skill|specialization|guild/upgrade');
 
         // colors
         Route::get('colors', array(

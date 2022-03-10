@@ -1,7 +1,7 @@
 <?php
 
 class GuildUpgrade extends BaseModel {
-	use HasLocalizedData, HasIcon;
+	use HasLocalizedData, HasIcon, HasLink;
 
 	public function getName($lang = null) {
 		return $this->localized('name', $lang);
@@ -15,12 +15,11 @@ class GuildUpgrade extends BaseModel {
         return $this->getInternalIconUrl($size, $this->signature, $this->file_id);
     }
 
-    protected function formatForDisplay($subject) {
-        $replacements = [
-            '/<c=@([^>]+)>(.*?)<\/?c>/s' => '<span class="color-format-$1">$2</span>',
-            '/<c=#([^>]+)>(.*?)<\/?c>/s' => '<span class="color-format" style="color:#$1">$2</span>',
-            '/\n/' => '<br>'
-        ];
-        return preg_replace(array_keys($replacements), array_values($replacements), $subject);
+    public function getUrl($lang = null) {
+        if(is_null($lang)) {
+            $lang = App::getLocale();
+        }
+
+        return route('guild.upgrade.details', ['language' => $lang, 'upgrade' => $this->id]);
     }
 }

@@ -23,16 +23,16 @@
 
 		public function unlockedBy() { return $this->belongsTo('Item', 'unlock_item_id', 'id'); }
 
-		public function ingredient1() { return $this->belongsTo('Item', 'ing_id_1'); }
-		public function ingredient2() { return $this->belongsTo('Item', 'ing_id_2'); }
-		public function ingredient3() { return $this->belongsTo('Item', 'ing_id_3'); }
-		public function ingredient4() { return $this->belongsTo('Item', 'ing_id_4'); }
+		public function ingredient1() { return $this->belongsTo($this->ing_type_1 ?? 'Item', 'ing_id_1'); }
+		public function ingredient2() { return $this->belongsTo($this->ing_type_2 ?? 'Item', 'ing_id_2'); }
+		public function ingredient3() { return $this->belongsTo($this->ing_type_3 ?? 'Item', 'ing_id_3'); }
+		public function ingredient4() { return $this->belongsTo($this->ing_type_4 ?? 'Item', 'ing_id_4'); }
 
 		public function scopeHasIngredient( $query, Item $ingredient ) {
-			return $query->  where( 'ing_id_1', '=', $ingredient->id )
-			             ->orWhere( 'ing_id_2', '=', $ingredient->id )
-			             ->orWhere( 'ing_id_3', '=', $ingredient->id )
-			             ->orWhere( 'ing_id_4', '=', $ingredient->id );
+			return $query->  where( 'ing_id_1', '=', $ingredient->id )->where('ing_type_1', '=', 'Item')
+			             ->orWhere( 'ing_id_2', '=', $ingredient->id )->where('ing_type_2', '=', 'Item')
+			             ->orWhere( 'ing_id_3', '=', $ingredient->id )->where('ing_type_3', '=', 'Item')
+			             ->orWhere( 'ing_id_4', '=', $ingredient->id )->where('ing_type_4', '=', 'Item');
 		}
 
 		public function scopeWithIngredient( $query ) {
@@ -44,6 +44,12 @@
 		}
 
 		public function getIngredients() { 
+			// we might have eager loaded the wrong type
+			if($this->ing_type_1 !== 'Item') { $this->load('ingredient1'); }
+			if($this->ing_type_2 !== 'Item') { $this->load('ingredient2'); }
+			if($this->ing_type_3 !== 'Item') { $this->load('ingredient3'); }
+			if($this->ing_type_4 !== 'Item') { $this->load('ingredient4'); }
+
 			return array( $this->ingredient1, $this->ingredient2, $this->ingredient3, $this->ingredient4 );
 		}
 		public function getIngredientIDs() {
@@ -51,6 +57,9 @@
 		}
 		public function getIngredientCounts() {
 			return array( $this->ing_count_1, $this->ing_count_2, $this->ing_count_3, $this->ing_count_4 );
+		}
+		public function getIngredientTypes() {
+			return array( $this->ing_type_1, $this->ing_type_2, $this->ing_type_3, $this->ing_type_4 );
 		}
 
 		//---- stuff

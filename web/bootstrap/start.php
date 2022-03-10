@@ -24,11 +24,9 @@ $app = new Illuminate\Foundation\Application;
 |
 */
 
-$env = $app->detectEnvironment(array(
-
-	'local' => array( 'Konrad-PC', 'Konrad-Laptop' ),
-
-));
+$env = $app->detectEnvironment(function() {
+	return $_ENV['GW2T_ENV'] ?? 'production';
+});
 
 /*
 |--------------------------------------------------------------------------

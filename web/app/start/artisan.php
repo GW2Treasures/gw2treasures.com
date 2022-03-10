@@ -13,7 +13,9 @@
 
 Artisan::add( new AchievementsCommand );
 Artisan::add( new ColorsCommand );
+Artisan::add( new CurrenciesCommand );
 Artisan::add( new EventsCommand );
+Artisan::add( new GuildUpgradesCommand );
 Artisan::add( new ItemsCommand );
 Artisan::add( new MapsCommand );
 Artisan::add( new MaterialsCommand );

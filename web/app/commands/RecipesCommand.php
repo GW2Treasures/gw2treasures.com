@@ -13,6 +13,9 @@ class RecipesCommand extends Command {
     public function fire() {
         $api = new GW2Api();
 
+        // include ingredient type
+        $api->schema('2022-03-09T02:00:00.000Z');
+
         $updating = $this->option('update');
 
         if($updating) {
@@ -41,13 +44,17 @@ class RecipesCommand extends Command {
                 'rating' => $recipe->min_rating,
                 'type' => $recipe->type,
                 'from_item' => in_array('LearnedFromItem', $recipe->flags),
-                'ing_id_1' => isset($recipe->ingredients[0]) ? $recipe->ingredients[0]->item_id : 0,
+                'ing_id_1' => isset($recipe->ingredients[0]) ? $recipe->ingredients[0]->id : 0,
+                'ing_type_1' => isset($recipe->ingredients[0]) ? $recipe->ingredients[0]->type : null,
                 'ing_count_1' => isset($recipe->ingredients[0]) ? $recipe->ingredients[0]->count : 0,
-                'ing_id_2' => isset($recipe->ingredients[1]) ? $recipe->ingredients[1]->item_id : 0,
+                'ing_id_2' => isset($recipe->ingredients[1]) ? $recipe->ingredients[1]->id : 0,
+                'ing_type_2' => isset($recipe->ingredients[1]) ? $recipe->ingredients[1]->type : null,
                 'ing_count_2' => isset($recipe->ingredients[1]) ? $recipe->ingredients[1]->count : 0,
-                'ing_id_3' => isset($recipe->ingredients[2]) ? $recipe->ingredients[2]->item_id : 0,
+                'ing_id_3' => isset($recipe->ingredients[2]) ? $recipe->ingredients[2]->id : 0,
+                'ing_type_3' => isset($recipe->ingredients[2]) ? $recipe->ingredients[2]->type : null,
                 'ing_count_3' => isset($recipe->ingredients[2]) ? $recipe->ingredients[2]->count : 0,
-                'ing_id_4' => isset($recipe->ingredients[3]) ? $recipe->ingredients[3]->item_id : 0,
+                'ing_id_4' => isset($recipe->ingredients[3]) ? $recipe->ingredients[3]->id : 0,
+                'ing_type_4' => isset($recipe->ingredients[3]) ? $recipe->ingredients[3]->type : null,
                 'ing_count_4' => isset($recipe->ingredients[3]) ? $recipe->ingredients[3]->count : 0,
                 'data' => json_encode($recipe),
                 'updated' => true,

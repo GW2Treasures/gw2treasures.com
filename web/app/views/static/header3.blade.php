@@ -8,7 +8,7 @@
         </a>
 
         <a class="header3__logo" href="/" accesskey="h">
-            <img src="{{ App::environment('production') ? Helper::cdn('assets/img/logo.svg') : 'http://'.Config::get('app.domain').':8888/img/logo.svg' }}" alt="">
+            <img src="{{ Helper::cdn('assets/img/logo.svg') }}" alt="">
             Treasures
         </a>
 

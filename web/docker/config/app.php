@@ -15,7 +15,7 @@ return array(
 	|
 	*/
 
-	'debug' => false,
+	'debug' => isset($_ENV["GW2T_ENV"]) && $_ENV["GW2T_ENV"] != "production",
 
 	/*
 	|--------------------------------------------------------------------------

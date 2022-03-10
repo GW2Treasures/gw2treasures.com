@@ -67,7 +67,7 @@ class Init extends Migration {
 			$t->index('name_en');
 			$t->index('name_es');
 			$t->index('name_fr');
-			$t->index(['updated','date_added'],'new_items');
+			$t->index(['updated','date_added'], 'new_items');
 		});
 
 

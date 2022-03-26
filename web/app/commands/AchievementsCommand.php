@@ -25,6 +25,7 @@ class AchievementsCommand extends Command {
         }
 
         $api = new GW2Api();
+        $api->schema('2022-03-23T19:00:00.000Z');
 
         $updating = $this->option('update');
 
@@ -62,7 +63,10 @@ class AchievementsCommand extends Command {
 
         foreach(DB::table('achievement_categories')->get(['id', 'data_en', 'order']) as $cat) {
             $data = json_decode($cat->data_en);
-            DB::table('achievements')->whereIn('id', $data->achievements)->update(['achievement_category_id' => $cat->id, 'historic' => false]);
+
+            $achievementIds = Helper::collect($data->achievements)->lists('id');
+
+            DB::table('achievements')->whereIn('id', $achievementIds)->update(['achievement_category_id' => $cat->id, 'historic' => false]);
             if($cat->order === 0) {
                 DB::table('achievement_categories')->where('id', '=', $cat->id)->update(['order' => $data->order]);
             }

@@ -173,62 +173,68 @@ class AchievementController extends BaseController {
         $cacheKey = $tomorrow ? self::CACHE_DAILY_TOMORROW : self::CACHE_DAILY;
         return Cache::remember($cacheKey, $this->getDailyReset($tomorrow), function() use ($tomorrow) {
             $api = new GW2Api();
-            $api->schema('2019-05-16T00:00:00.000Z');
+            $api->schema('2022-03-23T19:00:00.000Z');
 
             // load daily achievements and daily fractals
-            $data = $tomorrow
-                ? $api->achievements()->daily()->tomorrow()->get()
-                : $api->achievements()->daily()->get();
+            $data = $api->achievements()->categories()->get(97);
+            $dataFractals = $api->achievements()->categories()->get(88);
 
-            // get all achievement ids
+            $dailies = [];
             $ids = [self::DAILY_COMPLETIONIST];
-            foreach(['pve', 'pvp', 'wvw', 'fractals', 'special'] as $type) {
-                foreach($data->{$type} as $daily) {
-                    $ids[] = $daily->id;
-                }
+
+            $key = $tomorrow ? 'tomorrow' : 'achievements';
+            
+
+            foreach($data->{$key} as $daily) {
+                $dailies[] = $daily;
+                $ids[] = $daily->id;
+            }
+
+            foreach($dataFractals->{$key} as $daily) {
+                $daily->flags = ['fractals'];
+                $dailies[] = $daily;
+                $ids[] = $daily->id;
             }
 
             // load achievements
             $achievements = Achievement::with('category')->findMany($ids)->keyBy('id');
 
             // save achievement objects for all dailies
-            foreach(['pve', 'pvp', 'wvw', 'fractals', 'special'] as $type) {
-                foreach($data->{$type} as $daily) {
-                    $daily->achievement = $achievements->get($daily->id);
-                    $daily->name = [
-                        'de' => ucfirst(preg_replace('/^(Tägliche[rs]? (Abschluss: |PvP-|WvW-)?|Empfohlenes tägliches Fraktal: )/', '', $daily->achievement->getName('de'))),
-                        'en' => ucfirst(preg_replace('/^Daily (Recommended Fractal—|PvP |WvW )?/', '', $daily->achievement->getName('en'))),
-                        'es' => ucfirst(preg_replace('/((( en)? PvP|( de)? WvW)? del día)/', '', $daily->achievement->getName('es'))),
-                        'fr' => $daily->achievement->getName('fr')
-                    ];
-                }
+            foreach($dailies as $daily) {
+                $daily->achievement = $achievements->get($daily->id);
+                $daily->name = [
+                    'de' => ucfirst(preg_replace('/^(Tägliche[rs]? (Abschluss: |PvP-|WvW-)?|Empfohlenes tägliches Fraktal: )/', '', $daily->achievement->getName('de'))),
+                    'en' => ucfirst(preg_replace('/^Daily (Recommended Fractal—|PvP |WvW )?/', '', $daily->achievement->getName('en'))),
+                    'es' => ucfirst(preg_replace('/((( en)? PvP|( de)? WvW)? del día)/', '', $daily->achievement->getName('es'))),
+                    'fr' => $daily->achievement->getName('fr')
+                ];
             }
 
-            foreach(['pve', 'pvp', 'wvw', 'fractals', 'special'] as $type) {
-                $data->{$type} = Helper::collect($data->{$type})
-                    ->filter(function($daily) { return $daily->achievement != null; })
-                    ->sort(function($a, $b) {
-                        if($a->level != null && $b->level != null) {
-                            $max = $a->level->max - $b->level->max;
+            $dailyCollection = Helper::collect($dailies)
+                ->filter(function($daily) { return $daily->achievement != null && isset($daily->flags); })
+                ->sort(function($a, $b) {
+                    if(isset($a->level) && isset($b->level)) {
+                        $max = $a->level[1] - $b->level[1];
 
-                            if($max != 0) {
-                                return $max;
-                            }
-
-                            $min = $a->level->min - $b->level->min;
-                            if($min != 0) {
-                                return $min;
-                            }
+                        if($max != 0) {
+                            return $max;
                         }
 
-                        return Helper::compareByName($a->achievement, $b->achievement);
-                    });
-            }
+                        $min = $a->level[0] - $b->level[0];
+                        if($min != 0) {
+                            return $min;
+                        }
+                    }
+
+                    return Helper::compareByName($a->achievement, $b->achievement);
+                })
+                ->groupBy(function($daily) { return strtolower($daily->flags[0]); })
+                ->toArray();
 
             return (object) [
                 'start' => $this->getDailyReset($tomorrow)->subDay(),
                 'reset' => $this->getDailyReset($tomorrow),
-                'achievements' => $data,
+                'achievements' => $dailyCollection,
                 'reward' => $achievements->get(self::DAILY_COMPLETIONIST)
             ];
         });

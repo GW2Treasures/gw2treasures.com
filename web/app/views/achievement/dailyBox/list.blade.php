@@ -12,7 +12,7 @@
                                 : $achievement->level->min.' – '.$achievement->level->max
                         ])
                     @endif
-                    @if(isset($achievement->required_access))
+                    @if(isset($achievement->required_access) && !is_array($achievement->required_access))
                         @if(!is_null($achievement->level) && $type !== 'fractals')
                             •
                         @endif

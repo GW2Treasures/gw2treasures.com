@@ -74,6 +74,13 @@
 <body>
     <div id="wrapper">
         @include('static.header3')
+
+        @if(!App::environment('production'))
+            <div style="padding:8px;background:#ff5722;text-align:center;color:#fff;font-weight:bold;border-bottom:1px solid rgba(0,0,0,.066)">
+                DEV - View this page live on <a style="text-decoration:underline;color:#fff" href="https://{{ App::getLocale() }}.gw2treasures.com{{ Request::getRequestUri() }}">https://{{ App::getLocale() }}.gw2treasures.com{{ Request::getRequestUri() }}</a>
+            </div>
+        @endif
+
         @include('static.notifications')
 
         <!-- content -->

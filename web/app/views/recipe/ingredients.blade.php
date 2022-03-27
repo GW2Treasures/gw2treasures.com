@@ -14,13 +14,13 @@
                     @endif
                 @elseif( $types[$i] === 'Currency' )
                     @if( !is_null($ingredient) )
-                        {{ $ingredient->getIcon(16) }} {{ $ingredient->getName() }}
+                        {{ $ingredient->link(16) }}
                     @else
                         Unknown currency
                     @endif
                 @elseif( $types[$i] === 'GuildUpgrade' )
                     @if( !is_null($ingredient) )
-                        {{ $ingredient->getIcon(16) }} {{ $ingredient->getName() }}
+                        {{ $ingredient->link(16) }}
                     @else
                         Unknown guild upgrade
                     @endif

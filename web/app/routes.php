@@ -455,6 +455,36 @@ Route::group( array(
         ]);
 
         //================================
+        // Currencies
+        //================================
+
+        Route::model('currency', Currency::class);
+
+        Route::get('currency', [
+            'as' => 'currency.overview',
+            'uses' => 'CurrencyController@overview'
+        ]);
+
+        Route::get('currency/random', [
+            'as' => 'currency.random',
+            'uses' => 'CurrencyController@random'
+        ]);
+
+        Route::get('currency/{currency}', [
+            'as' => 'currency.details',
+            'uses' => 'CurrencyController@details'
+        ]);
+
+        Route::get('currency/{currency}/json', [
+            'as' => 'currency.json',
+            'uses' => 'CurrencyController@json'
+        ]);
+
+        Route::get('currency/{id}/api', function($lang, $id) {
+            return Redirect::to("https://api.guildwars2.com/v2/currencies/$id?lang=$lang");
+        });
+
+        //================================
         // WVW
         //================================
 

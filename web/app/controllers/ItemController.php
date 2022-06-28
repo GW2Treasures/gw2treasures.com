@@ -43,10 +43,14 @@ class ItemController extends BaseController {
             $this->layout->metaDescription .= ': ' . htmlentities(strip_tags($item->getDescription()));
         }
 
-        DB::table('item_views')->insert(array(
-            'item_id' => $item->id,
-            'language' => $language,
-        ));
+        try {
+            DB::table('item_views')->insert(array(
+                'item_id' => $item->id,
+                'language' => $language,
+            ));
+        } catch(Exception $e) {
+            // item views are not that important, just silently catch
+        }
     }
     public function json( $language, Item $item ) {
         return Response::json( $item->getData() );

@@ -38,7 +38,7 @@
 			</div>
 		</div>
 	</div>
-@else
+@elseif(!empty($popularItemViews))
 	<h2 class="pageWidth">{{ trans('misc.mostViewedItems.label', array( 'timespan' => trans('misc.mostViewedItems.day') )) }}</h2>
 	<div class="pageWidth grid">
 		<div class="row">

@@ -19,23 +19,32 @@ class MainController extends BaseController {
         $newItems = Item::where('updated', '=', '1')->orderBy('date_added', 'desc')->take(30)->remember(10)->get();
 
         // get popular items
-        $popularItemViews = DB::table('item_views')
-            ->select('item_id', DB::raw('COUNT(*) as views'))
-            ->whereRaw('DATE_SUB(CURRENT_DATE(), INTERVAL 1 DAY) <= time')
-            ->groupBy('item_id')
-            ->orderBy(DB::raw('COUNT(*)'), 'desc')
-            ->orderBy(DB::raw('MAX(time)'), 'desc')
-            ->take(10)->get();
+        try {
+            $popularItemViews = DB::table('item_views')
+                ->select('item_id', DB::raw('COUNT(*) as views'))
+                ->whereRaw('DATE_SUB(CURRENT_DATE(), INTERVAL 1 DAY) <= time')
+                ->groupBy('item_id')
+                ->orderBy(DB::raw('COUNT(*)'), 'desc')
+                ->orderBy(DB::raw('MAX(time)'), 'desc')
+                ->take(10)->get();
+        } catch(\Illuminate\Database\QueryException $ex) {
+            $popularItemViews = [];
+        }
 
         if(count($popularItemViews) === 10 && $popularItemViews[5]->views > 100) {
             $recentItemViews = [];
         } else {
-            $recentItemViews = DB::select(
-                'SELECT view.item_id
-                 FROM (SELECT item_id, time FROM item_views ORDER BY item_views.time DESC LIMIT 30) view
-                 GROUP BY view.item_id
-                 ORDER BY view.time DESC
-                 LIMIT 5' );
+            try {
+                $recentItemViews = DB::select(
+                    'SELECT view.item_id
+                     FROM (SELECT item_id, time FROM item_views ORDER BY item_views.time DESC LIMIT 30) view
+                     GROUP BY view.item_id
+                     ORDER BY view.time DESC
+                     LIMIT 5'
+                );
+            } catch(\Illuminate\Database\QueryException $ex) {
+                $recentItemViews = [];
+            }
         }
 
         // get the item_ids we need to load

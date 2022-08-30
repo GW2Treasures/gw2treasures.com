@@ -1,7 +1,7 @@
-<li class="notification" id="notification-{{ $notification->getName() }}">
+<li class="notification">
 	<div class="pageWidth clearfix">
 		@if ( $notification->isDismissible() )
-			<a class="dismiss" href="{{ URL::route( 'hideNotification', array( 'notification' => $notification->getName(), 'return' => Request::getRequestUri() )) }}" rel="nofollow" onclick="dismissNotification('{{ $notification->getName() }}');return false;">
+			<a class="dismiss" href="{{ URL::route( 'hideNotification', array( 'notification' => $notification->getName(), 'return' => Request::getRequestUri() )) }}" rel="nofollow">
 				{{ trans( 'notifications.dismiss' ) }}
 			</a>
 		@endif

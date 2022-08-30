@@ -22,7 +22,7 @@ WORKDIR /var/gw2treasures
 
 # composer
 COPY composer.json composer.lock ./
-RUN composer install --no-scripts --no-progress --no-autoloader
+RUN composer install --no-scripts --no-progress --no-autoloader --no-plugins
 
 # entrypoint
 COPY docker/entrypoint.sh /entrypoint.sh
@@ -45,7 +45,7 @@ RUN chmod +x /entrypoint.sh \
   && mkdir -p app/storage/cache app/storage/sessions \
   && chown www-data:www-data app/storage/cache app/storage/sessions/ \
   && chmod +x cron.sh \
-  && composer dump-autoload
+  && composer --no-plugins dump-autoload
 
 ENTRYPOINT [ "/entrypoint.sh" ]
 CMD [ "apache2-foreground" ]

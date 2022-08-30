@@ -1,6 +1,6 @@
 FROM node:6 as build
 
-RUN npm install --global grunt-cli
+RUN npm install --global grunt-cli@1.3.2
 
 WORKDIR /usr/src/storage
 

@@ -96,4 +96,8 @@ class Notification {
 		Session::put( 'notifications', serialize( self::Notifications() ));
 		Session::save();
 	}
+
+	public static function IsEmpty() {
+		return empty( self::Notifications() );
+	}
 }

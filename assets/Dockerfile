@@ -5,7 +5,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     pngcrush \
   && rm -rf /var/lib/apt/lists/*
 
-RUN npm install --global grunt-cli
+RUN npm install --global grunt-cli@1.3.2
 
 WORKDIR /usr/src/gw2treasures-assets
 

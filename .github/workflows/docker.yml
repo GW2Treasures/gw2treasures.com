@@ -1,0 +1,19 @@
+name: Build Docker Images
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    name: Build ${{ matrix.image }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        image: [ web, reverse-proxy, assets, storage, wvw-crawler ]
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: docker compose build ${{ matrix.image }}

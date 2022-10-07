@@ -5,8 +5,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     pngcrush \
   && rm -rf /var/lib/apt/lists/*
 
-RUN npm install --global grunt-cli@1.3.2
-
 WORKDIR /usr/src/gw2treasures-assets
 
 COPY package*.json ./
@@ -17,7 +15,7 @@ COPY src src
 COPY tasks tasks
 COPY Gruntfile.coffee .
 
-RUN grunt build
+RUN npm run build
 
 FROM nginx:1.19-alpine
 

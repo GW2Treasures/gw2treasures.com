@@ -12,7 +12,7 @@
 .headline {
   grid-area: headline;
 
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--color-border);
   background-color: #f9f9f9;
   padding: 16px;
 
@@ -52,14 +52,14 @@
 .main::before {
   content: '';
   grid-area: padding;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--color-border);
   background-color: #f9f9f9;
 }
 
 .infobox {
   grid-area: infobox;
 
-  border: solid var(--border-color);
+  border: solid var(--color-border);
   border-width: 0 1px 1px 1px;
   padding: 16px;
   width: 320px;

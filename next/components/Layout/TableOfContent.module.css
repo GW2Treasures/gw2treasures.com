@@ -16,7 +16,7 @@
   color: inherit;
 
   padding: 8px 0 8px 12px;
-  border-left: 4px solid var(--border-color);
+  border-left: 4px solid var(--color-border);
 }
 
 .link:hover {

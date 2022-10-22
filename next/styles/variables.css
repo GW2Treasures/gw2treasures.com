@@ -1,0 +1,13 @@
+:root {
+  --color-background: #fff;
+  --color-border: #eee;
+
+  --color-rarity-ascended: #fb3e8d;
+  --color-rarity-basic: #111;
+  --color-rarity-exotic: #fda500;
+  --color-rarity-fine: #4f9dfe;
+  --color-rarity-junk: grey;
+  --color-rarity-legendary: purple;
+  --color-rarity-masterwork: #2dc50e;
+  --color-rarity-rare: #f4c900;
+}

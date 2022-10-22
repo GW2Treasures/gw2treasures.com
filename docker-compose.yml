@@ -31,6 +31,8 @@ services:
     volumes:
       - gw2treasures-db:/var/lib/mysql
     restart: unless-stopped
+    ports:
+      - 3306:3306
   phpmyadmin:
     image: phpmyadmin
     restart: unless-stopped

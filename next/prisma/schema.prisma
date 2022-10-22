@@ -1,0 +1,735 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model AchievementCategory {
+  @@map("achievement_categories")
+
+  id                   Int      @id @default(autoincrement()) @db.UnsignedInt
+  achievement_group_id String   @default("") @db.VarChar(36)
+  name_de              String   @db.VarChar(255)
+  name_en              String   @db.VarChar(255)
+  name_es              String   @db.VarChar(255)
+  name_fr              String   @db.VarChar(255)
+  description_de       String   @db.Text
+  description_en       String   @db.Text
+  description_es       String   @db.Text
+  description_fr       String   @db.Text
+  signature            String   @db.VarChar(40)
+  file_id              Int
+  order                Int      @default(0)
+  data_de              String   @db.Text
+  data_en              String   @db.Text
+  data_es              String   @db.Text
+  data_fr              String   @db.Text
+  created_at           DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  updated_at           DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+
+  @@index([achievement_group_id], map: "achievement_categories_achievement_group_id_index")
+}
+
+model AchievementGroup {
+  @@map("achievement_groups")
+
+  id             String   @id @db.VarChar(36)
+  name_de        String   @db.VarChar(255)
+  name_en        String   @db.VarChar(255)
+  name_es        String   @db.VarChar(255)
+  name_fr        String   @db.VarChar(255)
+  description_de String   @db.Text
+  description_en String   @db.Text
+  description_es String   @db.Text
+  description_fr String   @db.Text
+  order          Int
+  data_de        String   @db.Text
+  data_en        String   @db.Text
+  data_es        String   @db.Text
+  data_fr        String   @db.Text
+  created_at     DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  updated_at     DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+}
+
+model AchievementObjective {
+  @@map("achievement_objectives")
+
+  id             Int    @id @default(autoincrement()) @db.UnsignedInt
+  achievement_id Int
+  type           String @db.VarChar(255)
+  entity_id      Int
+
+  @@index([achievement_id], map: "achievement_objectives_achievement_id_index")
+  @@index([entity_id, type], map: "achievement_objectives_entity_id_type_index")
+}
+
+model AchievementPrerequisite {
+  @@map("achievement_prerequisites")
+
+  id              Int @id @default(autoincrement()) @db.UnsignedInt
+  achievement_id  Int
+  prerequisite_id Int
+
+  @@index([achievement_id], map: "achievement_prerequisites_achievement_id_index")
+  @@index([prerequisite_id], map: "achievement_prerequisites_prerequisite_id_index")
+}
+
+model AchievementReward {
+  @@map("achievement_rewards")
+
+  id             Int    @id @default(autoincrement()) @db.UnsignedInt
+  achievement_id Int
+  type           String @db.VarChar(255)
+  entity_id      Int
+  count          Int
+
+  @@index([achievement_id], map: "achievement_rewards_achievement_id_index")
+  @@index([entity_id, type], map: "achievement_rewards_entity_id_type_index")
+}
+
+model AchievementView {
+  @@map("achievement_views")
+
+  id             Int                        @id @default(autoincrement()) @db.UnsignedInt
+  achievement_id Int                        @db.UnsignedInt
+  language       achievement_views_language
+  time           DateTime                   @default(now()) @db.Timestamp(0)
+
+  @@index([time, achievement_id], map: "achievement_views_time_achievement_id_index")
+}
+
+model Achievement {
+  @@map("achievements")
+
+  id                      Int      @id @default(autoincrement()) @db.UnsignedInt
+  achievement_category_id Int      @default(0)
+  historic                Boolean  @default(false)
+  name_de                 String   @db.VarChar(255)
+  name_en                 String   @db.VarChar(255)
+  name_es                 String   @db.VarChar(255)
+  name_fr                 String   @db.VarChar(255)
+  description_de          String   @db.Text
+  description_en          String   @db.Text
+  description_es          String   @db.Text
+  description_fr          String   @db.Text
+  requirement_de          String   @db.Text
+  requirement_en          String   @db.Text
+  requirement_es          String   @db.Text
+  requirement_fr          String   @db.Text
+  type                    String   @db.VarChar(255)
+  signature               String   @db.VarChar(40)
+  file_id                 Int
+  data_de                 String   @db.Text
+  data_en                 String   @db.Text
+  data_es                 String   @db.Text
+  data_fr                 String   @db.Text
+  removed_from_api        Boolean  @default(false)
+  created_at              DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  updated_at              DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  unlocks                 Float?   @db.Float
+  total_ap                Int      @default(0)
+
+  @@index([achievement_category_id], map: "achievements_achievement_category_id_index")
+}
+
+model Color {
+  @@map("colors")
+
+  id          Int    @id @default(autoincrement()) @db.UnsignedInt
+  name_de     String @db.VarChar(255)
+  name_en     String @db.VarChar(255)
+  name_es     String @db.VarChar(255)
+  name_fr     String @db.VarChar(255)
+  base_rgb    Int
+  cloth_rgb   Int
+  leather_rgb Int
+  metal_rgb   Int
+  data_de     String @db.Text
+  data_en     String @db.Text
+  data_es     String @db.Text
+  data_fr     String @db.Text
+}
+
+model Currency {
+  @@map("currencies")
+
+  id         Int      @id @default(autoincrement()) @db.UnsignedInt
+  name_de    String   @db.VarChar(255)
+  name_en    String   @db.VarChar(255)
+  name_es    String   @db.VarChar(255)
+  name_fr    String   @db.VarChar(255)
+  signature  String   @db.VarChar(40)
+  file_id    Int
+  order      Int
+  data_de    String   @db.Text
+  data_en    String   @db.Text
+  data_es    String   @db.Text
+  data_fr    String   @db.Text
+  created_at DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  updated_at DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+}
+
+model Event {
+  @@map("events")
+
+  id         String   @id @db.VarChar(36)
+  name_de    String   @db.VarChar(255)
+  name_en    String   @db.VarChar(255)
+  name_es    String   @db.VarChar(255)
+  name_fr    String   @db.VarChar(255)
+  map_id     Int
+  level      Int
+  signature  String   @db.VarChar(40)
+  file_id    Int
+  data_de    String   @db.Text
+  data_en    String   @db.Text
+  data_es    String   @db.Text
+  data_fr    String   @db.Text
+  created_at DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  updated_at DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+}
+
+model GuildUpgrade {
+  @@map("guild_upgrades")
+
+  id         Int      @id @default(autoincrement()) @db.UnsignedInt
+  type       String   @db.VarChar(255)
+  name_de    String   @db.VarChar(255)
+  name_en    String   @db.VarChar(255)
+  name_es    String   @db.VarChar(255)
+  name_fr    String   @db.VarChar(255)
+  signature  String   @db.VarChar(40)
+  file_id    Int
+  data_de    String   @db.Text
+  data_en    String   @db.Text
+  data_es    String   @db.Text
+  data_fr    String   @db.Text
+  created_at DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  updated_at DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+}
+
+model ItemView {
+  @@map("item_views")
+
+  id       Int                 @id @default(autoincrement()) @db.UnsignedInt
+  item_id  Int                 @db.UnsignedInt
+  language item_views_language
+  time     DateTime            @default(now()) @db.Timestamp(0)
+
+  @@index([time, item_id], map: "item_views_time_item_id_index")
+}
+
+model Item {
+  @@map("items")
+  
+  id                       Int          @id @db.UnsignedInt
+  signature                String       @db.VarChar(40)
+  file_id                  Int          @default(0) @db.UnsignedInt
+  rarity                   items_rarity @default(Basic)
+  weight                   items_weight @default(None)
+  type                     items_type   @default(None)
+  subtype                  String       @db.VarChar(255)
+  unlock_type              String       @db.VarChar(255)
+  level                    Int          @default(0) @db.UnsignedSmallInt
+  value                    Int          @default(0) @db.UnsignedInt
+  pvp                      Boolean      @default(false)
+  attr1                    String       @db.VarChar(255)
+  attr2                    String       @db.VarChar(255)
+  attr3                    String       @db.VarChar(255)
+  attr_name                String       @db.VarChar(255)
+  unlock_id                Int          @default(0) @db.UnsignedInt
+  suffix_item_id           Int          @default(1) @db.UnsignedInt
+  secondary_suffix_item_id Int          @default(0) @db.UnsignedInt
+  skin_id                  Int          @default(0) @db.UnsignedInt
+  material_id              Int          @default(0)
+  name_de                  String       @db.VarChar(255)
+  name_en                  String       @db.VarChar(255)
+  name_es                  String       @db.VarChar(255)
+  name_fr                  String       @db.VarChar(255)
+  desc_de                  String?      @db.Text
+  desc_en                  String?      @db.Text
+  desc_es                  String?      @db.Text
+  desc_fr                  String?      @db.Text
+  data_de                  String       @db.Text
+  data_en                  String       @db.Text
+  data_es                  String       @db.Text
+  data_fr                  String       @db.Text
+  wikipage_de              Int          @default(0) @db.UnsignedInt
+  wikipage_en              Int          @default(0) @db.UnsignedInt
+  wikipage_es              Int          @default(0) @db.UnsignedInt
+  wikipage_fr              Int          @default(0) @db.UnsignedInt
+  wiki_de                  Boolean      @default(false)
+  wiki_en                  Boolean      @default(false)
+  wiki_es                  Boolean      @default(false)
+  wiki_fr                  Boolean      @default(false)
+  wiki_checked             Boolean      @default(false)
+  updated                  Boolean      @default(false)
+  views                    Int          @default(0) @db.UnsignedInt
+  removed_from_api         Boolean      @default(false)
+  update_time              Int          @default(0) @db.UnsignedInt
+  date_added               DateTime     @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+
+  @@index([signature, file_id], map: "icon")
+  @@index([name_de], map: "items_name_de_index")
+  @@index([name_en], map: "items_name_en_index")
+  @@index([name_es], map: "items_name_es_index")
+  @@index([name_fr], map: "items_name_fr_index")
+  @@index([suffix_item_id], map: "items_suffix_item_id_index")
+  @@index([unlock_id], map: "items_unlock_id_index")
+  @@index([updated, date_added], map: "new_items")
+  @@index([type, weight, rarity, value, level], map: "similar")
+}
+
+model Map {
+  @@map("maps")
+
+  id                Int      @id @default(autoincrement()) @db.UnsignedInt
+  region_id         Int
+  continent_id      Int
+  name_de           String   @db.VarChar(255)
+  name_en           String   @db.VarChar(255)
+  name_es           String   @db.VarChar(255)
+  name_fr           String   @db.VarChar(255)
+  type              String   @db.VarChar(255)
+  min_level         Int
+  max_level         Int
+  default_floor     Int
+  region_name_de    String   @default("") @db.VarChar(255)
+  region_name_en    String   @default("") @db.VarChar(255)
+  region_name_es    String   @default("") @db.VarChar(255)
+  region_name_fr    String   @default("") @db.VarChar(255)
+  continent_name_de String   @default("") @db.VarChar(255)
+  continent_name_en String   @default("") @db.VarChar(255)
+  continent_name_es String   @default("") @db.VarChar(255)
+  continent_name_fr String   @default("") @db.VarChar(255)
+  data_de           String   @db.Text
+  data_en           String   @db.Text
+  data_es           String   @db.Text
+  data_fr           String   @db.Text
+  removed_from_api  Boolean  @default(false)
+  created_at        DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  updated_at        DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+}
+
+model MatchWorld {
+  @@map("match_worlds")
+
+  id       Int               @id @default(autoincrement()) @db.UnsignedInt
+  match_id Int               @db.UnsignedInt
+  world_id Int               @db.UnsignedInt
+  team     match_worlds_team
+}
+
+model Match {
+  @@map("matches")
+
+  id         Int      @id @default(autoincrement()) @db.UnsignedInt
+  match_id   String   @db.VarChar(255)
+  start_time DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  end_time   DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  data       String   @db.Text
+  created_at DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  updated_at DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+}
+
+model Material {
+  @@map("materials")
+
+  id         Int      @id @default(autoincrement()) @db.UnsignedInt
+  order      Int
+  name_de    String   @db.VarChar(255)
+  name_en    String   @db.VarChar(255)
+  name_es    String   @db.VarChar(255)
+  name_fr    String   @db.VarChar(255)
+  data_de    String   @db.Text
+  data_en    String   @db.Text
+  data_es    String   @db.Text
+  data_fr    String   @db.Text
+  created_at DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  updated_at DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model Migration {
+  @@map("migrations")
+
+  migration String @db.VarChar(255)
+  batch     Int
+
+  @@ignore
+}
+
+model Mini {
+  @@map("minis")
+
+  id         Int      @id @default(autoincrement()) @db.UnsignedInt
+  item_id    Int
+  signature  String   @db.VarChar(40)
+  file_id    Int
+  order      Int
+  name_de    String   @db.VarChar(255)
+  name_en    String   @db.VarChar(255)
+  name_es    String   @db.VarChar(255)
+  name_fr    String   @db.VarChar(255)
+  unlock_de  String   @db.Text
+  unlock_en  String   @db.Text
+  unlock_es  String   @db.Text
+  unlock_fr  String   @db.Text
+  data_de    String   @db.Text
+  data_en    String   @db.Text
+  data_es    String   @db.Text
+  data_fr    String   @db.Text
+  created_at DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  updated_at DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+}
+
+model MountSkin {
+  @@map("mount_skins")
+
+  id         Int      @id @default(autoincrement()) @db.UnsignedInt
+  name_de    String   @db.VarChar(255)
+  name_en    String   @db.VarChar(255)
+  name_es    String   @db.VarChar(255)
+  name_fr    String   @db.VarChar(255)
+  mount      String   @db.VarChar(255)
+  signature  String   @db.VarChar(40)
+  file_id    Int
+  data_de    String   @db.Text
+  data_en    String   @db.Text
+  data_es    String   @db.Text
+  data_fr    String   @db.Text
+  created_at DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  updated_at DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  unlocks    Float?   @db.Float
+}
+
+model MountType {
+  @@map("mount_types")
+
+  id           String   @id @db.VarChar(255)
+  name_de      String   @db.VarChar(255)
+  name_en      String   @db.VarChar(255)
+  name_es      String   @db.VarChar(255)
+  name_fr      String   @db.VarChar(255)
+  default_skin Int
+  data_de      String   @db.Text
+  data_en      String   @db.Text
+  data_es      String   @db.Text
+  data_fr      String   @db.Text
+  created_at   DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  updated_at   DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+}
+
+model Novelty {
+  @@map("novelties")
+
+  id             Int      @id @default(autoincrement()) @db.UnsignedInt
+  slot           String   @db.VarChar(255)
+  signature      String   @db.VarChar(40)
+  file_id        Int
+  name_de        String   @db.VarChar(255)
+  name_en        String   @db.VarChar(255)
+  name_es        String   @db.VarChar(255)
+  name_fr        String   @db.VarChar(255)
+  description_de String   @db.VarChar(255)
+  description_en String   @db.VarChar(255)
+  description_es String   @db.VarChar(255)
+  description_fr String   @db.VarChar(255)
+  data_de        String   @db.Text
+  data_en        String   @db.Text
+  data_es        String   @db.Text
+  data_fr        String   @db.Text
+  unlocks        Float?   @db.Float
+  created_at     DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  updated_at     DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+}
+
+model NoveltyUnlockItem {
+  @@map("novelty_unlock_items")
+
+  novelty_id Int @db.UnsignedInt
+  item_id    Int @db.UnsignedInt
+
+  @@id([novelty_id, item_id])
+}
+
+model Profession {
+  @@map("professions")
+
+  id               String   @id @db.VarChar(255)
+  signature        String   @db.VarChar(40)
+  file_id          Int
+  name_de          String   @db.VarChar(255)
+  name_en          String   @db.VarChar(255)
+  name_es          String   @db.VarChar(255)
+  name_fr          String   @db.VarChar(255)
+  data_de          String   @db.Text
+  data_en          String   @db.Text
+  data_es          String   @db.Text
+  data_fr          String   @db.Text
+  removed_from_api Boolean  @default(false)
+  created_at       DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  updated_at       DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+}
+
+model Recipe {
+  @@map("recipes")
+
+  recipe_id        Int     @id @db.UnsignedInt
+  output_id        Int     @default(0) @db.UnsignedInt
+  output_count     Int     @default(0) @db.UnsignedInt
+  disciplines      Int     @default(0) @db.UnsignedInt
+  rating           Int     @default(0) @db.UnsignedInt
+  type             String  @db.VarChar(255)
+  from_item        Boolean @default(false)
+  unlock_item_id   Int     @db.UnsignedInt
+  ing_id_1         Int     @default(0) @db.UnsignedInt
+  ing_type_1       String? @db.VarChar(255)
+  ing_count_1      Int     @default(0) @db.UnsignedInt
+  ing_id_2         Int     @default(0) @db.UnsignedInt
+  ing_type_2       String? @db.VarChar(255)
+  ing_count_2      Int     @default(0) @db.UnsignedInt
+  ing_id_3         Int     @default(0) @db.UnsignedInt
+  ing_type_3       String? @db.VarChar(255)
+  ing_count_3      Int     @default(0) @db.UnsignedInt
+  ing_id_4         Int     @default(0) @db.UnsignedInt
+  ing_type_4       String? @db.VarChar(255)
+  ing_count_4      Int     @default(0) @db.UnsignedInt
+  data             String  @db.Text
+  removed_from_api Boolean @default(false)
+  updated          Boolean @default(false)
+  update_time      Int     @default(0)
+
+  @@index([ing_id_1], map: "recipes_ing_id_1_index")
+  @@index([ing_id_2], map: "recipes_ing_id_2_index")
+  @@index([ing_id_3], map: "recipes_ing_id_3_index")
+  @@index([ing_id_4], map: "recipes_ing_id_4_index")
+  @@index([output_id], map: "recipes_output_id_index")
+}
+
+model SkillProfession {
+  @@map("skill_professions")
+
+  id            Int    @id @default(autoincrement()) @db.UnsignedInt
+  skill_id      Int    @db.UnsignedInt
+  profession_id String @db.VarChar(255)
+}
+
+model SkillTrait {
+  @@map("skill_traits")
+
+  id                Int @id @default(autoincrement()) @db.UnsignedInt
+  skill_id          Int @db.UnsignedInt
+  required_trait_id Int @db.UnsignedInt
+}
+
+model Skill {
+  @@map("skills")
+
+  id               Int      @id @default(autoincrement()) @db.UnsignedInt
+  type             String   @db.VarChar(255)
+  weapon_type      String   @db.VarChar(255)
+  slot             String   @db.VarChar(255)
+  signature        String   @db.VarChar(40)
+  file_id          Int
+  name_de          String   @db.VarChar(255)
+  name_en          String   @db.VarChar(255)
+  name_es          String   @db.VarChar(255)
+  name_fr          String   @db.VarChar(255)
+  description_de   String   @db.VarChar(255)
+  description_en   String   @db.VarChar(255)
+  description_es   String   @db.VarChar(255)
+  description_fr   String   @db.VarChar(255)
+  data_de          String   @db.Text
+  data_en          String   @db.Text
+  data_es          String   @db.Text
+  data_fr          String   @db.Text
+  removed_from_api Boolean  @default(false)
+  created_at       DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  updated_at       DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+}
+
+model Skin {
+  @@map("skins")
+
+  id               Int     @id @default(autoincrement()) @db.UnsignedInt
+  name_de          String  @db.VarChar(255)
+  name_en          String  @db.VarChar(255)
+  name_es          String  @db.VarChar(255)
+  name_fr          String  @db.VarChar(255)
+  type             String  @db.VarChar(255)
+  subtype          String  @default("") @db.VarChar(255)
+  signature        String  @db.VarChar(40)
+  file_id          Int     @db.UnsignedInt
+  data_de          String  @db.Text
+  data_en          String  @db.Text
+  data_es          String  @db.Text
+  data_fr          String  @db.Text
+  removed_from_api Boolean @default(false)
+}
+
+model Source {
+  @@map("sources")
+
+  id          Int      @id @default(autoincrement()) @db.UnsignedInt
+  entity_type String   @db.VarChar(255)
+  entity_id   String   @db.VarChar(255)
+  source_type String   @db.VarChar(255)
+  source_id   String   @db.VarChar(255)
+  type        String   @db.VarChar(255)
+  created_at  DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  updated_at  DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+
+  @@index([entity_type, entity_id], map: "entity")
+  @@index([source_type, source_id], map: "source")
+  @@index([type], map: "sources_type_index")
+}
+
+model Specialization {
+  @@map("specializations")
+
+  id               Int      @id @default(autoincrement()) @db.UnsignedInt
+  profession_id    String   @db.VarChar(255)
+  signature        String   @db.VarChar(40)
+  file_id          Int
+  name_de          String   @db.VarChar(255)
+  name_en          String   @db.VarChar(255)
+  name_es          String   @db.VarChar(255)
+  name_fr          String   @db.VarChar(255)
+  data_de          String   @db.Text
+  data_en          String   @db.Text
+  data_es          String   @db.Text
+  data_fr          String   @db.Text
+  removed_from_api Boolean  @default(false)
+  created_at       DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  updated_at       DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+}
+
+model Title {
+  @@map("titles")
+
+  id         Int      @id @default(autoincrement()) @db.UnsignedInt
+  name_de    String   @db.VarChar(255)
+  name_en    String   @db.VarChar(255)
+  name_es    String   @db.VarChar(255)
+  name_fr    String   @db.VarChar(255)
+  data_de    String   @db.Text
+  data_en    String   @db.Text
+  data_es    String   @db.Text
+  data_fr    String   @db.Text
+  created_at DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  updated_at DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+}
+
+model Trait {
+  @@map("traits")
+
+  id                Int         @id @default(autoincrement()) @db.UnsignedInt
+  tier              Int
+  order             Int
+  slot              traits_slot
+  specialization_id Int
+  signature         String      @db.VarChar(40)
+  file_id           Int
+  name_de           String      @db.VarChar(255)
+  name_en           String      @db.VarChar(255)
+  name_es           String      @db.VarChar(255)
+  name_fr           String      @db.VarChar(255)
+  description_de    String      @db.Text
+  description_en    String      @db.Text
+  description_es    String      @db.Text
+  description_fr    String      @db.Text
+  data_de           String      @db.Text
+  data_en           String      @db.Text
+  data_es           String      @db.Text
+  data_fr           String      @db.Text
+  removed_from_api  Boolean     @default(false)
+  created_at        DateTime    @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  updated_at        DateTime    @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+}
+
+model TraitRequired {
+  @@map("traits_required")
+
+  id                Int @id @default(autoincrement()) @db.UnsignedInt
+  trait_id          Int @db.UnsignedInt
+  required_trait_id Int @db.UnsignedInt
+}
+
+model World {
+  @@map("worlds")
+
+  id       Int    @id @db.UnsignedInt
+  name_de  String @db.VarChar(255)
+  name_en  String @db.VarChar(255)
+  name_es  String @db.VarChar(255)
+  name_fr  String @db.VarChar(255)
+  match_id Int    @default(0) @db.UnsignedInt
+}
+
+enum achievement_views_language {
+  de
+  en
+  es
+  fr
+  zh
+}
+
+enum item_views_language {
+  de
+  en
+  es
+  fr
+}
+
+enum items_rarity {
+  Ascended
+  Basic
+  Exotic
+  Fine
+  Junk
+  Legendary
+  Masterwork
+  Rare
+}
+
+enum items_weight {
+  None
+  Clothing
+  Light
+  Medium
+  Heavy
+}
+
+enum items_type {
+  None
+  Armor
+  Back
+  Bag
+  Consumable
+  Container
+  CraftingMaterial
+  Gathering
+  Gizmo
+  MiniPet
+  Tool
+  Trait
+  Trinket
+  Trophy
+  UpgradeComponent
+  Weapon
+}
+
+enum match_worlds_team {
+  red
+  green
+  blue
+}
+
+enum traits_slot {
+  Major
+  Minor
+}

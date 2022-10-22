@@ -2,6 +2,7 @@ import { NextPage } from 'next';
 import DetailLayout from '../../components/Layout/DetailLayout';
 import Layout from '../../components/Layout/Layout';
 import { Table } from '../../components/Table/Table';
+import { TableOfContentAnchor } from '../../components/TableOfContent/TableOfContent';
 
 interface DetailProps { }
 
@@ -9,28 +10,32 @@ const Detail: NextPage<DetailProps> = ({}) => {
 
   return (
     <DetailLayout
-    title="Detail Layout"
-    icon="https://icons-gw2.darthmaim-cdn.com/18CE5D78317265000CF3C23ED76AB3CEE86BA60E/65941-64px.png"
-    breadcrumb="Test › Foo › Bar"
+      title="Detail Layout"
+      icon="https://icons-gw2.darthmaim-cdn.com/18CE5D78317265000CF3C23ED76AB3CEE86BA60E/65941-64px.png"
+      breadcrumb="Test › Foo › Bar"
     >
-    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-    <Table>
+      <TableOfContentAnchor id='First Paragraph'/>
+      <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+      
+      <TableOfContentAnchor id='Table'/>
+      <Table>
         <thead>
-        <tr><th>Foo</th><th>Bar</th></tr>
+          <tr><th>Foo</th><th>Bar</th></tr>
         </thead>
         <tbody>
-        <tr><th>Test</th><td>123</td></tr>
-        <tr><th>Test</th><td>123</td></tr>
-        <tr><th>Test</th><td>123</td></tr>
-        <tr><th>Test</th><td>123</td></tr>
-        <tr><th>Test</th><td>123</td></tr>
-        <tr><th>Test</th><td>123</td></tr>
-        <tr><th>Test</th><td>123</td></tr>
+          <tr><th>Test</th><td>123</td></tr>
+          <tr><th>Test</th><td>123</td></tr>
+          <tr><th>Test</th><td>123</td></tr>
+          <tr><th>Test</th><td>123</td></tr>
+          <tr><th>Test</th><td>123</td></tr>
+          <tr><th>Test</th><td>123</td></tr>
+          <tr><th>Test</th><td>123</td></tr>
         </tbody>
-    </Table>
-    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-    
-    <Table>
+      </Table>
+      <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+      
+      <TableOfContentAnchor id='Recipes'/>
+      <Table>
         <thead><tr>
         <th>Output</th>
         <th>Disciplines</th>

@@ -1,7 +1,7 @@
 import { Item } from '@prisma/client';
 import { NextPage } from 'next';
-import Link from 'next/link';
 import DetailLayout from '../../components/Layout/DetailLayout';
+import { TableOfContentAnchor } from '../../components/TableOfContent/TableOfContent';
 import { prisma } from '../../lib/prisma';
 import { getServerSideSuperProps, withSuperProps } from '../../lib/superprops';
 
@@ -12,7 +12,11 @@ interface ItemPageProps {
 const ItemPage: NextPage<ItemPageProps> = ({ item }) => {
   return (
     <DetailLayout title={item.name_en} icon={`https://icons-gw2.darthmaim-cdn.com/${item.signature}/${item.file_id}-64px.png`} breadcrumb="Item">
-
+      <h2>
+        <TableOfContentAnchor id="history">History</TableOfContentAnchor>
+        History
+      </h2>
+      Added {item.date_added.toDateString()}.
     </DetailLayout>
   );
 };
@@ -28,4 +32,3 @@ export const getServerSideProps = getServerSideSuperProps<ItemPageProps>(async (
 });
 
 export default withSuperProps(ItemPage);
-

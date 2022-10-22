@@ -35,3 +35,8 @@
 .activeLink:hover {
   border-left-color: var(--color-rarity-exotic);
 }
+
+.anchor {
+  position: absolute;
+  margin-top: -64px;
+}

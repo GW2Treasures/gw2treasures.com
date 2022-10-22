@@ -1,6 +1,8 @@
 import { Item } from '@prisma/client';
 import { NextPage } from 'next';
 import Link from 'next/link';
+import { ItemIcon } from '../components/Item/ItemIcon';
+import { ItemLink } from '../components/Item/ItemLink';
 import { prisma } from '../lib/prisma';
 import { getServerSideSuperProps, withSuperProps } from '../lib/superprops';
 
@@ -14,7 +16,7 @@ const Home: NextPage<HomeProps> = ({ items }) => {
       <h1>Home</h1>
       <Link href="/layout/detail">Detail Layout Demo</Link>
       <ul>
-        {items.map((item) => <li><a href={`/item/${item.id}`}>{item.name_en}</a></li>)}
+        {items.map((item) => <li key={item.id}><ItemLink item={item}/></li>)}
       </ul>
     </div>
   );

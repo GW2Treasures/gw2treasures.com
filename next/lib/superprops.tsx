@@ -1,4 +1,4 @@
-import { NextPage, GetServerSideProps } from 'next';
+import { NextPage, GetServerSideProps, GetStaticProps } from 'next';
 import { ReactNode } from 'react';
 import { serialize, deserialize } from 'superjson/dist';
 import { SuperJSONResult } from 'superjson/src/types'
@@ -30,3 +30,18 @@ export function getServerSideSuperProps<T extends { [key: string]: any }>(factor
     return result;
   }
 }
+
+export function getStaticSuperProps<T extends { [key: string]: any }>(factory: GetStaticProps<T>): GetStaticProps<SuperJSONResult> {
+  return async (data) => {
+    const result = await factory(data);
+    
+    if('props' in result) {
+      return {
+        props: serialize(await result.props)
+      };
+    }
+
+    return result;
+  }
+}
+

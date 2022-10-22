@@ -22,7 +22,7 @@ const DetailLayout: FunctionComponent<DetailLayoutProps> = ({ title, icon, bread
           <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</p>
         </aside>
         <aside className={styles.tableOfContent}>
-          <TableOfContent items={[{ label: 'Used in crafting', id: '1' }, { label: 'Achievements', id: '2' }, { label: 'Similar', id: '3' }]} activeId="2"/>
+          <TableOfContent/>
         </aside>
         <div className={styles.content}>
           {children}

@@ -1,0 +1,20 @@
+.link {
+  color: #245dc1;
+  display: flex;
+  align-items: center;
+}
+
+.link > img {
+  border-radius: 2px;
+  margin-right: 4px;
+  vertical-align: top;  
+}
+
+.name {
+  border-bottom: 2px solid transparent;
+  transition: border-bottom-color .3s ease;
+}
+
+.link:hover .name {
+  border-bottom-color: currentColor;
+}

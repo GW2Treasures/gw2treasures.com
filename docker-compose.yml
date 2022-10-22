@@ -61,11 +61,14 @@ services:
       - GW2T_PMA=http://phpmyadmin
       - GW2T_STORAGE_DOMAIN=storage.gw2treasures.localhost
       - GW2T_STORAGE=http://storage
+      - GW2T_NEXT_DOMAIN=next.gw2treasures.localhost
+      - GW2T_NEXT=http://next:3000
     depends_on:
       - web
       - assets
       - phpmyadmin
       - storage
+      - next
     ports: 
       - 80:80
   assets:
@@ -90,6 +93,12 @@ services:
       - MYSQL_PASSWORD=3c09b766-101c-4500-9f25-33450753e88a
     depends_on: 
       - db
+  next:
+    image: gw2treasures/next
+    build: next
+    restart: unless-stopped
+    environment:
+      - DATABASE_URL=mysql://gw2treasures:3c09b766-101c-4500-9f25-33450753e88a@db:3306/gw2treasures
 
 volumes: 
   gw2treasures-db:

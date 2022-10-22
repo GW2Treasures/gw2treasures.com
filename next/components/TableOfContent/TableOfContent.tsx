@@ -43,13 +43,13 @@ export interface TableOfContentAnchorProps {
 
 export const TableOfContentAnchor: FC<TableOfContentAnchorProps> = ({ id, children }) => {
   const context = useContext(Context);
-  const [element, setElement] = useState<HTMLAnchorElement>();
+  const [element, setElement] = useState<HTMLAnchorElement | null>(null);
 
   useEffect(() => {
     if(element) {
-      return context.registerAnchor({ id, element, label: children ?? id });
+      return context?.registerAnchor({ id, element, label: children ?? id });
     }
-  }, [id, element, children]);
+  }, [context?.registerAnchor, id, element]);
 
   return <a key={id} id={id} ref={setElement} className={styles.anchor}/>;
 };
@@ -57,17 +57,15 @@ export const TableOfContentAnchor: FC<TableOfContentAnchorProps> = ({ id, childr
 interface TableOfContentProps {};
 
 export const TableOfContent: FC<TableOfContentProps> = ({  }) => {
-  const { anchors } = useContext(Context);
+  const { anchors } = useContext(Context) ?? { anchors: [] };
   const [activeId, setActiveId] = useState<string>(anchors[0]?.id);
 
   useEffect(() => {
     const listener = () => {
       const scrollTop = window.scrollY;
-      console.log(scrollTop);
       
       let topAnchor = anchors[0];
       for(const anchor of anchors) {
-        console.log(anchor.id, anchor.element.offsetTop);
         if(anchor.element.offsetTop - scrollTop <= 0) {
           topAnchor = anchor;
         } else {

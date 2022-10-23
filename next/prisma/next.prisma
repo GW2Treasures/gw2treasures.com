@@ -1,0 +1,82 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../.prisma/database"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("NEXT_DATABASE_URL")
+}
+
+model Item {
+  id Int @id
+
+  name_de String
+  name_en String
+  name_es String
+  name_fr String
+
+  current_de Revision @relation("current_de", fields: [currentId_de], references: [id])
+  currentId_de String @unique
+  
+  current_en Revision @relation("current_en", fields: [currentId_en], references: [id])
+  currentId_en String @unique
+  
+  current_es Revision @relation("current_es", fields: [currentId_es], references: [id])
+  currentId_es String @unique
+  
+  current_fr Revision @relation("current_fr", fields: [currentId_fr], references: [id])
+  currentId_fr String @unique
+
+  history ItemHistory[]
+  
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+}
+
+model ItemHistory {
+  itemId Int
+  revisionId String
+
+  item Item @relation(fields: [itemId], references: [id])
+  revision Revision @relation(fields: [revisionId], references: [id])
+
+  @@id([itemId, revisionId])
+}
+
+model Revision {
+  id String @id @default(uuid())
+
+  data String
+  description String?
+
+  language Language
+
+  build Build @relation(fields: [buildId], references: [id])
+  buildId Int
+  
+  createdAt DateTime @default(now())
+
+  // items
+  currentItem_de Item? @relation("current_de")
+  currentItem_en Item? @relation("current_en")
+  currentItem_es Item? @relation("current_es")
+  currentItem_fr Item? @relation("current_fr")
+  itemHistory ItemHistory[]
+}
+
+model Build {
+  id Int @id
+
+  revisions Revision[]
+  
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+}
+
+enum Language {
+  de
+  en
+  es
+  fr
+}

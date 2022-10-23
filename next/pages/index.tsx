@@ -1,9 +1,9 @@
-import { Item } from '@prisma/client';
 import { NextPage } from 'next';
 import Link from 'next/link';
+import { Item } from '../.prisma/database';
 import { ItemIcon } from '../components/Item/ItemIcon';
 import { ItemLink } from '../components/Item/ItemLink';
-import { legacy } from '../lib/prisma';
+import { db } from '../lib/prisma';
 import { getServerSideSuperProps, withSuperProps } from '../lib/superprops';
 
 interface HomeProps {
@@ -23,9 +23,11 @@ const Home: NextPage<HomeProps> = ({ items }) => {
 };
 
 export const getServerSideProps = getServerSideSuperProps<HomeProps>(async ({}) => {
-  const [items] = await Promise.all([
-    legacy.item.findMany({ take: 30, orderBy: { date_added: 'desc' } }),
-  ]);
+  // const [items] = await Promise.all([
+  //   legacy.item.findMany({ take: 30, orderBy: { date_added: 'desc' } }),
+  // ]);
+
+  const items = await db.item.findMany({ take: 30, orderBy: { createdAt: 'desc' }});
 
   return {
     props: { items },

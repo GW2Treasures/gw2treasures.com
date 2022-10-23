@@ -11,6 +11,17 @@ const nextConfig = {
     });
 
     return config;
+  },
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['de', 'en', 'es', 'fr'],
+    domains: [
+      { domain: 'de.next.gw2treasures.localhost', defaultLocale: 'de', http: true },
+      { domain: 'en.next.gw2treasures.localhost', defaultLocale: 'en', http: true },
+      { domain: 'es.next.gw2treasures.localhost', defaultLocale: 'es', http: true },
+      { domain: 'fr.next.gw2treasures.localhost', defaultLocale: 'fr', http: true },
+    ],
+    localeDetection: false,
   }
 }
 

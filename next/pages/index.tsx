@@ -1,5 +1,6 @@
 import { NextPage } from 'next';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { Item } from '../.prisma/database';
 import { ItemIcon } from '../components/Item/ItemIcon';
 import { ItemLink } from '../components/Item/ItemLink';
@@ -11,9 +12,11 @@ interface HomeProps {
 }
 
 const Home: NextPage<HomeProps> = ({ items }) => {
+  const router = useRouter();
+
   return (
     <div>
-      <h1>Home</h1>
+      <h1>Home ({ router.locale })</h1>
       <Link href="/layout/detail">Detail Layout Demo</Link>
       <ul>
         {items.map((item) => <li key={item.id}><ItemLink item={item}/></li>)}

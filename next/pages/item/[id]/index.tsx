@@ -1,6 +1,8 @@
 import { GetStaticPaths, NextPage } from 'next';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { Item, ItemHistory, Language, Revision } from '../../../.prisma/database';
+import { ItemLink } from '../../../components/Item/ItemLink';
 import { ItemTooltip } from '../../../components/Item/ItemTooltip';
 import DetailLayout from '../../../components/Layout/DetailLayout';
 import { Skeleton } from '../../../components/Skeleton/Skeleton';
@@ -30,18 +32,28 @@ const ItemPage: NextPage<ItemPageProps> = ({ item, revision, fixedRevision }) =>
   if(!item) {
     return <DetailLayout title={<Skeleton/>} breadcrumb={<Skeleton/>}><Skeleton/></DetailLayout>;
   }
+  
+  const router = useRouter();
 
   const data: ApiItem = JSON.parse(revision.data);
 
   return (
-    <DetailLayout title={data.name} icon={data.icon} breadcrumb={`Item › ${data.type} › ${data.details?.type}`}>
-      {item.currentId_en !== revision.id && (
+    <DetailLayout title={data.name} icon={data.icon} breadcrumb={`Item › ${data.type} › ${data.details?.type}`} infobox={
+    <>
+      {router.locale !== 'de' && (<div>DE: <ItemLink item={item} locale="de"/></div>)}
+      {router.locale !== 'en' && (<div>EN: <ItemLink item={item} locale="en"/></div>)}
+      {router.locale !== 'es' && (<div>ES: <ItemLink item={item} locale="es"/></div>)}
+      {router.locale !== 'fr' && (<div>FR: <ItemLink item={item} locale="fr"/></div>)}
+    </>
+    }>
+      {item[`currentId_${router.locale as Language}`] !== revision.id && (
         <p>You are viewing an old revision of this item (Build {revision.buildId}). <Link href={`/item/${item.id}`}>View current.</Link></p>
       )}
-      {item.currentId_en === revision.id && fixedRevision && (
+      {item[`currentId_${router.locale as Language}`] === revision.id && fixedRevision && (
         <p>You are viewing this item at a fixed revision (Build {revision.buildId}). <Link href={`/item/${item.id}`}>View current.</Link></p>
       )}
 
+      <TableOfContentAnchor id="tooltip">Tooltip</TableOfContentAnchor>
       <ItemTooltip item={data}/>
 
       <h2>
@@ -64,28 +76,37 @@ const ItemPage: NextPage<ItemPageProps> = ({ item, revision, fixedRevision }) =>
           ))}
         </tbody>
       </Table>
+      
+      <h2>
+        <TableOfContentAnchor id="debug">Debug</TableOfContentAnchor>
+        Debug
+      </h2>
+
+      <pre>{JSON.stringify(data, undefined, '  ')}</pre>
     </DetailLayout>
   );
 };
 
-export const getStaticProps = getStaticSuperProps<ItemPageProps>(async ({ params }) => {
+export const getStaticProps = getStaticSuperProps<ItemPageProps>(async ({ params, locale }) => {
   const id = Number(params!.id!.toString())!;
+  const language = (locale ?? 'en') as Language;
 
-  const [item] = await Promise.all([
+  const [item, revision] = await Promise.all([
     db.item.findUnique({
       where: { id },
-      include: { current_en: true, history: { include: { revision: { select: { id: true, buildId: true, createdAt: true, description: true, language: true } } }, where: { revision: { language: 'en' } } } }
+      include: { history: { include: { revision: { select: { id: true, buildId: true, createdAt: true, description: true, language: true } } }, where: { revision: { language } }, orderBy: { revision: { createdAt: 'desc' } } } }
     }),
+    db.revision.findFirst({ where: { [`currentItem_${language}`]: { id } } })
   ]);
 
-  if(!item) {
+  if(!item || !revision) {
     return {
       notFound: true
     }
   }
 
   return {
-    props: { item, revision: item.current_en, fixedRevision: false },
+    props: { item, revision: revision, fixedRevision: false },
     revalidate: 600 /* 10 minutes */
   }
 });

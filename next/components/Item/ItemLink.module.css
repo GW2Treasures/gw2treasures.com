@@ -1,6 +1,6 @@
 .link {
   color: #245dc1;
-  display: flex;
+  display: inline-flex;
   align-items: center;
 }
 

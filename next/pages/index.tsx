@@ -3,7 +3,7 @@ import { NextPage } from 'next';
 import Link from 'next/link';
 import { ItemIcon } from '../components/Item/ItemIcon';
 import { ItemLink } from '../components/Item/ItemLink';
-import { prisma } from '../lib/prisma';
+import { legacy } from '../lib/prisma';
 import { getServerSideSuperProps, withSuperProps } from '../lib/superprops';
 
 interface HomeProps {
@@ -24,7 +24,7 @@ const Home: NextPage<HomeProps> = ({ items }) => {
 
 export const getServerSideProps = getServerSideSuperProps<HomeProps>(async ({}) => {
   const [items] = await Promise.all([
-    prisma.item.findMany({ take: 30, orderBy: { date_added: 'desc' } }),
+    legacy.item.findMany({ take: 30, orderBy: { date_added: 'desc' } }),
   ]);
 
   return {

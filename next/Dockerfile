@@ -14,9 +14,10 @@ RUN npm ci
 FROM node:${node_version} AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
+COPY --from=deps /app/package.json /app/package-lock.json* ./
 
 COPY prisma prisma
-RUN npx prisma generate
+RUN npm run prisma-generate
 
 COPY . .
 
@@ -40,6 +41,7 @@ COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma/
+COPY --from=builder --chown=nextjs:nodejs /app/.prisma ./.prisma/
 
 USER nextjs
 

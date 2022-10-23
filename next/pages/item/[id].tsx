@@ -1,9 +1,11 @@
 import { Item } from '@prisma/client';
-import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
+import { GetStaticPaths, NextPage } from 'next';
+import { ItemTooltip } from '../../components/Item/ItemTooltip';
 import DetailLayout from '../../components/Layout/DetailLayout';
+import { Skeleton } from '../../components/Skeleton/Skeleton';
 import { TableOfContentAnchor } from '../../components/TableOfContent/TableOfContent';
-import { prisma } from '../../lib/prisma';
-import { getServerSideSuperProps, getStaticSuperProps, withSuperProps } from '../../lib/superprops';
+import { legacy } from '../../lib/prisma';
+import { getStaticSuperProps, withSuperProps } from '../../lib/superprops';
 
 interface ItemPageProps {
   item: Item;
@@ -11,15 +13,18 @@ interface ItemPageProps {
 
 const ItemPage: NextPage<ItemPageProps> = ({ item }) => {
   if(!item) {
-    return <>Loading</>;
+    return <DetailLayout title={<Skeleton/>} breadcrumb={<Skeleton/>}><Skeleton/></DetailLayout>;
   }
 
   return (
     <DetailLayout title={item.name_en} icon={`https://icons-gw2.darthmaim-cdn.com/${item.signature}/${item.file_id}-64px.png`} breadcrumb={`Item › ${item.type} › ${item.subtype}`}>
+      <ItemTooltip item={item}/>
+
       <h2>
         <TableOfContentAnchor id="history">History</TableOfContentAnchor>
         History
       </h2>
+      
       Added {item.date_added.toDateString()}.
     </DetailLayout>
   );
@@ -27,7 +32,7 @@ const ItemPage: NextPage<ItemPageProps> = ({ item }) => {
 
 export const getStaticProps = getStaticSuperProps<ItemPageProps>(async ({ params }) => {
   const [item] = await Promise.all([
-    prisma.item.findUnique({ where: { id: Number(params!.id!.toString())! }}),
+    legacy.item.findUnique({ where: { id: Number(params!.id!.toString())! }}),
   ]);
 
   if(!item) {
@@ -38,6 +43,7 @@ export const getStaticProps = getStaticSuperProps<ItemPageProps>(async ({ params
 
   return {
     props: { item },
+    revalidate: 600 /* 10 minutes */
   }
 });
 

@@ -1,26 +1,29 @@
-import React, { Children, FunctionComponent, isValidElement, ReactNode } from 'react';
+import React, { FunctionComponent, ReactNode } from 'react';
 import styles from './DetailLayout.module.css';
 import { TableOfContentContext, TableOfContent } from '../TableOfContent/TableOfContent';
 
 interface DetailLayoutProps {
-  title: string;
+  title: ReactNode;
   icon?: string;
   breadcrumb?: ReactNode;
   children: ReactNode;
+  infobox?: ReactNode;
 };
 
-const DetailLayout: FunctionComponent<DetailLayoutProps> = ({ title, icon, breadcrumb, children }) => {
+const DetailLayout: FunctionComponent<DetailLayoutProps> = ({ title, icon, breadcrumb, children, infobox }) => {
   return (
     <TableOfContentContext>
       <main className={styles.main}>
-        <div className={styles.headline}>
+        <div className={infobox ? styles.headline : styles.headlineWithoutInfobox}>
           {icon && <img src={icon} alt="" className={styles.icon}/>}
           <h1 className={styles.title}>{title}</h1>
           {breadcrumb && <div className={styles.breadcrumb}>{breadcrumb}</div>}
         </div>
-        <aside className={styles.infobox}>
-          <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</p>
-        </aside>
+        {infobox && (
+          <aside className={styles.infobox}>
+            {infobox}
+          </aside>
+        )}
         <aside className={styles.tableOfContent}>
           <TableOfContent/>
         </aside>

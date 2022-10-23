@@ -1,0 +1,15 @@
+.skeleton {
+  display: inline-block;
+  width: 10em;
+  height: 1em;
+  color: transparent;
+  background-image: linear-gradient(45deg, rgba(0,0,0,.3), rgba(0,0,0,.2), rgba(0,0,0,.3));
+  animation: infinite skeleton linear 1s;
+  vertical-align: bottom;
+}
+
+@keyframes skeleton {
+  0% { background-position: 0% 50%; opacity: 1; }
+  50% { opacity: .8; }
+  100% { background-position: 100% 50%; opacity: 1; }
+}

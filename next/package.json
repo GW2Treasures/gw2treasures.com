@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "prisma-generate": "npx prisma generate --schema=prisma/legacy.prisma"
   },
   "dependencies": {
     "@fontsource/bitter": "^4.5.9",

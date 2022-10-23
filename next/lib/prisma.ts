@@ -1,17 +1,17 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "../.prisma/legacy";
 
 // https://pris.ly/d/help/next-js-best-practices
 
 declare global {
   // allow global `var` declarations
   // eslint-disable-next-line no-var
-  var prisma: PrismaClient | undefined
+  var legacy: PrismaClient | undefined
 }
 
-export const prisma =
-  global.prisma ||
+export const legacy =
+  global.legacy ||
   new PrismaClient({
     log: ['query'],
   })
 
-if (process.env.NODE_ENV !== 'production') global.prisma = prisma
+if (process.env.NODE_ENV !== 'production') global.legacy = legacy

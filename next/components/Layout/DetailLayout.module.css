@@ -23,6 +23,11 @@
      min-content 1fr;
 }
 
+.headlineWithoutInfobox {
+  composes: headline;
+  grid-column-end: infobox;
+}
+
 .icon {
   grid-area: icon;
 

@@ -23,6 +23,7 @@ export function getServerSideSuperProps<T extends { [key: string]: any }>(factor
     
     if('props' in result) {
       return {
+        ...result,
         props: serialize(await result.props)
       };
     }
@@ -37,6 +38,7 @@ export function getStaticSuperProps<T extends { [key: string]: any }>(factory: G
     
     if('props' in result) {
       return {
+        ...result,
         props: serialize(await result.props)
       };
     }

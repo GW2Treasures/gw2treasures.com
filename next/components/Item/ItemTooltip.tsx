@@ -5,7 +5,6 @@ export interface ItemTooltipProps {
   item: ApiItem;
 }
 
-
 export const ItemTooltip: FC<ItemTooltipProps> = ({ item }) => {
 
   const data: ReactNode[] = [
@@ -33,5 +32,7 @@ export const ItemTooltip: FC<ItemTooltipProps> = ({ item }) => {
 
   ];
 
-  return data.filter(Boolean).map((content) => <div style={{ marginBottom: 8 }}>{content}</div>);
+  return <div>
+    {data.filter(Boolean).map((content) => <div style={{ marginBottom: 8 }}>{content}</div>)}
+  </div>;
 };

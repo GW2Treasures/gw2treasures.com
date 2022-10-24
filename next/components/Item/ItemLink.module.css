@@ -3,12 +3,7 @@
   display: inline-flex;
   align-items: center;
   text-decoration: none;
-}
-
-.link > img {
-  border-radius: 2px;
-  margin-right: 4px;
-  vertical-align: top;  
+  gap: 8px;
 }
 
 .name {

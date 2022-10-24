@@ -3,6 +3,7 @@ import styles from './Layout.module.css';
 import Icon from '../../icons/Icon';
 import Navigation from './Navigation';
 import Link from 'next/link';
+import { Search } from '../Search/Search';
 
 interface LayoutProps {
   children: ReactNode;
@@ -38,6 +39,7 @@ const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
               <Icon icon="gw2treasures"/>
               <Link href="/">gw2treasures.com</Link>
             </div>
+            <Search/>
           </header>
           <nav className={menuOpen ? styles.headerNavVisible : styles.headerNav}>
             <Navigation/>

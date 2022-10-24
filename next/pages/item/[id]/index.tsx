@@ -1,7 +1,7 @@
 import { GetStaticPaths, NextPage } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { Item, ItemHistory, Language, Revision } from '../../../.prisma/database';
+import { Icon as DbIcon, Item, ItemHistory, Language, Revision } from '../../../.prisma/database';
 import { ItemLink } from '../../../components/Item/ItemLink';
 import { ItemTooltip } from '../../../components/Item/ItemTooltip';
 import DetailLayout from '../../../components/Layout/DetailLayout';
@@ -14,9 +14,11 @@ import { getStaticSuperProps, withSuperProps } from '../../../lib/superprops';
 import rarityClasses from '../../../components/Layout/RarityColor.module.css';
 import { Infobox } from '../../../components/Infobox/Infobox';
 import Icon from '../../../icons/Icon';
+import { getIconUrl } from '../../../components/Item/ItemIcon';
 
 export interface ItemPageProps {
   item: Item & {
+    icon?: DbIcon | null,
     history: (ItemHistory & {
       revision: {
         id: string;
@@ -41,12 +43,12 @@ const ItemPage: NextPage<ItemPageProps> = ({ item, revision, fixedRevision }) =>
   const data: ApiItem = JSON.parse(revision.data);
 
   return (
-    <DetailLayout title={data.name} icon={data.icon} className={rarityClasses[data.rarity]} breadcrumb={`Item › ${data.type} › ${data.details?.type}`} infobox={
+    <DetailLayout title={data.name} icon={item.icon && getIconUrl(item.icon, 64) || undefined} className={rarityClasses[data.rarity]} breadcrumb={`Item › ${data.type} › ${data.details?.type}`} infobox={
     <>
-      {router.locale !== 'de' && (<div>DE: <ItemLink item={item} locale="de"/></div>)}
-      {router.locale !== 'en' && (<div>EN: <ItemLink item={item} locale="en"/></div>)}
-      {router.locale !== 'es' && (<div>ES: <ItemLink item={item} locale="es"/></div>)}
-      {router.locale !== 'fr' && (<div>FR: <ItemLink item={item} locale="fr"/></div>)}
+      {router.locale !== 'de' && (<div>DE: <ItemLink icon="none" item={item} locale="de"/></div>)}
+      {router.locale !== 'en' && (<div>EN: <ItemLink icon="none" item={item} locale="en"/></div>)}
+      {router.locale !== 'es' && (<div>ES: <ItemLink icon="none" item={item} locale="es"/></div>)}
+      {router.locale !== 'fr' && (<div>FR: <ItemLink icon="none" item={item} locale="fr"/></div>)}
     </>
     }>
       {item[`currentId_${router.locale as Language}`] !== revision.id && (
@@ -79,13 +81,6 @@ const ItemPage: NextPage<ItemPageProps> = ({ item, revision, fixedRevision }) =>
           ))}
         </tbody>
       </Table>
-      
-      <h2>
-        <TableOfContentAnchor id="debug">Debug</TableOfContentAnchor>
-        Debug
-      </h2>
-
-      <pre>{JSON.stringify(data, undefined, '  ')}</pre>
     </DetailLayout>
   );
 };
@@ -97,7 +92,14 @@ export const getStaticProps = getStaticSuperProps<ItemPageProps>(async ({ params
   const [item, revision] = await Promise.all([
     db.item.findUnique({
       where: { id },
-      include: { history: { include: { revision: { select: { id: true, buildId: true, createdAt: true, description: true, language: true } } }, where: { revision: { language } }, orderBy: { revision: { createdAt: 'desc' } } } }
+      include: { 
+        history: {
+          include: { revision: { select: { id: true, buildId: true, createdAt: true, description: true, language: true } } },
+          where: { revision: { language } },
+          orderBy: { revision: { createdAt: 'desc' } } 
+        },
+        icon: true
+      }
     }),
     db.revision.findFirst({ where: { [`currentItem_${language}`]: { id } } })
   ]);

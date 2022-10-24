@@ -16,18 +16,23 @@ model Item {
   name_es String
   name_fr String
 
+  icon   Icon? @relation(fields: [iconId], references: [id])
+  iconId Int?
+
+  rarity String
+
   removedFromApi Boolean @default(false)
 
-  current_de Revision @relation("current_de", fields: [currentId_de], references: [id])
+  current_de Revision @relation("current_de", fields: [currentId_de], references: [id], onDelete: Cascade)
   currentId_de String @unique
   
-  current_en Revision @relation("current_en", fields: [currentId_en], references: [id])
+  current_en Revision @relation("current_en", fields: [currentId_en], references: [id], onDelete: Cascade)
   currentId_en String @unique
   
-  current_es Revision @relation("current_es", fields: [currentId_es], references: [id])
+  current_es Revision @relation("current_es", fields: [currentId_es], references: [id], onDelete: Cascade)
   currentId_es String @unique
   
-  current_fr Revision @relation("current_fr", fields: [currentId_fr], references: [id])
+  current_fr Revision @relation("current_fr", fields: [currentId_fr], references: [id], onDelete: Cascade)
   currentId_fr String @unique
 
   history ItemHistory[]
@@ -36,12 +41,19 @@ model Item {
   updatedAt      DateTime   @updatedAt
 }
 
+model Icon {
+  id Int @id
+  signature String
+
+  items Item[]
+}
+
 model ItemHistory {
   itemId Int
   revisionId String
 
-  item Item @relation(fields: [itemId], references: [id])
-  revision Revision @relation(fields: [revisionId], references: [id])
+  item Item @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  revision Revision @relation(fields: [revisionId], references: [id], onDelete: Cascade)
 
   @@id([itemId, revisionId])
 }

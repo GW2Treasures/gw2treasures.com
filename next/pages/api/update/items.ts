@@ -47,9 +47,9 @@ async function processItems(buildId: number) {
 
   console.log(`Updating items (${newIds.length} added, ${removedIds.length} removed, ${rediscoveredIds.length} rediscovered)`);
 
-  newItems(buildId, newIds);
-  removedItems(buildId, removedIds);
-  rediscoveredItems(buildId, rediscoveredIds);
+  await newItems(buildId, newIds);
+  await removedItems(buildId, removedIds);
+  await rediscoveredItems(buildId, rediscoveredIds);
 }
 
 async function newItems(buildId: number, newIds: number[]) {
@@ -69,18 +69,35 @@ async function newItems(buildId: number, newIds: number[]) {
     fr: items_fr.find(({ id }) => id === item.id)!,
   }));
 
+  const knownIcons = (await db.icon.findMany()).reduce<Record<number, string>>((knownIcons, { id, signature }) => ({ ...knownIcons, [id]: signature }), {});
+
   for(const { de, en, es, fr } of items) {
     const revision_de = await db.revision.create({ data: { data: JSON.stringify(de), language: 'de', buildId, description: 'Added to API' } });
     const revision_en = await db.revision.create({ data: { data: JSON.stringify(en), language: 'en', buildId, description: 'Added to API' } });
     const revision_es = await db.revision.create({ data: { data: JSON.stringify(es), language: 'es', buildId, description: 'Added to API' } });
     const revision_fr = await db.revision.create({ data: { data: JSON.stringify(fr), language: 'fr', buildId, description: 'Added to API' } });
+
+    const icon = en.icon?.match(/\/(?<signature>[^\/]*)\/(?<id>[^\/]*)\.png$/)?.groups as { signature: string, id: number } | undefined;
     
+    if(icon) {
+      icon.id = Number(icon.id);
+    }
+
+    if(icon && !knownIcons[icon.id]) {
+      await db.icon.create({ data: icon });
+      knownIcons[icon.id] = icon.signature;
+    } else if(icon && knownIcons[icon.id] !== icon.signature) {
+      await db.icon.update({ where: { id: icon.id }, data: icon });
+    }
+
     const i = await db.item.create({ data: {
       id: en.id,
       name_de: de.name,
       name_en: en.name,
       name_es: es.name,
       name_fr: fr.name,
+      iconId: icon?.id,
+      rarity: en.rarity,
       currentId_de: revision_de.id,
       currentId_en: revision_en.id,
       currentId_es: revision_es.id,

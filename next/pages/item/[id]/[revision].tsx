@@ -11,7 +11,10 @@ export const getStaticProps = getStaticSuperProps<ItemPageProps>(async ({ params
   const [item, revision] = await Promise.all([
     db.item.findUnique({
       where: { id },
-      include: { history: { include: { revision: { select: { id: true, buildId: true, createdAt: true, description: true, language: true } } }, where: { revision: { language: locale as Language } }, orderBy: { revision: { createdAt: 'desc' } } } }
+      include: {
+        history: { include: { revision: { select: { id: true, buildId: true, createdAt: true, description: true, language: true } } }, where: { revision: { language: locale as Language } }, orderBy: { revision: { createdAt: 'desc' } } },
+        icon: true,
+      }
     }),
     db.revision.findFirst({ where: { id: revisionId, language: locale as Language, itemHistory: { some: { itemId: id } } } })
   ]);

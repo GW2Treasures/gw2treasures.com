@@ -31,9 +31,11 @@ async function processItems(buildId: number) {
   const ids = await legacy.item.findMany({ select: { id: true } }).then((items) => items.map(({ id }) => id));
   const knownIds = await db.item.findMany({ select: { id: true } }).then((items) => items.map(({ id }) => id));
 
-  const newIds = ids.filter((id) => !knownIds.includes(id));
+  const newIds = ids.filter((id) => !knownIds.includes(id)).slice(0, 10);
 
   console.log(`Importing ${newIds.length} items.`);
+
+  const knownIcons = (await db.icon.findMany()).reduce<Record<number, string>>((knownIcons, { id, signature }) => ({ ...knownIcons, [id]: signature }), {});
 
   for(const id of newIds) {
     try {
@@ -48,16 +50,27 @@ async function processItems(buildId: number) {
       const revision_es = await db.revision.create({ data: { data: fixupDetails(item.data_es), language: 'es', buildId, description: 'Imported - No earlier history available' } });
       const revision_fr = await db.revision.create({ data: { data: fixupDetails(item.data_fr), language: 'fr', buildId, description: 'Imported - No earlier history available' } });
       
+      if(item.file_id && !knownIcons[item.file_id]) {
+        await db.icon.create({ data: { id: item.file_id, signature: item.signature } });
+        knownIcons[item.file_id] = item.signature;
+      } else if(item.file_id && knownIcons[item.file_id] !== item.signature) {
+        await db.icon.update({ where: { id: item.file_id }, data: { signature: item.signature } });
+      }
+
       await db.item.create({ data: {
         id: item.id,
         name_de: item.name_de,
         name_en: item.name_en,
         name_es: item.name_es,
         name_fr: item.name_fr,
+        removedFromApi: item.removed_from_api,
+        iconId: item.file_id,
+        rarity: item.rarity,
         currentId_de: revision_de.id,
         currentId_en: revision_en.id,
         currentId_es: revision_es.id,
         currentId_fr: revision_fr.id,
+        createdAt: item.date_added,
         history: { createMany: { data: [{ revisionId: revision_de.id }, { revisionId: revision_en.id }, { revisionId: revision_es.id }, { revisionId: revision_fr.id }]} }
       }});
     } catch {}

@@ -1,15 +1,18 @@
-import { Item } from '@prisma/client';
 import { FC } from 'react';
+import { Icon } from '../../.prisma/database';
+import styles from './ItemIcon.module.css';
+
+export type IconSize = 16 | 32 | 64;
 
 export interface ItemIconProps {
-  item: Pick<Item, 'signature' | 'file_id'>;
-  size?: 16 | 32 | 64
+  icon: Icon;
+  size?: IconSize
 }
 
-function getUrl(item: ItemIconProps['item'], size: number) {
-  return `https://icons-gw2.darthmaim-cdn.com/${item.signature}/${item.file_id}-${size}px.png`;
+export function getIconUrl({ id, signature }: Icon, size: IconSize) {
+  return `https://icons-gw2.darthmaim-cdn.com/${signature}/${id}-${size}px.png`;
 }
 
-export const ItemIcon: FC<ItemIconProps> = ({ item, size = 64 }) => {
-  return <img src={getUrl(item, size)} width={size} height={size} alt="" crossOrigin="anonymous" loading="lazy" srcSet={size < 64 ? `${getUrl(item, size * 2)} 2x` : undefined}/>
+export const ItemIcon: FC<ItemIconProps> = ({ icon, size = 64 }) => {
+  return <img src={getIconUrl(icon, size)} width={size} height={size} alt="" crossOrigin="anonymous" loading="lazy" srcSet={size < 64 ? `${getIconUrl(icon, size * 2 as IconSize)} 2x` : undefined} className={styles.icon}/>
 };

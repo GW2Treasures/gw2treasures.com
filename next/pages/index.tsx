@@ -30,7 +30,7 @@ export const getServerSideProps = getServerSideSuperProps<HomeProps>(async ({}) 
   //   legacy.item.findMany({ take: 30, orderBy: { date_added: 'desc' } }),
   // ]);
 
-  const items = await db.item.findMany({ take: 30, orderBy: { createdAt: 'desc' }});
+  const items = await db.item.findMany({ take: 30, include: { icon: true }, orderBy: { createdAt: 'desc' }});
 
   return {
     props: { items },

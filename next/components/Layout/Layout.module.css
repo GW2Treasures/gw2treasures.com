@@ -74,6 +74,11 @@
   gap: 16px;
   margin-right: 32px;
   transition: transform .3s ease;
+  font-size: 20px;
+}
+
+.title > a {
+  color: #000;
 }
 
 .headerMainScrolled .title {
@@ -94,6 +99,11 @@
 
   position: fixed;
   border-bottom: 1px solid var(--color-border);
+  animation: slideIn .1s ease-out;
+}
+
+@keyframes slideIn {
+  0% { transform: translateY(-48px) }
 }
 
 .footer {

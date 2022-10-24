@@ -8,12 +8,13 @@ interface DetailLayoutProps {
   breadcrumb?: ReactNode;
   children: ReactNode;
   infobox?: ReactNode;
+  className?: string;
 };
 
-const DetailLayout: FunctionComponent<DetailLayoutProps> = ({ title, icon, breadcrumb, children, infobox }) => {
+const DetailLayout: FunctionComponent<DetailLayoutProps> = ({ title, icon, breadcrumb, children, infobox, className }) => {
   return (
     <TableOfContentContext>
-      <main className={styles.main}>
+      <main className={[styles.main, className].filter(Boolean).join(' ')}>
         <div className={infobox ? styles.headline : styles.headlineWithoutInfobox}>
           {icon && <img src={icon} alt="" className={styles.icon}/>}
           <h1 className={styles.title}>{title}</h1>

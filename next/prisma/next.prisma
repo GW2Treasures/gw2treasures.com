@@ -16,6 +16,8 @@ model Item {
   name_es String
   name_fr String
 
+  removedFromApi Boolean @default(false)
+
   current_de Revision @relation("current_de", fields: [currentId_de], references: [id])
   currentId_de String @unique
   

@@ -3,7 +3,7 @@ import { getIcon, Icon as IconType } from './index';
 import styles from './Icon.module.css';
 
 interface IconProps {
-    icon: IconType
+  icon: IconType
 };
 
 const Icon: FunctionComponent<IconProps> = ({ icon }) => {

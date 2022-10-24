@@ -2,6 +2,7 @@
   color: #245dc1;
   display: inline-flex;
   align-items: center;
+  text-decoration: none;
 }
 
 .link > img {
@@ -16,5 +17,5 @@
 }
 
 .link:hover .name {
-  border-bottom-color: currentColor;
+  border-bottom-color: var(--color-rarity, currentColor);
 }

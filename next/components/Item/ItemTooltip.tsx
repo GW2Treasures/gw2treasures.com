@@ -17,7 +17,7 @@ export const ItemTooltip: FC<ItemTooltipProps> = ({ item }) => {
     // infusions
     // color
     // skin
-    item.rarity,
+    <span style={{ color: 'var(--color-rarity)' }}>{item.rarity}</span>,
     item.details?.type,
     item.details?.weight_class,
     item.level !== 0 && `Level: ${item.level}`,

@@ -20,6 +20,12 @@ const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
     return () => window.removeEventListener('scroll', listener);
   }, []);
 
+  useEffect(() => {
+    if(!scrolledDown && menuOpen) {
+      setMenuOpen(false);
+    }
+  }, [menuOpen, scrolledDown]);
+
   return (
     <div>
       <div className={styles.layout}>

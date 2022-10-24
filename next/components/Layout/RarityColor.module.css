@@ -1,0 +1,8 @@
+.Ascended { --color-rarity: var(--color-rarity-ascended); }
+.Basic { --color-rarity: var(--color-rarity-basic); }
+.Exotic { --color-rarity: var(--color-rarity-exotic); }
+.Fine { --color-rarity: var(--color-rarity-fine); }
+.Junk { --color-rarity: var(--color-rarity-junk); }
+.Legendary { --color-rarity: var(--color-rarity-legendary); }
+.Masterwork { --color-rarity: var(--color-rarity-masterwork); }
+.Rare { --color-rarity: var(--color-rarity-rare); }

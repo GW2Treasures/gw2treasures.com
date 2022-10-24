@@ -11,6 +11,9 @@ import { TableOfContentAnchor } from '../../../components/TableOfContent/TableOf
 import { ApiItem } from '../../../lib/apiTypes';
 import { db } from '../../../lib/prisma';
 import { getStaticSuperProps, withSuperProps } from '../../../lib/superprops';
+import rarityClasses from '../../../components/Layout/RarityColor.module.css';
+import { Infobox } from '../../../components/Infobox/Infobox';
+import Icon from '../../../icons/Icon';
 
 export interface ItemPageProps {
   item: Item & {
@@ -38,7 +41,7 @@ const ItemPage: NextPage<ItemPageProps> = ({ item, revision, fixedRevision }) =>
   const data: ApiItem = JSON.parse(revision.data);
 
   return (
-    <DetailLayout title={data.name} icon={data.icon} breadcrumb={`Item › ${data.type} › ${data.details?.type}`} infobox={
+    <DetailLayout title={data.name} icon={data.icon} className={rarityClasses[data.rarity]} breadcrumb={`Item › ${data.type} › ${data.details?.type}`} infobox={
     <>
       {router.locale !== 'de' && (<div>DE: <ItemLink item={item} locale="de"/></div>)}
       {router.locale !== 'en' && (<div>EN: <ItemLink item={item} locale="en"/></div>)}
@@ -47,10 +50,10 @@ const ItemPage: NextPage<ItemPageProps> = ({ item, revision, fixedRevision }) =>
     </>
     }>
       {item[`currentId_${router.locale as Language}`] !== revision.id && (
-        <p>You are viewing an old revision of this item (Build {revision.buildId}). <Link href={`/item/${item.id}`}>View current.</Link></p>
+        <Infobox><Icon icon="revision"/> You are viewing an old revision of this item (Build {revision.buildId || 'unknown'}). <Link href={`/item/${item.id}`}>View current.</Link></Infobox>
       )}
       {item[`currentId_${router.locale as Language}`] === revision.id && fixedRevision && (
-        <p>You are viewing this item at a fixed revision (Build {revision.buildId}). <Link href={`/item/${item.id}`}>View current.</Link></p>
+        <Infobox><Icon icon="revision"/> You are viewing this item at a fixed revision (Build {revision.buildId || 'unknown'}). <Link href={`/item/${item.id}`}>View current.</Link></Infobox>
       )}
 
       <TableOfContentAnchor id="tooltip">Tooltip</TableOfContentAnchor>
@@ -68,10 +71,10 @@ const ItemPage: NextPage<ItemPageProps> = ({ item, revision, fixedRevision }) =>
         <tbody>
           {item.history.map((history) => (
             <tr>
-              <td>{history.revisionId === revision.id ? <b>{history.revision.buildId}</b> : history.revision.buildId}</td>
+              <td>{history.revisionId === revision.id ? <b>{history.revision.buildId || '-'}</b> : history.revision.buildId || '-'}</td>
               <td>{history.revision.language}</td>
               <td><Link href={`/item/${item.id}/${history.revisionId}`}>{history.revision.description}</Link></td>
-              <td style={{ whiteSpace: 'nowrap' }}>{history.revision.createdAt.toDateString()}</td>
+              <td style={{ whiteSpace: 'nowrap' }}>{history.revision.createdAt.toLocaleString()}</td>
             </tr>
           ))}
         </tbody>

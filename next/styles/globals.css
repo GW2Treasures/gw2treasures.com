@@ -28,6 +28,15 @@ a {
   text-decoration: none;
 }
 
+a:where(:any-link) {
+  color: #245dc1;
+}
+
+a:where(:any-link:hover) {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+}
+
 * {
   box-sizing: border-box;
 }

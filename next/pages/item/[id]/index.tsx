@@ -52,10 +52,13 @@ const ItemPage: NextPage<ItemPageProps> = ({ item, revision, fixedRevision }) =>
     </>
     }>
       {item[`currentId_${router.locale as Language}`] !== revision.id && (
-        <Infobox><Icon icon="revision"/> You are viewing an old revision of this item (Build {revision.buildId || 'unknown'}). <Link href={`/item/${item.id}`}>View current.</Link></Infobox>
+        <Infobox icon="revision">You are viewing an old revision of this item (Build {revision.buildId || 'unknown'}). <Link href={`/item/${item.id}`}>View current.</Link></Infobox>
       )}
       {item[`currentId_${router.locale as Language}`] === revision.id && fixedRevision && (
-        <Infobox><Icon icon="revision"/> You are viewing this item at a fixed revision (Build {revision.buildId || 'unknown'}). <Link href={`/item/${item.id}`}>View current.</Link></Infobox>
+        <Infobox icon="revision">You are viewing this item at a fixed revision (Build {revision.buildId || 'unknown'}). <Link href={`/item/${item.id}`}>View current.</Link></Infobox>
+      )}
+      {!fixedRevision && item.removedFromApi && (
+        <Infobox type="warning" icon="revision">This item is currently not available in the Guild Wars 2 Api and you are seeing the last know version. The item has either been removed from the game or needs to be rediscovered.</Infobox>
       )}
 
       <TableOfContentAnchor id="tooltip">Tooltip</TableOfContentAnchor>

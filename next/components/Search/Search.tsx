@@ -14,7 +14,7 @@ export interface SearchProps {
 export const Search: FC<SearchProps> = ({ }) => {
   const [value, setValue] = useState('');
   const searchValue = useDeferredValue(value);
-  const input = useRef<HTMLInputElement>(null);
+  const searchForm = useRef<HTMLFormElement>(null);
 
   const router = useRouter();
   
@@ -30,14 +30,16 @@ export const Search: FC<SearchProps> = ({ }) => {
   }, [value]);
 
   useEffect(() => {
-    window.document.activeElement?.blur();
+    if(window.document.activeElement && searchForm.current?.contains(window.document.activeElement)) {
+      (window.document.activeElement as any).blur();
+    }
   }, [router.asPath]);
 
   return (
-    <div className={styles.search}>
+    <form className={styles.search} ref={searchForm}>
       <Icon icon="search"/>
       {/* <div className={styles.restriciton}>Item</div> */}
-      <input className={styles.searchInput} placeholder="Search (ALT + Q)" accessKey="q" value={value} onChange={(e) => setValue(e.target.value)} ref={input}/>
+      <input className={styles.searchInput} placeholder="Search (ALT + Q)" accessKey="q" value={value} onChange={(e) => setValue(e.target.value)}/>
       <div className={styles.dropdown}>
         <div className={styles.category}>Items</div>
         {result.map((item) => (
@@ -49,6 +51,6 @@ export const Search: FC<SearchProps> = ({ }) => {
           </Link>
         ))}
       </div>
-    </div>
+    </form>
   );
 };

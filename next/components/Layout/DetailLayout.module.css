@@ -6,7 +6,7 @@
     "headline infobox padding" min-content
     "content  infobox .      " min-content
     "content  toc     .      " 1fr /
-     auto     320px   16px;
+     auto     360px   16px;
 }
 
 .headline {
@@ -69,7 +69,6 @@
   border: solid var(--color-border);
   border-width: 0 1px 1px 1px;
   padding: 16px;
-  width: 320px;
 }
 
 .tableOfContent {

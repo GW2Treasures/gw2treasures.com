@@ -2,7 +2,6 @@ import React, { FC, useDeferredValue, useEffect, useRef, useState } from 'react'
 import styles from './Search.module.css';
 import Icon from '../../icons/Icon';
 import { Icon as DbIcon, Item } from '../../.prisma/database';
-import { ItemLink } from '../Item/ItemLink';
 import { ItemIcon } from '../Item/ItemIcon';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -45,7 +44,7 @@ export const Search: FC<SearchProps> = ({ }) => {
         {result.map((item) => (
           <Link href={`/item/${item.id}`}>
             <a key={item.id} className={styles.result}>
-              {item.icon && (<ItemIcon icon={item.icon} size={32}/>)}
+              {item.icon && (<ItemIcon icon={item.icon} size={16}/>)}
               {item.name_en}
             </a>
           </Link>

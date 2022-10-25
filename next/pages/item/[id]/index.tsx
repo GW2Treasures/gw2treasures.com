@@ -44,12 +44,12 @@ const ItemPage: NextPage<ItemPageProps> = ({ item, revision, fixedRevision }) =>
 
   return (
     <DetailLayout title={data.name} icon={item.icon && getIconUrl(item.icon, 64) || undefined} className={rarityClasses[data.rarity]} breadcrumb={`Item › ${data.type} › ${data.details?.type}`} infobox={
-    <>
-      {router.locale !== 'de' && (<div>DE: <ItemLink icon="none" item={item} locale="de"/></div>)}
-      {router.locale !== 'en' && (<div>EN: <ItemLink icon="none" item={item} locale="en"/></div>)}
-      {router.locale !== 'es' && (<div>ES: <ItemLink icon="none" item={item} locale="es"/></div>)}
-      {router.locale !== 'fr' && (<div>FR: <ItemLink icon="none" item={item} locale="fr"/></div>)}
-    </>
+      <div>
+        {router.locale !== 'de' && (<div>DE: <ItemLink icon="none" item={item} locale="de"/></div>)}
+        {router.locale !== 'en' && (<div>EN: <ItemLink icon="none" item={item} locale="en"/></div>)}
+        {router.locale !== 'es' && (<div>ES: <ItemLink icon="none" item={item} locale="es"/></div>)}
+        {router.locale !== 'fr' && (<div>FR: <ItemLink icon="none" item={item} locale="fr"/></div>)}
+      </div>
     }>
       {item[`currentId_${router.locale as Language}`] !== revision.id && (
         <Infobox icon="revision">You are viewing an old revision of this item (Build {revision.buildId || 'unknown'}). <Link href={`/item/${item.id}`}>View current.</Link></Infobox>

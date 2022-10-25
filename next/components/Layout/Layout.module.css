@@ -75,9 +75,7 @@
   margin-right: 32px;
   transition: transform .3s ease;
   font-size: 20px;
-}
-
-.title > a {
+  align-items: center;
   color: #000;
 }
 
@@ -104,6 +102,10 @@
 
 @keyframes slideIn {
   0% { transform: translateY(-48px) }
+}
+
+.right {
+  margin-left: auto;
 }
 
 .footer {

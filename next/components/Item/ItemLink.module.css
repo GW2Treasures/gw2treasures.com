@@ -4,13 +4,22 @@
   align-items: center;
   text-decoration: none;
   gap: 8px;
+  overflow: hidden;
 }
 
 .name {
-  border-bottom: 2px solid transparent;
-  transition: border-bottom-color .3s ease;
+  /* border-bottom: 2px solid transparent; */
+  /* transition: border-bottom-color .3s ease; */
+  text-decoration: underline transparent;
+  transition: text-decoration-color .3s ease;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 24px;
 }
 
 .link:hover .name {
+  text-decoration-color: var(--color-rarity, currentColor);
   border-bottom-color: var(--color-rarity, currentColor);
 }

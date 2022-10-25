@@ -13,8 +13,8 @@ import { db } from '../../../lib/prisma';
 import { getStaticSuperProps, withSuperProps } from '../../../lib/superprops';
 import rarityClasses from '../../../components/Layout/RarityColor.module.css';
 import { Infobox } from '../../../components/Infobox/Infobox';
-import Icon from '../../../icons/Icon';
 import { getIconUrl } from '../../../components/Item/ItemIcon';
+import { Headline } from '../../../components/Headline/Headline';
 
 export interface ItemPageProps {
   item: Item & {
@@ -64,10 +64,7 @@ const ItemPage: NextPage<ItemPageProps> = ({ item, revision, fixedRevision }) =>
       <TableOfContentAnchor id="tooltip">Tooltip</TableOfContentAnchor>
       <ItemTooltip item={data}/>
 
-      <h2>
-        <TableOfContentAnchor id="history">History</TableOfContentAnchor>
-        History
-      </h2>
+      <Headline id="history">History</Headline>
       
       <Table>
         <thead>

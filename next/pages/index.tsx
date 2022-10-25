@@ -2,7 +2,9 @@ import { NextPage } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Item } from '../.prisma/database';
+import { Headline } from '../components/Headline/Headline';
 import { ItemLink } from '../components/Item/ItemLink';
+import { ItemList } from '../components/ItemList/ItemList';
 import { Search } from '../components/Search/Search';
 import Icon from '../icons/Icon';
 import { db } from '../lib/prisma';
@@ -13,8 +15,6 @@ interface HomeProps {
 }
 
 const Home: NextPage<HomeProps> = ({ items }) => {
-  const router = useRouter();
-
   return (
     <div>
       <div style={{ marginTop: '-1px', display: 'flex', flexDirection: 'column', gap: 64, padding: '64px 16px', alignItems: 'center', background: '#b7000d', borderBottom: '1px solid rgba(0 0 0 / .066)', backgroundImage: 'linear-gradient(-35deg,transparent,transparent 50%,rgba(255 255 255 / .1) 90%)' }}>
@@ -25,17 +25,18 @@ const Home: NextPage<HomeProps> = ({ items }) => {
         <Search/>
       </div>
 
-      <h1>Home ({ router.locale })</h1>
-      <Link href="/layout/detail">Detail Layout Demo</Link>
-      <ul>
-        {items.map((item) => <li key={item.id}><ItemLink item={item}/></li>)}
-      </ul>
+      <section style={{ margin: '0 16px' }}>
+        <Headline id="new-items">New items</Headline>
+        <ItemList>
+          {items.map((item) => <li key={item.id}><ItemLink item={item}/><span>{item.createdAt.toLocaleString()}</span></li>)}
+        </ItemList>
+      </section>
     </div>
   );
 };
 
 export const getServerSideProps = getServerSideSuperProps<HomeProps>(async ({}) => {
-  const items = await db.item.findMany({ take: 24, include: { icon: true }, orderBy: { createdAt: 'desc' }});
+  const items = await db.item.findMany({ take: 36, include: { icon: true }, orderBy: { createdAt: 'desc' }});
 
   return {
     props: { items },

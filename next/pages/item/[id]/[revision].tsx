@@ -1,7 +1,7 @@
 import { GetStaticPaths } from 'next';
 import ItemPage, { ItemPageProps } from './index';
 import { db } from '../../../lib/prisma';
-import { getStaticSuperProps, withSuperProps } from '../../../lib/superprops';
+import { getStaticSuperProps } from '../../../lib/superprops';
 import { Language } from '../../../.prisma/database';
 
 export const getStaticProps = getStaticSuperProps<ItemPageProps>(async ({ params, locale }) => {

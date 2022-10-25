@@ -1,6 +1,5 @@
 import { NextPage } from 'next';
 import DetailLayout from '../../components/Layout/DetailLayout';
-import Layout from '../../components/Layout/Layout';
 import { Table } from '../../components/Table/Table';
 import { TableOfContentAnchor } from '../../components/TableOfContent/TableOfContent';
 

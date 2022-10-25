@@ -1,30 +1,28 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import type { NextApiRequest, NextApiResponse } from 'next';
-import { ApiItem } from '../../../lib/apiTypes';
-import { db, legacy } from '../../../lib/prisma';
+import { PrismaClient } from '@prisma/client';
+import { PrismaClient as LegacyPrismaClient } from '../.prisma/legacy';
+import { ApiItem } from './apiTypes';
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+const db = new PrismaClient();
+const legacy = new LegacyPrismaClient();
+
+async function run() {
   console.log('Importing...');
-
+  
   const apiBuild = 0;
-
+  
   // check if build is known
   const build = await db.build.findUnique({ where: { id: apiBuild }});
-
+  
   if(build) {
     console.log(`Build ${build.id} already known since ${build.createdAt}.`);
   } else {
     console.log(`Creating new build ${apiBuild}`);
     await db.build.create({ data: { id: apiBuild } });
   }
-
+  
   // update items
   await processItems(apiBuild);
-
-  res.status(200).json({ status: 'OK' });
 }
 
 async function processItems(buildId: number) {
@@ -102,3 +100,5 @@ function getOldDetailsKey(data: ApiItem): string {
     default: return data.type.toLowerCase();
   }
 }
+
+run();

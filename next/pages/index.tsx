@@ -1,6 +1,4 @@
 import { NextPage } from 'next';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
 import { Item } from '../.prisma/database';
 import { Headline } from '../components/Headline/Headline';
 import { ItemLink } from '../components/Item/ItemLink';

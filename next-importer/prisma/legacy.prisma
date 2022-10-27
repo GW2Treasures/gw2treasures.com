@@ -722,6 +722,7 @@ enum items_type {
   Trophy
   UpgradeComponent
   Weapon
+  Unknown @map("")
 }
 
 enum match_worlds_team {

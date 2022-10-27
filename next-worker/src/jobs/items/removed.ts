@@ -36,5 +36,7 @@ export const ItemsRemoved: Job = {
   
       await db.item.update({ where: { id: removedId }, data: update });
     }
+
+    return `Marked ${removedIds.length} items as removed`;
   }
 }

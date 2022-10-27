@@ -29,11 +29,11 @@ async function processItems(buildId: number) {
   const ids = await legacy.item.findMany({ select: { id: true } }).then((items) => items.map(({ id }) => id));
   const knownIds = await db.item.findMany({ select: { id: true } }).then((items) => items.map(({ id }) => id));
 
-  const newIds = ids.filter((id) => !knownIds.includes(id)).slice(0, 10);
+  const newIds = ids.filter((id) => !knownIds.includes(id));
 
   console.log(`Importing ${newIds.length} items.`);
 
-  const knownIcons = (await db.icon.findMany()).reduce<Record<number, string>>((knownIcons, { id, signature }) => ({ ...knownIcons, [id]: signature }), {});
+  const importJob = await db.job.create({ data: { type: 'items.import', data: {}, state: 'Running', startedAt: new Date(), priority: 10 } });
 
   for(const id of newIds) {
     try {
@@ -48,11 +48,12 @@ async function processItems(buildId: number) {
       const revision_es = await db.revision.create({ data: { data: fixupDetails(item.data_es), language: 'es', buildId, description: 'Imported - No earlier history available' } });
       const revision_fr = await db.revision.create({ data: { data: fixupDetails(item.data_fr), language: 'fr', buildId, description: 'Imported - No earlier history available' } });
       
-      if(item.file_id && !knownIcons[item.file_id]) {
-        await db.icon.create({ data: { id: item.file_id, signature: item.signature } });
-        knownIcons[item.file_id] = item.signature;
-      } else if(item.file_id && knownIcons[item.file_id] !== item.signature) {
-        await db.icon.update({ where: { id: item.file_id }, data: { signature: item.signature } });
+      if(item.file_id) {
+        await db.icon.upsert({
+          create: { id: item.file_id, signature: item.signature },
+          update: {},
+          where: { id: item.file_id }
+        });
       }
 
       await db.item.create({ data: {
@@ -68,11 +69,14 @@ async function processItems(buildId: number) {
         currentId_en: revision_en.id,
         currentId_es: revision_es.id,
         currentId_fr: revision_fr.id,
+        lastCheckedAt: new Date(0),
         createdAt: item.date_added,
         history: { createMany: { data: [{ revisionId: revision_de.id }, { revisionId: revision_en.id }, { revisionId: revision_es.id }, { revisionId: revision_fr.id }]} }
       }});
     } catch {}
   }
+
+  await db.job.update({ where: { id: importJob.id }, data: { state: 'Success', output: `Imported ${newIds.length} items`, finishedAt: new Date() } });
 }
 
 function fixupDetails(json: string): string {

@@ -2,7 +2,7 @@ import { GetStaticPaths } from 'next';
 import ItemPage, { ItemPageProps } from './index';
 import { db } from '../../../lib/prisma';
 import { getStaticSuperProps } from '../../../lib/superprops';
-import { Language } from '../../../.prisma/database';
+import { Language } from '@prisma/client';
 
 export const getStaticProps = getStaticSuperProps<ItemPageProps>(async ({ params, locale }) => {
   const id: number = Number(params!.id!.toString())!;

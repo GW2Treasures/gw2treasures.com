@@ -11,7 +11,7 @@ export const JobsCleanup: Job = {
       where: { state: 'Error', finishedAt: { lt: erroredDate }, cron: null }
     });
 
-    // delete old errored tasks
+    // delete old successful tasks
     const successDate = new Date();
     successDate.setMinutes(successDate.getMinutes() - 60);
 
@@ -21,7 +21,7 @@ export const JobsCleanup: Job = {
 
     // delete timedOut tasks
     const timedOutDate = new Date();
-    timedOutDate.setMinutes(timedOutDate.getMinutes() - 5);
+    timedOutDate.setMinutes(timedOutDate.getMinutes() - 60);
 
     await db.job.updateMany({
       where: { state: 'Running', startedAt: { lt: timedOutDate } },

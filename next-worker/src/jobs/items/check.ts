@@ -1,11 +1,12 @@
 import { Job } from '../job';
 import fetch from 'node-fetch';
 import { PrismaClient } from '@prisma/client';
+import { queueJobForIds } from '../helper/queueJobsForIds';
 
 export const ItemsCheck: Job = {
   run: async (db, data) => {
     // skip if any follow up jobs are still queued
-    const queuedJobs = await db.job.count({ where: { type: { in: ['items.new', 'items.removed', 'items.rediscovered'] }, state: { in: ['Queued', 'Running'] } } })
+    const queuedJobs = await db.job.count({ where: { type: { in: ['items.new', 'items.removed', 'items.rediscovered', 'items.import'] }, state: { in: ['Queued', 'Running'] } } })
 
     if(queuedJobs > 0) {
       return 'Waiting for pending follow up jobs';
@@ -29,16 +30,5 @@ export const ItemsCheck: Job = {
     await queueJobForIds(db, 'items.rediscovered', rediscoveredIds);
     
     return `${newIds.length} added, ${removedIds.length} removed, ${rediscoveredIds.length} rediscovered`;
-  }
-}
-
-async function queueJobForIds(db: PrismaClient, name: string, ids: number[]) {
-  if(ids.length === 0) {
-    return;
-  }
-
-  const batchSize = 200;
-  for(let start = 0; start < ids.length; start += batchSize) {
-    await db.job.create({ data: { type: name, data: ids.slice(start, start + batchSize), priority: 2 } });
   }
 }

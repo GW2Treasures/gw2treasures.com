@@ -27,6 +27,7 @@ export const ItemsRediscovered: Job = {
         name_en: data.en.name,
         name_es: data.es.name,
         name_fr: data.fr.name,
+        lastCheckedAt: new Date(),
         history: { createMany: { data: [] }}
       };
   
@@ -44,9 +45,11 @@ export const ItemsRediscovered: Job = {
         update[`currentId_${language}`] = revision.id;
         update.history!.createMany!.data = [...update.history!.createMany!.data as Prisma.ItemHistoryCreateManyItemInput[], { revisionId: revision.id }];
       }
-  
+
       console.log(update);
       await db.item.update({ where: { id: item.id }, data: update });
     }
+
+    return `Rediscovered ${rediscoveredIds.length} items`;
   }
 }

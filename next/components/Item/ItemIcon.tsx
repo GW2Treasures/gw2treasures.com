@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Icon } from '../../.prisma/database';
+import { Icon } from '@prisma/client';
 import styles from './ItemIcon.module.css';
 
 export type IconSize = 16 | 32 | 64;

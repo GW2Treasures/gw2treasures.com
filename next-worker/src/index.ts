@@ -19,7 +19,7 @@ async function run() {
       { state: 'Queued' },
 
       // finished cron job
-      { state: { in: ['Error', 'Success'] }, cron: { not: '' } }
+      { state: { in: ['Error', 'Success'] }, cron: { not: null } }
     ]
   };
 

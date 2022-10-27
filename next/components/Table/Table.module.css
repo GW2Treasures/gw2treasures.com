@@ -12,7 +12,8 @@
   text-align: left;
   background: #fff;
   position: sticky;
-  top: 49px;
+  top: 48px;
+  white-space: nowrap;
 }
 
 .table > tbody > tr > td,

@@ -1,7 +1,7 @@
 import { GetStaticPaths, NextPage } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { Icon as DbIcon, Item, ItemHistory, Language, Revision } from '../../../.prisma/database';
+import { Icon as DbIcon, Item, ItemHistory, Language, Revision } from '@prisma/client';
 import { ItemLink } from '../../../components/Item/ItemLink';
 import { ItemTooltip } from '../../../components/Item/ItemTooltip';
 import DetailLayout from '../../../components/Layout/DetailLayout';
@@ -43,12 +43,13 @@ const ItemPage: NextPage<ItemPageProps> = ({ item, revision, fixedRevision }) =>
   const data: ApiItem = JSON.parse(revision.data);
 
   return (
-    <DetailLayout title={data.name} icon={item.icon && getIconUrl(item.icon, 64) || undefined} className={rarityClasses[data.rarity]} breadcrumb={`Item › ${data.type} › ${data.details?.type}`} infobox={
+    <DetailLayout title={data.name} icon={item.icon && getIconUrl(item.icon, 64) || undefined} className={rarityClasses[data.rarity]} breadcrumb={`Item › ${data.type}${data.details ? ` › ${data.details?.type}` : ''}`} infobox={
       <div>
         {router.locale !== 'de' && (<div>DE: <ItemLink icon="none" item={item} locale="de"/></div>)}
         {router.locale !== 'en' && (<div>EN: <ItemLink icon="none" item={item} locale="en"/></div>)}
         {router.locale !== 'es' && (<div>ES: <ItemLink icon="none" item={item} locale="es"/></div>)}
         {router.locale !== 'fr' && (<div>FR: <ItemLink icon="none" item={item} locale="fr"/></div>)}
+        <a href={`https://api.guildwars2.com/v2/items/${item.id}?v=latest&lang=${router.locale}`} target="api" rel="noreferrer noopener">API</a>
       </div>
     }>
       {item[`currentId_${router.locale as Language}`] !== revision.id && (

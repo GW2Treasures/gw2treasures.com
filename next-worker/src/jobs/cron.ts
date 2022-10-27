@@ -8,6 +8,7 @@ export async function registerCronJobs(db: PrismaClient) {
 
   await registerJob(db, 'test', '0 0 * * *');
   await registerJob(db, 'items.check', '*/5 * * * *');
+  await registerJob(db, 'items.update', '*/3 * * * *');
   await registerJob(db, 'jobs.cleanup', '*/15 * * * *');
 }
 

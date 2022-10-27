@@ -1,7 +1,7 @@
 import React, { FC, useDeferredValue, useEffect, useRef, useState } from 'react';
 import styles from './Search.module.css';
 import Icon from '../../icons/Icon';
-import { Icon as DbIcon, Item } from '../../.prisma/database';
+import { Icon as DbIcon, Item } from '@prisma/client';
 import { ItemIcon } from '../Item/ItemIcon';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -20,12 +20,12 @@ export const Search: FC<SearchProps> = ({ }) => {
   const [result, setResult] = useState<(Item & { icon: DbIcon | null })[]>([]);
 
   useEffect(() => {
-    const { abort, signal } = new AbortController();
+    const abort = new AbortController();
 
-    fetch(`/api/search?q=${encodeURIComponent(value)}`, { signal }).then((r) => r.json()).then(({ result }) => {
+    fetch(`/api/search?q=${encodeURIComponent(value)}`, { signal: abort.signal }).then((r) => r.json()).then(({ result }) => {
       setResult(result);
     });
-    //return () => abort();
+    return () => abort.abort();
   }, [value]);
 
   useEffect(() => {

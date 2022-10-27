@@ -2,6 +2,7 @@ import { ItemsCheck } from './items/check';
 import { ItemsNew } from './items/new';
 import { ItemsRediscovered } from './items/rediscovered';
 import { ItemsRemoved } from './items/removed';
+import { ItemsUpdate } from './items/update';
 import { Job } from './job';
 import { JobsCleanup } from './jobs/cleanup';
 
@@ -12,6 +13,7 @@ const jobsInternal = {
   'items.new': ItemsNew,
   'items.removed': ItemsRemoved,
   'items.rediscovered': ItemsRediscovered,
+  'items.update': ItemsUpdate,
 
   'jobs.cleanup': JobsCleanup,
 }

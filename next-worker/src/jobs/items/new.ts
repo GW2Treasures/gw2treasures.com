@@ -1,7 +1,5 @@
 import { Job } from '../job';
-import fetch from 'node-fetch';
 import { getCurrentBuild } from '../helper/getCurrentBuild';
-import { ApiItem } from '../../apiTypes';
 import { loadItems } from '../helper/loadItems';
 
 export const ItemsNew: Job = {
@@ -11,8 +9,6 @@ export const ItemsNew: Job = {
 
     // load items from API
     const items = await loadItems(newIds);
-
-    const knownIcons: Record<number, string> = {};
 
     for(const { de, en, es, fr } of items) {
       const revision_de = await db.revision.create({ data: { data: JSON.stringify(de), language: 'de', buildId, description: 'Added to API' } });
@@ -24,18 +20,14 @@ export const ItemsNew: Job = {
       
       if(icon) {
         icon.id = Number(icon.id);
-      }
-  
-      if(icon && !knownIcons[icon.id]) {
-        try {
-          // try to create - might have been created by a different job already, so we don't care if this fails
-          await db.icon.create({ data: icon });
-        } catch {}
         
-        knownIcons[icon.id] = icon.signature;
-      } else if(icon && knownIcons[icon.id] !== icon.signature) {
-        await db.icon.update({ where: { id: icon.id }, data: icon });
+        await db.icon.upsert({
+          create: icon,
+          update: {},
+          where: { id: icon.id }
+        });
       }
+
   
       const i = await db.item.create({ data: {
         id: en.id,

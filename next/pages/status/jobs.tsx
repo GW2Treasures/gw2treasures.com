@@ -26,7 +26,7 @@ const JobPage: NextPage<JobPageProps> = ({ running, finished, now }) => {
 
   return (
     <div style={{ margin: '0 16px'}}>
-      <Headline id="jobs">Active Jobs</Headline>
+      <Headline id="jobs">Active Jobs ({running.length})</Headline>
       <Table>
         <thead>
           <tr>
@@ -38,7 +38,7 @@ const JobPage: NextPage<JobPageProps> = ({ running, finished, now }) => {
         </thead>
         <tbody>
           {running.map((job) => (
-            <tr>
+            <tr key={job.id}>
               <td>{job.state === 'Running' ? 'Running' : 'Queued'}</td>
               <th><b>{job.type}</b></th>
               <td style={{ whiteSpace: 'nowrap' }}>{job.state === 'Running' ? `${Math.round((now.valueOf() - job.startedAt!.valueOf()) / 1000)}s` : '-'}</td>
@@ -62,10 +62,10 @@ const JobPage: NextPage<JobPageProps> = ({ running, finished, now }) => {
         </thead>
         <tbody>
           {finished.map((job) => (
-            <tr>
+            <tr key={job.id}>
               <td>{job.state}</td>
               <th><b>{job.type}</b></th>
-              <td>{job.output}</td>
+              <td style={{ whiteSpace: 'pre-wrap' }}>{job.output}</td>
               <td style={{ whiteSpace: 'nowrap' }}>{((job.finishedAt!.valueOf() - job.startedAt!.valueOf()) / 1000)}s</td>
               <td style={{ whiteSpace: 'nowrap' }}>{job.finishedAt?.toLocaleString()}</td>
             </tr>

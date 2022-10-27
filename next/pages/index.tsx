@@ -1,5 +1,5 @@
+import { Item } from '@prisma/client';
 import { NextPage } from 'next';
-import { Item } from '../.prisma/database';
 import { Headline } from '../components/Headline/Headline';
 import { ItemLink } from '../components/Item/ItemLink';
 import { ItemList } from '../components/ItemList/ItemList';

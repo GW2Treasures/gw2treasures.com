@@ -87,9 +87,36 @@ model Build {
   updatedAt      DateTime   @updatedAt
 }
 
+model Job {
+  id String @id @default(uuid())
+  
+  priority Int @default(1)
+  type String
+  data Json
+
+  state JobState @default(Queued)
+  output String @default("")
+
+  cron String?
+  
+  scheduledAt DateTime @default(now())
+  startedAt DateTime?
+  finishedAt DateTime?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 enum Language {
   de
   en
   es
   fr
+}
+
+enum JobState {
+  Queued
+  Running
+  Success
+  Error
 }

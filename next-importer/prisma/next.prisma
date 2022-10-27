@@ -1,1 +1,124 @@
-../../next/prisma/schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Item {
+  id Int @id
+
+  name_de String
+  name_en String
+  name_es String
+  name_fr String
+
+  icon   Icon? @relation(fields: [iconId], references: [id])
+  iconId Int?
+
+  rarity String
+
+  removedFromApi Boolean @default(false)
+
+  current_de Revision @relation("current_de", fields: [currentId_de], references: [id], onDelete: Cascade)
+  currentId_de String @unique
+  
+  current_en Revision @relation("current_en", fields: [currentId_en], references: [id], onDelete: Cascade)
+  currentId_en String @unique
+  
+  current_es Revision @relation("current_es", fields: [currentId_es], references: [id], onDelete: Cascade)
+  currentId_es String @unique
+  
+  current_fr Revision @relation("current_fr", fields: [currentId_fr], references: [id], onDelete: Cascade)
+  currentId_fr String @unique
+
+  history ItemHistory[]
+  
+  lastCheckedAt  DateTime   @default(now())
+
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+}
+
+model Icon {
+  id Int @id
+  signature String
+
+  items Item[]
+}
+
+model ItemHistory {
+  itemId Int
+  revisionId String
+
+  item Item @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  revision Revision @relation(fields: [revisionId], references: [id], onDelete: Cascade)
+
+  @@id([itemId, revisionId])
+}
+
+model Revision {
+  id String @id @default(uuid())
+
+  data String
+  description String?
+
+  language Language
+
+  build Build @relation(fields: [buildId], references: [id])
+  buildId Int
+  
+  createdAt DateTime @default(now())
+
+  // items
+  currentItem_de Item? @relation("current_de")
+  currentItem_en Item? @relation("current_en")
+  currentItem_es Item? @relation("current_es")
+  currentItem_fr Item? @relation("current_fr")
+  itemHistory ItemHistory[]
+}
+
+model Build {
+  id Int @id
+
+  revisions Revision[]
+  
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+}
+
+model Job {
+  id String @id @default(uuid())
+  
+  priority Int @default(1)
+  type String
+  data Json
+
+  state JobState @default(Queued)
+  output String @default("")
+
+  cron String?
+  
+  scheduledAt DateTime @default(now())
+  startedAt DateTime?
+  finishedAt DateTime?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum Language {
+  de
+  en
+  es
+  fr
+}
+
+enum JobState {
+  Queued
+  Running
+  Success
+  Error
+}

@@ -30,6 +30,7 @@ async function processItems(buildId: number) {
   const knownIds = await db.item.findMany({ select: { id: true } }).then((items) => items.map(({ id }) => id));
 
   const newIds = ids.filter((id) => !knownIds.includes(id));
+  const failedIds = [];
 
   console.log(`Importing ${newIds.length} items.`);
 
@@ -73,10 +74,17 @@ async function processItems(buildId: number) {
         createdAt: item.date_added,
         history: { createMany: { data: [{ revisionId: revision_de.id }, { revisionId: revision_en.id }, { revisionId: revision_es.id }, { revisionId: revision_fr.id }]} }
       }});
-    } catch {}
+    } catch(e) {
+      console.error(e);
+      failedIds.push(id);
+    }
   }
 
-  await db.job.update({ where: { id: importJob.id }, data: { state: 'Success', output: `Imported ${newIds.length} items`, finishedAt: new Date() } });
+  if(failedIds.length > 0) {
+    console.log(`Failed to import the following items:`, failedIds);
+  }
+  
+  await db.job.update({ where: { id: importJob.id }, data: { state: 'Success', output: `Imported ${newIds.length - failedIds.length} items (${failedIds.length} failed)`, finishedAt: new Date() } });
 }
 
 function fixupDetails(json: string): string {

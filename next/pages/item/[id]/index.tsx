@@ -15,6 +15,7 @@ import rarityClasses from '../../../components/Layout/RarityColor.module.css';
 import { Infobox } from '../../../components/Infobox/Infobox';
 import { getIconUrl } from '../../../components/Item/ItemIcon';
 import { Headline } from '../../../components/Headline/Headline';
+import { FormatDate } from '../../../components/Format/FormatDate';
 
 export interface ItemPageProps {
   item: Item & {
@@ -77,7 +78,7 @@ const ItemPage: NextPage<ItemPageProps> = ({ item, revision, fixedRevision }) =>
               <td>{history.revisionId === revision.id ? <b>{history.revision.buildId || '-'}</b> : history.revision.buildId || '-'}</td>
               <td>{history.revision.language}</td>
               <td><Link href={`/item/${item.id}/${history.revisionId}`}>{history.revision.description}</Link></td>
-              <td style={{ whiteSpace: 'nowrap' }}>{history.revision.createdAt.toLocaleString()}</td>
+              <td><FormatDate date={history.revision.createdAt} relative/></td>
             </tr>
           ))}
         </tbody>

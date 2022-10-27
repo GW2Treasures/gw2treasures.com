@@ -6,6 +6,7 @@ import { getServerSideSuperProps, withSuperProps } from '../../lib/superprops';
 import { Job } from '@prisma/client';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import { FormatDate } from '../../components/Format/FormatDate';
 
 interface JobPageProps {
   running: Job[];
@@ -33,7 +34,7 @@ const JobPage: NextPage<JobPageProps> = ({ running, finished, now }) => {
             <th {...{ width: 1 }}>Status</th>
             <th>Job</th>
             <th {...{ width: 1 }}>Runtime</th>
-            <th {...{ width: 1 }}>Scheduled at</th>
+            <th {...{ width: 1 }}>Scheduled</th>
           </tr>
         </thead>
         <tbody>
@@ -42,7 +43,7 @@ const JobPage: NextPage<JobPageProps> = ({ running, finished, now }) => {
               <td>{job.state === 'Running' ? 'Running' : 'Queued'}</td>
               <th><b>{job.type}</b></th>
               <td style={{ whiteSpace: 'nowrap' }}>{job.state === 'Running' ? `${Math.round((now.valueOf() - job.startedAt!.valueOf()) / 1000)}s` : '-'}</td>
-              <td style={{ whiteSpace: 'nowrap' }}>{job.scheduledAt?.toLocaleString()}</td>
+              <td><FormatDate date={job.scheduledAt} relative/></td>
             </tr>
           ))}
           {running.length === 0 && <tr><td colSpan={5} style={{ textAlign: 'center' }}>No jobs currently running</td></tr>}
@@ -67,7 +68,7 @@ const JobPage: NextPage<JobPageProps> = ({ running, finished, now }) => {
               <th><b>{job.type}</b></th>
               <td style={{ whiteSpace: 'pre-wrap' }}>{job.output}</td>
               <td style={{ whiteSpace: 'nowrap' }}>{((job.finishedAt!.valueOf() - job.startedAt!.valueOf()) / 1000)}s</td>
-              <td style={{ whiteSpace: 'nowrap' }}>{job.finishedAt?.toLocaleString()}</td>
+              <td><FormatDate date={job.finishedAt} relative/></td>
             </tr>
           ))}
         </tbody>

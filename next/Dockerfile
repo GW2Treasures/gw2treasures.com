@@ -17,7 +17,7 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/package.json /app/package-lock.json* ./
 
 COPY prisma prisma
-RUN npm run prisma-generate
+RUN npm run prisma --ignore-scripts
 
 COPY . .
 
@@ -41,6 +41,9 @@ COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma/
+COPY --from=builder --chown=nextjs:nodejs /app/docker-entrypoint.sh ./
+
+RUN chmod +x ./docker-entrypoint.sh
 
 USER nextjs
 
@@ -48,4 +51,5 @@ EXPOSE 3000
 
 ENV PORT 3000
 
+ENTRYPOINT [ "./docker-entrypoint.sh" ]
 CMD [ "node", "server.js" ]

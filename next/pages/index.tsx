@@ -1,5 +1,6 @@
 import { Item } from '@prisma/client';
 import { NextPage } from 'next';
+import { FormatDate } from '../components/Format/FormatDate';
 import { Headline } from '../components/Headline/Headline';
 import { ItemLink } from '../components/Item/ItemLink';
 import { ItemList } from '../components/ItemList/ItemList';
@@ -26,7 +27,7 @@ const Home: NextPage<HomeProps> = ({ items }) => {
       <section style={{ margin: '0 16px' }}>
         <Headline id="new-items">New items</Headline>
         <ItemList>
-          {items.map((item) => <li key={item.id}><ItemLink item={item}/><span>{item.createdAt.toLocaleString()}</span></li>)}
+          {items.map((item) => <li key={item.id}><ItemLink item={item}/><FormatDate date={item.createdAt} relative/></li>)}
         </ItemList>
       </section>
     </div>

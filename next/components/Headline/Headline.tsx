@@ -10,7 +10,7 @@ export interface HeadlineProps {
 export const Headline: FC<HeadlineProps> = ({ children, id }) => {
   return (
     <header role="heading" className={styles.headline}>
-      <TableOfContentAnchor id={id}/>
+      <TableOfContentAnchor id={id}>{children}</TableOfContentAnchor>
       {children}
     </header>
   );

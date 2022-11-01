@@ -108,6 +108,8 @@ services:
       - next-db
     environment:
       - DATABASE_URL=postgresql://gw2treasures:gw2treasures@next-db:5432/gw2treasures?schema=public
+    deploy:
+      replicas: 2
   next-importer:
     image: gw2treasures/next-importer
     build: next-importer

@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "prisma": "prisma generate",
-    "postprisma": "cp -u prisma/schema.prisma ../next-worker/prisma/schema.prisma && cp -u prisma/schema.prisma ../next-importer/prisma/next.prisma"
+    "postprisma": "cp prisma/schema.prisma ../next-worker/prisma/schema.prisma && cp prisma/schema.prisma ../next-importer/prisma/next.prisma"
   },
   "dependencies": {
     "@fontsource/bitter": "^4.5.9",

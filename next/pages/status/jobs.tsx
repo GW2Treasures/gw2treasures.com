@@ -7,6 +7,7 @@ import { Job } from '@prisma/client';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { FormatDate } from '../../components/Format/FormatDate';
+import { FormatNumber } from '../../components/Format/FormatNumber';
 
 interface JobPageProps {
   running: Job[];
@@ -42,7 +43,7 @@ const JobPage: NextPage<JobPageProps> = ({ running, finished, now }) => {
             <tr key={job.id}>
               <td>{job.state === 'Running' ? 'Running' : 'Queued'}</td>
               <th><b>{job.type}</b></th>
-              <td style={{ whiteSpace: 'nowrap' }}>{job.state === 'Running' ? `${Math.round((now.valueOf() - job.startedAt!.valueOf()) / 1000)}s` : '-'}</td>
+              <td style={{ whiteSpace: 'nowrap' }}>{job.state === 'Running' ? <><FormatNumber value={Math.round((now.valueOf() - job.startedAt!.valueOf()) / 1000)}/>s</> : '-'}</td>
               <td><FormatDate date={job.scheduledAt} relative/></td>
             </tr>
           ))}
@@ -66,8 +67,8 @@ const JobPage: NextPage<JobPageProps> = ({ running, finished, now }) => {
             <tr key={job.id}>
               <td>{job.state}</td>
               <th><b>{job.type}</b></th>
-              <td style={{ whiteSpace: 'pre-wrap' }}>{job.output}</td>
-              <td style={{ whiteSpace: 'nowrap' }}>{((job.finishedAt!.valueOf() - job.startedAt!.valueOf()) / 1000)}s</td>
+              <td style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>{job.output}</td>
+              <td style={{ whiteSpace: 'nowrap' }}><FormatNumber value={(job.finishedAt!.valueOf() - job.startedAt!.valueOf()) / 1000}/>s</td>
               <td><FormatDate date={job.finishedAt} relative/></td>
             </tr>
           ))}

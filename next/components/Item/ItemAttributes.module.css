@@ -1,6 +1,7 @@
 .attributes {
   display: grid;
   grid-template-columns: auto 1fr;
+  line-height: 20px;
 }
 
 .attributes, .attributes > dt, .attributes > dd {

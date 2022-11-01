@@ -2,6 +2,7 @@ import { FC, ReactNode } from 'react';
 import { ApiItem } from '../../lib/apiTypes';
 import { parseItems } from 'gw2e-item-attributes';
 import { ItemAttributes } from './ItemAttributes';
+import { format } from 'gw2-tooltip-html';
 
 export interface ItemTooltipProps {
   item: ApiItem;
@@ -24,7 +25,7 @@ export const ItemTooltip: FC<ItemTooltipProps> = ({ item }) => {
     item.details?.weight_class,
     item.level !== 0 && `Level: ${item.level}`,
     // required race
-    item.description,
+    item.description && <div dangerouslySetInnerHTML={{ __html: format(item.description) }}></div>,
     item.flags.includes('Unique') && 'Unique',
     item.flags.includes('AccountBound') && `Account Bound`,
     item.flags.includes('SoulbindOnAcquire') ? 'Soulbound on Acquire' :

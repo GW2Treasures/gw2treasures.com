@@ -3,6 +3,7 @@ import { ApiItem } from '../../lib/apiTypes';
 import { parseItems } from 'gw2e-item-attributes';
 import { ItemAttributes } from './ItemAttributes';
 import { format } from 'gw2-tooltip-html';
+import { Coins } from '../Format/Coins';
 
 export interface ItemTooltipProps {
   item: ApiItem;
@@ -31,7 +32,7 @@ export const ItemTooltip: FC<ItemTooltipProps> = ({ item }) => {
     item.flags.includes('SoulbindOnAcquire') ? 'Soulbound on Acquire' :
     item.flags.includes('SoulBindOnUse') && 'Soulbound on Use',
     item.flags.includes('NoSalvage') && 'Not salvagable',
-    item.flags.includes('NoSell') ? 'Not sellable' : item.vendor_value,
+    item.flags.includes('NoSell') ? 'Not sellable' : <Coins value={item.vendor_value}/>,
 
   ];
 

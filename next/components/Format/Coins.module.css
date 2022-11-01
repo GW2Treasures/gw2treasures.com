@@ -1,0 +1,33 @@
+.coins {
+  white-space: nowrap;  
+}
+
+.g + .s,
+.g + .c,
+.s + .c {
+  margin-left: .5em;
+}
+
+.g::after,
+.s::after,
+.c::after {
+  content: '';
+  display: inline-block;
+  width: .9em;
+  height: .9em;
+  border-radius: 50%;
+  vertical-align: -2px;
+  margin-left: 4px;
+}
+
+.g::after {
+  background-color: gold;
+}
+
+.s::after {
+  background-color: silver;
+}
+
+.c::after {
+  background-color: #D3824C;
+}

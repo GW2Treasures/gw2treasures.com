@@ -1,6 +1,7 @@
 import { FC, ReactNode } from 'react';
 import { ApiItem } from '../../lib/apiTypes';
 import { parseItems } from 'gw2e-item-attributes';
+import { ItemAttributes } from './ItemAttributes';
 
 export interface ItemTooltipProps {
   item: ApiItem;
@@ -11,7 +12,7 @@ export const ItemTooltip: FC<ItemTooltipProps> = ({ item }) => {
   const data: ReactNode[] = [
     item.type === 'Weapon' && `Strength: ${item.details?.min_power} – ${item.details?.max_power}`,
     item.type === 'Armor' && `Defense: ${item.details?.defense}`,
-    Object.entries(parseItems([item])).map(([attribute, value]) => (<div>+{value}{['ConditionDuration','BoonDuration'].includes(attribute) ? '%' : ''} {attribute}</div>)),
+    <ItemAttributes attributes={parseItems([item])}/>,
     // consumable,
     // bonus,
     // upgrade slot

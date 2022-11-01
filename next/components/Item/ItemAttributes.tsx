@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, Fragment } from 'react';
 import styles from './ItemAttributes.module.css';
 
 interface ItemAttributesProps {
@@ -21,10 +21,10 @@ export const ItemAttributes: FC<ItemAttributesProps> = ({ attributes }) => {
   return (
     <dl className={styles.attributes}>
       {entries.map(([attribute, value]) => (
-        <>
+        <Fragment key={attribute}>
           <dt>+{value}{isPercentage(attribute) && '%'}</dt>
           <dd>{attribute}</dd>
-        </>
+        </Fragment>
       ))}
     </dl>
   );

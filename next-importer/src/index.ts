@@ -34,7 +34,7 @@ async function processItems(buildId: number) {
 
   console.log(`Importing ${newIds.length} items.`);
 
-  const importJob = await db.job.create({ data: { type: 'items.import', data: {}, state: 'Running', startedAt: new Date(), priority: 10 } });
+  const importJob = await db.job.create({ data: { type: 'items.import', data: {}, flags: ['LONG_RUNNING'], state: 'Running', startedAt: new Date(), priority: 10 } });
 
   for(const id of newIds) {
     try {

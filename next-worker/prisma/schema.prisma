@@ -99,6 +99,8 @@ model Job {
   state JobState @default(Queued)
   output String @default("")
 
+  flags String[] @default([])
+
   cron String?
   
   scheduledAt DateTime @default(now())

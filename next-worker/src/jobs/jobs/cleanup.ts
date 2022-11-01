@@ -24,7 +24,7 @@ export const JobsCleanup: Job = {
     timedOutDate.setMinutes(timedOutDate.getMinutes() - 60);
 
     await db.job.updateMany({
-      where: { state: 'Running', startedAt: { lt: timedOutDate } },
+      where: { state: 'Running', startedAt: { lt: timedOutDate }, NOT: { flags: { has: 'LONG_RUNNING' } } },
       data: { state: 'Error', output: 'Timeout', finishedAt: new Date() }
     });
   }

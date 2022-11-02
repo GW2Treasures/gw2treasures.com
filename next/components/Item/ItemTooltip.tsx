@@ -25,7 +25,7 @@ export const ItemTooltip: FC<ItemTooltipProps> = ({ item }) => {
     item.details?.type,
     item.details?.weight_class,
     item.level !== 0 && `Level: ${item.level}`,
-    // required race
+    item.restrictions.length > 0 && `Requires: ${item.restrictions.join(', ')}`,
     item.description && <div dangerouslySetInnerHTML={{ __html: format(item.description) }}></div>,
     item.flags.includes('Unique') && 'Unique',
     item.flags.includes('AccountBound') && `Account Bound`,

@@ -17,6 +17,7 @@ import { getIconUrl } from '../../../components/Item/ItemIcon';
 import { Headline } from '../../../components/Headline/Headline';
 import { FormatDate } from '../../../components/Format/FormatDate';
 import { ItemList } from '../../../components/ItemList/ItemList';
+import { ItemInfobox } from '../../../components/Item/ItemInfobox';
 
 export interface ItemPageProps {
   item: Item & {
@@ -46,15 +47,7 @@ const ItemPage: NextPage<ItemPageProps> = ({ item, revision, fixedRevision, simi
   const data: ApiItem = JSON.parse(revision.data);
 
   return (
-    <DetailLayout title={data.name} icon={item.icon && getIconUrl(item.icon, 64) || undefined} className={rarityClasses[data.rarity]} breadcrumb={`Item › ${data.type}${data.details ? ` › ${data.details?.type}` : ''}`} infobox={
-      <div>
-        {router.locale !== 'de' && (<div>DE: <ItemLink icon="none" item={item} locale="de"/></div>)}
-        {router.locale !== 'en' && (<div>EN: <ItemLink icon="none" item={item} locale="en"/></div>)}
-        {router.locale !== 'es' && (<div>ES: <ItemLink icon="none" item={item} locale="es"/></div>)}
-        {router.locale !== 'fr' && (<div>FR: <ItemLink icon="none" item={item} locale="fr"/></div>)}
-        <a href={`https://api.guildwars2.com/v2/items/${item.id}?v=latest&lang=${router.locale}`} target="api" rel="noreferrer noopener">API</a>
-      </div>
-    }>
+    <DetailLayout title={data.name} icon={item.icon && getIconUrl(item.icon, 64) || undefined} className={rarityClasses[data.rarity]} breadcrumb={`Item › ${data.type}${data.details ? ` › ${data.details?.type}` : ''}`} infobox={<ItemInfobox item={item} data={data}/>}>
       {item[`currentId_${router.locale as Language}`] !== revision.id && (
         <Infobox icon="revision">You are viewing an old revision of this item (Build {revision.buildId || 'unknown'}). <Link href={`/item/${item.id}`}>View current.</Link></Infobox>
       )}

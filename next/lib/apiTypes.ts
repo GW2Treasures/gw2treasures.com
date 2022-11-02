@@ -69,3 +69,10 @@ export type ApiItem = {
   }[];
   vendor_value: number;
 };
+
+export type ApiCommercePrice = {
+  id: number;
+  whitelisted: boolean;
+  buys: { quantity: number; unit_price: number; }
+  sells: { quantity: number; unit_price: number; }
+}

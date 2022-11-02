@@ -63,7 +63,7 @@ export const TableOfContent: FC<TableOfContentProps> = ({  }) => {
   useEffect(() => {
     const listener = () => {
       const scrollTop = window.scrollY;
-      
+
       let topAnchor = anchors[0];
       for(const anchor of anchors) {
         if(anchor.element.offsetTop - scrollTop <= 16) {

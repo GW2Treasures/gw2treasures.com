@@ -16,7 +16,7 @@ export const Search: FC<SearchProps> = ({ }) => {
   const searchForm = useRef<HTMLFormElement>(null);
 
   const router = useRouter();
-  
+
   const [result, setResult] = useState<(Item & { icon: DbIcon | null })[]>([]);
 
   useEffect(() => {

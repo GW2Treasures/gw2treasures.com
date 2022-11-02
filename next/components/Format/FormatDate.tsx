@@ -27,11 +27,11 @@ function formatRelative(date: Date) {
   if(Math.abs(difference.value) > 150) {
     difference.value /= 60;
     difference.unit = 'minutes';
-    
+
     if(Math.abs(difference.value) > 120) {
       difference.value /= 60;
       difference.unit = 'hours';
-      
+
       if(Math.abs(difference.value) > 24) {
         difference.value /= 24;
         difference.unit = 'days';

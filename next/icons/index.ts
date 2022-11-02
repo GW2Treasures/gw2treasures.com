@@ -16,7 +16,7 @@ export const Icons: Record<IconName, IconComponent> = {
   'revision': RevisionIcon,
   'search': SearchIcon,
 };
-  
+
 export type Icon = IconName | JSX.Element;
 
 export function getIcon(icon?: Icon): JSX.Element | undefined {

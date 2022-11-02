@@ -50,7 +50,7 @@ const JobPage: NextPage<JobPageProps> = ({ running, finished, now }) => {
           {running.length === 0 && <tr><td colSpan={5} style={{ textAlign: 'center' }}>No jobs currently running</td></tr>}
         </tbody>
       </Table>
-      
+
       <Headline id="jobs">Finished Jobs</Headline>
       <Table>
         <thead>

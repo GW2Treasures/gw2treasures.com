@@ -35,7 +35,7 @@ export const ItemInfobox: FC<ItemInfoboxProps> = ({ item, data }) => {
         {router.locale !== 'de' && (<><div className={styles.lang}>DE</div><ItemLink icon="none" item={item} locale="de"/></>)}
         {router.locale !== 'en' && (<><div className={styles.lang}>EN</div><ItemLink icon="none" item={item} locale="en"/></>)}
         {router.locale !== 'es' && (<><div className={styles.lang}>ES</div><ItemLink icon="none" item={item} locale="es"/></>)}
-        {router.locale !== 'fr' && (<><div className={styles.lang}>FR</div><ItemLink icon="none" item={item} locale="fr"/></>)}  
+        {router.locale !== 'fr' && (<><div className={styles.lang}>FR</div><ItemLink icon="none" item={item} locale="fr"/></>)}
       </div>
 
       <Headline id="tp" noToc>Trading Post</Headline>

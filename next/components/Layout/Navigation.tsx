@@ -7,7 +7,7 @@ interface NavigationProps {
 };
 
 const Navigation: FunctionComponent<NavigationProps> = () => {
-  return (    
+  return (
     <ul className={styles.navigation}>
       <li className={styles.item}><Link href="/"><a className={styles.link}>Items</a></Link></li>
       <li className={styles.item}><Link href="/"><a className={styles.link}>Achievements</a></Link></li>

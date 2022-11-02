@@ -1,6 +1,6 @@
 .layout {
   display: grid;
-  grid-template: 
+  grid-template:
     "menu" 96px
     "menuShadow" min-content
     "main" auto

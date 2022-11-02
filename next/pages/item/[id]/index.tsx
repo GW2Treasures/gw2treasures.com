@@ -45,7 +45,7 @@ const ItemPage: NextPage<ItemPageProps> = ({ item, revision, fixedRevision, simi
   if(!item) {
     return <DetailLayout title={<Skeleton/>} breadcrumb={<Skeleton/>}><Skeleton/></DetailLayout>;
   }
-  
+
   const data: ApiItem = JSON.parse(revision.data);
 
   return (
@@ -64,7 +64,7 @@ const ItemPage: NextPage<ItemPageProps> = ({ item, revision, fixedRevision, simi
       <ItemTooltip item={data}/>
 
       <Headline id="history">History</Headline>
-      
+
       <Table>
         <thead>
           <tr><th {...{width: 1}}>Build</th><th {...{width: 1}}>Language</th><th>Description</th><th {...{width: 1}}>Date</th></tr>
@@ -120,11 +120,11 @@ export const getStaticProps = getStaticSuperProps<ItemPageProps>(async ({ params
   const [item, revision] = await Promise.all([
     db.item.findUnique({
       where: { id },
-      include: { 
+      include: {
         history: {
           include: { revision: { select: { id: true, buildId: true, createdAt: true, description: true, language: true } } },
           where: { revision: { language } },
-          orderBy: { revision: { createdAt: 'desc' } } 
+          orderBy: { revision: { createdAt: 'desc' } }
         },
         icon: true
       }

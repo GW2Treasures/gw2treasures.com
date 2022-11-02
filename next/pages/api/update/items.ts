@@ -78,7 +78,7 @@ async function newItems(buildId: number, newIds: number[]) {
     const revision_fr = await db.revision.create({ data: { data: JSON.stringify(fr), language: 'fr', buildId, description: 'Added to API' } });
 
     const icon = en.icon?.match(/\/(?<signature>[^\/]*)\/(?<id>[^\/]*)\.png$/)?.groups as { signature: string, id: number } | undefined;
-    
+
     if(icon) {
       icon.id = Number(icon.id);
     }

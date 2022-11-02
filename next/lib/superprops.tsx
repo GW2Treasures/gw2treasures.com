@@ -20,7 +20,7 @@ export function withSuperProps<T>(Component: NextPage<T>): NextPage<SuperJSONCom
 export function getServerSideSuperProps<T extends { [key: string]: any }>(factory: GetServerSideProps<T>): GetServerSideProps<SuperJSONResult> {
   return async (data) => {
     const result = await factory(data);
-    
+
     if('props' in result) {
       return {
         ...result,
@@ -35,7 +35,7 @@ export function getServerSideSuperProps<T extends { [key: string]: any }>(factor
 export function getStaticSuperProps<T extends { [key: string]: any }>(factory: GetStaticProps<T>): GetStaticProps<SuperJSONResult> {
   return async (data) => {
     const result = await factory(data);
-    
+
     if('props' in result) {
       return {
         ...result,

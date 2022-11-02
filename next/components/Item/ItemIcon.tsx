@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { Icon } from '@prisma/client';
 import styles from './ItemIcon.module.css';
 
@@ -14,5 +14,7 @@ export function getIconUrl({ id, signature }: Icon, size: IconSize) {
 }
 
 export const ItemIcon: FC<ItemIconProps> = ({ icon, size = 64 }) => {
-  return <img src={getIconUrl(icon, size)} width={size} height={size} alt="" crossOrigin="anonymous" loading="lazy" srcSet={size < 64 ? `${getIconUrl(icon, size * 2 as IconSize)} 2x` : undefined} className={styles.icon}/>
+  const [loading, setLoading] = useState(true);
+
+  return <img src={getIconUrl(icon, size)} width={size} height={size} alt="" crossOrigin="anonymous" loading="lazy" srcSet={size < 64 ? `${getIconUrl(icon, size * 2 as IconSize)} 2x` : undefined} className={loading ? styles.loading : styles.icon} onLoad={() => setLoading(false)}/>
 };

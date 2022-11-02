@@ -3,3 +3,9 @@
   vertical-align: top;
   grid-area: icon;
 }
+
+.loading {
+  composes: icon;
+
+  background-color: #eee;
+}

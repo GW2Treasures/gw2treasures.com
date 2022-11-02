@@ -11,8 +11,10 @@ export interface InfoboxProps {
 }
 
 export const Infobox: FC<InfoboxProps> = ({ children, type = 'info', icon }) => {
-  return <div className={cx(styles.infobox, styles[type])}>
-    {icon && <Icon icon={icon}/>}
-    <p className={styles.content}>{children}</p>
-  </div>;
+  return (
+    <div className={cx(styles.infobox, styles[type])}>
+      {icon && <Icon icon={icon}/>}
+      <p className={styles.content}>{children}</p>
+    </div>
+  );
 };

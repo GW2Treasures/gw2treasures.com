@@ -12,23 +12,23 @@ export const getStaticProps = getStaticSuperProps<ItemPageProps>(async ({ params
     db.item.findUnique({
       where: { id },
       include: {
-        history: { include: { revision: { select: { id: true, buildId: true, createdAt: true, description: true, language: true } } }, where: { revision: { language: locale as Language } }, orderBy: { revision: { createdAt: 'desc' } } },
+        history: { include: { revision: { select: { id: true, buildId: true, createdAt: true, description: true, language: true }}}, where: { revision: { language: locale as Language }}, orderBy: { revision: { createdAt: 'desc' }}},
         icon: true,
       }
     }),
-    db.revision.findFirst({ where: { id: revisionId, language: locale as Language, itemHistory: { some: { itemId: id } } } })
+    db.revision.findFirst({ where: { id: revisionId, language: locale as Language, itemHistory: { some: { itemId: id }}}})
   ]);
 
   if(!item || !revision) {
     return {
       notFound: true
-    }
+    };
   }
 
   return {
     props: { item, revision, fixedRevision: true },
     revalidate: 60 * 60 * 24 /* 1 day */
-  }
+  };
 });
 
 export const getStaticPaths: GetStaticPaths = () => {
@@ -36,6 +36,6 @@ export const getStaticPaths: GetStaticPaths = () => {
     paths: [],
     fallback: true,
   };
-}
+};
 
 export default ItemPage;

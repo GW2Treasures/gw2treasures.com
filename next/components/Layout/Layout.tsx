@@ -51,7 +51,7 @@ const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
           </nav>
         </div>
         <hr className={styles.headerShadow}/>
-          {children}
+        {children}
         <footer className={styles.footer}>
           <span><b>gw2treasures.com</b> by darthmaim &copy; {new Date().getFullYear()}</span>
           <Link href="/status/jobs">Status</Link>

@@ -16,9 +16,11 @@ export const FormatDate: FC<FormatDateProps> = ({ date = null, relative = false 
     setHydrated(true);
   }, []);
 
-  return <time dateTime={date?.toISOString()} style={{ whiteSpace: 'nowrap' }}>
-    {date ? (hydrated ? (relative ? formatRelative(date) : localFormat.format(date)) : utcFormat.format(date)) : '-'}
-  </time>;
+  return (
+    <time dateTime={date?.toISOString()} style={{ whiteSpace: 'nowrap' }}>
+      {date ? (hydrated ? (relative ? formatRelative(date) : localFormat.format(date)) : utcFormat.format(date)) : '-'}
+    </time>
+  );
 };
 
 function formatRelative(date: Date) {

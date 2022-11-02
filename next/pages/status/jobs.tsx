@@ -24,10 +24,10 @@ const JobPage: NextPage<JobPageProps> = ({ running, finished, now }) => {
     }, 1000);
 
     return () => clearInterval(interval);
-  })
+  });
 
   return (
-    <div style={{ margin: '0 16px'}}>
+    <div style={{ margin: '0 16px' }}>
       <Headline id="jobs">Active Jobs ({running.length})</Headline>
       <Table>
         <thead>
@@ -80,13 +80,13 @@ const JobPage: NextPage<JobPageProps> = ({ running, finished, now }) => {
 
 export const getServerSideProps = getServerSideSuperProps<JobPageProps>(async ({}) => {
   const [running, finished] = await Promise.all([
-    db.job.findMany({ where: { OR: [{ state: { in: ['Running', 'Queued'] } }, { cron: { not: '' } }] }, orderBy: [{ priority: 'desc' }, { scheduledAt: 'asc' }]}),
-    db.job.findMany({ where: { state: { notIn: ['Running', 'Queued'] } }, orderBy: { finishedAt: 'desc' }}),
+    db.job.findMany({ where: { OR: [{ state: { in: ['Running', 'Queued'] }}, { cron: { not: '' }}] }, orderBy: [{ priority: 'desc' }, { scheduledAt: 'asc' }] }),
+    db.job.findMany({ where: { state: { notIn: ['Running', 'Queued'] }}, orderBy: { finishedAt: 'desc' }}),
   ]);
 
   return {
     props: { running, finished, now: new Date() },
-  }
+  };
 });
 
 export default withSuperProps(JobPage);

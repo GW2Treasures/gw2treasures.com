@@ -28,9 +28,9 @@ export const ItemTooltip: FC<ItemTooltipProps> = ({ item }) => {
     item.details?.weight_class,
     item.level !== 0 && `Level: ${item.level}`,
     item.restrictions.length > 0 && `Requires: ${item.restrictions.join(', ')}`,
-    item.description && <div dangerouslySetInnerHTML={{ __html: format(item.description) }}></div>,
+    item.description && <div dangerouslySetInnerHTML={{ __html: format(item.description) }}/>,
     item.flags.includes('Unique') && 'Unique',
-    item.flags.includes('AccountBound') && `Account Bound`,
+    item.flags.includes('AccountBound') && 'Account Bound',
     item.flags.includes('SoulbindOnAcquire') ? 'Soulbound on Acquire' :
     item.flags.includes('SoulBindOnUse') && 'Soulbound on Use',
     item.flags.includes('NoSalvage') && 'Not salvagable',
@@ -38,7 +38,12 @@ export const ItemTooltip: FC<ItemTooltipProps> = ({ item }) => {
   ];
   /* eslint-enable react/jsx-key */
 
-  return <div>
-    {data.filter(Boolean).map((content, index) => <div style={{ marginBottom: 8 }} key={index}>{content}</div>)}
-  </div>;
+  return (
+    <div>
+      {data.filter(Boolean).map((content, index) => {
+        // eslint-disable-next-line react/no-array-index-key
+        return <div style={{ marginBottom: 8 }} key={index}>{content}</div>;
+      })}
+    </div>
+  );
 };

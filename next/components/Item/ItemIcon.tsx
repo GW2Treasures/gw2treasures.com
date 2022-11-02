@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { FC, useState } from 'react';
 import { Icon } from '@prisma/client';
 import styles from './ItemIcon.module.css';
@@ -16,6 +17,16 @@ export function getIconUrl({ id, signature }: Icon, size: IconSize) {
 export const ItemIcon: FC<ItemIconProps> = ({ icon, size = 64 }) => {
   const [loading, setLoading] = useState(true);
 
-  // eslint-disable-next-line @next/next/no-img-element
-  return <img src={getIconUrl(icon, size)} width={size} height={size} alt="" crossOrigin="anonymous" loading="lazy" srcSet={size < 64 ? `${getIconUrl(icon, size * 2 as IconSize)} 2x` : undefined} className={loading ? styles.loading : styles.icon} onLoad={() => setLoading(false)}/>
+  return (
+    <img
+      src={getIconUrl(icon, size)}
+      width={size}
+      height={size}
+      alt=""
+      crossOrigin="anonymous"
+      loading="lazy"
+      srcSet={size < 64 ? `${getIconUrl(icon, size * 2 as IconSize)} 2x` : undefined}
+      className={loading ? styles.loading : styles.icon}
+      onLoad={() => setLoading(false)}/>
+  );
 };

@@ -19,7 +19,7 @@ export default async function handler(
     console.log(`Build ${build.id} already known since ${build.createdAt}.`);
   } else {
     console.log(`Creating new build ${apiBuild}`);
-    await db.build.create({ data: { id: apiBuild } });
+    await db.build.create({ data: { id: apiBuild }});
   }
 
   // update items
@@ -38,8 +38,8 @@ async function processItems(buildId: number) {
   const ids: number[] = await fetch('https://api.guildwars2.com/v2/items').then((r) => r.json());
 
   // new items
-  const knownIds = await db.item.findMany({ select: { id: true } }).then((items) => items.map(({ id }) => id));
-  const knownRemovedIds = await db.item.findMany({ select: { id: true }, where: { removedFromApi: true } }).then((items) => items.map(({ id }) => id));
+  const knownIds = await db.item.findMany({ select: { id: true }}).then((items) => items.map(({ id }) => id));
+  const knownRemovedIds = await db.item.findMany({ select: { id: true }, where: { removedFromApi: true }}).then((items) => items.map(({ id }) => id));
 
   const newIds = ids.filter((id) => !knownIds.includes(id));
   const removedIds = knownIds.filter((id) => !ids.includes(id));
@@ -72,10 +72,10 @@ async function newItems(buildId: number, newIds: number[]) {
   const knownIcons = (await db.icon.findMany()).reduce<Record<number, string>>((knownIcons, { id, signature }) => ({ ...knownIcons, [id]: signature }), {});
 
   for(const { de, en, es, fr } of items) {
-    const revision_de = await db.revision.create({ data: { data: JSON.stringify(de), language: 'de', buildId, description: 'Added to API' } });
-    const revision_en = await db.revision.create({ data: { data: JSON.stringify(en), language: 'en', buildId, description: 'Added to API' } });
-    const revision_es = await db.revision.create({ data: { data: JSON.stringify(es), language: 'es', buildId, description: 'Added to API' } });
-    const revision_fr = await db.revision.create({ data: { data: JSON.stringify(fr), language: 'fr', buildId, description: 'Added to API' } });
+    const revision_de = await db.revision.create({ data: { data: JSON.stringify(de), language: 'de', buildId, description: 'Added to API' }});
+    const revision_en = await db.revision.create({ data: { data: JSON.stringify(en), language: 'en', buildId, description: 'Added to API' }});
+    const revision_es = await db.revision.create({ data: { data: JSON.stringify(es), language: 'es', buildId, description: 'Added to API' }});
+    const revision_fr = await db.revision.create({ data: { data: JSON.stringify(fr), language: 'fr', buildId, description: 'Added to API' }});
 
     const icon = en.icon?.match(/\/(?<signature>[^\/]*)\/(?<id>[^\/]*)\.png$/)?.groups as { signature: string, id: number } | undefined;
 
@@ -90,26 +90,28 @@ async function newItems(buildId: number, newIds: number[]) {
       await db.icon.update({ where: { id: icon.id }, data: icon });
     }
 
-    const i = await db.item.create({ data: {
-      id: en.id,
-      name_de: de.name,
-      name_en: en.name,
-      name_es: es.name,
-      name_fr: fr.name,
-      iconId: icon?.id,
-      rarity: en.rarity,
-      currentId_de: revision_de.id,
-      currentId_en: revision_en.id,
-      currentId_es: revision_es.id,
-      currentId_fr: revision_fr.id,
-      history: { createMany: { data: [{ revisionId: revision_de.id }, { revisionId: revision_en.id }, { revisionId: revision_es.id }, { revisionId: revision_fr.id }]} }
-    }});
+    const i = await db.item.create({
+      data: {
+        id: en.id,
+        name_de: de.name,
+        name_en: en.name,
+        name_es: es.name,
+        name_fr: fr.name,
+        iconId: icon?.id,
+        rarity: en.rarity,
+        currentId_de: revision_de.id,
+        currentId_en: revision_en.id,
+        currentId_es: revision_es.id,
+        currentId_fr: revision_fr.id,
+        history: { createMany: { data: [{ revisionId: revision_de.id }, { revisionId: revision_en.id }, { revisionId: revision_es.id }, { revisionId: revision_fr.id }] }}
+      }
+    });
   }
 }
 
 async function removedItems(buildId: number, removedIds: number[]) {
   for(const removedId of removedIds) {
-    const item = await db.item.findUnique({ where: { id: removedId }, include: { current_de: true, current_en: true, current_es: true, current_fr: true } });
+    const item = await db.item.findUnique({ where: { id: removedId }, include: { current_de: true, current_en: true, current_es: true, current_fr: true }});
 
     if(!item) {
       continue;
@@ -158,7 +160,7 @@ async function rediscoveredItems(buildId: number, rediscoveredIds: number[]) {
   }));
 
   for(const data of items) {
-    const item = await db.item.findUnique({ where: { id: data.en.id } });
+    const item = await db.item.findUnique({ where: { id: data.en.id }});
 
     if(!item) {
       continue;

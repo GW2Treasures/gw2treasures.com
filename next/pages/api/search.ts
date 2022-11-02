@@ -10,7 +10,7 @@ export default async function handler(
 
   console.log(searchValue);
 
-  const result = await db.item.findMany({ where: { name_en: { contains: searchValue, mode: 'insensitive' } }, take: 5, include: { icon: true } })
+  const result = await db.item.findMany({ where: { name_en: { contains: searchValue, mode: 'insensitive' }}, take: 5, include: { icon: true }});
 
   res.status(200).json({ searchValue, result });
 }

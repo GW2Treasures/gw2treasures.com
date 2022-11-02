@@ -1,7 +1,7 @@
 import { NextPage, GetServerSideProps, GetStaticProps } from 'next';
 import { ReactNode } from 'react';
 import { serialize, deserialize } from 'superjson/dist';
-import { SuperJSONResult } from 'superjson/src/types'
+import { SuperJSONResult } from 'superjson/src/types';
 
 interface SuperJSONComponentProps extends SuperJSONResult {
   children?: ReactNode,
@@ -29,7 +29,7 @@ export function getServerSideSuperProps<T extends { [key: string]: any }>(factor
     }
 
     return result;
-  }
+  };
 }
 
 export function getStaticSuperProps<T extends { [key: string]: any }>(factory: GetStaticProps<T>): GetStaticProps<SuperJSONResult> {
@@ -44,6 +44,6 @@ export function getStaticSuperProps<T extends { [key: string]: any }>(factory: G
     }
 
     return result;
-  }
+  };
 }
 

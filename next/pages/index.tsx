@@ -39,7 +39,7 @@ export const getServerSideProps = getServerSideSuperProps<HomeProps>(async ({}) 
 
   return {
     props: { items },
-  }
+  };
 });
 
 export default withSuperProps(Home);

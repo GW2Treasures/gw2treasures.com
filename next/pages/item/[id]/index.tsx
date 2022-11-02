@@ -67,7 +67,7 @@ const ItemPage: NextPage<ItemPageProps> = ({ item, revision, fixedRevision, simi
 
       <Table>
         <thead>
-          <tr><th {...{width: 1}}>Build</th><th {...{width: 1}}>Language</th><th>Description</th><th {...{width: 1}}>Date</th></tr>
+          <tr><th {...{ width: 1 }}>Build</th><th {...{ width: 1 }}>Language</th><th>Description</th><th {...{ width: 1 }}>Date</th></tr>
         </thead>
         <tbody>
           {item.history.map((history) => (
@@ -104,10 +104,10 @@ const ItemPage: NextPage<ItemPageProps> = ({ item, revision, fixedRevision, simi
         </>
       )}
 
-    <Headline id="data">Data</Headline>
-    <pre style={{ fontSize: 16 }}>
-      {JSON.stringify(data, undefined, '  ')}
-    </pre>
+      <Headline id="data">Data</Headline>
+      <pre style={{ fontSize: 16 }}>
+        {JSON.stringify(data, undefined, '  ')}
+      </pre>
 
     </DetailLayout>
   );
@@ -122,20 +122,20 @@ export const getStaticProps = getStaticSuperProps<ItemPageProps>(async ({ params
       where: { id },
       include: {
         history: {
-          include: { revision: { select: { id: true, buildId: true, createdAt: true, description: true, language: true } } },
-          where: { revision: { language } },
-          orderBy: { revision: { createdAt: 'desc' } }
+          include: { revision: { select: { id: true, buildId: true, createdAt: true, description: true, language: true }}},
+          where: { revision: { language }},
+          orderBy: { revision: { createdAt: 'desc' }}
         },
         icon: true
       }
     }),
-    db.revision.findFirst({ where: { [`currentItem_${language}`]: { id } } })
+    db.revision.findFirst({ where: { [`currentItem_${language}`]: { id }}})
   ]);
 
   if(!item || !revision) {
     return {
       notFound: true
-    }
+    };
   }
 
   const similarItems = await db.item.findMany({
@@ -160,12 +160,12 @@ export const getStaticProps = getStaticSuperProps<ItemPageProps>(async ({ params
     },
     include: { icon: true },
     take: 32,
-  })
+  });
 
   return {
-    props: { item, revision: revision, fixedRevision: false, similarItems },
+    props: { item, revision, fixedRevision: false, similarItems },
     revalidate: 600 /* 10 minutes */
-  }
+  };
 });
 
 export const getStaticPaths: GetStaticPaths = () => {
@@ -173,6 +173,6 @@ export const getStaticPaths: GetStaticPaths = () => {
     paths: [],
     fallback: true,
   };
-}
+};
 
 export default withSuperProps(ItemPage);

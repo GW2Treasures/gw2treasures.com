@@ -1,4 +1,4 @@
-import { createContext, FC, ReactNode, useCallback, useContext, useEffect, useReducer, useState } from "react";
+import { createContext, FC, ReactNode, useCallback, useContext, useEffect, useReducer, useState } from 'react';
 import styles from './TableOfContent.module.css';
 
 type Anchor = { id: string, element: HTMLElement, label: ReactNode };
@@ -33,8 +33,10 @@ export const TableOfContentContext: FC<TableOfContentContextProps> = ({ children
     return () => updateAnchors({ type: 'unregister', anchor });
   }, [updateAnchors]);
 
-  return <Context.Provider value={{ anchors, registerAnchor }}>{children}</Context.Provider>
-}
+  return (
+    <Context.Provider value={{ anchors, registerAnchor }}>{children}</Context.Provider>
+  );
+};
 
 export interface TableOfContentAnchorProps {
   id: string;
@@ -56,7 +58,7 @@ export const TableOfContentAnchor: FC<TableOfContentAnchorProps> = ({ id, childr
 
 interface TableOfContentProps {};
 
-export const TableOfContent: FC<TableOfContentProps> = ({  }) => {
+export const TableOfContent: FC<TableOfContentProps> = ({ }) => {
   const { anchors } = useContext(Context) ?? { anchors: [] };
   const [activeId, setActiveId] = useState<string>(anchors[0]?.id);
 
@@ -89,7 +91,7 @@ export const TableOfContent: FC<TableOfContentProps> = ({  }) => {
     <ol className={styles.toc}>
       {anchors.map(({ id, element, label }) => (
         <li key={id} className={styles.item}>
-          <a href={`#${id}`} className={activeId === id ? styles.activeLink : styles.link} onClick={(e) => { e.preventDefault(); element.scrollIntoView(); setActiveId(id) }}>{label}</a>
+          <a href={`#${id}`} className={activeId === id ? styles.activeLink : styles.link} onClick={(e) => { e.preventDefault(); element.scrollIntoView(); setActiveId(id); }}>{label}</a>
         </li>
       ))}
     </ol>

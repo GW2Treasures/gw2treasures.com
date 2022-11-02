@@ -49,7 +49,7 @@ export const TableOfContentAnchor: FC<TableOfContentAnchorProps> = ({ id, childr
     if(element) {
       return context?.registerAnchor({ id, element, label: children ?? id });
     }
-  }, [context?.registerAnchor, id, element]);
+  }, [context, context?.registerAnchor, id, element, children]);
 
   return <a key={id} id={id} ref={setElement} className={styles.anchor}/>;
 };

@@ -22,11 +22,11 @@ export const Search: FC<SearchProps> = ({ }) => {
   useEffect(() => {
     const abort = new AbortController();
 
-    fetch(`/api/search?q=${encodeURIComponent(value)}`, { signal: abort.signal }).then((r) => r.json()).then(({ result }) => {
+    fetch(`/api/search?q=${encodeURIComponent(searchValue)}`, { signal: abort.signal }).then((r) => r.json()).then(({ result }) => {
       setResult(result);
     });
     return () => abort.abort();
-  }, [value]);
+  }, [searchValue]);
 
   useEffect(() => {
     if(window.document.activeElement && searchForm.current?.contains(window.document.activeElement)) {
@@ -42,7 +42,7 @@ export const Search: FC<SearchProps> = ({ }) => {
       <div className={styles.dropdown}>
         <div className={styles.category}>Items</div>
         {result.map((item) => (
-          <Link href={`/item/${item.id}`}>
+          <Link href={`/item/${item.id}`} key={item.id}>
             <a key={item.id} className={styles.result}>
               {item.icon && (<ItemIcon icon={item.icon} size={32}/>)}
               <div className={styles.title}>

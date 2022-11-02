@@ -27,7 +27,7 @@ export const ItemInfobox: FC<ItemInfoboxProps> = ({ item, data }) => {
     fetch(`https://api.guildwars2.com/v2/commerce/prices/${item.id}`).then((r) => r.json()).then((prices) => {
       setTpData(prices);
     });
-  }, [isTpTradeable, item]);
+  }, [item]);
 
   return (
     <div>

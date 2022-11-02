@@ -10,7 +10,7 @@ export interface HeadlineProps {
 
 export const Headline: FC<HeadlineProps> = ({ children, id, noToc = false }) => {
   return (
-    <header role="heading" className={styles.headline}>
+    <header role="heading" className={styles.headline} aria-level={2}>
       {!noToc && <TableOfContentAnchor id={id}>{children}</TableOfContentAnchor>}
       {children}
     </header>

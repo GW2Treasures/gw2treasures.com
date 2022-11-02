@@ -16,6 +16,7 @@ const DetailLayout: FunctionComponent<DetailLayoutProps> = ({ title, icon, bread
     <TableOfContentContext>
       <main className={[styles.main, className].filter(Boolean).join(' ')}>
         <div className={infobox ? styles.headline : styles.headlineWithoutInfobox}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           {icon && <img src={icon} alt="" className={styles.icon}/>}
           <h1 className={styles.title}>{title}</h1>
           {breadcrumb && <div className={styles.breadcrumb}>{breadcrumb}</div>}

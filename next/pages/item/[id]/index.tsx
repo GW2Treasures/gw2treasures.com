@@ -40,12 +40,12 @@ export interface ItemPageProps {
 }
 
 const ItemPage: NextPage<ItemPageProps> = ({ item, revision, fixedRevision, similarItems = [] }) => {
+  const router = useRouter();
+
   if(!item) {
     return <DetailLayout title={<Skeleton/>} breadcrumb={<Skeleton/>}><Skeleton/></DetailLayout>;
   }
   
-  const router = useRouter();
-
   const data: ApiItem = JSON.parse(revision.data);
 
   return (
@@ -71,7 +71,7 @@ const ItemPage: NextPage<ItemPageProps> = ({ item, revision, fixedRevision, simi
         </thead>
         <tbody>
           {item.history.map((history) => (
-            <tr>
+            <tr key={history.revisionId}>
               <td>{history.revisionId === revision.id ? <b>{history.revision.buildId || '-'}</b> : history.revision.buildId || '-'}</td>
               <td>{history.revision.language}</td>
               <td><Link href={`/item/${item.id}/${history.revisionId}`}>{history.revision.description}</Link></td>

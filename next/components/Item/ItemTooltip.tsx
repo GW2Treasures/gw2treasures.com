@@ -12,7 +12,7 @@ export interface ItemTooltipProps {
 }
 
 export const ItemTooltip: FC<ItemTooltipProps> = ({ item }) => {
-
+  /* eslint-disable react/jsx-key */
   const data: ReactNode[] = [
     item.type === 'Weapon' && <>Strength: <FormatNumber value={item.details?.min_power}/> – <FormatNumber value={item.details?.max_power}/></>,
     item.type === 'Armor' && `Defense: ${item.details?.defense}`,
@@ -35,10 +35,10 @@ export const ItemTooltip: FC<ItemTooltipProps> = ({ item }) => {
     item.flags.includes('SoulBindOnUse') && 'Soulbound on Use',
     item.flags.includes('NoSalvage') && 'Not salvagable',
     item.flags.includes('NoSell') ? 'Not sellable' : <Coins value={item.vendor_value}/>,
-
   ];
+  /* eslint-enable react/jsx-key */
 
   return <div>
-    {data.filter(Boolean).map((content) => <div style={{ marginBottom: 8 }}>{content}</div>)}
+    {data.filter(Boolean).map((content, index) => <div style={{ marginBottom: 8 }} key={index}>{content}</div>)}
   </div>;
 };

@@ -1,11 +1,11 @@
 import { FC } from 'react';
 
 interface FormatNumberProps {
-  value: number;
+  value: number | undefined | null;
 };
 
-const format = new Intl.NumberFormat('en-DE', { useGrouping: true });
+const format = new Intl.NumberFormat(undefined, { useGrouping: true });
 
 export const FormatNumber: FC<FormatNumberProps> = ({ value }) => {
-  return <>{format.format(value)}</>;
+  return <>{value != null ? format.format(value) : '?'}</>;
 };

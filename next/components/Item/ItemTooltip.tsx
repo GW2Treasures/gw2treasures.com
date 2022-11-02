@@ -4,6 +4,7 @@ import { parseItems } from 'gw2e-item-attributes';
 import { ItemAttributes } from './ItemAttributes';
 import { format } from 'gw2-tooltip-html';
 import { Coins } from '../Format/Coins';
+import { FormatNumber } from '../Format/FormatNumber';
 
 export interface ItemTooltipProps {
   item: ApiItem;
@@ -12,7 +13,7 @@ export interface ItemTooltipProps {
 export const ItemTooltip: FC<ItemTooltipProps> = ({ item }) => {
 
   const data: ReactNode[] = [
-    item.type === 'Weapon' && `Strength: ${item.details?.min_power} – ${item.details?.max_power}`,
+    item.type === 'Weapon' && <>Strength: <FormatNumber value={item.details?.min_power}/> – <FormatNumber value={item.details?.max_power}/></>,
     item.type === 'Armor' && `Defense: ${item.details?.defense}`,
     <ItemAttributes attributes={parseItems([item])}/>,
     // consumable,

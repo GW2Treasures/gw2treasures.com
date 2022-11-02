@@ -2,6 +2,7 @@ import { Job } from '../job';
 import { getCurrentBuild } from '../helper/getCurrentBuild';
 import { loadItems } from '../helper/loadItems';
 import { queueJobForIds } from '../helper/queueJobsForIds';
+import { CURRENT_VERSION } from './migrate';
 
 export const ItemsUpdate: Job = {
   run: async (db, ids: number[] | {}) => {
@@ -70,11 +71,17 @@ export const ItemsUpdate: Job = {
         name_fr: fr.name,
         iconId: icon?.id,
         rarity: en.rarity,
+        type: en.type,
+        subtype: en.details?.type,
+        weight: en.details?.weight_class,
+        value: en.vendor_value,
+        level: en.level,
         currentId_de: revision_de.id,
         currentId_en: revision_en.id,
         currentId_es: revision_es.id,
         currentId_fr: revision_fr.id,
         lastCheckedAt: new Date(),
+        version: CURRENT_VERSION,
         history: { createMany: { data: [{ revisionId: revision_de.id }, { revisionId: revision_en.id }, { revisionId: revision_es.id }, { revisionId: revision_fr.id }], skipDuplicates: true } }
       }});
     }

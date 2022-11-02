@@ -18,7 +18,12 @@ model Item {
   icon   Icon? @relation(fields: [iconId], references: [id])
   iconId Int?
 
-  rarity String
+  rarity  String  @default("")
+  type    String  @default("")
+  subtype String?
+  weight  String?
+  value   Int     @default(0)
+  level   Int     @default(0)
 
   removedFromApi Boolean @default(false)
 
@@ -40,6 +45,8 @@ model Item {
 
   createdAt      DateTime   @default(now())
   updatedAt      DateTime   @updatedAt
+
+  version Int @default(0)
 }
 
 model Icon {

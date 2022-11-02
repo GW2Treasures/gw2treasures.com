@@ -135,8 +135,12 @@ export const getStaticProps = getStaticSuperProps<ItemPageProps>(async ({ params
         { iconId: item.iconId },
         // TODO: Skin matches
         {
+          type: item.type,
+          subtype: item.subtype,
           rarity: item.rarity,
-          //  TODO: type, subtype, weight, value, level
+          weight: item.weight,
+          value: item.value,
+          level: item.level,
         }
       ]
     },

@@ -1,14 +1,16 @@
 import { Prisma, PrismaClient } from '@prisma/client';
 import { parseExpression } from 'cron-parser';
-import { json } from 'stream/consumers';
 import { JobName } from '.';
 
 export async function registerCronJobs(db: PrismaClient) {
   console.log('Registering cron jobs...');
 
   await registerJob(db, 'test', '0 0 * * *');
+  
   await registerJob(db, 'items.check', '*/5 * * * *');
   await registerJob(db, 'items.update', '*/3 * * * *');
+  await registerJob(db, 'items.migrate', '*/6 * * * *');
+
   await registerJob(db, 'jobs.cleanup', '*/15 * * * *');
 }
 

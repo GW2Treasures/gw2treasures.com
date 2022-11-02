@@ -1,6 +1,7 @@
 import { Job } from '../job';
 import { getCurrentBuild } from '../helper/getCurrentBuild';
 import { loadItems } from '../helper/loadItems';
+import { CURRENT_VERSION } from './migrate';
 
 export const ItemsNew: Job = {
   run: async (db, newIds: number[]) => {
@@ -37,6 +38,12 @@ export const ItemsNew: Job = {
         name_fr: fr.name,
         iconId: icon?.id,
         rarity: en.rarity,
+        type: en.type,
+        subtype: en.details?.type,
+        weight: en.details?.weight_class,
+        value: en.vendor_value,
+        level: en.level,
+        version: CURRENT_VERSION,
         currentId_de: revision_de.id,
         currentId_en: revision_en.id,
         currentId_es: revision_es.id,

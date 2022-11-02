@@ -47,8 +47,8 @@ export const ItemsMigrate: Job = {
         update.type = data.type;
         update.subtype = data.details?.type;
         update.weight = data.details?.weight_class;
-        update.value = data.vendor_value;
-        update.level = data.level;
+        update.value = Number(data.vendor_value);
+        update.level = Number(data.level);
       }
 
       await db.item.update({ where: { id: item.id }, data: update });

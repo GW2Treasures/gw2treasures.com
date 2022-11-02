@@ -12,7 +12,7 @@ function isPercentage(attribute: string): boolean {
 }
 
 export const ItemAttributes: FC<ItemAttributesProps> = ({ attributes }) => {
-  const entries = Object.entries(attributes);
+  const entries = Object.entries(attributes).filter(([attribute]) => attribute !== 'Armor');
 
   if(entries.length === 0) {
     return null;

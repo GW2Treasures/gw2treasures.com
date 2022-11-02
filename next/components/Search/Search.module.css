@@ -68,13 +68,26 @@
 
 .result {
   padding: 8px 16px;
-  display: flex;
-  align-items: center;
-  gap: 16px;
   color: #000;
+  display: grid;
+  grid-template:
+    "icon title"    min-content
+    "icon subtitle" min-content /
+    32px  auto;
+  gap: 0 8px;
 }
 
 .result:hover, .result:focus {
   background-color: #fafafa;
   text-decoration: none;
+}
+
+.title {
+  grid-area: title;
+}
+
+.subtitle {
+  color: #555;
+  grid-area: subtitle;
+  font-size: 14px;
 }

@@ -44,8 +44,13 @@ export const Search: FC<SearchProps> = ({ }) => {
         {result.map((item) => (
           <Link href={`/item/${item.id}`}>
             <a key={item.id} className={styles.result}>
-              {item.icon && (<ItemIcon icon={item.icon} size={16}/>)}
-              {item.name_en}
+              {item.icon && (<ItemIcon icon={item.icon} size={32}/>)}
+              <div className={styles.title}>
+                {item.name_en}
+              </div>
+              <div className={styles.subtitle}>
+                {item.level > 0 && `${item.level} - `}{item.rarity} {item.weight} {(item.subtype !== 'Generic' ? item.subtype : '') || item.type}
+              </div>
             </a>
           </Link>
         ))}

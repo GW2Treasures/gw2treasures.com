@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "prisma": "prisma generate",
-    "postprisma": "cp prisma/schema.prisma ../next-worker/prisma/schema.prisma && cp prisma/schema.prisma ../next-importer/prisma/next.prisma"
+    "postprisma": "cp prisma/schema.prisma ../next-worker/prisma/schema.prisma && cp prisma/schema.prisma ../next-importer/prisma/next.prisma",
+    "lint": "next lint"
   },
   "dependencies": {
     "@fontsource/bitter": "^4.5.9",
@@ -23,6 +24,8 @@
   "devDependencies": {
     "@types/node": "18.11.3",
     "@types/react": "18.0.21",
+    "eslint": "8.26.0",
+    "eslint-config-next": "13.0.1",
     "prisma": "^4.5.0",
     "typescript": "4.8.4"
   }

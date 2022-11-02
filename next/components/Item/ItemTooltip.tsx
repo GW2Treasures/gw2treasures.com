@@ -5,6 +5,7 @@ import { ItemAttributes } from './ItemAttributes';
 import { format } from 'gw2-tooltip-html';
 import { Coins } from '../Format/Coins';
 import { FormatNumber } from '../Format/FormatNumber';
+import { Rarity } from './Rarity';
 
 export interface ItemTooltipProps {
   item: ApiItem;
@@ -22,7 +23,7 @@ export const ItemTooltip: FC<ItemTooltipProps> = ({ item }) => {
     // infusions
     // color
     // skin
-    <span style={{ color: 'var(--color-rarity)' }}>{item.rarity}</span>,
+    <Rarity rarity={item.rarity}/>,
     item.details?.type,
     item.details?.weight_class,
     item.level !== 0 && `Level: ${item.level}`,

@@ -16,6 +16,7 @@ import { Infobox } from '../../../components/Infobox/Infobox';
 import { getIconUrl } from '../../../components/Item/ItemIcon';
 import { Headline } from '../../../components/Headline/Headline';
 import { FormatDate } from '../../../components/Format/FormatDate';
+import { ItemList } from '../../../components/ItemList/ItemList';
 
 export interface ItemPageProps {
   item: Item & {
@@ -32,9 +33,10 @@ export interface ItemPageProps {
   };
   revision: Revision;
   fixedRevision: boolean;
+  similarItems?: (Item & { icon?: DbIcon | null })[]
 }
 
-const ItemPage: NextPage<ItemPageProps> = ({ item, revision, fixedRevision }) => {
+const ItemPage: NextPage<ItemPageProps> = ({ item, revision, fixedRevision, similarItems = [] }) => {
   if(!item) {
     return <DetailLayout title={<Skeleton/>} breadcrumb={<Skeleton/>}><Skeleton/></DetailLayout>;
   }
@@ -83,6 +85,16 @@ const ItemPage: NextPage<ItemPageProps> = ({ item, revision, fixedRevision }) =>
           ))}
         </tbody>
       </Table>
+
+      {similarItems.length > 0 && (
+        <>
+          <Headline id="similar">Similar Items</Headline>
+          <ItemList>
+            {similarItems.map((item) => <li key={item.id}><ItemLink item={item}/></li>)}
+          </ItemList>
+        </>
+      )}
+
     </DetailLayout>
   );
 };
@@ -112,8 +124,28 @@ export const getStaticProps = getStaticSuperProps<ItemPageProps>(async ({ params
     }
   }
 
+  const similarItems = await db.item.findMany({
+    where: {
+      id: { not: id },
+      OR: [
+        { name_de: item.name_de },
+        { name_en: item.name_en },
+        { name_es: item.name_es },
+        { name_fr: item.name_fr },
+        { iconId: item.iconId },
+        // TODO: Skin matches
+        {
+          rarity: item.rarity,
+          //  TODO: type, subtype, weight, value, level
+        }
+      ]
+    },
+    include: { icon: true },
+    take: 128,
+  })
+
   return {
-    props: { item, revision: revision, fixedRevision: false },
+    props: { item, revision: revision, fixedRevision: false, similarItems },
     revalidate: 600 /* 10 minutes */
   }
 });

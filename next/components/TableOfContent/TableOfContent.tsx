@@ -66,7 +66,7 @@ export const TableOfContent: FC<TableOfContentProps> = ({  }) => {
       
       let topAnchor = anchors[0];
       for(const anchor of anchors) {
-        if(anchor.element.offsetTop - scrollTop <= 0) {
+        if(anchor.element.offsetTop - scrollTop <= 16) {
           topAnchor = anchor;
         } else {
           break;

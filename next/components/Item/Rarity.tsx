@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-import { ApiItem } from '../../lib/apiTypes';
 import { cx } from '../../lib/classNames';
 import styles from './Rarity.module.css';
 import rarityStyles from '../Layout/RarityColor.module.css';

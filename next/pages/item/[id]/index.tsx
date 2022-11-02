@@ -18,6 +18,8 @@ import { Headline } from '../../../components/Headline/Headline';
 import { FormatDate } from '../../../components/Format/FormatDate';
 import { ItemList } from '../../../components/ItemList/ItemList';
 import { ItemInfobox } from '../../../components/Item/ItemInfobox';
+import { Coins } from '../../../components/Format/Coins';
+import { Rarity } from '../../../components/Item/Rarity';
 
 export interface ItemPageProps {
   item: Item & {
@@ -82,11 +84,30 @@ const ItemPage: NextPage<ItemPageProps> = ({ item, revision, fixedRevision, simi
       {similarItems.length > 0 && (
         <>
           <Headline id="similar">Similar Items</Headline>
-          <ItemList>
-            {similarItems.map((item) => <li key={item.id}><ItemLink item={item}/></li>)}
-          </ItemList>
+
+          <Table>
+            <thead>
+              <tr><th>Item</th><th>Level</th><th>Rarity</th><th>Type</th><th>Vendor Value</th></tr>
+            </thead>
+            <tbody>
+              {similarItems.map((item) => (
+                <tr key={item.id}>
+                  <th><ItemLink item={item}/></th>
+                  <td>{item.level}</td>
+                  <td><Rarity rarity={item.rarity}/></td>
+                  <td>{item.type} {item.subtype && `(${item.subtype})`}</td>
+                  <td><Coins value={item.value}/></td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
         </>
       )}
+
+    <Headline id="data">Data</Headline>
+    <pre style={{ fontSize: 16 }}>
+      {JSON.stringify(data, undefined, '  ')}
+    </pre>
 
     </DetailLayout>
   );
@@ -138,7 +159,7 @@ export const getStaticProps = getStaticSuperProps<ItemPageProps>(async ({ params
       ]
     },
     include: { icon: true },
-    take: 128,
+    take: 32,
   })
 
   return {

@@ -105,7 +105,7 @@ const ItemPage: NextPage<ItemPageProps> = ({ item, revision, fixedRevision, simi
       )}
 
       <Headline id="data">Data</Headline>
-      <pre style={{ fontSize: 16 }}>
+      <pre style={{ fontSize: 16, lineHeight: 1.5, whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
         {JSON.stringify(data, undefined, '  ')}
       </pre>
 

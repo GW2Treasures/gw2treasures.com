@@ -18,7 +18,7 @@ type Action = {
 };
 
 export const TableOfContentContext: FC<TableOfContentContextProps> = ({ children }) => {
-  const [anchors, updateAnchors] = useReducer((state: Anchor[], action: Action) => {
+  const [anchors, updateAnchors] = useReducer((state: Anchor[], action: Action): Anchor[] => {
     switch(action.type) {
       case 'register':
         return [...state, action.anchor].sort((a, b) => a.element.compareDocumentPosition(b.element) === Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1);
@@ -44,14 +44,14 @@ export interface TableOfContentAnchorProps {
 }
 
 export const TableOfContentAnchor: FC<TableOfContentAnchorProps> = ({ id, children }) => {
-  const context = useContext(Context);
+  const { registerAnchor } = useContext(Context) ?? { registerAnchor: () => {} };
   const [element, setElement] = useState<HTMLAnchorElement | null>(null);
 
   useEffect(() => {
     if(element) {
-      return context?.registerAnchor({ id, element, label: children ?? id });
+      return registerAnchor({ id, element, label: children ?? id });
     }
-  }, [context, context?.registerAnchor, id, element, children]);
+  }, [registerAnchor, id, element, children]);
 
   return <a key={id} id={id} ref={setElement} className={styles.anchor}/>;
 };

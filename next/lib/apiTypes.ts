@@ -74,8 +74,8 @@ export namespace Api {
     export type Price = {
       id: number;
       whitelisted: boolean;
-      buys: { quantity: number; unit_price: number; }
-      sells: { quantity: number; unit_price: number; }
+      buys: { quantity: number; unit_price: number; } | undefined
+      sells: { quantity: number; unit_price: number; } | undefined
     }
   }
 

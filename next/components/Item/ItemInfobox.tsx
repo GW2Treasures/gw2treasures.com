@@ -43,13 +43,13 @@ export const ItemInfobox: FC<ItemInfoboxProps> = ({ item, data }) => {
         <>
           <b>Sell Price: </b>
           <div className={styles.tp}>
-            <span><FormatNumber value={tpData?.sells.quantity ?? 0}/> available</span>
-            <Coins value={tpData?.sells.unit_price ?? 0}/>
+            <span><FormatNumber value={tpData?.sells?.quantity ?? 0}/> available</span>
+            <Coins value={tpData?.sells?.unit_price ?? 0}/>
           </div>
           <b>Buy Price:</b>
           <div className={styles.tp}>
-            <span><FormatNumber value={tpData?.buys.quantity ?? 0}/> ordered</span>
-            <Coins value={tpData?.buys.unit_price ?? 0}/>
+            <span><FormatNumber value={tpData?.buys?.quantity ?? 0}/> ordered</span>
+            <Coins value={tpData?.buys?.unit_price ?? 0}/>
           </div>
         </>
       ) : (

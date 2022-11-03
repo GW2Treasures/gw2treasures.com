@@ -21,6 +21,7 @@ import { ItemInfobox } from '../../../components/Item/ItemInfobox';
 import { Coins } from '../../../components/Format/Coins';
 import { Rarity } from '../../../components/Item/Rarity';
 import { SkinLink } from '../../../components/Skin/SkinLink';
+import { Json } from '../../../components/Format/Json';
 
 export interface ItemPageProps {
   item: Item & {
@@ -119,9 +120,7 @@ const ItemPage: NextPage<ItemPageProps> = ({ item, revision, fixedRevision, simi
       )}
 
       <Headline id="data">Data</Headline>
-      <pre style={{ fontSize: 16, lineHeight: 1.5, whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
-        {JSON.stringify(data, undefined, '  ')}
-      </pre>
+      <Json data={data}/>
 
     </DetailLayout>
   );

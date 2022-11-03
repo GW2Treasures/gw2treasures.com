@@ -67,10 +67,15 @@ const ItemPage: NextPage<ItemPageProps> = ({ item, revision, fixedRevision, simi
       <TableOfContentAnchor id="tooltip">Tooltip</TableOfContentAnchor>
       <ItemTooltip item={data}/>
 
-      <Headline id="skins">Unlocked Skins</Headline>
-      <ItemList>
-        {item.unlocksSkin.map((skin) => <li key={skin.id}><SkinLink skin={skin}/></li>)}
-      </ItemList>
+      {item.unlocksSkinIds.length > 0 && (
+        <>
+          <Headline id="skins">Unlocked Skins</Headline>
+          <ItemList>
+            {item.unlocksSkin.map((skin) => <li key={skin.id}><SkinLink skin={skin}/></li>)}
+            {item.unlocksSkinIds.filter((id) => item.unlocksSkin.every((skin) => skin.id !== id)).map((id) => <li key={id}>Unknown skin ({id})</li>)}
+          </ItemList>
+        </>
+      )}
 
       <Headline id="history">History</Headline>
 

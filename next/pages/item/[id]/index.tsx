@@ -1,7 +1,7 @@
 import { GetStaticPaths, NextPage } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { Icon as DbIcon, Item, ItemHistory, Language, Revision } from '@prisma/client';
+import { Icon as DbIcon, Item, ItemHistory, Language, Revision, Skin } from '@prisma/client';
 import { ItemLink } from '../../../components/Item/ItemLink';
 import { ItemTooltip } from '../../../components/Item/ItemTooltip';
 import DetailLayout from '../../../components/Layout/DetailLayout';
@@ -13,13 +13,14 @@ import { db } from '../../../lib/prisma';
 import { getStaticSuperProps, withSuperProps } from '../../../lib/superprops';
 import rarityClasses from '../../../components/Layout/RarityColor.module.css';
 import { Infobox } from '../../../components/Infobox/Infobox';
-import { getIconUrl } from '../../../components/Item/ItemIcon';
+import { getIconUrl, ItemIcon } from '../../../components/Item/ItemIcon';
 import { Headline } from '../../../components/Headline/Headline';
 import { FormatDate } from '../../../components/Format/FormatDate';
 import { ItemList } from '../../../components/ItemList/ItemList';
 import { ItemInfobox } from '../../../components/Item/ItemInfobox';
 import { Coins } from '../../../components/Format/Coins';
 import { Rarity } from '../../../components/Item/Rarity';
+import { SkinLink } from '../../../components/Skin/SkinLink';
 
 export interface ItemPageProps {
   item: Item & {
@@ -32,6 +33,9 @@ export interface ItemPageProps {
         description: string | null;
         language: Language;
       };
+    })[];
+    unlocksSkin: (Skin & {
+      icon?: DbIcon | null,
     })[];
   };
   revision: Revision;
@@ -62,6 +66,11 @@ const ItemPage: NextPage<ItemPageProps> = ({ item, revision, fixedRevision, simi
 
       <TableOfContentAnchor id="tooltip">Tooltip</TableOfContentAnchor>
       <ItemTooltip item={data}/>
+
+      <Headline id="skins">Unlocked Skins</Headline>
+      <ItemList>
+        {item.unlocksSkin.map((skin) => <li key={skin.id}><SkinLink skin={skin}/></li>)}
+      </ItemList>
 
       <Headline id="history">History</Headline>
 
@@ -114,7 +123,7 @@ const ItemPage: NextPage<ItemPageProps> = ({ item, revision, fixedRevision, simi
 };
 
 export const getStaticProps = getStaticSuperProps<ItemPageProps>(async ({ params, locale }) => {
-  const id = Number(params!.id!.toString())!;
+  const id: number = Number(params!.id!.toString())!;
   const language = (locale ?? 'en') as Language;
 
   const [item, revision] = await Promise.all([
@@ -126,7 +135,8 @@ export const getStaticProps = getStaticSuperProps<ItemPageProps>(async ({ params
           where: { revision: { language }},
           orderBy: { revision: { createdAt: 'desc' }}
         },
-        icon: true
+        icon: true,
+        unlocksSkin: { include: { icon: true }},
       }
     }),
     db.revision.findFirst({ where: { [`currentItem_${language}`]: { id }}})

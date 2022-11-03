@@ -1,11 +1,13 @@
 import { Job } from '../job';
-import { getCurrentBuild } from '../helper/getCurrentBuild';
-import { loadItems } from '../helper/loadItems';
 import { queueJobForIds } from '../helper/queueJobsForIds';
-import { Prisma } from '@prisma/client';
+import { prisma, Prisma } from '@prisma/client';
 import { ApiItem } from '../../apiTypes';
 
-export const CURRENT_VERSION = 1;
+export const CURRENT_VERSION = 4;
+
+function isDefined<T>(x: T | undefined): x is T {
+  return x !== undefined;
+}
 
 export const ItemsMigrate: Job = {
   run: async (db, ids: number[] | {}) => {
@@ -26,7 +28,7 @@ export const ItemsMigrate: Job = {
       queueJobForIds(db, 'items.migrate', idsToUpdate, 1);
       return `Queued migration for ${idsToUpdate.length} items`;
     }
-    
+
     const itemsToMigrate = await db.item.findMany({
       where: { id: { in: ids } },
       include: { current_de: true, current_en: true, current_es: true, current_fr: true },
@@ -36,6 +38,8 @@ export const ItemsMigrate: Job = {
       return 'No items to update';
     }
 
+    const knownSkinIds = (await db.skin.findMany({ select: { id: true }})).map(({ id }) => id);
+
     for(const item of itemsToMigrate) {
       const data: ApiItem = JSON.parse(item.current_en.data);
 
@@ -43,6 +47,7 @@ export const ItemsMigrate: Job = {
         version: CURRENT_VERSION
       };
 
+      // Populate common fields
       if(item.version <= 0) {
         update.type = data.type;
         update.subtype = data.details?.type;
@@ -51,9 +56,17 @@ export const ItemsMigrate: Job = {
         update.level = Number(data.level);
       }
 
+      // Add unlocked skins (version 2 and 3 skipped)
+      if(item.version <= 4) {
+        const skins = [data.default_skin, ...(data.details?.skins ?? [])].filter(isDefined).map(Number);
+
+        update.unlocksSkinIds = skins;
+        update.unlocksSkin = { set: skins.filter((id) => knownSkinIds.includes(id)).map((id) => ({ id })) };
+      }
+
       await db.item.update({ where: { id: item.id }, data: update });
     }
-    
-    return `Migrated ${itemsToMigrate.length} items to version ${CURRENT_VERSION}`; 
+
+    return `Migrated ${itemsToMigrate.length} items to version ${CURRENT_VERSION}`;
   }
 }

@@ -8,8 +8,6 @@
 }
 
 .name {
-  /* border-bottom: 2px solid transparent; */
-  /* transition: border-bottom-color .3s ease; */
   text-decoration: underline transparent;
   transition: text-decoration-color .3s ease;
   text-decoration-thickness: 2px;

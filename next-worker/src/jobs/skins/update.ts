@@ -1,51 +1,52 @@
 import { Job } from '../job';
 import { getCurrentBuild } from '../helper/getCurrentBuild';
-import { loadItems } from '../helper/loadItems';
+import { loadSkins } from '../helper/loadSkins';
 import { queueJobForIds } from '../helper/queueJobsForIds';
+import { CURRENT_VERSION } from './migrate';
 
-export const ItemsUpdate: Job = {
+export const SkinsUpdate: Job = {
   run: async (db, ids: number[] | {}) => {
     const build = await getCurrentBuild(db);
     const buildId = build.id;
 
     if(!Array.isArray(ids)) {
       // skip if any follow up jobs are still queued
-      const queuedJobs = await db.job.count({ where: { type: { in: ['items.update'] }, state: { in: ['Queued', 'Running'] }, cron: null } })
+      const queuedJobs = await db.job.count({ where: { type: { in: ['skins.update'] }, state: { in: ['Queued', 'Running'] }, cron: null } })
 
       if(queuedJobs > 0) {
         return 'Waiting for pending follow up jobs';
       }
 
-      const idsToUpdate = (await db.item.findMany({
+      const idsToUpdate = (await db.skin.findMany({
         where: { lastCheckedAt: { lt: build.createdAt }, removedFromApi: false },
         orderBy: { lastCheckedAt: 'asc' },
         select: { id: true }
       })).map(({ id }) => id);
 
-      queueJobForIds(db, 'items.update', idsToUpdate, 1);
-      return `Queued update for ${idsToUpdate.length} items`;
+      queueJobForIds(db, 'skins.update', idsToUpdate, 1);
+      return `Queued update for ${idsToUpdate.length} skins`;
     }
 
-    const itemsToUpdate = await db.item.findMany({
+    const skinsToUpdate = await db.skin.findMany({
       where: { id: { in: ids } },
       orderBy: { lastCheckedAt: 'asc' },
       include: { current_de: true, current_en: true, current_es: true, current_fr: true },
       take: 200,
     });
 
-    if(itemsToUpdate.length === 0) {
-      return 'No items to update';
+    if(skinsToUpdate.length === 0) {
+      return 'No skins to update';
     }
 
-    // load items from API
-    const apiItems = await loadItems(itemsToUpdate.map(({ id }) => id));
+    // load skins from API
+    const apiskins = await loadSkins(skinsToUpdate.map(({ id }) => id));
 
-    const items = itemsToUpdate.map((existing) => ({
+    const skins = skinsToUpdate.map((existing) => ({
       existing,
-      ...apiItems.find(({ en }) => en.id === existing.id)!
+      ...apiskins.find(({ en }) => en.id === existing.id)!
     }));
 
-    for(const { existing, de, en, es, fr } of items) {
+    for(const { existing, de, en, es, fr } of skins) {
       const revision_de = existing.current_de.data !== JSON.stringify(de) ? await db.revision.create({ data: { data: JSON.stringify(de), language: 'de', buildId, description: 'Updated in API' } }) : existing.current_de;
       const revision_en = existing.current_en.data !== JSON.stringify(en) ? await db.revision.create({ data: { data: JSON.stringify(en), language: 'en', buildId, description: 'Updated in API' } }) : existing.current_en;
       const revision_es = existing.current_es.data !== JSON.stringify(es) ? await db.revision.create({ data: { data: JSON.stringify(es), language: 'es', buildId, description: 'Updated in API' } }) : existing.current_es;
@@ -63,7 +64,7 @@ export const ItemsUpdate: Job = {
         });
       }
 
-      const i = await db.item.update({ where: { id: existing.id }, data: {
+      const i = await db.skin.update({ where: { id: existing.id }, data: {
         name_de: de.name,
         name_en: en.name,
         name_es: es.name,
@@ -73,18 +74,16 @@ export const ItemsUpdate: Job = {
         type: en.type,
         subtype: en.details?.type,
         weight: en.details?.weight_class,
-        value: en.vendor_value,
-        level: en.level,
         currentId_de: revision_de.id,
         currentId_en: revision_en.id,
         currentId_es: revision_es.id,
         currentId_fr: revision_fr.id,
         lastCheckedAt: new Date(),
-        version: 1,
+        version: CURRENT_VERSION,
         history: { createMany: { data: [{ revisionId: revision_de.id }, { revisionId: revision_en.id }, { revisionId: revision_es.id }, { revisionId: revision_fr.id }], skipDuplicates: true } }
       }});
     }
 
-    return `Updated ${items.length} items`;
+    return `Updated ${skins.length} skins`;
   }
 }

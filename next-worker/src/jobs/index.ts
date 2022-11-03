@@ -6,6 +6,13 @@ import { ItemsRemoved } from './items/removed';
 import { ItemsUpdate } from './items/update';
 import { Job } from './job';
 import { JobsCleanup } from './jobs/cleanup';
+import { SkinsCheck } from './skins/check';
+import { SkinsMigrate } from './skins/migrate';
+import { skinsNew } from './skins/new';
+import { SkinsRediscovered } from './skins/rediscovered';
+import { SkinsRemoved } from './skins/removed';
+import { SkinsUnlock } from './skins/unlocks';
+import { SkinsUpdate } from './skins/update';
 
 const jobsInternal = {
   'test': { run: () => undefined } as Job,
@@ -16,6 +23,14 @@ const jobsInternal = {
   'items.rediscovered': ItemsRediscovered,
   'items.update': ItemsUpdate,
   'items.migrate': ItemsMigrate,
+
+  'skins.check': SkinsCheck,
+  'skins.new': skinsNew,
+  'skins.removed': SkinsRemoved,
+  'skins.rediscovered': SkinsRediscovered,
+  'skins.update': SkinsUpdate,
+  'skins.migrate': SkinsMigrate,
+  'skins.unlock': SkinsUnlock,
 
   'jobs.cleanup': JobsCleanup,
 }

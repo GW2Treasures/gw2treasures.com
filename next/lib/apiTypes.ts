@@ -78,4 +78,43 @@ export namespace Api {
       sells: { quantity: number; unit_price: number; }
     }
   }
+
+  export type Skin = {
+    description?: string;
+    details?: {
+      damage_type?: 'Physical' | 'Choking' | 'Fire' | 'Lightning' | 'Ice';
+      dye_slots?: {
+        default: DyeSlot[];
+        overrides: {
+          AsuraFemale?: DyeSlot[];
+          AsuraMale?: DyeSlot[];
+          CharrFemale?: DyeSlot[];
+          CharrMale?: DyeSlot[];
+          HumanFemale?: DyeSlot[];
+          HumanMale?: DyeSlot[];
+          NornFemale?: DyeSlot[];
+          NornMale?: {
+            color_id: number;
+            material: 'metal' | 'leather' | 'cloth';
+          }[];
+          SylvariFemale?: DyeSlot[];
+          SylvariMale?: null[];
+        };
+      };
+      type: 'Leggings' | 'Coat' | 'Boots' | 'Gloves' | 'Shoulders' | 'Helm' | 'HelmAquatic' | 'Foraging' | 'Logging' | 'Mining' | 'LargeBundle' | 'Rifle' | 'SmallBundle' | 'Toy' | 'ToyTwoHanded' | 'Axe' | 'Staff' | 'Hammer' | 'Pistol' | 'Longbow' | 'Dagger' | 'Sword' | 'Shortbow' | 'Focus' | 'Torch' | 'Spear' | 'Mace' | 'Speargun' | 'Greatsword' | 'Scepter' | 'Warhorn' | 'Shield' | 'Trident' | 'Lure' | 'Bait' | 'Fishing';
+      weight_class?: 'Heavy' | 'Light' | 'Medium' | 'Clothing';
+    };
+    flags: string[];
+    icon?: string;
+    id: number;
+    name: string;
+    rarity: 'Basic' | 'Masterwork' | 'Legendary' | 'Rare' | 'Exotic' | 'Ascended';
+    restrictions: string[];
+    type: 'Armor' | 'Back' | 'Gathering' | 'Weapon';
+  };
+
+  type DyeSlot = {
+    color_id: number;
+    material: 'leather' | 'cloth' | 'metal';
+  }
 }

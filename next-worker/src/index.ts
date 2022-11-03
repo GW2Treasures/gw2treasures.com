@@ -56,6 +56,7 @@ async function run() {
       where: { id: job.id },
       data: { state: 'Success', finishedAt: new Date(), output: output ?? '' }
     });
+    console.log(`> ${output}`);
   } catch(error) {
     console.error(error);
 
@@ -73,7 +74,7 @@ async function run() {
       const interval = parseExpression(job.cron, { utc: true });
 
       await db.job.update({
-        where: { id: job.id }, 
+        where: { id: job.id },
         data: { scheduledAt: interval.next().toDate() }
       });
     }

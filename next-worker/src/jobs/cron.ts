@@ -6,10 +6,14 @@ export async function registerCronJobs(db: PrismaClient) {
   console.log('Registering cron jobs...');
 
   await registerJob(db, 'test', '0 0 * * *');
-  
+
   await registerJob(db, 'items.check', '*/5 * * * *');
   await registerJob(db, 'items.update', '*/3 * * * *');
   await registerJob(db, 'items.migrate', '*/6 * * * *');
+
+  await registerJob(db, 'skins.check', '*/5 * * * *');
+  await registerJob(db, 'skins.update', '*/3 * * * *');
+  await registerJob(db, 'skins.migrate', '*/6 * * * *');
 
   await registerJob(db, 'jobs.cleanup', '*/15 * * * *');
 }
@@ -40,6 +44,6 @@ async function registerJob(db: PrismaClient, name: JobName, cron: string, data: 
   }
 
   if(jobs.length > 1) {
-    console.warn('Found multiple cron jobs for ' + name); 
+    console.warn('Found multiple cron jobs for ' + name);
   }
 }

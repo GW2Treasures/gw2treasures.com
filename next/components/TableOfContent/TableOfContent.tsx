@@ -53,7 +53,7 @@ export const TableOfContentAnchor: FC<TableOfContentAnchorProps> = ({ id, childr
     }
   }, [registerAnchor, id, element, children]);
 
-  return <a key={id} id={id} ref={setElement} className={styles.anchor}/>;
+  return <a key={id} id={id} ref={setElement} className={styles.anchor} tabIndex={-1}/>;
 };
 
 interface TableOfContentProps {};
@@ -91,7 +91,7 @@ export const TableOfContent: FC<TableOfContentProps> = ({ }) => {
     <ol className={styles.toc}>
       {anchors.map(({ id, element, label }) => (
         <li key={id} className={styles.item}>
-          <a href={`#${id}`} className={activeId === id ? styles.activeLink : styles.link} onClick={(e) => { e.preventDefault(); element.scrollIntoView(); setActiveId(id); }}>{label}</a>
+          <a href={`#${id}`} className={activeId === id ? styles.activeLink : styles.link} onClick={(e) => { e.preventDefault(); element.scrollIntoView(); setActiveId(id); element.focus(); }}>{label}</a>
         </li>
       ))}
     </ol>

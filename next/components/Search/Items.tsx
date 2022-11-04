@@ -14,7 +14,7 @@ export const Items: FC<ItemsProps> = ({ searchValue }) => {
   useEffect(() => {
     const abort = new AbortController();
 
-    fetch(`/api/search?q=${encodeURIComponent(searchValue)}`, { signal: abort.signal }).then((r) => r.json()).then(({ result }) => {
+    fetch(`/api/item/search?q=${encodeURIComponent(searchValue)}`, { signal: abort.signal }).then((r) => r.json()).then(({ result }) => {
       setResult(result);
     });
     return () => abort.abort();

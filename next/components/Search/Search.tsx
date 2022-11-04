@@ -4,6 +4,7 @@ import Icon from '../../icons/Icon';
 import { useRouter } from 'next/router';
 import { Items } from './Items';
 import { Pages } from './Pages';
+import { Skins } from './Skins';
 
 export interface SearchProps {
   // TODO: add props
@@ -29,6 +30,7 @@ export const Search: FC<SearchProps> = ({ }) => {
       <input className={styles.searchInput} placeholder="Search (ALT + Q)" accessKey="q" value={value} onChange={(e) => setValue(e.target.value)}/>
       <div className={styles.dropdown}>
         <Items searchValue={searchValue}/>
+        <Skins searchValue={searchValue}/>
         <Pages searchValue={searchValue}/>
       </div>
     </form>

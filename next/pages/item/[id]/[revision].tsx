@@ -14,6 +14,7 @@ export const getStaticProps = getStaticSuperProps<ItemPageProps>(async ({ params
       include: {
         history: { include: { revision: { select: { id: true, buildId: true, createdAt: true, description: true, language: true }}}, where: { revision: { language: locale as Language }}, orderBy: { revision: { createdAt: 'desc' }}},
         icon: true,
+        unlocksSkin: { include: { icon: true }},
       }
     }),
     db.revision.findFirst({ where: { id: revisionId, language: locale as Language, itemHistory: { some: { itemId: id }}}})

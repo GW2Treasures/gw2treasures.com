@@ -25,7 +25,7 @@ const Home: NextPage<HomeProps> = ({ items }) => {
       </div>
 
       <section style={{ margin: '0 16px' }}>
-        <Headline id="new-items">New items</Headline>
+        <Headline id="new-items">New Items</Headline>
         <ItemList>
           {items.map((item) => <li key={item.id}><ItemLink item={item}/><FormatDate date={item.createdAt} relative/></li>)}
         </ItemList>

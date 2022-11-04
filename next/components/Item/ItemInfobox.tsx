@@ -25,10 +25,10 @@ export const ItemInfobox: FC<ItemInfoboxProps> = ({ item, data }) => {
   const [tpData, setTpData] = useState<Api.Commerce.Price>();
 
   useEffect(() => {
-    fetch(`https://api.guildwars2.com/v2/commerce/prices/${item.id}`).then((r) => r.json()).then((prices) => {
+    isTradeable && fetch(`https://api.guildwars2.com/v2/commerce/prices/${item.id}`).then((r) => r.json()).then((prices) => {
       setTpData(prices);
     });
-  }, [item]);
+  }, [item, isTradeable]);
 
   return (
     <div>

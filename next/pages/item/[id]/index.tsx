@@ -22,6 +22,7 @@ import { Coins } from '../../../components/Format/Coins';
 import { Rarity } from '../../../components/Item/Rarity';
 import { SkinLink } from '../../../components/Skin/SkinLink';
 import { Json } from '../../../components/Format/Json';
+import { ItemTable } from '../../../components/Item/ItemTable';
 
 export interface ItemPageProps {
   item: Item & {
@@ -99,23 +100,7 @@ const ItemPage: NextPage<ItemPageProps> = ({ item, revision, fixedRevision, simi
       {similarItems.length > 0 && (
         <>
           <Headline id="similar">Similar Items</Headline>
-
-          <Table>
-            <thead>
-              <tr><th>Item</th><th>Level</th><th>Rarity</th><th>Type</th><th>Vendor Value</th></tr>
-            </thead>
-            <tbody>
-              {similarItems.map((item) => (
-                <tr key={item.id}>
-                  <th><ItemLink item={item}/></th>
-                  <td>{item.level}</td>
-                  <td><Rarity rarity={item.rarity}/></td>
-                  <td>{item.type} {item.subtype && `(${item.subtype})`}</td>
-                  <td><Coins value={item.value}/></td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
+          <ItemTable items={similarItems}/>
         </>
       )}
 

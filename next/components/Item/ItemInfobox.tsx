@@ -60,6 +60,8 @@ export const ItemInfobox: FC<ItemInfoboxProps> = ({ item, data }) => {
       <Headline id="links" noToc>Links</Headline>
 
       <a href={`https://api.guildwars2.com/v2/items/${item.id}?v=latest&lang=${router.locale}`} target="api" rel="noreferrer noopener">API</a>
+
+
     </div>
   );
 };

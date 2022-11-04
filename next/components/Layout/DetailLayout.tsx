@@ -21,14 +21,14 @@ const DetailLayout: FunctionComponent<DetailLayoutProps> = ({ title, icon, bread
           <h1 className={styles.title}>{title}</h1>
           {breadcrumb && <div className={styles.breadcrumb}>{breadcrumb}</div>}
         </div>
+        <aside className={styles.tableOfContent}>
+          <TableOfContent/>
+        </aside>
         {infobox && (
           <aside className={styles.infobox}>
             {infobox}
           </aside>
         )}
-        <aside className={styles.tableOfContent}>
-          <TableOfContent/>
-        </aside>
         <div className={styles.content}>
           {children}
         </div>

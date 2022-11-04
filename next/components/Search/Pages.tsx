@@ -11,10 +11,19 @@ export interface PagesProps {
 const pages: { href: string, title: string, icon?: IconName }[] = [
   { href: '/login', title: 'Login', icon: 'user' },
   { href: '/status/jobs', title: 'Job Status', icon: 'jobs' },
+
+  { href: '/item', title: 'Items', icon: 'item' },
+  { href: '/achievement', title: 'Achievements', icon: 'achievement' },
+  { href: '/skin', title: 'Skins', icon: 'skin' },
+  { href: '/profession', title: 'Professions', icon: 'profession' },
+  { href: '/specialization', title: 'Specializations', icon: 'specialization' },
+  { href: '/skill', title: 'Skills', icon: 'skill' },
+  { href: '/mount', title: 'Mounts', icon: 'mount' },
+  { href: '/wvw', title: 'Word vs. World (WvW)', icon: 'wvw' },
 ];
 
 export const Pages: FC<PagesProps> = ({ searchValue }) => {
-  const results = pages.filter(({ title }) => title.toLowerCase().includes(searchValue.toLowerCase()));
+  const results = pages.filter(({ title }) => title.toLowerCase().includes(searchValue.toLowerCase())).filter((_, index) => index < 5);
 
   if(results.length === 0) {
     return null;

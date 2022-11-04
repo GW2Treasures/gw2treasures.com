@@ -7,8 +7,16 @@ import SearchIcon from './search.svg';
 import ChevronDownIcon from './chevronDown.svg';
 import ChatlinkIcon from './chatlink.svg';
 import JobsIcon from './jobs.svg';
+import MountIcon from './mount.svg';
+import SkillIcon from './skill.svg';
+import SpecializationIcon from './specialization.svg';
+import WvwIcon from './wvw.svg';
+import ProfessionIcon from './profession.svg';
+import SkinIcon from './skin.svg';
+import AchievementIcon from './achievement.svg';
+import ItemIcon from './item.svg';
 
-export type IconName = 'menu' | 'gw2treasures' | 'user' | 'revision' | 'search' | 'chevronDown' | 'chatlink' | 'jobs';
+export type IconName = 'menu' | 'gw2treasures' | 'user' | 'revision' | 'search' | 'chevronDown' | 'chatlink' | 'jobs' | 'mount' | 'skill' | 'specialization' | 'wvw' | 'profession' | 'skin' | 'achievement' | 'item';
 
 type IconComponent = FunctionComponent<SVGProps<SVGSVGElement>>;
 
@@ -21,6 +29,14 @@ export const Icons: Record<IconName, IconComponent> = {
   'chevronDown': ChevronDownIcon,
   'chatlink': ChatlinkIcon,
   'jobs': JobsIcon,
+  'mount': MountIcon,
+  'skill': SkillIcon,
+  'specialization': SpecializationIcon,
+  'wvw': WvwIcon,
+  'profession': ProfessionIcon,
+  'skin': SkinIcon,
+  'achievement': AchievementIcon,
+  'item': ItemIcon,
 };
 
 export type Icon = IconName | JSX.Element;

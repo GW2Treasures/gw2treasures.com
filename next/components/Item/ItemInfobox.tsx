@@ -1,6 +1,7 @@
 import { Item } from '@prisma/client';
 import { useRouter } from 'next/router';
 import { FC, useEffect, useState } from 'react';
+import Icon from '../../icons/Icon';
 import { Api } from '../../lib/apiTypes';
 import { Coins } from '../Format/Coins';
 import { FormatNumber } from '../Format/FormatNumber';
@@ -61,7 +62,10 @@ export const ItemInfobox: FC<ItemInfoboxProps> = ({ item, data }) => {
 
       <a href={`https://api.guildwars2.com/v2/items/${item.id}?v=latest&lang=${router.locale}`} target="api" rel="noreferrer noopener">API</a>
 
-
+      <div style={{ display: 'flex', gap: 12, margin: '8px 0', alignItems: 'center', borderRadius: 0, border: '1px solid var(--color-border)', paddingLeft: 12 }}>
+        <Icon icon="chatlink"/>
+        <input readOnly value={data.chat_link} style={{ margin: 0, padding: '7px 12px 9px 12px', border: 0, background: '#fff', flex: 1, font: 'inherit', borderLeft: '1px solid var(--color-border)' }} onFocus={(e) => e.target.select()}/>
+      </div>
     </div>
   );
 };

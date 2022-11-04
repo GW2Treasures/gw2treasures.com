@@ -5,8 +5,9 @@ import UserIcon from './user.svg';
 import RevisionIcon from './revision.svg';
 import SearchIcon from './search.svg';
 import ChevronDownIcon from './chevronDown.svg';
+import ChatlinkIcon from './chatlink.svg';
 
-export type IconName = 'menu' | 'gw2treasures' | 'user' | 'revision' | 'search' | 'chevronDown';
+export type IconName = 'menu' | 'gw2treasures' | 'user' | 'revision' | 'search' | 'chevronDown' | 'chatlink';
 
 type IconComponent = FunctionComponent<SVGProps<SVGSVGElement>>;
 
@@ -17,6 +18,7 @@ export const Icons: Record<IconName, IconComponent> = {
   'revision': RevisionIcon,
   'search': SearchIcon,
   'chevronDown': ChevronDownIcon,
+  'chatlink': ChatlinkIcon,
 };
 
 export type Icon = IconName | JSX.Element;

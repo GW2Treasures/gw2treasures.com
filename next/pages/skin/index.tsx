@@ -9,6 +9,7 @@ import { getServerSideSuperProps, withSuperProps } from '../../lib/superprops';
 import { ItemIcon } from '../../components/Item/ItemIcon';
 import Link from 'next/link';
 import { FormatNumber } from '../../components/Format/FormatNumber';
+import { HeroLayout } from '../../components/Layout/HeroLayout';
 
 interface SkinPageProps {
   newSkins: Skin[];
@@ -23,7 +24,7 @@ interface SkinPageProps {
 
 const SkinPage: NextPage<SkinPageProps> = ({ newSkins, byTypes, iconMap }) => {
   return (
-    <div>
+    <HeroLayout hero={<Headline id="skins">Skins</Headline>} color="#2c8566">
       <Headline id="new-skins">New Skins</Headline>
       <ItemList>
         {newSkins.map((skin) => <li key={skin.id}><SkinLink skin={skin}/><FormatDate date={skin.createdAt} relative/></li>)}
@@ -39,11 +40,11 @@ const SkinPage: NextPage<SkinPageProps> = ({ newSkins, byTypes, iconMap }) => {
                 {skin.type}{skin.subtype && ` / ${skin.subtype}`}
               </a>
             </Link>
-            <FormatNumber value={skin._count}/>
+            <FormatNumber value={skin._count}/> Skins
           </li>
         ))}
       </ItemList>
-    </div>
+    </HeroLayout>
   );
 };
 

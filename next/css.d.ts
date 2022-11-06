@@ -6,6 +6,7 @@ declare module 'csstype' {
     '--icon-size'?: `${string}px`;
     '--icon-color'?: Property.Color,
     '--color-rarity'?: Property.Color,
+    '--hero-color'?: Property.Color,
 
     // allow all custom properties
     [index: `--${string}`]: string;

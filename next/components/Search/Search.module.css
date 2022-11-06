@@ -9,6 +9,7 @@
   transition: background-color .3s ease, border-color .3s ease;
   font-size: 14px;
   position: relative;
+  color: #000;
 }
 
 .search > svg {

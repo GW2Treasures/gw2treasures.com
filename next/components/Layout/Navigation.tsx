@@ -12,7 +12,7 @@ const Navigation: FunctionComponent<NavigationProps> = () => {
     <ul className={styles.navigation}>
       <li className={styles.item}><Link href="/item"><a className={styles.link}><Icon icon="item"/> Items</a></Link></li>
       <li className={styles.item}><Link href="/achievement"><a className={styles.link}><Icon icon="achievement"/> Achievements</a></Link></li>
-      <li className={styles.item}><Link href="/skins"><a className={styles.link}><Icon icon="skin"/> Skins</a></Link></li>
+      <li className={styles.item}><Link href="/skin"><a className={styles.link}><Icon icon="skin"/> Skins</a></Link></li>
       <li className={styles.item}><Link href="/profession"><a className={styles.link}><Icon icon="profession"/> Professions</a></Link></li>
       <li className={styles.item}><Link href="/specialization"><a className={styles.link}><Icon icon="specialization"/> Specializations</a></Link></li>
       <li className={styles.item}><Link href="/skill"><a className={styles.link}><Icon icon="skill"/> Skills</a></Link></li>

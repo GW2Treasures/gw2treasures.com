@@ -21,7 +21,7 @@ export const JobsCleanup: Job = {
 
     // delete timedOut tasks
     const timedOutDate = new Date();
-    timedOutDate.setMinutes(timedOutDate.getMinutes() - 60);
+    timedOutDate.setMinutes(timedOutDate.getMinutes() - 10);
 
     await db.job.updateMany({
       where: { state: 'Running', startedAt: { lt: timedOutDate }, NOT: { flags: { has: 'LONG_RUNNING' } } },

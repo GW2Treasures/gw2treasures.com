@@ -27,6 +27,8 @@ model Item {
 
   unlocksSkin Skin[]
   unlocksSkinIds Int[]
+  recipeOutput Recipe[]
+  ingredient IngredientItem[]
 
   removedFromApi Boolean @default(false)
 
@@ -122,6 +124,48 @@ model SkinHistory {
   @@id([skinId, revisionId])
 }
 
+model Recipe {
+  id Int @id
+
+  type        String
+  rating      Int
+  disciplines String[]
+
+  outputCount   Int
+  outputItemId  Int
+  timeToCraftMs Int
+
+  outputItem      Item @relation(fields: [outputItemId], references: [id])
+
+  itemIngredients IngredientItem[]
+    
+  removedFromApi Boolean @default(false)
+  
+  currentRevision   Revision @relation("current", fields: [currentRevisionId], references: [id], onDelete: Cascade)
+  currentRevisionId String @unique
+
+  history Revision[]
+
+  lastCheckedAt  DateTime   @default(now())
+
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  version Int @default(0)
+}
+
+model IngredientItem {
+  recipeId Int
+  itemId   Int
+
+  count Int
+
+  Recipe Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  Item   Item   @relation(fields: [itemId], references: [id], onDelete: Cascade)
+
+  @@id([recipeId, itemId])
+}
+
 model Revision {
   id String @id @default(uuid())
 
@@ -148,6 +192,10 @@ model Revision {
   currentSkin_es Skin? @relation("current_es")
   currentSkin_fr Skin? @relation("current_fr")
   skinHistory SkinHistory[]
+
+  // recipes
+  currentRecipe Recipe? @relation("current")
+  recipeHistory Recipe[]
 }
 
 model Build {

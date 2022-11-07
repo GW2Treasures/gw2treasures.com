@@ -6,6 +6,8 @@ import { ItemsRemoved } from './items/removed';
 import { ItemsUpdate } from './items/update';
 import { Job } from './job';
 import { JobsCleanup } from './jobs/cleanup';
+import { RecipesCheck } from './recipes/check';
+import { RecipesNew } from './recipes/new';
 import { SkinsCheck } from './skins/check';
 import { SkinsMigrate } from './skins/migrate';
 import { skinsNew } from './skins/new';
@@ -31,6 +33,9 @@ const jobsInternal = {
   'skins.update': SkinsUpdate,
   'skins.migrate': SkinsMigrate,
   'skins.unlock': SkinsUnlock,
+
+  'recipes.check': RecipesCheck,
+  'recipes.new': RecipesNew,
 
   'jobs.cleanup': JobsCleanup,
 }

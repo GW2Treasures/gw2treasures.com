@@ -1,8 +1,8 @@
 import { Item } from '@prisma/client';
+import { Gw2Api } from 'gw2-api-types';
 import { useRouter } from 'next/router';
 import { FC, useEffect, useState } from 'react';
 import Icon from '../../icons/Icon';
-import { Api } from '../../lib/apiTypes';
 import { Coins } from '../Format/Coins';
 import { FormatNumber } from '../Format/FormatNumber';
 import { Headline } from '../Headline/Headline';
@@ -11,10 +11,10 @@ import { ItemLink } from './ItemLink';
 
 interface ItemInfoboxProps {
   item: Item;
-  data: Api.Item;
+  data: Gw2Api.Item;
 };
 
-function isTpTradeable(data: Api.Item) {
+function isTpTradeable(data: Gw2Api.Item) {
   const flags = ['AccountBound', 'SoulbindOnAcquire', 'MonsterOnly'];
   return data.flags.every((flag) => !flags.includes(flag));
 }
@@ -22,7 +22,7 @@ function isTpTradeable(data: Api.Item) {
 export const ItemInfobox: FC<ItemInfoboxProps> = ({ item, data }) => {
   const router = useRouter();
   const isTradeable = isTpTradeable(data);
-  const [tpData, setTpData] = useState<Api.Commerce.Price>();
+  const [tpData, setTpData] = useState<Gw2Api.Commerce.Price>();
 
   useEffect(() => {
     isTradeable && fetch(`https://api.guildwars2.com/v2/commerce/prices/${item.id}`).then((r) => r.json()).then((prices) => {

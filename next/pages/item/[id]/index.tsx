@@ -8,7 +8,7 @@ import DetailLayout from '../../../components/Layout/DetailLayout';
 import { Skeleton } from '../../../components/Skeleton/Skeleton';
 import { Table } from '../../../components/Table/Table';
 import { TableOfContentAnchor } from '../../../components/TableOfContent/TableOfContent';
-import { Api } from '../../../lib/apiTypes';
+import { Gw2Api } from 'gw2-api-types';
 import { db } from '../../../lib/prisma';
 import { getStaticSuperProps, withSuperProps } from '../../../lib/superprops';
 import rarityClasses from '../../../components/Layout/RarityColor.module.css';
@@ -52,7 +52,7 @@ const ItemPage: NextPage<ItemPageProps> = ({ item, revision, fixedRevision, simi
     return <DetailLayout title={<Skeleton/>} breadcrumb={<Skeleton/>}><Skeleton/></DetailLayout>;
   }
 
-  const data: Api.Item = JSON.parse(revision.data);
+  const data: Gw2Api.Item = JSON.parse(revision.data);
 
   return (
     <DetailLayout title={data.name} icon={item.icon && getIconUrl(item.icon, 64) || undefined} className={rarityClasses[data.rarity]} breadcrumb={`Item › ${data.type}${data.details ? ` › ${data.details?.type}` : ''}`} infobox={<ItemInfobox item={item} data={data}/>}>

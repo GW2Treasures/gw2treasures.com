@@ -1,14 +1,14 @@
 import { FC, ReactNode } from 'react';
-import { Api } from '../../lib/apiTypes';
 import { parseItems } from 'gw2e-item-attributes';
 import { ItemAttributes } from './ItemAttributes';
 import { format } from 'gw2-tooltip-html';
 import { Coins } from '../Format/Coins';
 import { FormatNumber } from '../Format/FormatNumber';
 import { Rarity } from './Rarity';
+import { Gw2Api } from 'gw2-api-types';
 
 export interface ItemTooltipProps {
-  item: Api.Item;
+  item: Gw2Api.Item;
 }
 
 export const ItemTooltip: FC<ItemTooltipProps> = ({ item }) => {

@@ -1,4 +1,4 @@
-import { ApiItem } from '../../apiTypes';
+import { Gw2Api } from 'gw2-api-types';
 import { Job } from '../job';
 
 function isDefined<T>(x: T | undefined): x is T {
@@ -13,7 +13,7 @@ export const SkinsUnlock: Job = {
     let updated = 0;
 
     for(const item of items) {
-      const data: ApiItem = JSON.parse(item.current_en.data);
+      const data: Gw2Api.Item = JSON.parse(item.current_en.data);
 
       const skins = [data.default_skin, ...(data.details?.skins ?? [])].filter(isDefined).map(Number).filter((id) => knownSkinIds.includes(id));
 

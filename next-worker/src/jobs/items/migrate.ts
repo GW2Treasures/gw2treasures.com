@@ -1,7 +1,7 @@
 import { Job } from '../job';
 import { queueJobForIds } from '../helper/queueJobsForIds';
 import { prisma, Prisma } from '@prisma/client';
-import { ApiItem } from '../../apiTypes';
+import { Gw2Api } from 'gw2-api-types';
 
 export const CURRENT_VERSION = 4;
 
@@ -41,7 +41,7 @@ export const ItemsMigrate: Job = {
     const knownSkinIds = (await db.skin.findMany({ select: { id: true }})).map(({ id }) => id);
 
     for(const item of itemsToMigrate) {
-      const data: ApiItem = JSON.parse(item.current_en.data);
+      const data: Gw2Api.Item = JSON.parse(item.current_en.data);
 
       const update: Prisma.ItemUpdateInput = {
         version: CURRENT_VERSION

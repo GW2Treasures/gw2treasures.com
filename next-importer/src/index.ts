@@ -8,19 +8,19 @@ const legacy = new LegacyPrismaClient();
 
 async function run() {
   console.log('Importing...');
-  
+
   const apiBuild = 0;
-  
+
   // check if build is known
   const build = await db.build.findUnique({ where: { id: apiBuild }});
-  
+
   if(build) {
     console.log(`Build ${build.id} already known since ${build.createdAt}.`);
   } else {
     console.log(`Creating new build ${apiBuild}`);
     await db.build.create({ data: { id: apiBuild } });
   }
-  
+
   // update items
   await processItems(apiBuild);
 }
@@ -48,7 +48,7 @@ async function processItems(buildId: number) {
       const revision_en = await db.revision.create({ data: { data: fixupDetails(item.data_en), language: 'en', buildId, description: 'Imported - No earlier history available' } });
       const revision_es = await db.revision.create({ data: { data: fixupDetails(item.data_es), language: 'es', buildId, description: 'Imported - No earlier history available' } });
       const revision_fr = await db.revision.create({ data: { data: fixupDetails(item.data_fr), language: 'fr', buildId, description: 'Imported - No earlier history available' } });
-      
+
       if(item.file_id) {
         await db.icon.upsert({
           create: { id: item.file_id, signature: item.signature },
@@ -83,7 +83,7 @@ async function processItems(buildId: number) {
   if(failedIds.length > 0) {
     console.log(`Failed to import the following items:`, failedIds);
   }
-  
+
   await db.job.update({ where: { id: importJob.id }, data: { state: 'Success', output: `Imported ${newIds.length - failedIds.length} items (${failedIds.length} failed)`, finishedAt: new Date() } });
 }
 
@@ -95,7 +95,7 @@ function fixupDetails(json: string): string {
   }
 
   const key = getOldDetailsKey(data);
-  
+
   if(key in data) {
     data.details = data[key];
     delete data[key];

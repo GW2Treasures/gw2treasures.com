@@ -1,7 +1,7 @@
 import { GetStaticPaths, NextPage } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { Icon as DbIcon, Item, ItemHistory, Language, Revision, Skin } from '@prisma/client';
+import { Icon as DbIcon, IngredientItem, Item, ItemHistory, Language, Recipe, Revision, Skin } from '@prisma/client';
 import { ItemLink } from '../../../components/Item/ItemLink';
 import { ItemTooltip } from '../../../components/Item/ItemTooltip';
 import DetailLayout from '../../../components/Layout/DetailLayout';
@@ -39,6 +39,21 @@ export interface ItemPageProps {
     unlocksSkin: (Skin & {
       icon?: DbIcon | null,
     })[];
+    recipeOutput: (Recipe & {
+      currentRevision: Revision,
+      itemIngredients: (IngredientItem & { Item: Item & { icon: DbIcon | null; }; })[]
+    })[];
+    ingredient: (IngredientItem & {
+      Recipe: Recipe & {
+          outputItem: (Item & {
+              icon: DbIcon | null;
+          }) | null;
+          currentRevision: Revision;
+          itemIngredients: (IngredientItem & {
+            Item: Item & { icon: DbIcon | null; };
+          })[];
+      };
+  })[]
   };
   revision: Revision;
   fixedRevision: boolean;
@@ -76,6 +91,47 @@ const ItemPage: NextPage<ItemPageProps> = ({ item, revision, fixedRevision, simi
             {item.unlocksSkin.map((skin) => <li key={skin.id}><SkinLink skin={skin}/></li>)}
             {item.unlocksSkinIds.filter((id) => item.unlocksSkin.every((skin) => skin.id !== id)).map((id) => <li key={id}>Unknown skin ({id})</li>)}
           </ItemList>
+        </>
+      )}
+
+      {item.recipeOutput.length > 0 && (
+        <>
+          <Headline id="crafted-from">Crafted From</Headline>
+          {item.recipeOutput.map((recipe) => (
+            <div key={recipe.id} style={{ border: '1px solid var(--color-border)', display: 'inline-block' }}>
+              <div style={{ padding: 8, borderBottom: '1px solid var(--color-border)' }}><ItemLink item={item}/></div>
+              <div style={{ padding: 8, borderBottom: '1px solid var(--color-border)', background: '#f9f9f9' }}>{recipe.rating} {recipe.disciplines.join(', ')}</div>
+              <div style={{ padding: 8, background: '#f9f9f9' }}>
+                {recipe.itemIngredients.map((ingredient) => (
+                  <div key={ingredient.itemId}>{ingredient.count}&times; <ItemLink item={ingredient.Item} icon={16}/></div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </>
+      )}
+
+      {item.ingredient.length > 0 && (
+        <>
+          <Headline id="crafting">Used in crafting</Headline>
+
+          <Table>
+            <thead>
+              <tr><th>Output</th><th>Ingredients</th></tr>
+            </thead>
+            <tbody>
+              {item.ingredient.map((recipe) => (
+                <tr key={recipe.recipeId}>
+                  <td>{recipe.Recipe.outputItem ? (<ItemLink item={recipe.Recipe.outputItem}/>) : 'Unknown'}</td>
+                  <td>
+                    {recipe.Recipe.itemIngredients.map((ingredient) => (
+                      <div key={ingredient.itemId}>{ingredient.count}&times; <ItemLink item={ingredient.Item} icon={16}/></div>
+                    ))}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
         </>
       )}
 
@@ -126,6 +182,8 @@ export const getStaticProps = getStaticSuperProps<ItemPageProps>(async ({ params
         },
         icon: true,
         unlocksSkin: { include: { icon: true }},
+        recipeOutput: { include: { currentRevision: true, itemIngredients: { include: { Item: { include: { icon: true }}}}}},
+        ingredient: { include: { Recipe: { include: { currentRevision: true, outputItem: { include: { icon: true }}, itemIngredients: { include: { Item: { include: { icon: true }}}}}}}}
       }
     }),
     db.revision.findFirst({ where: { [`currentItem_${language}`]: { id }}})
@@ -136,6 +194,8 @@ export const getStaticProps = getStaticSuperProps<ItemPageProps>(async ({ params
       notFound: true
     };
   }
+
+  type t = typeof item['ingredient'];
 
   const similarItems = await db.item.findMany({
     where: {

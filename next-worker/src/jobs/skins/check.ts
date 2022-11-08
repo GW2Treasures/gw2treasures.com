@@ -1,6 +1,6 @@
 import { Job } from '../job';
-import fetch from 'node-fetch';
 import { queueJobForIds } from '../helper/queueJobsForIds';
+import { fetchApi } from '../helper/fetchApi';
 
 export const SkinsCheck: Job = {
   run: async (db, data) => {
@@ -12,7 +12,7 @@ export const SkinsCheck: Job = {
     }
 
     // get skin ids from the API
-    const ids: number[] = await fetch('https://api.guildwars2.com/v2/skins').then((r) => r.json());
+    const ids = await fetchApi<number[]>('/v2/skins');
 
     // get known ids from the DB
     const knownIds = await db.skin.findMany({ select: { id: true } }).then((skins) => skins.map(({ id }) => id));

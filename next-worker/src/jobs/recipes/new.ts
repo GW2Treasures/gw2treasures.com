@@ -1,7 +1,7 @@
 import { Job } from '../job';
 import { getCurrentBuild } from '../helper/getCurrentBuild';
-import fetch from 'node-fetch';
 import { Gw2Api } from 'gw2-api-types';
+import { fetchApi } from '../helper/fetchApi';
 
 export const RecipesNew: Job = {
   run: async (db, newIds: number[]) => {
@@ -9,7 +9,7 @@ export const RecipesNew: Job = {
     const buildId = build.id;
 
     // load recipes from API
-    const recipes = await fetch(`https://api.guildwars2.com/v2/recipes?ids=${newIds.join(',')}`).then(r => r.json() as Promise<Gw2Api.Recipe[]>);
+    const recipes = await fetchApi<Gw2Api.Recipe[]>(`/v2/recipes?ids=${newIds.join(',')}`);
 
     for(const recipe of recipes) {
       const revision = await db.revision.create({ data: { data: JSON.stringify(recipe), language: 'en', buildId, description: 'Added to API' } });

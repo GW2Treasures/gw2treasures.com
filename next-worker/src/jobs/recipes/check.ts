@@ -1,6 +1,6 @@
 import { Job } from '../job';
-import fetch from 'node-fetch';
 import { queueJobForIds } from '../helper/queueJobsForIds';
+import { fetchApi } from '../helper/fetchApi';
 
 export const RecipesCheck: Job = {
   run: async (db, data) => {
@@ -12,7 +12,7 @@ export const RecipesCheck: Job = {
     }
 
     // get recipe ids from the API
-    const ids: number[] = await fetch('https://api.guildwars2.com/v2/recipes').then((r) => r.json());
+    const ids = await fetchApi<number[]>('/v2/recipes');
 
     // get known ids from the DB
     const knownIds = await db.recipe.findMany({ select: { id: true } }).then((recipes) => recipes.map(({ id }) => id));

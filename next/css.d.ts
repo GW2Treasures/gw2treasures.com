@@ -9,6 +9,6 @@ declare module 'csstype' {
     '--hero-color'?: Property.Color,
 
     // allow all custom properties
-    [index: `--${string}`]: string;
+    [index: `--${string}`]: string | number;
   }
 }

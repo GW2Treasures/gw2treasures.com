@@ -2,7 +2,6 @@ import { GetStaticPaths, NextPage } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Icon as DbIcon, IngredientItem, Item, ItemHistory, Language, Recipe, Revision, Skin } from '@prisma/client';
-import { ItemLink } from '../../../components/Item/ItemLink';
 import { ItemTooltip } from '../../../components/Item/ItemTooltip';
 import DetailLayout from '../../../components/Layout/DetailLayout';
 import { Skeleton } from '../../../components/Skeleton/Skeleton';
@@ -13,19 +12,17 @@ import { db } from '../../../lib/prisma';
 import { getStaticSuperProps, withSuperProps } from '../../../lib/superprops';
 import rarityClasses from '../../../components/Layout/RarityColor.module.css';
 import { Infobox } from '../../../components/Infobox/Infobox';
-import { getIconUrl, ItemIcon } from '../../../components/Item/ItemIcon';
+import { getIconUrl } from '../../../components/Item/ItemIcon';
 import { Headline } from '../../../components/Headline/Headline';
 import { FormatDate } from '../../../components/Format/FormatDate';
 import { ItemList } from '../../../components/ItemList/ItemList';
 import { ItemInfobox } from '../../../components/Item/ItemInfobox';
-import { Coins } from '../../../components/Format/Coins';
-import { Rarity } from '../../../components/Item/Rarity';
 import { SkinLink } from '../../../components/Skin/SkinLink';
 import { Json } from '../../../components/Format/Json';
 import { ItemTable } from '../../../components/Item/ItemTable';
-import { Ingredients } from '../../../components/Recipe/Ingredients';
 import { RecipeBox } from '../../../components/Recipe/RecipeBox';
 import { RecipeTable } from '../../../components/Recipe/RecipeTable';
+import { Tip } from '../../../components/Tip/Tip';
 
 export interface ItemPageProps {
   item: Item & {

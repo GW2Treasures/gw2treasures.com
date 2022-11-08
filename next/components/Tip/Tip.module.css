@@ -1,0 +1,24 @@
+.tip {
+  --color-border: #aaa;
+  border: 1px solid var(--color-border);
+  background: #fff;
+  padding: 6px 12px;
+  border-radius: 2px;
+  box-shadow: 0 2px 8px rgba(0 0 0 / .2);
+  animation: fadeIn .1s ease-out;
+  font-size: 14px;
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+}
+
+.arrow {
+  width: 8px;
+  height: 8px;
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-width: 1px 0 0 1px;
+  position: absolute;
+  transform: rotate(calc(45deg + 90deg * var(--arrow-side)));
+}

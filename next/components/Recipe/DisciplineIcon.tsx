@@ -1,6 +1,7 @@
 import { CSSProperties, FC } from 'react';
 import { IconName } from '../../icons';
 import Icon from '../../icons/Icon';
+import { Tip } from '../Tip/Tip';
 
 export type Discipline = 'Armorsmith' | 'Artificer' | 'Chef' | 'Huntsman' | 'Jeweler' | 'Leatherworker' | 'Scribe' | 'Tailor' | 'Weaponsmith';
 
@@ -24,6 +25,8 @@ export const DisciplineIcon: FC<DisciplineIconProps> = ({ discipline }) => {
   const { icon, color } = DisciplieIcons[discipline];
 
   return (
-    <Icon icon={icon} color={color}/>
+    <Tip tip={discipline}>
+      <Icon icon={icon} color={color}/>
+    </Tip>
   );
 };

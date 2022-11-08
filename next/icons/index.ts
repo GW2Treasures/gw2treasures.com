@@ -1,4 +1,4 @@
-import { createElement, FunctionComponent, SVGProps } from 'react';
+import { createElement, forwardRef, ForwardRefExoticComponent, FunctionComponent, SVGProps } from 'react';
 import MenuIcon from './menu.svg';
 import GW2TreasuresIcon from './gw2t.svg';
 import UserIcon from './user.svg';

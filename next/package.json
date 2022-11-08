@@ -11,6 +11,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@floating-ui/react-dom": "^1.0.0",
+    "@floating-ui/react-dom-interactions": "^0.10.3",
     "@fontsource/bitter": "^4.5.9",
     "@prisma/client": "^4.5.0",
     "@svgr/webpack": "^6.5.0",

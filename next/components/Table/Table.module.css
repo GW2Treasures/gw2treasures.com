@@ -24,6 +24,10 @@
   transition: background-color .1s ease;
 }
 
+.table > tbody > tr > td[align=right] {
+  text-align: right;
+}
+
 .table > tbody > tr + tr > td,
 .table > tbody > tr + tr > th {
   border-top: 1px solid var(--color-border);

@@ -19,7 +19,7 @@ export const RecipeBox: FC<RecipeBoxProps> = ({ recipe, outputItem }) => {
     <div className={styles.box}>
       <div className={styles.title}>
         <ItemLink item={outputItem}/>
-        {recipe.outputCount > 1 && ` × ${recipe.outputCount}`}
+        {recipe.outputCount > 1 && ` ×${recipe.outputCount}`}
       </div>
       <div className={styles.info}>
         <span className={styles.disciplines}>

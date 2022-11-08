@@ -6,7 +6,7 @@ import styles from './Ingredients.module.css';
 interface IngredientsProps {
   recipe: (Recipe & {
     currentRevision: Revision,
-    itemIngredients: (IngredientItem & { Item: Item & { icon: Icon | null; }; })[]
+    itemIngredients: (IngredientItem & { Item: Item & { icon?: Icon | null; }; })[]
   })
 };
 

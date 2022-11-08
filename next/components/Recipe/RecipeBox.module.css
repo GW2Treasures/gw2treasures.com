@@ -1,0 +1,33 @@
+.box {
+  border: 1px solid var(--color-border);
+  display: inline-block;
+}
+
+.title {
+  display: flex;
+  padding: 8px;
+  align-items: center;
+  gap: 8px;
+}
+
+.info {
+  border-top: 1px solid var(--color-border);
+  background-color: #f9f9f9;
+  padding: 8px;
+  display: flex;
+}
+
+.disciplines {
+  margin-right: 4px;
+  display: flex;
+  gap: 2px;
+}
+
+.rating {
+  padding-right: 8px;
+  margin-right: auto;
+}
+
+.time {
+  margin-right: 4px;
+}

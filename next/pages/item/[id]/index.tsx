@@ -24,6 +24,7 @@ import { SkinLink } from '../../../components/Skin/SkinLink';
 import { Json } from '../../../components/Format/Json';
 import { ItemTable } from '../../../components/Item/ItemTable';
 import { Ingredients } from '../../../components/Recipe/Ingredients';
+import { RecipeBox } from '../../../components/Recipe/RecipeBox';
 
 export interface ItemPageProps {
   item: Item & {
@@ -98,15 +99,7 @@ const ItemPage: NextPage<ItemPageProps> = ({ item, revision, fixedRevision, simi
       {item.recipeOutput.length > 0 && (
         <>
           <Headline id="crafted-from">Crafted From</Headline>
-          {item.recipeOutput.map((recipe) => (
-            <div key={recipe.id} style={{ border: '1px solid var(--color-border)', display: 'inline-block' }}>
-              <div style={{ padding: 8, borderBottom: '1px solid var(--color-border)' }}><ItemLink item={item}/></div>
-              <div style={{ padding: 8, borderBottom: '1px solid var(--color-border)', background: '#f9f9f9' }}>{recipe.rating} {recipe.disciplines.join(', ')}</div>
-              <div style={{ padding: 8, background: '#f9f9f9' }}>
-                <Ingredients recipe={recipe}/>
-              </div>
-            </div>
-          ))}
+          {item.recipeOutput.map((recipe) => (<RecipeBox key={recipe.id} recipe={recipe} outputItem={item}/>))}
         </>
       )}
 

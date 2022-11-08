@@ -15,8 +15,20 @@ import ProfessionIcon from './profession.svg';
 import SkinIcon from './skin.svg';
 import AchievementIcon from './achievement.svg';
 import ItemIcon from './item.svg';
+import TimeIcon from './time.svg';
+import ArmorsmithIcon from './armorsmith.svg';
+import ArtificerIcon from './artificer.svg';
+import ChefIcon from './chef.svg';
+import HuntsmanIcon from './huntsman.svg';
+import JewelerIcon from './jeweler.svg';
+import LeatherworkerIcon from './leatherworker.svg';
+import ScribeIcon from './scribe.svg';
+import TailorIcon from './tailor.svg';
+import WeaponsmithIcon from './weaponsmith.svg';
 
-export type IconName = 'menu' | 'gw2treasures' | 'user' | 'revision' | 'search' | 'chevronDown' | 'chatlink' | 'jobs' | 'mount' | 'skill' | 'specialization' | 'wvw' | 'profession' | 'skin' | 'achievement' | 'item';
+export type IconName = 'menu' | 'gw2treasures' | 'user' | 'revision' | 'search' | 'chevronDown' | 'chatlink' | 'jobs' | 'time'
+ | 'mount' | 'skill' | 'specialization' | 'wvw' | 'profession' | 'skin' | 'achievement' | 'item'
+ | 'armorsmith' | 'artificer' | 'chef' | 'huntsman' | 'jeweler' | 'leatherworker' | 'scribe' | 'tailor' | 'weaponsmith';
 
 type IconComponent = FunctionComponent<SVGProps<SVGSVGElement>>;
 
@@ -37,6 +49,16 @@ export const Icons: Record<IconName, IconComponent> = {
   'skin': SkinIcon,
   'achievement': AchievementIcon,
   'item': ItemIcon,
+  'time': TimeIcon,
+  'armorsmith': ArmorsmithIcon,
+  'artificer': ArtificerIcon,
+  'chef': ChefIcon,
+  'huntsman': HuntsmanIcon,
+  'jeweler': JewelerIcon,
+  'leatherworker': LeatherworkerIcon,
+  'scribe': ScribeIcon,
+  'tailor': TailorIcon,
+  'weaponsmith': WeaponsmithIcon,
 };
 
 export type Icon = IconName | JSX.Element;

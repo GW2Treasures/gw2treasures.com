@@ -3,6 +3,7 @@
   grid-template-columns: auto 1fr;
   line-height: 20px;
   align-items: center;
+  align-self: flex-start;
 }
 
 .count {

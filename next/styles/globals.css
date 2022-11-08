@@ -40,3 +40,7 @@ a:where(:any-link:hover) {
 * {
   box-sizing: border-box;
 }
+
+.color-format--abilitytype {
+  color: #797900;
+}

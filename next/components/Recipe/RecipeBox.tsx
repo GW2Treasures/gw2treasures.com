@@ -33,7 +33,7 @@ export const RecipeBox: FC<RecipeBoxProps> = ({ recipe, outputItem }) => {
         </span>
         <Icon icon="time"/>
       </div>
-      <div className={styles.info}>
+      <div className={styles.ingredients}>
         <Ingredients recipe={recipe}/>
       </div>
     </div>

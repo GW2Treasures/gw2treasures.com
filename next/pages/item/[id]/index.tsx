@@ -100,7 +100,11 @@ const ItemPage: NextPage<ItemPageProps> = ({ item, revision, fixedRevision, simi
       {item.recipeOutput.length > 0 && (
         <>
           <Headline id="crafted-from">Crafted From</Headline>
-          {item.recipeOutput.map((recipe) => (<RecipeBox key={recipe.id} recipe={recipe} outputItem={item}/>))}
+          <div style={{ display: 'flex', gap: 16 }}>
+            {item.recipeOutput.map((recipe) => (
+              <RecipeBox key={recipe.id} recipe={recipe} outputItem={item}/>
+            ))}
+          </div>
         </>
       )}
 

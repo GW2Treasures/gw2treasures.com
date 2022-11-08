@@ -10,7 +10,7 @@ export interface DisciplineIconProps {
 
 const DisciplieIcons: Record<Discipline, { icon: IconName, color: CSSProperties['--icon-color'] }> = {
   'Armorsmith': { icon: 'armorsmith', color: '#607d8b' },
-  'Artificer': { icon: 'artificer', color: '#ff9800' },
+  'Artificer': { icon: 'artificer', color: '#ff6f00' },
   'Chef': { icon: 'chef', color: '#2196f3' },
   'Huntsman': { icon: 'huntsman', color: '#4caf50' },
   'Jeweler': { icon: 'jeweler', color: '#9c27b0' },

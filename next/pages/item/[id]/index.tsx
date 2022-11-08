@@ -25,6 +25,7 @@ import { Json } from '../../../components/Format/Json';
 import { ItemTable } from '../../../components/Item/ItemTable';
 import { Ingredients } from '../../../components/Recipe/Ingredients';
 import { RecipeBox } from '../../../components/Recipe/RecipeBox';
+import { RecipeTable } from '../../../components/Recipe/RecipeTable';
 
 export interface ItemPageProps {
   item: Item & {
@@ -107,21 +108,7 @@ const ItemPage: NextPage<ItemPageProps> = ({ item, revision, fixedRevision, simi
         <>
           <Headline id="crafting">Used in crafting</Headline>
 
-          <Table>
-            <thead>
-              <tr><th>Output</th><th>Ingredients</th></tr>
-            </thead>
-            <tbody>
-              {item.ingredient.map((recipe) => (
-                <tr key={recipe.recipeId}>
-                  <td>{recipe.Recipe.outputItem ? (<ItemLink item={recipe.Recipe.outputItem}/>) : 'Unknown'}</td>
-                  <td>
-                    <Ingredients recipe={recipe.Recipe}/>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
+          <RecipeTable recipes={item.ingredient.map(({ Recipe }) => Recipe)}/>
         </>
       )}
 

@@ -1,0 +1,11 @@
+.ingredients {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  line-height: 20px;
+  align-items: center;
+}
+
+.count {
+  text-align: right;
+  margin-right: 8px;
+}

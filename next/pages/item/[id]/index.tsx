@@ -23,6 +23,7 @@ import { Rarity } from '../../../components/Item/Rarity';
 import { SkinLink } from '../../../components/Skin/SkinLink';
 import { Json } from '../../../components/Format/Json';
 import { ItemTable } from '../../../components/Item/ItemTable';
+import { Ingredients } from '../../../components/Recipe/Ingredients';
 
 export interface ItemPageProps {
   item: Item & {
@@ -102,9 +103,7 @@ const ItemPage: NextPage<ItemPageProps> = ({ item, revision, fixedRevision, simi
               <div style={{ padding: 8, borderBottom: '1px solid var(--color-border)' }}><ItemLink item={item}/></div>
               <div style={{ padding: 8, borderBottom: '1px solid var(--color-border)', background: '#f9f9f9' }}>{recipe.rating} {recipe.disciplines.join(', ')}</div>
               <div style={{ padding: 8, background: '#f9f9f9' }}>
-                {recipe.itemIngredients.map((ingredient) => (
-                  <div key={ingredient.itemId}>{ingredient.count}&times; <ItemLink item={ingredient.Item} icon={16}/></div>
-                ))}
+                <Ingredients recipe={recipe}/>
               </div>
             </div>
           ))}
@@ -124,9 +123,7 @@ const ItemPage: NextPage<ItemPageProps> = ({ item, revision, fixedRevision, simi
                 <tr key={recipe.recipeId}>
                   <td>{recipe.Recipe.outputItem ? (<ItemLink item={recipe.Recipe.outputItem}/>) : 'Unknown'}</td>
                   <td>
-                    {recipe.Recipe.itemIngredients.map((ingredient) => (
-                      <div key={ingredient.itemId}>{ingredient.count}&times; <ItemLink item={ingredient.Item} icon={16}/></div>
-                    ))}
+                    <Ingredients recipe={recipe.Recipe}/>
                   </td>
                 </tr>
               ))}

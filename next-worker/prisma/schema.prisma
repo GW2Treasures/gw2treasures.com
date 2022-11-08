@@ -132,10 +132,10 @@ model Recipe {
   disciplines String[]
 
   outputCount   Int
-  outputItemId  Int
   timeToCraftMs Int
 
-  outputItem      Item @relation(fields: [outputItemId], references: [id])
+  outputItemId Int?
+  outputItem   Item? @relation(fields: [outputItemId], references: [id])
 
   itemIngredients IngredientItem[]
     

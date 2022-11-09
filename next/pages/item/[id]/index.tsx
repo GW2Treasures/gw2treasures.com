@@ -22,7 +22,8 @@ import { Json } from '../../../components/Format/Json';
 import { ItemTable } from '../../../components/Item/ItemTable';
 import { RecipeBox } from '../../../components/Recipe/RecipeBox';
 import { RecipeTable } from '../../../components/Recipe/RecipeTable';
-import { Tip } from '../../../components/Tip/Tip';
+import { ItemIngredientFor } from '../../../components/Item/ItemIngredientFor';
+import { ErrorBoundary } from 'react-error-boundary';
 
 export interface ItemPageProps {
   item: Item & {
@@ -39,21 +40,11 @@ export interface ItemPageProps {
     unlocksSkin: (Skin & {
       icon?: DbIcon | null,
     })[];
-    recipeOutput: (Recipe & {
+    recipeOutput?: (Recipe & {
       currentRevision: Revision,
       itemIngredients: (IngredientItem & { Item: Item & { icon: DbIcon | null; }; })[]
     })[];
-    ingredient: (IngredientItem & {
-      Recipe: Recipe & {
-          outputItem: (Item & {
-              icon: DbIcon | null;
-          }) | null;
-          currentRevision: Revision;
-          itemIngredients: (IngredientItem & {
-            Item: Item & { icon: DbIcon | null; };
-          })[];
-      };
-  })[]
+    _count?: { ingredient: number }
   };
   revision: Revision;
   fixedRevision: boolean;
@@ -94,7 +85,7 @@ const ItemPage: NextPage<ItemPageProps> = ({ item, revision, fixedRevision, simi
         </>
       )}
 
-      {item.recipeOutput.length > 0 && (
+      {item.recipeOutput && item.recipeOutput.length > 0 && (
         <>
           <Headline id="crafted-from">Crafted From</Headline>
           <div style={{ display: 'flex', gap: 16 }}>
@@ -105,11 +96,14 @@ const ItemPage: NextPage<ItemPageProps> = ({ item, revision, fixedRevision, simi
         </>
       )}
 
-      {item.ingredient.length > 0 && (
+      {item._count && item._count?.ingredient > 0 && (
         <>
           <Headline id="crafting">Used in crafting</Headline>
 
-          <RecipeTable recipes={item.ingredient.map(({ Recipe }) => Recipe)}/>
+          <ErrorBoundary fallback={<>Error</>}>
+            <ItemIngredientFor itemId={item.id} placeholderCount={item._count?.ingredient}/>
+          </ErrorBoundary>
+
         </>
       )}
 
@@ -161,7 +155,10 @@ export const getStaticProps = getStaticSuperProps<ItemPageProps>(async ({ params
         icon: true,
         unlocksSkin: { include: { icon: true }},
         recipeOutput: { include: { currentRevision: true, itemIngredients: { include: { Item: { include: { icon: true }}}}}},
-        ingredient: { include: { Recipe: { include: { currentRevision: true, outputItem: { include: { icon: true }}, itemIngredients: { include: { Item: { include: { icon: true }}}}}}}}
+        // ingredient: { take: 10, include: { Recipe: { include: { currentRevision: true, outputItem: { include: { icon: true }}, itemIngredients: { include: { Item: { include: { icon: true }}}}}}}}
+        _count: {
+          select: { ingredient: true }
+        }
       }
     }),
     db.revision.findFirst({ where: { [`currentItem_${language}`]: { id }}})
@@ -172,8 +169,6 @@ export const getStaticProps = getStaticSuperProps<ItemPageProps>(async ({ params
       notFound: true
     };
   }
-
-  type t = typeof item['ingredient'];
 
   const similarItems = await db.item.findMany({
     where: {

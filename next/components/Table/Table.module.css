@@ -13,6 +13,7 @@
   background: #fff;
   position: sticky;
   top: 48px;
+  z-index: 1;
   white-space: nowrap;
 }
 

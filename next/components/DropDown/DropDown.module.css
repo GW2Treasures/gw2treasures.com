@@ -2,11 +2,10 @@
   --color-border: #aaa;
   border: 1px solid var(--color-border);
   background: #fff;
-  padding: 6px 12px;
+  padding: 8px;
   border-radius: 2px;
   box-shadow: 0 2px 8px rgba(0 0 0 / .2);
   animation: fadeIn .1s ease-out;
-  font-size: 14px;
   z-index: 2;
 }
 

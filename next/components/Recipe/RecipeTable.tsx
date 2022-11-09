@@ -2,6 +2,7 @@ import { Icon as DbIcon, IngredientItem, Item, Recipe, Revision } from '@prisma/
 import { useRouter } from 'next/router';
 import { FC, memo, useDeferredValue, useMemo, useState } from 'react';
 import { localizedName } from '../../lib/localizedName';
+import { DropDown } from '../DropDown/DropDown';
 import { ItemLink } from '../Item/ItemLink';
 import { Table } from '../Table/Table';
 import { Discipline, DisciplineIcon, Disciplines } from './DisciplineIcon';
@@ -49,18 +50,20 @@ export const RecipeTable: FC<RecipeTableProps> = ({ recipes }) => {
     <>
       <div>
         <input value={search} onChange={(e) => setSearch(e.target.value)} type="search"/>
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <label>
-            <input type="checkbox" checked={disciplineFilter.length > 0} onChange={() => setDisciplineFilter(disciplineFilter.length > 0 ? [] : Object.keys(EmptyDisciplineCounts))}/>
-            All
-          </label>
-          {(Object.entries(disciplines) as [Discipline, number][]).map(([discipline, count]) => (
-            <label key={discipline}>
-              <input type="checkbox" checked={disciplineFilter.includes(discipline)} onChange={() => setDisciplineFilter(toggleArray(disciplineFilter, discipline))}/>
-              <DisciplineIcon discipline={discipline}/>{discipline} ({count})
+        <DropDown button={<button>Filter</button>}>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <label>
+              <input type="checkbox" checked={disciplineFilter.length > 0} onChange={() => setDisciplineFilter(disciplineFilter.length > 0 ? [] : Object.keys(EmptyDisciplineCounts))}/>
+              All
             </label>
-          ))}
-        </div>
+            {(Object.entries(disciplines) as [Discipline, number][]).map(([discipline, count]) => (
+              <label key={discipline}>
+                <input type="checkbox" checked={disciplineFilter.includes(discipline)} onChange={() => setDisciplineFilter(toggleArray(disciplineFilter, discipline))}/>
+                <DisciplineIcon discipline={discipline}/>{discipline} ({count})
+              </label>
+            ))}
+          </div>
+        </DropDown>
       </div>
 
       <Table>

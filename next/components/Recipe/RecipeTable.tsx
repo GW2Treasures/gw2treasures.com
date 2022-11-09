@@ -1,11 +1,14 @@
 import { Icon as DbIcon, IngredientItem, Item, Recipe, Revision } from '@prisma/client';
 import { useRouter } from 'next/router';
 import { FC, memo, useDeferredValue, useMemo, useState } from 'react';
+import Icon from '../../icons/Icon';
 import { localizedName } from '../../lib/localizedName';
 import { DropDown } from '../DropDown/DropDown';
+import { Button } from '../Form/Button';
+import { TextInput } from '../Form/TextInput';
 import { ItemLink } from '../Item/ItemLink';
 import { Table } from '../Table/Table';
-import { Discipline, DisciplineIcon, Disciplines } from './DisciplineIcon';
+import { Discipline, DisciplineIcon } from './DisciplineIcon';
 import { Ingredients } from './Ingredients';
 import styles from './RecipeBox.module.css';
 
@@ -29,6 +32,8 @@ export const EmptyDisciplineCounts: Record<Discipline, number> = {
   'Weaponsmith': 0,
 };
 
+const DisciplineNames = Object.keys(EmptyDisciplineCounts) as Discipline[];
+
 function toggleArray<T>(array: T[], value: T): T[] {
   const withoutValue = array.filter((v) => v !== value);
   return withoutValue.length === array.length ? [...array, value] : withoutValue;
@@ -40,7 +45,7 @@ export const RecipeTable: FC<RecipeTableProps> = ({ recipes }) => {
 
   const { locale } = useRouter();
 
-  const [disciplineFilter, setDisciplineFilter] = useState(Object.keys(EmptyDisciplineCounts));
+  const [disciplineFilter, setDisciplineFilter] = useState(DisciplineNames);
 
   const disciplines = useMemo(() => recipes.reduce((sums, { disciplines }) => {
     return { ...sums, ...Object.fromEntries(disciplines.map((d) => [d, sums[d as Discipline] + 1])) };
@@ -49,11 +54,11 @@ export const RecipeTable: FC<RecipeTableProps> = ({ recipes }) => {
   return (
     <>
       <div>
-        <input value={search} onChange={(e) => setSearch(e.target.value)} type="search"/>
-        <DropDown button={<button>Filter</button>}>
+        <TextInput value={search} onChange={setSearch} type="search"/>
+        <DropDown button={<Button><Icon icon={disciplineFilter.length === DisciplineNames.length ? 'filter' : 'filter-active'}/></Button>}>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             <label>
-              <input type="checkbox" checked={disciplineFilter.length > 0} onChange={() => setDisciplineFilter(disciplineFilter.length > 0 ? [] : Object.keys(EmptyDisciplineCounts))}/>
+              <input type="checkbox" checked={disciplineFilter.length > 0} onChange={() => setDisciplineFilter(disciplineFilter.length > 0 ? [] : DisciplineNames)}/>
               All
             </label>
             {(Object.entries(disciplines) as [Discipline, number][]).map(([discipline, count]) => (

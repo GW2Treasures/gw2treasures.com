@@ -25,10 +25,13 @@ import LeatherworkerIcon from './leatherworker.svg';
 import ScribeIcon from './scribe.svg';
 import TailorIcon from './tailor.svg';
 import WeaponsmithIcon from './weaponsmith.svg';
+import FilterIcon from './filter.svg';
+import FilterActiveIcon from './filter-active.svg';
 
 export type IconName = 'menu' | 'gw2treasures' | 'user' | 'revision' | 'search' | 'chevronDown' | 'chatlink' | 'jobs' | 'time'
  | 'mount' | 'skill' | 'specialization' | 'wvw' | 'profession' | 'skin' | 'achievement' | 'item'
- | 'armorsmith' | 'artificer' | 'chef' | 'huntsman' | 'jeweler' | 'leatherworker' | 'scribe' | 'tailor' | 'weaponsmith';
+ | 'armorsmith' | 'artificer' | 'chef' | 'huntsman' | 'jeweler' | 'leatherworker' | 'scribe' | 'tailor' | 'weaponsmith'
+ | 'filter' | 'filter-active';
 
 type IconComponent = FunctionComponent<SVGProps<SVGSVGElement>>;
 
@@ -59,6 +62,8 @@ export const Icons: Record<IconName, IconComponent> = {
   'scribe': ScribeIcon,
   'tailor': TailorIcon,
   'weaponsmith': WeaponsmithIcon,
+  'filter': FilterIcon,
+  'filter-active': FilterActiveIcon,
 };
 
 export type Icon = IconName | JSX.Element;

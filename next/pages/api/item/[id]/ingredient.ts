@@ -1,7 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { Prisma } from '@prisma/client';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { Ingredients } from '../../../../components/Recipe/Ingredients';
 import { db } from '../../../../lib/prisma';
 
 export default async function handler(
@@ -16,12 +15,17 @@ export default async function handler(
 
   const itemId = Number(id);
 
+  const linkProperties: Prisma.ItemSelect = { id: true, icon: true, name_de: true, name_en: true, name_es: true, name_fr: true, rarity: true };
+
   const recipes = await db.recipe.findMany({
     where: { itemIngredients: { some: { itemId }}},
-    include: {
-      currentRevision: true,
-      outputItem: { include: { icon: true }},
-      itemIngredients: { include: { Item: { include: { icon: true }}}},
+    select: {
+      id: true,
+      rating: true,
+      disciplines: true,
+      currentRevision: { select: { data: true }},
+      outputItem: { select: linkProperties },
+      itemIngredients: { select: { count: true, Item: { select: linkProperties }}},
     }
   });
 

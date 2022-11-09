@@ -1,0 +1,19 @@
+.input {
+  border: 2px solid #ddd;
+  border-radius: 2px;
+  background-color: #fff;
+  font: inherit;
+  color: #000;
+  padding: 6px 16px;
+  line-height: 20px;
+  transition: border-color .3s ease;
+}
+
+.input:focus {
+  border-color: #245dc1;
+  outline: none;
+}
+
+.input[type="search"] {
+  border-radius: 18px;
+}

@@ -83,7 +83,7 @@ export const RecipeTable: FC<RecipeTableProps> = ({ recipes }) => {
         </thead>
         <tbody>
           {recipes.map((recipe) => (
-            <RecipeTableRow key={recipe.id} recipe={recipe} visible={(!filter || (!!recipe.outputItem && localizedName(recipe.outputItem, locale as any).toLowerCase().includes(filter))) && (recipe.disciplines.length === 0 || recipe.disciplines.some((discipline) => disciplineFilter.includes(discipline)))}/>
+            <RecipeTableRow key={recipe.id} recipe={recipe} visible={(!filter || (!!recipe.outputItem && localizedName(recipe.outputItem, locale as any).toLowerCase().includes(filter))) && (recipe.disciplines.length === 0 || recipe.disciplines.some((discipline) => disciplineFilter.includes(discipline as Discipline)))}/>
           ))}
         </tbody>
       </Table>

@@ -35,11 +35,8 @@ const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
             <button className={styles.menuButton} onClick={() => setMenuOpen(!menuOpen)}>
               <Icon icon="menu"/>
             </button>
-            <Link href="/">
-              <a className={styles.title}>
-                <Icon icon="gw2treasures"/>
-                gw2treasures.com
-              </a>
+            <Link href="/" className={styles.title}>
+              <Icon icon="gw2treasures"/>gw2treasures.com
             </Link>
             <Search/>
             <div className={styles.right}>

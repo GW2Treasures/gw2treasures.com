@@ -3,16 +3,15 @@ import { useRouter } from 'next/router';
 import { Icon as DbIcon, Item, Language, Revision, Skin } from '@prisma/client';
 import DetailLayout from '../../../components/Layout/DetailLayout';
 import { Skeleton } from '../../../components/Skeleton/Skeleton';
-import { Api } from '../../../lib/apiTypes';
 import { db } from '../../../lib/prisma';
 import { getStaticSuperProps, withSuperProps } from '../../../lib/superprops';
 import rarityClasses from '../../../components/Layout/RarityColor.module.css';
 import { getIconUrl } from '../../../components/Item/ItemIcon';
-import { Json } from '../../../components/Format/Json';
 import { Headline } from '../../../components/Headline/Headline';
 import { ItemList } from '../../../components/ItemList/ItemList';
 import { ItemLink } from '../../../components/Item/ItemLink';
 import { Rarity } from '../../../components/Item/Rarity';
+import { Gw2Api } from 'gw2-api-types';
 
 export interface SkinPageProps {
   skin: Skin & {
@@ -29,7 +28,7 @@ const SkinPage: NextPage<SkinPageProps> = ({ skin, revision }) => {
     return <DetailLayout title={<Skeleton/>} breadcrumb={<Skeleton/>}><Skeleton/></DetailLayout>;
   }
 
-  const data: Api.Skin = JSON.parse(revision.data);
+  const data: Gw2Api.Skin = JSON.parse(revision.data);
 
   return (
     <DetailLayout title={data.name} icon={skin.icon && getIconUrl(skin.icon, 64) || undefined} className={rarityClasses[data.rarity]} breadcrumb={`Skin › ${skin.type}${skin.subtype ? ` › ${skin.subtype}` : ''}${skin.weight ? ` › ${skin.weight}` : ''}`}>

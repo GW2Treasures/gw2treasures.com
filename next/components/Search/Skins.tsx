@@ -28,16 +28,14 @@ export const Skins: FC<SkinsProps> = ({ searchValue }) => {
     <>
       <div className={styles.category}>Skins</div>
       {result.map((skin) => (
-        <Link href={`/skin/${skin.id}`} key={skin.id}>
-          <a key={skin.id} className={styles.result}>
-            {skin.icon && (<ItemIcon icon={skin.icon} size={32}/>)}
-            <div className={styles.title}>
-              {skin.name_en}
-            </div>
-            <div className={styles.subtitle}>
-              {skin.rarity} {skin.weight} {(skin.subtype !== 'Generic' ? skin.subtype : '') || skin.type}
-            </div>
-          </a>
+        <Link href={`/skin/${skin.id}`} key={skin.id} className={styles.result}>
+          {skin.icon && (<ItemIcon icon={skin.icon} size={32}/>)}
+          <div className={styles.title}>
+            {skin.name_en}
+          </div>
+          <div className={styles.subtitle}>
+            {skin.rarity} {skin.weight} {(skin.subtype !== 'Generic' ? skin.subtype : '') || skin.type}
+          </div>
         </Link>
       ))}
     </>

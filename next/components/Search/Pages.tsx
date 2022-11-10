@@ -33,13 +33,11 @@ export const Pages: FC<PagesProps> = ({ searchValue }) => {
     <>
       <div className={styles.category}>Pages</div>
       {results.map((page) => (
-        <Link href={page.href} key={page.href}>
-          <a className={styles.result}>
-            {page.icon && (<Icon icon={page.icon}/>)}
-            <div className={styles.title}>
-              {page.title}
-            </div>
-          </a>
+        <Link href={page.href} key={page.href} className={styles.result}>
+          {page.icon && (<Icon icon={page.icon}/>)}
+          <div className={styles.title}>
+            {page.title}
+          </div>
         </Link>
       ))}
     </>

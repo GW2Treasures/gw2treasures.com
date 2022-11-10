@@ -82,8 +82,8 @@ export const RecipeTable: FC<RecipeTableProps> = ({ recipes }) => {
           </tr>
         </thead>
         <tbody>
-          {recipes.filter(({ outputItem, disciplines }) => (!filter || (outputItem && localizedName(outputItem, locale as any).toLowerCase().includes(filter))) && disciplines.some((discipline) => disciplineFilter.includes(discipline))).map((recipe) => (
-            <RecipeTableRow key={recipe.id} recipe={recipe}/>
+          {recipes.map((recipe) => (
+            <RecipeTableRow key={recipe.id} recipe={recipe} visible={(!filter || (!!recipe.outputItem && localizedName(recipe.outputItem, locale as any).toLowerCase().includes(filter))) && (recipe.disciplines.length === 0 || recipe.disciplines.some((discipline) => disciplineFilter.includes(discipline)))}/>
           ))}
         </tbody>
       </Table>
@@ -92,12 +92,13 @@ export const RecipeTable: FC<RecipeTableProps> = ({ recipes }) => {
 };
 
 interface RecipeTableRowProps {
-  recipe: RecipeTableProps['recipes'][0]
+  recipe: RecipeTableProps['recipes'][0];
+  visible: boolean;
 };
 
-const RecipeTableRow: FC<RecipeTableRowProps> = memo(function RTR({ recipe }) {
+const RecipeTableRow: FC<RecipeTableRowProps> = memo(function RecipeTableRow({ recipe, visible }) {
   return (
-    <tr key={recipe.id}>
+    <tr key={recipe.id} hidden={!visible}>
       <td>{recipe.outputItem ? (<ItemLink item={recipe.outputItem}/>) : 'Unknown'}</td>
       <td align="right">{recipe.rating}</td>
       <td><span className={styles.disciplines}>{recipe.disciplines.map((discipline) => <DisciplineIcon discipline={discipline as Discipline} key={discipline}/>)}</span></td>

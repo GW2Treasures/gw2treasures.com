@@ -10,10 +10,11 @@ import { Gw2Api } from 'gw2-api-types';
 import { db } from '../../../lib/prisma';
 import { getStaticSuperProps, withSuperProps } from '../../../lib/superprops';
 import { Infobox } from '../../../components/Infobox/Infobox';
-import { getIconUrl } from '../../../components/Item/ItemIcon';
 import { Headline } from '../../../components/Headline/Headline';
 import { FormatDate } from '../../../components/Format/FormatDate';
 import { Json } from '../../../components/Format/Json';
+import { SkillIcon } from '../../../components/Skill/SkillIcon';
+import { SkillTooltip } from '../../../components/Skill/SkillTooltip';
 
 export interface SkillPageProps {
   skill: Skill & {
@@ -42,7 +43,7 @@ const SkillPage: NextPage<SkillPageProps> = ({ skill, revision, fixedRevision })
   const data: Gw2Api.Skill = JSON.parse(revision.data);
 
   return (
-    <DetailLayout title={data.name} icon={skill.icon && getIconUrl(skill.icon, 64) || undefined} breadcrumb="Skill" infobox={/*<SkillInfobox skill={skill} data={data}/>*/ undefined}>
+    <DetailLayout title={data.name} icon={skill.icon ? <SkillIcon icon={skill.icon}/> : undefined} breadcrumb="Skill" infobox={/*<SkillInfobox skill={skill} data={data}/>*/ undefined}>
       {skill[`currentId_${router.locale as Language}`] !== revision.id && (
         <Infobox icon="revision">You are viewing an old revision of this skill (Build {revision.buildId || 'unknown'}). <Link href={`/skill/${skill.id}`}>View current.</Link></Infobox>
       )}
@@ -54,7 +55,7 @@ const SkillPage: NextPage<SkillPageProps> = ({ skill, revision, fixedRevision })
       )}
 
       <TableOfContentAnchor id="tooltip">Tooltip</TableOfContentAnchor>
-      {/* <SkillTooltip skill={data}/> */}
+      <SkillTooltip data={data}/>
 
       <Headline id="history">History</Headline>
 

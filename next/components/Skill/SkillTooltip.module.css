@@ -1,0 +1,19 @@
+.description {
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.fact + .fact {
+  margin-top: 8px;
+}
+
+.fact img {
+  vertical-align: -2px;
+  margin-right: 6px;
+}
+
+.factDescription {
+  margin-left: 22px;
+  color: #666;
+  line-height: 1.5;
+}

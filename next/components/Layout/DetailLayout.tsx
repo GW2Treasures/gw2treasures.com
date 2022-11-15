@@ -1,10 +1,10 @@
-import React, { FunctionComponent, ReactNode } from 'react';
+import React, { cloneElement, FunctionComponent, ReactElement, ReactNode } from 'react';
 import styles from './DetailLayout.module.css';
 import { TableOfContentContext, TableOfContent } from '../TableOfContent/TableOfContent';
 
 interface DetailLayoutProps {
   title: ReactNode;
-  icon?: string;
+  icon?: string | ReactElement;
   breadcrumb?: ReactNode;
   children: ReactNode;
   infobox?: ReactNode;
@@ -17,7 +17,7 @@ const DetailLayout: FunctionComponent<DetailLayoutProps> = ({ title, icon, bread
       <main className={[styles.main, className].filter(Boolean).join(' ')}>
         <div className={infobox ? styles.headline : styles.headlineWithoutInfobox}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          {icon && <img src={icon} alt="" className={styles.icon}/>}
+          {icon && (typeof icon === 'string' ? <img src={icon} alt="" className={styles.icon}/> : cloneElement(icon, { className: styles.icon }))}
           <h1 className={styles.title}>{title}</h1>
           {breadcrumb && <div className={styles.breadcrumb}>{breadcrumb}</div>}
         </div>

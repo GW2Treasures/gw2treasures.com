@@ -8,6 +8,12 @@ import { Job } from './job';
 import { JobsCleanup } from './jobs/cleanup';
 import { RecipesCheck } from './recipes/check';
 import { RecipesNew } from './recipes/new';
+import { SkillsCheck } from './skills/check';
+import { SkillsMigrate } from './skills/migrate';
+import { SkillsNew } from './skills/new';
+import { SkillsRediscovered } from './skills/rediscovered';
+import { SkillsRemoved } from './skills/removed';
+import { SkillsUpdate } from './skills/update';
 import { SkinsCheck } from './skins/check';
 import { SkinsMigrate } from './skins/migrate';
 import { skinsNew } from './skins/new';
@@ -25,6 +31,13 @@ const jobsInternal = {
   'items.rediscovered': ItemsRediscovered,
   'items.update': ItemsUpdate,
   'items.migrate': ItemsMigrate,
+
+  'skills.check': SkillsCheck,
+  'skills.new': SkillsNew,
+  'skills.removed': SkillsRemoved,
+  'skills.rediscovered': SkillsRediscovered,
+  'skills.update': SkillsUpdate,
+  'skills.migrate': SkillsMigrate,
 
   'skins.check': SkinsCheck,
   'skins.new': skinsNew,

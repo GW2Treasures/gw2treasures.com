@@ -15,7 +15,7 @@
     "@tsconfig/node18": "^1.0.1",
     "@types/node": "^18.11.5",
     "@types/node-fetch": "^2.6.2",
-    "gw2-api-types": "^0.0.2",
+    "gw2-api-types": "^0.0.3",
     "prisma": "^4.5.0",
     "typescript": "^4.8.4"
   }

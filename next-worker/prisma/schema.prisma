@@ -59,6 +59,7 @@ model Icon {
   signature String
 
   items Item[]
+  skills Skill[]
   skins Skin[]
 }
 
@@ -70,6 +71,52 @@ model ItemHistory {
   revision Revision @relation(fields: [revisionId], references: [id], onDelete: Cascade)
 
   @@id([itemId, revisionId])
+}
+
+model Skill {
+  id Int @id
+  
+  name_de String
+  name_en String
+  name_es String
+  name_fr String
+
+  icon   Icon? @relation(fields: [iconId], references: [id])
+  iconId Int?
+
+
+  removedFromApi Boolean @default(false)
+
+  current_de Revision @relation("current_de", fields: [currentId_de], references: [id], onDelete: Cascade)
+  currentId_de String @unique
+  
+  current_en Revision @relation("current_en", fields: [currentId_en], references: [id], onDelete: Cascade)
+  currentId_en String @unique
+  
+  current_es Revision @relation("current_es", fields: [currentId_es], references: [id], onDelete: Cascade)
+  currentId_es String @unique
+  
+  current_fr Revision @relation("current_fr", fields: [currentId_fr], references: [id], onDelete: Cascade)
+  currentId_fr String @unique
+
+  history SkillHistory[]
+  
+  lastCheckedAt  DateTime   @default(now())
+
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  version Int @default(0)
+}
+
+model SkillHistory {
+  skillId Int
+  revisionId String
+
+  skill Skill @relation(fields: [skillId], references: [id], onDelete: Cascade)
+  revision Revision @relation(fields: [revisionId], references: [id], onDelete: Cascade)
+
+  @@id([skillId, revisionId])
 }
 
 model Skin {
@@ -185,6 +232,13 @@ model Revision {
   currentItem_es Item? @relation("current_es")
   currentItem_fr Item? @relation("current_fr")
   itemHistory ItemHistory[]
+  
+  // skills
+  currentSkill_de Skill? @relation("current_de")
+  currentSkill_en Skill? @relation("current_en")
+  currentSkill_es Skill? @relation("current_es")
+  currentSkill_fr Skill? @relation("current_fr")
+  skillHistory SkillHistory[]
   
   // skins
   currentSkin_de Skin? @relation("current_de")

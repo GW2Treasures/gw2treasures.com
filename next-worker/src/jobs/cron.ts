@@ -11,6 +11,10 @@ export async function registerCronJobs(db: PrismaClient) {
   await registerJob(db, 'items.update', '*/3 * * * *');
   await registerJob(db, 'items.migrate', '*/6 * * * *');
 
+  await registerJob(db, 'skills.check', '*/5 * * * *');
+  await registerJob(db, 'skills.update', '*/3 * * * *');
+  await registerJob(db, 'skills.migrate', '*/6 * * * *');
+
   await registerJob(db, 'skins.check', '*/5 * * * *');
   await registerJob(db, 'skins.update', '*/3 * * * *');
   await registerJob(db, 'skins.migrate', '*/6 * * * *');

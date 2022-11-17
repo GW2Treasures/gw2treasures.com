@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import { Items } from './Items';
 import { Pages } from './Pages';
 import { Skins } from './Skins';
+import { Skills } from './Skills';
 
 export interface SearchProps {
   // TODO: add props
@@ -31,6 +32,7 @@ export const Search: FC<SearchProps> = ({ }) => {
       <div className={styles.dropdown}>
         <Items searchValue={searchValue}/>
         <Skins searchValue={searchValue}/>
+        <Skills searchValue={searchValue}/>
         <Pages searchValue={searchValue}/>
       </div>
     </form>

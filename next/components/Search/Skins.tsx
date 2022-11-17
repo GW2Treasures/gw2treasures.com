@@ -14,7 +14,7 @@ export const Skins: FC<SkinsProps> = ({ searchValue }) => {
   useEffect(() => {
     const abort = new AbortController();
 
-    fetch(`/api/skin/search?q=${encodeURIComponent(searchValue)}`, { signal: abort.signal }).then((r) => r.json()).then(({ result }) => {
+    fetch(`/api/search/skins?q=${encodeURIComponent(searchValue)}`, { signal: abort.signal }).then((r) => r.json()).then(({ result }) => {
       setResult(result);
     });
     return () => abort.abort();

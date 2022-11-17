@@ -25,8 +25,10 @@ export const Link: FC<LinkProps> = ({ href, item, icon = 32, locale }) => {
       className={cx(styles.link, item.rarity && rarityClasses[item.rarity])}
       hrefLang={locale}
     >
-      {icon !== 'none' && item.icon && <ItemIcon icon={item.icon} size={icon}/>}
-      <span className={styles.name}>{item[`name_${locale!}`]}</span>
+      <>
+        {icon !== 'none' && item.icon && <ItemIcon icon={item.icon} size={icon}/>}
+        <span className={styles.name}>{item[`name_${locale!}`]}</span>
+      </>
     </NextLink>
   );
 };

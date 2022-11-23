@@ -40,7 +40,9 @@ const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
             </Link>
             <Search/>
             <div className={styles.right}>
-              <Icon icon="user"/> Login
+              <Link href="/login" className={styles.loginLink}>
+                <Icon icon="user"/> Login
+              </Link>
             </div>
           </header>
           <nav className={menuOpen ? styles.headerNavVisible : styles.headerNav}>

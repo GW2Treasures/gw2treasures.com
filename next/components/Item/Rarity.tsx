@@ -1,12 +1,13 @@
-import React, { FC } from 'react';
+import React, { FC, ReactNode } from 'react';
 import { cx } from '../../lib/classNames';
 import styles from './Rarity.module.css';
 import rarityStyles from '../Layout/RarityColor.module.css';
 
 export interface RarityProps {
-  rarity: string
+  rarity: string;
+  children?: ReactNode;
 }
 
-export const Rarity: FC<RarityProps> = ({ rarity }) => {
-  return <span className={cx(rarityStyles[rarity], styles.rarity)}>{rarity}</span>;
+export const Rarity: FC<RarityProps> = ({ rarity, children }) => {
+  return <span className={cx(rarityStyles[rarity], styles.rarity)}>{children ?? rarity}</span>;
 };

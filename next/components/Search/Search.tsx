@@ -2,10 +2,8 @@ import React, { FC, useDeferredValue, useEffect, useRef, useState } from 'react'
 import styles from './Search.module.css';
 import Icon from '../../icons/Icon';
 import { useRouter } from 'next/router';
-import { Items } from './Items';
-import { Pages } from './Pages';
-import { Skins } from './Skins';
-import { Skills } from './Skills';
+import { useItemResults, usePageResults, useSkillResults, useSkinResults } from './useSearchResults';
+import Link from 'next/link';
 
 export interface SearchProps {
   // TODO: add props
@@ -24,16 +22,37 @@ export const Search: FC<SearchProps> = ({ }) => {
     }
   }, [router.asPath]);
 
+  const searchResults = [
+    useItemResults(searchValue),
+    useSkillResults(searchValue),
+    useSkinResults(searchValue),
+    usePageResults(searchValue),
+  ];
+
   return (
     <form className={styles.search} ref={searchForm}>
       <Icon icon="search"/>
       {/* <div className={styles.restriciton}>Item</div> */}
       <input className={styles.searchInput} placeholder="Search (ALT + Q)" accessKey="q" value={value} onChange={(e) => setValue(e.target.value)}/>
       <div className={styles.dropdown}>
-        <Items searchValue={searchValue}/>
-        <Skins searchValue={searchValue}/>
-        <Skills searchValue={searchValue}/>
-        <Pages searchValue={searchValue}/>
+        {searchResults.map(({ title, results }) => results.length > 0 && (
+          <>
+            <div className={styles.category}>{title}</div>
+            {results.map((result) => (
+              <Link href={result.href} key={result.href} className={styles.result}>
+                {result.icon}
+                <div className={styles.title}>
+                  {result.title}
+                </div>
+                {result.subtitle && (
+                  <div className={styles.subtitle}>
+                    {result.subtitle}
+                  </div>
+                )}
+              </Link>
+            ))}
+          </>
+        ))}
       </div>
     </form>
   );

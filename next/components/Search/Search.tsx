@@ -1,9 +1,10 @@
-import React, { FC, useDeferredValue, useEffect, useRef, useState } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import styles from './Search.module.css';
 import Icon from '../../icons/Icon';
 import { useRouter } from 'next/router';
 import { useItemResults, usePageResults, useSkillResults, useSkinResults } from './useSearchResults';
 import Link from 'next/link';
+import { useDebounce } from '../../lib/useDebounce';
 
 export interface SearchProps {
   // TODO: add props
@@ -11,7 +12,7 @@ export interface SearchProps {
 
 export const Search: FC<SearchProps> = ({ }) => {
   const [value, setValue] = useState('');
-  const searchValue = useDeferredValue(value);
+  const searchValue = useDebounce(value);
   const searchForm = useRef<HTMLFormElement>(null);
 
   const router = useRouter();

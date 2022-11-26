@@ -33,3 +33,15 @@ export function useJsonFetch<T = unknown>(url: string): UseJsonFetchResult<T> {
 
   return data;
 }
+
+export function useStaleJsonResponse<T = unknown>(response: UseJsonFetchResult<T>): UseJsonFetchResult<T> {
+  const [staleResponse, setStaleResponse] = useState(response);
+
+  useEffect(() => {
+    if(!response.loading) {
+      setStaleResponse(response);
+    }
+  }, [response]);
+
+  return staleResponse;
+}

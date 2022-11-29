@@ -1,11 +1,11 @@
-import React, { FC, useEffect, useRef, useState } from 'react';
+import React, { FC, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import styles from './Search.module.css';
 import Icon from '../../icons/Icon';
 import { useRouter } from 'next/router';
 import { useBuildsResults, useItemResults, usePageResults, useSkillResults, useSkinResults } from './useSearchResults';
 import Link from 'next/link';
 import { useDebounce } from '../../lib/useDebounce';
-import { autoUpdate, offset, useClick, useDismiss, useFloating, useFocus, useInteractions, useListNavigation } from '@floating-ui/react-dom-interactions';
+import { autoUpdate, flip, offset, size, useClick, useDismiss, useFloating, useFocus, useInteractions, useListNavigation } from '@floating-ui/react-dom-interactions';
 
 export interface SearchProps {
   // TODO: add props
@@ -15,21 +15,38 @@ export const Search: FC<SearchProps> = ({ }) => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('');
   const searchValue = useDebounce(value);
-  const searchForm = useRef<HTMLFormElement>(null);
+  // const searchForm = useRef<HTMLFormElement>(null);
   const listRef = useRef<(HTMLAnchorElement | null)[]>([]);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
   const router = useRouter();
 
-  const { x, y, reference, floating, strategy, context, middlewareData, placement } = useFloating({
+  const { reference, floating, context, x, y } = useFloating({
     open,
     onOpenChange: setOpen,
     placement: 'bottom',
     whileElementsMounted: autoUpdate,
     middleware: [
-      offset(8),
+      offset(4),
+      size({
+        apply({ rects, availableHeight, elements }) {
+          Object.assign(elements.floating.style, {
+            width: `${rects.reference.width}px`,
+            maxHeight: `${availableHeight}px`
+          });
+        },
+        padding: 16
+      }),
     ],
   });
+
+  useLayoutEffect(() => {
+    if (open && activeIndex != null) {
+      requestAnimationFrame(() => {
+        listRef.current[activeIndex]?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      });
+    }
+  }, [open, activeIndex]);
 
   // Merge all the interactions into prop getters
   const { getReferenceProps, getFloatingProps, getItemProps } = useInteractions([
@@ -50,20 +67,22 @@ export const Search: FC<SearchProps> = ({ }) => {
   let index = 0;
 
   return (
-    <form className={styles.search} ref={searchForm}>
+    <form className={styles.search} ref={reference} {...getReferenceProps()}>
       <Icon icon="search"/>
       {/* <div className={styles.restriciton}>Item</div> */}
-      <input className={styles.searchInput} placeholder="Search (ALT + Q)" accessKey="q" value={value} onChange={(e) => { setValue(e.target.value); setOpen(true); }} ref={reference} {...getReferenceProps({
-        onKeyDown: (e) => {
-          if(e.key === 'Enter' && activeIndex !== null) {
-            router.push(listRef.current[activeIndex]!.href);
-            setOpen(false);
-            e.preventDefault();
-          }
+      <input className={styles.searchInput} placeholder="Search (ALT + Q)" accessKey="q" value={value} onChange={(e) => { setValue(e.target.value); setOpen(true); }} onKeyDown={(e) => {
+        if(e.key === 'Enter' && activeIndex !== null) {
+          router.push(listRef.current[activeIndex]!.href);
+          setOpen(false);
+          e.preventDefault();
         }
-      })}/>
+      }}/>
       {open && (
-        <div className={styles.dropdown} ref={floating} {...getFloatingProps()}>
+        <div className={styles.dropdown} ref={floating} {...getFloatingProps()} style={{
+          top: y ?? 0,
+          left: x ?? 0,
+        }}
+        >
           {searchResults.map(({ title, results }) => results.length > 0 && (
             <>
               <div className={styles.category}>{title}</div>

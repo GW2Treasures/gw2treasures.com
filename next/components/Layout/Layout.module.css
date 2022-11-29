@@ -77,7 +77,26 @@
   font-size: 20px;
   align-items: center;
   color: #000;
+  position: relative;
   --icon-color: #b7000d;
+}
+
+.loader {
+  position: absolute;
+  top: 2px;
+  left: 0;
+  width: 16px; height: 16px;
+}
+
+.loader > :global(.loader_svg__loader-a) { opacity: 0; animation: loader 1s .0s ease-in-out infinite; }
+.loader > :global(.loader_svg__loader-b) { opacity: 0; animation: loader 1s .2s ease-in-out infinite; }
+.loader > :global(.loader_svg__loader-c) { opacity: 0; animation: loader 1s .4s ease-in-out infinite; }
+
+@keyframes loader {
+  from { opacity: 0; }
+  40% { opacity: .5; }
+  80% { opacity: 0; }
+  100% { opacity: 0; }
 }
 
 .headerMainScrolled .title {

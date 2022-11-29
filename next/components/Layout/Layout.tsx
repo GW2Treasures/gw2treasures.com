@@ -4,6 +4,8 @@ import Icon from '../../icons/Icon';
 import Navigation from './Navigation';
 import Link from 'next/link';
 import { Search } from '../Search/Search';
+import LoaderIcon from './loader.svg';
+import { useLoading } from '../../lib/useLoading';
 
 interface LayoutProps {
   children: ReactNode;
@@ -12,6 +14,7 @@ interface LayoutProps {
 const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolledDown, setScrolledDown] = useState('window' in global && window.scrollY > 0);
+  const loading = useLoading();
 
   useEffect(() => {
     const listener = () => {
@@ -36,7 +39,9 @@ const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
               <Icon icon="menu"/>
             </button>
             <Link href="/" className={styles.title}>
-              <Icon icon="gw2treasures"/>gw2treasures.com
+              <Icon icon="gw2treasures"/>
+              {loading && (<LoaderIcon className={styles.loader}/>)}
+              gw2treasures.com
             </Link>
             <Search/>
             <div className={styles.right}>

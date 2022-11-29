@@ -1,10 +1,11 @@
-import { Item, Icon, Language, Skill, Skin } from '@prisma/client';
+import { Item, Icon, Language, Skill, Skin, Build } from '@prisma/client';
 import { useRouter } from 'next/router';
 import { ReactNode } from 'react';
 import { IconName } from '../../icons';
 import IconComponent from '../../icons/Icon';
 import { localizedName } from '../../lib/localizedName';
 import { useJsonFetch, useStaleJsonResponse } from '../../lib/useFetch';
+import { FormatDate } from '../Format/FormatDate';
 import { ItemIcon } from '../Item/ItemIcon';
 import { SkillIcon } from '../Skill/SkillIcon';
 
@@ -59,6 +60,18 @@ export function useSkinResults(searchValue: string): SearchResults {
   }));
 
   return { title: 'Skins', results };
+}
+
+export function useBuildsResults(searchValue: string): SearchResults {
+  const response = useStaleJsonResponse(useJsonFetch<{ result: (Build)[] }>(`/api/search/builds?q=${encodeURIComponent(searchValue)}`));
+
+  const results = response.loading ? [] : response.data.result.map((build) => ({
+    title: `Build ${build.id}`,
+    icon: <IconComponent icon="builds"/>,
+    href: `/build/${build.id}`,
+  }));
+
+  return { title: 'Builds', results };
 }
 
 type Page = { href: string, title: string, icon: IconName };

@@ -15,6 +15,7 @@ import ProfessionIcon from './profession.svg';
 import SkinIcon from './skin.svg';
 import AchievementIcon from './achievement.svg';
 import ItemIcon from './item.svg';
+import BuildsIcon from './builds.svg';
 import TimeIcon from './time.svg';
 import ArmorsmithIcon from './armorsmith.svg';
 import ArtificerIcon from './artificer.svg';
@@ -29,7 +30,7 @@ import FilterIcon from './filter.svg';
 import FilterActiveIcon from './filter-active.svg';
 
 export type IconName = 'menu' | 'gw2treasures' | 'user' | 'revision' | 'search' | 'chevronDown' | 'chatlink' | 'jobs' | 'time'
- | 'mount' | 'skill' | 'specialization' | 'wvw' | 'profession' | 'skin' | 'achievement' | 'item'
+ | 'mount' | 'skill' | 'specialization' | 'wvw' | 'profession' | 'skin' | 'achievement' | 'item' | 'builds'
  | 'armorsmith' | 'artificer' | 'chef' | 'huntsman' | 'jeweler' | 'leatherworker' | 'scribe' | 'tailor' | 'weaponsmith'
  | 'filter' | 'filter-active';
 
@@ -52,6 +53,7 @@ export const Icons: Record<IconName, IconComponent> = {
   'skin': SkinIcon,
   'achievement': AchievementIcon,
   'item': ItemIcon,
+  'builds': BuildsIcon,
   'time': TimeIcon,
   'armorsmith': ArmorsmithIcon,
   'artificer': ArtificerIcon,

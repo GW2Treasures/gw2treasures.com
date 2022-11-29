@@ -74,6 +74,8 @@ const pages: Page[] = [
   { href: '/skill', title: 'Skills', icon: 'skill' },
   { href: '/mount', title: 'Mounts', icon: 'mount' },
   { href: '/wvw', title: 'Word vs. World (WvW)', icon: 'wvw' },
+
+  { href: '/build', title: 'Builds', icon: 'builds' },
 ];
 
 export function usePageResults(searchValue: string): SearchResults {

@@ -8,6 +8,7 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { FormatDate } from '../../components/Format/FormatDate';
 import { FormatNumber } from '../../components/Format/FormatNumber';
+import { useReload } from '../../lib/useReload';
 
 interface JobPageProps {
   running: Job[];
@@ -16,11 +17,11 @@ interface JobPageProps {
 }
 
 const JobPage: NextPage<JobPageProps> = ({ running, finished, now }) => {
-  const router = useRouter();
+  const reload = useReload();
 
   useEffect(() => {
     const interval = setInterval(() => {
-      router.replace(router.asPath, undefined, { scroll: false });
+      reload();
     }, 1000);
 
     return () => clearInterval(interval);

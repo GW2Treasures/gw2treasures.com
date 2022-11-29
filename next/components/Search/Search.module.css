@@ -52,18 +52,11 @@
   padding: 8px 0;
   border: 1px solid var(--color-border);
   border-radius: 4px;
-  opacity: 0;
-  pointer-events: none;
   transition: opacity .3s ease;
   max-height: calc(100vh - 56px);
   overflow-y: auto;
   scrollbar-width: thin;
   overscroll-behavior: contain;
-}
-
-.search:focus-within .dropdown {
-  opacity: 1;
-  pointer-events: initial;
 }
 
 .category {

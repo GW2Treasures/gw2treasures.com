@@ -78,7 +78,7 @@
 .resultActive {
   composes: result;
 
-  background-color: #fafafa;
+  background-color: #eee;
   text-decoration: none;
 }
 

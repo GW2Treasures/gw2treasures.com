@@ -86,6 +86,8 @@ function renderText(fact: FactProps['fact']) {
       return (<span>{text}: {fact.value}s</span>);
     case 'Time':
       return (<span>{text}: {fact.duration}s</span>);
+    case 'Damage':
+      return (<span>{text}: ({fact.dmg_multiplier})</span>);
 
     default: return text;
   }

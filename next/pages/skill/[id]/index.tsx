@@ -61,7 +61,7 @@ const SkillPage: NextPage<SkillPageProps> = ({ skill, revision, fixedRevision })
 
       <Table>
         <thead>
-          <tr><th {...{ width: 1 }}>Build</th><th {...{ width: 1 }}>Language</th><th>Description</th><th {...{ width: 1 }}>Date</th></tr>
+          <tr><th {...{ width: 1 }}>Build</th><th {...{ width: 1 }}>Language</th><th>Description</th><th {...{ width: 1 }}>Date</th><th>Actions</th></tr>
         </thead>
         <tbody>
           {skill.history.map((history) => (
@@ -70,6 +70,7 @@ const SkillPage: NextPage<SkillPageProps> = ({ skill, revision, fixedRevision })
               <td>{history.revision.language}</td>
               <td><Link href={`/skill/${skill.id}/${history.revisionId}`}>{history.revision.description}</Link></td>
               <td><FormatDate date={history.revision.createdAt} relative/></td>
+              <td>{revision.id !== history.revisionId && (<Link href={`/skill/diff/${history.revisionId}/${revision.id}`}>Compare</Link>)}</td>
             </tr>
           ))}
         </tbody>

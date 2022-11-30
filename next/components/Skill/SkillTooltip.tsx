@@ -30,6 +30,9 @@ export const Fact: FC<FactProps> = ({ fact }) => {
     <div className={styles.fact}>
       {renderIcon(fact)}
       {renderText(fact)}
+      {'requires_trait' in fact && (
+        <div className={styles.factDescription}>Only when trait {fact.requires_trait} is equipped. {fact.overrides && `Replaces fact ${fact.overrides}.`}</div>
+      )}
     </div>
   );
 };

@@ -12,6 +12,7 @@ import { FormatDate } from '../../../../components/Format/FormatDate';
 import { Fact } from '../../../../components/Skill/SkillTooltip';
 import { Json } from '../../../../components/Format/Json';
 import { Infobox } from '../../../../components/Infobox/Infobox';
+import { format } from 'gw2-tooltip-html';
 
 export interface SkillDiffPageProps {
   a: Revision;
@@ -54,8 +55,8 @@ const SkillDiffPage: NextPage<SkillDiffPageProps> = ({ a, b }) => {
       )}
 
       <DiffLayoutRow changed={dataA.description !== dataB.description}
-        left={<p>{dataA.description}</p>}
-        right={<p>{dataB.description}</p>}/>
+        left={<p dangerouslySetInnerHTML={{ __html: format(dataA.description) }}/>}
+        right={<p dangerouslySetInnerHTML={{ __html: format(dataB.description) }}/>}/>
 
       {factsDiff.map(({ left, right }, index) => (
         <DiffLayoutRow key={index} left={left && <Fact fact={left}/>} right={right && <Fact fact={right}/>}/>

@@ -6,6 +6,9 @@ import { db } from '../../../lib/prisma';
 import { getStaticSuperProps, withSuperProps } from '../../../lib/superprops';
 import { FormatDate } from '../../../components/Format/FormatDate';
 import { Headline } from '../../../components/Headline/Headline';
+import { ItemList } from '../../../components/ItemList/ItemList';
+import { SkillLink } from '../../../components/Skill/SkillLink';
+import { ItemLink } from '../../../components/Item/ItemLink';
 
 export interface BuildDetailProps {
   build: Build;
@@ -22,11 +25,15 @@ const BuildDetail: NextPage<BuildDetailProps> = ({ build, items, skills }) => {
     <DetailLayout title={build.id} breadcrumb="Build">
       Released on <FormatDate date={build.createdAt}/>
 
-      <Headline id="items">Updated items</Headline>
-      {items.length}
+      <Headline id="items">Updated items ({items.length})</Headline>
+      <ItemList>
+        {items.map((item) => <li key={item.id}><ItemLink item={item}/></li>)}
+      </ItemList>
 
-      <Headline id="skills">Updated skills</Headline>
-      {skills.length}
+      <Headline id="skills">Updated skills ({skills.length})</Headline>
+      <ItemList>
+        {skills.map((skill) => <li key={skill.id}><SkillLink skill={skill}/></li>)}
+      </ItemList>
     </DetailLayout>
   );
 };
@@ -41,10 +48,12 @@ export const getStaticProps = getStaticSuperProps<BuildDetailProps>(async ({ par
     }),
     db.item.findMany({
       where: { history: { some: { revision: { buildId: id, description: 'Updated in API' }}}},
+      include: { icon: true },
       take: 500,
     }),
     db.skill.findMany({
       where: { history: { some: { revision: { buildId: id, description: 'Updated in API' }}}},
+      include: { icon: true },
       take: 500,
     }),
   ]);

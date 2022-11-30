@@ -48,6 +48,12 @@ const SkillDiffPage: NextPage<SkillDiffPageProps> = ({ a, b }) => {
         <><FormatDate date={b.createdAt}/> (<Link href={`/build/${b.buildId}`}>Build {b.buildId}</Link>) ▪ <Link href={`/skill/${dataB.id}/${b.id}`}>View revision</Link></>,
       ]}/>
 
+      {dataA.id !== dataB.id && (
+        <div style={{ padding: 16, paddingBottom: 0 }}>
+          <Infobox>You are comparing two different skills</Infobox>
+        </div>
+      )}
+
       {a.createdAt > b.createdAt && (
         <div style={{ padding: 16, paddingBottom: 0 }}>
           <Infobox>You are comparing an old version against a newer version. <Link href={`/skill/diff/${b.id}/${a.id}`}>Switch around</Link></Infobox>

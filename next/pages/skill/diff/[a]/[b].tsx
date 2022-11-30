@@ -44,8 +44,8 @@ const SkillDiffPage: NextPage<SkillDiffPageProps> = ({ a, b }) => {
         dataA.name,
         dataB.name,
       ]} subtitle={[
-        <><FormatDate date={a.createdAt}/> (<Link href={`/build/${a.buildId}`}>Build {a.buildId}</Link>)</>,
-        <><FormatDate date={b.createdAt}/> (<Link href={`/build/${b.buildId}`}>Build {b.buildId}</Link>)</>,
+        <><FormatDate date={a.createdAt}/> (<Link href={`/build/${a.buildId}`}>Build {a.buildId}</Link>) ▪ <Link href={`/skill/${dataA.id}/${a.id}`}>View revision</Link></>,
+        <><FormatDate date={b.createdAt}/> (<Link href={`/build/${b.buildId}`}>Build {b.buildId}</Link>) ▪ <Link href={`/skill/${dataB.id}/${b.id}`}>View revision</Link></>,
       ]}/>
 
       {a.createdAt > b.createdAt && (

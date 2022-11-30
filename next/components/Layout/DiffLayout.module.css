@@ -2,6 +2,10 @@
   display: flex;
 }
 
+.diffRow:last-child {
+  flex: 1;
+}
+
 .diffHeader {
   background: #f9f9f9;
   display: flex;
@@ -13,19 +17,21 @@
 }
 
 .right {
-  border-left: 1px solid #eee;
   padding: 8px 16px;
   flex: 1;
+
+  box-shadow: 0 0 4px 1px rgb(0 0 0 / 10%);
+  clip-path: inset(0px 0 0px -8px);
 }
 
-.added .left { background-color: #f1f8e9; }
-.added .right { background-color: #dcedc8; border-left-color: #aed581; }
+.added .left { background-color: #ffebee; }
+.added .right { background-color: #dcedc8; }
 
 .removed .left { background-color: #ffcdd2; }
-.removed .right { background-color: #ffebee; border-left-color: #ef9a9a; }
+.removed .right { background-color: #f1f8e9; }
 
 .changed .left { background-color: #ffcdd2; }
-.changed .right { background-color: #dcedc8; border-left-color: #ef9a9a; }
+.changed .right { background-color: #dcedc8; }
 
 
 .header {

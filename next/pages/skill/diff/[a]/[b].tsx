@@ -1,7 +1,7 @@
 import { GetStaticPaths, NextPage } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { Icon as DbIcon, Language, Revision, Skill, SkillHistory } from '@prisma/client';
+import { Revision } from '@prisma/client';
 import { Skeleton } from '../../../../components/Skeleton/Skeleton';
 import { Gw2Api } from 'gw2-api-types';
 import { getStaticSuperProps, withSuperProps } from '../../../../lib/superprops';
@@ -10,7 +10,6 @@ import { SkillIcon } from '../../../../components/Skill/SkillIcon';
 import { parseIcon } from '../../../../lib/parseIcon';
 import { FormatDate } from '../../../../components/Format/FormatDate';
 import { Fact } from '../../../../components/Skill/SkillTooltip';
-import { Json } from '../../../../components/Format/Json';
 import { Infobox } from '../../../../components/Infobox/Infobox';
 import { format } from 'gw2-tooltip-html';
 
@@ -68,7 +67,9 @@ const SkillDiffPage: NextPage<SkillDiffPageProps> = ({ a, b }) => {
         <DiffLayoutRow key={index} left={left && <Fact fact={left}/>} right={right && <Fact fact={right}/>}/>
       ))}
       {factsDiff.length > 0 && traitedFactsDiff.length > 0 && (
-        <hr style={{ margin: 0, border: 'none', background: '#eee', height: 1 }}/>
+        <DiffLayoutRow
+          left={<hr style={{ margin: 0, border: 'none', background: '#eee', height: 1 }}/>}
+          right={<hr style={{ margin: 0, border: 'none', background: '#eee', height: 1 }}/>}/>
       )}
       {traitedFactsDiff.map(({ left, right }, index) => (
         <DiffLayoutRow key={index} left={left && <Fact fact={left}/>} right={right && <Fact fact={right}/>}/>

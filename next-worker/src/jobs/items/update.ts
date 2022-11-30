@@ -16,8 +16,12 @@ export const ItemsUpdate: Job = {
         return 'Waiting for pending follow up jobs';
       }
 
+      // add 15 minutes to timestamp to make sure api cache is updated
+      const checkDate = new Date(build.createdAt);
+      checkDate.setMinutes(checkDate.getMinutes() + 15);
+
       const idsToUpdate = (await db.item.findMany({
-        where: { lastCheckedAt: { lt: build.createdAt }, removedFromApi: false },
+        where: { lastCheckedAt: { lt: checkDate }, removedFromApi: false },
         orderBy: { lastCheckedAt: 'asc' },
         select: { id: true }
       })).map(({ id }) => id);

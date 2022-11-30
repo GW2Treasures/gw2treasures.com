@@ -51,7 +51,7 @@ export const Search: FC<SearchProps> = ({ }) => {
   // Merge all the interactions into prop getters
   const { getReferenceProps, getFloatingProps, getItemProps } = useInteractions([
     useFocus(context, { keyboardOnly: false }),
-    useClick(context, { toggle: false }),
+    useClick(context, { toggle: false, keyboardHandlers: false }),
     useDismiss(context),
     useListNavigation(context, { listRef, activeIndex, onNavigate: setActiveIndex, virtual: true, loop: true }),
   ]);

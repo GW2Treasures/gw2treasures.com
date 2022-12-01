@@ -15,11 +15,18 @@ export async function loadSkills(ids: number[]): Promise<{ [key in Language]: Gw
   console.log(`Fetched ${ids.length} skills in ${(new Date().valueOf() - start.valueOf()) / 1000}s`)
 
   const skills = en.map((skill) => ({
-    en: skill,
-    de: de.find(({ id }) => id === skill.id)!,
-    es: es.find(({ id }) => id === skill.id)!,
-    fr: fr.find(({ id }) => id === skill.id)!,
+    en: normalizeSkill(skill),
+    de: normalizeSkill(de.find(({ id }) => id === skill.id)!),
+    es: normalizeSkill(es.find(({ id }) => id === skill.id)!),
+    fr: normalizeSkill(fr.find(({ id }) => id === skill.id)!),
   }));
 
   return skills;
+}
+
+function normalizeSkill(skill: Gw2Api.Skill): Gw2Api.Skill {
+  // stabilize random order of transform skills
+  skill.transform_skills = skill.transform_skills?.sort();
+
+  return skill;
 }

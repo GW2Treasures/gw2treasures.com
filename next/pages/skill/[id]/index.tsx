@@ -16,6 +16,7 @@ import { Json } from '../../../components/Format/Json';
 import { SkillIcon } from '../../../components/Skill/SkillIcon';
 import { SkillTooltip } from '../../../components/Skill/SkillTooltip';
 
+
 export interface SkillPageProps {
   skill: Skill & {
     icon?: DbIcon | null,
@@ -42,8 +43,16 @@ const SkillPage: NextPage<SkillPageProps> = ({ skill, revision, fixedRevision })
 
   const data: Gw2Api.Skill = JSON.parse(revision.data);
 
+  const breadcrumb = [
+    'Skill',
+    data.professions?.length === 1 && data.professions,
+    data.attunement,
+    (data.type !== 'Weapon' || !data.weapon_type) && data.type,
+    data.weapon_type !== 'None' && data.weapon_type,
+  ].filter(Boolean).join(' › ');
+
   return (
-    <DetailLayout title={data.name} icon={skill.icon ? <SkillIcon icon={skill.icon}/> : undefined} breadcrumb="Skill" infobox={/*<SkillInfobox skill={skill} data={data}/>*/ undefined}>
+    <DetailLayout title={data.name} icon={skill.icon ? <SkillIcon icon={skill.icon}/> : undefined} breadcrumb={breadcrumb} infobox={/*<SkillInfobox skill={skill} data={data}/>*/ undefined}>
       {skill[`currentId_${router.locale as Language}`] !== revision.id && (
         <Infobox icon="revision">You are viewing an old revision of this skill (Build {revision.buildId || 'unknown'}). <Link href={`/skill/${skill.id}`}>View current.</Link></Infobox>
       )}

@@ -3,6 +3,7 @@ import { FC } from 'react';
 import { Gw2Api } from 'gw2-api-types';
 import { format } from 'gw2-tooltip-html';
 import styles from './SkillTooltip.module.css';
+import { Separator } from '../Layout/Separator';
 
 export interface SkillTooltipProps {
   data: Gw2Api.Skill;
@@ -13,6 +14,7 @@ export const SkillTooltip: FC<SkillTooltipProps> = ({ data }) => {
     <div>
       <div dangerouslySetInnerHTML={{ __html: format(data.description) }} className={styles.description}/>
       {data.facts?.map((fact, index) => <Fact key={index} fact={fact}/>)}
+      <Separator/>
       {data.traited_facts?.map((fact, index) => <Fact key={index} fact={fact}/>)}
     </div>
   );

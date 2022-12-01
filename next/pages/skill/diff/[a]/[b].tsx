@@ -12,6 +12,7 @@ import { FormatDate } from '../../../../components/Format/FormatDate';
 import { Fact } from '../../../../components/Skill/SkillTooltip';
 import { Infobox } from '../../../../components/Infobox/Infobox';
 import { format } from 'gw2-tooltip-html';
+import { Separator } from '../../../../components/Layout/Separator';
 
 export interface SkillDiffPageProps {
   a: Revision;
@@ -68,8 +69,8 @@ const SkillDiffPage: NextPage<SkillDiffPageProps> = ({ a, b }) => {
       ))}
       {factsDiff.length > 0 && traitedFactsDiff.length > 0 && (
         <DiffLayoutRow
-          left={<hr style={{ margin: 0, border: 'none', background: '#eee', height: 1 }}/>}
-          right={<hr style={{ margin: 0, border: 'none', background: '#eee', height: 1 }}/>}/>
+          left={<Separator/>}
+          right={<Separator/>}/>
       )}
       {traitedFactsDiff.map(({ left, right }, index) => (
         <DiffLayoutRow key={index} left={left && <Fact fact={left}/>} right={right && <Fact fact={right}/>}/>

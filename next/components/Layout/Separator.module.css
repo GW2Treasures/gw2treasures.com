@@ -1,0 +1,7 @@
+.separator {
+  min-width: 2px;
+  min-height: 2px;
+  background: var(--color-border);
+  border: none;
+  margin: 8px;
+}

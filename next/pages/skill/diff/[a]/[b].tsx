@@ -13,6 +13,7 @@ import { Fact } from '../../../../components/Skill/SkillTooltip';
 import { Infobox } from '../../../../components/Infobox/Infobox';
 import { format } from 'gw2-tooltip-html';
 import { Separator } from '../../../../components/Layout/Separator';
+import { Json } from '../../../../components/Format/Json';
 
 export interface SkillDiffPageProps {
   a: Revision;
@@ -68,13 +69,13 @@ const SkillDiffPage: NextPage<SkillDiffPageProps> = ({ a, b }) => {
         <DiffLayoutRow key={index} left={left && <Fact fact={left}/>} right={right && <Fact fact={right}/>}/>
       ))}
       {factsDiff.length > 0 && traitedFactsDiff.length > 0 && (
-        <DiffLayoutRow
-          left={<Separator/>}
-          right={<Separator/>}/>
+        <DiffLayoutRow left={<Separator/>} right={<Separator/>}/>
       )}
       {traitedFactsDiff.map(({ left, right }, index) => (
         <DiffLayoutRow key={index} left={left && <Fact fact={left}/>} right={right && <Fact fact={right}/>}/>
       ))}
+      <DiffLayoutRow left={<Separator/>} right={<Separator/>}/>
+      <DiffLayoutRow left={<Json data={dataA}/>} right={<Json data={dataB}/>}/>
     </DiffLayout>
   );
 };

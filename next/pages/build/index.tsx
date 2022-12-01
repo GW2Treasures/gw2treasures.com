@@ -1,4 +1,4 @@
-import { Build } from '@prisma/client';
+import { Build, Language } from '@prisma/client';
 import { NextPage } from 'next';
 import { db } from '../../lib/prisma';
 import { FormatDate } from '../../components/Format/FormatDate';
@@ -12,7 +12,7 @@ import { PageLayout } from '../../components/Layout/PageLayout';
 interface BuildPageProps {
   builds: (Build & {
     _count: {
-        revisions: number;
+      revisions: number;
     };
   })[],
 }
@@ -22,16 +22,25 @@ const BuildPage: NextPage<BuildPageProps> = ({ builds }) => {
     <PageLayout>
       <Headline id="Builds">Builds</Headline>
       <ItemList>
-        {builds.map((build) => <li key={build.id}><Link href={`/build/${build.id}`}>{build.id}</Link> (<FormatNumber value={build._count.revisions}/> changes) <FormatDate date={build.createdAt} relative/></li>)}
+        {builds.map((build) => (
+          <li key={build.id}>
+            <span>
+              <Link href={`/build/${build.id}`}>{build.id}</Link> (<FormatNumber value={build._count.revisions}/> changes)
+            </span>
+            <FormatDate date={build.createdAt} relative/>
+          </li>
+        ))}
       </ItemList>
     </PageLayout>
   );
 };
 
-export const getServerSideProps = getServerSideSuperProps<BuildPageProps>(async ({}) => {
+export const getServerSideProps = getServerSideSuperProps<BuildPageProps>(async ({ locale }) => {
+  const language = (locale ?? 'en') as Language;
+
   const builds = await db.build.findMany({
     orderBy: { id: 'desc' },
-    include: { _count: { select: { revisions: { where: { description: 'Updated in API' }}}}},
+    include: { _count: { select: { revisions: { where: { description: 'Updated in API', language }}}}},
     where: { id: { not: 0 }}
   });
 

@@ -7,12 +7,9 @@ import { parseExpression } from 'cron-parser';
 let shuttingDown = false;
 
 const db = new PrismaClient();
+let timeout: NodeJS.Timeout | undefined = undefined;
 
 async function run() {
-  if(shuttingDown) {
-    return;
-  }
-
   const jobSelector: Prisma.JobWhereInput = {
     OR: [
       // queued jobs
@@ -30,7 +27,7 @@ async function run() {
 
   if(!job) {
     // no job found, sleeping
-    setTimeout(() => run(), 10000);
+    timeout = setTimeout(() => run(), 10_000);
     return;
   }
 
@@ -38,7 +35,7 @@ async function run() {
 
   if(q.count === 0) {
     console.log(`Job ${job.id} already claimed by other worker`);
-    setTimeout(() => run(), 1000);
+    timeout = setTimeout(() => run(), Math.random() * 500);
     return;
   }
 
@@ -56,7 +53,7 @@ async function run() {
       where: { id: job.id },
       data: { state: 'Success', finishedAt: new Date(), output: output ?? '' }
     });
-    console.log(`> ${output}`);
+    console.log(`> ${output ?? 'Done.'}`);
   } catch(error) {
     console.error(error);
 
@@ -81,7 +78,9 @@ async function run() {
   }
 
   if(!shuttingDown) {
-    setTimeout(() => run(), 1000);
+    timeout = setTimeout(() => run(), 1_000);
+  } else {
+    console.log('Shutting down');
   }
 }
 
@@ -92,9 +91,11 @@ run();
 
 process.on('SIGTERM', () => {
   console.log('Gracefully shutting down...');
+  clearTimeout(timeout);
   shuttingDown = true;
 });
 process.on('SIGINT', () => {
   console.log('Gracefully shutting down...');
+  clearTimeout(timeout);
   shuttingDown = true;
 });

@@ -7,6 +7,7 @@ import { ItemList } from '../../components/ItemList/ItemList';
 import { getServerSideSuperProps, withSuperProps } from '../../lib/superprops';
 import { FormatNumber } from '../../components/Format/FormatNumber';
 import Link from 'next/link';
+import { PageLayout } from '../../components/Layout/PageLayout';
 
 interface BuildPageProps {
   builds: (Build & {
@@ -18,12 +19,12 @@ interface BuildPageProps {
 
 const BuildPage: NextPage<BuildPageProps> = ({ builds }) => {
   return (
-    <div>
+    <PageLayout>
       <Headline id="Builds">Builds</Headline>
       <ItemList>
         {builds.map((build) => <li key={build.id}><Link href={`/build/${build.id}`}>{build.id}</Link> (<FormatNumber value={build._count.revisions}/> changes) <FormatDate date={build.createdAt} relative/></li>)}
       </ItemList>
-    </div>
+    </PageLayout>
   );
 };
 

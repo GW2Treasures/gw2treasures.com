@@ -1,5 +1,5 @@
 import { GetStaticPaths, NextPage } from 'next';
-import { Build, Item, Language, Skill } from '@prisma/client';
+import { Build, Icon, Item, Language, Skill, SkillHistory } from '@prisma/client';
 import DetailLayout from '../../../components/Layout/DetailLayout';
 import { Skeleton } from '../../../components/Skeleton/Skeleton';
 import { db } from '../../../lib/prisma';
@@ -9,11 +9,15 @@ import { Headline } from '../../../components/Headline/Headline';
 import { ItemList } from '../../../components/ItemList/ItemList';
 import { SkillLink } from '../../../components/Skill/SkillLink';
 import { ItemLink } from '../../../components/Item/ItemLink';
+import Link from 'next/link';
 
 export interface BuildDetailProps {
   build: Build;
   items: Item[];
-  skills: Skill[];
+  skills: (Skill & {
+    icon: Icon | null,
+    history: SkillHistory[],
+  })[];
 }
 
 const BuildDetail: NextPage<BuildDetailProps> = ({ build, items, skills }) => {
@@ -32,7 +36,12 @@ const BuildDetail: NextPage<BuildDetailProps> = ({ build, items, skills }) => {
 
       <Headline id="skills">Updated skills ({skills.length})</Headline>
       <ItemList>
-        {skills.map((skill) => <li key={skill.id}><SkillLink skill={skill}/></li>)}
+        {skills.map((skill) => (
+          <li key={skill.id}>
+            <SkillLink skill={skill}/>
+            <Link href={`/skill/diff/${skill.history[1].revisionId}/${skill.history[0].revisionId}`}>Compare</Link>
+          </li>
+        ))}
       </ItemList>
     </DetailLayout>
   );
@@ -47,13 +56,13 @@ export const getStaticProps = getStaticSuperProps<BuildDetailProps>(async ({ par
       where: { id },
     }),
     db.item.findMany({
-      where: { history: { some: { revision: { buildId: id, description: 'Updated in API' }}}},
+      where: { history: { some: { revision: { buildId: id, description: 'Updated in API', language }}}},
       include: { icon: true },
       take: 500,
     }),
     db.skill.findMany({
-      where: { history: { some: { revision: { buildId: id, description: 'Updated in API' }}}},
-      include: { icon: true },
+      where: { history: { some: { revision: { buildId: id, description: 'Updated in API', language }}}},
+      include: { icon: true, history: { where: { revision: { buildId: { lte: id }, language }}, take: 2, orderBy: { revision: { buildId: 'desc' }}}},
       take: 500,
     }),
   ]);

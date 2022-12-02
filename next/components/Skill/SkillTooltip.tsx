@@ -14,7 +14,7 @@ export const SkillTooltip: FC<SkillTooltipProps> = ({ data }) => {
     <div>
       <div dangerouslySetInnerHTML={{ __html: format(data.description) }} className={styles.description}/>
       {data.facts?.map((fact, index) => <Fact key={index} fact={fact}/>)}
-      <Separator/>
+      {data.facts && data.traited_facts && data.facts?.length > 0 && data.traited_facts?.length > 0 && (<Separator/>)}
       {data.traited_facts?.map((fact, index) => <Fact key={index} fact={fact}/>)}
     </div>
   );

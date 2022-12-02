@@ -8,29 +8,33 @@ import { getServerSideSuperProps, withSuperProps } from '../../lib/superprops';
 import { FormatNumber } from '../../components/Format/FormatNumber';
 import Link from 'next/link';
 import { PageLayout } from '../../components/Layout/PageLayout';
+import { DataTableColumn, useDataTable } from '../../components/Table/DataTable';
+
+type BuildWithRevisionCount = Build & {
+  _count: {
+    revisions: number;
+  };
+};
 
 interface BuildPageProps {
-  builds: (Build & {
-    _count: {
-      revisions: number;
-    };
-  })[],
+  builds: BuildWithRevisionCount[],
 }
 
+const buildTableColumns: DataTableColumn<BuildWithRevisionCount>[] = [
+  { key: 'id', label: 'Build', value: (build) => <Link href={`/build/${build.id}`}>{build.id}</Link> },
+  { key: 'changes', label: 'Changes', value: (build) => <FormatNumber value={build._count.revisions}/> },
+  { key: 'created', label: 'Date', value: (build) => <FormatDate date={build.createdAt}/>, small: true },
+];
+
+const buildRowKey = (build: Build) => build.id;
+
 const BuildPage: NextPage<BuildPageProps> = ({ builds }) => {
+  const BuildTable = useDataTable<BuildWithRevisionCount>(buildTableColumns, buildRowKey);
+
   return (
     <PageLayout>
       <Headline id="Builds">Builds</Headline>
-      <ItemList>
-        {builds.map((build) => (
-          <li key={build.id}>
-            <span>
-              <Link href={`/build/${build.id}`}>{build.id}</Link> (<FormatNumber value={build._count.revisions}/> changes)
-            </span>
-            <FormatDate date={build.createdAt} relative/>
-          </li>
-        ))}
-      </ItemList>
+      <BuildTable rows={builds}/>
     </PageLayout>
   );
 };

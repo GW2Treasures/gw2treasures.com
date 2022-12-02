@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import styles from './Search.module.css';
 import Icon from '../../icons/Icon';
 import { useRouter } from 'next/router';
@@ -40,7 +40,7 @@ export const Search: FC<SearchProps> = ({ }) => {
     ],
   });
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (open && activeIndex != null) {
       requestAnimationFrame(() => {
         listRef.current[activeIndex]?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });

@@ -4,11 +4,11 @@ import { Headline } from '../../components/Headline/Headline';
 import { db } from '../../lib/prisma';
 import { getServerSideSuperProps, withSuperProps } from '../../lib/superprops';
 import { Job } from '@prisma/client';
-import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { FormatDate } from '../../components/Format/FormatDate';
 import { FormatNumber } from '../../components/Format/FormatNumber';
 import { useReload } from '../../lib/useReload';
+import { PageLayout } from '../../components/Layout/PageLayout';
 
 interface JobPageProps {
   running: Job[];
@@ -28,7 +28,7 @@ const JobPage: NextPage<JobPageProps> = ({ running, finished, now }) => {
   });
 
   return (
-    <div style={{ margin: '0 16px' }}>
+    <PageLayout>
       <Headline id="jobs">Active Jobs ({running.length})</Headline>
       <Table>
         <thead>
@@ -75,7 +75,7 @@ const JobPage: NextPage<JobPageProps> = ({ running, finished, now }) => {
           ))}
         </tbody>
       </Table>
-    </div>
+    </PageLayout>
   );
 };
 

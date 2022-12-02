@@ -6,6 +6,7 @@ import Icon from '../../icons/Icon';
 import { Coins } from '../Format/Coins';
 import { FormatNumber } from '../Format/FormatNumber';
 import { Headline } from '../Headline/Headline';
+import { LanguageLinks } from '../Infobox/LanguageLinks';
 import styles from './ItemInfobox.module.css';
 import { ItemLink } from './ItemLink';
 
@@ -32,12 +33,7 @@ export const ItemInfobox: FC<ItemInfoboxProps> = ({ item, data }) => {
 
   return (
     <div>
-      <div className={styles.languages}>
-        {router.locale !== 'de' && (<><div className={styles.lang}>DE</div><ItemLink icon="none" item={item} locale="de"/></>)}
-        {router.locale !== 'en' && (<><div className={styles.lang}>EN</div><ItemLink icon="none" item={item} locale="en"/></>)}
-        {router.locale !== 'es' && (<><div className={styles.lang}>ES</div><ItemLink icon="none" item={item} locale="es"/></>)}
-        {router.locale !== 'fr' && (<><div className={styles.lang}>FR</div><ItemLink icon="none" item={item} locale="fr"/></>)}
-      </div>
+      <LanguageLinks link={<ItemLink icon="none" item={item}/>}/>
 
       <Headline id="tp" noToc>Trading Post</Headline>
       {isTradeable ? (

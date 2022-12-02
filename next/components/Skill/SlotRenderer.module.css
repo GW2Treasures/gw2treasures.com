@@ -1,0 +1,20 @@
+.slots {
+  display: flex;
+  gap: 4px;
+  margin: 8px 0;
+}
+
+.slot {
+  border: 1px solid #000;
+  border-radius: 2px;
+  height: 8px;
+  width: 8px;
+
+  background-color: #888;
+}
+
+.emptySlot {
+  composes: slot;
+
+  background-color: transparent;
+}

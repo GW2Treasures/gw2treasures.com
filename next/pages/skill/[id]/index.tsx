@@ -15,6 +15,7 @@ import { FormatDate } from '../../../components/Format/FormatDate';
 import { Json } from '../../../components/Format/Json';
 import { SkillIcon } from '../../../components/Skill/SkillIcon';
 import { SkillTooltip } from '../../../components/Skill/SkillTooltip';
+import { SkillInfobox } from '../../../components/Skill/SkillInfobox';
 
 
 export interface SkillPageProps {
@@ -52,7 +53,7 @@ const SkillPage: NextPage<SkillPageProps> = ({ skill, revision, fixedRevision })
   ].filter(Boolean).join(' › ');
 
   return (
-    <DetailLayout title={data.name} icon={skill.icon ? <SkillIcon icon={skill.icon}/> : undefined} breadcrumb={breadcrumb} infobox={/*<SkillInfobox skill={skill} data={data}/>*/ undefined}>
+    <DetailLayout title={data.name} icon={skill.icon ? <SkillIcon icon={skill.icon}/> : undefined} breadcrumb={breadcrumb} infobox={<SkillInfobox skill={skill} data={data}/>}>
       {skill[`currentId_${router.locale as Language}`] !== revision.id && (
         <Infobox icon="revision">You are viewing an old revision of this skill (Build {revision.buildId || 'unknown'}). <Link href={`/skill/${skill.id}`}>View current.</Link></Infobox>
       )}

@@ -7,3 +7,7 @@
 .headline:first-child {
   margin-top: 0;
 }
+
+.headline:last-child {
+  margin-bottom: 0;
+}

@@ -147,7 +147,7 @@ export const getStaticProps = getStaticSuperProps<SkillDiffPageProps>(async ({ p
     db?.revision.findUnique({ where: { id: idB }}),
   ]);
 
-  if(!a || !b) {
+  if(!a || !b || a.entity !== 'Skill' || b.entity !== 'Skill') {
     return {
       notFound: true
     };

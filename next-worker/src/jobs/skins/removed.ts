@@ -25,6 +25,8 @@ export const SkinsRemoved: Job = {
           data: {
             data: skin[`current_${language}`].data,
             description: 'Removed from API',
+            type: 'Removed',
+            entity: 'Skin',
             language,
             buildId,
           }

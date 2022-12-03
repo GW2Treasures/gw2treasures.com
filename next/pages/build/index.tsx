@@ -16,25 +16,36 @@ type BuildWithRevisionCount = Build & {
   };
 };
 
+type Update = { entity: string | null, buildId: number, _count: { _all: number }};
+
+type BuildWithUpdates = { build: Build, updates: Update[] };
+
 interface BuildPageProps {
   builds: BuildWithRevisionCount[],
+  updates: Update[]
 }
 
-const buildTableColumns: DataTableColumn<BuildWithRevisionCount>[] = [
-  { key: 'id', label: 'Build', value: (build) => <Link href={`/build/${build.id}`}>{build.id}</Link> },
-  { key: 'changes', label: 'Changes', value: (build) => <FormatNumber value={build._count.revisions}/> },
-  { key: 'created', label: 'Date', value: (build) => <FormatDate date={build.createdAt}/>, small: true },
+const buildTableColumns: DataTableColumn<BuildWithUpdates>[] = [
+  { key: 'id', label: 'Build', value: ({ build }) => <Link href={`/build/${build.id}`}>{build.id}</Link> },
+  { key: 'items', label: 'Item Updates', value: ({ updates }) => <FormatNumber value={updates.find((u) => u.entity === 'Item')?._count._all ?? 0}/> },
+  { key: 'items', label: 'Skill Updates', value: ({ updates }) => <FormatNumber value={updates.find((u) => u.entity === 'Skill')?._count._all ?? 0}/> },
+  { key: 'created', label: 'Date', value: ({ build }) => <FormatDate date={build.createdAt}/>, small: true },
 ];
 
-const buildRowKey = (build: Build) => build.id;
+const buildRowKey = ({ build }: BuildWithUpdates) => build.id;
 
-const BuildPage: NextPage<BuildPageProps> = ({ builds }) => {
-  const BuildTable = useDataTable<BuildWithRevisionCount>(buildTableColumns, buildRowKey);
+const BuildPage: NextPage<BuildPageProps> = ({ builds, updates }) => {
+  const buildsWithUpdates = builds.map((build) => ({
+    build,
+    updates: updates.filter(({ buildId }) => buildId === build.id)
+  }));
+
+  const BuildTable = useDataTable<BuildWithUpdates>(buildTableColumns, buildRowKey);
 
   return (
     <PageLayout>
       <Headline id="Builds">Builds</Headline>
-      <BuildTable rows={builds}/>
+      <BuildTable rows={buildsWithUpdates}/>
     </PageLayout>
   );
 };
@@ -44,12 +55,18 @@ export const getServerSideProps = getServerSideSuperProps<BuildPageProps>(async 
 
   const builds = await db.build.findMany({
     orderBy: { id: 'desc' },
-    include: { _count: { select: { revisions: { where: { description: 'Updated in API', language }}}}},
+    include: { _count: { select: { revisions: { where: { type: 'Update', language }}}}},
     where: { id: { not: 0 }}
   });
 
+  const updates = await db.revision.groupBy({
+    by: ['buildId', 'entity'],
+    where: { type: 'Update', language, buildId: { in: builds.map((build) => build.id) }},
+    _count: { _all: true },
+  });
+
   return {
-    props: { builds },
+    props: { builds, updates },
   };
 });
 

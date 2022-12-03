@@ -13,7 +13,7 @@ export const RecipesNew: Job = {
     const recipes = await fetchApi<Gw2Api.Recipe[]>(`/v2/recipes?v=latest&ids=${newIds.join(',')}`);
 
     for(const recipe of recipes) {
-      const revision = await db.revision.create({ data: { data: JSON.stringify(recipe), language: 'en', buildId, description: 'Added to API' } });
+      const revision = await db.revision.create({ data: { data: JSON.stringify(recipe), language: 'en', buildId, type: 'Added', entity: 'Recipe', description: 'Added to API' } });
 
       // check which items exist
       const itemIngredients = recipe.ingredients

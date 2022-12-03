@@ -11,10 +11,10 @@ export const SkillsNew: Job = {
     const skills = await loadSkills(newIds);
 
     for(const { de, en, es, fr } of skills) {
-      const revision_de = await db.revision.create({ data: { data: JSON.stringify(de), language: 'de', buildId, description: 'Added to API' } });
-      const revision_en = await db.revision.create({ data: { data: JSON.stringify(en), language: 'en', buildId, description: 'Added to API' } });
-      const revision_es = await db.revision.create({ data: { data: JSON.stringify(es), language: 'es', buildId, description: 'Added to API' } });
-      const revision_fr = await db.revision.create({ data: { data: JSON.stringify(fr), language: 'fr', buildId, description: 'Added to API' } });
+      const revision_de = await db.revision.create({ data: { data: JSON.stringify(de), language: 'de', buildId, type: 'Added', entity: 'Skill', description: 'Added to API' } });
+      const revision_en = await db.revision.create({ data: { data: JSON.stringify(en), language: 'en', buildId, type: 'Added', entity: 'Skill', description: 'Added to API' } });
+      const revision_es = await db.revision.create({ data: { data: JSON.stringify(es), language: 'es', buildId, type: 'Added', entity: 'Skill', description: 'Added to API' } });
+      const revision_fr = await db.revision.create({ data: { data: JSON.stringify(fr), language: 'fr', buildId, type: 'Added', entity: 'Skill', description: 'Added to API' } });
 
       const icon = en.icon?.match(/\/(?<signature>[^\/]*)\/(?<id>[^\/]*)\.png$/)?.groups as { signature: string, id: number } | undefined;
 

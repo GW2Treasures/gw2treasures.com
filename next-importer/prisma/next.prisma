@@ -217,8 +217,11 @@ model IngredientItem {
 model Revision {
   id String @id @default(uuid())
 
+  entity String?
+
   data String
   description String?
+  type RevisionType @default(Update)
 
   language Language
 
@@ -226,6 +229,8 @@ model Revision {
   buildId Int
   
   createdAt DateTime @default(now())
+
+  @@index([language, type])
 
   // items
   currentItem_de Item? @relation("current_de")
@@ -251,6 +256,13 @@ model Revision {
   // recipes
   currentRecipe Recipe? @relation("current")
   recipeHistory Recipe[]
+}
+
+enum RevisionType {
+  Update
+  Import
+  Added
+  Removed
 }
 
 model Build {

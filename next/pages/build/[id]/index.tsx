@@ -56,12 +56,12 @@ export const getStaticProps = getStaticSuperProps<BuildDetailProps>(async ({ par
       where: { id },
     }),
     db.item.findMany({
-      where: { history: { some: { revision: { buildId: id, description: 'Updated in API', language }}}},
+      where: { history: { some: { revision: { buildId: id, type: 'Update', language }}}},
       include: { icon: true },
       take: 500,
     }),
     db.skill.findMany({
-      where: { history: { some: { revision: { buildId: id, description: 'Updated in API', language }}}},
+      where: { history: { some: { revision: { buildId: id, type: 'Update', language }}}},
       include: { icon: true, history: { where: { revision: { buildId: { lte: id }, language }}, take: 2, orderBy: { revision: { buildId: 'desc' }}}},
       take: 500,
     }),

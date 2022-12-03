@@ -25,6 +25,8 @@ export const SkillsRemoved: Job = {
           data: {
             data: skill[`current_${language}`].data,
             description: 'Removed from API',
+            type: 'Removed',
+            entity: 'Skill',
             language,
             buildId,
           }

@@ -37,6 +37,7 @@ export const SkillsRediscovered: Job = {
           data: {
             data: JSON.stringify(data[language]),
             description: 'Rediscovered in API',
+            entity: 'Skill',
             language,
             buildId,
           }

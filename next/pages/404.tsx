@@ -8,7 +8,7 @@ interface PageNotFoundProps {
 const PageNotFound: NextPage<PageNotFoundProps> = ({}) => {
   return (
     <HeroLayout color="#b7000d" hero={<Headline id="404">404 - Page not found</Headline>}>
-      We couldn't find the page you requested. You can try the search to find the content you were looking for.
+      We couldn&apos;t find the page you requested. You can try the search to find the content you were looking for.
     </HeroLayout>
   );
 };

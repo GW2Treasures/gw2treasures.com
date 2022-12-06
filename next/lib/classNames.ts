@@ -1,5 +1,5 @@
-import { isTruthy } from './is';
+import { Falsy, isTruthy } from './is';
 
-export function cx(...args: (string | undefined | false)[]): string {
+export function cx(...args: (string | Falsy)[]): string {
   return args.filter(isTruthy).join(' ');
 }

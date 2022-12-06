@@ -2,6 +2,7 @@ import { Job } from '../job';
 import { getCurrentBuild } from '../helper/getCurrentBuild';
 import { loadSkills } from '../helper/loadSkills';
 import { queueJobForIds } from '../helper/queueJobsForIds';
+import { createIcon } from '../helper/createIcon';
 
 export const SkillsUpdate: Job = {
   run: async (db, ids: number[] | {}) => {
@@ -55,24 +56,14 @@ export const SkillsUpdate: Job = {
       const revision_es = existing.current_es.data !== JSON.stringify(es) ? await db.revision.create({ data: { data: JSON.stringify(es), language: 'es', buildId, type: 'Update', entity: 'Skill', description: 'Updated in API' } }) : existing.current_es;
       const revision_fr = existing.current_fr.data !== JSON.stringify(fr) ? await db.revision.create({ data: { data: JSON.stringify(fr), language: 'fr', buildId, type: 'Update', entity: 'Skill', description: 'Updated in API' } }) : existing.current_fr;
 
-      const icon = en.icon?.match(/\/(?<signature>[^\/]*)\/(?<id>[^\/]*)\.png$/)?.groups as { signature: string, id: number } | undefined;
-
-      if(icon) {
-        icon.id = Number(icon.id);
-
-        await db.icon.upsert({
-          create: icon,
-          update: {},
-          where: { id: icon.id }
-        });
-      }
+      const iconId = await createIcon(en.icon, db);
 
       const i = await db.skill.update({ where: { id: existing.id }, data: {
         name_de: de.name,
         name_en: en.name,
         name_es: es.name,
         name_fr: fr.name,
-        iconId: icon?.id,
+        iconId: iconId,
         currentId_de: revision_de.id,
         currentId_en: revision_en.id,
         currentId_es: revision_es.id,

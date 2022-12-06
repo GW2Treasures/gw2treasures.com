@@ -3,6 +3,7 @@ import { getCurrentBuild } from '../helper/getCurrentBuild';
 import { loadSkins } from '../helper/loadSkins';
 import { queueJobForIds } from '../helper/queueJobsForIds';
 import { CURRENT_VERSION } from './migrate';
+import { createIcon } from '../helper/createIcon';
 
 export const SkinsUpdate: Job = {
   run: async (db, ids: number[] | {}) => {
@@ -56,24 +57,14 @@ export const SkinsUpdate: Job = {
       const revision_es = existing.current_es.data !== JSON.stringify(es) ? await db.revision.create({ data: { data: JSON.stringify(es), language: 'es', buildId, type: 'Update', entity: 'Skin', description: 'Updated in API' } }) : existing.current_es;
       const revision_fr = existing.current_fr.data !== JSON.stringify(fr) ? await db.revision.create({ data: { data: JSON.stringify(fr), language: 'fr', buildId, type: 'Update', entity: 'Skin', description: 'Updated in API' } }) : existing.current_fr;
 
-      const icon = en.icon?.match(/\/(?<signature>[^\/]*)\/(?<id>[^\/]*)\.png$/)?.groups as { signature: string, id: number } | undefined;
-
-      if(icon) {
-        icon.id = Number(icon.id);
-
-        await db.icon.upsert({
-          create: icon,
-          update: {},
-          where: { id: icon.id }
-        });
-      }
+      const iconId = await createIcon(en.icon, db);
 
       const i = await db.skin.update({ where: { id: existing.id }, data: {
         name_de: de.name,
         name_en: en.name,
         name_es: es.name,
         name_fr: fr.name,
-        iconId: icon?.id,
+        iconId: iconId,
         rarity: en.rarity,
         type: en.type,
         subtype: en.details?.type,

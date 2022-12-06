@@ -2,6 +2,7 @@ import { Job } from '../job';
 import { Prisma } from '@prisma/client';
 import { getCurrentBuild } from '../helper/getCurrentBuild';
 import { loadSkins } from '../helper/loadSkins';
+import { createIcon } from '../helper/createIcon';
 
 export const SkinsRediscovered: Job = {
   run: async (db, rediscoveredIds: number[]) => {
@@ -21,12 +22,15 @@ export const SkinsRediscovered: Job = {
         continue;
       }
 
+      const iconId = await createIcon(data.en.icon, db);
+
       const update: Prisma.SkinUpdateArgs['data'] = {
         removedFromApi: false,
         name_de: data.de.name,
         name_en: data.en.name,
         name_es: data.es.name,
         name_fr: data.fr.name,
+        iconId: iconId,
         lastCheckedAt: new Date(),
         history: { createMany: { data: [] }}
       };

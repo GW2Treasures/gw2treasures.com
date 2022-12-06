@@ -5,7 +5,6 @@ import { IconName } from '../../icons';
 import IconComponent from '../../icons/Icon';
 import { localizedName } from '../../lib/localizedName';
 import { useJsonFetch, useStaleJsonResponse } from '../../lib/useFetch';
-import { FormatDate } from '../Format/FormatDate';
 import { ItemIcon } from '../Item/ItemIcon';
 import { SkillIcon } from '../Skill/SkillIcon';
 
@@ -89,6 +88,8 @@ const pages: Page[] = [
   { href: '/wvw', title: 'Word vs. World (WvW)', icon: 'wvw' },
 
   { href: '/build', title: 'Builds', icon: 'builds' },
+
+  { href: '/item/random', title: 'Random Item', icon: 'shuffle' },
 ];
 
 export function usePageResults(searchValue: string): SearchResults {

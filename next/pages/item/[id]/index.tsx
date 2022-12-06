@@ -141,6 +141,11 @@ const ItemPage: NextPage<ItemPageProps> = ({ item, revision, fixedRevision, simi
 
 export const getStaticProps = getStaticSuperProps<ItemPageProps>(async ({ params, locale }) => {
   const id: number = Number(params!.id!.toString())!;
+
+  if(isNaN(id)) {
+    return { notFound: true };
+  }
+
   const language = (locale ?? 'en') as Language;
 
   const [item, revision] = await Promise.all([

@@ -23,7 +23,7 @@ export const RecipesNew: Job = {
         where: { id: { in: [recipe.output_item_id, ...itemIngredients.map(toId)] }}
       });
 
-      const i = await db.recipe.create({ data: {
+      await db.recipe.create({ data: {
         id: recipe.id,
         type: recipe.type,
         rating: recipe.min_rating,

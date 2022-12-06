@@ -59,7 +59,7 @@ export const SkinsUpdate: Job = {
 
       const iconId = await createIcon(en.icon, db);
 
-      const i = await db.skin.update({ where: { id: existing.id }, data: {
+      await db.skin.update({ where: { id: existing.id }, data: {
         name_de: de.name,
         name_en: en.name,
         name_es: es.name,

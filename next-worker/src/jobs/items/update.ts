@@ -58,7 +58,7 @@ export const ItemsUpdate: Job = {
 
       const iconId = await createIcon(en.icon, db);
 
-      const i = await db.item.update({ where: { id: existing.id }, data: {
+      await db.item.update({ where: { id: existing.id }, data: {
         name_de: de.name,
         name_en: en.name,
         name_es: es.name,

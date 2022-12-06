@@ -2,6 +2,7 @@ import { Job } from '../job';
 import { getCurrentBuild } from '../helper/getCurrentBuild';
 import { loadSkills } from '../helper/loadSkills';
 import { createIcon } from '../helper/createIcon';
+import { createRevisions } from '../helper/revision';
 
 export const SkillsNew: Job = {
   run: async (db, newIds: number[]) => {
@@ -12,10 +13,7 @@ export const SkillsNew: Job = {
     const skills = await loadSkills(newIds);
 
     for(const { de, en, es, fr } of skills) {
-      const revision_de = await db.revision.create({ data: { data: JSON.stringify(de), language: 'de', buildId, type: 'Added', entity: 'Skill', description: 'Added to API' } });
-      const revision_en = await db.revision.create({ data: { data: JSON.stringify(en), language: 'en', buildId, type: 'Added', entity: 'Skill', description: 'Added to API' } });
-      const revision_es = await db.revision.create({ data: { data: JSON.stringify(es), language: 'es', buildId, type: 'Added', entity: 'Skill', description: 'Added to API' } });
-      const revision_fr = await db.revision.create({ data: { data: JSON.stringify(fr), language: 'fr', buildId, type: 'Added', entity: 'Skill', description: 'Added to API' } });
+      const revisions = await createRevisions(db, { de, en, es, fr }, { buildId, type: 'Added', entity: 'Skill', description: 'Added to API' });
 
       const iconId = await createIcon(en.icon, db);
 
@@ -27,11 +25,11 @@ export const SkillsNew: Job = {
         name_fr: fr.name,
         iconId: iconId,
         version: 1,
-        currentId_de: revision_de.id,
-        currentId_en: revision_en.id,
-        currentId_es: revision_es.id,
-        currentId_fr: revision_fr.id,
-        history: { createMany: { data: [{ revisionId: revision_de.id }, { revisionId: revision_en.id }, { revisionId: revision_es.id }, { revisionId: revision_fr.id }]} }
+        currentId_de: revisions.de.id,
+        currentId_en: revisions.en.id,
+        currentId_es: revisions.es.id,
+        currentId_fr: revisions.fr.id,
+        history: { createMany: { data: [{ revisionId: revisions.de.id }, { revisionId: revisions.en.id }, { revisionId: revisions.es.id }, { revisionId: revisions.fr.id }]} }
       }});
     }
 

@@ -19,7 +19,6 @@ import { SkinsMigrate } from './skins/migrate';
 import { skinsNew } from './skins/new';
 import { SkinsRediscovered } from './skins/rediscovered';
 import { SkinsRemoved } from './skins/removed';
-import { SkinsUnlock } from './skins/unlocks';
 import { SkinsUpdate } from './skins/update';
 
 const jobsInternal = {
@@ -45,7 +44,6 @@ const jobsInternal = {
   'skins.rediscovered': SkinsRediscovered,
   'skins.update': SkinsUpdate,
   'skins.migrate': SkinsMigrate,
-  'skins.unlock': SkinsUnlock,
 
   'recipes.check': RecipesCheck,
   'recipes.new': RecipesNew,

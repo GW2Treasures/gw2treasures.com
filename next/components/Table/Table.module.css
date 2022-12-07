@@ -47,8 +47,9 @@
   border: none;
   border-radius: 0;
   background: none;
+  cursor: pointer;
 
-  /* */
+  /* make room for the arrows */
   min-height: 16px;
   padding-right: 16px;
   position: relative;

@@ -12,6 +12,7 @@ import { ItemList } from '../../../components/ItemList/ItemList';
 import { ItemLink } from '../../../components/Item/ItemLink';
 import { Rarity } from '../../../components/Item/Rarity';
 import { Gw2Api } from 'gw2-api-types';
+import { ItemTable } from '../../../components/Item/ItemTable';
 
 export interface SkinPageProps {
   skin: Skin & {
@@ -39,11 +40,7 @@ const SkinPage: NextPage<SkinPageProps> = ({ skin, revision }) => {
       </div>
 
       <Headline id="items">Unlocked by</Headline>
-
-      <ItemList>
-        {skin.unlockedByItems.map((item) => <li key={item.id}><ItemLink item={item}/></li>)}
-      </ItemList>
-
+      <ItemTable items={skin.unlockedByItems}/>
     </DetailLayout>
   );
 };

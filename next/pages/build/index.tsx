@@ -25,10 +25,14 @@ interface BuildPageProps {
   updates: Update[]
 }
 
+function updateCount(updates: Update[], type: string): number {
+  return updates.find((u) => u.entity === type)?._count._all ?? 0;
+}
+
 const buildTableColumns: DataTableColumn<BuildWithUpdates>[] = [
   { key: 'id', label: 'Build', value: ({ build }) => <Link href={`/build/${build.id}`}>{build.id}</Link> },
-  { key: 'items', label: 'Item Updates', value: ({ updates }) => <FormatNumber value={updates.find((u) => u.entity === 'Item')?._count._all ?? 0}/> },
-  { key: 'items', label: 'Skill Updates', value: ({ updates }) => <FormatNumber value={updates.find((u) => u.entity === 'Skill')?._count._all ?? 0}/> },
+  { key: 'items', label: 'Item Updates', value: ({ updates }) => <FormatNumber value={updateCount(updates, 'Item')}/>, sort: (a, b) => updateCount(a.updates, 'Item') - updateCount(b.updates, 'Item') },
+  { key: 'items', label: 'Skill Updates', value: ({ updates }) => <FormatNumber value={updateCount(updates, 'Skill')}/>, sort: (a, b) => updateCount(a.updates, 'Skill') - updateCount(b.updates, 'Skill') },
   { key: 'created', label: 'Date', value: ({ build }) => <FormatDate date={build.createdAt}/>, small: true },
 ];
 

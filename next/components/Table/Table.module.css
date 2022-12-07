@@ -38,3 +38,49 @@
 .table > tbody > tr:hover > th {
   background-color: #fcfcfc;
 }
+
+.sort {
+  /* remove button styles */
+  font: inherit;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: none;
+
+  /* */
+  min-height: 16px;
+  padding-right: 16px;
+  position: relative;
+}
+
+.sort:after, .sort:before {
+  content: '';
+  display: block;
+  position: absolute;
+  right: 0;
+  border-style: solid;
+  border-color: #bbb transparent;
+}
+
+.sort:before {
+  bottom: calc(50% + 1px);
+  border-width: 0 4px 6px 4px;
+}
+
+.sort:after {
+  top: calc(50% + 1px);
+  border-width: 6px 4px 0 4px;
+}
+
+.sortAsc, .sortDesc {
+  composes: sort;
+}
+
+.sortAsc:after {
+  border-color: #000 transparent
+}
+
+.sortDesc:before {
+  border-color: #000 transparent
+}

@@ -30,7 +30,7 @@
     "@typescript-eslint/eslint-plugin": "^5.42.0",
     "eslint": "8.26.0",
     "eslint-config-next": "^13.0.5",
-    "gw2-api-types": "^0.0.3",
+    "gw2-api-types": "^0.0.4",
     "prisma": "^4.5.0",
     "typescript": "4.8.4"
   }

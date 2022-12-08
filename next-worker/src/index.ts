@@ -3,6 +3,7 @@ import { Prisma, PrismaClient } from '@prisma/client';
 import { jobs } from './jobs';
 import { registerCronJobs } from './jobs/cron';
 import { parseExpression } from 'cron-parser';
+import chalk from 'chalk';
 
 let shuttingDown = false;
 
@@ -34,12 +35,12 @@ async function run() {
   const q = await db.job.updateMany({ data: { state: 'Running', startedAt: new Date() }, where: { id: job.id, state: job.state } });
 
   if(q.count === 0) {
-    console.log(`Job ${job.id} already claimed by other worker`);
+    console.log(chalk.yellow(`Job ${job.id} already claimed by other worker`));
     timeout = setTimeout(() => run(), Math.random() * 500);
     return;
   }
 
-  console.log(`Running ${job.type} (${job.id})`);
+  console.log(`Running ${chalk.blue(job.type)} (${chalk.gray(job.id)})`);
   try {
     const runner = jobs[job.type];
 
@@ -53,7 +54,7 @@ async function run() {
       where: { id: job.id },
       data: { state: 'Success', finishedAt: new Date(), output: output ?? '' }
     });
-    console.log(`> ${output ?? 'Done.'}`);
+    console.log(`${chalk.green('>')} ${output ?? 'Done.'}`);
   } catch(error) {
     console.error(error);
 

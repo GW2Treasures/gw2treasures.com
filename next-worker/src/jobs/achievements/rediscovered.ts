@@ -1,10 +1,10 @@
 import { Job } from '../job';
 import { Prisma } from '@prisma/client';
 import { getCurrentBuild } from '../helper/getCurrentBuild';
-import { loadSkins } from '../helper/loadSkins';
+import { loadAchievements } from '../helper/loadAchievements';
 import { createIcon } from '../helper/createIcon';
 
-export const SkinsRediscovered: Job = {
+export const AchievementsRediscovered: Job = {
   run: async (db, rediscoveredIds: number[]) => {
     const build = await getCurrentBuild(db);
     const buildId = build.id;
@@ -13,18 +13,18 @@ export const SkinsRediscovered: Job = {
       return;
     }
 
-    const skins = await loadSkins(rediscoveredIds);
+    const achievements = await loadAchievements(rediscoveredIds);
 
-    for(const data of skins) {
-      const skin = await db.skin.findUnique({ where: { id: data.en.id } });
+    for(const data of achievements) {
+      const achievement = await db.achievement.findUnique({ where: { id: data.en.id } });
 
-      if(!skin) {
+      if(!achievement) {
         continue;
       }
 
       const iconId = await createIcon(data.en.icon, db);
 
-      const update: Prisma.SkinUpdateArgs['data'] = {
+      const update: Prisma.AchievementUpdateArgs['data'] = {
         removedFromApi: false,
         name_de: data.de.name,
         name_en: data.en.name,
@@ -41,19 +41,19 @@ export const SkinsRediscovered: Job = {
           data: {
             data: JSON.stringify(data[language]),
             description: 'Rediscovered in API',
-            entity: 'Skin',
+            entity: 'Achievement',
             language,
             buildId,
           }
         });
 
         update[`currentId_${language}`] = revision.id;
-        update.history!.createMany!.data = [...update.history!.createMany!.data as Prisma.SkinHistoryCreateManySkinInput[], { revisionId: revision.id }];
+        update.history!.createMany!.data = [...update.history!.createMany!.data as Prisma.AchievementHistoryCreateManyAchievementInput[], { revisionId: revision.id }];
       }
 
-      await db.skin.update({ where: { id: skin.id }, data: update });
+      await db.achievement.update({ where: { id: achievement.id }, data: update });
     }
 
-    return `Rediscovered ${rediscoveredIds.length} skins`;
+    return `Rediscovered ${rediscoveredIds.length} achievements`;
   }
 }

@@ -51,20 +51,31 @@ export const getStaticProps = getStaticSuperProps<BuildDetailProps>(async ({ par
   const id: number = Number(params!.id!.toString())!;
   const language = (locale ?? 'en') as Language;
 
+  function timing<T>(name: string, p: Promise<T>): Promise<T> {
+    const start = performance.now();
+
+    return p.then((value: T) => {
+      const end = performance.now();
+      console.log(name, end - start);
+
+      return value;
+    });
+  };
+
   const [build, items, skills] = await Promise.all([
-    db.build.findUnique({
+    timing('build', db.build.findUnique({
       where: { id },
-    }),
-    db.item.findMany({
-      where: { history: { some: { revision: { buildId: id, type: 'Update', language }}}},
+    })),
+    timing('items', db.item.findMany({
+      where: { history: { some: { revision: { buildId: id, type: 'Update', language, entity: 'Item' }}}},
       include: { icon: true },
       take: 500,
-    }),
-    db.skill.findMany({
+    })),
+    timing('skills', db.skill.findMany({
       where: { history: { some: { revision: { buildId: id, type: 'Update', language }}}},
       include: { icon: true, history: { where: { revision: { buildId: { lte: id }, language }}, take: 2, orderBy: { revision: { buildId: 'desc' }}}},
       take: 500,
-    }),
+    })),
   ]);
 
   if(!build) {

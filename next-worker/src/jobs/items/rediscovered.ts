@@ -51,7 +51,6 @@ export const ItemsRediscovered: Job = {
         update.history!.createMany!.data = [...update.history!.createMany!.data as Prisma.ItemHistoryCreateManyItemInput[], { revisionId: revision.id }];
       }
 
-      console.log(update);
       await db.item.update({ where: { id: item.id }, data: update });
     }
 

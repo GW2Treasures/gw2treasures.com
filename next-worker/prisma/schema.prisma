@@ -62,6 +62,8 @@ model Icon {
   items Item[]
   skills Skill[]
   skins Skin[]
+  achievements Achievement[]
+  achievementCategories AchievementCategory[]
 }
 
 model ItemHistory {
@@ -214,6 +216,153 @@ model IngredientItem {
   @@id([recipeId, itemId])
 }
 
+model Achievement {
+  id Int @id
+  
+  name_de String
+  name_en String
+  name_es String
+  name_fr String
+
+  icon   Icon? @relation(fields: [iconId], references: [id])
+  iconId Int?
+
+  achievementCategory AchievementCategory? @relation(fields: [achievementCategoryId], references: [id])
+  achievementCategoryId Int?
+
+  removedFromApi Boolean @default(false)
+  
+  current_de Revision @relation("current_de", fields: [currentId_de], references: [id], onDelete: Cascade)
+  currentId_de String @unique
+  
+  current_en Revision @relation("current_en", fields: [currentId_en], references: [id], onDelete: Cascade)
+  currentId_en String @unique
+  
+  current_es Revision @relation("current_es", fields: [currentId_es], references: [id], onDelete: Cascade)
+  currentId_es String @unique
+  
+  current_fr Revision @relation("current_fr", fields: [currentId_fr], references: [id], onDelete: Cascade)
+  currentId_fr String @unique
+
+  history AchievementHistory[]
+  
+  lastCheckedAt  DateTime   @default(now())
+
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  version Int @default(0)
+}
+
+model AchievementHistory {
+  achievementId Int
+  revisionId String
+
+  achievement Achievement @relation(fields: [achievementId], references: [id], onDelete: Cascade)
+  revision Revision @relation(fields: [revisionId], references: [id], onDelete: Cascade)
+
+  @@id([achievementId, revisionId])
+}
+
+model AchievementGroup {
+  id String @id
+  
+  name_de String
+  name_en String
+  name_es String
+  name_fr String
+
+  order Int
+  
+  achievementCategories AchievementCategory[]
+
+  removedFromApi Boolean @default(false)
+  
+  current_de Revision @relation("current_de", fields: [currentId_de], references: [id], onDelete: Cascade)
+  currentId_de String @unique
+  
+  current_en Revision @relation("current_en", fields: [currentId_en], references: [id], onDelete: Cascade)
+  currentId_en String @unique
+  
+  current_es Revision @relation("current_es", fields: [currentId_es], references: [id], onDelete: Cascade)
+  currentId_es String @unique
+  
+  current_fr Revision @relation("current_fr", fields: [currentId_fr], references: [id], onDelete: Cascade)
+  currentId_fr String @unique
+
+  history AchievementGroupHistory[]
+  
+  lastCheckedAt  DateTime   @default(now())
+
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  version Int @default(0)
+}
+
+model AchievementGroupHistory {
+  achievementGroupId String
+  revisionId String
+
+  achievementGroup AchievementGroup @relation(fields: [achievementGroupId], references: [id], onDelete: Cascade)
+  revision Revision @relation(fields: [revisionId], references: [id], onDelete: Cascade)
+
+  @@id([achievementGroupId, revisionId])
+}
+
+
+model AchievementCategory {
+  id Int @id
+  
+  name_de String
+  name_en String
+  name_es String
+  name_fr String
+
+  icon   Icon? @relation(fields: [iconId], references: [id])
+  iconId Int?
+
+  achievementGroup AchievementGroup? @relation(fields: [achievementGroupId], references: [id])
+  achievementGroupId String?
+
+  order Int
+
+  achievements Achievement[]
+
+  removedFromApi Boolean @default(false)
+  
+  current_de Revision @relation("current_de", fields: [currentId_de], references: [id], onDelete: Cascade)
+  currentId_de String @unique
+  
+  current_en Revision @relation("current_en", fields: [currentId_en], references: [id], onDelete: Cascade)
+  currentId_en String @unique
+  
+  current_es Revision @relation("current_es", fields: [currentId_es], references: [id], onDelete: Cascade)
+  currentId_es String @unique
+  
+  current_fr Revision @relation("current_fr", fields: [currentId_fr], references: [id], onDelete: Cascade)
+  currentId_fr String @unique
+
+  history AchievementCategoryHistory[]
+  
+  lastCheckedAt  DateTime   @default(now())
+
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  version Int @default(0)
+}
+
+model AchievementCategoryHistory {
+  achievementCategoryId Int
+  revisionId String
+
+  achievementCategory AchievementCategory @relation(fields: [achievementCategoryId], references: [id], onDelete: Cascade)
+  revision Revision @relation(fields: [revisionId], references: [id], onDelete: Cascade)
+
+  @@id([achievementCategoryId, revisionId])
+}
+
 model Revision {
   id String @id @default(uuid())
 
@@ -252,6 +401,27 @@ model Revision {
   currentSkin_es Skin? @relation("current_es")
   currentSkin_fr Skin? @relation("current_fr")
   skinHistory SkinHistory[]
+  
+  // achievements
+  currentAchievement_de Achievement? @relation("current_de")
+  currentAchievement_en Achievement? @relation("current_en")
+  currentAchievement_es Achievement? @relation("current_es")
+  currentAchievement_fr Achievement? @relation("current_fr")
+  achievementHistory AchievementHistory[]
+  
+  // achievement groups
+  currentAchievementGroup_de AchievementGroup? @relation("current_de")
+  currentAchievementGroup_en AchievementGroup? @relation("current_en")
+  currentAchievementGroup_es AchievementGroup? @relation("current_es")
+  currentAchievementGroup_fr AchievementGroup? @relation("current_fr")
+  achievementGroupHistory AchievementGroupHistory[]
+  
+  // achievement categories
+  currentAchievementCategory_de AchievementCategory? @relation("current_de")
+  currentAchievementCategory_en AchievementCategory? @relation("current_en")
+  currentAchievementCategory_es AchievementCategory? @relation("current_es")
+  currentAchievementCategory_fr AchievementCategory? @relation("current_fr")
+  achievementCategoryHistory AchievementCategoryHistory[]
 
   // recipes
   currentRecipe Recipe? @relation("current")

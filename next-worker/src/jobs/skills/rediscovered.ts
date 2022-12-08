@@ -51,7 +51,6 @@ export const SkillsRediscovered: Job = {
         update.history!.createMany!.data = [...update.history!.createMany!.data as Prisma.SkillHistoryCreateManySkillInput[], { revisionId: revision.id }];
       }
 
-      console.log(update);
       await db.skill.update({ where: { id: skill.id }, data: update });
     }
 

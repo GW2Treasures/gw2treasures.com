@@ -1,3 +1,11 @@
+import { AchievementCategories } from './achievements/categories';
+import { AchievementsCheck } from './achievements/check';
+import { AchievementGroups } from './achievements/groups';
+import { AchievementsMigrate } from './achievements/migrate';
+import { AchievementsNew } from './achievements/new';
+import { AchievementsRediscovered } from './achievements/rediscovered';
+import { AchievementsRemoved } from './achievements/removed';
+import { AchievementsUpdate } from './achievements/update';
 import { ItemsCheck } from './items/check';
 import { ItemsMigrate } from './items/migrate';
 import { ItemsNew } from './items/new';
@@ -44,6 +52,16 @@ const jobsInternal = {
   'skins.rediscovered': SkinsRediscovered,
   'skins.update': SkinsUpdate,
   'skins.migrate': SkinsMigrate,
+
+  'achievements.check': AchievementsCheck,
+  'achievements.new': AchievementsNew,
+  'achievements.removed': AchievementsRemoved,
+  'achievements.rediscovered': AchievementsRediscovered,
+  'achievements.update': AchievementsUpdate,
+  'achievements.migrate': AchievementsMigrate,
+
+  'achievements.categories': AchievementCategories,
+  'achievements.groups': AchievementGroups,
 
   'recipes.check': RecipesCheck,
   'recipes.new': RecipesNew,

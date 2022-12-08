@@ -56,7 +56,7 @@ async function run() {
     });
     console.log(`${chalk.green('>')} ${output ?? 'Done.'}`);
   } catch(error) {
-    console.error(error);
+    console.error(chalk.red('>'), error);
 
     await db.job.update({
       where: { id: job.id },

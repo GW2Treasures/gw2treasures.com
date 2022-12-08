@@ -19,6 +19,12 @@ export async function registerCronJobs(db: PrismaClient) {
   await registerJob(db, 'skins.update', '*/3 * * * *');
   await registerJob(db, 'skins.migrate', '*/6 * * * *');
 
+  await registerJob(db, 'achievements.check', '*/5 * * * *');
+  await registerJob(db, 'achievements.update', '*/3 * * * *');
+  await registerJob(db, 'achievements.migrate', '*/6 * * * *');
+  await registerJob(db, 'achievements.categories', '*/10 * * * *');
+  await registerJob(db, 'achievements.groups', '*/10 * * * *');
+
   await registerJob(db, 'recipes.check', '*/5 * * * *');
 
   await registerJob(db, 'jobs.cleanup', '*/15 * * * *');

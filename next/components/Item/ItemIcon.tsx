@@ -23,6 +23,7 @@ export const ItemIcon: FC<ItemIconProps> = ({ icon, size = 64 }) => {
 
   return (
     <img
+      ref={(img) => img?.complete && setLoading(false)}
       src={getIconUrl(icon, size)}
       width={size}
       height={size}

@@ -9,7 +9,6 @@ import { localizedName } from '../../lib/localizedName';
 import { useRouter } from 'next/router';
 import { Fragment } from 'react';
 import { Gw2Api } from 'gw2-api-types';
-import { ItemIcon } from '../../components/Item/ItemIcon';
 import { AchievementCategoryLink } from '../../components/Achievement/AchievementCategoryLink';
 
 interface AchievementPageProps {

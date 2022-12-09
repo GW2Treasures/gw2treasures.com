@@ -11,8 +11,8 @@ export interface HeroLayoutProps {
 
 export const HeroLayout: FC<HeroLayoutProps> = ({ children, hero, color, toc }) => {
   return (
-    <div>
-      <div className={styles.hero} style={color ? { '--hero-color': color } : undefined}>{hero}</div>
+    <div style={color ? { '--hero-color': color } : undefined}>
+      <div className={styles.hero}>{hero}</div>
       <PageLayout toc={toc}>{children}</PageLayout>
     </div>
   );

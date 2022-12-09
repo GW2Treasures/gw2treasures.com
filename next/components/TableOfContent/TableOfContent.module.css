@@ -29,11 +29,11 @@
   composes: link;
 
   font-weight: bold;
-  border-left-color: var(--color-rarity);
+  border-left-color: var(--color-rarity, var(--hero-color, #000));
 }
 
 .activeLink:hover {
-  border-left-color: var(--color-rarity);
+  border-left-color: var(--color-rarity, var(--hero-color, #000));
 }
 
 .anchor {

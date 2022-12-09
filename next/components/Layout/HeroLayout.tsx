@@ -5,14 +5,15 @@ import { PageLayout } from './PageLayout';
 export interface HeroLayoutProps {
   children: ReactNode;
   hero: ReactNode;
-  color?: CSSProperties['--hero-color']
+  color?: CSSProperties['--hero-color'];
+  toc?: boolean;
 }
 
-export const HeroLayout: FC<HeroLayoutProps> = ({ children, hero, color }) => {
+export const HeroLayout: FC<HeroLayoutProps> = ({ children, hero, color, toc }) => {
   return (
     <div>
       <div className={styles.hero} style={color ? { '--hero-color': color } : undefined}>{hero}</div>
-      <PageLayout>{children}</PageLayout>
+      <PageLayout toc={toc}>{children}</PageLayout>
     </div>
   );
 };

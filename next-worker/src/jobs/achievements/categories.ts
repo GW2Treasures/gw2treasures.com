@@ -61,6 +61,10 @@ async function newCategories(db: PrismaClient, buildId: number, categories: { [k
       where: { id: { in: [...en.achievements, ...(en.tomorrow ?? [])].map(({ id }) => id) }},
       data: { achievementCategoryId: en.id }
     });
+    await db.achievement.updateMany({
+      where: { id: { in: [...en.achievements, ...(en.tomorrow ?? [])].map(({ id }) => id) }, iconId: null },
+      data: { iconId }
+    });
   }
 }
 
@@ -136,6 +140,10 @@ async function rediscoveredCategories(db: PrismaClient, buildId: number, categor
       where: { id: { in: [...data.en.achievements, ...(data.en.tomorrow ?? [])].map(({ id }) => id) }},
       data: { achievementCategoryId: data.en.id }
     });
+    await db.achievement.updateMany({
+      where: { id: { in: [...data.en.achievements, ...(data.en.tomorrow ?? [])].map(({ id }) => id) }, iconId: null },
+      data: { iconId }
+    });
   }
 }
 
@@ -161,6 +169,10 @@ async function updatedCategories(db: PrismaClient, buildId: number, apiCategorie
     await db.achievement.updateMany({
       where: { id: { in: [...en.achievements, ...(en.tomorrow ?? [])].map(({ id }) => id) }},
       data: { achievementCategoryId: existing.id }
+    });
+    await db.achievement.updateMany({
+      where: { id: { in: [...en.achievements, ...(en.tomorrow ?? [])].map(({ id }) => id) }, iconId: null },
+      data: { iconId: existing.iconId }
     });
 
     if(revision_de.id !== existing.currentId_de || revision_en.id !== existing.currentId_en || revision_es.id !== existing.currentId_es || revision_fr.id !== existing.currentId_fr) {

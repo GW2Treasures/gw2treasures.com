@@ -2,7 +2,7 @@ import React, { FC, useEffect, useRef, useState } from 'react';
 import styles from './Search.module.css';
 import Icon from '../../icons/Icon';
 import { useRouter } from 'next/router';
-import { useBuildsResults, useItemResults, usePageResults, useSkillResults, useSkinResults } from './useSearchResults';
+import { useAchievementResults, useBuildsResults, useItemResults, usePageResults, useSkillResults, useSkinResults } from './useSearchResults';
 import Link from 'next/link';
 import { useDebounce } from '../../lib/useDebounce';
 import { autoUpdate, flip, offset, size, useClick, useDismiss, useFloating, useFocus, useInteractions, useListNavigation } from '@floating-ui/react-dom-interactions';
@@ -60,6 +60,7 @@ export const Search: FC<SearchProps> = ({ }) => {
     useItemResults(searchValue),
     useSkillResults(searchValue),
     useSkinResults(searchValue),
+    ...useAchievementResults(searchValue),
     usePageResults(searchValue),
     useBuildsResults(searchValue),
   ];

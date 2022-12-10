@@ -1,4 +1,4 @@
-import { Item, Icon, Language, Skill, Skin, Build } from '@prisma/client';
+import { Item, Icon, Language, Skill, Skin, Build, Achievement, AchievementGroup, AchievementCategory } from '@prisma/client';
 import { useRouter } from 'next/router';
 import { ReactNode } from 'react';
 import { IconName } from '../../icons';
@@ -71,6 +71,41 @@ export function useBuildsResults(searchValue: string): SearchResults {
   }));
 
   return { title: 'Builds', results };
+}
+
+export function useAchievementResults(searchValue: string): SearchResults[] {
+  const response = useStaleJsonResponse(useJsonFetch<{
+    achievements: (Achievement & { icon?: Icon | null, achievementCategory?: AchievementCategory | null })[],
+    achievementCategories: (AchievementCategory & { icon?: Icon | null, achievementGroup?: AchievementGroup })[],
+    achievementGroups: (AchievementGroup)[],
+  }>(`/api/search/achievements?q=${encodeURIComponent(searchValue)}`));
+  const { locale } = useRouter();
+
+  const achievements = response.loading ? [] : response.data.achievements.map((achievement) => ({
+    title: localizedName(achievement, locale as Language),
+    icon: achievement.icon && <ItemIcon icon={achievement.icon} size={32}/>,
+    href: `/achievement/${achievement.id}`,
+    subtitle: achievement.achievementCategory ? localizedName(achievement.achievementCategory, locale as Language) : 'Achievement'
+  }));
+
+  const categories = response.loading ? [] : response.data.achievementCategories.map((category) => ({
+    title: localizedName(category, locale as Language),
+    icon: category.icon && <ItemIcon icon={category.icon} size={32}/>,
+    href: `/achievement/category/${category.id}`,
+    subtitle: category.achievementGroup ? localizedName(category.achievementGroup, locale as Language) : 'Category',
+  }));
+
+  const groups = response.loading ? [] : response.data.achievementGroups.map((group) => ({
+    title: localizedName(group, locale as Language),
+    icon: <IconComponent icon="achievement"/>,
+    href: `/achievement#${group.id}`,
+  }));
+
+  return [
+    { title: 'Achievements', results: achievements },
+    { title: 'Achievement Categories', results: categories },
+    { title: 'Achievement Groups', results: groups },
+  ];
 }
 
 type Page = { href: string, title: string, icon: IconName };

@@ -6,6 +6,7 @@ import { localizedName } from '../../lib/localizedName';
 import { DropDown } from '../DropDown/DropDown';
 import { Button } from '../Form/Button';
 import { TextInput } from '../Form/TextInput';
+import { Headline } from '../Headline/Headline';
 import { ItemLink } from '../Item/ItemLink';
 import { Separator } from '../Layout/Separator';
 import { Table } from '../Table/Table';
@@ -54,25 +55,29 @@ export const RecipeTable: FC<RecipeTableProps> = ({ recipes }) => {
 
   return (
     <>
-      <div>
-        <TextInput value={search} onChange={setSearch} type="search" placeholder="Search…"/>
-        <DropDown button={<Button><Icon icon={disciplineFilter.length === DisciplineNames.length ? 'filter' : 'filter-active'}/></Button>}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-            <label style={{ display: 'flex', gap: 4, alignItems: 'center', borderBottom: '1px solid var(--color-border)', paddingBottom: 4, marginBottom: 4 }}>
-              <input type="checkbox" checked={disciplineFilter.length > 0} onChange={() => setDisciplineFilter(disciplineFilter.length > 0 ? [] : DisciplineNames)}/>
-              All
-              <span style={{ marginLeft: 'auto', paddingLeft: 8 }}>{recipes.length}</span>
-            </label>
-            {(Object.entries(disciplines) as [Discipline, number][]).map(([discipline, count]) => (
-              <label key={discipline} style={{ display: 'flex', gap: 4, alignItems: 'center', opacity: count === 0 ? 0.5 : 1 }}>
-                <input type="checkbox" checked={disciplineFilter.includes(discipline)} onChange={() => setDisciplineFilter(toggleArray(disciplineFilter, discipline))}/>
-                <DisciplineIcon discipline={discipline}/>{discipline}
-                <span style={{ marginLeft: 'auto', paddingLeft: 8 }}>{count}</span>
+      <Headline id="crafting" actions={(
+        <>
+          <TextInput value={search} onChange={setSearch} type="search" placeholder="Search…"/>
+          <DropDown button={<Button><Icon icon={disciplineFilter.length === DisciplineNames.length ? 'filter' : 'filter-active'}/></Button>}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+              <label style={{ display: 'flex', gap: 4, alignItems: 'center', borderBottom: '1px solid var(--color-border)', paddingBottom: 4, marginBottom: 4 }}>
+                <input type="checkbox" checked={disciplineFilter.length > 0} onChange={() => setDisciplineFilter(disciplineFilter.length > 0 ? [] : DisciplineNames)}/>
+                All
+                <span style={{ marginLeft: 'auto', paddingLeft: 8 }}>{recipes.length}</span>
               </label>
-            ))}
-          </div>
-        </DropDown>
-      </div>
+              {(Object.entries(disciplines) as [Discipline, number][]).map(([discipline, count]) => (
+                <label key={discipline} style={{ display: 'flex', gap: 4, alignItems: 'center', opacity: count === 0 ? 0.5 : 1 }}>
+                  <input type="checkbox" checked={disciplineFilter.includes(discipline)} onChange={() => setDisciplineFilter(toggleArray(disciplineFilter, discipline))}/>
+                  <DisciplineIcon discipline={discipline}/>{discipline}
+                  <span style={{ marginLeft: 'auto', paddingLeft: 8 }}>{count}</span>
+                </label>
+              ))}
+            </div>
+          </DropDown>
+        </>
+      )}>
+        Used in crafting
+      </Headline>
 
       <Table>
         <thead>

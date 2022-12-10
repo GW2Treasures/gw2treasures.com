@@ -1,7 +1,6 @@
 .headline {
-  font-family: 'Bitter';
-  font-size: 18px;
   margin: 32px 0 16px;
+  display: flex;
 }
 
 .headline:first-child {
@@ -10,4 +9,16 @@
 
 .headline:last-child {
   margin-bottom: 0;
+}
+
+.content {
+  font-family: 'Bitter';
+  font-size: 18px;
+
+  flex: 1;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
 }

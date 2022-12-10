@@ -97,14 +97,9 @@ const ItemPage: NextPage<ItemPageProps> = ({ item, revision, fixedRevision, simi
       )}
 
       {item._count && item._count?.ingredient > 0 && (
-        <>
-          <Headline id="crafting">Used in crafting</Headline>
-
-          <ErrorBoundary fallback={<>Error</>}>
-            <ItemIngredientFor itemId={item.id} placeholderCount={item._count?.ingredient}/>
-          </ErrorBoundary>
-
-        </>
+        <ErrorBoundary fallback={<>Error</>}>
+          <ItemIngredientFor itemId={item.id} placeholderCount={item._count?.ingredient}/>
+        </ErrorBoundary>
       )}
 
       <Headline id="history">History</Headline>

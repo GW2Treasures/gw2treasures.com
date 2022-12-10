@@ -85,7 +85,7 @@ export function useAchievementResults(searchValue: string): SearchResults[] {
     title: localizedName(achievement, locale as Language),
     icon: achievement.icon && <ItemIcon icon={achievement.icon} size={32}/>,
     href: `/achievement/${achievement.id}`,
-    subtitle: (achievement.achievementCategory ? localizedName(achievement.achievementCategory, locale as Language) : 'Achievement') + ` ▪ ${achievement.points} AP`
+    subtitle: <>{(achievement.achievementCategory ? localizedName(achievement.achievementCategory, locale as Language) : 'Achievement')}{achievement.points > 0 && (<> ▪ {achievement.points} <IconComponent icon="achievementPoints"/></>)}</>
   }));
 
   const categories = response.loading ? [] : response.data.achievementCategories.map((category) => ({

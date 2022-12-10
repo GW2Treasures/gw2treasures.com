@@ -125,6 +125,7 @@ const pages: Page[] = [
   { href: '/build', title: 'Builds', icon: 'builds' },
 
   { href: '/item/random', title: 'Random Item', icon: 'shuffle' },
+  { href: '/achievement/random', title: 'Random Achievement', icon: 'shuffle' },
 ];
 
 export function usePageResults(searchValue: string): SearchResults {

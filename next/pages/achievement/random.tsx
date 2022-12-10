@@ -2,18 +2,18 @@ import { GetServerSideProps } from 'next';
 import { db } from '../../lib/prisma';
 
 export const getStaticProps: GetServerSideProps = async ({}) => {
-  const count = await db.item.count();
+  const count = await db.achievement.count();
 
-  const item = await db.item.findFirst({ take: 1, skip: Math.floor(Math.random() * count), select: { id: true }});
+  const achievement = await db.achievement.findFirst({ take: 1, skip: Math.floor(Math.random() * count), select: { id: true }});
 
-  if(!item) {
+  if(!achievement) {
     return { notFound: true };
   }
 
   return {
     redirect: {
       permanent: false,
-      destination: `/item/${item.id}`
+      destination: `/achievement/${achievement.id}`
     },
     revalidate: true,
   };

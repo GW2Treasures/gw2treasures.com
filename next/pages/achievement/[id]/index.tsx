@@ -10,6 +10,8 @@ import { Gw2Api } from 'gw2-api-types';
 import { localizedName } from '../../../lib/localizedName';
 import { Headline } from '../../../components/Headline/Headline';
 import { Json } from '../../../components/Format/Json';
+import { formatNumber, FormatNumber } from '../../../components/Format/FormatNumber';
+import { Separator } from '../../../components/Layout/Separator';
 
 export interface AchievementPageProps {
   achievement: Achievement & {
@@ -33,6 +35,17 @@ const AchievementPage: NextPage<AchievementPageProps> = ({ achievement, revision
   return (
     <DetailLayout title={data.name} icon={achievement.icon && getIconUrl(achievement.icon, 64) || undefined} breadcrumb={`Achievements › ${achievement.achievementCategory?.achievementGroup ? localizedName(achievement.achievementCategory?.achievementGroup, router.locale as Language) : 'Unknown Group'} › ${achievement.achievementCategory ? localizedName(achievement.achievementCategory, router.locale as Language) : 'Unknown Category'}`}>
       <p>{data.description}</p>
+
+
+      <Headline id="objectives">Objectives</Headline>
+      {data.requirement.replace('  ', ` ${formatNumber(data.tiers[data.tiers.length - 1].count)} `)}
+
+      <Headline id="tiers">Tiers</Headline>
+      {data.tiers.map((tier) => (
+        <div key={tier.count}>{tier.points}: <FormatNumber value={tier.count}/> objectives completed</div>
+      ))}
+      <Separator/>
+      <div>Total: {data.tiers.reduce((total, tier) => total + tier.points, 0)}</div>
 
       <Headline id="data">Data</Headline>
       <Json data={data}/>

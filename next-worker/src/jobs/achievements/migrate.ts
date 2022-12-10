@@ -3,7 +3,7 @@ import { queueJobForIds } from '../helper/queueJobsForIds';
 import { Prisma } from '@prisma/client';
 import { Gw2Api } from 'gw2-api-types';
 
-export const CURRENT_VERSION = 0;
+const CURRENT_VERSION = 1;
 
 export const AchievementsMigrate: Job = {
   run: async (db, ids: number[] | {}) => {
@@ -40,6 +40,10 @@ export const AchievementsMigrate: Job = {
       const update: Prisma.AchievementUpdateInput = {
         version: CURRENT_VERSION
       };
+
+      if(achievement.version < 1) {
+        update.points = data.tiers.reduce((total, tier) => total + tier.points, 0);
+      }
 
       await db.achievement.update({ where: { id: achievement.id }, data: update });
     }

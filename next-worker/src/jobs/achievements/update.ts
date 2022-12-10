@@ -2,7 +2,6 @@ import { Job } from '../job';
 import { getCurrentBuild } from '../helper/getCurrentBuild';
 import { loadAchievements } from '../helper/loadAchievements';
 import { queueJobForIds } from '../helper/queueJobsForIds';
-import { CURRENT_VERSION } from './migrate';
 import { createIcon } from '../helper/createIcon';
 
 export const AchievementsUpdate: Job = {
@@ -65,12 +64,13 @@ export const AchievementsUpdate: Job = {
         name_es: es.name,
         name_fr: fr.name,
         iconId: iconId,
+        points: en.tiers.reduce((total, tier) => total + tier.points, 0),
         currentId_de: revision_de.id,
         currentId_en: revision_en.id,
         currentId_es: revision_es.id,
         currentId_fr: revision_fr.id,
         lastCheckedAt: new Date(),
-        version: CURRENT_VERSION,
+        version: 1,
         history: { createMany: { data: [{ revisionId: revision_de.id }, { revisionId: revision_en.id }, { revisionId: revision_es.id }, { revisionId: revision_fr.id }], skipDuplicates: true } }
       }});
     }

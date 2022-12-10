@@ -1,7 +1,6 @@
 import { Job } from '../job';
 import { getCurrentBuild } from '../helper/getCurrentBuild';
 import { loadAchievements } from '../helper/loadAchievements';
-import { CURRENT_VERSION } from './migrate';
 import { createIcon } from '../helper/createIcon';
 import { createRevisions } from '../helper/revision';
 
@@ -24,7 +23,8 @@ export const AchievementsNew: Job = {
         name_es: es.name,
         name_fr: fr.name,
         iconId: iconId,
-        version: CURRENT_VERSION,
+        points: en.tiers.reduce((total, tier) => total + tier.points, 0),
+        version: 1,
         currentId_de: revisions.de.id,
         currentId_en: revisions.en.id,
         currentId_es: revisions.es.id,

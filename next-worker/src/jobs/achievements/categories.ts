@@ -57,14 +57,7 @@ async function newCategories(db: PrismaClient, buildId: number, categories: { [k
       history: { createMany: { data: [{ revisionId: revisions.de.id }, { revisionId: revisions.en.id }, { revisionId: revisions.es.id }, { revisionId: revisions.fr.id }]} },
     }});
 
-    await db.achievement.updateMany({
-      where: { id: { in: [...en.achievements, ...(en.tomorrow ?? [])].map(({ id }) => id) }},
-      data: { achievementCategoryId: en.id }
-    });
-    await db.achievement.updateMany({
-      where: { id: { in: [...en.achievements, ...(en.tomorrow ?? [])].map(({ id }) => id) }, iconId: null },
-      data: { iconId }
-    });
+    await processAchievements(en.id, iconId, en.achievements, en.tomorrow, db);
   }
 }
 
@@ -136,14 +129,7 @@ async function rediscoveredCategories(db: PrismaClient, buildId: number, categor
 
     await db.achievementCategory.update({ where: { id: data.en.id }, data: update });
 
-    await db.achievement.updateMany({
-      where: { id: { in: [...data.en.achievements, ...(data.en.tomorrow ?? [])].map(({ id }) => id) }},
-      data: { achievementCategoryId: data.en.id }
-    });
-    await db.achievement.updateMany({
-      where: { id: { in: [...data.en.achievements, ...(data.en.tomorrow ?? [])].map(({ id }) => id) }, iconId: null },
-      data: { iconId }
-    });
+    await processAchievements(data.en.id, iconId, data.en.achievements, data.en.tomorrow, db);
   }
 }
 
@@ -166,14 +152,7 @@ async function updatedCategories(db: PrismaClient, buildId: number, apiCategorie
     const revision_es = existing.current_es.data !== JSON.stringify(es) ? await db.revision.create({ data: { data: JSON.stringify(es), language: 'es', buildId, type: 'Update', entity: 'AchievementCategory', description: 'Updated in API' } }) : existing.current_es;
     const revision_fr = existing.current_fr.data !== JSON.stringify(fr) ? await db.revision.create({ data: { data: JSON.stringify(fr), language: 'fr', buildId, type: 'Update', entity: 'AchievementCategory', description: 'Updated in API' } }) : existing.current_fr;
 
-    await db.achievement.updateMany({
-      where: { id: { in: [...en.achievements, ...(en.tomorrow ?? [])].map(({ id }) => id) }},
-      data: { achievementCategoryId: existing.id }
-    });
-    await db.achievement.updateMany({
-      where: { id: { in: [...en.achievements, ...(en.tomorrow ?? [])].map(({ id }) => id) }, iconId: null },
-      data: { iconId: existing.iconId }
-    });
+    await processAchievements(en.id, existing.iconId ?? undefined, en.achievements, en.tomorrow, db);
 
     if(revision_de.id !== existing.currentId_de || revision_en.id !== existing.currentId_en || revision_es.id !== existing.currentId_es || revision_fr.id !== existing.currentId_fr) {
       updated++;
@@ -201,4 +180,28 @@ async function updatedCategories(db: PrismaClient, buildId: number, apiCategorie
   }
 
   return updated;
+}
+
+async function processAchievements(id: number, iconId: number | undefined, achievements: Gw2Api.Achievement.Category['achievements'], tomorrow: Gw2Api.Achievement.Category['tomorrow'], db: PrismaClient) {
+  const achievementIds = [...achievements, ...(tomorrow ?? [])].map(({ id }) => id);
+
+  await Promise.all([
+    // set previous achievements to historic
+    db.achievement.updateMany({
+      where: { id: { notIn: achievementIds }, achievementCategoryId: id },
+      data: { historic: true },
+    }),
+
+    // set achievement category
+    db.achievement.updateMany({
+      where: { id: { in: achievementIds }},
+      data: { achievementCategoryId: id, historic: false },
+    }),
+
+    // set icon if the achievement does not have an icon yet
+    db.achievement.updateMany({
+      where: { id: { in: achievementIds }, iconId: null },
+      data: { iconId },
+    }),
+  ]);
 }

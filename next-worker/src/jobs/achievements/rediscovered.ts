@@ -30,6 +30,8 @@ export const AchievementsRediscovered: Job = {
         name_en: data.en.name,
         name_es: data.es.name,
         name_fr: data.fr.name,
+        version: 1,
+        points: data.en.tiers.reduce((total, tier) => total + tier.points, 0),
         iconId: iconId,
         lastCheckedAt: new Date(),
         history: { createMany: { data: [] }}

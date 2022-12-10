@@ -41,7 +41,14 @@ const AchievementCategoryPage: NextPage<AchievementCategoryPageProps> = ({ achie
 
       <Headline id="achievements">Achievements</Headline>
       <ItemList>
-        {achievementCategory.achievements.map((achievement) => (
+        {achievementCategory.achievements.filter(({ historic }) => !historic).map((achievement) => (
+          <li key={achievement.id}><AchievementLink achievement={achievement}/></li>
+        ))}
+      </ItemList>
+
+      <Headline id="historic">Historic</Headline>
+      <ItemList>
+        {achievementCategory.achievements.filter(({ historic }) => historic).map((achievement) => (
           <li key={achievement.id}><AchievementLink achievement={achievement}/></li>
         ))}
       </ItemList>

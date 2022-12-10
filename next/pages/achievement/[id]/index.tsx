@@ -12,6 +12,7 @@ import { Headline } from '../../../components/Headline/Headline';
 import { Json } from '../../../components/Format/Json';
 import { formatNumber, FormatNumber } from '../../../components/Format/FormatNumber';
 import { Separator } from '../../../components/Layout/Separator';
+import Icon from '../../../icons/Icon';
 
 export interface AchievementPageProps {
   achievement: Achievement & {
@@ -42,10 +43,10 @@ const AchievementPage: NextPage<AchievementPageProps> = ({ achievement, revision
 
       <Headline id="tiers">Tiers</Headline>
       {data.tiers.map((tier) => (
-        <div key={tier.count}>{tier.points}: <FormatNumber value={tier.count}/> objectives completed</div>
+        <div key={tier.count}>{tier.points} <Icon icon="achievementPoints"/>: <FormatNumber value={tier.count}/> objectives completed</div>
       ))}
       <Separator/>
-      <div>Total: {data.tiers.reduce((total, tier) => total + tier.points, 0)}</div>
+      <div>Total: {data.tiers.reduce((total, tier) => total + tier.points, 0)} <Icon icon="achievementPoints"/></div>
 
       <Headline id="data">Data</Headline>
       <Json data={data}/>

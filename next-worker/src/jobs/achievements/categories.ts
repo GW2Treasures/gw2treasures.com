@@ -200,7 +200,7 @@ async function processAchievements(id: number, iconId: number | undefined, achie
 
     // set icon if the achievement does not have an icon yet
     db.achievement.updateMany({
-      where: { id: { in: achievementIds }, iconId: null },
+      where: { achievementCategoryId: id, iconId: null },
       data: { iconId },
     }),
   ]);

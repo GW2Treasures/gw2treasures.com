@@ -63,7 +63,7 @@ export const Tip: FC<TipProps> = ({ children, tip, preferredPlacement = 'top' })
             }}
             {...getFloatingProps()}
           >
-            {tip}
+            <div>{tip}</div>
             <div className={styles.arrow} ref={arrowRef} style={{
               left: middlewareData.arrow?.x ?? undefined,
               top: middlewareData.arrow?.y ?? undefined,

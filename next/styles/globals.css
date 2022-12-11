@@ -12,6 +12,10 @@ p {
   margin: 0 0 1.5em;
 }
 
+p:last-child {
+  margin-bottom: 0;
+}
+
 @font-face {
   src: url("/wotfard-regular-webfont.woff2");
   font-family: 'wotfard';

@@ -12,6 +12,8 @@ import { AchievementLink } from '../../../../components/Achievement/AchievementL
 import { localizedName } from '../../../../lib/localizedName';
 import { Headline } from '../../../../components/Headline/Headline';
 import { Json } from '../../../../components/Format/Json';
+import { Tip } from '../../../../components/Tip/Tip';
+import Icon from '../../../../icons/Icon';
 
 export interface AchievementCategoryPageProps {
   achievementCategory: AchievementCategory & {
@@ -31,6 +33,8 @@ const AchievementCategoryPage: NextPage<AchievementCategoryPageProps> = ({ achie
 
   const data: Gw2Api.Achievement.Category = JSON.parse(revision.data);
 
+  const historicAchievements = achievementCategory.achievements.filter(({ historic }) => historic);
+
   return (
     <DetailLayout
       title={data.name}
@@ -46,12 +50,16 @@ const AchievementCategoryPage: NextPage<AchievementCategoryPageProps> = ({ achie
         ))}
       </ItemList>
 
-      <Headline id="historic">Historic</Headline>
-      <ItemList>
-        {achievementCategory.achievements.filter(({ historic }) => historic).map((achievement) => (
-          <li key={achievement.id}><AchievementLink achievement={achievement}/></li>
-        ))}
-      </ItemList>
+      {historicAchievements.length > 0 && (
+        <>
+          <Headline id="historic" actions={<Tip tip={<p>Historic achievements have either been removed from the game or are part of a rotation.</p>}><Icon icon="info"/></Tip>}>Historic</Headline>
+          <ItemList>
+            {historicAchievements.map((achievement) => (
+              <li key={achievement.id}><AchievementLink achievement={achievement}/></li>
+            ))}
+          </ItemList>
+        </>
+      )}
 
       <Headline id="data">Data</Headline>
       <Json data={data}/>

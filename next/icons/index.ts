@@ -30,11 +30,12 @@ import FilterIcon from './filter.svg';
 import FilterActiveIcon from './filter-active.svg';
 import ShuffleIcon from './shuffle.svg';
 import AchievementPointsIcon from './achievement_points.svg';
+import InfoIcon from './info.svg';
 
 export type IconName = 'menu' | 'gw2treasures' | 'user' | 'revision' | 'search' | 'chevronDown' | 'chatlink' | 'jobs' | 'time'
  | 'mount' | 'skill' | 'specialization' | 'wvw' | 'profession' | 'skin' | 'achievement' | 'item' | 'builds'
  | 'armorsmith' | 'artificer' | 'chef' | 'huntsman' | 'jeweler' | 'leatherworker' | 'scribe' | 'tailor' | 'weaponsmith'
- | 'filter' | 'filter-active' | 'shuffle' | 'achievementPoints';
+ | 'filter' | 'filter-active' | 'shuffle' | 'achievementPoints' | 'info';
 
 type IconComponent = FunctionComponent<SVGProps<SVGSVGElement>>;
 
@@ -70,6 +71,7 @@ export const Icons: Record<IconName, IconComponent> = {
   'filter-active': FilterActiveIcon,
   'shuffle': ShuffleIcon,
   'achievementPoints': AchievementPointsIcon,
+  'info': InfoIcon,
 };
 
 export type Icon = IconName | JSX.Element;

@@ -1,4 +1,4 @@
-import { AchievementCategory, AchievementGroup, Icon, Language, Revision } from '@prisma/client';
+import { AchievementCategory, AchievementGroup, Language, Revision } from '@prisma/client';
 import { NextPage } from 'next';
 import { db } from '../../lib/prisma';
 import { Headline } from '../../components/Headline/Headline';
@@ -10,10 +10,11 @@ import { useRouter } from 'next/router';
 import { Fragment } from 'react';
 import { Gw2Api } from 'gw2-api-types';
 import { AchievementCategoryLink } from '../../components/Achievement/AchievementCategoryLink';
+import { WithIcon } from '../../lib/with';
 
 interface AchievementPageProps {
   groups: (AchievementGroup & {
-    achievementCategories: (AchievementCategory & { icon?: Icon | null })[];
+    achievementCategories: WithIcon<AchievementCategory>[];
     current_de: Revision;
     current_en: Revision;
     current_es: Revision;

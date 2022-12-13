@@ -2,9 +2,10 @@ import { FC } from 'react';
 import { AchievementCategory, Icon, Language } from '@prisma/client';
 import { IconSize } from '../Item/ItemIcon';
 import { Link } from '../Link/Link';
+import { WithIcon } from '../../lib/with';
 
 export interface AchievementCategoryLinkProps {
-  achievementCategory: AchievementCategory & { icon?: Icon | null };
+  achievementCategory: WithIcon<AchievementCategory>;
   icon?: IconSize | 'none';
   locale?: Language;
 }

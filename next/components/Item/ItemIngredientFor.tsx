@@ -1,6 +1,7 @@
-import { Icon, IngredientItem, Item, Recipe, Revision } from '@prisma/client';
+import { IngredientItem, Item, Recipe, Revision } from '@prisma/client';
 import { FC } from 'react';
 import { useJsonFetch } from '../../lib/useFetch';
+import { With, WithIcon } from '../../lib/with';
 import { RecipeTable } from '../Recipe/RecipeTable';
 import { SkeletonTable } from '../Skeleton/SkeletonTable';
 
@@ -10,13 +11,11 @@ interface ItemIngredientForProps {
 };
 
 type IngredientRecipe = Recipe & {
-  outputItem: (Item & {
-      icon: Icon | null;
-  }) | null;
+  outputItem: WithIcon<Item> | null;
   currentRevision: Revision;
-  itemIngredients: (IngredientItem & {
-    Item: Item & { icon: Icon | null; };
-  })[];
+  itemIngredients: With<IngredientItem, {
+    Item: WithIcon<Item>;
+  }>[];
 };
 
 export const ItemIngredientFor: FC<ItemIngredientForProps> = ({ itemId, placeholderCount }) => {

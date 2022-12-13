@@ -1,13 +1,14 @@
-import { Icon, IngredientItem, Item, Recipe, Revision } from '@prisma/client';
+import { IngredientItem, Item, Recipe, Revision } from '@prisma/client';
 import { FC, Fragment } from 'react';
+import { With, WithIcon } from '../../lib/with';
 import { ItemLink } from '../Item/ItemLink';
 import styles from './Ingredients.module.css';
 
 interface IngredientsProps {
-  recipe: (Recipe & {
+  recipe: Recipe & {
     currentRevision: Revision,
-    itemIngredients: (IngredientItem & { Item: Item & { icon?: Icon | null; }; })[]
-  })
+    itemIngredients: With<IngredientItem, { Item: WithIcon<Item> }>[]
+  }
 };
 
 export const Ingredients: FC<IngredientsProps> = ({ recipe }) => {

@@ -1,7 +1,7 @@
 import { GetStaticPaths, NextPage } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { Icon as DbIcon, IngredientItem, Item, ItemHistory, Language, Recipe, Revision, Skin } from '@prisma/client';
+import { IngredientItem, Item, ItemHistory, Language, Recipe, Revision, Skin } from '@prisma/client';
 import { ItemTooltip } from '../../../components/Item/ItemTooltip';
 import DetailLayout from '../../../components/Layout/DetailLayout';
 import { Skeleton } from '../../../components/Skeleton/Skeleton';
@@ -21,13 +21,12 @@ import { SkinLink } from '../../../components/Skin/SkinLink';
 import { Json } from '../../../components/Format/Json';
 import { ItemTable } from '../../../components/Item/ItemTable';
 import { RecipeBox } from '../../../components/Recipe/RecipeBox';
-import { RecipeTable } from '../../../components/Recipe/RecipeTable';
 import { ItemIngredientFor } from '../../../components/Item/ItemIngredientFor';
 import { ErrorBoundary } from 'react-error-boundary';
+import { WithIcon } from '../../../lib/with';
 
 export interface ItemPageProps {
-  item: Item & {
-    icon?: DbIcon | null,
+  item: WithIcon<Item> & {
     history: (ItemHistory & {
       revision: {
         id: string;
@@ -37,18 +36,16 @@ export interface ItemPageProps {
         language: Language;
       };
     })[];
-    unlocksSkin: (Skin & {
-      icon?: DbIcon | null,
-    })[];
+    unlocksSkin: WithIcon<Skin>[];
     recipeOutput?: (Recipe & {
       currentRevision: Revision,
-      itemIngredients: (IngredientItem & { Item: Item & { icon: DbIcon | null; }; })[]
+      itemIngredients: (IngredientItem & { Item: WithIcon<Item> })[]
     })[];
     _count?: { ingredient: number }
   };
   revision: Revision;
   fixedRevision: boolean;
-  similarItems?: (Item & { icon?: DbIcon | null })[]
+  similarItems?: WithIcon<Item>[]
 }
 
 const ItemPage: NextPage<ItemPageProps> = ({ item, revision, fixedRevision, similarItems = [] }) => {

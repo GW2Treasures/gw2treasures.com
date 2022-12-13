@@ -1,6 +1,6 @@
 import { GetStaticPaths, NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { Achievement, AchievementCategory, AchievementGroup, Icon as DbIcon, Language, Revision } from '@prisma/client';
+import { Achievement, AchievementCategory, AchievementGroup, Language, Revision } from '@prisma/client';
 import DetailLayout from '../../../../components/Layout/DetailLayout';
 import { Skeleton } from '../../../../components/Skeleton/Skeleton';
 import { db } from '../../../../lib/prisma';
@@ -14,11 +14,11 @@ import { Headline } from '../../../../components/Headline/Headline';
 import { Json } from '../../../../components/Format/Json';
 import { Tip } from '../../../../components/Tip/Tip';
 import Icon from '../../../../icons/Icon';
+import { WithIcon } from '../../../../lib/with';
 
 export interface AchievementCategoryPageProps {
-  achievementCategory: AchievementCategory & {
-    icon?: DbIcon | null,
-    achievements: (Achievement & { icon?: DbIcon | null })[],
+  achievementCategory: WithIcon<AchievementCategory> & {
+    achievements: WithIcon<Achievement>[],
     achievementGroup?: AchievementGroup | null,
   };
   revision: Revision;

@@ -1,25 +1,25 @@
-import { Icon as DbIcon, IngredientItem, Item, Recipe, Revision } from '@prisma/client';
+import { IngredientItem, Item, Recipe, Revision } from '@prisma/client';
 import { useRouter } from 'next/router';
 import { FC, memo, useDeferredValue, useMemo, useState } from 'react';
 import Icon from '../../icons/Icon';
 import { localizedName } from '../../lib/localizedName';
+import { With, WithIcon } from '../../lib/with';
 import { DropDown } from '../DropDown/DropDown';
 import { Button } from '../Form/Button';
 import { TextInput } from '../Form/TextInput';
 import { Headline } from '../Headline/Headline';
 import { ItemLink } from '../Item/ItemLink';
-import { Separator } from '../Layout/Separator';
 import { Table } from '../Table/Table';
 import { Discipline, DisciplineIcon } from './DisciplineIcon';
 import { Ingredients } from './Ingredients';
 import styles from './RecipeBox.module.css';
 
 interface RecipeTableProps {
-  recipes: (Recipe & {
+  recipes: With<Recipe, {
     currentRevision: Revision,
-    itemIngredients: (IngredientItem & { Item: Item & { icon?: DbIcon | null; }; })[]
-    outputItem: (Item & { icon?: DbIcon | null; }) | null;
-  })[]
+    itemIngredients: With<IngredientItem, { Item: WithIcon<Item> }>[]
+    outputItem: WithIcon<Item> | null;
+  }>[]
 };
 
 export const EmptyDisciplineCounts: Record<Discipline, number> = {

@@ -1,7 +1,7 @@
 import { GetStaticPaths, NextPage } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { Icon as DbIcon, Language, Revision, Skill, SkillHistory } from '@prisma/client';
+import { Language, Revision, Skill, SkillHistory } from '@prisma/client';
 import DetailLayout from '../../../components/Layout/DetailLayout';
 import { Skeleton } from '../../../components/Skeleton/Skeleton';
 import { Table } from '../../../components/Table/Table';
@@ -16,11 +16,11 @@ import { Json } from '../../../components/Format/Json';
 import { SkillIcon } from '../../../components/Skill/SkillIcon';
 import { SkillTooltip } from '../../../components/Skill/SkillTooltip';
 import { SkillInfobox } from '../../../components/Skill/SkillInfobox';
+import { WithIcon } from '../../../lib/with';
 
 
 export interface SkillPageProps {
-  skill: Skill & {
-    icon?: DbIcon | null,
+  skill: WithIcon<Skill> & {
     history: (SkillHistory & {
       revision: {
         id: string;

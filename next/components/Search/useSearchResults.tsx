@@ -1,10 +1,11 @@
-import { Item, Icon, Language, Skill, Skin, Build, Achievement, AchievementGroup, AchievementCategory } from '@prisma/client';
+import { Item, Language, Skill, Skin, Build, Achievement, AchievementGroup, AchievementCategory } from '@prisma/client';
 import { useRouter } from 'next/router';
 import { ReactNode } from 'react';
 import { IconName } from '../../icons';
 import IconComponent from '../../icons/Icon';
 import { localizedName } from '../../lib/localizedName';
 import { useJsonFetch, useStaleJsonResponse } from '../../lib/useFetch';
+import { With, WithIcon } from '../../lib/with';
 import { ItemIcon } from '../Item/ItemIcon';
 import { SkillIcon } from '../Skill/SkillIcon';
 
@@ -21,7 +22,7 @@ export interface SearchResult {
 }
 
 export function useItemResults(searchValue: string): SearchResults {
-  const response = useStaleJsonResponse(useJsonFetch<{ result: (Item & { icon?: Icon | null })[] }>(`/api/search/items?q=${encodeURIComponent(searchValue)}`));
+  const response = useStaleJsonResponse(useJsonFetch<{ result: WithIcon<Item>[] }>(`/api/search/items?q=${encodeURIComponent(searchValue)}`));
   const { locale } = useRouter();
 
   const results = response.loading ? [] : response.data.result.map((item) => ({
@@ -35,7 +36,7 @@ export function useItemResults(searchValue: string): SearchResults {
 }
 
 export function useSkillResults(searchValue: string): SearchResults {
-  const response = useStaleJsonResponse(useJsonFetch<{ result: (Skill & { icon?: Icon | null })[] }>(`/api/search/skills?q=${encodeURIComponent(searchValue)}`));
+  const response = useStaleJsonResponse(useJsonFetch<{ result: WithIcon<Skill>[] }>(`/api/search/skills?q=${encodeURIComponent(searchValue)}`));
   const { locale } = useRouter();
 
   const results = response.loading ? [] : response.data.result.map((skill) => ({
@@ -48,7 +49,7 @@ export function useSkillResults(searchValue: string): SearchResults {
 }
 
 export function useSkinResults(searchValue: string): SearchResults {
-  const response = useStaleJsonResponse(useJsonFetch<{ result: (Skin & { icon?: Icon | null })[] }>(`/api/search/skins?q=${encodeURIComponent(searchValue)}`));
+  const response = useStaleJsonResponse(useJsonFetch<{ result: WithIcon<Skin>[] }>(`/api/search/skins?q=${encodeURIComponent(searchValue)}`));
   const { locale } = useRouter();
 
   const results = response.loading ? [] : response.data.result.map((skin) => ({
@@ -62,7 +63,7 @@ export function useSkinResults(searchValue: string): SearchResults {
 }
 
 export function useBuildsResults(searchValue: string): SearchResults {
-  const response = useStaleJsonResponse(useJsonFetch<{ result: (Build)[] }>(`/api/search/builds?q=${encodeURIComponent(searchValue)}`));
+  const response = useStaleJsonResponse(useJsonFetch<{ result: Build[] }>(`/api/search/builds?q=${encodeURIComponent(searchValue)}`));
 
   const results = response.loading ? [] : response.data.result.map((build) => ({
     title: `Build ${build.id}`,
@@ -75,9 +76,9 @@ export function useBuildsResults(searchValue: string): SearchResults {
 
 export function useAchievementResults(searchValue: string): SearchResults[] {
   const response = useStaleJsonResponse(useJsonFetch<{
-    achievements: (Achievement & { icon?: Icon | null, achievementCategory?: AchievementCategory | null })[],
-    achievementCategories: (AchievementCategory & { icon?: Icon | null, achievementGroup?: AchievementGroup })[],
-    achievementGroups: (AchievementGroup)[],
+    achievements: With<WithIcon<Achievement>, { achievementCategory?: AchievementCategory }>[],
+    achievementCategories: With<WithIcon<AchievementCategory>, { achievementGroup?: AchievementGroup }>[],
+    achievementGroups: AchievementGroup[],
   }>(`/api/search/achievements?q=${encodeURIComponent(searchValue)}`));
   const { locale } = useRouter();
 

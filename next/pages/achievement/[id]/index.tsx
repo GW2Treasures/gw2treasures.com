@@ -1,6 +1,6 @@
 import { GetStaticPaths, NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { Achievement, AchievementCategory, AchievementGroup, Icon as DbIcon, Language, Revision } from '@prisma/client';
+import { Achievement, AchievementCategory, AchievementGroup, Language, Revision } from '@prisma/client';
 import DetailLayout from '../../../components/Layout/DetailLayout';
 import { Skeleton } from '../../../components/Skeleton/Skeleton';
 import { db } from '../../../lib/prisma';
@@ -13,18 +13,20 @@ import { Json } from '../../../components/Format/Json';
 import { formatNumber, FormatNumber } from '../../../components/Format/FormatNumber';
 import { Separator } from '../../../components/Layout/Separator';
 import Icon from '../../../icons/Icon';
+import { WithIcon, WithOptional } from '../../../lib/with';
 
 export interface AchievementPageProps {
-  achievement: Achievement & {
-    icon?: DbIcon | null,
-    achievementCategory?: (AchievementCategory & {
-      achievementGroup?: AchievementGroup | null
-    }) | null,
-  };
+  achievement: WithOptional<WithIcon<Achievement>, {
+    achievementCategory: WithOptional<AchievementCategory, {
+      achievementGroup: AchievementGroup
+    }>,
+  }>;
   revision: Revision;
 }
 
-const AchievementPage: NextPage<AchievementPageProps> = ({ achievement, revision }) => {
+type FallbackProps<T> = T | { [P in keyof T]: undefined }
+
+const AchievementPage: NextPage<FallbackProps<AchievementPageProps>> = ({ achievement, revision }) => {
   const router = useRouter();
 
   if(!achievement) {

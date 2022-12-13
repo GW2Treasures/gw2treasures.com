@@ -1,6 +1,6 @@
 import { GetStaticPaths, NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { Icon as DbIcon, Item, Language, Revision, Skin } from '@prisma/client';
+import { Item, Language, Revision, Skin } from '@prisma/client';
 import DetailLayout from '../../../components/Layout/DetailLayout';
 import { Skeleton } from '../../../components/Skeleton/Skeleton';
 import { db } from '../../../lib/prisma';
@@ -8,16 +8,14 @@ import { getStaticSuperProps, withSuperProps } from '../../../lib/superprops';
 import rarityClasses from '../../../components/Layout/RarityColor.module.css';
 import { getIconUrl } from '../../../components/Item/ItemIcon';
 import { Headline } from '../../../components/Headline/Headline';
-import { ItemList } from '../../../components/ItemList/ItemList';
-import { ItemLink } from '../../../components/Item/ItemLink';
 import { Rarity } from '../../../components/Item/Rarity';
 import { Gw2Api } from 'gw2-api-types';
 import { ItemTable } from '../../../components/Item/ItemTable';
+import { WithIcon } from '../../../lib/with';
 
 export interface SkinPageProps {
-  skin: Skin & {
-    icon?: DbIcon | null,
-    unlockedByItems: (Item & { icon?: DbIcon | null })[]
+  skin: WithIcon<Skin> & {
+    unlockedByItems: WithIcon<Item>[]
   };
   revision: Revision;
 }

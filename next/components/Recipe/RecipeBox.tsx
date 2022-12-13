@@ -1,17 +1,18 @@
-import { Icon as DbIcon, IngredientItem, Item, Recipe, Revision } from '@prisma/client';
+import { IngredientItem, Item, Recipe, Revision } from '@prisma/client';
 import { FC } from 'react';
 import Icon from '../../icons/Icon';
+import { With, WithIcon } from '../../lib/with';
 import { ItemLink } from '../Item/ItemLink';
 import { Discipline, DisciplineIcon } from './DisciplineIcon';
 import { Ingredients } from './Ingredients';
 import styles from './RecipeBox.module.css';
 
 interface RecipeBoxProps {
-  recipe: (Recipe & {
+  recipe: Recipe & {
     currentRevision: Revision,
-    itemIngredients: (IngredientItem & { Item: Item & { icon?: DbIcon | null; }; })[]
-  }),
-  outputItem: Item & { icon?: DbIcon | null; }
+    itemIngredients: With<IngredientItem, { Item: WithIcon<Item> }>[]
+  },
+  outputItem: WithIcon<Item>
 };
 
 export const RecipeBox: FC<RecipeBoxProps> = ({ recipe, outputItem }) => {

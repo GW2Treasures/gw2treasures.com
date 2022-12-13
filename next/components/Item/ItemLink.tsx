@@ -1,10 +1,11 @@
 import { FC } from 'react';
-import { Icon, Item, Language } from '@prisma/client';
+import { Item, Language } from '@prisma/client';
 import { IconSize } from './ItemIcon';
 import { Link } from '../Link/Link';
+import { WithIcon } from '../../lib/with';
 
 export interface ItemLinkProps {
-  item: Item & { icon?: Icon | null };
+  item: WithIcon<Item>;
   icon?: IconSize | 'none';
   locale?: Language;
 }

@@ -12,6 +12,7 @@ RUN npm ci --omit=dev
 
 # Rebuild the source code only when needed
 FROM node:${node_version} AS builder
+RUN apk add --no-cache libc6-compat openssl1.1-compat
 WORKDIR /app
 COPY --from=deps /app/package.json /app/package-lock.json* ./
 
@@ -30,6 +31,7 @@ RUN npm run build
 
 # Production image, copy all the files and run next
 FROM node:${node_version} AS runner
+RUN apk add --no-cache openssl1.1-compat
 WORKDIR /app
 
 ENV NODE_ENV production

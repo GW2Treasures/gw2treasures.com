@@ -1,7 +1,7 @@
 import { GetServerSideProps } from 'next';
 import { db } from '../../lib/prisma';
 
-export const getStaticProps: GetServerSideProps = async ({}) => {
+export const getServerSideProps: GetServerSideProps = async ({}) => {
   const count = await db.achievement.count();
 
   const achievement = await db.achievement.findFirst({ take: 1, skip: Math.floor(Math.random() * count), select: { id: true }});

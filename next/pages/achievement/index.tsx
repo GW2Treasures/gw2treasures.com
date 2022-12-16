@@ -1,15 +1,15 @@
 import { AchievementCategory, AchievementGroup, Language, Revision } from '@prisma/client';
 import { NextPage } from 'next';
 import { db } from '../../lib/prisma';
-import { Headline } from '../../components/Headline/Headline';
-import { ItemList } from '../../components/ItemList/ItemList';
+import { Headline } from '@/components/Headline/Headline';
+import { ItemList } from '@/components/ItemList/ItemList';
 import { getServerSideSuperProps, withSuperProps } from '../../lib/superprops';
-import { HeroLayout } from '../../components/Layout/HeroLayout';
+import { HeroLayout } from '@/components/Layout/HeroLayout';
 import { localizedName } from '../../lib/localizedName';
 import { useRouter } from 'next/router';
 import { Fragment } from 'react';
 import { Gw2Api } from 'gw2-api-types';
-import { AchievementCategoryLink } from '../../components/Achievement/AchievementCategoryLink';
+import { AchievementCategoryLink } from '@/components/Achievement/AchievementCategoryLink';
 import { WithIcon } from '../../lib/with';
 
 interface AchievementPageProps {

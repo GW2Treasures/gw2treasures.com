@@ -1,14 +1,14 @@
 import { NextPage } from 'next';
-import { Table } from '../../components/Table/Table';
-import { Headline } from '../../components/Headline/Headline';
+import { Table } from '@/components/Table/Table';
+import { Headline } from '@/components/Headline/Headline';
 import { db } from '../../lib/prisma';
 import { getServerSideSuperProps, withSuperProps } from '../../lib/superprops';
 import { Job } from '@prisma/client';
 import { useEffect } from 'react';
-import { FormatDate } from '../../components/Format/FormatDate';
-import { FormatNumber } from '../../components/Format/FormatNumber';
+import { FormatDate } from '@/components/Format/FormatDate';
+import { FormatNumber } from '@/components/Format/FormatNumber';
 import { useReload } from '../../lib/useReload';
-import { PageLayout } from '../../components/Layout/PageLayout';
+import { PageLayout } from '@/components/Layout/PageLayout';
 
 interface JobPageProps {
   running: Job[];

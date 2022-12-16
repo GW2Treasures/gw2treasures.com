@@ -2,18 +2,18 @@ import { GetStaticPaths, NextPage } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Revision } from '@prisma/client';
-import { Skeleton } from '../../../../components/Skeleton/Skeleton';
+import { Skeleton } from '@/components/Skeleton/Skeleton';
 import { Gw2Api } from 'gw2-api-types';
 import { getStaticSuperProps, withSuperProps } from '../../../../lib/superprops';
-import { DiffLayout, DiffLayoutHeader, DiffLayoutRow } from '../../../../components/Layout/DiffLayout';
-import { SkillIcon } from '../../../../components/Skill/SkillIcon';
+import { DiffLayout, DiffLayoutHeader, DiffLayoutRow } from '@/components/Layout/DiffLayout';
+import { SkillIcon } from '@/components/Skill/SkillIcon';
 import { parseIcon } from '../../../../lib/parseIcon';
-import { FormatDate } from '../../../../components/Format/FormatDate';
-import { Fact } from '../../../../components/Skill/SkillTooltip';
-import { Infobox } from '../../../../components/Infobox/Infobox';
+import { FormatDate } from '@/components/Format/FormatDate';
+import { Fact } from '@/components/Skill/SkillTooltip';
+import { Infobox } from '@/components/Infobox/Infobox';
 import { format } from 'gw2-tooltip-html';
-import { Separator } from '../../../../components/Layout/Separator';
-import { Json } from '../../../../components/Format/Json';
+import { Separator } from '@/components/Layout/Separator';
+import { Json } from '@/components/Format/Json';
 
 export interface SkillDiffPageProps {
   a: Revision;

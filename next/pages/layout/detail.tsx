@@ -1,8 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 import { NextPage } from 'next';
-import DetailLayout from '../../components/Layout/DetailLayout';
-import { Table } from '../../components/Table/Table';
-import { TableOfContentAnchor } from '../../components/TableOfContent/TableOfContent';
+import DetailLayout from '@/components/Layout/DetailLayout';
+import { Table } from '@/components/Table/Table';
+import { TableOfContentAnchor } from '@/components/TableOfContent/TableOfContent';
 
 interface DetailProps { }
 

@@ -1,11 +1,11 @@
 import { Item } from '@prisma/client';
 import { NextPage } from 'next';
-import { FormatDate } from '../components/Format/FormatDate';
-import { Headline } from '../components/Headline/Headline';
-import { ItemLink } from '../components/Item/ItemLink';
-import { ItemList } from '../components/ItemList/ItemList';
-import { HeroLayout } from '../components/Layout/HeroLayout';
-import { Search } from '../components/Search/Search';
+import { FormatDate } from '@/components/Format/FormatDate';
+import { Headline } from '@/components/Headline/Headline';
+import { ItemLink } from '@/components/Item/ItemLink';
+import { ItemList } from '@/components/ItemList/ItemList';
+import { HeroLayout } from '@/components/Layout/HeroLayout';
+import { Search } from '@/components/Search/Search';
 import Icon from '../icons/Icon';
 import { db } from '../lib/prisma';
 import { getServerSideSuperProps, withSuperProps } from '../lib/superprops';

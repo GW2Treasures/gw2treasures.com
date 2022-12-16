@@ -1,9 +1,9 @@
 import { Item } from '@prisma/client';
 import { NextPage } from 'next';
 import { useState } from 'react';
-import { Button } from '../components/Form/Button';
-import { TextInput } from '../components/Form/TextInput';
-import { Headline } from '../components/Headline/Headline';
+import { Button } from '@/components/Form/Button';
+import { TextInput } from '@/components/Form/TextInput';
+import { Headline } from '@/components/Headline/Headline';
 
 interface LoginPageProps {
   items: Item[];

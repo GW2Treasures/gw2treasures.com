@@ -1,14 +1,14 @@
 import { Build, Language } from '@prisma/client';
 import { NextPage } from 'next';
 import { db } from '../../lib/prisma';
-import { FormatDate } from '../../components/Format/FormatDate';
-import { Headline } from '../../components/Headline/Headline';
-import { ItemList } from '../../components/ItemList/ItemList';
+import { FormatDate } from '@/components/Format/FormatDate';
+import { Headline } from '@/components/Headline/Headline';
+import { ItemList } from '@/components/ItemList/ItemList';
 import { getServerSideSuperProps, withSuperProps } from '../../lib/superprops';
-import { FormatNumber } from '../../components/Format/FormatNumber';
+import { FormatNumber } from '@/components/Format/FormatNumber';
 import Link from 'next/link';
-import { PageLayout } from '../../components/Layout/PageLayout';
-import { DataTableColumn, useDataTable } from '../../components/Table/DataTable';
+import { PageLayout } from '@/components/Layout/PageLayout';
+import { DataTableColumn, useDataTable } from '@/components/Table/DataTable';
 
 type BuildWithRevisionCount = Build & {
   _count: {

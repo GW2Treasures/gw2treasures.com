@@ -1,18 +1,18 @@
 import { GetStaticPaths, NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { Achievement, AchievementCategory, AchievementGroup, Language, Revision } from '@prisma/client';
-import DetailLayout from '../../../../components/Layout/DetailLayout';
-import { Skeleton } from '../../../../components/Skeleton/Skeleton';
+import DetailLayout from '@/components/Layout/DetailLayout';
+import { Skeleton } from '@/components/Skeleton/Skeleton';
 import { db } from '../../../../lib/prisma';
 import { getStaticSuperProps, withSuperProps } from '../../../../lib/superprops';
-import { getIconUrl } from '../../../../components/Item/ItemIcon';
+import { getIconUrl } from '@/components/Item/ItemIcon';
 import { Gw2Api } from 'gw2-api-types';
-import { ItemList } from '../../../../components/ItemList/ItemList';
-import { AchievementLink } from '../../../../components/Achievement/AchievementLink';
+import { ItemList } from '@/components/ItemList/ItemList';
+import { AchievementLink } from '@/components/Achievement/AchievementLink';
 import { localizedName } from '../../../../lib/localizedName';
-import { Headline } from '../../../../components/Headline/Headline';
-import { Json } from '../../../../components/Format/Json';
-import { Tip } from '../../../../components/Tip/Tip';
+import { Headline } from '@/components/Headline/Headline';
+import { Json } from '@/components/Format/Json';
+import { Tip } from '@/components/Tip/Tip';
 import Icon from '../../../../icons/Icon';
 import { WithIcon } from '../../../../lib/with';
 

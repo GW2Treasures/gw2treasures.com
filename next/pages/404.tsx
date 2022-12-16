@@ -1,6 +1,6 @@
 import { NextPage } from 'next';
-import { Headline } from '../components/Headline/Headline';
-import { HeroLayout } from '../components/Layout/HeroLayout';
+import { Headline } from '@/components/Headline/Headline';
+import { HeroLayout } from '@/components/Layout/HeroLayout';
 
 interface PageNotFoundProps {
 }

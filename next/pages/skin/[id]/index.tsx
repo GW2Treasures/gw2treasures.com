@@ -1,16 +1,16 @@
 import { GetStaticPaths, NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { Item, Language, Revision, Skin } from '@prisma/client';
-import DetailLayout from '../../../components/Layout/DetailLayout';
-import { Skeleton } from '../../../components/Skeleton/Skeleton';
+import DetailLayout from '@/components/Layout/DetailLayout';
+import { Skeleton } from '@/components/Skeleton/Skeleton';
 import { db } from '../../../lib/prisma';
 import { getStaticSuperProps, withSuperProps } from '../../../lib/superprops';
-import rarityClasses from '../../../components/Layout/RarityColor.module.css';
-import { getIconUrl } from '../../../components/Item/ItemIcon';
-import { Headline } from '../../../components/Headline/Headline';
-import { Rarity } from '../../../components/Item/Rarity';
+import rarityClasses from '@/components/Layout/RarityColor.module.css';
+import { getIconUrl } from '@/components/Item/ItemIcon';
+import { Headline } from '@/components/Headline/Headline';
+import { Rarity } from '@/components/Item/Rarity';
 import { Gw2Api } from 'gw2-api-types';
-import { ItemTable } from '../../../components/Item/ItemTable';
+import { ItemTable } from '@/components/Item/ItemTable';
 import { WithIcon } from '../../../lib/with';
 
 export interface SkinPageProps {

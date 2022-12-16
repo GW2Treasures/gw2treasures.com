@@ -1,14 +1,14 @@
 import { GetStaticPaths, NextPage } from 'next';
 import { Build, Item, Language, Skill, SkillHistory } from '@prisma/client';
-import DetailLayout from '../../../components/Layout/DetailLayout';
-import { Skeleton } from '../../../components/Skeleton/Skeleton';
+import DetailLayout from '@/components/Layout/DetailLayout';
+import { Skeleton } from '@/components/Skeleton/Skeleton';
 import { db } from '../../../lib/prisma';
 import { getStaticSuperProps, withSuperProps } from '../../../lib/superprops';
-import { FormatDate } from '../../../components/Format/FormatDate';
-import { Headline } from '../../../components/Headline/Headline';
-import { ItemList } from '../../../components/ItemList/ItemList';
-import { SkillLink } from '../../../components/Skill/SkillLink';
-import { ItemLink } from '../../../components/Item/ItemLink';
+import { FormatDate } from '@/components/Format/FormatDate';
+import { Headline } from '@/components/Headline/Headline';
+import { ItemList } from '@/components/ItemList/ItemList';
+import { SkillLink } from '@/components/Skill/SkillLink';
+import { ItemLink } from '@/components/Item/ItemLink';
 import Link from 'next/link';
 import { WithIcon } from '../../../lib/with';
 

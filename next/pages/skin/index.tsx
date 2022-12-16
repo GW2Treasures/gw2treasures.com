@@ -1,15 +1,15 @@
 import { Prisma, Skin } from '@prisma/client';
 import { NextPage } from 'next';
 import { db } from '../../lib/prisma';
-import { FormatDate } from '../../components/Format/FormatDate';
-import { Headline } from '../../components/Headline/Headline';
-import { ItemList } from '../../components/ItemList/ItemList';
-import { SkinLink } from '../../components/Skin/SkinLink';
+import { FormatDate } from '@/components/Format/FormatDate';
+import { Headline } from '@/components/Headline/Headline';
+import { ItemList } from '@/components/ItemList/ItemList';
+import { SkinLink } from '@/components/Skin/SkinLink';
 import { getServerSideSuperProps, withSuperProps } from '../../lib/superprops';
-import { ItemIcon } from '../../components/Item/ItemIcon';
+import { ItemIcon } from '@/components/Item/ItemIcon';
 import Link from 'next/link';
-import { FormatNumber } from '../../components/Format/FormatNumber';
-import { HeroLayout } from '../../components/Layout/HeroLayout';
+import { FormatNumber } from '@/components/Format/FormatNumber';
+import { HeroLayout } from '@/components/Layout/HeroLayout';
 
 interface SkinPageProps {
   newSkins: Skin[];

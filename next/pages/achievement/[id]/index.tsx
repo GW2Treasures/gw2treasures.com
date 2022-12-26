@@ -14,6 +14,7 @@ import { formatNumber, FormatNumber } from '@/components/Format/FormatNumber';
 import { Separator } from '@/components/Layout/Separator';
 import Icon from '../../../icons/Icon';
 import { WithIcon, WithOptional } from '../../../lib/with';
+import { format } from 'gw2-tooltip-html';
 
 export interface AchievementPageProps {
   achievement: WithOptional<WithIcon<Achievement>, {
@@ -41,7 +42,7 @@ const AchievementPage: NextPage<FallbackProps<AchievementPageProps>> = ({ achiev
 
 
       <Headline id="objectives">Objectives</Headline>
-      {data.requirement.replace('  ', ` ${formatNumber(data.tiers[data.tiers.length - 1].count)} `)}
+      <p dangerouslySetInnerHTML={{ __html: format(data.requirement.replace('  ', ` ${formatNumber(data.tiers[data.tiers.length - 1].count)} `)) }}/>
 
       <Headline id="tiers">Tiers</Headline>
       {data.tiers.map((tier) => (

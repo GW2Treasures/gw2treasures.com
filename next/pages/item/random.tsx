@@ -15,7 +15,6 @@ export const getServerSideProps: GetServerSideProps = async ({}) => {
       permanent: false,
       destination: `/item/${item.id}`
     },
-    revalidate: true,
   };
 };
 

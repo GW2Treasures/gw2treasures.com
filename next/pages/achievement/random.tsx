@@ -15,7 +15,6 @@ export const getServerSideProps: GetServerSideProps = async ({}) => {
       permanent: false,
       destination: `/achievement/${achievement.id}`
     },
-    revalidate: true,
   };
 };
 

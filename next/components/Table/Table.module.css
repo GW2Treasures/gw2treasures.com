@@ -27,6 +27,7 @@
 
 .table > tbody > tr > td[align=right] {
   text-align: right;
+  font-feature-settings: "tnum" 1;
 }
 
 .table > tbody > tr + tr > td,

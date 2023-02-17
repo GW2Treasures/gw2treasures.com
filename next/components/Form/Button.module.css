@@ -15,7 +15,7 @@
   text-decoration: none;
 }
 
-.button:focus {
+.button:focus-visible {
   box-shadow: inset 0 0 0 2px #245dc1;
   outline: none;
 }

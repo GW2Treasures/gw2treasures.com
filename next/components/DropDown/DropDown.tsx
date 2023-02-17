@@ -1,14 +1,16 @@
-import { arrow, autoUpdate, flip, FloatingFocusManager, FloatingPortal, hide, offset, Placement, shift, Side, useClick, useDismiss, useFloating, useFocus, useHover, useInteractions, useRole } from '@floating-ui/react-dom-interactions';
+import { arrow, autoUpdate, flip, FloatingFocusManager, FloatingPortal, hide, Middleware, offset, Placement, shift, Side, useClick, useDismiss, useFloating, useFocus, useHover, useInteractions, useRole } from '@floating-ui/react-dom-interactions';
 import { Children, cloneElement, FC, ReactElement, ReactNode, useRef, useState } from 'react';
 import styles from './DropDown.module.css';
+import { isTruthy } from 'lib/is';
 
 export interface DropDown {
   button: ReactElement;
   children: ReactNode;
   preferredPlacement?: Placement;
+  hideTop?: boolean;
 };
 
-export const DropDown: FC<DropDown> = ({ children, button, preferredPlacement = 'bottom-end' }) => {
+export const DropDown: FC<DropDown> = ({ children, button, preferredPlacement = 'bottom-end', hideTop = true }) => {
   const [open, setOpen] = useState(false);
   const arrowRef = useRef<HTMLDivElement>(null);
 
@@ -21,9 +23,9 @@ export const DropDown: FC<DropDown> = ({ children, button, preferredPlacement = 
       offset(8),
       flip({ padding: { top: 64, bottom: 8, left: 8, right: 8 }}),
       shift({ padding: 8 }),
-      hide({ padding: { top: 48 }}),
+      hideTop && hide({ padding: { top: 48 }}),
       arrow({ element: arrowRef, padding: 4 })
-    ],
+    ].filter(isTruthy),
   });
 
   // Merge all the interactions into prop getters
@@ -68,7 +70,7 @@ export const DropDown: FC<DropDown> = ({ children, button, preferredPlacement = 
             left: middlewareData.arrow?.x ?? undefined,
             top: middlewareData.arrow?.y ?? undefined,
             '--arrow-side': sideIndex[staticSide],
-            ...{ [staticSide]: -4.5 }
+            ...{ [staticSide]: -4.75 }
           }}/>
         </div>
       )}

@@ -6,15 +6,29 @@ import Link from 'next/link';
 import { Search } from '../Search/Search';
 import LoaderIcon from './loader.svg';
 import { useLoading } from '../../lib/useLoading';
+import { useRouter } from 'next/router';
+import { Button, LinkButton } from '../Form/Button';
+import { DropDown } from '../DropDown/DropDown';
+import { Separator } from './Separator';
 
 interface LayoutProps {
   children: ReactNode;
+};
+
+const locales = {
+  en: 'English',
+  de: 'Deutsch',
+  es: 'Español',
+  fr: 'Français',
 };
 
 const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolledDown, setScrolledDown] = useState('window' in global && window.scrollY > 0);
   const loading = useLoading();
+  const { locale, asPath } = useRouter();
+
+  const localeName = locale && locale in locales ? locales[locale as unknown as 'en'] : locales.en;
 
   useEffect(() => {
     const listener = () => {
@@ -45,9 +59,21 @@ const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
             </Link>
             <Search/>
             <div className={styles.right}>
-              <Link href="/login" className={styles.loginLink}>
+              <DropDown hideTop={false} preferredPlacement="bottom" button={(
+                <Button appearance="menu">
+                  <Icon icon="locale"/> {localeName}
+                </Button>
+              )}>
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <LinkButton href={asPath} locale="de" appearance="menu">{locales.de}</LinkButton>
+                  <LinkButton href={asPath} locale="en" appearance="menu">{locales.en}</LinkButton>
+                  <LinkButton href={asPath} locale="es" appearance="menu">{locales.es}</LinkButton>
+                  <LinkButton href={asPath} locale="fr" appearance="menu">{locales.fr}</LinkButton>
+                </div>
+              </DropDown>
+              <LinkButton appearance="menu" href="/login">
                 <Icon icon="user"/> Login
-              </Link>
+              </LinkButton>
             </div>
           </header>
           <nav className={menuOpen ? styles.headerNavVisible : styles.headerNav}>

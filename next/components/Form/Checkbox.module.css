@@ -1,0 +1,74 @@
+.checkbox {
+  appearance: none;
+  background-color: #fff;
+  margin: 0;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #ddd;
+  border-radius: 2px;
+  position: relative;
+  transition: background-color .3s ease, border-color .3s ease;
+}
+
+.checkbox:checked {
+  background-color: #245dc1;
+  border-color: #245dc1;
+}
+
+.checkbox:checked::after {
+  content: '';
+  position: absolute;
+  height: 2px;
+  width: 8px;
+  background-color: #fff;
+  display: block;
+  top: 5px;
+  left: 3px;
+  border-radius: 1px;
+  transform: rotate(-50deg);
+}
+.checkbox:checked::before {
+  content: '';
+  position: absolute;
+  height: 2px;
+  width: 4px;
+  background-color: #fff;
+  display: block;
+  top: 6px;
+  left: 1.5px;
+  border-radius: 1px;
+  transform: rotate(60deg);
+}
+
+.checkbox:indeterminate {
+  background-color: #245dc1;
+  border-color: #245dc1;
+}
+
+.checkbox:indeterminate::after {
+  content: '';
+  position: absolute;
+  height: 2px;
+  width: 8px;
+  background-color: #fff;
+  display: block;
+  top: 5px;
+  left: 2px;
+  border-radius: 1px;
+}
+
+.checkbox:focus-visible {
+  border-color: #245dc1;
+  outline: none;
+}
+
+.checkbox:checked:focus-visible,
+.checkbox:indeterminate:focus-visible {
+  background-color: #fff;
+}
+
+.checkbox:checked:focus-visible::after,
+.checkbox:checked:focus-visible::before,
+.checkbox:indeterminate:focus-visible::after {
+  background-color: #245dc1;
+}

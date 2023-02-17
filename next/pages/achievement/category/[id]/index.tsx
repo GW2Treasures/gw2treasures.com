@@ -1,6 +1,6 @@
 import { GetStaticPaths, NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { Achievement, AchievementCategory, AchievementGroup, Language, Revision } from '@prisma/client';
+import { Achievement, AchievementCategory, AchievementCategoryHistory, AchievementGroup, Language, Revision } from '@prisma/client';
 import DetailLayout from '@/components/Layout/DetailLayout';
 import { Skeleton } from '@/components/Skeleton/Skeleton';
 import { db } from '../../../../lib/prisma';
@@ -15,11 +15,23 @@ import { Json } from '@/components/Format/Json';
 import { Tip } from '@/components/Tip/Tip';
 import Icon from '../../../../icons/Icon';
 import { WithIcon } from '../../../../lib/with';
+import { Table } from '@/components/Table/Table';
+import Link from 'next/link';
+import { FormatDate } from '@/components/Format/FormatDate';
 
 export interface AchievementCategoryPageProps {
   achievementCategory: WithIcon<AchievementCategory> & {
     achievements: WithIcon<Achievement>[],
     achievementGroup?: AchievementGroup | null,
+    history: (AchievementCategoryHistory & {
+      revision: {
+        id: string;
+        buildId: number;
+        createdAt: Date;
+        description: string | null;
+        language: Language;
+      };
+    })[],
   };
   revision: Revision;
 }
@@ -61,6 +73,24 @@ const AchievementCategoryPage: NextPage<AchievementCategoryPageProps> = ({ achie
         </>
       )}
 
+      <Headline id="history">History</Headline>
+
+      <Table>
+        <thead>
+          <tr><th {...{ width: 1 }}>Build</th><th {...{ width: 1 }}>Language</th><th>Description</th><th {...{ width: 1 }}>Date</th></tr>
+        </thead>
+        <tbody>
+          {achievementCategory.history.map((history) => (
+            <tr key={history.revisionId}>
+              <td>{history.revisionId === revision.id ? <b>{history.revision.buildId || '-'}</b> : history.revision.buildId || '-'}</td>
+              <td>{history.revision.language}</td>
+              <td><Link href={`/achievement/category/${achievementCategory.id}/${history.revisionId}`}>{history.revision.description}</Link></td>
+              <td><FormatDate date={history.revision.createdAt} relative/></td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+
       <Headline id="data">Data</Headline>
       <Json data={data}/>
 
@@ -79,6 +109,11 @@ export const getStaticProps = getStaticSuperProps<AchievementCategoryPageProps>(
         icon: true,
         achievements: { include: { icon: true }},
         achievementGroup: true,
+        history: {
+          include: { revision: { select: { id: true, buildId: true, createdAt: true, description: true, language: true }}},
+          where: { revision: { language }},
+          orderBy: { revision: { createdAt: 'desc' }}
+        },
       }
     }),
     db.revision.findFirst({ where: { [`currentAchievementCategory_${language}`]: { id }}})

@@ -1,13 +1,26 @@
+import Link from 'next/link';
 import { forwardRef, ReactNode } from 'react';
 import styles from './Button.module.css';
 
-interface ButtonProps {
+export interface ButtonProps {
   children: ReactNode;
+  appearance?: 'primary' | 'secondary' | 'menu';
   onClick?: () => void;
 };
 
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button({ children, onClick }, ref) {
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button({ children, appearance = 'secondary', onClick }, ref) {
   return (
-    <button ref={ref} onClick={onClick} className={styles.button}>{children}</button>
+    <button ref={ref} onClick={onClick} className={styles[appearance]}>{children}</button>
+  );
+});
+
+export interface LinkButtonProps extends ButtonProps {
+  href: string;
+  locale?: string | false;
+}
+
+export const LinkButton = forwardRef<HTMLAnchorElement, LinkButtonProps>(function Button({ children, appearance = 'secondary', onClick, href, locale }, ref) {
+  return (
+    <Link ref={ref} className={styles[appearance]} href={href} locale={locale} onClick={onClick}>{children}</Link>
   );
 });

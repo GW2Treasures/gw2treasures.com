@@ -1,6 +1,6 @@
 .dropdown {
-  --color-border: #aaa;
-  border: 1px solid var(--color-border);
+  --dropdown-color-border: #ddd;
+  border: 1px solid var(--dropdown-color-border);
   background: #fff;
   padding: 8px;
   border-radius: 2px;
@@ -17,8 +17,9 @@
   width: 8px;
   height: 8px;
   background: #fff;
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--dropdown-color-border);
   border-width: 1px 0 0 1px;
+  border-radius: 2px 0 0 0;
   position: absolute;
-  transform: rotate(calc(45deg + 90deg * var(--arrow-side)));
+  transform: rotate(calc(45deg + 90deg * var(--arrow-side)));;
 }

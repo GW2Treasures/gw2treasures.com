@@ -10,6 +10,7 @@ import { Checkbox } from '../Form/Checkbox';
 import { TextInput } from '../Form/TextInput';
 import { Headline } from '../Headline/Headline';
 import { ItemLink } from '../Item/ItemLink';
+import { Separator } from '../Layout/Separator';
 import { Table } from '../Table/Table';
 import { Discipline, DisciplineIcon } from './DisciplineIcon';
 import { Ingredients } from './Ingredients';
@@ -60,18 +61,17 @@ export const RecipeTable: FC<RecipeTableProps> = ({ recipes }) => {
         <>
           <TextInput value={search} onChange={setSearch} type="search" placeholder="Search…"/>
           <DropDown button={<Button><Icon icon={disciplineFilter.length === DisciplineNames.length ? 'filter' : 'filter-active'}/> Filter</Button>}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              <label style={{ display: 'flex', gap: 4, alignItems: 'center', borderBottom: '1px solid var(--color-border)', paddingBottom: 8, marginBottom: 4 }}>
-                <Checkbox checked={disciplineFilter.length > 0} indeterminate={disciplineFilter.length < DisciplineNames.length && disciplineFilter.length > 0} onChange={() => setDisciplineFilter(disciplineFilter.length > 0 ? [] : DisciplineNames)}/>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <Checkbox checked={disciplineFilter.length > 0} indeterminate={disciplineFilter.length < DisciplineNames.length && disciplineFilter.length > 0} onChange={() => setDisciplineFilter(disciplineFilter.length > 0 ? [] : DisciplineNames)}>
                 All
-                <span style={{ marginLeft: 'auto', paddingLeft: 8 }}>{recipes.length}</span>
-              </label>
+                <span style={{ marginLeft: 'auto', paddingLeft: 16 }}>{recipes.length}</span>
+              </Checkbox>
+              <Separator/>
               {(Object.entries(disciplines) as [Discipline, number][]).map(([discipline, count]) => (
-                <label key={discipline} style={{ display: 'flex', gap: 4, alignItems: 'center', opacity: count === 0 ? 0.5 : 1 }}>
-                  <Checkbox checked={disciplineFilter.includes(discipline)} onChange={() => setDisciplineFilter(toggleArray(disciplineFilter, discipline))}/>
-                  <DisciplineIcon discipline={discipline}/>{discipline}
-                  <span style={{ marginLeft: 'auto', paddingLeft: 8 }}>{count}</span>
-                </label>
+                <Checkbox key={discipline} checked={disciplineFilter.includes(discipline)} onChange={() => setDisciplineFilter(toggleArray(disciplineFilter, discipline))} /*disabled={count === 0}*/>
+                  <DisciplineIcon discipline={discipline}/> {discipline}
+                  <span style={{ marginLeft: 'auto', paddingLeft: 16 }}>{count}</span>
+                </Checkbox>
               ))}
             </div>
           </DropDown>

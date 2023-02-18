@@ -10,6 +10,7 @@ import { useRouter } from 'next/router';
 import { Button, LinkButton } from '../Form/Button';
 import { DropDown } from '../DropDown/DropDown';
 import { Separator } from './Separator';
+import { MenuList } from '../MenuList/MenuList';
 
 interface LayoutProps {
   children: ReactNode;
@@ -64,12 +65,12 @@ const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
                   <Icon icon="locale"/> {localeName}
                 </Button>
               )}>
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <MenuList>
                   <LinkButton href={asPath} locale="de" appearance="menu">{locales.de}</LinkButton>
                   <LinkButton href={asPath} locale="en" appearance="menu">{locales.en}</LinkButton>
                   <LinkButton href={asPath} locale="es" appearance="menu">{locales.es}</LinkButton>
                   <LinkButton href={asPath} locale="fr" appearance="menu">{locales.fr}</LinkButton>
-                </div>
+                </MenuList>
               </DropDown>
               <LinkButton appearance="menu" href="/login">
                 <Icon icon="user"/> Login

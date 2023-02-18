@@ -11,6 +11,7 @@ import { TextInput } from '../Form/TextInput';
 import { Headline } from '../Headline/Headline';
 import { ItemLink } from '../Item/ItemLink';
 import { Separator } from '../Layout/Separator';
+import { MenuList } from '../MenuList/MenuList';
 import { Table } from '../Table/Table';
 import { Discipline, DisciplineIcon } from './DisciplineIcon';
 import { Ingredients } from './Ingredients';
@@ -61,19 +62,19 @@ export const RecipeTable: FC<RecipeTableProps> = ({ recipes }) => {
         <>
           <TextInput value={search} onChange={setSearch} type="search" placeholder="Search…"/>
           <DropDown button={<Button><Icon icon={disciplineFilter.length === DisciplineNames.length ? 'filter' : 'filter-active'}/> Filter</Button>}>
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <MenuList>
               <Checkbox checked={disciplineFilter.length > 0} indeterminate={disciplineFilter.length < DisciplineNames.length && disciplineFilter.length > 0} onChange={() => setDisciplineFilter(disciplineFilter.length > 0 ? [] : DisciplineNames)}>
                 All
                 <span style={{ marginLeft: 'auto', paddingLeft: 16 }}>{recipes.length}</span>
               </Checkbox>
               <Separator/>
               {(Object.entries(disciplines) as [Discipline, number][]).map(([discipline, count]) => (
-                <Checkbox key={discipline} checked={disciplineFilter.includes(discipline)} onChange={() => setDisciplineFilter(toggleArray(disciplineFilter, discipline))} /*disabled={count === 0}*/>
+                <Checkbox key={discipline} checked={disciplineFilter.includes(discipline)} onChange={() => setDisciplineFilter(toggleArray(disciplineFilter, discipline))}>
                   <DisciplineIcon discipline={discipline}/> {discipline}
-                  <span style={{ marginLeft: 'auto', paddingLeft: 16 }}>{count}</span>
+                  <span style={{ marginLeft: 'auto', paddingLeft: 16, opacity: count === 0 ? 0.5 : 1 }}>{count}</span>
                 </Checkbox>
               ))}
-            </div>
+            </MenuList>
           </DropDown>
         </>
       )}>
@@ -91,7 +92,7 @@ export const RecipeTable: FC<RecipeTableProps> = ({ recipes }) => {
         </thead>
         <tbody>
           {recipes.map((recipe) => (
-            <RecipeTableRow key={recipe.id} recipe={recipe} visible={(!filter || (!!recipe.outputItem && localizedName(recipe.outputItem, locale as any).toLowerCase().includes(filter))) && (recipe.disciplines.length === 0 || recipe.disciplines.some((discipline) => disciplineFilter.includes(discipline as Discipline)))}/>
+            <RecipeTableRow key={recipe.id} recipe={recipe} visible={(!filter || ((!!recipe.outputItem && localizedName(recipe.outputItem, locale as any).toLowerCase().includes(filter)) || recipe.rating.toString() === filter)) && (recipe.disciplines.length === 0 || recipe.disciplines.some((discipline) => disciplineFilter.includes(discipline as Discipline)))}/>
           ))}
         </tbody>
       </Table>

@@ -11,6 +11,7 @@ import { Button, LinkButton } from '../Form/Button';
 import { DropDown } from '../DropDown/DropDown';
 import { Separator } from './Separator';
 import { MenuList } from '../MenuList/MenuList';
+import { Radiobutton } from '../Form/Radiobutton';
 
 interface LayoutProps {
   children: ReactNode;
@@ -27,7 +28,7 @@ const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolledDown, setScrolledDown] = useState('window' in global && window.scrollY > 0);
   const loading = useLoading();
-  const { locale, asPath } = useRouter();
+  const { locale, asPath, replace } = useRouter();
 
   const localeName = locale && locale in locales ? locales[locale as unknown as 'en'] : locales.en;
 
@@ -66,10 +67,10 @@ const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
                 </Button>
               )}>
                 <MenuList>
-                  <LinkButton href={asPath} locale="de" appearance="menu">{locales.de}</LinkButton>
-                  <LinkButton href={asPath} locale="en" appearance="menu">{locales.en}</LinkButton>
-                  <LinkButton href={asPath} locale="es" appearance="menu">{locales.es}</LinkButton>
-                  <LinkButton href={asPath} locale="fr" appearance="menu">{locales.fr}</LinkButton>
+                  <Radiobutton checked={locale === 'de'} onChange={() => replace(asPath, undefined, { locale: 'de', scroll: false })}>{locales.de}</Radiobutton>
+                  <Radiobutton checked={locale === 'en'} onChange={() => replace(asPath, undefined, { locale: 'en', scroll: false })}>{locales.en}</Radiobutton>
+                  <Radiobutton checked={locale === 'es'} onChange={() => replace(asPath, undefined, { locale: 'es', scroll: false })}>{locales.es}</Radiobutton>
+                  <Radiobutton checked={locale === 'fr'} onChange={() => replace(asPath, undefined, { locale: 'fr', scroll: false })}>{locales.fr}</Radiobutton>
                 </MenuList>
               </DropDown>
               <LinkButton appearance="menu" href="/login">

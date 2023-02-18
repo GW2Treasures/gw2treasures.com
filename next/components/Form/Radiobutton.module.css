@@ -28,14 +28,14 @@
   display: none;
 }
 
-.checkbox {
+.radio {
   appearance: none;
   background-color: #fff;
   margin: 0;
   width: 20px;
   height: 20px;
   border: 2px solid #ddd;
-  border-radius: 2px;
+  border-radius: 10px;
   position: relative;
   transition: background-color .3s ease, border-color .3s ease;
   color: transparent;
@@ -45,27 +45,20 @@
   stroke-dashoffset: 16;
 }
 
-.input:checked ~ .checkbox {
+.input:checked ~ .radio {
   background-color: #245dc1;
   border-color: #245dc1;
   color: #fff;
-  stroke-dashoffset: 0;
-  transition: stroke-dashoffset .3s ease;
 }
 
-.input:indeterminate ~ .checkbox {
-  background-color: #245dc1;
-  border-color: #245dc1;
-}
-
-.input:indeterminate ~ .checkbox::after {
+.radio::after {
   content: '';
-  position: absolute;
-  height: 1px;
   width: 8px;
-  background-color: #fff;
+  height: 8px;
   display: block;
-  top: 8px;
+  background-color: currentColor;
+  border-radius: 8px;
+  position: absolute;
+  top: 4px;
   left: 4px;
-  border-radius: 1px;
 }

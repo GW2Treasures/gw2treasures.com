@@ -40,12 +40,17 @@
   transition: background-color .3s ease, border-color .3s ease;
   color: transparent;
   display: flex;
+
+  stroke-dasharray: 16 16;
+  stroke-dashoffset: 16;
 }
 
 .input:checked ~ .checkbox {
   background-color: #245dc1;
   border-color: #245dc1;
   color: #fff;
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset .3s ease;
 }
 
 .input:indeterminate ~ .checkbox {

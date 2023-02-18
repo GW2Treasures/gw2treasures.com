@@ -1,9 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 import { Tip } from '../Tip/Tip';
-
-const utcFormat = new Intl.DateTimeFormat(undefined, { timeZone: 'UTC', dateStyle: 'short', timeStyle: 'short' });
-const localFormat = new Intl.DateTimeFormat(undefined, { dateStyle: 'short', timeStyle: 'short' });
-const relativeFormat = new Intl.RelativeTimeFormat(undefined, { numeric: 'auto' });
+import { useFormatContext } from './FormatContext';
 
 export interface FormatDateProps {
   date?: Date | null;
@@ -12,15 +9,18 @@ export interface FormatDateProps {
 
 export const FormatDate: FC<FormatDateProps> = ({ date = null, relative = false }) => {
   const [hydrated, setHydrated] = useState<boolean>(false);
+  const { relativeFormat, localFormat, utcFormat } = useFormatContext();
 
   useEffect(() => {
     setHydrated(true);
   }, []);
 
+  const difference = date && hydrated && relative ? formatRelative(date) : undefined;
+
   return (
     <Tip tip={date?.toLocaleString()}>
       <time dateTime={date?.toISOString()} style={{ whiteSpace: 'nowrap' }}>
-        {date ? (hydrated ? (relative ? formatRelative(date) : localFormat.format(date)) : utcFormat.format(date)) : '-'}
+        {date ? (hydrated ? (relative ? relativeFormat.format(Math.round(difference!.value), difference!.unit) : localFormat.format(date)) : date.toISOString()) : '-'}
       </time>
     </Tip>
   );
@@ -44,5 +44,5 @@ function formatRelative(date: Date) {
     }
   }
 
-  return relativeFormat.format(Math.round(difference.value), difference.unit);
+  return difference;
 }

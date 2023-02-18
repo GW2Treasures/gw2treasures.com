@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import { useFormatContext } from './FormatContext';
 
 interface FormatNumberProps {
   value: number | undefined | null;
@@ -7,7 +8,9 @@ interface FormatNumberProps {
 const format = new Intl.NumberFormat(undefined, { useGrouping: true });
 
 export const FormatNumber: FC<FormatNumberProps> = ({ value }) => {
-  return <>{value != null ? format.format(value) : '?'}</>;
+  const { numberFormat } = useFormatContext();
+
+  return <>{value != null ? numberFormat.format(value) : '?'}</>;
 };
 
 export function formatNumber(value: number): string {

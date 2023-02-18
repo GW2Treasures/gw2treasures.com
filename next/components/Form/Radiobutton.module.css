@@ -6,6 +6,7 @@
   border-radius: 2px;
   gap: 12px;
   flex-direction: row;
+  align-items: center;
 }
 
 .wrapper:hover {

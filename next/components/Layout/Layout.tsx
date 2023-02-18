@@ -12,6 +12,11 @@ import { DropDown } from '../DropDown/DropDown';
 import { Separator } from './Separator';
 import { MenuList } from '../MenuList/MenuList';
 import { Radiobutton } from '../Form/Radiobutton';
+import { Dialog } from '../Dialog/Dialog';
+import { TextInput } from '../Form/TextInput';
+import { FormatDate } from '../Format/FormatDate';
+import { FormatNumber } from '../Format/FormatNumber';
+import { useFormatContext } from '../Format/FormatContext';
 
 interface LayoutProps {
   children: ReactNode;
@@ -29,6 +34,9 @@ const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
   const [scrolledDown, setScrolledDown] = useState('window' in global && window.scrollY > 0);
   const loading = useLoading();
   const { locale, asPath, replace } = useRouter();
+  const { locale: formatLocale, setLocale: setFormatLocale, defaultLocale } = useFormatContext();
+
+  const [formatDialogOpen, setFormatDialogOpen] = useState(false);
 
   const localeName = locale && locale in locales ? locales[locale as unknown as 'en'] : locales.en;
 
@@ -71,8 +79,24 @@ const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
                   <Radiobutton checked={locale === 'en'} onChange={() => replace(asPath, undefined, { locale: 'en', scroll: false })}>{locales.en}</Radiobutton>
                   <Radiobutton checked={locale === 'es'} onChange={() => replace(asPath, undefined, { locale: 'es', scroll: false })}>{locales.es}</Radiobutton>
                   <Radiobutton checked={locale === 'fr'} onChange={() => replace(asPath, undefined, { locale: 'fr', scroll: false })}>{locales.fr}</Radiobutton>
+                  <Separator/>
+                  <Button onClick={() => setFormatDialogOpen(true)} appearance="menu">Formatting Settings…</Button>
                 </MenuList>
               </DropDown>
+              {formatDialogOpen && (
+                <Dialog title="Formatting Settings" onClose={() => setFormatDialogOpen(false)}>
+                  <MenuList>
+                    <Radiobutton checked={formatLocale === undefined} onChange={() => setFormatLocale(undefined)}>Browser default ({defaultLocale})</Radiobutton>
+                    {navigator.languages.filter((locale) => locale !== defaultLocale).map((locale) => (
+                      <Radiobutton key={locale} checked={formatLocale === locale} onChange={() => setFormatLocale(locale)}>{locale}</Radiobutton>
+                    ))}
+                    <Separator/>
+                    <div style={{ padding: 8, display: 'flex', justifyContent: 'space-between' }}>Date <FormatDate date={new Date()}/></div>
+                    <div style={{ padding: 8, display: 'flex', justifyContent: 'space-between' }}>Relative Date <FormatDate relative date={new Date()}/></div>
+                    <div style={{ padding: 8, display: 'flex', justifyContent: 'space-between' }}>Number <span><FormatNumber value={1234567.89}/></span></div>
+                  </MenuList>
+                </Dialog>
+              )}
               <LinkButton appearance="menu" href="/login">
                 <Icon icon="user"/> Login
               </LinkButton>

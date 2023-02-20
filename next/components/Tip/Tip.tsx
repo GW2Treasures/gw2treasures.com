@@ -1,4 +1,4 @@
-import { arrow, autoUpdate, flip, FloatingPortal, offset, Placement, shift, Side, useDismiss, useFloating, useFocus, useHover, useInteractions, useRole } from '@floating-ui/react';
+import { arrow, autoUpdate, flip, FloatingPortal, offset, Placement, shift, Side, useDismiss, useFloating, useFocus, useHover, useInteractions, useRole, useTransitionStyles } from '@floating-ui/react';
 import { Children, cloneElement, FC, ReactElement, ReactNode, useRef, useState } from 'react';
 import styles from './Tip.module.css';
 
@@ -33,6 +33,8 @@ export const Tip: FC<TipProps> = ({ children, tip, preferredPlacement = 'top' })
     useRole(context, { role: 'tooltip' }),
   ]);
 
+  const { styles: transitionStyles, isMounted } = useTransitionStyles(context);
+
   const staticSide = {
     top: 'bottom' as Side,
     right: 'left' as Side,
@@ -51,11 +53,12 @@ export const Tip: FC<TipProps> = ({ children, tip, preferredPlacement = 'top' })
     <>
       {cloneElement(Children.only(children), { ref: refs.setReference, ...getReferenceProps(children.props) })}
       <FloatingPortal>
-        {open && (
+        {isMounted && (
           <div
             ref={refs.setFloating}
             className={styles.tip}
             style={{
+              ...transitionStyles,
               position: strategy,
               top: y ?? 0,
               left: x ?? 0,

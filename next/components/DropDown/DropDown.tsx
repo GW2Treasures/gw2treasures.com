@@ -1,4 +1,4 @@
-import { arrow, autoUpdate, flip, FloatingFocusManager, FloatingPortal, hide, Middleware, offset, Placement, shift, Side, useClick, useDismiss, useFloating, useFocus, useHover, useInteractions, useRole } from '@floating-ui/react-dom-interactions';
+import { arrow, autoUpdate, flip, hide, offset, Placement, shift, Side, useClick, useDismiss, useFloating, useFocus, useInteractions } from '@floating-ui/react';
 import { Children, cloneElement, FC, ReactElement, ReactNode, useRef, useState } from 'react';
 import styles from './DropDown.module.css';
 import { isTruthy } from 'lib/is';
@@ -14,7 +14,7 @@ export const DropDown: FC<DropDown> = ({ children, button, preferredPlacement = 
   const [open, setOpen] = useState(false);
   const arrowRef = useRef<HTMLDivElement>(null);
 
-  const { x, y, reference, floating, strategy, context, middlewareData, placement } = useFloating({
+  const { x, y, reference, strategy, context, middlewareData, placement, refs } = useFloating({
     open,
     onOpenChange: setOpen,
     placement: preferredPlacement,
@@ -54,7 +54,7 @@ export const DropDown: FC<DropDown> = ({ children, button, preferredPlacement = 
       {cloneElement(Children.only(button), { ref: reference, ...getReferenceProps(button.props) })}
       {open && (
         <div
-          ref={floating}
+          ref={refs.setFloating}
           className={styles.dropdown}
           style={{
             position: strategy,

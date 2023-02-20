@@ -1,4 +1,4 @@
-import { FloatingFocusManager, FloatingOverlay, FloatingPortal, useDismiss, useFloating, useInteractions, useRole } from '@floating-ui/react-dom-interactions';
+import { FloatingFocusManager, FloatingOverlay, FloatingPortal, useDismiss, useFloating, useInteractions, useRole } from '@floating-ui/react';
 import Icon from 'icons/Icon';
 import { FC, ReactNode, useId } from 'react';
 import styles from './Dialog.module.css';
@@ -10,7 +10,7 @@ export interface DialogProps {
 }
 
 export const Dialog: FC<DialogProps> = ({ children, title, onClose }) => {
-  const { floating, context } = useFloating({
+  const { refs, context } = useFloating({
     onOpenChange: onClose,
   });
 
@@ -28,7 +28,7 @@ export const Dialog: FC<DialogProps> = ({ children, title, onClose }) => {
     <FloatingPortal>
       <FloatingOverlay className={styles.overlay}>
         <FloatingFocusManager context={context}>
-          <div ref={floating} aria-labelledby={labelId} className={styles.dialog} {...getFloatingProps()}>
+          <div ref={refs.setFloating} aria-labelledby={labelId} className={styles.dialog} {...getFloatingProps()}>
             <div className={styles.title}>
               <header id={labelId}>{title}</header>
               <button type="button" className={styles.close} onClick={onClose}><Icon icon="close"/></button>

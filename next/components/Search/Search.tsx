@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import { useAchievementResults, useBuildsResults, useItemResults, usePageResults, useSkillResults, useSkinResults } from './useSearchResults';
 import Link from 'next/link';
 import { useDebounce } from '../../lib/useDebounce';
-import { autoUpdate, flip, offset, size, useClick, useDismiss, useFloating, useFocus, useInteractions, useListNavigation } from '@floating-ui/react-dom-interactions';
+import { autoUpdate, offset, size, useClick, useDismiss, useFloating, useFocus, useInteractions, useListNavigation } from '@floating-ui/react';
 
 export interface SearchProps {
   // TODO: add props
@@ -21,7 +21,7 @@ export const Search: FC<SearchProps> = ({ }) => {
 
   const router = useRouter();
 
-  const { reference, floating, context, x, y } = useFloating({
+  const { refs, context, x, y } = useFloating({
     open,
     onOpenChange: setOpen,
     placement: 'bottom',
@@ -40,20 +40,19 @@ export const Search: FC<SearchProps> = ({ }) => {
     ],
   });
 
-  useEffect(() => {
-    if (open && activeIndex != null) {
-      requestAnimationFrame(() => {
-        listRef.current[activeIndex]?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
-      });
-    }
-  }, [open, activeIndex]);
-
   // Merge all the interactions into prop getters
   const { getReferenceProps, getFloatingProps, getItemProps } = useInteractions([
     useFocus(context, { keyboardOnly: false }),
     useClick(context, { toggle: false, keyboardHandlers: false }),
     useDismiss(context),
-    useListNavigation(context, { listRef, activeIndex, onNavigate: setActiveIndex, virtual: true, loop: true }),
+    useListNavigation(context, {
+      listRef,
+      activeIndex,
+      onNavigate: setActiveIndex,
+      virtual: true,
+      loop: true,
+      scrollItemIntoView: { block: 'nearest', behavior: 'smooth' },
+    }),
   ]);
 
   const searchResults = [
@@ -68,7 +67,7 @@ export const Search: FC<SearchProps> = ({ }) => {
   let index = 0;
 
   return (
-    <form className={styles.search} ref={reference} {...getReferenceProps()}>
+    <form className={styles.search} ref={refs.setReference} {...getReferenceProps()}>
       <Icon icon="search"/>
       {/* <div className={styles.restriciton}>Item</div> */}
       <input className={styles.searchInput} placeholder="Search (ALT + Q)" accessKey="q" value={value} onChange={(e) => { setValue(e.target.value); setOpen(true); }} onKeyDown={(e) => {
@@ -79,7 +78,7 @@ export const Search: FC<SearchProps> = ({ }) => {
         }
       }}/>
       {open && (
-        <div className={styles.dropdown} ref={floating} {...getFloatingProps()} style={{
+        <div className={styles.dropdown} ref={refs.setFloating} {...getFloatingProps()} style={{
           top: y ?? 0,
           left: x ?? 0,
         }}

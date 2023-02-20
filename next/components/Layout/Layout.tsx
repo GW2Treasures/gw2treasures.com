@@ -86,7 +86,7 @@ const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
               <Dialog title="Formatting Settings" onClose={() => setFormatDialogOpen(false)} open={formatDialogOpen}>
                 <MenuList>
                   <Radiobutton checked={formatLocale === undefined} onChange={() => setFormatLocale(undefined)}>Browser default ({defaultLocale})</Radiobutton>
-                  {navigator.languages.filter((locale) => locale !== defaultLocale).map((locale) => (
+                  {globalThis.window !== undefined && navigator.languages.filter((locale) => locale !== defaultLocale).map((locale) => (
                     <Radiobutton key={locale} checked={formatLocale === locale} onChange={() => setFormatLocale(locale)}>{locale}</Radiobutton>
                   ))}
                   <Separator/>

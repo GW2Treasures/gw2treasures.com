@@ -1,4 +1,5 @@
-import { createContext, FC, ReactNode, useContext, useMemo, useState } from 'react';
+import { useHydrated } from 'lib/useHydrated';
+import { createContext, FC, ReactNode, useContext, useEffect, useMemo, useState } from 'react';
 
 const defaultLocale = new Intl.NumberFormat(undefined).resolvedOptions().locale;
 
@@ -22,7 +23,22 @@ export interface FormatProviderProps {
 }
 
 export const FormatProvider: FC<FormatProviderProps> = ({ children }) => {
-  const [locale, setLocale] = useState<string>();
+  const [locale, setLocale] = useState<string | undefined>();
+  const hydrated = useHydrated();
+
+  // load locale from localstorage
+  useEffect(() => setLocale(localStorage['gw2t.locale']), []);
+
+  // save locale to localStorage if it changes after hydration
+  useEffect(() => {
+    if(!hydrated) {
+      return;
+    }
+
+    locale
+      ? localStorage.setItem('gw2t.locale', locale)
+      : localStorage.removeItem('gw2t.locale');
+  }, [hydrated, locale]);
 
   const context = useMemo(() => ({
     locale, setLocale, defaultLocale,

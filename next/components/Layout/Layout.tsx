@@ -83,20 +83,18 @@ const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
                   <Button onClick={() => setFormatDialogOpen(true)} appearance="menu">Formatting Settings…</Button>
                 </MenuList>
               </DropDown>
-              {formatDialogOpen && (
-                <Dialog title="Formatting Settings" onClose={() => setFormatDialogOpen(false)}>
-                  <MenuList>
-                    <Radiobutton checked={formatLocale === undefined} onChange={() => setFormatLocale(undefined)}>Browser default ({defaultLocale})</Radiobutton>
-                    {navigator.languages.filter((locale) => locale !== defaultLocale).map((locale) => (
-                      <Radiobutton key={locale} checked={formatLocale === locale} onChange={() => setFormatLocale(locale)}>{locale}</Radiobutton>
-                    ))}
-                    <Separator/>
-                    <div style={{ padding: 8, display: 'flex', justifyContent: 'space-between' }}>Date <FormatDate date={new Date()}/></div>
-                    <div style={{ padding: 8, display: 'flex', justifyContent: 'space-between' }}>Relative Date <FormatDate relative date={new Date()}/></div>
-                    <div style={{ padding: 8, display: 'flex', justifyContent: 'space-between' }}>Number <span><FormatNumber value={1234567.89}/></span></div>
-                  </MenuList>
-                </Dialog>
-              )}
+              <Dialog title="Formatting Settings" onClose={() => setFormatDialogOpen(false)} open={formatDialogOpen}>
+                <MenuList>
+                  <Radiobutton checked={formatLocale === undefined} onChange={() => setFormatLocale(undefined)}>Browser default ({defaultLocale})</Radiobutton>
+                  {navigator.languages.filter((locale) => locale !== defaultLocale).map((locale) => (
+                    <Radiobutton key={locale} checked={formatLocale === locale} onChange={() => setFormatLocale(locale)}>{locale}</Radiobutton>
+                  ))}
+                  <Separator/>
+                  <div style={{ padding: 8, display: 'flex', justifyContent: 'space-between' }}>Date <FormatDate date={new Date()}/></div>
+                  <div style={{ padding: 8, display: 'flex', justifyContent: 'space-between' }}>Relative Date <FormatDate relative date={new Date()}/></div>
+                  <div style={{ padding: 8, display: 'flex', justifyContent: 'space-between' }}>Number <span><FormatNumber value={1234567.89}/></span></div>
+                </MenuList>
+              </Dialog>
               <LinkButton appearance="menu" href="/login">
                 <Icon icon="user"/> Login
               </LinkButton>

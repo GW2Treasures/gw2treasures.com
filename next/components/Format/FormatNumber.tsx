@@ -10,7 +10,7 @@ const format = new Intl.NumberFormat(undefined, { useGrouping: true });
 export const FormatNumber: FC<FormatNumberProps> = ({ value }) => {
   const { numberFormat } = useFormatContext();
 
-  return <>{value != null ? numberFormat.format(value) : '?'}</>;
+  return <data value={value ?? undefined} suppressHydrationWarning>{value != null ? numberFormat.format(value) : '?'}</data>;
 };
 
 export function formatNumber(value: number): string {

@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC } from 'react';
 import { Tip } from '../Tip/Tip';
 import { useFormatContext } from './FormatContext';
 
@@ -8,19 +8,14 @@ export interface FormatDateProps {
 }
 
 export const FormatDate: FC<FormatDateProps> = ({ date = null, relative = false }) => {
-  const [hydrated, setHydrated] = useState<boolean>(false);
-  const { relativeFormat, localFormat, utcFormat } = useFormatContext();
+  const { relativeFormat, localFormat } = useFormatContext();
 
-  useEffect(() => {
-    setHydrated(true);
-  }, []);
-
-  const difference = date && hydrated && relative ? formatRelative(date) : undefined;
+  const difference = date && relative ? formatRelative(date) : undefined;
 
   return (
     <Tip tip={date?.toLocaleString()}>
-      <time dateTime={date?.toISOString()} style={{ whiteSpace: 'nowrap' }}>
-        {date ? (hydrated ? (relative ? relativeFormat.format(Math.round(difference!.value), difference!.unit) : localFormat.format(date)) : date.toISOString()) : '-'}
+      <time dateTime={date?.toISOString()} style={{ whiteSpace: 'nowrap' }} suppressHydrationWarning>
+        {date ? (relative ? relativeFormat.format(Math.round(difference!.value), difference!.unit) : localFormat.format(date)) : '-'}
       </time>
     </Tip>
   );

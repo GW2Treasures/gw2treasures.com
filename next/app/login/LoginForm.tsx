@@ -1,3 +1,5 @@
+'use client';
+
 import { Item } from '@prisma/client';
 import { NextPage } from 'next';
 import { useState } from 'react';
@@ -5,11 +7,9 @@ import { Button } from '@/components/Form/Button';
 import { TextInput } from '@/components/Form/TextInput';
 import { Headline } from '@/components/Headline/Headline';
 
-interface LoginPageProps {
-  items: Item[];
-}
+interface LoginPageProps {}
 
-const LoginPage: NextPage<LoginPageProps> = ({ items }) => {
+const LoginPage: NextPage<LoginPageProps> = ({}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 

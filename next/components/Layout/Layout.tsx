@@ -1,3 +1,5 @@
+'use client';
+
 import { FunctionComponent, ReactNode, useEffect, useState } from 'react';
 import styles from './Layout.module.css';
 import Icon from '../../icons/Icon';
@@ -6,7 +8,7 @@ import Link from 'next/link';
 import { Search } from '../Search/Search';
 import LoaderIcon from './loader.svg';
 import { useLoading } from '../../lib/useLoading';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { Button, LinkButton } from '../Form/Button';
 import { DropDown } from '../DropDown/DropDown';
 import { Separator } from './Separator';
@@ -33,12 +35,14 @@ const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolledDown, setScrolledDown] = useState('window' in global && window.scrollY > 0);
   const loading = useLoading();
-  const { locale, asPath, replace } = useRouter();
+  const { replace } = useRouter();
   const { locale: formatLocale, setLocale: setFormatLocale, defaultLocale } = useFormatContext();
 
   const [formatDialogOpen, setFormatDialogOpen] = useState(false);
 
-  const localeName = locale && locale in locales ? locales[locale as unknown as 'en'] : locales.en;
+  const locale: string = 'en';
+  const localeName = locales.en;
+  const asPath = typeof location === 'undefined' ? '/' : location.pathname;
 
   useEffect(() => {
     const listener = () => {
@@ -75,10 +79,10 @@ const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
                 </Button>
               )}>
                 <MenuList>
-                  <Radiobutton checked={locale === 'de'} onChange={() => replace(asPath, undefined, { locale: 'de', scroll: false })}>{locales.de}</Radiobutton>
-                  <Radiobutton checked={locale === 'en'} onChange={() => replace(asPath, undefined, { locale: 'en', scroll: false })}>{locales.en}</Radiobutton>
-                  <Radiobutton checked={locale === 'es'} onChange={() => replace(asPath, undefined, { locale: 'es', scroll: false })}>{locales.es}</Radiobutton>
-                  <Radiobutton checked={locale === 'fr'} onChange={() => replace(asPath, undefined, { locale: 'fr', scroll: false })}>{locales.fr}</Radiobutton>
+                  <Radiobutton checked={locale === 'de'} onChange={() => replace(asPath)}>{locales.de}</Radiobutton>
+                  <Radiobutton checked={locale === 'en'} onChange={() => replace(asPath)}>{locales.en}</Radiobutton>
+                  <Radiobutton checked={locale === 'es'} onChange={() => replace(asPath)}>{locales.es}</Radiobutton>
+                  <Radiobutton checked={locale === 'fr'} onChange={() => replace(asPath)}>{locales.fr}</Radiobutton>
                   <Separator/>
                   <Button onClick={() => setFormatDialogOpen(true)} appearance="menu">Formatting Settings…</Button>
                 </MenuList>

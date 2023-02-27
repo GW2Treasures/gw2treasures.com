@@ -1,3 +1,5 @@
+'use client';
+
 import { useHydrated } from 'lib/useHydrated';
 import { createContext, FC, ReactNode, useContext, useEffect, useMemo, useState } from 'react';
 

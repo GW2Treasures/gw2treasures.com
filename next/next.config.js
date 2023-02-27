@@ -1,7 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
-    appDir: false,
+    appDir: true,
+    swcPlugins: [["next-superjson-plugin", {}]],
   },
   reactStrictMode: true,
   output: 'standalone',

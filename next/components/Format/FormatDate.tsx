@@ -1,6 +1,9 @@
+'use client';
+
 import React, { FC } from 'react';
 import { Tip } from '../Tip/Tip';
 import { useFormatContext } from './FormatContext';
+import styles from './Format.module.css';
 
 export interface FormatDateProps {
   date?: Date | null;
@@ -14,7 +17,7 @@ export const FormatDate: FC<FormatDateProps> = ({ date = null, relative = false 
 
   return (
     <Tip tip={date?.toLocaleString()}>
-      <time dateTime={date?.toISOString()} style={{ whiteSpace: 'nowrap' }} suppressHydrationWarning>
+      <time dateTime={date?.toISOString()} className={styles.format} suppressHydrationWarning>
         {date ? (relative ? relativeFormat.format(Math.round(difference!.value), difference!.unit) : localFormat.format(date)) : '-'}
       </time>
     </Tip>

@@ -28,7 +28,7 @@ export const Dialog: FC<DialogProps> = ({ children, title, open = true, onClose 
 
   const { isMounted, styles: transitionStyles } = useTransitionStyles(context);
 
-  return isMounted && (
+  return isMounted ? (
     <FloatingPortal>
       <FloatingOverlay className={styles.overlay} style={transitionStyles}>
         <FloatingFocusManager context={context}>
@@ -44,5 +44,5 @@ export const Dialog: FC<DialogProps> = ({ children, title, open = true, onClose 
         </FloatingFocusManager>
       </FloatingOverlay>
     </FloatingPortal>
-  );
+  ) : null;
 };

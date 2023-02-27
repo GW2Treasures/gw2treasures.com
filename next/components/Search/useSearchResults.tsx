@@ -1,5 +1,5 @@
 import { Item, Language, Skill, Skin, Build, Achievement, AchievementGroup, AchievementCategory } from '@prisma/client';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { ReactNode } from 'react';
 import { IconName } from '../../icons';
 import IconComponent from '../../icons/Icon';
@@ -23,7 +23,7 @@ export interface SearchResult {
 
 export function useItemResults(searchValue: string): SearchResults {
   const response = useStaleJsonResponse(useJsonFetch<{ result: WithIcon<Item>[] }>(`/api/search/items?q=${encodeURIComponent(searchValue)}`));
-  const { locale } = useRouter();
+  const locale = 'en'; // TODO
 
   const results = response.loading ? [] : response.data.result.map((item) => ({
     title: localizedName(item, locale as Language),
@@ -37,7 +37,7 @@ export function useItemResults(searchValue: string): SearchResults {
 
 export function useSkillResults(searchValue: string): SearchResults {
   const response = useStaleJsonResponse(useJsonFetch<{ result: WithIcon<Skill>[] }>(`/api/search/skills?q=${encodeURIComponent(searchValue)}`));
-  const { locale } = useRouter();
+  const locale = 'en'; // TODO
 
   const results = response.loading ? [] : response.data.result.map((skill) => ({
     title: localizedName(skill, locale as Language),
@@ -50,7 +50,7 @@ export function useSkillResults(searchValue: string): SearchResults {
 
 export function useSkinResults(searchValue: string): SearchResults {
   const response = useStaleJsonResponse(useJsonFetch<{ result: WithIcon<Skin>[] }>(`/api/search/skins?q=${encodeURIComponent(searchValue)}`));
-  const { locale } = useRouter();
+  const locale = 'en'; // TODO
 
   const results = response.loading ? [] : response.data.result.map((skin) => ({
     title: localizedName(skin, locale as Language),
@@ -80,7 +80,7 @@ export function useAchievementResults(searchValue: string): SearchResults[] {
     achievementCategories: With<WithIcon<AchievementCategory>, { achievementGroup?: AchievementGroup }>[],
     achievementGroups: AchievementGroup[],
   }>(`/api/search/achievements?q=${encodeURIComponent(searchValue)}`));
-  const { locale } = useRouter();
+  const locale = 'en'; // TODO
 
   const achievements = response.loading ? [] : response.data.achievements.map((achievement) => ({
     title: localizedName(achievement, locale as Language),

@@ -25,7 +25,8 @@
     ],
     "baseUrl": "./",
     "paths": {
-      "@/components/*": ["components/*"]
+      "@/components/*": ["components/*"],
+      "@/lib/*": ["lib/*"],
     }
   },
   "include": [

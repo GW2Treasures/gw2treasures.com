@@ -9,18 +9,22 @@ interface PageLayoutProps {
 
 export const PageLayout: FC<PageLayoutProps> = ({ children, toc = false }) => {
 
-  return (
+  return toc ? (
     <TableOfContentContext>
       <main className={styles.page}>
-        {toc && (
-          <aside className={styles.tableOfContent}>
-            <TableOfContent/>
-          </aside>
-        )}
+        <aside className={styles.tableOfContent}>
+          <TableOfContent/>
+        </aside>
         <div className={styles.content}>
           {children}
         </div>
       </main>
     </TableOfContentContext>
+  ) : (
+    <main className={styles.page}>
+      <div className={styles.content}>
+        {children}
+      </div>
+    </main>
   );
 };

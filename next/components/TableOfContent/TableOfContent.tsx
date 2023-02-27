@@ -1,3 +1,5 @@
+'use client';
+
 import { createContext, FC, ReactNode, useCallback, useContext, useEffect, useReducer, useState } from 'react';
 import styles from './TableOfContent.module.css';
 

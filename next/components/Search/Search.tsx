@@ -1,4 +1,6 @@
-import React, { FC, useEffect, useRef, useState } from 'react';
+'use client';
+
+import React, { FC, Fragment, useEffect, useRef, useState } from 'react';
 import styles from './Search.module.css';
 import Icon from '../../icons/Icon';
 import { useRouter } from 'next/navigation';
@@ -83,8 +85,8 @@ export const Search: FC<SearchProps> = ({ }) => {
           left: x ?? 0,
         }}
         >
-          {searchResults.map(({ title, results }) => results.length > 0 && (
-            <>
+          {searchResults.map(({ title, results, id }) => results.length > 0 && (
+            <Fragment key={id}>
               <div className={styles.category}>{title}</div>
               {results.map((result) => {
                 const currentIndex = index++;
@@ -102,7 +104,7 @@ export const Search: FC<SearchProps> = ({ }) => {
                   </Link>
                 );
               })}
-            </>
+            </Fragment>
           ))}
         </div>
       )}

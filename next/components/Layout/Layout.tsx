@@ -66,7 +66,7 @@ const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
             <button className={styles.menuButton} onClick={() => setMenuOpen(!menuOpen)}>
               <Icon icon="menu"/>
             </button>
-            <Link href="/" className={styles.title}>
+            <Link href="/" className={styles.title} prefetch={false}>
               <Icon icon="gw2treasures"/>
               {loading && (<LoaderIcon className={styles.loader}/>)}
               gw2treasures.com
@@ -99,7 +99,7 @@ const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
                   <div style={{ padding: 8, display: 'flex', justifyContent: 'space-between' }}>Number <span><FormatNumber value={1234567.89}/></span></div>
                 </MenuList>
               </Dialog>
-              <LinkButton appearance="menu" href="/login">
+              <LinkButton appearance="menu" href="/login" prefetch={false}>
                 <Icon icon="user"/> Login
               </LinkButton>
             </div>
@@ -112,7 +112,7 @@ const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
         {children}
         <footer className={styles.footer}>
           <span><b>gw2treasures.com</b> by darthmaim &copy; {new Date().getFullYear()}</span>
-          <Link href="/status/jobs">Status</Link>
+          <Link href="/status/jobs" prefetch={false}>Status</Link>
         </footer>
       </div>
       <div className={styles.disclaimer}>This site is not affiliated with ArenaNet, Guild Wars 2, or any of their partners. All copyrights reserved to their respective owners.</div>

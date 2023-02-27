@@ -11,7 +11,7 @@ export const revalidate = 60;
 
 async function getJobs() {
   // force dynamic rendering, because the db is not availabe at build time
-  const c = cookies();
+  cookies();
 
   const [running, finished] = await Promise.all([
     db.job.findMany({ where: { OR: [{ state: { in: ['Running', 'Queued'] }}, { cron: { not: '' }}] }, orderBy: [{ priority: 'desc' }, { scheduledAt: 'asc' }] }),

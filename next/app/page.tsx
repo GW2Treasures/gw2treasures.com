@@ -1,20 +1,16 @@
-import { Item } from '@prisma/client';
-import { NextPage } from 'next';
 import { FormatDate } from '@/components/Format/FormatDate';
 import { Headline } from '@/components/Headline/Headline';
 import { ItemLink } from '@/components/Item/ItemLink';
 import { ItemList } from '@/components/ItemList/ItemList';
 import { HeroLayout } from '@/components/Layout/HeroLayout';
+import { SkeletonLink } from '@/components/Link/SkeletonLink';
 import { Search } from '@/components/Search/Search';
+import { cookies } from 'next/headers';
+import { Suspense } from 'react';
 import Icon from '../icons/Icon';
 import { db } from '../lib/prisma';
-import { getServerSideSuperProps, withSuperProps } from '../lib/superprops';
 
-interface HomeProps {
-  items: Item[];
-}
-
-const Home: NextPage<HomeProps> = ({ items }) => {
+function HomePage() {
   return (
     <HeroLayout hero={(
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 64, padding: 32 }}>
@@ -27,20 +23,38 @@ const Home: NextPage<HomeProps> = ({ items }) => {
     )}
     >
       <Headline id="new-items">New Items</Headline>
-      <ItemList>
-        {items.map((item) => <li key={item.id}><ItemLink item={item}/><FormatDate date={item.createdAt} relative/></li>)}
-      </ItemList>
+      <Suspense fallback={<NewItemsFallback/>}>
+        {/* @ts-expect-error Server Component */}
+        <NewItems/>
+      </Suspense>
     </HeroLayout>
   );
 };
 
-export const getServerSideProps = getServerSideSuperProps<HomeProps>(async ({}) => {
-  const items = await db.item.findMany({ take: 36, include: { icon: true }, orderBy: { createdAt: 'desc' }});
+function getNewItems() {
+  // force dynamic rendering, because the db is not availabe at build time
+  cookies();
 
-  return {
-    props: { items },
-  };
-});
+  return db.item.findMany({ take: 36, include: { icon: true }, orderBy: { createdAt: 'desc' }});
+}
 
-export default withSuperProps(Home);
+async function NewItems() {
+  const items = await getNewItems();
 
+  return (
+    <ItemList>
+      {items.map((item) => <li key={item.id}><ItemLink item={item}/><FormatDate date={item.createdAt} relative data-superjson/></li>)}
+    </ItemList>
+  );
+}
+
+function NewItemsFallback() {
+  return (
+    <ItemList>
+      {[...new Array(36)].map((_, id) => <li key={id}><SkeletonLink/></li>)}
+    </ItemList>
+  );
+}
+
+
+export default HomePage;

@@ -17,10 +17,11 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
 export interface LinkButtonProps extends ButtonProps {
   href: string;
   locale?: string | false;
+  prefetch?: boolean;
 }
 
-export const LinkButton = forwardRef<HTMLAnchorElement, LinkButtonProps>(function Button({ children, appearance = 'secondary', onClick, href, locale }, ref) {
+export const LinkButton = forwardRef<HTMLAnchorElement, LinkButtonProps>(function Button({ children, appearance = 'secondary', onClick, href, locale, prefetch }, ref) {
   return (
-    <Link ref={ref} className={styles[appearance]} href={href} locale={locale} onClick={onClick}>{children}</Link>
+    <Link ref={ref} className={styles[appearance]} href={href} locale={locale} onClick={onClick} prefetch={prefetch}>{children}</Link>
   );
 });

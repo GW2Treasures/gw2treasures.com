@@ -1,3 +1,5 @@
+'use client';
+
 /* eslint-disable @next/next/no-img-element */
 import { FC, useCallback, useState } from 'react';
 import { Icon } from '@prisma/client';

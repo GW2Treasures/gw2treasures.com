@@ -10,6 +10,7 @@ import { ItemIcon } from '../Item/ItemIcon';
 import { SkillIcon } from '../Skill/SkillIcon';
 
 export interface SearchResults {
+  id: string;
   title: ReactNode;
   results: SearchResult[]
 }
@@ -32,7 +33,7 @@ export function useItemResults(searchValue: string): SearchResults {
     href: `/item/${item.id}`
   }));
 
-  return { title: 'Items', results };
+  return { id: 'items', title: 'Items', results };
 }
 
 export function useSkillResults(searchValue: string): SearchResults {
@@ -45,7 +46,7 @@ export function useSkillResults(searchValue: string): SearchResults {
     href: `/skill/${skill.id}`,
   }));
 
-  return { title: 'Skills', results };
+  return { id: 'skills', title: 'Skills', results };
 }
 
 export function useSkinResults(searchValue: string): SearchResults {
@@ -59,7 +60,7 @@ export function useSkinResults(searchValue: string): SearchResults {
     href: `/skin/${skin.id}`,
   }));
 
-  return { title: 'Skins', results };
+  return { id: 'skins', title: 'Skins', results };
 }
 
 export function useBuildsResults(searchValue: string): SearchResults {
@@ -71,7 +72,7 @@ export function useBuildsResults(searchValue: string): SearchResults {
     href: `/build/${build.id}`,
   }));
 
-  return { title: 'Builds', results };
+  return { id: 'builds', title: 'Builds', results };
 }
 
 export function useAchievementResults(searchValue: string): SearchResults[] {
@@ -103,9 +104,9 @@ export function useAchievementResults(searchValue: string): SearchResults[] {
   }));
 
   return [
-    { title: 'Achievements', results: achievements },
-    { title: 'Achievement Categories', results: categories },
-    { title: 'Achievement Groups', results: groups },
+    { id: 'achievements', title: 'Achievements', results: achievements },
+    { id: 'achievements.categories', title: 'Achievement Categories', results: categories },
+    { id: 'achievements.groups', title: 'Achievement Groups', results: groups },
   ];
 }
 
@@ -135,5 +136,5 @@ export function usePageResults(searchValue: string): SearchResults {
     .filter((_, index) => index < 5)
     .map(({ title, icon, href }) => ({ title, href, icon: <IconComponent icon={icon}/> }));
 
-  return { title: 'Pages', results };
+  return { id: 'pages', title: 'Pages', results };
 }

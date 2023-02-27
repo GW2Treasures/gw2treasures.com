@@ -4,16 +4,11 @@
 import { FC, useCallback, useState } from 'react';
 import { Icon } from '@prisma/client';
 import styles from './ItemIcon.module.css';
-
-export type IconSize = 16 | 32 | 64;
+import { getIconUrl, IconSize } from '@/lib/getIconUrl';
 
 export interface ItemIconProps {
   icon: Icon;
   size?: IconSize
-}
-
-export function getIconUrl({ id, signature }: Icon, size: IconSize) {
-  return `https://icons-gw2.darthmaim-cdn.com/${signature}/${id}-${size}px.png`;
 }
 
 export const ItemIcon: FC<ItemIconProps> = ({ icon, size = 64 }) => {

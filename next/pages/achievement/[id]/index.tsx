@@ -5,7 +5,7 @@ import DetailLayout from '@/components/Layout/DetailLayout';
 import { Skeleton } from '@/components/Skeleton/Skeleton';
 import { db } from '../../../lib/prisma';
 import { getStaticSuperProps, withSuperProps } from '../../../lib/superprops';
-import { getIconUrl } from '@/components/Item/ItemIcon';
+import { getIconUrl } from '@/lib/getIconUrl';
 import { Gw2Api } from 'gw2-api-types';
 import { localizedName } from '../../../lib/localizedName';
 import { Headline } from '@/components/Headline/Headline';

@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { IconSize } from '../Item/ItemIcon';
+import { IconSize } from '@/lib/getIconUrl';
 import { Skeleton } from '../Skeleton/Skeleton';
 import styles from './Link.module.css';
 

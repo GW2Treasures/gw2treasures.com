@@ -6,7 +6,7 @@ import { Skeleton } from '@/components/Skeleton/Skeleton';
 import { db } from '../../../lib/prisma';
 import { getStaticSuperProps, withSuperProps } from '../../../lib/superprops';
 import rarityClasses from '@/components/Layout/RarityColor.module.css';
-import { getIconUrl } from '@/components/Item/ItemIcon';
+import { getIconUrl } from '@/lib/getIconUrl';
 import { Headline } from '@/components/Headline/Headline';
 import { Rarity } from '@/components/Item/Rarity';
 import { Gw2Api } from 'gw2-api-types';

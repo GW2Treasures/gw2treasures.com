@@ -2,10 +2,8 @@
 import { FC, useState } from 'react';
 import { Icon } from '@prisma/client';
 import styles from './SkillIcon.module.css';
-import { getIconUrl } from '../Item/ItemIcon';
 import { cx } from '../../lib/classNames';
-
-export type IconSize = 16 | 32 | 64;
+import { getIconUrl, IconSize } from '@/lib/getIconUrl';
 
 export interface SkillIconProps {
   icon: Icon;

@@ -1,8 +1,9 @@
 import { FC } from 'react';
 import { Language, Skill } from '@prisma/client';
-import { IconSize, SkillIcon } from './SkillIcon';
+import { SkillIcon } from './SkillIcon';
 import { Link } from '../Link/Link';
 import { WithIcon } from '../../lib/with';
+import { IconSize } from '@/lib/getIconUrl';
 
 export interface SkillLinkProps {
   skill: WithIcon<Skill>;

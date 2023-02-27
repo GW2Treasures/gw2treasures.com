@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { Language, Skin } from '@prisma/client';
-import { IconSize } from '../Item/ItemIcon';
+import { IconSize } from '@/lib/getIconUrl';
 import { Link } from '../Link/Link';
 import { WithIcon } from '../../lib/with';
 

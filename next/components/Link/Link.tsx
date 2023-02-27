@@ -2,9 +2,10 @@ import NextLink from 'next/link';
 import React, { FC, ReactElement } from 'react';
 import { Icon, Language } from '@prisma/client';
 import { cx } from '../../lib/classNames';
-import { IconSize, ItemIcon } from '../Item/ItemIcon';
+import { ItemIcon } from '../Item/ItemIcon';
 import styles from './Link.module.css';
 import rarityClasses from '../Layout/RarityColor.module.css';
+import { IconSize } from '@/lib/getIconUrl';
 
 export interface LinkProps {
   href: string;

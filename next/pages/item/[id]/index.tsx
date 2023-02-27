@@ -12,7 +12,7 @@ import { db } from '../../../lib/prisma';
 import { getStaticSuperProps, withSuperProps } from '../../../lib/superprops';
 import rarityClasses from '@/components/Layout/RarityColor.module.css';
 import { Infobox } from '@/components/Infobox/Infobox';
-import { getIconUrl } from '@/components/Item/ItemIcon';
+import { getIconUrl } from '@/lib/getIconUrl';
 import { Headline } from '@/components/Headline/Headline';
 import { FormatDate } from '@/components/Format/FormatDate';
 import { ItemList } from '@/components/ItemList/ItemList';

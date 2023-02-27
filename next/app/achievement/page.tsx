@@ -1,29 +1,34 @@
-import { AchievementCategory, AchievementGroup, Language, Revision } from '@prisma/client';
-import { NextPage } from 'next';
+import { Language } from '@prisma/client';
 import { db } from '../../lib/prisma';
 import { Headline } from '@/components/Headline/Headline';
 import { ItemList } from '@/components/ItemList/ItemList';
-import { getServerSideSuperProps, withSuperProps } from '../../lib/superprops';
 import { HeroLayout } from '@/components/Layout/HeroLayout';
 import { localizedName } from '../../lib/localizedName';
-import { useRouter } from 'next/router';
 import { Fragment } from 'react';
 import { Gw2Api } from 'gw2-api-types';
 import { AchievementCategoryLink } from '@/components/Achievement/AchievementCategoryLink';
-import { WithIcon } from '../../lib/with';
 
-interface AchievementPageProps {
-  groups: (AchievementGroup & {
-    achievementCategories: WithIcon<AchievementCategory>[];
-    current_de: Revision;
-    current_en: Revision;
-    current_es: Revision;
-    current_fr: Revision;
-  })[]
-};
+async function getAchivementGroups(locale: string) {
+  const groups = await db.achievementGroup.findMany({
+    include: {
+      achievementCategories: {
+        orderBy: { order: 'asc' },
+        include: { icon: true }
+      },
+      current_de: locale === 'de',
+      current_en: locale === 'en',
+      current_es: locale === 'es',
+      current_fr: locale === 'fr',
+    },
+    orderBy: { order: 'asc' }
+  });
 
-const AchievementPage: NextPage<AchievementPageProps> = ({ groups }) => {
-  const { locale } = useRouter();
+  return groups;
+}
+
+async function AchievementPage() {
+  const locale = 'en'; // TODO
+  const groups = await getAchivementGroups(locale);
 
   return (
     <HeroLayout hero={<Headline id="skins">Achievements</Headline>} color="#663399" toc>
@@ -48,25 +53,5 @@ const AchievementPage: NextPage<AchievementPageProps> = ({ groups }) => {
   );
 };
 
-export const getServerSideProps = getServerSideSuperProps<AchievementPageProps>(async ({ locale }) => {
-  const groups = await db.achievementGroup.findMany({
-    include: {
-      achievementCategories: {
-        orderBy: { order: 'asc' },
-        include: { icon: true }
-      },
-      current_de: locale === 'de',
-      current_en: locale === 'en',
-      current_es: locale === 'es',
-      current_fr: locale === 'fr',
-    },
-    orderBy: { order: 'asc' }
-  });
-
-  return {
-    props: { groups },
-  };
-});
-
-export default withSuperProps(AchievementPage);
+export default AchievementPage;
 

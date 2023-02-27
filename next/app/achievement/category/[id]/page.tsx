@@ -11,6 +11,30 @@ import { Json } from '@/components/Format/Json';
 import { Tip } from '@/components/Tip/Tip';
 import { notFound } from 'next/navigation';
 import Icon from 'icons/Icon';
+import { cookies } from 'next/headers';
+
+async function getData(id: number, language: Language) {
+  // force dynamic rendering, because the db is not availabe at build time
+  cookies();
+
+  const [achievementCategory, revision] = await Promise.all([
+    db.achievementCategory.findUnique({
+      where: { id },
+      include: {
+        icon: true,
+        achievements: { include: { icon: true }},
+        achievementGroup: true,
+      }
+    }),
+    db.revision.findFirst({ where: { [`currentAchievementCategory_${language}`]: { id }}})
+  ]);
+
+  if(!achievementCategory || !revision) {
+    notFound();
+  }
+
+  return { achievementCategory, revision };
+};
 
 async function AchievementCategoryPage({ params }: { params: { id: string }}) {
   const locale = 'en'; // TODO
@@ -58,26 +82,6 @@ async function AchievementCategoryPage({ params }: { params: { id: string }}) {
 
     </DetailLayout>
   );
-};
-
-async function getData(id: number, language: Language) {
-  const [achievementCategory, revision] = await Promise.all([
-    db.achievementCategory.findUnique({
-      where: { id },
-      include: {
-        icon: true,
-        achievements: { include: { icon: true }},
-        achievementGroup: true,
-      }
-    }),
-    db.revision.findFirst({ where: { [`currentAchievementCategory_${language}`]: { id }}})
-  ]);
-
-  if(!achievementCategory || !revision) {
-    notFound();
-  }
-
-  return { achievementCategory, revision };
 };
 
 export default AchievementCategoryPage;

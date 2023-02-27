@@ -7,8 +7,12 @@ import { localizedName } from '../../lib/localizedName';
 import { Fragment } from 'react';
 import { Gw2Api } from 'gw2-api-types';
 import { AchievementCategoryLink } from '@/components/Achievement/AchievementCategoryLink';
+import { cookies } from 'next/headers';
 
 async function getAchivementGroups(locale: string) {
+  // force dynamic rendering, because the db is not availabe at build time
+  cookies();
+
   const groups = await db.achievementGroup.findMany({
     include: {
       achievementCategories: {

@@ -12,12 +12,8 @@ import { Json } from '@/components/Format/Json';
 import { notFound } from 'next/navigation';
 import { Fragment } from 'react';
 import { db } from '@/lib/prisma';
-import { cookies } from 'next/headers';
 
 async function getRevisions(idA: string, idB: string) {
-  // force dynamic rendering, because the db is not availabe at build time
-  cookies();
-
   const [a, b] = await Promise.all([
     db?.revision.findUnique({ where: { id: idA }}),
     db?.revision.findUnique({ where: { id: idB }}),

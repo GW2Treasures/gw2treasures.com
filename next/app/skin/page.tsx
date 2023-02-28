@@ -7,12 +7,10 @@ import { ItemIcon } from '@/components/Item/ItemIcon';
 import Link from 'next/link';
 import { FormatNumber } from '@/components/Format/FormatNumber';
 import { HeroLayout } from '@/components/Layout/HeroLayout';
-import { cookies } from 'next/headers';
+
+export const dynamic = 'force-dynamic';
 
 async function getSkins() {
-  // force dynamic rendering, because the db is not availabe at build time
-  cookies();
-
   const [newSkins, byTypes] = await Promise.all([
     db.skin.findMany({ take: 24, include: { icon: true }, orderBy: { createdAt: 'desc' }}),
     db.skin.groupBy({ by: ['type', 'subtype'], orderBy: [{ type: 'asc' }, { _count: { id: 'desc' }}], _count: true, _max: { iconId: true }})

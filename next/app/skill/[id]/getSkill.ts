@@ -1,12 +1,8 @@
 import { Language } from '@prisma/client';
-import { cookies } from 'next/headers';
 import { notFound } from 'next/navigation';
 import { db } from '@/lib/prisma';
 
 export async function getSkill(id: number, language: Language, revisionId?: string) {
-  // force dynamic rendering, because the db is not availabe at build time
-  cookies();
-
   const [skill, revision] = await Promise.all([
     db.skill.findUnique({
       where: { id },

@@ -9,14 +9,10 @@ import { Rarity } from '@/components/Item/Rarity';
 import { Gw2Api } from 'gw2-api-types';
 import { ItemTable } from '@/components/Item/ItemTable';
 import { notFound } from 'next/navigation';
-import { cookies } from 'next/headers';
 import { ItemList } from '@/components/ItemList/ItemList';
 import { SkinLink } from '@/components/Skin/SkinLink';
 
 async function getSkin(id: number, language: Language) {
-  // force dynamic rendering, because the db is not availabe at build time
-  cookies();
-
   const [skin, revision] = await Promise.all([
     db.skin.findUnique({
       where: { id },

@@ -10,13 +10,9 @@ import { FormatNumber } from '@/components/Format/FormatNumber';
 import { Separator } from '@/components/Layout/Separator';
 import Icon from '../../../icons/Icon';
 import { format } from 'gw2-tooltip-html';
-import { cookies } from 'next/headers';
 import { notFound } from 'next/navigation';
 
 async function getAchievement(id: number, language: Language) {
-  // force dynamic rendering, because the db is not availabe at build time
-  cookies();
-
   const [achievement, revision] = await Promise.all([
     db.achievement.findUnique({
       where: { id },

@@ -11,12 +11,8 @@ import { Json } from '@/components/Format/Json';
 import { Tip } from '@/components/Tip/Tip';
 import { notFound } from 'next/navigation';
 import Icon from 'icons/Icon';
-import { cookies } from 'next/headers';
 
 async function getData(id: number, language: Language) {
-  // force dynamic rendering, because the db is not availabe at build time
-  cookies();
-
   const [achievementCategory, revision] = await Promise.all([
     db.achievementCategory.findUnique({
       where: { id },

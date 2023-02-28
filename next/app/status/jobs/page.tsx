@@ -4,15 +4,12 @@ import { db } from '@/lib/prisma';
 import { FormatDate } from '@/components/Format/FormatDate';
 import { FormatNumber } from '@/components/Format/FormatNumber';
 import { PageLayout } from '@/components/Layout/PageLayout';
-import { cookies } from 'next/headers';
 import { Reload } from '@/components/Reload/Reload';
 
-export const revalidate = 60;
+export const revalidate = 3;
+export const dynamic = 'force-dynamic';
 
 async function getJobs() {
-  // force dynamic rendering, because the db is not availabe at build time
-  cookies();
-
   const [running, finished] = await Promise.all([
     db.job.findMany({ where: { OR: [{ state: { in: ['Running', 'Queued'] }}, { cron: { not: '' }}] }, orderBy: [{ priority: 'desc' }, { scheduledAt: 'asc' }] }),
     db.job.findMany({ where: { state: { notIn: ['Running', 'Queued'] }}, orderBy: { finishedAt: 'desc' }}),

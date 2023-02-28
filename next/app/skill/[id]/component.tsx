@@ -13,15 +13,12 @@ import { SkillIcon } from '@/components/Skill/SkillIcon';
 import { SkillTooltip } from '@/components/Skill/SkillTooltip';
 import { SkillInfobox } from '@/components/Skill/SkillInfobox';
 import { getSkill } from './getSkill';
+import { AsyncComponent } from '@/lib/asyncComponent';
 
 export interface SkillPageComponentProps {
   language: Language;
   skillId: number;
   revisionId?: string;
-}
-
-interface AsyncComponent<P = {}> extends Omit<FunctionComponent<P>, ''> {
-  (props: P, context?: any): Promise<ReactElement<any, any> | null>;
 }
 
 export const SkillPageComponent: AsyncComponent<SkillPageComponentProps> = async ({ language, skillId, revisionId }) => {

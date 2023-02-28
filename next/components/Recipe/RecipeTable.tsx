@@ -1,5 +1,6 @@
+'use client';
+
 import { IngredientItem, Item, Recipe, Revision } from '@prisma/client';
-import { useRouter } from 'next/router';
 import { FC, memo, useDeferredValue, useMemo, useState } from 'react';
 import Icon from '../../icons/Icon';
 import { localizedName } from '../../lib/localizedName';
@@ -48,7 +49,7 @@ export const RecipeTable: FC<RecipeTableProps> = ({ recipes }) => {
   const [search, setSearch] = useState('');
   const filter = useDeferredValue(search.toLowerCase());
 
-  const { locale } = useRouter();
+  const locale = 'en'; // TODO
 
   const [disciplineFilter, setDisciplineFilter] = useState(DisciplineNames);
 

@@ -1,3 +1,5 @@
+'use client';
+
 import { IngredientItem, Item, Recipe, Revision } from '@prisma/client';
 import { FC } from 'react';
 import { useJsonFetch } from '../../lib/useFetch';

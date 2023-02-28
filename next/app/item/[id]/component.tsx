@@ -1,15 +1,11 @@
-import { GetStaticPaths, NextPage } from 'next';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { IngredientItem, Item, ItemHistory, Language, Recipe, Revision, Skin } from '@prisma/client';
+import { Language } from '@prisma/client';
 import { ItemTooltip } from '@/components/Item/ItemTooltip';
 import DetailLayout from '@/components/Layout/DetailLayout';
-import { Skeleton } from '@/components/Skeleton/Skeleton';
 import { Table } from '@/components/Table/Table';
 import { TableOfContentAnchor } from '@/components/TableOfContent/TableOfContent';
 import { Gw2Api } from 'gw2-api-types';
 import { db } from '../../../lib/prisma';
-import { getStaticSuperProps, withSuperProps } from '../../../lib/superprops';
 import rarityClasses from '@/components/Layout/RarityColor.module.css';
 import { Infobox } from '@/components/Infobox/Infobox';
 import { getIconUrl } from '@/lib/getIconUrl';
@@ -22,47 +18,86 @@ import { Json } from '@/components/Format/Json';
 import { ItemTable } from '@/components/Item/ItemTable';
 import { RecipeBox } from '@/components/Recipe/RecipeBox';
 import { ItemIngredientFor } from '@/components/Item/ItemIngredientFor';
-import { ErrorBoundary } from 'react-error-boundary';
-import { WithIcon } from '../../../lib/with';
+import { AsyncComponent } from '@/lib/asyncComponent';
+import { notFound } from 'next/navigation';
 
-export interface ItemPageProps {
-  item: WithIcon<Item> & {
-    history: (ItemHistory & {
-      revision: {
-        id: string;
-        buildId: number;
-        createdAt: Date;
-        description: string | null;
-        language: Language;
-      };
-    })[];
-    unlocksSkin: WithIcon<Skin>[];
-    recipeOutput?: (Recipe & {
-      currentRevision: Revision,
-      itemIngredients: (IngredientItem & { Item: WithIcon<Item> })[]
-    })[];
-    _count?: { ingredient: number }
-  };
-  revision: Revision;
-  fixedRevision: boolean;
-  similarItems?: WithIcon<Item>[]
+export interface ItemPageComponentProps {
+  language: Language;
+  itemId: number;
+  revisionId?: string;
 }
 
-const ItemPage: NextPage<ItemPageProps> = ({ item, revision, fixedRevision, similarItems = [] }) => {
-  const router = useRouter();
-
-  if(!item) {
-    return <DetailLayout title={<Skeleton/>} breadcrumb={<Skeleton/>}><Skeleton/></DetailLayout>;
+async function getItem(id: number, language: Language, revisionId?: string) {
+  if(isNaN(id)) {
+    notFound();
   }
+
+  const [item, revision] = await Promise.all([
+    db.item.findUnique({
+      where: { id },
+      include: {
+        history: {
+          include: { revision: { select: { id: true, buildId: true, createdAt: true, description: true, language: true }}},
+          where: { revision: { language }},
+          orderBy: { revision: { createdAt: 'desc' }}
+        },
+        icon: true,
+        unlocksSkin: { include: { icon: true }},
+        recipeOutput: { include: { currentRevision: true, itemIngredients: { include: { Item: { include: { icon: true }}}}}},
+        // ingredient: { take: 10, include: { Recipe: { include: { currentRevision: true, outputItem: { include: { icon: true }}, itemIngredients: { include: { Item: { include: { icon: true }}}}}}}}
+        _count: {
+          select: { ingredient: true }
+        }
+      }
+    }),
+    revisionId
+      ? db.revision.findUnique({ where: { id: revisionId }})
+      : db.revision.findFirst({ where: { [`currentItem_${language}`]: { id }}})
+  ]);
+
+  if(!item || !revision) {
+    notFound();
+  }
+
+  const similarItems = revisionId ? [] : await db.item.findMany({
+    where: {
+      id: { not: id },
+      OR: [
+        { name_de: item.name_de },
+        { name_en: item.name_en },
+        { name_es: item.name_es },
+        { name_fr: item.name_fr },
+        { iconId: item.iconId },
+        // TODO: Skin matches
+        {
+          type: item.type,
+          subtype: item.subtype,
+          rarity: item.rarity,
+          weight: item.weight,
+          value: item.value,
+          level: item.level,
+        }
+      ]
+    },
+    include: { icon: true },
+    take: 32,
+  });
+
+  return { item, revision, similarItems };
+};
+
+export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async ({ language, itemId, revisionId }) => {
+  const fixedRevision = revisionId !== undefined;
+  const { item, revision, similarItems } = await getItem(itemId, language, revisionId);
 
   const data: Gw2Api.Item = JSON.parse(revision.data);
 
   return (
     <DetailLayout title={data.name} icon={item.icon && getIconUrl(item.icon, 64) || undefined} className={rarityClasses[data.rarity]} breadcrumb={`Item › ${data.type}${data.details ? ` › ${data.details?.type}` : ''}`} infobox={<ItemInfobox item={item} data={data}/>}>
-      {item[`currentId_${router.locale as Language}`] !== revision.id && (
+      {item[`currentId_${language}`] !== revision.id && (
         <Infobox icon="revision">You are viewing an old revision of this item (Build {revision.buildId || 'unknown'}). <Link href={`/item/${item.id}`}>View current.</Link></Infobox>
       )}
-      {item[`currentId_${router.locale as Language}`] === revision.id && fixedRevision && (
+      {item[`currentId_${language}`] === revision.id && fixedRevision && (
         <Infobox icon="revision">You are viewing this item at a fixed revision (Build {revision.buildId || 'unknown'}). <Link href={`/item/${item.id}`}>View current.</Link></Infobox>
       )}
       {!fixedRevision && item.removedFromApi && (
@@ -94,9 +129,7 @@ const ItemPage: NextPage<ItemPageProps> = ({ item, revision, fixedRevision, simi
       )}
 
       {item._count && item._count?.ingredient > 0 && (
-        <ErrorBoundary fallback={<>Error</>}>
-          <ItemIngredientFor itemId={item.id} placeholderCount={item._count?.ingredient}/>
-        </ErrorBoundary>
+        <ItemIngredientFor itemId={item.id} placeholderCount={item._count?.ingredient}/>
       )}
 
       <Headline id="history">History</Headline>
@@ -111,7 +144,7 @@ const ItemPage: NextPage<ItemPageProps> = ({ item, revision, fixedRevision, simi
               <td>{history.revisionId === revision.id ? <b>{history.revision.buildId || '-'}</b> : history.revision.buildId || '-'}</td>
               <td>{history.revision.language}</td>
               <td><Link href={`/item/${item.id}/${history.revisionId}`}>{history.revision.description}</Link></td>
-              <td><FormatDate date={history.revision.createdAt} relative/></td>
+              <td><FormatDate date={history.revision.createdAt} relative data-superjson/></td>
             </tr>
           ))}
         </tbody>
@@ -120,7 +153,7 @@ const ItemPage: NextPage<ItemPageProps> = ({ item, revision, fixedRevision, simi
       {similarItems.length > 0 && (
         <>
           <Headline id="similar">Similar Items</Headline>
-          <ItemTable items={similarItems}/>
+          <ItemTable items={similarItems} data-superjson/>
         </>
       )}
 
@@ -130,78 +163,3 @@ const ItemPage: NextPage<ItemPageProps> = ({ item, revision, fixedRevision, simi
     </DetailLayout>
   );
 };
-
-export const getStaticProps = getStaticSuperProps<ItemPageProps>(async ({ params, locale }) => {
-  const id: number = Number(params!.id!.toString())!;
-
-  if(isNaN(id)) {
-    return { notFound: true };
-  }
-
-  const language = (locale ?? 'en') as Language;
-
-  const [item, revision] = await Promise.all([
-    db.item.findUnique({
-      where: { id },
-      include: {
-        history: {
-          include: { revision: { select: { id: true, buildId: true, createdAt: true, description: true, language: true }}},
-          where: { revision: { language }},
-          orderBy: { revision: { createdAt: 'desc' }}
-        },
-        icon: true,
-        unlocksSkin: { include: { icon: true }},
-        recipeOutput: { include: { currentRevision: true, itemIngredients: { include: { Item: { include: { icon: true }}}}}},
-        // ingredient: { take: 10, include: { Recipe: { include: { currentRevision: true, outputItem: { include: { icon: true }}, itemIngredients: { include: { Item: { include: { icon: true }}}}}}}}
-        _count: {
-          select: { ingredient: true }
-        }
-      }
-    }),
-    db.revision.findFirst({ where: { [`currentItem_${language}`]: { id }}})
-  ]);
-
-  if(!item || !revision) {
-    return {
-      notFound: true
-    };
-  }
-
-  const similarItems = await db.item.findMany({
-    where: {
-      id: { not: id },
-      OR: [
-        { name_de: item.name_de },
-        { name_en: item.name_en },
-        { name_es: item.name_es },
-        { name_fr: item.name_fr },
-        { iconId: item.iconId },
-        // TODO: Skin matches
-        {
-          type: item.type,
-          subtype: item.subtype,
-          rarity: item.rarity,
-          weight: item.weight,
-          value: item.value,
-          level: item.level,
-        }
-      ]
-    },
-    include: { icon: true },
-    take: 32,
-  });
-
-  return {
-    props: { item, revision, fixedRevision: false, similarItems },
-    revalidate: 600 /* 10 minutes */
-  };
-});
-
-export const getStaticPaths: GetStaticPaths = () => {
-  return {
-    paths: [],
-    fallback: true,
-  };
-};
-
-export default withSuperProps(ItemPage);

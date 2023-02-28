@@ -1,3 +1,5 @@
+'use client';
+
 import { Item } from '@prisma/client';
 import { FC, useState } from 'react';
 import { Coins } from '../Format/Coins';

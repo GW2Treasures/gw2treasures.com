@@ -15,11 +15,6 @@ const nextConfig = {
     });
 
     return config;
-  },
-  i18n: {
-    defaultLocale: 'en',
-    locales: ['de', 'en', 'es', 'fr'],
-    localeDetection: false,
   }
 }
 

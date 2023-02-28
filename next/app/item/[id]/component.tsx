@@ -153,7 +153,7 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
       {similarItems.length > 0 && (
         <>
           <Headline id="similar">Similar Items</Headline>
-          <ItemTable items={similarItems} data-superjson/>
+          <ItemTable items={similarItems}/>
         </>
       )}
 

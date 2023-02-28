@@ -55,7 +55,7 @@ async function SkinPage ({ params }: { params: { id: string }}) {
       </div>
 
       <Headline id="items">Unlocked by</Headline>
-      <ItemTable items={skin.unlockedByItems} data-superjson/>
+      <ItemTable items={skin.unlockedByItems}/>
 
       {similar.length > 0 && (
         <>

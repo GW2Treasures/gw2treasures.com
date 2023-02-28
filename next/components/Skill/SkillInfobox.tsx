@@ -1,6 +1,5 @@
 import { Skill } from '@prisma/client';
 import { Gw2Api } from 'gw2-api-types';
-import { useRouter } from 'next/router';
 import { FC } from 'react';
 import { isTruthy } from '../../lib/is';
 import { Headline } from '../Headline/Headline';
@@ -15,8 +14,6 @@ interface SkillInfoboxProps {
 };
 
 export const SkillInfobox: FC<SkillInfoboxProps> = ({ skill, data }) => {
-  const router = useRouter();
-
   return (
     <div>
       <LanguageLinks link={<SkillLink skill={skill} icon="none"/>}/>

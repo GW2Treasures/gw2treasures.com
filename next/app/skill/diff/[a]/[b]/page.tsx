@@ -1,31 +1,36 @@
-import { GetStaticPaths, NextPage } from 'next';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { Revision } from '@prisma/client';
-import { Skeleton } from '@/components/Skeleton/Skeleton';
 import { Gw2Api } from 'gw2-api-types';
-import { getStaticSuperProps, withSuperProps } from '../../../../lib/superprops';
 import { DiffLayout, DiffLayoutHeader, DiffLayoutRow } from '@/components/Layout/DiffLayout';
 import { SkillIcon } from '@/components/Skill/SkillIcon';
-import { parseIcon } from '../../../../lib/parseIcon';
+import { parseIcon } from '@/lib/parseIcon';
 import { FormatDate } from '@/components/Format/FormatDate';
 import { Fact } from '@/components/Skill/SkillTooltip';
 import { Infobox } from '@/components/Infobox/Infobox';
 import { format } from 'gw2-tooltip-html';
 import { Separator } from '@/components/Layout/Separator';
 import { Json } from '@/components/Format/Json';
+import { notFound } from 'next/navigation';
+import { Fragment } from 'react';
+import { db } from '@/lib/prisma';
 
-export interface SkillDiffPageProps {
-  a: Revision;
-  b: Revision;
-}
+async function getRevisions(idA: string, idB: string) {
+  const [a, b] = await Promise.all([
+    db?.revision.findUnique({ where: { id: idA }}),
+    db?.revision.findUnique({ where: { id: idB }}),
+  ]);
 
-const SkillDiffPage: NextPage<SkillDiffPageProps> = ({ a, b }) => {
-  const router = useRouter();
-
-  if(!a || !b) {
-    return <Skeleton/>;
+  if(!a || !b || a.entity !== 'Skill' || b.entity !== 'Skill') {
+    notFound();
   }
+
+  return { a, b };
+};
+
+async function SkillDiffPage({ params }: { params: { a: string, b: string }}) {
+  const idA = params.a.toString();
+  const idB = params.b.toString();
+
+  const { a, b } = await getRevisions(idA, idB);
 
   const dataA: Gw2Api.Skill = JSON.parse(a.data);
   const dataB: Gw2Api.Skill = JSON.parse(b.data);
@@ -45,8 +50,8 @@ const SkillDiffPage: NextPage<SkillDiffPageProps> = ({ a, b }) => {
         dataA.name,
         dataB.name,
       ]} subtitle={[
-        <><FormatDate date={a.createdAt}/> (<Link href={`/build/${a.buildId}`}>Build {a.buildId}</Link>) ▪ <Link href={`/skill/${dataA.id}/${a.id}`}>View revision</Link></>,
-        <><FormatDate date={b.createdAt}/> (<Link href={`/build/${b.buildId}`}>Build {b.buildId}</Link>) ▪ <Link href={`/skill/${dataB.id}/${b.id}`}>View revision</Link></>,
+        <Fragment key="a"><FormatDate date={a.createdAt} data-superjson/> (<Link href={`/build/${a.buildId}`}>Build {a.buildId}</Link>) ▪ <Link href={`/skill/${dataA.id}/${a.id}`}>View revision</Link></Fragment>,
+        <Fragment key="b"><FormatDate date={b.createdAt} data-superjson/> (<Link href={`/build/${b.buildId}`}>Build {b.buildId}</Link>) ▪ <Link href={`/skill/${dataB.id}/${b.id}`}>View revision</Link></Fragment>,
       ]}/>
 
       {dataA.id !== dataB.id && (
@@ -138,32 +143,4 @@ function diffFacts<T>(left: T[] | undefined, right: T[] | undefined): { left?: T
   return diff;
 }
 
-export const getStaticProps = getStaticSuperProps<SkillDiffPageProps>(async ({ params, locale }) => {
-  const idA = params?.a?.toString();
-  const idB = params?.b?.toString();
-
-  const [a, b] = await Promise.all([
-    db?.revision.findUnique({ where: { id: idA }}),
-    db?.revision.findUnique({ where: { id: idB }}),
-  ]);
-
-  if(!a || !b || a.entity !== 'Skill' || b.entity !== 'Skill') {
-    return {
-      notFound: true
-    };
-  }
-
-  return {
-    props: { a, b },
-    revalidate: 600 /* 10 minutes */
-  };
-});
-
-export const getStaticPaths: GetStaticPaths = () => {
-  return {
-    paths: [],
-    fallback: true,
-  };
-};
-
-export default withSuperProps(SkillDiffPage);
+export default SkillDiffPage;

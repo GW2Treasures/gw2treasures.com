@@ -2,7 +2,6 @@ import { Language } from '@prisma/client';
 import DetailLayout from '@/components/Layout/DetailLayout';
 import { Skeleton } from '@/components/Skeleton/Skeleton';
 import { db } from '../../../lib/prisma';
-import { getStaticSuperProps } from '../../../lib/superprops';
 import rarityClasses from '@/components/Layout/RarityColor.module.css';
 import { getIconUrl } from '@/lib/getIconUrl';
 import { Headline } from '@/components/Headline/Headline';

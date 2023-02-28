@@ -1,0 +1,32 @@
+{
+  "folders": [
+    {
+      "name": "next",
+      "path": "./next"
+    },
+    {
+      "name": "next-worker",
+      "path": "./next-worker"
+    },
+    {
+      "name": "next-importer",
+      "path": "./next-importer"
+    },
+    {
+      "name": "root",
+      "path": ".",
+    },
+  ],
+  "extensions": {
+    "recommendations": [
+      "clinyong.vscode-css-modules",
+      "editorconfig.editorconfig",
+      "dbaeumer.vscode-eslint",
+      "wix.vscode-import-cost"
+    ]
+  },
+  "settings": {
+    "typescript.tsdk": "next/node_modules/typescript/lib",
+    "typescript.enablePromptUseWorkspaceTsdk": true,
+  }
+}

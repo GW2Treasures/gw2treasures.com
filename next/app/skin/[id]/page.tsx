@@ -11,6 +11,8 @@ import { Gw2Api } from 'gw2-api-types';
 import { ItemTable } from '@/components/Item/ItemTable';
 import { notFound } from 'next/navigation';
 import { cookies } from 'next/headers';
+import { ItemList } from '@/components/ItemList/ItemList';
+import { SkinLink } from '@/components/Skin/SkinLink';
 
 async function getSkin(id: number, language: Language) {
   // force dynamic rendering, because the db is not availabe at build time
@@ -24,14 +26,16 @@ async function getSkin(id: number, language: Language) {
         unlockedByItems: { include: { icon: true }}
       }
     }),
-    db.revision.findFirst({ where: { [`currentSkin_${language}`]: { id }}})
+    db.revision.findFirst({ where: { [`currentSkin_${language}`]: { id }}}),
   ]);
 
   if(!skin || !revision) {
     notFound();
   }
 
-  return { skin, revision };
+  const similar = await db.skin.findMany({ where: { OR: [{ name_en: skin.name_en }, { iconId: skin.iconId }], id: { not: skin.id }}, include: { icon: true }});
+
+  return { skin, revision, similar };
 }
 
 async function SkinPage ({ params }: { params: { id: string }}) {
@@ -39,7 +43,7 @@ async function SkinPage ({ params }: { params: { id: string }}) {
   const id: number = Number(params.id);
   const language = (locale ?? 'en') as Language;
 
-  const { skin, revision } = await getSkin(id, language);
+  const { skin, revision, similar } = await getSkin(id, language);
 
   if(!skin) {
     return <DetailLayout title={<Skeleton/>} breadcrumb={<Skeleton/>}><Skeleton/></DetailLayout>;
@@ -57,6 +61,20 @@ async function SkinPage ({ params }: { params: { id: string }}) {
 
       <Headline id="items">Unlocked by</Headline>
       <ItemTable items={skin.unlockedByItems} data-superjson/>
+
+      {similar.length > 0 && (
+        <>
+          <Headline id="similar">Similar Skins</Headline>
+          <ItemList>
+            {similar.map((skin) => (
+              <li key={skin.id}>
+                <SkinLink skin={skin}/>
+                {skin.type}{skin.subtype && ` / ${skin.subtype}`}{skin.weight && ` / ${skin.weight}`}
+              </li>
+            ))}
+          </ItemList>
+        </>
+      )}
     </DetailLayout>
   );
 };

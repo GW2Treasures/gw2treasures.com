@@ -76,7 +76,7 @@ const ItemPage: NextPage<ItemPageProps> = ({ item, revision, fixedRevision, simi
         <>
           <Headline id="skins">Unlocked Skins</Headline>
           <ItemList>
-            {item.unlocksSkin.map((skin) => <li key={skin.id}><SkinLink skin={skin}/></li>)}
+            {item.unlocksSkin.map((skin) => <li key={skin.id}><SkinLink skin={skin}/> {skin.weight} {skin.subtype ?? skin.type}</li>)}
             {item.unlocksSkinIds.filter((id) => item.unlocksSkin.every((skin) => skin.id !== id)).map((id) => <li key={id}>Unknown skin ({id})</li>)}
           </ItemList>
         </>

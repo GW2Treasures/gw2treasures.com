@@ -69,7 +69,7 @@ async function SkinPage ({ params }: { params: { id: string }}) {
             {similar.map((skin) => (
               <li key={skin.id}>
                 <SkinLink skin={skin}/>
-                {skin.type}{skin.subtype && ` / ${skin.subtype}`}{skin.weight && ` / ${skin.weight}`}
+                {skin.weight} {skin.subtype ?? skin.type}
               </li>
             ))}
           </ItemList>

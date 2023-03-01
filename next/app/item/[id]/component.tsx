@@ -20,6 +20,9 @@ import { RecipeBox } from '@/components/Recipe/RecipeBox';
 import { ItemIngredientFor } from '@/components/Item/ItemIngredientFor';
 import { AsyncComponent } from '@/lib/asyncComponent';
 import { notFound } from 'next/navigation';
+import { Skeleton } from '@/components/Skeleton/Skeleton';
+import { Suspense } from 'react';
+import { SkeletonTable } from '@/components/Skeleton/SkeletonTable';
 
 export interface ItemPageComponentProps {
   language: Language;
@@ -129,7 +132,15 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
       )}
 
       {item._count && item._count?.ingredient > 0 && (
-        <ItemIngredientFor itemId={item.id} placeholderCount={item._count?.ingredient}/>
+        <Suspense fallback={(
+          <>
+            <Headline id="crafting">Used in crafting</Headline>
+            <SkeletonTable columns={['Output', 'Rating', 'Disciplines', 'Ingredients']} rows={item._count?.ingredient}/>
+          </>
+        )}>
+          {/* @ts-expect-error Server Component */}
+          <ItemIngredientFor itemId={item.id}/>
+        </Suspense>
       )}
 
       <Headline id="history">History</Headline>

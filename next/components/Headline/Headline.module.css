@@ -14,6 +14,7 @@
 .content {
   font-family: 'Bitter';
   font-size: 18px;
+  line-height: 36px;
 
   flex: 1;
 }

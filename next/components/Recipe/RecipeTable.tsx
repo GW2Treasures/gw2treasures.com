@@ -3,14 +3,14 @@
 import { IngredientItem, Item, Recipe, Revision } from '@prisma/client';
 import { FC, memo, useDeferredValue, useMemo, useState } from 'react';
 import Icon from '../../icons/Icon';
-import { localizedName } from '../../lib/localizedName';
+import { LocalizedEntity, localizedName } from '../../lib/localizedName';
 import { With, WithIcon } from '../../lib/with';
 import { DropDown } from '../DropDown/DropDown';
 import { Button } from '../Form/Button';
 import { Checkbox } from '../Form/Checkbox';
 import { TextInput } from '../Form/TextInput';
 import { Headline } from '../Headline/Headline';
-import { ItemLink } from '../Item/ItemLink';
+import { ItemLink, ItemLinkProps } from '../Item/ItemLink';
 import { Separator } from '../Layout/Separator';
 import { MenuList } from '../MenuList/MenuList';
 import { Table } from '../Table/Table';
@@ -19,10 +19,10 @@ import { Ingredients } from './Ingredients';
 import styles from './RecipeBox.module.css';
 
 interface RecipeTableProps {
-  recipes: With<Recipe, {
-    currentRevision: Revision,
-    itemIngredients: With<IngredientItem, { Item: WithIcon<Item> }>[]
-    outputItem: WithIcon<Item> | null;
+  recipes: With<Pick<Recipe, 'id' | 'rating' | 'disciplines'>, {
+    currentRevision: Pick<Revision, 'data'>,
+    itemIngredients: With<Pick<IngredientItem, 'count'>, { Item: ItemLinkProps['item'] }>[]
+    outputItem: ItemLinkProps['item'] | null;
   }>[]
 };
 

@@ -1,10 +1,10 @@
 'use client';
 
-import { IngredientItem, Item, Recipe, Revision } from '@prisma/client';
+import { IngredientItem, Recipe, Revision } from '@prisma/client';
 import { FC, memo, useDeferredValue, useMemo, useState } from 'react';
 import Icon from '../../icons/Icon';
-import { LocalizedEntity, localizedName } from '../../lib/localizedName';
-import { With, WithIcon } from '../../lib/with';
+import { localizedName } from '../../lib/localizedName';
+import { With } from '../../lib/with';
 import { DropDown } from '../DropDown/DropDown';
 import { Button } from '../Form/Button';
 import { Checkbox } from '../Form/Checkbox';

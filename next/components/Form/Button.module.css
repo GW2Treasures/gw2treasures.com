@@ -34,7 +34,7 @@
 .primary {
   composes: secondary;
 
-  font-weight: bold;
+  font-weight: 500;
 }
 
 .menu {

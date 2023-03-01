@@ -1,11 +1,11 @@
 import '../styles/globals.css';
 import '../styles/variables.css';
-import '../styles/temp.css';
-//import '@fontsource/bitter/700.css';
 
 import { FormatProvider } from '@/components/Format/FormatContext';
 import Layout from '@/components/Layout/Layout';
 import { Bitter } from 'next/font/google';
+import localFont from 'next/font/local';
+import { cx } from '@/lib/classNames';
 
 const __html = `
 /**
@@ -60,13 +60,33 @@ const bitter = Bitter({
   variable: '--font-bitter',
 });
 
+const wotfard = localFont({
+  src: [
+    { path: '../fonts/wotfard-regular-webfont.woff2', weight: '400' },
+    { path: '../fonts/wotfard-medium-webfont.woff2', weight: '500' },
+  ],
+  variable: '--font-wotfard',
+});
+
+// Don't preload fonts that are never or not often used
+const wotfardExtra = localFont({
+  src: [
+    { path: '../fonts/wotfard-thin-webfont.woff2', weight: '200' },
+    { path: '../fonts/wotfard-extralight-webfont.woff2', weight: '300' },
+    { path: '../fonts/wotfard-semibold-webfont.woff2', weight: '600' },
+    { path: '../fonts/wotfard-bold-webfont.woff2', weight: '700' }
+  ],
+  variable: '--font-wotfard-extra',
+  preload: false,
+});
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={bitter.variable}>
+    <html lang="en" className={cx(bitter.variable, wotfard.variable, wotfardExtra.variable)}>
       <body>
         <FormatProvider><Layout>{children}</Layout></FormatProvider>
         <script dangerouslySetInnerHTML={{ __html }}/>

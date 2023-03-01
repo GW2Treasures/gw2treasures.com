@@ -28,7 +28,7 @@
 .activeLink {
   composes: link;
 
-  font-weight: bold;
+  font-weight: 500;
   border-left-color: var(--color-rarity, var(--hero-color, #000));
 }
 

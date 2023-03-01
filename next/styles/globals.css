@@ -2,7 +2,7 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: wotfard, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+  font-family: var(--font-wotfard, ''), var(--font-wotfard-extra, ''), -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   line-height: 1;
 }
@@ -14,17 +14,6 @@ p {
 
 p:last-child {
   margin-bottom: 0;
-}
-
-@font-face {
-  src: url("/wotfard-regular-webfont.woff2");
-  font-family: 'wotfard';
-}
-
-@font-face {
-  src: url("/wotfard-medium-webfont.woff2");
-  font-family: 'wotfard';
-  font-weight: bold;
 }
 
 a {

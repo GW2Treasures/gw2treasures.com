@@ -68,7 +68,7 @@
 }
 
 .title {
-  font-family: Bitter;
+  font-family: var(--font-bitter);
   font-weight: bold;
   display: flex;
   gap: 16px;

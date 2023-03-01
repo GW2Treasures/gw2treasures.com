@@ -15,7 +15,7 @@ function HomePage() {
     <HeroLayout hero={(
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 64, padding: 32 }}>
         <div style={{ display: 'flex', flexDirection: 'column', color: '#fff' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 16, fontFamily: 'Bitter', fontSize: 64, '--icon-size': '64px' }}><Icon icon="gw2treasures"/> gw2treasures.com</div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16, fontFamily: 'var(--font-bitter)', fontSize: 64, '--icon-size': '64px' }}><Icon icon="gw2treasures"/> gw2treasures.com</div>
           <div style={{ fontSize: 18, borderTop: '2px solid #fff', paddingTop: 8, fontWeight: 'bold', margin: '0 auto' }}>The Guild Wars 2® Database</div>
         </div>
         <Search/>

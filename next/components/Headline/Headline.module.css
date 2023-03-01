@@ -12,7 +12,7 @@
 }
 
 .content {
-  font-family: 'Bitter';
+  font-family: var(--font-bitter);
   font-size: 18px;
   line-height: 36px;
 

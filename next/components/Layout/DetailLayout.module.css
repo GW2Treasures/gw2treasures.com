@@ -40,7 +40,7 @@
 .title {
   grid-area: title;
 
-  font-family: Bitter;
+  font-family: var(--font-bitter);
   font-weight: bold;
   font-size: 22px;
   margin: 0;

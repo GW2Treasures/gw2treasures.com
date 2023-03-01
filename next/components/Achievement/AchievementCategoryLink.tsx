@@ -1,15 +1,15 @@
 import { FC } from 'react';
 import { AchievementCategory, Language } from '@prisma/client';
 import { IconSize } from '@/lib/getIconUrl';
-import { Link } from '../Link/Link';
+import { EntityLink } from '../Link/EntityLink';
 import { WithIcon } from '@/lib/with';
 
 export interface AchievementCategoryLinkProps {
   achievementCategory: WithIcon<AchievementCategory>;
   icon?: IconSize | 'none';
-  locale?: Language;
+  language?: Language;
 }
 
-export const AchievementCategoryLink: FC<AchievementCategoryLinkProps> = ({ achievementCategory, icon = 32, locale }) => {
-  return <Link href={`/achievement/category/${achievementCategory.id}`} item={achievementCategory} icon={icon} locale={locale}/>;
+export const AchievementCategoryLink: FC<AchievementCategoryLinkProps> = ({ achievementCategory, icon = 32, language }) => {
+  return <EntityLink href={`/achievement/category/${achievementCategory.id}`} entity={achievementCategory} icon={icon} language={language}/>;
 };

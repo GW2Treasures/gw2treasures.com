@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { IconSize } from '@/lib/getIconUrl';
 import { Skeleton } from '../Skeleton/Skeleton';
-import styles from './Link.module.css';
+import styles from './EntityLink.module.css';
 
 export interface SkeletonLinkProps {
   icon?: IconSize | 'none'

@@ -1,15 +1,15 @@
 import { FC } from 'react';
 import { Language, Skin } from '@prisma/client';
 import { IconSize } from '@/lib/getIconUrl';
-import { Link } from '../Link/Link';
+import { EntityLink } from '../Link/EntityLink';
 import { WithIcon } from '../../lib/with';
 
 export interface SkinLinkProps {
   skin: WithIcon<Skin>;
   icon?: IconSize | 'none';
-  locale?: Language;
+  language?: Language;
 }
 
-export const SkinLink: FC<SkinLinkProps> = ({ skin, icon = 32, locale }) => {
-  return <Link href={`/skin/${skin.id}`} item={skin} icon={icon} locale={locale}/>;
+export const SkinLink: FC<SkinLinkProps> = ({ skin, icon = 32, language }) => {
+  return <EntityLink href={`/skin/${skin.id}`} entity={skin} icon={icon} language={language}/>;
 };

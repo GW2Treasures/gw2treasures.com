@@ -53,7 +53,9 @@ async function AchievementCategoryPage({ params }: { params: { id: string }}) {
       icon={achievementCategory.icon && getIconUrl(achievementCategory.icon, 64) || undefined}
       breadcrumb={`Achievements › ${achievementCategory.achievementGroup ? localizedName(achievementCategory.achievementGroup, locale as Language) : 'Unknown Group'}`}
     >
-      <p>{data.description}</p>
+      {data.description && (
+        <p>{data.description}</p>
+      )}
 
       <Headline id="achievements">Achievements</Headline>
       <ItemList>

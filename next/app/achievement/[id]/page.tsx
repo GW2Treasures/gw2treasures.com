@@ -42,7 +42,9 @@ async function AchievementPage({ params }: { params: { id: string }}) {
 
   return (
     <DetailLayout title={data.name} icon={achievement.icon && getIconUrl(achievement.icon, 64) || undefined} breadcrumb={`Achievements › ${achievement.achievementCategory?.achievementGroup ? localizedName(achievement.achievementCategory?.achievementGroup, language) : 'Unknown Group'} › ${achievement.achievementCategory ? localizedName(achievement.achievementCategory, language) : 'Unknown Category'}`}>
-      <p>{data.description}</p>
+      {data.description && (
+        <p>{data.description}</p>
+      )}
 
       <Headline id="objectives">Objectives</Headline>
       <p dangerouslySetInnerHTML={{ __html: format(data.requirement.replace('  ', ` ${data.tiers[data.tiers.length - 1].count} `)) }}/>

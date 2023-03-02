@@ -1,7 +1,7 @@
 import { db } from '@/lib/prisma';
-import { Headline } from '@/components/Headline/Headline';
-import { PageLayout } from '@/components/Layout/PageLayout';
 import { BuildTable } from './BuildTable';
+
+export const dynamic = 'force-dynamic';
 
 async function getBuilds() {
   const language = 'en'; // TODO
@@ -35,4 +35,3 @@ async function BuildPage() {
 };
 
 export default BuildPage;
-

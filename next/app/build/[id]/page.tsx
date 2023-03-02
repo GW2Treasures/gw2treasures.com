@@ -12,6 +12,8 @@ import { AsyncComponent } from '@/lib/asyncComponent';
 import { FC, Suspense } from 'react';
 import { SkeletonLink } from '@/components/Link/SkeletonLink';
 
+export const dynamic = 'force-dynamic';
+
 async function getBuild(buildId: number) {
   const build = await db.build.findUnique({
     where: { id: buildId },
@@ -81,7 +83,7 @@ const Fallback: FC<{ headline: string, id: string }> = ({ headline, id }) => {
       </ItemList>
     </>
   );
-}
+};
 
 const UpdatedItems: AsyncComponent<{ itemsPromise: ReturnType<typeof getUpdatedItems> }> = async function({ itemsPromise }) {
   const items = await itemsPromise;

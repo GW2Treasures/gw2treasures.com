@@ -1,9 +1,9 @@
 import { Language } from '@prisma/client';
-import { db } from '../../lib/prisma';
+import { db } from '@/lib/prisma';
 import { Headline } from '@/components/Headline/Headline';
 import { ItemList } from '@/components/ItemList/ItemList';
 import { HeroLayout } from '@/components/Layout/HeroLayout';
-import { localizedName } from '../../lib/localizedName';
+import { localizedName } from '@/lib/localizedName';
 import { Fragment } from 'react';
 import { Gw2Api } from 'gw2-api-types';
 import { AchievementCategoryLink } from '@/components/Achievement/AchievementCategoryLink';
@@ -33,7 +33,7 @@ async function AchievementPage() {
   const groups = await getAchivementGroups(locale);
 
   return (
-    <HeroLayout hero={<Headline id="skins">Achievements</Headline>} color="#663399" toc>
+    <HeroLayout hero={<Headline id="achievements">Achievements</Headline>} color="#663399" toc>
       {groups.map((group) => {
         const data: Gw2Api.Achievement.Group = JSON.parse(group[`current_${locale as Language}`].data);
 

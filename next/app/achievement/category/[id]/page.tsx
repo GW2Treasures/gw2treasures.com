@@ -66,7 +66,7 @@ async function AchievementCategoryPage({ params }: { params: { id: string }}) {
 
       {historicAchievements.length > 0 && (
         <>
-          <Headline id="historic" actions={<Tip tip={<p>Historic achievements have either been removed from the game or are part of a rotation.</p>}><Icon icon="info"/></Tip>}>Historic</Headline>
+          <Headline id="historic">Historic <Tip tip={<p>Historic achievements have either been removed from the game or are part of a rotation.</p>}><Icon icon="info"/></Tip></Headline>
           <ItemList>
             {historicAchievements.map((achievement) => (
               <li key={achievement.id}><AchievementLink achievement={achievement}/></li>

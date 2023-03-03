@@ -5,6 +5,7 @@
   column-width: 420px;
   column-gap: 32px;
   column-count: 4;
+  max-width: 2560px;
 }
 
 .list > li {

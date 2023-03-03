@@ -35,7 +35,7 @@ function getNewItems() {
   // force dynamic rendering, because the db is not availabe at build time
   cookies();
 
-  return db.item.findMany({ take: 36, include: { icon: true }, orderBy: { createdAt: 'desc' }});
+  return db.item.findMany({ take: 24, include: { icon: true }, orderBy: { createdAt: 'desc' }});
 }
 
 async function NewItems() {
@@ -51,7 +51,7 @@ async function NewItems() {
 function NewItemsFallback() {
   return (
     <ItemList>
-      {[...new Array(36)].map((_, id) => <li key={id}><SkeletonLink/></li>)}
+      {[...new Array(24)].map((_, id) => <li key={id}><SkeletonLink/></li>)}
     </ItemList>
   );
 }

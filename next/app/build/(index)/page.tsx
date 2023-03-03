@@ -1,10 +1,11 @@
+import { getLanguage } from '@/components/I18n/getLanguage';
 import { db } from '@/lib/prisma';
+import { Language } from '@prisma/client';
 import { BuildTable } from './BuildTable';
 
 export const dynamic = 'force-dynamic';
 
-async function getBuilds() {
-  const language = 'en'; // TODO
+async function getBuilds(language: Language) {
 
   const builds = await db.build.findMany({
     orderBy: { id: 'desc' },
@@ -22,7 +23,8 @@ async function getBuilds() {
 }
 
 async function BuildPage() {
-  const { builds, updates } = await getBuilds();
+  const language = getLanguage();
+  const { builds, updates } = await getBuilds(language);
 
   const buildsWithUpdates = builds.map((build) => ({
     build,

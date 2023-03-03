@@ -1,4 +1,5 @@
 import { cloneElement, FC, ReactElement } from 'react';
+import { getLanguage } from '../I18n/getLanguage';
 import styles from './LanguageLinks.module.css';
 
 interface LanguageLinksProps {
@@ -6,7 +7,7 @@ interface LanguageLinksProps {
 };
 
 export const LanguageLinks: FC<LanguageLinksProps> = ({ link }) => {
-  const language: string = 'en'; // TODO
+  const language = getLanguage();
 
   return (
     <div className={styles.languages}>

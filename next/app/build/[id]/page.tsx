@@ -11,6 +11,7 @@ import { notFound } from 'next/navigation';
 import { AsyncComponent } from '@/lib/asyncComponent';
 import { FC, Suspense } from 'react';
 import { SkeletonLink } from '@/components/Link/SkeletonLink';
+import { getLanguage } from '@/components/I18n/getLanguage';
 
 export const dynamic = 'force-dynamic';
 
@@ -43,9 +44,8 @@ function getUpdatedSkills(buildId: number, language: Language) {
 }
 
 async function BuildDetail({ params }: { params: { id: string }}) {
-  const locale = 'en'; // TODO
+  const language = getLanguage();
   const id: number = Number(params.id);
-  const language = (locale ?? 'en') as Language;
 
   const itemsPromise = getUpdatedItems(id, language);
   const skillsPromise = getUpdatedSkills(id, language);

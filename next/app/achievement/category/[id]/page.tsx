@@ -11,6 +11,7 @@ import { Json } from '@/components/Format/Json';
 import { Tip } from '@/components/Tip/Tip';
 import { notFound } from 'next/navigation';
 import Icon from 'icons/Icon';
+import { getLanguage } from '@/components/I18n/getLanguage';
 
 async function getData(id: number, language: Language) {
   const [achievementCategory, revision] = await Promise.all([
@@ -33,9 +34,8 @@ async function getData(id: number, language: Language) {
 };
 
 async function AchievementCategoryPage({ params }: { params: { id: string }}) {
-  const locale = 'en'; // TODO
+  const language = getLanguage();
   const id: number = Number(params.id);
-  const language = (locale ?? 'en') as Language;
 
   if(isNaN(id)) {
     notFound();
@@ -51,7 +51,7 @@ async function AchievementCategoryPage({ params }: { params: { id: string }}) {
     <DetailLayout
       title={data.name}
       icon={achievementCategory.icon && getIconUrl(achievementCategory.icon, 64) || undefined}
-      breadcrumb={`Achievements › ${achievementCategory.achievementGroup ? localizedName(achievementCategory.achievementGroup, locale as Language) : 'Unknown Group'}`}
+      breadcrumb={`Achievements › ${achievementCategory.achievementGroup ? localizedName(achievementCategory.achievementGroup, language) : 'Unknown Group'}`}
     >
       {data.description && (
         <p>{data.description}</p>

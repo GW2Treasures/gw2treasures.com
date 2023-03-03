@@ -3,6 +3,7 @@ import { Gw2Api } from 'gw2-api-types';
 import { FC } from 'react';
 import Icon from '../../icons/Icon';
 import { Headline } from '../Headline/Headline';
+import { getLanguage } from '../I18n/getLanguage';
 import { LanguageLinks } from '../Infobox/LanguageLinks';
 import { ItemLink } from './ItemLink';
 import { TradingPost } from './TradingPost';
@@ -18,7 +19,7 @@ function isTpTradeable(data: Gw2Api.Item) {
 }
 
 export const ItemInfobox: FC<ItemInfoboxProps> = ({ item, data }) => {
-  const locale = 'en'; // TODO
+  const language = getLanguage();
   const isTradeable = isTpTradeable(data);
 
   return (
@@ -34,7 +35,7 @@ export const ItemInfobox: FC<ItemInfoboxProps> = ({ item, data }) => {
 
       <Headline id="links" noToc>Links</Headline>
 
-      <a href={`https://api.guildwars2.com/v2/items/${item.id}?v=latest&lang=${locale}`} target="api" rel="noreferrer noopener">API</a>
+      <a href={`https://api.guildwars2.com/v2/items/${item.id}?v=latest&lang=${language}`} target="api" rel="noreferrer noopener">API</a>
 
       <div style={{ display: 'flex', gap: 12, margin: '8px 0', alignItems: 'center', borderRadius: 0, border: '1px solid var(--color-border)', paddingLeft: 12 }}>
         <Icon icon="chatlink"/>

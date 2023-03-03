@@ -11,6 +11,7 @@ import { Separator } from '@/components/Layout/Separator';
 import Icon from '../../../icons/Icon';
 import { format } from 'gw2-tooltip-html';
 import { notFound } from 'next/navigation';
+import { getLanguage } from '@/components/I18n/getLanguage';
 
 async function getAchievement(id: number, language: Language) {
   const [achievement, revision] = await Promise.all([
@@ -32,9 +33,8 @@ async function getAchievement(id: number, language: Language) {
 }
 
 async function AchievementPage({ params }: { params: { id: string }}) {
-  const locale = 'en'; // TODO
+  const language = getLanguage();
   const id: number = Number(params.id);
-  const language = (locale ?? 'en') as Language;
 
   const { achievement, revision } = await getAchievement(id, language);
 

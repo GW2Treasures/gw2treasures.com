@@ -11,6 +11,7 @@ import { ItemTable } from '@/components/Item/ItemTable';
 import { notFound } from 'next/navigation';
 import { ItemList } from '@/components/ItemList/ItemList';
 import { SkinLink } from '@/components/Skin/SkinLink';
+import { getLanguage } from '@/components/I18n/getLanguage';
 
 async function getSkin(id: number, language: Language) {
   const [skin, revision] = await Promise.all([
@@ -34,9 +35,8 @@ async function getSkin(id: number, language: Language) {
 }
 
 async function SkinPage ({ params }: { params: { id: string }}) {
-  const locale = 'en'; // TODO
+  const language = getLanguage();
   const id: number = Number(params.id);
-  const language = (locale ?? 'en') as Language;
 
   const { skin, revision, similar } = await getSkin(id, language);
 

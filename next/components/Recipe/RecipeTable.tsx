@@ -10,6 +10,7 @@ import { Button } from '../Form/Button';
 import { Checkbox } from '../Form/Checkbox';
 import { TextInput } from '../Form/TextInput';
 import { Headline } from '../Headline/Headline';
+import { useLanguage } from '../I18n/Context';
 import { ItemLink, ItemLinkProps } from '../Item/ItemLink';
 import { Separator } from '../Layout/Separator';
 import { MenuList } from '../MenuList/MenuList';
@@ -49,7 +50,7 @@ export const RecipeTable: FC<RecipeTableProps> = ({ recipes }) => {
   const [search, setSearch] = useState('');
   const filter = useDeferredValue(search.toLowerCase());
 
-  const locale = 'en'; // TODO
+  const language = useLanguage();
 
   const [disciplineFilter, setDisciplineFilter] = useState(DisciplineNames);
 
@@ -93,7 +94,7 @@ export const RecipeTable: FC<RecipeTableProps> = ({ recipes }) => {
         </thead>
         <tbody>
           {recipes.map((recipe) => (
-            <RecipeTableRow key={recipe.id} recipe={recipe} visible={(!filter || ((!!recipe.outputItem && localizedName(recipe.outputItem, locale as any).toLowerCase().includes(filter)) || recipe.rating.toString() === filter)) && (recipe.disciplines.length === 0 || recipe.disciplines.some((discipline) => disciplineFilter.includes(discipline as Discipline)))}/>
+            <RecipeTableRow key={recipe.id} recipe={recipe} visible={(!filter || ((!!recipe.outputItem && localizedName(recipe.outputItem, language).toLowerCase().includes(filter)) || recipe.rating.toString() === filter)) && (recipe.disciplines.length === 0 || recipe.disciplines.some((discipline) => disciplineFilter.includes(discipline as Discipline)))}/>
           ))}
         </tbody>
       </Table>

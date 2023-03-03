@@ -1,13 +1,9 @@
-import NextLink from 'next/link';
-import React, { FC, ReactElement } from 'react';
+import { FC, ReactElement } from 'react';
 import { Language } from '@prisma/client';
-import { cx } from '../../lib/classNames';
-import { ItemIcon } from '../Item/ItemIcon';
-import styles from './EntityLink.module.css';
-import rarityClasses from '../Layout/RarityColor.module.css';
 import { IconSize } from '@/lib/getIconUrl';
-import { LocalizedEntity, localizedName } from '@/lib/localizedName';
+import { LocalizedEntity } from '@/lib/localizedName';
 import { WithIcon } from '@/lib/with';
+import { EntityLinkInternal } from './EntityLinkInternal';
 
 export interface EntityLinkProps {
   href: string;
@@ -16,21 +12,10 @@ export interface EntityLinkProps {
   language?: Language;
 }
 
-export const EntityLink: FC<EntityLinkProps> = ({ href, entity, icon = 32, language }) => {
-  language = language ?? 'en'; // TODO
+export const EntityLink: FC<EntityLinkProps> = ({ entity: { name_de, name_en, name_es, name_fr, icon, rarity }, ...props }) => {
+  const cleanEntity: EntityLinkProps['entity'] = { name_de, name_en, name_es, name_fr, icon, rarity };
 
   return (
-    <NextLink
-      href={href}
-      locale={language}
-      className={cx(styles.link, entity.rarity && rarityClasses[entity.rarity])}
-      hrefLang={language}
-      prefetch={false}
-    >
-      <>
-        {icon !== 'none' && entity.icon && (typeof icon === 'number' ? <ItemIcon icon={entity.icon} size={icon}/> : icon)}
-        <span className={styles.name}>{localizedName(entity, language)}</span>
-      </>
-    </NextLink>
+    <EntityLinkInternal entity={cleanEntity} {...props}/>
   );
 };

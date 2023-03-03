@@ -1,5 +1,6 @@
 import { FormatDate } from '@/components/Format/FormatDate';
 import { Headline } from '@/components/Headline/Headline';
+import { Trans } from '@/components/I18n/Trans';
 import { ItemLink } from '@/components/Item/ItemLink';
 import { ItemList } from '@/components/ItemList/ItemList';
 import { HeroLayout } from '@/components/Layout/HeroLayout';
@@ -22,7 +23,9 @@ function HomePage() {
       </div>
     )}
     >
-      <Headline id="new-items">New Items</Headline>
+      <Headline id="new-items">
+        <Trans id="items.new"/>
+      </Headline>
       <Suspense fallback={<NewItemsFallback/>}>
         {/* @ts-expect-error Server Component */}
         <NewItems/>
@@ -55,6 +58,5 @@ function NewItemsFallback() {
     </ItemList>
   );
 }
-
 
 export default HomePage;

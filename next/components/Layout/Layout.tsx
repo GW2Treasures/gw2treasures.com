@@ -1,6 +1,6 @@
 'use client';
 
-import { FunctionComponent, ReactNode, useEffect, useState } from 'react';
+import { FunctionComponent, ReactNode, useCallback, useEffect, useState } from 'react';
 import styles from './Layout.module.css';
 import Icon from '../../icons/Icon';
 import Navigation from './Navigation';
@@ -15,16 +15,17 @@ import { Separator } from './Separator';
 import { MenuList } from '../MenuList/MenuList';
 import { Radiobutton } from '../Form/Radiobutton';
 import { Dialog } from '../Dialog/Dialog';
-import { TextInput } from '../Form/TextInput';
 import { FormatDate } from '../Format/FormatDate';
 import { FormatNumber } from '../Format/FormatNumber';
 import { useFormatContext } from '../Format/FormatContext';
+import { useLanguage } from '../I18n/Context';
+import { Language } from '@prisma/client';
 
 interface LayoutProps {
   children: ReactNode;
 };
 
-const locales = {
+const languages = {
   en: 'English',
   de: 'Deutsch',
   es: 'Español',
@@ -35,14 +36,13 @@ const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolledDown, setScrolledDown] = useState('window' in global && window.scrollY > 0);
   const loading = useLoading();
-  const { replace } = useRouter();
+  const { refresh } = useRouter();
   const { locale: formatLocale, setLocale: setFormatLocale, defaultLocale } = useFormatContext();
 
   const [formatDialogOpen, setFormatDialogOpen] = useState(false);
 
-  const locale: string = 'en';
-  const localeName = locales.en;
-  const asPath = typeof location === 'undefined' ? '/' : location.pathname;
+  const language = useLanguage();
+  const localeName = languages[language];
 
   useEffect(() => {
     const listener = () => {
@@ -57,6 +57,11 @@ const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
       setMenuOpen(false);
     }
   }, [menuOpen, scrolledDown]);
+
+  const changeLanguage = useCallback((language: Language) => {
+    window.document.cookie = `gw2t.lang=${language}; max-age=${60 * 60 * 24 * 365}; path=/`;
+    refresh();
+  }, [refresh]);
 
   return (
     <div>
@@ -79,10 +84,10 @@ const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
                 </Button>
               )}>
                 <MenuList>
-                  <Radiobutton checked={locale === 'de'} onChange={() => replace(asPath)}>{locales.de}</Radiobutton>
-                  <Radiobutton checked={locale === 'en'} onChange={() => replace(asPath)}>{locales.en}</Radiobutton>
-                  <Radiobutton checked={locale === 'es'} onChange={() => replace(asPath)}>{locales.es}</Radiobutton>
-                  <Radiobutton checked={locale === 'fr'} onChange={() => replace(asPath)}>{locales.fr}</Radiobutton>
+                  <Radiobutton checked={language === 'de'} onChange={() => changeLanguage('de')}>{languages.de}</Radiobutton>
+                  <Radiobutton checked={language === 'en'} onChange={() => changeLanguage('en')}>{languages.en}</Radiobutton>
+                  <Radiobutton checked={language === 'es'} onChange={() => changeLanguage('es')}>{languages.es}</Radiobutton>
+                  <Radiobutton checked={language === 'fr'} onChange={() => changeLanguage('fr')}>{languages.fr}</Radiobutton>
                   <Separator/>
                   <Button onClick={() => setFormatDialogOpen(true)} appearance="menu">Formatting Settings…</Button>
                 </MenuList>

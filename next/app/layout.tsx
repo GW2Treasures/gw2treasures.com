@@ -6,6 +6,7 @@ import Layout from '@/components/Layout/Layout';
 import { Bitter } from 'next/font/google';
 import localFont from 'next/font/local';
 import { cx } from '@/lib/classNames';
+import { I18nProvider } from '@/components/I18n/I18nProvider';
 
 const __html = `
 /**
@@ -97,7 +98,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={cx(bitter.variable, wotfard.variable, wotfardExtra.variable)}>
       <body>
-        <FormatProvider><Layout>{children}</Layout></FormatProvider>
+        <I18nProvider><FormatProvider><Layout>{children}</Layout></FormatProvider></I18nProvider>
         <script dangerouslySetInnerHTML={{ __html }}/>
       </body>
     </html>

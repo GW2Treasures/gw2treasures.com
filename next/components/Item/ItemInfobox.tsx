@@ -1,9 +1,8 @@
-import { Item } from '@prisma/client';
+import { Item, Language } from '@prisma/client';
 import { Gw2Api } from 'gw2-api-types';
 import { FC } from 'react';
 import Icon from '../../icons/Icon';
 import { Headline } from '../Headline/Headline';
-import { getLanguage } from '../I18n/getLanguage';
 import { LanguageLinks } from '../Infobox/LanguageLinks';
 import { ItemLink } from './ItemLink';
 import { TradingPost } from './TradingPost';
@@ -11,6 +10,7 @@ import { TradingPost } from './TradingPost';
 interface ItemInfoboxProps {
   item: Item;
   data: Gw2Api.Item;
+  language: Language;
 };
 
 function isTpTradeable(data: Gw2Api.Item) {
@@ -18,13 +18,12 @@ function isTpTradeable(data: Gw2Api.Item) {
   return data.flags.every((flag) => !flags.includes(flag));
 }
 
-export const ItemInfobox: FC<ItemInfoboxProps> = ({ item, data }) => {
-  const language = getLanguage();
+export const ItemInfobox: FC<ItemInfoboxProps> = ({ item, data, language }) => {
   const isTradeable = isTpTradeable(data);
 
   return (
     <div>
-      <LanguageLinks link={<ItemLink icon="none" item={item}/>}/>
+      <LanguageLinks language={language} link={<ItemLink icon="none" item={item}/>}/>
 
       <Headline id="tp" noToc>Trading Post</Headline>
       {isTradeable ? (

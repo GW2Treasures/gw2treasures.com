@@ -13,13 +13,23 @@ import { useLanguage } from '../I18n/Context';
 export const EntityLinkInternal: FC<EntityLinkProps> = ({ href, entity, icon = 32, language }) => {
   const defaultLanguage = useLanguage();
 
+  if(language && defaultLanguage !== language) {
+    if(typeof window !== 'undefined') {
+      const url = new URL(window.location.href);
+      url.hostname = language + url.hostname.substring(2);
+      href = url.href;
+    } else {
+      // TODO: suppressHydrationWarning could be removed if this were possible on the server
+    }
+  }
+
   return (
     <NextLink
+      suppressHydrationWarning
       href={href}
       locale={language}
       className={cx(styles.link, entity.rarity && rarityClasses[entity.rarity])}
       hrefLang={language}
-      prefetch={false}
     >
       <>
         {icon !== 'none' && entity.icon && (typeof icon === 'number' ? <ItemIcon icon={entity.icon} size={icon}/> : icon)}

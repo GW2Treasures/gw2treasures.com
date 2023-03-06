@@ -2,7 +2,7 @@
 const nextConfig = {
   experimental: {
     appDir: true,
-    swcPlugins: [["next-superjson-plugin", {}]],
+    swcPlugins: [['next-superjson-plugin', {}]],
   },
   reactStrictMode: true,
   output: 'standalone',
@@ -11,11 +11,11 @@ const nextConfig = {
     config.module.rules.push({
       test: /\.svg$/i,
       issuer: /\.[jt]sx?$/,
-      use: [{ loader: '@svgr/webpack', options: { ref: true } }],
+      use: [{ loader: '@svgr/webpack', options: { ref: true }}],
     });
 
     return config;
-  }
-}
+  },
+};
 
 module.exports = nextConfig;

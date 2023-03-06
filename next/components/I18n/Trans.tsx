@@ -2,7 +2,6 @@ import 'server-only';
 
 import { AsyncComponent } from '@/lib/asyncComponent';
 import { translate, TranslationId } from './getTranslate';
-import { getLanguage } from './getLanguage';
 import { FC } from 'react';
 
 export interface TransProps {
@@ -15,7 +14,7 @@ export const Trans: FC<TransProps> = ({ id }) => {
 };
 
 const TransInternal: AsyncComponent<TransProps> = async ({ id }) => {
-  const language = getLanguage();
+  const language = 'en'; // TODO
   const translation = await translate(language, id);
 
   return <>{translation}</>;

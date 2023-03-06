@@ -36,7 +36,7 @@ const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolledDown, setScrolledDown] = useState('window' in global && window.scrollY > 0);
   const loading = useLoading();
-  const { refresh } = useRouter();
+  const { push } = useRouter();
   const { locale: formatLocale, setLocale: setFormatLocale, defaultLocale } = useFormatContext();
 
   const [formatDialogOpen, setFormatDialogOpen] = useState(false);
@@ -59,9 +59,11 @@ const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
   }, [menuOpen, scrolledDown]);
 
   const changeLanguage = useCallback((language: Language) => {
-    window.document.cookie = `gw2t.lang=${language}; max-age=${60 * 60 * 24 * 365}; path=/`;
-    refresh();
-  }, [refresh]);
+    const url = new URL(window.location.href);
+    url.hostname = language + url.hostname.substring(2);
+    // window.location.href = url.href;
+    push(url.href);
+  }, [push]);
 
   return (
     <div>
@@ -71,7 +73,7 @@ const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
             <button className={styles.menuButton} onClick={() => setMenuOpen(!menuOpen)}>
               <Icon icon="menu"/>
             </button>
-            <Link href="/" className={styles.title} prefetch={false}>
+            <Link href="/" className={styles.title}>
               <Icon icon="gw2treasures"/>
               {loading && (<LoaderIcon className={styles.loader}/>)}
               gw2treasures.com
@@ -104,7 +106,7 @@ const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
                   <div style={{ padding: 8, display: 'flex', justifyContent: 'space-between' }}>Number <span><FormatNumber value={1234567.89}/></span></div>
                 </MenuList>
               </Dialog>
-              <LinkButton appearance="menu" href="/login" prefetch={false}>
+              <LinkButton appearance="menu" href="/login">
                 <Icon icon="user"/> Login
               </LinkButton>
             </div>
@@ -117,7 +119,7 @@ const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
         {children}
         <footer className={styles.footer}>
           <span><b>gw2treasures.com</b> by darthmaim &copy; {new Date().getFullYear()}</span>
-          <Link href="/status/jobs" prefetch={false}>Status</Link>
+          <Link href="/status/jobs">Status</Link>
         </footer>
       </div>
       <div className={styles.disclaimer}>This site is not affiliated with ArenaNet, Guild Wars 2, or any of their partners. All copyrights reserved to their respective owners.</div>

@@ -1,4 +1,4 @@
-import { Skill } from '@prisma/client';
+import { Language, Skill } from '@prisma/client';
 import { Gw2Api } from 'gw2-api-types';
 import { FC } from 'react';
 import { isTruthy } from '../../lib/is';
@@ -11,12 +11,13 @@ import { SlotRenderer } from './SlotRenderer';
 interface SkillInfoboxProps {
   skill: Skill;
   data: Gw2Api.Skill;
+  language: Language;
 };
 
-export const SkillInfobox: FC<SkillInfoboxProps> = ({ skill, data }) => {
+export const SkillInfobox: FC<SkillInfoboxProps> = ({ skill, data, language }) => {
   return (
     <div>
-      <LanguageLinks link={<SkillLink skill={skill} icon="none"/>}/>
+      <LanguageLinks link={<SkillLink skill={skill} icon="none"/>} language={language}/>
       <Headline id="info" noToc>Info</Headline>
       <DataList data={[
         data.professions && data.professions.length > 0 && data.professions.length !== 9 && { key: 'profession', label: 'Profession', value: data.professions.join(', ') },

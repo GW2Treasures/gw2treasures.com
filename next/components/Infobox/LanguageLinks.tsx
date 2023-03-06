@@ -1,13 +1,13 @@
+import { Language } from '@prisma/client';
 import { cloneElement, FC, ReactElement } from 'react';
-import { getLanguage } from '../I18n/getLanguage';
 import styles from './LanguageLinks.module.css';
 
 interface LanguageLinksProps {
   link: ReactElement<{ language: string }>;
+  language: Language;
 };
 
-export const LanguageLinks: FC<LanguageLinksProps> = ({ link }) => {
-  const language = getLanguage();
+export const LanguageLinks: FC<LanguageLinksProps> = ({ link, language }) => {
 
   return (
     <div className={styles.languages}>

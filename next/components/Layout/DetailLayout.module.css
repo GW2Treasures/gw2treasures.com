@@ -37,6 +37,11 @@
   margin-right: 16px;
 }
 
+.icon > img {
+  width: 48px;
+  height: 48px;
+}
+
 .title {
   grid-area: title;
 

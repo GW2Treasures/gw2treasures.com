@@ -11,8 +11,9 @@ import { ItemTable } from '@/components/Item/ItemTable';
 import { notFound } from 'next/navigation';
 import { ItemList } from '@/components/ItemList/ItemList';
 import { SkinLink } from '@/components/Skin/SkinLink';
+import { remember } from '@/lib/remember';
 
-async function getSkin(id: number, language: Language) {
+const getSkin = remember(60, async function getSkin(id: number, language: Language) {
   const [skin, revision] = await Promise.all([
     db.skin.findUnique({
       where: { id },
@@ -31,7 +32,7 @@ async function getSkin(id: number, language: Language) {
   const similar = await db.skin.findMany({ where: { OR: [{ name_en: skin.name_en }, { iconId: skin.iconId }], id: { not: skin.id }}, include: { icon: true }});
 
   return { skin, revision, similar };
-}
+});
 
 async function SkinPage ({ params: { language, id }}: { params: { language: Language, id: string }}) {
   const skinId: number = Number(id);

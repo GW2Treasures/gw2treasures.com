@@ -11,8 +11,9 @@ import { Separator } from '@/components/Layout/Separator';
 import Icon from '../../../../icons/Icon';
 import { format } from 'gw2-tooltip-html';
 import { notFound } from 'next/navigation';
+import { remember } from '@/lib/remember';
 
-async function getAchievement(id: number, language: Language) {
+const getAchievement = remember(60, async function getAchievement(id: number, language: Language) {
   const [achievement, revision] = await Promise.all([
     db.achievement.findUnique({
       where: { id },
@@ -29,7 +30,7 @@ async function getAchievement(id: number, language: Language) {
   }
 
   return { achievement, revision };
-}
+});
 
 async function AchievementPage({ params: { id, language }}: { params: { language: Language, id: string }}) {
   const achievementId: number = Number(id);

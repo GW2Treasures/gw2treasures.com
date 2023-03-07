@@ -11,10 +11,11 @@ import { Json } from '@/components/Format/Json';
 import { Tip } from '@/components/Tip/Tip';
 import { notFound } from 'next/navigation';
 import Icon from 'icons/Icon';
+import { remember } from '@/lib/remember';
 
 export const dynamic = 'force-dynamic';
 
-async function getData(id: number, language: Language) {
+const getData = remember(60, async function getData(id: number, language: Language) {
   const [achievementCategory, revision] = await Promise.all([
     db.achievementCategory.findUnique({
       where: { id },
@@ -32,7 +33,7 @@ async function getData(id: number, language: Language) {
   }
 
   return { achievementCategory, revision };
-};
+});
 
 async function AchievementCategoryPage({ params: { language, id }}: { params: { language: Language, id: string }}) {
   const achievementCategoryId = Number(id);

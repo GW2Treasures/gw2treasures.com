@@ -6,10 +6,12 @@ import { ItemList } from '@/components/ItemList/ItemList';
 import { HeroLayout } from '@/components/Layout/HeroLayout';
 import { SkeletonLink } from '@/components/Link/SkeletonLink';
 import { Search } from '@/components/Search/Search';
-import { cookies } from 'next/headers';
 import { Suspense } from 'react';
 import Icon from '../../icons/Icon';
 import { db } from '@/lib/prisma';
+import { remember } from '@/lib/remember';
+
+export const dynamic = 'force-dynamic';
 
 function HomePage() {
   return (
@@ -34,12 +36,9 @@ function HomePage() {
   );
 };
 
-function getNewItems() {
-  // force dynamic rendering, because the db is not availabe at build time
-  cookies();
-
+const getNewItems = remember(15, function getNewItems() {
   return db.item.findMany({ take: 24, include: { icon: true }, orderBy: { createdAt: 'desc' }});
-}
+});
 
 async function NewItems() {
   const items = await getNewItems();

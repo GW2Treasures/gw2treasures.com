@@ -7,10 +7,11 @@ import { ItemIcon } from '@/components/Item/ItemIcon';
 import Link from 'next/link';
 import { FormatNumber } from '@/components/Format/FormatNumber';
 import { HeroLayout } from '@/components/Layout/HeroLayout';
+import { remember } from '@/lib/remember';
 
 export const dynamic = 'force-dynamic';
 
-async function getSkins() {
+const getSkins = remember(60, async function getSkins() {
   const [newSkins, byTypes] = await Promise.all([
     db.skin.findMany({ take: 24, include: { icon: true }, orderBy: { createdAt: 'desc' }}),
     db.skin.groupBy({ by: ['type', 'subtype'], orderBy: [{ type: 'asc' }, { _count: { id: 'desc' }}], _count: true, _max: { iconId: true }})
@@ -23,7 +24,7 @@ async function getSkins() {
   const iconMap: Record<number, string> = Object.fromEntries(icons.map(({ id, signature }) => [id, signature]));
 
   return { newSkins, byTypes, iconMap };
-}
+});
 
 async function SkinPage() {
   const { newSkins, byTypes, iconMap } = await getSkins();

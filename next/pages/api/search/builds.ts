@@ -2,6 +2,14 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { nameQuery, splitSearchTerms } from '.';
 import { db } from '@/lib/prisma';
+import { remember } from '@/lib/remember';
+
+const searchBuilds = remember(60, function searchBuilds(terms: string[]) {
+  return db.build.findMany({
+    where: { OR: terms.map((term) => ({ id: Number(term) })) },
+    take: 5,
+  });
+});
 
 export default async function handler(
   req: NextApiRequest,
@@ -19,10 +27,7 @@ export default async function handler(
     return res.status(200).json({ searchValue, result: [] });
   }
 
-  const result = await db.build.findMany({
-    where: searchValue ? { OR: terms.map((term) => ({ id: Number(term) })) } : undefined,
-    take: 5,
-  });
+  const result = await searchBuilds(terms);
 
   res.status(200).json({ searchValue, result });
 }

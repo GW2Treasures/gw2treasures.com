@@ -5,18 +5,19 @@ import { FormatDate } from '@/components/Format/FormatDate';
 import { FormatNumber } from '@/components/Format/FormatNumber';
 import { PageLayout } from '@/components/Layout/PageLayout';
 import { Reload } from '@/components/Reload/Reload';
+import { remember } from '@/lib/remember';
 
 export const revalidate = 3;
 export const dynamic = 'force-dynamic';
 
-async function getJobs() {
+const getJobs = remember(1, async function getJobs() {
   const [running, finished] = await Promise.all([
     db.job.findMany({ where: { OR: [{ state: { in: ['Running', 'Queued'] }}, { cron: { not: '' }}] }, orderBy: [{ priority: 'desc' }, { scheduledAt: 'asc' }] }),
     db.job.findMany({ where: { state: { notIn: ['Running', 'Queued'] }}, orderBy: { finishedAt: 'desc' }}),
   ]);
 
   return { running, finished, now: new Date() };
-}
+});
 
 async function JobPage() {
   const { running, finished, now } = await getJobs();

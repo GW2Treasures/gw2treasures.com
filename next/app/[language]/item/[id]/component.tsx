@@ -22,6 +22,7 @@ import { AsyncComponent } from '@/lib/asyncComponent';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 import { SkeletonTable } from '@/components/Skeleton/SkeletonTable';
+import { remember } from '@/lib/remember';
 
 export interface ItemPageComponentProps {
   language: Language;
@@ -29,7 +30,7 @@ export interface ItemPageComponentProps {
   revisionId?: string;
 }
 
-async function getItem(id: number, language: Language, revisionId?: string) {
+const getItem = remember(60, async function getItem(id: number, language: Language, revisionId?: string) {
   if(isNaN(id)) {
     notFound();
   }
@@ -86,7 +87,7 @@ async function getItem(id: number, language: Language, revisionId?: string) {
   });
 
   return { item, revision, similarItems };
-};
+});
 
 export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async ({ language, itemId, revisionId }) => {
   const fixedRevision = revisionId !== undefined;

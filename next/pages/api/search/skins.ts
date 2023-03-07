@@ -2,6 +2,17 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { nameQuery, splitSearchTerms } from '.';
 import { db } from '@/lib/prisma';
+import { remember } from '@/lib/remember';
+
+const searchSkins = remember(60, function searchSkins(terms: string[]) {
+  const nameQueries = nameQuery(terms);
+
+  return db.skin.findMany({
+    where: terms.length > 0 ? { OR: nameQueries } : undefined,
+    take: 5,
+    include: { icon: true }
+  });
+});
 
 export default async function handler(
   req: NextApiRequest,
@@ -14,13 +25,7 @@ export default async function handler(
   }
 
   const terms = splitSearchTerms(searchValue);
-  const nameQueries = nameQuery(terms);
-
-  const result = await db.skin.findMany({
-    where: searchValue ? { OR: nameQueries } : undefined,
-    take: 5,
-    include: { icon: true }
-  });
+  const result = await searchSkins(terms);
 
   res.status(200).json({ searchValue, result });
 }

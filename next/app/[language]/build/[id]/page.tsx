@@ -11,10 +11,11 @@ import { notFound } from 'next/navigation';
 import { AsyncComponent } from '@/lib/asyncComponent';
 import { FC, Suspense } from 'react';
 import { SkeletonLink } from '@/components/Link/SkeletonLink';
+import { remember } from '@/lib/remember';
 
 export const dynamic = 'force-dynamic';
 
-async function getBuild(buildId: number) {
+const getBuild = remember(60, async function getBuild(buildId: number) {
   const build = await db.build.findUnique({
     where: { id: buildId },
   });
@@ -24,23 +25,23 @@ async function getBuild(buildId: number) {
   }
 
   return build;
-}
+});
 
-function getUpdatedItems(buildId: number, language: Language) {
+const getUpdatedItems = remember(60, function getUpdatedItems(buildId: number, language: Language) {
   return db.item.findMany({
     where: { history: { some: { revision: { buildId, type: 'Update', language, entity: 'Item' }}}},
     include: { icon: true },
     take: 500,
   });
-}
+});
 
-function getUpdatedSkills(buildId: number, language: Language) {
+const getUpdatedSkills = remember(60, function getUpdatedSkills(buildId: number, language: Language) {
   return db.skill.findMany({
     where: { history: { some: { revision: { buildId, type: 'Update', language }}}},
     include: { icon: true, history: { where: { revision: { buildId: { lte: buildId }, language }}, take: 2, orderBy: { revision: { buildId: 'desc' }}}},
     take: 500,
   });
-}
+});
 
 async function BuildDetail({ params: { id, language }}: { params: { language: Language, id: string }}) {
   const buildId: number = Number(id);

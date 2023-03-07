@@ -1,8 +1,9 @@
 import { Language } from '@prisma/client';
 import { notFound } from 'next/navigation';
 import { db } from '@/lib/prisma';
+import { remember } from '@/lib/remember';
 
-export async function getSkill(id: number, language: Language, revisionId?: string) {
+export const getSkill = remember(60, async function getSkill(id: number, language: Language, revisionId?: string) {
   const [skill, revision] = await Promise.all([
     db.skill.findUnique({
       where: { id },
@@ -25,4 +26,4 @@ export async function getSkill(id: number, language: Language, revisionId?: stri
   }
 
   return { skill, revision };
-}
+});

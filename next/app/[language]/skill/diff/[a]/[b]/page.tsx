@@ -12,8 +12,9 @@ import { Json } from '@/components/Format/Json';
 import { notFound } from 'next/navigation';
 import { Fragment } from 'react';
 import { db } from '@/lib/prisma';
+import { remember } from '@/lib/remember';
 
-async function getRevisions(idA: string, idB: string) {
+const getRevisions = remember(60, async function getRevisions(idA: string, idB: string) {
   const [a, b] = await Promise.all([
     db?.revision.findUnique({ where: { id: idA }}),
     db?.revision.findUnique({ where: { id: idB }}),
@@ -24,7 +25,7 @@ async function getRevisions(idA: string, idB: string) {
   }
 
   return { a, b };
-};
+});
 
 async function SkillDiffPage({ params }: { params: { a: string, b: string }}) {
   const idA = params.a.toString();

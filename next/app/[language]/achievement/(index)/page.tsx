@@ -7,10 +7,11 @@ import { Fragment } from 'react';
 import { Gw2Api } from 'gw2-api-types';
 import { AchievementCategoryLink } from '@/components/Achievement/AchievementCategoryLink';
 import { Language } from '@prisma/client';
+import { remember } from '@/lib/remember';
 
 export const dynamic = 'force-dynamic';
 
-async function getAchivementGroups(language: string) {
+const getAchivementGroups = remember(60, async function getAchivementGroups(language: string) {
   const groups = await db.achievementGroup.findMany({
     include: {
       achievementCategories: {
@@ -26,7 +27,7 @@ async function getAchivementGroups(language: string) {
   });
 
   return groups;
-}
+});
 
 async function AchievementPage({ params: { language }}: { params: { language: Language }}) {
   const groups = await getAchivementGroups(language);

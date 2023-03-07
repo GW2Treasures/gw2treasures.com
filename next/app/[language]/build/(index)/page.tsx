@@ -1,11 +1,11 @@
 import { db } from '@/lib/prisma';
+import { remember } from '@/lib/remember';
 import { Language } from '@prisma/client';
 import { BuildTable } from './BuildTable';
 
 export const dynamic = 'force-dynamic';
 
-async function getBuilds(language: Language) {
-
+const getBuilds = remember(60, async function getBuilds(language: Language) {
   const builds = await db.build.findMany({
     orderBy: { id: 'desc' },
     include: { _count: { select: { revisions: { where: { type: 'Update', language }}}}},
@@ -19,7 +19,7 @@ async function getBuilds(language: Language) {
   });
 
   return { builds, updates };
-}
+});
 
 async function BuildPage({ params: { language }}: { params: { language: Language }}) {
   const { builds, updates } = await getBuilds(language);

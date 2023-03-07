@@ -86,3 +86,8 @@
 .sortDesc:before {
   border-color: #000 transparent
 }
+
+.group {
+  font-weight: 500;
+  background-color: #fcfcfc;
+}

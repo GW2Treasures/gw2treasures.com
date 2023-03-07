@@ -1,4 +1,4 @@
-import { FC, Key, memo, ReactNode, useCallback, useMemo, useState } from 'react';
+import { FC, Fragment, Key, memo, ReactNode, useCallback, useMemo, useState } from 'react';
 import { Table } from './Table';
 import styles from './Table.module.css';
 
@@ -14,7 +14,7 @@ export interface DataTableProps<T> {
   rows: T[];
 }
 
-export function useDataTable<T>(columns: DataTableColumn<T>[], rowKey: (row: T) => Key): FC<DataTableProps<T>> {
+export function useDataTable<T>(columns: DataTableColumn<T>[], rowKey: (row: T) => Key, groups?: (row: T) => { value: string, label: ReactNode }): FC<DataTableProps<T>> {
   return memo(useMemo(() =>
     function DataTable({ rows }) {
       const [sortBy, setSortBy] = useState<{column: DataTableColumn<T>, reverse: boolean}>();
@@ -31,6 +31,8 @@ export function useDataTable<T>(columns: DataTableColumn<T>[], rowKey: (row: T) 
           : undefined);
       }, []);
 
+      let lastGroup: string | undefined = undefined;
+
       return (
         <Table>
           <thead>
@@ -39,16 +41,30 @@ export function useDataTable<T>(columns: DataTableColumn<T>[], rowKey: (row: T) 
             </tr>
           </thead>
           <tbody>
-            {sortedRows.map((row) => (
-              <tr key={rowKey(row)}>
-                {columns.map((column) => <td key={column.key} {...(column.small ? { width: 1 } : {})}>{column.value(row)}</td>)}
-              </tr>
-            ))}
+            {sortedRows.map((row) => {
+              const group = groups && groups(row);
+              const showGroup = sortBy === undefined && group && group.value !== lastGroup;
+
+              if(showGroup) {
+                lastGroup = group.value;
+              }
+
+              return (
+                <Fragment key={rowKey(row)}>
+                  {showGroup && (
+                    <tr><th colSpan={columns.length} className={styles.group}>{group.label}</th></tr>
+                  )}
+                  <tr>
+                    {columns.map((column) => <td key={column.key} {...(column.small ? { width: 1 } : {})}>{column.value(row)}</td>)}
+                  </tr>
+                </Fragment>
+              );
+            })}
           </tbody>
         </Table>
       );
     },
-    [columns, rowKey]
+    [columns, rowKey, groups]
   ));
 }
 

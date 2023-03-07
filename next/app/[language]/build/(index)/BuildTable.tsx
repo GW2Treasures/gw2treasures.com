@@ -1,11 +1,12 @@
 'use client';
 
+import { useFormatContext } from '@/components/Format/FormatContext';
 import { FormatDate } from '@/components/Format/FormatDate';
 import { FormatNumber } from '@/components/Format/FormatNumber';
 import { DataTableColumn, useDataTable } from '@/components/Table/DataTable';
 import { Build } from '@prisma/client';
 import Link from 'next/link';
-import { FC } from 'react';
+import { FC, useCallback, useMemo } from 'react';
 
 
 type Update = { entity: string | null, buildId: number, _count: { _all: number }};
@@ -25,12 +26,21 @@ const buildTableColumns: DataTableColumn<BuildWithUpdates>[] = [
 
 const buildRowKey = ({ build }: BuildWithUpdates) => build.id;
 
+
 export interface BuildTableProps {
   rows: BuildWithUpdates[]
 }
 
 export const BuildTable: FC<BuildTableProps> = ({ rows }) => {
-  const BuildTable = useDataTable<BuildWithUpdates>(buildTableColumns, buildRowKey);
+  const { locale } = useFormatContext();
+  const f = useMemo(() => new Intl.DateTimeFormat(locale, { month: 'long', year: 'numeric' }), [locale]);
+
+  const group = useCallback(
+    ({ build }: BuildWithUpdates) => ({ value: `${build.createdAt.getMonth()}-${build.createdAt.getFullYear()}`, label: <b>{f.format(build.createdAt)}</b> }),
+    [f]
+  );
+
+  const BuildTable = useDataTable<BuildWithUpdates>(buildTableColumns, buildRowKey, group);
 
   return <BuildTable rows={rows}/>;
 };

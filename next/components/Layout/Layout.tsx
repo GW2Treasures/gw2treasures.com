@@ -69,7 +69,7 @@ const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
     <div>
       <div className={styles.layout}>
         <div className={styles.header}>
-          <header className={scrolledDown ? styles.headerMainScrolled : styles.headerMain}>
+          <header className={scrolledDown ? styles.headerMainScrolled : styles.headerMain} suppressHydrationWarning>
             <button className={styles.menuButton} onClick={() => setMenuOpen(!menuOpen)}>
               <Icon icon="menu"/>
             </button>

@@ -16,7 +16,17 @@ export async function getCurrentBuild(db: PrismaClient): Promise<Build> {
 }
 
 async function getBuildFromApi() {
-  const content = await fetch('http://assetcdn.101.arenanetworks.com/latest64/101').then((r) => r.text());
+  const content = await fetch('http://assetcdn.101.arenanetworks.com/latest64/101').then((r) => {
+    if(r.status !== 200) {
+      throw new Error(`Build API returned ${r.status} ${r.statusText}`);
+    }
+
+    return r.text();
+  });
+
+  if(!content.match(/^\d+ \d+ \d+ \d+ \d+$/)) {
+    throw new Error('Got invalid build id response from API.');
+  }
 
   return Number(content.split(' ')[0]);
 }

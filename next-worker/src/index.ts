@@ -1,13 +1,13 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { Prisma, PrismaClient } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import { jobs } from './jobs';
 import { registerCronJobs } from './jobs/cron';
 import { parseExpression } from 'cron-parser';
 import chalk from 'chalk';
+import { db } from './db';
 
 let shuttingDown = false;
 
-const db = new PrismaClient();
 let timeout: NodeJS.Timeout | undefined = undefined;
 
 async function run() {

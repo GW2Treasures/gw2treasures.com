@@ -482,3 +482,17 @@ enum JobState {
   Success
   Error
 }
+
+model ApiRequest {
+  id String @id @default(uuid())
+
+  endpoint String
+  queryParameters String
+  
+  status Int
+  statusText String
+
+  responseTimeMs Float
+  
+  createdAt DateTime @default(now())
+}

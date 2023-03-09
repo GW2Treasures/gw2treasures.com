@@ -1,29 +1,32 @@
 import { FC, Fragment } from 'react';
+import { Gw2Api } from 'gw2-api-types';
 import styles from './ItemAttributes.module.css';
+import { Trans } from '../I18n/Trans';
+
+type Attribute = Exclude<Exclude<Gw2Api.Item['details'], undefined>['infix_upgrade'], undefined>['attributes'][0];
+type AttributeName = Attribute['attribute'];
 
 interface ItemAttributesProps {
-  attributes: Record<string, number>
+  attributes: Attribute[] | undefined;
 };
 
-const PercentageAttributes = ['ConditionDuration', 'BoonDuration'];
+const PercentageAttributes: AttributeName[] = [];
 
-function isPercentage(attribute: string): boolean {
+function isPercentage(attribute: AttributeName): boolean {
   return PercentageAttributes.includes(attribute);
 }
 
 export const ItemAttributes: FC<ItemAttributesProps> = ({ attributes }) => {
-  const entries = Object.entries(attributes).filter(([attribute]) => attribute !== 'Armor');
-
-  if(entries.length === 0) {
+  if(!attributes) {
     return null;
   }
 
   return (
     <dl className={styles.attributes}>
-      {entries.map(([attribute, value]) => (
+      {attributes.map(({ attribute, modifier }) => (
         <Fragment key={attribute}>
-          <dt>+{value}{isPercentage(attribute) && '%'}</dt>
-          <dd>{attribute}</dd>
+          <dt>+{modifier}{isPercentage(attribute) && '%'}</dt>
+          <dd><Trans id={`attribute.${attribute}`}/></dd>
         </Fragment>
       ))}
     </dl>

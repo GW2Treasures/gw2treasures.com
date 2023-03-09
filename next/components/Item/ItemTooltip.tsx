@@ -1,5 +1,4 @@
 import { FC, ReactNode } from 'react';
-import { parseItems } from 'gw2e-item-attributes';
 import { ItemAttributes } from './ItemAttributes';
 import { format } from 'gw2-tooltip-html';
 import { Coins } from '../Format/Coins';
@@ -16,9 +15,9 @@ export const ItemTooltip: FC<ItemTooltipProps> = ({ item }) => {
   const data: ReactNode[] = [
     item.type === 'Weapon' && <>Strength: <FormatNumber value={item.details?.min_power}/> – <FormatNumber value={item.details?.max_power}/></>,
     item.type === 'Armor' && `Defense: ${item.details?.defense}`,
-    <ItemAttributes attributes={parseItems([item])}/>,
+    <ItemAttributes attributes={item.details?.infix_upgrade?.attributes}/>,
     // consumable,
-    // bonus,
+    item.details?.bonuses?.map((bonus, index) => <div>({index}): {bonus}</div>),
     // upgrade slot
     // infusions
     // color
@@ -26,7 +25,7 @@ export const ItemTooltip: FC<ItemTooltipProps> = ({ item }) => {
     <Rarity rarity={item.rarity}/>,
     item.details?.type,
     item.details?.weight_class,
-    item.level !== 0 && `Level: ${item.level}`,
+    item.level !== 0 && `Required Level: ${item.level}`,
     item.restrictions.length > 0 && `Requires: ${item.restrictions.join(', ')}`,
     item.description && <div dangerouslySetInnerHTML={{ __html: format(item.description) }}/>,
     item.flags.includes('Unique') && 'Unique',

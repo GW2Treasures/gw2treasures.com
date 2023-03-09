@@ -17,7 +17,6 @@
     "@svgr/webpack": "^6.5.0",
     "client-only": "^0.0.1",
     "gw2-tooltip-html": "^0.0.4",
-    "gw2e-item-attributes": "^1.2.6",
     "next": "^13.2.3",
     "next-superjson-plugin": "^0.5.5",
     "react": "^18.2.0",

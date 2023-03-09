@@ -1,3 +1,13 @@
 {
-  "items.new": "New items"
+  "items.new": "New items",
+  "attribute.Power": "Power",
+  "attribute.Precision": "Precision",
+  "attribute.Toughness": "Toughness",
+  "attribute.Vitality": "Vitality",
+  "attribute.ConditionDamage": "Condition Damage",
+  "attribute.CritDamage": "Ferocity",
+  "attribute.Healing": "Healing Power",
+  "attribute.BoonDuration": "Concentration",
+  "attribute.ConditionDuration": "Expertise",
+  "attribute.AgonyResistance": "Agony Resistance"
 }

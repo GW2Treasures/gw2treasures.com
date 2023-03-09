@@ -34,11 +34,12 @@ import InfoIcon from './info.svg';
 import LocaleIcon from './locale.svg';
 import CheckmarkIcon from './checkmark.svg';
 import CloseIcon from './close.svg';
+import ApiStatusIcon from './api-status.svg';
 
 export type IconName = 'menu' | 'gw2treasures' | 'user' | 'revision' | 'search' | 'chevronDown' | 'chatlink' | 'jobs' | 'time'
  | 'mount' | 'skill' | 'specialization' | 'wvw' | 'profession' | 'skin' | 'achievement' | 'item' | 'builds'
  | 'armorsmith' | 'artificer' | 'chef' | 'huntsman' | 'jeweler' | 'leatherworker' | 'scribe' | 'tailor' | 'weaponsmith'
- | 'filter' | 'filter-active' | 'shuffle' | 'achievementPoints' | 'info' | 'locale' | 'checkmark' | 'close';
+ | 'filter' | 'filter-active' | 'shuffle' | 'achievementPoints' | 'info' | 'locale' | 'checkmark' | 'close' | 'api-status';
 
 type IconComponent = FunctionComponent<SVGProps<SVGSVGElement>>;
 
@@ -78,6 +79,7 @@ export const Icons: Record<IconName, IconComponent> = {
   'locale': LocaleIcon,
   'checkmark': CheckmarkIcon,
   'close': CloseIcon,
+  'api-status': ApiStatusIcon,
 };
 
 export type Icon = IconName | JSX.Element;

@@ -1,0 +1,56 @@
+.bar {
+  background-color: #eee;
+  width: 400px;
+  display: flex;
+  overflow: hidden;
+  border-radius: 2px;
+}
+
+.request {
+  display: inline-block;
+  height: 1em;
+  width: 4px;
+}
+
+.success {
+  composes: request;
+  background-color: #009f2c;
+}
+
+.error {
+  composes: request;
+  background-color: #ff0000;
+}
+
+.statusCodeGrid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+}
+
+.statusCode {
+  padding: 8px;
+  font-weight: 500;
+  border-right: 2px solid var(--color-border);
+}
+
+.statusCodeGraph {
+  padding: 8px;
+  position: relative;
+  display: flex;
+}
+
+.statusCodeAmount {
+  margin-left: 8px;
+}
+
+.statusCodeBar {
+  border-radius: 2px;
+  background-color: #b7000d;
+  height: 1em;
+}
+
+.statusCodeBar200 {
+  composes: statusCodeBar;
+
+  background-color: #009f2c;
+}

@@ -27,6 +27,8 @@ export async function registerCronJobs(db: PrismaClient) {
 
   await registerJob(db, 'recipes.check', '*/5 * * * *');
 
+  await registerJob(db, 'gw2api-requests.cleanup', '33 3 * * *');
+
   await registerJob(db, 'jobs.cleanup', '*/15 * * * *');
 }
 

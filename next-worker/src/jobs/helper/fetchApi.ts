@@ -3,7 +3,6 @@ import { db } from "../../db";
 
 export function fetchApi<T>(endpoint: string): Promise<T> {
   const startTime = performance.now();
-  console.log('> ' + endpoint);
 
   return fetch(`https://api.guildwars2.com${endpoint}`).then(async (r) => {
     await db.apiRequest.create({ data: {

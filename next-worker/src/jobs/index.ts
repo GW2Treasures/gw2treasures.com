@@ -6,6 +6,7 @@ import { AchievementsNew } from './achievements/new';
 import { AchievementsRediscovered } from './achievements/rediscovered';
 import { AchievementsRemoved } from './achievements/removed';
 import { AchievementsUpdate } from './achievements/update';
+import { Gw2ApiRequestsCleanup } from './gw2api-requests/cleanup';
 import { ItemsCheck } from './items/check';
 import { ItemsMigrate } from './items/migrate';
 import { ItemsNew } from './items/new';
@@ -65,6 +66,8 @@ const jobsInternal = {
 
   'recipes.check': RecipesCheck,
   'recipes.new': RecipesNew,
+
+  'gw2api-requests.cleanup': Gw2ApiRequestsCleanup,
 
   'jobs.cleanup': JobsCleanup,
 }

@@ -1,0 +1,107 @@
+kind: Deployment
+apiVersion: apps/v1
+
+metadata:
+  name: web
+
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      name: web
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        name: web
+    spec:
+      containers:
+      - name: web
+        image: ghcr.io/gw2treasures/gw2treasures.com/web:latest
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "50m"
+          limits:
+            memory: "512Mi"
+            cpu: "250m"
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        env:
+        - name: GW2T_ENV
+          valueFrom:
+            configMapKeyRef:
+              name: web
+              key: env
+        - name: GW2T_URL
+          valueFrom:
+            configMapKeyRef:
+              name: web
+              key: url
+        - name: GW2T_DOMAIN
+          valueFrom:
+            configMapKeyRef:
+              name: web
+              key: domain
+        - name: GW2T_TRANSLATE_PASSWORD
+          value: translate
+        - name: GW2T_DB_HOST
+          value: db
+        - name: GW2T_DB_USER
+          valueFrom:
+            configMapKeyRef:
+              name: db
+              key: user
+        - name: GW2T_DB_PASS
+          valueFrom:
+            configMapKeyRef:
+              name: db
+              key: password
+        - name: GW2T_DB_NAME
+          value: gw2treasures
+        - name: GW2T_EVENT
+          valueFrom:
+            configMapKeyRef:
+              name: web
+              key: event
+        - name: GW2T_TRACKING_CODE
+          valueFrom:
+            configMapKeyRef:
+              name: web
+              key: tracking_code
+        - name: GW2T_ASSETS
+          valueFrom:
+            configMapKeyRef:
+              name: web
+              key: assets
+        - name: GW2T_STORAGE
+          valueFrom:
+            configMapKeyRef:
+              name: web
+              key: storage
+        - name: SENTRY_DSN
+          valueFrom:
+            configMapKeyRef:
+              name: web
+              key: sentry
+        readinessProbe:
+          tcpSocket:
+            port: 80
+          initialDelaySeconds: 3
+          timeoutSeconds: 3
+        livenessProbe:
+          httpGet:
+            port: 80
+            path: "/robots.txt"
+          initialDelaySeconds: 30
+          timeoutSeconds: 3
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30

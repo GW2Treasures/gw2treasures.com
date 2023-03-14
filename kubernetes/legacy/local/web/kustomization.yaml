@@ -1,0 +1,7 @@
+commonLabels:
+  app.kubernetes.io/component: frontend
+  app.kubernetes.io/name: web
+
+resources: 
+- configMap.yaml
+- ingress.yaml

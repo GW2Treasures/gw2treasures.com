@@ -1,0 +1,18 @@
+kind: Service
+apiVersion: v1
+
+metadata:
+  name: phpmyadmin
+
+spec:
+  ports:
+  - name: http
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    name: phpmyadmin
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}

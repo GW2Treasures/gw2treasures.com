@@ -1,0 +1,18 @@
+kind: Service
+apiVersion: v1
+
+metadata:
+  name: db
+
+spec:
+  ports:
+  - name: mysql
+    port: 3306
+    protocol: TCP
+    targetPort: 3306
+  selector:
+    name: db
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}

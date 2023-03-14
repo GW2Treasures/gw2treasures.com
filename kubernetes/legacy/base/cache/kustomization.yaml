@@ -1,0 +1,7 @@
+commonLabels:
+  app.kubernetes.io/component: database
+  app.kubernetes.io/name: cache
+
+resources:
+- deployment.yaml
+- service.yaml

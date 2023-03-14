@@ -1,0 +1,55 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: web
+spec:
+  schedule: "*/10 * * * *"
+  concurrencyPolicy: Replace
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: web
+            image: ghcr.io/gw2treasures/gw2treasures.com/web:latest
+            command: 
+            - /bin/sh
+            - cron.sh
+            resources:
+              requests:
+                memory: "128Mi"
+                cpu: "50m"
+              limits:
+                memory: "512Mi"
+                cpu: "250m"
+            ports:
+            - containerPort: 80
+              protocol: TCP
+            env:
+            - name: GW2T_ENV
+              value: dev
+            - name: GW2T_URL
+              value: http://gw2treasures.kubernetes.localhost/
+            - name: GW2T_DOMAIN
+              value: gw2treasures.kubernetes.localhost
+            - name: GW2T_TRANSLATE_PASSWORD
+              value: translate
+            - name: GW2T_DB_HOST
+              value: db
+            - name: GW2T_DB_USER
+              value: gw2treasures
+            - name: GW2T_DB_PASS
+              value: 3c09b766-101c-4500-9f25-33450753e88a
+            - name: GW2T_DB_NAME
+              value: gw2treasures
+            - name: GW2T_EVENT
+              value: 
+            - name: GW2T_TRACKING_CODE
+              value: 
+            - name: GW2T_ASSETS
+              value: http://assets.gw2treasures.kubernetes.localhost
+            - name: GW2T_STORAGE
+              value: http://storage.gw2treasures.kubernetes.localhost
+            - name: SENTRY_DSN
+              value: 
+          restartPolicy: OnFailure

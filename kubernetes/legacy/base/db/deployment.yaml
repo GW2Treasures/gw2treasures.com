@@ -24,6 +24,8 @@ spec:
       containers:
       - name: db
         image: mariadb:latest
+        args:
+        - --ignore_db_dirs=lost+found
         resources:
           requests:
             memory: "512Mi"

@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: web
+  name: cron
 spec:
   schedule: "*/30 * * * *"
   concurrencyPolicy: Replace
@@ -10,7 +10,7 @@ spec:
       template:
         spec:
           containers:
-          - name: web
+          - name: cron
             image: ghcr.io/gw2treasures/gw2treasures.com/web:latest
             command: 
             - /bin/sh
@@ -27,29 +27,65 @@ spec:
               protocol: TCP
             env:
             - name: GW2T_ENV
-              value: dev
+              valueFrom:
+                configMapKeyRef:
+                  name: web
+                  key: env
             - name: GW2T_URL
-              value: http://gw2treasures.kubernetes.localhost/
+              valueFrom:
+                configMapKeyRef:
+                  name: web
+                  key: url
             - name: GW2T_DOMAIN
-              value: gw2treasures.kubernetes.localhost
+              valueFrom:
+                configMapKeyRef:
+                  name: web
+                  key: domain
             - name: GW2T_TRANSLATE_PASSWORD
               value: translate
             - name: GW2T_DB_HOST
               value: db
             - name: GW2T_DB_USER
-              value: gw2treasures
+              valueFrom:
+                configMapKeyRef:
+                  name: db
+                  key: user
             - name: GW2T_DB_PASS
-              value: 3c09b766-101c-4500-9f25-33450753e88a
+              valueFrom:
+                configMapKeyRef:
+                  name: db
+                  key: password
             - name: GW2T_DB_NAME
               value: gw2treasures
             - name: GW2T_EVENT
-              value: 
+              valueFrom:
+                configMapKeyRef:
+                  name: web
+                  key: event
             - name: GW2T_TRACKING_CODE
-              value: 
+              valueFrom:
+                configMapKeyRef:
+                  name: web
+                  key: tracking_code
             - name: GW2T_ASSETS
-              value: http://assets.gw2treasures.kubernetes.localhost
+              valueFrom:
+                configMapKeyRef:
+                  name: web
+                  key: assets
             - name: GW2T_STORAGE
-              value: http://storage.gw2treasures.kubernetes.localhost
+              valueFrom:
+                configMapKeyRef:
+                  name: web
+                  key: storage
             - name: SENTRY_DSN
-              value: 
+              valueFrom:
+                configMapKeyRef:
+                  name: web
+                  key: sentry
+            - name: TRUSTED_PROXY
+              valueFrom:
+                configMapKeyRef:
+                  name: web
+                  key: trustedProxy
+                  optional: true
           restartPolicy: OnFailure

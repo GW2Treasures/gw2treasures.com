@@ -3,7 +3,7 @@ kind: CronJob
 metadata:
   name: web
 spec:
-  schedule: "*/10 * * * *"
+  schedule: "*/30 * * * *"
   concurrencyPolicy: Replace
   jobTemplate:
     spec:

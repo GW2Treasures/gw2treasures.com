@@ -1,6 +1,6 @@
 import { Job } from '../job';
 import { queueJobForIds } from '../helper/queueJobsForIds';
-import { prisma, Prisma } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import { Gw2Api } from 'gw2-api-types';
 
 export const CURRENT_VERSION = 1;

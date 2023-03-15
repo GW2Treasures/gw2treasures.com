@@ -5,5 +5,5 @@ metadata:
   name: storage
 
 data:
-  self: http://storage.gw2treasures.kubernetes.localhost/
+  self: http://storage.gw2treasures.kubernetes.localhost
   trusted_origins: http://de.gw2treasures.kubernetes.localhost,http://en.gw2treasures.kubernetes.localhost,http://es.gw2treasures.kubernetes.localhost,http://fr.gw2treasures.kubernetes.localhost,http://dev.gw2treasures.kubernetes.localhost

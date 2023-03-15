@@ -13,7 +13,9 @@
 
 App::before(function($request)
 {
-	//
+	if(Config::get('app.trustedProxy', false)) {
+		Request::setTrustedProxies([Config::get('app.trustedProxy')]);
+	}
 });
 
 

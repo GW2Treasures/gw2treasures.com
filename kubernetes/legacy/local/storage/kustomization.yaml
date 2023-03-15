@@ -1,0 +1,6 @@
+commonLabels:
+  app.kubernetes.io/component: frontend
+  app.kubernetes.io/name: storage
+
+resources:
+- ingress.yaml

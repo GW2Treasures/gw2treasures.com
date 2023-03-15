@@ -1,0 +1,9 @@
+kind: ConfigMap
+apiVersion: v1
+
+metadata:
+  name: db
+
+data:
+  user: gw2treasures
+  password: 3c09b766-101c-4500-9f25-33450753e88a

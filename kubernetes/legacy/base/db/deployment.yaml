@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: db
+
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      name: db
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        name: db
+    spec:
+      volumes:
+      - name: db-data
+        persistentVolumeClaim:
+          claimName: db
+      containers:
+      - name: db
+        image: mariadb:latest
+        args:
+        - --ignore_db_dirs=lost+found
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 3306
+          protocol: TCP
+        env:
+        - name: MYSQL_DATABASE
+          value: gw2treasures
+        - name: MYSQL_USER
+          valueFrom:
+            configMapKeyRef:
+              name: db
+              key: user
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: db
+              key: password
+        - name: MYSQL_ROOT_PASSWORD
+          value: f553a225-cd2c-4166-ad85-462cd8859743
+        readinessProbe:
+          exec:
+            command: 
+              - /bin/sh
+              - -i
+              - -c
+              - mysqladmin status -uroot -p$MYSQL_ROOT_PASSWORD
+          initialDelaySeconds: 15
+          timeoutSeconds: 2
+          periodSeconds: 10
+          successThreshold: 1
+          failureThreshold: 3
+        livenessProbe:
+          exec:
+            command:
+              - /bin/sh
+              - -i
+              - -c
+              - mysqladmin status -uroot -p$MYSQL_ROOT_PASSWORD
+          initialDelaySeconds: 45
+          timeoutSeconds: 2
+          periodSeconds: 10
+          successThreshold: 1
+          failureThreshold: 3
+        volumeMounts:
+        - name: db-data
+          mountPath: /var/lib/mysql
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30

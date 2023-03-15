@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node lib/index.js"
+    "start": "node --unhandled-rejections=strict lib/index.js"
   },
   "repository": {
     "type": "git",

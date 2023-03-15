@@ -1,0 +1,28 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: gw2treasures
+
+commonLabels:
+  app.kubernetes.io/part-of: gw2treasures
+
+bases:
+  - ../base
+
+resources:
+- assets
+- db
+- storage
+- web
+- phpmyadmin
+
+images:
+- name: ghcr.io/gw2treasures/gw2treasures.com/assets
+  newTag: latest
+- name: ghcr.io/gw2treasures/gw2treasures.com/reverse-proxy
+  newTag: latest
+- name: ghcr.io/gw2treasures/gw2treasures.com/storage
+  newTag: latest
+- name: ghcr.io/gw2treasures/gw2treasures.com/web
+  newTag: latest
+- name: ghcr.io/gw2treasures/gw2treasures.com/wvw-crawler
+  newTag: latest

@@ -1,0 +1,18 @@
+kind: Service
+apiVersion: v1
+
+metadata:
+  name: web
+
+spec:
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    name: web
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}

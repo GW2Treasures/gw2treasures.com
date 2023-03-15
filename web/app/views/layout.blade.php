@@ -11,7 +11,7 @@
 
     <meta name="gw2treasures:domain" content="{{ Config::get('app.domain') }}">
 
-    <meta itemprop="url" content="//{{ Config::get('app.domain') }}/">
+    <meta itemprop="url" content="{{ Request::isSecure() ? 'https' : 'http' }}://{{ Config::get('app.domain') }}/">
     <meta itemprop="name" content="GW2 Treasures: The Guild Wars 2 Item Database">
     <meta itemprop="alternateName" content="GW2 Treasures">
     <meta itemprop="image" content="{{ Helper::cdn('assets/img/logo.png') }}">
@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="{{ Helper::cdn('assets/css/gw2t.css').Helper::cacheBustingSuffix() }}">
 
     <!-- fonts -->
-    <link href="//fonts.googleapis.com/css?family=Open+Sans:400,700|Open+Sans+Condensed:300|Bitter:700" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Open+Sans+Condensed:300|Bitter:700" rel="stylesheet" type="text/css">
 
     <!-- favicons -->
     <link rel="icon" href="{{ Helper::cdn('assets/img/favicon.png') }}" type="image/png" />
@@ -37,7 +37,7 @@
     <meta name="theme-color" content="#F3E2A5">
 
     <!-- opensearch -->
-    <link rel="search" href="//{{ Config::get('app.domain') }}/opensearch.xml" type="application/opensearchdescription+xml" title="Search">
+    <link rel="search" href="{{ Request::isSecure() ? 'https' : 'http' }}://{{ Config::get('app.domain') }}/opensearch.xml" type="application/opensearchdescription+xml" title="Search">
 
     <!-- modernizr -->
     <script src="{{ Helper::cdn('assets/js/vendor/modernizr-3.0.0.min.js') }}"></script>
@@ -60,11 +60,11 @@
     <meta property="og:locale" content="{{ [ 'de'=>'de_DE', 'en'=>'en_US', 'es'=>'es_ES', 'fr'=>'fr_FR' ][App::getLocale()] }}">
 
     <!-- alternate versions in different languages -->
-    <link rel="alternate" hreflang="x-default" href="//{{    Config::get('app.domain') . Request::getRequestUri() }}" />
-    <link rel="alternate" hreflang="de"        href="//de.{{ Config::get('app.domain') . Request::getRequestUri() }}" />
-    <link rel="alternate" hreflang="en"        href="//en.{{ Config::get('app.domain') . Request::getRequestUri() }}" />
-    <link rel="alternate" hreflang="es"        href="//es.{{ Config::get('app.domain') . Request::getRequestUri() }}" />
-    <link rel="alternate" hreflang="fr"        href="//fr.{{ Config::get('app.domain') . Request::getRequestUri() }}" />
+    <link rel="alternate" hreflang="x-default" href="{{ Request::isSecure() ? 'https' : 'http' }}://{{    Config::get('app.domain') . Request::getRequestUri() }}" />
+    <link rel="alternate" hreflang="de"        href="{{ Request::isSecure() ? 'https' : 'http' }}://de.{{ Config::get('app.domain') . Request::getRequestUri() }}" />
+    <link rel="alternate" hreflang="en"        href="{{ Request::isSecure() ? 'https' : 'http' }}://en.{{ Config::get('app.domain') . Request::getRequestUri() }}" />
+    <link rel="alternate" hreflang="es"        href="{{ Request::isSecure() ? 'https' : 'http' }}://es.{{ Config::get('app.domain') . Request::getRequestUri() }}" />
+    <link rel="alternate" hreflang="fr"        href="{{ Request::isSecure() ? 'https' : 'http' }}://fr.{{ Config::get('app.domain') . Request::getRequestUri() }}" />
 
     <!-- canonical url -->
     @if( isset( $canonical ) )
@@ -115,7 +115,7 @@
         @endif
 
         <!-- jQuery -->
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="{{ Helper::cdn('assets/js/vendor/jquery-1.10.1.min.js') }}"><\/script>')</script>
 
         <!-- my own js -->

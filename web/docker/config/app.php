@@ -40,6 +40,8 @@ return array(
 
 	'storage' => $_ENV["GW2T_STORAGE"],
 
+	'trustedProxy' => isset($_ENV['TRUSTED_PROXY']) ? $_ENV['TRUSTED_PROXY'] : false,
+
 	/*
 	|--------------------------------------------------------------------------
 	| Application Timezone

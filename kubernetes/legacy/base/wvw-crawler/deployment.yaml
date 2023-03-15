@@ -1,0 +1,51 @@
+kind: Deployment
+apiVersion: apps/v1
+
+metadata:
+  name: wvw-crawler
+
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      name: wvw-crawler
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        name: wvw-crawler
+    spec:
+      containers:
+      - name: wvw-crawler
+        image: ghcr.io/gw2treasures/gw2treasures.com/wvw-crawler:latest
+        resources:
+          requests:
+            memory: "32Mi"
+            cpu: "20m"
+          limits:
+            memory: "64Mi"
+            cpu: "50m"
+        env:
+        - name: MYSQL_HOST
+          value: db
+        - name: MYSQL_DATABASE
+          value: gw2treasures
+        - name: MYSQL_USER
+          valueFrom:
+            configMapKeyRef:
+              name: db
+              key: user
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: db
+              key: password
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30

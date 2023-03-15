@@ -1,0 +1,15 @@
+kind: ConfigMap
+apiVersion: v1
+
+metadata:
+  name: web
+
+data:
+  env: dev
+  url: http://gw2treasures.kubernetes.localhost/
+  domain: gw2treasures.kubernetes.localhost
+  event: ""
+  tracking_code: ""
+  assets: http://assets.gw2treasures.kubernetes.localhost
+  storage: http://storage.gw2treasures.kubernetes.localhost
+  sentry: ""

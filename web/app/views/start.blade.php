@@ -4,7 +4,7 @@
 
 	<div class="header">
 		<div class="header__wrapper">
-			<img src="{{ Helper::cdn('assets/img/header_img.svg') }}" width="800" height="150" />
+			<img src="{{ Helper::cdn('assets/img/header_img.svg') }}" width="800" height="150" alt="GW2 Treasures Logo"/>
 		</div>
 	</div>
 	<div class="bannerSearch">

@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="{{ Helper::cdn('assets/css/gw2t.css').Helper::cacheBustingSuffix() }}">
 
     <!-- fonts -->
-    <link href="//fonts.googleapis.com/css?family=Open+Sans:400,700|Open+Sans+Condensed:300|Bitter:700" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Open+Sans+Condensed:300|Bitter:700" rel="stylesheet" type="text/css">
 
     <!-- favicons -->
     <link rel="icon" href="{{ Helper::cdn('assets/img/favicon.png') }}" type="image/png" />
@@ -28,7 +28,7 @@
     <meta name="theme-color" content="#F3E2A5">
 
     <!-- opensearch -->
-    <link rel="search" href="//{{ Config::get('app.domain') }}/opensearch.xml" type="application/opensearchdescription+xml" title="Search">
+    <link rel="search" href="{{ Request::isSecure() ? 'https' : 'http' }}://{{ Config::get('app.domain') }}/opensearch.xml" type="application/opensearchdescription+xml" title="Search">
 
     <!-- modernizr -->
     <script src="{{ Helper::cdn('assets/js/vendor/modernizr-3.0.0.min.js') }}"></script>
@@ -138,7 +138,7 @@
         @endif
 
         <!-- jQuery -->
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="{{ Helper::cdn('assets/js/vendor/jquery-1.10.1.min.js') }}"><\/script>')</script>
 
         <!-- my own js -->

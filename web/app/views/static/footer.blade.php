@@ -40,10 +40,10 @@
 			<div class="column4">
 				{{ trans('footer.language') }}
 				<ul>
-					<li><a hreflang="de" rel="alternate" href="//de.{{ Config::get('app.domain') . Request::getRequestUri() }}">{{ trans('footer.german') }}</a>
-					<li><a hreflang="en" rel="alternate" href="//en.{{ Config::get('app.domain') . Request::getRequestUri() }}">{{ trans('footer.english') }}</a>
-					<li><a hreflang="es" rel="alternate" href="//es.{{ Config::get('app.domain') . Request::getRequestUri() }}">{{ trans('footer.spanish') }}</a>
-					<li><a hreflang="fr" rel="alternate" href="//fr.{{ Config::get('app.domain') . Request::getRequestUri() }}">{{ trans('footer.french') }}</a>
+					<li><a hreflang="de" rel="alternate" href="{{ Request::isSecure() ? 'https' : 'http' }}://de.{{ Config::get('app.domain') . Request::getRequestUri() }}">{{ trans('footer.german') }}</a>
+					<li><a hreflang="en" rel="alternate" href="{{ Request::isSecure() ? 'https' : 'http' }}://en.{{ Config::get('app.domain') . Request::getRequestUri() }}">{{ trans('footer.english') }}</a>
+					<li><a hreflang="es" rel="alternate" href="{{ Request::isSecure() ? 'https' : 'http' }}://es.{{ Config::get('app.domain') . Request::getRequestUri() }}">{{ trans('footer.spanish') }}</a>
+					<li><a hreflang="fr" rel="alternate" href="{{ Request::isSecure() ? 'https' : 'http' }}://fr.{{ Config::get('app.domain') . Request::getRequestUri() }}">{{ trans('footer.french') }}</a>
 				</ul>
 			</div>
 		</div>

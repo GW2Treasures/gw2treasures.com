@@ -4,3 +4,4 @@ commonLabels:
 
 resources:
 - ingress.yaml
+- configMap.yaml

@@ -27,6 +27,17 @@ spec:
           limits:
             memory: "64Mi"
             cpu: "50m"
+        env:
+        - name: SELF
+          valueFrom:
+            configMapKeyRef:
+              name: storage
+              key: self
+        - name: TRUSTED_ORIGINS
+          valueFrom:
+            configMapKeyRef:
+              name: storage
+              key: trusted_origins
         ports:
         - containerPort: 80
           protocol: TCP

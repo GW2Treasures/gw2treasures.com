@@ -87,6 +87,12 @@ spec:
             configMapKeyRef:
               name: web
               key: sentry
+        - name: TRUSTED_PROXY
+          valueFrom:
+            configMapKeyRef:
+              name: web
+              key: trustedProxy
+              optional: true
         readinessProbe:
           tcpSocket:
             port: 80

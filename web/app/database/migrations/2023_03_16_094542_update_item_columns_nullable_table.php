@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateGuildUpgradeTable extends Migration {
+class UpdateItemColumnNullable extends Migration {
 
     /**
      * Run the migrations.

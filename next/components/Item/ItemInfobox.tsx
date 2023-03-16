@@ -38,7 +38,7 @@ export const ItemInfobox: FC<ItemInfoboxProps> = ({ item, data, language }) => {
 
       <div style={{ display: 'flex', gap: 12, margin: '8px 0', alignItems: 'center', borderRadius: 0, border: '1px solid var(--color-border)', paddingLeft: 12 }}>
         <Icon icon="chatlink"/>
-        <input readOnly value={data.chat_link} style={{ margin: 0, padding: '7px 12px 9px 12px', border: 0, background: '#fff', flex: 1, font: 'inherit', borderLeft: '1px solid var(--color-border)' }}/>
+        <input readOnly value={data.chat_link} style={{ margin: 0, padding: '7px 12px 9px 12px', border: 0, background: 'inherit', color: 'inherit', flex: 1, font: 'inherit', borderLeft: '1px solid var(--color-border)' }}/>
       </div>
     </div>
   );

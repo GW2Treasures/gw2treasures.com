@@ -1,5 +1,5 @@
 .link {
-  color: #245dc1;
+  color: var(--color-focus);
   display: inline-flex;
   align-items: center;
   text-decoration: none;

@@ -1,7 +1,6 @@
 .tip {
-  --color-border: #aaa;
-  border: 1px solid var(--color-border);
-  background: #fff;
+  border: 1px solid var(--color-border-dark);
+  background: var(--color-background);
   padding: 6px 12px;
   border-radius: 2px;
   box-shadow: 0 2px 8px rgba(0 0 0 / .2);
@@ -13,8 +12,8 @@
 .arrow {
   width: 8px;
   height: 8px;
-  background: #fff;
-  border: 1px solid var(--color-border);
+  background: var(--color-background);
+  border: 1px solid var(--color-border-dark);
   border-width: 1px 0 0 1px;
   position: absolute;
   transform: rotate(calc(45deg + 90deg * var(--arrow-side)));

@@ -6,7 +6,7 @@
   line-height: 20px;
   transition: box-shadow .3s ease, background-color .1s ease;
   border-radius: 2px;
-  color: #000;
+  color: var(--color-text);
   cursor: pointer;
   display: inline-block;
 }
@@ -16,19 +16,19 @@
 }
 
 .button:focus-visible {
-  box-shadow: inset 0 0 0 2px #245dc1;
+  box-shadow: inset 0 0 0 2px var(--color-focus);
   outline: none;
 }
 
 .secondary {
   composes: button;
 
-  background-color: #eee;
-  box-shadow: inset 0 0 0 1px #ddd;
+  background-color: var(--color-background-light);
+  box-shadow: inset 0 0 0 1px var(--color-border-dark);
 }
 
 .secondary:hover {
-  background-color: #f4f4f4;
+  background-color: var(--color-background);
 }
 
 .primary {
@@ -46,5 +46,5 @@
 }
 
 .menu:hover {
-  background-color: #f9f9f9;
+  background-color: var(--color-background-light);
 }

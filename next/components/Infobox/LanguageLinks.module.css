@@ -6,5 +6,5 @@
 }
 
 .lang {
-  color: #555;
+  color: var(--color-text-muted);
 }

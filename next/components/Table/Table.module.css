@@ -10,7 +10,7 @@
   padding: 8px 16px;
   font-weight: 500;
   text-align: left;
-  background: #fff;
+  background: var(--color-background);
   position: sticky;
   top: 48px;
   z-index: 1;
@@ -37,7 +37,7 @@
 
 .table > tbody > tr:hover > td,
 .table > tbody > tr:hover > th {
-  background-color: #fcfcfc;
+  background-color: var(--color-background-light);
 }
 
 .sort {
@@ -49,6 +49,7 @@
   border-radius: 0;
   background: none;
   cursor: pointer;
+  color: inherit;
 
   /* make room for the arrows */
   min-height: 16px;
@@ -62,7 +63,7 @@
   position: absolute;
   right: 0;
   border-style: solid;
-  border-color: #bbb transparent;
+  border-color: var(--color-border-dark) transparent;
 }
 
 .sort:before {
@@ -80,14 +81,14 @@
 }
 
 .sortAsc:after {
-  border-color: #000 transparent
+  border-color: currentColor transparent
 }
 
 .sortDesc:before {
-  border-color: #000 transparent
+  border-color: currentColor transparent
 }
 
 .group {
   font-weight: 500;
-  background-color: #fcfcfc;
+  background-color: var(--color-background-light);
 }

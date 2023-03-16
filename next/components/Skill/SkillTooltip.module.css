@@ -14,6 +14,6 @@
 
 .factDescription {
   margin-left: 22px;
-  color: #666;
+  color: var(--color-text-muted);
   line-height: 1.5;
 }

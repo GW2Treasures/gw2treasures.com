@@ -4,7 +4,7 @@ import { Gw2Api } from 'gw2-api-types';
 import { FC, useEffect, useState } from 'react';
 import { Coins } from '../Format/Coins';
 import { FormatNumber } from '../Format/FormatNumber';
-import styles from './ItemInfobox.module.css';
+import styles from './TradingPost.module.css';
 
 export interface TradingPostProps {
   itemId: number;

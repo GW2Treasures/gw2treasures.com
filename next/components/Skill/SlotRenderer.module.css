@@ -5,12 +5,12 @@
 }
 
 .slot {
-  border: 1px solid #000;
+  border: 1px solid var(--color-text);
   border-radius: 2px;
   height: 8px;
   width: 8px;
 
-  background-color: #888;
+  background-color: var(--color-text-muted);
 }
 
 .emptySlot {

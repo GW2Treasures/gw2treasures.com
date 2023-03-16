@@ -7,7 +7,7 @@
 }
 
 .diffHeader {
-  background: #f9f9f9;
+  background: var(--color-background-light);
   display: flex;
 }
 
@@ -24,21 +24,21 @@
   clip-path: inset(0px 0 0px -8px);
 }
 
-.added .left { background-color: #ffebee; }
-.added .right { background-color: #dcedc8; }
+.added .left { background-color: #F4433622; }
+.added .right { background-color: #8bc34a33; }
 
-.removed .left { background-color: #ffcdd2; }
-.removed .right { background-color: #f1f8e9; }
+.removed .left { background-color: #F4433633; }
+.removed .right { background-color: #8bc34a22; }
 
-.changed .left { background-color: #ffcdd2; }
-.changed .right { background-color: #dcedc8; }
+.changed .left { background-color: #F4433633; }
+.changed .right { background-color: #8bc34a33; }
 
 
 .header {
   grid-area: headline;
 
   border-bottom: 1px solid var(--color-border);
-  background-color: #f9f9f9;
+  background-color: var(--color-background-light);
   padding: 16px;
 
   display: grid;
@@ -71,7 +71,7 @@
 
 .breadcrumb {
   grid-area: breadcrumb;
-  color: #555;
+  color: var(--color-text-muted);
   margin-top: 8px;
   font-size: 14px;
 }

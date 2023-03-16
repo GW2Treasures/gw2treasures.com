@@ -20,8 +20,8 @@
 }
 
 .link:hover {
-  background: #f9f9f9;
-  border-left-color: #ddd;
+  background-color: var(--color-background-light);
+  border-left-color: var(--color-border-dark);
   cursor: pointer;
 }
 
@@ -29,11 +29,11 @@
   composes: link;
 
   font-weight: 500;
-  border-left-color: var(--color-rarity, var(--hero-color, #000));
+  border-left-color: var(--color-rarity, var(--hero-color, var(--color-text)));
 }
 
 .activeLink:hover {
-  border-left-color: var(--color-rarity, var(--hero-color, #000));
+  border-left-color: var(--color-rarity, var(--hero-color, var(--color-text)));
 }
 
 .anchor {

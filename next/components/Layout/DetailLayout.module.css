@@ -13,7 +13,7 @@
   grid-area: headline;
 
   border-bottom: 1px solid var(--color-border);
-  background-color: #f9f9f9;
+  background-color: var(--color-background-light);
   padding: 16px;
 
   display: grid;
@@ -56,7 +56,7 @@
 
 .breadcrumb {
   grid-area: breadcrumb;
-  color: #555;
+  color: var(--color-text-muted);
   margin-top: 8px;
   font-size: 14px;
 }
@@ -65,7 +65,7 @@
   content: '';
   grid-area: padding;
   border-bottom: 1px solid var(--color-border);
-  background-color: #f9f9f9;
+  background-color: var(--color-background-light);
 }
 
 .infobox {

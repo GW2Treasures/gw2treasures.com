@@ -3,23 +3,23 @@
   border: none;
   box-shadow: 0 0 2px rgb(0 0 0 / 12%);
   width: 468px;
-  background-color: #fafafa;
+  background-color: var(--color-background-light);
   display: flex;
   align-items: center;
   border-radius: 4px;
   transition: background-color .3s ease, border-color .3s ease;
   font-size: 14px;
   position: relative;
-  color: #000;
+  color: var(--color-text);
 }
 
 .search > svg {
   margin: 0 8px 0 16px;
-  color: #888;
+  color: var(--color-text-muted);
 }
 
 .search:focus-within {
-  background-color: #fff;
+  background-color: var(--color-background);
   box-shadow: 0 1px 2px rgb(0 0 0 / 14%);
 }
 
@@ -30,22 +30,27 @@
   padding: 8px;
   font: inherit;
   background-color: transparent;
+  color: var(--color-text);
 }
 
 .searchInput:focus {
   outline: none;
 }
 
+.searchInput::placeholder {
+  color: var(--color-text-muted);
+}
+
 .restriciton {
   padding: 4px 8px;
-  background-color: #fff;
+  background-color: var(--color-background);
   border-radius: 2px;
 }
 
 .dropdown {
   position: absolute;
   font-size: 16px;
-  background-color: #fff;
+  background-color: var(--color-background);
   padding: 8px 0;
   box-shadow: 0 4px 8px -1px rgb(0 0 0 / 10%);
   border-radius: 4px;
@@ -63,7 +68,7 @@
 
 .result {
   padding: 8px 16px;
-  color: #000;
+  color: var(--color-text);
   display: grid;
   grid-template:
     "icon title"    min-content
@@ -75,7 +80,7 @@
 .resultActive {
   composes: result;
 
-  background-color: #eee;
+  background-color: var(--color-background-light);
   text-decoration: none;
 }
 
@@ -88,7 +93,7 @@
 }
 
 .subtitle {
-  color: #555;
+  color: var(--color-text-muted);
   grid-area: subtitle;
   font-size: 14px;
 }

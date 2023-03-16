@@ -1,5 +1,5 @@
 .bar {
-  background-color: #eee;
+  background-color: var(--color-background-light);
   width: 400px;
   display: flex;
   overflow: hidden;

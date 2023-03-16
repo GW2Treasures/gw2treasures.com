@@ -7,5 +7,5 @@
 .loading {
   composes: icon;
 
-  background-color: #eee;
+  background-color: var(--color-background-light);
 }

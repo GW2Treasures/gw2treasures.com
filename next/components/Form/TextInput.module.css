@@ -1,16 +1,16 @@
 .input {
-  border: 2px solid #ddd;
+  border: 2px solid var(--color-border-dark);
   border-radius: 2px;
-  background-color: #fff;
+  background-color: var(--color-background);
   font: inherit;
-  color: #000;
+  color: var(--color-text);
   padding: 6px 16px;
   line-height: 20px;
   transition: border-color .3s ease;
 }
 
 .input:focus {
-  border-color: #245dc1;
+  border-color: var(--color-focus);
   outline: none;
 }
 

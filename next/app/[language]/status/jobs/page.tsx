@@ -19,6 +19,18 @@ const getJobs = remember(1, async function getJobs() {
   return { running, finished, now: new Date() };
 });
 
+function formatTime(totalSeconds: number) {
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+
+  return (
+    <>
+      {minutes > 0 && <><FormatNumber value={minutes}/>m </>}
+      <FormatNumber value={seconds}/>s
+    </>
+  );
+}
+
 async function JobPage() {
   const { running, finished, now } = await getJobs();
 
@@ -40,7 +52,7 @@ async function JobPage() {
             <tr key={job.id}>
               <td>{job.state === 'Running' ? 'Running' : 'Queued'}</td>
               <th><b>{job.type}</b></th>
-              <td>{job.state === 'Running' ? <><FormatNumber key={job.id} value={Math.round((now.valueOf() - job.startedAt!.valueOf()) / 1000)}/>s</> : '-'}</td>
+              <td>{job.state === 'Running' ? formatTime(Math.round((now.valueOf() - job.startedAt!.valueOf()) / 1000)) : '-'}</td>
               <td><FormatDate key={job.id} date={job.scheduledAt} relative data-superjson/></td>
             </tr>
           ))}

@@ -3,7 +3,7 @@ import { queueJobForIds } from '../helper/queueJobsForIds';
 import { Prisma } from '@prisma/client';
 import { Gw2Api } from 'gw2-api-types';
 
-export const CURRENT_VERSION = 4;
+export const CURRENT_VERSION = 5;
 
 function isDefined<T>(x: T | undefined): x is T {
   return x !== undefined;
@@ -42,6 +42,9 @@ export const ItemsMigrate: Job = {
 
     for(const item of itemsToMigrate) {
       const data: Gw2Api.Item = JSON.parse(item.current_en.data);
+      const dataDe: Gw2Api.Item = JSON.parse(item.current_de.data);
+      const dataEs: Gw2Api.Item = JSON.parse(item.current_es.data);
+      const dataFr: Gw2Api.Item = JSON.parse(item.current_fr.data);
 
       const update: Prisma.ItemUpdateInput = {
         version: CURRENT_VERSION
@@ -62,6 +65,14 @@ export const ItemsMigrate: Job = {
 
         update.unlocksSkinIds = skins;
         update.unlocksSkin = { set: skins.filter((id) => knownSkinIds.includes(id)).map((id) => ({ id })) };
+      }
+
+      // Update name for empty items
+      if(item.version <= 5) {
+        data.name.trim() === '' && (update.name_en = data.chat_link);
+        dataDe.name.trim() === '' && (update.name_de = data.chat_link);
+        dataEs.name.trim() === '' && (update.name_es = data.chat_link);
+        dataFr.name.trim() === '' && (update.name_fr = data.chat_link);
       }
 
       await db.item.update({ where: { id: item.id }, data: update });

@@ -1,4 +1,6 @@
 :root {
+  color-scheme: light;
+
   --color-text: #000;
   --color-text-muted: #555;
 
@@ -22,6 +24,8 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
+    color-scheme: dark;
+
     --color-text: #dcddde;
     --color-text-muted: #999;
 

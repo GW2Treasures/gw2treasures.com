@@ -22,11 +22,11 @@ spec:
         image: ghcr.io/gw2treasures/gw2treasures.com/next:latest
         resources:
           requests:
-            memory: "64Mi"
-            cpu: "20m"
-          limits:
             memory: "128Mi"
-            cpu: "100m"
+            cpu: "50m"
+          limits:
+            memory: "512Mi"
+            cpu: "1"
         env:
         - name: DATABASE_URL
           valueFrom:

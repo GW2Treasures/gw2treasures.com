@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class UpdateItemColumnNullable extends Migration {
+class UpdateItemColumnsNullableTable extends Migration {
 
     /**
      * Run the migrations.

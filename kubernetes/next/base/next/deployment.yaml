@@ -1,0 +1,61 @@
+kind: Deployment
+apiVersion: apps/v1
+
+metadata:
+  name: next
+
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      name: next
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        name: next
+    spec:
+      containers:
+      - name: next
+        image: ghcr.io/gw2treasures/gw2treasures.com/next:latest
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "20m"
+          limits:
+            memory: "128Mi"
+            cpu: "100m"
+        env:
+        - name: DATABASE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: next
+              key: db
+        - name: GW2T_NEXT_DOMAIN
+          valueFrom:
+            configMapKeyRef:
+              name: next
+              key: domain
+        ports:
+        - containerPort: 3000
+          protocol: TCP
+        readinessProbe:
+          tcpSocket:
+            port: 3000
+          initialDelaySeconds: 3
+          timeoutSeconds: 3
+        livenessProbe:
+          httpGet:
+            port: 3000
+            path: "/"
+          initialDelaySeconds: 30
+          timeoutSeconds: 3
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30    

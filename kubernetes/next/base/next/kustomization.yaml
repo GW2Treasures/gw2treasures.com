@@ -1,0 +1,7 @@
+commonLabels:
+  app.kubernetes.io/component: frontend
+  app.kubernetes.io/name: next
+
+resources:
+- deployment.yaml
+- service.yaml

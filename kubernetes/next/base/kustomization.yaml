@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: gw2treasures
+
+commonLabels:
+  app.kubernetes.io/part-of: gw2treasures
+
+resources:
+- namespace.yaml
+- next-db
+- next
+- next-importer
+- next-worker

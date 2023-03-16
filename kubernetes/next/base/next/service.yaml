@@ -1,0 +1,18 @@
+kind: Service
+apiVersion: v1
+
+metadata:
+  name: next
+
+spec:
+  ports:
+  - name: http
+    port: 3000
+    protocol: TCP
+    targetPort: 3000
+  selector:
+    name: next
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}

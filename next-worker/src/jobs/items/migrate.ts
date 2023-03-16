@@ -69,10 +69,10 @@ export const ItemsMigrate: Job = {
 
       // Update name for empty items
       if(item.version <= 5) {
-        data.name.trim() === '' && (update.name_en = data.chat_link);
-        dataDe.name.trim() === '' && (update.name_de = data.chat_link);
-        dataEs.name.trim() === '' && (update.name_es = data.chat_link);
-        dataFr.name.trim() === '' && (update.name_fr = data.chat_link);
+        data.name?.trim() === '' && (update.name_en = data.chat_link);
+        dataDe.name?.trim() === '' && (update.name_de = data.chat_link);
+        dataEs.name?.trim() === '' && (update.name_es = data.chat_link);
+        dataFr.name?.trim() === '' && (update.name_fr = data.chat_link);
       }
 
       await db.item.update({ where: { id: item.id }, data: update });

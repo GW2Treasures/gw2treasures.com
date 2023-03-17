@@ -1,6 +1,7 @@
 import { remember } from '@/lib/remember';
 import { db } from '@/lib/prisma';
 import { Prisma } from '@prisma/client';
+import { NextResponse } from 'next/server';
 
 function splitSearchTerms(query: string): string[] {
   const terms = Array.from(query.matchAll(/"(?:\\\\.|[^\\\\"])*"|\S+/g)).map((term) => {
@@ -114,5 +115,5 @@ export async function GET(request: Request) {
     searchBuilds(terms.filter((t) => t.toString() === Number(t).toString())),
   ]);
 
-  return Response.json({ searchValue, ...achievements, items, skills, skins, builds });
+  return NextResponse.json({ searchValue, ...achievements, items, skills, skins, builds });
 }

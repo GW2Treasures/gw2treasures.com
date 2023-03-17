@@ -4,7 +4,7 @@ import React, { FC, Fragment, useEffect, useRef, useState } from 'react';
 import styles from './Search.module.css';
 import Icon from '../../icons/Icon';
 import { useRouter } from 'next/navigation';
-import { useAchievementResults, useBuildsResults, useItemResults, usePageResults, useSkillResults, useSkinResults } from './useSearchResults';
+import { useAchievementResults, useBuildsResults, useItemResults, usePageResults, useSearchApiResults, useSkillResults, useSkinResults } from './useSearchResults';
 import Link from 'next/link';
 import { useDebounce } from '../../lib/useDebounce';
 import { autoUpdate, offset, size, useClick, useDismiss, useFloating, useFocus, useInteractions, useListNavigation } from '@floating-ui/react';
@@ -58,12 +58,8 @@ export const Search: FC<SearchProps> = ({ }) => {
   ]);
 
   const searchResults = [
-    useItemResults(searchValue),
-    useSkillResults(searchValue),
-    useSkinResults(searchValue),
-    ...useAchievementResults(searchValue),
+    ...useSearchApiResults(searchValue),
     usePageResults(searchValue),
-    useBuildsResults(searchValue),
   ];
 
   let index = 0;

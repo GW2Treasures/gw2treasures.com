@@ -22,66 +22,37 @@ export interface SearchResult {
   subtitle?: ReactNode;
 }
 
-export function useItemResults(searchValue: string): SearchResults {
-  const response = useStaleJsonResponse(useJsonFetch<{ result: WithIcon<Item>[] }>(`/api/search/items?q=${encodeURIComponent(searchValue)}`));
+export function useSearchApiResults(searchValue: string): SearchResults[] {
+  const response = useStaleJsonResponse(useJsonFetch<{
+    items: WithIcon<Item>[],
+    skills: WithIcon<Skill>[],
+    skins: WithIcon<Skin>[],
+    achievements: With<WithIcon<Achievement>, { achievementCategory?: AchievementCategory }>[],
+    achievementCategories: With<WithIcon<AchievementCategory>, { achievementGroup?: AchievementGroup }>[],
+    achievementGroups: AchievementGroup[],
+    builds: Build[],
+  }>(`/api/search?q=${encodeURIComponent(searchValue)}`));
   const language = useLanguage();
 
-  const results = response.loading ? [] : response.data.result.map((item) => ({
+  const items = response.loading ? [] : response.data.items.map((item) => ({
     title: localizedName(item, language),
     icon: item.icon && <ItemIcon icon={item.icon} size={32}/>,
     subtitle: <>{item.level > 0 && `${item.level} ▪ `} {item.rarity} {item.weight ?? ''} {(item.subtype !== 'Generic' ? item.subtype : '') || item.type}</>,
     href: `/item/${item.id}`
   }));
 
-  return { id: 'items', title: 'Items', results };
-}
-
-export function useSkillResults(searchValue: string): SearchResults {
-  const response = useStaleJsonResponse(useJsonFetch<{ result: WithIcon<Skill>[] }>(`/api/search/skills?q=${encodeURIComponent(searchValue)}`));
-  const language = useLanguage();
-
-  const results = response.loading ? [] : response.data.result.map((skill) => ({
+  const skills = response.loading ? [] : response.data.skills.map((skill) => ({
     title: localizedName(skill, language),
     icon: skill.icon && <SkillIcon icon={skill.icon} size={32}/>,
     href: `/skill/${skill.id}`,
   }));
 
-  return { id: 'skills', title: 'Skills', results };
-}
-
-export function useSkinResults(searchValue: string): SearchResults {
-  const response = useStaleJsonResponse(useJsonFetch<{ result: WithIcon<Skin>[] }>(`/api/search/skins?q=${encodeURIComponent(searchValue)}`));
-  const language = useLanguage();
-
-  const results = response.loading ? [] : response.data.result.map((skin) => ({
+  const skins = response.loading ? [] : response.data.skins.map((skin) => ({
     title: localizedName(skin, language),
     subtitle: <>{skin.rarity} {skin.weight} {(skin.subtype !== 'Generic' ? skin.subtype : '') || skin.type}</>,
     icon: skin.icon && <ItemIcon icon={skin.icon} size={32}/>,
     href: `/skin/${skin.id}`,
   }));
-
-  return { id: 'skins', title: 'Skins', results };
-}
-
-export function useBuildsResults(searchValue: string): SearchResults {
-  const response = useStaleJsonResponse(useJsonFetch<{ result: Build[] }>(`/api/search/builds?q=${encodeURIComponent(searchValue)}`));
-
-  const results = response.loading ? [] : response.data.result.map((build) => ({
-    title: `Build ${build.id}`,
-    icon: <IconComponent icon="builds"/>,
-    href: `/build/${build.id}`,
-  }));
-
-  return { id: 'builds', title: 'Builds', results };
-}
-
-export function useAchievementResults(searchValue: string): SearchResults[] {
-  const response = useStaleJsonResponse(useJsonFetch<{
-    achievements: With<WithIcon<Achievement>, { achievementCategory?: AchievementCategory }>[],
-    achievementCategories: With<WithIcon<AchievementCategory>, { achievementGroup?: AchievementGroup }>[],
-    achievementGroups: AchievementGroup[],
-  }>(`/api/search/achievements?q=${encodeURIComponent(searchValue)}`));
-  const language = useLanguage();
 
   const achievements = response.loading ? [] : response.data.achievements.map((achievement) => ({
     title: localizedName(achievement, language),
@@ -103,10 +74,20 @@ export function useAchievementResults(searchValue: string): SearchResults[] {
     href: `/achievement#${group.id}`,
   }));
 
+  const builds = response.loading ? [] : response.data.builds.map((build) => ({
+    title: `Build ${build.id}`,
+    icon: <IconComponent icon="builds"/>,
+    href: `/build/${build.id}`,
+  }));
+
   return [
+    { id: 'items', title: 'Items', results: items },
+    { id: 'skills', title: 'Skills', results: skills },
+    { id: 'skins', title: 'Skins', results: skins },
     { id: 'achievements', title: 'Achievements', results: achievements },
     { id: 'achievements.categories', title: 'Achievement Categories', results: categories },
     { id: 'achievements.groups', title: 'Achievement Groups', results: groups },
+    { id: 'builds', title: 'Builds', results: builds },
   ];
 }
 

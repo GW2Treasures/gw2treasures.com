@@ -22,6 +22,7 @@ export function useJsonFetch<T = unknown>(url: string): UseJsonFetchResult<T> {
   useFetch(url, useCallback((response) => {
     if(!response.ok) {
       throw new Error(`${response.status} ${response.statusText}`);
+      return;
     }
 
     response.json().then((data: T) => setData({ loading: false, data }));

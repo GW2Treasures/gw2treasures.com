@@ -1,10 +1,10 @@
 'use client';
 
-import React, { FC, Fragment, useEffect, useRef, useState } from 'react';
+import React, { FC, Fragment, useRef, useState } from 'react';
 import styles from './Search.module.css';
 import Icon from '../../icons/Icon';
 import { useRouter } from 'next/navigation';
-import { useAchievementResults, useBuildsResults, useItemResults, usePageResults, useSearchApiResults, useSkillResults, useSkinResults } from './useSearchResults';
+import { usePageResults, useSearchApiResults } from './useSearchResults';
 import Link from 'next/link';
 import { useDebounce } from '../../lib/useDebounce';
 import { autoUpdate, offset, size, useClick, useDismiss, useFloating, useFocus, useInteractions, useListNavigation } from '@floating-ui/react';

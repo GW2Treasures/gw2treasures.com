@@ -42,16 +42,20 @@ spec:
         - containerPort: 3000
           protocol: TCP
         readinessProbe:
-          tcpSocket:
+          httpGet:
             port: 3000
+            path: "/api/health"
           initialDelaySeconds: 3
-          timeoutSeconds: 3
+          timeoutSeconds: 1
+          failureThreshold: 3
+          periodSeconds: 5
         livenessProbe:
           httpGet:
             port: 3000
-            path: "/"
+            path: "/api/health"
           initialDelaySeconds: 30
-          timeoutSeconds: 3
+          timeoutSeconds: 1
+          failureThreshold: 6
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
       dnsPolicy: ClusterFirst

@@ -10,8 +10,6 @@ spec:
   selector:
     matchLabels:
       name: next-worker
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:
@@ -33,6 +31,24 @@ spec:
             configMapKeyRef:
               name: next
               key: db
+        - name: HEALTH_PORT
+          value: "9090"
+        ports:
+        - containerPort: 9090
+          protocol: TCP
+        readinessProbe:
+          httpGet:
+            port: 9090
+          initialDelaySeconds: 3
+          timeoutSeconds: 1
+          failureThreshold: 3
+          periodSeconds: 5
+        livenessProbe:
+          httpGet:
+            port: 9090
+          initialDelaySeconds: 30
+          timeoutSeconds: 1
+          failureThreshold: 6
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
       dnsPolicy: ClusterFirst

@@ -5,12 +5,16 @@ import { registerCronJobs } from './jobs/cron';
 import { parseExpression } from 'cron-parser';
 import chalk from 'chalk';
 import { db } from './db';
+import { createServer } from 'http';
 
 let shuttingDown = false;
 
 let timeout: NodeJS.Timeout | undefined = undefined;
+let lastJob: Date;
 
 async function run() {
+  lastJob = new Date();
+
   const jobSelector: Prisma.JobWhereInput = {
     OR: [
       // queued jobs
@@ -90,13 +94,36 @@ registerCronJobs(db);
 console.log('Waiting for jobs...');
 run();
 
-process.on('SIGTERM', () => {
+const server = createServer((_, res) => {
+  const now = new Date();
+  const minutesSinceLastJob = (now.valueOf() - lastJob.valueOf()) / 1000 / 60;
+
+  if(minutesSinceLastJob > 15) {
+    res.writeHead(503);
+    res.end('DOWN');
+  } else {
+    res.writeHead(200);
+    res.end('UP');
+  }
+});
+
+server.listen(process.env.HEALTH_PORT, undefined, () => {
+  const address = server.address();
+  console.log('Health Server running on', typeof address === 'string' ? address : `http://localhost:${address?.port}`);
+});
+
+function shutdownHandler() {
+  if(shuttingDown) {
+    console.log('Forcing shutdown');
+    process.exit(1);
+  }
+
+  shuttingDown = true;
+
   console.log('Gracefully shutting down...');
   clearTimeout(timeout);
-  shuttingDown = true;
-});
-process.on('SIGINT', () => {
-  console.log('Gracefully shutting down...');
-  clearTimeout(timeout);
-  shuttingDown = true;
-});
+  server.close();
+}
+
+process.on('SIGTERM', shutdownHandler);
+process.on('SIGINT', shutdownHandler);

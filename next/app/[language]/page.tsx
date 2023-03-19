@@ -53,7 +53,10 @@ async function NewItems() {
 function NewItemsFallback() {
   return (
     <ItemList>
-      {[...new Array(24)].map((_, id) => <li key={id}><SkeletonLink/></li>)}
+      {[...new Array(24)].map((_, id) => {
+        // eslint-disable-next-line react/no-array-index-key
+        return (<li key={id}><SkeletonLink/></li>);
+      })}
     </ItemList>
   );
 }

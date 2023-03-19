@@ -13,8 +13,10 @@ export const SkillTooltip: FC<SkillTooltipProps> = ({ data }) => {
   return (
     <div>
       <div dangerouslySetInnerHTML={{ __html: format(data.description) }} className={styles.description}/>
+      { /* eslint-disable-next-line react/no-array-index-key */ }
       {data.facts?.map((fact, index) => <Fact key={index} fact={fact}/>)}
       {data.facts && data.traited_facts && data.facts?.length > 0 && data.traited_facts?.length > 0 && (<Separator/>)}
+      { /* eslint-disable-next-line react/no-array-index-key */ }
       {data.traited_facts?.map((fact, index) => <Fact key={index} fact={fact}/>)}
     </div>
   );

@@ -71,15 +71,17 @@ async function SkillDiffPage({ params }: { params: { a: string, b: string }}) {
         left={<p dangerouslySetInnerHTML={{ __html: format(dataA.description) }}/>}
         right={<p dangerouslySetInnerHTML={{ __html: format(dataB.description) }}/>}/>
 
-      {factsDiff.map(({ left, right }, index) => (
-        <DiffLayoutRow key={index} left={left && <Fact fact={left}/>} right={right && <Fact fact={right}/>}/>
-      ))}
+      {factsDiff.map(({ left, right }, index) => {
+        // eslint-disable-next-line react/no-array-index-key
+        return (<DiffLayoutRow key={index} left={left && <Fact fact={left}/>} right={right && <Fact fact={right}/>}/>);
+      })}
       {factsDiff.length > 0 && traitedFactsDiff.length > 0 && (
         <DiffLayoutRow left={<Separator/>} right={<Separator/>}/>
       )}
-      {traitedFactsDiff.map(({ left, right }, index) => (
-        <DiffLayoutRow key={index} left={left && <Fact fact={left}/>} right={right && <Fact fact={right}/>}/>
-      ))}
+      {traitedFactsDiff.map(({ left, right }, index) => {
+        // eslint-disable-next-line react/no-array-index-key
+        return (<DiffLayoutRow key={index} left={left && <Fact fact={left}/>} right={right && <Fact fact={right}/>}/>);
+      })}
       <DiffLayoutRow left={<Separator/>} right={<Separator/>}/>
       <DiffLayoutRow left={<Json data={dataA}/>} right={<Json data={dataB}/>}/>
     </DiffLayout>

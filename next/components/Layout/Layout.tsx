@@ -84,7 +84,8 @@ const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
                 <Button appearance="menu">
                   <Icon icon="locale"/> {localeName}
                 </Button>
-              )}>
+              )}
+              >
                 <MenuList>
                   <Radiobutton checked={language === 'de'} onChange={() => changeLanguage('de')}>{languages.de}</Radiobutton>
                   <Radiobutton checked={language === 'en'} onChange={() => changeLanguage('en')}>{languages.en}</Radiobutton>

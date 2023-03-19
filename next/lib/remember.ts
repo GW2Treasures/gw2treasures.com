@@ -7,8 +7,6 @@ export function remember<Args extends any[], Out>(seconds: number, callback: (..
 
   const cache = new Map<string, { value: Out, timestamp: number }>();
 
-  log('setup cache');
-
   const cleanup = () => {
     const now = performance.now();
     let deleted = 0;

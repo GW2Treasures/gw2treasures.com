@@ -120,7 +120,11 @@ const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
         {children}
         <footer className={styles.footer}>
           <span><b>gw2treasures.com</b> by darthmaim &copy; {new Date().getFullYear()}</span>
-          <Link href="/status/jobs">Status</Link>
+          <div className={styles.footerLinks}>
+            <Link href="/about">About</Link>
+            <Link href="/status/jobs">Status</Link>
+            <a href="https://discord.gg/gvx6ZSE" target="_blank">Discord</a>
+          </div>
         </footer>
       </div>
       <div className={styles.disclaimer}>This site is not affiliated with ArenaNet, Guild Wars 2, or any of their partners. All copyrights reserved to their respective owners.</div>

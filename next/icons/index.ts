@@ -37,11 +37,12 @@ import CloseIcon from './close.svg';
 import ApiStatusIcon from './api-status.svg';
 import DiscordIcon from './discord.svg';
 import ExternalIcon from './external.svg';
+import ExternalLinkIcon from './external-link.svg';
 
 export type IconName = 'menu' | 'gw2treasures' | 'user' | 'revision' | 'search' | 'chevronDown' | 'chatlink' | 'jobs' | 'time'
  | 'mount' | 'skill' | 'specialization' | 'wvw' | 'profession' | 'skin' | 'achievement' | 'item' | 'builds'
  | 'armorsmith' | 'artificer' | 'chef' | 'huntsman' | 'jeweler' | 'leatherworker' | 'scribe' | 'tailor' | 'weaponsmith'
- | 'filter' | 'filter-active' | 'shuffle' | 'achievementPoints' | 'info' | 'locale' | 'checkmark' | 'close' | 'api-status' | 'discord' | 'external';
+ | 'filter' | 'filter-active' | 'shuffle' | 'achievementPoints' | 'info' | 'locale' | 'checkmark' | 'close' | 'api-status' | 'discord' | 'external' | 'external-link';
 
 type IconComponent = FunctionComponent<SVGProps<SVGSVGElement>>;
 
@@ -84,6 +85,7 @@ export const Icons: Record<IconName, IconComponent> = {
   'api-status': ApiStatusIcon,
   'discord': DiscordIcon,
   'external': ExternalIcon,
+  'external-link': ExternalLinkIcon,
 };
 
 export type Icon = IconName | JSX.Element;

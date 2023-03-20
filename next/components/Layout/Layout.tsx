@@ -20,6 +20,7 @@ import { FormatNumber } from '../Format/FormatNumber';
 import { useFormatContext } from '../Format/FormatContext';
 import { useLanguage } from '../I18n/Context';
 import { Language } from '@prisma/client';
+import { ExternalLink } from '../Link/ExternalLink';
 
 interface LayoutProps {
   children: ReactNode;
@@ -123,7 +124,7 @@ const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
           <div className={styles.footerLinks}>
             <Link href="/about">About</Link>
             <Link href="/status/jobs">Status</Link>
-            <a href="https://discord.gg/gvx6ZSE" target="_blank">Discord</a>
+            <ExternalLink href="https://discord.gg/gvx6ZSE" target="_blank">Discord</ExternalLink>
           </div>
         </footer>
       </div>

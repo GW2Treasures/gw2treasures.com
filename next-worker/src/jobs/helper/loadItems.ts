@@ -1,8 +1,8 @@
-import { Language } from '@prisma/client';
 import { Gw2Api } from 'gw2-api-types';
 import { fetchApi } from './fetchApi';
+import { groupEntitiesById } from './groupById';
 
-export async function loadItems(ids: number[]): Promise<{ [key in Language]: Gw2Api.Item }[]> {
+export async function loadItems(ids: number[]) {
   const start = new Date();
 
   const [de, en, es, fr] = await Promise.all([
@@ -14,12 +14,5 @@ export async function loadItems(ids: number[]): Promise<{ [key in Language]: Gw2
 
   console.log(`Fetched ${ids.length} items in ${(new Date().valueOf() - start.valueOf()) / 1000}s`);
 
-  const items = en.map((item) => ({
-    en: item,
-    de: de.find(({ id }) => id === item.id)!,
-    es: es.find(({ id }) => id === item.id)!,
-    fr: fr.find(({ id }) => id === item.id)!,
-  }));
-
-  return items;
+  return groupEntitiesById(de, en, es, fr);
 }

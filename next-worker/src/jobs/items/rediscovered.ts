@@ -15,8 +15,8 @@ export const ItemsRediscovered: Job = {
 
     const items = await loadItems(rediscoveredIds);
 
-    for(const data of items) {
-      const item = await db.item.findUnique({ where: { id: data.en.id }});
+    for(const [id, data] of items) {
+      const item = await db.item.findUnique({ where: { id }});
 
       if(!item) {
         continue;

@@ -15,7 +15,7 @@ export const ItemsNew: Job = {
 
     const migrate = await createMigrator();
 
-    for(const { de, en, es, fr } of items) {
+    for(const [id, { de, en, es, fr }] of items) {
       const revisions = await createRevisions(db, { de, en, es, fr }, { buildId, type: 'Added', entity: 'Item', description: 'Added to API' });
       const data = await migrate({ de, en, es, fr });
 
@@ -23,7 +23,7 @@ export const ItemsNew: Job = {
 
       await db.item.create({
         data: {
-          id: en.id,
+          id,
           name_de: de.name,
           name_en: en.name,
           name_es: es.name,
@@ -42,6 +42,6 @@ export const ItemsNew: Job = {
       });
     }
 
-    return `Added ${items.length} items`;
+    return `Added ${items.size} items`;
   }
 };

@@ -1,8 +1,8 @@
-import { Language } from '@prisma/client';
 import { Gw2Api } from 'gw2-api-types';
 import { fetchApi } from './fetchApi';
+import { groupEntitiesById } from './groupById';
 
-export async function loadAchievements(ids: number[]): Promise<{ [key in Language]: Gw2Api.Achievement }[]> {
+export async function loadAchievements(ids: number[]) {
   const start = new Date();
 
   const [de, en, es, fr] = await Promise.all([
@@ -14,17 +14,10 @@ export async function loadAchievements(ids: number[]): Promise<{ [key in Languag
 
   console.log(`Fetched ${ids.length} achievements in ${(new Date().valueOf() - start.valueOf()) / 1000}s`);
 
-  const achievements = en.map((achievement) => ({
-    en: achievement,
-    de: de.find(({ id }) => id === achievement.id)!,
-    es: es.find(({ id }) => id === achievement.id)!,
-    fr: fr.find(({ id }) => id === achievement.id)!,
-  }));
-
-  return achievements;
+  return groupEntitiesById(de, en, es, fr);
 }
 
-export async function loadAchievementCategories(): Promise<{ [key in Language]: Gw2Api.Achievement.Category }[]> {
+export async function loadAchievementCategories() {
   const start = new Date();
 
   const [de, en, es, fr] = await Promise.all([
@@ -36,17 +29,10 @@ export async function loadAchievementCategories(): Promise<{ [key in Language]: 
 
   console.log(`Fetched ${en.length} achievement categories in ${(new Date().valueOf() - start.valueOf()) / 1000}s`);
 
-  const categories = en.map((category) => ({
-    en: category,
-    de: de.find(({ id }) => id === category.id)!,
-    es: es.find(({ id }) => id === category.id)!,
-    fr: fr.find(({ id }) => id === category.id)!,
-  }));
-
-  return categories;
+  return groupEntitiesById(de, en, es, fr);
 }
 
-export async function loadAchievementGroups(): Promise<{ [key in Language]: Gw2Api.Achievement.Group }[]> {
+export async function loadAchievementGroups() {
   const start = new Date();
 
   const [de, en, es, fr] = await Promise.all([
@@ -58,13 +44,6 @@ export async function loadAchievementGroups(): Promise<{ [key in Language]: Gw2A
 
   console.log(`Fetched ${en.length} achievement groups in ${(new Date().valueOf() - start.valueOf()) / 1000}s`);
 
-  const groups = en.map((groups) => ({
-    en: groups,
-    de: de.find(({ id }) => id === groups.id)!,
-    es: es.find(({ id }) => id === groups.id)!,
-    fr: fr.find(({ id }) => id === groups.id)!,
-  }));
-
-  return groups;
+  return groupEntitiesById(de, en, es, fr);
 }
 

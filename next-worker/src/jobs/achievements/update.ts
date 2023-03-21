@@ -3,6 +3,7 @@ import { getCurrentBuild } from '../helper/getCurrentBuild';
 import { loadAchievements } from '../helper/loadAchievements';
 import { queueJobForIds } from '../helper/queueJobsForIds';
 import { createIcon } from '../helper/createIcon';
+import { localeExists } from '../helper/types';
 
 export const AchievementsUpdate: Job = {
   run: async (db, ids: number[] | Record<string, never>) => {
@@ -47,8 +48,8 @@ export const AchievementsUpdate: Job = {
 
     const achievements = achievementsToUpdate.map((existing) => ({
       existing,
-      ...apiAchievements.find(({ en }) => en.id === existing.id)!
-    }));
+      ...apiAchievements.get(existing.id)
+    })).filter(localeExists);
 
     for(const { existing, de, en, es, fr } of achievements) {
       const revision_de = existing.current_de.data !== JSON.stringify(de) ? await db.revision.create({ data: { data: JSON.stringify(de), language: 'de', buildId, type: 'Update', entity: 'Achievement', description: 'Updated in API' }}) : existing.current_de;

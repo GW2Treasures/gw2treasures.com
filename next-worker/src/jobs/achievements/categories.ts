@@ -5,6 +5,7 @@ import { Language, Prisma, PrismaClient } from '@prisma/client';
 import { createRevisions } from '../helper/revision';
 import { getCurrentBuild } from '../helper/getCurrentBuild';
 import { createIcon } from '../helper/createIcon';
+import { getIdsFromMap } from '../helper/getIdsFromMap';
 
 export const AchievementCategories: Job = {
   run: async (db) => {
@@ -13,7 +14,7 @@ export const AchievementCategories: Job = {
 
     // get categories from the API
     const categories = await loadAchievementCategories();
-    const ids = categories.map(({ en }) => en.id);
+    const ids = Array.from(categories.keys());
 
     // get known ids from the DB
     const knownIds = await db.achievementCategory.findMany({ select: { id: true }}).then((categories) => categories.map(({ id }) => id));
@@ -26,10 +27,10 @@ export const AchievementCategories: Job = {
     const updatedIds = ids.filter((id) => knownIds.includes(id) && !rediscoveredIds.includes(id));
 
     // process categories
-    await newCategories(db, buildId, categories.filter(({ en }) => newIds.includes(en.id)));
+    await newCategories(db, buildId, getIdsFromMap(categories, newIds));
     await removedCategories(db, buildId, removedIds);
-    await rediscoveredCategories(db, buildId, categories.filter(({ en }) => rediscoveredIds.includes(en.id)));
-    const updated = await updatedCategories(db, buildId, categories.filter(({ en }) => updatedIds.includes(en.id)));
+    await rediscoveredCategories(db, buildId, getIdsFromMap(categories, rediscoveredIds));
+    const updated = await updatedCategories(db, buildId, getIdsFromMap(categories, updatedIds));
 
 
     return `${newIds.length} added, ${removedIds.length} removed, ${rediscoveredIds.length} rediscovered, ${updated} updated`;

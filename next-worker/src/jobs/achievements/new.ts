@@ -12,13 +12,13 @@ export const AchievementsNew: Job = {
     // load achievements from API
     const achievements = await loadAchievements(newIds);
 
-    for(const { de, en, es, fr } of achievements) {
+    for(const [id, { de, en, es, fr }] of achievements) {
       const revisions = await createRevisions(db, { de, en, es, fr }, { buildId, type: 'Added', entity: 'Achievement', description: 'Added to API' });
       const iconId = await createIcon(en.icon, db);
 
       await db.achievement.create({
         data: {
-          id: en.id,
+          id,
           name_de: de.name,
           name_en: en.name,
           name_es: es.name,
@@ -35,6 +35,6 @@ export const AchievementsNew: Job = {
       });
     }
 
-    return `Added ${achievements.length} achievements`;
+    return `Added ${achievements.size} achievements`;
   }
 };

@@ -15,8 +15,8 @@ export const AchievementsRediscovered: Job = {
 
     const achievements = await loadAchievements(rediscoveredIds);
 
-    for(const data of achievements) {
-      const achievement = await db.achievement.findUnique({ where: { id: data.en.id }});
+    for(const [id, data] of achievements) {
+      const achievement = await db.achievement.findUnique({ where: { id }});
 
       if(!achievement) {
         continue;

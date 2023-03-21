@@ -41,6 +41,7 @@ function HomePage() {
         {/* @ts-expect-error Server Component */}
         <NewItems/>
       </Suspense>
+
       <Headline id="new-achievements">
         New Achievements
       </Headline>

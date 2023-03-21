@@ -21,7 +21,7 @@ async function run() {
       { state: 'Queued' },
 
       // finished cron job
-      { state: { in: ['Error', 'Success'] }, cron: { not: null } }
+      { state: { in: ['Error', 'Success'] }, cron: { not: null }}
     ]
   };
 
@@ -36,7 +36,7 @@ async function run() {
     return;
   }
 
-  const q = await db.job.updateMany({ data: { state: 'Running', startedAt: new Date() }, where: { id: job.id, state: job.state } });
+  const q = await db.job.updateMany({ data: { state: 'Running', startedAt: new Date() }, where: { id: job.id, state: job.state }});
 
   if(q.count === 0) {
     console.log(chalk.yellow(`Job ${job.id} already claimed by other worker`));

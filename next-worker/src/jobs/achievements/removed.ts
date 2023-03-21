@@ -8,7 +8,7 @@ export const AchievementsRemoved: Job = {
     const buildId = build.id;
 
     for(const removedId of removedIds) {
-      const achievement = await db.achievement.findUnique({ where: { id: removedId }, include: { current_de: true, current_en: true, current_es: true, current_fr: true } });
+      const achievement = await db.achievement.findUnique({ where: { id: removedId }, include: { current_de: true, current_en: true, current_es: true, current_fr: true }});
 
       if(!achievement) {
         continue;
@@ -41,4 +41,4 @@ export const AchievementsRemoved: Job = {
 
     return `Marked ${removedIds.length} achievements as removed`;
   }
-}
+};

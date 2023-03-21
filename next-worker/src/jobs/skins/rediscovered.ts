@@ -15,8 +15,8 @@ export const SkinsRediscovered: Job = {
 
     const skins = await loadSkins(rediscoveredIds);
 
-    for(const data of skins) {
-      const skin = await db.skin.findUnique({ where: { id: data.en.id } });
+    for(const [id, data] of skins) {
+      const skin = await db.skin.findUnique({ where: { id }});
 
       if(!skin) {
         continue;
@@ -30,7 +30,7 @@ export const SkinsRediscovered: Job = {
         name_en: data.en.name,
         name_es: data.es.name,
         name_fr: data.fr.name,
-        iconId: iconId,
+        iconId,
         lastCheckedAt: new Date(),
         history: { createMany: { data: [] }}
       };
@@ -56,4 +56,4 @@ export const SkinsRediscovered: Job = {
 
     return `Rediscovered ${rediscoveredIds.length} skins`;
   }
-}
+};

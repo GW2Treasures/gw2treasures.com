@@ -16,7 +16,7 @@ export const AchievementsRediscovered: Job = {
     const achievements = await loadAchievements(rediscoveredIds);
 
     for(const data of achievements) {
-      const achievement = await db.achievement.findUnique({ where: { id: data.en.id } });
+      const achievement = await db.achievement.findUnique({ where: { id: data.en.id }});
 
       if(!achievement) {
         continue;
@@ -32,7 +32,7 @@ export const AchievementsRediscovered: Job = {
         name_fr: data.fr.name,
         version: 1,
         points: data.en.tiers.reduce((total, tier) => total + tier.points, 0),
-        iconId: iconId,
+        iconId,
         lastCheckedAt: new Date(),
         history: { createMany: { data: [] }}
       };
@@ -58,4 +58,4 @@ export const AchievementsRediscovered: Job = {
 
     return `Rediscovered ${rediscoveredIds.length} achievements`;
   }
-}
+};

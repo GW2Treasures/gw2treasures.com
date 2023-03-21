@@ -1,6 +1,6 @@
-import { Language } from "@prisma/client";
-import { Gw2Api } from "gw2-api-types";
-import { fetchApi } from "./fetchApi";
+import { Language } from '@prisma/client';
+import { Gw2Api } from 'gw2-api-types';
+import { fetchApi } from './fetchApi';
 
 export async function loadSkills(ids: number[]): Promise<{ [key in Language]: Gw2Api.Skill }[]> {
   const start = new Date();
@@ -12,7 +12,7 @@ export async function loadSkills(ids: number[]): Promise<{ [key in Language]: Gw
     fetchApi<Gw2Api.Skill[]>(`/v2/skills?lang=fr&v=latest&ids=${ids.join(',')}`),
   ]);
 
-  console.log(`Fetched ${ids.length} skills in ${(new Date().valueOf() - start.valueOf()) / 1000}s`)
+  console.log(`Fetched ${ids.length} skills in ${(new Date().valueOf() - start.valueOf()) / 1000}s`);
 
   const skills = en.map((skill) => ({
     en: normalizeSkill(skill),

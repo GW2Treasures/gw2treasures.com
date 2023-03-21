@@ -12,7 +12,7 @@ export async function getCurrentBuild(db: PrismaClient): Promise<Build> {
   }
 
   console.log(`Creating new build ${apiBuild}`);
-  return await db.build.create({ data: { id: apiBuild } });
+  return await db.build.create({ data: { id: apiBuild }});
 }
 
 async function getBuildFromApi() {

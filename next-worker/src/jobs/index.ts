@@ -70,7 +70,7 @@ const jobsInternal = {
   'gw2api-requests.cleanup': Gw2ApiRequestsCleanup,
 
   'jobs.cleanup': JobsCleanup,
-}
+};
 
 export const jobs = jobsInternal as Record<string, Job>;
 

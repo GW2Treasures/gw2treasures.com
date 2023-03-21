@@ -8,7 +8,7 @@ export const SkinsRemoved: Job = {
     const buildId = build.id;
 
     for(const removedId of removedIds) {
-      const skin = await db.skin.findUnique({ where: { id: removedId }, include: { current_de: true, current_en: true, current_es: true, current_fr: true } });
+      const skin = await db.skin.findUnique({ where: { id: removedId }, include: { current_de: true, current_en: true, current_es: true, current_fr: true }});
 
       if(!skin) {
         continue;
@@ -41,4 +41,4 @@ export const SkinsRemoved: Job = {
 
     return `Marked ${removedIds.length} skins as removed`;
   }
-}
+};

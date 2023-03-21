@@ -17,29 +17,31 @@ export const ItemsNew: Job = {
 
     for(const { de, en, es, fr } of items) {
       const revisions = await createRevisions(db, { de, en, es, fr }, { buildId, type: 'Added', entity: 'Item', description: 'Added to API' });
-      const data = await migrate({de, en, es, fr});
+      const data = await migrate({ de, en, es, fr });
 
       const iconId = await createIcon(en.icon, db);
 
-      await db.item.create({ data: {
-        id: en.id,
-        name_de: de.name,
-        name_en: en.name,
-        name_es: es.name,
-        name_fr: fr.name,
-        iconId: iconId,
-        rarity: en.rarity,
+      await db.item.create({
+        data: {
+          id: en.id,
+          name_de: de.name,
+          name_en: en.name,
+          name_es: es.name,
+          name_fr: fr.name,
+          iconId,
+          rarity: en.rarity,
 
-        ...data,
+          ...data,
 
-        currentId_de: revisions.de.id,
-        currentId_en: revisions.en.id,
-        currentId_es: revisions.es.id,
-        currentId_fr: revisions.fr.id,
-        history: { createMany: { data: [{ revisionId: revisions.de.id }, { revisionId: revisions.en.id }, { revisionId: revisions.es.id }, { revisionId: revisions.fr.id }]} }
-      }});
+          currentId_de: revisions.de.id,
+          currentId_en: revisions.en.id,
+          currentId_es: revisions.es.id,
+          currentId_fr: revisions.fr.id,
+          history: { createMany: { data: [{ revisionId: revisions.de.id }, { revisionId: revisions.en.id }, { revisionId: revisions.es.id }, { revisionId: revisions.fr.id }] }}
+        }
+      });
     }
 
     return `Added ${items.length} items`;
   }
-}
+};

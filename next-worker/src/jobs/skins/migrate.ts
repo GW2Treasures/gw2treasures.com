@@ -1,22 +1,21 @@
 import { Job } from '../job';
 import { queueJobForIds } from '../helper/queueJobsForIds';
 import { Prisma } from '@prisma/client';
-import { Gw2Api } from 'gw2-api-types';
 
 export const CURRENT_VERSION = 0;
 
 export const SkinsMigrate: Job = {
-  run: async (db, ids: number[] | {}) => {
+  run: async (db, ids: number[] | Record<string, never>) => {
     if(!Array.isArray(ids)) {
       // skip if any follow up jobs are still queued
-      const queuedJobs = await db.job.count({ where: { type: { in: ['skins.migrate'] }, state: { in: ['Queued', 'Running'] }, cron: null } })
+      const queuedJobs = await db.job.count({ where: { type: { in: ['skins.migrate'] }, state: { in: ['Queued', 'Running'] }, cron: null }});
 
       if(queuedJobs > 0) {
         return 'Waiting for pending follow up jobs';
       }
 
       const idsToUpdate = (await db.skin.findMany({
-        where: { version: { lt: CURRENT_VERSION } },
+        where: { version: { lt: CURRENT_VERSION }},
         orderBy: { updatedAt: 'asc' },
         select: { id: true }
       })).map(({ id }) => id);
@@ -26,7 +25,7 @@ export const SkinsMigrate: Job = {
     }
 
     const skinsToMigrate = await db.skin.findMany({
-      where: { id: { in: ids } },
+      where: { id: { in: ids }},
       include: { current_de: true, current_en: true, current_es: true, current_fr: true },
     });
 
@@ -35,8 +34,6 @@ export const SkinsMigrate: Job = {
     }
 
     for(const skin of skinsToMigrate) {
-      const data: Gw2Api.Skin = JSON.parse(skin.current_en.data);
-
       const update: Prisma.SkinUpdateInput = {
         version: CURRENT_VERSION
       };
@@ -46,4 +43,4 @@ export const SkinsMigrate: Job = {
 
     return `Migrated ${skinsToMigrate.length} skins to version ${CURRENT_VERSION}`;
   }
-}
+};

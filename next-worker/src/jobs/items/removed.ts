@@ -8,7 +8,7 @@ export const ItemsRemoved: Job = {
     const buildId = build.id;
 
     for(const removedId of removedIds) {
-      const item = await db.item.findUnique({ where: { id: removedId }, include: { current_de: true, current_en: true, current_es: true, current_fr: true } });
+      const item = await db.item.findUnique({ where: { id: removedId }, include: { current_de: true, current_en: true, current_es: true, current_fr: true }});
 
       if(!item) {
         continue;
@@ -41,4 +41,4 @@ export const ItemsRemoved: Job = {
 
     return `Marked ${removedIds.length} items as removed`;
   }
-}
+};

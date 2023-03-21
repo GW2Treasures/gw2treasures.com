@@ -35,7 +35,8 @@ interface MigratedItem {
 export async function createMigrator() {
   const knownSkinIds = (await db.skin.findMany({ select: { id: true }})).map(({ id }) => id);
 
-  return async function migrate({ de, en, es, fr }: Localized<Gw2Api.Item>, currentVersion: number = -1) {
+  // eslint-disable-next-line require-await
+  return async function migrate({ de, en, es, fr }: Localized<Gw2Api.Item>, currentVersion = -1) {
     const update: MigratedItem = {
       version: CURRENT_VERSION
     };
@@ -68,5 +69,5 @@ export async function createMigrator() {
     console.log(`migrate ${en.id}:`, update);
 
     return update;
-  }
+  };
 }

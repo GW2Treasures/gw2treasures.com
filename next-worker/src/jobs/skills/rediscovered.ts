@@ -16,7 +16,7 @@ export const SkillsRediscovered: Job = {
     const skills = await loadSkills(rediscoveredIds);
 
     for(const data of skills) {
-      const skill = await db.skill.findUnique({ where: { id: data.en.id } });
+      const skill = await db.skill.findUnique({ where: { id: data.en.id }});
 
       if(!skill) {
         continue;
@@ -56,4 +56,4 @@ export const SkillsRediscovered: Job = {
 
     return `Rediscovered ${rediscoveredIds.length} skills`;
   }
-}
+};

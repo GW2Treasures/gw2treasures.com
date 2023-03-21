@@ -15,8 +15,8 @@ export const SkillsRediscovered: Job = {
 
     const skills = await loadSkills(rediscoveredIds);
 
-    for(const data of skills) {
-      const skill = await db.skill.findUnique({ where: { id: data.en.id }});
+    for(const [id, data] of skills) {
+      const skill = await db.skill.findUnique({ where: { id }});
 
       if(!skill) {
         continue;

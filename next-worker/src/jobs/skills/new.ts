@@ -12,14 +12,14 @@ export const SkillsNew: Job = {
     // load skills from API
     const skills = await loadSkills(newIds);
 
-    for(const { de, en, es, fr } of skills) {
+    for(const [id, { de, en, es, fr }] of skills) {
       const revisions = await createRevisions(db, { de, en, es, fr }, { buildId, type: 'Added', entity: 'Skill', description: 'Added to API' });
 
       const iconId = await createIcon(en.icon, db);
 
       await db.skill.create({
         data: {
-          id: en.id,
+          id,
           name_de: de.name,
           name_en: en.name,
           name_es: es.name,
@@ -35,6 +35,6 @@ export const SkillsNew: Job = {
       });
     }
 
-    return `Added ${skills.length} skills`;
+    return `Added ${skills.size} skills`;
   }
 };

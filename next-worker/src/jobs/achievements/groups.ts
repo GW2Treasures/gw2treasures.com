@@ -5,6 +5,7 @@ import { Language, Prisma, PrismaClient } from '@prisma/client';
 import { createRevisions } from '../helper/revision';
 import { getCurrentBuild } from '../helper/getCurrentBuild';
 import { getIdsFromMap } from '../helper/getIdsFromMap';
+import { appendHistory } from '../helper/appendHistory';
 
 export const AchievementGroups: Job = {
   run: async (db) => {
@@ -91,7 +92,7 @@ async function removedGroups(db: PrismaClient, buildId: number, removedIds: stri
       });
 
       update[`currentId_${language}`] = revision.id;
-      update.history!.createMany!.data = [...update.history!.createMany!.data as Prisma.AchievementGroupHistoryCreateManyAchievementGroupInput[], { revisionId: revision.id }];
+      update.history = appendHistory(update, revision.id);
     }
 
     await db.achievementGroup.update({ where: { id: removedId }, data: update });
@@ -124,7 +125,7 @@ async function rediscoveredGroups(db: PrismaClient, buildId: number, groups: { [
       });
 
       update[`currentId_${language}`] = revision.id;
-      update.history!.createMany!.data = [...update.history!.createMany!.data as Prisma.AchievementGroupHistoryCreateManyAchievementGroupInput[], { revisionId: revision.id }];
+      update.history = appendHistory(update, revision.id);
     }
 
     await db.achievementGroup.update({ where: { id: data.en.id }, data: update });

@@ -3,6 +3,7 @@ import { Prisma } from '@prisma/client';
 import { getCurrentBuild } from '../helper/getCurrentBuild';
 import { loadSkins } from '../helper/loadSkins';
 import { createIcon } from '../helper/createIcon';
+import { appendHistory } from '../helper/appendHistory';
 
 export const SkinsRediscovered: Job = {
   run: async (db, rediscoveredIds: number[]) => {
@@ -48,7 +49,7 @@ export const SkinsRediscovered: Job = {
         });
 
         update[`currentId_${language}`] = revision.id;
-        update.history!.createMany!.data = [...update.history!.createMany!.data as Prisma.SkinHistoryCreateManySkinInput[], { revisionId: revision.id }];
+        update.history = appendHistory(update, revision.id);
       }
 
       await db.skin.update({ where: { id: skin.id }, data: update });

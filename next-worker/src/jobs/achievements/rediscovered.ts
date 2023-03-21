@@ -3,6 +3,7 @@ import { Prisma } from '@prisma/client';
 import { getCurrentBuild } from '../helper/getCurrentBuild';
 import { loadAchievements } from '../helper/loadAchievements';
 import { createIcon } from '../helper/createIcon';
+import { appendHistory } from '../helper/appendHistory';
 
 export const AchievementsRediscovered: Job = {
   run: async (db, rediscoveredIds: number[]) => {
@@ -50,7 +51,7 @@ export const AchievementsRediscovered: Job = {
         });
 
         update[`currentId_${language}`] = revision.id;
-        update.history!.createMany!.data = [...update.history!.createMany!.data as Prisma.AchievementHistoryCreateManyAchievementInput[], { revisionId: revision.id }];
+        update.history = appendHistory(update, revision.id);
       }
 
       await db.achievement.update({ where: { id: achievement.id }, data: update });

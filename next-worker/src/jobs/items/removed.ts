@@ -1,6 +1,7 @@
 import { Job } from '../job';
 import { Prisma } from '@prisma/client';
 import { getCurrentBuild } from '../helper/getCurrentBuild';
+import { appendHistory } from '../helper/appendHistory';
 
 export const ItemsRemoved: Job = {
   run: async (db, removedIds: number[]) => {
@@ -33,7 +34,7 @@ export const ItemsRemoved: Job = {
         });
 
         update[`currentId_${language}`] = revision.id;
-        update.history!.createMany!.data = [...update.history!.createMany!.data as Prisma.ItemHistoryCreateManyItemInput[], { revisionId: revision.id }];
+        update.history = appendHistory(update, revision.id);
       }
 
       await db.item.update({ where: { id: removedId }, data: update });

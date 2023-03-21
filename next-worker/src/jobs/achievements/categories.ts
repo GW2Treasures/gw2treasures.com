@@ -6,6 +6,7 @@ import { createRevisions } from '../helper/revision';
 import { getCurrentBuild } from '../helper/getCurrentBuild';
 import { createIcon } from '../helper/createIcon';
 import { getIdsFromMap } from '../helper/getIdsFromMap';
+import { appendHistory } from '../helper/appendHistory';
 
 export const AchievementCategories: Job = {
   run: async (db) => {
@@ -91,7 +92,7 @@ async function removedCategories(db: PrismaClient, buildId: number, removedIds: 
       });
 
       update[`currentId_${language}`] = revision.id;
-      update.history!.createMany!.data = [...update.history!.createMany!.data as Prisma.AchievementCategoryHistoryCreateManyAchievementCategoryInput[], { revisionId: revision.id }];
+      update.history = appendHistory(update, revision.id);
     }
 
     await db.achievementCategory.update({ where: { id: removedId }, data: update });
@@ -127,7 +128,7 @@ async function rediscoveredCategories(db: PrismaClient, buildId: number, categor
       });
 
       update[`currentId_${language}`] = revision.id;
-      update.history!.createMany!.data = [...update.history!.createMany!.data as Prisma.AchievementCategoryHistoryCreateManyAchievementCategoryInput[], { revisionId: revision.id }];
+      update.history = appendHistory(update, revision.id);
     }
 
     await db.achievementCategory.update({ where: { id: data.en.id }, data: update });

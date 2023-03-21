@@ -5,8 +5,9 @@ import { Language, Prisma, PrismaClient } from '@prisma/client';
 import { createRevisions } from '../helper/revision';
 import { getCurrentBuild } from '../helper/getCurrentBuild';
 import { createIcon } from '../helper/createIcon';
-import { getIdsFromMap } from '../helper/getIdsFromMap';
+import { filterMapKeys, getIdsFromMap } from '../helper/getIdsFromMap';
 import { appendHistory } from '../helper/appendHistory';
+import { localeExists, LocalizedObject } from '../helper/types';
 
 export const AchievementCategories: Job = {
   run: async (db) => {
@@ -31,8 +32,7 @@ export const AchievementCategories: Job = {
     await newCategories(db, buildId, getIdsFromMap(categories, newIds));
     await removedCategories(db, buildId, removedIds);
     await rediscoveredCategories(db, buildId, getIdsFromMap(categories, rediscoveredIds));
-    const updated = await updatedCategories(db, buildId, getIdsFromMap(categories, updatedIds));
-
+    const updated = await updatedCategories(db, buildId, filterMapKeys(categories, updatedIds));
 
     return `${newIds.length} added, ${removedIds.length} removed, ${rediscoveredIds.length} rediscovered, ${updated} updated`;
   }
@@ -137,16 +137,16 @@ async function rediscoveredCategories(db: PrismaClient, buildId: number, categor
   }
 }
 
-async function updatedCategories(db: PrismaClient, buildId: number, apiCategories: { [key in Language]: Gw2Api.Achievement.Category }[]) {
+async function updatedCategories(db: PrismaClient, buildId: number, apiCategories: Map<number, LocalizedObject<Gw2Api.Achievement.Category>>) {
   const categoriesToUpdate = await db.achievementCategory.findMany({
-    where: { id: { in: apiCategories.map(({ en }) => en.id) }},
+    where: { id: { in: Array.from(apiCategories.keys()) }},
     include: { current_de: true, current_en: true, current_es: true, current_fr: true }
   });
 
   const categories = categoriesToUpdate.map((existing) => ({
     existing,
-    ...apiCategories.find(({ en }) => en.id === existing.id)!
-  }));
+    ...apiCategories.get(existing.id)
+  })).filter(localeExists);
 
   let updated = 0;
 

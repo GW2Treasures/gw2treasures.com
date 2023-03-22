@@ -66,8 +66,6 @@ export async function createMigrator() {
       fr.name?.trim() === '' && (update.name_fr = en.chat_link);
     }
 
-    console.log(`migrate ${en.id}:`, update);
-
     return update;
   };
 }

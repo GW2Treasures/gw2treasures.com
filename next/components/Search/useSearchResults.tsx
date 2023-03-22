@@ -1,10 +1,9 @@
-import { Item, Skill, Skin, Build, Achievement, AchievementGroup, AchievementCategory } from '@prisma/client';
+import { ApiSearchResponse } from 'app/api/search/route';
 import { ReactNode } from 'react';
 import { IconName } from '../../icons';
 import IconComponent from '../../icons/Icon';
 import { localizedName } from '../../lib/localizedName';
 import { useJsonFetch, useStaleJsonResponse } from '../../lib/useFetch';
-import { With, WithIcon } from '../../lib/with';
 import { useLanguage } from '../I18n/Context';
 import { ItemIcon } from '../Item/ItemIcon';
 import { SkillIcon } from '../Skill/SkillIcon';
@@ -23,15 +22,7 @@ export interface SearchResult {
 }
 
 export function useSearchApiResults(searchValue: string): SearchResults[] {
-  const response = useStaleJsonResponse(useJsonFetch<{
-    items: WithIcon<Item>[],
-    skills: WithIcon<Skill>[],
-    skins: WithIcon<Skin>[],
-    achievements: With<WithIcon<Achievement>, { achievementCategory?: AchievementCategory }>[],
-    achievementCategories: With<WithIcon<AchievementCategory>, { achievementGroup?: AchievementGroup }>[],
-    achievementGroups: AchievementGroup[],
-    builds: Build[],
-  }>(`/api/search?q=${encodeURIComponent(searchValue)}`));
+  const response = useStaleJsonResponse(useJsonFetch<ApiSearchResponse>(`/api/search?q=${encodeURIComponent(searchValue)}`));
   const language = useLanguage();
 
   const items = response.loading ? [] : response.data.items.map((item) => ({

@@ -9,10 +9,13 @@
 }
 
 .list > li {
-  display: flex;
   margin-bottom: 8px;
   align-items: center;
   justify-content: space-between;
   white-space: nowrap;
   gap: 8px;
+
+  /* use inline to fix column rendering in safari */
+  display: inline-flex;
+  width: 100%;
 }

@@ -4,6 +4,7 @@ import { loadItems } from '../helper/loadItems';
 import { queueJobForIds } from '../helper/queueJobsForIds';
 import { createIcon } from '../helper/createIcon';
 import { localeExists } from '../helper/types';
+import { createMigrator } from './migrations';
 
 export const ItemsUpdate: Job = {
   run: async (db, ids: number[] | Record<string, never>) => {
@@ -51,6 +52,8 @@ export const ItemsUpdate: Job = {
       ...apiItems.get(existing.id)
     })).filter(localeExists);
 
+    const migrate = await createMigrator();
+
     for(const { existing, de, en, es, fr } of items) {
       const revision_de = existing.current_de.data !== JSON.stringify(de) ? await db.revision.create({ data: { data: JSON.stringify(de), language: 'de', buildId, type: 'Update', entity: 'Item', description: 'Updated in API' }}) : existing.current_de;
       const revision_en = existing.current_en.data !== JSON.stringify(en) ? await db.revision.create({ data: { data: JSON.stringify(en), language: 'en', buildId, type: 'Update', entity: 'Item', description: 'Updated in API' }}) : existing.current_en;
@@ -58,6 +61,7 @@ export const ItemsUpdate: Job = {
       const revision_fr = existing.current_fr.data !== JSON.stringify(fr) ? await db.revision.create({ data: { data: JSON.stringify(fr), language: 'fr', buildId, type: 'Update', entity: 'Item', description: 'Updated in API' }}) : existing.current_fr;
 
       const iconId = await createIcon(en.icon, db);
+      const data = await migrate({ de, en, es, fr });
 
       await db.item.update({
         where: { id: existing.id },
@@ -68,17 +72,14 @@ export const ItemsUpdate: Job = {
           name_fr: fr.name,
           iconId,
           rarity: en.rarity,
-          type: en.type,
-          subtype: en.details?.type,
-          weight: en.details?.weight_class,
-          value: en.vendor_value,
-          level: en.level,
+
+          ...data,
+
           currentId_de: revision_de.id,
           currentId_en: revision_en.id,
           currentId_es: revision_es.id,
           currentId_fr: revision_fr.id,
           lastCheckedAt: new Date(),
-          version: 1,
           history: { createMany: { data: [{ revisionId: revision_de.id }, { revisionId: revision_en.id }, { revisionId: revision_es.id }, { revisionId: revision_fr.id }], skipDuplicates: true }}
         }
       });

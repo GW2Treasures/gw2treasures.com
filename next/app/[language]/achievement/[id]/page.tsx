@@ -12,6 +12,7 @@ import Icon from '../../../../icons/Icon';
 import { format } from 'gw2-tooltip-html';
 import { notFound } from 'next/navigation';
 import { remember } from '@/lib/remember';
+import styles from './page.module.css';
 
 const getAchievement = remember(60, async function getAchievement(id: number, language: Language) {
   const [achievement, revision] = await Promise.all([
@@ -49,11 +50,22 @@ async function AchievementPage({ params: { id, language }}: { params: { language
       <p dangerouslySetInnerHTML={{ __html: format(data.requirement.replace('  ', ` ${data.tiers[data.tiers.length - 1].count} `)) }}/>
 
       <Headline id="tiers">Tiers</Headline>
-      {data.tiers.map((tier) => (
-        <div key={tier.count}>{tier.points} <Icon icon="achievementPoints"/>: <FormatNumber value={tier.count}/> objectives completed</div>
-      ))}
-      <Separator/>
-      <div>Total: {data.tiers.reduce((total, tier) => total + tier.points, 0)} <Icon icon="achievementPoints"/></div>
+      <table className={styles.tierTable}>
+        <tr>
+          <th>Objectives</th>
+          {data.tiers.map((tier) => (
+            <td key={tier.count}><FormatNumber value={tier.count}/></td>
+          ))}
+          <td>Total</td>
+        </tr>
+        <tr>
+          <th>Achievement Points</th>
+          {data.tiers.map((tier) => (
+            <td key={tier.count}>{tier.points} <Icon icon="achievementPoints"/></td>
+          ))}
+          <td>{data.tiers.reduce((total, tier) => total + tier.points, 0)} <Icon icon="achievementPoints"/></td>
+        </tr>
+      </table>
 
       <Headline id="data">Data</Headline>
       <Json data={data}/>

@@ -1,0 +1,27 @@
+.tierTable {
+  border-collapse: collapse;
+  margin: 8px 0;
+}
+
+.tierTable th, .tierTable td {
+  padding: 8px 16px;
+}
+
+.tierTable td:last-child {
+  border-left-width: 2px;
+}
+
+.tierTable th {
+  padding: 8px 32px 8px 0;
+  font-weight: 500;
+  text-align: left;
+}
+
+.tierTable tr:first-child {
+  border-bottom: 2px solid var(--color-border);
+}
+
+.tierTable td:last-child {
+  font-weight: 500;
+  padding-left: 32px;
+}

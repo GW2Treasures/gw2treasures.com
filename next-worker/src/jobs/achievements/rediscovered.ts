@@ -4,6 +4,7 @@ import { getCurrentBuild } from '../helper/getCurrentBuild';
 import { loadAchievements } from '../helper/loadAchievements';
 import { createIcon } from '../helper/createIcon';
 import { appendHistory } from '../helper/appendHistory';
+import { createMigrator } from './migrations';
 
 export const AchievementsRediscovered: Job = {
   run: async (db, rediscoveredIds: number[]) => {
@@ -15,6 +16,7 @@ export const AchievementsRediscovered: Job = {
     }
 
     const achievements = await loadAchievements(rediscoveredIds);
+    const migrate = await createMigrator();
 
     for(const [id, data] of achievements) {
       const achievement = await db.achievement.findUnique({ where: { id }});
@@ -24,6 +26,7 @@ export const AchievementsRediscovered: Job = {
       }
 
       const iconId = await createIcon(data.en.icon, db);
+      const migratedData = await migrate(data);
 
       const update: Prisma.AchievementUpdateArgs['data'] = {
         removedFromApi: false,
@@ -31,8 +34,7 @@ export const AchievementsRediscovered: Job = {
         name_en: data.en.name,
         name_es: data.es.name,
         name_fr: data.fr.name,
-        version: 1,
-        points: data.en.tiers.reduce((total, tier) => total + tier.points, 0),
+        ...migratedData,
         iconId,
         lastCheckedAt: new Date(),
         history: { createMany: { data: [] }}

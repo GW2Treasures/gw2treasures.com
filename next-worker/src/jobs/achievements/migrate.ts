@@ -1,9 +1,7 @@
 import { Job } from '../job';
 import { queueJobForIds } from '../helper/queueJobsForIds';
-import { Prisma } from '@prisma/client';
 import { Gw2Api } from 'gw2-api-types';
-
-const CURRENT_VERSION = 1;
+import { createMigrator, CURRENT_VERSION } from './migrations';
 
 export const AchievementsMigrate: Job = {
   run: async (db, ids: number[] | Record<string, never>) => {
@@ -34,18 +32,17 @@ export const AchievementsMigrate: Job = {
       return 'No achievements to update';
     }
 
+    const migrate = await createMigrator();
+
     for(const achievement of achievementsToMigrate) {
-      const data: Gw2Api.Achievement = JSON.parse(achievement.current_en.data);
+      const de: Gw2Api.Achievement = JSON.parse(achievement.current_de.data);
+      const en: Gw2Api.Achievement = JSON.parse(achievement.current_en.data);
+      const es: Gw2Api.Achievement = JSON.parse(achievement.current_es.data);
+      const fr: Gw2Api.Achievement = JSON.parse(achievement.current_fr.data);
 
-      const update: Prisma.AchievementUpdateInput = {
-        version: CURRENT_VERSION
-      };
+      const data = await migrate({ de, en, es, fr }, achievement.version);
 
-      if(achievement.version < 1) {
-        update.points = data.tiers.reduce((total, tier) => total + tier.points, 0);
-      }
-
-      await db.achievement.update({ where: { id: achievement.id }, data: update });
+      await db.achievement.update({ where: { id: achievement.id }, data });
     }
 
     return `Migrated ${achievementsToMigrate.length} achievements to version ${CURRENT_VERSION}`;

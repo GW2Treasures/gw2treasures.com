@@ -49,7 +49,13 @@ export function useSearchApiResults(searchValue: string): SearchResults[] {
     title: localizedName(achievement, language),
     icon: achievement.icon && <ItemIcon icon={achievement.icon} size={32}/>,
     href: `/achievement/${achievement.id}`,
-    subtitle: <>{(achievement.achievementCategory ? localizedName(achievement.achievementCategory, language) : 'Achievement')}{achievement.points > 0 && (<> ▪ {achievement.points} <IconComponent icon="achievementPoints"/></>)}</>
+    subtitle: (
+      <>
+        {(achievement.achievementCategory ? localizedName(achievement.achievementCategory, language) : 'Achievement')}
+        {achievement.points > 0 && (<> ▪ {achievement.points} <IconComponent icon="achievementPoints"/></>)}
+        {achievement.mastery && (<> ▪ <IconComponent icon="mastery"/> {achievement.mastery}</>)}
+      </>
+    )
   }));
 
   const categories = response.loading ? [] : response.data.achievementCategories.map((category) => ({

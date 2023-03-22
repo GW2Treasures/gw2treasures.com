@@ -54,11 +54,23 @@ export const ItemsUpdate: Job = {
 
     const migrate = await createMigrator();
 
+    let updatedItems = 0;
+
     for(const { existing, de, en, es, fr } of items) {
-      const revision_de = existing.current_de.data !== JSON.stringify(de) ? await db.revision.create({ data: { data: JSON.stringify(de), language: 'de', buildId, type: 'Update', entity: 'Item', description: 'Updated in API' }}) : existing.current_de;
-      const revision_en = existing.current_en.data !== JSON.stringify(en) ? await db.revision.create({ data: { data: JSON.stringify(en), language: 'en', buildId, type: 'Update', entity: 'Item', description: 'Updated in API' }}) : existing.current_en;
-      const revision_es = existing.current_es.data !== JSON.stringify(es) ? await db.revision.create({ data: { data: JSON.stringify(es), language: 'es', buildId, type: 'Update', entity: 'Item', description: 'Updated in API' }}) : existing.current_es;
-      const revision_fr = existing.current_fr.data !== JSON.stringify(fr) ? await db.revision.create({ data: { data: JSON.stringify(fr), language: 'fr', buildId, type: 'Update', entity: 'Item', description: 'Updated in API' }}) : existing.current_fr;
+      const changed_de = existing.current_de.data !== JSON.stringify(de);
+      const changed_en = existing.current_en.data !== JSON.stringify(en);
+      const changed_es = existing.current_es.data !== JSON.stringify(es);
+      const changed_fr = existing.current_fr.data !== JSON.stringify(fr);
+
+      if(!changed_de && !changed_en && !changed_es && !changed_fr) {
+        // nothing changed
+        continue;
+      }
+
+      const revision_de = changed_de ? await db.revision.create({ data: { data: JSON.stringify(de), language: 'de', buildId, type: 'Update', entity: 'Item', description: 'Updated in API' }}) : existing.current_de;
+      const revision_en = changed_en ? await db.revision.create({ data: { data: JSON.stringify(en), language: 'en', buildId, type: 'Update', entity: 'Item', description: 'Updated in API' }}) : existing.current_en;
+      const revision_es = changed_es ? await db.revision.create({ data: { data: JSON.stringify(es), language: 'es', buildId, type: 'Update', entity: 'Item', description: 'Updated in API' }}) : existing.current_es;
+      const revision_fr = changed_fr ? await db.revision.create({ data: { data: JSON.stringify(fr), language: 'fr', buildId, type: 'Update', entity: 'Item', description: 'Updated in API' }}) : existing.current_fr;
 
       const iconId = await createIcon(en.icon, db);
       const data = await migrate({ de, en, es, fr });
@@ -83,8 +95,10 @@ export const ItemsUpdate: Job = {
           history: { createMany: { data: [{ revisionId: revision_de.id }, { revisionId: revision_en.id }, { revisionId: revision_es.id }, { revisionId: revision_fr.id }], skipDuplicates: true }}
         }
       });
+
+      updatedItems++;
     }
 
-    return `Updated ${items.length} items`;
+    return `Updated ${updatedItems}/${items.length} items`;
   }
 };

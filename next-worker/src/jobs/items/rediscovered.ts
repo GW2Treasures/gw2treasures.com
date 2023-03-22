@@ -4,6 +4,7 @@ import { getCurrentBuild } from '../helper/getCurrentBuild';
 import { loadItems } from '../helper/loadItems';
 import { createIcon } from '../helper/createIcon';
 import { appendHistory } from '../helper/appendHistory';
+import { createMigrator } from './migrations';
 
 export const ItemsRediscovered: Job = {
   run: async (db, rediscoveredIds: number[]) => {
@@ -15,6 +16,7 @@ export const ItemsRediscovered: Job = {
     }
 
     const items = await loadItems(rediscoveredIds);
+    const migrate = await createMigrator();
 
     for(const [id, data] of items) {
       const item = await db.item.findUnique({ where: { id }});
@@ -24,6 +26,7 @@ export const ItemsRediscovered: Job = {
       }
 
       const iconId = await createIcon(data.en.icon, db);
+      const migratedData = await migrate(data);
 
       const update: Prisma.ItemUpdateArgs['data'] = {
         removedFromApi: false,
@@ -32,6 +35,7 @@ export const ItemsRediscovered: Job = {
         name_es: data.es.name,
         name_fr: data.fr.name,
         iconId,
+        ...migratedData,
         lastCheckedAt: new Date(),
         history: { createMany: { data: [] }}
       };

@@ -70,15 +70,13 @@ export const Search: FC<SearchProps> = ({ }) => {
       {/* <div className={styles.restriciton}>Item</div> */}
       <input className={styles.searchInput} placeholder="Search (ALT + Q)" accessKey="q" value={value} onChange={(e) => { setValue(e.target.value); setOpen(true); }} onKeyDown={(e) => {
         if(e.key === 'Enter' && activeIndex !== null) {
-          const href = listRef.current[activeIndex]!.href;
+          const current = listRef.current[activeIndex];
 
-          if(href.startsWith('http')) {
-            window.open(href, '_blank');
-          } else {
-            router.push(href);
+          if(current === null) {
+            return;
           }
 
-          setOpen(false);
+          current.click();
           e.preventDefault();
         }
       }}/>
@@ -101,7 +99,10 @@ export const Search: FC<SearchProps> = ({ }) => {
                     className={activeIndex === currentIndex ? styles.resultActive : styles.result}
                     id={result.href}
                     target={result.href.startsWith('http') ? '_blank' : undefined}
-                    ref={(node) => listRef.current[currentIndex] = node} {...getItemProps()} onClick={() => setOpen(false)}
+                    ref={(node) => listRef.current[currentIndex] = node}
+                    {...getItemProps({
+                      onClick: () => setOpen(false)
+                    })}
                   >
                     {result.icon}
                     <div className={styles.title}>

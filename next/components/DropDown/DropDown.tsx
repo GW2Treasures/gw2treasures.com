@@ -21,7 +21,7 @@ export const DropDown: FC<DropDown> = ({ children, button, preferredPlacement = 
     whileElementsMounted: autoUpdate,
     middleware: [
       offset(8),
-      flip({ padding: { top: 64, bottom: 8, left: 8, right: 8 }}),
+      flip({ padding: { top: 64, bottom: 8, left: 8, right: 8 }, fallbackStrategy: 'initialPlacement' }),
       shift({ padding: 8 }),
       hideTop && hide({ padding: { top: 48 }}),
       arrow({ element: arrowRef, padding: 4 })

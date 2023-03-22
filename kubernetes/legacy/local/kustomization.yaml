@@ -5,10 +5,9 @@ namespace: gw2treasures
 commonLabels:
   app.kubernetes.io/part-of: gw2treasures
 
-bases:
-  - ../base
 
 resources:
+- ../base
 - assets
 - db
 - storage

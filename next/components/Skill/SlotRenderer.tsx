@@ -15,7 +15,10 @@ export const SlotRenderer: FC<SlotRendererProps> = ({ data }) => {
 
   return (
     <div className={styles.slots}>
-      {(slots.split('') as Slot[]).map((slot, i) => <span key={i} className={slot === '0' ? styles.emptySlot : styles.slot}/>)}
+      {(slots.split('') as Slot[]).map((slot, i) => {
+        // eslint-disable-next-line react/no-array-index-key
+        return (<span key={i} className={slot === '0' ? styles.emptySlot : styles.slot}/>);
+      })}
     </div>
   );
 };

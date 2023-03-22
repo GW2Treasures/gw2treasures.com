@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import { FC, ReactNode } from 'react';
 import { Table } from '../Table/Table';
 import { Skeleton } from './Skeleton';

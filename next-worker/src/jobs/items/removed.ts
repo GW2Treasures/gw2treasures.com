@@ -1,6 +1,7 @@
 import { Job } from '../job';
 import { Prisma } from '@prisma/client';
 import { getCurrentBuild } from '../helper/getCurrentBuild';
+import { appendHistory } from '../helper/appendHistory';
 
 export const ItemsRemoved: Job = {
   run: async (db, removedIds: number[]) => {
@@ -8,7 +9,7 @@ export const ItemsRemoved: Job = {
     const buildId = build.id;
 
     for(const removedId of removedIds) {
-      const item = await db.item.findUnique({ where: { id: removedId }, include: { current_de: true, current_en: true, current_es: true, current_fr: true } });
+      const item = await db.item.findUnique({ where: { id: removedId }, include: { current_de: true, current_en: true, current_es: true, current_fr: true }});
 
       if(!item) {
         continue;
@@ -33,7 +34,7 @@ export const ItemsRemoved: Job = {
         });
 
         update[`currentId_${language}`] = revision.id;
-        update.history!.createMany!.data = [...update.history!.createMany!.data as Prisma.ItemHistoryCreateManyItemInput[], { revisionId: revision.id }];
+        update.history = appendHistory(update, revision.id);
       }
 
       await db.item.update({ where: { id: removedId }, data: update });
@@ -41,4 +42,4 @@ export const ItemsRemoved: Job = {
 
     return `Marked ${removedIds.length} items as removed`;
   }
-}
+};

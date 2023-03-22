@@ -3,6 +3,7 @@ import { Prisma } from '@prisma/client';
 import { getCurrentBuild } from '../helper/getCurrentBuild';
 import { loadSkins } from '../helper/loadSkins';
 import { createIcon } from '../helper/createIcon';
+import { appendHistory } from '../helper/appendHistory';
 
 export const SkinsRediscovered: Job = {
   run: async (db, rediscoveredIds: number[]) => {
@@ -15,8 +16,8 @@ export const SkinsRediscovered: Job = {
 
     const skins = await loadSkins(rediscoveredIds);
 
-    for(const data of skins) {
-      const skin = await db.skin.findUnique({ where: { id: data.en.id } });
+    for(const [id, data] of skins) {
+      const skin = await db.skin.findUnique({ where: { id }});
 
       if(!skin) {
         continue;
@@ -30,7 +31,7 @@ export const SkinsRediscovered: Job = {
         name_en: data.en.name,
         name_es: data.es.name,
         name_fr: data.fr.name,
-        iconId: iconId,
+        iconId,
         lastCheckedAt: new Date(),
         history: { createMany: { data: [] }}
       };
@@ -48,7 +49,7 @@ export const SkinsRediscovered: Job = {
         });
 
         update[`currentId_${language}`] = revision.id;
-        update.history!.createMany!.data = [...update.history!.createMany!.data as Prisma.SkinHistoryCreateManySkinInput[], { revisionId: revision.id }];
+        update.history = appendHistory(update, revision.id);
       }
 
       await db.skin.update({ where: { id: skin.id }, data: update });
@@ -56,4 +57,4 @@ export const SkinsRediscovered: Job = {
 
     return `Rediscovered ${rediscoveredIds.length} skins`;
   }
-}
+};

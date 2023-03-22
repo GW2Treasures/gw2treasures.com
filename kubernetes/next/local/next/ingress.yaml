@@ -1,0 +1,59 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: next-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: next.gw2treasures.kubernetes.localhost
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: next
+            port:
+              name: http
+  - host: de.next.gw2treasures.kubernetes.localhost
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: next
+            port:
+              name: http
+  - host: en.next.gw2treasures.kubernetes.localhost
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: next
+            port:
+              name: http
+  - host: es.next.gw2treasures.kubernetes.localhost
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: next
+            port:
+              name: http
+  - host: fr.next.gw2treasures.kubernetes.localhost
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: next
+            port:
+              name: http

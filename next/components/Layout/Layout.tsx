@@ -20,6 +20,7 @@ import { FormatNumber } from '../Format/FormatNumber';
 import { useFormatContext } from '../Format/FormatContext';
 import { useLanguage } from '../I18n/Context';
 import { Language } from '@prisma/client';
+import { ExternalLink } from '../Link/ExternalLink';
 
 interface LayoutProps {
   children: ReactNode;
@@ -84,7 +85,8 @@ const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
                 <Button appearance="menu">
                   <Icon icon="locale"/> {localeName}
                 </Button>
-              )}>
+              )}
+              >
                 <MenuList>
                   <Radiobutton checked={language === 'de'} onChange={() => changeLanguage('de')}>{languages.de}</Radiobutton>
                   <Radiobutton checked={language === 'en'} onChange={() => changeLanguage('en')}>{languages.en}</Radiobutton>
@@ -119,7 +121,11 @@ const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
         {children}
         <footer className={styles.footer}>
           <span><b>gw2treasures.com</b> by darthmaim &copy; {new Date().getFullYear()}</span>
-          <Link href="/status/jobs">Status</Link>
+          <div className={styles.footerLinks}>
+            <Link href="/about">About</Link>
+            <Link href="/status/jobs">Status</Link>
+            <ExternalLink href="https://discord.gg/gvx6ZSE" target="_blank">Discord</ExternalLink>
+          </div>
         </footer>
       </div>
       <div className={styles.disclaimer}>This site is not affiliated with ArenaNet, Guild Wars 2, or any of their partners. All copyrights reserved to their respective owners.</div>

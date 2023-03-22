@@ -3,9 +3,9 @@ import { queueJobForIds } from '../helper/queueJobsForIds';
 import { fetchApi } from '../helper/fetchApi';
 
 export const AchievementsCheck: Job = {
-  run: async (db, data) => {
+  run: async (db) => {
     // skip if any follow up jobs are still queued
-    const queuedJobs = await db.job.count({ where: { type: { in: ['achievements.new', 'achievements.removed', 'achievements.rediscovered'] }, state: { in: ['Queued', 'Running'] } } })
+    const queuedJobs = await db.job.count({ where: { type: { in: ['achievements.new', 'achievements.removed', 'achievements.rediscovered'] }, state: { in: ['Queued', 'Running'] }}});
 
     if(queuedJobs > 0) {
       return 'Waiting for pending follow up jobs';
@@ -15,8 +15,8 @@ export const AchievementsCheck: Job = {
     const ids = await fetchApi<number[]>('/v2/achievements');
 
     // get known ids from the DB
-    const knownIds = await db.achievement.findMany({ select: { id: true } }).then((achievements) => achievements.map(({ id }) => id));
-    const knownRemovedIds = await db.achievement.findMany({ select: { id: true }, where: { removedFromApi: true } }).then((achievements) => achievements.map(({ id }) => id));
+    const knownIds = await db.achievement.findMany({ select: { id: true }}).then((achievements) => achievements.map(({ id }) => id));
+    const knownRemovedIds = await db.achievement.findMany({ select: { id: true }, where: { removedFromApi: true }}).then((achievements) => achievements.map(({ id }) => id));
 
     // Build new ids
     const newIds = ids.filter((id) => !knownIds.includes(id));
@@ -30,4 +30,4 @@ export const AchievementsCheck: Job = {
 
     return `${newIds.length} added, ${removedIds.length} removed, ${rediscoveredIds.length} rediscovered`;
   }
-}
+};

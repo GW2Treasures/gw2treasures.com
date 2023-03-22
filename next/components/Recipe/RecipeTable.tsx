@@ -79,7 +79,8 @@ export const RecipeTable: FC<RecipeTableProps> = ({ recipes }) => {
             </MenuList>
           </DropDown>
         </>
-      )}>
+      )}
+      >
         Used in crafting
       </Headline>
 

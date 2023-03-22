@@ -3,6 +3,7 @@ import { Prisma } from '@prisma/client';
 import { getCurrentBuild } from '../helper/getCurrentBuild';
 import { loadItems } from '../helper/loadItems';
 import { createIcon } from '../helper/createIcon';
+import { appendHistory } from '../helper/appendHistory';
 
 export const ItemsRediscovered: Job = {
   run: async (db, rediscoveredIds: number[]) => {
@@ -15,8 +16,8 @@ export const ItemsRediscovered: Job = {
 
     const items = await loadItems(rediscoveredIds);
 
-    for(const data of items) {
-      const item = await db.item.findUnique({ where: { id: data.en.id } });
+    for(const [id, data] of items) {
+      const item = await db.item.findUnique({ where: { id }});
 
       if(!item) {
         continue;
@@ -48,7 +49,7 @@ export const ItemsRediscovered: Job = {
         });
 
         update[`currentId_${language}`] = revision.id;
-        update.history!.createMany!.data = [...update.history!.createMany!.data as Prisma.ItemHistoryCreateManyItemInput[], { revisionId: revision.id }];
+        update.history = appendHistory(update, revision.id);
       }
 
       await db.item.update({ where: { id: item.id }, data: update });
@@ -56,4 +57,4 @@ export const ItemsRediscovered: Job = {
 
     return `Rediscovered ${rediscoveredIds.length} items`;
   }
-}
+};

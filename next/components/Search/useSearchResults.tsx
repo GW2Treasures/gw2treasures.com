@@ -87,6 +87,8 @@ const pages: Page[] = [
   { href: '/login', title: 'Login', icon: 'user' },
   { href: '/status/jobs', title: 'Job Status', icon: 'jobs' },
   { href: '/status/api', title: 'API Status', icon: 'api-status' },
+  { href: '/about', title: 'About', icon: 'info' },
+  { href: 'https://discord.gg/gvx6ZSE', title: 'Discord', icon: 'discord' },
 
   { href: '/item', title: 'Items', icon: 'item' },
   { href: '/achievement', title: 'Achievements', icon: 'achievement' },

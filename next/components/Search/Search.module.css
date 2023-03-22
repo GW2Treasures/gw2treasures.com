@@ -71,9 +71,9 @@
   color: var(--color-text);
   display: grid;
   grid-template:
-    "icon title"    min-content
-    "icon subtitle" min-content /
-    32px  auto;
+    "icon title    external" min-content
+    "icon subtitle external" min-content /
+    32px  1fr auto;
   gap: 0 8px;
 }
 
@@ -96,4 +96,10 @@
   color: var(--color-text-muted);
   grid-area: subtitle;
   font-size: 14px;
+}
+
+.external {
+  grid-area: external;
+  color: var(--color-text-muted);
+  margin-left: 8px;
 }

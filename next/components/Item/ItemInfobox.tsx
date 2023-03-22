@@ -4,6 +4,7 @@ import { FC } from 'react';
 import Icon from '../../icons/Icon';
 import { Headline } from '../Headline/Headline';
 import { LanguageLinks } from '../Infobox/LanguageLinks';
+import { ExternalLink } from '../Link/ExternalLink';
 import { ItemLink } from './ItemLink';
 import { TradingPost } from './TradingPost';
 
@@ -34,7 +35,7 @@ export const ItemInfobox: FC<ItemInfoboxProps> = ({ item, data, language }) => {
 
       <Headline id="links" noToc>Links</Headline>
 
-      <a href={`https://api.guildwars2.com/v2/items/${item.id}?v=latest&lang=${language}`} target="api" rel="noreferrer noopener">API</a>
+      <ExternalLink href={`https://api.guildwars2.com/v2/items/${item.id}?v=latest&lang=${language}`} target="api">API</ExternalLink>
 
       <div style={{ display: 'flex', gap: 12, margin: '8px 0', alignItems: 'center', borderRadius: 0, border: '1px solid var(--color-border)', paddingLeft: 12 }}>
         <Icon icon="chatlink"/>

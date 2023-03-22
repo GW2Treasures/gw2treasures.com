@@ -3,6 +3,7 @@ import { Prisma } from '@prisma/client';
 import { getCurrentBuild } from '../helper/getCurrentBuild';
 import { loadAchievements } from '../helper/loadAchievements';
 import { createIcon } from '../helper/createIcon';
+import { appendHistory } from '../helper/appendHistory';
 
 export const AchievementsRediscovered: Job = {
   run: async (db, rediscoveredIds: number[]) => {
@@ -15,8 +16,8 @@ export const AchievementsRediscovered: Job = {
 
     const achievements = await loadAchievements(rediscoveredIds);
 
-    for(const data of achievements) {
-      const achievement = await db.achievement.findUnique({ where: { id: data.en.id } });
+    for(const [id, data] of achievements) {
+      const achievement = await db.achievement.findUnique({ where: { id }});
 
       if(!achievement) {
         continue;
@@ -32,7 +33,7 @@ export const AchievementsRediscovered: Job = {
         name_fr: data.fr.name,
         version: 1,
         points: data.en.tiers.reduce((total, tier) => total + tier.points, 0),
-        iconId: iconId,
+        iconId,
         lastCheckedAt: new Date(),
         history: { createMany: { data: [] }}
       };
@@ -50,7 +51,7 @@ export const AchievementsRediscovered: Job = {
         });
 
         update[`currentId_${language}`] = revision.id;
-        update.history!.createMany!.data = [...update.history!.createMany!.data as Prisma.AchievementHistoryCreateManyAchievementInput[], { revisionId: revision.id }];
+        update.history = appendHistory(update, revision.id);
       }
 
       await db.achievement.update({ where: { id: achievement.id }, data: update });
@@ -58,4 +59,4 @@ export const AchievementsRediscovered: Job = {
 
     return `Rediscovered ${rediscoveredIds.length} achievements`;
   }
-}
+};

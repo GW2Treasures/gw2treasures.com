@@ -5,19 +5,22 @@ import { Language, Prisma, PrismaClient } from '@prisma/client';
 import { createRevisions } from '../helper/revision';
 import { getCurrentBuild } from '../helper/getCurrentBuild';
 import { createIcon } from '../helper/createIcon';
+import { filterMapKeys, getIdsFromMap } from '../helper/getIdsFromMap';
+import { appendHistory } from '../helper/appendHistory';
+import { localeExists, LocalizedObject } from '../helper/types';
 
 export const AchievementCategories: Job = {
-  run: async (db, data) => {
+  run: async (db) => {
     const build = await getCurrentBuild(db);
     const buildId = build.id;
 
     // get categories from the API
     const categories = await loadAchievementCategories();
-    const ids = categories.map(({ en }) => en.id);
+    const ids = Array.from(categories.keys());
 
     // get known ids from the DB
-    const knownIds = await db.achievementCategory.findMany({ select: { id: true } }).then((categories) => categories.map(({ id }) => id));
-    const knownRemovedIds = await db.achievementCategory.findMany({ select: { id: true }, where: { removedFromApi: true } }).then((categories) => categories.map(({ id }) => id));
+    const knownIds = await db.achievementCategory.findMany({ select: { id: true }}).then((categories) => categories.map(({ id }) => id));
+    const knownRemovedIds = await db.achievementCategory.findMany({ select: { id: true }, where: { removedFromApi: true }}).then((categories) => categories.map(({ id }) => id));
 
     // Build new ids
     const newIds = ids.filter((id) => !knownIds.includes(id));
@@ -26,36 +29,37 @@ export const AchievementCategories: Job = {
     const updatedIds = ids.filter((id) => knownIds.includes(id) && !rediscoveredIds.includes(id));
 
     // process categories
-    await newCategories(db, buildId, categories.filter(({ en }) => newIds.includes(en.id)));
+    await newCategories(db, buildId, getIdsFromMap(categories, newIds));
     await removedCategories(db, buildId, removedIds);
-    await rediscoveredCategories(db, buildId, categories.filter(({ en }) => rediscoveredIds.includes(en.id)))
-    const updated = await updatedCategories(db, buildId, categories.filter(({ en }) => updatedIds.includes(en.id)));
-
+    await rediscoveredCategories(db, buildId, getIdsFromMap(categories, rediscoveredIds));
+    const updated = await updatedCategories(db, buildId, filterMapKeys(categories, updatedIds));
 
     return `${newIds.length} added, ${removedIds.length} removed, ${rediscoveredIds.length} rediscovered, ${updated} updated`;
   }
-}
+};
 
 async function newCategories(db: PrismaClient, buildId: number, categories: { [key in Language]: Gw2Api.Achievement.Category }[]) {
   for(const { de, en, es, fr } of categories) {
     const revisions = await createRevisions(db, { de, en, es, fr }, { buildId, type: 'Added', entity: 'AchievementCategory', description: 'Added to API' });
     const iconId = await createIcon(en.icon, db);
 
-    await db.achievementCategory.create({ data: {
-      id: en.id,
-      name_de: de.name,
-      name_en: en.name,
-      name_es: es.name,
-      name_fr: fr.name,
-      iconId: iconId,
-      order: en.order,
-      version: 0,
-      currentId_de: revisions.de.id,
-      currentId_en: revisions.en.id,
-      currentId_es: revisions.es.id,
-      currentId_fr: revisions.fr.id,
-      history: { createMany: { data: [{ revisionId: revisions.de.id }, { revisionId: revisions.en.id }, { revisionId: revisions.es.id }, { revisionId: revisions.fr.id }]} },
-    }});
+    await db.achievementCategory.create({
+      data: {
+        id: en.id,
+        name_de: de.name,
+        name_en: en.name,
+        name_es: es.name,
+        name_fr: fr.name,
+        iconId,
+        order: en.order,
+        version: 0,
+        currentId_de: revisions.de.id,
+        currentId_en: revisions.en.id,
+        currentId_es: revisions.es.id,
+        currentId_fr: revisions.fr.id,
+        history: { createMany: { data: [{ revisionId: revisions.de.id }, { revisionId: revisions.en.id }, { revisionId: revisions.es.id }, { revisionId: revisions.fr.id }] }},
+      }
+    });
 
     await processAchievements(en.id, iconId, en.achievements, en.tomorrow, db);
   }
@@ -63,7 +67,7 @@ async function newCategories(db: PrismaClient, buildId: number, categories: { [k
 
 async function removedCategories(db: PrismaClient, buildId: number, removedIds: number[]) {
   for(const removedId of removedIds) {
-    const achievementCategory = await db.achievementCategory.findUnique({ where: { id: removedId }, include: { current_de: true, current_en: true, current_es: true, current_fr: true } });
+    const achievementCategory = await db.achievementCategory.findUnique({ where: { id: removedId }, include: { current_de: true, current_en: true, current_es: true, current_fr: true }});
 
     if(!achievementCategory) {
       continue;
@@ -88,7 +92,7 @@ async function removedCategories(db: PrismaClient, buildId: number, removedIds: 
       });
 
       update[`currentId_${language}`] = revision.id;
-      update.history!.createMany!.data = [...update.history!.createMany!.data as Prisma.AchievementCategoryHistoryCreateManyAchievementCategoryInput[], { revisionId: revision.id }];
+      update.history = appendHistory(update, revision.id);
     }
 
     await db.achievementCategory.update({ where: { id: removedId }, data: update });
@@ -106,7 +110,7 @@ async function rediscoveredCategories(db: PrismaClient, buildId: number, categor
       name_es: data.es.name,
       name_fr: data.fr.name,
       order: data.en.order,
-      iconId: iconId,
+      iconId,
       lastCheckedAt: new Date(),
       history: { createMany: { data: [] }}
     };
@@ -124,7 +128,7 @@ async function rediscoveredCategories(db: PrismaClient, buildId: number, categor
       });
 
       update[`currentId_${language}`] = revision.id;
-      update.history!.createMany!.data = [...update.history!.createMany!.data as Prisma.AchievementCategoryHistoryCreateManyAchievementCategoryInput[], { revisionId: revision.id }];
+      update.history = appendHistory(update, revision.id);
     }
 
     await db.achievementCategory.update({ where: { id: data.en.id }, data: update });
@@ -133,24 +137,24 @@ async function rediscoveredCategories(db: PrismaClient, buildId: number, categor
   }
 }
 
-async function updatedCategories(db: PrismaClient, buildId: number, apiCategories: { [key in Language]: Gw2Api.Achievement.Category }[]) {
+async function updatedCategories(db: PrismaClient, buildId: number, apiCategories: Map<number, LocalizedObject<Gw2Api.Achievement.Category>>) {
   const categoriesToUpdate = await db.achievementCategory.findMany({
-    where: { id: { in: apiCategories.map(({ en }) => en.id) }},
+    where: { id: { in: Array.from(apiCategories.keys()) }},
     include: { current_de: true, current_en: true, current_es: true, current_fr: true }
   });
 
   const categories = categoriesToUpdate.map((existing) => ({
     existing,
-    ...apiCategories.find(({ en }) => en.id === existing.id)!
-  }));
+    ...apiCategories.get(existing.id)
+  })).filter(localeExists);
 
   let updated = 0;
 
   for(const { existing, de, en, es, fr } of categories) {
-    const revision_de = existing.current_de.data !== JSON.stringify(de) ? await db.revision.create({ data: { data: JSON.stringify(de), language: 'de', buildId, type: 'Update', entity: 'AchievementCategory', description: 'Updated in API' } }) : existing.current_de;
-    const revision_en = existing.current_en.data !== JSON.stringify(en) ? await db.revision.create({ data: { data: JSON.stringify(en), language: 'en', buildId, type: 'Update', entity: 'AchievementCategory', description: 'Updated in API' } }) : existing.current_en;
-    const revision_es = existing.current_es.data !== JSON.stringify(es) ? await db.revision.create({ data: { data: JSON.stringify(es), language: 'es', buildId, type: 'Update', entity: 'AchievementCategory', description: 'Updated in API' } }) : existing.current_es;
-    const revision_fr = existing.current_fr.data !== JSON.stringify(fr) ? await db.revision.create({ data: { data: JSON.stringify(fr), language: 'fr', buildId, type: 'Update', entity: 'AchievementCategory', description: 'Updated in API' } }) : existing.current_fr;
+    const revision_de = existing.current_de.data !== JSON.stringify(de) ? await db.revision.create({ data: { data: JSON.stringify(de), language: 'de', buildId, type: 'Update', entity: 'AchievementCategory', description: 'Updated in API' }}) : existing.current_de;
+    const revision_en = existing.current_en.data !== JSON.stringify(en) ? await db.revision.create({ data: { data: JSON.stringify(en), language: 'en', buildId, type: 'Update', entity: 'AchievementCategory', description: 'Updated in API' }}) : existing.current_en;
+    const revision_es = existing.current_es.data !== JSON.stringify(es) ? await db.revision.create({ data: { data: JSON.stringify(es), language: 'es', buildId, type: 'Update', entity: 'AchievementCategory', description: 'Updated in API' }}) : existing.current_es;
+    const revision_fr = existing.current_fr.data !== JSON.stringify(fr) ? await db.revision.create({ data: { data: JSON.stringify(fr), language: 'fr', buildId, type: 'Update', entity: 'AchievementCategory', description: 'Updated in API' }}) : existing.current_fr;
 
     await processAchievements(en.id, existing.iconId ?? undefined, en.achievements, en.tomorrow, db);
 
@@ -162,21 +166,23 @@ async function updatedCategories(db: PrismaClient, buildId: number, apiCategorie
 
     const iconId = await createIcon(en.icon, db);
 
-    await db.achievementCategory.update({ where: { id: existing.id }, data: {
-      name_de: de.name,
-      name_en: en.name,
-      name_es: es.name,
-      name_fr: fr.name,
-      iconId: iconId,
-      order: en.order,
-      currentId_de: revision_de.id,
-      currentId_en: revision_en.id,
-      currentId_es: revision_es.id,
-      currentId_fr: revision_fr.id,
-      lastCheckedAt: new Date(),
-      version: 0,
-      history: { createMany: { data: [{ revisionId: revision_de.id }, { revisionId: revision_en.id }, { revisionId: revision_es.id }, { revisionId: revision_fr.id }], skipDuplicates: true } }
-    }});
+    await db.achievementCategory.update({
+      where: { id: existing.id }, data: {
+        name_de: de.name,
+        name_en: en.name,
+        name_es: es.name,
+        name_fr: fr.name,
+        iconId,
+        order: en.order,
+        currentId_de: revision_de.id,
+        currentId_en: revision_en.id,
+        currentId_es: revision_es.id,
+        currentId_fr: revision_fr.id,
+        lastCheckedAt: new Date(),
+        version: 0,
+        history: { createMany: { data: [{ revisionId: revision_de.id }, { revisionId: revision_en.id }, { revisionId: revision_es.id }, { revisionId: revision_fr.id }], skipDuplicates: true }}
+      }
+    });
   }
 
   return updated;

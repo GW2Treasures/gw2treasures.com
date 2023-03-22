@@ -1,0 +1,19 @@
+.statsRow {
+  background-color: var(--color-background-light);
+  padding: 32px 16px;
+  margin: -16px -16px 16px -16px;
+  display: flex;
+  gap: 64px;
+  min-height: 100px;
+}
+
+.stat {
+  font-size: 24px;
+  color: var(--color-text-muted);
+}
+
+.statCount {
+  font-size: 36px;
+  font-weight: 500;
+  display: inline;
+}

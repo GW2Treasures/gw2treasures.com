@@ -34,14 +34,14 @@ export async function registerCronJobs(db: PrismaClient) {
 
 async function registerJob(db: PrismaClient, name: JobName, cron: string, data: Prisma.InputJsonValue = {}) {
   // check if a matching job exists
-  const jobs = await db.job.findMany({ where: { type: name, cron: { not: '' } } });
+  const jobs = await db.job.findMany({ where: { type: name, cron: { not: '' }}});
 
   if(jobs.length === 0) {
     // add new cron job
     console.log(`Registering new cron job ${name}`);
 
     const scheduledAt = parseExpression(cron, { utc: true }).next().toDate();
-    await db.job.create({ data: { type: name, data, cron, scheduledAt } });
+    await db.job.create({ data: { type: name, data, cron, scheduledAt }});
     return;
   }
 
@@ -51,7 +51,7 @@ async function registerJob(db: PrismaClient, name: JobName, cron: string, data: 
       console.log(`Updating cron job ${name}`);
 
       const scheduledAt = parseExpression(cron, { utc: true }).next().toDate();
-      await db.job.update({ where: { id: jobs[0].id }, data: { data, cron, scheduledAt } });
+      await db.job.update({ where: { id: jobs[0].id }, data: { data, cron, scheduledAt }});
     }
 
     return;

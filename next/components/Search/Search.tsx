@@ -70,7 +70,14 @@ export const Search: FC<SearchProps> = ({ }) => {
       {/* <div className={styles.restriciton}>Item</div> */}
       <input className={styles.searchInput} placeholder="Search (ALT + Q)" accessKey="q" value={value} onChange={(e) => { setValue(e.target.value); setOpen(true); }} onKeyDown={(e) => {
         if(e.key === 'Enter' && activeIndex !== null) {
-          router.push(listRef.current[activeIndex]!.href);
+          const href = listRef.current[activeIndex]!.href;
+
+          if(href.startsWith('http')) {
+            window.open(href, '_blank');
+          } else {
+            router.push(href);
+          }
+
           setOpen(false);
           e.preventDefault();
         }
@@ -87,7 +94,15 @@ export const Search: FC<SearchProps> = ({ }) => {
               {results.map((result) => {
                 const currentIndex = index++;
                 return (
-                  <Link tabIndex={-1} href={result.href} key={result.href} className={activeIndex === currentIndex ? styles.resultActive : styles.result} id={result.href} ref={(node) => listRef.current[currentIndex] = node} {...getItemProps()} onClick={() => setOpen(false)}>
+                  <Link
+                    tabIndex={-1}
+                    href={result.href}
+                    key={result.href}
+                    className={activeIndex === currentIndex ? styles.resultActive : styles.result}
+                    id={result.href}
+                    target={result.href.startsWith('http') ? '_blank' : undefined}
+                    ref={(node) => listRef.current[currentIndex] = node} {...getItemProps()} onClick={() => setOpen(false)}
+                  >
                     {result.icon}
                     <div className={styles.title}>
                       {result.title}
@@ -97,6 +112,7 @@ export const Search: FC<SearchProps> = ({ }) => {
                         {result.subtitle}
                       </div>
                     )}
+                    {result.href.startsWith('http') && <span className={styles.external}><Icon icon="external"/></span>}
                   </Link>
                 );
               })}

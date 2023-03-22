@@ -137,7 +137,8 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
             <Headline id="crafting">Used in crafting</Headline>
             <SkeletonTable columns={['Output', 'Rating', 'Disciplines', 'Ingredients']} rows={item._count?.ingredient}/>
           </>
-        )}>
+        )}
+        >
           {/* @ts-expect-error Server Component */}
           <ItemIngredientFor itemId={item.id}/>
         </Suspense>

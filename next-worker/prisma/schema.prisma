@@ -224,8 +224,9 @@ model Achievement {
   name_es String
   name_fr String
 
-  historic Boolean @default(true)
-  points   Int     @default(0)
+  historic Boolean        @default(true)
+  points   Int            @default(0)
+  mastery  MasteryRegion?
 
   icon   Icon? @relation(fields: [iconId], references: [id])
   iconId Int?
@@ -255,6 +256,14 @@ model Achievement {
   updatedAt      DateTime   @updatedAt
 
   version Int @default(0)
+}
+
+enum MasteryRegion {
+  Tyria
+  Desert
+  Maguuma
+  Tundra
+  Unknown
 }
 
 model AchievementHistory {

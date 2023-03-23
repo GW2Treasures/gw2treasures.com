@@ -23,6 +23,8 @@ import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 import { SkeletonTable } from '@/components/Skeleton/SkeletonTable';
 import { remember } from '@/lib/remember';
+import { linkProperties, linkPropertiesWithoutRarity } from '@/lib/linkProperties';
+import { AchievementLink } from '@/components/Achievement/AchievementLink';
 
 export interface ItemPageComponentProps {
   language: Language;
@@ -45,9 +47,10 @@ const getItem = remember(60, async function getItem(id: number, language: Langua
           orderBy: { revision: { createdAt: 'desc' }}
         },
         icon: true,
-        unlocksSkin: { include: { icon: true }},
+        unlocksSkin: { select: { ...linkProperties, weight: true, type: true, subtype: true, achievementBits: { select: linkPropertiesWithoutRarity }}},
         recipeOutput: { include: { currentRevision: true, itemIngredients: { include: { Item: { include: { icon: true }}}}}},
-        // ingredient: { take: 10, include: { Recipe: { include: { currentRevision: true, outputItem: { include: { icon: true }}, itemIngredients: { include: { Item: { include: { icon: true }}}}}}}}
+        achievementBits: { select: linkPropertiesWithoutRarity, orderBy: { id: 'asc' }},
+        achievementRewards: { select: linkPropertiesWithoutRarity, orderBy: { id: 'asc' }},
         _count: {
           select: { ingredient: true }
         }
@@ -95,6 +98,8 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
 
   const data: Gw2Api.Item = JSON.parse(revision.data);
 
+  const skinAchievementBits = item.unlocksSkin.flatMap((skin) => skin.achievementBits);
+
   return (
     <DetailLayout title={data.name || data.chat_link} icon={item.icon && getIconUrl(item.icon, 64) || undefined} className={rarityClasses[data.rarity]} breadcrumb={`Item › ${data.type}${data.details ? ` › ${data.details?.type}` : ''}`} infobox={<ItemInfobox item={item} data={data} language={language}/>}>
       {item[`currentId_${language}`] !== revision.id && (
@@ -116,6 +121,35 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
           <ItemList>
             {item.unlocksSkin.map((skin) => <li key={skin.id}><SkinLink skin={skin}/> {skin.weight} {skin.subtype ?? skin.type}</li>)}
             {item.unlocksSkinIds.filter((id) => item.unlocksSkin.every((skin) => skin.id !== id)).map((id) => <li key={id}>Unknown skin ({id})</li>)}
+          </ItemList>
+        </>
+      )}
+
+      {(item.achievementBits.length > 0 || item.achievementRewards.length > 0 || skinAchievementBits.length > 0) && (<Headline id="achievements">Achievements</Headline>)}
+
+      {item.achievementBits.length > 0 && (
+        <>
+          <p>Required to complete the following achievements:</p>
+          <ItemList>
+            {item.achievementBits.map((achievement) => <li key={achievement.id}><AchievementLink achievement={achievement}/></li>)}
+          </ItemList>
+        </>
+      )}
+
+      {item.achievementRewards.length > 0 && (
+        <>
+          <p>Rewarded for completing the following achievements:</p>
+          <ItemList>
+            {item.achievementRewards.map((achievement) => <li key={achievement.id}><AchievementLink achievement={achievement}/></li>)}
+          </ItemList>
+        </>
+      )}
+
+      {skinAchievementBits.length > 0 && (
+        <>
+          <p>The skin unlocked by this item is required to complete the following achievements:</p>
+          <ItemList>
+            {skinAchievementBits.map((achievement) => <li key={achievement.id}><AchievementLink achievement={achievement}/></li>)}
           </ItemList>
         </>
       )}

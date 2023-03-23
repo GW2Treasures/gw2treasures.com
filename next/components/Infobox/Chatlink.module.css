@@ -1,10 +1,10 @@
 .box {
   display: flex;
-  margin: 8px 0;
+  margin: 8px 0 0;
   align-items: center;
   border-radius: 2px;
   box-shadow: inset 0 0 0 1px var(--color-border);
-  transition: .3s ease;
+  transition: .3s ease box-shadow;
 }
 
 .box:focus-within {

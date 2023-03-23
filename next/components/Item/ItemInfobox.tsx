@@ -1,7 +1,6 @@
 import { Item, Language } from '@prisma/client';
 import { Gw2Api } from 'gw2-api-types';
 import { FC } from 'react';
-import Icon from '../../icons/Icon';
 import { Headline } from '../Headline/Headline';
 import { Chatlink } from '../Infobox/Chatlink';
 import { LanguageLinks } from '../Infobox/LanguageLinks';

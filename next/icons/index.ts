@@ -44,7 +44,8 @@ import CoinsIcon from './coins.svg';
 export type IconName = 'menu' | 'gw2treasures' | 'user' | 'revision' | 'search' | 'chevronDown' | 'chatlink' | 'jobs' | 'time'
  | 'mount' | 'skill' | 'specialization' | 'wvw' | 'profession' | 'skin' | 'achievement' | 'item' | 'builds'
  | 'armorsmith' | 'artificer' | 'chef' | 'huntsman' | 'jeweler' | 'leatherworker' | 'scribe' | 'tailor' | 'weaponsmith'
- | 'filter' | 'filter-active' | 'shuffle' | 'achievementPoints' | 'info' | 'locale' | 'checkmark' | 'close' | 'api-status' | 'discord' | 'external' | 'external-link' | 'mastery' | 'coins';
+ | 'filter' | 'filter-active' | 'shuffle' | 'achievementPoints' | 'info' | 'locale' | 'checkmark' | 'close'
+ | 'api-status' | 'discord' | 'external' | 'external-link' | 'mastery' | 'coins';
 
 type IconComponent = FunctionComponent<SVGProps<SVGSVGElement>>;
 

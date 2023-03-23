@@ -36,7 +36,12 @@ export const SkillPageComponent: AsyncComponent<SkillPageComponentProps> = async
   ].filter(Boolean).join(' › ');
 
   return (
-    <DetailLayout title={data.name} icon={skill.icon ? <SkillIcon icon={skill.icon}/> : undefined} breadcrumb={breadcrumb} infobox={<SkillInfobox skill={skill} data={data} language={language}/>}>
+    <DetailLayout
+      title={data.name}
+      icon={skill.icon ? <SkillIcon icon={skill.icon}/> : undefined}
+      breadcrumb={breadcrumb}
+      infobox={<SkillInfobox skill={skill} data={data} language={language}/>}
+    >
       {skill[`currentId_${language}`] !== revision.id && (
         <Notice icon="revision">You are viewing an old revision of this skill (Build {revision.buildId || 'unknown'}). <Link href={`/skill/${skill.id}`}>View current.</Link></Notice>
       )}

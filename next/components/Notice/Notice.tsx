@@ -2,17 +2,17 @@ import { FC, ReactNode } from 'react';
 import { IconName } from '../../icons';
 import Icon from '../../icons/Icon';
 import { cx } from '../../lib/classNames';
-import styles from './Infobox.module.css';
+import styles from './Notice.module.css';
 
-export interface InfoboxProps {
+export interface NoticeProps {
   children: ReactNode;
   type?: 'info' | 'warning';
   icon?: IconName;
 }
 
-export const Infobox: FC<InfoboxProps> = ({ children, type = 'info', icon }) => {
+export const Notice: FC<NoticeProps> = ({ children, type = 'info', icon }) => {
   return (
-    <div className={cx(styles.infobox, styles[type])}>
+    <div className={cx(styles.notice, styles[type])}>
       {icon && <Icon icon={icon}/>}
       <p className={styles.content}>{children}</p>
     </div>

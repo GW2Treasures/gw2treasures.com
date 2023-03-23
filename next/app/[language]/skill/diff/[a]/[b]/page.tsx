@@ -5,7 +5,7 @@ import { SkillIcon } from '@/components/Skill/SkillIcon';
 import { parseIcon } from '@/lib/parseIcon';
 import { FormatDate } from '@/components/Format/FormatDate';
 import { Fact } from '@/components/Skill/SkillTooltip';
-import { Infobox } from '@/components/Infobox/Infobox';
+import { Notice } from '@/components/Notice/Notice';
 import { format } from 'gw2-tooltip-html';
 import { Separator } from '@/components/Layout/Separator';
 import { Json } from '@/components/Format/Json';
@@ -57,13 +57,13 @@ async function SkillDiffPage({ params }: { params: { a: string, b: string }}) {
 
       {dataA.id !== dataB.id && (
         <div style={{ padding: 16, paddingBottom: 0 }}>
-          <Infobox>You are comparing two different skills</Infobox>
+          <Notice>You are comparing two different skills</Notice>
         </div>
       )}
 
       {a.createdAt > b.createdAt && (
         <div style={{ padding: 16, paddingBottom: 0 }}>
-          <Infobox>You are comparing an old version against a newer version. <Link href={`/skill/diff/${b.id}/${a.id}`}>Switch around</Link></Infobox>
+          <Notice>You are comparing an old version against a newer version. <Link href={`/skill/diff/${b.id}/${a.id}`}>Switch around</Link></Notice>
         </div>
       )}
 

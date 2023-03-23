@@ -5,7 +5,7 @@ import DetailLayout from '@/components/Layout/DetailLayout';
 import { Table } from '@/components/Table/Table';
 import { TableOfContentAnchor } from '@/components/TableOfContent/TableOfContent';
 import { Gw2Api } from 'gw2-api-types';
-import { Infobox } from '@/components/Infobox/Infobox';
+import { Notice } from '@/components/Notice/Notice';
 import { Headline } from '@/components/Headline/Headline';
 import { FormatDate } from '@/components/Format/FormatDate';
 import { Json } from '@/components/Format/Json';
@@ -38,13 +38,13 @@ export const SkillPageComponent: AsyncComponent<SkillPageComponentProps> = async
   return (
     <DetailLayout title={data.name} icon={skill.icon ? <SkillIcon icon={skill.icon}/> : undefined} breadcrumb={breadcrumb} infobox={<SkillInfobox skill={skill} data={data} language={language}/>}>
       {skill[`currentId_${language}`] !== revision.id && (
-        <Infobox icon="revision">You are viewing an old revision of this skill (Build {revision.buildId || 'unknown'}). <Link href={`/skill/${skill.id}`}>View current.</Link></Infobox>
+        <Notice icon="revision">You are viewing an old revision of this skill (Build {revision.buildId || 'unknown'}). <Link href={`/skill/${skill.id}`}>View current.</Link></Notice>
       )}
       {skill[`currentId_${language}`] === revision.id && fixedRevision && (
-        <Infobox icon="revision">You are viewing this skill at a fixed revision (Build {revision.buildId || 'unknown'}). <Link href={`/skill/${skill.id}`}>View current.</Link></Infobox>
+        <Notice icon="revision">You are viewing this skill at a fixed revision (Build {revision.buildId || 'unknown'}). <Link href={`/skill/${skill.id}`}>View current.</Link></Notice>
       )}
       {!fixedRevision && skill.removedFromApi && (
-        <Infobox type="warning" icon="revision">This skill is currently not available in the Guild Wars 2 Api and you are seeing the last know version. The skill has either been removed from the game or needs to be rediscovered.</Infobox>
+        <Notice type="warning" icon="revision">This skill is currently not available in the Guild Wars 2 Api and you are seeing the last know version. The skill has either been removed from the game or needs to be rediscovered.</Notice>
       )}
 
       <TableOfContentAnchor id="tooltip">Tooltip</TableOfContentAnchor>

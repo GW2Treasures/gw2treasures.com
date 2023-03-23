@@ -7,7 +7,7 @@ import { TableOfContentAnchor } from '@/components/TableOfContent/TableOfContent
 import { Gw2Api } from 'gw2-api-types';
 import { db } from '@/lib/prisma';
 import rarityClasses from '@/components/Layout/RarityColor.module.css';
-import { Infobox } from '@/components/Infobox/Infobox';
+import { Notice } from '@/components/Notice/Notice';
 import { getIconUrl } from '@/lib/getIconUrl';
 import { Headline } from '@/components/Headline/Headline';
 import { FormatDate } from '@/components/Format/FormatDate';
@@ -103,13 +103,13 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
   return (
     <DetailLayout title={data.name || data.chat_link} icon={item.icon && getIconUrl(item.icon, 64) || undefined} className={rarityClasses[data.rarity]} breadcrumb={`Item › ${data.type}${data.details ? ` › ${data.details?.type}` : ''}`} infobox={<ItemInfobox item={item} data={data} language={language}/>}>
       {item[`currentId_${language}`] !== revision.id && (
-        <Infobox icon="revision">You are viewing an old revision of this item (Build {revision.buildId || 'unknown'}). <Link href={`/item/${item.id}`}>View current.</Link></Infobox>
+        <Notice icon="revision">You are viewing an old revision of this item (Build {revision.buildId || 'unknown'}). <Link href={`/item/${item.id}`}>View current.</Link></Notice>
       )}
       {item[`currentId_${language}`] === revision.id && fixedRevision && (
-        <Infobox icon="revision">You are viewing this item at a fixed revision (Build {revision.buildId || 'unknown'}). <Link href={`/item/${item.id}`}>View current.</Link></Infobox>
+        <Notice icon="revision">You are viewing this item at a fixed revision (Build {revision.buildId || 'unknown'}). <Link href={`/item/${item.id}`}>View current.</Link></Notice>
       )}
       {!fixedRevision && item.removedFromApi && (
-        <Infobox type="warning" icon="revision">This item is currently not available in the Guild Wars 2 Api and you are seeing the last know version. The item has either been removed from the game or needs to be rediscovered.</Infobox>
+        <Notice type="warning" icon="revision">This item is currently not available in the Guild Wars 2 Api and you are seeing the last know version. The item has either been removed from the game or needs to be rediscovered.</Notice>
       )}
 
       <TableOfContentAnchor id="tooltip">Tooltip</TableOfContentAnchor>

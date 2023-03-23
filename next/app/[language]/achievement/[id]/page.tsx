@@ -117,11 +117,11 @@ async function AchievementPage({ params: { id, language }}: { params: { language
             {data.rewards.map((reward) => {
               switch(reward.type) {
                 case 'Coins':
-                  return (<li key={reward.id}><Coins value={reward.count!}/></li>);
+                  return (<li key={reward.id}><span><span className={styles.listIcon}><Icon icon="coins"/></span> <Coins value={reward.count!}/></span></li>);
                 case 'Mastery':
-                  return (<li key={reward.id}><span><Icon icon="mastery"/> {reward.region} Mastery</span></li>);
+                  return (<li key={reward.id}><span><span className={styles.listIcon}><Icon icon="mastery"/></span> {reward.region} Mastery</span></li>);
                 case 'Title':
-                  return <li key={reward.id}>Title {reward.id}</li>;
+                  return <li key={reward.id}><span><span className={styles.listIcon}><Icon icon="achievement"/></span> Title {reward.id}</span></li>;
                 case 'Item':
                   const item = achievement.rewardsItem.find(({ id }) => id === reward.id);
                   return (

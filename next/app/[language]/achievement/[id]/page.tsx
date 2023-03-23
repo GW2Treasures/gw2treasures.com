@@ -15,9 +15,11 @@ import { remember } from '@/lib/remember';
 import styles from './page.module.css';
 import { Coins } from '@/components/Format/Coins';
 import { ItemList } from '@/components/ItemList/ItemList';
-import { linkProperties } from '@/lib/linkProperties';
+import { linkProperties, linkPropertiesWithoutRarity } from '@/lib/linkProperties';
 import { ItemLink } from '@/components/Item/ItemLink';
 import { SkinLink } from '@/components/Skin/SkinLink';
+import { Table } from '@/components/Table/Table';
+import { AchievementLink } from '@/components/Achievement/AchievementLink';
 
 const getAchievement = remember(60, async function getAchievement(id: number, language: Language) {
   const [achievement, revision] = await Promise.all([
@@ -38,60 +40,74 @@ const getAchievement = remember(60, async function getAchievement(id: number, la
     notFound();
   }
 
-  return { achievement, revision };
+  const data: Gw2Api.Achievement = JSON.parse(revision.data);
+
+  const categoryAchievements = data.flags.includes('CategoryDisplay')
+    ? await db.achievement.findMany({ where: { achievementCategoryId: achievement.achievementCategoryId, id: { not: achievement.id }, historic: false }, select: linkPropertiesWithoutRarity })
+    : [];
+
+  return { achievement, revision, categoryAchievements };
 });
 
 async function AchievementPage({ params: { id, language }}: { params: { language: Language, id: string }}) {
   const achievementId: number = Number(id);
 
-  const { achievement, revision } = await getAchievement(achievementId, language);
+  const { achievement, revision, categoryAchievements } = await getAchievement(achievementId, language);
 
   const data: Gw2Api.Achievement = JSON.parse(revision.data);
 
   return (
     <DetailLayout title={data.name} icon={achievement.icon && getIconUrl(achievement.icon, 64) || undefined} breadcrumb={`Achievements › ${achievement.achievementCategory?.achievementGroup ? localizedName(achievement.achievementCategory?.achievementGroup, language) : 'Unknown Group'} › ${achievement.achievementCategory ? localizedName(achievement.achievementCategory, language) : 'Unknown Category'}`}>
       {data.description && (
-        <p>{data.description}</p>
+        <p dangerouslySetInnerHTML={{ __html: format(data.description) }}/>
       )}
 
       <Headline id="objectives">Objectives</Headline>
       <p dangerouslySetInnerHTML={{ __html: format(data.requirement.replace('  ', ` ${data.tiers[data.tiers.length - 1].count} `)) }}/>
 
-      {data.bits && (
-        <ItemList>
-          {data.bits?.map((bit) => {
-            switch(bit.type) {
-              case 'Item': {
-                const item = achievement.bitsItem.find(({ id }) => id === bit.id);
-                return <li key={bit.id}>{item ? (<ItemLink item={item}/>) : `Unknown item ${bit.id}`}</li>;
+      {(data.bits || categoryAchievements.length > 0) && (
+        <Table>
+          <thead><tr><th {...{ width: 1 }} align="right">#</th><th {...{ width: 1 }}>Type</th><th>Objective</th></tr></thead>
+          <tbody>
+            {data.bits && data.bits.map((bit, index) => {
+              switch(bit.type) {
+                case 'Item': {
+                  const item = achievement.bitsItem.find(({ id }) => id === bit.id);
+                  return <tr key={bit.id}><td align="right">{index}</td><td>Item</td><td>{item ? (<ItemLink item={item}/>) : `Unknown item ${bit.id}`}</td></tr>;
+                }
+                case 'Skin': {
+                  const skin = achievement.bitsSkin.find(({ id }) => id === bit.id);
+                  return <tr key={bit.id}><td align="right">{index}</td><td>Skin</td><td>{skin ? (<SkinLink skin={skin}/>) : `Unknown skin ${bit.id}`}</td></tr>;
+                }
+                case 'Text': return bit.text !== '' && <tr key={bit.id}><td align="right">{index}</td><td>Text</td><td>{bit.text}</td></tr>;
+                case 'Minipet': return <tr key={bit.id}><td align="right">{index}</td><td>Minipet</td><td>{bit.id}</td></tr>;
               }
-              case 'Skin': {
-                const skin = achievement.bitsSkin.find(({ id }) => id === bit.id);
-                return <li key={bit.id}>{skin ? (<SkinLink skin={skin}/>) : `Unknown skin ${bit.id}`}</li>;
-              }
-              case 'Text': return bit.text;
-              case 'Minipet': return `Minipet ${bit.id}`;
-            }
-          })}
-        </ItemList>
+            })}
+            {categoryAchievements.map((achievement, index) => (
+              <tr key={achievement.id}><td align="right">{(data.bits?.length || 0) + index}</td><td>Achievement</td><td><AchievementLink achievement={achievement}/></td></tr>
+            ))}
+          </tbody>
+        </Table>
       )}
 
       <Headline id="tiers">Tiers</Headline>
       <table className={styles.tierTable}>
-        <tr>
-          <th>Objectives</th>
-          {data.tiers.map((tier) => (
-            <td key={tier.count}><FormatNumber value={tier.count}/></td>
-          ))}
-          <td>Total</td>
-        </tr>
-        <tr>
-          <th>Achievement Points</th>
-          {data.tiers.map((tier) => (
-            <td key={tier.count}>{tier.points} <Icon icon="achievementPoints"/></td>
-          ))}
-          <td>{data.tiers.reduce((total, tier) => total + tier.points, 0)} <Icon icon="achievementPoints"/></td>
-        </tr>
+        <tbody>
+          <tr>
+            <th>Objectives</th>
+            {data.tiers.map((tier) => (
+              <td key={tier.count}><FormatNumber value={tier.count}/></td>
+            ))}
+            <td>Total</td>
+          </tr>
+          <tr>
+            <th>Achievement Points</th>
+            {data.tiers.map((tier) => (
+              <td key={tier.count}>{tier.points} <Icon icon="achievementPoints"/></td>
+            ))}
+            <td>{data.tiers.reduce((total, tier) => total + tier.points, 0)} <Icon icon="achievementPoints"/></td>
+          </tr>
+        </tbody>
       </table>
 
       {data.rewards && (

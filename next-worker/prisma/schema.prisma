@@ -26,11 +26,18 @@ model Item {
   value   Int     @default(0)
   level   Int     @default(0)
 
+  // skins
   unlocksSkin Skin[]
   unlocksSkinIds Int[]
+
+  // recipes
   recipeOutput Recipe[]
   ingredient IngredientItem[]
 
+  // achievements
+  achievementRewards Achievement[] @relation(name: "rewards_item")
+  achievementBits    Achievement[] @relation(name: "bits_item")
+ 
   removedFromApi Boolean @default(false)
 
   current_de Revision @relation("current_de", fields: [currentId_de], references: [id], onDelete: Cascade)
@@ -87,7 +94,6 @@ model Skill {
   icon   Icon? @relation(fields: [iconId], references: [id])
   iconId Int?
 
-
   removedFromApi Boolean @default(false)
 
   current_de Revision @relation("current_de", fields: [currentId_de], references: [id], onDelete: Cascade)
@@ -139,6 +145,7 @@ model Skin {
   weight  String?
 
   unlockedByItems Item[]
+  achievementBits Achievement[] @relation(name: "bits_skin")
 
   removedFromApi Boolean @default(false)
   
@@ -233,6 +240,15 @@ model Achievement {
 
   achievementCategory AchievementCategory? @relation(fields: [achievementCategoryId], references: [id])
   achievementCategoryId Int?
+
+  bitsItem    Item[] @relation(name: "bits_item")
+  bitsItemIds Int[]
+
+  bitsSkin    Skin[] @relation(name: "bits_skin")
+  bitsSkinIds Int[]
+
+  rewardsItem    Item[] @relation(name: "rewards_item")
+  rewardsItemIds Int[]
 
   removedFromApi Boolean @default(false)
   

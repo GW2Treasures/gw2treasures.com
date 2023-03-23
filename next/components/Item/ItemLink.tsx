@@ -6,7 +6,7 @@ import { WithIcon } from '@/lib/with';
 import { LocalizedEntity } from '@/lib/localizedName';
 
 export interface ItemLinkProps {
-  item: WithIcon<Pick<Item, 'id' | keyof LocalizedEntity>>;
+  item: WithIcon<Pick<Item, 'id' | 'rarity' | keyof LocalizedEntity>>;
   icon?: IconSize | 'none';
   language?: Language;
 }

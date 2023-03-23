@@ -32,8 +32,6 @@ type LocalizedNameInput = {
   name_fr?: Prisma.StringFilter | string;
 }
 
-const linkProperties = { id: true, icon: true, name_de: true, name_en: true, name_es: true, name_fr: true, rarity: true } as const;
-
 function nameQuery(terms: string[]): LocalizedNameInput[] {
   const nameQueries: LocalizedNameInput[] = ['de', 'en', 'es', 'fr'].map((lang) => ({
     AND: terms.map((term) => ({ [`name_${lang}`]: { contains: term, mode: 'insensitive' }}))

@@ -21,6 +21,9 @@ export const ItemsNew: Job = {
 
       const iconId = await createIcon(en.icon, db);
 
+      const achievementBit = await db.achievement.findMany({ where: { bitsItemIds: { has: id }}, select: { id: true }});
+      const achievementReward = await db.achievement.findMany({ where: { rewardsItemIds: { has: id }}, select: { id: true }});
+
       await db.item.create({
         data: {
           id,
@@ -37,7 +40,10 @@ export const ItemsNew: Job = {
           currentId_en: revisions.en.id,
           currentId_es: revisions.es.id,
           currentId_fr: revisions.fr.id,
-          history: { createMany: { data: [{ revisionId: revisions.de.id }, { revisionId: revisions.en.id }, { revisionId: revisions.es.id }, { revisionId: revisions.fr.id }] }}
+          history: { createMany: { data: [{ revisionId: revisions.de.id }, { revisionId: revisions.en.id }, { revisionId: revisions.es.id }, { revisionId: revisions.fr.id }] }},
+
+          achievementBits: { connect: achievementBit },
+          achievementRewards: { connect: achievementReward },
         }
       });
     }

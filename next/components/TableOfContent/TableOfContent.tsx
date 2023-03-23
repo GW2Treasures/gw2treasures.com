@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, FC, ReactNode, useCallback, useContext, useEffect, useReducer, useState } from 'react';
+import { createContext, FC, MouseEventHandler, ReactNode, useCallback, useContext, useEffect, useReducer, useState } from 'react';
 import styles from './TableOfContent.module.css';
 
 type Anchor = { id: string, element: HTMLElement, label: ReactNode };
@@ -89,11 +89,17 @@ export const TableOfContent: FC<TableOfContentProps> = ({ }) => {
     }
   }, [activeId, anchors]);
 
+  const jumpToToc = useCallback<MouseEventHandler<HTMLAnchorElement>>((e) => {
+    document.getElementById('toc')?.focus();
+    e.preventDefault();
+  }, []);
+
   return (
     <ol className={styles.toc}>
-      {anchors.map(({ id, element, label }) => (
+      <li className={styles.jumpItem}><a className={styles.link} href="#toc" tabIndex={1} onClick={jumpToToc}>Jump to Table Of Content</a></li>
+      {anchors.map(({ id, element, label }, index) => (
         <li key={id} className={styles.item}>
-          <a href={`#${id}`} className={activeId === id ? styles.activeLink : styles.link} onClick={(e) => { e.preventDefault(); element.scrollIntoView(); setActiveId(id); element.focus(); }}>{label}</a>
+          <a href={`#${id}`} id={index === 0 ? 'toc' : undefined} className={activeId === id ? styles.activeLink : styles.link} onClick={(e) => { e.preventDefault(); element.scrollIntoView(); setActiveId(id); element.focus(); }}>{label}</a>
         </li>
       ))}
     </ol>

@@ -10,6 +10,18 @@
 
 }
 
+.jumpItem {
+  composes: item;
+
+  height: 0;
+  overflow: hidden;
+}
+
+.jumpItem:focus-within {
+  height: initial;
+  overflow: initial;
+}
+
 .link {
   display: block;
   text-decoration: none;

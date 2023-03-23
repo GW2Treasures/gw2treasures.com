@@ -12,6 +12,9 @@ import { notFound } from 'next/navigation';
 import { ItemList } from '@/components/ItemList/ItemList';
 import { SkinLink } from '@/components/Skin/SkinLink';
 import { remember } from '@/lib/remember';
+import { linkPropertiesWithoutRarity } from '@/lib/linkProperties';
+import { AchievementLink } from '@/components/Achievement/AchievementLink';
+import { TableOfContentAnchor } from '@/components/TableOfContent/TableOfContent';
 
 const getSkin = remember(60, async function getSkin(id: number, language: Language) {
   const [skin, revision] = await Promise.all([
@@ -19,7 +22,8 @@ const getSkin = remember(60, async function getSkin(id: number, language: Langua
       where: { id },
       include: {
         icon: true,
-        unlockedByItems: { include: { icon: true }}
+        unlockedByItems: { include: { icon: true }},
+        achievementBits: { select: linkPropertiesWithoutRarity },
       }
     }),
     db.revision.findFirst({ where: { [`currentSkin_${language}`]: { id }}}),
@@ -47,11 +51,22 @@ async function SkinPage ({ params: { language, id }}: { params: { language: Lang
 
   return (
     <DetailLayout title={data.name} icon={skin.icon && getIconUrl(skin.icon, 64) || undefined} className={rarityClasses[data.rarity]} breadcrumb={`Skin › ${skin.type}${skin.subtype ? ` › ${skin.subtype}` : ''}${skin.weight ? ` › ${skin.weight}` : ''}`}>
+      <TableOfContentAnchor id="tooltip">Tooltip</TableOfContentAnchor>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
         <div><Rarity rarity={data.rarity}/></div>
         <div>{data.details?.type}</div>
         <div>{data.details?.weight_class}</div>
       </div>
+
+      {skin.achievementBits.length > 0 && (
+        <>
+          <Headline id="achievements">Achievements</Headline>
+          <p>Required to complete the following achievements:</p>
+          <ItemList>
+            {skin.achievementBits.map((achievement) => <li key={achievement.id}><AchievementLink achievement={achievement}/></li>)}
+          </ItemList>
+        </>
+      )}
 
       <Headline id="items">Unlocked by</Headline>
       <ItemTable items={skin.unlockedByItems}/>

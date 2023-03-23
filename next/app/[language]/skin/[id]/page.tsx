@@ -11,6 +11,7 @@ import { ItemTable } from '@/components/Item/ItemTable';
 import { notFound } from 'next/navigation';
 import { ItemList } from '@/components/ItemList/ItemList';
 import { SkinLink } from '@/components/Skin/SkinLink';
+import { SkinInfobox } from '@/components/Skin/SkinInfobox';
 import { remember } from '@/lib/remember';
 import { linkPropertiesWithoutRarity } from '@/lib/linkProperties';
 import { AchievementLink } from '@/components/Achievement/AchievementLink';
@@ -50,7 +51,13 @@ async function SkinPage ({ params: { language, id }}: { params: { language: Lang
   const data: Gw2Api.Skin = JSON.parse(revision.data);
 
   return (
-    <DetailLayout title={data.name} icon={skin.icon && getIconUrl(skin.icon, 64) || undefined} className={rarityClasses[data.rarity]} breadcrumb={`Skin › ${skin.type}${skin.subtype ? ` › ${skin.subtype}` : ''}${skin.weight ? ` › ${skin.weight}` : ''}`}>
+    <DetailLayout
+      title={data.name}
+      icon={skin.icon && getIconUrl(skin.icon, 64) || undefined}
+      className={rarityClasses[data.rarity]}
+      breadcrumb={`Skin › ${skin.type}${skin.subtype ? ` › ${skin.subtype}` : ''}${skin.weight ? ` › ${skin.weight}` : ''}`}
+      infobox={<SkinInfobox skin={skin} data={data} language={language}/>}
+    >
       <TableOfContentAnchor id="tooltip">Tooltip</TableOfContentAnchor>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
         <div><Rarity rarity={data.rarity}/></div>

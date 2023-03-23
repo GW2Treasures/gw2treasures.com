@@ -1,4 +1,4 @@
-import { Item, Language } from '@prisma/client';
+import { Skin, Language } from '@prisma/client';
 import { Gw2Api } from 'gw2-api-types';
 import { FC } from 'react';
 import { Headline } from '../Headline/Headline';
@@ -9,7 +9,7 @@ import { SkinLink } from './SkinLink';
 import { encode } from 'gw2e-chat-codes';
 
 interface SkinInfoboxProps {
-  skin: Item;
+  skin: Skin;
   data: Gw2Api.Skin;
   language: Language;
 };

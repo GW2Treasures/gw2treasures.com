@@ -20,6 +20,7 @@ import { ItemLink } from '@/components/Item/ItemLink';
 import { SkinLink } from '@/components/Skin/SkinLink';
 import { Table } from '@/components/Table/Table';
 import { AchievementLink } from '@/components/Achievement/AchievementLink';
+import { AchievementInfobox } from '@/components/Achievement/AchievementInfobox';
 
 const getAchievement = remember(60, async function getAchievement(id: number, language: Language) {
   const [achievement, revision] = await Promise.all([
@@ -57,7 +58,12 @@ async function AchievementPage({ params: { id, language }}: { params: { language
   const data: Gw2Api.Achievement = JSON.parse(revision.data);
 
   return (
-    <DetailLayout title={data.name} icon={achievement.icon && getIconUrl(achievement.icon, 64) || undefined} breadcrumb={`Achievements › ${achievement.achievementCategory?.achievementGroup ? localizedName(achievement.achievementCategory?.achievementGroup, language) : 'Unknown Group'} › ${achievement.achievementCategory ? localizedName(achievement.achievementCategory, language) : 'Unknown Category'}`}>
+    <DetailLayout
+      title={data.name}
+      icon={achievement.icon && getIconUrl(achievement.icon, 64) || undefined}
+      breadcrumb={`Achievements › ${achievement.achievementCategory?.achievementGroup ? localizedName(achievement.achievementCategory?.achievementGroup, language) : 'Unknown Group'} › ${achievement.achievementCategory ? localizedName(achievement.achievementCategory, language) : 'Unknown Category'}`}
+      infobox={<AchievementInfobox achievement={achievement} data={data} language={language}/>}
+    >
       {data.description && (
         <p dangerouslySetInnerHTML={{ __html: format(data.description) }}/>
       )}

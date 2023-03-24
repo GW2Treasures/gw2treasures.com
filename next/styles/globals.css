@@ -43,3 +43,7 @@ a:where(:any-link:hover) {
 .color-format--abilitytype {
   color: #797900;
 }
+
+.color-format--reminder {
+  color: var(--color-text-muted);
+}

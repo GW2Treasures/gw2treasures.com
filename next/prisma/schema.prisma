@@ -241,6 +241,10 @@ model Achievement {
   achievementCategory AchievementCategory? @relation(fields: [achievementCategoryId], references: [id])
   achievementCategoryId Int?
 
+  prerequisites    Achievement[] @relation(name: "prerequisites")
+  prerequisitesIds Int[]
+  prerequisiteFor  Achievement[] @relation(name: "prerequisites")
+
   bitsItem    Item[] @relation(name: "bits_item")
   bitsItemIds Int[]
 

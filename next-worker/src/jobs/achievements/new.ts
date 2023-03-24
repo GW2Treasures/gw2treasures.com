@@ -19,6 +19,7 @@ export const AchievementsNew: Job = {
       const revisions = await createRevisions(db, { de, en, es, fr }, { buildId, type: 'Added', entity: 'Achievement', description: 'Added to API' });
       const iconId = await createIcon(en.icon, db);
       const data = await migrate({ de, en, es, fr });
+      const prerequisiteFor = await db.achievement.findMany({ where: { prerequisitesIds: { has: id }}, select: { id: true }});
 
       await db.achievement.create({
         data: {
@@ -34,6 +35,7 @@ export const AchievementsNew: Job = {
           currentId_es: revisions.es.id,
           currentId_fr: revisions.fr.id,
           history: { createMany: { data: [{ revisionId: revisions.de.id }, { revisionId: revisions.en.id }, { revisionId: revisions.es.id }, { revisionId: revisions.fr.id }] }},
+          prerequisiteFor: { connect: prerequisiteFor },
         }
       });
     }

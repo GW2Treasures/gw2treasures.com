@@ -38,6 +38,8 @@ const getAchievement = remember(60, async function getAchievement(id: number, la
       include: {
         icon: true,
         achievementCategory: { include: { achievementGroup: true }},
+        prerequisiteFor: { select: linkPropertiesWithoutRarity },
+        prerequisites: { select: linkPropertiesWithoutRarity },
         bitsItem: { select: linkProperties },
         bitsSkin: { select: linkProperties },
         rewardsItem: { select: linkProperties },
@@ -75,6 +77,21 @@ async function AchievementPage({ params: { id, language }}: { params: { language
     >
       {data.description && (
         <p dangerouslySetInnerHTML={{ __html: format(data.description) }}/>
+      )}
+
+      {data.prerequisites && data.prerequisites?.length > 0 && (
+        <>
+          <Headline id="prerequisites">Prerequisites</Headline>
+          <ItemList>
+            {data.prerequisites.map((prerequisiteId) => {
+              const prerequisite = achievement.prerequisites.find(({ id }) => prerequisiteId === id);
+
+              return (
+                <li key={prerequisiteId}>{prerequisite ? <AchievementLink achievement={prerequisite}/> : `Unknown achievement ${prerequisiteId}`}</li>
+              );
+            })}
+          </ItemList>
+        </>
       )}
 
       <Headline id="objectives">Objectives</Headline>
@@ -147,6 +164,17 @@ async function AchievementPage({ params: { id, language }}: { params: { language
                   );
               }
             })}
+          </ItemList>
+        </>
+      )}
+
+      {achievement.prerequisiteFor.length > 0 && (
+        <>
+          <Headline id="prerequisiteFor">Prerequisite For</Headline>
+          <ItemList>
+            {achievement.prerequisiteFor.map((prerequisite) => (
+              <li key={prerequisite.id}><AchievementLink achievement={prerequisite}/></li>
+            ))}
           </ItemList>
         </>
       )}

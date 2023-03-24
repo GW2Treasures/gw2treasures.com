@@ -7,7 +7,7 @@ function toId<T>({ id }: { id: T }): T {
   return id;
 }
 
-export const CURRENT_VERSION = 3;
+export const CURRENT_VERSION = 4;
 
 /** @see Prisma.AchievementUpdateInput */
 interface MigratedAchievement {
@@ -23,10 +23,14 @@ interface MigratedAchievement {
   bitsItem?: Prisma.ItemCreateNestedManyWithoutAchievementBitsInput
   bitsSkin?: Prisma.SkinCreateNestedManyWithoutAchievementBitsInput
   rewardsItem?: Prisma.ItemCreateNestedManyWithoutAchievementRewardsInput
+
+  prerequisitesIds?: number[]
+  prerequisites?: Prisma.AchievementUpdateManyWithoutPrerequisiteForNestedInput
 }
 
 // eslint-disable-next-line require-await
 export async function createMigrator() {
+  const achievementIds = (await db.achievement.findMany({ select: { id: true }})).map(toId);
   const itemIds = (await db.item.findMany({ select: { id: true }})).map(toId);
   const skinIds = (await db.skin.findMany({ select: { id: true }})).map(toId);
 
@@ -57,6 +61,14 @@ export async function createMigrator() {
       update.bitsItem = { connect: itemBits.filter((id) => itemIds.includes(id)).map((id) => ({ id })) };
       update.bitsSkin = { connect: skinBits.filter((id) => skinIds.includes(id)).map((id) => ({ id })) };
       update.rewardsItem = { connect: itemRewards.filter((id) => itemIds.includes(id)).map((id) => ({ id })) };
+    }
+
+    if(currentVersion < 4) {
+      const prerequisites = en.prerequisites ?? [];
+
+      update.prerequisitesIds = prerequisites;
+
+      update.prerequisites = { connect: prerequisites.filter((id) => achievementIds.includes(id)).map((id) => ({ id })) };
     }
 
     return update;

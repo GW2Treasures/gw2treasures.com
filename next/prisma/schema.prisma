@@ -147,6 +147,8 @@ model Skin {
   unlockedByItems Item[]
   achievementBits Achievement[] @relation(name: "bits_skin")
 
+  unlocks Float?
+
   removedFromApi Boolean @default(false)
   
   current_de Revision @relation("current_de", fields: [currentId_de], references: [id], onDelete: Cascade)
@@ -253,6 +255,8 @@ model Achievement {
 
   rewardsItem    Item[] @relation(name: "rewards_item")
   rewardsItemIds Int[]
+
+  unlocks Float?
 
   removedFromApi Boolean @default(false)
   

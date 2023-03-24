@@ -5,6 +5,7 @@ import { AchievementsMigrate } from './achievements/migrate';
 import { AchievementsNew } from './achievements/new';
 import { AchievementsRediscovered } from './achievements/rediscovered';
 import { AchievementsRemoved } from './achievements/removed';
+import { AchievementsUnlocks } from './achievements/unlocks';
 import { AchievementsUpdate } from './achievements/update';
 import { Gw2ApiRequestsCleanup } from './gw2api-requests/cleanup';
 import { ItemsCheck } from './items/check';
@@ -28,6 +29,7 @@ import { SkinsMigrate } from './skins/migrate';
 import { skinsNew } from './skins/new';
 import { SkinsRediscovered } from './skins/rediscovered';
 import { SkinsRemoved } from './skins/removed';
+import { SkinsUnlocks } from './skins/unlocks';
 import { SkinsUpdate } from './skins/update';
 
 const jobsInternal = {
@@ -53,6 +55,7 @@ const jobsInternal = {
   'skins.rediscovered': SkinsRediscovered,
   'skins.update': SkinsUpdate,
   'skins.migrate': SkinsMigrate,
+  'skins.unlocks': SkinsUnlocks,
 
   'achievements.check': AchievementsCheck,
   'achievements.new': AchievementsNew,
@@ -60,6 +63,7 @@ const jobsInternal = {
   'achievements.rediscovered': AchievementsRediscovered,
   'achievements.update': AchievementsUpdate,
   'achievements.migrate': AchievementsMigrate,
+  'achievements.unlocks': AchievementsUnlocks,
 
   'achievements.categories': AchievementCategories,
   'achievements.groups': AchievementGroups,

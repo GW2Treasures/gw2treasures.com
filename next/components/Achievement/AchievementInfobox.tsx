@@ -1,6 +1,7 @@
 import { Achievement, Language } from '@prisma/client';
 import { Gw2Api } from 'gw2-api-types';
 import { FC } from 'react';
+import { FormatNumber } from '../Format/FormatNumber';
 import { Headline } from '../Headline/Headline';
 import { LanguageLinks } from '../Infobox/LanguageLinks';
 import { ExternalLink } from '../Link/ExternalLink';
@@ -17,6 +18,13 @@ export const AchievementInfobox: FC<AchievementInfoboxProps> = ({ achievement, l
   return (
     <div>
       <LanguageLinks language={language} link={<AchievementLink icon="none" achievement={achievement}/>}/>
+
+      {achievement.unlocks !== null && (
+        <>
+          <Headline id="unlocks" noToc>Unlocks</Headline>
+          <p>Unlocked by <b><FormatNumber value={achievement.unlocks * 100}/>%</b> of players on <ExternalLink href="https://gw2efficiency.com/account/unlock-statistics?filter.key=achievements">gw2efficiency</ExternalLink>.</p>
+        </>
+      )}
 
       <Headline id="links" noToc>Links</Headline>
 

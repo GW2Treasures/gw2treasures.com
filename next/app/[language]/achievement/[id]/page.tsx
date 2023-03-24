@@ -79,6 +79,13 @@ async function AchievementPage({ params: { id, language }}: { params: { language
         <p dangerouslySetInnerHTML={{ __html: format(data.description) }}/>
       )}
 
+      {data.flags.includes('RequiresUnlock') && (
+        <>
+          <Headline id="unlock">Unlock</Headline>
+          <p>{data.locked_text || 'You have to unlock this achievement.'}</p>
+        </>
+      )}
+
       {data.prerequisites && data.prerequisites?.length > 0 && (
         <>
           <Headline id="prerequisites">Prerequisites</Headline>

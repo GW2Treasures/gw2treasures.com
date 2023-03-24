@@ -1,4 +1,4 @@
-import { Language } from '@prisma/client';
+import { Language, MasteryRegion } from '@prisma/client';
 import DetailLayout from '@/components/Layout/DetailLayout';
 import { db } from '@/lib/prisma';
 import { getIconUrl } from '@/lib/getIconUrl';
@@ -21,6 +21,15 @@ import { SkinLink } from '@/components/Skin/SkinLink';
 import { Table } from '@/components/Table/Table';
 import { AchievementLink } from '@/components/Achievement/AchievementLink';
 import { AchievementInfobox } from '@/components/Achievement/AchievementInfobox';
+import type * as CSS from 'csstype';
+
+const MasteryColors: Record<MasteryRegion, CSS.Property.Color> = {
+  'Tyria': '#FB8C00',
+  'Maguuma': '#43A047',
+  'Desert': '#D81B60',
+  'Tundra': '#00ACC1',
+  'Unknown': '#1E88E5',
+};
 
 const getAchievement = remember(60, async function getAchievement(id: number, language: Language) {
   const [achievement, revision] = await Promise.all([
@@ -125,7 +134,7 @@ async function AchievementPage({ params: { id, language }}: { params: { language
                 case 'Coins':
                   return (<li key={reward.id}><span><span className={styles.listIcon}><Icon icon="coins"/></span> <Coins value={reward.count!}/></span></li>);
                 case 'Mastery':
-                  return (<li key={reward.id}><span><span className={styles.listIcon}><Icon icon="mastery"/></span> {reward.region} Mastery</span></li>);
+                  return (<li key={reward.id}><span><span className={styles.listIcon} style={reward.region ? { '--icon-color': MasteryColors[reward.region] } : undefined}><Icon icon="mastery"/></span> {reward.region} Mastery</span></li>);
                 case 'Title':
                   return <li key={reward.id}><span><span className={styles.listIcon}><Icon icon="achievement"/></span> Title {reward.id}</span></li>;
                 case 'Item':

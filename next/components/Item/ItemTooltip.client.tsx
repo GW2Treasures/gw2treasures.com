@@ -36,7 +36,7 @@ export const ClientItemTooltip: FC<ClientItemTooltipProps> = ({ tooltip }) => {
     tooltip.level && `${tooltip.level.label}: ${tooltip.value}`,
     // TODO: restrictions
     tooltip.description && (<div dangerouslySetInnerHTML={{ __html: tooltip.description }}/>),
-    tooltip.flags,
+    ...tooltip.flags,
     tooltip.value && (<Coins value={tooltip.value}/>),
   ];
 

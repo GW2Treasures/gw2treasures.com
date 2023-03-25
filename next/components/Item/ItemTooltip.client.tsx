@@ -33,7 +33,7 @@ export const ClientItemTooltip: FC<ClientItemTooltipProps> = ({ tooltip }) => {
     <Rarity key="rarity" rarity={tooltip.rarity.value}>{tooltip.rarity.label}</Rarity>,
     tooltip.type,
     tooltip.weightClass,
-    tooltip.level && `${tooltip.level.label}: ${tooltip.value}`,
+    tooltip.level && `${tooltip.level.label}: ${tooltip.level.value}`,
     // TODO: restrictions
     tooltip.description && (<div dangerouslySetInnerHTML={{ __html: tooltip.description }}/>),
     ...tooltip.flags,

@@ -1,48 +1,60 @@
-import { FC, ReactNode } from 'react';
-import { ItemAttributes } from './ItemAttributes';
-import { format } from 'gw2-tooltip-html';
-import { Coins } from '../Format/Coins';
-import { FormatNumber } from '../Format/FormatNumber';
-import { Rarity } from './Rarity';
+import 'server-only';
 import { Gw2Api } from 'gw2-api-types';
+import { ClientItemTooltip } from './ItemTooltip.client';
+import { getTranslate } from '../I18n/getTranslate';
+import { Language } from '@prisma/client';
+import { AsyncComponent } from '@/lib/asyncComponent';
+import { format } from 'gw2-tooltip-html';
+import { isTruthy } from '@/lib/is';
 
 export interface ItemTooltipProps {
   item: Gw2Api.Item;
+  language: Language;
 }
 
-export const ItemTooltip: FC<ItemTooltipProps> = ({ item }) => {
-  /* eslint-disable react/jsx-key */
-  const data: ReactNode[] = [
-    item.type === 'Weapon' && <>Strength: <FormatNumber value={item.details?.min_power}/> – <FormatNumber value={item.details?.max_power}/></>,
-    item.type === 'Armor' && `Defense: ${item.details?.defense}`,
-    <ItemAttributes attributes={item.details?.infix_upgrade?.attributes}/>,
-    // consumable,
-    item.details?.bonuses?.map((bonus, index) => <div>({index}): {bonus}</div>),
-    // upgrade slot
-    // infusions
-    // color
-    // skin
-    <Rarity rarity={item.rarity}/>,
-    item.details?.type,
-    item.details?.weight_class,
-    item.level !== 0 && `Required Level: ${item.level}`,
-    item.restrictions.length > 0 && `Requires: ${item.restrictions.join(', ')}`,
-    item.description && <div dangerouslySetInnerHTML={{ __html: format(item.description) }}/>,
-    item.flags.includes('Unique') && 'Unique',
-    item.flags.includes('AccountBound') && 'Account Bound',
-    item.flags.includes('SoulbindOnAcquire') ? 'Soulbound on Acquire' :
-    item.flags.includes('SoulBindOnUse') && 'Soulbound on Use',
-    item.flags.includes('NoSalvage') && 'Not salvagable',
-    item.flags.includes('NoSell') ? 'Not sellable' : <Coins value={item.vendor_value}/>,
-  ];
-  /* eslint-enable react/jsx-key */
+export const ItemTooltip: AsyncComponent<ItemTooltipProps> = async ({ item, language }) => {
+  const tooltip = await createTooltip(item, language);
 
   return (
-    <div>
-      {data.filter(Boolean).map((content, index) => {
-        // eslint-disable-next-line react/no-array-index-key
-        return <div style={{ marginBottom: 8 }} key={index}>{content}</div>;
-      })}
-    </div>
+    <ClientItemTooltip tooltip={tooltip}/>
   );
 };
+
+export async function createTooltip(item: Gw2Api.Item, language: Language): Promise<ItemTooltip> {
+  const t = await getTranslate(language);
+
+  return {
+    weaponStrength: item.type === 'Weapon' ? { label: 'Strength', min: item.details?.min_power ?? 0, max: item.details?.max_power ?? 0 } : undefined,
+    defense: item.type === 'Armor' ? { label: 'Defense', value: item.details?.defense ?? 0 } : undefined,
+    attributes: item.details?.infix_upgrade?.attributes.map((({ attribute, modifier }) => ({ label: t(`attribute.${attribute}`), value: modifier }))),
+    bonuses: item.details?.bonuses,
+    rarity: { label: item.rarity, value: item.rarity },
+    type: item.details?.type,
+    weightClass: item.details?.weight_class,
+    level: item.level > 0 ? { label: 'Required Level', value: item.level } : undefined,
+    description: item.description ? format(item.description) : undefined,
+    flags: [
+      item.flags.includes('Unique') && 'Unique',
+      item.flags.includes('AccountBound') && 'Account Bound',
+      item.flags.includes('SoulbindOnAcquire') ? 'Soulbound on Acquire' :
+      item.flags.includes('SoulBindOnUse') && 'Soulbound on Use',
+      item.flags.includes('NoSalvage') && 'Not salvagable',
+      item.flags.includes('NoSell') && 'Not sellable'
+    ].filter(isTruthy),
+    value: !item.flags.includes('NoSell') ? item.vendor_value : undefined,
+  };
+}
+
+export interface ItemTooltip {
+  weaponStrength?: { label: string, min: number, max: number },
+  defense?: { label: string, value: number },
+  attributes?: { label: string, value: number }[],
+  bonuses?: string[],
+  rarity: { label: string, value: Gw2Api.Item['rarity'] },
+  type?: string,
+  weightClass?: string,
+  level?: { label: string, value: number },
+  description?: string,
+  flags: string[],
+  value?: number,
+}

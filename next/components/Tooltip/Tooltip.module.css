@@ -2,6 +2,7 @@
   background-color: var(--color-background);
   border: 1px solid var(--color-border-dark);
   border-radius: 2px;
+  max-width: 500px;
   padding: 8px;
   z-index: 10;
   pointer-events: none;

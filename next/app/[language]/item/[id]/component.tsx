@@ -113,7 +113,8 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
       )}
 
       <TableOfContentAnchor id="tooltip">Tooltip</TableOfContentAnchor>
-      <ItemTooltip item={data}/>
+      {/* @ts-expect-error Server Component */}
+      <ItemTooltip item={data} language={language}/>
 
       {item.unlocksSkinIds.length > 0 && (
         <>

@@ -1,7 +1,7 @@
 'use client';
 
 import NextLink from 'next/link';
-import React, { FC } from 'react';
+import React, { forwardRef } from 'react';
 import { cx } from '../../lib/classNames';
 import { ItemIcon } from '../Item/ItemIcon';
 import styles from './EntityLink.module.css';
@@ -10,7 +10,7 @@ import { EntityLinkProps } from './EntityLink';
 import { localizedName } from '@/lib/localizedName';
 import { useLanguage } from '../I18n/Context';
 
-export const EntityLinkInternal: FC<EntityLinkProps> = ({ href, entity, icon = 32, language }) => {
+export const EntityLinkInternal = forwardRef<HTMLAnchorElement, EntityLinkProps>(function EntityLinkInternal({ href, entity, icon = 32, language }, ref) {
   const defaultLanguage = useLanguage();
 
   if(language && defaultLanguage !== language) {
@@ -30,6 +30,7 @@ export const EntityLinkInternal: FC<EntityLinkProps> = ({ href, entity, icon = 3
       locale={language}
       className={cx(styles.link, entity.rarity && rarityClasses[entity.rarity])}
       hrefLang={language}
+      ref={ref}
     >
       <>
         {icon !== 'none' && entity.icon && (typeof icon === 'number' ? <ItemIcon icon={entity.icon} size={icon}/> : icon)}
@@ -37,4 +38,4 @@ export const EntityLinkInternal: FC<EntityLinkProps> = ({ href, entity, icon = 3
       </>
     </NextLink>
   );
-};
+});

@@ -1,7 +1,7 @@
 import { FC, Fragment } from 'react';
 import { Gw2Api } from 'gw2-api-types';
 import styles from './ItemAttributes.module.css';
-import { Trans } from '../I18n/Trans';
+//import { Trans } from '../I18n/Trans';
 
 type Attribute = Exclude<Exclude<Gw2Api.Item['details'], undefined>['infix_upgrade'], undefined>['attributes'][0];
 type AttributeName = Attribute['attribute'];
@@ -26,7 +26,7 @@ export const ItemAttributes: FC<ItemAttributesProps> = ({ attributes }) => {
       {attributes.map(({ attribute, modifier }) => (
         <Fragment key={attribute}>
           <dt>+{modifier}{isPercentage(attribute) && '%'}</dt>
-          <dd><Trans id={`attribute.${attribute}`}/></dd>
+          <dd>{`attribute.${attribute}`}</dd>
         </Fragment>
       ))}
     </dl>

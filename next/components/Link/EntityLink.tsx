@@ -1,9 +1,10 @@
-import { FC, ReactElement } from 'react';
+import { forwardRef, ReactElement } from 'react';
 import { Language } from '@prisma/client';
 import { IconSize } from '@/lib/getIconUrl';
 import { LocalizedEntity } from '@/lib/localizedName';
 import { WithIcon } from '@/lib/with';
 import { EntityLinkInternal } from './EntityLinkInternal';
+import { getLinkProperties } from '@/lib/linkProperties';
 
 export interface EntityLinkProps {
   href: string;
@@ -12,10 +13,10 @@ export interface EntityLinkProps {
   language?: Language;
 }
 
-export const EntityLink: FC<EntityLinkProps> = ({ entity: { name_de, name_en, name_es, name_fr, icon, rarity }, ...props }) => {
-  const cleanEntity: EntityLinkProps['entity'] = { name_de, name_en, name_es, name_fr, icon, rarity };
+export const EntityLink = forwardRef<HTMLAnchorElement, EntityLinkProps>(function EntityLink({ entity, ...props }, ref) {
+  const cleanEntity = getLinkProperties(entity);
 
   return (
-    <EntityLinkInternal entity={cleanEntity} {...props}/>
+    <EntityLinkInternal ref={ref} entity={cleanEntity} {...props}/>
   );
-};
+});

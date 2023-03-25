@@ -1,3 +1,11 @@
 {
-  "items.new": "Neue Items"
+  "items.new": "Neue Items",
+  "rarity.Basic": "Einfach",
+  "rarity.Fine": "Edel",
+  "rarity.Masterwork": "Meisterwerk",
+  "rarity.Rare": "Selten",
+  "rarity.Exotic": "Exotisch",
+  "rarity.Ascended": "Aufgestiegen",
+  "rarity.Junk": "Schrott",
+  "rarity.Legendary": "Legendär"
 }

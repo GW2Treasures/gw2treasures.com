@@ -30,7 +30,7 @@ export const ClientItemTooltip: FC<ClientItemTooltipProps> = ({ tooltip }) => {
     // TODO: infusions
     // TODO: color
     // TODO: skin
-    <Rarity key="rarity" rarity={tooltip.rarity.value}>{tooltip.rarity.value}</Rarity>,
+    <Rarity key="rarity" rarity={tooltip.rarity.value}>{tooltip.rarity.label}</Rarity>,
     tooltip.type,
     tooltip.weightClass,
     tooltip.level && `${tooltip.level.label}: ${tooltip.value}`,

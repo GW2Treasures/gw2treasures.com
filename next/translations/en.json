@@ -9,5 +9,13 @@
   "attribute.Healing": "Healing Power",
   "attribute.BoonDuration": "Concentration",
   "attribute.ConditionDuration": "Expertise",
-  "attribute.AgonyResistance": "Agony Resistance"
+  "attribute.AgonyResistance": "Agony Resistance",
+  "rarity.Basic": "Basic",
+  "rarity.Fine": "Fine",
+  "rarity.Masterwork": "Masterwork",
+  "rarity.Rare": "Rare",
+  "rarity.Exotic": "Exotic",
+  "rarity.Ascended": "Ascended",
+  "rarity.Junk": "Junk",
+  "rarity.Legendary": "Legendary"
 }

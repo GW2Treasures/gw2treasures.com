@@ -34,7 +34,7 @@ export const ItemLinkTooltip: FC<ItemLinkTooltipProps> = ({ item, language }) =>
       </div>
 
       <ErrorBoundary fallback={<span>Error</span>}>
-        {tooltip.loading && <Skeleton/>}
+        {tooltip.loading && <div className={styles.loading}><Skeleton/><br/><Skeleton width={120}/></div>}
         {!tooltip.loading && <ClientItemTooltip tooltip={tooltip.data}/>}
       </ErrorBoundary>
     </div>

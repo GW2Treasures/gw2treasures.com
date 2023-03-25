@@ -5,6 +5,7 @@ import attributeStyles from './ItemAttributes.module.css';
 import { Rarity } from './Rarity';
 import { Coins } from '../Format/Coins';
 import { isTruthy } from '@/lib/is';
+import styles from './ItemTooltip.module.css';
 
 export interface ClientItemTooltipProps {
   tooltip: ItemTooltip;
@@ -35,7 +36,7 @@ export const ClientItemTooltip: FC<ClientItemTooltipProps> = ({ tooltip }) => {
     tooltip.weightClass,
     tooltip.level && `${tooltip.level.label}: ${tooltip.level.value}`,
     // TODO: restrictions
-    tooltip.description && (<div dangerouslySetInnerHTML={{ __html: tooltip.description }}/>),
+    tooltip.description && (<p className={styles.description} dangerouslySetInnerHTML={{ __html: tooltip.description }}/>),
     ...tooltip.flags,
     tooltip.value && (<Coins value={tooltip.value}/>),
   ];
@@ -44,7 +45,7 @@ export const ClientItemTooltip: FC<ClientItemTooltipProps> = ({ tooltip }) => {
     <div>
       {data.filter(isTruthy).map((content, index) => {
         // eslint-disable-next-line react/no-array-index-key
-        return <div style={{ marginBottom: 8 }} key={index}>{content}</div>;
+        return <div className={styles.row} key={index}>{content}</div>;
       })}
     </div>
   );

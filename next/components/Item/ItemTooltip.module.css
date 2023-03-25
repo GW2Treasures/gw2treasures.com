@@ -1,0 +1,7 @@
+.row + .row {
+  margin-top: 8px;
+}
+
+.description {
+  color: var(--color-text-muted);
+}

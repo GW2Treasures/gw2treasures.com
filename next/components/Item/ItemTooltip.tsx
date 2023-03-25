@@ -26,7 +26,7 @@ export async function createTooltip(item: Gw2Api.Item, language: Language): Prom
   return {
     weaponStrength: item.type === 'Weapon' ? { label: 'Strength', min: item.details?.min_power ?? 0, max: item.details?.max_power ?? 0 } : undefined,
     defense: item.type === 'Armor' ? { label: 'Defense', value: item.details?.defense ?? 0 } : undefined,
-    attributes: item.details?.infix_upgrade?.attributes.map((({ attribute, modifier }) => ({ label: t(`attribute.${attribute}`), value: modifier }))),
+    attributes: item.details?.infix_upgrade?.attributes && item.details.infix_upgrade.attributes.length > 0 ? item.details.infix_upgrade.attributes.map((({ attribute, modifier }) => ({ label: t(`attribute.${attribute}`), value: modifier }))) : undefined,
     bonuses: item.details?.bonuses,
     rarity: { label: t(`rarity.${item.rarity}`), value: item.rarity },
     type: item.details?.type,

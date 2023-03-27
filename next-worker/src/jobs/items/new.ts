@@ -23,6 +23,7 @@ export const ItemsNew: Job = {
 
       const achievementBit = await db.achievement.findMany({ where: { bitsItemIds: { has: id }}, select: { id: true }});
       const achievementReward = await db.achievement.findMany({ where: { rewardsItemIds: { has: id }}, select: { id: true }});
+      const suffixIn = await db.item.findMany({ where: { suffixItemIds: { has: id }}, select: { id: true }});
 
       await db.item.create({
         data: {
@@ -44,6 +45,8 @@ export const ItemsNew: Job = {
 
           achievementBits: { connect: achievementBit },
           achievementRewards: { connect: achievementReward },
+
+          suffixIn: { connect: suffixIn }
         }
       });
     }

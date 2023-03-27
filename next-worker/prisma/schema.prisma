@@ -37,6 +37,11 @@ model Item {
   // achievements
   achievementRewards Achievement[] @relation(name: "rewards_item")
   achievementBits    Achievement[] @relation(name: "bits_item")
+
+  // items
+  suffixItems   Item[] @relation(name: "suffix")
+  suffixItemIds Int[]
+  suffixIn      Item[] @relation(name: "suffix")
  
   removedFromApi Boolean @default(false)
 

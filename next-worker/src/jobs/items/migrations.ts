@@ -1,17 +1,17 @@
 import { Prisma } from '@prisma/client';
 import { Gw2Api } from 'gw2-api-types';
 import { db } from '../../db';
+import { isTruthy } from '../helper/is';
+import { toId } from '../helper/toId';
+import { isDefined } from '../helper/types';
 
 type Localized<T> = {
   de: T, en: T, es: T, fr: T
 }
 
-function isDefined<T>(x: T | undefined): x is T {
-  return x !== undefined;
-}
+export const CURRENT_VERSION = 6;
 
-export const CURRENT_VERSION = 5;
-
+/** @see Prisma.ItemUpdateInput */
 interface MigratedItem {
   version: number
 
@@ -30,10 +30,14 @@ interface MigratedItem {
   createdAt?: Date | string
   updatedAt?: Date | string
   unlocksSkin?: Prisma.SkinCreateNestedManyWithoutUnlockedByItemsInput
+
+  suffixItemIds?: number[]
+  suffixItems?: Prisma.ItemUpdateManyWithoutSuffixInNestedInput
 }
 
 export async function createMigrator() {
-  const knownSkinIds = (await db.skin.findMany({ select: { id: true }})).map(({ id }) => id);
+  const knownSkinIds = (await db.skin.findMany({ select: { id: true }})).map(toId);
+  const knownItemIds = (await db.item.findMany({ select: { id: true }})).map(toId);
 
   // eslint-disable-next-line require-await
   return async function migrate({ de, en, es, fr }: Localized<Gw2Api.Item>, currentVersion = -1) {
@@ -64,6 +68,13 @@ export async function createMigrator() {
       de.name?.trim() === '' && (update.name_de = en.chat_link);
       es.name?.trim() === '' && (update.name_es = en.chat_link);
       fr.name?.trim() === '' && (update.name_fr = en.chat_link);
+    }
+
+    if(currentVersion <= 6) {
+      const suffixItemIds = [en.details?.suffix_item_id, en.details?.secondary_suffix_item_id].map(Number).filter(isTruthy);
+
+      update.suffixItemIds = suffixItemIds;
+      update.suffixItems = { connect: suffixItemIds.filter((id) => knownItemIds.includes(id)).map((id) => ({ id })) };
     }
 
     return update;

@@ -14,6 +14,7 @@ import type { ItemTooltip } from './ItemTooltip';
 import { ErrorBoundary } from 'react-error-boundary';
 import { useJsonFetch } from '@/lib/useFetch';
 import { ClientItemTooltip } from './ItemTooltip.client';
+import { localizedUrl } from '@/lib/localizedUrl';
 
 export interface ItemLinkTooltipProps {
   item: WithIcon<Pick<Item, 'id' | 'rarity' | keyof LocalizedEntity>>
@@ -24,7 +25,7 @@ export const ItemLinkTooltip: FC<ItemLinkTooltipProps> = ({ item, language }) =>
   const defaultLanguage = useLanguage();
   language ??= defaultLanguage;
 
-  const tooltip = useJsonFetch<ItemTooltip>(`/item/${item.id}/tooltip`);
+  const tooltip = useJsonFetch<ItemTooltip>(localizedUrl(`/item/${item.id}/tooltip`, language));
 
   return (
     <div className={rarityStyles[item.rarity]}>

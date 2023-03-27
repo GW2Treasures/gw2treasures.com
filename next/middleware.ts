@@ -22,7 +22,24 @@ export function middleware(request: NextRequest) {
   const url = request.nextUrl.clone();
   url.pathname = `/${language}${url.pathname}`;
 
-  return NextResponse.rewrite(url);
+  return NextResponse.rewrite(url, { headers: corsHeader(request) });
+}
+
+function corsHeader(request: NextRequest): {} | { 'Access-Control-Allow-Origin': string } {
+  const origin = request.headers.get('Origin');
+
+  if(!origin) {
+    return {};
+  }
+
+  const regex = new RegExp(`^https?://(${languages.join('|')})\.${baseDomain?.replace('.', '\.')}`);
+  const isAllowed = origin.match(regex);
+
+  if(isAllowed) {
+    return { 'Access-Control-Allow-Origin': origin };
+  }
+
+  throw new Error('CORS');
 }
 
 export const config = {

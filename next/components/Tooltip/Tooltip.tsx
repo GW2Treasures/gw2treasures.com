@@ -1,7 +1,7 @@
 'use client';
 
-import { autoUpdate, flip, FloatingPortal, offset, shift, useClientPoint, useDismiss, useFloating, useFocus, useHover, useInteractions, useMergeRefs, useRole, useTransitionStyles } from '@floating-ui/react';
-import { Children, cloneElement, FC, ReactElement, ReactNode, Ref, useRef, useState } from 'react';
+import { autoUpdate, ElementProps, flip, FloatingContext, FloatingPortal, offset, shift, useClick, useClientPoint, useDismiss, useFloating, useFocus, useHover, useInteractions, useMergeRefs, useRole, useTransitionStyles } from '@floating-ui/react';
+import { Children, cloneElement, FC, ReactElement, ReactNode, Ref, useMemo, useRef, useState } from 'react';
 import styles from './Tooltip.module.css';
 
 export interface TooltipProps {
@@ -29,8 +29,20 @@ export const Tooltip: FC<TooltipProps> = ({ children, content }) => {
   const { getReferenceProps, getFloatingProps } = useInteractions([
     useClientPoint(context),
     useHover(context, { move: true }),
+    useClick(context, {
+      ignoreMouse: true,
+    }),
     useDismiss(context),
     useRole(context, { role: 'tooltip' }),
+    useMemo(() => ({
+      reference: {
+        onClick(event) {
+          if(!context.open && context.dataRef.current.openEvent && 'pointerType' in context.dataRef.current.openEvent && context.dataRef.current.openEvent.pointerType === 'touch') {
+            event.preventDefault();
+          }
+        },
+      },
+    }), [context.open, context.dataRef]),
   ]);
 
   const { styles: transitionStyles, isMounted } = useTransitionStyles(context);

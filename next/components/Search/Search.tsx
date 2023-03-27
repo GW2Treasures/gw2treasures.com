@@ -1,6 +1,6 @@
 'use client';
 
-import React, { FC, Fragment, useRef, useState } from 'react';
+import React, { FC, Fragment, ReactElement, useRef, useState } from 'react';
 import styles from './Search.module.css';
 import Icon from '../../icons/Icon';
 import { useRouter } from 'next/navigation';
@@ -91,7 +91,9 @@ export const Search: FC<SearchProps> = ({ }) => {
               <div className={styles.category}>{title}</div>
               {results.map((result) => {
                 const currentIndex = index++;
-                return (
+                const render = result.render ?? ((link: ReactElement) => link);
+
+                return render(
                   <Link
                     tabIndex={-1}
                     href={result.href}

@@ -1,17 +1,20 @@
+import { getLinkProperties } from '@/lib/linkProperties';
 import { ApiSearchResponse } from 'app/api/search/route';
-import { ReactNode } from 'react';
+import { ReactElement, ReactNode } from 'react';
 import { IconName } from '../../icons';
 import IconComponent from '../../icons/Icon';
 import { localizedName } from '../../lib/localizedName';
 import { useJsonFetch, useStaleJsonResponse } from '../../lib/useFetch';
 import { useLanguage } from '../I18n/Context';
 import { ItemIcon } from '../Item/ItemIcon';
+import { ItemLinkTooltip } from '../Item/ItemLinkTooltip';
 import { SkillIcon } from '../Skill/SkillIcon';
+import { Tooltip } from '../Tooltip/Tooltip';
 
 export interface SearchResults {
   id: string;
   title: ReactNode;
-  results: SearchResult[]
+  results: SearchResult[];
 }
 
 export interface SearchResult {
@@ -19,17 +22,19 @@ export interface SearchResult {
   title: ReactNode;
   icon: ReactNode;
   subtitle?: ReactNode;
+  render?: (link: ReactElement) => ReactNode;
 }
 
 export function useSearchApiResults(searchValue: string): SearchResults[] {
   const response = useStaleJsonResponse(useJsonFetch<ApiSearchResponse>(`/api/search?q=${encodeURIComponent(searchValue)}`));
   const language = useLanguage();
 
-  const items = response.loading ? [] : response.data.items.map((item) => ({
+  const items = response.loading ? [] : response.data.items.map<SearchResult>((item) => ({
     title: localizedName(item, language),
     icon: item.icon && <ItemIcon icon={item.icon} size={32}/>,
     subtitle: <>{item.level > 0 && `${item.level} ▪ `} {item.rarity} {item.weight ?? ''} {(item.subtype !== 'Generic' ? item.subtype : '') || item.type}</>,
-    href: `/item/${item.id}`
+    href: `/item/${item.id}`,
+    render: (link) => <Tooltip content={<ItemLinkTooltip item={getLinkProperties(item)}/>}>{link}</Tooltip>
   }));
 
   const skills = response.loading ? [] : response.data.skills.map((skill) => ({

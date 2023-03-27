@@ -8,6 +8,7 @@ import { Gw2Api } from 'gw2-api-types';
 import { AchievementCategoryLink } from '@/components/Achievement/AchievementCategoryLink';
 import { Language } from '@prisma/client';
 import { remember } from '@/lib/remember';
+import { ResetTimer } from './reset-timer';
 
 export const dynamic = 'force-dynamic';
 
@@ -33,7 +34,7 @@ async function AchievementPage({ params: { language }}: { params: { language: La
   const groups = await getAchivementGroups(language);
 
   return (
-    <HeroLayout hero={<Headline id="achievements">Achievements</Headline>} color="#663399" toc>
+    <HeroLayout hero={<Headline id="achievements" actions={<ResetTimer/>}>Achievements</Headline>} color="#663399" toc>
       {groups.map((group) => {
         const data: Gw2Api.Achievement.Group = JSON.parse(group[`current_${language}`].data);
 

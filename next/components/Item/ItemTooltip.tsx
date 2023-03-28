@@ -56,6 +56,9 @@ export async function createTooltip(item: Gw2Api.Item, language: Language): Prom
     }
   }
 
+  const infusionIds = item.details?.infusion_slots?.map(({ item_id }) => item_id).filter(isTruthy);
+  const infusions = infusionIds?.length ? await db.item.findMany({ where: { id: { in: infusionIds }}, select: { ...linkProperties, [`current_${language}`]: { select: { data: true }}}}) : [];
+
   return {
     language,
     weaponStrength: item.type === 'Weapon' ? { label: 'Strength', min: item.details?.min_power ?? 0, max: item.details?.max_power ?? 0 } : undefined,
@@ -65,6 +68,24 @@ export async function createTooltip(item: Gw2Api.Item, language: Language): Prom
     consumable: item.type === 'Consumable' ? { name: item.details?.name, apply_count: item.details?.apply_count, duration_ms: item.details?.duration_ms, description: item.details?.description ? format(item.details.description) : undefined, icon: parseIcon(item.details?.icon) } : undefined,
     bonuses: item.details?.bonuses?.map(format),
     upgrades,
+    infusions: item.details?.infusion_slots?.map((infusion) => {
+      const item = infusion.item_id && infusions.find(({ id }) => id === infusion.item_id);
+      const isEnrichment = infusion.flags?.[0] === 'Enrichment';
+
+      if(item) {
+        return {
+          type: isEnrichment ? 'Enrichment' : 'Infusion',
+          item,
+        };
+      }
+
+      return {
+        type: isEnrichment ? 'Enrichment' : 'Infusion',
+        unused: infusion.item_id
+          ? (isEnrichment ? `Unknown Enrichment (${infusion.item_id})` : `Unknown Infusion (${infusion.item_id})`)
+          : (isEnrichment ? 'Unused Enrichment Slot' : 'Unused Infusion Slot')
+      };
+    }),
     rarity: { label: t(`rarity.${item.rarity}`), value: item.rarity },
     type: item.details?.type,
     weightClass: item.details?.weight_class,
@@ -104,6 +125,15 @@ export interface ItemTooltip {
     buff?: string,
     bonuses?: string[]
   }) | null)[];
+  infusions?: ({
+    type: 'Infusion' | 'Enrichment'
+  } & ({
+    unused: string,
+    item?: undefined
+  } | {
+    unused?: undefined,
+    item: WithIcon<LocalizedEntity> & { id: number, rarity: string }
+  }))[],
   rarity: { label: string, value: Gw2Api.Item['rarity'] },
   type?: string,
   weightClass?: string,

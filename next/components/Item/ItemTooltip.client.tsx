@@ -113,6 +113,15 @@ export const ClientItemTooltip: FC<ClientItemTooltipProps> = ({ tooltip }) => {
         {renderBonuses(upgrade.bonuses)}
       </div>
     )),
+    tooltip.infusions && tooltip.infusions.map((infusion, slot) => (
+      // eslint-disable-next-line react/no-array-index-key
+      <div key={slot} className={styles.row}>
+        {infusion.item
+          ? <><ItemLink item={infusion.item} icon={16} language={tooltip.language}/></>
+          : <><Icon icon={infusion.type === 'Infusion' ? 'infusion-slot' : 'enrichment-slot'}/> {infusion.unused}</>
+        }
+      </div>
+    )),
     // TODO: infusions
     // TODO: color
     // TODO: skin

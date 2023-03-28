@@ -26,3 +26,22 @@
 .bonus > dd {
   margin-left: 8px;
 }
+
+.consumable {
+  composes: row;
+
+  display: flex;
+  gap: 8px;
+}
+
+.consumableDetails {
+  align-self: center;
+}
+
+.consumableName {
+  margin-bottom: 4px;
+}
+
+.consumable .buff {
+  color: var(--color-text-muted);
+}

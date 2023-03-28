@@ -10,6 +10,7 @@ import { getLinkProperties, linkProperties } from '@/lib/linkProperties';
 import { WithIcon } from '@/lib/with';
 import { LocalizedEntity } from '@/lib/localizedName';
 import { db } from '@/lib/prisma';
+import { parseIcon } from '@/lib/parseIcon';
 
 export interface ItemTooltipProps {
   item: Gw2Api.Item;
@@ -61,6 +62,7 @@ export async function createTooltip(item: Gw2Api.Item, language: Language): Prom
     defense: item.type === 'Armor' ? { label: 'Defense', value: item.details?.defense ?? 0 } : undefined,
     attributes: item.details?.infix_upgrade?.attributes && item.details.infix_upgrade.attributes.length > 0 ? item.details.infix_upgrade.attributes.map((({ attribute, modifier }) => ({ label: t(`attribute.${attribute}`), value: modifier }))) : undefined,
     buff: (!item.details?.infix_upgrade?.attributes || item.details.infix_upgrade.attributes.length === 0) && item.details?.infix_upgrade?.buff?.description ? format(item.details.infix_upgrade.buff.description) : undefined,
+    consumable: item.type === 'Consumable' ? { name: item.details?.name, apply_count: item.details?.apply_count, duration_ms: item.details?.duration_ms, description: item.details?.description ? format(item.details.description) : undefined, icon: parseIcon(item.details?.icon) } : undefined,
     bonuses: item.details?.bonuses?.map(format),
     upgrades,
     rarity: { label: t(`rarity.${item.rarity}`), value: item.rarity },
@@ -86,6 +88,13 @@ export interface ItemTooltip {
   defense?: { label: string, value: number },
   attributes?: { label: string, value: number }[],
   buff?: string,
+  consumable?: {
+    duration_ms?: number,
+    apply_count?: number,
+    name?: string,
+    description?: string,
+    icon?: { id: number, signature: string }
+  },
   bonuses?: string[],
   upgrades?: ((WithIcon<LocalizedEntity> & {
     id: number,

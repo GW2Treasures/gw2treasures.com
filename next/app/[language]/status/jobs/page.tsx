@@ -13,7 +13,7 @@ export const dynamic = 'force-dynamic';
 const getJobs = remember(1, async function getJobs() {
   const [running, finished] = await Promise.all([
     db.job.findMany({ where: { OR: [{ state: { in: ['Running', 'Queued'] }}, { cron: { not: '' }}] }, orderBy: [{ priority: 'desc' }, { scheduledAt: 'asc' }] }),
-    db.job.findMany({ where: { state: { notIn: ['Running', 'Queued'] }}, orderBy: { finishedAt: 'desc' }}),
+    db.job.findMany({ where: { state: { notIn: ['Running', 'Queued'] }}, orderBy: { finishedAt: 'desc' }, take: 100 }),
   ]);
 
   return { running, finished, now: new Date() };
@@ -60,7 +60,7 @@ async function JobPage() {
         </tbody>
       </Table>
 
-      <Headline id="jobs">Finished Jobs</Headline>
+      <Headline id="jobs">Finished Jobs ({finished.length})</Headline>
       <Table>
         <thead>
           <tr>

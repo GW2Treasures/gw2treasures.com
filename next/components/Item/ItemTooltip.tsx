@@ -71,6 +71,7 @@ export async function createTooltip(item: Gw2Api.Item, language: Language): Prom
     level: item.level > 0 ? { label: 'Required Level', value: item.level } : undefined,
     description: item.description ? format(item.description) : undefined,
     flags: [
+      item.details?.stat_choices && 'Double-click to select stats.',
       item.flags.includes('Unique') && 'Unique',
       item.flags.includes('AccountBound') && 'Account Bound',
       item.flags.includes('SoulbindOnAcquire') ? 'Soulbound on Acquire' :

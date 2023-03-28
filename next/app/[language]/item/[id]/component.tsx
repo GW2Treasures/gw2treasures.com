@@ -23,8 +23,10 @@ import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 import { SkeletonTable } from '@/components/Skeleton/SkeletonTable';
 import { remember } from '@/lib/remember';
-import { linkProperties, linkPropertiesWithoutRarity } from '@/lib/linkProperties';
+import { getLinkProperties, linkProperties, linkPropertiesWithoutRarity } from '@/lib/linkProperties';
 import { AchievementLink } from '@/components/Achievement/AchievementLink';
+import { Tooltip } from '@/components/Tooltip/Tooltip';
+import { ItemLinkTooltip } from '@/components/Item/ItemLinkTooltip';
 
 export interface ItemPageComponentProps {
   language: Language;
@@ -130,7 +132,7 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
       {item.suffixIn.length > 0 && (
         <>
           <Headline id="upgrade">Upgrade in</Headline>
-          <ItemTable items={item.suffixIn} />
+          <ItemTable items={item.suffixIn}/>
         </>
       )}
 
@@ -198,7 +200,11 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
             <tr key={history.revisionId}>
               <td>{history.revisionId === revision.id ? <b>{history.revision.buildId || '-'}</b> : history.revision.buildId || '-'}</td>
               <td>{history.revision.language}</td>
-              <td><Link href={`/item/${item.id}/${history.revisionId}`}>{history.revision.description}</Link></td>
+              <td>
+                <Tooltip content={<ItemLinkTooltip item={getLinkProperties(item)} language={language} revision={history.revisionId}/>}>
+                  <Link href={`/item/${item.id}/${history.revisionId}`}>{history.revision.description}</Link>
+                </Tooltip>
+              </td>
               <td><FormatDate date={history.revision.createdAt} relative data-superjson/></td>
             </tr>
           ))}

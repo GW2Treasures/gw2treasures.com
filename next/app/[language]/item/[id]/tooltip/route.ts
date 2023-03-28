@@ -8,14 +8,19 @@ import { remember } from '@/lib/remember';
 
 export const dynamic = 'force-dynamic';
 
-const getItemRevision = remember(60, function getItemRevision(id: number, language: Language) {
-  return db.revision.findFirst({ where: { [`currentItem_${language}`]: { id }}});
+const getItemRevision = remember(60, function getItemRevision(id: number, language: Language, revisionId?: string) {
+  return revisionId
+    ? db.revision.findFirst({ where: { id: revisionId, entity: 'Item' }})
+    : db.revision.findFirst({ where: { [`currentItem_${language}`]: { id }}});
 });
 
 export async function GET(request: NextRequest, { params: { language, id }}: { params: { language: Language, id: string }}) {
   const itemId = Number(id);
 
-  const revision = await getItemRevision(itemId, language);
+  const { searchParams } = new URL(request.url);
+  const revisionId = searchParams.get('revision') ?? undefined;
+
+  const revision = await getItemRevision(itemId, language, revisionId);
 
   if(!revision) {
     notFound();

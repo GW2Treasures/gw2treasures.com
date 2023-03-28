@@ -19,13 +19,14 @@ import { localizedUrl } from '@/lib/localizedUrl';
 export interface ItemLinkTooltipProps {
   item: WithIcon<Pick<Item, 'id' | 'rarity' | keyof LocalizedEntity>>
   language?: Language;
+  revision?: string;
 }
 
-export const ItemLinkTooltip: FC<ItemLinkTooltipProps> = ({ item, language }) => {
+export const ItemLinkTooltip: FC<ItemLinkTooltipProps> = ({ item, language, revision }) => {
   const defaultLanguage = useLanguage();
   language ??= defaultLanguage;
 
-  const tooltip = useJsonFetch<ItemTooltip>(localizedUrl(`/item/${item.id}/tooltip`, language));
+  const tooltip = useJsonFetch<ItemTooltip>(localizedUrl(`/item/${item.id}/tooltip${revision ? `?revision=${revision}` : ''}`, language));
 
   return (
     <div className={rarityStyles[item.rarity]}>

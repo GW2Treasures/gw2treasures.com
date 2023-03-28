@@ -12,28 +12,54 @@ export interface ClientItemTooltipProps {
   tooltip: ItemTooltip;
 };
 
+function renderAttributes(attributes: ItemTooltip['attributes']) {
+  if(!attributes) {
+    return;
+  }
+
+  return (
+    <dl className={attributeStyles.attributes}>
+      {attributes.map(({ label, value }) => (
+        <Fragment key={label}>
+          <dt>+{value}</dt>
+          <dd>{label}</dd>
+        </Fragment>
+      ))}
+    </dl>
+  );
+}
+
+function renderBonuses(bonuses: ItemTooltip['bonuses']) {
+  if(!bonuses) {
+    return;
+  }
+
+  return (
+    <dl className={styles.bonus}>
+      {bonuses.map((bonus, index) => (
+        // eslint-disable-next-line react/no-array-index-key
+        <Fragment key={index}>
+          <dt>({index}):</dt>
+          <dd dangerouslySetInnerHTML={{ __html: bonus }}/>
+        </Fragment>
+      ))}
+    </dl>
+  );
+}
+
 export const ClientItemTooltip: FC<ClientItemTooltipProps> = ({ tooltip }) => {
   const data = [
     tooltip.weaponStrength && (<>{tooltip.weaponStrength.label}: <FormatNumber value={tooltip.weaponStrength.min}/> – <FormatNumber value={tooltip.weaponStrength.max}/></>),
     tooltip.defense && `${tooltip.defense.label}: ${tooltip.defense.value}`,
-    tooltip.attributes && (
-      <dl className={attributeStyles.attributes}>
-        {tooltip.attributes.map(({ label, value }) => (
-          <Fragment key={label}>
-            <dt>+{value}</dt>
-            <dd>{label}</dd>
-          </Fragment>
-        ))}
-      </dl>
-    ),
+    renderAttributes(tooltip.attributes),
     tooltip.buff && (<p className={styles.buff} dangerouslySetInnerHTML={{ __html: tooltip.buff }}/>),
     // TODO: consumable
-    tooltip.bonuses && tooltip.bonuses.map((bonus, index) => (<div key={bonus} className={styles.bonus}>({index}): <span dangerouslySetInnerHTML={{ __html: bonus }}/></div>)),
+    renderBonuses(tooltip.bonuses),
     tooltip.upgrades && tooltip.upgrades.map((upgrade) => (
       <div key={upgrade.id}>
         <ItemLink item={upgrade} icon={16}/>
         {upgrade.buff && (<p className={styles.buff} dangerouslySetInnerHTML={{ __html: upgrade.buff }}/>)}
-        {upgrade.bonuses && upgrade.bonuses.map((bonus, index) => (<div key={bonus} className={styles.bonus}>({index}): <span dangerouslySetInnerHTML={{ __html: bonus }}/></div>))}
+        {renderBonuses(upgrade.bonuses)}
       </div>
     )),
     // TODO: infusions

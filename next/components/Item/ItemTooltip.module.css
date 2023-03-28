@@ -7,5 +7,22 @@
 }
 
 .bonus {
+  display: grid;
+  grid-template-columns: auto 1fr;
   line-height: 20px;
+}
+
+.bonus, .bonus > dt, .bonus > dd {
+  margin: 0;
+  padding: 0;
+}
+
+.bonus > dt {
+  text-align: right;
+  font-feature-settings: "tnum";
+  color: var(--color-text-muted);
+}
+
+.bonus > dd {
+  margin-left: 8px;
 }

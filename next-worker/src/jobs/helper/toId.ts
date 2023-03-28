@@ -1,3 +1,3 @@
-export function toId({ id }: { id: number }): number {
+export function toId<T>({ id }: { id: T }): T {
   return id;
 }

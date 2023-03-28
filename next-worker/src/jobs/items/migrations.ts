@@ -9,7 +9,7 @@ type Localized<T> = {
   de: T, en: T, es: T, fr: T
 }
 
-export const CURRENT_VERSION = 6;
+export const CURRENT_VERSION = 7;
 
 /** @see Prisma.ItemUpdateInput */
 interface MigratedItem {
@@ -54,7 +54,7 @@ export async function createMigrator() {
       update.level = Number(en.level);
     }
 
-    // Add unlocked skins (version 2 and 3 skipped)
+    // Version 1-4: Add skins
     if(currentVersion <= 4) {
       const skins = [en.default_skin, ...(en.details?.skins ?? [])].filter(isDefined).map(Number);
 
@@ -62,7 +62,7 @@ export async function createMigrator() {
       update.unlocksSkin = { connect: skins.filter((id) => knownSkinIds.includes(id)).map((id) => ({ id })) };
     }
 
-    // Update name for empty items
+    // Version 5: Update name for empty items
     if(currentVersion <= 5) {
       en.name?.trim() === '' && (update.name_en = en.chat_link);
       de.name?.trim() === '' && (update.name_de = en.chat_link);
@@ -70,8 +70,10 @@ export async function createMigrator() {
       fr.name?.trim() === '' && (update.name_fr = en.chat_link);
     }
 
-    if(currentVersion <= 6) {
-      const suffixItemIds = [en.details?.suffix_item_id, en.details?.secondary_suffix_item_id].map(Number).filter(isTruthy);
+    // Version 6: Add suffix items
+    // Version 7: Add slotted infusions as upgrades (2023-03-28)
+    if(currentVersion <= 7) {
+      const suffixItemIds = [en.details?.suffix_item_id, en.details?.secondary_suffix_item_id, ...(en.details?.infusion_slots?.map(({ item_id }) => item_id) || [])].map(Number).filter(isTruthy);
 
       update.suffixItemIds = suffixItemIds;
       update.suffixItems = { connect: suffixItemIds.filter((id) => knownItemIds.includes(id)).map((id) => ({ id })) };

@@ -2,7 +2,7 @@ import 'server-only';
 import { Gw2Api } from 'gw2-api-types';
 import { ClientItemTooltip } from './ItemTooltip.client';
 import { getTranslate } from '../I18n/getTranslate';
-import { Language } from '@prisma/client';
+import { Item, Language } from '@prisma/client';
 import { AsyncComponent } from '@/lib/asyncComponent';
 import { format } from 'gw2-tooltip-html';
 import { isTruthy } from '@/lib/is';
@@ -28,19 +28,20 @@ export const ItemTooltip: AsyncComponent<ItemTooltipProps> = async ({ item, lang
 export async function createTooltip(item: Gw2Api.Item, language: Language): Promise<ItemTooltip> {
   const t = await getTranslate(language);
 
+  function mapItemToTooltip(upgrade: Pick<WithIcon<Item>, keyof typeof linkProperties>): ItemWithAttributes {
+    const data: Gw2Api.Item = JSON.parse((upgrade as any)[`current_${language}`].data);
+
+    return {
+      ...getLinkProperties(upgrade),
+      attributes: data.details?.infix_upgrade?.attributes && data.details.infix_upgrade.attributes.length > 0 ? data.details.infix_upgrade.attributes.map((({ attribute, modifier }) => ({ label: t(`attribute.${attribute}`), value: modifier }))) : undefined,
+      buff: (!data.details?.infix_upgrade?.attributes || data.details.infix_upgrade.attributes.length === 0) && data.details?.infix_upgrade?.buff?.description ? format(data.details.infix_upgrade.buff.description) : undefined,
+      bonuses: data.details?.bonuses?.map(format),
+    };
+  }
+
   const upgradeIds = [item.details?.suffix_item_id, item.details?.secondary_suffix_item_id].map(Number).filter(isTruthy);
   const upgrades: ItemTooltip['upgrades'] = upgradeIds.length > 0
-    ? (await db.item.findMany({ where: { id: { in: upgradeIds }}, select: { ...linkProperties, [`current_${language}`]: { select: { data: true }}}}))
-      .map((upgrade) => {
-        const data: Gw2Api.Item = JSON.parse((upgrade as any)[`current_${language}`].data);
-
-        return {
-          ...getLinkProperties(upgrade),
-          attributes: data.details?.infix_upgrade?.attributes && data.details.infix_upgrade.attributes.length > 0 ? data.details.infix_upgrade.attributes.map((({ attribute, modifier }) => ({ label: t(`attribute.${attribute}`), value: modifier }))) : undefined,
-          buff: (!data.details?.infix_upgrade?.attributes || data.details.infix_upgrade.attributes.length === 0) && data.details?.infix_upgrade?.buff?.description ? format(data.details.infix_upgrade.buff.description) : undefined,
-          bonuses: data.details?.bonuses?.map(format),
-        };
-      })
+    ? (await db.item.findMany({ where: { id: { in: upgradeIds }}, select: { ...linkProperties, [`current_${language}`]: { select: { data: true }}}})).map(mapItemToTooltip)
     : [];
 
   if(!item.flags.includes('NotUpgradeable') && ['Armor', 'Back', 'Weapon', 'Trinket'].includes(item.type)) {
@@ -57,7 +58,7 @@ export async function createTooltip(item: Gw2Api.Item, language: Language): Prom
   }
 
   const infusionIds = item.details?.infusion_slots?.map(({ item_id }) => item_id).filter(isTruthy);
-  const infusions = infusionIds?.length ? await db.item.findMany({ where: { id: { in: infusionIds }}, select: { ...linkProperties, [`current_${language}`]: { select: { data: true }}}}) : [];
+  const infusions = infusionIds?.length ? (await db.item.findMany({ where: { id: { in: infusionIds }}, select: { ...linkProperties, [`current_${language}`]: { select: { data: true }}}})).map(mapItemToTooltip) : [];
 
   return {
     language,
@@ -104,6 +105,14 @@ export async function createTooltip(item: Gw2Api.Item, language: Language): Prom
   };
 }
 
+export type ItemWithAttributes = WithIcon<LocalizedEntity> & {
+  id: number,
+  rarity: string,
+  attributes?: { label: string, value: number }[],
+  buff?: string,
+  bonuses?: string[]
+}
+
 export interface ItemTooltip {
   language: Language,
   weaponStrength?: { label: string, min: number, max: number },
@@ -118,13 +127,7 @@ export interface ItemTooltip {
     icon?: { id: number, signature: string }
   },
   bonuses?: string[],
-  upgrades?: ((WithIcon<LocalizedEntity> & {
-    id: number,
-    rarity: string,
-    attributes?: { label: string, value: number }[],
-    buff?: string,
-    bonuses?: string[]
-  }) | null)[];
+  upgrades?: (ItemWithAttributes | null)[];
   infusions?: ({
     type: 'Infusion' | 'Enrichment'
   } & ({
@@ -132,7 +135,7 @@ export interface ItemTooltip {
     item?: undefined
   } | {
     unused?: undefined,
-    item: WithIcon<LocalizedEntity> & { id: number, rarity: string }
+    item: ItemWithAttributes
   }))[],
   rarity: { label: string, value: Gw2Api.Item['rarity'] },
   type?: string,

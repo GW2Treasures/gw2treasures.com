@@ -117,12 +117,18 @@ export const ClientItemTooltip: FC<ClientItemTooltipProps> = ({ tooltip }) => {
       // eslint-disable-next-line react/no-array-index-key
       <div key={slot} className={styles.row}>
         {infusion.item
-          ? <><ItemLink item={infusion.item} icon={16} language={tooltip.language}/></>
+          ? (
+            <>
+              <ItemLink item={infusion.item} icon={16} language={tooltip.language}/>
+              {renderAttributes(infusion.item.attributes)}
+              {infusion.item.buff && (<p className={styles.buff} dangerouslySetInnerHTML={{ __html: infusion.item.buff }}/>)}
+              {renderBonuses(infusion.item.bonuses)}
+            </>
+          )
           : <><Icon icon={infusion.type === 'Infusion' ? 'infusion-slot' : 'enrichment-slot'}/> {infusion.unused}</>
         }
       </div>
     )),
-    // TODO: infusions
     // TODO: color
     // TODO: skin
     <Rarity key="rarity" rarity={tooltip.rarity.value}>{tooltip.rarity.label}</Rarity>,

@@ -7,23 +7,26 @@
 }
 
 .bonus {
+  font-feature-settings: "tnum";
+  color: var(--color-text-muted);
+}
+
+.attributes {
   display: grid;
   grid-template-columns: auto 1fr;
   line-height: 20px;
 }
 
-.bonus, .bonus > dt, .bonus > dd {
+.attributes, .attributes > dt, .attributes > dd {
   margin: 0;
   padding: 0;
 }
 
-.bonus > dt {
+.attributes > dt {
   text-align: right;
-  font-feature-settings: "tnum";
-  color: var(--color-text-muted);
 }
 
-.bonus > dd {
+.attributes > dd {
   margin-left: 8px;
 }
 
@@ -44,4 +47,8 @@
 
 .consumable .buff {
   color: var(--color-text-muted);
+}
+
+.value {
+  color: #1E971E;
 }

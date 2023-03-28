@@ -1,7 +1,6 @@
 import { FC, Fragment } from 'react';
 import { FormatNumber } from '../Format/FormatNumber';
 import { ItemTooltip } from './ItemTooltip';
-import attributeStyles from './ItemAttributes.module.css';
 import { Rarity } from './Rarity';
 import { Coins } from '../Format/Coins';
 import { isTruthy } from '@/lib/is';
@@ -20,10 +19,10 @@ function renderAttributes(attributes: ItemTooltip['attributes']) {
   }
 
   return (
-    <dl className={attributeStyles.attributes}>
+    <dl className={styles.attributes}>
       {attributes.map(({ label, value }) => (
         <Fragment key={label}>
-          <dt>+{value}</dt>
+          <dt className={styles.value}>+{value}</dt>
           <dd>{label}</dd>
         </Fragment>
       ))}
@@ -37,11 +36,11 @@ function renderBonuses(bonuses: ItemTooltip['bonuses']) {
   }
 
   return (
-    <dl className={styles.bonus}>
+    <dl className={styles.attributes}>
       {bonuses.map((bonus, index) => (
         // eslint-disable-next-line react/no-array-index-key
         <Fragment key={index}>
-          <dt>({index}):</dt>
+          <dt className={styles.bonus}>({index}):</dt>
           <dd dangerouslySetInnerHTML={{ __html: bonus }}/>
         </Fragment>
       ))}
@@ -96,8 +95,8 @@ function renderConsumable(consumable: ItemTooltip['consumable']) {
 
 export const ClientItemTooltip: FC<ClientItemTooltipProps> = ({ tooltip }) => {
   const data = [
-    tooltip.weaponStrength && (<>{tooltip.weaponStrength.label}: <FormatNumber value={tooltip.weaponStrength.min}/> – <FormatNumber value={tooltip.weaponStrength.max}/></>),
-    tooltip.defense && `${tooltip.defense.label}: ${tooltip.defense.value}`,
+    tooltip.weaponStrength && (<>{tooltip.weaponStrength.label}: <FormatNumber value={tooltip.weaponStrength.min} className={styles.value}/> – <FormatNumber value={tooltip.weaponStrength.max} className={styles.value}/></>),
+    tooltip.defense && <>{tooltip.defense.label}: <FormatNumber value={tooltip.defense.value} className={styles.value}/></>,
     renderAttributes(tooltip.attributes),
     tooltip.buff && (<p className={styles.buff} dangerouslySetInnerHTML={{ __html: tooltip.buff }}/>),
     renderConsumable(tooltip.consumable),

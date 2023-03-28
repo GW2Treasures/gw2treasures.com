@@ -29,7 +29,7 @@ export const ItemsUpdate: Job = {
         select: { id: true }
       })).map(({ id }) => id);
 
-      queueJobForIds(db, 'items.update', idsToUpdate, 1);
+      await queueJobForIds(db, 'items.update', idsToUpdate, 1);
       return `Queued update for ${idsToUpdate.length} items (Build ${build.id} - items last checked before ${checkDate.toISOString()})`;
     }
 
@@ -64,6 +64,7 @@ export const ItemsUpdate: Job = {
 
       if(!changed_de && !changed_en && !changed_es && !changed_fr) {
         // nothing changed
+        await db.item.update({ data: { lastCheckedAt: new Date() }, where: { id: existing.id }});
         continue;
       }
 

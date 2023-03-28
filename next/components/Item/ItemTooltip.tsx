@@ -6,6 +6,10 @@ import { Language } from '@prisma/client';
 import { AsyncComponent } from '@/lib/asyncComponent';
 import { format } from 'gw2-tooltip-html';
 import { isTruthy } from '@/lib/is';
+import { getLinkProperties, linkProperties } from '@/lib/linkProperties';
+import { WithIcon } from '@/lib/with';
+import { LocalizedEntity } from '@/lib/localizedName';
+import { db } from '@/lib/prisma';
 
 export interface ItemTooltipProps {
   item: Gw2Api.Item;
@@ -23,11 +27,27 @@ export const ItemTooltip: AsyncComponent<ItemTooltipProps> = async ({ item, lang
 export async function createTooltip(item: Gw2Api.Item, language: Language): Promise<ItemTooltip> {
   const t = await getTranslate(language);
 
+  const upgradeIds = [item.details?.suffix_item_id, item.details?.secondary_suffix_item_id].map(Number).filter(isTruthy);
+  const upgrades = upgradeIds.length > 0
+    ? (await db.item.findMany({ where: { id: { in: upgradeIds }}, select: { ...linkProperties, [`current_${language}`]: { select: { data: true }}}}))
+      .map((upgrade) => {
+        const data: Gw2Api.Item = JSON.parse((upgrade as any)[`current_${language}`].data);
+
+        return {
+          ...getLinkProperties(upgrade),
+          buff: data.details?.infix_upgrade?.buff?.description ? format(data.details.infix_upgrade.buff.description) : undefined,
+          bonuses: data.details?.bonuses?.map(format),
+        };
+      })
+    : [];
+
   return {
     weaponStrength: item.type === 'Weapon' ? { label: 'Strength', min: item.details?.min_power ?? 0, max: item.details?.max_power ?? 0 } : undefined,
     defense: item.type === 'Armor' ? { label: 'Defense', value: item.details?.defense ?? 0 } : undefined,
     attributes: item.details?.infix_upgrade?.attributes && item.details.infix_upgrade.attributes.length > 0 ? item.details.infix_upgrade.attributes.map((({ attribute, modifier }) => ({ label: t(`attribute.${attribute}`), value: modifier }))) : undefined,
-    bonuses: item.details?.bonuses,
+    buff: (!item.details?.infix_upgrade?.attributes || item.details.infix_upgrade.attributes.length === 0) && item.details?.infix_upgrade?.buff?.description ? format(item.details.infix_upgrade.buff.description) : undefined,
+    bonuses: item.details?.bonuses?.map(format),
+    upgrades,
     rarity: { label: t(`rarity.${item.rarity}`), value: item.rarity },
     type: item.details?.type,
     weightClass: item.details?.weight_class,
@@ -49,7 +69,9 @@ export interface ItemTooltip {
   weaponStrength?: { label: string, min: number, max: number },
   defense?: { label: string, value: number },
   attributes?: { label: string, value: number }[],
+  buff?: string,
   bonuses?: string[],
+  upgrades?: (WithIcon<LocalizedEntity> & { id: number, rarity: string, buff?: string, bonuses?: string[] })[];
   rarity: { label: string, value: Gw2Api.Item['rarity'] },
   type?: string,
   weightClass?: string,

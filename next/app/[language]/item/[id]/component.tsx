@@ -51,6 +51,7 @@ const getItem = remember(60, async function getItem(id: number, language: Langua
         recipeOutput: { include: { currentRevision: true, itemIngredients: { include: { Item: { include: { icon: true }}}}}},
         achievementBits: { select: linkPropertiesWithoutRarity, orderBy: { id: 'asc' }},
         achievementRewards: { select: linkPropertiesWithoutRarity, orderBy: { id: 'asc' }},
+        suffixIn: { include: { icon: true }},
         _count: {
           select: { ingredient: true }
         }
@@ -123,6 +124,13 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
             {item.unlocksSkin.map((skin) => <li key={skin.id}><SkinLink skin={skin}/> {skin.weight} {skin.subtype ?? skin.type}</li>)}
             {item.unlocksSkinIds.filter((id) => item.unlocksSkin.every((skin) => skin.id !== id)).map((id) => <li key={id}>Unknown skin ({id})</li>)}
           </ItemList>
+        </>
+      )}
+
+      {item.suffixIn.length > 0 && (
+        <>
+          <Headline id="upgrade">Upgrade in</Headline>
+          <ItemTable items={item.suffixIn} />
         </>
       )}
 

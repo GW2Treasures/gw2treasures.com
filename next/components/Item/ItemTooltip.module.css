@@ -5,3 +5,7 @@
 .description {
   color: var(--color-text-muted);
 }
+
+.bonus {
+  line-height: 20px;
+}

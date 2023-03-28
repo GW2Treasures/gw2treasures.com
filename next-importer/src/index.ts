@@ -44,10 +44,10 @@ async function processItems(buildId: number) {
         continue;
       }
 
-      const revision_de = await db.revision.create({ data: { data: fixupDetails(item.data_de), language: 'de', buildId, description: 'Imported - No earlier history available' } });
-      const revision_en = await db.revision.create({ data: { data: fixupDetails(item.data_en), language: 'en', buildId, description: 'Imported - No earlier history available' } });
-      const revision_es = await db.revision.create({ data: { data: fixupDetails(item.data_es), language: 'es', buildId, description: 'Imported - No earlier history available' } });
-      const revision_fr = await db.revision.create({ data: { data: fixupDetails(item.data_fr), language: 'fr', buildId, description: 'Imported - No earlier history available' } });
+      const revision_de = await db.revision.create({ data: { data: fixupDetails(item.data_de), entity: 'Item', language: 'de', buildId, description: 'Imported - No earlier history available' } });
+      const revision_en = await db.revision.create({ data: { data: fixupDetails(item.data_en), entity: 'Item', language: 'en', buildId, description: 'Imported - No earlier history available' } });
+      const revision_es = await db.revision.create({ data: { data: fixupDetails(item.data_es), entity: 'Item', language: 'es', buildId, description: 'Imported - No earlier history available' } });
+      const revision_fr = await db.revision.create({ data: { data: fixupDetails(item.data_fr), entity: 'Item', language: 'fr', buildId, description: 'Imported - No earlier history available' } });
 
       if(item.file_id) {
         await db.icon.upsert({

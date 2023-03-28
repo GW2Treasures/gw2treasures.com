@@ -1,3 +1,4 @@
+import chalk from 'chalk';
 import fetch from 'node-fetch';
 import { db } from '../../db';
 
@@ -15,8 +16,12 @@ export function fetchApi<T>(endpoint: string): Promise<T> {
       }
     });
 
-    if(r.status !== 200) {
+    if(![200, 206].includes(r.status)) {
       throw new Error(`${endpoint} returned ${r.status} ${r.statusText}`);
+    }
+
+    if(r.status === 206) {
+      console.warn(`${chalk.yellow('▲')} ${chalk.blue(endpoint)} returned ${r.status} ${r.statusText}`);
     }
 
     return r.json();

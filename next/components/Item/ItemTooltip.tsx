@@ -57,7 +57,7 @@ export async function createTooltip(item: Gw2Api.Item, language: Language): Prom
     }
   }
 
-  const infusionIds = item.details?.infusion_slots?.map(({ item_id }) => item_id).filter(isTruthy);
+  const infusionIds = item.details?.infusion_slots?.map(({ item_id }) => item_id).map(Number).filter(isTruthy);
   const infusions = infusionIds?.length ? (await db.item.findMany({ where: { id: { in: infusionIds }}, select: { ...linkProperties, [`current_${language}`]: { select: { data: true }}}})).map(mapItemToTooltip) : [];
 
   return {
@@ -70,7 +70,7 @@ export async function createTooltip(item: Gw2Api.Item, language: Language): Prom
     bonuses: item.details?.bonuses?.map(format),
     upgrades,
     infusions: item.details?.infusion_slots?.map((infusion) => {
-      const item = infusion.item_id && infusions.find(({ id }) => id === infusion.item_id);
+      const item = infusion.item_id && infusions.find(({ id }) => id === Number(infusion.item_id));
       const isEnrichment = infusion.flags?.[0] === 'Enrichment';
 
       if(item) {

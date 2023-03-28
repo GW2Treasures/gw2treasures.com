@@ -58,6 +58,7 @@ export const ClientItemTooltip: FC<ClientItemTooltipProps> = ({ tooltip }) => {
     tooltip.upgrades && tooltip.upgrades.map((upgrade) => (
       <div key={upgrade.id}>
         <ItemLink item={upgrade} icon={16} language={tooltip.language}/>
+        {renderAttributes(upgrade.attributes)}
         {upgrade.buff && (<p className={styles.buff} dangerouslySetInnerHTML={{ __html: upgrade.buff }}/>)}
         {renderBonuses(upgrade.bonuses)}
       </div>

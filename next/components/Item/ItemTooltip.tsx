@@ -35,7 +35,8 @@ export async function createTooltip(item: Gw2Api.Item, language: Language): Prom
 
         return {
           ...getLinkProperties(upgrade),
-          buff: data.details?.infix_upgrade?.buff?.description ? format(data.details.infix_upgrade.buff.description) : undefined,
+          attributes: data.details?.infix_upgrade?.attributes && data.details.infix_upgrade.attributes.length > 0 ? data.details.infix_upgrade.attributes.map((({ attribute, modifier }) => ({ label: t(`attribute.${attribute}`), value: modifier }))) : undefined,
+          buff: (!data.details?.infix_upgrade?.attributes || data.details.infix_upgrade.attributes.length === 0) && data.details?.infix_upgrade?.buff?.description ? format(data.details.infix_upgrade.buff.description) : undefined,
           bonuses: data.details?.bonuses?.map(format),
         };
       })
@@ -73,7 +74,13 @@ export interface ItemTooltip {
   attributes?: { label: string, value: number }[],
   buff?: string,
   bonuses?: string[],
-  upgrades?: (WithIcon<LocalizedEntity> & { id: number, rarity: string, buff?: string, bonuses?: string[] })[];
+  upgrades?: (WithIcon<LocalizedEntity> & {
+    id: number,
+    rarity: string,
+    attributes?: { label: string, value: number }[],
+    buff?: string,
+    bonuses?: string[]
+  })[];
   rarity: { label: string, value: Gw2Api.Item['rarity'] },
   type?: string,
   weightClass?: string,

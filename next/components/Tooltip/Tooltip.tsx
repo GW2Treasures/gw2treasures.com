@@ -21,7 +21,7 @@ export const Tooltip: FC<TooltipProps> = ({ children, content }) => {
     middleware: [
       offset(16),
       flip({ padding: { top: 64, bottom: 8, left: 8, right: 8 }}),
-      shift({ padding: 8 }),
+      shift({ padding: 8, mainAxis: true, crossAxis: true }),
     ],
   });
 

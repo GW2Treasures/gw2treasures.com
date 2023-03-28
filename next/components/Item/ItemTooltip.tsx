@@ -28,7 +28,7 @@ export async function createTooltip(item: Gw2Api.Item, language: Language): Prom
   const t = await getTranslate(language);
 
   const upgradeIds = [item.details?.suffix_item_id, item.details?.secondary_suffix_item_id].map(Number).filter(isTruthy);
-  const upgrades = upgradeIds.length > 0
+  const upgrades: ItemTooltip['upgrades'] = upgradeIds.length > 0
     ? (await db.item.findMany({ where: { id: { in: upgradeIds }}, select: { ...linkProperties, [`current_${language}`]: { select: { data: true }}}}))
       .map((upgrade) => {
         const data: Gw2Api.Item = JSON.parse((upgrade as any)[`current_${language}`].data);
@@ -41,6 +41,19 @@ export async function createTooltip(item: Gw2Api.Item, language: Language): Prom
         };
       })
     : [];
+
+  if(!item.flags.includes('NotUpgradeable') && ['Armor', 'Back', 'Weapon', 'Trinket'].includes(item.type)) {
+    if(upgrades.length === 0) {
+      upgrades.push(null);
+    }
+    if(
+      item.type === 'Weapon'
+      && (['Greatsword', 'Hammer', 'Longbow', 'Rifle', 'Shortbow', 'Staff'] as Array<string | undefined>).includes(item.details?.type)
+      && upgrades.length === 1
+    ) {
+      upgrades.push(null);
+    }
+  }
 
   return {
     language,
@@ -74,13 +87,13 @@ export interface ItemTooltip {
   attributes?: { label: string, value: number }[],
   buff?: string,
   bonuses?: string[],
-  upgrades?: (WithIcon<LocalizedEntity> & {
+  upgrades?: ((WithIcon<LocalizedEntity> & {
     id: number,
     rarity: string,
     attributes?: { label: string, value: number }[],
     buff?: string,
     bonuses?: string[]
-  })[];
+  }) | null)[];
   rarity: { label: string, value: Gw2Api.Item['rarity'] },
   type?: string,
   weightClass?: string,

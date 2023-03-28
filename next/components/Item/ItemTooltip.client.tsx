@@ -7,6 +7,7 @@ import { Coins } from '../Format/Coins';
 import { isTruthy } from '@/lib/is';
 import styles from './ItemTooltip.module.css';
 import { ItemLink } from './ItemLink';
+import Icon from 'icons/Icon';
 
 export interface ClientItemTooltipProps {
   tooltip: ItemTooltip;
@@ -55,8 +56,12 @@ export const ClientItemTooltip: FC<ClientItemTooltipProps> = ({ tooltip }) => {
     tooltip.buff && (<p className={styles.buff} dangerouslySetInnerHTML={{ __html: tooltip.buff }}/>),
     // TODO: consumable
     renderBonuses(tooltip.bonuses),
-    tooltip.upgrades && tooltip.upgrades.map((upgrade) => (
-      <div key={upgrade.id}>
+    tooltip.upgrades && tooltip.upgrades.map((upgrade, slot) => upgrade === null ? (
+      // eslint-disable-next-line react/no-array-index-key
+      <div key={slot} className={styles.row}><Icon icon="upgrade-slot"/> Unused Upgrade Slot</div>
+    ) : (
+      // eslint-disable-next-line react/no-array-index-key
+      <div key={slot} className={styles.row}>
         <ItemLink item={upgrade} icon={16} language={tooltip.language}/>
         {renderAttributes(upgrade.attributes)}
         {upgrade.buff && (<p className={styles.buff} dangerouslySetInnerHTML={{ __html: upgrade.buff }}/>)}

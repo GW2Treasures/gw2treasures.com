@@ -95,7 +95,7 @@ export async function createTooltip(item: Gw2Api.Item, language: Language): Prom
     flags: [
       item.details?.stat_choices && 'Double-click to select stats.',
       item.flags.includes('Unique') && 'Unique',
-      item.flags.includes('AccountBound') && 'Account Bound',
+      item.flags.includes('AccountBound') && 'Account Bound on Acquire',
       item.flags.includes('SoulbindOnAcquire') ? 'Soulbound on Acquire' :
       item.flags.includes('SoulBindOnUse') && 'Soulbound on Use',
       item.flags.includes('NoSalvage') && 'Not salvagable',

@@ -103,7 +103,7 @@ export const Search: FC<SearchProps> = ({ }) => {
                     target={result.href.startsWith('http') ? '_blank' : undefined}
                     ref={(node) => listRef.current[currentIndex] = node}
                     {...getItemProps({
-                      onClick: () => setOpen(false)
+                      onClick: (e) => !e.defaultPrevented && setOpen(false)
                     })}
                   >
                     {result.icon}

@@ -29,8 +29,8 @@ export const AchievementsUpdate: Job = {
         select: { id: true }
       })).map(({ id }) => id);
 
-      queueJobForIds(db, 'achievements.update', idsToUpdate, 1);
-      return `Queued update for ${idsToUpdate.length} achievements`;
+      await queueJobForIds(db, 'achievements.update', idsToUpdate, 1);
+      return `Queued update for ${idsToUpdate.length} achievements (Build ${build.id})`;
     }
 
     const achievementsToUpdate = await db.achievement.findMany({

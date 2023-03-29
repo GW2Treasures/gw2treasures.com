@@ -30,7 +30,7 @@ export const ItemsUpdate: Job = {
       })).map(({ id }) => id);
 
       await queueJobForIds(db, 'items.update', idsToUpdate, 1);
-      return `Queued update for ${idsToUpdate.length} items (Build ${build.id} - items last checked before ${checkDate.toISOString()})`;
+      return `Queued update for ${idsToUpdate.length} items (Build ${build.id})`;
     }
 
     const itemsToUpdate = await db.item.findMany({

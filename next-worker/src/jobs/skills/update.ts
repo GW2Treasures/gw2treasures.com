@@ -28,8 +28,8 @@ export const SkillsUpdate: Job = {
         select: { id: true }
       })).map(({ id }) => id);
 
-      queueJobForIds(db, 'skills.update', idsToUpdate, 1);
-      return `Queued update for ${idsToUpdate.length} skills`;
+      await queueJobForIds(db, 'skills.update', idsToUpdate, 1);
+      return `Queued update for ${idsToUpdate.length} skills (Build ${build.id})`;
     }
 
     const skillsToUpdate = await db.skill.findMany({

@@ -29,8 +29,8 @@ export const SkinsUpdate: Job = {
         select: { id: true }
       })).map(({ id }) => id);
 
-      queueJobForIds(db, 'skins.update', idsToUpdate, 1);
-      return `Queued update for ${idsToUpdate.length} skins`;
+      await queueJobForIds(db, 'skins.update', idsToUpdate, 1);
+      return `Queued update for ${idsToUpdate.length} skins (Build ${build.id})`;
     }
 
     const skinsToUpdate = await db.skin.findMany({

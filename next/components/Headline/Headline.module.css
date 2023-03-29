@@ -1,6 +1,7 @@
 .headline {
   margin: 32px 0 16px;
   display: flex;
+  flex-wrap: wrap;
 }
 
 .headline:first-child {

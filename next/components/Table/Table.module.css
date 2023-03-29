@@ -92,3 +92,16 @@
   font-weight: 500;
   background-color: var(--color-background-light);
 }
+
+.wrapper {
+  overflow: clip;
+  width: calc(100% + 32px);
+  margin: 0 -16px;
+  padding: 0 16px;
+}
+
+@media(max-width: 760px) {
+  .wrapper { overflow-x: auto; }
+  .table { width: max-content; min-width: 100%; }
+  .table > thead > tr > th { position: static; }
+}

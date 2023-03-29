@@ -29,7 +29,7 @@
 .headerMain {
   padding: 0 16px;
   display: flex;
-  gap: 16px;
+  gap: 32px;
   align-items: center;
   height: 48px;
 
@@ -110,6 +110,7 @@
   position: absolute;
   left: 0; right: 0;
   z-index: 9;
+  overflow-x: auto;
 }
 
 .headerNavVisible {
@@ -127,6 +128,7 @@
 .right {
   margin-left: auto;
   margin-right: -8px;
+  display: flex;
 }
 
 .loginLink {
@@ -147,6 +149,7 @@
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
+  gap: 16px;
 }
 
 .footerLinks {
@@ -166,4 +169,10 @@
 .disclaimer + .disclaimer {
   border-top: 0;
   padding-top: 0;
+}
+
+@media(max-width: 760px) {
+  .title > span { display: none; }
+  .headerMain { gap: 16px; }
+  .responsive { display: none; }
 }

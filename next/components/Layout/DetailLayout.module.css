@@ -6,7 +6,7 @@
     "headline infobox padding" min-content
     "content  infobox .      " min-content
     "content  toc     .      " 1fr /
-     auto     360px   16px;
+    calc(100vw - clamp(250px, 25vw, 360px) - 16px) clamp(250px, 25vw, 360px) 16px;
 }
 
 .headline {
@@ -83,4 +83,17 @@
 .content {
   grid-area: content;
   padding: 16px;
+}
+
+@media (max-width: 920px) {
+  .main {
+    grid-template:
+      "headline" min-content
+      "infobox " min-content
+      "content " 1fr /
+       100vw;
+  }
+  .main::before { display: none; }
+  .infobox { border-width: 0 0 1px 0; }
+  .tableOfContent { display: none; }
 }

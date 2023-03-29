@@ -75,3 +75,12 @@
   margin-top: 8px;
   font-size: 14px;
 }
+
+@media(max-width: 760px) {
+  .diffHeader { flex-direction: column; }
+  .diffRow { flex-direction: column; }
+  .diffRow .left { display: none; }
+  .removed .left { display: block; }
+  .removed .right { display: none; }
+  .changed .left { display: block; }
+}

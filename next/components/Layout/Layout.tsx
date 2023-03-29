@@ -77,13 +77,13 @@ const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
             <Link href="/" className={styles.title}>
               <Icon icon="gw2treasures"/>
               {loading && (<LoaderIcon className={styles.loader}/>)}
-              gw2treasures.com
+              <span>gw2treasures.com</span>
             </Link>
             <Search/>
             <div className={styles.right}>
               <DropDown hideTop={false} preferredPlacement="bottom" button={(
                 <Button appearance="menu">
-                  <Icon icon="locale"/> {localeName}
+                  <Icon icon="locale"/><span className={styles.responsive}> {localeName}</span>
                 </Button>
               )}
               >
@@ -109,7 +109,7 @@ const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
                 </MenuList>
               </Dialog>
               <LinkButton appearance="menu" href="/login">
-                <Icon icon="user"/> Login
+                <Icon icon="user"/><span className={styles.responsive}> Login</span>
               </LinkButton>
             </div>
           </header>

@@ -6,9 +6,11 @@ interface TableProps {
 };
 
 const Table: FunctionComponent<TableProps> = ({ children }) => (
-  <table className={styles.table}>
-    {children}
-  </table>
+  <div className={styles.wrapper}>
+    <table className={styles.table}>
+      {children}
+    </table>
+  </div>
 );
 
 export {

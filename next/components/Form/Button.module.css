@@ -9,6 +9,7 @@
   color: var(--color-text);
   cursor: pointer;
   display: inline-block;
+  white-space: nowrap;
 }
 
 .button:hover {

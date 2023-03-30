@@ -6,7 +6,7 @@
     "headline infobox padding" min-content
     "content  infobox .      " min-content
     "content  toc     .      " 1fr /
-    calc(100vw - clamp(250px, 25vw, 360px) - 16px) clamp(250px, 25vw, 360px) 16px;
+    calc(100% - clamp(250px, 25%, 360px) - 16px) clamp(250px, 25%, 360px) 16px;
 }
 
 .headline {
@@ -91,7 +91,7 @@
       "headline" min-content
       "infobox " min-content
       "content " 1fr /
-       100vw;
+       100%;
   }
   .main::before { display: none; }
   .infobox { border-width: 0 0 1px 0; }

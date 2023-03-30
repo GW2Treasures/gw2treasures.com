@@ -5,7 +5,7 @@
     "menuShadow" min-content
     "main" auto
     "footer" min-content /
-    auto;
+    100%;
 
   min-height: 100vh;
 }

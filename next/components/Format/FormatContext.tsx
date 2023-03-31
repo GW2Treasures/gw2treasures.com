@@ -5,6 +5,7 @@ import { createContext, FC, ReactNode, useContext, useEffect, useMemo, useState 
 import { useLanguage } from '../I18n/Context';
 
 const defaultLocale = new Intl.NumberFormat(undefined).resolvedOptions().locale;
+const defaultRegion = getDefaultRegion();
 
 function getDefaultRegion() {
   if(typeof window === 'undefined') {
@@ -21,9 +22,12 @@ function getDefaultRegion() {
 }
 
 interface FormatContextProps {
+  language: string;
+  region: string;
   locale: string;
   setLocale: (language: string | 'auto', region: string) => void;
   defaultLocale: string;
+  defaultRegion: string;
 
   utcFormat: Intl.DateTimeFormat;
   localFormat: Intl.DateTimeFormat;
@@ -41,7 +45,7 @@ export interface FormatProviderProps {
 
 export const FormatProvider: FC<FormatProviderProps> = ({ children }) => {
   const currentLanguge = useLanguage();
-  const [region, setRegion] = useState<string>(getDefaultRegion());
+  const [region, setRegion] = useState<string>('browser');
   const [language, setLanguage] = useState<string>('auto');
 
   const hydrated = useHydrated();
@@ -63,17 +67,17 @@ export const FormatProvider: FC<FormatProviderProps> = ({ children }) => {
   }, [hydrated, region, language]);
 
   // build locale with language and region and validate it
-  const customLocale = `${language === 'auto' ? currentLanguge : language}-${region}`;
+  const customLocale = `${language === 'auto' ? currentLanguge : language}-${region === 'browser' ? defaultRegion : region}`;
   const locale = Intl.DateTimeFormat.supportedLocalesOf([customLocale, defaultLocale])[0];
 
   // create context
-  const context = useMemo(() => ({
-    locale, setLocale: () => {}, defaultLocale,
+  const context: FormatContextProps = useMemo(() => ({
+    language, region, locale, setLocale: (language, region) => { setLanguage(language); setRegion(region); }, defaultLocale, defaultRegion,
     utcFormat: new Intl.DateTimeFormat(locale, { timeZone: 'UTC', dateStyle: 'short', timeStyle: 'short' }),
     localFormat: new Intl.DateTimeFormat(locale, { dateStyle: 'short', timeStyle: 'short' }),
     relativeFormat: new Intl.RelativeTimeFormat(locale, { numeric: 'auto' }),
     numberFormat: new Intl.NumberFormat(locale, { useGrouping: true }),
-  }), [locale]);
+  }), [language, region, locale]);
 
   return <FormatContext.Provider value={context}>{children}</FormatContext.Provider>;
 };

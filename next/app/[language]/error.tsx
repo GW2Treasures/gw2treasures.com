@@ -11,7 +11,7 @@ export default function Error({ error, reset }: { error: Error; reset: () => voi
       <Button onClick={reset}>Try again</Button>
 
       <pre style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-all' }}>
-        {error.stack && window.btoa(error.stack)}
+        {error.stack && (process.env.NODE_ENV === 'production' ? window.btoa(error.stack) : error.stack)}
       </pre>
 
     </HeroLayout>

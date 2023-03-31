@@ -12,14 +12,15 @@ export interface ItemLinkProps {
   item: WithIcon<Pick<Item, 'id' | 'rarity' | keyof LocalizedEntity>>;
   icon?: IconSize | 'none';
   language?: Language;
+  revision?: string;
 }
 
-export const ItemLink: FC<ItemLinkProps> = ({ item, icon = 32, language }) => {
+export const ItemLink: FC<ItemLinkProps> = ({ item, icon = 32, language, revision }) => {
   const entity = getLinkProperties(item);
 
   return (
-    <Tooltip content={<ItemLinkTooltip item={entity} language={language}/>}>
-      <EntityLink href={`/item/${item.id}`} entity={entity} icon={icon} language={language}/>
+    <Tooltip content={<ItemLinkTooltip item={entity} language={language} revision={revision}/>}>
+      <EntityLink href={`/item/${item.id}${revision ? `/${revision}` : ''}`} entity={entity} icon={icon} language={language}/>
     </Tooltip>
   );
 };

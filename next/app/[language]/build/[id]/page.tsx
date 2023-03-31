@@ -12,10 +12,25 @@ import { AsyncComponent } from '@/lib/asyncComponent';
 import { FC, Suspense } from 'react';
 import { SkeletonLink } from '@/components/Link/SkeletonLink';
 import { remember } from '@/lib/remember';
+import { linkProperties } from '@/lib/linkProperties';
 
 export const dynamic = 'force-dynamic';
 
-const getBuild = remember(60, async function getBuild(buildId: number) {
+function timed<Args extends any[], Out>(callback: (...args: Args) => Promise<Out>): (...args: Args) => Promise<Out> {
+  const timedFunction = async (...args: Args): Promise<Out> => {
+    const start = new Date();
+    const result = await callback(...args);
+    const end = new Date();
+
+    console.log(`timed - ${callback.name} - took ${end.valueOf() - start.valueOf()}ms`);
+
+    return result;
+  };
+
+  return timedFunction;
+}
+
+const getBuild = remember(60, timed(async function getBuild(buildId: number) {
   const build = await db.build.findUnique({
     where: { id: buildId },
   });
@@ -25,23 +40,37 @@ const getBuild = remember(60, async function getBuild(buildId: number) {
   }
 
   return build;
-});
+}));
 
-const getUpdatedItems = remember(60, function getUpdatedItems(buildId: number, language: Language) {
-  return db.item.findMany({
-    where: { history: { some: { revision: { buildId, type: 'Update', language, entity: 'Item' }}}},
-    include: { icon: true },
+const getUpdatedItems = remember(60, timed(function getUpdatedItems(buildId: number, language: Language) {
+  // return db.item.findMany({
+  //   where: { history: { some: { revision: { buildId, type: 'Update', language, entity: 'Item' }}}},
+  //   include: { icon: true },
+  //   take: 500,
+  // });
+
+  return db.revision.findMany({
+    where: { buildId, type: 'Update', language, entity: 'Item' },
+    include: { itemHistory: { include: { item: { select: linkProperties }}}},
     take: 500,
   });
-});
+}));
 
-const getUpdatedSkills = remember(60, function getUpdatedSkills(buildId: number, language: Language) {
+const getUpdatedSkills = remember(60, timed(function getUpdatedSkills(buildId: number, language: Language) {
   return db.skill.findMany({
     where: { history: { some: { revision: { buildId, type: 'Update', language }}}},
-    include: { icon: true, history: { where: { revision: { buildId: { lte: buildId }, language }}, take: 2, orderBy: { revision: { buildId: 'desc' }}}},
+    include: {
+      icon: true,
+      history: {
+        select: { revisionId: true },
+        where: { revision: { buildId: { lte: buildId }, language }},
+        take: 2,
+        orderBy: { revision: { buildId: 'desc' }}
+      }
+    },
     take: 500,
   });
-});
+}));
 
 async function BuildDetail({ params: { id, language }}: { params: { language: Language, id: string }}) {
   const buildId: number = Number(id);
@@ -85,13 +114,15 @@ const Fallback: FC<{ headline: string, id: string }> = ({ headline, id }) => {
 };
 
 const UpdatedItems: AsyncComponent<{ itemsPromise: ReturnType<typeof getUpdatedItems> }> = async function({ itemsPromise }) {
-  const items = await itemsPromise;
+  const itemRevisions = await itemsPromise;
 
   return (
     <>
-      <Headline id="items">Updated items ({items.length})</Headline>
+      <Headline id="items">Updated items ({itemRevisions.length})</Headline>
       <ItemList>
-        {items.map((item) => <li key={item.id}><ItemLink item={item}/></li>)}
+        {itemRevisions.map((revision) => (
+          <li key={revision.id}><ItemLink item={revision.itemHistory!.item} revision={revision.id}/></li>
+        ))}
       </ItemList>
     </>
   );

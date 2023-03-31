@@ -80,7 +80,7 @@ model Icon {
 
 model ItemHistory {
   itemId Int
-  revisionId String
+  revisionId String @unique
 
   item Item @relation(fields: [itemId], references: [id], onDelete: Cascade)
   revision Revision @relation(fields: [revisionId], references: [id], onDelete: Cascade)
@@ -427,7 +427,7 @@ model Revision {
   currentItem_en Item? @relation("current_en")
   currentItem_es Item? @relation("current_es")
   currentItem_fr Item? @relation("current_fr")
-  itemHistory ItemHistory[]
+  itemHistory ItemHistory?
   
   // skills
   currentSkill_de Skill? @relation("current_de")

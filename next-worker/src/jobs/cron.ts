@@ -1,42 +1,43 @@
-import { Prisma, PrismaClient } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import chalk from 'chalk';
 import { parseExpression } from 'cron-parser';
 import { JobName } from '.';
+import { db } from '../db';
 import { toId } from './helper/toId';
 
-export async function registerCronJobs(db: PrismaClient) {
+export async function registerCronJobs() {
   console.log('Registering cron jobs...');
 
-  await registerJob(db, 'test', '0 0 * * *');
+  await registerJob('test', '0 0 * * *');
 
-  await registerJob(db, 'items.check', '*/5 * * * *');
-  await registerJob(db, 'items.update', '*/3 * * * *');
-  await registerJob(db, 'items.migrate', '*/6 * * * *');
+  await registerJob('items.check', '*/5 * * * *');
+  await registerJob('items.update', '*/3 * * * *');
+  await registerJob('items.migrate', '*/6 * * * *');
 
-  await registerJob(db, 'skills.check', '*/5 * * * *');
-  await registerJob(db, 'skills.update', '*/3 * * * *');
-  await registerJob(db, 'skills.migrate', '*/6 * * * *');
+  await registerJob('skills.check', '*/5 * * * *');
+  await registerJob('skills.update', '*/3 * * * *');
+  await registerJob('skills.migrate', '*/6 * * * *');
 
-  await registerJob(db, 'skins.check', '*/5 * * * *');
-  await registerJob(db, 'skins.update', '*/3 * * * *');
-  await registerJob(db, 'skins.migrate', '*/6 * * * *');
-  await registerJob(db, 'skins.unlocks', '11 * * * *');
+  await registerJob('skins.check', '*/5 * * * *');
+  await registerJob('skins.update', '*/3 * * * *');
+  await registerJob('skins.migrate', '*/6 * * * *');
+  await registerJob('skins.unlocks', '11 * * * *');
 
-  await registerJob(db, 'achievements.check', '*/5 * * * *');
-  await registerJob(db, 'achievements.update', '*/3 * * * *');
-  await registerJob(db, 'achievements.migrate', '*/6 * * * *');
-  await registerJob(db, 'achievements.categories', '*/10 * * * *');
-  await registerJob(db, 'achievements.groups', '*/10 * * * *');
-  await registerJob(db, 'achievements.unlocks', '7 * * * *');
+  await registerJob('achievements.check', '*/5 * * * *');
+  await registerJob('achievements.update', '*/3 * * * *');
+  await registerJob('achievements.migrate', '*/6 * * * *');
+  await registerJob('achievements.categories', '*/10 * * * *');
+  await registerJob('achievements.groups', '*/10 * * * *');
+  await registerJob('achievements.unlocks', '7 * * * *');
 
-  await registerJob(db, 'recipes.check', '*/5 * * * *');
+  await registerJob('recipes.check', '*/5 * * * *');
 
-  await registerJob(db, 'gw2api-requests.cleanup', '33 3 * * *');
+  await registerJob('gw2api-requests.cleanup', '33 3 * * *');
 
-  await registerJob(db, 'jobs.cleanup', '*/15 * * * *');
+  await registerJob('jobs.cleanup', '*/15 * * * *');
 }
 
-async function registerJob(db: PrismaClient, name: JobName, cron: string, data: Prisma.InputJsonValue = {}) {
+async function registerJob(name: JobName, cron: string, data: Prisma.InputJsonValue = {}) {
   // check if a matching job exists
   const jobs = await db.job.findMany({ where: { type: name, cron: { not: '' }}});
 

@@ -1,3 +1,5 @@
+import 'server-only';
+
 import '../../styles/globals.css';
 import '../../styles/variables.css';
 
@@ -7,7 +9,6 @@ import { Bitter } from 'next/font/google';
 import localFont from 'next/font/local';
 import { cx } from '@/lib/classNames';
 import { I18nProvider } from '@/components/I18n/I18nProvider';
-import 'server-only';
 import { Language } from '@prisma/client';
 
 const __html = `
@@ -71,27 +72,6 @@ const wotfard = localFont({
   variable: '--font-wotfard',
 });
 
-// Don't preload fonts that are never or not often used
-const wotfardExtra = localFont({
-  src: [
-    { path: '../../fonts/wotfard-thin-webfont.woff2', weight: '100' },
-    { path: '../../fonts/wotfard-extralight-webfont.woff2', weight: '200' },
-    { path: '../../fonts/wotfard-light-webfont.woff2', weight: '300' },
-    { path: '../../fonts/wotfard-semibold-webfont.woff2', weight: '600' },
-    { path: '../../fonts/wotfard-bold-webfont.woff2', weight: '700' },
-
-    { path: '../../fonts/wotfard-thinitalic-webfont.woff2', weight: '100', style: 'italic' },
-    { path: '../../fonts/wotfard-extralightitalic-webfont.woff2', weight: '200', style: 'italic' },
-    { path: '../../fonts/wotfard-lightitalic-webfont.woff2', weight: '300', style: 'italic' },
-    { path: '../../fonts/wotfard-regularitalic-webfont.woff2', weight: '400', style: 'italic' },
-    { path: '../../fonts/wotfard-mediumitalic-webfont.woff2', weight: '500', style: 'italic' },
-    { path: '../../fonts/wotfard-semibolditalic-webfont.woff2', weight: '600', style: 'italic' },
-    { path: '../../fonts/wotfard-bolditalic-webfont.woff2', weight: '700', style: 'italic' }
-  ],
-  variable: '--font-wotfard-extra',
-  preload: false,
-});
-
 export default function RootLayout({
   children,
   params,
@@ -100,7 +80,7 @@ export default function RootLayout({
   params: { language: Language; };
 }) {
   return (
-    <html lang={params.language} className={cx(bitter.variable, wotfard.variable, wotfardExtra.variable)}>
+    <html lang={params.language} className={cx(bitter.variable, wotfard.variable)}>
       <body>
         <I18nProvider language={params.language}><FormatProvider><Layout>{children}</Layout></FormatProvider></I18nProvider>
         <script dangerouslySetInnerHTML={{ __html }}/>

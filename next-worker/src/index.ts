@@ -27,7 +27,7 @@ async function run() {
 
   const job = await db.job.findFirst({
     where: { scheduledAt: { lte: new Date() }, ...jobSelector },
-    orderBy: { priority: 'desc' }
+    orderBy: [{ priority: 'desc' }, { scheduledAt: 'asc' }]
   });
 
   if(!job) {

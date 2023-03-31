@@ -77,7 +77,7 @@ const getItem = remember(60, async function getItem(id: number, language: Langua
         { name_es: item.name_es },
         { name_fr: item.name_fr },
         { iconId: item.iconId },
-        // TODO: Skin matches
+        { unlocksSkinIds: { hasSome: item.unlocksSkinIds }},
         {
           type: item.type,
           subtype: item.subtype,

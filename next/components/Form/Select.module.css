@@ -1,0 +1,20 @@
+.select {
+  flex: 1;
+  border: 2px solid var(--color-border-dark);
+  border-radius: 2px;
+  background-color: var(--color-background);
+  font: inherit;
+  color: var(--color-text);
+  padding: 6px 24px 6px 8px;
+  line-height: 20px;
+  transition: border-color .3s ease;
+}
+
+.select:focus {
+  border-color: var(--color-focus);
+  outline: none;
+}
+
+.select > option {
+  padding: 8px;
+}

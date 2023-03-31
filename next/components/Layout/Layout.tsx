@@ -21,6 +21,7 @@ import { useFormatContext } from '../Format/FormatContext';
 import { useLanguage } from '../I18n/Context';
 import { Language } from '@prisma/client';
 import { ExternalLink } from '../Link/ExternalLink';
+import { FormatConfigDialog } from '../Format/FormatConfigDialog';
 
 interface LayoutProps {
   children: ReactNode;
@@ -38,7 +39,6 @@ const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
   const [scrolledDown, setScrolledDown] = useState('window' in global && window.scrollY > 0);
   const loading = useLoading();
   const { push } = useRouter();
-  const { locale: formatLocale, setLocale: setFormatLocale, defaultLocale } = useFormatContext();
 
   const [formatDialogOpen, setFormatDialogOpen] = useState(false);
 
@@ -96,18 +96,8 @@ const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
                   <Button onClick={() => setFormatDialogOpen(true)} appearance="menu">Formatting Settings…</Button>
                 </MenuList>
               </DropDown>
-              <Dialog title="Formatting Settings" onClose={() => setFormatDialogOpen(false)} open={formatDialogOpen}>
-                <MenuList>
-                  <Radiobutton checked={formatLocale === undefined} onChange={() => setFormatLocale(undefined)}>Browser default ({defaultLocale})</Radiobutton>
-                  {globalThis.window !== undefined && navigator.languages.filter((locale) => locale !== defaultLocale).map((locale) => (
-                    <Radiobutton key={locale} checked={formatLocale === locale} onChange={() => setFormatLocale(locale)}>{locale}</Radiobutton>
-                  ))}
-                  <Separator/>
-                  <div style={{ padding: 8, display: 'flex', justifyContent: 'space-between' }}>Date <FormatDate date={new Date()}/></div>
-                  <div style={{ padding: 8, display: 'flex', justifyContent: 'space-between' }}>Relative Date <FormatDate relative date={new Date()}/></div>
-                  <div style={{ padding: 8, display: 'flex', justifyContent: 'space-between' }}>Number <span><FormatNumber value={1234567.89}/></span></div>
-                </MenuList>
-              </Dialog>
+              <FormatConfigDialog open={formatDialogOpen} onClose={() => setFormatDialogOpen(false)}/>
+
               <LinkButton appearance="menu" href="/login">
                 <Icon icon="user"/><span className={styles.responsive}> Login</span>
               </LinkButton>

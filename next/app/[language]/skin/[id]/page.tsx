@@ -16,6 +16,7 @@ import { remember } from '@/lib/remember';
 import { linkPropertiesWithoutRarity } from '@/lib/linkProperties';
 import { AchievementLink } from '@/components/Achievement/AchievementLink';
 import { TableOfContentAnchor } from '@/components/TableOfContent/TableOfContent';
+import { ExternalLink } from '@/components/Link/ExternalLink';
 
 const getSkin = remember(60, async function getSkin(id: number, language: Language) {
   const [skin, revision] = await Promise.all([
@@ -77,6 +78,21 @@ async function SkinPage ({ params: { language, id }}: { params: { language: Lang
 
       <Headline id="items">Unlocked by</Headline>
       <ItemTable items={skin.unlockedByItems}/>
+
+      {skin.wikiImage && (
+        <>
+          <Headline id="appearance">Appearance</Headline>
+          <ExternalLink href={`https://wiki.guildwars2.com/wiki/${encodeURI(skin.wikiImage)}`}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={`https://wiki.guildwars2.com/wiki/Special:FilePath/${encodeURI(skin.wikiImage)}?width=640`}
+              srcSet={`https://wiki.guildwars2.com/wiki/Special:FilePath/${encodeURI(skin.wikiImage)}?width=1280 2x`}
+              alt="Appearance"
+              style={{ maxWidth: 640, maxHeight: 400, borderRadius: 4 }}/>
+            <br/>Source: Guild Wars 2 Wiki
+          </ExternalLink>
+        </>
+      )}
 
       {similar.length > 0 && (
         <>

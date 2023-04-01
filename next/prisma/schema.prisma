@@ -154,6 +154,8 @@ model Skin {
 
   unlocks Float?
 
+  wikiImage String?
+
   removedFromApi Boolean @default(false)
   
   current_de Revision @relation("current_de", fields: [currentId_de], references: [id], onDelete: Cascade)

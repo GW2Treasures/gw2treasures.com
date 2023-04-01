@@ -24,6 +24,7 @@ import { SkillsNew } from './skills/new';
 import { SkillsRediscovered } from './skills/rediscovered';
 import { SkillsRemoved } from './skills/removed';
 import { SkillsUpdate } from './skills/update';
+import { SkinsAppearance } from './skins/appearance';
 import { SkinsCheck } from './skins/check';
 import { SkinsMigrate } from './skins/migrate';
 import { skinsNew } from './skins/new';
@@ -56,6 +57,7 @@ const jobsInternal = {
   'skins.update': SkinsUpdate,
   'skins.migrate': SkinsMigrate,
   'skins.unlocks': SkinsUnlocks,
+  'skins.appearance': SkinsAppearance,
 
   'achievements.check': AchievementsCheck,
   'achievements.new': AchievementsNew,

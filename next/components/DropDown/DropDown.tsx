@@ -1,10 +1,10 @@
-import { arrow, autoUpdate, flip, hide, offset, Placement, shift, Side, useClick, useDismiss, useFloating, useFocus, useInteractions, useTransitionStyles } from '@floating-ui/react';
-import { Children, cloneElement, FC, ReactElement, ReactNode, useRef, useState } from 'react';
+import { arrow, autoUpdate, flip, FloatingPortal, hide, offset, Placement, shift, Side, useClick, useDismiss, useFloating, useFocus, useInteractions, useMergeRefs, useTransitionStyles } from '@floating-ui/react';
+import { Children, cloneElement, FC, ReactElement, ReactNode, Ref, useRef, useState } from 'react';
 import styles from './DropDown.module.css';
 import { isTruthy } from 'lib/is';
 
 export interface DropDown {
-  button: ReactElement;
+  button: ReactElement & { ref?: Ref<unknown> };
   children: ReactNode;
   preferredPlacement?: Placement;
   hideTop?: boolean;
@@ -14,7 +14,7 @@ export const DropDown: FC<DropDown> = ({ children, button, preferredPlacement = 
   const [open, setOpen] = useState(false);
   const arrowRef = useRef<HTMLDivElement>(null);
 
-  const { x, y, reference, strategy, context, middlewareData, placement, refs } = useFloating({
+  const { x, y, strategy, context, middlewareData, placement, refs } = useFloating({
     open,
     onOpenChange: setOpen,
     placement: preferredPlacement,
@@ -51,9 +51,11 @@ export const DropDown: FC<DropDown> = ({ children, button, preferredPlacement = 
     left: 3,
   };
 
+  const ref = useMergeRefs(button.ref ? [refs.setReference, button.ref] : [refs.setReference]);
+
   return (
     <>
-      {cloneElement(Children.only(button), { ref: reference, ...getReferenceProps(button.props) })}
+      {cloneElement(Children.only(button), { ref, ...getReferenceProps(button.props) })}
       {isMounted && (
         <div
           ref={refs.setFloating}

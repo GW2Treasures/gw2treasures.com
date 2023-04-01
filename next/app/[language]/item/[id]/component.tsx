@@ -27,6 +27,8 @@ import { getLinkProperties, linkProperties, linkPropertiesWithoutRarity } from '
 import { AchievementLink } from '@/components/Achievement/AchievementLink';
 import { Tooltip } from '@/components/Tooltip/Tooltip';
 import { ItemLinkTooltip } from '@/components/Item/ItemLinkTooltip';
+import Icon from 'icons/Icon';
+import { Tip } from '@/components/Tip/Tip';
 
 export interface ItemPageComponentProps {
   language: Language;
@@ -106,10 +108,10 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
   return (
     <DetailLayout title={data.name || data.chat_link} icon={item.icon && getIconUrl(item.icon, 64) || undefined} className={rarityClasses[data.rarity]} breadcrumb={`Item › ${data.type}${data.details ? ` › ${data.details?.type}` : ''}`} infobox={<ItemInfobox item={item} data={data} language={language}/>}>
       {item[`currentId_${language}`] !== revision.id && (
-        <Notice icon="revision">You are viewing an old revision of this item (Build {revision.buildId || 'unknown'}). <Link href={`/item/${item.id}`}>View current.</Link></Notice>
+        <Notice icon="revision">You are viewing an old revision of this item{revision.buildId !== 0 && (<> (<Link href={`/build/${revision.buildId}`}>Build {revision.buildId}</Link>)</>)}. <Link href={`/item/${item.id}`}>View current.</Link></Notice>
       )}
       {item[`currentId_${language}`] === revision.id && fixedRevision && (
-        <Notice icon="revision">You are viewing this item at a fixed revision (Build {revision.buildId || 'unknown'}). <Link href={`/item/${item.id}`}>View current.</Link></Notice>
+        <Notice icon="revision">You are viewing this item at a fixed revision{revision.buildId !== 0 && (<> (<Link href={`/build/${revision.buildId}`}>Build {revision.buildId}</Link>)</>)}. <Link href={`/item/${item.id}`}>View current.</Link></Notice>
       )}
       {!fixedRevision && item.removedFromApi && (
         <Notice type="warning" icon="revision">This item is currently not available in the Guild Wars 2 Api and you are seeing the last know version. The item has either been removed from the game or needs to be rediscovered.</Notice>
@@ -193,19 +195,28 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
 
       <Table>
         <thead>
-          <tr><th {...{ width: 1 }}>Build</th><th {...{ width: 1 }}>Language</th><th>Description</th><th {...{ width: 1 }}>Date</th></tr>
+          <tr>
+            <Table.HeaderCell small/>
+            <Table.HeaderCell small>Build</Table.HeaderCell>
+            <Table.HeaderCell>Description</Table.HeaderCell>
+            <Table.HeaderCell small>Date</Table.HeaderCell>
+            <Table.HeaderCell small>Actions</Table.HeaderCell>
+          </tr>
         </thead>
         <tbody>
           {item.history.map((history) => (
             <tr key={history.revisionId}>
-              <td>{history.revisionId === revision.id ? <b>{history.revision.buildId || '-'}</b> : history.revision.buildId || '-'}</td>
-              <td>{history.revision.language}</td>
+              <td style={{ paddingRight: 0 }}>{history.revisionId === revision.id && <Tip tip="Currently viewing"><Icon icon="eye"/></Tip>}</td>
+              <td>{history.revision.buildId !== 0 ? (<Link href={`/build/${history.revision.buildId}`}>{history.revision.buildId}</Link>) : '-'}</td>
               <td>
                 <Tooltip content={<ItemLinkTooltip item={getLinkProperties(item)} language={language} revision={history.revisionId}/>}>
-                  <Link href={`/item/${item.id}/${history.revisionId}`}>{history.revision.description}</Link>
+                  <Link href={`/item/${item.id}/${history.revisionId}`}>
+                    {history.revision.description}
+                  </Link>
                 </Tooltip>
               </td>
               <td><FormatDate date={history.revision.createdAt} relative data-superjson/></td>
+              <td>{history.revisionId !== revision.id && <Link href={`/item/${item.id}/${history.revisionId}`}>View</Link>}</td>
             </tr>
           ))}
         </tbody>

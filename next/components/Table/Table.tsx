@@ -1,11 +1,16 @@
-import { FunctionComponent, ReactNode } from 'react';
+import { FC, FunctionComponent, ReactNode } from 'react';
 import styles from './Table.module.css';
 
 interface TableProps {
   children: ReactNode;
 };
 
-const Table: FunctionComponent<TableProps> = ({ children }) => (
+interface HeaderCellProps {
+  children?: ReactNode;
+  small?: boolean;
+}
+
+const Table: FC<TableProps> & { HeaderCell: FC<HeaderCellProps> } = ({ children }) => (
   <div className={styles.wrapper}>
     <table className={styles.table}>
       {children}
@@ -13,6 +18,11 @@ const Table: FunctionComponent<TableProps> = ({ children }) => (
   </div>
 );
 
+Table.HeaderCell = function HeaderCell({ children, small = false }) {
+  return (<th className={small ? styles.small : undefined}>{children}</th>);
+};
+
 export {
   Table
 };
+

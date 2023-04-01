@@ -15,12 +15,26 @@ export const FormatDate: FC<FormatDateProps> = ({ date = null, relative = false 
 
   const difference = date && relative ? formatRelative(date) : undefined;
 
+  if(!date) {
+    return (
+      <span className={styles.format}>-</span>
+    );
+  }
+
+  if(relative) {
+    return (
+      <Tip tip={localFormat.format(date)}>
+        <time dateTime={date?.toISOString()} className={styles.format} suppressHydrationWarning>
+          {relativeFormat.format(Math.round(difference!.value), difference!.unit)}
+        </time>
+      </Tip>
+    );
+  }
+
   return (
-    <Tip tip={date?.toLocaleString()}>
-      <time dateTime={date?.toISOString()} className={styles.format} suppressHydrationWarning>
-        {date ? (relative ? relativeFormat.format(Math.round(difference!.value), difference!.unit) : localFormat.format(date)) : '-'}
-      </time>
-    </Tip>
+    <time dateTime={date?.toISOString()} className={styles.format} suppressHydrationWarning>
+      {localFormat.format(date)}
+    </time>
   );
 };
 

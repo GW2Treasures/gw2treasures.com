@@ -1,11 +1,12 @@
 import { Job } from '../job';
+import { db } from '../../db';
 import { Prisma } from '@prisma/client';
 import { getCurrentBuild } from '../helper/getCurrentBuild';
 import { appendHistory } from '../helper/appendHistory';
 
 export const AchievementsRemoved: Job = {
-  run: async (db, removedIds: number[]) => {
-    const build = await getCurrentBuild(db);
+  run: async (removedIds: number[]) => {
+    const build = await getCurrentBuild();
     const buildId = build.id;
 
     for(const removedId of removedIds) {

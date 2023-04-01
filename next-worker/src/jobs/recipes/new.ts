@@ -1,12 +1,13 @@
 import { Job } from '../job';
+import { db } from '../../db';
 import { getCurrentBuild } from '../helper/getCurrentBuild';
 import { Gw2Api } from 'gw2-api-types';
 import { fetchApi } from '../helper/fetchApi';
 import { toId } from '../helper/toId';
 
 export const RecipesNew: Job = {
-  run: async (db, newIds: number[]) => {
-    const build = await getCurrentBuild(db);
+  run: async (newIds: number[]) => {
+    const build = await getCurrentBuild();
     const buildId = build.id;
 
     // load recipes from API

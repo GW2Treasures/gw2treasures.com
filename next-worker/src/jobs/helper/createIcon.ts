@@ -1,6 +1,6 @@
-import { PrismaClient } from '@prisma/client';
+import { db } from '../../db';
 
-export async function createIcon(url: string | undefined, db: PrismaClient) {
+export async function createIcon(url: string | undefined) {
   const icon = url?.match(/\/(?<signature>[^/]*)\/(?<id>[^/]*)\.png$/)?.groups as { signature: string, id: number } | undefined;
 
   if(icon) {

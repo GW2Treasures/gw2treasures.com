@@ -1,4 +1,5 @@
 import { Job } from '../job';
+import { db } from '../../db';
 import { getCurrentBuild } from '../helper/getCurrentBuild';
 import { loadSkins } from '../helper/loadSkins';
 import { CURRENT_VERSION } from './migrate';
@@ -6,16 +7,16 @@ import { createIcon } from '../helper/createIcon';
 import { createRevisions } from '../helper/revision';
 
 export const skinsNew: Job = {
-  run: async (db, newIds: number[]) => {
-    const build = await getCurrentBuild(db);
+  run: async (newIds: number[]) => {
+    const build = await getCurrentBuild();
     const buildId = build.id;
 
     // load skins from API
     const skins = await loadSkins(newIds);
 
     for(const [id, { de, en, es, fr }] of skins) {
-      const revisions = await createRevisions(db, { de, en, es, fr }, { buildId, type: 'Added', entity: 'Skin', description: 'Added to API' });
-      const iconId = await createIcon(en.icon, db);
+      const revisions = await createRevisions({ de, en, es, fr }, { buildId, type: 'Added', entity: 'Skin', description: 'Added to API' });
+      const iconId = await createIcon(en.icon);
 
       const unlockedByItemIds = await db.item.findMany({ where: { unlocksSkinIds: { has: id }}, select: { id: true }});
 

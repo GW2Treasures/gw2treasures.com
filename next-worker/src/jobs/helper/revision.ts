@@ -1,7 +1,8 @@
-import { Prisma, PrismaClient, Revision } from '@prisma/client';
+import { Prisma, Revision } from '@prisma/client';
+import { db } from '../../db';
 import { LocalizedObject } from './types';
 
-export async function createRevisions(db: PrismaClient, data: LocalizedObject, revision: Omit<Prisma.RevisionUncheckedCreateInput, 'data' | 'language'>): Promise<LocalizedObject<Revision>> {
+export async function createRevisions(data: LocalizedObject, revision: Omit<Prisma.RevisionUncheckedCreateInput, 'data' | 'language'>): Promise<LocalizedObject<Revision>> {
   const [de, en, es, fr] = await Promise.all([
     db.revision.create({ data: { data: JSON.stringify(data.de), language: 'de', ...revision }}),
     db.revision.create({ data: { data: JSON.stringify(data.en), language: 'en', ...revision }}),

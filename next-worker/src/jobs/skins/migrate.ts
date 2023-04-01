@@ -1,11 +1,12 @@
 import { Job } from '../job';
+import { db } from '../../db';
 import { queueJobForIds } from '../helper/queueJobsForIds';
 import { Prisma } from '@prisma/client';
 
 export const CURRENT_VERSION = 0;
 
 export const SkinsMigrate: Job = {
-  run: async (db, ids: number[] | Record<string, never>) => {
+  run: async (ids: number[] | Record<string, never>) => {
     if(!Array.isArray(ids)) {
       // skip if any follow up jobs are still queued
       const queuedJobs = await db.job.count({ where: { type: { in: ['skins.migrate'] }, state: { in: ['Queued', 'Running'] }, cron: null }});
@@ -20,7 +21,7 @@ export const SkinsMigrate: Job = {
         select: { id: true }
       })).map(({ id }) => id);
 
-      queueJobForIds(db, 'skins.migrate', idsToUpdate, 1);
+      queueJobForIds('skins.migrate', idsToUpdate, 1);
       return `Queued migration for ${idsToUpdate.length} skins`;
     }
 

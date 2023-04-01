@@ -1,4 +1,5 @@
 import { Job } from '../job';
+import { db } from '../../db';
 import { getCurrentBuild } from '../helper/getCurrentBuild';
 import { loadItems } from '../helper/loadItems';
 import { queueJobForIds } from '../helper/queueJobsForIds';
@@ -7,8 +8,8 @@ import { localeExists } from '../helper/types';
 import { createMigrator } from './migrations';
 
 export const ItemsUpdate: Job = {
-  run: async (db, ids: number[] | Record<string, never>) => {
-    const build = await getCurrentBuild(db);
+  run: async (ids: number[] | Record<string, never>) => {
+    const build = await getCurrentBuild();
     const buildId = build.id;
 
     if(!Array.isArray(ids)) {
@@ -29,7 +30,7 @@ export const ItemsUpdate: Job = {
         select: { id: true }
       })).map(({ id }) => id);
 
-      await queueJobForIds(db, 'items.update', idsToUpdate, 1);
+      await queueJobForIds('items.update', idsToUpdate, 1);
       return `Queued update for ${idsToUpdate.length} items (Build ${build.id})`;
     }
 
@@ -73,7 +74,7 @@ export const ItemsUpdate: Job = {
       const revision_es = changed_es ? await db.revision.create({ data: { data: JSON.stringify(es), language: 'es', buildId, type: 'Update', entity: 'Item', description: 'Updated in API' }}) : existing.current_es;
       const revision_fr = changed_fr ? await db.revision.create({ data: { data: JSON.stringify(fr), language: 'fr', buildId, type: 'Update', entity: 'Item', description: 'Updated in API' }}) : existing.current_fr;
 
-      const iconId = await createIcon(en.icon, db);
+      const iconId = await createIcon(en.icon);
       const data = await migrate({ de, en, es, fr });
 
       await db.item.update({

@@ -1,7 +1,8 @@
 import { Job } from '../job';
+import { db } from '../../db';
 import { loadAchievementGroups } from '../helper/loadAchievements';
 import { Gw2Api } from 'gw2-api-types';
-import { Language, Prisma, PrismaClient } from '@prisma/client';
+import { Language, Prisma } from '@prisma/client';
 import { createRevisions } from '../helper/revision';
 import { getCurrentBuild } from '../helper/getCurrentBuild';
 import { filterMapKeys, getIdsFromMap } from '../helper/getIdsFromMap';
@@ -9,8 +10,8 @@ import { appendHistory } from '../helper/appendHistory';
 import { localeExists, LocalizedObject } from '../helper/types';
 
 export const AchievementGroups: Job = {
-  run: async (db) => {
-    const build = await getCurrentBuild(db);
+  run: async () => {
+    const build = await getCurrentBuild();
     const buildId = build.id;
 
     // get groups from the API
@@ -28,18 +29,18 @@ export const AchievementGroups: Job = {
     const updatedIds = ids.filter((id) => knownIds.includes(id) && !rediscoveredIds.includes(id));
 
     // process groups
-    await newGroups(db, buildId, getIdsFromMap(groups, newIds));
-    await removedGroups(db, buildId, removedIds);
-    await rediscoveredGroups(db, buildId, getIdsFromMap(groups, rediscoveredIds));
-    const updated = await updatedGroups(db, buildId, filterMapKeys(groups, updatedIds));
+    await newGroups(buildId, getIdsFromMap(groups, newIds));
+    await removedGroups(buildId, removedIds);
+    await rediscoveredGroups(buildId, getIdsFromMap(groups, rediscoveredIds));
+    const updated = await updatedGroups(buildId, filterMapKeys(groups, updatedIds));
 
     return `${newIds.length} added, ${removedIds.length} removed, ${rediscoveredIds.length} rediscovered, ${updated} updated`;
   }
 };
 
-async function newGroups(db: PrismaClient, buildId: number, groups: { [key in Language]: Gw2Api.Achievement.Group }[]) {
+async function newGroups(buildId: number, groups: { [key in Language]: Gw2Api.Achievement.Group }[]) {
   for(const { de, en, es, fr } of groups) {
-    const revisions = await createRevisions(db, { de, en, es, fr }, { buildId, type: 'Added', entity: 'AchievementGroup', description: 'Added to API' });
+    const revisions = await createRevisions({ de, en, es, fr }, { buildId, type: 'Added', entity: 'AchievementGroup', description: 'Added to API' });
 
     await db.achievementGroup.create({
       data: {
@@ -65,7 +66,7 @@ async function newGroups(db: PrismaClient, buildId: number, groups: { [key in La
   }
 }
 
-async function removedGroups(db: PrismaClient, buildId: number, removedIds: string[]) {
+async function removedGroups(buildId: number, removedIds: string[]) {
   for(const removedId of removedIds) {
     const achievementGroup = await db.achievementGroup.findUnique({ where: { id: removedId }, include: { current_de: true, current_en: true, current_es: true, current_fr: true }});
 
@@ -99,7 +100,7 @@ async function removedGroups(db: PrismaClient, buildId: number, removedIds: stri
   }
 }
 
-async function rediscoveredGroups(db: PrismaClient, buildId: number, groups: { [key in Language]: Gw2Api.Achievement.Group }[]) {
+async function rediscoveredGroups(buildId: number, groups: { [key in Language]: Gw2Api.Achievement.Group }[]) {
   for(const data of groups) {
     const update: Prisma.AchievementGroupUpdateArgs['data'] = {
       removedFromApi: false,
@@ -137,7 +138,7 @@ async function rediscoveredGroups(db: PrismaClient, buildId: number, groups: { [
   }
 }
 
-async function updatedGroups(db: PrismaClient, buildId: number, apiGroups: Map<string, LocalizedObject<Gw2Api.Achievement.Group>>) {
+async function updatedGroups(buildId: number, apiGroups: Map<string, LocalizedObject<Gw2Api.Achievement.Group>>) {
   const groupsToUpdate = await db.achievementGroup.findMany({
     where: { id: { in: Array.from(apiGroups.keys()) }},
     include: { current_de: true, current_en: true, current_es: true, current_fr: true }

@@ -1,4 +1,5 @@
 import { Job } from '../job';
+import { db } from '../../db';
 import { getCurrentBuild } from '../helper/getCurrentBuild';
 import { loadAchievements } from '../helper/loadAchievements';
 import { createIcon } from '../helper/createIcon';
@@ -6,8 +7,8 @@ import { createRevisions } from '../helper/revision';
 import { createMigrator } from './migrations';
 
 export const AchievementsNew: Job = {
-  run: async (db, newIds: number[]) => {
-    const build = await getCurrentBuild(db);
+  run: async (newIds: number[]) => {
+    const build = await getCurrentBuild();
     const buildId = build.id;
 
     // load achievements from API
@@ -16,8 +17,8 @@ export const AchievementsNew: Job = {
     const migrate = await createMigrator();
 
     for(const [id, { de, en, es, fr }] of achievements) {
-      const revisions = await createRevisions(db, { de, en, es, fr }, { buildId, type: 'Added', entity: 'Achievement', description: 'Added to API' });
-      const iconId = await createIcon(en.icon, db);
+      const revisions = await createRevisions({ de, en, es, fr }, { buildId, type: 'Added', entity: 'Achievement', description: 'Added to API' });
+      const iconId = await createIcon(en.icon);
       const data = await migrate({ de, en, es, fr });
       const prerequisiteFor = await db.achievement.findMany({ where: { prerequisitesIds: { has: id }}, select: { id: true }});
 

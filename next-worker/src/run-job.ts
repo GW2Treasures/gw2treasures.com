@@ -27,7 +27,7 @@ export async function runJob(job: Job) {
     }
 
     // run the job
-    const output = await runner.run(db, job.data as object ?? undefined);
+    const output = await runner.run(job.data as object ?? undefined);
 
     // update job in db
     await db.job.update({

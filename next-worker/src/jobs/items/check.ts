@@ -1,9 +1,10 @@
 import { Job } from '../job';
+import { db } from '../../db';
 import { queueJobForIds } from '../helper/queueJobsForIds';
 import { fetchApi } from '../helper/fetchApi';
 
 export const ItemsCheck: Job = {
-  run: async (db) => {
+  run: async () => {
     // skip if any follow up jobs are still queued
     const queuedJobs = await db.job.count({ where: { type: { in: ['items.new', 'items.removed', 'items.rediscovered', 'items.import'] }, state: { in: ['Queued', 'Running'] }}});
 
@@ -24,9 +25,9 @@ export const ItemsCheck: Job = {
     const rediscoveredIds = knownRemovedIds.filter((id) => ids.includes(id));
 
     // queue follow up jobs
-    await queueJobForIds(db, 'items.new', newIds);
-    await queueJobForIds(db, 'items.removed', removedIds);
-    await queueJobForIds(db, 'items.rediscovered', rediscoveredIds);
+    await queueJobForIds('items.new', newIds);
+    await queueJobForIds('items.removed', removedIds);
+    await queueJobForIds('items.rediscovered', rediscoveredIds);
 
     return `${newIds.length} added, ${removedIds.length} removed, ${rediscoveredIds.length} rediscovered`;
   }

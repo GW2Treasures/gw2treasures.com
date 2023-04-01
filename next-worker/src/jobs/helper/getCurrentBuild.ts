@@ -1,7 +1,8 @@
 import fetch from 'node-fetch';
-import { Build, PrismaClient } from '@prisma/client';
+import { Build } from '@prisma/client';
+import { db } from '../../db';
 
-export async function getCurrentBuild(db: PrismaClient): Promise<Build> {
+export async function getCurrentBuild(): Promise<Build> {
   const apiBuild = await getBuildFromApi();
 
   // check if build is known

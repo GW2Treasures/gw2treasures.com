@@ -1,21 +1,22 @@
 import { Job } from '../job';
+import { db } from '../../db';
 import { getCurrentBuild } from '../helper/getCurrentBuild';
 import { loadSkills } from '../helper/loadSkills';
 import { createIcon } from '../helper/createIcon';
 import { createRevisions } from '../helper/revision';
 
 export const SkillsNew: Job = {
-  run: async (db, newIds: number[]) => {
-    const build = await getCurrentBuild(db);
+  run: async (newIds: number[]) => {
+    const build = await getCurrentBuild();
     const buildId = build.id;
 
     // load skills from API
     const skills = await loadSkills(newIds);
 
     for(const [id, { de, en, es, fr }] of skills) {
-      const revisions = await createRevisions(db, { de, en, es, fr }, { buildId, type: 'Added', entity: 'Skill', description: 'Added to API' });
+      const revisions = await createRevisions({ de, en, es, fr }, { buildId, type: 'Added', entity: 'Skill', description: 'Added to API' });
 
-      const iconId = await createIcon(en.icon, db);
+      const iconId = await createIcon(en.icon);
 
       await db.skill.create({
         data: {

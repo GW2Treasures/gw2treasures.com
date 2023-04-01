@@ -1,4 +1,5 @@
 import { Job } from '../job';
+import { db } from '../../db';
 import { Prisma } from '@prisma/client';
 import { getCurrentBuild } from '../helper/getCurrentBuild';
 import { loadSkills } from '../helper/loadSkills';
@@ -6,8 +7,8 @@ import { createIcon } from '../helper/createIcon';
 import { appendHistory } from '../helper/appendHistory';
 
 export const SkillsRediscovered: Job = {
-  run: async (db, rediscoveredIds: number[]) => {
-    const build = await getCurrentBuild(db);
+  run: async (rediscoveredIds: number[]) => {
+    const build = await getCurrentBuild();
     const buildId = build.id;
 
     if(rediscoveredIds.length === 0) {
@@ -23,7 +24,7 @@ export const SkillsRediscovered: Job = {
         continue;
       }
 
-      const iconId = await createIcon(data.en.icon, db);
+      const iconId = await createIcon(data.en.icon);
 
       const update: Prisma.SkillUpdateArgs['data'] = {
         removedFromApi: false,

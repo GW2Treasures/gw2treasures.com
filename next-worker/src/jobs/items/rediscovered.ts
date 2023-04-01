@@ -1,4 +1,5 @@
 import { Job } from '../job';
+import { db } from '../../db';
 import { Prisma } from '@prisma/client';
 import { getCurrentBuild } from '../helper/getCurrentBuild';
 import { loadItems } from '../helper/loadItems';
@@ -7,8 +8,8 @@ import { appendHistory } from '../helper/appendHistory';
 import { createMigrator } from './migrations';
 
 export const ItemsRediscovered: Job = {
-  run: async (db, rediscoveredIds: number[]) => {
-    const build = await getCurrentBuild(db);
+  run: async (rediscoveredIds: number[]) => {
+    const build = await getCurrentBuild();
     const buildId = build.id;
 
     if(rediscoveredIds.length === 0) {
@@ -25,7 +26,7 @@ export const ItemsRediscovered: Job = {
         continue;
       }
 
-      const iconId = await createIcon(data.en.icon, db);
+      const iconId = await createIcon(data.en.icon);
       const migratedData = await migrate(data);
 
       const update: Prisma.ItemUpdateArgs['data'] = {

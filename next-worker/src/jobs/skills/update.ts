@@ -1,4 +1,5 @@
 import { Job } from '../job';
+import { db } from '../../db';
 import { getCurrentBuild } from '../helper/getCurrentBuild';
 import { loadSkills } from '../helper/loadSkills';
 import { queueJobForIds } from '../helper/queueJobsForIds';
@@ -6,8 +7,8 @@ import { createIcon } from '../helper/createIcon';
 import { localeExists } from '../helper/types';
 
 export const SkillsUpdate: Job = {
-  run: async (db, ids: number[] | Record<string, never>) => {
-    const build = await getCurrentBuild(db);
+  run: async (ids: number[] | Record<string, never>) => {
+    const build = await getCurrentBuild();
     const buildId = build.id;
 
     if(!Array.isArray(ids)) {
@@ -28,7 +29,7 @@ export const SkillsUpdate: Job = {
         select: { id: true }
       })).map(({ id }) => id);
 
-      await queueJobForIds(db, 'skills.update', idsToUpdate, 1);
+      await queueJobForIds('skills.update', idsToUpdate, 1);
       return `Queued update for ${idsToUpdate.length} skills (Build ${build.id})`;
     }
 
@@ -57,7 +58,7 @@ export const SkillsUpdate: Job = {
       const revision_es = existing.current_es.data !== JSON.stringify(es) ? await db.revision.create({ data: { data: JSON.stringify(es), language: 'es', buildId, type: 'Update', entity: 'Skill', description: 'Updated in API' }}) : existing.current_es;
       const revision_fr = existing.current_fr.data !== JSON.stringify(fr) ? await db.revision.create({ data: { data: JSON.stringify(fr), language: 'fr', buildId, type: 'Update', entity: 'Skill', description: 'Updated in API' }}) : existing.current_fr;
 
-      const iconId = await createIcon(en.icon, db);
+      const iconId = await createIcon(en.icon);
 
       await db.skill.update({
         where: { id: existing.id },

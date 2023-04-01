@@ -1,7 +1,7 @@
-import { PrismaClient } from '@prisma/client';
 import { JobName } from '..';
+import { db } from '../../db';
 
-export async function queueJobForIds(db: PrismaClient, name: JobName, ids: number[], priority = 2) {
+export async function queueJobForIds(name: JobName, ids: number[], priority = 2) {
   if(ids.length === 0) {
     return;
   }

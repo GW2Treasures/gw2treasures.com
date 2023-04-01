@@ -1,4 +1,5 @@
 import { Job } from '../job';
+import { db } from '../../db';
 import { queueJobForIds } from '../helper/queueJobsForIds';
 import { Gw2Api } from 'gw2-api-types';
 import { createMigrator, CURRENT_VERSION } from './migrations';
@@ -6,7 +7,7 @@ import { createMigrator, CURRENT_VERSION } from './migrations';
 export { CURRENT_VERSION };
 
 export const ItemsMigrate: Job = {
-  run: async (db, ids: number[] | Record<string, never>) => {
+  run: async (ids: number[] | Record<string, never>) => {
     if(!Array.isArray(ids)) {
       // skip if any follow up jobs are still queued
       const queuedJobs = await db.job.count({ where: { type: { in: ['items.migrate'] }, state: { in: ['Queued', 'Running'] }, cron: null }});
@@ -21,7 +22,7 @@ export const ItemsMigrate: Job = {
         select: { id: true }
       })).map(({ id }) => id);
 
-      queueJobForIds(db, 'items.migrate', idsToUpdate, 1);
+      queueJobForIds('items.migrate', idsToUpdate, 1);
       return `Queued migration for ${idsToUpdate.length} items`;
     }
 

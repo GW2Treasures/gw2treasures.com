@@ -1,7 +1,8 @@
 import { Job } from '../job';
+import { db } from '../../db';
 
 export const JobsCleanup: Job = {
-  run: async (db) => {
+  run: async () => {
 
     // delete old errored tasks
     const erroredDate = new Date();

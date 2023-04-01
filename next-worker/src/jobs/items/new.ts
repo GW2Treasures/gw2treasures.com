@@ -1,4 +1,5 @@
 import { Job } from '../job';
+import { db } from '../../db';
 import { getCurrentBuild } from '../helper/getCurrentBuild';
 import { loadItems } from '../helper/loadItems';
 import { createIcon } from '../helper/createIcon';
@@ -6,8 +7,8 @@ import { createRevisions } from '../helper/revision';
 import { createMigrator } from './migrations';
 
 export const ItemsNew: Job = {
-  run: async (db, newIds: number[]) => {
-    const build = await getCurrentBuild(db);
+  run: async (newIds: number[]) => {
+    const build = await getCurrentBuild();
     const buildId = build.id;
 
     // load items from API
@@ -16,10 +17,10 @@ export const ItemsNew: Job = {
     const migrate = await createMigrator();
 
     for(const [id, { de, en, es, fr }] of items) {
-      const revisions = await createRevisions(db, { de, en, es, fr }, { buildId, type: 'Added', entity: 'Item', description: 'Added to API' });
+      const revisions = await createRevisions({ de, en, es, fr }, { buildId, type: 'Added', entity: 'Item', description: 'Added to API' });
       const data = await migrate({ de, en, es, fr });
 
-      const iconId = await createIcon(en.icon, db);
+      const iconId = await createIcon(en.icon);
 
       const achievementBit = await db.achievement.findMany({ where: { bitsItemIds: { has: id }}, select: { id: true }});
       const achievementReward = await db.achievement.findMany({ where: { rewardsItemIds: { has: id }}, select: { id: true }});

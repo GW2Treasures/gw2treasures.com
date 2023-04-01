@@ -61,3 +61,13 @@ export async function runJob(job: Job) {
     }
   }
 }
+
+export async function startNewJob(type: string) {
+  if(!(type in jobs)) {
+    throw new Error(`Unknown job type ${type}`);
+  }
+
+  const job = await db.job.create({ data: { type, data: '{}', state: 'Running', flags: ['MANUAL_START'] }});
+
+  return await runJob(job);
+}

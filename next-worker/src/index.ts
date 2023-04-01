@@ -2,11 +2,19 @@
 import { registerCronJobs } from './jobs/cron';
 import { worker } from './worker';
 import { healthServer } from './health-server';
+import { startNewJob } from './run-job';
 
-// start worker
-healthServer.start()
-  .then(() => registerCronJobs())
-  .then(() => worker.start());
+if(process.argv.length > 2) {
+  // run a single job
+  healthServer.start()
+    .then(() => startNewJob(process.argv[2]))
+    .then(() => healthServer.close());
+} else {
+  // start worker
+  healthServer.start()
+    .then(() => registerCronJobs())
+    .then(() => worker.start());
+}
 
 
 // shutdown handling

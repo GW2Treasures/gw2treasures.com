@@ -81,7 +81,7 @@ async function BuildDetail({ params: { id, language }}: { params: { language: La
   const build = await getBuild(buildId);
 
   return (
-    <DetailLayout title={build.id} breadcrumb="Build">
+    <DetailLayout title={`Build ${build.id}`} breadcrumb="Build">
       Released on <FormatDate date={build.createdAt} data-superjson/>
 
       <Suspense fallback={<Fallback headline="Updated items" id="items"/>}>

@@ -108,10 +108,10 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
   return (
     <DetailLayout title={data.name || data.chat_link} icon={item.icon && getIconUrl(item.icon, 64) || undefined} className={rarityClasses[data.rarity]} breadcrumb={`Item › ${data.type}${data.details ? ` › ${data.details?.type}` : ''}`} infobox={<ItemInfobox item={item} data={data} language={language}/>}>
       {item[`currentId_${language}`] !== revision.id && (
-        <Notice icon="revision">You are viewing an old revision of this item{revision.buildId !== 0 && (<> (<Link href={`/build/${revision.buildId}`}>Build {revision.buildId}</Link>)</>)}. <Link href={`/item/${item.id}`}>View current.</Link></Notice>
+        <Notice icon="revision">You are viewing an old revision of this item{revision.buildId !== 0 && (<> (<Link href={`/build/${revision.buildId}`}>Build {revision.buildId}</Link>)</>)}. Some data is only available when viewing the latest version. <Link href={`/item/${item.id}`}>View latest</Link>.</Notice>
       )}
       {item[`currentId_${language}`] === revision.id && fixedRevision && (
-        <Notice icon="revision">You are viewing this item at a fixed revision{revision.buildId !== 0 && (<> (<Link href={`/build/${revision.buildId}`}>Build {revision.buildId}</Link>)</>)}. <Link href={`/item/${item.id}`}>View current.</Link></Notice>
+        <Notice icon="revision">You are viewing this item at a fixed revision{revision.buildId !== 0 && (<> (<Link href={`/build/${revision.buildId}`}>Build {revision.buildId}</Link>)</>)}. Some data is only available when viewing the latest version. <Link href={`/item/${item.id}`}>View latest</Link>.</Notice>
       )}
       {!fixedRevision && item.removedFromApi && (
         <Notice type="warning" icon="revision">This item is currently not available in the Guild Wars 2 Api and you are seeing the last know version. The item has either been removed from the game or needs to be rediscovered.</Notice>

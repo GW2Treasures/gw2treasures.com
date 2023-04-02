@@ -63,7 +63,7 @@
   position: absolute;
   right: 0;
   border-style: solid;
-  border-color: var(--color-border-dark) transparent;
+  border-color: var(--color-text-muted) transparent;
 }
 
 .sort:before {

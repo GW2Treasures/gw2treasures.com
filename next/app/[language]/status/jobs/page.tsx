@@ -77,7 +77,7 @@ async function JobPage() {
               <td>{job.state}</td>
               <th><b>{job.type}</b></th>
               <td style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>{job.output}</td>
-              <td style={{ whiteSpace: 'nowrap' }}>{formatTime((job.finishedAt!.valueOf() - job.startedAt!.valueOf()) / 1000)}s</td>
+              <td style={{ whiteSpace: 'nowrap' }}>{formatTime((job.finishedAt!.valueOf() - job.startedAt!.valueOf()) / 1000)}</td>
               <td><FormatDate date={job.finishedAt} relative data-superjson/></td>
             </tr>
           ))}

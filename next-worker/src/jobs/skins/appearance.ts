@@ -69,9 +69,13 @@ export const SkinsAppearance: Job = {
       const u = await db.skin.updateMany({
         where: {
           id: { in: ids },
-          OR: [{ wikiImage: { not: image }}, { wikiImage: null }]
+          AND: [
+            { OR: [{ wikiImage: { not: image }}, { wikiImage: null }] },
+            { OR: set ? [{ wikiImageType: 'Set' }, { wikiImageType: null }] : [] }
+          ]
+          ,
         },
-        data: { wikiImage: image }
+        data: { wikiImage: image, wikiImageType: set ? 'Set' : 'Skin' }
       });
 
       updated += u.count;

@@ -155,6 +155,7 @@ model Skin {
   unlocks Float?
 
   wikiImage String?
+  wikiImageType WikiImageType?
 
   removedFromApi Boolean @default(false)
   
@@ -178,6 +179,11 @@ model Skin {
   updatedAt      DateTime   @updatedAt
 
   version Int @default(0)
+}
+
+enum WikiImageType {
+  Skin
+  Set
 }
 
 model SkinHistory {

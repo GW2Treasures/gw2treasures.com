@@ -35,6 +35,8 @@ export async function registerCronJobs() {
 
   await registerJob('gw2api-requests.cleanup', '33 3 * * *');
 
+  await registerJob('icons.colors', '37 * * * *');
+
   await registerJob('jobs.cleanup', '*/15 * * * *');
 }
 

@@ -28,6 +28,7 @@ export const ItemIcon: FC<ItemIconProps> = ({ icon, size = 64 }) => {
       crossOrigin="anonymous"
       loading="lazy"
       srcSet={size < 64 ? `${getIconUrl(icon, size * 2 as IconSize)} 2x` : undefined}
+      style={icon.color ? { '--loading-color': icon.color } : undefined}
       className={loading ? styles.loading : styles.icon}
       onLoad={handleLoad}/>
   );

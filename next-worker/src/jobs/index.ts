@@ -8,6 +8,7 @@ import { AchievementsRemoved } from './achievements/removed';
 import { AchievementsUnlocks } from './achievements/unlocks';
 import { AchievementsUpdate } from './achievements/update';
 import { Gw2ApiRequestsCleanup } from './gw2api-requests/cleanup';
+import { IconsColors } from './icons/colors';
 import { ItemsCheck } from './items/check';
 import { ItemsMigrate } from './items/migrate';
 import { ItemsNew } from './items/new';
@@ -74,6 +75,8 @@ const jobsInternal = {
   'recipes.new': RecipesNew,
 
   'gw2api-requests.cleanup': Gw2ApiRequestsCleanup,
+
+  'icons.colors': IconsColors,
 
   'jobs.cleanup': JobsCleanup,
 };

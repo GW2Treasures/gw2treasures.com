@@ -1,3 +1,4 @@
+import { Prisma } from '@prisma/client';
 import fetch from 'node-fetch';
 import { db } from '../../db';
 import { Job } from '../job';
@@ -55,7 +56,7 @@ export const SkinsAppearance: Job = {
     const results = Object.values(data.query.results);
     console.log(`> Update images for ${results.length} skins`);
 
-    let updated = 0;
+    const updates: Prisma.SkinUpdateManyArgs[] = [];
 
     for(const result of results) {
       const ids = result.printouts['Has game id'];
@@ -66,7 +67,7 @@ export const SkinsAppearance: Job = {
         continue;
       }
 
-      const u = await db.skin.updateMany({
+      updates.push({
         where: {
           id: { in: ids },
           AND: [
@@ -77,9 +78,13 @@ export const SkinsAppearance: Job = {
         },
         data: { wikiImage: image, wikiImageType: set ? 'Set' : 'Skin' }
       });
-
-      updated += u.count;
     }
+
+    const updated = (
+      await db.$transaction(
+        updates.map((update) => db.skin.updateMany(update))
+      )
+    ).reduce((total, { count }) => count + total, 0);
 
     return `Set image for ${updated} skins`;
   }

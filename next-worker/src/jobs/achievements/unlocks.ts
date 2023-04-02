@@ -12,7 +12,7 @@ export const AchievementsUnlocks: Job = {
       return r.json();
     });
 
-    let updated = 0;
+    const updates: { id: number, unlocks: number }[] = [];
 
     for(const [achievementIdString, unlocks] of Object.entries(unlockData.data)) {
       const achievementId = Number(achievementIdString);
@@ -21,10 +21,17 @@ export const AchievementsUnlocks: Job = {
         continue;
       }
 
-      await db.achievement.updateMany({ where: { id: achievementId }, data: { unlocks: unlocks / unlockData.total }});
-      updated++;
+      updates.push({ id: achievementId, unlocks: unlocks / unlockData.total });
     }
 
-    return `Updated ${updated} achievement unlocks from gw2efficiency`;
+    // update all achievements in a single transaction
+    // use `updateMany` to not fail if the achievement is missing in the db
+    const updated = (
+      await db.$transaction(
+        updates.map(({ id, unlocks }) => db.achievement.updateMany({ where: { id }, data: { unlocks }}))
+      )
+    ).reduce((total, { count }) => count + total, 0);
+
+    return `Updated ${updated}/${updates.length} achievement unlocks from gw2efficiency`;
   }
 };

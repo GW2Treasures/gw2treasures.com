@@ -12,7 +12,7 @@ export const SkinsUnlocks: Job = {
       return r.json();
     });
 
-    let updated = 0;
+    const updates: { id: number, unlocks: number }[] = [];
 
     for(const [skinIdString, unlocks] of Object.entries(unlockData.data)) {
       const skinId = Number(skinIdString);
@@ -21,10 +21,17 @@ export const SkinsUnlocks: Job = {
         continue;
       }
 
-      await db.skin.updateMany({ where: { id: skinId }, data: { unlocks: unlocks / unlockData.total }});
-      updated++;
+      updates.push({ id: skinId, unlocks: unlocks / unlockData.total });
     }
 
-    return `Updated ${updated} skin unlocks from gw2efficiency`;
+    // update all skins in a single transaction
+    // use `updateMany` to not fail if the skin is missing in the db
+    const updated = (
+      await db.$transaction(
+        updates.map(({ id, unlocks }) => db.skin.updateMany({ where: { id }, data: { unlocks }}))
+      )
+    ).reduce((total, { count }) => count + total, 0);
+
+    return `Updated ${updated}/${updates.length} skin unlocks from gw2efficiency`;
   }
 };

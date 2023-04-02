@@ -23,6 +23,6 @@
     "eslint": "^8.36.0",
     "gw2-api-types": "^0.0.4",
     "prisma": "^4.12.0",
-    "typescript": "^4.8.4"
+    "typescript": "4.8.4"
   }
 }

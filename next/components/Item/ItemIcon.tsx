@@ -7,7 +7,7 @@ import styles from './ItemIcon.module.css';
 import { getIconUrl, IconSize } from '@/lib/getIconUrl';
 
 export interface ItemIconProps {
-  icon: Icon;
+  icon: Omit<Icon, 'color'> & Partial<Pick<Icon, 'color'>>;
   size?: IconSize
 }
 

@@ -8,7 +8,7 @@ import { cx } from '../../lib/classNames';
 import { getIconUrl, IconSize } from '@/lib/getIconUrl';
 
 export interface SkillIconProps {
-  icon: Icon;
+  icon: Omit<Icon, 'color'> & Partial<Pick<Icon, 'color'>>;
   size?: IconSize;
   className?: string;
 }

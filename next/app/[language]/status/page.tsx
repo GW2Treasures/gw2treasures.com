@@ -9,7 +9,7 @@ export const dynamic = 'force-dynamic';
 
 function getStatus() {
   const last30Minutes = new Date();
-  last30Minutes.setHours(last30Minutes.getMinutes() - 30);
+  last30Minutes.setMinutes(last30Minutes.getMinutes() - 30);
 
   return Promise.all([
     db.job.count({ where: { state: 'Queued', scheduledAt: { lt: new Date() }}}),

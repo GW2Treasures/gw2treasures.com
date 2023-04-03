@@ -45,8 +45,8 @@ async function SkillDiffPage({ params }: { params: { a: string, b: string }}) {
   return (
     <DiffLayout>
       <DiffLayoutHeader icons={[
-        iconA && <EntityIcon type="skill" icon={iconA} size={64}/>,
-        iconB && <EntityIcon type="skill" icon={iconB} size={64}/>,
+        iconA && <EntityIcon type="skill" icon={iconA} size={48}/>,
+        iconB && <EntityIcon type="skill" icon={iconB} size={48}/>,
       ]} title={[
         dataA.name,
         dataB.name,

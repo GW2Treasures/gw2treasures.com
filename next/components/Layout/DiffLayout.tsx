@@ -24,12 +24,12 @@ export const DiffLayoutHeader: FC<DiffLayoutHeaderProps> = ({ icons, title, subt
   return (
     <div className={styles.diffHeader}>
       <div className={cx(styles.left, styles.header)}>
-        {icons[0] && cloneElement(icons[0], { className: styles.icon })}
+        {icons[0]}
         <div className={styles.title}>{title[0]}</div>
         <div className={styles.breadcrumb}>{subtitle[0]}</div>
       </div>
       <div className={cx(styles.right, styles.header)}>
-        {icons[1] && cloneElement(icons[1], { className: styles.icon })}
+        {icons[1]}
         <div className={styles.title}>{title[1]}</div>
         <div className={styles.breadcrumb}>{subtitle[1]}</div>
       </div>

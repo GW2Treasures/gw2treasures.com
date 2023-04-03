@@ -10,6 +10,7 @@ import { cx } from '@/lib/classNames';
 export interface EntityIconProps {
   icon: Omit<Icon, 'color'> & Partial<Pick<Icon, 'color'>>;
   size?: number;
+  type?: 'skill';
   className?: string;
 }
 
@@ -19,7 +20,7 @@ function getIconSize(size: number): IconSize {
   return iconSizes.find((iconSize) => iconSize >= size) || 64;
 }
 
-export const EntityIcon: FC<EntityIconProps> = ({ icon, size = 64, className }) => {
+export const EntityIcon: FC<EntityIconProps> = ({ icon, size = 64, type, className }) => {
   const iconSize = getIconSize(size);
 
 
@@ -30,19 +31,21 @@ export const EntityIcon: FC<EntityIconProps> = ({ icon, size = 64, className }) 
   }, []);
 
   return (
-    <img
-      loading="lazy"
-      decoding="async"
-      ref={(img) => img?.complete && setLoading(false)}
-      src={getIconUrl(icon, iconSize)}
-      width={size}
-      height={size}
-      alt=""
-      crossOrigin="anonymous"
-      referrerPolicy="no-referrer"
-      srcSet={iconSize < 64 ? `${getIconUrl(icon, size * 2 as IconSize)} 2x` : undefined}
-      style={icon.color ? { '--loading-color': icon.color } : undefined}
-      className={cx(loading ? styles.loading : styles.icon, className)}
-      onLoad={handleLoad}/>
+    <div className={cx(type === 'skill' && styles.skill, className)}>
+      <img
+        loading="lazy"
+        decoding="async"
+        ref={(img) => img?.complete && setLoading(false)}
+        src={getIconUrl(icon, iconSize)}
+        width={size}
+        height={size}
+        alt=""
+        crossOrigin="anonymous"
+        referrerPolicy="no-referrer"
+        srcSet={iconSize < 64 ? `${getIconUrl(icon, size * 2 as IconSize)} 2x` : undefined}
+        style={icon.color ? { '--loading-color': icon.color } : undefined}
+        className={cx(loading ? styles.loading : styles.icon)}
+        onLoad={handleLoad}/>
+    </div>
   );
 };

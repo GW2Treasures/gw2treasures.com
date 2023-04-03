@@ -9,3 +9,12 @@
 
   background-color: var(--loading-color, var(--color-background-light));
 }
+
+.skill {
+  overflow: hidden;
+  border-radius: 2px;
+}
+
+.skill .icon {
+  transform: scale(1.333333);
+}

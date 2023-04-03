@@ -74,25 +74,24 @@ export default async function StatusApiPage() {
         <thead>
           <tr>
             <th>Endpoint</th>
-            <th align="right">Requests</th>
             <th align="right">Avg. Response Time</th>
-            <th align="right">Errors</th>
-            <th>Requests</th>
+            <th align="right">Requests</th>
+            <th>Errors</th>
           </tr>
         </thead>
         <tbody>
           {Object.entries(endpoints).sort(([a], [b]) => a.localeCompare(b)).map(([ endpoint, data ]) => (
             <tr key={endpoint}>
               <th>{endpoint}</th>
-              <td align="right"><FormatNumber value={data.requestCount}/></td>
               <td align="right">
                 <FormatNumber value={data.totalResponseTimeMs / data.requestCount / 1000}/>s
                 {createResponseTimeGraph(data.requests)}
               </td>
-              <td align="right"><FormatNumber value={data.errors}/> (<FormatNumber value={data.errors / data.requestCount * 100}/>%)</td>
-              <td>
+              <td align="right">
+                <FormatNumber value={data.requestCount}/>
                 {createRequestCountGraph(data.requests)}
               </td>
+              <td><FormatNumber value={data.errors}/> (<FormatNumber value={data.errors / data.requestCount * 100}/>%)</td>
             </tr>
           ))}
         </tbody>

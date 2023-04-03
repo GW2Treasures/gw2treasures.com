@@ -1,10 +1,10 @@
 import { FormatNumber } from '@/components/Format/FormatNumber';
-import { Json } from '@/components/Format/Json';
 import { Headline } from '@/components/Headline/Headline';
 import { PageLayout } from '@/components/Layout/PageLayout';
 import { Reload } from '@/components/Reload/Reload';
 import { Table } from '@/components/Table/Table';
 import { db } from '@/lib/prisma';
+import { ApiRequest } from '@prisma/client';
 import { Fragment } from 'react';
 import styles from './page.module.css';
 
@@ -16,17 +16,18 @@ async function getData() {
 
   const apiRequests = await db.apiRequest.findMany({ where: { createdAt: { gte: minus24Hours }}, orderBy: { createdAt: 'desc' }});
 
-  const endpoints: Record<string, { totalResponseTimeMs: number, requests: number, errors: number, lastRequests: boolean[] }> = {};
+  const endpoints: Record<string, { totalResponseTimeMs: number, requestCount: number, errors: number, lastRequests: boolean[], requests: ApiRequest[] }> = {};
   const statusCodes: Record<number, number> = {};
   let errors = 0;
 
   apiRequests.forEach((request) => {
     if(!endpoints[request.endpoint]) {
-      endpoints[request.endpoint] = { totalResponseTimeMs: 0, requests: 0, errors: 0, lastRequests: [] };
+      endpoints[request.endpoint] = { totalResponseTimeMs: 0, requestCount: 0, errors: 0, lastRequests: [], requests: [] };
     }
 
+    endpoints[request.endpoint].requests.push(request);
     endpoints[request.endpoint].totalResponseTimeMs += request.responseTimeMs;
-    endpoints[request.endpoint].requests++;
+    endpoints[request.endpoint].requestCount++;
     statusCodes[request.status] = (statusCodes[request.status] ?? 0) + 1;
 
     if(request.status !== 200) {
@@ -39,11 +40,11 @@ async function getData() {
     }
   });
 
-  return { total: apiRequests.length, errors, endpoints, statusCodes };
+  return { total: apiRequests.length, errors, endpoints, statusCodes, apiRequests };
 }
 
 export default async function StatusApiPage() {
-  const { endpoints, errors, total, statusCodes } = await getData();
+  const { endpoints, errors, total, statusCodes, apiRequests } = await getData();
 
   return (
     <PageLayout>
@@ -68,29 +69,29 @@ export default async function StatusApiPage() {
         ))}
       </div>
 
-      <Headline id="endpoints">Endpoints</Headline>
+      <Headline id="endpoints">Endpoints (24h)</Headline>
       <Table>
         <thead>
           <tr>
             <th>Endpoint</th>
-            <th>Requests (24h)</th>
-            <th>Avg. Response Time (24h)</th>
-            <th>Errors (24h)</th>
-            <th {...{ width: 1 }}>Last 100 Requests (24h)</th>
+            <th align="right">Requests</th>
+            <th align="right">Avg. Response Time</th>
+            <th align="right">Errors</th>
+            <th>Requests</th>
           </tr>
         </thead>
         <tbody>
           {Object.entries(endpoints).sort(([a], [b]) => a.localeCompare(b)).map(([ endpoint, data ]) => (
             <tr key={endpoint}>
               <th>{endpoint}</th>
-              <th><FormatNumber value={data.requests}/></th>
-              <td><FormatNumber value={data.totalResponseTimeMs / data.requests / 1000}/>s</td>
-              <td><FormatNumber value={data.errors}/> (<FormatNumber value={data.errors / data.requests * 100}/>%)</td>
+              <td align="right"><FormatNumber value={data.requestCount}/></td>
+              <td align="right">
+                <FormatNumber value={data.totalResponseTimeMs / data.requestCount / 1000}/>s
+                {createResponseTimeGraph(data.requests)}
+              </td>
+              <td align="right"><FormatNumber value={data.errors}/> (<FormatNumber value={data.errors / data.requestCount * 100}/>%)</td>
               <td>
-                <div className={styles.bar}>
-                  { /* eslint-disable-next-line react/no-array-index-key */}
-                  {data.lastRequests.map((success, id) => <span key={id} className={success ? styles.success : styles.error}/>)}
-                </div>
+                {createRequestCountGraph(data.requests)}
               </td>
             </tr>
           ))}
@@ -98,4 +99,68 @@ export default async function StatusApiPage() {
       </Table>
     </PageLayout>
   );
+}
+
+function createResponseTimeGraph(requests: ApiRequest[]) {
+  const buckets = requests.reduce(toBuckets<ApiRequest>(32, (r) => r.createdAt.valueOf()), [])
+    .map((bucket) => bucket.map(({ responseTimeMs }) => responseTimeMs)
+    .reduce(average, 0));
+
+  const { max, total } = buckets.reduce(({ min, max, total }, bucket) => {
+    return { min: min === undefined || min > bucket ? bucket : min, max: max === undefined || max < bucket ? bucket : max, total: (total ?? 0) + bucket };
+  }, {} as { min?: number, max?: number, total?: number });
+
+  return (
+    <svg height={16} width={128} className={styles.graph} data-max={max} data-avg={(total ?? 0) / buckets.length}>
+      {/* eslint-disable-next-line react/no-array-index-key */}
+      {buckets.map((bucket, index) => <rect key={index} x={index * 4} width={2} y={16 - Math.ceil((bucket / (max ?? 1)) * 16)} height={Math.ceil((bucket / (max ?? 1)) * 16)} rx={1} data-value={bucket} fill={bucket > 3000 ? '#FFC107' : '#009f2c'}/>)}
+    </svg>
+  );
+}
+
+function createRequestCountGraph(requests: ApiRequest[]) {
+  const buckets = requests.reduce(toBuckets<ApiRequest>(32, (r) => r.createdAt.valueOf()), [])
+    .map((bucket) => bucket.map(({ status }) => [200, 206].includes(status)).reduce<[number, number]>(([success, error], request) => [request ? success + 1 : success, !request ? error + 1 : error], [0, 0]));
+
+  const { max, total } = buckets.map(([s, e]) => s + e).reduce(({ min, max, total }, bucket) => {
+    return { min: min === undefined || min > bucket ? bucket : min, max: max === undefined || max < bucket ? bucket : max, total: (total ?? 0) + bucket };
+  }, {} as { min?: number, max?: number, total?: number });
+
+  return (
+    <svg height={16} width={128} className={styles.graph} data-max={max} data-avg={(total ?? 0) / buckets.length}>
+      {buckets.map(([success, error], index) => (
+        // eslint-disable-next-line react/no-array-index-key
+        <Fragment key={index}>
+          <rect x={index * 4} width={2} y={16 - Math.ceil((success / (max ?? 1)) * 16)} height={Math.ceil((success / (max ?? 1)) * 16)} data-value={success} fill="#009f2c"/>
+          <rect x={index * 4} width={2} y={16 - Math.ceil((success / (max ?? 1)) * 16) - Math.ceil((error / (max ?? 1)) * 16)} height={Math.ceil((error / (max ?? 1)) * 16)} data-value={success} fill="#ff0000"/>
+        </Fragment>
+      ))}
+    </svg>
+  );
+}
+
+function average(previousValue: number, currentValue: number, currentIndex: number, array: number[]) {
+  return (previousValue + currentValue) / (currentIndex === array.length - 1 ? array.length : 1);
+}
+
+function toBuckets<T>(count: number, by: (value: T) => number): (previousValue: T[][], currentValue: T, currentIndex: number, array: T[]) => T[][] {
+  return (previousValue: T[][], currentValue: T, currentIndex: number, array: T[]) => {
+    const start = by(array[0]);
+    const end = by(array[array.length - 1]);
+
+    const value = by(currentValue);
+    const valuePercentage = (value - Math.min(start, end)) / (Math.max(start, end) - Math.min(start, end));
+
+    const bucketIndex = Math.floor(valuePercentage * (count - 1));
+
+    const newValue = [...previousValue];
+
+    if(newValue[bucketIndex] === undefined) {
+      newValue[bucketIndex] = [];
+    }
+
+    newValue[bucketIndex].push(currentValue);
+
+    return newValue;
+  };
 }

@@ -54,3 +54,10 @@
 
   background-color: #009f2c;
 }
+
+.graph {
+  margin-left: 16px;
+}
+
+.graph rect {
+}

@@ -1,4 +1,5 @@
 import { db } from './db';
+import { processAchievementLinks } from './import/achievementLinks';
 import { processAchievements } from './import/achievements';
 import { processAchievementCategories } from './import/achievementsCategories';
 import { processAchievementGroups } from './import/achievementsGroups';
@@ -26,6 +27,7 @@ async function run() {
   await processAchievements(apiBuild);
   await processAchievementCategories(apiBuild);
   await processAchievementGroups(apiBuild);
+  await processAchievementLinks();
 }
 
 run();

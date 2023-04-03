@@ -95,6 +95,7 @@ export function useSearchApiResults(searchValue: string): SearchResults[] {
 type Page = { href: string, title: string, icon: IconName };
 const pages: Page[] = [
   { href: '/login', title: 'Login', icon: 'user' },
+  { href: '/status', title: 'Status', icon: 'status' },
   { href: '/status/jobs', title: 'Job Status', icon: 'jobs' },
   { href: '/status/api', title: 'API Status', icon: 'api-status' },
   { href: '/about', title: 'About', icon: 'info' },

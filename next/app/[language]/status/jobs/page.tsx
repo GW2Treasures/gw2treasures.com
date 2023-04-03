@@ -6,7 +6,7 @@ import { FormatNumber } from '@/components/Format/FormatNumber';
 import { PageLayout } from '@/components/Layout/PageLayout';
 import { Reload } from '@/components/Reload/Reload';
 import { remember } from '@/lib/remember';
-import styles from './page.module.css';
+import styles from '../page.module.css';
 
 export const revalidate = 3;
 export const dynamic = 'force-dynamic';

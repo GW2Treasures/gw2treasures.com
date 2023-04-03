@@ -1,0 +1,51 @@
+.statusRow {
+  display: flex;
+  padding: 12px 16px;
+  align-items: center;
+}
+
+.statusRow + .statusRow {
+  border-top: 1px solid var(--color-border);
+}
+
+.statusRow:hover {
+  text-decoration: none;
+  background-color: var(--color-background-light);
+}
+
+.statusRow:hover .statusTitle {
+  text-decoration: 2px underline;
+}
+
+.statusDescription {
+  margin-left: auto;
+  color: var(--color-text-muted);
+}
+
+.status {
+  width: 12px;
+  height: 12px;
+  display: inline-block;
+  border-radius: 6px;
+  margin-right: 8px;
+}
+
+.queued {
+  composes: status;
+  background-color: #2196f3;
+}
+
+.running {
+  composes: status;
+  background-color: #FFC107;
+}
+
+.error {
+  composes: status;
+  background-color: #ff0000;
+}
+
+.success {
+  composes: status;
+  background-color: #009f2c;
+}

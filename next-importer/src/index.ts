@@ -1,4 +1,7 @@
 import { db } from './db';
+import { processAchievements } from './import/achievements';
+import { processAchievementCategories } from './import/achievementsCategories';
+import { processAchievementGroups } from './import/achievementsGroups';
 import { processItems } from './import/items';
 import { processSkins } from './import/skins';
 
@@ -20,6 +23,9 @@ async function run() {
   // update items
   await processItems(apiBuild);
   await processSkins(apiBuild);
+  await processAchievements(apiBuild);
+  await processAchievementCategories(apiBuild);
+  await processAchievementGroups(apiBuild);
 }
 
 run();

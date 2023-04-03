@@ -6,6 +6,7 @@ import { FormatNumber } from '@/components/Format/FormatNumber';
 import { PageLayout } from '@/components/Layout/PageLayout';
 import { Reload } from '@/components/Reload/Reload';
 import { remember } from '@/lib/remember';
+import styles from './page.module.css';
 
 export const revalidate = 3;
 export const dynamic = 'force-dynamic';
@@ -50,7 +51,7 @@ async function JobPage() {
         <tbody>
           {running.map((job) => (
             <tr key={job.id}>
-              <td>{job.state === 'Running' ? 'Running' : 'Queued'}</td>
+              <td style={{ whiteSpace: 'nowrap' }}><span className={job.state === 'Running' ? styles.running : styles.queued}/>{job.state === 'Running' ? 'Running' : 'Queued'}</td>
               <th><b>{job.type}</b></th>
               <td style={{ whiteSpace: 'nowrap' }}>{job.state === 'Running' ? formatTime(Math.round((now.valueOf() - job.startedAt!.valueOf()) / 1000)) : '-'}</td>
               <td><FormatDate key={job.id} date={job.scheduledAt} relative data-superjson/></td>
@@ -74,7 +75,7 @@ async function JobPage() {
         <tbody>
           {finished.map((job) => (
             <tr key={job.id}>
-              <td>{job.state}</td>
+              <td style={{ whiteSpace: 'nowrap' }}><span className={job.state === 'Error' ? styles.error : styles.success}/>{job.state}</td>
               <th><b>{job.type}</b></th>
               <td style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>{job.output}</td>
               <td style={{ whiteSpace: 'nowrap' }}>{formatTime((job.finishedAt!.valueOf() - job.startedAt!.valueOf()) / 1000)}</td>

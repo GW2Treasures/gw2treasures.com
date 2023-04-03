@@ -6,7 +6,7 @@ import IconComponent from '../../icons/Icon';
 import { localizedName } from '../../lib/localizedName';
 import { useJsonFetch, useStaleJsonResponse } from '../../lib/useFetch';
 import { useLanguage } from '../I18n/Context';
-import { ItemIcon } from '../Item/ItemIcon';
+import { EntityIcon } from '../Entity/EntityIcon';
 import { ItemLinkTooltip } from '../Item/ItemLinkTooltip';
 import { SkillIcon } from '../Skill/SkillIcon';
 import { Tooltip } from '../Tooltip/Tooltip';
@@ -31,7 +31,7 @@ export function useSearchApiResults(searchValue: string): SearchResults[] {
 
   const items = response.loading ? [] : response.data.items.map<SearchResult>((item) => ({
     title: localizedName(item, language),
-    icon: item.icon && <ItemIcon icon={item.icon} size={32}/>,
+    icon: item.icon && <EntityIcon icon={item.icon} size={32}/>,
     subtitle: <>{item.level > 0 && `${item.level} ▪ `} {item.rarity} {item.weight ?? ''} {(item.subtype !== 'Generic' ? item.subtype : '') || item.type}</>,
     href: `/item/${item.id}`,
     render: (link) => <Tooltip content={<ItemLinkTooltip item={getLinkProperties(item)}/>}>{link}</Tooltip>
@@ -46,13 +46,13 @@ export function useSearchApiResults(searchValue: string): SearchResults[] {
   const skins = response.loading ? [] : response.data.skins.map((skin) => ({
     title: localizedName(skin, language),
     subtitle: <>{skin.rarity} {skin.weight} {(skin.subtype !== 'Generic' ? skin.subtype : '') || skin.type}</>,
-    icon: skin.icon && <ItemIcon icon={skin.icon} size={32}/>,
+    icon: skin.icon && <EntityIcon icon={skin.icon} size={32}/>,
     href: `/skin/${skin.id}`,
   }));
 
   const achievements = response.loading ? [] : response.data.achievements.map((achievement) => ({
     title: localizedName(achievement, language),
-    icon: achievement.icon && <ItemIcon icon={achievement.icon} size={32}/>,
+    icon: achievement.icon && <EntityIcon icon={achievement.icon} size={32}/>,
     href: `/achievement/${achievement.id}`,
     subtitle: (
       <>
@@ -65,7 +65,7 @@ export function useSearchApiResults(searchValue: string): SearchResults[] {
 
   const categories = response.loading ? [] : response.data.achievementCategories.map((category) => ({
     title: localizedName(category, language),
-    icon: category.icon && <ItemIcon icon={category.icon} size={32}/>,
+    icon: category.icon && <EntityIcon icon={category.icon} size={32}/>,
     href: `/achievement/category/${category.id}`,
     subtitle: category.achievementGroup ? localizedName(category.achievementGroup, language) : 'Category',
   }));

@@ -7,7 +7,7 @@ import { Item, Language } from '@prisma/client';
 import { FC } from 'react';
 import { useLanguage } from '../I18n/Context';
 import { Skeleton } from '../Skeleton/Skeleton';
-import { ItemIcon } from '../Item/ItemIcon';
+import { EntityIcon } from '../Entity/EntityIcon';
 import styles from './SkinLinkTooltip.module.css';
 import rarityStyles from '../Layout/RarityColor.module.css';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -29,7 +29,7 @@ export const SkinLinkTooltip: FC<SkinLinkTooltipProps> = ({ item, language, revi
   return (
     <div className={rarityStyles[item.rarity]}>
       <div className={cx(styles.title)}>
-        {item.icon && (<ItemIcon icon={item.icon} size={32}/>)}
+        {item.icon && (<EntityIcon icon={item.icon} size={32}/>)}
         {localizedName(item, language)}
       </div>
 

@@ -7,7 +7,7 @@ import { isTruthy } from '@/lib/is';
 import styles from './ItemTooltip.module.css';
 import { ItemLink } from './ItemLink';
 import Icon from 'icons/Icon';
-import { ItemIcon } from './ItemIcon';
+import { EntityIcon } from '@/components/Entity/EntityIcon';
 
 export interface ClientItemTooltipProps {
   tooltip: ItemTooltip;
@@ -75,7 +75,7 @@ function renderConsumable(consumable: ItemTooltip['consumable']) {
       <div className={styles.row}>Double-click to consume.</div>
       {(consumable.name || consumable.duration_ms || consumable.icon || consumable.apply_count || consumable.description) && (
         <div className={styles.consumable}>
-          {consumable.icon && <ItemIcon icon={consumable.icon} size={32}/>}
+          {consumable.icon && <EntityIcon icon={consumable.icon} size={32}/>}
           <div className={styles.consumableDetails}>
             {(consumable.name || consumable.duration_ms) && (
               <div className={styles.consumableName}>

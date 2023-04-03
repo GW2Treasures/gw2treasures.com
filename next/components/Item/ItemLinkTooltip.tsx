@@ -7,7 +7,7 @@ import { Item, Language } from '@prisma/client';
 import { FC } from 'react';
 import { useLanguage } from '../I18n/Context';
 import { Skeleton } from '../Skeleton/Skeleton';
-import { ItemIcon } from './ItemIcon';
+import { EntityIcon } from '@/components/Entity/EntityIcon';
 import styles from './ItemLinkTooltip.module.css';
 import rarityStyles from '../Layout/RarityColor.module.css';
 import type { ItemTooltip } from './ItemTooltip';
@@ -31,7 +31,7 @@ export const ItemLinkTooltip: FC<ItemLinkTooltipProps> = ({ item, language, revi
   return (
     <div className={rarityStyles[item.rarity]}>
       <div className={cx(styles.title)}>
-        {item.icon && (<ItemIcon icon={item.icon} size={32}/>)}
+        {item.icon && (<EntityIcon icon={item.icon} size={32}/>)}
         {localizedName(item, language)}
       </div>
 

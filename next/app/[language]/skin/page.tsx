@@ -3,7 +3,7 @@ import { FormatDate } from '@/components/Format/FormatDate';
 import { Headline } from '@/components/Headline/Headline';
 import { ItemList } from '@/components/ItemList/ItemList';
 import { SkinLink } from '@/components/Skin/SkinLink';
-import { ItemIcon } from '@/components/Item/ItemIcon';
+import { EntityIcon } from '@/components/Entity/EntityIcon';
 import Link from 'next/link';
 import { FormatNumber } from '@/components/Format/FormatNumber';
 import { HeroLayout } from '@/components/Layout/HeroLayout';
@@ -44,7 +44,7 @@ async function SkinPage() {
               href={`/skin/${[skin.type.toLowerCase(), skin.subtype?.toLowerCase()].filter(notNull).join('/')}`}
               style={{ display: 'flex', alignItems: 'center', gap: 8 }}
             >
-              {skin._max.iconId && (<ItemIcon icon={{ id: skin._max.iconId, signature: iconMap[skin._max.iconId] }} size={32}/>)}
+              {skin._max.iconId && (<EntityIcon icon={{ id: skin._max.iconId, signature: iconMap[skin._max.iconId] }} size={32}/>)}
               {skin.type}{skin.subtype && ` / ${skin.subtype}`}
             </Link>
             <span>

@@ -3,15 +3,15 @@
 /* eslint-disable @next/next/no-img-element */
 import { FC, useCallback, useState } from 'react';
 import { Icon } from '@prisma/client';
-import styles from './ItemIcon.module.css';
+import styles from './EntityIcon.module.css';
 import { getIconUrl, IconSize } from '@/lib/getIconUrl';
 
-export interface ItemIconProps {
+export interface EntityIconProps {
   icon: Omit<Icon, 'color'> & Partial<Pick<Icon, 'color'>>;
   size?: IconSize
 }
 
-export const ItemIcon: FC<ItemIconProps> = ({ icon, size = 64 }) => {
+export const EntityIcon: FC<EntityIconProps> = ({ icon, size = 64 }) => {
   const [loading, setLoading] = useState(true);
 
   const handleLoad = useCallback(() => {

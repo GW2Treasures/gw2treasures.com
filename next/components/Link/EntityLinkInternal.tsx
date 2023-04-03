@@ -3,7 +3,7 @@
 import NextLink from 'next/link';
 import React, { forwardRef } from 'react';
 import { cx } from '../../lib/classNames';
-import { ItemIcon } from '../Item/ItemIcon';
+import { EntityIcon } from '../Entity/EntityIcon';
 import styles from './EntityLink.module.css';
 import rarityClasses from '../Layout/RarityColor.module.css';
 import { EntityLinkProps } from './EntityLink';
@@ -30,7 +30,7 @@ export const EntityLinkInternal = forwardRef<HTMLAnchorElement, EntityLinkProps>
       {...props}
     >
       <>
-        {icon !== 'none' && entity.icon && (typeof icon === 'number' ? <ItemIcon icon={entity.icon} size={icon}/> : icon)}
+        {icon !== 'none' && entity.icon && (typeof icon === 'number' ? <EntityIcon icon={entity.icon} size={icon}/> : icon)}
         <span className={styles.name}>{localizedName(entity, language ?? defaultLanguage)}</span>
       </>
     </NextLink>

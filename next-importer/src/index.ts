@@ -1,5 +1,6 @@
 import { db } from './db';
 import { processItems } from './import/items';
+import { processSkins } from './import/skins';
 
 async function run() {
   console.log('Importing...');
@@ -18,6 +19,7 @@ async function run() {
 
   // update items
   await processItems(apiBuild);
+  await processSkins(apiBuild);
 }
 
 run();

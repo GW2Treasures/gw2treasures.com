@@ -13,6 +13,7 @@ import { SkillTooltip } from '@/components/Skill/SkillTooltip';
 import { SkillInfobox } from '@/components/Skill/SkillInfobox';
 import { getSkill } from './getSkill';
 import { AsyncComponent } from '@/lib/asyncComponent';
+import { RemovedFromApiNotice } from '@/components/Notice/RemovedFromApiNotice';
 
 export interface SkillPageComponentProps {
   language: Language;
@@ -49,7 +50,7 @@ export const SkillPageComponent: AsyncComponent<SkillPageComponentProps> = async
         <Notice icon="revision">You are viewing this skill at a fixed revision (Build {revision.buildId || 'unknown'}). <Link href={`/skill/${skill.id}`}>View current.</Link></Notice>
       )}
       {!fixedRevision && skill.removedFromApi && (
-        <Notice type="warning" icon="revision">This skill is currently not available in the Guild Wars 2 Api and you are seeing the last know version. The skill has either been removed from the game or needs to be rediscovered.</Notice>
+        <RemovedFromApiNotice type="skill"/>
       )}
 
       <TableOfContentAnchor id="tooltip">Tooltip</TableOfContentAnchor>

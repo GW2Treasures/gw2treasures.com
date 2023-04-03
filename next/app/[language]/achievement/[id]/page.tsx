@@ -1,7 +1,6 @@
 import { Language, MasteryRegion } from '@prisma/client';
 import DetailLayout from '@/components/Layout/DetailLayout';
 import { db } from '@/lib/prisma';
-import { getIconUrl } from '@/lib/getIconUrl';
 import { Gw2Api } from 'gw2-api-types';
 import { localizedName } from '@/lib/localizedName';
 import { Headline } from '@/components/Headline/Headline';
@@ -71,7 +70,7 @@ async function AchievementPage({ params: { id, language }}: { params: { language
   return (
     <DetailLayout
       title={data.name}
-      icon={achievement.icon && getIconUrl(achievement.icon, 64) || undefined}
+      icon={achievement.icon}
       breadcrumb={`Achievements › ${achievement.achievementCategory?.achievementGroup ? localizedName(achievement.achievementCategory?.achievementGroup, language) : 'Unknown Group'} › ${achievement.achievementCategory ? localizedName(achievement.achievementCategory, language) : 'Unknown Category'}`}
       infobox={<AchievementInfobox achievement={achievement} data={data} language={language}/>}
     >

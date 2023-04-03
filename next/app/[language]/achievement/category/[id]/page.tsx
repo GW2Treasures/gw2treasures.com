@@ -1,7 +1,6 @@
 import { Language } from '@prisma/client';
 import DetailLayout from '@/components/Layout/DetailLayout';
 import { db } from '@/lib/prisma';
-import { getIconUrl } from '@/lib/getIconUrl';
 import { Gw2Api } from 'gw2-api-types';
 import { ItemList } from '@/components/ItemList/ItemList';
 import { AchievementLink } from '@/components/Achievement/AchievementLink';
@@ -51,7 +50,7 @@ async function AchievementCategoryPage({ params: { language, id }}: { params: { 
   return (
     <DetailLayout
       title={data.name}
-      icon={achievementCategory.icon && getIconUrl(achievementCategory.icon, 64) || undefined}
+      icon={achievementCategory.icon}
       breadcrumb={`Achievements › ${achievementCategory.achievementGroup ? localizedName(achievementCategory.achievementGroup, language) : 'Unknown Group'}`}
     >
       {data.description && (

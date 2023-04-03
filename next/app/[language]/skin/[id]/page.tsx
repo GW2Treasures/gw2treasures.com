@@ -3,7 +3,6 @@ import DetailLayout from '@/components/Layout/DetailLayout';
 import { Skeleton } from '@/components/Skeleton/Skeleton';
 import { db } from '@/lib/prisma';
 import rarityClasses from '@/components/Layout/RarityColor.module.css';
-import { getIconUrl } from '@/lib/getIconUrl';
 import { Headline } from '@/components/Headline/Headline';
 import { Rarity } from '@/components/Item/Rarity';
 import { Gw2Api } from 'gw2-api-types';
@@ -54,7 +53,7 @@ async function SkinPage ({ params: { language, id }}: { params: { language: Lang
   return (
     <DetailLayout
       title={data.name}
-      icon={skin.icon && getIconUrl(skin.icon, 64) || undefined}
+      icon={skin.icon}
       className={rarityClasses[data.rarity]}
       breadcrumb={`Skin › ${skin.type}${skin.subtype ? ` › ${skin.subtype}` : ''}${skin.weight ? ` › ${skin.weight}` : ''}`}
       infobox={<SkinInfobox skin={skin} data={data} language={language}/>}

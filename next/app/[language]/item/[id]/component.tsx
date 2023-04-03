@@ -8,7 +8,6 @@ import { Gw2Api } from 'gw2-api-types';
 import { db } from '@/lib/prisma';
 import rarityClasses from '@/components/Layout/RarityColor.module.css';
 import { Notice } from '@/components/Notice/Notice';
-import { getIconUrl } from '@/lib/getIconUrl';
 import { Headline } from '@/components/Headline/Headline';
 import { FormatDate } from '@/components/Format/FormatDate';
 import { ItemList } from '@/components/ItemList/ItemList';
@@ -106,7 +105,7 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
   const skinAchievementBits = item.unlocksSkin.flatMap((skin) => skin.achievementBits);
 
   return (
-    <DetailLayout title={data.name || data.chat_link} icon={item.icon && getIconUrl(item.icon, 64) || undefined} className={rarityClasses[data.rarity]} breadcrumb={`Item › ${data.type}${data.details ? ` › ${data.details?.type}` : ''}`} infobox={<ItemInfobox item={item} data={data} language={language}/>}>
+    <DetailLayout title={data.name || data.chat_link} icon={item.icon} className={rarityClasses[data.rarity]} breadcrumb={`Item › ${data.type}${data.details ? ` › ${data.details?.type}` : ''}`} infobox={<ItemInfobox item={item} data={data} language={language}/>}>
       {item[`currentId_${language}`] !== revision.id && (
         <Notice icon="revision">You are viewing an old revision of this item{revision.buildId !== 0 && (<> (<Link href={`/build/${revision.buildId}`}>Build {revision.buildId}</Link>)</>)}. Some data is only available when viewing the latest version. <Link href={`/item/${item.id}`}>View latest</Link>.</Notice>
       )}

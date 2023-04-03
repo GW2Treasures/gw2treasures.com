@@ -28,6 +28,7 @@ import { Tooltip } from '@/components/Tooltip/Tooltip';
 import { ItemLinkTooltip } from '@/components/Item/ItemLinkTooltip';
 import Icon from 'icons/Icon';
 import { Tip } from '@/components/Tip/Tip';
+import { RemovedFromApiNotice } from '@/components/Notice/RemovedFromApiNotice';
 
 export interface ItemPageComponentProps {
   language: Language;
@@ -113,7 +114,7 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
         <Notice icon="revision">You are viewing this item at a fixed revision{revision.buildId !== 0 && (<> (<Link href={`/build/${revision.buildId}`}>Build {revision.buildId}</Link>)</>)}. Some data is only available when viewing the latest version. <Link href={`/item/${item.id}`}>View latest</Link>.</Notice>
       )}
       {!fixedRevision && item.removedFromApi && (
-        <Notice type="warning" icon="revision">This item is currently not available in the Guild Wars 2 Api and you are seeing the last know version. The item has either been removed from the game or needs to be rediscovered.</Notice>
+        <RemovedFromApiNotice type="item"/>
       )}
 
       <TableOfContentAnchor id="tooltip">Tooltip</TableOfContentAnchor>

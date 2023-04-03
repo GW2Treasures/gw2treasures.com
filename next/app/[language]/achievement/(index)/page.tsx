@@ -9,6 +9,7 @@ import { AchievementCategoryLink } from '@/components/Achievement/AchievementCat
 import { Language } from '@prisma/client';
 import { remember } from '@/lib/remember';
 import { ResetTimer } from './reset-timer';
+import { RemovedFromApiNotice } from '@/components/Notice/RemovedFromApiNotice';
 
 export const dynamic = 'force-dynamic';
 
@@ -24,7 +25,7 @@ const getAchivementGroups = remember(60, async function getAchivementGroups(lang
       current_es: language === 'es',
       current_fr: language === 'fr',
     },
-    orderBy: { order: 'asc' }
+    orderBy: [{ removedFromApi: 'asc' }, { order: 'asc' }]
   });
 
   return groups;
@@ -41,6 +42,9 @@ async function AchievementPage({ params: { language }}: { params: { language: La
         return (
           <Fragment key={group.id}>
             <Headline id={group.id}>{localizedName(group, language)}</Headline>
+            {group.removedFromApi && (
+              <RemovedFromApiNotice type="achievement group"/>
+            )}
             <p>{data.description}</p>
             <ItemList>
               {group.achievementCategories.map((category) => (

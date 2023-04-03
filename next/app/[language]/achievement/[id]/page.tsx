@@ -21,6 +21,7 @@ import { Table } from '@/components/Table/Table';
 import { AchievementLink } from '@/components/Achievement/AchievementLink';
 import { AchievementInfobox } from '@/components/Achievement/AchievementInfobox';
 import type * as CSS from 'csstype';
+import { RemovedFromApiNotice } from '@/components/Notice/RemovedFromApiNotice';
 
 const MasteryColors: Record<MasteryRegion, CSS.Property.Color> = {
   'Tyria': '#FB8C00',
@@ -74,6 +75,10 @@ async function AchievementPage({ params: { id, language }}: { params: { language
       breadcrumb={`Achievements › ${achievement.achievementCategory?.achievementGroup ? localizedName(achievement.achievementCategory?.achievementGroup, language) : 'Unknown Group'} › ${achievement.achievementCategory ? localizedName(achievement.achievementCategory, language) : 'Unknown Category'}`}
       infobox={<AchievementInfobox achievement={achievement} data={data} language={language}/>}
     >
+      {achievement.removedFromApi && (
+        <RemovedFromApiNotice type="achievement"/>
+      )}
+
       {data.description && (
         <p dangerouslySetInnerHTML={{ __html: format(data.description) }}/>
       )}

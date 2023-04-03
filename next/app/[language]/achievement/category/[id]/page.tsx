@@ -11,6 +11,7 @@ import { Tip } from '@/components/Tip/Tip';
 import { notFound } from 'next/navigation';
 import Icon from 'icons/Icon';
 import { remember } from '@/lib/remember';
+import { RemovedFromApiNotice } from '@/components/Notice/RemovedFromApiNotice';
 
 export const dynamic = 'force-dynamic';
 
@@ -53,6 +54,10 @@ async function AchievementCategoryPage({ params: { language, id }}: { params: { 
       icon={achievementCategory.icon}
       breadcrumb={`Achievements › ${achievementCategory.achievementGroup ? localizedName(achievementCategory.achievementGroup, language) : 'Unknown Group'}`}
     >
+      {achievementCategory.removedFromApi && (
+        <RemovedFromApiNotice type="achievement category"/>
+      )}
+
       {data.description && (
         <p>{data.description}</p>
       )}

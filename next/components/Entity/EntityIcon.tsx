@@ -7,10 +7,12 @@ import styles from './EntityIcon.module.css';
 import { getIconUrl, IconSize } from '@/lib/getIconUrl';
 import { cx } from '@/lib/classNames';
 
+export type EntityIconType = 'skill';
+
 export interface EntityIconProps {
   icon: Omit<Icon, 'color'> & Partial<Pick<Icon, 'color'>>;
-  size?: number;
-  type?: 'skill';
+  size?: IconSize | number;
+  type?: EntityIconType;
   className?: string;
 }
 
@@ -31,7 +33,7 @@ export const EntityIcon: FC<EntityIconProps> = ({ icon, size = 64, type, classNa
   }, []);
 
   return (
-    <div className={cx(type === 'skill' && styles.skill, className)}>
+    <div className={cx(styles.wrapper, className)} data-icon-type={type}>
       <img
         loading="lazy"
         decoding="async"

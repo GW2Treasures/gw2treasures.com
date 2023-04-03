@@ -5,11 +5,13 @@ import { LocalizedEntity } from '@/lib/localizedName';
 import { WithIcon } from '@/lib/with';
 import { EntityLinkInternal } from './EntityLinkInternal';
 import { getLinkProperties } from '@/lib/linkProperties';
+import { EntityIconType } from '../Entity/EntityIcon';
 
 interface CustomEntityLinkProps {
   href: string;
   entity: WithIcon<LocalizedEntity> & { rarity?: string };
   icon?: IconSize | 'none' | ReactElement;
+  iconType?: EntityIconType;
   language?: Language;
   onClick?: React.MouseEventHandler<HTMLAnchorElement>;
 }

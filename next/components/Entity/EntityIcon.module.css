@@ -1,7 +1,11 @@
-.icon {
-  border-radius: 2px;
-  vertical-align: top;
+.wrapper {
   grid-area: icon;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.icon {
+  vertical-align: top;
 }
 
 .loading {
@@ -10,11 +14,6 @@
   background-color: var(--loading-color, var(--color-background-light));
 }
 
-.skill {
-  overflow: hidden;
-  border-radius: 2px;
-}
-
-.skill .icon {
+[data-icon-type="skill"] .icon {
   transform: scale(1.333333);
 }

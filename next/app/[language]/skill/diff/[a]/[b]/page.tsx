@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Gw2Api } from 'gw2-api-types';
 import { DiffLayout, DiffLayoutHeader, DiffLayoutRow } from '@/components/Layout/DiffLayout';
-import { SkillIcon } from '@/components/Skill/SkillIcon';
+import { EntityIcon } from '@/components/Entity/EntityIcon';
 import { parseIcon } from '@/lib/parseIcon';
 import { FormatDate } from '@/components/Format/FormatDate';
 import { Fact } from '@/components/Skill/SkillTooltip';
@@ -45,8 +45,8 @@ async function SkillDiffPage({ params }: { params: { a: string, b: string }}) {
   return (
     <DiffLayout>
       <DiffLayoutHeader icons={[
-        iconA && <SkillIcon icon={iconA} size={64}/>,
-        iconB && <SkillIcon icon={iconB} size={64}/>,
+        iconA && <EntityIcon type="skill" icon={iconA} size={64}/>,
+        iconB && <EntityIcon type="skill" icon={iconB} size={64}/>,
       ]} title={[
         dataA.name,
         dataB.name,

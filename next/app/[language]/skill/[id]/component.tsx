@@ -9,7 +9,6 @@ import { Notice } from '@/components/Notice/Notice';
 import { Headline } from '@/components/Headline/Headline';
 import { FormatDate } from '@/components/Format/FormatDate';
 import { Json } from '@/components/Format/Json';
-import { SkillIcon } from '@/components/Skill/SkillIcon';
 import { SkillTooltip } from '@/components/Skill/SkillTooltip';
 import { SkillInfobox } from '@/components/Skill/SkillInfobox';
 import { getSkill } from './getSkill';
@@ -38,7 +37,8 @@ export const SkillPageComponent: AsyncComponent<SkillPageComponentProps> = async
   return (
     <DetailLayout
       title={data.name}
-      icon={skill.icon ? <SkillIcon icon={skill.icon}/> : undefined}
+      icon={skill.icon}
+      iconType="skill"
       breadcrumb={breadcrumb}
       infobox={<SkillInfobox skill={skill} data={data} language={language}/>}
     >

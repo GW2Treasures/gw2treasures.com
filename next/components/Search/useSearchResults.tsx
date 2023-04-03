@@ -8,7 +8,6 @@ import { useJsonFetch, useStaleJsonResponse } from '../../lib/useFetch';
 import { useLanguage } from '../I18n/Context';
 import { EntityIcon } from '../Entity/EntityIcon';
 import { ItemLinkTooltip } from '../Item/ItemLinkTooltip';
-import { SkillIcon } from '../Skill/SkillIcon';
 import { Tooltip } from '../Tooltip/Tooltip';
 
 export interface SearchResults {
@@ -39,7 +38,7 @@ export function useSearchApiResults(searchValue: string): SearchResults[] {
 
   const skills = response.loading ? [] : response.data.skills.map((skill) => ({
     title: localizedName(skill, language),
-    icon: skill.icon && <SkillIcon icon={skill.icon} size={32}/>,
+    icon: skill.icon && <EntityIcon type="skill" icon={skill.icon} size={32}/>,
     href: `/skill/${skill.id}`,
   }));
 

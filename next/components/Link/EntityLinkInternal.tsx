@@ -11,7 +11,7 @@ import { localizedName } from '@/lib/localizedName';
 import { useLanguage } from '../I18n/Context';
 import { localizedUrl } from '@/lib/localizedUrl';
 
-export const EntityLinkInternal = forwardRef<HTMLAnchorElement, EntityLinkProps>(function EntityLinkInternal({ href, entity, icon = 32, language, ...props }, ref) {
+export const EntityLinkInternal = forwardRef<HTMLAnchorElement, EntityLinkProps>(function EntityLinkInternal({ href, entity, icon = 32, language, iconType, ...props }, ref) {
   const defaultLanguage = useLanguage();
 
   if(language && defaultLanguage !== language) {
@@ -30,7 +30,7 @@ export const EntityLinkInternal = forwardRef<HTMLAnchorElement, EntityLinkProps>
       {...props}
     >
       <>
-        {icon !== 'none' && entity.icon && (typeof icon === 'number' ? <EntityIcon icon={entity.icon} size={icon}/> : icon)}
+        {icon !== 'none' && entity.icon && (typeof icon === 'number' ? <EntityIcon icon={entity.icon} size={icon} type={iconType}/> : icon)}
         <span className={styles.name}>{localizedName(entity, language ?? defaultLanguage)}</span>
       </>
     </NextLink>

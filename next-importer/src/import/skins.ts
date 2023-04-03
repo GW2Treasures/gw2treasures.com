@@ -35,6 +35,8 @@ export async function processSkins(buildId: number) {
         });
       }
 
+      const unlockedByItemIds = await db.item.findMany({ where: { unlocksSkinIds: { has: id }}, select: { id: true }});
+
       await db.skin.create({
         data: {
           id: skin.id,
@@ -53,7 +55,8 @@ export async function processSkins(buildId: number) {
           currentId_es: revision_es.id,
           currentId_fr: revision_fr.id,
           lastCheckedAt: new Date(0),
-          history: { createMany: { data: [{ revisionId: revision_de.id }, { revisionId: revision_en.id }, { revisionId: revision_es.id }, { revisionId: revision_fr.id }] }}
+          history: { createMany: { data: [{ revisionId: revision_de.id }, { revisionId: revision_en.id }, { revisionId: revision_es.id }, { revisionId: revision_fr.id }] }},
+          unlockedByItems: { connect: unlockedByItemIds },
         }
       });
     } catch(e) {

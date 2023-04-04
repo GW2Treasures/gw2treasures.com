@@ -1,8 +1,41 @@
-.Ascended { --color-rarity: var(--color-rarity-ascended); }
-.Basic { --color-rarity: var(--color-rarity-basic); }
-.Exotic { --color-rarity: var(--color-rarity-exotic); }
-.Fine { --color-rarity: var(--color-rarity-fine); }
-.Junk { --color-rarity: var(--color-rarity-junk); }
-.Legendary { --color-rarity: var(--color-rarity-legendary); }
-.Masterwork { --color-rarity: var(--color-rarity-masterwork); }
-.Rare { --color-rarity: var(--color-rarity-rare); }
+.rarity { --color-rarity: rgb(var(--color-rarity-rgb)); }
+
+.Ascended {
+  composes: rarity;
+  --color-rarity-rgb: var(--color-rarity-ascended-rgb);
+}
+
+.Basic {
+  composes: rarity;
+  --color-rarity-rgb: var(--color-rarity-basic-rgb);
+}
+
+.Exotic {
+  composes: rarity;
+  --color-rarity-rgb: var(--color-rarity-exotic-rgb);
+}
+
+.Fine {
+  composes: rarity;
+  --color-rarity-rgb: var(--color-rarity-fine-rgb);
+}
+
+.Junk {
+  composes: rarity;
+  --color-rarity-rgb: var(--color-rarity-junk-rgb);
+}
+
+.Legendary {
+  composes: rarity;
+  --color-rarity-rgb: var(--color-rarity-legendary-rgb);
+}
+
+.Masterwork {
+  composes: rarity;
+  --color-rarity-rgb: var(--color-rarity-masterwork-rgb);
+}
+
+.Rare {
+  composes: rarity;
+  --color-rarity-rgb: var(--color-rarity-rare-rgb);
+}

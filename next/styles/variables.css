@@ -12,14 +12,22 @@
 
   --color-focus: #245dc1;
 
-  --color-rarity-ascended: #e70061;
-  --color-rarity-basic: #111;
-  --color-rarity-exotic: #d07900;
-  --color-rarity-fine: #006ef7;
-  --color-rarity-junk: #757575;
-  --color-rarity-legendary: #b900b9;
-  --color-rarity-masterwork: #178800;
-  --color-rarity-rare: #c5a102;
+  --color-rarity-ascended-rgb: 231 0 97;
+  --color-rarity-ascended: rgb(var(--color-rarity-ascended-rgb));
+  --color-rarity-basic-rgb: 17 17 17;
+  --color-rarity-basic: rgb(var(--color-rarity-basic-rgb));
+  --color-rarity-exotic-rgb: 208 121 0;
+  --color-rarity-exotic: rgb(var(--color-rarity-exotic-rgb));
+  --color-rarity-fine-rgb: 0 110 247;
+  --color-rarity-fine: rgb(var(--color-rarity-fine-rgb));
+  --color-rarity-junk-rgb: 117 117 117;
+  --color-rarity-junk: rgb(var(--color-rarity-junk-rgb));
+  --color-rarity-legendary-rgb: 185 0 185;
+  --color-rarity-legendary: rgb(var(--color-rarity-legendary-rgb));
+  --color-rarity-masterwork-rgb: 23 136 0;
+  --color-rarity-masterwork: rgb(var(--color-rarity-masterwork-rgb));
+  --color-rarity-rare-rgb: 197 161 2;
+  --color-rarity-rare: rgb(var(--color-rarity-rare-rgb));
 }
 
 @media (prefers-color-scheme: dark) {
@@ -37,13 +45,21 @@
 
     --color-focus: #2196f3;
 
-    --color-rarity-ascended: #ff006b;
-    --color-rarity-basic: #cbcbcb;
-    --color-rarity-exotic: #e19300;
-    --color-rarity-fine: #5ea6ff;
-    --color-rarity-junk: #a3a3a3;
-    --color-rarity-legendary: #dd00dd;
-    --color-rarity-masterwork: #2bbd0d;
-    --color-rarity-rare: #f1c702;
+    --color-rarity-ascended-rgb: 255 0 107;
+    --color-rarity-ascended: rgb(var(--color-rarity-ascended-rgb));
+    --color-rarity-basic-rgb: 203 203 203;
+    --color-rarity-basic: rgb(var(--color-rarity-basic-rgb));
+    --color-rarity-exotic-rgb: 225 147 0;
+    --color-rarity-exotic: rgb(var(--color-rarity-exotic-rgb));
+    --color-rarity-fine-rgb: 94 166 255;
+    --color-rarity-fine: rgb(var(--color-rarity-fine-rgb));
+    --color-rarity-junk-rgb: 163 163 163;
+    --color-rarity-junk: rgb(var(--color-rarity-junk-rgb));
+    --color-rarity-legendary-rgb: 221 0 221;
+    --color-rarity-legendary: rgb(var(--color-rarity-legendary-rgb));
+    --color-rarity-masterwork-rgb: 43 189 13;
+    --color-rarity-masterwork: rgb(var(--color-rarity-masterwork-rgb));
+    --color-rarity-rare-rgb: 241 199 2;
+    --color-rarity-rare: rgb(var(--color-rarity-rare-rgb));
   }
 }

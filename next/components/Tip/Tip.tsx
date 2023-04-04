@@ -73,7 +73,7 @@ export const Tip: FC<TipProps> = ({ children, tip, preferredPlacement = 'top' })
               left: middlewareData.arrow?.x ?? undefined,
               top: middlewareData.arrow?.y ?? undefined,
               '--arrow-side': sideIndex[staticSide],
-              ...{ [staticSide]: -4.5 }
+              ...{ [staticSide]: 'calc(var(--arrow-size) * -0.5)' }
             }}/>
           </div>
         )}

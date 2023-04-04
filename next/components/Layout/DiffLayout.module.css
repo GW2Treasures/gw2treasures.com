@@ -20,7 +20,7 @@
   padding: 8px 16px;
   flex: 1;
 
-  box-shadow: 0 0 4px 1px rgb(0 0 0 / 10%);
+  box-shadow: var(--shadow);
   clip-path: inset(0px 0 0px -8px);
 }
 

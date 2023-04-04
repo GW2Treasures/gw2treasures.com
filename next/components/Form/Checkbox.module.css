@@ -13,7 +13,7 @@
 }
 
 .wrapper:focus-visible {
-  box-shadow: inset 0 0 0 2px var(--color-focus);
+  box-shadow: var(--shadow-focus);
   outline: none;
 }
 

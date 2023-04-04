@@ -1,20 +1,25 @@
 .tip {
-  border: 1px solid var(--color-border-dark);
   background: var(--color-background);
   padding: 6px 12px;
   border-radius: 2px;
   box-shadow: 0 2px 8px rgba(0 0 0 / .2);
+  box-shadow: var(--shadow);
   font-size: 14px;
   z-index: 10;
   opacity: 1;
 }
 
 .arrow {
-  width: 8px;
-  height: 8px;
+  --arrow-size: 8px;
+
+  width: var(--arrow-size);
+  height: var(--arrow-size);
   background: var(--color-background);
-  border: 1px solid var(--color-border-dark);
-  border-width: 1px 0 0 1px;
+  border: 1px solid var(--dropdown-color-border);
+  border-radius: 2px 0 0 0;
   position: absolute;
   transform: rotate(calc(45deg + 90deg * var(--arrow-side)));
+  box-shadow: var(--shadow);
+  clip-path: polygon(calc(var(--arrow-size) * -1) 0, calc(var(--arrow-size) * -1) calc(var(--arrow-size) * 2), calc(var(--arrow-size) * 2) calc(var(--arrow-size) * -1), 0 calc(var(--arrow-size) * -1));
 }
+

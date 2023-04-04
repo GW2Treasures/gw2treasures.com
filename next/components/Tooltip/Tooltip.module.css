@@ -1,11 +1,10 @@
 .tooltip {
   background-color: var(--color-background);
-  border: 1px solid var(--color-border-dark);
   border-radius: 2px;
   max-width: 500px;
   max-width: min(500px, calc(100vw - 16px));
   padding: 16px;
   z-index: 10;
   pointer-events: none;
-  box-shadow: 0 2px 8px rgba(0 0 0 / .2);
+  box-shadow: var(--shadow);
 }

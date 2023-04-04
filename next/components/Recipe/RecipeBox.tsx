@@ -17,7 +17,7 @@ interface RecipeBoxProps {
 
 export const RecipeBox: FC<RecipeBoxProps> = ({ recipe, outputItem }) => {
   return (
-    <div className={styles.box}>
+    <div className={styles.box} data-recipe-id={recipe.id}>
       <div className={styles.title}>
         <ItemLink item={outputItem}/>
         {recipe.outputCount > 1 && ` ×${recipe.outputCount}`}
@@ -36,6 +36,9 @@ export const RecipeBox: FC<RecipeBoxProps> = ({ recipe, outputItem }) => {
       </div>
       <div className={styles.ingredients}>
         <Ingredients recipe={recipe}/>
+      </div>
+      <div className={styles.info}>
+        {recipe.flags.includes('AutoLearned') ? 'Learned automatically' : recipe.flags.includes('LearnedFromItem') ? 'Learned from item' : 'Discoverable'}
       </div>
     </div>
   );

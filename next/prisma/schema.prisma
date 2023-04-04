@@ -208,6 +208,8 @@ model Recipe {
   outputCount   Int
   timeToCraftMs Int
 
+  flags String[] @default([])
+
   outputItemId Int?
   outputItem   Item? @relation(fields: [outputItemId], references: [id])
 

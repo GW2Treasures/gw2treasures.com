@@ -18,6 +18,7 @@ import { ItemsUpdate } from './items/update';
 import { Job } from './job';
 import { JobsCleanup } from './jobs/cleanup';
 import { RecipesCheck } from './recipes/check';
+import { RecipesMigrate } from './recipes/migrate';
 import { RecipesNew } from './recipes/new';
 import { SkillsCheck } from './skills/check';
 import { SkillsMigrate } from './skills/migrate';
@@ -73,6 +74,7 @@ const jobsInternal = {
 
   'recipes.check': RecipesCheck,
   'recipes.new': RecipesNew,
+  'recipes.migrate': RecipesMigrate,
 
   'gw2api-requests.cleanup': Gw2ApiRequestsCleanup,
 

@@ -32,6 +32,7 @@ export async function registerCronJobs() {
   await registerJob('achievements.unlocks', '7 * * * *');
 
   await registerJob('recipes.check', '*/5 * * * *');
+  await registerJob('recipes.migrate', '*/6 * * * *');
 
   await registerJob('gw2api-requests.cleanup', '33 3 * * *');
 

@@ -41,12 +41,12 @@ export const RecipeBox: FC<RecipeBoxProps> = ({ recipe, outputItem }) => {
       </div>
       <div className={styles.unlocks}>
         {recipe.flags.includes('AutoLearned')
-          ? 'Learned automatically'
+          ? <span><Icon icon="unlock"/> Learned automatically</span>
           : recipe.flags.includes('LearnedFromItem')
             ? (recipe.unlockedByItems?.length
                 ? recipe.unlockedByItems.map((unlock) => <ItemLink key={unlock.id} item={unlock} icon={16}/>)
-                : 'Learned from unknown item')
-            : 'Discoverable'}
+                : <span><Icon icon="unlock"/> Learned from unknown item</span>)
+            : <span><Icon icon="unlock"/> Discoverable</span>}
       </div>
     </div>
   );

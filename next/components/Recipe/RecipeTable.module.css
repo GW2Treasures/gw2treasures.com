@@ -1,0 +1,17 @@
+.outputColumn {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: 8px;
+}
+
+.output {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.unlock {
+  display: flex;
+  flex-direction: column;
+}

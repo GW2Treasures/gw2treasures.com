@@ -23,12 +23,15 @@
   font-weight: normal;
   text-align: left;
   transition: background-color .1s ease;
+
+  /* set height to 1px. this get ignored by browsers, but allows childs to use height: 100% */
+  height: 1px;
 }
 
 .table > thead > tr > th[align=right],
 .table > tbody > tr > td[align=right],
 .table > tbody > tr > th[align=right] {
-    text-align: right;
+  text-align: right;
   font-feature-settings: "tnum" 1;
 }
 

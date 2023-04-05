@@ -17,13 +17,15 @@ import { MenuList } from '../MenuList/MenuList';
 import { Table } from '../Table/Table';
 import { Discipline, DisciplineIcon } from './DisciplineIcon';
 import { Ingredients } from './Ingredients';
-import styles from './RecipeBox.module.css';
+import recipeBoxStyles from './RecipeBox.module.css';
+import styles from './RecipeTable.module.css';
 
 interface RecipeTableProps {
   recipes: With<Pick<Recipe, 'id' | 'rating' | 'disciplines'>, {
     currentRevision: Pick<Revision, 'data'>,
     itemIngredients: With<Pick<IngredientItem, 'count'>, { Item: ItemLinkProps['item'] }>[]
     outputItem: ItemLinkProps['item'] | null;
+    unlockedByItems: ItemLinkProps['item'][]
   }>[]
 };
 
@@ -111,9 +113,18 @@ interface RecipeTableRowProps {
 const RecipeTableRow: FC<RecipeTableRowProps> = memo(function RecipeTableRow({ recipe, visible }) {
   return (
     <tr key={recipe.id} hidden={!visible}>
-      <td>{recipe.outputItem ? (<ItemLink item={recipe.outputItem}/>) : 'Unknown'}</td>
+      <td>
+        <div className={styles.outputColumn}>
+          <div className={styles.output}>
+            {recipe.outputItem ? (<ItemLink item={recipe.outputItem}/>) : 'Unknown'}
+          </div>
+          <div className={styles.unlock}>
+            {recipe.unlockedByItems?.length && recipe.unlockedByItems.map((unlock) => (<ItemLink key={unlock.id} item={unlock} icon={16}/>))}
+          </div>
+        </div>
+      </td>
       <td align="right">{recipe.rating}</td>
-      <td><span className={styles.disciplines}>{recipe.disciplines.map((discipline) => <DisciplineIcon discipline={discipline as Discipline} key={discipline}/>)}</span></td>
+      <td><span className={recipeBoxStyles.disciplines}>{recipe.disciplines.map((discipline) => <DisciplineIcon discipline={discipline as Discipline} key={discipline}/>)}</span></td>
       <td>
         <Ingredients recipe={recipe}/>
       </td>

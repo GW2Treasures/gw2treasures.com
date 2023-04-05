@@ -27,12 +27,15 @@ model Item {
   level   Int     @default(0)
 
   // skins
-  unlocksSkin Skin[]
+  unlocksSkin    Skin[]
   unlocksSkinIds Int[]
 
   // recipes
-  recipeOutput Recipe[]
-  ingredient IngredientItem[]
+  recipeOutput     Recipe[]         @relation(name: "recipe_output")
+  ingredient       IngredientItem[]
+
+  unlocksRecipe    Recipe[]         @relation(name: "unlocks_recipe")
+  unlocksRecipeIds Int[]
 
   // achievements
   achievementRewards Achievement[] @relation(name: "rewards_item")
@@ -210,8 +213,10 @@ model Recipe {
 
   flags String[] @default([])
 
+  unlockedByItems Item[] @relation(name: "unlocks_recipe")
+
   outputItemId Int?
-  outputItem   Item? @relation(fields: [outputItemId], references: [id])
+  outputItem   Item? @relation(name: "recipe_output", fields: [outputItemId], references: [id])
 
   itemIngredients IngredientItem[]
     

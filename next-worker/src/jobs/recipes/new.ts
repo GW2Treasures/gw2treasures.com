@@ -24,6 +24,8 @@ export const RecipesNew: Job = {
         where: { id: { in: [recipe.output_item_id, ...itemIngredients.map(toId)] }}
       });
 
+      const unlockedByItemIds = await db.item.findMany({ where: { unlocksRecipeIds: { has: recipe.id }}, select: { id: true }});
+
       await db.recipe.create({
         data: {
           id: recipe.id,
@@ -41,7 +43,8 @@ export const RecipesNew: Job = {
                 .filter((ingredient) => items.some(({ id }) => id === ingredient.id))
                 .map(({ id, count }) => ({ itemId: id, count }))
             }
-          }
+          },
+          unlockedByItems: { connect: unlockedByItemIds }
         }
       });
     }

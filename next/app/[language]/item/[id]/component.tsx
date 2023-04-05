@@ -52,7 +52,8 @@ const getItem = remember(60, async function getItem(id: number, language: Langua
         },
         icon: true,
         unlocksSkin: { select: { ...linkProperties, weight: true, type: true, subtype: true, achievementBits: { select: linkPropertiesWithoutRarity }}},
-        recipeOutput: { include: { currentRevision: true, itemIngredients: { include: { Item: { include: { icon: true }}}}}},
+        recipeOutput: { include: { currentRevision: true, itemIngredients: { include: { Item: { select: linkProperties }}}, unlockedByItems: { select: linkProperties }}},
+        unlocksRecipe: { include: { currentRevision: true, itemIngredients: { include: { Item: { select: linkProperties }}}, unlockedByItems: { select: linkProperties }, outputItem: { select: linkProperties }}},
         achievementBits: { select: linkPropertiesWithoutRarity, orderBy: { id: 'asc' }},
         achievementRewards: { select: linkPropertiesWithoutRarity, orderBy: { id: 'asc' }},
         suffixIn: { include: { icon: true }},
@@ -173,6 +174,17 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
           <div style={{ display: 'flex', gap: 16 }}>
             {item.recipeOutput.map((recipe) => (
               <RecipeBox key={recipe.id} recipe={recipe} outputItem={item}/>
+            ))}
+          </div>
+        </>
+      )}
+
+      {item.unlocksRecipe && item.unlocksRecipe.length > 0 && (
+        <>
+          <Headline id="unlocks-recipe">Unlocks Recipe</Headline>
+          <div style={{ display: 'flex', gap: 16 }}>
+            {item.unlocksRecipe.map((recipe) => (
+              <RecipeBox key={recipe.id} recipe={recipe} outputItem={recipe.outputItem}/>
             ))}
           </div>
         </>

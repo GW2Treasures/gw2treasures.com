@@ -1,3 +1,4 @@
+import { LocalizedEntity } from '@/lib/localizedName';
 import { IngredientItem, Item, Recipe, Revision } from '@prisma/client';
 import { FC } from 'react';
 import Icon from '../../icons/Icon';
@@ -10,16 +11,17 @@ import styles from './RecipeBox.module.css';
 interface RecipeBoxProps {
   recipe: Recipe & {
     currentRevision: Revision,
-    itemIngredients: With<IngredientItem, { Item: WithIcon<Item> }>[]
+    itemIngredients: With<IngredientItem, { Item: WithIcon<Pick<Item, 'id' | 'rarity' | keyof LocalizedEntity>> }>[]
+    unlockedByItems?: WithIcon<Pick<Item, 'id' | 'rarity' | keyof LocalizedEntity>>[]
   },
-  outputItem: WithIcon<Item>
+  outputItem: WithIcon<Pick<Item, 'id' | 'rarity' | keyof LocalizedEntity>> | null,
 };
 
 export const RecipeBox: FC<RecipeBoxProps> = ({ recipe, outputItem }) => {
   return (
     <div className={styles.box} data-recipe-id={recipe.id}>
       <div className={styles.title}>
-        <ItemLink item={outputItem}/>
+        {outputItem !== null ? <ItemLink item={outputItem}/> : <span>Unknown Item</span>}
         {recipe.outputCount > 1 && ` ×${recipe.outputCount}`}
       </div>
       <div className={styles.info}>
@@ -37,8 +39,14 @@ export const RecipeBox: FC<RecipeBoxProps> = ({ recipe, outputItem }) => {
       <div className={styles.ingredients}>
         <Ingredients recipe={recipe}/>
       </div>
-      <div className={styles.info}>
-        {recipe.flags.includes('AutoLearned') ? 'Learned automatically' : recipe.flags.includes('LearnedFromItem') ? 'Learned from item' : 'Discoverable'}
+      <div className={styles.unlocks}>
+        {recipe.flags.includes('AutoLearned')
+          ? 'Learned automatically'
+          : recipe.flags.includes('LearnedFromItem')
+            ? (recipe.unlockedByItems?.length
+                ? recipe.unlockedByItems.map((unlock) => <ItemLink key={unlock.id} item={unlock} icon={16}/>)
+                : 'Learned from unknown item')
+            : 'Discoverable'}
       </div>
     </div>
   );

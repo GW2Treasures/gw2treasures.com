@@ -17,6 +17,7 @@
   background-color: var(--color-background-light);
   padding: 8px;
   display: flex;
+  gap: 0 4px;
 }
 
 .ingredients {
@@ -37,4 +38,9 @@
 
 .time {
   margin-right: 4px;
+}
+
+.unlocks {
+  composes: info;
+  flex-direction: column;
 }

@@ -118,9 +118,11 @@ const RecipeTableRow: FC<RecipeTableRowProps> = memo(function RecipeTableRow({ r
           <div className={styles.output}>
             {recipe.outputItem ? (<ItemLink item={recipe.outputItem}/>) : 'Unknown'}
           </div>
-          <div className={styles.unlock}>
-            {recipe.unlockedByItems?.length && recipe.unlockedByItems.map((unlock) => (<ItemLink key={unlock.id} item={unlock} icon={16}/>))}
-          </div>
+          {!!recipe.unlockedByItems?.length && (
+            <div className={styles.unlock}>
+              {recipe.unlockedByItems.map((unlock) => (<ItemLink key={unlock.id} item={unlock} icon={16}/>))}
+            </div>
+          )}
         </div>
       </td>
       <td align="right">{recipe.rating}</td>

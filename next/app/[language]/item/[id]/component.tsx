@@ -29,6 +29,7 @@ import { ItemLinkTooltip } from '@/components/Item/ItemLinkTooltip';
 import Icon from 'icons/Icon';
 import { Tip } from '@/components/Tip/Tip';
 import { RemovedFromApiNotice } from '@/components/Notice/RemovedFromApiNotice';
+import { RecipeBoxWrapper } from '@/components/Recipe/RecipeBoxWrapper';
 
 export interface ItemPageComponentProps {
   language: Language;
@@ -171,22 +172,22 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
       {item.recipeOutput && item.recipeOutput.length > 0 && (
         <>
           <Headline id="crafted-from">Crafted From</Headline>
-          <div style={{ display: 'flex', gap: 16 }}>
+          <RecipeBoxWrapper>
             {item.recipeOutput.map((recipe) => (
               <RecipeBox key={recipe.id} recipe={recipe} outputItem={item}/>
             ))}
-          </div>
+          </RecipeBoxWrapper>
         </>
       )}
 
       {item.unlocksRecipe && item.unlocksRecipe.length > 0 && (
         <>
           <Headline id="unlocks-recipe">Unlocks Recipe</Headline>
-          <div style={{ display: 'flex', gap: 16 }}>
+          <RecipeBoxWrapper>
             {item.unlocksRecipe.map((recipe) => (
               <RecipeBox key={recipe.id} recipe={recipe} outputItem={recipe.outputItem}/>
             ))}
-          </div>
+          </RecipeBoxWrapper>
         </>
       )}
 

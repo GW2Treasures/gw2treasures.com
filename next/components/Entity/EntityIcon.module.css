@@ -2,6 +2,7 @@
   grid-area: icon;
   border-radius: 2px;
   overflow: hidden;
+  flex-shrink: 0;
 }
 
 .icon {

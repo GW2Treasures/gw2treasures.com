@@ -21,7 +21,7 @@ import recipeBoxStyles from './RecipeBox.module.css';
 import styles from './RecipeTable.module.css';
 
 interface RecipeTableProps {
-  recipes: With<Pick<Recipe, 'id' | 'rating' | 'disciplines'>, {
+  recipes: With<Pick<Recipe, 'id' | 'rating' | 'disciplines' | 'outputCount'>, {
     currentRevision: Pick<Revision, 'data'>,
     itemIngredients: With<Pick<IngredientItem, 'count'>, { Item: ItemLinkProps['item'] }>[]
     outputItem: ItemLinkProps['item'] | null;
@@ -117,6 +117,7 @@ const RecipeTableRow: FC<RecipeTableRowProps> = memo(function RecipeTableRow({ r
         <div className={styles.outputColumn}>
           <div className={styles.output}>
             {recipe.outputItem ? (<ItemLink item={recipe.outputItem}/>) : 'Unknown'}
+            {recipe.outputCount > 1 && `×${recipe.outputCount}`}
           </div>
           {!!recipe.unlockedByItems?.length && (
             <div className={styles.unlock}>

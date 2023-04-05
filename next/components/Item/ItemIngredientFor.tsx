@@ -12,6 +12,7 @@ const getIngredientFor = remember(60, async function getIngredientFor(itemId: nu
       id: true,
       rating: true,
       disciplines: true,
+      outputCount: true,
       currentRevision: { select: { data: true }},
       outputItem: { select: linkProperties },
       itemIngredients: { select: { count: true, Item: { select: linkProperties }}},

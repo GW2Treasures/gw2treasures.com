@@ -46,12 +46,13 @@ import EnrichmentSlot from './enrichment-slot.svg';
 import EyeIcon from './eye.svg';
 import StatusIcon from './status.svg';
 import UnlockIcon from './unlock.svg';
+import MoreIcon from './more.svg';
 
 export type IconName = 'menu' | 'gw2treasures' | 'user' | 'revision' | 'search' | 'chevronDown' | 'chatlink' | 'jobs' | 'time'
  | 'mount' | 'skill' | 'specialization' | 'wvw' | 'profession' | 'skin' | 'achievement' | 'item' | 'builds'
  | 'armorsmith' | 'artificer' | 'chef' | 'huntsman' | 'jeweler' | 'leatherworker' | 'scribe' | 'tailor' | 'weaponsmith'
  | 'filter' | 'filter-active' | 'shuffle' | 'achievementPoints' | 'info' | 'locale' | 'checkmark' | 'close'
- | 'api-status' | 'discord' | 'external' | 'external-link' | 'mastery' | 'coins' | 'upgrade-slot' | 'infusion-slot' | 'enrichment-slot' | 'eye' | 'status' | 'unlock';
+ | 'api-status' | 'discord' | 'external' | 'external-link' | 'mastery' | 'coins' | 'upgrade-slot' | 'infusion-slot' | 'enrichment-slot' | 'eye' | 'status' | 'unlock' | 'more';
 
 type IconComponent = FunctionComponent<SVGProps<SVGSVGElement>>;
 
@@ -103,6 +104,7 @@ export const Icons: Record<IconName, IconComponent> = {
   'eye': EyeIcon,
   'status': StatusIcon,
   'unlock': UnlockIcon,
+  'more': MoreIcon,
 };
 
 export type Icon = IconName | JSX.Element;

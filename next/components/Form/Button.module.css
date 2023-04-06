@@ -8,7 +8,9 @@
   border-radius: 2px;
   color: var(--color-text);
   cursor: pointer;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
   white-space: nowrap;
 }
 

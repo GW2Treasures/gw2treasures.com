@@ -14,6 +14,7 @@ import { useLanguage } from '../I18n/Context';
 import { ItemLink, ItemLinkProps } from '../Item/ItemLink';
 import { Separator } from '../Layout/Separator';
 import { MenuList } from '../MenuList/MenuList';
+import { ShowMore } from '../ShowMore/ShowMore';
 import { Table } from '../Table/Table';
 import { Discipline, DisciplineIcon } from './DisciplineIcon';
 import { Ingredients } from './Ingredients';
@@ -121,7 +122,9 @@ const RecipeTableRow: FC<RecipeTableRowProps> = memo(function RecipeTableRow({ r
           </div>
           {!!recipe.unlockedByItems?.length && (
             <div className={styles.unlock}>
-              {recipe.unlockedByItems.map((unlock) => (<ItemLink key={unlock.id} item={unlock} icon={16}/>))}
+              <ShowMore>
+                {recipe.unlockedByItems.map((unlock) => (<ItemLink key={unlock.id} item={unlock} icon={16}/>))}
+              </ShowMore>
             </div>
           )}
         </div>

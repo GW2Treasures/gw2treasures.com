@@ -12,6 +12,7 @@ import { Discipline, DisciplineIcon } from './DisciplineIcon';
 import { Ingredients } from './Ingredients';
 import styles from './RecipeBox.module.css';
 import { encode } from 'gw2e-chat-codes';
+import { ShowMore } from '../ShowMore/ShowMore';
 
 interface RecipeBoxProps {
   recipe: Recipe & {
@@ -26,8 +27,10 @@ export const RecipeBox: FC<RecipeBoxProps> = ({ recipe, outputItem }) => {
   return (
     <div className={styles.box} data-recipe-id={recipe.id}>
       <div className={styles.title}>
-        {outputItem !== null ? <ItemLink item={outputItem}/> : <span>Unknown Item</span>}
-        {recipe.outputCount > 1 && ` ×${recipe.outputCount}`}
+        <div>
+          {outputItem !== null ? <ItemLink item={outputItem}/> : <span>Unknown Item</span>}
+          {recipe.outputCount > 1 && ` ×${recipe.outputCount}`}
+        </div>
         <DropDown button={<Button iconOnly appearance="menu"><Icon icon="more"/></Button>}>
           <MenuList>
             <CopyButton appearance="menu" icon="chatlink" copy={encode('recipe', recipe.id) || ''}>Copy chatlink</CopyButton>
@@ -55,7 +58,7 @@ export const RecipeBox: FC<RecipeBoxProps> = ({ recipe, outputItem }) => {
           ? <span><Icon icon="unlock"/> Learned automatically</span>
           : recipe.flags.includes('LearnedFromItem')
             ? (recipe.unlockedByItems?.length
-                ? recipe.unlockedByItems.map((unlock) => <ItemLink key={unlock.id} item={unlock} icon={16}/>)
+                ? <ShowMore>{recipe.unlockedByItems.map((unlock) => <ItemLink key={unlock.id} item={unlock} icon={16}/>)}</ShowMore>
                 : <span><Icon icon="unlock"/> Learned from unknown item</span>)
             : <span><Icon icon="unlock"/> Discoverable</span>}
       </div>

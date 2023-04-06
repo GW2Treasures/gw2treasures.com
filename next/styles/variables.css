@@ -6,6 +6,7 @@
 
   --color-background: #fff;
   --color-background-light: #f9f9f9;
+  --color-background-light-transparent: #00000006;
 
   --color-border: #eee;
   --color-border-dark: #ddd;
@@ -43,6 +44,7 @@
 
     --color-background: #36393f;
     --color-background-light: #303339;
+    --color-background-light-transparent: #0000001c;
 
     --color-border: #222428;
     --color-border-dark: #222428;

@@ -26,7 +26,7 @@
 .secondary {
   composes: button;
 
-  background-color: var(--color-background-light);
+  background-color: var(--color-background-light-transparent);
   box-shadow: inset 0 0 0 1px var(--color-border-dark);
 }
 
@@ -49,7 +49,7 @@
 }
 
 .menu:hover {
-  background-color: var(--color-background-light);
+  background-color: var(--color-background-light-transparent);
 }
 
 .iconOnly {

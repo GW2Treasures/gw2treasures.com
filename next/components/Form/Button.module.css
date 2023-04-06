@@ -49,3 +49,8 @@
 .menu:hover {
   background-color: var(--color-background-light);
 }
+
+.iconOnly {
+  padding: 8px;
+  line-height: 16px;
+}

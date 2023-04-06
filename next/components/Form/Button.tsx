@@ -22,8 +22,8 @@ export interface LinkButtonProps extends ButtonProps {
   prefetch?: boolean;
 }
 
-export const LinkButton = forwardRef<HTMLAnchorElement, LinkButtonProps>(function Button({ children, appearance = 'secondary', iconOnly, onClick, href, locale, prefetch }, ref) {
+export const LinkButton = forwardRef<HTMLAnchorElement, LinkButtonProps & Pick<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'target' | 'rel'>>(function Button({ children, appearance = 'secondary', iconOnly, onClick, href, locale, prefetch, ...props }, ref) {
   return (
-    <Link ref={ref} className={cx(styles[appearance], iconOnly && styles.iconOnly)} href={href} locale={locale} onClick={onClick} prefetch={prefetch}>{children}</Link>
+    <Link ref={ref} className={cx(styles[appearance], iconOnly && styles.iconOnly)} href={href} locale={locale} onClick={onClick} prefetch={prefetch} {...props}>{children}</Link>
   );
 });

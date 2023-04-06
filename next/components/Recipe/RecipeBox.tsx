@@ -50,6 +50,11 @@ export const RecipeBox: FC<RecipeBoxProps> = ({ recipe, outputItem }) => {
         </span>
         <Icon icon="time"/>
       </div>
+      {recipe.type === 'RefinementEctoplasm' && (
+        <div className={styles.info}>
+          Can only be crafted once per day.
+        </div>
+      )}
       <div className={styles.ingredients}>
         <Ingredients recipe={recipe}/>
       </div>

@@ -2,7 +2,7 @@ import { cloneElement, CSSProperties, forwardRef, FunctionComponent } from 'reac
 import { getIcon, Icon as IconType } from './index';
 import styles from './Icon.module.css';
 
-interface IconProps {
+export interface IconProps {
   icon: IconType
   color?: CSSProperties['--icon-color'];
 };

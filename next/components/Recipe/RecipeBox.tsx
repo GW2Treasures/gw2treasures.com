@@ -3,7 +3,11 @@ import { IngredientItem, Item, Recipe, Revision } from '@prisma/client';
 import { FC } from 'react';
 import Icon from '../../icons/Icon';
 import { With, WithIcon } from '../../lib/with';
+import { DropDown } from '../DropDown/DropDown';
+import { Button, LinkButton } from '../Form/Button';
+import { CopyButton } from '../Form/Buttons/CopyButton';
 import { ItemLink } from '../Item/ItemLink';
+import { MenuList } from '../MenuList/MenuList';
 import { Discipline, DisciplineIcon } from './DisciplineIcon';
 import { Ingredients } from './Ingredients';
 import styles from './RecipeBox.module.css';
@@ -23,6 +27,12 @@ export const RecipeBox: FC<RecipeBoxProps> = ({ recipe, outputItem }) => {
       <div className={styles.title}>
         {outputItem !== null ? <ItemLink item={outputItem}/> : <span>Unknown Item</span>}
         {recipe.outputCount > 1 && ` ×${recipe.outputCount}`}
+        <DropDown button={<Button iconOnly appearance="menu"><Icon icon="more"/></Button>}>
+          <MenuList>
+            <CopyButton appearance="menu" copy={recipe.id.toString()}><Icon icon="chatlink"/> Copy chatlink</CopyButton>
+            <LinkButton appearance="menu" href={`https://gw2efficiency.com/crafting/calculator/a~0!b~1!c~0!d~1-${recipe.outputItemId}`} target="_blank" rel="noreferrer noopener"><Icon icon="external"/> Open on gw2efficiency</LinkButton>
+          </MenuList>
+        </DropDown>
       </div>
       <div className={styles.info}>
         <span className={styles.disciplines}>

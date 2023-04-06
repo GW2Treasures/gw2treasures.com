@@ -65,7 +65,7 @@ export const RecipeTable: FC<RecipeTableProps> = ({ recipes }) => {
       <Headline id="crafting" actions={(
         <>
           <TextInput value={search} onChange={setSearch} type="search" placeholder="Search…"/>
-          <DropDown button={<Button><Icon icon={disciplineFilter.length === DisciplineNames.length ? 'filter' : 'filter-active'}/> Filter</Button>}>
+          <DropDown button={<Button icon={disciplineFilter.length === DisciplineNames.length ? 'filter' : 'filter-active'}>Filter</Button>}>
             <MenuList>
               <Checkbox checked={disciplineFilter.length > 0} indeterminate={disciplineFilter.length < DisciplineNames.length && disciplineFilter.length > 0} onChange={() => setDisciplineFilter(disciplineFilter.length > 0 ? [] : DisciplineNames)}>
                 All

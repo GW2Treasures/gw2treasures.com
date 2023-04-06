@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, useCallback } from 'react';
+import { FC, useCallback, useEffect, useState } from 'react';
 import { Button, ButtonProps } from '../Button';
 
 export interface CopyButtonProps extends Omit<ButtonProps, 'onClick'> {
@@ -8,11 +8,29 @@ export interface CopyButtonProps extends Omit<ButtonProps, 'onClick'> {
 }
 
 export const CopyButton: FC<CopyButtonProps> = ({ copy, ...props }) => {
+  const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    let timeout = 0;
+
+    if(copied) {
+      timeout = window.setTimeout(() => setCopied(false), 500);
+    }
+
+    () => {
+      if(timeout) {
+        clearTimeout(timeout);
+      }
+    };
+  }, [copied]);
+
   const handleCopy = useCallback(() => {
-    navigator.clipboard.writeText(copy);
+    navigator.clipboard.writeText(copy).then(() => setCopied(true));
   }, [copy]);
 
+  const overrideProps: Partial<ButtonProps> = copied && props.icon ? { icon: 'checkmark' } : {};
+
   return (
-    <Button onClick={handleCopy} {...props}/>
+    <Button onClick={handleCopy} {...props} {...overrideProps}/>
   );
 };

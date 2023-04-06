@@ -29,8 +29,8 @@ export const RecipeBox: FC<RecipeBoxProps> = ({ recipe, outputItem }) => {
         {recipe.outputCount > 1 && ` ×${recipe.outputCount}`}
         <DropDown button={<Button iconOnly appearance="menu"><Icon icon="more"/></Button>}>
           <MenuList>
-            <CopyButton appearance="menu" copy={recipe.id.toString()}><Icon icon="chatlink"/> Copy chatlink</CopyButton>
-            <LinkButton appearance="menu" href={`https://gw2efficiency.com/crafting/calculator/a~0!b~1!c~0!d~1-${recipe.outputItemId}`} target="_blank" rel="noreferrer noopener"><Icon icon="external"/> Open on gw2efficiency</LinkButton>
+            <CopyButton appearance="menu" icon="chatlink" copy={recipe.id.toString()}>Copy chatlink</CopyButton>
+            <LinkButton appearance="menu" icon="external" href={`https://gw2efficiency.com/crafting/calculator/a~0!b~1!c~0!d~1-${recipe.outputItemId}`} target="_blank" rel="noreferrer noopener">Open on gw2efficiency</LinkButton>
           </MenuList>
         </DropDown>
       </div>

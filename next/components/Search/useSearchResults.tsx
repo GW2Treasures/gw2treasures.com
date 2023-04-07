@@ -14,6 +14,7 @@ export interface SearchResults {
   id: string;
   title: ReactNode;
   results: SearchResult[];
+  loading: boolean;
 }
 
 export interface SearchResult {
@@ -25,7 +26,8 @@ export interface SearchResult {
 }
 
 export function useSearchApiResults(searchValue: string): SearchResults[] {
-  const response = useStaleJsonResponse(useJsonFetch<ApiSearchResponse>(`/api/search?q=${encodeURIComponent(searchValue)}`));
+  const fetchResponse = useJsonFetch<ApiSearchResponse>(`/api/search?q=${encodeURIComponent(searchValue)}`);
+  const response = useStaleJsonResponse(fetchResponse);
   const language = useLanguage();
 
   const items = response.loading ? [] : response.data.items.map<SearchResult>((item) => ({
@@ -82,13 +84,13 @@ export function useSearchApiResults(searchValue: string): SearchResults[] {
   }));
 
   return [
-    { id: 'items', title: 'Items', results: items },
-    { id: 'skills', title: 'Skills', results: skills },
-    { id: 'skins', title: 'Skins', results: skins },
-    { id: 'achievements', title: 'Achievements', results: achievements },
-    { id: 'achievements.categories', title: 'Achievement Categories', results: categories },
-    { id: 'achievements.groups', title: 'Achievement Groups', results: groups },
-    { id: 'builds', title: 'Builds', results: builds },
+    { id: 'items', title: 'Items', results: items, loading: fetchResponse.loading },
+    { id: 'skills', title: 'Skills', results: skills, loading: fetchResponse.loading },
+    { id: 'skins', title: 'Skins', results: skins, loading: fetchResponse.loading },
+    { id: 'achievements', title: 'Achievements', results: achievements, loading: fetchResponse.loading },
+    { id: 'achievements.categories', title: 'Achievement Categories', results: categories, loading: fetchResponse.loading },
+    { id: 'achievements.groups', title: 'Achievement Groups', results: groups, loading: fetchResponse.loading },
+    { id: 'builds', title: 'Builds', results: builds, loading: fetchResponse.loading },
   ];
 }
 
@@ -122,5 +124,5 @@ export function usePageResults(searchValue: string): SearchResults {
     .filter((_, index) => index < 5)
     .map(({ title, icon, href }) => ({ title, href, icon: <IconComponent icon={icon}/> }));
 
-  return { id: 'pages', title: 'Pages', results };
+  return { id: 'pages', title: 'Pages', results, loading: false };
 }

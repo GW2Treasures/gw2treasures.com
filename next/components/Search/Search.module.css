@@ -18,6 +18,23 @@
   color: var(--color-text-muted);
 }
 
+.loading {
+  display: block;
+  width: 16px;
+  height: 16px;
+  border: 1px solid;
+  border-color: var(--color-text-muted) transparent transparent;
+  border-radius: 8px;
+  margin: 0 16px 0 8px;
+  animation: rotate infinite 1s cubic-bezier(0.5, 0.25, 0.5, 0.75);
+  will-change: transform;
+}
+
+@keyframes rotate {
+  0% { transform: rotate(0); }
+  100% { transform: rotate(1turn); }
+}
+
 .search:focus-within {
   background-color: var(--color-background);
   box-shadow: var(--shadow);

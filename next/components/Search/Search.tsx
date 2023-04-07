@@ -62,6 +62,8 @@ export const Search: FC<SearchProps> = ({ }) => {
     usePageResults(searchValue),
   ];
 
+  const loading = searchResults.some((result) => result.loading);
+
   let index = 0;
 
   return (
@@ -80,6 +82,7 @@ export const Search: FC<SearchProps> = ({ }) => {
           e.preventDefault();
         }
       }}/>
+      {loading && (open || searchValue) && <div className={styles.loading}/>}
       {open && (
         <div className={styles.dropdown} ref={refs.setFloating} {...getFloatingProps()} style={{
           top: y ?? 0,

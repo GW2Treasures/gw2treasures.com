@@ -1,35 +1,36 @@
+import 'server-only';
 import { Language } from '@prisma/client';
-import { cache } from 'react';
 
+import de from '../../translations/de.json';
 import en from '../../translations/en.json';
+import es from '../../translations/es.json';
+import fr from '../../translations/fr.json';
+
 export type TranslationId = keyof typeof en;
 
-const dictionaries: Record<Exclude<Language, 'en'>, () => Promise<Partial<Record<TranslationId, string>>>> = {
-  de: () => import('../../translations/de.json').then((module) => module.default),
-  es: () => import('../../translations/es.json').then((module) => module.default),
-  fr: () => import('../../translations/fr.json').then((module) => module.default),
+const dictionaryDe: Record<TranslationId, string> = { ...en, ...de };
+const dictionaryEs: Record<TranslationId, string> = { ...en, ...es };
+const dictionaryFr: Record<TranslationId, string> = { ...en, ...fr };
+
+const getDictionary = (language: Language): Record<TranslationId, string> => {
+  switch(language) {
+    case 'de': return dictionaryDe;
+    case 'en': return en;
+    case 'es': return dictionaryEs;
+    case 'fr': return dictionaryFr;
+  }
 };
 
-const getDictionary = cache(async (language: Language): Promise<Record<TranslationId, string>> => {
-  if(language === 'en') {
-    return en;
-  }
-
-  const dict = await dictionaries[language]();
-
-  return { ...en, ...dict };
-});
-
-export async function getTranslate(language: Language) {
-  const messages = await getDictionary(language);
+export function getTranslate(language: Language) {
+  const messages = getDictionary(language);
 
   return (id: TranslationId) => {
     return messages[id];
   };
 }
 
-export async function translate(language: Language, id: TranslationId) {
-  const messages = await getDictionary(language);
+export function translate(language: Language, id: TranslationId) {
+  const messages = getDictionary(language);
 
   return messages[id] ?? '[Missing translation: ' + id + ']';
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { FunctionComponent, ReactNode, useCallback, useEffect, useState } from 'react';
+import { FunctionComponent, ReactNode, useEffect, useState } from 'react';
 import styles from './Layout.module.css';
 import Icon from '../../icons/Icon';
 import Navigation from './Navigation';
@@ -8,42 +8,18 @@ import Link from 'next/link';
 import { Search } from '../Search/Search';
 import LoaderIcon from './loader.svg';
 import { useLoading } from '../../lib/useLoading';
-import { useRouter } from 'next/navigation';
-import { Button, LinkButton } from '../Form/Button';
-import { DropDown } from '../DropDown/DropDown';
-import { Separator } from './Separator';
-import { MenuList } from '../MenuList/MenuList';
-import { Radiobutton } from '../Form/Radiobutton';
-import { Dialog } from '../Dialog/Dialog';
-import { FormatDate } from '../Format/FormatDate';
-import { FormatNumber } from '../Format/FormatNumber';
-import { useFormatContext } from '../Format/FormatContext';
-import { useLanguage } from '../I18n/Context';
-import { Language } from '@prisma/client';
+import { LinkButton } from '../Form/Button';
 import { ExternalLink } from '../Link/ExternalLink';
-import { FormatConfigDialog } from '../Format/FormatConfigDialog';
+import { LanguageDropdown } from './Header/LanguageDropdown';
 
 interface LayoutProps {
   children: ReactNode;
-};
-
-const languages = {
-  en: 'English',
-  de: 'Deutsch',
-  es: 'Español',
-  fr: 'Français',
 };
 
 const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolledDown, setScrolledDown] = useState('window' in global && window.scrollY > 0);
   const loading = useLoading();
-  const { push } = useRouter();
-
-  const [formatDialogOpen, setFormatDialogOpen] = useState(false);
-
-  const language = useLanguage();
-  const localeName = languages[language];
 
   useEffect(() => {
     const listener = () => {
@@ -58,13 +34,6 @@ const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
       setMenuOpen(false);
     }
   }, [menuOpen, scrolledDown]);
-
-  const changeLanguage = useCallback((language: Language) => {
-    const url = new URL(window.location.href);
-    url.hostname = language + url.hostname.substring(2);
-    // window.location.href = url.href;
-    push(url.href);
-  }, [push]);
 
   return (
     <div>
@@ -81,23 +50,7 @@ const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
             </Link>
             <Search/>
             <div className={styles.right}>
-              <DropDown hideTop={false} preferredPlacement="bottom" button={(
-                <Button appearance="menu">
-                  <Icon icon="locale"/><span className={styles.responsive}> {localeName}</span>
-                </Button>
-              )}
-              >
-                <MenuList>
-                  <Radiobutton checked={language === 'de'} onChange={() => changeLanguage('de')}>{languages.de}</Radiobutton>
-                  <Radiobutton checked={language === 'en'} onChange={() => changeLanguage('en')}>{languages.en}</Radiobutton>
-                  <Radiobutton checked={language === 'es'} onChange={() => changeLanguage('es')}>{languages.es}</Radiobutton>
-                  <Radiobutton checked={language === 'fr'} onChange={() => changeLanguage('fr')}>{languages.fr}</Radiobutton>
-                  <Separator/>
-                  <Button onClick={() => setFormatDialogOpen(true)} appearance="menu">Formatting Settings…</Button>
-                </MenuList>
-              </DropDown>
-              <FormatConfigDialog open={formatDialogOpen} onClose={() => setFormatDialogOpen(false)}/>
-
+              <LanguageDropdown/>
               <LinkButton appearance="menu" href="/login">
                 <Icon icon="user"/><span className={styles.responsive}> Login</span>
               </LinkButton>

@@ -1,6 +1,4 @@
-'use client';
-
-import { FunctionComponent, ReactNode, useEffect, useState } from 'react';
+import { FunctionComponent, ReactNode } from 'react';
 import styles from './Layout.module.css';
 import Icon from '../../icons/Icon';
 import Navigation from './Navigation';
@@ -11,55 +9,32 @@ import { useLoading } from '../../lib/useLoading';
 import { LinkButton } from '../Form/Button';
 import { ExternalLink } from '../Link/ExternalLink';
 import { LanguageDropdown } from './Header/LanguageDropdown';
+import { Menu } from './Header/Menu';
 
 interface LayoutProps {
   children: ReactNode;
 };
 
 const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [scrolledDown, setScrolledDown] = useState('window' in global && window.scrollY > 0);
   const loading = useLoading();
-
-  useEffect(() => {
-    const listener = () => {
-      setScrolledDown(window.scrollY > 0);
-    };
-    window.addEventListener('scroll', listener, { passive: true });
-    return () => window.removeEventListener('scroll', listener);
-  }, []);
-
-  useEffect(() => {
-    if(!scrolledDown && menuOpen) {
-      setMenuOpen(false);
-    }
-  }, [menuOpen, scrolledDown]);
 
   return (
     <div>
       <div className={styles.layout}>
-        <div className={styles.header}>
-          <header className={scrolledDown ? styles.headerMainScrolled : styles.headerMain} suppressHydrationWarning>
-            <button className={styles.menuButton} onClick={() => setMenuOpen(!menuOpen)}>
-              <Icon icon="menu"/>
-            </button>
-            <Link href="/" className={styles.title}>
-              <Icon icon="gw2treasures"/>
-              {loading && (<LoaderIcon className={styles.loader}/>)}
-              <span>gw2treasures.com</span>
-            </Link>
-            <Search/>
-            <div className={styles.right}>
-              <LanguageDropdown/>
-              <LinkButton appearance="menu" href="/login">
-                <Icon icon="user"/><span className={styles.responsive}> Login</span>
-              </LinkButton>
-            </div>
-          </header>
-          <nav className={menuOpen ? styles.headerNavVisible : styles.headerNav}>
-            <Navigation/>
-          </nav>
-        </div>
+        <Menu navigation={<Navigation/>}>
+          <Link href="/" className={styles.title}>
+            <Icon icon="gw2treasures"/>
+            {loading && (<LoaderIcon className={styles.loader}/>)}
+            <span>gw2treasures.com</span>
+          </Link>
+          <Search/>
+          <div className={styles.right}>
+            <LanguageDropdown/>
+            <LinkButton appearance="menu" href="/login">
+              <Icon icon="user"/><span className={styles.responsive}> Login</span>
+            </LinkButton>
+          </div>
+        </Menu>
         <hr className={styles.headerShadow}/>
         {children}
         <footer className={styles.footer}>

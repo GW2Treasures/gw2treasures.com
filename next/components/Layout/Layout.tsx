@@ -1,7 +1,7 @@
 import { FunctionComponent, ReactNode } from 'react';
 import styles from './Layout.module.css';
 import Icon from '../../icons/Icon';
-import Navigation from './Navigation';
+import Navigation from './Header/Navigation';
 import Link from 'next/link';
 import { Search } from '../Search/Search';
 import LoaderIcon from './loader.svg';

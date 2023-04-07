@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
-import { LinkButton } from '../Form/Button';
-import { Trans } from '../I18n/Trans';
+import { LinkButton } from '../../Form/Button';
+import { Trans } from '../../I18n/Trans';
 import styles from './Navigation.module.css';
 
 interface NavigationProps {

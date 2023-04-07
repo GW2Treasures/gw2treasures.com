@@ -17,5 +17,13 @@
   "rarity.Exotic": "Exotic",
   "rarity.Ascended": "Ascended",
   "rarity.Junk": "Junk",
-  "rarity.Legendary": "Legendary"
+  "rarity.Legendary": "Legendary",
+  "navigation.items": "Items",
+  "navigation.achievements": "Achievements",
+  "navigation.skins": "Skins",
+  "navigation.professions": "Professions",
+  "navigation.specializations": "Specializations",
+  "navigation.skills": "Skills",
+  "navigation.mounts": "Mounts",
+  "navigation.wvw": "World versus World"
 }

@@ -3,7 +3,9 @@ version: '3'
 services:
   legacy-importer:
     image: gw2treasures/legacy-importer
-    build: apps/legacy-importer
+    build:
+      context: .
+      dockerfile: apps/legacy-importer/Dockerfile
     restart: on-failure
     environment:
       - DATABASE_URL=postgresql://gw2treasures:gw2treasures@database:5432/gw2treasures?schema=public

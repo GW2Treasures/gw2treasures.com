@@ -1,7 +1,7 @@
 {
   "name": "legacy-importer",
   "scripts": {
-    "prisma": "prisma generate --schema=prisma/next.prisma && prisma generate --schema=prisma/legacy.prisma",
+    "prisma:generate": "prisma generate --schema=prisma/legacy.prisma",
     "prebuild": "npm run lint",
     "build": "tsc",
     "predev": "npm run build",
@@ -9,6 +9,7 @@
     "lint": "eslint src"
   },
   "dependencies": {
+    "@gw2treasures/database": "*",
     "@prisma/client": "^4.12.0",
     "gw2-api-types": "^0.0.4"
   },

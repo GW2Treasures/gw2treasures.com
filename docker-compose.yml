@@ -6,7 +6,7 @@ services:
     build: apps/web
     restart: unless-stopped
     environment:
-      - DATABASE_URL=postgresql://gw2treasures:gw2treasures@next-db:5432/gw2treasures?schema=public
+      - DATABASE_URL=postgresql://gw2treasures:gw2treasures@database:5432/gw2treasures?schema=public
       - GW2T_NEXT_DOMAIN=next.gw2treasures.localhost
       - FORCE_COLOR=1
     ports:
@@ -17,13 +17,13 @@ services:
     build: apps/worker
     restart: unless-stopped
     depends_on:
-      - next-db
+      - database
     environment:
-      - DATABASE_URL=postgresql://gw2treasures:gw2treasures@next-db:5432/gw2treasures?schema=public
+      - DATABASE_URL=postgresql://gw2treasures:gw2treasures@database:5432/gw2treasures?schema=public
     deploy:
       replicas: 2
 
-  next-db:
+  database:
     image: postgres:14-alpine
     restart: unless-stopped
     environment:
@@ -32,6 +32,6 @@ services:
       - POSTGRES_DB=gw2treasures
       - PGDATA=/var/lib/postgresql/data/pgdata
     volumes:
-      - .docker/next-db:/var/lib/postgresql/data
+      - .docker/database:/var/lib/postgresql/data
     ports:
       - 54326:5432

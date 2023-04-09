@@ -3,7 +3,9 @@ version: '3'
 services:
   web:
     image: gw2treasures/web
-    build: apps/web
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
     restart: unless-stopped
     environment:
       - DATABASE_URL=postgresql://gw2treasures:gw2treasures@database:5432/gw2treasures?schema=public

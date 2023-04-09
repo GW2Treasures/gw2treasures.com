@@ -1,4 +1,4 @@
-> ⚠️ You are viewing the `next` branch of gw2treasures.com. Checkout the [legacy branch](https://github.com/GW2Treasures/gw2treasures.com/tree/legacy) for the legacy php application still running at [gw2treasures.com](https://gw2treasures.com).
+> ⚠️ You are viewing the next version of gw2treasures.com. Checkout the [legacy branch](https://github.com/GW2Treasures/gw2treasures.com/tree/legacy) for the legacy php application still running at [gw2treasures.com](https://gw2treasures.com).
 
 # gw2treasures.com
 

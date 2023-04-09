@@ -25,15 +25,20 @@
     ],
     "baseUrl": "./",
     "paths": {
-      "@/components/*": ["components/*"],
-      "@/lib/*": ["lib/*"],
+      "@/components/*": [
+        "components/*"
+      ],
+      "@/lib/*": [
+        "lib/*"
+      ]
     }
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "/home/konrad/projects/gw2treasures/gw2treasures.com/apps/web/.next/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"

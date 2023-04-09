@@ -5,6 +5,10 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "npm run dev -w web"
+    "dev": "npm run dev -w web",
+    "lint": "turbo run lint"
+  },
+  "dependencies": {
+    "turbo": "^1.8.8"
   }
 }

@@ -1,0 +1,15 @@
+{
+  "name": "@gw2treasures/database",
+  "scripts": {
+    "prisma:generate": "prisma generate",
+    "build": "tsc"
+  },
+  "main": "./lib/index.js",
+  "types": "./src/index.ts",
+  "dependencies": {
+    "@prisma/client": "^4.12.0"
+  },
+  "devDependencies": {
+    "prisma": "^4.12.0"
+  }
+}

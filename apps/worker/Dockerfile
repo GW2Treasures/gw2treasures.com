@@ -9,17 +9,6 @@ RUN npm i -g turbo
 COPY . .
 RUN turbo prune --scope=worker --docker
 
-# Install dependencies only when needed
-FROM node:${node_version} AS deps
-RUN apk add --no-cache libc6-compat
-WORKDIR /app
-
-# Install dependencies based on the preferred package manager
-COPY --from=source /source/out/json/ .
-COPY --from=source /source/out/package-lock.json package-lock.json
-
-RUN npm ci --omit=dev
-
 # Rebuild the source code only when needed
 FROM node:${node_version} AS builder
 RUN apk add --no-cache libc6-compat
@@ -35,7 +24,8 @@ RUN npm ci --include=dev
 COPY --from=source /source/out/full/ .
 
 # build source
-RUN npm run prisma -w worker
+RUN npm run prisma:generate -w @gw2treasures/database
+RUN npm run build -w @gw2treasures/database
 RUN npm run build -w worker
 
 # Production image, copy all the files and run next
@@ -48,10 +38,7 @@ ENV NEXT_TELEMETRY_DISABLED 1
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 worker
 
-COPY --from=deps --chown=worker:nodejs /app/node_modules ./node_modules
-COPY --from=builder --chown=worker:nodejs /app/apps/worker/lib ./lib
-COPY --from=builder --chown=worker:nodejs /app/apps/worker/prisma ./prisma/
-COPY --from=builder --chown=worker:nodejs /app/node_modules/.prisma ./node_modules/.prisma
+COPY --from=builder --chown=worker:nodejs /app .
 
 USER worker
 
@@ -59,4 +46,4 @@ EXPOSE 3000
 
 ENV PORT 3000
 
-CMD [ "node", "lib/index.js" ]
+CMD [ "node", "apps/worker/lib/index.js" ]

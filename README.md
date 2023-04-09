@@ -10,6 +10,12 @@ You can create a new issue to report a bug or request a new feature.
 
 TODO
 
+1. Install dependencies by running `npm i` in the root directory. This will install dependencies for all apps and packages.
+2. Start the database in docker using `docker compose up -d next-db`.
+3. Generate prisma by running `npm run prisma -w next`
+4. Run `npm run dev`.
+5. Visit http://localhost:3000/.
+
 ### Import legacy database
 
 ```sh

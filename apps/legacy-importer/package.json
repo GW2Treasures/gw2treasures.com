@@ -2,7 +2,6 @@
   "name": "legacy-importer",
   "scripts": {
     "prisma:generate": "prisma generate --schema=prisma/legacy.prisma",
-    "prebuild": "npm run lint",
     "build": "tsc",
     "predev": "npm run build",
     "dev": ". ./.env && node lib/index.js",

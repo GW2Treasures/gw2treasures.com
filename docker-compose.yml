@@ -12,9 +12,9 @@ services:
     ports:
       - 3000:3000
 
-  next-worker:
-    image: gw2treasures/next-worker
-    build: apps/next-worker
+  worker:
+    image: gw2treasures/worker
+    build: apps/worker
     restart: unless-stopped
     depends_on:
       - next-db

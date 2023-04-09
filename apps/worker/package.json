@@ -1,5 +1,5 @@
 {
-  "name": "next-worker",
+  "name": "worker",
   "scripts": {
     "prisma": "prisma generate",
     "prebuild": "npm run lint",

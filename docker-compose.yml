@@ -14,7 +14,9 @@ services:
 
   worker:
     image: gw2treasures/worker
-    build: apps/worker
+    build:
+      context: .
+      dockerfile: apps/worker/Dockerfile
     restart: unless-stopped
     depends_on:
       - database

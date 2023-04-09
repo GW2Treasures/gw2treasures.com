@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: next-worker
-        image: ghcr.io/gw2treasures/gw2treasures.com/next-worker:latest
+        image: ghcr.io/gw2treasures/gw2treasures.com/worker:latest
         resources:
           requests:
             memory: "64Mi"

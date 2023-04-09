@@ -10,7 +10,7 @@ spec:
     spec:
       containers:
       - name: next-importer
-        image: ghcr.io/gw2treasures/gw2treasures.com/next-importer:latest
+        image: ghcr.io/gw2treasures/gw2treasures.com/legacy-importer:latest
         env:
         - name: DATABASE_URL
           valueFrom:

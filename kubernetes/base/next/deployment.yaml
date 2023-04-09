@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
       - name: next
-        image: ghcr.io/gw2treasures/gw2treasures.com/next:latest
+        image: ghcr.io/gw2treasures/gw2treasures.com/web:latest
         resources:
           requests:
             memory: "128Mi"

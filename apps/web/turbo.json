@@ -4,6 +4,9 @@
 	"pipeline": {
 		"build": {
 			"outputs": [".next/**", "!.next/cache/**"]
-		}
+		},
+    "dev": {
+      "dependsOn": ["^build", "@gw2treasures/database#prisma:migrate"]
+    }
 	}
 }

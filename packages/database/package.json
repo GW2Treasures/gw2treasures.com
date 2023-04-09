@@ -2,6 +2,7 @@
   "name": "@gw2treasures/database",
   "scripts": {
     "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate deploy",
     "build": "tsc"
   },
   "main": "./lib/index.js",

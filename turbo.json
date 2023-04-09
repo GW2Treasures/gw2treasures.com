@@ -8,6 +8,9 @@
     "prisma:generate": {
       "cache": false
     },
+    "prisma:migrate": {
+      "cache": false
+    },
     "dev": {
       "cache": false,
       "persistent": true,

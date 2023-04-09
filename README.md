@@ -1,3 +1,5 @@
+> ⚠️ You are viewing the legacy branch of gw2treasures.com. Checkout the [main branch](https://github.com/GW2Treasures/gw2treasures.com/tree/main) for the latest development.
+
 # gw2treasures.com
 
 **[gw2treasures.com](https://gw2treasures.com)** is a Guild Wars 2 database powered by the official API.
@@ -9,6 +11,7 @@ You can create a new issue to report a bug or request a new feature.
 The simplest way to get this running locally using docker.
 
 1. Clone this repository or [make a fork](https://docs.github.com/en/github/getting-started-with-github/quickstart/fork-a-repo) if you plan to submit your changes
+2. Switch into the `legacy` directory (`cd legacy`)
 2. Run `docker-compose up -d` (or `docker-compose up -d --scale wvw-crawler=0` to save some resources if you don't need the WvW crawler)
 3. Visit http://gw2treasures.localhost/ to view your local instance
 4. The database will be empty, you can fill it from the GW2 Api by running `docker-compose exec --user www-data web ./cron.sh` (see [cron.sh](web/docker/cron.sh)).

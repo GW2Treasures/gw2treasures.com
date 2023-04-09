@@ -1,11 +1,11 @@
-name: Docker
+name: Docker (legacy)
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "legacy" ]
     tags: [ "v*" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "legacy" ]
 
 jobs:
   build:
@@ -21,7 +21,8 @@ jobs:
     - name: Build the Docker image
       uses: docker/bake-action@v2.2.0
       with:
-        files: ./docker-compose.yml
+        workdir: legacy
+        files: docker-compose.yml
         targets: ${{ matrix.target }}
         load: true
         set: |

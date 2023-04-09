@@ -19,7 +19,7 @@ TODO
 ### Import legacy database
 
 ```sh
-docker compose -f docker-compose.yml -f docker-compose.importer.yml up next-importer
+docker compose -f docker-compose.yml -f docker-compose.importer.yml up legacy-importer
 ```
 
 

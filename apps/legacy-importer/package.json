@@ -1,5 +1,5 @@
 {
-  "name": "next-importer",
+  "name": "legacy-importer",
   "scripts": {
     "prisma": "prisma generate --schema=prisma/next.prisma && prisma generate --schema=prisma/legacy.prisma",
     "prebuild": "npm run lint",

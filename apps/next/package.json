@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "prisma": "prisma generate",
-    "postprisma": "cp prisma/schema.prisma ../worker/prisma/schema.prisma && cp prisma/schema.prisma ../next-importer/prisma/next.prisma",
+    "postprisma": "cp prisma/schema.prisma ../worker/prisma/schema.prisma && cp prisma/schema.prisma ../legacy-importer/prisma/next.prisma",
     "lint": "next lint"
   },
   "dependencies": {

@@ -18,13 +18,11 @@ ENV NEXT_TELEMETRY_DISABLED 1
 COPY --from=source /source/out/json/ .
 COPY --from=source /source/out/package-lock.json package-lock.json
 
-RUN npm ci
+RUN npm ci --include=dev
 
 COPY --from=source /source/out/full/ .
 
-RUN npm run prisma:generate -w @gw2treasures/database
-RUN npm run build -w @gw2treasures/database
-RUN npm run build -w web
+RUN npm ls sharp && npm run build -- --filter=web...
 
 # Production image, copy all the files and run next
 FROM node:${node_version} AS runner

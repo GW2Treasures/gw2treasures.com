@@ -24,9 +24,7 @@ RUN npm ci --include=dev
 COPY --from=source /source/out/full/ .
 
 # build source
-RUN npm run prisma:generate -w @gw2treasures/database
-RUN npm run build -w @gw2treasures/database
-RUN npm run build -w worker
+RUN npm run build -- --filter=worker...
 
 # Production image, copy all the files and run next
 FROM node:${node_version} AS runner

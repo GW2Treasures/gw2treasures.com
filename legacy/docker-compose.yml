@@ -61,15 +61,12 @@ services:
       - GW2T_PMA=http://phpmyadmin
       - GW2T_STORAGE_DOMAIN=storage.gw2treasures.localhost
       - GW2T_STORAGE=http://storage
-      - GW2T_NEXT_DOMAIN=next.gw2treasures.localhost
-      - GW2T_NEXT=http://next:3000
     depends_on:
       - web
       - assets
       - phpmyadmin
       - storage
-      - next
-    ports: 
+    ports:
       - 80:80
   assets:
     image: gw2treasures/assets

@@ -4,6 +4,6 @@
     "apps/*"
   ],
   "scripts": {
-    "dev": "npm run dev -w next"
+    "dev": "npm run dev -w web"
   }
 }

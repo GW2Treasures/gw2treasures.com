@@ -1,6 +1,12 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "pipeline": {
-    "lint": {}
+    "build": {
+      "dependsOn": ["^build", "prisma:generate"]
+    },
+    "lint": {},
+    "prisma:generate": {
+      "cache": false
+    }
   }
 }

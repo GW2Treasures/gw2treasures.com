@@ -2,7 +2,7 @@ version: '3'
 
 services:
   web:
-    image: gw2treasures/web
+    image: gw2treasures/legacy/web
     build:
       context: web
       dockerfile: docker/Dockerfile
@@ -48,7 +48,7 @@ services:
       --maxmemory 2gb
       --maxmemory-policy allkeys-lru
   reverse-proxy:
-    image: gw2treasures/reverse-proxy
+    image: gw2treasures/legacy/reverse-proxy
     build: reverse-proxy
     restart: unless-stopped
     environment:
@@ -67,18 +67,18 @@ services:
     ports: 
       - 80:80
   assets:
-    image: gw2treasures/assets
+    image: gw2treasures/legacy/assets
     build: assets
     restart: unless-stopped
   storage:
-    image: gw2treasures/storage
+    image: gw2treasures/legacy/storage
     build: storage
     restart: unless-stopped
     environment: 
       - SELF=http://storage.gw2treasures.localhost
       - TRUSTED_ORIGINS=http://de.gw2treasures.localhost,http://en.gw2treasures.localhost,http://es.gw2treasures.localhost,http://fr.gw2treasures.localhost,http://dev.gw2treasures.localhost
   wvw-crawler:
-    image: gw2treasures/wvw-crawler
+    image: gw2treasures/legacy/wvw-crawler
     build: wvw-crawler
     restart: unless-stopped
     environment:

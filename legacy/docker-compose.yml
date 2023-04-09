@@ -21,6 +21,8 @@ services:
       - GW2T_STORAGE=http://storage.gw2treasures.localhost
       - SENTRY_DSN=
     restart: unless-stopped
+    networks:
+      - legacy
   db:
     image: mariadb:latest
     environment:
@@ -33,6 +35,8 @@ services:
     restart: unless-stopped
     ports:
       - 3306:3306
+    networks:
+      - legacy
   phpmyadmin:
     image: phpmyadmin
     restart: unless-stopped
@@ -41,6 +45,8 @@ services:
       - UPLOAD_LIMIT=64M
     depends_on:
       - db
+    networks:
+      - legacy
   cache:
     image: redis:alpine
     restart: unless-stopped
@@ -49,6 +55,8 @@ services:
       --save ""
       --maxmemory 2gb
       --maxmemory-policy allkeys-lru
+    networks:
+      - legacy
   reverse-proxy:
     image: gw2treasures/reverse-proxy
     build: reverse-proxy
@@ -68,17 +76,23 @@ services:
       - storage
     ports:
       - 80:80
+    networks:
+      - legacy
   assets:
     image: gw2treasures/assets
     build: assets
     restart: unless-stopped
+    networks:
+      - legacy
   storage:
     image: gw2treasures/storage
     build: storage
     restart: unless-stopped
-    environment: 
+    environment:
       - SELF=http://storage.gw2treasures.localhost
       - TRUSTED_ORIGINS=http://de.gw2treasures.localhost,http://en.gw2treasures.localhost,http://es.gw2treasures.localhost,http://fr.gw2treasures.localhost,http://dev.gw2treasures.localhost
+    networks:
+      - legacy
   wvw-crawler:
     image: gw2treasures/wvw-crawler
     build: wvw-crawler
@@ -88,8 +102,15 @@ services:
       - MYSQL_DATABASE=gw2treasures
       - MYSQL_USER=gw2treasures
       - MYSQL_PASSWORD=3c09b766-101c-4500-9f25-33450753e88a
-    depends_on: 
+    depends_on:
       - db
+    networks:
+      - legacy
 
-volumes: 
+volumes:
   gw2treasures-db:
+
+networks:
+  legacy:
+    name: gw2treasures_legacy
+    external: true

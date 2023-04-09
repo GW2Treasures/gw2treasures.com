@@ -28,6 +28,9 @@ services:
     environment:
       - DATABASE_URL=postgresql://gw2treasures:gw2treasures@next-db:5432/gw2treasures?schema=public
       - LEGACY_DATABASE_URL=mysql://gw2treasures:3c09b766-101c-4500-9f25-33450753e88a@db:3306/gw2treasures
+    networks:
+      - default
+      - gw2treasures_legacy
 
   next-db:
     image: postgres:14-alpine
@@ -42,5 +45,11 @@ services:
     ports:
       - 54326:5432
 
-volumes: 
+volumes:
   gw2treasures-db:
+
+networks:
+  default:
+  gw2treasures_legacy:
+    external: true
+    name: gw2treasures_legacy

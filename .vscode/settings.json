@@ -1,7 +1,7 @@
 {
   "files.exclude": {
-    "next": true,
-    "next-importer": true,
-    "next-worker": true
+    // "next": true,
+    // "next-importer": true,
+    // "next-worker": true
   },
 }

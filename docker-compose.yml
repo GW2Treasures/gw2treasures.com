@@ -9,6 +9,8 @@ services:
       - DATABASE_URL=postgresql://gw2treasures:gw2treasures@next-db:5432/gw2treasures?schema=public
       - GW2T_NEXT_DOMAIN=next.gw2treasures.localhost
       - FORCE_COLOR=1
+    ports:
+      - 3000:3000
 
   next-worker:
     image: gw2treasures/next-worker
@@ -20,17 +22,6 @@ services:
       - DATABASE_URL=postgresql://gw2treasures:gw2treasures@next-db:5432/gw2treasures?schema=public
     deploy:
       replicas: 2
-
-  next-importer:
-    image: gw2treasures/next-importer
-    build: next-importer
-    restart: on-failure
-    environment:
-      - DATABASE_URL=postgresql://gw2treasures:gw2treasures@next-db:5432/gw2treasures?schema=public
-      - LEGACY_DATABASE_URL=mysql://gw2treasures:3c09b766-101c-4500-9f25-33450753e88a@db:3306/gw2treasures
-    networks:
-      - default
-      - gw2treasures_legacy
 
   next-db:
     image: postgres:14-alpine
@@ -44,12 +35,3 @@ services:
       - .docker/next-db:/var/lib/postgresql/data
     ports:
       - 54326:5432
-
-volumes:
-  gw2treasures-db:
-
-networks:
-  default:
-  gw2treasures_legacy:
-    external: true
-    name: gw2treasures_legacy

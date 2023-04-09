@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import { db } from '@/lib/prisma';
-import { Language } from '@prisma/client';
+import { Language } from '@gw2treasures/database';
 import { NextRequest, NextResponse } from 'next/server';
 import { createTooltip } from '@/components/Item/ItemTooltip';
 import { Gw2Api } from 'gw2-api-types';

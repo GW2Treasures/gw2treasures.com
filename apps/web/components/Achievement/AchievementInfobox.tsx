@@ -1,4 +1,4 @@
-import { Achievement, Language } from '@prisma/client';
+import { Achievement, Language } from '@gw2treasures/database';
 import { Gw2Api } from 'gw2-api-types';
 import { FC } from 'react';
 import { FormatNumber } from '../Format/FormatNumber';

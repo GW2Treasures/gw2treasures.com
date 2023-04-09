@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { AchievementCategory, Language } from '@prisma/client';
+import { AchievementCategory, Language } from '@gw2treasures/database';
 import { IconSize } from '@/lib/getIconUrl';
 import { EntityLink } from '../Link/EntityLink';
 import { WithIcon } from '@/lib/with';

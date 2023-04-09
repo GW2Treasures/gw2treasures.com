@@ -1,4 +1,4 @@
-import { Language } from '@prisma/client';
+import { Language } from '@gw2treasures/database';
 import { ItemPageComponent } from './component';
 
 function ItemPage({ params: { language, id }}: { params: { language: Language, id: string }}) {

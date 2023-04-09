@@ -1,4 +1,4 @@
-import { Skin, Language } from '@prisma/client';
+import { Skin, Language } from '@gw2treasures/database';
 import { Gw2Api } from 'gw2-api-types';
 import { FC } from 'react';
 import { Headline } from '../Headline/Headline';

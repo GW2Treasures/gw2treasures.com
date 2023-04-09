@@ -1,4 +1,4 @@
-import { Prisma } from '@prisma/client';
+import { Prisma } from '@gw2treasures/database';
 import chalk from 'chalk';
 import { parseExpression } from 'cron-parser';
 import { JobName } from '.';

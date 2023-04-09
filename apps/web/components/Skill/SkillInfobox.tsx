@@ -1,4 +1,4 @@
-import { Language, Skill } from '@prisma/client';
+import { Language, Skill } from '@gw2treasures/database';
 import { Gw2Api } from 'gw2-api-types';
 import { FC } from 'react';
 import { isTruthy } from '../../lib/is';

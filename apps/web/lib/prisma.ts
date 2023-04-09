@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '@gw2treasures/database';
 
 // https://pris.ly/d/help/next-js-best-practices
 

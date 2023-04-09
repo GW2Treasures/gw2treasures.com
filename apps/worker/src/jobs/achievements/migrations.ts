@@ -1,4 +1,4 @@
-import { MasteryRegion, Prisma } from '@prisma/client';
+import { MasteryRegion, Prisma } from '@gw2treasures/database';
 import { Gw2Api } from 'gw2-api-types';
 import { db } from '../../db';
 import { LocalizedObject } from '../helper/types';

@@ -6,7 +6,7 @@ import { localizedName } from '@/lib/localizedName';
 import { Fragment } from 'react';
 import { Gw2Api } from 'gw2-api-types';
 import { AchievementCategoryLink } from '@/components/Achievement/AchievementCategoryLink';
-import { Language } from '@prisma/client';
+import { Language } from '@gw2treasures/database';
 import { remember } from '@/lib/remember';
 import { ResetTimer } from './reset-timer';
 import { RemovedFromApiNotice } from '@/components/Notice/RemovedFromApiNotice';

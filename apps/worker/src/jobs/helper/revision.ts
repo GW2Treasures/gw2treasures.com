@@ -1,4 +1,4 @@
-import { Prisma, Revision } from '@prisma/client';
+import { Prisma, Revision } from '@gw2treasures/database';
 import { db } from '../../db';
 import { LocalizedObject } from './types';
 

@@ -9,7 +9,7 @@ import { Bitter } from 'next/font/google';
 import localFont from 'next/font/local';
 import { cx } from '@/lib/classNames';
 import { I18nProvider } from '@/components/I18n/I18nProvider';
-import { Language } from '@prisma/client';
+import { Language } from '@gw2treasures/database';
 
 const __html = `
 /**

@@ -1,6 +1,6 @@
 import { Job } from '../job';
 import { db } from '../../db';
-import { Prisma } from '@prisma/client';
+import { Prisma } from '@gw2treasures/database';
 import { getCurrentBuild } from '../helper/getCurrentBuild';
 import { loadSkins } from '../helper/loadSkins';
 import { createIcon } from '../helper/createIcon';

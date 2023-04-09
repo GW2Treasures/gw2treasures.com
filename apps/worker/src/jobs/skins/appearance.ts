@@ -1,4 +1,4 @@
-import { Prisma } from '@prisma/client';
+import { Prisma } from '@gw2treasures/database';
 import fetch from 'node-fetch';
 import { db } from '../../db';
 import { Job } from '../job';

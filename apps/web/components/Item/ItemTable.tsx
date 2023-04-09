@@ -1,4 +1,4 @@
-import { Item } from '@prisma/client';
+import { Item } from '@gw2treasures/database';
 import { FC } from 'react';
 import { Coins } from '../Format/Coins';
 import { Table } from '../Table/Table';

@@ -1,4 +1,4 @@
-import { Prisma } from '@prisma/client';
+import { Prisma } from '@gw2treasures/database';
 import { Gw2Api } from 'gw2-api-types';
 
 export const CURRENT_VERSION = 1;

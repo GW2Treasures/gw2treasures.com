@@ -1,6 +1,6 @@
 'use client';
 
-import { IngredientItem, Recipe, Revision } from '@prisma/client';
+import { IngredientItem, Recipe, Revision } from '@gw2treasures/database';
 import { FC, memo, useDeferredValue, useMemo, useState } from 'react';
 import Icon from '../../icons/Icon';
 import { localizedName } from '../../lib/localizedName';

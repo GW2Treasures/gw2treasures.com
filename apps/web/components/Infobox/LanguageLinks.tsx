@@ -1,4 +1,4 @@
-import { Language } from '@prisma/client';
+import { Language } from '@gw2treasures/database';
 import { cloneElement, FC, ReactElement } from 'react';
 import styles from './LanguageLinks.module.css';
 

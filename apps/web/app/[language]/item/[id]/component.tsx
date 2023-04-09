@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Language } from '@prisma/client';
+import { Language } from '@gw2treasures/database';
 import { ItemTooltip } from '@/components/Item/ItemTooltip';
 import DetailLayout from '@/components/Layout/DetailLayout';
 import { Table } from '@/components/Table/Table';

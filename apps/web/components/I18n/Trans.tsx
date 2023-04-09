@@ -4,7 +4,7 @@ import { AsyncComponent } from '@/lib/asyncComponent';
 import { translate, TranslationId } from './getTranslate';
 import { FC } from 'react';
 import { headers } from 'next/headers';
-import { Language } from '@prisma/client';
+import { Language } from '@gw2treasures/database';
 
 export interface TransProps {
   id: TranslationId;

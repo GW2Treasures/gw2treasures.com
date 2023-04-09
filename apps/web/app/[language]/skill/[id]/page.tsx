@@ -1,4 +1,4 @@
-import { Language } from '@prisma/client';
+import { Language } from '@gw2treasures/database';
 import { SkillPageComponent } from './component';
 
 function SkillPage({ params: { language, id }}: { params: { language: Language, id: string }}) {

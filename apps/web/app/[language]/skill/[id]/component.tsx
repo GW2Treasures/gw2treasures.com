@@ -1,6 +1,6 @@
 import { FunctionComponent, ReactElement } from 'react';
 import Link from 'next/link';
-import { Language } from '@prisma/client';
+import { Language } from '@gw2treasures/database';
 import DetailLayout from '@/components/Layout/DetailLayout';
 import { Table } from '@/components/Table/Table';
 import { TableOfContentAnchor } from '@/components/TableOfContent/TableOfContent';

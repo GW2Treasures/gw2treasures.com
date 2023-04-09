@@ -3,7 +3,7 @@
 import { cx } from '@/lib/classNames';
 import { LocalizedEntity, localizedName } from '@/lib/localizedName';
 import { WithIcon } from '@/lib/with';
-import { Item, Language } from '@prisma/client';
+import { Item, Language } from '@gw2treasures/database';
 import { FC } from 'react';
 import { useLanguage } from '../I18n/Context';
 import { Skeleton } from '../Skeleton/Skeleton';

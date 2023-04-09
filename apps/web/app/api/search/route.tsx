@@ -1,6 +1,6 @@
 import { remember } from '@/lib/remember';
 import { db } from '@/lib/prisma';
-import { Prisma } from '@prisma/client';
+import { Prisma } from '@gw2treasures/database';
 import { NextResponse } from 'next/server';
 import { jsonResponse, UnwrapJsonResponse } from '../helper';
 

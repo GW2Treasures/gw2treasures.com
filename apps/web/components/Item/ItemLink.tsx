@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Item, Language } from '@prisma/client';
+import { Item, Language } from '@gw2treasures/database';
 import { IconSize } from '@/lib/getIconUrl';
 import { EntityLink } from '../Link/EntityLink';
 import { WithIcon } from '@/lib/with';

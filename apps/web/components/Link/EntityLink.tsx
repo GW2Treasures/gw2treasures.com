@@ -1,5 +1,5 @@
 import { AnchorHTMLAttributes, forwardRef, ReactElement } from 'react';
-import { Language } from '@prisma/client';
+import { Language } from '@gw2treasures/database';
 import { IconSize } from '@/lib/getIconUrl';
 import { LocalizedEntity } from '@/lib/localizedName';
 import { WithIcon } from '@/lib/with';

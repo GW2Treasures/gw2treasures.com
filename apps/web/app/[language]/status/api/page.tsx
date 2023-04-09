@@ -4,7 +4,7 @@ import { PageLayout } from '@/components/Layout/PageLayout';
 import { Reload } from '@/components/Reload/Reload';
 import { Table } from '@/components/Table/Table';
 import { db } from '@/lib/prisma';
-import { ApiRequest } from '@prisma/client';
+import { ApiRequest } from '@gw2treasures/database';
 import { Fragment } from 'react';
 import styles from './page.module.css';
 

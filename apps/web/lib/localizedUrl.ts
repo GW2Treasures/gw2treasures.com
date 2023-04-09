@@ -1,4 +1,4 @@
-import { Language } from '@prisma/client';
+import { Language } from '@gw2treasures/database';
 
 export function localizedUrl(href: string, language: Language) {
   const base = process.env.GW2T_NEXT_DOMAIN;

@@ -2,7 +2,7 @@ import { Job } from '../job';
 import { db } from '../../db';
 import { loadAchievementCategories } from '../helper/loadAchievements';
 import { Gw2Api } from 'gw2-api-types';
-import { Language, Prisma } from '@prisma/client';
+import { Language, Prisma } from '@gw2treasures/database';
 import { createRevisions } from '../helper/revision';
 import { getCurrentBuild } from '../helper/getCurrentBuild';
 import { createIcon } from '../helper/createIcon';

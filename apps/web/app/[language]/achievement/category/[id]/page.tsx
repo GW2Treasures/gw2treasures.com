@@ -1,4 +1,4 @@
-import { Language } from '@prisma/client';
+import { Language } from '@gw2treasures/database';
 import DetailLayout from '@/components/Layout/DetailLayout';
 import { db } from '@/lib/prisma';
 import { Gw2Api } from 'gw2-api-types';

@@ -1,4 +1,4 @@
-import { Item, Language } from '@prisma/client';
+import { Item, Language } from '@gw2treasures/database';
 import { Gw2Api } from 'gw2-api-types';
 import { FC } from 'react';
 import { Headline } from '../Headline/Headline';

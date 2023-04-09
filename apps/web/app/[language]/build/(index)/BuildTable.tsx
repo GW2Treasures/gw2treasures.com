@@ -4,7 +4,7 @@ import { useFormatContext } from '@/components/Format/FormatContext';
 import { FormatDate } from '@/components/Format/FormatDate';
 import { FormatNumber } from '@/components/Format/FormatNumber';
 import { DataTableColumn, useDataTable } from '@/components/Table/DataTable';
-import { Build } from '@prisma/client';
+import { Build } from '@gw2treasures/database';
 import Link from 'next/link';
 import { FC, useCallback, useMemo } from 'react';
 

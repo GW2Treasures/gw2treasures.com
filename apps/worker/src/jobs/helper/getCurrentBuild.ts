@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';
-import { Build } from '@prisma/client';
+import { Build } from '@gw2treasures/database';
 import { db } from '../../db';
 
 export async function getCurrentBuild(): Promise<Build> {

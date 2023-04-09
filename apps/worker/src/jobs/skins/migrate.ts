@@ -1,7 +1,7 @@
 import { Job } from '../job';
 import { db } from '../../db';
 import { queueJobForIds } from '../helper/queueJobsForIds';
-import { Prisma } from '@prisma/client';
+import { Prisma } from '@gw2treasures/database';
 
 export const CURRENT_VERSION = 0;
 

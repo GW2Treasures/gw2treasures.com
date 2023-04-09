@@ -1,5 +1,5 @@
 import { LocalizedEntity } from '@/lib/localizedName';
-import { IngredientItem, Item, Recipe, Revision } from '@prisma/client';
+import { IngredientItem, Item, Recipe, Revision } from '@gw2treasures/database';
 import { FC } from 'react';
 import Icon from '../../icons/Icon';
 import { With, WithIcon } from '../../lib/with';

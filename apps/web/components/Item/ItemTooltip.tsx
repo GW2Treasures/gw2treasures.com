@@ -2,7 +2,7 @@ import 'server-only';
 import { Gw2Api } from 'gw2-api-types';
 import { ClientItemTooltip } from './ItemTooltip.client';
 import { getTranslate } from '../I18n/getTranslate';
-import { Item, Language } from '@prisma/client';
+import { Item, Language } from '@gw2treasures/database';
 import { AsyncComponent } from '@/lib/asyncComponent';
 import { format } from 'gw2-tooltip-html';
 import { isTruthy } from '@/lib/is';

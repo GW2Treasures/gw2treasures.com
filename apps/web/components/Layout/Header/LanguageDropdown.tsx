@@ -11,7 +11,7 @@ import { Separator } from '../Separator';
 import styles from '../Layout.module.css';
 import { useRouter } from 'next/navigation';
 import { useLanguage } from '@/components/I18n/Context';
-import { Language } from '@prisma/client';
+import { Language } from '@gw2treasures/database';
 
 export interface LanguageDropdownProps {
   // TODO: add props

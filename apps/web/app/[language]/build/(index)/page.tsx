@@ -1,6 +1,6 @@
 import { db } from '@/lib/prisma';
 import { remember } from '@/lib/remember';
-import { Language } from '@prisma/client';
+import { Language } from '@gw2treasures/database';
 import { BuildTable } from './BuildTable';
 
 export const dynamic = 'force-dynamic';

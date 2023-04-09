@@ -1,4 +1,4 @@
-import { Language } from '@prisma/client';
+import { Language } from '@gw2treasures/database';
 import DetailLayout from '@/components/Layout/DetailLayout';
 import { Skeleton } from '@/components/Skeleton/Skeleton';
 import { db } from '@/lib/prisma';

@@ -1,6 +1,6 @@
 'use client';
 
-import { Language } from '@prisma/client';
+import { Language } from '@gw2treasures/database';
 import { createContext, FC, ReactNode, useContext } from 'react';
 
 interface I18nContext {

@@ -1,7 +1,5 @@
 {
-  "files.exclude": {
-    // "next": true,
-    // "next-importer": true,
-    // "next-worker": true
-  },
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "css.lint.validProperties": ["composes"]
 }

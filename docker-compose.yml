@@ -3,7 +3,7 @@ version: '3'
 services:
   next:
     image: gw2treasures/next
-    build: next
+    build: apps/next
     restart: unless-stopped
     environment:
       - DATABASE_URL=postgresql://gw2treasures:gw2treasures@next-db:5432/gw2treasures?schema=public
@@ -14,7 +14,7 @@ services:
 
   next-worker:
     image: gw2treasures/next-worker
-    build: next-worker
+    build: apps/next-worker
     restart: unless-stopped
     depends_on:
       - next-db

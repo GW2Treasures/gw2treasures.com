@@ -3,7 +3,7 @@ version: '3'
 services:
   next-importer:
     image: gw2treasures/next-importer
-    build: next-importer
+    build: apps/next-importer
     restart: on-failure
     environment:
       - DATABASE_URL=postgresql://gw2treasures:gw2treasures@next-db:5432/gw2treasures?schema=public

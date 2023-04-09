@@ -3,6 +3,7 @@
 error_reporting(E_ALL ^ E_DEPRECATED);
 
 return array(
+	'cacheBusting' => '2021-05-08_2',
 
 	/*
 	|--------------------------------------------------------------------------

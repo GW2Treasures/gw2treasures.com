@@ -38,7 +38,7 @@ jobs:
     - name: Push image  
       if: github.event_name == 'push'
       run: |
-        IMAGE_ID=ghcr.io/${{ github.repository }}/${{ matrix.target }}
+        IMAGE_ID=ghcr.io/${{ github.repository }}/legacy/${{ matrix.target }}
         # Change all uppercase to lowercase
         IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
         # Strip git ref prefix from version
@@ -49,5 +49,5 @@ jobs:
         [ "$VERSION" == "main" ] && VERSION=latest
         echo IMAGE_ID=$IMAGE_ID
         echo VERSION=$VERSION
-        docker tag gw2treasures/${{ matrix.target }} $IMAGE_ID:$VERSION
+        docker tag gw2treasures/legacy/${{ matrix.target }} $IMAGE_ID:$VERSION
         docker push $IMAGE_ID:$VERSION

@@ -2,7 +2,7 @@ version: '3'
 
 services:
   web:
-    image: gw2treasures/web
+    image: gw2treasures/legacy/web
     build:
       context: web
       dockerfile: docker/Dockerfile
@@ -58,7 +58,7 @@ services:
     networks:
       - legacy
   reverse-proxy:
-    image: gw2treasures/reverse-proxy
+    image: gw2treasures/legacy/reverse-proxy
     build: reverse-proxy
     restart: unless-stopped
     environment:
@@ -79,13 +79,13 @@ services:
     networks:
       - legacy
   assets:
-    image: gw2treasures/assets
+    image: gw2treasures/legacy/assets
     build: assets
     restart: unless-stopped
     networks:
       - legacy
   storage:
-    image: gw2treasures/storage
+    image: gw2treasures/legacy/storage
     build: storage
     restart: unless-stopped
     environment:
@@ -94,7 +94,7 @@ services:
     networks:
       - legacy
   wvw-crawler:
-    image: gw2treasures/wvw-crawler
+    image: gw2treasures/legacy/wvw-crawler
     build: wvw-crawler
     restart: unless-stopped
     environment:

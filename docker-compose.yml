@@ -1,9 +1,9 @@
 version: '3'
 
 services:
-  next:
-    image: gw2treasures/next
-    build: apps/next
+  web:
+    image: gw2treasures/web
+    build: apps/web
     restart: unless-stopped
     environment:
       - DATABASE_URL=postgresql://gw2treasures:gw2treasures@next-db:5432/gw2treasures?schema=public

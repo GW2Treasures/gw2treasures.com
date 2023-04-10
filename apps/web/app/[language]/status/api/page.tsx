@@ -102,8 +102,7 @@ export default async function StatusApiPage() {
 
 function createResponseTimeGraph(requests: ApiRequest[]) {
   const buckets = requests.reduce(toBuckets<ApiRequest>(32, (r) => r.createdAt.valueOf()), [])
-    .map((bucket) => bucket.map(({ responseTimeMs }) => responseTimeMs)
-    .reduce(average, 0));
+    .map((bucket) => bucket ? (bucket.map(({ responseTimeMs }) => responseTimeMs).reduce(average, 0)) : 0);
 
   const { max, total } = buckets.reduce(({ min, max, total }, bucket) => {
     return { min: min === undefined || min > bucket ? bucket : min, max: max === undefined || max < bucket ? bucket : max, total: (total ?? 0) + bucket };
@@ -119,7 +118,7 @@ function createResponseTimeGraph(requests: ApiRequest[]) {
 
 function createRequestCountGraph(requests: ApiRequest[]) {
   const buckets = requests.reduce(toBuckets<ApiRequest>(32, (r) => r.createdAt.valueOf()), [])
-    .map((bucket) => bucket.map(({ status }) => [200, 206].includes(status)).reduce<[number, number]>(([success, error], request) => [request ? success + 1 : success, !request ? error + 1 : error], [0, 0]));
+    .map((bucket) => bucket ? (bucket.map(({ status }) => [200, 206].includes(status)).reduce<[number, number]>(([success, error], request) => [request ? success + 1 : success, !request ? error + 1 : error], [0, 0])) : [0, 0]);
 
   const { max, total } = buckets.map(([s, e]) => s + e).reduce(({ min, max, total }, bucket) => {
     return { min: min === undefined || min > bucket ? bucket : min, max: max === undefined || max < bucket ? bucket : max, total: (total ?? 0) + bucket };

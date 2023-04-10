@@ -24,6 +24,7 @@ COPY --from=source /source/out/full/ .
 
 # build source
 RUN npm run build -- --filter=legacy-importer...
+RUN npm prune --production --workspaces --include-workspace-root
 
 # Production image, copy all the files and run next
 FROM node:${node_version} AS runner

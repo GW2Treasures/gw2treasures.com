@@ -6,7 +6,8 @@
 			"outputs": ["lib/**"]
 		},
     "ncc": {
-      "dependsOn": ["^build"]
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**"]
     }
 	}
 }

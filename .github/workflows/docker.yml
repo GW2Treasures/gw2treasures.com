@@ -32,18 +32,36 @@ jobs:
       with:
         name: docker-image-${{ matrix.target }}
         path: /tmp/image-${{ matrix.target }}.tar
+        
+  compose-test:
+    name: Test / docker compose
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    needs: image
+    steps:
+    - uses: actions/download-artifact@v3
+      with:
+        path: /tmp
+    - name: Load docker image
+      run: ls /tmp/image-*.tar | xargs -L1 docker load --input /tmp/image-*.tar
+    - name: Start docker compose
+      run: docker compose up -d
+    - name: Wait 30s
+      run: sleep 30
+    - name: Verify docker containers are running
+      run: docker inspect --format "{{.ID}} {{.Name}} {{.State.Running}} {{.RestartCount}}" $(docker compose ps -aq) | node .github/actions/docker-compose-status.js
+    - name: Stop docker compose
+      run: docker compose down
 
   push:
     name: Push ${{ matrix.target }}
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
-    needs: image
+    needs: [image, compose-test]
     strategy:
       matrix:
         target: [ web, worker, legacy-importer ]
     steps:
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v1
     - uses: actions/download-artifact@v3
       with:
         name: docker-image-${{ matrix.target }}

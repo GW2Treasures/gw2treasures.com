@@ -7,6 +7,10 @@ on:
     branches: [ "main" ]
   merge_group:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
 jobs:
   image:
     name: Build image ${{ matrix.target }}
@@ -33,7 +37,7 @@ jobs:
       with:
         name: docker-image-${{ matrix.target }}
         path: /tmp/image-${{ matrix.target }}.tar
-        
+
   compose-test:
     name: Test / docker compose
     runs-on: ubuntu-latest

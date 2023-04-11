@@ -79,7 +79,7 @@ function renderConsumable(consumable: ItemTooltip['consumable']) {
           <div className={styles.consumableDetails}>
             {(consumable.name || consumable.duration_ms) && (
               <div className={styles.consumableName}>
-                {consumable.apply_count && consumable.apply_count > 1 && `${consumable.apply_count}× `}
+                {consumable.apply_count !== undefined && consumable.apply_count > 1 && `${consumable.apply_count}× `}
                 {consumable.name && consumable.duration_ms
                   ? <>{consumable.name} ({formatDuration(consumable.duration_ms)}):</>
                   : consumable.name ? consumable.name : consumable.duration_ms && <>Duration: {formatDuration(consumable.duration_ms)}</>}

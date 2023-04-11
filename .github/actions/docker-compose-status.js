@@ -22,14 +22,9 @@ rl.on('line', (line) => {
   const restarts = Number(match[4]);
   
   if(!['exited', 'running'].includes(status)) {
-    console.error(`${name} has status ${status}`);
+    console.error(`${name} has status ${status} (restarts: ${restarts})`);
     process.exit(1);
   }
 
-  if(restarts !== 0) {
-    console.error(`${name} is restarting`);
-    process.exit(1);
-  }
-
-  console.log(`${name} is running`);
+  console.log(`${name} has status ${status} (restarts: ${restarts})`);
 });

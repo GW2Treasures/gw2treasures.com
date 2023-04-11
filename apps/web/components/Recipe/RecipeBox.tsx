@@ -13,6 +13,8 @@ import { Ingredients } from './Ingredients';
 import styles from './RecipeBox.module.css';
 import { encode } from 'gw2e-chat-codes';
 import { ShowMore } from '../ShowMore/ShowMore';
+import { ResetTimer } from 'app/[language]/achievement/(index)/reset-timer';
+import { Tip } from '../Tip/Tip';
 
 interface RecipeBoxProps {
   recipe: Recipe & {
@@ -52,9 +54,11 @@ export const RecipeBox: FC<RecipeBoxProps> = ({ recipe, outputItem }) => {
         <Icon icon="time"/>
       </div>
       {recipe.type === 'RefinementEctoplasm' && (
-        <div className={styles.info}>
-          Can only be crafted once per day.
-        </div>
+        <Tip tip={<ResetTimer/>}>
+          <div className={styles.info}>
+            <Icon icon="revision"/> Can only be crafted once per day.
+          </div>
+        </Tip>
       )}
       <div className={styles.ingredients}>
         <Ingredients recipe={recipe}/>

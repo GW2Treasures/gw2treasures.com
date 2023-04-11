@@ -36,7 +36,6 @@ jobs:
   compose-test:
     name: Test / docker compose
     runs-on: ubuntu-latest
-    if: github.event_name == 'push'
     needs: image
     steps:
     - uses: actions/download-artifact@v3

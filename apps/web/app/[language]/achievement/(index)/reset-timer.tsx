@@ -26,6 +26,8 @@ export const ResetTimer: FC<ResetTimerProps> = ({ relativeTo }) => {
   const reset = getNextReset();
 
   useEffect(() => {
+    setRemaining((getNextReset(relativeTo).valueOf() - new Date().valueOf()) / 1000);
+
     const interval = setInterval(() => {
       setRemaining((getNextReset(relativeTo).valueOf() - new Date().valueOf()) / 1000);
     }, 1000);

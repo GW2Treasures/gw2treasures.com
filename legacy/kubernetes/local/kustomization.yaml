@@ -16,13 +16,13 @@ resources:
 - phpmyadmin
 
 images:
-- name: ghcr.io/gw2treasures/gw2treasures.com/assets
+- name: ghcr.io/gw2treasures/gw2treasures.com/legacy/assets
   newTag: latest
-- name: ghcr.io/gw2treasures/gw2treasures.com/reverse-proxy
+- name: ghcr.io/gw2treasures/gw2treasures.com/legacy/reverse-proxy
   newTag: latest
-- name: ghcr.io/gw2treasures/gw2treasures.com/storage
+- name: ghcr.io/gw2treasures/gw2treasures.com/legacy/storage
   newTag: latest
-- name: ghcr.io/gw2treasures/gw2treasures.com/web
+- name: ghcr.io/gw2treasures/gw2treasures.com/legacy/web
   newTag: latest
-- name: ghcr.io/gw2treasures/gw2treasures.com/wvw-crawler
+- name: ghcr.io/gw2treasures/gw2treasures.com/legacy/wvw-crawler
   newTag: latest

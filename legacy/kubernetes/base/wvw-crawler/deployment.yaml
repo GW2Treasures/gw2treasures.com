@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: wvw-crawler
-        image: ghcr.io/gw2treasures/gw2treasures.com/wvw-crawler:latest
+        image: ghcr.io/gw2treasures/gw2treasures.com/legacy/wvw-crawler:latest
         resources:
           requests:
             memory: "32Mi"

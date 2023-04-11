@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
       - name: storage
-        image: ghcr.io/gw2treasures/gw2treasures.com/storage:latest
+        image: ghcr.io/gw2treasures/gw2treasures.com/legacy/storage:latest
         resources:
           requests:
             memory: "32Mi"

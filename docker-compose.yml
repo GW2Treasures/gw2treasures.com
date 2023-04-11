@@ -47,5 +47,7 @@ services:
       context: .
       dockerfile: apps/database-migration/Dockerfile
     restart: on-failure
+    depends_on:
+      - database
     environment:
       - DATABASE_URL=postgresql://gw2treasures:gw2treasures@database:5432/gw2treasures?schema=public

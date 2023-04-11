@@ -11,7 +11,7 @@ spec:
         spec:
           containers:
           - name: cron
-            image: ghcr.io/gw2treasures/gw2treasures.com/web:latest
+            image: ghcr.io/gw2treasures/gw2treasures.com/legacy/web:latest
             command: 
             - /bin/sh
             - cron.sh

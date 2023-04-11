@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: web
-        image: ghcr.io/gw2treasures/gw2treasures.com/web:latest
+        image: ghcr.io/gw2treasures/gw2treasures.com/legacy/web:latest
         resources:
           requests:
             memory: "128Mi"

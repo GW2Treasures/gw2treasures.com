@@ -22,6 +22,7 @@ services:
     restart: unless-stopped
     depends_on:
       - database
+      - database-migration
     environment:
       - DATABASE_URL=postgresql://gw2treasures:gw2treasures@database:5432/gw2treasures?schema=public
     deploy:
@@ -39,3 +40,14 @@ services:
       - .docker/database:/var/lib/postgresql/data
     ports:
       - 54326:5432
+
+  database-migration:
+    image: gw2treasures/database-migration
+    build:
+      context: .
+      dockerfile: apps/database-migration/Dockerfile
+    restart: on-failure
+    depends_on:
+      - database
+    environment:
+      - DATABASE_URL=postgresql://gw2treasures:gw2treasures@database:5432/gw2treasures?schema=public

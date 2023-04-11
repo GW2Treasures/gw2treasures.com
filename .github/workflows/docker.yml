@@ -48,6 +48,8 @@ jobs:
       run: docker compose up -d
     - name: Wait 30s
       run: sleep 30
+    - run: docker compose ps -a
+    - run: docker compose logs
     - name: Verify docker containers are running
       run: docker inspect --format "{{.ID}} {{.Name}} {{.State.Running}} {{.RestartCount}}" $(docker compose ps -aq) | node .github/actions/docker-compose-status.js
     - name: Stop docker compose

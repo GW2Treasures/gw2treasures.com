@@ -47,7 +47,7 @@ jobs:
     - uses: actions/download-artifact@v3
       with:
         name: docker-image-${{ matrix.target }}
-        path: /tmp/image-${{ matrix.target }}.tar
+        path: /tmp
     - name: Load docker image
       run: docker load --input /tmp/image-${{ matrix.target }}.tar
     - name: Login to GitHub Container Registry

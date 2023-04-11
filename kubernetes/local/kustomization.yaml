@@ -10,7 +10,6 @@ resources:
 - next
 - next-db
 - next-importer
-- database-migration
 
 images:
 # - name: ghcr.io/gw2treasures/gw2treasures.com/next

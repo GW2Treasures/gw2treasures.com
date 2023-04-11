@@ -11,3 +11,4 @@ resources:
 - next
 - next-importer
 - next-worker
+- database-migration

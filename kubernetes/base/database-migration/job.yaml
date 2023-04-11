@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: Job
+
+metadata:
+  name: database-migration
+
+spec:
+  ttlSecondsAfterFinished: 10
+  template:
+    spec:
+      containers:
+      - name: database-migration
+        image: ghcr.io/gw2treasures/gw2treasures.com/database-migration:latest
+        env:
+        - name: DATABASE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: next
+              key: db
+      restartPolicy: Never

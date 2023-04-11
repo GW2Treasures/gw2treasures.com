@@ -42,7 +42,7 @@ jobs:
       with:
         path: /tmp
     - name: Load docker image
-      run: ls /tmp/docker-image-*/image-*.tar | xargs -L1 docker load --input /tmp/image-*.tar
+      run: ls /tmp/docker-image-*/image-*.tar | xargs -L1 docker load --input
     - name: Start docker compose
       run: docker compose up -d
     - name: Wait 30s

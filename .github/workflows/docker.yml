@@ -51,7 +51,7 @@ jobs:
     - run: docker compose ps -a
     - run: docker compose logs
     - name: Verify docker containers are running
-      run: docker inspect --format "{{.ID}} {{.Name}} {{.State.Running}} {{.RestartCount}}" $(docker compose ps -aq) | node .github/actions/docker-compose-status.js
+      run: docker inspect --format "{{.ID}} {{.Name}} {{.State.Status}} {{.RestartCount}}" $(docker compose ps -aq) | node .github/actions/docker-compose-status.js
     - name: Stop docker compose
       run: docker compose down
 

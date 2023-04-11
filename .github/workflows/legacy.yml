@@ -46,7 +46,7 @@ jobs:
         # Strip "v" prefix from tag name
         [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
         # Use Docker `latest` tag convention
-        [ "$VERSION" == "main" ] && VERSION=latest
+        [ "$VERSION" == "legacy" ] && VERSION=latest
         echo IMAGE_ID=$IMAGE_ID
         echo VERSION=$VERSION
         docker tag gw2treasures/legacy/${{ matrix.target }} $IMAGE_ID:$VERSION

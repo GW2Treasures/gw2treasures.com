@@ -29,7 +29,7 @@ services:
       replicas: 2
 
   database:
-    image: postgres:14-alpine
+    image: postgres:15-alpine
     restart: unless-stopped
     environment:
       - POSTGRES_USER=gw2treasures

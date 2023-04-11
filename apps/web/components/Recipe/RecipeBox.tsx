@@ -35,6 +35,7 @@ export const RecipeBox: FC<RecipeBoxProps> = ({ recipe, outputItem }) => {
           <MenuList>
             <CopyButton appearance="menu" icon="chatlink" copy={encode('recipe', recipe.id) || ''}>Copy chatlink</CopyButton>
             <LinkButton appearance="menu" icon="external" href={`https://gw2efficiency.com/crafting/calculator/a~0!b~1!c~0!d~1-${recipe.outputItemId}`} target="_blank" rel="noreferrer noopener">gw2efficiency</LinkButton>
+            <LinkButton appearance="menu" icon="external" href={`https://api.guildwars2.com/v2/recipes/${recipe.id}?v=latest`} target="_blank" rel="noreferrer noopener">API</LinkButton>
           </MenuList>
         </DropDown>
       </div>

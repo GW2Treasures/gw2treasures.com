@@ -4,6 +4,9 @@
 	"pipeline": {
 		"build": {
 			"outputs": ["lib/**"]
-		}
+		},
+    "ncc": {
+      "dependsOn": ["^build"]
+    }
 	}
 }

@@ -24,8 +24,7 @@ RUN npm ci --include=dev
 COPY --from=source /source/out/full/ .
 
 # build source
-RUN npm run build -- --filter=worker...
-RUN npm prune --production --workspaces --include-workspace-root
+RUN npx turbo run ncc --filter=worker...
 
 # Production image, copy all the files and run next
 FROM node:${node_version} AS runner
@@ -37,7 +36,7 @@ ENV NEXT_TELEMETRY_DISABLED 1
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 worker
 
-COPY --from=builder --chown=worker:nodejs /app .
+COPY --from=builder --chown=worker:nodejs /app/apps/worker/dist .
 
 USER worker
 
@@ -45,4 +44,4 @@ EXPOSE 3000
 
 ENV PORT 3000
 
-CMD [ "node", "apps/worker/lib/index.js" ]
+CMD [ "node", "index.js" ]

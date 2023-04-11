@@ -16,6 +16,10 @@ TODO
 4. Run `npm run dev`.
 5. Visit http://localhost:3000/.
 
+### Accessing database
+
+You can run `npm run prisma:studio` to open prisma studio to access the database.
+
 ### Import legacy database
 
 ```sh

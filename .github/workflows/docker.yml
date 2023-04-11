@@ -7,8 +7,8 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
-    name: Build ${{ matrix.target }}
+  image:
+    name: Build image ${{ matrix.target }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -24,19 +24,39 @@ jobs:
           ./docker-compose.yml
           ./docker-compose.importer.yml
         targets: ${{ matrix.target }}
-        load: true
         set: |
+          *.output=type=docker,dest=/tmp/image-${{ matrix.target }}.tar
           *.cache-from=type=gha,scope=build-${{ matrix.target }}
           *.cache-to=type=gha,scope=build-${{ matrix.target }},mode=max
+    - uses: actions/upload-artifact@v3
+      with:
+        name: docker-image-${{ matrix.target }}
+        path: /tmp/image-${{ matrix.target }}.tar
+
+  push:
+    name: Push ${{ matrix.target }}
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    needs: image
+    strategy:
+      matrix:
+        target: [ web, worker, legacy-importer ]
+    steps:
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+    - uses: actions/download-artifact@v3
+      with:
+        name: docker-image-${{ matrix.target }}
+        path: /tmp/image-${{ matrix.target }}.tar
+    - name: Load docker image
+      run: docker load --input /tmp/image-${{ matrix.target }}.tar
     - name: Login to GitHub Container Registry
-      if: github.event_name == 'push'
       uses: docker/login-action@v2
       with:
         registry: ghcr.io
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
     - name: Push image  
-      if: github.event_name == 'push'
       run: |
         IMAGE_ID=ghcr.io/${{ github.repository }}/${{ matrix.target }}
         # Change all uppercase to lowercase

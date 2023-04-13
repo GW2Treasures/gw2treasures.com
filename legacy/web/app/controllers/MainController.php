@@ -66,13 +66,17 @@ class MainController extends BaseController {
     }
 
     private function getAchievementsForMainpage() {
-        $popularAchievementViews = DB::table('achievement_views')
-            ->select('achievement_id', DB::raw('COUNT(*) as views'))
-            ->whereRaw('DATE_SUB(CURRENT_DATE(), INTERVAL 1 DAY) <= time')
-            ->groupBy('achievement_id')
-            ->orderBy(DB::raw('COUNT(*)'), 'desc')
-            ->orderBy(DB::raw('MAX(time)'), 'desc')
-            ->take(10)->get();
+        try {
+            $popularAchievementViews = DB::table('achievement_views')
+                ->select('achievement_id', DB::raw('COUNT(*) as views'))
+                ->whereRaw('DATE_SUB(CURRENT_DATE(), INTERVAL 1 DAY) <= time')
+                ->groupBy('achievement_id')
+                ->orderBy(DB::raw('COUNT(*)'), 'desc')
+                ->orderBy(DB::raw('MAX(time)'), 'desc')
+                ->take(10)->get();
+        } catch(\Illuminate\Database\QueryException $ex) {
+            $popularAchievementViews = [];
+        }
 
         $popularAchievementViews = new \Illuminate\Support\Collection($popularAchievementViews);
 

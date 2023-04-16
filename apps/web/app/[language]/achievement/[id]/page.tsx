@@ -174,7 +174,7 @@ async function AchievementPage({ params: { id, language }}: { params: { language
             {data.rewards.map((reward) => {
               switch(reward.type) {
                 case 'Coins':
-                  return (<li key={reward.id}><span><span className={styles.listIcon}><Icon icon="coins"/></span> <Coins value={reward.count!}/></span></li>);
+                  return (<li key="coins"><span><span className={styles.listIcon}><Icon icon="coins"/></span> <Coins value={reward.count!}/></span></li>);
                 case 'Mastery':
                   return (<li key={reward.id}><span><span className={styles.listIcon} style={reward.region ? { '--icon-color': MasteryColors[reward.region] } : undefined}><Icon icon="mastery"/></span> {reward.region} Mastery</span></li>);
                 case 'Title':

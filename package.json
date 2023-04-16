@@ -6,6 +6,7 @@
   ],
   "scripts": {
     "dev:web": "turbo run dev --filter=web",
+    "dev:worker": "FORCE_COLOR=1 turbo run dev --filter=worker",
     "prisma:studio": "npm run prisma:studio -w @gw2treasures/database",
     "build": "turbo run build",
     "lint": "turbo run lint"

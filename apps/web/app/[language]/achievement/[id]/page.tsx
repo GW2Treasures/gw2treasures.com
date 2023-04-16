@@ -37,7 +37,13 @@ const getAchievement = remember(60, async function getAchievement(id: number, la
       where: { id },
       include: {
         icon: true,
-        achievementCategory: { include: { achievementGroup: true, categoryDisplay: { select: linkPropertiesWithoutRarity }}},
+        achievementCategory: {
+          select: {
+            ...linkPropertiesWithoutRarity,
+            achievementGroup: { select: { name_de: true, name_en: true, name_es: true, name_fr: true }},
+            categoryDisplay: { select: linkPropertiesWithoutRarity }
+          }
+        },
         prerequisiteFor: { select: linkPropertiesWithoutRarity },
         prerequisites: { select: linkPropertiesWithoutRarity },
         bitsItem: { select: linkProperties },

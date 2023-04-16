@@ -37,7 +37,7 @@ const getAchievement = remember(60, async function getAchievement(id: number, la
       where: { id },
       include: {
         icon: true,
-        achievementCategory: { include: { achievementGroup: true }},
+        achievementCategory: { include: { achievementGroup: true, categoryDisplay: { select: linkPropertiesWithoutRarity }}},
         prerequisiteFor: { select: linkPropertiesWithoutRarity },
         prerequisites: { select: linkPropertiesWithoutRarity },
         bitsItem: { select: linkProperties },
@@ -87,6 +87,13 @@ async function AchievementPage({ params: { id, language }}: { params: { language
         <>
           <Headline id="unlock">Unlock</Headline>
           <p>{data.locked_text || 'You have to unlock this achievement.'}</p>
+        </>
+      )}
+
+      {achievement.id !== achievement.achievementCategory?.categoryDisplayId && achievement.achievementCategory?.categoryDisplay && (
+        <>
+          <Headline id="unlock">Part of</Headline>
+          <AchievementLink achievement={achievement.achievementCategory.categoryDisplay}/>
         </>
       )}
 

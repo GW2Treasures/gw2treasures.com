@@ -262,8 +262,11 @@ model Achievement {
   icon   Icon? @relation(fields: [iconId], references: [id])
   iconId Int?
 
-  achievementCategory AchievementCategory? @relation(fields: [achievementCategoryId], references: [id])
+  achievementCategory AchievementCategory? @relation("achievements", fields: [achievementCategoryId], references: [id])
   achievementCategoryId Int?
+
+  isCategoryDisplay Boolean @default(false)
+  categoryDisplayFor AchievementCategory[] @relation("categoryDisplay")
 
   prerequisites    Achievement[] @relation(name: "prerequisites")
   prerequisitesIds Int[]
@@ -385,7 +388,10 @@ model AchievementCategory {
 
   order Int
 
-  achievements Achievement[]
+  achievements Achievement[]   @relation("achievements")
+
+  categoryDisplay   Achievement? @relation("categoryDisplay", fields: [categoryDisplayId], references: [id])
+  categoryDisplayId Int?
 
   removedFromApi Boolean @default(false)
   

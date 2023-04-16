@@ -7,7 +7,7 @@ function toId<T>({ id }: { id: T }): T {
   return id;
 }
 
-export const CURRENT_VERSION = 4;
+export const CURRENT_VERSION = 5;
 
 /** @see Prisma.AchievementUpdateInput */
 interface MigratedAchievement {
@@ -26,6 +26,9 @@ interface MigratedAchievement {
 
   prerequisitesIds?: number[]
   prerequisites?: Prisma.AchievementUpdateManyWithoutPrerequisiteForNestedInput
+
+  isCategoryDisplay?: boolean
+  categoryDisplayFor?: Prisma.AchievementCategoryUpdateManyWithoutCategoryDisplayNestedInput;
 }
 
 // eslint-disable-next-line require-await
@@ -69,6 +72,17 @@ export async function createMigrator() {
       update.prerequisitesIds = prerequisites;
 
       update.prerequisites = { connect: prerequisites.filter((id) => achievementIds.includes(id)).map((id) => ({ id })) };
+    }
+
+    if(currentVersion < 5) {
+      const isCategoryDisplay = en.flags.includes('CategoryDisplay');
+      update.isCategoryDisplay = isCategoryDisplay;
+
+      if(isCategoryDisplay) {
+        const categories = await db.achievementCategory.findMany({ where: { achievements: { some: { id: en.id }}}, select: { id: true }});
+
+        update.categoryDisplayFor = { connect: categories };
+      }
     }
 
     return update;

@@ -210,5 +210,11 @@ async function processAchievements(id: number, iconId: number | undefined, achie
       where: { achievementCategoryId: id, iconId: null },
       data: { iconId },
     }),
+
+    // set category display
+    db.achievementCategory.update({
+      where: { id },
+      data: { categoryDisplayId: (await db.achievement.findFirst({ where: { id: { in: achievementIds }, isCategoryDisplay: true }}))?.id }
+    }),
   ]);
 }

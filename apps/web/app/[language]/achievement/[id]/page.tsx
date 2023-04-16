@@ -40,6 +40,7 @@ const getAchievement = remember(60, async function getAchievement(id: number, la
         achievementCategory: {
           select: {
             ...linkPropertiesWithoutRarity,
+            categoryDisplayId: true,
             achievementGroup: { select: { name_de: true, name_en: true, name_es: true, name_fr: true }},
             categoryDisplay: { select: linkPropertiesWithoutRarity }
           }

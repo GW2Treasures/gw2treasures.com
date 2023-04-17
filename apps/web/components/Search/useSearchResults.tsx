@@ -9,6 +9,7 @@ import { useLanguage } from '../I18n/Context';
 import { EntityIcon } from '../Entity/EntityIcon';
 import { ItemLinkTooltip } from '../Item/ItemLinkTooltip';
 import { Tooltip } from '../Tooltip/Tooltip';
+import { AchievementLinkTooltip } from '../Achievement/AchievementLinkTooltip';
 
 export interface SearchResults {
   id: string;
@@ -51,7 +52,7 @@ export function useSearchApiResults(searchValue: string): SearchResults[] {
     href: `/skin/${skin.id}`,
   }));
 
-  const achievements = response.loading ? [] : response.data.achievements.map((achievement) => ({
+  const achievements = response.loading ? [] : response.data.achievements.map<SearchResult>((achievement) => ({
     title: localizedName(achievement, language),
     icon: achievement.icon && <EntityIcon icon={achievement.icon} size={32}/>,
     href: `/achievement/${achievement.id}`,
@@ -61,7 +62,8 @@ export function useSearchApiResults(searchValue: string): SearchResults[] {
         {achievement.points > 0 && (<> ▪ {achievement.points} <IconComponent icon="achievementPoints"/></>)}
         {achievement.mastery && (<> ▪ <IconComponent icon="mastery"/> {achievement.mastery}</>)}
       </>
-    )
+    ),
+    render: (link) => <Tooltip content={<AchievementLinkTooltip achievement={getLinkProperties(achievement)}/>}>{link}</Tooltip>
   }));
 
   const categories = response.loading ? [] : response.data.achievementCategories.map((category) => ({

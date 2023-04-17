@@ -25,7 +25,7 @@ export async function createTooltip(achievement: Gw2Api.Achievement, language: L
   return {
     language,
     description: format(achievement.description),
-    requirement: format(achievement.requirement),
+    requirement: format(achievement.requirement.replace('  ', ` ${achievement.tiers.at(-1)?.count ?? ''} `)),
     points: achievement.tiers?.reduce((total, { points }) => total + points, 0) ?? 0,
   };
 }

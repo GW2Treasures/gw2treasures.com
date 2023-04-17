@@ -1,4 +1,5 @@
 {
+  "name": "gw2treasures.com",
   "private": true,
   "workspaces": [
     "apps/*",

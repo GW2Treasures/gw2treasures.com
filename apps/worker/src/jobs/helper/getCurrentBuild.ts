@@ -1,4 +1,3 @@
-import fetch from 'node-fetch';
 import { Build } from '@gw2treasures/database';
 import { db } from '../../db';
 

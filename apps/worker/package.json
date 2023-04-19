@@ -13,18 +13,17 @@
     "@gw2treasures/database": "*",
     "chalk": "^4.1.2",
     "cron-parser": "^4.6.0",
-    "fast-average-color-node": "^2.6.0",
-    "node-fetch": "^2.6.7"
+    "fast-average-color-node": "^2.6.0"
   },
   "devDependencies": {
     "@tsconfig/node18": "^1.0.1",
     "@types/node": "^18.11.5",
-    "@types/node-fetch": "^2.6.2",
     "@typescript-eslint/eslint-plugin": "^5.56.0",
     "@typescript-eslint/parser": "^5.56.0",
     "@vercel/ncc": "^0.36.1",
     "eslint": "^8.36.0",
     "gw2-api-types": "^0.0.4",
-    "typescript": "4.9.5"
+    "typescript": "4.9.5",
+    "undici": "^5.21.2"
   }
 }

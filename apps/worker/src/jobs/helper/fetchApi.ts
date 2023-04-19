@@ -1,5 +1,4 @@
 import chalk from 'chalk';
-import fetch from 'node-fetch';
 import { db } from '../../db';
 
 export function fetchApi<T>(endpoint: string): Promise<T> {
@@ -24,6 +23,6 @@ export function fetchApi<T>(endpoint: string): Promise<T> {
       console.warn(`${chalk.yellow('▲')} ${chalk.blue(endpoint)} returned ${r.status} ${r.statusText}`);
     }
 
-    return r.json();
+    return r.json() as Promise<T>;
   });
 }

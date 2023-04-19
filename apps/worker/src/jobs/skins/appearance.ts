@@ -1,5 +1,4 @@
 import { Prisma } from '@gw2treasures/database';
-import fetch from 'node-fetch';
 import { db } from '../../db';
 import { Job } from '../job';
 
@@ -37,13 +36,13 @@ export const SkinsAppearance: Job = {
     console.log('> Fetch images for skins from wiki');
     console.log(url);
 
-    const data: WikiAskResponse = await fetch(url).then((r) => {
+    const data = await fetch(url).then((r) => {
       if(r.status !== 200) {
         throw new Error(`${url} returned ${r.status} ${r.statusText}`);
       }
 
       return r.json();
-    });
+    }) as WikiAskResponse;
 
     if(data['query-continue-offset']) {
       if(data['query-continue-offset'] > offset) {

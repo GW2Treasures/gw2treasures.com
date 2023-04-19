@@ -23,7 +23,7 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
     - name: Build the Docker image
-      uses: docker/bake-action@v2.3.0
+      uses: docker/bake-action@v3.0.1
       with:
         files: |
           ./docker-compose.yml

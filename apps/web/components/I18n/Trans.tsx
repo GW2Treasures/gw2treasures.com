@@ -17,9 +17,7 @@ export const Trans: FC<TransProps> = ({ id }) => {
 };
 
 const TransInternal: AsyncComponent<TransProps> = async ({ id }) => {
-  // copy logic from middleware - would be nicer if we could inject a x-gw2t-language header in middleware
-  const domain = headers().get('host')?.split(':')[0];
-  const language = (Object.keys(Language) as Language[]).find((lang) => domain === `${lang}.${baseDomain}`) ?? Language.en;
+  const language = headers().get('x-gw2t-lang') as Language;
 
   const translation = await translate(language, id);
 

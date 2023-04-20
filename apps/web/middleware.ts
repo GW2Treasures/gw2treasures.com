@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+//import { db } from '@/lib/prisma';
 
 const languages = ['de', 'en', 'es', 'fr'];
 const baseDomain = process.env.GW2T_NEXT_DOMAIN;
@@ -24,6 +25,13 @@ export function middleware(request: NextRequest) {
 
   const headers = request.headers;
   headers.append('x-gw2t-lang', language);
+
+  // get session
+  if(request.cookies.has('gw2t-session')) {
+    const sessionId = request.cookies.get('gw2t-session')!.value;
+
+    headers.append('x-gw2t-session', sessionId);
+  }
 
   return NextResponse.rewrite(url, { headers: corsHeader(request), request: { headers }});
 }

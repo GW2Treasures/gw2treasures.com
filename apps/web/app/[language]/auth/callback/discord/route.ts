@@ -33,11 +33,23 @@ export async function GET(request: NextRequest, { params: { language }}: { param
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: data,
-    }).then((r) => r.json()) as { access_token: string };
+    }).then((r) => {
+      if(!r.ok) {
+        throw new Error('Could not load discord token');
+      }
+
+      return r.json();
+    }) as { access_token: string };
 
     const profile = await fetch('https://discord.com/api/users/@me', {
       headers: { 'Authorization': `Bearer ${token.access_token}` }
-    }).then((r) => r.json()) as { id: string, username: string, email: string, discriminator: string };
+    }).then((r) => {
+      if(!r.ok) {
+        throw new Error('Could not load discord profile');
+      }
+
+      return r.json();
+    }) as { id: string, username: string, email: string, discriminator: string };
 
     const providerKey = { provider: 'discord', providerAccountId: profile.id };
 

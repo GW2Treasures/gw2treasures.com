@@ -2,6 +2,7 @@ import { Language } from '@gw2treasures/database';
 import { redirect } from 'next/navigation';
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/prisma';
+import parseUserAgent from 'ua-parser-js';
 
 const baseDomain = process.env.GW2T_NEXT_DOMAIN!;
 const clientId = process.env.DISCORD_CLIENT_ID!;
@@ -63,7 +64,11 @@ export async function GET(request: NextRequest, { params: { language }}: { param
       userId = user.id;
     }
 
-    const session = await db.userSession.create({ data: { info: 'Session', userId }});
+    const userAgentString = request.headers.get('user-agent');
+    const userAgent = userAgentString ? parseUserAgent(userAgentString) : undefined;
+    const sessionName = userAgent ? `${userAgent.browser.name} on ${userAgent.os.name}` : 'Session';
+
+    const session = await db.userSession.create({ data: { info: sessionName, userId }});
 
     const response = NextResponse.redirect(`${protocol}//${domain}:${port}/profile`);
     response.cookies.set('gw2t-session', session.id, { domain: baseDomain, sameSite: 'lax', httpOnly: true, secure: protocol === 'https' });

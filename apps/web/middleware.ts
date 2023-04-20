@@ -22,7 +22,10 @@ export function middleware(request: NextRequest) {
   const url = request.nextUrl.clone();
   url.pathname = `/${language}${url.pathname}`;
 
-  return NextResponse.rewrite(url, { headers: corsHeader(request) });
+  const headers = request.headers;
+  headers.append('x-gw2t-lang', language);
+
+  return NextResponse.rewrite(url, { headers: corsHeader(request), request: { headers }});
 }
 
 function corsHeader(request: NextRequest): {} | { 'Access-Control-Allow-Origin': string } {

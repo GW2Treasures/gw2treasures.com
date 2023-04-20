@@ -54,7 +54,7 @@ export default async function ProfilePage() {
         <thead>
           <tr>
             <th>Session</th>
-            <th>Last used</th>
+            <th>Last Active</th>
           </tr>
         </thead>
         <tbody>

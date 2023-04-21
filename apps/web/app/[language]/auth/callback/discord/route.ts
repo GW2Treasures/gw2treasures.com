@@ -11,10 +11,12 @@ const clientSecret = process.env.DISCORD_CLIENT_SECRET;
 
 export async function GET(request: NextRequest) {
   if(!clientId || !clientSecret) {
+    console.error('DISCORD_CLIENT_ID or DISCORD_CLIENT_SECRET not set');
     redirect('/login?error');
   }
 
   try {
+    // get code from querystring
     const { searchParams } = new URL(request.url);
     const code = searchParams.get('code');
 
@@ -22,56 +24,54 @@ export async function GET(request: NextRequest) {
       redirect('/login?error');
     }
 
+    // build callback url
     const { domain, protocol, port } = getUrlPartsFromRequest(request);
     const callbackUrl = `${protocol}//${domain}:${port}/auth/callback/discord`;
 
-    const data = new URLSearchParams();
-    data.append('client_id', clientId);
-    data.append('client_secret', clientSecret);
-    data.append('grant_type', 'authorization_code');
-    data.append('code', code);
-    data.append('redirect_uri', callbackUrl);
+    // build token request
+    const data = new URLSearchParams({
+      // eslint-disable-next-line object-shorthand
+      'code': code,
+      'client_id': clientId,
+      'client_secret': clientSecret,
+      'grant_type': 'authorization_code',
+      'redirect_uri': callbackUrl,
+    });
 
+    // get discord token
     const token = await fetch('https://discord.com/api/oauth2/token', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: data,
-    }).then((r) => {
-      if(!r.ok) {
-        throw new Error('Could not load discord token');
-      }
+    }).then(getJsonIfOk) as { access_token: string };
 
-      return r.json();
-    }) as { access_token: string };
-
+    // get profile info with token
     const profile = await fetch('https://discord.com/api/users/@me', {
       headers: { 'Authorization': `Bearer ${token.access_token}` }
-    }).then((r) => {
-      if(!r.ok) {
-        throw new Error('Could not load discord profile');
-      }
+    }).then(getJsonIfOk) as { id: string, username: string, email: string, discriminator: string };
 
-      return r.json();
-    }) as { id: string, username: string, email: string, discriminator: string };
+    // build provider key
+    const provider = { provider: 'discord', providerAccountId: profile.id };
 
-    const providerKey = { provider: 'discord', providerAccountId: profile.id };
-
-    const userProvider = await db.userProvider.findUnique({ where: { provider_providerAccountId: providerKey }});
-
+    // try to find this account in db
+    const userProvider = await db.userProvider.findUnique({ where: { provider_providerAccountId: provider }});
     let userId = userProvider?.userId;
 
+    // if user doesn't exist yet create in db
     if(!userId) {
-      // create user in db
-      const user = await db.user.create({ data: { name: profile.username, providers: { create: { ...providerKey, displayName: `${profile.username}#${profile.discriminator}` }}}});
+      const user = await db.user.create({ data: { name: profile.username, providers: { create: { ...provider, displayName: `${profile.username}#${profile.discriminator}` }}}});
       userId = user.id;
     }
 
+    // parse user-agent to set session name
     const userAgentString = request.headers.get('user-agent');
     const userAgent = userAgentString ? parseUserAgent(userAgentString) : undefined;
     const sessionName = userAgent ? `${userAgent.browser.name} on ${userAgent.os.name}` : 'Session';
 
+    // create a new session
     const session = await db.userSession.create({ data: { info: sessionName, userId }});
 
+    // send response with session cookie
     const response = NextResponse.redirect(`${protocol}//${domain}:${port}/profile`);
     response.cookies.set('gw2t-session', session.id, { domain: baseDomain, sameSite: 'lax', httpOnly: true, secure: protocol === 'https' });
     return response;
@@ -79,4 +79,12 @@ export async function GET(request: NextRequest) {
     console.error(error);
     redirect('/login?error');
   }
+}
+
+function getJsonIfOk(response: Response) {
+  if(!response.ok) {
+    throw new Error('Could not load discord profile');
+  }
+
+  return response.json();
 }

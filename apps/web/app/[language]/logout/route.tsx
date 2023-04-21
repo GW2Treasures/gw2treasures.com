@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/prisma';
 import { getUrlPartsFromRequest } from '@/lib/getUrlPartsFromRequest';
 
-const baseDomain = process.env.GW2T_NEXT_DOMAIN!;
+const baseDomain = process.env.GW2T_NEXT_DOMAIN;
 
 export async function GET(request: NextRequest) {
   const { domain, protocol, port } = getUrlPartsFromRequest(request);

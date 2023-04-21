@@ -5,11 +5,15 @@ import { db } from '@/lib/prisma';
 import parseUserAgent from 'ua-parser-js';
 import { getUrlPartsFromRequest } from '@/lib/getUrlPartsFromRequest';
 
-const baseDomain = process.env.GW2T_NEXT_DOMAIN!;
-const clientId = process.env.DISCORD_CLIENT_ID!;
-const clientSecret = process.env.DISCORD_CLIENT_SECRET!;
+const baseDomain = process.env.GW2T_NEXT_DOMAIN;
+const clientId = process.env.DISCORD_CLIENT_ID;
+const clientSecret = process.env.DISCORD_CLIENT_SECRET;
 
-export async function GET(request: NextRequest, { params: { language }}: { params: { language: Language }}) {
+export async function GET(request: NextRequest) {
+  if(!clientId || !clientSecret) {
+    redirect('/login?error');
+  }
+
   try {
     const { searchParams } = new URL(request.url);
     const code = searchParams.get('code');

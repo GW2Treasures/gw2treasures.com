@@ -1,6 +1,7 @@
+import 'server-only';
+
 import { headers } from 'next/headers';
 import { db } from '@/lib/prisma';
-import 'server-only';
 import { cache } from 'react';
 import { redirect } from 'next/navigation';
 

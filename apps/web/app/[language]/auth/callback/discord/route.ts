@@ -54,28 +54,19 @@ export async function GET(request: NextRequest) {
     const provider = { provider: 'discord', providerAccountId: profile.id };
 
     // try to find this account in db
-    const userProvider = await db.userProvider.findUnique({ where: { provider_providerAccountId: provider }});
-    let userId = userProvider?.userId;
-
-    // if user doesn't exist yet create in db
-    if(!userId) {
-      const user = await db.user.create({
-        data: {
-          name: profile.username,
-          email: profile.email,
-
-          providers: {
-            create: {
-              ...provider,
-              displayName: `${profile.username}#${profile.discriminator}`,
-              token,
-            }
-          },
-        }
-      });
-
-      userId = user.id;
-    }
+    const { userId } = await db.userProvider.upsert({
+      where: { provider_providerAccountId: provider },
+      create: {
+        ...provider,
+        displayName: `${profile.username}#${profile.discriminator}`,
+        token,
+        user: { create: { name: profile.username, email: profile.email }}
+      },
+      update: {
+        displayName: `${profile.username}#${profile.discriminator}`,
+        token,
+      }
+    });
 
     // parse user-agent to set session name
     const userAgentString = request.headers.get('user-agent');

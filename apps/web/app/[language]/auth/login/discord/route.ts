@@ -1,11 +1,10 @@
 import { getUrlPartsFromRequest } from '@/lib/getUrlPartsFromRequest';
-import { Language } from '@gw2treasures/database';
 import { redirect } from 'next/navigation';
 import { NextRequest } from 'next/server';
 
 const clientId = process.env.DISCORD_CLIENT_ID!;
 
-export function GET(request: NextRequest, { params: { language }}: { params: { language: Language }}) {
+export function GET(request: NextRequest) {
   const { domain, protocol, port } = getUrlPartsFromRequest(request);
   const callbackUrl = `${protocol}//${domain}:${port}/auth/callback/discord`;
 

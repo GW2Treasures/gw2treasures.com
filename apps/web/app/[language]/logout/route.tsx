@@ -1,12 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/prisma';
+import { getUrlPartsFromRequest } from '@/lib/getUrlPartsFromRequest';
 
 const baseDomain = process.env.GW2T_NEXT_DOMAIN!;
 
 export async function GET(request: NextRequest) {
-  const domain = request.headers.get('host')?.split(':')[0];
-  const protocol = request.headers.get('X-Forwarded-Proto')?.concat(':') ?? request.nextUrl.protocol;
-  const port = request.headers.get('X-Forwarded-Port') ?? request.nextUrl.port;
+  const { domain, protocol, port } = getUrlPartsFromRequest(request);
 
   const response = NextResponse.redirect(`${protocol}//${domain}:${port}/login?logout`);
 

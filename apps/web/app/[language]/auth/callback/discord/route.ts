@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation';
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/prisma';
 import parseUserAgent from 'ua-parser-js';
+import { getUrlPartsFromRequest } from '@/lib/getUrlPartsFromRequest';
 
 const baseDomain = process.env.GW2T_NEXT_DOMAIN!;
 const clientId = process.env.DISCORD_CLIENT_ID!;
@@ -17,10 +18,7 @@ export async function GET(request: NextRequest, { params: { language }}: { param
       redirect('/login?error');
     }
 
-    const domain = request.headers.get('host')?.split(':')[0];
-    const protocol = request.headers.get('X-Forwarded-Proto')?.concat(':') ?? request.nextUrl.protocol;
-    const port = request.headers.get('X-Forwarded-Port') ?? request.nextUrl.port;
-
+    const { domain, protocol, port } = getUrlPartsFromRequest(request);
     const callbackUrl = `${protocol}//${domain}:${port}/auth/callback/discord`;
 
     const data = new URLSearchParams();

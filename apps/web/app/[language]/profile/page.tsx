@@ -38,6 +38,7 @@ export default async function ProfilePage() {
           <tr>
             <th>Provider</th>
             <th>User</th>
+            <th>Created</th>
           </tr>
         </thead>
         <tbody>
@@ -45,6 +46,7 @@ export default async function ProfilePage() {
             <tr key={`${provider.provider}-${provider.providerAccountId}`}>
               <td>{provider.provider}</td>
               <td>{provider.displayName}</td>
+              <td><FormatDate relative date={provider.createdAt} data-superjson/></td>
             </tr>
           ))}
         </tbody>

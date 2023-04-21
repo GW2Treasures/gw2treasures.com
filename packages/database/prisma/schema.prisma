@@ -576,7 +576,7 @@ model UserSession {
   
   info String
 
-  user   User @relation("session", fields: [userId], references: [id])
+  user   User @relation("session", fields: [userId], references: [id], onDelete: Cascade)
   userId String
 
   createdAt DateTime @default(now())
@@ -593,5 +593,8 @@ model UserProvider {
   token Json
   
   userId String
-  user   User   @relation("provider", fields: [userId], references: [id])
+  user   User   @relation("provider", fields: [userId], references: [id], onDelete: Cascade)
+  
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
 }

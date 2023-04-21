@@ -59,7 +59,21 @@ export async function GET(request: NextRequest) {
 
     // if user doesn't exist yet create in db
     if(!userId) {
-      const user = await db.user.create({ data: { name: profile.username, providers: { create: { ...provider, displayName: `${profile.username}#${profile.discriminator}` }}}});
+      const user = await db.user.create({
+        data: {
+          name: profile.username,
+          email: profile.email,
+
+          providers: {
+            create: {
+              ...provider,
+              displayName: `${profile.username}#${profile.discriminator}`,
+              token,
+            }
+          },
+        }
+      });
+
       userId = user.id;
     }
 

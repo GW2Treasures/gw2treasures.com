@@ -561,7 +561,8 @@ model ApiRequest {
 model User {
   id String @id @default(uuid())
 
-  name String @unique
+  name  String  @unique
+  email String? @unique
 
   sessions  UserSession[]  @relation("session")
   providers UserProvider[] @relation("provider")
@@ -589,7 +590,8 @@ model UserProvider {
   @@id([provider, providerAccountId])
 
   displayName String
-
+  token Json
+  
   userId String
   user   User   @relation("provider", fields: [userId], references: [id])
 }

@@ -13,7 +13,7 @@
     "gw2-api-types": "^0.0.4"
   },
   "devDependencies": {
-    "@tsconfig/node18": "^1.0.1",
+    "@tsconfig/node18": "^2.0.0",
     "@types/node": "^18.11.5",
     "@typescript-eslint/eslint-plugin": "^5.57.0",
     "@typescript-eslint/parser": "^5.57.0",

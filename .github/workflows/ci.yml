@@ -61,13 +61,16 @@ jobs:
       run: docker compose down
 
   build:
-    name: Build
+    name: Build / Node ${{ matrix.node }}
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [ 18, 20 ]
     steps:
     - uses: actions/checkout@v3
     - uses: actions/setup-node@v3
       with:
-        node-version: 18
+        node-version: ${{ matrix.node }}
         cache: npm
     - name: Install dependencies
       run: npm ci
@@ -81,11 +84,11 @@ jobs:
     - uses: actions/checkout@v3
     - uses: actions/setup-node@v3
       with:
-        node-version: 18
+        node-version: 20
         cache: npm
     - name: Install dependencies
       run: npm ci
-    - name: Run Build
+    - name: Run Lint
       run: npm run lint
 
   success:

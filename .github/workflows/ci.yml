@@ -85,7 +85,7 @@ jobs:
     needs: [compose-test, build, lint]
     runs-on: ubuntu-latest
     steps:
-    - run echo "Success"
+    - run: echo "Success"
 
   push:
     name: Docker / Push / ${{ matrix.target }}

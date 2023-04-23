@@ -1,4 +1,4 @@
-name: Docker
+name: CI
 
 on:
   push:
@@ -13,7 +13,7 @@ concurrency:
 
 jobs:
   image:
-    name: Build image ${{ matrix.target }}
+    name: Docker / Build / ${{ matrix.target }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -39,7 +39,7 @@ jobs:
         path: /tmp/image-${{ matrix.target }}.tar
 
   compose-test:
-    name: Test / docker compose
+    name: Docker / Test / compose
     runs-on: ubuntu-latest
     needs: image
     steps:
@@ -60,11 +60,49 @@ jobs:
     - name: Stop docker compose
       run: docker compose down
 
+  build:
+    name: Build / Node ${{ matrix.node }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [ 18, 20 ]
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node }}
+        cache: npm
+    - name: Install dependencies
+      run: npm ci
+    - name: Run Build
+      run: npm run build
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 20
+        cache: npm
+    - name: Install dependencies
+      run: npm ci
+    - name: Run Lint
+      run: npm run lint
+
+  success:
+    name: Success
+    needs: [compose-test, build, lint]
+    runs-on: ubuntu-latest
+    steps:
+    - run: echo "Success"
+
   push:
-    name: Push ${{ matrix.target }}
+    name: Docker / Push / ${{ matrix.target }}
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
-    needs: [image, compose-test]
+    needs: [success]
     strategy:
       matrix:
         target: [ web, worker, legacy-importer, database-migration ]

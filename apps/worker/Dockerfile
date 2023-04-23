@@ -1,4 +1,4 @@
-ARG node_version=18-alpine
+ARG node_version=20-alpine
 
 
 FROM node:${node_version} AS source

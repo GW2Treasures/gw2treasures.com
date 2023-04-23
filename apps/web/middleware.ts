@@ -9,8 +9,6 @@ export function middleware(request: NextRequest) {
   const { domain, protocol, port, path } = getUrlPartsFromRequest(request);
   const language = languages.find((lang) => domain === `${lang}.${baseDomain}`);
 
-  console.log({ domain, protocol, port, path });
-
   if(!language) {
     const url = getUrlFromParts({ protocol, domain: `en.${baseDomain}`, port, path });
 

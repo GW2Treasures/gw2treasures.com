@@ -1,4 +1,4 @@
-import { getUrlPartsFromRequest } from '@/lib/getUrlPartsFromRequest';
+import { getUrlFromParts, getUrlPartsFromRequest } from '@/lib/urlParts';
 import { redirect } from 'next/navigation';
 import { NextRequest } from 'next/server';
 
@@ -11,8 +11,10 @@ export function GET(request: NextRequest) {
   }
 
   // build callback url
-  const { domain, protocol, port } = getUrlPartsFromRequest(request);
-  const callbackUrl = `${protocol}//${domain}:${port}/auth/callback/discord`;
+  const callbackUrl = getUrlFromParts({
+    ...getUrlPartsFromRequest(request),
+    path: '/auth/callback/discord'
+  });
 
   // build discord url
   const searchParams = new URLSearchParams({

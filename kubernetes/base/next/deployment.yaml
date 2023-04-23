@@ -41,6 +41,18 @@ spec:
             configMapKeyRef:
               name: next
               key: domain
+        - name: DISCORD_CLIENT_ID
+          valueFrom:
+            configMapKeyRef:
+              name: next
+              key: discord_client_id
+              optional: true
+        - name: DISCORD_CLIENT_SECRET
+          valueFrom:
+            configMapKeyRef:
+              name: next
+              key: discord_client_secret
+              optional: true
         ports:
         - containerPort: 3000
           protocol: TCP

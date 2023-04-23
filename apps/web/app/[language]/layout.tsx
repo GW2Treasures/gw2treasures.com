@@ -82,7 +82,12 @@ export default function RootLayout({
   return (
     <html lang={params.language} className={cx(bitter.variable, wotfard.variable)}>
       <body>
-        <I18nProvider language={params.language}><FormatProvider><Layout>{children}</Layout></FormatProvider></I18nProvider>
+        <I18nProvider language={params.language}>
+          <FormatProvider>
+            {/* @ts-expect-error Server Component */}
+            <Layout>{children}</Layout>
+          </FormatProvider>
+        </I18nProvider>
         <script dangerouslySetInnerHTML={{ __html }}/>
       </body>
     </html>

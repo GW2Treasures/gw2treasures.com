@@ -9,7 +9,7 @@ services:
     restart: unless-stopped
     environment:
       - DATABASE_URL=postgresql://gw2treasures:gw2treasures@database:5432/gw2treasures?schema=public
-      - GW2T_NEXT_DOMAIN=next.gw2treasures.localhost
+      - GW2T_NEXT_DOMAIN=gw2treasures.localhost
       - FORCE_COLOR=1
     ports:
       - 3000:3000

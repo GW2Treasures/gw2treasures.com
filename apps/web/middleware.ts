@@ -1,17 +1,15 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { getUrlPartsFromRequest } from './lib/getUrlPartsFromRequest';
 
 const languages = ['de', 'en', 'es', 'fr'];
 const baseDomain = process.env.GW2T_NEXT_DOMAIN;
 
 export function middleware(request: NextRequest) {
-  const domain = request.headers.get('host')?.split(':')[0];
+  const { domain, protocol, port } = getUrlPartsFromRequest(request);
   const language = languages.find((lang) => domain === `${lang}.${baseDomain}`);
 
   if(!language) {
-    const protocol = request.headers.get('X-Forwarded-Proto')?.concat(':') ?? request.nextUrl.protocol;
-    const port = request.headers.get('X-Forwarded-Port') ?? request.nextUrl.port;
-
     const url = `${protocol}//en.${baseDomain}:${port}${request.nextUrl.pathname}`;
 
     console.log(`> Redirecting to ${url}`);
@@ -24,6 +22,13 @@ export function middleware(request: NextRequest) {
 
   const headers = request.headers;
   headers.append('x-gw2t-lang', language);
+
+  // get session
+  if(request.cookies.has('gw2t-session')) {
+    const sessionId = request.cookies.get('gw2t-session')!.value;
+
+    headers.append('x-gw2t-session', sessionId);
+  }
 
   return NextResponse.rewrite(url, { headers: corsHeader(request), request: { headers }});
 }

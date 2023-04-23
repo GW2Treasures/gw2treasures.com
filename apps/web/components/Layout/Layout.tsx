@@ -10,13 +10,16 @@ import { LinkButton } from '../Form/Button';
 import { ExternalLink } from '../Link/ExternalLink';
 import { LanguageDropdown } from './Header/LanguageDropdown';
 import { Menu } from './Header/Menu';
+import { AsyncComponent } from '@/lib/asyncComponent';
+import { getUser } from '@/lib/getUser';
 
 interface LayoutProps {
   children: ReactNode;
 };
 
-const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
+const Layout: AsyncComponent<LayoutProps> = async ({ children }) => {
   const loading = useLoading();
+  const user = await getUser();
 
   return (
     <div>
@@ -30,9 +33,15 @@ const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
           <Search/>
           <div className={styles.right}>
             <LanguageDropdown/>
-            <LinkButton appearance="menu" href="/login">
-              <Icon icon="user"/><span className={styles.responsive}> Login</span>
-            </LinkButton>
+            {user ? (
+              <LinkButton appearance="menu" href="/profile">
+                <Icon icon="user"/><span className={styles.responsive}> {user.name}</span>
+              </LinkButton>
+            ) : (
+              <LinkButton appearance="menu" href="/login">
+                <Icon icon="user"/><span className={styles.responsive}> Login</span>
+              </LinkButton>
+            )}
           </div>
         </Menu>
         <hr className={styles.headerShadow}/>

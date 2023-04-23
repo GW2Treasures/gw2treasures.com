@@ -1,10 +1,32 @@
 // Import your Client Component
-import LoginForm from './LoginForm';
+import { LinkButton } from '@/components/Form/Button';
+import { PageLayout } from '@/components/Layout/PageLayout';
+import { Notice } from '@/components/Notice/Notice';
+import { getUser } from '@/lib/getUser';
+import { redirect } from 'next/navigation';
 
-export default function LoginPage() {
-  return <LoginForm/>;
+export default async function LoginPage({ searchParams }: { searchParams: { logout?: '', error?: '' } }) {
+  const user = await getUser();
+
+  if(user) {
+    redirect('/profile');
+  }
+
+  return (
+    <PageLayout>
+      {searchParams.error !== undefined && (
+        <Notice type="warning">Unknown error</Notice>
+      )}
+
+      {searchParams.logout !== undefined && (
+        <Notice>Logout successful</Notice>
+      )}
+
+      <LinkButton href="/auth/login/discord" external>Login with Discord</LinkButton>
+    </PageLayout>
+  );
 }
 
-export function generateStaticParams() {
-  return [{ language: 'de' }, { language: 'en' }, { language: 'es' }, { language: 'fr' }];
-}
+// export function generateStaticParams() {
+//   return [{ language: 'de' }, { language: 'en' }, { language: 'es' }, { language: 'fr' }];
+// }

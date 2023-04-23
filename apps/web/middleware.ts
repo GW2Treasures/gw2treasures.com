@@ -1,16 +1,18 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { getUrlPartsFromRequest } from './lib/getUrlPartsFromRequest';
+import { getUrlFromParts, getUrlPartsFromRequest } from './lib/urlParts';
 
 const languages = ['de', 'en', 'es', 'fr'];
 const baseDomain = process.env.GW2T_NEXT_DOMAIN;
 
 export function middleware(request: NextRequest) {
-  const { domain, protocol, port } = getUrlPartsFromRequest(request);
+  const { domain, protocol, port, path } = getUrlPartsFromRequest(request);
   const language = languages.find((lang) => domain === `${lang}.${baseDomain}`);
 
+  console.log({ domain, protocol, port, path });
+
   if(!language) {
-    const url = `${protocol}//en.${baseDomain}:${port}${request.nextUrl.pathname}`;
+    const url = getUrlFromParts({ protocol, domain: `en.${baseDomain}`, port, path });
 
     console.log(`> Redirecting to ${url}`);
 

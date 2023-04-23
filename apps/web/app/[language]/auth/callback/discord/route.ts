@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation';
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/prisma';
 import parseUserAgent from 'ua-parser-js';
-import { getUrlPartsFromRequest } from '@/lib/getUrlPartsFromRequest';
+import { getUrlFromParts, getUrlPartsFromRequest } from '@/lib/urlParts';
 
 const baseDomain = process.env.GW2T_NEXT_DOMAIN;
 const clientId = process.env.DISCORD_CLIENT_ID;
@@ -25,8 +25,11 @@ export async function GET(request: NextRequest) {
     }
 
     // build callback url
-    const { domain, protocol, port } = getUrlPartsFromRequest(request);
-    const callbackUrl = `${protocol}//${domain}:${port}/auth/callback/discord`;
+    const parts = getUrlPartsFromRequest(request);
+    const callbackUrl = getUrlFromParts({
+      ...parts,
+      path: '/auth/callback/discord'
+    });
 
     // build token request
     const data = new URLSearchParams({
@@ -77,8 +80,9 @@ export async function GET(request: NextRequest) {
     const session = await db.userSession.create({ data: { info: sessionName, userId }});
 
     // send response with session cookie
-    const response = NextResponse.redirect(`${protocol}//${domain}:${port}/profile`);
-    response.cookies.set('gw2t-session', session.id, { domain: baseDomain, sameSite: 'lax', httpOnly: true, secure: protocol === 'https' });
+    const profileUrl = getUrlFromParts({ ...parts, path: '/profile' });
+    const response = NextResponse.redirect(profileUrl);
+    response.cookies.set('gw2t-session', session.id, { domain: baseDomain, sameSite: 'lax', httpOnly: true, secure: parts.protocol === 'https:' });
     return response;
   } catch(error) {
     console.error(error);

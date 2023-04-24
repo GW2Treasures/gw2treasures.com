@@ -11,6 +11,7 @@ spec:
       containers:
       - name: next-importer
         image: ghcr.io/gw2treasures/gw2treasures.com/legacy-importer:latest
+        imagePullPolicy: IfNotPresent
         env:
         - name: DATABASE_URL
           valueFrom:

@@ -18,6 +18,7 @@ spec:
       containers:
       - name: next-worker
         image: ghcr.io/gw2treasures/gw2treasures.com/worker:latest
+        imagePullPolicy: IfNotPresent
         resources:
           requests:
             memory: "64Mi"

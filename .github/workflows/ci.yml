@@ -76,6 +76,9 @@ jobs:
     - run: kubectl apply -k kubernetes/local
     - run: kubectl rollout status deployment next next-worker -n gw2treasures --timeout=90s
     - run: kubectl get pod -n gw2treasures
+      if: success() || failure()
+    - run: kubectl logs -l app.kubernetes.io/part-of=gw2treasures -n gw2treasures --all-containers --ignore-errors
+      if: failure()
   
   build:
     name: Build / Node ${{ matrix.node }}

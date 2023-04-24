@@ -72,11 +72,12 @@ jobs:
     - uses: nolar/setup-k3d-k3s@v1
     - run: kubectl version
     - name: Load docker image
+      run: ls /tmp/docker-image-*/image-*.tar | xargs -L1 docker load --input
+    - name: Import images into k3d
       run: |
-        ls /tmp/docker-image-*/image-*.tar | xargs -L1 docker load --input
-        k3d image import gw2treasures/web
-        k3d image import gw2treasures/worker
-        k3d image import gw2treasures/legacy-importer
+        k3d image import gw2treasures/web --keep-tools
+        k3d image import gw2treasures/worker --keep-tools
+        k3d image import gw2treasures/legacy-importer --keep-tools
         k3d image import gw2treasures/database-migration
     - run: kubectl apply -k kubernetes/local
     - run: kubectl rollout status deployment next next-worker -n gw2treasures --timeout=90s

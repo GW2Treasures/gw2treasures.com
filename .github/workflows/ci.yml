@@ -70,6 +70,9 @@ jobs:
       with:
         path: /tmp
     - uses: nolar/setup-k3d-k3s@v1
+      with:
+        version: v1.26
+        github-token: ${{ secrets.GITHUB_TOKEN }}
     - name: Load docker image
       run: ls /tmp/docker-image-*/image-*.tar | xargs -L1 docker load --input
     - name: Import images into k3d

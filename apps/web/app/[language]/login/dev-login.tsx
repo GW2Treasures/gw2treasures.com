@@ -3,9 +3,7 @@ import { Button } from '@/components/Form/Button';
 import { useRouter } from 'next/navigation';
 import { FC, useCallback } from 'react';
 
-export interface DevLoginProps {
-  // TODO: add props
-}
+export interface DevLoginProps {}
 
 export const DevLogin: FC<DevLoginProps> = ({ }) => {
   const { push } = useRouter();

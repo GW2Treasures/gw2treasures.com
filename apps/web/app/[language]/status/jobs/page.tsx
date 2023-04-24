@@ -4,7 +4,7 @@ import { db } from '@/lib/prisma';
 import { FormatDate } from '@/components/Format/FormatDate';
 import { FormatNumber } from '@/components/Format/FormatNumber';
 import { PageLayout } from '@/components/Layout/PageLayout';
-import { Reload } from '@/components/Reload/Reload';
+import { ReloadCheckbox } from '@/components/Reload/ReloadCheckbox';
 import { remember } from '@/lib/remember';
 import styles from '../page.module.css';
 
@@ -37,8 +37,9 @@ async function JobPage() {
 
   return (
     <PageLayout>
-      <Reload intervalMs={1000}/>
-      <Headline id="jobs">Active Jobs ({running.length})</Headline>
+      <Headline id="jobs" actions={<ReloadCheckbox intervalMs={1000}/>}>
+        Active Jobs ({running.length})
+      </Headline>
       <Table>
         <thead>
           <tr>

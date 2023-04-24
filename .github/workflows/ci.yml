@@ -70,7 +70,6 @@ jobs:
       with:
         path: /tmp
     - uses: nolar/setup-k3d-k3s@v1
-    - run: kubectl version
     - name: Load docker image
       run: ls /tmp/docker-image-*/image-*.tar | xargs -L1 docker load --input
     - name: Import images into k3d
@@ -86,7 +85,7 @@ jobs:
     - run: kubectl get job -n gw2treasures
       if: success() || failure()
     - run: kubectl logs -l app.kubernetes.io/part-of=gw2treasures -n gw2treasures --all-containers --ignore-errors
-      if: failure()
+      if: failure() || runner.debug == '1'
   
   build:
     name: Build / Node ${{ matrix.node }}

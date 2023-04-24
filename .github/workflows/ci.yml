@@ -39,7 +39,7 @@ jobs:
         path: /tmp/image-${{ matrix.target }}.tar
 
   compose-test:
-    name: Docker / Test / compose
+    name: Test / docker compose
     runs-on: ubuntu-latest
     needs: image
     steps:
@@ -59,7 +59,33 @@ jobs:
       run: docker inspect --format "{{.ID}} {{.Name}} {{.State.Status}} {{.RestartCount}}" $(docker compose ps -aq) | node .github/actions/docker-compose-status.js
     - name: Stop docker compose
       run: docker compose down
-
+      
+  kubernetes:
+    name: Test / kubernetes
+    runs-on: ubuntu-latest
+    needs: image
+    steps:
+    - uses: actions/checkout@v3 
+    - uses: actions/download-artifact@v3
+      with:
+        path: /tmp
+    - uses: nolar/setup-k3d-k3s@v1
+      with:
+        version: v1.26
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Load docker image
+      run: ls /tmp/docker-image-*/image-*.tar | xargs -L1 docker load --input
+    - name: Import images into k3d
+      run: k3d image import gw2treasures/web gw2treasures/worker gw2treasures/legacy-importer gw2treasures/database-migration
+    - run: kubectl apply -k kubernetes/local
+    - run: kubectl rollout status deployment next next-worker -n gw2treasures --timeout=120s
+    - run: kubectl get deployment -n gw2treasures
+      if: success() || failure()
+    - run: kubectl get job -n gw2treasures
+      if: success() || failure()
+    - run: kubectl logs -l app.kubernetes.io/part-of=gw2treasures -n gw2treasures --all-containers --ignore-errors
+      if: failure() || runner.debug == '1'
+  
   build:
     name: Build / Node ${{ matrix.node }}
     runs-on: ubuntu-latest
@@ -93,7 +119,7 @@ jobs:
 
   success:
     name: Success
-    needs: [compose-test, build, lint]
+    needs: [compose-test, kubernetes, build, lint]
     runs-on: ubuntu-latest
     steps:
     - run: echo "Success"

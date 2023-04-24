@@ -39,7 +39,7 @@ jobs:
         path: /tmp/image-${{ matrix.target }}.tar
 
   compose-test:
-    name: Docker / Test / compose
+    name: Test / docker compose
     runs-on: ubuntu-latest
     needs: image
     steps:
@@ -59,7 +59,24 @@ jobs:
       run: docker inspect --format "{{.ID}} {{.Name}} {{.State.Status}} {{.RestartCount}}" $(docker compose ps -aq) | node .github/actions/docker-compose-status.js
     - name: Stop docker compose
       run: docker compose down
-
+      
+  kubernetes:
+    name: Test / kubernetes
+    runs-on: ubuntu-latest
+    needs: image
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/download-artifact@v3
+      with:
+        path: /tmp
+    - name: Load docker image
+      run: ls /tmp/docker-image-*/image-*.tar | xargs -L1 docker load --input
+    - uses: nolar/setup-k3d-k3s@v1
+    - run: kubectl version
+    - run: kubectl apply -k kubernetes/local
+    - run: kubectl rollout status deployment next next-worker -n gw2treasures --timeout=90s
+    - run: kubectl get pod -n gw2treasures
+  
   build:
     name: Build / Node ${{ matrix.node }}
     runs-on: ubuntu-latest

@@ -74,7 +74,10 @@ jobs:
     - name: Load docker image
       run: |
         ls /tmp/docker-image-*/image-*.tar | xargs -L1 docker load --input
-        docker images -q | xargs -L1 k3d image import
+        k3d image import gw2treasures/web
+        k3d image import gw2treasures/worker
+        k3d image import gw2treasures/legacy-importer
+        k3d image import gw2treasures/database-migration
     - run: kubectl apply -k kubernetes/local
     - run: kubectl rollout status deployment next next-worker -n gw2treasures --timeout=90s
     - run: kubectl get pod -n gw2treasures

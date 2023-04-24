@@ -3,4 +3,4 @@
 *.png binary
 *.jpg binary
 
-legacy/* linguist-vendored
+legacy/**/* linguist-vendored

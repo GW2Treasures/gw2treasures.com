@@ -2,6 +2,7 @@ import { notFound, redirect } from 'next/navigation';
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/prisma';
 import { getUrlFromParts, getUrlPartsFromRequest } from '@/lib/urlParts';
+import { authCookie } from '@/lib/auth/cookie';
 
 const baseDomain = process.env.GW2T_NEXT_DOMAIN;
 
@@ -29,7 +30,7 @@ export async function GET(request: NextRequest) {
   const profileUrl = getUrlFromParts({ ...getUrlPartsFromRequest(request), path: '/profile' });
   const response = NextResponse.redirect(profileUrl);
 
-  response.cookies.set('gw2t-session', session.id, { domain: baseDomain, sameSite: 'lax', httpOnly: true });
+  response.cookies.set(authCookie(session.id, false));
 
   return response;
 }

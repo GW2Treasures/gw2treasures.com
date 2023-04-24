@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/prisma';
 import parseUserAgent from 'ua-parser-js';
 import { getUrlFromParts, getUrlPartsFromRequest } from '@/lib/urlParts';
+import { authCookie } from '@/lib/auth/cookie';
 
 const baseDomain = process.env.GW2T_NEXT_DOMAIN;
 const clientId = process.env.DISCORD_CLIENT_ID;
@@ -82,7 +83,7 @@ export async function GET(request: NextRequest) {
     // send response with session cookie
     const profileUrl = getUrlFromParts({ ...parts, path: '/profile' });
     const response = NextResponse.redirect(profileUrl);
-    response.cookies.set('gw2t-session', session.id, { domain: baseDomain, sameSite: 'lax', httpOnly: true, secure: parts.protocol === 'https:' });
+    response.cookies.set(authCookie(session.id, parts.protocol === 'https:'));
     return response;
   } catch(error) {
     console.error(error);

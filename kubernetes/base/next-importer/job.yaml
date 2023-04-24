@@ -5,7 +5,7 @@ metadata:
   name: next-importer
 
 spec:
-  ttlSecondsAfterFinished: 10
+  ttlSecondsAfterFinished: 300
   template:
     spec:
       containers:

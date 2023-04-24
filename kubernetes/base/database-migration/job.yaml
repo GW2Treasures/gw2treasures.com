@@ -5,7 +5,7 @@ metadata:
   name: database-migration
 
 spec:
-  ttlSecondsAfterFinished: 10
+  ttlSecondsAfterFinished: 300
   template:
     spec:
       containers:

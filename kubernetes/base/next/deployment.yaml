@@ -23,6 +23,7 @@ spec:
       containers:
       - name: next
         image: ghcr.io/gw2treasures/gw2treasures.com/web:latest
+        imagePullPolicy: IfNotPresent
         resources:
           requests:
             memory: "128Mi"

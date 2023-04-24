@@ -11,6 +11,7 @@ spec:
       containers:
       - name: database-migration
         image: ghcr.io/gw2treasures/gw2treasures.com/database-migration:latest
+        imagePullPolicy: IfNotPresent
         env:
         - name: DATABASE_URL
           valueFrom:

@@ -564,11 +564,17 @@ model User {
   name  String  @unique
   email String? @unique
 
+  roles UserRole[] @default([])
+
   sessions  UserSession[]  @relation("session")
   providers UserProvider[] @relation("provider")
 
   createdAt      DateTime   @default(now())
   updatedAt      DateTime   @updatedAt
+}
+
+enum UserRole {
+  Admin
 }
 
 model UserSession {

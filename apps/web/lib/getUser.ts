@@ -29,7 +29,7 @@ async function getSessionFromDb(sessionId: string | null) {
   if(update.count === 1) {
     return db.userSession.findUnique({
       where: { id: sessionId },
-      select: { user: { select: { id: true, name: true }}}
+      select: { user: { select: { id: true, name: true, roles: true }}}
     }) ?? undefined;
   }
 

@@ -65,14 +65,16 @@ jobs:
     runs-on: ubuntu-latest
     needs: image
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v3 
     - uses: actions/download-artifact@v3
       with:
         path: /tmp
-    - name: Load docker image
-      run: ls /tmp/docker-image-*/image-*.tar | xargs -L1 docker load --input
     - uses: nolar/setup-k3d-k3s@v1
     - run: kubectl version
+    - name: Load docker image
+      run: |
+        ls /tmp/docker-image-*/image-*.tar | xargs -L1 docker load --input
+        docker images -q | xargs -L1 k3d image import
     - run: kubectl apply -k kubernetes/local
     - run: kubectl rollout status deployment next next-worker -n gw2treasures --timeout=90s
     - run: kubectl get pod -n gw2treasures
@@ -113,7 +115,7 @@ jobs:
 
   success:
     name: Success
-    needs: [compose-test, build, lint]
+    needs: [compose-test, kubernetes, build, lint]
     runs-on: ubuntu-latest
     steps:
     - run: echo "Success"

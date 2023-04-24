@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { getUrlFromParts, getUrlPartsFromRequest } from './lib/urlParts';
+import { SessionCookieName } from './lib/auth/cookie';
 
 const languages = ['de', 'en', 'es', 'fr'];
 const baseDomain = process.env.GW2T_NEXT_DOMAIN;
@@ -24,8 +25,8 @@ export function middleware(request: NextRequest) {
   headers.append('x-gw2t-lang', language);
 
   // get session
-  if(request.cookies.has('gw2t-session')) {
-    const sessionId = request.cookies.get('gw2t-session')!.value;
+  if(request.cookies.has(SessionCookieName)) {
+    const sessionId = request.cookies.get(SessionCookieName)!.value;
 
     headers.append('x-gw2t-session', sessionId);
   }

@@ -12,18 +12,18 @@ resources:
 - next-importer
 
 images:
-# - name: ghcr.io/gw2treasures/gw2treasures.com/next
-#   newTag: local
-#   newName: gw2treasures/next
+- name: ghcr.io/gw2treasures/gw2treasures.com/next
+  newTag: latest
+  newName: gw2treasures/next
 
-# - name: ghcr.io/gw2treasures/gw2treasures.com/next-importer
-#   newTag: local
-#   newName: gw2treasures/next-importer
+- name: ghcr.io/gw2treasures/gw2treasures.com/next-importer
+  newTag: latest
+  newName: gw2treasures/next-importer
 
-# - name: ghcr.io/gw2treasures/gw2treasures.com/next-worker
-#   newTag: local
-#   newName: gw2treasures/next-worker
+- name: ghcr.io/gw2treasures/gw2treasures.com/next-worker
+  newTag: latest
+  newName: gw2treasures/next-worker
 
-# - name: ghcr.io/gw2treasures/gw2treasures.com/database-migration
-#   newTag: local
-#   newName: gw2treasures/database-migration
+- name: ghcr.io/gw2treasures/gw2treasures.com/database-migration
+  newTag: latest
+  newName: gw2treasures/database-migration

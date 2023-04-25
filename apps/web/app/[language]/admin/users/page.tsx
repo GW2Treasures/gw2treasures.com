@@ -39,3 +39,7 @@ export default async function AdminUserPage() {
     </PageLayout>
   );
 }
+
+export const metadata = {
+  title: 'Users'
+};

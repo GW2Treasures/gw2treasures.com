@@ -1,4 +1,3 @@
-// Import your Client Component
 import { LinkButton } from '@/components/Form/Button';
 import { PageLayout } from '@/components/Layout/PageLayout';
 import { Notice } from '@/components/Notice/Notice';
@@ -29,6 +28,6 @@ export default async function LoginPage({ searchParams }: { searchParams: { logo
   );
 }
 
-// export function generateStaticParams() {
-//   return [{ language: 'de' }, { language: 'en' }, { language: 'es' }, { language: 'fr' }];
-// }
+export const metadata = {
+  title: 'Login'
+};

@@ -9,6 +9,7 @@ import { LanguageLinks } from '../Infobox/LanguageLinks';
 import { ExternalLink } from '../Link/ExternalLink';
 import { SkillLink } from './SkillLink';
 import { SlotRenderer } from './SlotRenderer';
+import { encode } from 'gw2e-chat-codes';
 
 interface SkillInfoboxProps {
   skill: Skill;
@@ -17,6 +18,8 @@ interface SkillInfoboxProps {
 };
 
 export const SkillInfobox: FC<SkillInfoboxProps> = ({ skill, data, language }) => {
+  const chatlink = encode('skill', skill.id);
+
   return (
     <div>
       <LanguageLinks link={<SkillLink skill={skill} icon="none"/>} language={language}/>
@@ -32,7 +35,7 @@ export const SkillInfobox: FC<SkillInfoboxProps> = ({ skill, data, language }) =
 
       <Headline id="links" noToc>Links</Headline>
       <ExternalLink href={`https://api.guildwars2.com/v2/skills/${skill.id}?v=latest&lang=${language}`} target="api">API</ExternalLink>
-      <Chatlink chatlink={data.chat_link}/>
+      {chatlink && (<Chatlink chatlink={chatlink}/>)}
     </div>
   );
 };

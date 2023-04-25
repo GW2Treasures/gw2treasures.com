@@ -8,3 +8,7 @@ export default function ItemNotFound(params: any) {
     </HeroLayout>
   );
 }
+
+export const metadata = {
+  title: 'Item not found'
+};

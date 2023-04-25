@@ -36,7 +36,7 @@ export function useSearchApiResults(searchValue: string): SearchResults[] {
     icon: item.icon && <EntityIcon icon={item.icon} size={32}/>,
     subtitle: <>{item.level > 0 && `${item.level} ▪ `} {item.rarity} {item.weight ?? ''} {(item.subtype !== 'Generic' ? item.subtype : '') || item.type}</>,
     href: `/item/${item.id}`,
-    render: (link) => <Tooltip content={<ItemLinkTooltip item={getLinkProperties(item)}/>}>{link}</Tooltip>
+    render: (link) => <Tooltip content={<ItemLinkTooltip item={getLinkProperties(item)}/>} key={link.key}>{link}</Tooltip>
   }));
 
   const skills = response.loading ? [] : response.data.skills.map((skill) => ({
@@ -63,7 +63,7 @@ export function useSearchApiResults(searchValue: string): SearchResults[] {
         {achievement.mastery && (<> ▪ <IconComponent icon="mastery"/> {achievement.mastery}</>)}
       </>
     ),
-    render: (link) => <Tooltip content={<AchievementLinkTooltip achievement={getLinkProperties(achievement)}/>}>{link}</Tooltip>
+    render: (link) => <Tooltip content={<AchievementLinkTooltip achievement={getLinkProperties(achievement)}/>} key={link.key}>{link}</Tooltip>
   }));
 
   const categories = response.loading ? [] : response.data.achievementCategories.map((category) => ({

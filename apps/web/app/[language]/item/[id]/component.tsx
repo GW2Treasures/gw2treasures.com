@@ -30,6 +30,7 @@ import Icon from 'icons/Icon';
 import { Tip } from '@/components/Tip/Tip';
 import { RemovedFromApiNotice } from '@/components/Notice/RemovedFromApiNotice';
 import { RecipeBoxWrapper } from '@/components/Recipe/RecipeBoxWrapper';
+import { SimilarItems } from './similar-items';
 
 export interface ItemPageComponentProps {
   language: Language;
@@ -72,36 +73,12 @@ const getItem = remember(60, async function getItem(id: number, language: Langua
     notFound();
   }
 
-  const similarItems = revisionId ? [] : await db.item.findMany({
-    where: {
-      id: { not: id },
-      OR: [
-        { name_de: item.name_de },
-        { name_en: item.name_en },
-        { name_es: item.name_es },
-        { name_fr: item.name_fr },
-        { iconId: item.iconId },
-        { unlocksSkinIds: { hasSome: item.unlocksSkinIds }},
-        {
-          type: item.type,
-          subtype: item.subtype,
-          rarity: item.rarity,
-          weight: item.weight,
-          value: item.value,
-          level: item.level,
-        }
-      ]
-    },
-    include: { icon: true },
-    take: 32,
-  });
-
-  return { item, revision, similarItems };
+  return { item, revision };
 });
 
 export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async ({ language, itemId, revisionId }) => {
   const fixedRevision = revisionId !== undefined;
-  const { item, revision, similarItems } = await getItem(itemId, language, revisionId);
+  const { item, revision } = await getItem(itemId, language, revisionId);
 
   const data: Gw2Api.Item = JSON.parse(revision.data);
 
@@ -235,11 +212,11 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
         </tbody>
       </Table>
 
-      {similarItems.length > 0 && (
-        <>
-          <Headline id="similar">Similar Items</Headline>
-          <ItemTable items={similarItems}/>
-        </>
+      {!fixedRevision && (
+        <Suspense>
+          {/* @ts-expect-error Server Component */}
+          <SimilarItems item={item}/>
+        </Suspense>
       )}
 
       <Headline id="data">Data</Headline>

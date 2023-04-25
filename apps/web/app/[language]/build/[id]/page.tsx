@@ -13,8 +13,13 @@ import { FC, Suspense } from 'react';
 import { SkeletonLink } from '@/components/Link/SkeletonLink';
 import { remember } from '@/lib/remember';
 import { linkProperties } from '@/lib/linkProperties';
+import { Metadata } from 'next';
 
 export const dynamic = 'force-dynamic';
+
+interface BuildPageProps {
+  params: { language: Language, id: string }
+}
 
 function timed<Args extends any[], Out>(callback: (...args: Args) => Promise<Out>): (...args: Args) => Promise<Out> {
   const timedFunction = async (...args: Args): Promise<Out> => {
@@ -72,7 +77,7 @@ const getUpdatedSkills = remember(60, timed(function getUpdatedSkills(buildId: n
   });
 }));
 
-async function BuildDetail({ params: { id, language }}: { params: { language: Language, id: string }}) {
+async function BuildDetail({ params: { id, language }}: BuildPageProps) {
   const buildId: number = Number(id);
 
   const itemsPromise = getUpdatedItems(buildId, language);
@@ -147,3 +152,9 @@ const UpdatedSkills: AsyncComponent<{ skillsPromise: ReturnType<typeof getUpdate
 };
 
 export default BuildDetail;
+
+export function generateMetadata({ params: { id }}: BuildPageProps): Metadata {
+  return {
+    title: `Build ${id}`,
+  };
+};

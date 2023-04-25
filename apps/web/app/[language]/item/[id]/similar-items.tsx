@@ -4,7 +4,7 @@ import { db } from '@/lib/prisma';
 import { Headline } from '@/components/Headline/Headline';
 import { ItemTable } from '@/components/Item/ItemTable';
 
-export const getSimilarItems = remember(60, async (item: Item) => {
+export const getSimilarItems = remember(60, async function getSimilarItems(item: Item) {
   const similarItems = await db.item.findMany({
     where: {
       id: { not: item.id },

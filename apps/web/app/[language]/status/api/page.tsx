@@ -1,20 +1,23 @@
 import { FormatNumber } from '@/components/Format/FormatNumber';
 import { Headline } from '@/components/Headline/Headline';
 import { PageLayout } from '@/components/Layout/PageLayout';
-import { Reload } from '@/components/Reload/Reload';
 import { Table } from '@/components/Table/Table';
 import { db } from '@/lib/prisma';
 import { ApiRequest } from '@gw2treasures/database';
 import { Fragment } from 'react';
 import styles from './page.module.css';
+import { ReloadCheckbox } from '@/components/Reload/ReloadCheckbox';
+import { PeriodSelect } from './period-select';
+import { availablePeriods } from './available-periods';
+import { Tip } from '@/components/Tip/Tip';
 
-async function getData() {
+async function getData(hours: number) {
   const now = new Date();
 
-  const minus24Hours = new Date();
-  minus24Hours.setHours(now.getHours() - 24);
+  const past = new Date();
+  past.setHours(now.getHours() - hours);
 
-  const apiRequests = await db.apiRequest.findMany({ where: { createdAt: { gte: minus24Hours }}, orderBy: { createdAt: 'desc' }});
+  const apiRequests = await db.apiRequest.findMany({ where: { createdAt: { gte: past }}, orderBy: { createdAt: 'desc' }});
 
   const endpoints: Record<string, { totalResponseTimeMs: number, requestCount: number, errors: number, lastRequests: boolean[], requests: ApiRequest[] }> = {};
   const statusCodes: Record<number, number> = {};
@@ -43,20 +46,26 @@ async function getData() {
   return { total: apiRequests.length, errors, endpoints, statusCodes, apiRequests };
 }
 
-export default async function StatusApiPage() {
-  const { endpoints, errors, total, statusCodes, apiRequests } = await getData();
+export default async function StatusApiPage({ searchParams: { period }}: { searchParams: { period?: string }}) {
+  const hours = availablePeriods.find(({ value }) => value === period)?.hours ?? 24;
+
+  const { endpoints, errors, total, statusCodes, apiRequests } = await getData(hours);
 
   return (
     <PageLayout>
-      <Reload intervalMs={1000 * 60}/>
-
-      <Headline id="api-status">Guild Wars 2 API Status</Headline>
+      <Headline id="api-status" actions={[
+        <Tip tip="Refresh every minute" key="reload" preferredPlacement="bottom"><ReloadCheckbox intervalMs={1000 * 60}/></Tip>,
+        <PeriodSelect key="period"/>
+      ]}
+      >
+        Guild Wars 2 API Status
+      </Headline>
 
       <p>
-        <FormatNumber value={total}/> requests and <FormatNumber value={errors}/> errors (<FormatNumber value={errors / total * 100}/>%) in the last 24h.
+        <FormatNumber value={total}/> requests and <FormatNumber value={errors}/> errors (<FormatNumber value={errors / total * 100}/>%) in the last {hours} hours.
       </p>
 
-      <Headline id="status-codes">Status Codes (24h)</Headline>
+      <Headline id="status-codes">Status Codes ({hours}h)</Headline>
       <div className={styles.statusCodeGrid}>
         {Object.entries(statusCodes).map(([statusCode, amount]) => (
           <Fragment key={statusCode}>
@@ -69,7 +78,7 @@ export default async function StatusApiPage() {
         ))}
       </div>
 
-      <Headline id="endpoints">Endpoints (24h)</Headline>
+      <Headline id="endpoints">Endpoints ({hours}h)</Headline>
       <Table>
         <thead>
           <tr>

@@ -1,5 +1,5 @@
 import Icon from 'icons/Icon';
-import { FC, KeyboardEventHandler, ReactNode, useCallback, useEffect, useId, useRef } from 'react';
+import { KeyboardEventHandler, ReactNode, forwardRef, useCallback, useEffect, useId, useRef } from 'react';
 import styles from './Checkbox.module.css';
 
 export interface CheckboxProps {
@@ -9,7 +9,7 @@ export interface CheckboxProps {
   children: ReactNode;
 }
 
-export const Checkbox: FC<CheckboxProps> = ({ checked, indeterminate = false, onChange, children }) => {
+export const Checkbox = forwardRef<HTMLLabelElement, CheckboxProps>(({ checked, indeterminate = false, onChange, children }, ref) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const id = useId();
 
@@ -27,7 +27,7 @@ export const Checkbox: FC<CheckboxProps> = ({ checked, indeterminate = false, on
   }, []);
 
   return (
-    <label htmlFor={id} className={styles.wrapper} tabIndex={0} onKeyDown={labelOnKeyDown}>
+    <label htmlFor={id} className={styles.wrapper} tabIndex={0} onKeyDown={labelOnKeyDown} ref={ref}>
       <input id={id} ref={inputRef} type="checkbox" checked={checked} onChange={(e) => onChange(e.target.checked)} className={styles.input} tabIndex={-1}/>
       <div className={styles.checkbox}><Icon icon="checkmark"/></div>
       <div className={styles.label}>
@@ -35,4 +35,6 @@ export const Checkbox: FC<CheckboxProps> = ({ checked, indeterminate = false, on
       </div>
     </label>
   );
-};
+});
+
+Checkbox.displayName = 'Checkbox';

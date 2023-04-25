@@ -7,6 +7,7 @@ import { LanguageLinks } from '../Infobox/LanguageLinks';
 import { ExternalLink } from '../Link/ExternalLink';
 import { ItemLink } from './ItemLink';
 import { TradingPost } from './TradingPost';
+import { encode } from 'gw2e-chat-codes';
 
 interface ItemInfoboxProps {
   item: Item;
@@ -21,6 +22,7 @@ function isTpTradeable(data: Gw2Api.Item) {
 
 export const ItemInfobox: FC<ItemInfoboxProps> = ({ item, data, language }) => {
   const isTradeable = isTpTradeable(data);
+  const chatlink = encode('item', item.id);
 
   return (
     <div>
@@ -37,7 +39,7 @@ export const ItemInfobox: FC<ItemInfoboxProps> = ({ item, data, language }) => {
 
       <ExternalLink href={`https://api.guildwars2.com/v2/items/${item.id}?v=latest&lang=${language}`} target="api">API</ExternalLink>
 
-      <Chatlink chatlink={data.chat_link}/>
+      {chatlink && (<Chatlink chatlink={chatlink}/>)}
     </div>
   );
 };

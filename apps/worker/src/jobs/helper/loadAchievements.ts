@@ -6,10 +6,10 @@ export async function loadAchievements(ids: number[]) {
   const start = new Date();
 
   const [de, en, es, fr] = await Promise.all([
-    fetchApi<Gw2Api.Achievement[]>(`/v2/achievements?lang=de&v=latest&ids=${ids.join(',')}`),
-    fetchApi<Gw2Api.Achievement[]>(`/v2/achievements?lang=en&v=latest&ids=${ids.join(',')}`),
-    fetchApi<Gw2Api.Achievement[]>(`/v2/achievements?lang=es&v=latest&ids=${ids.join(',')}`),
-    fetchApi<Gw2Api.Achievement[]>(`/v2/achievements?lang=fr&v=latest&ids=${ids.join(',')}`),
+    fetchApi<Gw2Api.Achievement[]>(`/v2/achievements?lang=de&ids=${ids.join(',')}`),
+    fetchApi<Gw2Api.Achievement[]>(`/v2/achievements?lang=en&ids=${ids.join(',')}`),
+    fetchApi<Gw2Api.Achievement[]>(`/v2/achievements?lang=es&ids=${ids.join(',')}`),
+    fetchApi<Gw2Api.Achievement[]>(`/v2/achievements?lang=fr&ids=${ids.join(',')}`),
   ]);
 
   console.log(`Fetched ${ids.length} achievements in ${(new Date().valueOf() - start.valueOf()) / 1000}s`);
@@ -21,10 +21,10 @@ export async function loadAchievementCategories() {
   const start = new Date();
 
   const [de, en, es, fr] = await Promise.all([
-    fetchApi<Gw2Api.Achievement.Category[]>('/v2/achievements/categories?lang=de&v=latest&ids=all'),
-    fetchApi<Gw2Api.Achievement.Category[]>('/v2/achievements/categories?lang=en&v=latest&ids=all'),
-    fetchApi<Gw2Api.Achievement.Category[]>('/v2/achievements/categories?lang=es&v=latest&ids=all'),
-    fetchApi<Gw2Api.Achievement.Category[]>('/v2/achievements/categories?lang=fr&v=latest&ids=all'),
+    fetchApi<Gw2Api.Achievement.Category[]>('/v2/achievements/categories?lang=de&ids=all'),
+    fetchApi<Gw2Api.Achievement.Category[]>('/v2/achievements/categories?lang=en&ids=all'),
+    fetchApi<Gw2Api.Achievement.Category[]>('/v2/achievements/categories?lang=es&ids=all'),
+    fetchApi<Gw2Api.Achievement.Category[]>('/v2/achievements/categories?lang=fr&ids=all'),
   ]);
 
   console.log(`Fetched ${en.length} achievement categories in ${(new Date().valueOf() - start.valueOf()) / 1000}s`);
@@ -36,10 +36,10 @@ export async function loadAchievementGroups() {
   const start = new Date();
 
   const [de, en, es, fr] = await Promise.all([
-    fetchApi<Gw2Api.Achievement.Group[]>('/v2/achievements/groups?lang=de&v=latest&ids=all'),
-    fetchApi<Gw2Api.Achievement.Group[]>('/v2/achievements/groups?lang=en&v=latest&ids=all'),
-    fetchApi<Gw2Api.Achievement.Group[]>('/v2/achievements/groups?lang=es&v=latest&ids=all'),
-    fetchApi<Gw2Api.Achievement.Group[]>('/v2/achievements/groups?lang=fr&v=latest&ids=all'),
+    fetchApi<Gw2Api.Achievement.Group[]>('/v2/achievements/groups?lang=de&ids=all'),
+    fetchApi<Gw2Api.Achievement.Group[]>('/v2/achievements/groups?lang=en&ids=all'),
+    fetchApi<Gw2Api.Achievement.Group[]>('/v2/achievements/groups?lang=es&ids=all'),
+    fetchApi<Gw2Api.Achievement.Group[]>('/v2/achievements/groups?lang=fr&ids=all'),
   ]);
 
   console.log(`Fetched ${en.length} achievement groups in ${(new Date().valueOf() - start.valueOf()) / 1000}s`);

@@ -4,7 +4,7 @@ import { db } from '../../db';
 export function fetchApi<T>(endpoint: string): Promise<T> {
   const startTime = performance.now();
 
-  return fetch(`https://api.guildwars2.com${endpoint}`).then(async (r) => {
+  return fetch(`https://api.guildwars2.com${endpoint}`, { headers: { 'X-Schema-Version': '2022-03-23T19:00:00.000Z' }}).then(async (r) => {
     await db.apiRequest.create({
       data: {
         endpoint: endpoint.split('?')[0],

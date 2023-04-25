@@ -5,13 +5,15 @@ import { HeroLayout } from '@/components/Layout/HeroLayout';
 import { Table } from '@/components/Table/Table';
 import { getUser } from '@/lib/getUser';
 import { db } from '@/lib/prisma';
+import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
+import { cache } from 'react';
 
-async function getUserData() {
+const getUserData = cache(async () => {
   const session = await getUser();
 
   if(!session) {
-    return redirect('/login');
+    redirect('/login');
   }
 
   const user = await db.user.findUnique({
@@ -19,17 +21,21 @@ async function getUserData() {
     include: { sessions: true, providers: true },
   });
 
+  if(!user) {
+    redirect('/login');
+  }
+
   return {
     sessionId: session.sessionId,
     user,
   };
-}
+});
 
 export default async function ProfilePage() {
   const { sessionId, user } = await getUserData();
 
   return (
-    <HeroLayout hero={<Headline id="profile">{user?.name}</Headline>} toc>
+    <HeroLayout hero={<Headline id="profile">{user.name}</Headline>} toc>
       <LinkButton external href="/logout">Logout</LinkButton>
 
       <Headline id="providers">Login Providers</Headline>
@@ -42,7 +48,7 @@ export default async function ProfilePage() {
           </tr>
         </thead>
         <tbody>
-          {user?.providers.map((provider) => (
+          {user.providers.map((provider) => (
             <tr key={`${provider.provider}-${provider.providerAccountId}`}>
               <td>{provider.provider}</td>
               <td>{provider.displayName}</td>
@@ -61,7 +67,7 @@ export default async function ProfilePage() {
           </tr>
         </thead>
         <tbody>
-          {user?.sessions.map((session) => (
+          {user.sessions.map((session) => (
             <tr key={session.id}>
               <td>{session.info}{session.id === sessionId && ' (Current Session)'}</td>
               <td><FormatDate relative date={session.createdAt} data-superjson/></td>
@@ -73,3 +79,11 @@ export default async function ProfilePage() {
     </HeroLayout>
   );
 }
+
+export async function generateMetadata(): Promise<Metadata> {
+  const { user } = await getUserData();
+
+  return {
+    title: user.name,
+  };
+};

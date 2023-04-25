@@ -5,7 +5,6 @@ import DetailLayout from '@/components/Layout/DetailLayout';
 import { Table } from '@/components/Table/Table';
 import { TableOfContentAnchor } from '@/components/TableOfContent/TableOfContent';
 import { Gw2Api } from 'gw2-api-types';
-import { db } from '@/lib/prisma';
 import rarityClasses from '@/components/Layout/RarityColor.module.css';
 import { Notice } from '@/components/Notice/Notice';
 import { Headline } from '@/components/Headline/Headline';
@@ -21,8 +20,7 @@ import { AsyncComponent } from '@/lib/asyncComponent';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 import { SkeletonTable } from '@/components/Skeleton/SkeletonTable';
-import { remember } from '@/lib/remember';
-import { getLinkProperties, linkProperties, linkPropertiesWithoutRarity } from '@/lib/linkProperties';
+import { getLinkProperties } from '@/lib/linkProperties';
 import { AchievementLink } from '@/components/Achievement/AchievementLink';
 import { Tooltip } from '@/components/Tooltip/Tooltip';
 import { ItemLinkTooltip } from '@/components/Item/ItemLinkTooltip';
@@ -31,6 +29,7 @@ import { Tip } from '@/components/Tip/Tip';
 import { RemovedFromApiNotice } from '@/components/Notice/RemovedFromApiNotice';
 import { RecipeBoxWrapper } from '@/components/Recipe/RecipeBoxWrapper';
 import { SimilarItems } from './similar-items';
+import { getItem, getRevision } from './data';
 
 export interface ItemPageComponentProps {
   language: Language;
@@ -38,48 +37,24 @@ export interface ItemPageComponentProps {
   revisionId?: string;
 }
 
-const getItem = remember(60, async function getItem(id: number, language: Language, revisionId?: string) {
-  if(isNaN(id)) {
+export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async ({ language, itemId, revisionId }) => {
+  // validate itemId
+  if(isNaN(itemId)) {
     notFound();
   }
 
+  // load data
   const [item, revision] = await Promise.all([
-    db.item.findUnique({
-      where: { id },
-      include: {
-        history: {
-          include: { revision: { select: { id: true, buildId: true, createdAt: true, description: true, language: true }}},
-          where: { revision: { language }},
-          orderBy: { revision: { createdAt: 'desc' }}
-        },
-        icon: true,
-        unlocksSkin: { select: { ...linkProperties, weight: true, type: true, subtype: true, achievementBits: { select: linkPropertiesWithoutRarity }}},
-        recipeOutput: { include: { currentRevision: true, itemIngredients: { include: { Item: { select: linkProperties }}}, unlockedByItems: { select: linkProperties }}},
-        unlocksRecipe: { include: { currentRevision: true, itemIngredients: { include: { Item: { select: linkProperties }}}, unlockedByItems: { select: linkProperties }, outputItem: { select: linkProperties }}},
-        achievementBits: { select: linkPropertiesWithoutRarity, orderBy: { id: 'asc' }},
-        achievementRewards: { select: linkPropertiesWithoutRarity, orderBy: { id: 'asc' }},
-        suffixIn: { include: { icon: true }},
-        _count: {
-          select: { ingredient: true }
-        }
-      }
-    }),
-    revisionId
-      ? db.revision.findUnique({ where: { id: revisionId }})
-      : db.revision.findFirst({ where: { [`currentItem_${language}`]: { id }}})
+    getItem(itemId, language),
+    getRevision(itemId, language, revisionId)
   ]);
 
+  // 404 if item doesnt exist
   if(!item || !revision) {
     notFound();
   }
 
-  return { item, revision };
-});
-
-export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async ({ language, itemId, revisionId }) => {
   const fixedRevision = revisionId !== undefined;
-  const { item, revision } = await getItem(itemId, language, revisionId);
-
   const data: Gw2Api.Item = JSON.parse(revision.data);
 
   const skinAchievementBits = item.unlocksSkin.flatMap((skin) => skin.achievementBits);

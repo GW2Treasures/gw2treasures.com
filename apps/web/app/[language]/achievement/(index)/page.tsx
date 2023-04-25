@@ -31,7 +31,7 @@ const getAchivementGroups = remember(60, async function getAchivementGroups(lang
   return groups;
 });
 
-async function AchievementPage({ params: { language }}: { params: { language: Language }}) {
+export default async function AchievementPage({ params: { language }}: { params: { language: Language }}) {
   const groups = await getAchivementGroups(language);
 
   return (
@@ -60,5 +60,6 @@ async function AchievementPage({ params: { language }}: { params: { language: La
   );
 };
 
-export default AchievementPage;
-
+export const metadata = {
+  title: 'Achievements'
+};

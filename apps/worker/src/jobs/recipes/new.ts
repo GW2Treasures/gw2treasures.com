@@ -11,7 +11,7 @@ export const RecipesNew: Job = {
     const buildId = build.id;
 
     // load recipes from API
-    const recipes = await fetchApi<Gw2Api.Recipe[]>(`/v2/recipes?v=latest&ids=${newIds.join(',')}`);
+    const recipes = await fetchApi<Gw2Api.Recipe[]>(`/v2/recipes?ids=${newIds.join(',')}`);
 
     for(const recipe of recipes) {
       const revision = await db.revision.create({ data: { data: JSON.stringify(recipe), language: 'en', buildId, type: 'Added', entity: 'Recipe', description: 'Added to API' }});

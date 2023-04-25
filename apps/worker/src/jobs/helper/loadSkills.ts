@@ -6,10 +6,10 @@ export async function loadSkills(ids: number[]) {
   const start = new Date();
 
   const [de, en, es, fr] = await Promise.all([
-    fetchApi<Gw2Api.Skill[]>(`/v2/skills?lang=de&v=latest&ids=${ids.join(',')}`).then(normalizeSkills),
-    fetchApi<Gw2Api.Skill[]>(`/v2/skills?lang=en&v=latest&ids=${ids.join(',')}`).then(normalizeSkills),
-    fetchApi<Gw2Api.Skill[]>(`/v2/skills?lang=es&v=latest&ids=${ids.join(',')}`).then(normalizeSkills),
-    fetchApi<Gw2Api.Skill[]>(`/v2/skills?lang=fr&v=latest&ids=${ids.join(',')}`).then(normalizeSkills),
+    fetchApi<Gw2Api.Skill[]>(`/v2/skills?lang=de&ids=${ids.join(',')}`).then(normalizeSkills),
+    fetchApi<Gw2Api.Skill[]>(`/v2/skills?lang=en&ids=${ids.join(',')}`).then(normalizeSkills),
+    fetchApi<Gw2Api.Skill[]>(`/v2/skills?lang=es&ids=${ids.join(',')}`).then(normalizeSkills),
+    fetchApi<Gw2Api.Skill[]>(`/v2/skills?lang=fr&ids=${ids.join(',')}`).then(normalizeSkills),
   ]);
 
   console.log(`Fetched ${ids.length} skills in ${(new Date().valueOf() - start.valueOf()) / 1000}s`);

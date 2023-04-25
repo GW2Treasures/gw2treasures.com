@@ -171,3 +171,7 @@ function toBuckets<T>(count: number, by: (value: T) => number): (previousValue: 
     return newValue;
   };
 }
+
+export const metadata = {
+  title: 'API Status'
+};

@@ -2,7 +2,6 @@ import { Headline } from '@/components/Headline/Headline';
 import { HeroLayout } from '@/components/Layout/HeroLayout';
 import { ExternalLink } from '@/components/Link/ExternalLink';
 import { TableOfContentAnchor } from '@/components/TableOfContent/TableOfContent';
-import { Bitter } from 'next/font/google';
 
 export default function AboutPage() {
   return (
@@ -18,3 +17,7 @@ export default function AboutPage() {
     </HeroLayout>
   );
 }
+
+export const metadata = {
+  title: 'About'
+};

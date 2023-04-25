@@ -2,6 +2,7 @@ import { remember } from '@/lib/remember';
 import { Item, Language } from '@gw2treasures/database';
 import { db } from '@/lib/prisma';
 import { linkProperties, linkPropertiesWithoutRarity } from '@/lib/linkProperties';
+import { Gw2Api } from 'gw2-api-types';
 
 export const getItem = remember(60, function getItem(id: number, language: Language) {
   return db.item.findUnique({
@@ -26,10 +27,15 @@ export const getItem = remember(60, function getItem(id: number, language: Langu
   });
 });
 
-export const getRevision = remember(60, function getRevision(id: number, language: Language, revisionId?: string) {
-  return revisionId
-    ? db.revision.findUnique({ where: { id: revisionId }})
-    : db.revision.findFirst({ where: { [`currentItem_${language}`]: { id }}});
+export const getRevision = remember(60, async function getRevision(id: number, language: Language, revisionId?: string) {
+  const revision = revisionId
+    ? await db.revision.findUnique({ where: { id: revisionId }})
+    : await db.revision.findFirst({ where: { [`currentItem_${language}`]: { id }}});
+
+  return {
+    revision,
+    data: revision ? JSON.parse(revision.data) as Gw2Api.Item : undefined,
+  };
 });
 
 export const getSimilarItems = remember(60, async function getSimilarItems(item: Item) {

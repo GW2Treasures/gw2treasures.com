@@ -4,7 +4,6 @@ import { ItemTooltip } from '@/components/Item/ItemTooltip';
 import DetailLayout from '@/components/Layout/DetailLayout';
 import { Table } from '@/components/Table/Table';
 import { TableOfContentAnchor } from '@/components/TableOfContent/TableOfContent';
-import { Gw2Api } from 'gw2-api-types';
 import rarityClasses from '@/components/Layout/RarityColor.module.css';
 import { Notice } from '@/components/Notice/Notice';
 import { Headline } from '@/components/Headline/Headline';
@@ -44,18 +43,17 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
   }
 
   // load data
-  const [item, revision] = await Promise.all([
+  const [item, { revision, data }] = await Promise.all([
     getItem(itemId, language),
     getRevision(itemId, language, revisionId)
   ]);
 
   // 404 if item doesnt exist
-  if(!item || !revision) {
+  if(!item || !revision || !data) {
     notFound();
   }
 
   const fixedRevision = revisionId !== undefined;
-  const data: Gw2Api.Item = JSON.parse(revision.data);
 
   const skinAchievementBits = item.unlocksSkin.flatMap((skin) => skin.achievementBits);
 

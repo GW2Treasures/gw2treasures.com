@@ -91,3 +91,6 @@ async function JobPage() {
 
 export default JobPage;
 
+export const metadata = {
+  title: 'Job Status'
+};

@@ -49,3 +49,7 @@ export default async function StatusPage() {
     </HeroLayout>
   );
 }
+
+export const metadata = {
+  title: 'Status'
+};

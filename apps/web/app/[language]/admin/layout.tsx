@@ -15,3 +15,10 @@ export default async function AdminLayout({ children }: { children: ReactNode })
 
   return children;
 }
+
+export const metadata = {
+  title: {
+    template: 'Admin: %s',
+    default: ''
+  }
+};

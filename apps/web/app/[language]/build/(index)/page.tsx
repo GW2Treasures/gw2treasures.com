@@ -20,7 +20,7 @@ const getBuilds = remember(60, async function getBuilds(language: Language) {
   return { builds, updates };
 });
 
-async function BuildPage({ params: { language }}: { params: { language: Language }}) {
+export default async function BuildPage({ params: { language }}: { params: { language: Language }}) {
   const { builds, updates } = await getBuilds(language);
 
   const buildsWithUpdates = builds.map((build) => ({
@@ -33,4 +33,6 @@ async function BuildPage({ params: { language }}: { params: { language: Language
   );
 };
 
-export default BuildPage;
+export const metadata = {
+  title: 'Builds'
+};

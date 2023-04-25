@@ -94,6 +94,13 @@ export default function RootLayout({
   );
 }
 
+export const metadata = {
+  title: {
+    template: '%s · gw2treasures.com',
+    default: ''
+  }
+};
+
 // export const generateStaticParams = process.env.NODE_ENV === 'development' ? undefined : function generateStaticParams() {
 //   return [{ language: 'de' }, { language: 'en' }, { language: 'es' }, { language: 'fr' }];
 // };

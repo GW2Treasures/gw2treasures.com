@@ -116,3 +116,7 @@ async function DbStats() {
 }
 
 export default HomePage;
+
+export const metadata = {
+  title: 'Home'
+};

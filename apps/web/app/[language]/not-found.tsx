@@ -8,3 +8,7 @@ export default function NotFound() {
     </HeroLayout>
   );
 }
+
+export const metadata = {
+  title: '404'
+};

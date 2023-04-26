@@ -24,7 +24,7 @@ RUN npm ci --include=dev
 COPY --from=source /source/out/full/ .
 
 # build source
-RUN npx turbo run ncc --filter=worker...
+RUN npx turbo run build --filter=worker...
 
 # Production image, copy all the files and run next
 FROM node:${node_version} AS runner

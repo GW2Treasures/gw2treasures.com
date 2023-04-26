@@ -2,6 +2,7 @@
   "extends": "@tsconfig/node18/tsconfig.json",
   "compilerOptions": {
     "outDir": "./lib",
+    "noEmit": true
   },
   "include": ["./src"],
   "exclude": ["node_modules"]

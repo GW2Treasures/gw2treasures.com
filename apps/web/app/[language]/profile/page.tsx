@@ -1,3 +1,4 @@
+import { AccountTable } from '@/components/Account/AccountTable';
 import { LinkButton } from '@/components/Form/Button';
 import { FormatDate } from '@/components/Format/FormatDate';
 import { Headline } from '@/components/Headline/Headline';
@@ -37,6 +38,9 @@ export default async function ProfilePage() {
   return (
     <HeroLayout hero={<Headline id="profile">{user.name}</Headline>} toc>
       <LinkButton external href="/logout">Logout</LinkButton>
+
+      <Headline id="accounts">Accounts</Headline>
+      <AccountTable/>
 
       <Headline id="providers">Login Providers</Headline>
       <Table>

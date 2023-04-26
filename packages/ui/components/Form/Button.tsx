@@ -16,11 +16,12 @@ export interface CommonButtonProps {
 export interface ButtonProps extends CommonButtonProps {
   form?: string;
   type?: 'button' | 'submit'
+  disabled?: boolean;
 };
 
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button({ children, icon, appearance = 'secondary', iconOnly, onClick, className, form, type = 'button' }, ref) {
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button({ children, icon, appearance = 'secondary', iconOnly, onClick, className, form, type = 'button', disabled }, ref) {
   return (
-    <button type={type} ref={ref} onClick={onClick} className={cx(styles[appearance], iconOnly && styles.iconOnly, className)} form={form}>
+    <button ref={ref} onClick={onClick} className={cx(styles[appearance], iconOnly && styles.iconOnly, className)} form={form} type={type} disabled={disabled}>
       {icon && <Icon icon={icon}/>}
       <span>{children}</span>
     </button>

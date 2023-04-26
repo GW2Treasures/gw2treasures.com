@@ -1,4 +1,4 @@
-[![gw2treasures.com](.github/readme.png)](https://gw2treasures.com)
+# [![gw2treasures.com](.github/readme.png)](https://gw2treasures.com)
 
 **[gw2treasures.com](https://gw2treasures.com)** is a Guild Wars 2 database powered by the official API.
 

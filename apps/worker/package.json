@@ -2,9 +2,9 @@
   "name": "worker",
   "scripts": {
     "prisma": "prisma generate",
-    "build": "tsc",
+    "build": "npm run ncc",
     "predev": "npm run build",
-    "dev": ". ./.env && node lib/index.js",
+    "dev": ". ./.env && node dist/index.js",
     "lint": "eslint src",
     "ncc": "ncc build src/index.ts -o dist",
     "postncc": "mv dist/client/* dist/"

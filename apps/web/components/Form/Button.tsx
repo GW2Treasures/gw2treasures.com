@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { forwardRef, ReactNode } from 'react';
 import styles from './Button.module.css';
 
-export interface ButtonProps {
+export interface CommonButtonProps {
   children: ReactNode;
   icon?: IconProps['icon'];
   appearance?: 'primary' | 'secondary' | 'menu';
@@ -14,9 +14,14 @@ export interface ButtonProps {
   className?: string;
 };
 
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button({ children, icon, appearance = 'secondary', iconOnly, onClick, className }, ref) {
+export interface ButtonProps extends CommonButtonProps {
+  type?: 'button' | 'submit',
+  disabled?: boolean;
+}
+
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button({ children, icon, appearance = 'secondary', iconOnly, onClick, className, type = 'button', disabled }, ref) {
   return (
-    <button ref={ref} onClick={onClick} className={cx(styles[appearance], iconOnly && styles.iconOnly, className)}>
+    <button ref={ref} onClick={onClick} className={cx(styles[appearance], iconOnly && styles.iconOnly, className)} type={type} disabled={disabled}>
       {icon && <Icon icon={icon}/>}
       <span>{children}</span>
     </button>

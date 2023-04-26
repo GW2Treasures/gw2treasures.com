@@ -4,7 +4,6 @@
     "prisma": "prisma generate",
     "prebuild": "npm run clean && npm run types",
     "build": "npm run ncc",
-    "predev": "npm run build",
     "dev": ". ./.env && node dist/index.js",
     "lint": "eslint src",
     "ncc": "ncc build src/index.ts -o dist",

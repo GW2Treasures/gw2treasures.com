@@ -2,12 +2,15 @@
   "name": "worker",
   "scripts": {
     "prisma": "prisma generate",
+    "prebuild": "npm run clean && npm run types",
     "build": "npm run ncc",
     "predev": "npm run build",
     "dev": ". ./.env && node dist/index.js",
     "lint": "eslint src",
     "ncc": "ncc build src/index.ts -o dist",
-    "postncc": "mv dist/client/* dist/"
+    "postncc": "mv dist/client/* dist/ && rm -r dist/client",
+    "clean": "rm -rf dist",
+    "types": "tsc"
   },
   "dependencies": {
     "@gw2treasures/database": "*",

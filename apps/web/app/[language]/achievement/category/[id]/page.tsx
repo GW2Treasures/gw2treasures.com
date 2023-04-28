@@ -5,7 +5,7 @@ import { Gw2Api } from 'gw2-api-types';
 import { ItemList } from '@/components/ItemList/ItemList';
 import { AchievementLink } from '@/components/Achievement/AchievementLink';
 import { localizedName } from '@/lib/localizedName';
-import { Headline } from '@/components/Headline/Headline';
+import { Headline } from '@gw2treasures/ui';
 import { Json } from '@/components/Format/Json';
 import { Tip } from '@/components/Tip/Tip';
 import { notFound } from 'next/navigation';

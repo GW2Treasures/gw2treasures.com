@@ -1,5 +1,5 @@
 import { Table } from '@/components/Table/Table';
-import { Headline } from '@/components/Headline/Headline';
+import { Headline } from '@gw2treasures/ui';
 import { db } from '@/lib/prisma';
 import { FormatDate } from '@/components/Format/FormatDate';
 import { FormatNumber } from '@/components/Format/FormatNumber';

@@ -1,5 +1,5 @@
 import { FormatNumber } from '@/components/Format/FormatNumber';
-import { Headline } from '@/components/Headline/Headline';
+import { Headline } from '@gw2treasures/ui';
 import { HeroLayout } from '@/components/Layout/HeroLayout';
 import { db } from '@/lib/prisma';
 import Link from 'next/link';

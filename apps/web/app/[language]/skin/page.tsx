@@ -1,6 +1,6 @@
 import { db } from '@/lib/prisma';
 import { FormatDate } from '@/components/Format/FormatDate';
-import { Headline } from '@/components/Headline/Headline';
+import { Headline } from '@gw2treasures/ui';
 import { ItemList } from '@/components/ItemList/ItemList';
 import { SkinLink } from '@/components/Skin/SkinLink';
 import { EntityIcon } from '@/components/Entity/EntityIcon';

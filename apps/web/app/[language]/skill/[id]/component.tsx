@@ -6,7 +6,7 @@ import { Table } from '@/components/Table/Table';
 import { TableOfContentAnchor } from '@gw2treasures/ui';
 import { Gw2Api } from 'gw2-api-types';
 import { Notice } from '@/components/Notice/Notice';
-import { Headline } from '@/components/Headline/Headline';
+import { Headline } from '@gw2treasures/ui';
 import { FormatDate } from '@/components/Format/FormatDate';
 import { Json } from '@/components/Format/Json';
 import { SkillTooltip } from '@/components/Skill/SkillTooltip';

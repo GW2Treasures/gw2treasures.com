@@ -3,7 +3,7 @@ import DetailLayout from '@/components/Layout/DetailLayout';
 import { db } from '@/lib/prisma';
 import { Gw2Api } from 'gw2-api-types';
 import { localizedName } from '@/lib/localizedName';
-import { Headline } from '@/components/Headline/Headline';
+import { Headline } from '@gw2treasures/ui';
 import { Json } from '@/components/Format/Json';
 import { FormatNumber } from '@/components/Format/FormatNumber';
 import { Separator } from '@/components/Layout/Separator';

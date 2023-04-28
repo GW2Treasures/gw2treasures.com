@@ -1,6 +1,6 @@
 import { LinkButton } from '@/components/Form/Button';
 import { FormatDate } from '@/components/Format/FormatDate';
-import { Headline } from '@/components/Headline/Headline';
+import { Headline } from '@gw2treasures/ui';
 import { HeroLayout } from '@/components/Layout/HeroLayout';
 import { Table } from '@/components/Table/Table';
 import { getUser } from '@/lib/getUser';

@@ -3,7 +3,7 @@ import DetailLayout from '@/components/Layout/DetailLayout';
 import { Skeleton } from '@/components/Skeleton/Skeleton';
 import { db } from '@/lib/prisma';
 import rarityClasses from '@/components/Layout/RarityColor.module.css';
-import { Headline } from '@/components/Headline/Headline';
+import { Headline } from '@gw2treasures/ui';
 import { Rarity } from '@/components/Item/Rarity';
 import { Gw2Api } from 'gw2-api-types';
 import { ItemTable } from '@/components/Item/ItemTable';

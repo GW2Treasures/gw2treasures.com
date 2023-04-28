@@ -6,7 +6,7 @@ import { Table } from '@/components/Table/Table';
 import { TableOfContentAnchor } from '@gw2treasures/ui';
 import rarityClasses from '@/components/Layout/RarityColor.module.css';
 import { Notice } from '@/components/Notice/Notice';
-import { Headline } from '@/components/Headline/Headline';
+import { Headline } from '@gw2treasures/ui';
 import { FormatDate } from '@/components/Format/FormatDate';
 import { ItemList } from '@/components/ItemList/ItemList';
 import { ItemInfobox } from '@/components/Item/ItemInfobox';

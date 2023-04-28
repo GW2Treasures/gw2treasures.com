@@ -9,7 +9,7 @@ import { DropDown } from '../DropDown/DropDown';
 import { Button } from '../Form/Button';
 import { Checkbox } from '../Form/Checkbox';
 import { TextInput } from '../Form/TextInput';
-import { Headline } from '../Headline/Headline';
+import { Headline } from '@gw2treasures/ui';
 import { useLanguage } from '../I18n/Context';
 import { ItemLink, ItemLinkProps } from '../Item/ItemLink';
 import { Separator } from '../Layout/Separator';

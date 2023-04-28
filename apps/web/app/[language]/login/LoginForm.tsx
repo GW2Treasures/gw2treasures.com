@@ -5,7 +5,7 @@ import { NextPage } from 'next';
 import { useState } from 'react';
 import { Button } from '@/components/Form/Button';
 import { TextInput } from '@/components/Form/TextInput';
-import { Headline } from '@/components/Headline/Headline';
+import { Headline } from '@gw2treasures/ui';
 
 interface LoginPageProps {}
 

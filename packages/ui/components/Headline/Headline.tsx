@@ -1,5 +1,5 @@
 import React, { FC, ReactNode } from 'react';
-import { TableOfContentAnchor } from '@gw2treasures/ui';
+import { TableOfContentAnchor } from '../TableOfContent/TableOfContent';
 import styles from './Headline.module.css';
 
 export interface HeadlineProps {

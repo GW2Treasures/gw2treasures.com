@@ -1,4 +1,4 @@
-import { Headline } from '@/components/Headline/Headline';
+import { Headline } from '@gw2treasures/ui';
 import { HeroLayout } from '@/components/Layout/HeroLayout';
 import { ReactNode } from 'react';
 

@@ -2,7 +2,7 @@ import { Language } from '@gw2treasures/database';
 import DetailLayout from '@/components/Layout/DetailLayout';
 import { db } from '@/lib/prisma';
 import { FormatDate } from '@/components/Format/FormatDate';
-import { Headline } from '@/components/Headline/Headline';
+import { Headline } from '@gw2treasures/ui';
 import { ItemList } from '@/components/ItemList/ItemList';
 import { SkillLink } from '@/components/Skill/SkillLink';
 import { ItemLink } from '@/components/Item/ItemLink';

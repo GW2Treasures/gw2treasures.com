@@ -8,6 +8,7 @@ const nextConfig = {
     swcPlugins: [['next-superjson-plugin', {}]],
     outputFileTracingRoot: path.join(__dirname, '../../'),
   },
+  transpilePackages: ['@gw2treasures/ui'],
   reactStrictMode: true,
   output: 'standalone',
   swcMinify: true,

@@ -14,6 +14,7 @@ import styles from './page.module.css';
 import Link from 'next/link';
 import { FormatNumber } from '@/components/Format/FormatNumber';
 import { AchievementLink } from '@/components/Achievement/AchievementLink';
+import { CommonComponentTest } from '@gw2treasures/ui';
 
 export const dynamic = 'force-dynamic';
 
@@ -28,6 +29,8 @@ function HomePage() {
       </div>
     )}
     >
+      <CommonComponentTest/>
+
       <Suspense fallback={<div className={styles.statsRow}/>}>
         {/* @ts-expect-error Server Component */}
         <DbStats/>

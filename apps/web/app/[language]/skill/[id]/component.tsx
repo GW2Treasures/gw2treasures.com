@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Language } from '@gw2treasures/database';
 import DetailLayout from '@/components/Layout/DetailLayout';
 import { Table } from '@/components/Table/Table';
-import { TableOfContentAnchor } from '@/components/TableOfContent/TableOfContent';
+import { TableOfContentAnchor } from '@gw2treasures/ui';
 import { Gw2Api } from 'gw2-api-types';
 import { Notice } from '@/components/Notice/Notice';
 import { Headline } from '@/components/Headline/Headline';

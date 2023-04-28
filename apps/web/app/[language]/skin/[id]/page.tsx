@@ -14,7 +14,7 @@ import { SkinInfobox } from '@/components/Skin/SkinInfobox';
 import { remember } from '@/lib/remember';
 import { linkPropertiesWithoutRarity } from '@/lib/linkProperties';
 import { AchievementLink } from '@/components/Achievement/AchievementLink';
-import { TableOfContentAnchor } from '@/components/TableOfContent/TableOfContent';
+import { TableOfContentAnchor } from '@gw2treasures/ui';
 import { ExternalLink } from '@/components/Link/ExternalLink';
 
 const getSkin = remember(60, async function getSkin(id: number, language: Language) {

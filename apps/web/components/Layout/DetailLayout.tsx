@@ -1,6 +1,6 @@
 import React, { cloneElement, FunctionComponent, isValidElement, ReactElement, ReactNode } from 'react';
 import styles from './DetailLayout.module.css';
-import { TableOfContentContext, TableOfContent } from '../TableOfContent/TableOfContent';
+import { TableOfContentContext, TableOfContent } from '@gw2treasures/ui';
 import { Icon } from '@gw2treasures/database';
 import { EntityIcon, EntityIconType } from '../Entity/EntityIcon';
 

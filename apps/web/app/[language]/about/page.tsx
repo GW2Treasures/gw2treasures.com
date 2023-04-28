@@ -1,7 +1,7 @@
 import { Headline } from '@/components/Headline/Headline';
 import { HeroLayout } from '@/components/Layout/HeroLayout';
 import { ExternalLink } from '@/components/Link/ExternalLink';
-import { TableOfContentAnchor } from '@/components/TableOfContent/TableOfContent';
+import { TableOfContentAnchor } from '@gw2treasures/ui';
 
 export default function AboutPage() {
   return (

@@ -1,6 +1,5 @@
 import { FC, ReactNode } from 'react';
-import { IconName } from '../../icons';
-import Icon from '../../icons/Icon';
+import { Icon, IconName } from '@gw2treasures/ui';
 import { cx } from '../../lib/classNames';
 import styles from './Notice.module.css';
 

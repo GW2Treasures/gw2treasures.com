@@ -2,7 +2,7 @@
 
 import { FC, ReactNode, useState } from 'react';
 import styles from './ItemTableExpand.module.css';
-import Icon from '../../icons/Icon';
+import { Icon } from '@gw2treasures/ui';
 
 export interface ItemTableExpandProps {
   children: ReactNode;

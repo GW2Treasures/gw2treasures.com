@@ -5,7 +5,7 @@ import { Button } from '@/components/Form/Button';
 import { Radiobutton } from '@/components/Form/Radiobutton';
 import { FormatConfigDialog } from '@/components/Format/FormatConfigDialog';
 import { MenuList } from '@/components/MenuList/MenuList';
-import Icon from 'icons/Icon';
+import { Icon } from '@gw2treasures/ui';
 import { FC, useCallback, useState } from 'react';
 import { Separator } from '../Separator';
 import styles from '../Layout.module.css';

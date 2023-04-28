@@ -107,10 +107,13 @@ export const Icons: Record<IconName, IconComponent> = {
   'more': MoreIcon,
 };
 
-export type Icon = IconName | JSX.Element;
+export type IconProp = IconName | JSX.Element;
 
-export function getIcon(icon?: Icon): JSX.Element | undefined {
+export function getIcon(icon?: IconProp): JSX.Element | undefined {
   return icon
     ? ((typeof icon === 'string' && icon in Icons) ? createElement(Icons[icon as IconName]) : icon as JSX.Element)
     : undefined;
 }
+
+// re-export icon component
+export * from './Icon';

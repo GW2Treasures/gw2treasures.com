@@ -1,5 +1,5 @@
 import { FloatingFocusManager, FloatingOverlay, FloatingPortal, useDismiss, useFloating, useInteractions, useRole, useTransitionStyles } from '@floating-ui/react';
-import Icon from 'icons/Icon';
+import { Icon } from '@gw2treasures/ui';
 import { FC, ReactNode, useId } from 'react';
 import styles from './Dialog.module.css';
 

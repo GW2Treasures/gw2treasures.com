@@ -1,7 +1,7 @@
 import { LocalizedEntity } from '@/lib/localizedName';
 import { IngredientItem, Item, Recipe, Revision } from '@gw2treasures/database';
 import { FC } from 'react';
-import Icon from '../../icons/Icon';
+import { Icon } from '@gw2treasures/ui';
 import { With, WithIcon } from '../../lib/with';
 import { DropDown } from '../DropDown/DropDown';
 import { Button, LinkButton } from '../Form/Button';

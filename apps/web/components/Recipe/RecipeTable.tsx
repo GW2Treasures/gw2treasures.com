@@ -2,7 +2,7 @@
 
 import { IngredientItem, Recipe, Revision } from '@gw2treasures/database';
 import { FC, memo, useDeferredValue, useMemo, useState } from 'react';
-import Icon from '../../icons/Icon';
+import { Icon } from '@gw2treasures/ui';
 import { localizedName } from '../../lib/localizedName';
 import { With } from '../../lib/with';
 import { DropDown } from '../DropDown/DropDown';

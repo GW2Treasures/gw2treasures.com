@@ -7,7 +7,7 @@ import { Headline } from '@/components/Headline/Headline';
 import { Json } from '@/components/Format/Json';
 import { FormatNumber } from '@/components/Format/FormatNumber';
 import { Separator } from '@/components/Layout/Separator';
-import Icon from '../../../../icons/Icon';
+import { Icon } from '@gw2treasures/ui';
 import { format } from 'gw2-tooltip-html';
 import { notFound } from 'next/navigation';
 import { remember } from '@/lib/remember';

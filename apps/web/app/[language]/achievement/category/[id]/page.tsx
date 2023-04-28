@@ -9,7 +9,7 @@ import { Headline } from '@/components/Headline/Headline';
 import { Json } from '@/components/Format/Json';
 import { Tip } from '@/components/Tip/Tip';
 import { notFound } from 'next/navigation';
-import Icon from 'icons/Icon';
+import { Icon } from '@gw2treasures/ui';
 import { remember } from '@/lib/remember';
 import { RemovedFromApiNotice } from '@/components/Notice/RemovedFromApiNotice';
 

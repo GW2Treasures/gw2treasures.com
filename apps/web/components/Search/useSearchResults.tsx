@@ -1,8 +1,6 @@
 import { getLinkProperties } from '@/lib/linkProperties';
 import { ApiSearchResponse } from 'app/api/search/route';
 import { ReactElement, ReactNode } from 'react';
-import { IconName } from '../../icons';
-import IconComponent from '../../icons/Icon';
 import { localizedName } from '../../lib/localizedName';
 import { useJsonFetch, useStaleJsonResponse } from '../../lib/useFetch';
 import { useLanguage } from '../I18n/Context';
@@ -10,6 +8,7 @@ import { EntityIcon } from '../Entity/EntityIcon';
 import { ItemLinkTooltip } from '../Item/ItemLinkTooltip';
 import { Tooltip } from '../Tooltip/Tooltip';
 import { AchievementLinkTooltip } from '../Achievement/AchievementLinkTooltip';
+import { Icon, IconName } from '@gw2treasures/ui';
 
 export interface SearchResults {
   id: string;
@@ -59,8 +58,8 @@ export function useSearchApiResults(searchValue: string): SearchResults[] {
     subtitle: (
       <>
         {(achievement.achievementCategory ? localizedName(achievement.achievementCategory, language) : 'Achievement')}
-        {achievement.points > 0 && (<> ▪ {achievement.points} <IconComponent icon="achievementPoints"/></>)}
-        {achievement.mastery && (<> ▪ <IconComponent icon="mastery"/> {achievement.mastery}</>)}
+        {achievement.points > 0 && (<> ▪ {achievement.points} <Icon icon="achievementPoints"/></>)}
+        {achievement.mastery && (<> ▪ <Icon icon="mastery"/> {achievement.mastery}</>)}
       </>
     ),
     render: (link) => <Tooltip content={<AchievementLinkTooltip achievement={getLinkProperties(achievement)}/>} key={link.key}>{link}</Tooltip>
@@ -75,13 +74,13 @@ export function useSearchApiResults(searchValue: string): SearchResults[] {
 
   const groups = response.loading ? [] : response.data.achievementGroups.map((group) => ({
     title: localizedName(group, language),
-    icon: <IconComponent icon="achievement"/>,
+    icon: <Icon icon="achievement"/>,
     href: `/achievement#${group.id}`,
   }));
 
   const builds = response.loading ? [] : response.data.builds.map((build) => ({
     title: `Build ${build.id}`,
-    icon: <IconComponent icon="builds"/>,
+    icon: <Icon icon="builds"/>,
     href: `/build/${build.id}`,
   }));
 
@@ -124,7 +123,7 @@ export function usePageResults(searchValue: string): SearchResults {
   const results = pages
     .filter(({ title }) => title.toLowerCase().includes(searchValue.toLowerCase()))
     .filter((_, index) => index < 5)
-    .map(({ title, icon, href }) => ({ title, href, icon: <IconComponent icon={icon}/> }));
+    .map(({ title, icon, href }) => ({ title, href, icon: <Icon icon={icon}/> }));
 
   return { id: 'pages', title: 'Pages', results, loading: false };
 }

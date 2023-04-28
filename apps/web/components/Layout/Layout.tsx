@@ -1,6 +1,6 @@
 import { FunctionComponent, ReactNode } from 'react';
 import styles from './Layout.module.css';
-import Icon from '../../icons/Icon';
+import { Icon } from '@gw2treasures/ui';
 import Navigation from './Header/Navigation';
 import Link from 'next/link';
 import { Search } from '../Search/Search';

@@ -7,14 +7,13 @@ import { HeroLayout } from '@/components/Layout/HeroLayout';
 import { SkeletonLink } from '@/components/Link/SkeletonLink';
 import { Search } from '@/components/Search/Search';
 import { Suspense } from 'react';
-import Icon from '../../../icons/Icon';
+import { Icon } from '@gw2treasures/ui';
 import { db } from '@/lib/prisma';
 import { remember } from '@/lib/remember';
 import styles from './page.module.css';
 import Link from 'next/link';
 import { FormatNumber } from '@/components/Format/FormatNumber';
 import { AchievementLink } from '@/components/Achievement/AchievementLink';
-import { CommonComponentTest } from '@gw2treasures/ui';
 
 export const dynamic = 'force-dynamic';
 
@@ -29,8 +28,6 @@ function HomePage() {
       </div>
     )}
     >
-      <CommonComponentTest/>
-
       <Suspense fallback={<div className={styles.statsRow}/>}>
         {/* @ts-expect-error Server Component */}
         <DbStats/>

@@ -1,4 +1,4 @@
-import Icon from 'icons/Icon';
+import { Icon } from '@gw2treasures/ui';
 import { FC, ReactNode } from 'react';
 import styles from './ExternalLink.module.css';
 

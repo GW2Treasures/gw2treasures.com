@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { Search } from '../Search/Search';
 import LoaderIcon from './loader.svg?svgr';
 import { useLoading } from '../../lib/useLoading';
-import { LinkButton } from '../Form/Button';
+import { LinkButton } from '@gw2treasures/ui/components/Form/Button';
 import { ExternalLink } from '../Link/ExternalLink';
 import { LanguageDropdown } from './Header/LanguageDropdown';
 import { Menu } from './Header/Menu';

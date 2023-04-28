@@ -1,4 +1,4 @@
-import { LinkButton } from '@/components/Form/Button';
+import { LinkButton } from '@gw2treasures/ui/components/Form/Button';
 import { FormatDate } from '@/components/Format/FormatDate';
 import { Headline } from '@gw2treasures/ui';
 import { HeroLayout } from '@/components/Layout/HeroLayout';

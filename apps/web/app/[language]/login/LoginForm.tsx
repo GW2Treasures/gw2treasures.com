@@ -3,8 +3,8 @@
 import { Item } from '@gw2treasures/database';
 import { NextPage } from 'next';
 import { useState } from 'react';
-import { Button } from '@/components/Form/Button';
-import { TextInput } from '@/components/Form/TextInput';
+import { Button } from '@gw2treasures/ui/components/Form/Button';
+import { TextInput } from '@gw2treasures/ui/components/Form/TextInput';
 import { Headline } from '@gw2treasures/ui';
 
 interface LoginPageProps {}

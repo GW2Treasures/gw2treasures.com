@@ -1,8 +1,8 @@
-import { cx } from '@gw2treasures/ui';
+import { cx } from '../../lib/classNames';
 import Link from 'next/link';
 import { forwardRef, ReactNode } from 'react';
 import styles from './Button.module.css';
-import { IconProp, Icon } from '@gw2treasures/ui';
+import { IconProp, Icon } from '../../icons';
 
 export interface ButtonProps {
   children: ReactNode;

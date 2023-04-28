@@ -1,5 +1,6 @@
 const { PrismaPlugin } = require('@prisma/nextjs-monorepo-workaround-plugin');
 const path = require('path');
+const withSvgIcons = require('@gw2treasures/ui/svg-loader');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -13,10 +14,7 @@ const nextConfig = {
   output: 'standalone',
   swcMinify: true,
   webpack(config, { isServer }) {
-    config.module.rules.push({
-      test: /\.svg$/i,
-      use: [{ loader: '@svgr/webpack', options: { ref: true }}],
-    });
+    withSvgIcons(config);
 
     if(isServer) {
       config.plugins.push(new PrismaPlugin());

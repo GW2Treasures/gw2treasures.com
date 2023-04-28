@@ -3,7 +3,7 @@
 import { arrow, autoUpdate, flip, hide, offset, Placement, shift, Side, useClick, useDismiss, useFloating, useFocus, useInteractions, useTransitionStyles } from '@floating-ui/react';
 import { Children, cloneElement, FC, ReactElement, ReactNode, useRef, useState } from 'react';
 import styles from './DropDown.module.css';
-import { isTruthy } from 'lib/is';
+import { isTruthy } from '@gw2treasures/ui';
 
 export interface DropDown {
   button: ReactElement;

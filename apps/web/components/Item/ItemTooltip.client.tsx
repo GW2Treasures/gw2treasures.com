@@ -3,7 +3,7 @@ import { FormatNumber } from '../Format/FormatNumber';
 import { ItemTooltip } from './ItemTooltip';
 import { Rarity } from './Rarity';
 import { Coins } from '../Format/Coins';
-import { isTruthy } from '@/lib/is';
+import { isTruthy } from '@gw2treasures/ui';
 import styles from './ItemTooltip.module.css';
 import { ItemLink } from './ItemLink';
 import { Icon } from '@gw2treasures/ui';

@@ -1,4 +1,4 @@
-import { Headline } from '@gw2treasures/ui';
+import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { PageLayout } from '@/components/Layout/PageLayout';
 import { Table } from '@/components/Table/Table';
 import { cache } from 'react';

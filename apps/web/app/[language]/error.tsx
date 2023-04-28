@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@gw2treasures/ui/components/Form/Button';
-import { Headline } from '@gw2treasures/ui';
+import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { HeroLayout } from '@/components/Layout/HeroLayout';
 import { Separator } from '@/components/Layout/Separator';
 

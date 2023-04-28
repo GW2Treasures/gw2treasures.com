@@ -3,7 +3,7 @@ import DetailLayout from '@/components/Layout/DetailLayout';
 import { Skeleton } from '@/components/Skeleton/Skeleton';
 import { db } from '@/lib/prisma';
 import rarityClasses from '@/components/Layout/RarityColor.module.css';
-import { Headline } from '@gw2treasures/ui';
+import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { Rarity } from '@/components/Item/Rarity';
 import { Gw2Api } from 'gw2-api-types';
 import { ItemTable } from '@/components/Item/ItemTable';
@@ -14,7 +14,7 @@ import { SkinInfobox } from '@/components/Skin/SkinInfobox';
 import { remember } from '@/lib/remember';
 import { linkPropertiesWithoutRarity } from '@/lib/linkProperties';
 import { AchievementLink } from '@/components/Achievement/AchievementLink';
-import { TableOfContentAnchor } from '@gw2treasures/ui';
+import { TableOfContentAnchor } from '@gw2treasures/ui/components/TableOfContent/TableOfContent';
 import { ExternalLink } from '@/components/Link/ExternalLink';
 
 const getSkin = remember(60, async function getSkin(id: number, language: Language) {

@@ -4,7 +4,7 @@ import { Icon } from '@gw2treasures/ui';
 import Navigation from './Header/Navigation';
 import Link from 'next/link';
 import { Search } from '../Search/Search';
-import LoaderIcon from './loader.svg';
+import LoaderIcon from './loader.svg?svgr';
 import { useLoading } from '../../lib/useLoading';
 import { LinkButton } from '../Form/Button';
 import { ExternalLink } from '../Link/ExternalLink';

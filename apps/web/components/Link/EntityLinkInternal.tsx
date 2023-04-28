@@ -2,7 +2,6 @@
 
 import NextLink from 'next/link';
 import React, { forwardRef } from 'react';
-import { cx } from '../../lib/classNames';
 import { EntityIcon } from '../Entity/EntityIcon';
 import styles from './EntityLink.module.css';
 import rarityClasses from '../Layout/RarityColor.module.css';
@@ -10,6 +9,7 @@ import { EntityLinkProps } from './EntityLink';
 import { localizedName } from '@/lib/localizedName';
 import { useLanguage } from '../I18n/Context';
 import { localizedUrl } from '@/lib/localizedUrl';
+import { cx } from '@gw2treasures/ui';
 
 export const EntityLinkInternal = forwardRef<HTMLAnchorElement, EntityLinkProps>(function EntityLinkInternal({ href, entity, icon = 32, language, iconType, ...props }, ref) {
   const defaultLanguage = useLanguage();

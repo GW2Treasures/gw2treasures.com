@@ -1,5 +1,5 @@
 import { cloneElement, FC, ReactElement, ReactNode } from 'react';
-import { cx } from '../../lib/classNames';
+import { cx } from '@gw2treasures/ui';
 import styles from './DiffLayout.module.css';
 
 export interface DiffLayoutProps {

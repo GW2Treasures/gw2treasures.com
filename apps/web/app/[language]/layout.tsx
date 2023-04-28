@@ -7,7 +7,7 @@ import { FormatProvider } from '@/components/Format/FormatContext';
 import Layout from '@/components/Layout/Layout';
 import { Bitter } from 'next/font/google';
 import localFont from 'next/font/local';
-import { cx } from '@/lib/classNames';
+import { cx } from '@gw2treasures/ui';
 import { I18nProvider } from '@/components/I18n/I18nProvider';
 import { Language } from '@gw2treasures/database';
 

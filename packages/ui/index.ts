@@ -2,7 +2,7 @@
 export * from './icons';
 
 // lib
-export * from './lib/is';
+export * from './lib';
 
 // components
 export * from './components/CommonComponentTest/CommonComponentTest';

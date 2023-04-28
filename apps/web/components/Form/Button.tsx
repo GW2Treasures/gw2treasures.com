@@ -1,4 +1,4 @@
-import { cx } from '@/lib/classNames';
+import { cx } from '@gw2treasures/ui';
 import Link from 'next/link';
 import { forwardRef, ReactNode } from 'react';
 import styles from './Button.module.css';

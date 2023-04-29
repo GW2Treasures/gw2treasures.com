@@ -7,18 +7,15 @@ export interface TextInputProps {
   onChange?: (value: string) => void;
   placeholder?: string;
   name?: string;
+  readOnly?: boolean;
 };
 
-export const TextInput: FC<TextInputProps> = ({ type = 'text', value, onChange, placeholder, name }) => {
+export const TextInput: FC<TextInputProps> = ({ type = 'text', value, onChange, placeholder, name, readOnly }) => {
   const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     onChange?.(e.target.value);
   }, [onChange]);
 
-  const managedProps = value !== undefined || onChange !== undefined
-    ? { onChange: handleChange, value }
-    : {};
-
   return (
-    <input type={type} {...managedProps} className={styles.input} placeholder={placeholder} name={name}/>
+    <input type={type} value={value} onChange={onChange && handleChange} className={styles.input} placeholder={placeholder} name={name} readOnly={readOnly}/>
   );
 };

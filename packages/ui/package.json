@@ -4,9 +4,19 @@
   "repository": "GW2Treasures/gw2treasures.com",
   "main": "index.ts",
   "types": "index.ts",
+  "files": [
+    "components/",
+    "icons/",
+    "lib/",
+    "index.ts",
+    "svg-loader.js",
+    "types.d.ts",
+    "tsconfig.json",
+    ".eslintrc.json"
+  ],
   "scripts": {
     "lint": "eslint .",
-    "publish-package": "npm publish --access public"
+    "publish-package": "if test `npm view . version | sed -n 2p` != $npm_package_version; then npm publish --access public; else echo not changed; fi"
   },
   "dependencies": {
     "@floating-ui/react": "^0.23.0",

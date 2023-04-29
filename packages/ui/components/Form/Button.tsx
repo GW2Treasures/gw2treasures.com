@@ -11,11 +11,12 @@ export interface ButtonProps {
   iconOnly?: boolean;
   onClick?: () => void;
   className?: string;
+  form?: string;
 };
 
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button({ children, icon, appearance = 'secondary', iconOnly, onClick, className }, ref) {
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button({ children, icon, appearance = 'secondary', iconOnly, onClick, className, form }, ref) {
   return (
-    <button ref={ref} onClick={onClick} className={cx(styles[appearance], iconOnly && styles.iconOnly, className)}>
+    <button ref={ref} onClick={onClick} className={cx(styles[appearance], iconOnly && styles.iconOnly, className)} form={form}>
       {icon && <Icon icon={icon}/>}
       <span>{children}</span>
     </button>

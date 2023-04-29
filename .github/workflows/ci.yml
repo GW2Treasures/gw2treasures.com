@@ -13,7 +13,7 @@ concurrency:
 
 jobs:
   image:
-    name: Docker / Build / ${{ matrix.target }}
+    name: Build / Docker / ${{ matrix.target }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -125,7 +125,7 @@ jobs:
     - run: echo "Success"
 
   push:
-    name: Docker / Push / ${{ matrix.target }}
+    name: Publish / Docker / ${{ matrix.target }}
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
     needs: [success]
@@ -160,3 +160,29 @@ jobs:
         echo VERSION=$VERSION
         docker tag gw2treasures/${{ matrix.target }} $IMAGE_ID:$VERSION
         docker push $IMAGE_ID:$VERSION
+        
+  publish:
+    name: Publish / npm / ${{ matrix.target }}
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    needs: [success]    
+    permissions:
+      contents: read
+      id-token: write
+    strategy:
+      matrix:
+        target: [ ui ]
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 20
+        cache: npm
+        registry-url: 'https://registry.npmjs.org'
+    - name: Install dependencies
+      run: npm ci
+    - name: Run Publish
+      run: npm run publish-package -- --filter=${{ matrix.target }}... -- --provenance
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+

@@ -5,11 +5,11 @@ import { Gw2Api } from 'gw2-api-types';
 import { ItemList } from '@/components/ItemList/ItemList';
 import { AchievementLink } from '@/components/Achievement/AchievementLink';
 import { localizedName } from '@/lib/localizedName';
-import { Headline } from '@/components/Headline/Headline';
+import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { Json } from '@/components/Format/Json';
 import { Tip } from '@/components/Tip/Tip';
 import { notFound } from 'next/navigation';
-import Icon from 'icons/Icon';
+import { Icon } from '@gw2treasures/ui';
 import { remember } from '@/lib/remember';
 import { RemovedFromApiNotice } from '@/components/Notice/RemovedFromApiNotice';
 

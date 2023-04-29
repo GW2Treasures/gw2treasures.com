@@ -2,7 +2,7 @@
 
 import { forwardRef, useState } from 'react';
 import { Reload, ReloadProps } from './Reload';
-import { Checkbox } from '../Form/Checkbox';
+import { Checkbox } from '@gw2treasures/ui/components/Form/Checkbox';
 
 export interface ReloadCheckboxProps extends ReloadProps {}
 

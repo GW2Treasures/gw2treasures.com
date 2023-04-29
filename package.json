@@ -11,7 +11,8 @@
     "prisma:studio": "npm run prisma:studio -w @gw2treasures/database",
     "prisma:migrate-dev": "npm run prisma:migrate-dev -w @gw2treasures/database",
     "build": "turbo run build",
-    "lint": "turbo run lint"
+    "lint": "turbo run lint",
+    "publish-package": "turbo run publish-package"
   },
   "devDependencies": {
     "turbo": "^1.8.8"

@@ -1,6 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 import { FC, ReactNode } from 'react';
-import { Table } from '../Table/Table';
+import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { Skeleton } from './Skeleton';
 
 interface SkeletonTableProps {

@@ -1,6 +1,6 @@
 'use client';
 
-import Icon from 'icons/Icon';
+import { Icon } from '@gw2treasures/ui';
 import { FC, ReactNode, useEffect, useState } from 'react';
 import styles from '../Layout.module.css';
 

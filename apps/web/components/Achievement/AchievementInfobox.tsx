@@ -2,7 +2,7 @@ import { Achievement, Language } from '@gw2treasures/database';
 import { Gw2Api } from 'gw2-api-types';
 import { FC } from 'react';
 import { FormatNumber } from '../Format/FormatNumber';
-import { Headline } from '../Headline/Headline';
+import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { LanguageLinks } from '../Infobox/LanguageLinks';
 import { ExternalLink } from '../Link/ExternalLink';
 import { AchievementLink } from './AchievementLink';

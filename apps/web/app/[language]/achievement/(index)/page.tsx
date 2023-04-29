@@ -1,5 +1,5 @@
 import { db } from '@/lib/prisma';
-import { Headline } from '@/components/Headline/Headline';
+import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { ItemList } from '@/components/ItemList/ItemList';
 import { HeroLayout } from '@/components/Layout/HeroLayout';
 import { localizedName } from '@/lib/localizedName';

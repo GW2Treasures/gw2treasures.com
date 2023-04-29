@@ -1,4 +1,4 @@
-import { LinkButton } from '@/components/Form/Button';
+import { LinkButton } from '@gw2treasures/ui/components/Form/Button';
 import { PageLayout } from '@/components/Layout/PageLayout';
 import { Notice } from '@/components/Notice/Notice';
 import { getUser } from '@/lib/getUser';

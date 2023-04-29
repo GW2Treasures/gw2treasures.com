@@ -3,7 +3,7 @@
 import { FC } from 'react';
 import { useFormatContext } from './FormatContext';
 import styles from './Format.module.css';
-import { cx } from '@/lib/classNames';
+import { cx } from '@gw2treasures/ui';
 
 interface FormatNumberProps {
   value: number | undefined | null;

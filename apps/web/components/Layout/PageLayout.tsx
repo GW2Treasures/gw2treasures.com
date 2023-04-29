@@ -1,5 +1,5 @@
 import { FC, ReactNode } from 'react';
-import { TableOfContent, TableOfContentContext } from '../TableOfContent/TableOfContent';
+import { TableOfContent, TableOfContentContext } from '@gw2treasures/ui/components/TableOfContent/TableOfContent';
 import styles from './PageLayout.module.css';
 
 interface PageLayoutProps {

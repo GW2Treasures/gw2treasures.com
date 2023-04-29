@@ -1,5 +1,5 @@
 import { Item } from '@gw2treasures/database';
-import { Headline } from '@/components/Headline/Headline';
+import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { ItemTable } from '@/components/Item/ItemTable';
 import { getSimilarItems } from './data';
 

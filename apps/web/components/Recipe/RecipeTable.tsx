@@ -2,20 +2,20 @@
 
 import { IngredientItem, Recipe, Revision } from '@gw2treasures/database';
 import { FC, memo, useDeferredValue, useMemo, useState } from 'react';
-import Icon from '../../icons/Icon';
+import { Icon } from '@gw2treasures/ui';
 import { localizedName } from '../../lib/localizedName';
 import { With } from '../../lib/with';
 import { DropDown } from '../DropDown/DropDown';
-import { Button } from '../Form/Button';
-import { Checkbox } from '../Form/Checkbox';
-import { TextInput } from '../Form/TextInput';
-import { Headline } from '../Headline/Headline';
+import { Button } from '@gw2treasures/ui/components/Form/Button';
+import { Checkbox } from '@gw2treasures/ui/components/Form/Checkbox';
+import { TextInput } from '@gw2treasures/ui/components/Form/TextInput';
+import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { useLanguage } from '../I18n/Context';
 import { ItemLink, ItemLinkProps } from '../Item/ItemLink';
 import { Separator } from '../Layout/Separator';
 import { MenuList } from '../MenuList/MenuList';
 import { ShowMore } from '../ShowMore/ShowMore';
-import { Table } from '../Table/Table';
+import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { Discipline, DisciplineIcon } from './DisciplineIcon';
 import { Ingredients } from './Ingredients';
 import recipeBoxStyles from './RecipeBox.module.css';

@@ -3,7 +3,7 @@
 import { useFormatContext } from '@/components/Format/FormatContext';
 import { FormatDate } from '@/components/Format/FormatDate';
 import { FormatNumber } from '@/components/Format/FormatNumber';
-import { DataTableColumn, useDataTable } from '@/components/Table/DataTable';
+import { DataTableColumn, useDataTable } from '@gw2treasures/ui/components/Table/DataTable';
 import { Build } from '@gw2treasures/database';
 import Link from 'next/link';
 import { FC, useCallback, useMemo } from 'react';

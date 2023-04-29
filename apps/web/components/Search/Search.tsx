@@ -2,12 +2,12 @@
 
 import React, { FC, Fragment, ReactElement, useRef, useState } from 'react';
 import styles from './Search.module.css';
-import Icon from '../../icons/Icon';
 import { useRouter } from 'next/navigation';
 import { usePageResults, useSearchApiResults } from './useSearchResults';
 import Link from 'next/link';
 import { useDebounce } from '../../lib/useDebounce';
 import { autoUpdate, offset, size, useClick, useDismiss, useFloating, useFocus, useInteractions, useListNavigation } from '@floating-ui/react';
+import { Icon } from '@gw2treasures/ui';
 
 export interface SearchProps {
   // TODO: add props

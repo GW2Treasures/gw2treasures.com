@@ -1,13 +1,12 @@
-import { cx } from '@/lib/classNames';
-import { IconName } from 'icons';
-import Icon, { IconProps } from 'icons/Icon';
+import { cx } from '../../lib/classNames';
 import Link from 'next/link';
 import { forwardRef, ReactNode } from 'react';
 import styles from './Button.module.css';
+import { IconProp, Icon } from '../../icons';
 
 export interface ButtonProps {
   children: ReactNode;
-  icon?: IconProps['icon'];
+  icon?: IconProp;
   appearance?: 'primary' | 'secondary' | 'menu';
   iconOnly?: boolean;
   onClick?: () => void;

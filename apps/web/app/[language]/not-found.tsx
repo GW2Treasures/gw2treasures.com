@@ -1,4 +1,4 @@
-import { Headline } from '@/components/Headline/Headline';
+import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { HeroLayout } from '@/components/Layout/HeroLayout';
 
 export default function NotFound() {

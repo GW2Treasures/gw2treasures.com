@@ -5,7 +5,7 @@ import { FC, useCallback, useState } from 'react';
 import { Icon } from '@gw2treasures/database';
 import styles from './EntityIcon.module.css';
 import { getIconUrl, IconSize } from '@/lib/getIconUrl';
-import { cx } from '@/lib/classNames';
+import { cx } from '@gw2treasures/ui';
 
 export type EntityIconType = 'skill';
 

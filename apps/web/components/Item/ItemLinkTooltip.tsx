@@ -1,6 +1,6 @@
 'use client';
 
-import { cx } from '@/lib/classNames';
+import { cx } from '@gw2treasures/ui';
 import { LocalizedEntity, localizedName } from '@/lib/localizedName';
 import { WithIcon } from '@/lib/with';
 import { Item, Language } from '@gw2treasures/database';

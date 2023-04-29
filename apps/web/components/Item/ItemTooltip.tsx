@@ -5,7 +5,7 @@ import { getTranslate } from '../I18n/getTranslate';
 import { Item, Language } from '@gw2treasures/database';
 import { AsyncComponent } from '@/lib/asyncComponent';
 import { format } from 'gw2-tooltip-html';
-import { isTruthy } from '@/lib/is';
+import { isTruthy } from '@gw2treasures/ui';
 import { getLinkProperties, linkProperties } from '@/lib/linkProperties';
 import { WithIcon } from '@/lib/with';
 import { LocalizedEntity } from '@/lib/localizedName';

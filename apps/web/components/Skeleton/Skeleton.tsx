@@ -1,4 +1,4 @@
-import { cx } from '@/lib/classNames';
+import { cx } from '@gw2treasures/ui';
 import { FC } from 'react';
 import style from './Skeleton.module.css';
 

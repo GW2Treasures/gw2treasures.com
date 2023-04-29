@@ -1,5 +1,5 @@
 'use client';
-import { Button } from '@/components/Form/Button';
+import { Button } from '@gw2treasures/ui/components/Form/Button';
 import { useRouter } from 'next/navigation';
 import { FC, useCallback } from 'react';
 

@@ -1,6 +1,6 @@
-import { Headline } from '@/components/Headline/Headline';
+import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { PageLayout } from '@/components/Layout/PageLayout';
-import { Table } from '@/components/Table/Table';
+import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { cache } from 'react';
 import { db } from '@/lib/prisma';
 import { FormatDate } from '@/components/Format/FormatDate';

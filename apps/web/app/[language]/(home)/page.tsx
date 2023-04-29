@@ -1,5 +1,5 @@
 import { FormatDate } from '@/components/Format/FormatDate';
-import { Headline } from '@/components/Headline/Headline';
+import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { Trans } from '@/components/I18n/Trans';
 import { ItemLink } from '@/components/Item/ItemLink';
 import { ItemList } from '@/components/ItemList/ItemList';
@@ -7,7 +7,7 @@ import { HeroLayout } from '@/components/Layout/HeroLayout';
 import { SkeletonLink } from '@/components/Link/SkeletonLink';
 import { Search } from '@/components/Search/Search';
 import { Suspense } from 'react';
-import Icon from '../../../icons/Icon';
+import { Icon } from '@gw2treasures/ui';
 import { db } from '@/lib/prisma';
 import { remember } from '@/lib/remember';
 import styles from './page.module.css';

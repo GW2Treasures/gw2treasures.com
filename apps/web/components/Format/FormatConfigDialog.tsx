@@ -1,7 +1,7 @@
 import { FC, useMemo } from 'react';
 import { Dialog } from '../Dialog/Dialog';
-import { Label } from '../Form/Label';
-import { Select } from '../Form/Select';
+import { Label } from '@gw2treasures/ui/components/Form/Label';
+import { Select } from '@gw2treasures/ui/components/Form/Select';
 import { useLanguage } from '../I18n/Context';
 import { Separator } from '../Layout/Separator';
 import { MenuList } from '../MenuList/MenuList';

@@ -1,6 +1,6 @@
 'use client';
 
-import { Select } from '@/components/Form/Select';
+import { Select } from '@gw2treasures/ui/components/Form/Select';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { FC, useCallback } from 'react';
 import { availablePeriods } from './available-periods';

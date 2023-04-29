@@ -1,4 +1,4 @@
-import Icon from 'icons/Icon';
+import { Icon } from '../../icons';
 import { KeyboardEventHandler, ReactNode, forwardRef, useCallback, useEffect, useId, useRef } from 'react';
 import styles from './Checkbox.module.css';
 

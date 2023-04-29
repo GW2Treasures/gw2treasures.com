@@ -164,7 +164,7 @@ jobs:
   publish:
     name: Publish / npm / ${{ matrix.target }}
     runs-on: ubuntu-latest
-    #if: github.event_name == 'push'
+    if: github.event_name == 'push'
     needs: [success]    
     permissions:
       contents: read

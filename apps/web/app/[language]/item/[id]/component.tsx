@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { Language } from '@gw2treasures/database';
 import { ItemTooltip } from '@/components/Item/ItemTooltip';
 import DetailLayout from '@/components/Layout/DetailLayout';
-import { Table } from '@/components/Table/Table';
+import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { TableOfContentAnchor } from '@gw2treasures/ui/components/TableOfContent/TableOfContent';
 import rarityClasses from '@/components/Layout/RarityColor.module.css';
 import { Notice } from '@/components/Notice/Notice';

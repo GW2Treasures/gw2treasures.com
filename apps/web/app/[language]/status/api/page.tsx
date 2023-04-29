@@ -1,7 +1,7 @@
 import { FormatNumber } from '@/components/Format/FormatNumber';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { PageLayout } from '@/components/Layout/PageLayout';
-import { Table } from '@/components/Table/Table';
+import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { db } from '@/lib/prisma';
 import { ApiRequest } from '@gw2treasures/database';
 import { Fragment } from 'react';

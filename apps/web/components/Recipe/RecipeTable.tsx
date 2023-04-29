@@ -15,7 +15,7 @@ import { ItemLink, ItemLinkProps } from '../Item/ItemLink';
 import { Separator } from '../Layout/Separator';
 import { MenuList } from '../MenuList/MenuList';
 import { ShowMore } from '../ShowMore/ShowMore';
-import { Table } from '../Table/Table';
+import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { Discipline, DisciplineIcon } from './DisciplineIcon';
 import { Ingredients } from './Ingredients';
 import recipeBoxStyles from './RecipeBox.module.css';

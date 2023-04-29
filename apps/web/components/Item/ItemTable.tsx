@@ -1,7 +1,7 @@
 import { Item } from '@gw2treasures/database';
 import { FC } from 'react';
 import { Coins } from '../Format/Coins';
-import { Table } from '../Table/Table';
+import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { ItemLink } from './ItemLink';
 import { ItemTableExpand } from './ItemTableExpand';
 import { Rarity } from './Rarity';

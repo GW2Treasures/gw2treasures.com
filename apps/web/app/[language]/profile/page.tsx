@@ -2,7 +2,7 @@ import { LinkButton } from '@gw2treasures/ui/components/Form/Button';
 import { FormatDate } from '@/components/Format/FormatDate';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { HeroLayout } from '@/components/Layout/HeroLayout';
-import { Table } from '@/components/Table/Table';
+import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { getUser } from '@/lib/getUser';
 import { db } from '@/lib/prisma';
 import { Metadata } from 'next';

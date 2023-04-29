@@ -17,7 +17,7 @@ import { ItemList } from '@/components/ItemList/ItemList';
 import { linkProperties, linkPropertiesWithoutRarity } from '@/lib/linkProperties';
 import { ItemLink } from '@/components/Item/ItemLink';
 import { SkinLink } from '@/components/Skin/SkinLink';
-import { Table } from '@/components/Table/Table';
+import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { AchievementLink } from '@/components/Achievement/AchievementLink';
 import { AchievementInfobox } from '@/components/Achievement/AchievementInfobox';
 import type * as CSS from 'csstype';

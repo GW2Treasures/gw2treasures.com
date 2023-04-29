@@ -2,7 +2,7 @@ import { FunctionComponent, ReactElement } from 'react';
 import Link from 'next/link';
 import { Language } from '@gw2treasures/database';
 import DetailLayout from '@/components/Layout/DetailLayout';
-import { Table } from '@/components/Table/Table';
+import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { TableOfContentAnchor } from '@gw2treasures/ui/components/TableOfContent/TableOfContent';
 import { Gw2Api } from 'gw2-api-types';
 import { Notice } from '@/components/Notice/Notice';

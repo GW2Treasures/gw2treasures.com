@@ -16,7 +16,7 @@ export const DropDown: FC<DropDown> = ({ children, button, preferredPlacement = 
   const [open, setOpen] = useState(false);
   const arrowRef = useRef<HTMLDivElement>(null);
 
-  const { x, y, reference, strategy, context, middlewareData, placement, refs } = useFloating({
+  const { x, y, strategy, context, middlewareData, placement, refs } = useFloating({
     open,
     onOpenChange: setOpen,
     placement: preferredPlacement,
@@ -55,7 +55,7 @@ export const DropDown: FC<DropDown> = ({ children, button, preferredPlacement = 
 
   return (
     <>
-      {cloneElement(Children.only(button), { ref: reference, ...getReferenceProps(button.props) })}
+      {cloneElement(Children.only(button), { ref: refs.reference, ...getReferenceProps(button.props) })}
       {isMounted && (
         <div
           ref={refs.setFloating}

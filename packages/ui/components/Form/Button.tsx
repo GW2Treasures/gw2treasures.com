@@ -4,19 +4,27 @@ import { forwardRef, ReactNode } from 'react';
 import styles from './Button.module.css';
 import { IconProp, Icon } from '../../icons';
 
-export interface ButtonProps {
+export interface CommonButtonProps {
   children: ReactNode;
   icon?: IconProp;
   appearance?: 'primary' | 'secondary' | 'menu';
   iconOnly?: boolean;
   onClick?: () => void;
   className?: string;
+}
+
+export interface ButtonProps extends CommonButtonProps {
+  type?: 'button' | 'submit'
+  disabled?: boolean;
+
   form?: string;
+  name?: string;
+  value?: string;
 };
 
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button({ children, icon, appearance = 'secondary', iconOnly, onClick, className, form }, ref) {
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button({ children, icon, appearance = 'secondary', iconOnly, onClick, className, type = 'button', disabled, form, name, value }, ref) {
   return (
-    <button ref={ref} onClick={onClick} className={cx(styles[appearance], iconOnly && styles.iconOnly, className)} form={form}>
+    <button ref={ref} onClick={onClick} className={cx(styles[appearance], iconOnly && styles.iconOnly, className)} form={form} type={type} disabled={disabled} name={name} value={value}>
       {icon && <Icon icon={icon}/>}
       <span>{children}</span>
     </button>

@@ -1,6 +1,6 @@
 {
   "name": "@gw2treasures/ui",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "repository": "GW2Treasures/gw2treasures.com",
   "main": "index.ts",
   "types": "index.ts",

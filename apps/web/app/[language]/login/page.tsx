@@ -21,7 +21,7 @@ export default async function LoginPage({ searchParams }: { searchParams: { logo
         <Notice>Logout successful</Notice>
       )}
 
-      <LinkButton href="/auth/login/discord" external>Login with Discord</LinkButton>
+      <LinkButton href="/auth/login" external>Login with gw2.me</LinkButton>
     </PageLayout>
   );
 }

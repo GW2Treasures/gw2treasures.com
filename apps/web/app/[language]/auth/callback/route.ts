@@ -5,14 +5,15 @@ import { db } from '@/lib/prisma';
 import parseUserAgent from 'ua-parser-js';
 import { getUrlFromParts, getUrlPartsFromRequest } from '@/lib/urlParts';
 import { authCookie } from '@/lib/auth/cookie';
+import { getAccessToken } from '@gw2me/api';
+import { rest } from '@gw2me/api';
 
-const baseDomain = process.env.GW2T_NEXT_DOMAIN;
-const clientId = process.env.DISCORD_CLIENT_ID;
-const clientSecret = process.env.DISCORD_CLIENT_SECRET;
+const client_id = process.env.GW2ME_CLIENT_ID;
+const client_secret = process.env.GW2ME_CLIENT_SECRET;
 
 export async function GET(request: NextRequest) {
-  if(!clientId || !clientSecret) {
-    console.error('DISCORD_CLIENT_ID or DISCORD_CLIENT_SECRET not set');
+  if(!client_id || !client_secret) {
+    console.error('GW2ME_CLIENT_ID or GW2ME_CLIENT_SECRET not set');
     redirect('/login?error');
   }
 
@@ -22,53 +23,35 @@ export async function GET(request: NextRequest) {
     const code = searchParams.get('code');
 
     if(!code) {
+      console.log('code missing');
       redirect('/login?error');
     }
 
     // build callback url
     const parts = getUrlPartsFromRequest(request);
-    const callbackUrl = getUrlFromParts({
+    const redirect_uri = getUrlFromParts({
       ...parts,
-      path: '/auth/callback/discord'
+      path: '/auth/callback'
     });
 
-    // build token request
-    const data = new URLSearchParams({
-      // eslint-disable-next-line object-shorthand
-      'code': code,
-      'client_id': clientId,
-      'client_secret': clientSecret,
-      'grant_type': 'authorization_code',
-      'redirect_uri': callbackUrl,
-    });
-
-    // get discord token
-    const token = await fetch('https://discord.com/api/oauth2/token', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: data,
-    }).then(getJsonIfOk) as { access_token: string };
-
-    // get profile info with token
-    const profile = await fetch('https://discord.com/api/users/@me', {
-      headers: { 'Authorization': `Bearer ${token.access_token}` }
-    }).then(getJsonIfOk) as { id: string, username: string, email: string, discriminator: string };
+    const token = await getAccessToken({ client_id, client_secret, code, redirect_uri });
+    const { user } = await rest.user({ access_token: token.access_token });
 
     // build provider key
-    const provider = { provider: 'discord', providerAccountId: profile.id };
+    const provider = { provider: 'gw2.me', providerAccountId: user.id };
 
     // try to find this account in db
     const { userId } = await db.userProvider.upsert({
       where: { provider_providerAccountId: provider },
       create: {
         ...provider,
-        displayName: `${profile.username}#${profile.discriminator}`,
-        token,
-        user: { create: { name: profile.username, email: profile.email }}
+        displayName: user.name,
+        token: token as any,
+        user: { create: { name: user.name, email: user.email }}
       },
       update: {
-        displayName: `${profile.username}#${profile.discriminator}`,
-        token,
+        displayName: user.name,
+        token: token as any,
       }
     });
 
@@ -89,12 +72,4 @@ export async function GET(request: NextRequest) {
     console.error(error);
     redirect('/login?error');
   }
-}
-
-function getJsonIfOk(response: Response) {
-  if(!response.ok) {
-    throw new Error('Could not load discord profile');
-  }
-
-  return response.json();
 }

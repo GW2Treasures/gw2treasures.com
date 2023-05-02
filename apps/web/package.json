@@ -13,6 +13,7 @@
   "dependencies": {
     "@floating-ui/react": "^0.24.0",
     "@floating-ui/react-dom": "^2.0.0",
+    "@gw2me/api": "^0.1.0",
     "@gw2treasures/database": "*",
     "@gw2treasures/ui": "*",
     "chalk": "^5.2.0",

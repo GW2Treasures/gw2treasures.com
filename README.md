@@ -55,5 +55,20 @@ If you have a local legacy database running, you can import the data with this c
 docker compose -f docker-compose.yml -f docker-compose.importer.yml up legacy-importer
 ```
 
+### Authentication
+
+If you need to work on features that required you to be logged in, you need to create a new application on [gw2.me](https://gw2.me/). Then add the generated `client_id` and `client_secret` in `apps/web/.env.local`:
+
+```
+GW2ME_CLIENT_ID="<client_id>"
+GW2ME_CLIENT_SECRET="<client_secret>"
+```
+
+After this, you can log in with your gw2.me account.
+
+You can also run gw2.me locally ([gw2.me repository](https://github.com/GW2Treasures/gw2.me)), then you also need to set `GW2ME_URL` to `http://localhost:4000/`.
+
+You can also add the `Admin` role to your user if required, see [Database Access](#database-access).
+
 ## License
 **gw2treasures.com** is licensed under the [MIT License](LICENSE).

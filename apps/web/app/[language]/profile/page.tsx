@@ -38,25 +38,6 @@ export default async function ProfilePage() {
     <HeroLayout hero={<Headline id="profile">{user.name}</Headline>} toc>
       <LinkButton external href="/logout">Logout</LinkButton>
 
-      <Headline id="providers">Login Providers</Headline>
-      <Table>
-        <thead>
-          <tr>
-            <th>Provider</th>
-            <th>User</th>
-            <th>Created</th>
-          </tr>
-        </thead>
-        <tbody>
-          {user.providers.map((provider) => (
-            <tr key={`${provider.provider}-${provider.providerAccountId}`}>
-              <td>{provider.provider}</td>
-              <td>{provider.displayName}</td>
-              <td><FormatDate relative date={provider.createdAt} data-superjson/></td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
       <Headline id="sessions">Sessions</Headline>
       <Table>
         <thead>

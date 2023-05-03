@@ -596,8 +596,13 @@ model UserProvider {
   @@id([provider, providerAccountId])
 
   displayName String
-  token Json
+
+  accessToken          String?
+  accessTokenExpiresAt DateTime?
   
+  refreshToken          String?
+  refreshTokenExpiresAt DateTime?
+
   userId String
   user   User   @relation("provider", fields: [userId], references: [id], onDelete: Cascade)
   

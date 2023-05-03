@@ -46,12 +46,16 @@ export async function GET(request: NextRequest) {
       create: {
         ...provider,
         displayName: user.name,
-        token: token as any,
+        accessToken: token.access_token,
+        accessTokenExpiresAt: expiresAtFromExpiresIn(token.expires_in),
+        refreshToken: token.refresh_token,
         user: { create: { name: user.name, email: user.email }}
       },
       update: {
         displayName: user.name,
-        token: token as any,
+        accessToken: token.access_token,
+        accessTokenExpiresAt: expiresAtFromExpiresIn(token.expires_in),
+        refreshToken: token.refresh_token,
       }
     });
 
@@ -72,4 +76,10 @@ export async function GET(request: NextRequest) {
     console.error(error);
     redirect('/login?error');
   }
+}
+
+function expiresAtFromExpiresIn(expiresInSeconds: number) {
+  const date = new Date();
+  date.setSeconds(date.getSeconds() + expiresInSeconds);
+  return date;
 }

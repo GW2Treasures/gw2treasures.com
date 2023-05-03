@@ -42,17 +42,17 @@ spec:
             configMapKeyRef:
               name: next
               key: domain
-        - name: DISCORD_CLIENT_ID
+        - name: GW2ME_CLIENT_ID
           valueFrom:
             configMapKeyRef:
               name: next
-              key: discord_client_id
+              key: gw2me_client_id
               optional: true
-        - name: DISCORD_CLIENT_SECRET
+        - name: GW2ME_CLIENT_SECRET
           valueFrom:
             configMapKeyRef:
               name: next
-              key: discord_client_secret
+              key: gw2me_client_secret
               optional: true
         ports:
         - containerPort: 3000

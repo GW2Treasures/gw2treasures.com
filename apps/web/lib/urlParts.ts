@@ -18,7 +18,7 @@ export function getUrlPartsFromRequest(request: NextRequest): UrlParts {
   }
 
   if(!isSupportedProtocol(protocol)) {
-    throw new Error('Unsupported protocol');
+    throw new Error(`Unsupported protocol: "${protocol}"`);
   }
 
   return { domain, protocol, port, path };

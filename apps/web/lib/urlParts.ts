@@ -9,7 +9,7 @@ export interface UrlParts {
 
 export function getUrlPartsFromRequest(request: NextRequest): UrlParts {
   const domain = request.headers.get('Host')?.split(':')[0];
-  const protocol = request.headers.get('X-Forwarded-Proto')?.concat(':') ?? request.nextUrl.protocol;
+  const protocolRaw = request.headers.get('X-Forwarded-Proto')?.concat(':') ?? request.nextUrl.protocol;
   const port = request.headers.get('X-Forwarded-Port') ?? request.nextUrl.port;
   const path = request.nextUrl.pathname as UrlParts['path'];
 
@@ -17,9 +17,7 @@ export function getUrlPartsFromRequest(request: NextRequest): UrlParts {
     throw new Error('Could not parse Host header');
   }
 
-  if(!isSupportedProtocol(protocol)) {
-    throw new Error(`Unsupported protocol: "${protocol}"`);
-  }
+  const protocol = protocolRaw.startsWith('https') ? 'https:' : 'http:';
 
   return { domain, protocol, port, path };
 }

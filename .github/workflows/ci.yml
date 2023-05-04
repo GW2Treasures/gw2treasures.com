@@ -75,7 +75,7 @@ jobs:
       with:
         version: v1.26
         github-token: ${{ secrets.GITHUB_TOKEN }}
-        k3d-args: --k3s-arg "--disable=traefik"
+        k3d-args: --k3s-arg "--disable=traefik@server:0"
     - name: Load docker image
       run: ls /tmp/docker-image-*/image-*.tar | xargs -L1 docker load --input
     - name: Import images into k3d

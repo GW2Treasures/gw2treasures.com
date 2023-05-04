@@ -2,7 +2,11 @@ import { getUser } from '@/lib/getUser';
 import { notFound, redirect } from 'next/navigation';
 import { ReactNode } from 'react';
 
-export default async function AdminLayout({ children }: { children: ReactNode }) {
+interface AdminLayoutProps {
+  children: ReactNode;
+}
+
+export default async function AdminLayout({ children }: AdminLayoutProps) {
   const user = await getUser();
 
   if(!user) {
@@ -13,7 +17,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
     notFound();
   }
 
-  return children;
+  return <>{children}</>;
 }
 
 export const metadata = {

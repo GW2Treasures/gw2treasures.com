@@ -77,6 +77,8 @@ jobs:
       run: ls /tmp/docker-image-*/image-*.tar | xargs -L1 docker load --input
     - name: Import images into k3d
       run: k3d image import gw2treasures/web gw2treasures/worker gw2treasures/legacy-importer gw2treasures/database-migration
+    - name: Apply ingress-nginx@v1.7.0
+      run: kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.7.0/deploy/static/provider/cloud/deploy.yaml
     - run: kubectl apply -k kubernetes/local
     - run: kubectl rollout status deployment next next-db next-worker -n gw2treasures --timeout=120s
     - run: curl --fail-with-body http://en.next.gw2treasures.kubernetes.localhost/

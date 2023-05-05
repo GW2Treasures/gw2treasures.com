@@ -9,14 +9,14 @@ spec:
   template:
     spec:
       affinity:
-      nodeAffinity:
-        preferredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-          - matchExpressions:
-            - key: node-role.kubernetes.io/master
-              operator: NotIn
-              values:
-              - true
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: node-role.kubernetes.io/master
+                operator: NotIn
+                values:
+                - true
       containers:
       - name: next-importer
         image: ghcr.io/gw2treasures/gw2treasures.com/legacy-importer:latest

@@ -16,7 +16,7 @@ spec:
               - key: node-role.kubernetes.io/master
                 operator: NotIn
                 values:
-                - true
+                - 'true'
       containers:
       - name: next-importer
         image: ghcr.io/gw2treasures/gw2treasures.com/legacy-importer:latest

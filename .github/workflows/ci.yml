@@ -97,7 +97,6 @@ jobs:
       matrix:
         node: [ 18, 20 ]
     steps:
-    - run: exit 1
     - uses: actions/checkout@v3
     - uses: actions/setup-node@v3
       with:

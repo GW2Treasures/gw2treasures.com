@@ -97,6 +97,7 @@ jobs:
       matrix:
         node: [ 18, 20 ]
     steps:
+    - run: exit 1
     - uses: actions/checkout@v3
     - uses: actions/setup-node@v3
       with:
@@ -128,7 +129,7 @@ jobs:
     if: always()
     steps:
     - if: always() && !contains(needs.*.result, 'failure')
-      run: echo "Success"
+      run: echo ${{ needs.*.result }}
     - if: always() && contains(needs.*.result, 'failure')
       run: exit 1
 

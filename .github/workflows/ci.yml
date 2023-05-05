@@ -128,7 +128,7 @@ jobs:
     if: always()
     steps:
     - if: always() && !contains(needs.*.result, 'failure')
-      run: echo ${{ needs.*.result }}
+      run: echo ${{ needs.*.result }}[*]
     - if: always() && contains(needs.*.result, 'failure')
       run: exit 1
 

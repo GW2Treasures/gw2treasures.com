@@ -124,8 +124,12 @@ jobs:
     name: Success
     needs: [compose-test, kubernetes, build, lint]
     runs-on: ubuntu-latest
+    if: always()
     steps:
-    - run: echo "Success"
+    - if: always() && !contains(needs.*.result, 'failure')
+      run: echo "Success"
+    - if: always() && contains(needs.*.result, 'failure')
+      run: exit 1
 
   push:
     name: Publish / Docker / ${{ matrix.target }}

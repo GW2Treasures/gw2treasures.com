@@ -8,26 +8,10 @@ spec:
   ttlSecondsAfterFinished: 10
   template:
     spec:
-      affinity:
-        nodeAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-            - matchExpressions:
-              - key: node-role.kubernetes.io/master
-                operator: NotIn
-                values:
-                - true
       containers:
       - name: next-importer
         image: ghcr.io/gw2treasures/gw2treasures.com/legacy-importer:latest
         imagePullPolicy: IfNotPresent
-        resources:
-          requests:
-            memory: "128Mi"
-            cpu: "250m"
-          limits:
-            memory: "256Mi"
-            cpu: "500m"
         env:
         - name: DATABASE_URL
           valueFrom:

@@ -6,17 +6,10 @@ import { decode } from 'gw2e-chat-codes';
 import { isTruthy } from '@gw2treasures/ui';
 
 type ChatCode = Exclude<ReturnType<typeof decode>, false>;
-type ItemChatCode = { type: 'item', quantity: number, id: number, skin: undefined | number, upgrades: undefined | [number] | [number, number] }
-type IdChatCodeType = 'map' | 'skill' | 'trait' | 'recipe' | 'skin' | 'outfit';
-type IdChatCode = { type: IdChatCodeType, id: number }
 
-function isItemChatCode(chatCode: ChatCode): chatCode is ItemChatCode {
-  return chatCode.type === 'item';
-}
-
-function isIdChatCode(expected: IdChatCodeType): (chatCode: ChatCode) => chatCode is IdChatCode {
+function isChatCodeWithType<T extends ChatCode['type']>(expectedType: T): (chatCode: ChatCode) => chatCode is Extract<ChatCode, { type: T }> {
   // @ts-ignore
-  return (chatCode) => chatCode.type === expected;
+  return (chatCode) => chatCode.type === expectedType;
 }
 
 function splitSearchTerms(query: string): string[] {
@@ -80,7 +73,7 @@ const searchAchievements = remember(60, async function searchAchievements(terms:
 
 const searchItems = remember(60, function searchItems(terms: string[], chatCodes: ChatCode[]) {
   const nameQueries = nameQuery(terms);
-  const itemChatCodes = chatCodes.filter(isItemChatCode);
+  const itemChatCodes = chatCodes.filter(isChatCodeWithType('item'));
   const itemIdsInChatCodes = itemChatCodes.flatMap((chatCode) => [chatCode.id, ...(chatCode.upgrades || [])]);
 
   return db.item.findMany({
@@ -92,7 +85,7 @@ const searchItems = remember(60, function searchItems(terms: string[], chatCodes
 
 const searchSkills = remember(60, function searchSkills(terms: string[], chatCodes: ChatCode[]) {
   const nameQueries = nameQuery(terms);
-  const skillChatCodes = chatCodes.filter(isIdChatCode('skill'));
+  const skillChatCodes = chatCodes.filter(isChatCodeWithType('skill'));
   const skillIdsInChatCodes = skillChatCodes.map(({ id }) => id);
 
   return db.skill.findMany({
@@ -104,8 +97,8 @@ const searchSkills = remember(60, function searchSkills(terms: string[], chatCod
 
 const searchSkins = remember(60, function searchSkins(terms: string[], chatCodes: ChatCode[]) {
   const nameQueries = nameQuery(terms);
-  const itemChatCodes = chatCodes.filter(isItemChatCode);
-  const skinChatCodes = chatCodes.filter(isIdChatCode('skin'));
+  const itemChatCodes = chatCodes.filter(isChatCodeWithType('item'));
+  const skinChatCodes = chatCodes.filter(isChatCodeWithType('skin'));
   const skinIdsInChatcodes = [
     ...itemChatCodes.map(({ skin }) => skin).filter(isTruthy),
     ...skinChatCodes.map(({ id }) => id)

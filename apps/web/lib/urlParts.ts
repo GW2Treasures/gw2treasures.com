@@ -10,7 +10,7 @@ export interface UrlParts {
 export function getUrlPartsFromRequest(request: NextRequest): UrlParts {
   const domain = request.headers.get('Host')?.split(':')[0];
   const protocolRaw = request.headers.get('X-Forwarded-Proto')?.concat(':') ?? request.nextUrl.protocol;
-  const port = request.headers.get('X-Forwarded-Port') ?? request.nextUrl.port;
+  const port = request.headers.get('X-Forwarded-Port')?.split(',')[0] ?? request.nextUrl.port;
   const path = request.nextUrl.pathname as UrlParts['path'];
 
   if(!domain) {

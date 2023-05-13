@@ -28,6 +28,7 @@ RUN npx turbo run build --filter=worker...
 
 # Production image, copy all the files and run next
 FROM node:${node_version} AS runner
+RUN apk add --no-cache bind-tools
 WORKDIR /app
 
 ENV NODE_ENV production

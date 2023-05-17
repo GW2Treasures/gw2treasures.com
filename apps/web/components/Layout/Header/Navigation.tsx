@@ -18,6 +18,7 @@ const Navigation: FunctionComponent<NavigationProps> = () => {
       <li className={styles.item}><LinkButton appearance="menu" href="/skill" icon="skill"><Trans id="navigation.skills"/></LinkButton></li>
       <li className={styles.item}><LinkButton appearance="menu" href="/mount" icon="mount"><Trans id="navigation.mounts"/></LinkButton></li>
       <li className={styles.item}><LinkButton appearance="menu" href="/wvw" icon="wvw"><Trans id="navigation.wvw"/></LinkButton></li>
+      <li className={styles.item}><LinkButton appearance="menu" href="/dev" icon="developer"><Trans id="navigation.developer"/></LinkButton></li>
     </ul>
   );
 };

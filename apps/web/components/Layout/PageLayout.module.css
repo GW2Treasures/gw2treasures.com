@@ -9,6 +9,7 @@
   width: 25%;
   min-width: 250px;
   max-width: 360px;
+  flex-shrink: 1;
 }
 
 @media(max-width: 760px) {
@@ -21,4 +22,5 @@
   padding: 16px 0;
   flex: 1;
   max-width: 100%;
+  width: 75%;
 }

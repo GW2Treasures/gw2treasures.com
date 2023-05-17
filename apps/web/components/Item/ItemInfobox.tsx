@@ -38,6 +38,8 @@ export const ItemInfobox: FC<ItemInfoboxProps> = ({ item, data, language }) => {
       <Headline id="links" noToc>Links</Headline>
 
       <ExternalLink href={`https://api.guildwars2.com/v2/items/${item.id}?v=latest&lang=${language}`} target="api">API</ExternalLink>
+      {' ▪ '}
+      <ExternalLink href={`https://wiki.guildwars2.com/index.php?title=Special%3ASearch&search=${encodeURIComponent(chatlink)}&go=Go`} target="wiki">Wiki</ExternalLink>
 
       {chatlink && (<Chatlink chatlink={chatlink}/>)}
     </div>

@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { Code } from '@/components/Layout/Code';
 import { HeroLayout } from '@/components/Layout/HeroLayout';
 import { ExternalLink } from '@/components/Link/ExternalLink';
@@ -50,7 +51,6 @@ export default function DeveloperIconsPage() {
         You can read more about the <code>srcset</code> attribute on the <ExternalLink href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#attr-srcset">MDN page about the <code>img</code> element</ExternalLink>.
       </p>
 
-
       <Headline id="code">Code</Headline>
       <p>Here is a complete optimized example code to load an icon:</p>
       <Code>
@@ -65,26 +65,32 @@ export default function DeveloperIconsPage() {
       <Table>
         <thead><tr><th>Icon</th><th>URL</th></tr></thead>
         <tbody>
-            <tr>
-                <td><img src="https://icons-gw2.darthmaim-cdn.com/18CE5D78317265000CF3C23ED76AB3CEE86BA60E/65941-64px.png" width="64" height="64" alt=""/>
-                </td><td>
-                    <code>https://icons-gw2.darthmaim-cdn.com/18CE5D78317265000CF3C23ED76AB3CEE86BA60E/65941-64px.png</code>
-                </td>
-            </tr>
-            <tr>
-                <td><img src="https://icons-gw2.darthmaim-cdn.com/4F19A8B4E309C3042358FB194F7190331DEF27EB/631494-32px.png" width="32" height="32" alt=""/>
-                </td><td>
-                    <code>https://icons-gw2.darthmaim-cdn.com/4F19A8B4E309C3042358FB194F7190331DEF27EB/631494-32px.png</code>
-                </td>
-            </tr>
-            <tr>
-                <td><img src="https://icons-gw2.darthmaim-cdn.com/027D1D382447933D074BE45F405EA1F379471DEB/63127-16px.png" width="16" height="16" alt=""/>
-                </td><td>
-                    <code>https://icons-gw2.darthmaim-cdn.com/027D1D382447933D074BE45F405EA1F379471DEB/63127-16px.png</code>
-                </td>
-            </tr>
+          <tr>
+            <td>
+              <img src="https://icons-gw2.darthmaim-cdn.com/18CE5D78317265000CF3C23ED76AB3CEE86BA60E/65941-64px.png" width="64" height="64" alt=""/>
+            </td>
+            <td>
+              <code>https://icons-gw2.darthmaim-cdn.com/18CE5D78317265000CF3C23ED76AB3CEE86BA60E/65941-64px.png</code>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <img src="https://icons-gw2.darthmaim-cdn.com/4F19A8B4E309C3042358FB194F7190331DEF27EB/631494-32px.png" width="32" height="32" alt=""/>
+            </td>
+            <td>
+              <code>https://icons-gw2.darthmaim-cdn.com/4F19A8B4E309C3042358FB194F7190331DEF27EB/631494-32px.png</code>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <img src="https://icons-gw2.darthmaim-cdn.com/027D1D382447933D074BE45F405EA1F379471DEB/63127-16px.png" width="16" height="16" alt=""/>
+            </td>
+            <td>
+              <code>https://icons-gw2.darthmaim-cdn.com/027D1D382447933D074BE45F405EA1F379471DEB/63127-16px.png</code>
+            </td>
+          </tr>
         </tbody>
-    </Table>
+      </Table>
 
     </HeroLayout>
   );

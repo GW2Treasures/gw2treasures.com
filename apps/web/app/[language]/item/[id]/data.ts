@@ -19,6 +19,8 @@ export const getItem = remember(60, function getItem(id: number, language: Langu
       unlocksRecipe: { include: { currentRevision: true, itemIngredients: { include: { Item: { select: linkProperties }}}, unlockedByItems: { select: linkProperties }, outputItem: { select: linkProperties }}},
       achievementBits: { select: linkPropertiesWithoutRarity, orderBy: { id: 'asc' }},
       achievementRewards: { select: linkPropertiesWithoutRarity, orderBy: { id: 'asc' }},
+      contains: { include: { contentItem: { select: { ...linkProperties, value: true, level: true, type: true, subtype: true }}}},
+      containedIn: { include: { containerItem: { select: { ...linkProperties, value: true, level: true, type: true, subtype: true }}}},
       suffixIn: { include: { icon: true }},
       _count: {
         select: { ingredient: true }

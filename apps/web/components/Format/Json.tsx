@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import { Code } from '../Layout/Code';
 
 export interface JsonProps {
   data: object
@@ -24,10 +25,10 @@ function renderValue(value: any, index: number, array: any[]) {
 
 export const Json: FC<JsonProps> = ({ data }) => {
   return (
-    <pre style={{ fontSize: 16, lineHeight: 1.5, whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
+    <Code>
       {'{'}
       {Object.entries(data).map(renderJson)}
       {'}'}
-    </pre>
+    </Code>
   );
 };

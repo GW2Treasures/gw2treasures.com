@@ -4,6 +4,7 @@
 
 .link:hover .content {
   text-decoration: underline 2px;
+  text-underline-offset: 2px;
 }
 
 .link:focus-visible {

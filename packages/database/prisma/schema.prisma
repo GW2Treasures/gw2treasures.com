@@ -45,7 +45,10 @@ model Item {
   suffixItems   Item[] @relation(name: "suffix")
   suffixItemIds Int[]
   suffixIn      Item[] @relation(name: "suffix")
- 
+
+  contains    Content[] @relation("contains")
+  containedIn Content[] @relation("containedIn")
+
   removedFromApi Boolean @default(false)
 
   current_de Revision @relation("current_de", fields: [currentId_de], references: [id], onDelete: Cascade)
@@ -81,6 +84,25 @@ model Icon {
   skins Skin[]
   achievements Achievement[]
   achievementCategories AchievementCategory[]
+}
+
+model Content {
+  containerItemId Int
+  contentItemId   Int
+
+  quantity Int
+  chance ContentChance
+
+  containerItem Item @relation("contains", fields: [containerItemId], references: [id])
+  contentItem   Item @relation("containedIn", fields: [contentItemId], references: [id])
+
+  @@id([containerItemId, contentItemId])
+}
+
+enum ContentChance {
+  Chance
+  Choice
+  Guaranteed
 }
 
 model ItemHistory {

@@ -31,8 +31,9 @@ import { SimilarItems } from './similar-items';
 import { getItem, getRevision } from './data';
 import { ItemLink } from '@/components/Item/ItemLink';
 import { Rarity } from '@/components/Item/Rarity';
-import { Coins } from '@/components/Format/Coins';
 import { OutputCount } from '@/components/Item/OutputCount';
+import { TableCollapse } from '@gw2treasures/ui/components/Table/TableCollapse';
+import { FormatNumber } from '@/components/Format/FormatNumber';
 
 export interface ItemPageComponentProps {
   language: Language;
@@ -152,20 +153,24 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
             <thead>
               <tr>
                 <Table.HeaderCell>Item</Table.HeaderCell>
+                <Table.HeaderCell>Quantity</Table.HeaderCell>
                 <Table.HeaderCell>Chance</Table.HeaderCell>
                 <th>Level</th><th>Rarity</th><th>Type</th>
               </tr>
             </thead>
             <tbody>
-              {item.containedIn.map(((contains) => (
-                <tr key={contains.containerItemId}>
-                  <td><OutputCount count={contains.quantity}><ItemLink item={contains.containerItem}/></OutputCount></td>
-                  <td>{contains.chance}</td>
-                  <td>{contains.containerItem.level}</td>
-                  <td><Rarity rarity={contains.containerItem.rarity}/></td>
-                  <td>{contains.containerItem.type} {contains.containerItem.subtype && `(${contains.containerItem.subtype})`}</td>
-                </tr>
-              )))}
+              <TableCollapse>
+                {item.containedIn.map(((contains) => (
+                  <tr key={contains.containerItemId}>
+                    <td><ItemLink item={contains.containerItem}/></td>
+                    <td><FormatNumber value={contains.quantity}/></td>
+                    <td>{contains.chance}</td>
+                    <td>{contains.containerItem.level}</td>
+                    <td><Rarity rarity={contains.containerItem.rarity}/></td>
+                    <td>{contains.containerItem.type} {contains.containerItem.subtype && `(${contains.containerItem.subtype})`}</td>
+                  </tr>
+                )))}
+              </TableCollapse>
             </tbody>
           </Table>
         </>

@@ -20,7 +20,7 @@ interface WikiAskResponse {
 export const ItemsContainerContent: Job = {
   run: async (ids: number[] | undefined) => {
     if(!Array.isArray(ids)) {
-      const containerIds = await db.item.findMany({ where: { type: 'Container' }, select: { id: true }});
+      const containerIds = await db.item.findMany({ where: { OR: [{ type: 'Container' }, { type: 'Consumable', subtype: 'Immediate' }] }, select: { id: true }});
 
       await queueJobForIds('items.containerContent', containerIds.map(toId));
 

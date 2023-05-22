@@ -189,7 +189,7 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
         </Suspense>
       )}
 
-      {!fixedRevision && item.type === 'Container' && (
+      {!fixedRevision && (item.type === 'Container' || item.contains.length > 0) && (
         <>
           <Headline id="content">Contents</Headline>
           <Table>

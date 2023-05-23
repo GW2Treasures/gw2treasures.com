@@ -1,8 +1,8 @@
 'use client';
 
 import { FC, ReactElement, ReactNode, useState } from 'react';
-import styles from './TableCollapse.module.css';
 import { Icon } from '../../icons';
+import { TableRowButton } from './TableRowButton';
 
 export interface TableCollapseProps {
   children: ReactNode[],
@@ -18,14 +18,6 @@ export const TableCollapse: FC<TableCollapseProps> = ({ children, limit = 5 }) =
 
   return [
     ...children.slice(0, 5),
-    (
-      <tr key="expand">
-        <td colSpan={999}>
-          <button type="button" className={styles.expandButton} onClick={() => setExpanded(true)}>
-            <Icon icon="chevronDown"/> Show {children.length - limit} more
-          </button>
-        </td>
-      </tr>
-    )
+    <TableRowButton key="expand" onClick={() => setExpanded(true)}><Icon icon="chevronDown"/> Show {children.length - limit} more</TableRowButton>
   ] as any as ReactElement;
 };

@@ -12,7 +12,7 @@
   text-align: left;
   background: var(--color-background);
   position: sticky;
-  top: 48px;
+  top: var(--table-sticky-top, 48px);
   z-index: 1;
   white-space: nowrap;
 }
@@ -101,7 +101,7 @@
 .wrapper {
   overflow: clip;
   width: calc(100% + 32px);
-  margin: 0 -16px;
+  margin: 0 -16px 16px;
   padding: 0 16px;
 }
 

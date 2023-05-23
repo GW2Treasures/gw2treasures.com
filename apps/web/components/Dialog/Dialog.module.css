@@ -13,7 +13,7 @@
   position: absolute;
   top: 128px;
   margin: 0 auto;
-  max-height: calc(100vh - 100px);
+  max-height: calc(100vh - 160px);
   max-width: calc(100vw - 100px);
   display: flex;
   flex-direction: column;
@@ -23,6 +23,8 @@
   box-shadow: var(--shadow);
   border-radius: 2px;
   overflow: hidden;
+
+  --table-sticky-top: -16px;
 }
 
 .title {

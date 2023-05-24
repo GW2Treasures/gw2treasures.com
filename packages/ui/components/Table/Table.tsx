@@ -1,4 +1,4 @@
-import { FC, FunctionComponent, ReactNode } from 'react';
+import { FC, ReactNode, ThHTMLAttributes } from 'react';
 import styles from './Table.module.css';
 
 interface TableProps {
@@ -8,6 +8,7 @@ interface TableProps {
 interface HeaderCellProps {
   children?: ReactNode;
   small?: boolean;
+  align?: ThHTMLAttributes<HTMLTableCellElement>['align']
 }
 
 const Table: FC<TableProps> & { HeaderCell: FC<HeaderCellProps> } = ({ children }) => (
@@ -18,8 +19,8 @@ const Table: FC<TableProps> & { HeaderCell: FC<HeaderCellProps> } = ({ children 
   </div>
 );
 
-Table.HeaderCell = function HeaderCell({ children, small = false }) {
-  return (<th className={small ? styles.small : undefined}>{children}</th>);
+Table.HeaderCell = function HeaderCell({ children, small = false, align }) {
+  return (<th className={small ? styles.small : undefined} align={align}>{children}</th>);
 };
 
 export {

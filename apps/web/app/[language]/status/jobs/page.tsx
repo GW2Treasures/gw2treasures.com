@@ -55,7 +55,7 @@ async function JobPage() {
               <td style={{ whiteSpace: 'nowrap' }}><span className={job.state === 'Running' ? styles.running : styles.queued}/>{job.state === 'Running' ? 'Running' : 'Queued'}</td>
               <th><b>{job.type}</b></th>
               <td style={{ whiteSpace: 'nowrap' }}>{job.state === 'Running' ? formatTime(Math.round((now.valueOf() - job.startedAt!.valueOf()) / 1000)) : '-'}</td>
-              <td><FormatDate key={job.id} date={job.scheduledAt} relative data-superjson/></td>
+              <td><FormatDate key={job.id} date={job.scheduledAt} relative/></td>
             </tr>
           ))}
           {running.length === 0 && <tr><td colSpan={5} style={{ textAlign: 'center' }}>No jobs currently running</td></tr>}
@@ -80,7 +80,7 @@ async function JobPage() {
               <th><b>{job.type}</b></th>
               <td style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>{job.output}</td>
               <td style={{ whiteSpace: 'nowrap' }}>{formatTime((job.finishedAt!.valueOf() - job.startedAt!.valueOf()) / 1000)}</td>
-              <td><FormatDate date={job.finishedAt} relative data-superjson/></td>
+              <td><FormatDate date={job.finishedAt} relative/></td>
             </tr>
           ))}
         </tbody>

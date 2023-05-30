@@ -33,7 +33,7 @@ async function SkinPage() {
     <HeroLayout hero={<Headline id="skins">Skins</Headline>} color="#2c8566">
       <Headline id="new-skins">New Skins</Headline>
       <ItemList>
-        {newSkins.map((skin) => <li key={skin.id}><SkinLink skin={skin}/><FormatDate date={skin.createdAt} relative data-superjson/></li>)}
+        {newSkins.map((skin) => <li key={skin.id}><SkinLink skin={skin}/><FormatDate date={skin.createdAt} relative/></li>)}
       </ItemList>
 
       <Headline id="categories">By Category</Headline>

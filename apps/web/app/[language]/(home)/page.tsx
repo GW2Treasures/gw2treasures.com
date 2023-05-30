@@ -72,7 +72,7 @@ async function NewItems() {
 
   return (
     <ItemList>
-      {items.map((item) => <li key={item.id}><ItemLink item={item}/><FormatDate date={item.createdAt} relative data-superjson/></li>)}
+      {items.map((item) => <li key={item.id}><ItemLink item={item}/><FormatDate date={item.createdAt} relative/></li>)}
     </ItemList>
   );
 }
@@ -86,7 +86,7 @@ async function NewAchievements() {
 
   return (
     <ItemList>
-      {achievements.map((achievement) => <li key={achievement.id}><AchievementLink achievement={achievement}/><FormatDate date={achievement.createdAt} relative data-superjson/></li>)}
+      {achievements.map((achievement) => <li key={achievement.id}><AchievementLink achievement={achievement}/><FormatDate date={achievement.createdAt} relative/></li>)}
     </ItemList>
   );
 }

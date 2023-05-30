@@ -31,7 +31,7 @@ export default async function AdminUserPage() {
               <td>{user.name}</td>
               <td>{user.email}</td>
               <td>{user.roles.join(', ')}</td>
-              <td><FormatDate date={user.createdAt} data-superjson/></td>
+              <td><FormatDate date={user.createdAt}/></td>
             </tr>
           ))}
         </tbody>

@@ -178,7 +178,7 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
                   </Link>
                 </Tooltip>
               </td>
-              <td><FormatDate date={history.revision.createdAt} relative data-superjson/></td>
+              <td><FormatDate date={history.revision.createdAt} relative/></td>
               <td>{history.revisionId !== revision.id && <Link href={`/item/${item.id}/${history.revisionId}`}>View</Link>}</td>
             </tr>
           ))}

@@ -1,9 +1,10 @@
 import { remember } from '@/lib/remember';
 import { db } from '@/lib/prisma';
 import { Prisma } from '@gw2treasures/database';
-import { jsonResponse, UnwrapJsonResponse } from '../helper';
+import { UnwrapJsonResponse } from '../helper';
 import { decode } from 'gw2e-chat-codes';
 import { isTruthy } from '@gw2treasures/ui';
+import { NextResponse } from 'next/server';
 
 type ChatCode = Exclude<ReturnType<typeof decode>, false>;
 
@@ -133,7 +134,7 @@ export async function GET(request: Request) {
     searchBuilds(terms.filter((t) => t.toString() === Number(t).toString())),
   ]);
 
-  return jsonResponse({ searchValue, terms, ...achievements, items, skills, skins, builds });
+  return NextResponse.json({ searchValue, terms, ...achievements, items, skills, skins, builds });
 }
 
 export type ApiSearchResponse = UnwrapJsonResponse<ReturnType<typeof GET>>;

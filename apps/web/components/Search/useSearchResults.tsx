@@ -119,6 +119,7 @@ const pages: Page[] = [
 
   { href: '/item/random', title: 'Random Item', icon: 'shuffle' },
   { href: '/achievement/random', title: 'Random Achievement', icon: 'shuffle' },
+  { href: '/achievement/uncategorized', title: 'Uncategorized Achievements', icon: 'achievement' }
 ];
 
 export function usePageResults(searchValue: string): SearchResults {

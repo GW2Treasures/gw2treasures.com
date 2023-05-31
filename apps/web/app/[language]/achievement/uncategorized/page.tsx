@@ -36,3 +36,7 @@ async function AchievementUncategorizedPage({ params: { language }}: { params: {
 };
 
 export default AchievementUncategorizedPage;
+
+export const metadata = {
+  title: 'Uncategorized Achievements'
+};

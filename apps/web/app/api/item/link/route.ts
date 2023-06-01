@@ -1,7 +1,8 @@
 import { notFound } from 'next/navigation';
 import { db } from '@/lib/prisma';
 import { linkProperties } from '@/lib/linkProperties';
-import { UnwrapJsonResponse, jsonResponse } from 'app/api/helper';
+import { UnwrapJsonResponse } from 'app/api/helper';
+import { NextResponse } from 'next/server';
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -17,7 +18,7 @@ export async function GET(request: Request) {
     notFound();
   }
 
-  return jsonResponse(item);
+  return NextResponse.json(item);
 }
 
 export type ApiItemLinkResponse = UnwrapJsonResponse<ReturnType<typeof GET>>;

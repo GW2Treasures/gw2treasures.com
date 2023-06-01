@@ -63,4 +63,5 @@
 .content {
   padding: 16px;
   overflow: auto;
+  overscroll-behavior: contain;
 }

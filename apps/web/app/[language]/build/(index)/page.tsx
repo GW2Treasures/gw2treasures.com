@@ -29,7 +29,7 @@ export default async function BuildPage({ params: { language }}: { params: { lan
   }));
 
   return (
-    <BuildTable rows={buildsWithUpdates} data-superjson/>
+    <BuildTable rows={buildsWithUpdates}/>
   );
 };
 

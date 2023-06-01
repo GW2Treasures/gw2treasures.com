@@ -87,7 +87,7 @@ async function BuildDetail({ params: { id, language }}: BuildPageProps) {
 
   return (
     <DetailLayout title={`Build ${build.id}`} breadcrumb="Build">
-      Released on <FormatDate date={build.createdAt} data-superjson/>
+      Released on <FormatDate date={build.createdAt}/>
 
       <Suspense fallback={<Fallback headline="Updated items" id="items"/>}>
         {/* @ts-expect-error Server Component */}

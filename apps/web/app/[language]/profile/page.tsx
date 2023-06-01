@@ -51,8 +51,8 @@ export default async function ProfilePage() {
           {user.sessions.map((session) => (
             <tr key={session.id}>
               <td>{session.info}{session.id === sessionId && ' (Current Session)'}</td>
-              <td><FormatDate relative date={session.createdAt} data-superjson/></td>
-              <td><FormatDate relative date={session.lastUsed} data-superjson/></td>
+              <td><FormatDate relative date={session.createdAt}/></td>
+              <td><FormatDate relative date={session.lastUsed}/></td>
             </tr>
           ))}
         </tbody>

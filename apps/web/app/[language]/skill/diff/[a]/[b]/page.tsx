@@ -51,8 +51,8 @@ async function SkillDiffPage({ params }: { params: { a: string, b: string }}) {
         dataA.name,
         dataB.name,
       ]} subtitle={[
-        <Fragment key="a"><FormatDate date={a.createdAt} data-superjson/> (<Link href={`/build/${a.buildId}`}>Build {a.buildId}</Link>) ▪ <Link href={`/skill/${dataA.id}/${a.id}`}>View revision</Link></Fragment>,
-        <Fragment key="b"><FormatDate date={b.createdAt} data-superjson/> (<Link href={`/build/${b.buildId}`}>Build {b.buildId}</Link>) ▪ <Link href={`/skill/${dataB.id}/${b.id}`}>View revision</Link></Fragment>,
+        <Fragment key="a"><FormatDate date={a.createdAt}/> (<Link href={`/build/${a.buildId}`}>Build {a.buildId}</Link>) ▪ <Link href={`/skill/${dataA.id}/${a.id}`}>View revision</Link></Fragment>,
+        <Fragment key="b"><FormatDate date={b.createdAt}/> (<Link href={`/build/${b.buildId}`}>Build {b.buildId}</Link>) ▪ <Link href={`/skill/${dataB.id}/${b.id}`}>View revision</Link></Fragment>,
       ]}/>
 
       {dataA.id !== dataB.id && (

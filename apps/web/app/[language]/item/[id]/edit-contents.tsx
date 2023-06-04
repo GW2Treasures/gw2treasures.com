@@ -26,9 +26,11 @@ export interface EditContentsProps {
 
 interface AddedItem {
   _id: string;
-  itemId: string;
+  itemIdText: string;
+  itemId: number | undefined;
   quantity: number;
   chance: ContentChance;
+  error: string | undefined;
 }
 
 export const EditContents: FC<EditContentsProps> = ({ contents }) => {
@@ -42,7 +44,7 @@ export const EditContents: FC<EditContentsProps> = ({ contents }) => {
   const [addedItems, setAddedItems] = useState<AddedItem[]>([]);
 
   const addItem = useCallback(() => {
-    setAddedItems((added) => [...added, { _id: crypto.randomUUID(), itemId: '', quantity: 1, chance: ContentChance.Chance }]);
+    setAddedItems((added) => [...added, { _id: crypto.randomUUID(), itemIdText: '', itemId: undefined, quantity: 1, chance: ContentChance.Chance, error: 'Invalid item id' }]);
   }, [setAddedItems]);
 
   const handleSubmit = useCallback(() => {
@@ -83,18 +85,21 @@ export const EditContents: FC<EditContentsProps> = ({ contents }) => {
               );
             })}
             {addedItems.map((added) => {
-              const edit = (update: Partial<AddedItem>) => setAddedItems((items) => items.map((a) => a._id === added._id ? { ...a, ...update } : a));
-              const itemId = parseItemId(added.itemId);
-              const error =
-                (itemId === undefined) ? 'Invalid item id' :
-                (contents.some(({ contentItemId }) => contentItemId === itemId) && !removedItems.includes(itemId)) ? 'Item is already included above' :
-                (addedItems.some((a) => a._id !== added._id && a.itemId === added.itemId)) ? 'Item added multiple times' :
-                undefined;
+              const edit = (update: Partial<AddedItem>) => {
+                const itemId = parseItemId(update.itemIdText ?? added.itemIdText);
+                const error =
+                  (itemId === undefined) ? 'Invalid item id' :
+                  (contents.some(({ contentItemId }) => contentItemId === itemId) && !removedItems.includes(itemId)) ? 'Item is already included above' :
+                  (addedItems.some((a) => a._id !== added._id && a.itemId === added.itemId)) ? 'Item added multiple times' :
+                  undefined;
+
+                  setAddedItems((items) => items.map((a) => a._id === added._id ? { ...a, ...update, itemId, error } : a));
+              };
 
               return (
                 <tr key={added._id}>
-                  <td>{added.itemId && (error ? <span style={{ color: 'red' }}>{error}</span> : <ItemLinkById id={itemId!}/>)}</td>
-                  <td><TextInput value={added.itemId} onChange={(itemId) => edit({ itemId })} placeholder="Id / Chatlink"/></td>
+                  <td>{added.itemIdText && (added.error ? <span style={{ color: 'red' }}>{added.error}</span> : <ItemLinkById id={added.itemId!}/>)}</td>
+                  <td><TextInput value={added.itemIdText} onChange={(itemIdText) => edit({ itemIdText })} placeholder="Id / Chatlink"/></td>
                   <td><NumberInput value={added.quantity} onChange={(quantity) => edit({ quantity })}/></td>
                   <td><Select onChange={(chance) => edit({ chance: chance as ContentChance })} value={added.chance} options={Object.values(ContentChance).map((value) => ({ value, label: value }))}/></td>
                   <td><Button appearance="secondary" onClick={() => setAddedItems((items) => items.filter(({ _id }) => _id !== added._id))}>Remove</Button></td>

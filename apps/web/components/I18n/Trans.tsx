@@ -12,7 +12,7 @@ export interface TransProps {
 
 const baseDomain = process.env.GW2T_NEXT_DOMAIN;
 export const Trans: FC<TransProps> = ({ id }) => {
-  // @ts-expect-error Server Component
+
   return <TransInternal id={id}/>;
 };
 

@@ -90,12 +90,10 @@ async function BuildDetail({ params: { id, language }}: BuildPageProps) {
       Released on <FormatDate date={build.createdAt}/>
 
       <Suspense fallback={<Fallback headline="Updated items" id="items"/>}>
-        {/* @ts-expect-error Server Component */}
         <UpdatedItems itemsPromise={itemsPromise}/>
       </Suspense>
 
       <Suspense fallback={<Fallback headline="Updated skills" id="skills"/>}>
-        {/* @ts-expect-error Server Component */}
         <UpdatedSkills skillsPromise={skillsPromise}/>
       </Suspense>
 

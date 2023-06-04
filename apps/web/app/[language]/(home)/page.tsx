@@ -29,7 +29,6 @@ function HomePage() {
     )}
     >
       <Suspense fallback={<div className={styles.statsRow}/>}>
-        {/* @ts-expect-error Server Component */}
         <DbStats/>
       </Suspense>
 
@@ -37,7 +36,6 @@ function HomePage() {
         <Trans id="items.new"/>
       </Headline>
       <Suspense fallback={<ListFallback size={24}/>}>
-        {/* @ts-expect-error Server Component */}
         <NewItems/>
       </Suspense>
 
@@ -45,7 +43,6 @@ function HomePage() {
         New Achievements
       </Headline>
       <Suspense fallback={<ListFallback size={24}/>}>
-        {/* @ts-expect-error Server Component */}
         <NewAchievements/>
       </Suspense>
     </HeroLayout>

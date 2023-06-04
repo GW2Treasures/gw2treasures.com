@@ -14,7 +14,6 @@ export interface ItemPageProps {
 export default function ItemPage({ params: { language, id }}: ItemPageProps) {
   const itemId = Number(id);
 
-  /* @ts-expect-error Server Component */
   return <ItemPageComponent language={language} itemId={itemId}/>;
 };
 

@@ -70,7 +70,6 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
       )}
 
       <TableOfContentAnchor id="tooltip">Tooltip</TableOfContentAnchor>
-      {/* @ts-expect-error Server Component */}
       <ItemTooltip item={data} language={language}/>
 
       {item.unlocksSkinIds.length > 0 && (
@@ -149,7 +148,6 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
           </>
         )}
         >
-          {/* @ts-expect-error Server Component */}
           <ItemIngredientFor itemId={item.id}/>
         </Suspense>
       )}
@@ -187,7 +185,6 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
 
       {!fixedRevision && (
         <Suspense>
-          {/* @ts-expect-error Server Component */}
           <SimilarItems item={item}/>
         </Suspense>
       )}

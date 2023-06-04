@@ -37,7 +37,6 @@ export default function RootLayout({
       <body>
         <I18nProvider language={params.language}>
           <FormatProvider>
-            {/* @ts-expect-error Server Component */}
             <Layout>{children}</Layout>
           </FormatProvider>
         </I18nProvider>

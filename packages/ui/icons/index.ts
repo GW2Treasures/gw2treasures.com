@@ -48,12 +48,13 @@ import StatusIcon from './status.svg?svgr';
 import UnlockIcon from './unlock.svg?svgr';
 import MoreIcon from './more.svg?svgr';
 import DeveloperIcon from './developer.svg?svgr';
+import AddIcon from './add.svg?svgr';
 
 export type IconName = 'menu' | 'gw2treasures' | 'user' | 'revision' | 'search' | 'chevronDown' | 'chatlink' | 'jobs' | 'time'
  | 'mount' | 'skill' | 'specialization' | 'wvw' | 'profession' | 'skin' | 'achievement' | 'item' | 'builds'
  | 'armorsmith' | 'artificer' | 'chef' | 'huntsman' | 'jeweler' | 'leatherworker' | 'scribe' | 'tailor' | 'weaponsmith'
  | 'filter' | 'filter-active' | 'shuffle' | 'achievementPoints' | 'info' | 'locale' | 'checkmark' | 'close'
- | 'api-status' | 'discord' | 'external' | 'external-link' | 'mastery' | 'coins' | 'upgrade-slot' | 'infusion-slot' | 'enrichment-slot' | 'eye' | 'status' | 'unlock' | 'more' | 'developer';
+ | 'api-status' | 'discord' | 'external' | 'external-link' | 'mastery' | 'coins' | 'upgrade-slot' | 'infusion-slot' | 'enrichment-slot' | 'eye' | 'status' | 'unlock' | 'more' | 'developer' | 'add';
 
 type IconComponent = FunctionComponent<SVGProps<SVGSVGElement>>;
 
@@ -107,6 +108,7 @@ export const Icons: Record<IconName, IconComponent> = {
   'unlock': UnlockIcon,
   'more': MoreIcon,
   'developer': DeveloperIcon,
+  'add': AddIcon,
 };
 
 export type IconProp = IconName | JSX.Element;

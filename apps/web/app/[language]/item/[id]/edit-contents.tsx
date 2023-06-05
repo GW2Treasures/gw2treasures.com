@@ -18,6 +18,7 @@ import { decode } from 'gw2e-chat-codes';
 import { useJsonFetch } from '@/lib/useFetch';
 import { ApiItemLinkResponse } from 'app/api/item/link/route';
 import { SearchItemDialog, SearchItemDialogProps, SearchItemDialogSubmitHandler } from '@/components/Item/SearchItemDialog';
+import { Icon } from '@gw2treasures/ui';
 
 export interface EditContentsProps {
   contents: (Content & {
@@ -107,7 +108,7 @@ export const EditContents: FC<EditContentsProps> = ({ contents }) => {
               );
             })}
             <TableRowButton onClick={() => setSearchItemDialogOpen(true)}>
-              Add Item
+              <Icon icon="add"/> Add Item
             </TableRowButton>
           </tbody>
         </Table>

@@ -99,7 +99,7 @@ export const EditContents: FC<EditContentsProps> = ({ contents }) => {
               return (
                 <tr key={added._id}>
                   <td>{added.itemIdText && (added.error ? <span style={{ color: 'red' }}>{added.error}</span> : <ItemLinkById id={added.itemId!}/>)}</td>
-                  <td><TextInput value={added.itemIdText} onChange={(itemIdText) => edit({ itemIdText })} placeholder="Id / Chatlink"/></td>
+                  <td><TextInput value={added.itemIdText} onChange={(itemIdText) => edit({ itemIdText: itemIdText.trim() })} placeholder="Id / Chatlink"/></td>
                   <td><NumberInput value={added.quantity} onChange={(quantity) => edit({ quantity })}/></td>
                   <td><Select onChange={(chance) => edit({ chance: chance as ContentChance })} value={added.chance} options={Object.values(ContentChance).map((value) => ({ value, label: value }))}/></td>
                   <td><Button appearance="secondary" onClick={() => setAddedItems((items) => items.filter(({ _id }) => _id !== added._id))}>Remove</Button></td>

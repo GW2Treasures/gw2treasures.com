@@ -8,16 +8,11 @@ import { WithIcon } from '@/lib/with';
 import { Content, ContentChance, Item } from '@gw2treasures/database';
 import { Button } from '@gw2treasures/ui/components/Form/Button';
 import { Select } from '@gw2treasures/ui/components/Form/Select';
-import { TextInput } from '@gw2treasures/ui/components/Form/TextInput';
 import { NumberInput } from '@gw2treasures/ui/components/Form/NumberInput';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { TableRowButton } from '@gw2treasures/ui/components/Table/TableRowButton';
 import { FC, useCallback, useState } from 'react';
-import { SkeletonLink } from '@/components/Link/SkeletonLink';
-import { decode } from 'gw2e-chat-codes';
-import { useJsonFetch } from '@/lib/useFetch';
-import { ApiItemLinkResponse } from 'app/api/item/link/route';
-import { SearchItemDialog, SearchItemDialogProps, SearchItemDialogSubmitHandler } from '@/components/Item/SearchItemDialog';
+import { SearchItemDialog, SearchItemDialogSubmitHandler } from '@/components/Item/SearchItemDialog';
 import { Icon } from '@gw2treasures/ui';
 
 export interface EditContentsProps {

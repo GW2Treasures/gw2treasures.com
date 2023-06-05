@@ -17,6 +17,7 @@ import { SkeletonLink } from '@/components/Link/SkeletonLink';
 import { decode } from 'gw2e-chat-codes';
 import { useJsonFetch } from '@/lib/useFetch';
 import { ApiItemLinkResponse } from 'app/api/item/link/route';
+import { SearchItemDialog, SearchItemDialogProps, SearchItemDialogSubmitHandler } from '@/components/Item/SearchItemDialog';
 
 export interface EditContentsProps {
   contents: (Content & {
@@ -26,15 +27,17 @@ export interface EditContentsProps {
 
 interface AddedItem {
   _id: string;
-  itemIdText: string;
-  itemId: number | undefined;
+  item: WithIcon<{
+    id: number;
+    rarity: string;
+  } & LocalizedEntity>;
   quantity: number;
   chance: ContentChance;
-  error: string | undefined;
 }
 
 export const EditContents: FC<EditContentsProps> = ({ contents }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [searchItemDialogOpen, setSearchItemDialogOpen] = useState(false);
 
   const toggleDialog = useCallback(() => {
     setDialogOpen((open) => !open);
@@ -43,8 +46,12 @@ export const EditContents: FC<EditContentsProps> = ({ contents }) => {
   const [removedItems, setRemovedItems] = useState<number[]>([]);
   const [addedItems, setAddedItems] = useState<AddedItem[]>([]);
 
-  const addItem = useCallback(() => {
-    setAddedItems((added) => [...added, { _id: crypto.randomUUID(), itemIdText: '', itemId: undefined, quantity: 1, chance: ContentChance.Chance, error: 'Invalid item id' }]);
+  const addItem: SearchItemDialogSubmitHandler = useCallback((item) => {
+    setSearchItemDialogOpen(false);
+
+    if(item) {
+      setAddedItems((added) => [...added, { _id: crypto.randomUUID(), item, quantity: 1, chance: ContentChance.Chance }]);
+    }
   }, [setAddedItems]);
 
   const handleSubmit = useCallback(() => {
@@ -86,69 +93,28 @@ export const EditContents: FC<EditContentsProps> = ({ contents }) => {
             })}
             {addedItems.map((added) => {
               const edit = (update: Partial<AddedItem>) => {
-                const itemId = parseItemId(update.itemIdText ?? added.itemIdText);
-                const error =
-                  (itemId === undefined) ? 'Invalid item id' :
-                  (contents.some(({ contentItemId }) => contentItemId === itemId) && !removedItems.includes(itemId)) ? 'Item is already included above' :
-                  (addedItems.some((a) => a._id !== added._id && a.itemId === added.itemId)) ? 'Item added multiple times' :
-                  undefined;
-
-                  setAddedItems((items) => items.map((a) => a._id === added._id ? { ...a, ...update, itemId, error } : a));
+                setAddedItems((items) => items.map((a) => a._id === added._id ? { ...a, ...update } : a));
               };
 
               return (
                 <tr key={added._id}>
-                  <td>{added.itemIdText && (added.error ? <span style={{ color: 'red' }}>{added.error}</span> : <ItemLinkById id={added.itemId!}/>)}</td>
-                  <td><TextInput value={added.itemIdText} onChange={(itemIdText) => edit({ itemIdText: itemIdText.trim() })} placeholder="Id / Chatlink"/></td>
+                  <td><ItemLink item={added.item}/></td>
+                  <td>{added.item.id}</td>
                   <td><NumberInput value={added.quantity} onChange={(quantity) => edit({ quantity })}/></td>
                   <td><Select onChange={(chance) => edit({ chance: chance as ContentChance })} value={added.chance} options={Object.values(ContentChance).map((value) => ({ value, label: value }))}/></td>
                   <td><Button appearance="secondary" onClick={() => setAddedItems((items) => items.filter(({ _id }) => _id !== added._id))}>Remove</Button></td>
                 </tr>
               );
             })}
-            <TableRowButton onClick={addItem}>
+            <TableRowButton onClick={() => setSearchItemDialogOpen(true)}>
               Add Item
             </TableRowButton>
           </tbody>
         </Table>
+        {searchItemDialogOpen && (<SearchItemDialog onSubmit={addItem}/>)}
         <p>After you submit this form, your changes will be reviewed before they are public.</p>
         <Button onClick={handleSubmit}>Submit</Button>
       </Dialog>
     </>
   );
-};
-
-function parseItemId(itemId: string): number | undefined {
-  if(itemId === '') {
-    return undefined;
-  }
-
-  const number = Number(itemId);
-  if(number.toFixed() === itemId && number > 0) {
-    return number;
-  }
-
-  if(itemId.startsWith('[&')) {
-    try {
-      const parsedChatlink = decode(itemId);
-
-      if(parsedChatlink !== false && parsedChatlink.type === 'item') {
-        return parsedChatlink.id;
-      }
-    } catch {
-      // parsing the link might fail but we don't care...
-    }
-  }
-
-  return undefined;
-}
-
-const ItemLinkById: FC<{ id: number }> = ({ id }) => {
-  const response = useJsonFetch<ApiItemLinkResponse>(`/api/item/link?id=${id}`);
-
-  if(response.loading) {
-    return <SkeletonLink/>;
-  }
-
-  return <ItemLink item={response.data}/>;
 };

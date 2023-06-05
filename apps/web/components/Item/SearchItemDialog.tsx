@@ -13,9 +13,12 @@ import { SkeletonTable } from '../Skeleton/SkeletonTable';
 import { ApiItemSearchResponse } from 'app/api/item/search/route';
 import { ItemLink } from './ItemLink';
 import { Button } from '@gw2treasures/ui/components/Form/Button';
+import { getLinkProperties } from '@/lib/linkProperties';
+
+export type SearchItemDialogSubmitHandler = (item?: WithIcon<Pick<Item, 'id' | 'rarity' | keyof LocalizedEntity>>) => void;
 
 export interface SearchItemDialogProps {
-  onSubmit: (item?: WithIcon<Pick<Item, 'id' | 'rarity' | keyof LocalizedEntity>>) => void
+  onSubmit: SearchItemDialogSubmitHandler
 }
 
 export const SearchItemDialog: FC<SearchItemDialogProps> = ({ onSubmit }) => {
@@ -48,7 +51,7 @@ export const SearchItemDialog: FC<SearchItemDialogProps> = ({ onSubmit }) => {
                   <ItemLink item={item}/>
                 </td>
                 <td>
-                  <Button onClick={() => onSubmit(item)}>Select</Button>
+                  <Button onClick={() => onSubmit(getLinkProperties(item))}>Select</Button>
                 </td>
               </tr>
             ))}

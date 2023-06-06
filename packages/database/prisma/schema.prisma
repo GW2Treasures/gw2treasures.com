@@ -49,6 +49,10 @@ model Item {
   contains    Content[] @relation("contains")
   containedIn Content[] @relation("containedIn")
 
+  // review queue
+  reviews Review[] @relation("itemReview")
+
+
   removedFromApi Boolean @default(false)
 
   current_de Revision @relation("current_de", fields: [currentId_de], references: [id], onDelete: Cascade)
@@ -593,6 +597,9 @@ model User {
 
   createdAt      DateTime   @default(now())
   updatedAt      DateTime   @updatedAt
+
+  reviewsRequested Review[] @relation("requester")
+  reviewsApproved  Review[] @relation("approver")
 }
 
 enum UserRole {
@@ -630,4 +637,28 @@ model UserProvider {
   
   createdAt      DateTime   @default(now())
   updatedAt      DateTime   @updatedAt
+}
+
+model Review {
+  id String @id @default(uuid())
+
+  requesterId String?
+  requester   User?   @relation("requester", fields: [requesterId], references: [id], onDelete: SetNull)
+
+  approverId  String?
+  approver    User?   @relation("approver", fields: [approverId], references: [id], onDelete: SetNull)
+
+  queue ReviewQueue
+  changes Json
+
+  relatedItemId Int?
+  relatedItem   Item? @relation("itemReview", fields: [relatedItemId], references: [id], onDelete: Cascade)
+
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  approvedAt DateTime?
+}
+
+enum ReviewQueue {
+  ContainerContent
 }

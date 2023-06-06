@@ -599,7 +599,7 @@ model User {
   updatedAt      DateTime   @updatedAt
 
   reviewsRequested Review[] @relation("requester")
-  reviewsApproved  Review[] @relation("approver")
+  reviewsReviewed  Review[] @relation("reviewer")
 }
 
 enum UserRole {
@@ -645,20 +645,27 @@ model Review {
   requesterId String?
   requester   User?   @relation("requester", fields: [requesterId], references: [id], onDelete: SetNull)
 
-  approverId  String?
-  approver    User?   @relation("approver", fields: [approverId], references: [id], onDelete: SetNull)
+  reviewerId  String?
+  reviewer    User?   @relation("reviewer", fields: [reviewerId], references: [id], onDelete: SetNull)
 
   queue ReviewQueue
   changes Json
+  state ReviewState @default(Open)
 
   relatedItemId Int?
   relatedItem   Item? @relation("itemReview", fields: [relatedItemId], references: [id], onDelete: Cascade)
 
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
-  approvedAt DateTime?
+  reviewedAt DateTime?
 }
 
 enum ReviewQueue {
   ContainerContent
+}
+
+enum ReviewState {
+  Open
+  Approved
+  Rejected
 }

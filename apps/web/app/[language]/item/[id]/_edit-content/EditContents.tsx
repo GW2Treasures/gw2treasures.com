@@ -70,7 +70,7 @@ export const EditContents: FC<EditContentsProps> = ({ itemId, contents }) => {
             {contents.map((content) => {
               const isRemoved = removedItems.includes(content.contentItemId);
               return (
-                <tr key={content.contentItemId} style={isRemoved ? { backgroundColor: '#fee' } : undefined}>
+                <tr key={content.contentItemId} data-removed={isRemoved || undefined}>
                   <td><ItemLink item={content.contentItem}/></td>
                   <td>{content.contentItemId}</td>
                   <td>{content.quantity}</td>
@@ -85,7 +85,7 @@ export const EditContents: FC<EditContentsProps> = ({ itemId, contents }) => {
               };
 
               return (
-                <tr key={added._id}>
+                <tr key={added._id} data-added>
                   <td><ItemLink item={added.item}/></td>
                   <td>{added.item.id}</td>
                   <td><NumberInput value={added.quantity} onChange={(quantity) => edit({ quantity })}/></td>

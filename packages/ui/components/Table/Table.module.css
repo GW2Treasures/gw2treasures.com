@@ -45,6 +45,27 @@
   background-color: var(--color-background-light);
 }
 
+.table > tbody > tr[data-added] > td,
+.table > tbody > tr[data-added] > th {
+  background-color: var(--color-diff-added-light);
+}
+
+.table > tbody > tr[data-added]:hover > td,
+.table > tbody > tr[data-added]:hover > th {
+  background-color: var(--color-diff-added);
+}
+
+.table > tbody > tr[data-removed] > td,
+.table > tbody > tr[data-removed] > th {
+  background-color: var(--color-diff-removed-light);
+}
+
+.table > tbody > tr[data-removed]:hover > td,
+.table > tbody > tr[data-removed]:hover > th {
+  background-color: var(--color-diff-removed);
+}
+
+
 .sort {
   /* remove button styles */
   font: inherit;

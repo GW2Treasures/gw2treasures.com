@@ -24,14 +24,14 @@
   clip-path: inset(0px 0 0px -8px);
 }
 
-.added .left { background-color: #F4433622; }
-.added .right { background-color: #8bc34a33; }
+.added .left { background-color: var(--color-diff-removed-light); }
+.added .right { background-color: var(--color-diff-added); }
 
-.removed .left { background-color: #F4433633; }
-.removed .right { background-color: #8bc34a22; }
+.removed .left { background-color: var(--color-diff-removed); }
+.removed .right { background-color: var(--color-diff-added-light); }
 
-.changed .left { background-color: #F4433633; }
-.changed .right { background-color: #8bc34a33; }
+.changed .left { background-color: var(--color-diff-removed); }
+.changed .right { background-color: var(--color-diff-added); }
 
 
 .header {

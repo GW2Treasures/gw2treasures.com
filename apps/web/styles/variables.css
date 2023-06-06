@@ -33,6 +33,12 @@
   --color-rarity-rare: rgb(var(--color-rarity-rare-rgb));
 
   --shadow: 0 0 2px rgba(0,0,0,0.12), 0 4px 8px rgba(0,0,0,0.14);
+
+  --color-diff-added: #8bc34a33;
+  --color-diff-added-light: #8bc34a22;
+
+  --color-diff-removed: #F4433633;
+  --color-diff-removed-light: #F4433622;
 }
 
 @media (prefers-color-scheme: dark) {

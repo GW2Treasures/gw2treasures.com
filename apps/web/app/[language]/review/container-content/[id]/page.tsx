@@ -43,14 +43,14 @@ export default async function ReviewContainerContentPage({ params: { id }}: { pa
   return (
     <HeroLayout hero={<Headline id="queue">Review Container Content</Headline>} color="#3f51b5">
       {review.state !== 'Open' && (
-        <Notice>This change was already {review.state === 'Approved' ? 'approved' : 'rejected'} by {review.reviewer?.name ?? 'Unknown User'} on <FormatDate date={review.reviewedAt}/></Notice>
+        <Notice>This change was already {review.state === 'Approved' ? 'approved' : 'rejected'} by <b>{review.reviewer?.name ?? 'Unknown User'}</b> on <FormatDate date={review.reviewedAt}/></Notice>
       )}
       {review.state === 'Open' && review.requesterId === user.id && (
         <Notice type="warning" icon="user">You can not review your own change request.</Notice>
       )}
 
 
-      <p>Review requested by {review.requester?.name || 'Unknown User'} on <FormatDate date={review.createdAt}/></p>
+      <p>Review requested by <b>{review.requester?.name || 'Unknown User'}</b> on <FormatDate date={review.createdAt}/></p>
 
       <Headline id="item">Item</Headline>
       <ItemLink item={item}/>
@@ -70,7 +70,7 @@ export default async function ReviewContainerContentPage({ params: { id }}: { pa
           {item.contains.map((content) => {
             const isRemoved = removedItems.includes(content.contentItemId);
             return (
-              <tr key={content.contentItemId} style={isRemoved ? { backgroundColor: '#fee' } : undefined}>
+              <tr key={content.contentItemId} data-removed={isRemoved || undefined}>
                 <td>{isRemoved && 'Removed'}</td>
                 <td><ItemLink item={content.contentItem}/></td>
                 <td>{content.contentItemId}</td>
@@ -81,7 +81,7 @@ export default async function ReviewContainerContentPage({ params: { id }}: { pa
           })}
           {addedItems.map((added) => {
             return (
-              <tr key={added._id}>
+              <tr key={added._id} data-added>
                 <td>Added</td>
                 <td><ItemLink item={added.item}/></td>
                 <td>{added.item.id}</td>

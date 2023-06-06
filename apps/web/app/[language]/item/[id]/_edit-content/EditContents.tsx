@@ -14,24 +14,17 @@ import { TableRowButton } from '@gw2treasures/ui/components/Table/TableRowButton
 import { FC, useCallback, useState } from 'react';
 import { SearchItemDialog, SearchItemDialogSubmitHandler } from '@/components/Item/SearchItemDialog';
 import { Icon } from '@gw2treasures/ui';
+import { submitToReview } from './actions';
+import { AddedItem } from './types';
 
 export interface EditContentsProps {
+  itemId: number;
   contents: (Content & {
     contentItem: WithIcon<Pick<Item, 'id' | 'rarity' | keyof LocalizedEntity>>
   })[]
 }
 
-interface AddedItem {
-  _id: string;
-  item: WithIcon<{
-    id: number;
-    rarity: string;
-  } & LocalizedEntity>;
-  quantity: number;
-  chance: ContentChance;
-}
-
-export const EditContents: FC<EditContentsProps> = ({ contents }) => {
+export const EditContents: FC<EditContentsProps> = ({ itemId, contents }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [searchItemDialogOpen, setSearchItemDialogOpen] = useState(false);
 
@@ -50,14 +43,13 @@ export const EditContents: FC<EditContentsProps> = ({ contents }) => {
     }
   }, [setAddedItems]);
 
-  const handleSubmit = useCallback(() => {
-    const data = {
-      removedItems,
-      addedItems,
-    };
+  const handleSubmit = useCallback(async () => {
+    const submitted = await submitToReview({ itemId, removedItems, addedItems });
 
-    console.log(data);
-  }, [addedItems, removedItems]);
+    if(submitted) {
+      setDialogOpen(false);
+    }
+  }, [itemId, addedItems, removedItems]);
 
   return (
     <>

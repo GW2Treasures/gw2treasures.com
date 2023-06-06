@@ -34,7 +34,7 @@ import { Rarity } from '@/components/Item/Rarity';
 import { OutputCount } from '@/components/Item/OutputCount';
 import { TableCollapse } from '@gw2treasures/ui/components/Table/TableCollapse';
 import { FormatNumber } from '@/components/Format/FormatNumber';
-import { EditContents } from './edit-contents';
+import { EditContents } from './_edit-content/EditContents';
 
 export interface ItemPageComponentProps {
   language: Language;
@@ -190,7 +190,7 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
 
       {!fixedRevision && (item.type === 'Container' || item.contains.length > 0) && (
         <>
-          <Headline id="content" actions={<EditContents contents={item.contains}/>}>Contents</Headline>
+          <Headline id="content" actions={<EditContents itemId={itemId} contents={item.contains}/>}>Contents</Headline>
           <Table>
             <thead>
               <tr>

@@ -1,9 +1,8 @@
 import { Job } from '../job';
 import { db } from '../../db';
 import { queueJobForIds } from '../helper/queueJobsForIds';
-import { Prisma } from '@gw2treasures/database';
-
-export const CURRENT_VERSION = 0;
+import { createMigrator, CURRENT_VERSION } from './migrations';
+import { Gw2Api } from 'gw2-api-types';
 
 export const SkinsMigrate: Job = {
   run: async (ids: number[] | Record<string, never>) => {
@@ -34,12 +33,17 @@ export const SkinsMigrate: Job = {
       return 'No skins to update';
     }
 
-    for(const skin of skinsToMigrate) {
-      const update: Prisma.SkinUpdateInput = {
-        version: CURRENT_VERSION
-      };
+    const migrate = await createMigrator();
 
-      await db.skin.update({ where: { id: skin.id }, data: update });
+    for(const skin of skinsToMigrate) {
+      const de: Gw2Api.Skin = JSON.parse(skin.current_de.data);
+      const en: Gw2Api.Skin = JSON.parse(skin.current_en.data);
+      const es: Gw2Api.Skin = JSON.parse(skin.current_es.data);
+      const fr: Gw2Api.Skin = JSON.parse(skin.current_fr.data);
+
+      const data = await migrate({ de, en, es, fr }, skin.version);
+
+      await db.skin.update({ where: { id: skin.id }, data });
     }
 
     return `Migrated ${skinsToMigrate.length} skins to version ${CURRENT_VERSION}`;

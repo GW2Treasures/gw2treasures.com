@@ -16,6 +16,7 @@ import { linkPropertiesWithoutRarity } from '@/lib/linkProperties';
 import { AchievementLink } from '@/components/Achievement/AchievementLink';
 import { TableOfContentAnchor } from '@gw2treasures/ui/components/TableOfContent/TableOfContent';
 import { ExternalLink } from '@/components/Link/ExternalLink';
+import { localizedName } from '@/lib/localizedName';
 
 const getSkin = remember(60, async function getSkin(id: number, language: Language) {
   const [skin, revision] = await Promise.all([
@@ -52,7 +53,7 @@ async function SkinPage ({ params: { language, id }}: { params: { language: Lang
 
   return (
     <DetailLayout
-      title={data.name}
+      title={data.name || localizedName(skin, language)}
       icon={skin.icon}
       className={rarityClasses[data.rarity]}
       breadcrumb={`Skin › ${skin.type}${skin.subtype ? ` › ${skin.subtype}` : ''}${skin.weight ? ` › ${skin.weight}` : ''}`}

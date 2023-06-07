@@ -12,19 +12,10 @@ export async function submitToReview({ itemId, removedItems, addedItems }: { ite
     return false;
   }
 
-  const user = await getUser();
+  const preConditions = await canSubmit(itemId);
 
-  if(!user) {
-    console.log('Not logged in');
-    return false;
-  }
-
-  const pendingReviews = await db.review.count({
-    where: { queue: 'ContainerContent', relatedItemId: itemId, state: ReviewState.Open }
-  });
-
-  if(pendingReviews > 0) {
-    console.log('Pending reviews');
+  if(!preConditions.canSubmit) {
+    console.log('Can not submit review', preConditions.reason);
     return false;
   }
 
@@ -33,10 +24,31 @@ export async function submitToReview({ itemId, removedItems, addedItems }: { ite
       state: ReviewState.Open,
       changes: { removedItems, addedItems } as any,
       queue: 'ContainerContent',
-      requesterId: user.id,
+      requesterId: preConditions.userId,
       relatedItemId: itemId,
     }
   });
 
   return true;
 }
+
+export async function canSubmit(itemId: number): Promise<CanSubmitResponse> {
+  const user = await getUser();
+
+  if(!user) {
+    return { canSubmit: false, reason: 'LOGIN' };
+  }
+
+  const pendingReview = await db.review.findFirst({
+    where: { queue: 'ContainerContent', relatedItemId: itemId, state: ReviewState.Open },
+    select: { id: true, requesterId: true },
+  });
+
+  if(pendingReview !== null) {
+    return { canSubmit: false, reason: 'PENDING_REVIEW', reviewId: pendingReview.id, ownReview: pendingReview.requesterId === user.id };
+  }
+
+  return { canSubmit: true, userId: user.id };
+}
+
+export type CanSubmitResponse = { canSubmit: true, userId: string } | { canSubmit: false, reason: 'LOGIN' } | { canSubmit: false, reason: 'PENDING_REVIEW', reviewId: string, ownReview: boolean };

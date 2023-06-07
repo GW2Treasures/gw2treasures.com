@@ -191,26 +191,31 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
       {!fixedRevision && (item.type === 'Container' || item.contains.length > 0) && (
         <>
           <Headline id="content" actions={<EditContents itemId={itemId} contents={item.contains}/>}>Contents</Headline>
-          <Table>
-            <thead>
-              <tr>
-                <Table.HeaderCell>Item</Table.HeaderCell>
-                <Table.HeaderCell>Chance</Table.HeaderCell>
-                <th>Level</th><th>Rarity</th><th>Type</th>
-              </tr>
-            </thead>
-            <tbody>
-              {item.contains.map(((contains) => (
-                <tr key={contains.contentItemId}>
-                  <td><OutputCount count={contains.quantity}><ItemLink item={contains.contentItem}/></OutputCount></td>
-                  <td>{contains.chance}</td>
-                  <td>{contains.contentItem.level}</td>
-                  <td><Rarity rarity={contains.contentItem.rarity}/></td>
-                  <td>{contains.contentItem.type} {contains.contentItem.subtype && `(${contains.contentItem.subtype})`}</td>
+
+          {item.contains.length > 0 ? (
+            <Table>
+              <thead>
+                <tr>
+                  <Table.HeaderCell>Item</Table.HeaderCell>
+                  <Table.HeaderCell>Chance</Table.HeaderCell>
+                  <th>Level</th><th>Rarity</th><th>Type</th>
                 </tr>
-              )))}
-            </tbody>
-          </Table>
+              </thead>
+              <tbody>
+                {item.contains.map(((contains) => (
+                  <tr key={contains.contentItemId}>
+                    <td><OutputCount count={contains.quantity}><ItemLink item={contains.contentItem}/></OutputCount></td>
+                    <td>{contains.chance}</td>
+                    <td>{contains.contentItem.level}</td>
+                    <td><Rarity rarity={contains.contentItem.rarity}/></td>
+                    <td>{contains.contentItem.type} {contains.contentItem.subtype && `(${contains.contentItem.subtype})`}</td>
+                  </tr>
+                )))}
+              </tbody>
+            </Table>
+          ) : (
+            <p>The contents of this container are unknown. You can help by adding the contained items.</p>
+          )}
         </>
       )}
 

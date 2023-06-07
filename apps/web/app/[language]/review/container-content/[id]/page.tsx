@@ -11,6 +11,7 @@ import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { AddedItem } from 'app/[language]/item/[id]/_edit-content/types';
 import { notFound, redirect } from 'next/navigation';
 import { approve, reject } from './actions';
+import Link from 'next/link';
 
 const getReview = async function getReview(id: string) {
   const review = await db.review.findUnique({
@@ -35,18 +36,14 @@ export default async function ReviewContainerContentPage({ params: { id }}: { pa
 
   const user = await getUser();
 
-  if(!user) {
-    redirect('/login');
-  }
-
-  const canReview = review.state === 'Open' && (review.requesterId !== user.id || user.roles.includes('Admin'));
+  const canReview = user && review.state === 'Open' && (review.requesterId !== user.id || user.roles.includes('Admin'));
 
   return (
     <HeroLayout hero={<Headline id="queue">Review Container Content</Headline>} color="#3f51b5">
       {review.state !== 'Open' && (
         <Notice>This change was already {review.state === 'Approved' ? 'approved' : 'rejected'} by <b>{review.reviewer?.name ?? 'Unknown User'}</b> on <FormatDate date={review.reviewedAt}/></Notice>
       )}
-      {review.state === 'Open' && review.requesterId === user.id && (
+      {review.state === 'Open' && user && review.requesterId === user.id && (
         <Notice type="warning" icon="user">You can not review your own change request.</Notice>
       )}
 
@@ -95,6 +92,10 @@ export default async function ReviewContainerContentPage({ params: { id }}: { pa
       </Table>
 
       <Headline id="actions">Actions</Headline>
+
+      {!user && (
+        <Notice>You need to <Link href="/login">Login</Link> to review this change.</Notice>
+      )}
 
       <form style={{ display: 'flex', gap: 16 }}>
         <input type="hidden" name="id" value={id}/>

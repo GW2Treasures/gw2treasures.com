@@ -5,7 +5,7 @@ import styles from './Notice.module.css';
 
 export interface NoticeProps {
   children: ReactNode;
-  type?: 'info' | 'warning';
+  type?: 'info' | 'warning' | 'error';
   icon?: IconName;
 }
 

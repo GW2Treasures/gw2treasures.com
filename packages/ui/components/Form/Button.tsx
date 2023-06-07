@@ -20,11 +20,12 @@ export interface ButtonProps extends CommonButtonProps {
   form?: string;
   name?: string;
   value?: string;
+  formAction?: string | ((...args: any[]) => Promise<unknown>);
 };
 
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button({ children, icon, appearance = 'secondary', iconOnly, onClick, className, type = 'button', disabled, form, name, value }, ref) {
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button({ children, icon, appearance = 'secondary', iconOnly, onClick, className, type = 'button', disabled, form, name, value, formAction }, ref) {
   return (
-    <button ref={ref} onClick={onClick} className={cx(styles[appearance], iconOnly && styles.iconOnly, className)} form={form} type={type} disabled={disabled} name={name} value={value}>
+    <button ref={ref} onClick={onClick} className={cx(styles[appearance], iconOnly && styles.iconOnly, className)} form={form} type={type} disabled={disabled} name={name} value={value} formAction={formAction as any}>
       {icon && <Icon icon={icon}/>}
       <span>{children}</span>
     </button>

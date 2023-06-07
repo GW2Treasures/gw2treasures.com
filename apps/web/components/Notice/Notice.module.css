@@ -10,9 +10,15 @@
 }
 
 .warning {
-  border-left: 4px solid #ffc107;
+  border-left-color: #ffc107;
   background-color: #ffc10722;
   --icon-color: #ffa000;
+}
+
+.error {
+  border-left-color: #f44336;
+  background-color: #f4433622;
+  --icon-color: #f44336;
 }
 
 .content {

@@ -10,6 +10,7 @@ import { AchievementsUpdate } from './achievements/update';
 import { Gw2ApiRequestsCleanup } from './gw2api-requests/cleanup';
 import { IconsColors } from './icons/colors';
 import { ItemsCheck } from './items/check';
+import { ItemsContainerContent } from './items/containerContent';
 import { ItemsMigrate } from './items/migrate';
 import { ItemsNew } from './items/new';
 import { ItemsRediscovered } from './items/rediscovered';
@@ -44,6 +45,7 @@ const jobsInternal = {
   'items.rediscovered': ItemsRediscovered,
   'items.update': ItemsUpdate,
   'items.migrate': ItemsMigrate,
+  'items.containerContent': ItemsContainerContent,
 
   'skills.check': SkillsCheck,
   'skills.new': SkillsNew,

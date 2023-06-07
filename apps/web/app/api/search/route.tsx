@@ -13,7 +13,7 @@ function isChatCodeWithType<T extends ChatCode['type']>(expectedType: T): (chatC
   return (chatCode) => chatCode.type === expectedType;
 }
 
-function splitSearchTerms(query: string): string[] {
+export function splitSearchTerms(query: string): string[] {
   const terms = Array.from(query.matchAll(/"(?:\\\\.|[^\\\\"])+"|\S+/g)).map((term) => {
     return unpackQuotes(term[0])
       .replaceAll('\\\\', '\\')
@@ -30,6 +30,16 @@ function unpackQuotes(value: string): string {
   }
 
   return value;
+}
+
+function toNumber(value: string): number | undefined {
+  const number = Number(value);
+
+  if(number.toFixed() === value && number > 0) {
+    return number;
+  }
+
+  return undefined;
 }
 
 type LocalizedNameInput = {
@@ -72,13 +82,14 @@ const searchAchievements = remember(60, async function searchAchievements(terms:
   return { achievements, achievementCategories, achievementGroups };
 });
 
-const searchItems = remember(60, function searchItems(terms: string[], chatCodes: ChatCode[]) {
+export const searchItems = remember(60, function searchItems(terms: string[], chatCodes: ChatCode[]) {
   const nameQueries = nameQuery(terms);
   const itemChatCodes = chatCodes.filter(isChatCodeWithType('item'));
   const itemIdsInChatCodes = itemChatCodes.flatMap((chatCode) => [chatCode.id, ...(chatCode.upgrades || [])]);
+  const numberTerms = terms.map(toNumber).filter(isTruthy);
 
   return db.item.findMany({
-    where: { OR: [...nameQueries, { id: { in: itemIdsInChatCodes }}] },
+    where: { OR: [...nameQueries, { id: { in: [...itemIdsInChatCodes, ...numberTerms] }}] },
     take: 5,
     include: { icon: true }
   });

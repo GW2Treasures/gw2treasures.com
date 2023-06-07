@@ -15,6 +15,7 @@ import { encode } from 'gw2e-chat-codes';
 import { ShowMore } from '../ShowMore/ShowMore';
 import { ResetTimer } from 'app/[language]/achievement/(index)/reset-timer';
 import { Tip } from '../Tip/Tip';
+import { OutputCount } from '../Item/OutputCount';
 
 interface RecipeBoxProps {
   recipe: Recipe & {
@@ -29,10 +30,9 @@ export const RecipeBox: FC<RecipeBoxProps> = ({ recipe, outputItem }) => {
   return (
     <div className={styles.box} data-recipe-id={recipe.id}>
       <div className={styles.title}>
-        <div>
+        <OutputCount count={recipe.outputCount}>
           {outputItem !== null ? <ItemLink item={outputItem}/> : <span>Unknown Item</span>}
-          {recipe.outputCount > 1 && ` ×${recipe.outputCount}`}
-        </div>
+        </OutputCount>
         <DropDown button={<Button iconOnly appearance="menu"><Icon icon="more"/></Button>} preferredPlacement="right-start">
           <MenuList>
             <CopyButton appearance="menu" icon="chatlink" copy={encode('recipe', recipe.id) || ''}>Copy chatlink</CopyButton>

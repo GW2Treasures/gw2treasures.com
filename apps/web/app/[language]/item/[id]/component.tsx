@@ -29,6 +29,12 @@ import { RemovedFromApiNotice } from '@/components/Notice/RemovedFromApiNotice';
 import { RecipeBoxWrapper } from '@/components/Recipe/RecipeBoxWrapper';
 import { SimilarItems } from './similar-items';
 import { getItem, getRevision } from './data';
+import { ItemLink } from '@/components/Item/ItemLink';
+import { Rarity } from '@/components/Item/Rarity';
+import { OutputCount } from '@/components/Item/OutputCount';
+import { TableCollapse } from '@gw2treasures/ui/components/Table/TableCollapse';
+import { FormatNumber } from '@/components/Format/FormatNumber';
+import { EditContents } from './_edit-content/EditContents';
 
 export interface ItemPageComponentProps {
   language: Language;
@@ -118,6 +124,17 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
         </>
       )}
 
+      {item.unlocksRecipe && item.unlocksRecipe.length > 0 && (
+        <>
+          <Headline id="unlocks-recipe">Unlocks Recipe</Headline>
+          <RecipeBoxWrapper>
+            {item.unlocksRecipe.map((recipe) => (
+              <RecipeBox key={recipe.id} recipe={recipe} outputItem={recipe.outputItem}/>
+            ))}
+          </RecipeBoxWrapper>
+        </>
+      )}
+
       {item.recipeOutput && item.recipeOutput.length > 0 && (
         <>
           <Headline id="crafted-from">Crafted From</Headline>
@@ -129,14 +146,33 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
         </>
       )}
 
-      {item.unlocksRecipe && item.unlocksRecipe.length > 0 && (
+      {!fixedRevision && item.containedIn.length > 0 && (
         <>
-          <Headline id="unlocks-recipe">Unlocks Recipe</Headline>
-          <RecipeBoxWrapper>
-            {item.unlocksRecipe.map((recipe) => (
-              <RecipeBox key={recipe.id} recipe={recipe} outputItem={recipe.outputItem}/>
-            ))}
-          </RecipeBoxWrapper>
+          <Headline id="contained">Contained In</Headline>
+          <Table>
+            <thead>
+              <tr>
+                <Table.HeaderCell>Item</Table.HeaderCell>
+                <Table.HeaderCell>Quantity</Table.HeaderCell>
+                <Table.HeaderCell>Chance</Table.HeaderCell>
+                <th>Level</th><th>Rarity</th><th>Type</th>
+              </tr>
+            </thead>
+            <tbody>
+              <TableCollapse>
+                {item.containedIn.map(((contains) => (
+                  <tr key={contains.containerItemId}>
+                    <td><ItemLink item={contains.containerItem}/></td>
+                    <td><FormatNumber value={contains.quantity}/></td>
+                    <td>{contains.chance}</td>
+                    <td>{contains.containerItem.level}</td>
+                    <td><Rarity rarity={contains.containerItem.rarity}/></td>
+                    <td>{contains.containerItem.type} {contains.containerItem.subtype && `(${contains.containerItem.subtype})`}</td>
+                  </tr>
+                )))}
+              </TableCollapse>
+            </tbody>
+          </Table>
         </>
       )}
 
@@ -150,6 +186,37 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
         >
           <ItemIngredientFor itemId={item.id}/>
         </Suspense>
+      )}
+
+      {!fixedRevision && (item.type === 'Container' || item.contains.length > 0) && (
+        <>
+          <Headline id="content" actions={<EditContents itemId={itemId} contents={item.contains}/>}>Contents</Headline>
+
+          {item.contains.length > 0 ? (
+            <Table>
+              <thead>
+                <tr>
+                  <Table.HeaderCell>Item</Table.HeaderCell>
+                  <Table.HeaderCell>Chance</Table.HeaderCell>
+                  <th>Level</th><th>Rarity</th><th>Type</th>
+                </tr>
+              </thead>
+              <tbody>
+                {item.contains.map(((contains) => (
+                  <tr key={contains.contentItemId}>
+                    <td><OutputCount count={contains.quantity}><ItemLink item={contains.contentItem}/></OutputCount></td>
+                    <td>{contains.chance}</td>
+                    <td>{contains.contentItem.level}</td>
+                    <td><Rarity rarity={contains.contentItem.rarity}/></td>
+                    <td>{contains.contentItem.type} {contains.contentItem.subtype && `(${contains.contentItem.subtype})`}</td>
+                  </tr>
+                )))}
+              </tbody>
+            </Table>
+          ) : (
+            <p>The contents of this container are unknown. You can help by adding the contained items.</p>
+          )}
+        </>
       )}
 
       <Headline id="history">History</Headline>

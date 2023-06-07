@@ -102,6 +102,7 @@ const pages: Page[] = [
   { href: '/status/jobs', title: 'Job Status', icon: 'jobs' },
   { href: '/status/api', title: 'API Status', icon: 'api-status' },
   { href: '/about', title: 'About', icon: 'info' },
+  { href: '/review', title: 'Review Queues', icon: 'review-queue' },
   { href: 'https://discord.gg/gvx6ZSE', title: 'Discord', icon: 'discord' },
 
   { href: '/item', title: 'Items', icon: 'item' },
@@ -118,8 +119,9 @@ const pages: Page[] = [
   { href: '/build', title: 'Builds', icon: 'builds' },
 
   { href: '/item/random', title: 'Random Item', icon: 'shuffle' },
+  { href: '/item/empty-containers', title: 'Empty containers', icon: 'item' },
   { href: '/achievement/random', title: 'Random Achievement', icon: 'shuffle' },
-  { href: '/achievement/uncategorized', title: 'Uncategorized Achievements', icon: 'achievement' }
+  { href: '/achievement/uncategorized', title: 'Uncategorized Achievements', icon: 'achievement' },
 ];
 
 export function usePageResults(searchValue: string): SearchResults {

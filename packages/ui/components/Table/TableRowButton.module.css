@@ -1,0 +1,20 @@
+.button {
+  background: none;
+  display: block;
+  margin: -8px -16px;
+  padding: 16px 16px;
+  width: calc(100% + 32px);
+  border: none;
+  font: inherit;
+  cursor: pointer;
+  color: inherit;
+  transition: all .3s ease;
+}
+
+.button:focus {
+  outline: none;
+}
+
+.button:focus-visible {
+  box-shadow: var(--shadow-focus);
+}

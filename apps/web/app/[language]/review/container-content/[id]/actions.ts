@@ -62,7 +62,7 @@ async function getUserAndReview(data: FormData) {
   const id = data.get('id')?.toString();
 
   if(!id) {
-    redirect('/review?error');
+    redirect('/review');
   }
 
   const [user, review] = await Promise.all([

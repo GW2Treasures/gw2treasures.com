@@ -30,7 +30,7 @@ const getReview = async function getReview(id: string) {
   return { review, item: review.relatedItem };
 };
 
-export default async function ReviewContainerContentPage({ params: { id }}: { params: { id: string }}) {
+export default async function ReviewContainerContentPage({ params: { id, error }, searchParams }: { params: { id: string }, searchParams: { error?: '' }}) {
   const { item, review } = await getReview(id);
   const { removedItems, addedItems } = review.changes as unknown as { removedItems: number[], addedItems: AddedItem[] };
 
@@ -40,8 +40,12 @@ export default async function ReviewContainerContentPage({ params: { id }}: { pa
 
   return (
     <HeroLayout hero={<Headline id="queue">Review Container Content</Headline>} color="#3f51b5">
+      {searchParams.error !== undefined && (
+        <Notice type="error" icon="review-queue">Your changes could not be saved.</Notice>
+      )}
+
       {review.state !== 'Open' && (
-        <Notice>This change was already {review.state === 'Approved' ? 'approved' : 'rejected'} by <b>{review.reviewer?.name ?? 'Unknown User'}</b> on <FormatDate date={review.reviewedAt}/></Notice>
+        <Notice icon="review-queue">This change was already {review.state === 'Approved' ? 'approved' : 'rejected'} by <b>{review.reviewer?.name ?? 'Unknown User'}</b> on <FormatDate date={review.reviewedAt}/></Notice>
       )}
       {review.state === 'Open' && user && review.requesterId === user.id && (
         <Notice type="warning" icon="user">You can not review your own change request.</Notice>

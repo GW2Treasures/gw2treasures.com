@@ -5,6 +5,7 @@ import { cx } from '@gw2treasures/ui';
 
 interface CodeProps {
   children: ReactNode;
+  borderless?: boolean;
 };
 
 const font = Source_Code_Pro({
@@ -13,8 +14,8 @@ const font = Source_Code_Pro({
   fallback: ['monospace'],
 });
 
-export const Code: FC<CodeProps> = ({ children }) => {
+export const Code: FC<CodeProps> = ({ children, borderless = false }) => {
   return (
-    <pre className={cx(styles.code, font.className)}>{children}</pre>
+    <pre className={cx(borderless ? styles.code : styles.codeBorder, font.className)}>{children}</pre>
   );
 };

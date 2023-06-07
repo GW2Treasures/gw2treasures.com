@@ -83,7 +83,7 @@ async function SkillDiffPage({ params }: { params: { a: string, b: string }}) {
         return (<DiffLayoutRow key={index} left={left && <Fact fact={left}/>} right={right && <Fact fact={right}/>}/>);
       })}
       <DiffLayoutRow left={<Separator/>} right={<Separator/>}/>
-      <DiffLayoutRow left={<Json data={dataA}/>} right={<Json data={dataB}/>} changed/>
+      <DiffLayoutRow left={<Json data={dataA} borderless/>} right={<Json data={dataB} borderless/>} changed/>
     </DiffLayout>
   );
 };

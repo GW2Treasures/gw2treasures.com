@@ -14,11 +14,13 @@
 .left {
   padding: 8px 16px;
   flex: 1;
+  max-width: 50%;
 }
 
 .right {
   padding: 8px 16px;
   flex: 1;
+  max-width: 50%;
 
   box-shadow: var(--shadow);
   clip-path: inset(0px 0 0px -8px);

@@ -30,7 +30,7 @@ const getReview = async function getReview(id: string) {
   return { review, item: review.relatedItem };
 };
 
-export default async function ReviewContainerContentPage({ params: { id, error }, searchParams }: { params: { id: string }, searchParams: { error?: '' }}) {
+export default async function ReviewContainerContentPage({ params: { id }, searchParams }: { params: { id: string }, searchParams: { error?: '' }}) {
   const { item, review } = await getReview(id);
   const { removedItems, addedItems } = review.changes as unknown as { removedItems: number[], addedItems: AddedItem[] };
 

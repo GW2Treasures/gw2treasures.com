@@ -3,6 +3,7 @@
 import { getUser } from '@/lib/getUser';
 import { AddedItem } from './types';
 import { db } from '@/lib/prisma';
+import { ReviewState } from '@gw2treasures/database';
 
 // eslint-disable-next-line require-await
 export async function submitToReview({ itemId, removedItems, addedItems }: { itemId: number, removedItems: number[], addedItems: AddedItem[] }) {
@@ -19,7 +20,7 @@ export async function submitToReview({ itemId, removedItems, addedItems }: { ite
   }
 
   const pendingReviews = await db.review.count({
-    where: { queue: 'ContainerContent', relatedItemId: itemId }
+    where: { queue: 'ContainerContent', relatedItemId: itemId, state: ReviewState.Open }
   });
 
   if(pendingReviews > 0) {
@@ -29,10 +30,13 @@ export async function submitToReview({ itemId, removedItems, addedItems }: { ite
 
   await db.review.create({
     data: {
+      state: ReviewState.Open,
       changes: { removedItems, addedItems } as any,
       queue: 'ContainerContent',
       requesterId: user.id,
       relatedItemId: itemId,
     }
   });
+
+  return true;
 }

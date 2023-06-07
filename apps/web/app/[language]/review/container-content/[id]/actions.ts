@@ -5,10 +5,43 @@ import { db } from '@/lib/prisma';
 import { ReviewState } from '@gw2treasures/database';
 import { redirect } from 'next/navigation';
 import { getRandomContainerContentReviewId } from '../route';
+import { AddedItem } from 'app/[language]/item/[id]/_edit-content/types';
 
 // eslint-disable-next-line require-await
-export async function approve(id: string) {
-  console.log('approve');
+export async function approve(data: FormData) {
+  const { id, user, review } = await getUserAndReview(data);
+  const { removedItems, addedItems } = review.changes as unknown as { removedItems: number[], addedItems: AddedItem[] };
+
+  if(!review.relatedItemId) {
+    redirect(`/review/container-content/${id}?error`);
+  }
+
+  const containerItemId = review.relatedItemId;
+
+  await db.$transaction([
+    // remove contents
+    db.content.deleteMany({ where: { containerItemId, contentItemId: { in: removedItems }}}),
+
+    // add new contents
+    db.content.createMany({
+      data: addedItems.map(({ item, chance, quantity }) => ({
+        containerItemId,
+        contentItemId: item.id,
+        chance: chance,
+        quantity: quantity,
+      }))
+    }),
+
+    // approve review
+    db.review.update({
+      where: { id },
+      data: { reviewerId: user.id, reviewedAt: new Date(), state: ReviewState.Approved }
+    }),
+  ]);
+
+  const nextId = await getRandomContainerContentReviewId();
+
+  redirect(nextId ? `/review/container-content/${nextId}` : '/review');
 }
 
 export async function reject(data: FormData) {

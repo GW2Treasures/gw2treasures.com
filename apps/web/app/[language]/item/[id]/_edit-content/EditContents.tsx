@@ -18,6 +18,7 @@ import { CanSubmitResponse, canSubmit, submitToReview } from './actions';
 import { AddedItem } from './types';
 import { Skeleton } from '@/components/Skeleton/Skeleton';
 import Link from 'next/link';
+import { Notice } from '@/components/Notice/Notice';
 
 export interface EditContentsProps {
   itemId: number;
@@ -30,6 +31,7 @@ export const EditContents: FC<EditContentsProps> = ({ itemId, contents }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [searchItemDialogOpen, setSearchItemDialogOpen] = useState(false);
   const [canSubmitState, setCanSubmitState] = useState<CanSubmitResponse>();
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     if(dialogOpen) {
@@ -54,10 +56,13 @@ export const EditContents: FC<EditContentsProps> = ({ itemId, contents }) => {
   }, [setAddedItems]);
 
   const handleSubmit = useCallback(async () => {
+    setError(false);
     const submitted = await submitToReview({ itemId, removedItems, addedItems });
 
     if(submitted) {
       setDialogOpen(false);
+    } else {
+      setError(true);
     }
   }, [itemId, addedItems, removedItems]);
 
@@ -77,6 +82,7 @@ export const EditContents: FC<EditContentsProps> = ({ itemId, contents }) => {
           (<p>Unknown error</p>)
         ) : (
           <>
+            {error && (<Notice type="error">Your changes could not be saved.</Notice>)}
             <p>Noticed something wrong with the contents of this item? You can remove and add items in this dialog.</p>
             <Table>
               <thead>

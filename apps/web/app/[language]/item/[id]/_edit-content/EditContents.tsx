@@ -33,9 +33,8 @@ export const EditContents: FC<EditContentsProps> = ({ itemId, contents }) => {
 
   useEffect(() => {
     if(dialogOpen) {
-      canSubmit(itemId).then(setCanSubmitState);
-    } else {
       setCanSubmitState(undefined);
+      canSubmit(itemId).then(setCanSubmitState);
     }
   }, [dialogOpen, itemId]);
 
@@ -123,7 +122,7 @@ export const EditContents: FC<EditContentsProps> = ({ itemId, contents }) => {
               </tbody>
             </Table>
             {searchItemDialogOpen && (<SearchItemDialog onSubmit={addItem}/>)}
-            <p>After you submit this form, your changes will be reviewed before they are public.</p>
+            <p>After you submit this form, your changes will be reviewed before they are applied.</p>
             <Button onClick={handleSubmit}>Submit</Button>
           </>
         )}

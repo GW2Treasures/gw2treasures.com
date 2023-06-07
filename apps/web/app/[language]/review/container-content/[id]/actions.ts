@@ -4,10 +4,9 @@ import { getUser } from '@/lib/getUser';
 import { db } from '@/lib/prisma';
 import { ReviewState } from '@gw2treasures/database';
 import { redirect } from 'next/navigation';
-import { getRandomContainerContentReviewId } from '../route';
+import { getRandomContainerContentReviewId } from '../random';
 import { AddedItem } from 'app/[language]/item/[id]/_edit-content/types';
 
-// eslint-disable-next-line require-await
 export async function approve(data: FormData) {
   const { id, user, review } = await getUserAndReview(data);
   const { removedItems, addedItems } = review.changes as unknown as { removedItems: number[], addedItems: AddedItem[] };
@@ -44,6 +43,7 @@ export async function approve(data: FormData) {
   redirect(nextId ? `/review/container-content/${nextId}` : '/review');
 }
 
+
 export async function reject(data: FormData) {
   const { id, user, review } = await getUserAndReview(data);
 
@@ -56,6 +56,7 @@ export async function reject(data: FormData) {
 
   redirect(nextId ? `/review/container-content/${nextId}` : '/review');
 }
+
 
 async function getUserAndReview(data: FormData) {
   const id = data.get('id')?.toString();

@@ -32,6 +32,11 @@ const Layout: AsyncComponent<LayoutProps> = async ({ children }) => {
           </Link>
           <Search/>
           <div className={styles.right}>
+            {user && (
+              <LinkButton appearance="menu" href="/review">
+                <Icon icon="review-queue"/><span className={styles.responsive}> Review</span>
+              </LinkButton>
+            )}
             <LanguageDropdown/>
             {user ? (
               <LinkButton appearance="menu" href="/profile">

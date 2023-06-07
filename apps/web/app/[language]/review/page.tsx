@@ -31,8 +31,8 @@ export default async function ReviewPage() {
         </thead>
         <tbody>
           <tr>
-            <td><Link href="/review/container-content">Container Content</Link></td>
-            <td><FormatNumber value={queues.ContainerContent}/></td>
+            <td><Link prefetch={false} href="/review/container-content">Container Content</Link></td>
+            <td><FormatNumber value={queues.ContainerContent ?? 0}/></td>
           </tr>
         </tbody>
       </Table>

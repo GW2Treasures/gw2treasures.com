@@ -10,6 +10,7 @@ import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { AddedItem } from 'app/[language]/item/[id]/_edit-content/types';
 import { notFound, redirect } from 'next/navigation';
+import { approve, reject } from './actions';
 
 const getReview = async function getReview(id: string) {
   const review = await db.review.findUnique({
@@ -95,11 +96,12 @@ export default async function ReviewContainerContentPage({ params: { id }}: { pa
 
       <Headline id="actions">Actions</Headline>
 
-      <div style={{ display: 'flex', gap: 16 }}>
+      <form style={{ display: 'flex', gap: 16 }}>
+        <input type="hidden" name="id" value={id}/>
         <LinkButton external href="/review/container-content">Skip</LinkButton>
-        <Button disabled={!canReview}>Approve</Button>
-        <Button disabled={!canReview}>Reject</Button>
-      </div>
+        <Button type="submit" disabled={!canReview} formAction={approve}>Approve</Button>
+        <Button type="submit" disabled={!canReview} formAction={reject}>Reject</Button>
+      </form>
     </HeroLayout>
   );
 }

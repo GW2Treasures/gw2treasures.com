@@ -68,6 +68,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: image
     steps:
+    - name: Add hosts
+      run: sudo echo "127.0.0.1 en.next.gw2treasures.kubernetes.localhost" | sudo tee -a /etc/hosts
     - uses: actions/checkout@v3 
     - uses: actions/download-artifact@v3
       with:
@@ -76,12 +78,18 @@ jobs:
       with:
         version: v1.26
         github-token: ${{ secrets.GITHUB_TOKEN }}
+        k3d-args: --k3s-arg "--no-deploy=traefik@server:*"
     - name: Load docker image
       run: ls /tmp/docker-image-*/image-*.tar | xargs -L1 docker load --input
     - name: Import images into k3d
       run: k3d image import gw2treasures/web gw2treasures/worker gw2treasures/legacy-importer gw2treasures/database-migration
+    - name: Apply ingress-nginx@v1.7.0
+      run: kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.7.0/deploy/static/provider/cloud/deploy.yaml
+    - name: Wait for ingress-nginx rollout
+      run: kubectl rollout status deployment ingress-nginx-controller -n ingress-nginx --timeout=120s
     - run: kubectl apply -k kubernetes/local
-    - run: kubectl rollout status deployment next next-worker -n gw2treasures --timeout=120s
+    - run: kubectl rollout status deployment next next-db next-worker -n gw2treasures --timeout=120s
+    - run: curl --fail-with-body http://en.next.gw2treasures.kubernetes.localhost/
     - run: kubectl get deployment -n gw2treasures
       if: success() || failure()
     - run: kubectl get job -n gw2treasures

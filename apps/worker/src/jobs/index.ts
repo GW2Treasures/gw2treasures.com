@@ -7,6 +7,12 @@ import { AchievementsRediscovered } from './achievements/rediscovered';
 import { AchievementsRemoved } from './achievements/removed';
 import { AchievementsUnlocks } from './achievements/unlocks';
 import { AchievementsUpdate } from './achievements/update';
+import { CurrenciesCheck } from './currencies/check';
+import { CurrenciesMigrate } from './currencies/migrate';
+import { CurrenciesNew } from './currencies/new';
+import { CurrenciesRediscovered } from './currencies/rediscovered';
+import { CurrenciesRemoved } from './currencies/removed';
+import { CurrenciesUpdate } from './currencies/update';
 import { Gw2ApiRequestsCleanup } from './gw2api-requests/cleanup';
 import { IconsColors } from './icons/colors';
 import { ItemsCheck } from './items/check';
@@ -77,6 +83,13 @@ const jobsInternal = {
   'recipes.check': RecipesCheck,
   'recipes.new': RecipesNew,
   'recipes.migrate': RecipesMigrate,
+
+  'currencies.check': CurrenciesCheck,
+  'currencies.new': CurrenciesNew,
+  'currencies.removed': CurrenciesRemoved,
+  'currencies.rediscovered': CurrenciesRediscovered,
+  'currencies.update': CurrenciesUpdate,
+  'currencies.migrate': CurrenciesMigrate,
 
   'gw2api-requests.cleanup': Gw2ApiRequestsCleanup,
 

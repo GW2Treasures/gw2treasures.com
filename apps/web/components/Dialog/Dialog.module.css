@@ -27,6 +27,16 @@
   --table-sticky-top: -16px;
 }
 
+@media(max-width: 640px) {
+  .dialog {
+    max-width: none;
+    min-width: 0;
+    width: calc(100vw - 32px);
+    top: 56px;
+    max-height: calc(100vh - 72px);
+  }
+}
+
 .title {
   border-bottom: 1px solid var(--color-border);
   display: flex;

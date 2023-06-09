@@ -65,6 +65,9 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
 
   const skinAchievementBits = item.unlocksSkin.flatMap((skin) => skin.achievementBits);
 
+  const showContents = item.type === 'Container' || item.contains.length > 0 || item.containsCurrency.length > 0;
+  const canHaveContents = item.type === 'Container' || item.type === 'Consumable';
+
   return (
     <DetailLayout
       title={data.name || data.chat_link}
@@ -72,7 +75,7 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
       className={rarityClasses[data.rarity]}
       breadcrumb={`Item › ${data.type}${data.details ? ` › ${data.details?.type}` : ''}`}
       infobox={<ItemInfobox item={item} data={data} language={language}/>}
-      actions={[<EditContents key="edit-content" appearance="menu" contents={item.contains} currencyContents={item.containsCurrency} itemId={item.id}/>]}
+      actions={canHaveContents ? [<EditContents key="edit-content" appearance="menu" contents={item.contains} currencyContents={item.containsCurrency} itemId={item.id}/>] : undefined}
     >
       {item[`currentId_${language}`] !== revision.id && (
         <Notice icon="revision">You are viewing an old revision of this item{revision.buildId !== 0 && (<> (<Link href={`/build/${revision.buildId}`}>Build {revision.buildId}</Link>)</>)}. Some data is only available when viewing the latest version. <Link href={`/item/${item.id}`}>View latest</Link>.</Notice>
@@ -197,7 +200,7 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
         </Suspense>
       )}
 
-      {!fixedRevision && (item.type === 'Container' || item.contains.length > 0 || item.containsCurrency.length > 0) && (
+      {!fixedRevision && showContents && (
         <>
           <Headline id="content" actions={<EditContents itemId={itemId} contents={item.contains} currencyContents={item.containsCurrency}/>}>Contents</Headline>
 

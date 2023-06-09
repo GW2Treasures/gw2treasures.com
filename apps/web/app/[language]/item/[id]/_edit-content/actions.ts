@@ -1,13 +1,13 @@
 'use server';
 
 import { getUser } from '@/lib/getUser';
-import { AddedItem } from './types';
+import { EditContentOrder } from './types';
 import { db } from '@/lib/prisma';
 import { ReviewState } from '@gw2treasures/database';
 
 // eslint-disable-next-line require-await
-export async function submitToReview({ itemId, removedItems, addedItems }: { itemId: number, removedItems: number[], addedItems: AddedItem[] }) {
-  if(removedItems.length === 0 && addedItems.length === 0) {
+export async function submitToReview({ itemId, removedItems, addedItems, removedCurrencies, addedCurrencies }: { itemId: number } & EditContentOrder) {
+  if(removedItems.length === 0 && addedItems.length === 0 && removedCurrencies.length === 0 && addedCurrencies.length === 0) {
     console.log('No changes');
     return false;
   }
@@ -22,7 +22,7 @@ export async function submitToReview({ itemId, removedItems, addedItems }: { ite
   await db.review.create({
     data: {
       state: ReviewState.Open,
-      changes: { removedItems, addedItems } as any,
+      changes: { removedItems, addedItems, removedCurrencies, addedCurrencies } as any,
       queue: 'ContainerContent',
       requesterId: preConditions.userId,
       relatedItemId: itemId,

@@ -18,22 +18,23 @@ import { getLinkProperties } from '@/lib/linkProperties';
 export type SearchItemDialogSubmitHandler = (item?: WithIcon<Pick<Item, 'id' | 'rarity' | keyof LocalizedEntity>>) => void;
 
 export interface SearchItemDialogProps {
-  onSubmit: SearchItemDialogSubmitHandler
+  onSubmit: SearchItemDialogSubmitHandler;
+  open: boolean;
 }
 
-export const SearchItemDialog: FC<SearchItemDialogProps> = ({ onSubmit }) => {
+export const SearchItemDialog: FC<SearchItemDialogProps> = ({ onSubmit, open }) => {
   const [searchValue, setSearchValue] = useState('');
   const debouncedValue = useDebounce(searchValue, 1000);
   const search = useJsonFetch<ApiItemSearchResponse>(`/api/item/search?q=${encodeURIComponent(debouncedValue)}`);
 
   return (
-    <Dialog onClose={() => onSubmit(undefined)} title="Search Item" open>
+    <Dialog onClose={() => onSubmit(undefined)} title="Search Item" open={open}>
       <div style={{ display: 'flex', flexDirection: 'column', marginBottom: 16 }}>
         <TextInput placeholder="Name / Chatlink / ID" value={searchValue} onChange={setSearchValue}/>
       </div>
 
       {search.loading ? (
-        <SkeletonTable columns={['Item']} rows={2}/>
+        <SkeletonTable columns={['Item', 'Select']} rows={2}/>
       ) : search.data.items.length === 0 ? (
         <p>No items found</p>
       ) : (

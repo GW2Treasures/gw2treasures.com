@@ -11,3 +11,20 @@ export interface AddedItem {
   quantity: number;
   chance: ContentChance;
 }
+
+export interface AddedCurrency {
+  _id: string;
+  currency: WithIcon<{
+    id: number;
+  } & LocalizedEntity>;
+  min: number;
+  max: number;
+}
+
+export interface EditContentOrder {
+  removedItems: number[];
+  addedItems: AddedItem[];
+
+  removedCurrencies: number[];
+  addedCurrencies: AddedCurrency[];
+}

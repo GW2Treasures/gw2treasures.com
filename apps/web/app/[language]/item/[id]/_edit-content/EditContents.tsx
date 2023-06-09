@@ -5,8 +5,8 @@ import { ItemLink } from '@/components/Item/ItemLink';
 import { LocalizedEntity } from '@/lib/localizedName';
 import { toggleArray } from '@/lib/toggleArray';
 import { WithIcon } from '@/lib/with';
-import { Content, ContentChance, Item } from '@gw2treasures/database';
-import { Button } from '@gw2treasures/ui/components/Form/Button';
+import { Content, ContentChance, Currency, CurrencyContent, Item } from '@gw2treasures/database';
+import { Button, ButtonProps } from '@gw2treasures/ui/components/Form/Button';
 import { Select } from '@gw2treasures/ui/components/Form/Select';
 import { NumberInput } from '@gw2treasures/ui/components/Form/NumberInput';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
@@ -15,21 +15,32 @@ import { FC, useCallback, useEffect, useState } from 'react';
 import { SearchItemDialog, SearchItemDialogSubmitHandler } from '@/components/Item/SearchItemDialog';
 import { Icon } from '@gw2treasures/ui';
 import { CanSubmitResponse, canSubmit, submitToReview } from './actions';
-import { AddedItem } from './types';
+import { AddedCurrency, AddedItem } from './types';
 import { Skeleton } from '@/components/Skeleton/Skeleton';
 import Link from 'next/link';
 import { Notice } from '@/components/Notice/Notice';
+import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
+import { SearchCurrencyDialog, SearchCurrencyDialogSubmitHandler } from '@/components/Currency/SearchCurrencyDialog';
+import { CurrencyLink } from '@/components/Currency/CurrencyLink';
+import { Coins } from '@/components/Format/Coins';
+import { FormatNumber } from '@/components/Format/FormatNumber';
+import { CurrencyValue } from '@/components/Currency/CurrencyValue';
 
 export interface EditContentsProps {
+  appearance?: ButtonProps['appearance'];
   itemId: number;
   contents: (Content & {
     contentItem: WithIcon<Pick<Item, 'id' | 'rarity' | keyof LocalizedEntity>>
-  })[]
+  })[];
+  currencyContents: (CurrencyContent & {
+    currency: WithIcon<Pick<Currency, 'id' | keyof LocalizedEntity>>
+  })[];
 }
 
-export const EditContents: FC<EditContentsProps> = ({ itemId, contents }) => {
+export const EditContents: FC<EditContentsProps> = ({ itemId, contents, currencyContents, appearance }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [searchItemDialogOpen, setSearchItemDialogOpen] = useState(false);
+  const [searchCurrencyDialogOpen, setSearchCurrencyDialogOpen] = useState(false);
   const [canSubmitState, setCanSubmitState] = useState<CanSubmitResponse>();
   const [error, setError] = useState(false);
 
@@ -55,20 +66,31 @@ export const EditContents: FC<EditContentsProps> = ({ itemId, contents }) => {
     }
   }, [setAddedItems]);
 
+  const [removedCurrencies, setRemovedCurrencies] = useState<number[]>([]);
+  const [addedCurrencies, setAddedCurrencies] = useState<AddedCurrency[]>([]);
+
+  const addCurrency: SearchCurrencyDialogSubmitHandler = useCallback((currency) => {
+    setSearchCurrencyDialogOpen(false);
+
+    if(currency) {
+      setAddedCurrencies((added) => [...added, { _id: crypto.randomUUID(), currency, min: 0, max: 0 }]);
+    }
+  }, [setAddedCurrencies]);
+
   const handleSubmit = useCallback(async () => {
     setError(false);
-    const submitted = await submitToReview({ itemId, removedItems, addedItems });
+    const submitted = await submitToReview({ itemId, removedItems, addedItems, removedCurrencies, addedCurrencies });
 
     if(submitted) {
       setDialogOpen(false);
     } else {
       setError(true);
     }
-  }, [itemId, addedItems, removedItems]);
+  }, [itemId, removedItems, addedItems, removedCurrencies, addedCurrencies]);
 
   return (
     <>
-      <Button onClick={toggleDialog}>Edit Contents</Button>
+      <Button onClick={toggleDialog} appearance={appearance}>Edit Contents</Button>
       <Dialog open={dialogOpen} onClose={toggleDialog} title="Edit Contents">
         {canSubmitState === undefined ? (
           <Skeleton/>
@@ -84,6 +106,7 @@ export const EditContents: FC<EditContentsProps> = ({ itemId, contents }) => {
           <>
             {error && (<Notice type="error">Your changes could not be saved.</Notice>)}
             <p>Noticed something wrong with the contents of this item? You can remove and add items in this dialog.</p>
+            <Headline id="items">Items</Headline>
             <Table>
               <thead>
                 <tr>
@@ -91,7 +114,7 @@ export const EditContents: FC<EditContentsProps> = ({ itemId, contents }) => {
                   <Table.HeaderCell>Item Id</Table.HeaderCell>
                   <Table.HeaderCell>Quantity</Table.HeaderCell>
                   <Table.HeaderCell>Chance</Table.HeaderCell>
-                  <Table.HeaderCell>Action</Table.HeaderCell>
+                  <Table.HeaderCell small>Action</Table.HeaderCell>
                 </tr>
               </thead>
               <tbody>
@@ -101,7 +124,7 @@ export const EditContents: FC<EditContentsProps> = ({ itemId, contents }) => {
                     <tr key={content.contentItemId} data-removed={isRemoved || undefined}>
                       <td><ItemLink item={content.contentItem}/></td>
                       <td>{content.contentItemId}</td>
-                      <td>{content.quantity}</td>
+                      <td><FormatNumber value={content.quantity}/></td>
                       <td>{content.chance}</td>
                       <td><Button appearance="secondary" onClick={() => setRemovedItems(toggleArray(content.contentItemId))}>{isRemoved ? 'Revert' : 'Remove'}</Button></td>
                     </tr>
@@ -127,7 +150,54 @@ export const EditContents: FC<EditContentsProps> = ({ itemId, contents }) => {
                 </TableRowButton>
               </tbody>
             </Table>
-            {searchItemDialogOpen && (<SearchItemDialog onSubmit={addItem}/>)}
+            <SearchItemDialog onSubmit={addItem} open={searchItemDialogOpen}/>
+
+            <Headline id="currency">Currency</Headline>
+            <Table>
+              <thead>
+                <tr>
+                  <Table.HeaderCell>Currency</Table.HeaderCell>
+                  <Table.HeaderCell align="right">Min</Table.HeaderCell>
+                  <Table.HeaderCell align="right">Max</Table.HeaderCell>
+                  <Table.HeaderCell small>Action</Table.HeaderCell>
+                </tr>
+              </thead>
+              <tbody>
+                {currencyContents.map((content) => {
+                  const isRemoved = removedCurrencies.includes(content.currencyId);
+                  return (
+                    <tr key={content.currencyId} data-removed={isRemoved || undefined}>
+                      <td><CurrencyLink currency={content.currency}/></td>
+                      <td align="right"><CurrencyValue currencyId={content.currencyId} value={content.min}/></td>
+                      <td align="right"><CurrencyValue currencyId={content.currencyId} value={content.max}/></td>
+                      <td><Button appearance="secondary" onClick={() => setRemovedCurrencies(toggleArray(content.currencyId))}>{isRemoved ? 'Revert' : 'Remove'}</Button></td>
+                    </tr>
+                  );
+                })}
+                {addedCurrencies.map((added) => {
+                  const edit = (update: Partial<AddedCurrency>) => {
+                    setAddedCurrencies((currencies) => currencies.map((a) => a._id === added._id ? { ...a, ...update } : a));
+                  };
+
+                  return (
+                    <tr key={added._id} data-added>
+                      <td><CurrencyLink currency={added.currency}/></td>
+                      <td align="right"><NumberInput value={added.min} onChange={(min) => edit({ min })}/> {added.currency.id === 1 && (<Coins value={added.min}/>)}</td>
+                      <td align="right"><NumberInput value={added.max} onChange={(max) => edit({ max })}/> {added.currency.id === 1 && (<Coins value={added.max}/>)}</td>
+                      <td><Button appearance="secondary" onClick={() => setAddedCurrencies((currencies) => currencies.filter(({ _id }) => _id !== added._id))}>Remove</Button></td>
+                    </tr>
+                  );
+                })}
+                <TableRowButton onClick={() => setSearchCurrencyDialogOpen(true)}>
+                  <Icon icon="add"/> Add Currency
+                </TableRowButton>
+              </tbody>
+            </Table>
+            <SearchCurrencyDialog onSubmit={addCurrency} open={searchCurrencyDialogOpen}/>
+
+
+            <Headline id="submit">Submit</Headline>
+
             <p>After you submit this form, your changes will be reviewed before they are applied.</p>
             <Button onClick={handleSubmit}>Submit</Button>
           </>

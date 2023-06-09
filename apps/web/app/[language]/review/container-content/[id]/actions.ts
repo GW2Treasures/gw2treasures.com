@@ -5,11 +5,11 @@ import { db } from '@/lib/prisma';
 import { ReviewState } from '@gw2treasures/database';
 import { redirect } from 'next/navigation';
 import { getRandomContainerContentReviewId } from '../random';
-import { AddedItem } from 'app/[language]/item/[id]/_edit-content/types';
+import { EditContentOrder } from 'app/[language]/item/[id]/_edit-content/types';
 
 export async function approve(data: FormData) {
   const { id, user, review } = await getUserAndReview(data);
-  const { removedItems, addedItems } = review.changes as unknown as { removedItems: number[], addedItems: AddedItem[] };
+  const { removedItems, addedItems, removedCurrencies, addedCurrencies } = review.changes as unknown as EditContentOrder;
 
   if(!review.relatedItemId) {
     redirect(`/review/container-content/${id}?error`);
@@ -18,16 +18,29 @@ export async function approve(data: FormData) {
   const containerItemId = review.relatedItemId;
 
   await db.$transaction([
-    // remove contents
+    // remove item contents
     db.content.deleteMany({ where: { containerItemId, contentItemId: { in: removedItems }}}),
 
-    // add new contents
+    // add new item contents
     db.content.createMany({
       data: addedItems.map(({ item, chance, quantity }) => ({
         containerItemId,
         contentItemId: item.id,
         chance,
         quantity,
+      }))
+    }),
+
+    // remove currency contents
+    db.currencyContent.deleteMany({ where: { containerItemId, currencyId: { in: removedCurrencies }}}),
+
+    // add new item contents
+    db.currencyContent.createMany({
+      data: addedCurrencies.map(({ currency, min, max }) => ({
+        containerItemId,
+        currencyId: currency.id,
+        min,
+        max,
       }))
     }),
 

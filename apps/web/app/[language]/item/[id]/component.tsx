@@ -35,6 +35,8 @@ import { OutputCount } from '@/components/Item/OutputCount';
 import { TableCollapse } from '@gw2treasures/ui/components/Table/TableCollapse';
 import { FormatNumber } from '@/components/Format/FormatNumber';
 import { EditContents } from './_edit-content/EditContents';
+import { CurrencyLink } from '@/components/Currency/CurrencyLink';
+import { CurrencyValue } from '@/components/Currency/CurrencyValue';
 
 export interface ItemPageComponentProps {
   language: Language;
@@ -64,7 +66,14 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
   const skinAchievementBits = item.unlocksSkin.flatMap((skin) => skin.achievementBits);
 
   return (
-    <DetailLayout title={data.name || data.chat_link} icon={item.icon} className={rarityClasses[data.rarity]} breadcrumb={`Item › ${data.type}${data.details ? ` › ${data.details?.type}` : ''}`} infobox={<ItemInfobox item={item} data={data} language={language}/>}>
+    <DetailLayout
+      title={data.name || data.chat_link}
+      icon={item.icon}
+      className={rarityClasses[data.rarity]}
+      breadcrumb={`Item › ${data.type}${data.details ? ` › ${data.details?.type}` : ''}`}
+      infobox={<ItemInfobox item={item} data={data} language={language}/>}
+      actions={[<EditContents key="edit-content" appearance="menu" contents={item.contains} currencyContents={item.containsCurrency} itemId={item.id}/>]}
+    >
       {item[`currentId_${language}`] !== revision.id && (
         <Notice icon="revision">You are viewing an old revision of this item{revision.buildId !== 0 && (<> (<Link href={`/build/${revision.buildId}`}>Build {revision.buildId}</Link>)</>)}. Some data is only available when viewing the latest version. <Link href={`/item/${item.id}`}>View latest</Link>.</Notice>
       )}
@@ -188,11 +197,29 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
         </Suspense>
       )}
 
-      {!fixedRevision && (item.type === 'Container' || item.contains.length > 0) && (
+      {!fixedRevision && (item.type === 'Container' || item.contains.length > 0 || item.containsCurrency.length > 0) && (
         <>
-          <Headline id="content" actions={<EditContents itemId={itemId} contents={item.contains}/>}>Contents</Headline>
+          <Headline id="content" actions={<EditContents itemId={itemId} contents={item.contains} currencyContents={item.containsCurrency}/>}>Contents</Headline>
 
-          {item.contains.length > 0 ? (
+          {item.containsCurrency.length > 0 && (
+            <ItemList>
+              {item.containsCurrency.map((contained) => (
+                <li key={contained.currencyId}>
+                  <span style={{ display: 'flex', flex: 1, alignItems: 'center', gap: 8 }}>
+                    <CurrencyLink currency={contained.currency}/>
+                    <span>
+                      ({contained.min === contained.max
+                        ? <CurrencyValue currencyId={contained.currencyId} value={contained.min}/>
+                        : <><CurrencyValue currencyId={contained.currencyId} value={contained.min}/> – <CurrencyValue currencyId={contained.currencyId} value={contained.max}/></>
+                      })
+                    </span>
+                  </span>
+                </li>
+              ))}
+            </ItemList>
+          )}
+
+          {item.contains.length > 0 && (
             <Table>
               <thead>
                 <tr>
@@ -213,7 +240,9 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
                 )))}
               </tbody>
             </Table>
-          ) : (
+          )}
+
+          {item.contains.length === 0 && item.containsCurrency.length === 0 && (
             <p>The contents of this container are unknown. You can help by adding the contained items.</p>
           )}
         </>

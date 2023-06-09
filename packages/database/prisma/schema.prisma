@@ -49,6 +49,9 @@ model Item {
   contains    Content[] @relation("contains")
   containedIn Content[] @relation("containedIn")
 
+  // currency
+  containsCurrency CurrencyContent[] @relation("containsCurrency")
+
   // review queue
   reviews Review[] @relation("itemReview")
 
@@ -108,6 +111,19 @@ enum ContentChance {
   Chance
   Choice
   Guaranteed
+}
+
+model CurrencyContent {
+  containerItemId Int
+  currencyId      Int
+
+  min Int
+  max Int
+
+  containerItem Item     @relation("containsCurrency", fields: [containerItemId], references: [id])
+  currency      Currency @relation("containedCurrency", fields: [currencyId], references: [id])
+
+  @@id([containerItemId, currencyId])
 }
 
 model ItemHistory {
@@ -554,6 +570,8 @@ model Currency {
   iconId Int?
 
   order Int
+
+  containedIn CurrencyContent[] @relation("containedCurrency")
 
   removedFromApi Boolean @default(false)
   

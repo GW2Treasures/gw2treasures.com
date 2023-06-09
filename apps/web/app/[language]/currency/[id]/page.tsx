@@ -6,6 +6,11 @@ import DetailLayout from '@/components/Layout/DetailLayout';
 import { notFound } from 'next/navigation';
 import { Gw2Api } from 'gw2-api-types';
 import { Json } from '@/components/Format/Json';
+import { linkProperties } from '@/lib/linkProperties';
+import { ItemList } from '@/components/ItemList/ItemList';
+import { CurrencyLink } from '@/components/Currency/CurrencyLink';
+import { CurrencyValue } from '@/components/Currency/CurrencyValue';
+import { ItemLink } from '@/components/Item/ItemLink';
 
 export const dynamic = 'force-dynamic';
 
@@ -16,7 +21,10 @@ const getCurrency = remember(60, async function getCurrency(id: number, language
 
   const currency = await db.currency.findUnique({
     where: { id },
-    include: { icon: true },
+    include: {
+      icon: true,
+      containedIn: { include: { containerItem: { select: linkProperties }}}
+    },
   });
 
   return currency;
@@ -48,6 +56,28 @@ export default async function CurrencyPage({ params: { id, language }}: { params
   return (
     <DetailLayout title={data.name} breadcrumb="Currency" icon={currency.icon}>
       <p>{data.description}</p>
+
+      {currency.containedIn.length > 0 && (
+        <>
+          <Headline id="containedIn">Contained In</Headline>
+
+          <ItemList>
+            {currency.containedIn.map((contained) => (
+              <li key={contained.currencyId}>
+                <span style={{ display: 'flex', flex: 1, alignItems: 'center', gap: 8 }}>
+                  <ItemLink item={contained.containerItem}/>
+                  <span>
+                    ({contained.min === contained.max
+                      ? <CurrencyValue currencyId={contained.currencyId} value={contained.min}/>
+                      : <><CurrencyValue currencyId={contained.currencyId} value={contained.min}/> – <CurrencyValue currencyId={contained.currencyId} value={contained.max}/></>
+                    })
+                  </span>
+                </span>
+              </li>
+            ))}
+          </ItemList>
+        </>
+      )}
 
       <Headline id="data">Data</Headline>
       <Json data={data}/>

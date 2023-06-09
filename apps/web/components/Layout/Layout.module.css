@@ -176,3 +176,9 @@
   .headerMain { gap: 16px; }
   .responsive { display: none; }
 }
+
+.badge {
+  background-color: var(--color-background-light);
+  padding: 0px 8px;
+  border-radius: 2000px;
+}

@@ -128,8 +128,10 @@ jobs:
     name: Success
     needs: [compose-test, kubernetes, build, lint]
     runs-on: ubuntu-latest
+    if: always()
     steps:
-    - run: echo "Success"
+    - run: jq --exit-status 'all(.result == "success")' <<< '${{ toJson(needs) }}'
+    - run: exit 0
 
   push:
     name: Publish / Docker / ${{ matrix.target }}

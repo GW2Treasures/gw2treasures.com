@@ -6,7 +6,7 @@ import { ItemTable } from '@/components/Item/ItemTable';
 
 const getEmptyContainers = remember(60 * 10, async function getEmptyContainers() {
   const items = await db.item.findMany({
-    where: { type: 'Container', contains: { none: {}}},
+    where: { type: 'Container', contains: { none: {}}, containsCurrency: { none: {}}},
     include: { icon: true },
     take: 500,
   });

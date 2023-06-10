@@ -45,7 +45,17 @@ model Item {
   suffixItems   Item[] @relation(name: "suffix")
   suffixItemIds Int[]
   suffixIn      Item[] @relation(name: "suffix")
- 
+
+  contains    Content[] @relation("contains")
+  containedIn Content[] @relation("containedIn")
+
+  // currency
+  containsCurrency CurrencyContent[] @relation("containsCurrency")
+
+  // review queue
+  reviews Review[] @relation("itemReview")
+
+
   removedFromApi Boolean @default(false)
 
   current_de Revision @relation("current_de", fields: [currentId_de], references: [id], onDelete: Cascade)
@@ -81,6 +91,39 @@ model Icon {
   skins Skin[]
   achievements Achievement[]
   achievementCategories AchievementCategory[]
+  currencies Currency[]
+}
+
+model Content {
+  containerItemId Int
+  contentItemId   Int
+
+  quantity Int
+  chance ContentChance
+
+  containerItem Item @relation("contains", fields: [containerItemId], references: [id])
+  contentItem   Item @relation("containedIn", fields: [contentItemId], references: [id])
+
+  @@id([containerItemId, contentItemId])
+}
+
+enum ContentChance {
+  Chance
+  Choice
+  Guaranteed
+}
+
+model CurrencyContent {
+  containerItemId Int
+  currencyId      Int
+
+  min Int
+  max Int
+
+  containerItem Item     @relation("containsCurrency", fields: [containerItemId], references: [id])
+  currency      Currency @relation("containedCurrency", fields: [currencyId], references: [id])
+
+  @@id([containerItemId, currencyId])
 }
 
 model ItemHistory {
@@ -486,6 +529,13 @@ model Revision {
   currentAchievementCategory_es AchievementCategory? @relation("current_es")
   currentAchievementCategory_fr AchievementCategory? @relation("current_fr")
   achievementCategoryHistory AchievementCategoryHistory[]
+  
+  // currencies
+  currentCurrency_de Currency? @relation("current_de")
+  currentCurrency_en Currency? @relation("current_en")
+  currentCurrency_es Currency? @relation("current_es")
+  currentCurrency_fr Currency? @relation("current_fr")
+  currencyHistory CurrencyHistory[]
 
   // recipes
   currentRecipe Recipe? @relation("current")
@@ -506,6 +556,55 @@ model Build {
   
   createdAt      DateTime   @default(now())
   updatedAt      DateTime   @updatedAt
+}
+
+model Currency {
+  id Int @id
+
+  name_de String
+  name_en String
+  name_es String
+  name_fr String
+
+  icon   Icon? @relation(fields: [iconId], references: [id])
+  iconId Int?
+
+  order Int
+
+  containedIn CurrencyContent[] @relation("containedCurrency")
+
+  removedFromApi Boolean @default(false)
+  
+  current_de Revision @relation("current_de", fields: [currentId_de], references: [id], onDelete: Cascade)
+  currentId_de String @unique
+  
+  current_en Revision @relation("current_en", fields: [currentId_en], references: [id], onDelete: Cascade)
+  currentId_en String @unique
+  
+  current_es Revision @relation("current_es", fields: [currentId_es], references: [id], onDelete: Cascade)
+  currentId_es String @unique
+  
+  current_fr Revision @relation("current_fr", fields: [currentId_fr], references: [id], onDelete: Cascade)
+  currentId_fr String @unique
+
+  history CurrencyHistory[]
+  
+  lastCheckedAt  DateTime   @default(now())
+
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  version Int @default(0)
+}
+
+model CurrencyHistory {
+  currencyId Int
+  revisionId String
+
+  currency Currency @relation(fields: [currencyId], references: [id], onDelete: Cascade)
+  revision Revision @relation(fields: [revisionId], references: [id], onDelete: Cascade)
+
+  @@id([currencyId, revisionId])
 }
 
 model Job {
@@ -571,6 +670,9 @@ model User {
 
   createdAt      DateTime   @default(now())
   updatedAt      DateTime   @updatedAt
+
+  reviewsRequested Review[] @relation("requester")
+  reviewsReviewed  Review[] @relation("reviewer")
 }
 
 enum UserRole {
@@ -608,4 +710,35 @@ model UserProvider {
   
   createdAt      DateTime   @default(now())
   updatedAt      DateTime   @updatedAt
+}
+
+model Review {
+  id String @id @default(uuid())
+
+  requesterId String?
+  requester   User?   @relation("requester", fields: [requesterId], references: [id], onDelete: SetNull)
+
+  reviewerId  String?
+  reviewer    User?   @relation("reviewer", fields: [reviewerId], references: [id], onDelete: SetNull)
+
+  queue ReviewQueue
+  changes Json
+  state ReviewState @default(Open)
+
+  relatedItemId Int?
+  relatedItem   Item? @relation("itemReview", fields: [relatedItemId], references: [id], onDelete: Cascade)
+
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  reviewedAt DateTime?
+}
+
+enum ReviewQueue {
+  ContainerContent
+}
+
+enum ReviewState {
+  Open
+  Approved
+  Rejected
 }

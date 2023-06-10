@@ -68,7 +68,7 @@ export const SkillPageComponent: AsyncComponent<SkillPageComponentProps> = async
               <td>{history.revisionId === revision.id ? <b>{history.revision.buildId || '-'}</b> : history.revision.buildId || '-'}</td>
               <td>{history.revision.language}</td>
               <td><Link href={`/skill/${skill.id}/${history.revisionId}`}>{history.revision.description}</Link></td>
-              <td><FormatDate date={history.revision.createdAt} relative data-superjson/></td>
+              <td><FormatDate date={history.revision.createdAt} relative/></td>
               <td>{revision.id !== history.revisionId && (<Link href={`/skill/diff/${history.revisionId}/${revision.id}`}>Compare</Link>)}</td>
             </tr>
           ))}

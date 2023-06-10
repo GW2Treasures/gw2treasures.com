@@ -21,3 +21,7 @@
 .input[readonly] {
   background: var(--color-background-light);
 }
+
+.input[type="number"] {
+  width: 128px;
+}

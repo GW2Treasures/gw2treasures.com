@@ -29,7 +29,6 @@ function HomePage() {
     )}
     >
       <Suspense fallback={<div className={styles.statsRow}/>}>
-        {/* @ts-expect-error Server Component */}
         <DbStats/>
       </Suspense>
 
@@ -37,7 +36,6 @@ function HomePage() {
         <Trans id="items.new"/>
       </Headline>
       <Suspense fallback={<ListFallback size={24}/>}>
-        {/* @ts-expect-error Server Component */}
         <NewItems/>
       </Suspense>
 
@@ -45,7 +43,6 @@ function HomePage() {
         New Achievements
       </Headline>
       <Suspense fallback={<ListFallback size={24}/>}>
-        {/* @ts-expect-error Server Component */}
         <NewAchievements/>
       </Suspense>
     </HeroLayout>
@@ -72,7 +69,7 @@ async function NewItems() {
 
   return (
     <ItemList>
-      {items.map((item) => <li key={item.id}><ItemLink item={item}/><FormatDate date={item.createdAt} relative data-superjson/></li>)}
+      {items.map((item) => <li key={item.id}><ItemLink item={item}/><FormatDate date={item.createdAt} relative/></li>)}
     </ItemList>
   );
 }
@@ -86,7 +83,7 @@ async function NewAchievements() {
 
   return (
     <ItemList>
-      {achievements.map((achievement) => <li key={achievement.id}><AchievementLink achievement={achievement}/><FormatDate date={achievement.createdAt} relative data-superjson/></li>)}
+      {achievements.map((achievement) => <li key={achievement.id}><AchievementLink achievement={achievement}/><FormatDate date={achievement.createdAt} relative/></li>)}
     </ItemList>
   );
 }

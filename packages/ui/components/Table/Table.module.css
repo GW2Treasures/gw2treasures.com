@@ -12,7 +12,7 @@
   text-align: left;
   background: var(--color-background);
   position: sticky;
-  top: 48px;
+  top: var(--table-sticky-top, 48px);
   z-index: 1;
   white-space: nowrap;
 }
@@ -44,6 +44,27 @@
 .table > tbody > tr:hover > th {
   background-color: var(--color-background-light);
 }
+
+.table > tbody > tr[data-added] > td,
+.table > tbody > tr[data-added] > th {
+  background-color: var(--color-diff-added-light);
+}
+
+.table > tbody > tr[data-added]:hover > td,
+.table > tbody > tr[data-added]:hover > th {
+  background-color: var(--color-diff-added);
+}
+
+.table > tbody > tr[data-removed] > td,
+.table > tbody > tr[data-removed] > th {
+  background-color: var(--color-diff-removed-light);
+}
+
+.table > tbody > tr[data-removed]:hover > td,
+.table > tbody > tr[data-removed]:hover > th {
+  background-color: var(--color-diff-removed);
+}
+
 
 .sort {
   /* remove button styles */
@@ -101,7 +122,7 @@
 .wrapper {
   overflow: clip;
   width: calc(100% + 32px);
-  margin: 0 -16px;
+  margin: 0 -16px 16px;
   padding: 0 16px;
 }
 

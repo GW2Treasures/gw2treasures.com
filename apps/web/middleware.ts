@@ -22,13 +22,13 @@ export function middleware(request: NextRequest) {
   url.pathname = `/${language}${url.pathname}`;
 
   const headers = request.headers;
-  headers.append('x-gw2t-lang', language);
+  headers.set('x-gw2t-lang', language);
 
   // get session
   if(request.cookies.has(SessionCookieName)) {
     const sessionId = request.cookies.get(SessionCookieName)!.value;
 
-    headers.append('x-gw2t-session', sessionId);
+    headers.set('x-gw2t-session', sessionId);
   }
 
   return NextResponse.rewrite(url, { headers: corsHeader(request), request: { headers }});

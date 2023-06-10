@@ -10,7 +10,7 @@
   "dependencies": {
     "@gw2treasures/database": "*",
     "@prisma/client": "^4.12.0",
-    "gw2-api-types": "^0.0.4"
+    "gw2-api-types": "^0.0.5"
   },
   "devDependencies": {
     "@tsconfig/node18": "^2.0.0",
@@ -19,6 +19,6 @@
     "@typescript-eslint/parser": "^5.57.0",
     "eslint": "^8.37.0",
     "prisma": "^4.12.0",
-    "typescript": "5.0.4"
+    "typescript": "5.1.3"
   }
 }

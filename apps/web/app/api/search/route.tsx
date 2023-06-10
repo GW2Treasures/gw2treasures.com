@@ -1,11 +1,20 @@
 import { remember } from '@/lib/remember';
 import { db } from '@/lib/prisma';
 import { Prisma } from '@gw2treasures/database';
+import { UnwrapJsonResponse } from '../helper';
+import { decode } from 'gw2e-chat-codes';
+import { isTruthy } from '@gw2treasures/ui';
 import { NextResponse } from 'next/server';
-import { jsonResponse, UnwrapJsonResponse } from '../helper';
 
-function splitSearchTerms(query: string): string[] {
-  const terms = Array.from(query.matchAll(/"(?:\\\\.|[^\\\\"])*"|\S+/g)).map((term) => {
+type ChatCode = Exclude<ReturnType<typeof decode>, false>;
+
+function isChatCodeWithType<T extends ChatCode['type']>(expectedType: T): (chatCode: ChatCode) => chatCode is Extract<ChatCode, { type: T }> {
+  // @ts-ignore
+  return (chatCode) => chatCode.type === expectedType;
+}
+
+export function splitSearchTerms(query: string): string[] {
+  const terms = Array.from(query.matchAll(/"(?:\\\\.|[^\\\\"])+"|\S+/g)).map((term) => {
     return unpackQuotes(term[0])
       .replaceAll('\\\\', '\\')
       .replaceAll('\\"', '"')
@@ -16,11 +25,21 @@ function splitSearchTerms(query: string): string[] {
 }
 
 function unpackQuotes(value: string): string {
-  if(value[0] === '"') {
+  if(value.at(0) === '"' && value.at(-1) === '"') {
     return value.substring(1, value.length - 1);
   }
 
   return value;
+}
+
+function toNumber(value: string): number | undefined {
+  const number = Number(value);
+
+  if(number.toFixed() === value && number > 0) {
+    return number;
+  }
+
+  return undefined;
 }
 
 type LocalizedNameInput = {
@@ -63,31 +82,42 @@ const searchAchievements = remember(60, async function searchAchievements(terms:
   return { achievements, achievementCategories, achievementGroups };
 });
 
-const searchItems = remember(60, function searchItems(terms: string[]) {
+export const searchItems = remember(60, function searchItems(terms: string[], chatCodes: ChatCode[]) {
   const nameQueries = nameQuery(terms);
+  const itemChatCodes = chatCodes.filter(isChatCodeWithType('item'));
+  const itemIdsInChatCodes = itemChatCodes.flatMap((chatCode) => [chatCode.id, ...(chatCode.upgrades || [])]);
+  const numberTerms = terms.map(toNumber).filter(isTruthy);
 
   return db.item.findMany({
-    where: terms.length > 0 ? { OR: nameQueries } : undefined,
+    where: { OR: [...nameQueries, { id: { in: [...itemIdsInChatCodes, ...numberTerms] }}] },
     take: 5,
     include: { icon: true }
   });
 });
 
-const searchSkills = remember(60, function searchSkills(terms: string[]) {
+const searchSkills = remember(60, function searchSkills(terms: string[], chatCodes: ChatCode[]) {
   const nameQueries = nameQuery(terms);
+  const skillChatCodes = chatCodes.filter(isChatCodeWithType('skill'));
+  const skillIdsInChatCodes = skillChatCodes.map(({ id }) => id);
 
   return db.skill.findMany({
-    where: terms.length > 0 ? { OR: nameQueries } : undefined,
+    where: { OR: [...nameQueries, { id: { in: skillIdsInChatCodes }}] },
     take: 5,
     include: { icon: true }
   });
 });
 
-const searchSkins = remember(60, function searchSkins(terms: string[]) {
+const searchSkins = remember(60, function searchSkins(terms: string[], chatCodes: ChatCode[]) {
   const nameQueries = nameQuery(terms);
+  const itemChatCodes = chatCodes.filter(isChatCodeWithType('item'));
+  const skinChatCodes = chatCodes.filter(isChatCodeWithType('skin'));
+  const skinIdsInChatcodes = [
+    ...itemChatCodes.map(({ skin }) => skin).filter(isTruthy),
+    ...skinChatCodes.map(({ id }) => id)
+  ];
 
   return db.skin.findMany({
-    where: terms.length > 0 ? { OR: nameQueries } : undefined,
+    where: { OR: [...nameQueries, { id: { in: skinIdsInChatcodes }}] },
     take: 5,
     include: { icon: true }
   });
@@ -105,17 +135,17 @@ export async function GET(request: Request) {
   const searchValue = searchParams.get('q') ?? '';
 
   const terms = splitSearchTerms(searchValue);
+  const chatCodes = terms.map(decode).filter(isTruthy);
 
   const [achievements, items, skills, skins, builds] = await Promise.all([
     searchAchievements(terms),
-    searchItems(terms),
-    searchSkills(terms),
-    searchSkins(terms),
+    searchItems(terms, chatCodes),
+    searchSkills(terms, chatCodes),
+    searchSkins(terms, chatCodes),
     searchBuilds(terms.filter((t) => t.toString() === Number(t).toString())),
   ]);
 
-  return jsonResponse({ searchValue, ...achievements, items, skills, skins, builds });
+  return NextResponse.json({ searchValue, terms, ...achievements, items, skills, skins, builds });
 }
 
 export type ApiSearchResponse = UnwrapJsonResponse<ReturnType<typeof GET>>;
-

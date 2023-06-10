@@ -1,11 +1,6 @@
 import { NextResponse } from 'next/server';
 
-export interface JsonResponse<T> extends NextResponse {};
-export type UnwrapJsonResponse<T extends PromiseLike<JsonResponse<any>> | JsonResponse<any>> =
-  T extends PromiseLike<JsonResponse<infer X>> ? X
-    : T extends JsonResponse<infer X> ? X : never;
-
-export function jsonResponse<T>(data: T): JsonResponse<T> {
-  return NextResponse.json(data);
-}
+export type UnwrapJsonResponse<T extends PromiseLike<NextResponse<any>> | NextResponse<any>> =
+  T extends PromiseLike<NextResponse<infer X>> ? X
+    : T extends NextResponse<infer X> ? X : never;
 

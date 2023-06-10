@@ -18,9 +18,9 @@
 
   display: grid;
   grid-template:
-    "icon        title     " 1fr
-    "icon        breadcrumb" min-content /
-     min-content 1fr;
+    "icon        title      actions" 1fr
+    "icon        breadcrumb actions" min-content /
+     min-content 1fr        min-content;
 }
 
 .headlineWithoutInfobox {
@@ -56,6 +56,13 @@
   color: var(--color-text-muted);
   margin-top: 8px;
   font-size: 14px;
+}
+
+.actions {
+  grid-area: actions;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .main::before {

@@ -15,7 +15,6 @@ interface ItemRevisionPageProps {
 export default function ItemPage({ params: { language, id, revisionId }}: ItemRevisionPageProps) {
   const itemId = Number(id);
 
-  /* @ts-expect-error Server Component */
   return <ItemPageComponent language={language} itemId={itemId} revisionId={revisionId}/>;
 };
 

@@ -12,14 +12,21 @@ import { LanguageDropdown } from './Header/LanguageDropdown';
 import { Menu } from './Header/Menu';
 import { AsyncComponent } from '@/lib/asyncComponent';
 import { getUser } from '@/lib/getUser';
+import { db } from '@/lib/prisma';
+import { remember } from '@/lib/remember';
 
 interface LayoutProps {
   children: ReactNode;
 };
 
+const getOpenReviews = remember(60, function getOpenReviews() {
+  return db.review.count({ where: { state: 'Open' }});
+});
+
 const Layout: AsyncComponent<LayoutProps> = async ({ children }) => {
   const loading = useLoading();
   const user = await getUser();
+  const openReviews = await getOpenReviews();
 
   return (
     <div>
@@ -32,6 +39,9 @@ const Layout: AsyncComponent<LayoutProps> = async ({ children }) => {
           </Link>
           <Search/>
           <div className={styles.right}>
+            <LinkButton appearance="menu" href="/review">
+              <Icon icon="review-queue"/><span className={styles.responsive}> Review {openReviews > 0 && (<span className={styles.badge}>{openReviews}</span>)}</span>
+            </LinkButton>
             <LanguageDropdown/>
             {user ? (
               <LinkButton appearance="menu" href="/profile">

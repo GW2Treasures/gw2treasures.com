@@ -20,6 +20,7 @@ import { Discipline, DisciplineIcon } from './DisciplineIcon';
 import { Ingredients } from './Ingredients';
 import recipeBoxStyles from './RecipeBox.module.css';
 import styles from './RecipeTable.module.css';
+import { OutputCount } from '../Item/OutputCount';
 
 interface RecipeTableProps {
   recipes: With<Pick<Recipe, 'id' | 'rating' | 'disciplines' | 'outputCount'>, {
@@ -116,10 +117,9 @@ const RecipeTableRow: FC<RecipeTableRowProps> = memo(function RecipeTableRow({ r
     <tr key={recipe.id} hidden={!visible}>
       <td>
         <div className={styles.outputColumn}>
-          <div className={styles.output}>
+          <OutputCount count={recipe.outputCount}>
             {recipe.outputItem ? (<ItemLink item={recipe.outputItem}/>) : 'Unknown'}
-            {recipe.outputCount > 1 && `×${recipe.outputCount}`}
-          </div>
+          </OutputCount>
           {!!recipe.unlockedByItems?.length && (
             <div className={styles.unlock}>
               <ShowMore>

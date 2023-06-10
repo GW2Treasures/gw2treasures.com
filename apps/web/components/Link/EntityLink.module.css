@@ -21,3 +21,7 @@
   text-decoration-color: var(--color-rarity, currentColor);
   border-bottom-color: var(--color-rarity, currentColor);
 }
+
+.noRarity {
+  --color-rarity: initial;
+}

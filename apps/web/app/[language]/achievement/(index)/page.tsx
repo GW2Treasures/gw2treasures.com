@@ -10,6 +10,7 @@ import { Language } from '@gw2treasures/database';
 import { remember } from '@/lib/remember';
 import { ResetTimer } from './reset-timer';
 import { RemovedFromApiNotice } from '@/components/Notice/RemovedFromApiNotice';
+import Link from 'next/link';
 
 export const dynamic = 'force-dynamic';
 
@@ -56,6 +57,10 @@ export default async function AchievementPage({ params: { language }}: { params:
           </Fragment>
         );
       })}
+
+      <Headline id="uncategorized">Uncategorized</Headline>
+      <p>Achievements that are currently not assigned to any category.</p>
+      <Link href="/achievement/uncategorized">Uncategorized Achievements</Link>
     </HeroLayout>
   );
 };

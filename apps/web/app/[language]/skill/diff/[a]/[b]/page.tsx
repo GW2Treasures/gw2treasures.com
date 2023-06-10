@@ -51,8 +51,8 @@ async function SkillDiffPage({ params }: { params: { a: string, b: string }}) {
         dataA.name,
         dataB.name,
       ]} subtitle={[
-        <Fragment key="a"><FormatDate date={a.createdAt} data-superjson/> (<Link href={`/build/${a.buildId}`}>Build {a.buildId}</Link>) ▪ <Link href={`/skill/${dataA.id}/${a.id}`}>View revision</Link></Fragment>,
-        <Fragment key="b"><FormatDate date={b.createdAt} data-superjson/> (<Link href={`/build/${b.buildId}`}>Build {b.buildId}</Link>) ▪ <Link href={`/skill/${dataB.id}/${b.id}`}>View revision</Link></Fragment>,
+        <Fragment key="a"><FormatDate date={a.createdAt}/> (<Link href={`/build/${a.buildId}`}>Build {a.buildId}</Link>) ▪ <Link href={`/skill/${dataA.id}/${a.id}`}>View revision</Link></Fragment>,
+        <Fragment key="b"><FormatDate date={b.createdAt}/> (<Link href={`/build/${b.buildId}`}>Build {b.buildId}</Link>) ▪ <Link href={`/skill/${dataB.id}/${b.id}`}>View revision</Link></Fragment>,
       ]}/>
 
       {dataA.id !== dataB.id && (
@@ -83,7 +83,7 @@ async function SkillDiffPage({ params }: { params: { a: string, b: string }}) {
         return (<DiffLayoutRow key={index} left={left && <Fact fact={left}/>} right={right && <Fact fact={right}/>}/>);
       })}
       <DiffLayoutRow left={<Separator/>} right={<Separator/>}/>
-      <DiffLayoutRow left={<Json data={dataA}/>} right={<Json data={dataB}/>} changed/>
+      <DiffLayoutRow left={<Json data={dataA} borderless/>} right={<Json data={dataB} borderless/>} changed/>
     </DiffLayout>
   );
 };

@@ -1,7 +1,9 @@
 import { FC } from 'react';
+import { Code } from '../Layout/Code';
 
 export interface JsonProps {
-  data: object
+  data: object;
+  borderless?: boolean;
 }
 
 const comma = <span style={{ color: '#aaa' }}>, </span>;
@@ -22,12 +24,12 @@ function renderValue(value: any, index: number, array: any[]) {
   return typeof value;
 }
 
-export const Json: FC<JsonProps> = ({ data }) => {
+export const Json: FC<JsonProps> = ({ data, borderless = false }) => {
   return (
-    <pre style={{ fontSize: 16, lineHeight: 1.5, whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
+    <Code borderless={borderless}>
       {'{'}
       {Object.entries(data).map(renderJson)}
       {'}'}
-    </pre>
+    </Code>
   );
 };

@@ -29,6 +29,14 @@ import { RemovedFromApiNotice } from '@/components/Notice/RemovedFromApiNotice';
 import { RecipeBoxWrapper } from '@/components/Recipe/RecipeBoxWrapper';
 import { SimilarItems } from './similar-items';
 import { getItem, getRevision } from './data';
+import { ItemLink } from '@/components/Item/ItemLink';
+import { Rarity } from '@/components/Item/Rarity';
+import { OutputCount } from '@/components/Item/OutputCount';
+import { TableCollapse } from '@gw2treasures/ui/components/Table/TableCollapse';
+import { FormatNumber } from '@/components/Format/FormatNumber';
+import { EditContents } from './_edit-content/EditContents';
+import { CurrencyLink } from '@/components/Currency/CurrencyLink';
+import { CurrencyValue } from '@/components/Currency/CurrencyValue';
 
 export interface ItemPageComponentProps {
   language: Language;
@@ -57,8 +65,18 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
 
   const skinAchievementBits = item.unlocksSkin.flatMap((skin) => skin.achievementBits);
 
+  const showContents = item.type === 'Container' || item.contains.length > 0 || item.containsCurrency.length > 0;
+  const canHaveContents = item.type === 'Container' || item.type === 'Consumable';
+
   return (
-    <DetailLayout title={data.name || data.chat_link} icon={item.icon} className={rarityClasses[data.rarity]} breadcrumb={`Item › ${data.type}${data.details ? ` › ${data.details?.type}` : ''}`} infobox={<ItemInfobox item={item} data={data} language={language}/>}>
+    <DetailLayout
+      title={data.name || data.chat_link}
+      icon={item.icon}
+      className={rarityClasses[data.rarity]}
+      breadcrumb={`Item › ${data.type}${data.details ? ` › ${data.details?.type}` : ''}`}
+      infobox={<ItemInfobox item={item} data={data} language={language}/>}
+      actions={canHaveContents ? [<EditContents key="edit-content" appearance="menu" contents={item.contains} currencyContents={item.containsCurrency} itemId={item.id}/>] : undefined}
+    >
       {item[`currentId_${language}`] !== revision.id && (
         <Notice icon="revision">You are viewing an old revision of this item{revision.buildId !== 0 && (<> (<Link href={`/build/${revision.buildId}`}>Build {revision.buildId}</Link>)</>)}. Some data is only available when viewing the latest version. <Link href={`/item/${item.id}`}>View latest</Link>.</Notice>
       )}
@@ -70,7 +88,6 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
       )}
 
       <TableOfContentAnchor id="tooltip">Tooltip</TableOfContentAnchor>
-      {/* @ts-expect-error Server Component */}
       <ItemTooltip item={data} language={language}/>
 
       {item.unlocksSkinIds.length > 0 && (
@@ -119,17 +136,6 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
         </>
       )}
 
-      {item.recipeOutput && item.recipeOutput.length > 0 && (
-        <>
-          <Headline id="crafted-from">Crafted From</Headline>
-          <RecipeBoxWrapper>
-            {item.recipeOutput.map((recipe) => (
-              <RecipeBox key={recipe.id} recipe={recipe} outputItem={item}/>
-            ))}
-          </RecipeBoxWrapper>
-        </>
-      )}
-
       {item.unlocksRecipe && item.unlocksRecipe.length > 0 && (
         <>
           <Headline id="unlocks-recipe">Unlocks Recipe</Headline>
@@ -141,6 +147,47 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
         </>
       )}
 
+      {item.recipeOutput && item.recipeOutput.length > 0 && (
+        <>
+          <Headline id="crafted-from">Crafted From</Headline>
+          <RecipeBoxWrapper>
+            {item.recipeOutput.map((recipe) => (
+              <RecipeBox key={recipe.id} recipe={recipe} outputItem={item}/>
+            ))}
+          </RecipeBoxWrapper>
+        </>
+      )}
+
+      {!fixedRevision && item.containedIn.length > 0 && (
+        <>
+          <Headline id="contained">Contained In</Headline>
+          <Table>
+            <thead>
+              <tr>
+                <Table.HeaderCell>Item</Table.HeaderCell>
+                <Table.HeaderCell>Quantity</Table.HeaderCell>
+                <Table.HeaderCell>Chance</Table.HeaderCell>
+                <th>Level</th><th>Rarity</th><th>Type</th>
+              </tr>
+            </thead>
+            <tbody>
+              <TableCollapse>
+                {item.containedIn.map(((contains) => (
+                  <tr key={contains.containerItemId}>
+                    <td><ItemLink item={contains.containerItem}/></td>
+                    <td><FormatNumber value={contains.quantity}/></td>
+                    <td>{contains.chance}</td>
+                    <td>{contains.containerItem.level}</td>
+                    <td><Rarity rarity={contains.containerItem.rarity}/></td>
+                    <td>{contains.containerItem.type} {contains.containerItem.subtype && `(${contains.containerItem.subtype})`}</td>
+                  </tr>
+                )))}
+              </TableCollapse>
+            </tbody>
+          </Table>
+        </>
+      )}
+
       {item._count && item._count?.ingredient > 0 && (
         <Suspense fallback={(
           <>
@@ -149,9 +196,59 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
           </>
         )}
         >
-          {/* @ts-expect-error Server Component */}
           <ItemIngredientFor itemId={item.id}/>
         </Suspense>
+      )}
+
+      {!fixedRevision && showContents && (
+        <>
+          <Headline id="content" actions={<EditContents itemId={itemId} contents={item.contains} currencyContents={item.containsCurrency}/>}>Contents</Headline>
+
+          {item.containsCurrency.length > 0 && (
+            <ItemList>
+              {item.containsCurrency.map((contained) => (
+                <li key={contained.currencyId}>
+                  <span style={{ display: 'flex', flex: 1, alignItems: 'center', gap: 8 }}>
+                    <CurrencyLink currency={contained.currency}/>
+                    <span>
+                      ({contained.min === contained.max
+                        ? <CurrencyValue currencyId={contained.currencyId} value={contained.min}/>
+                        : <><CurrencyValue currencyId={contained.currencyId} value={contained.min}/> – <CurrencyValue currencyId={contained.currencyId} value={contained.max}/></>
+                      })
+                    </span>
+                  </span>
+                </li>
+              ))}
+            </ItemList>
+          )}
+
+          {item.contains.length > 0 && (
+            <Table>
+              <thead>
+                <tr>
+                  <Table.HeaderCell>Item</Table.HeaderCell>
+                  <Table.HeaderCell>Chance</Table.HeaderCell>
+                  <th>Level</th><th>Rarity</th><th>Type</th>
+                </tr>
+              </thead>
+              <tbody>
+                {item.contains.map(((contains) => (
+                  <tr key={contains.contentItemId}>
+                    <td><OutputCount count={contains.quantity}><ItemLink item={contains.contentItem}/></OutputCount></td>
+                    <td>{contains.chance}</td>
+                    <td>{contains.contentItem.level}</td>
+                    <td><Rarity rarity={contains.contentItem.rarity}/></td>
+                    <td>{contains.contentItem.type} {contains.contentItem.subtype && `(${contains.contentItem.subtype})`}</td>
+                  </tr>
+                )))}
+              </tbody>
+            </Table>
+          )}
+
+          {item.contains.length === 0 && item.containsCurrency.length === 0 && (
+            <p>The contents of this container are unknown. You can help by adding the contained items.</p>
+          )}
+        </>
       )}
 
       <Headline id="history">History</Headline>
@@ -178,7 +275,7 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
                   </Link>
                 </Tooltip>
               </td>
-              <td><FormatDate date={history.revision.createdAt} relative data-superjson/></td>
+              <td><FormatDate date={history.revision.createdAt} relative/></td>
               <td>{history.revisionId !== revision.id && <Link href={`/item/${item.id}/${history.revisionId}`}>View</Link>}</td>
             </tr>
           ))}
@@ -187,7 +284,6 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
 
       {!fixedRevision && (
         <Suspense>
-          {/* @ts-expect-error Server Component */}
           <SimilarItems item={item}/>
         </Suspense>
       )}

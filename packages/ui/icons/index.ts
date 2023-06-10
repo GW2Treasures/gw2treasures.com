@@ -47,12 +47,15 @@ import EyeIcon from './eye.svg?svgr';
 import StatusIcon from './status.svg?svgr';
 import UnlockIcon from './unlock.svg?svgr';
 import MoreIcon from './more.svg?svgr';
+import DeveloperIcon from './developer.svg?svgr';
+import AddIcon from './add.svg?svgr';
+import ReviewQueueIcon from './review-queue.svg?svgr';
 
 export type IconName = 'menu' | 'gw2treasures' | 'user' | 'revision' | 'search' | 'chevronDown' | 'chatlink' | 'jobs' | 'time'
  | 'mount' | 'skill' | 'specialization' | 'wvw' | 'profession' | 'skin' | 'achievement' | 'item' | 'builds'
  | 'armorsmith' | 'artificer' | 'chef' | 'huntsman' | 'jeweler' | 'leatherworker' | 'scribe' | 'tailor' | 'weaponsmith'
  | 'filter' | 'filter-active' | 'shuffle' | 'achievementPoints' | 'info' | 'locale' | 'checkmark' | 'close'
- | 'api-status' | 'discord' | 'external' | 'external-link' | 'mastery' | 'coins' | 'upgrade-slot' | 'infusion-slot' | 'enrichment-slot' | 'eye' | 'status' | 'unlock' | 'more';
+ | 'api-status' | 'discord' | 'external' | 'external-link' | 'mastery' | 'coins' | 'upgrade-slot' | 'infusion-slot' | 'enrichment-slot' | 'eye' | 'status' | 'unlock' | 'more' | 'developer' | 'add' | 'review-queue';
 
 type IconComponent = FunctionComponent<SVGProps<SVGSVGElement>>;
 
@@ -105,6 +108,9 @@ export const Icons: Record<IconName, IconComponent> = {
   'status': StatusIcon,
   'unlock': UnlockIcon,
   'more': MoreIcon,
+  'developer': DeveloperIcon,
+  'add': AddIcon,
+  'review-queue': ReviewQueueIcon,
 };
 
 export type IconProp = IconName | JSX.Element;

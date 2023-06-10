@@ -7,7 +7,8 @@ import { ItemTableExpand } from './ItemTableExpand';
 import { Rarity } from './Rarity';
 
 export interface ItemTableProps {
-  items: Item[]
+  items: Item[];
+  limit?: number;
 }
 
 function renderRow(item: Item) {
@@ -22,17 +23,17 @@ function renderRow(item: Item) {
   );
 }
 
-export const ItemTable: FC<ItemTableProps> = ({ items }) => {
+export const ItemTable: FC<ItemTableProps> = ({ items, limit = 5 }) => {
   return (
     <Table>
       <thead>
         <tr><th>Item</th><th>Level</th><th>Rarity</th><th>Type</th><th>Vendor Value</th></tr>
       </thead>
       <tbody>
-        {items.slice(0, 5).map(renderRow)}
-        {items.length > 5 && (
-          <ItemTableExpand count={items.length - 5}>
-            {items.slice(5).map(renderRow)}
+        {items.slice(0, limit).map(renderRow)}
+        {items.length > limit && (
+          <ItemTableExpand count={items.length - limit}>
+            {items.slice(limit).map(renderRow)}
           </ItemTableExpand>
         )}
       </tbody>

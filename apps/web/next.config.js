@@ -6,8 +6,8 @@ const withSvgIcons = require('@gw2treasures/ui/svg-loader');
 const nextConfig = {
   experimental: {
     appDir: true,
-    swcPlugins: [['next-superjson-plugin', {}]],
     outputFileTracingRoot: path.join(__dirname, '../../'),
+    serverActions: true,
   },
   transpilePackages: ['@gw2treasures/ui'],
   reactStrictMode: true,

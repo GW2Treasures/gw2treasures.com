@@ -14,8 +14,8 @@ import { TableRowButton } from '@gw2treasures/ui/components/Table/TableRowButton
 import { FC, useCallback, useEffect, useState } from 'react';
 import { SearchItemDialog, SearchItemDialogSubmitHandler } from '@/components/Item/SearchItemDialog';
 import { Icon } from '@gw2treasures/ui';
-import { CanSubmitResponse, canSubmit, submitToReview } from './actions';
-import { AddedCurrency, AddedItem } from './types';
+import { canSubmit, submitToReview } from './actions';
+import { AddedCurrency, AddedItem, CanSubmitResponse, EditContentSubmitError } from './types';
 import { Skeleton } from '@/components/Skeleton/Skeleton';
 import Link from 'next/link';
 import { Notice } from '@/components/Notice/Notice';
@@ -42,7 +42,7 @@ export const EditContents: FC<EditContentsProps> = ({ itemId, contents, currency
   const [searchItemDialogOpen, setSearchItemDialogOpen] = useState(false);
   const [searchCurrencyDialogOpen, setSearchCurrencyDialogOpen] = useState(false);
   const [canSubmitState, setCanSubmitState] = useState<CanSubmitResponse>();
-  const [error, setError] = useState(false);
+  const [error, setError] = useState<EditContentSubmitError>();
 
   useEffect(() => {
     if(dialogOpen) {
@@ -78,13 +78,13 @@ export const EditContents: FC<EditContentsProps> = ({ itemId, contents, currency
   }, [setAddedCurrencies]);
 
   const handleSubmit = useCallback(async () => {
-    setError(false);
+    setError(undefined);
     const submitted = await submitToReview({ itemId, removedItems, addedItems, removedCurrencies, addedCurrencies });
 
-    if(submitted) {
+    if(submitted === true) {
       setDialogOpen(false);
     } else {
-      setError(true);
+      setError(submitted);
     }
   }, [itemId, removedItems, addedItems, removedCurrencies, addedCurrencies]);
 
@@ -104,7 +104,7 @@ export const EditContents: FC<EditContentsProps> = ({ itemId, contents, currency
           (<p>Unknown error</p>)
         ) : (
           <>
-            {error && (<Notice type="error">Your changes could not be saved.</Notice>)}
+            {error && (<Notice type="error">Your changes could not be saved ({error}).</Notice>)}
             <p>Noticed something wrong with the contents of this item? You can remove and add items in this dialog.</p>
             <Headline id="items">Items</Headline>
             <Table>

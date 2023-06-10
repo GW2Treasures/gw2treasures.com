@@ -127,10 +127,8 @@ jobs:
     runs-on: ubuntu-latest
     if: always()
     steps:
-    - if: always() && !contains(needs.*.result, 'failure')
-      run: echo ${{ needs.*.result }}[*]
-    - if: always() && contains(needs.*.result, 'failure')
-      run: exit 1
+    - run: jq --exit-status 'all(.result == "success")' <<< '${{ toJson(needs) }}'
+    - run: exit 0
 
   push:
     name: Publish / Docker / ${{ matrix.target }}

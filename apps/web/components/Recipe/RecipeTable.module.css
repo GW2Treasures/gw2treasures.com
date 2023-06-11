@@ -3,6 +3,7 @@
   flex-direction: column;
   height: 100%;
   gap: 8px;
+  justify-content: center;
 }
 
 .unlock {

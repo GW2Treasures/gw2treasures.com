@@ -3,8 +3,8 @@ import { FC } from 'react';
 import { Coins } from '../Format/Coins';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { ItemLink } from './ItemLink';
-import { ItemTableExpand } from './ItemTableExpand';
 import { Rarity } from './Rarity';
+import { TableCollapse } from '@gw2treasures/ui/components/Table/TableCollapse';
 
 export interface ItemTableProps {
   items: Item[];
@@ -30,12 +30,9 @@ export const ItemTable: FC<ItemTableProps> = ({ items, limit = 5 }) => {
         <tr><th>Item</th><th>Level</th><th>Rarity</th><th>Type</th><th>Vendor Value</th></tr>
       </thead>
       <tbody>
-        {items.slice(0, limit).map(renderRow)}
-        {items.length > limit && (
-          <ItemTableExpand count={items.length - limit}>
-            {items.slice(limit).map(renderRow)}
-          </ItemTableExpand>
-        )}
+        <TableCollapse limit={limit}>
+          {items.map(renderRow)}
+        </TableCollapse>
       </tbody>
     </Table>
   );

@@ -91,7 +91,7 @@ async function getUserAndReview(data: FormData) {
     redirect('/review/container-content');
   }
 
-  if(review.state !== ReviewState.Open) {
+  if(review.state !== ReviewState.Open || (review.requesterId === user.id && !user.roles.includes('Admin'))) {
     redirect(`/review/container-content/${id}?error`);
   }
 

@@ -7,6 +7,10 @@ const languages = ['de', 'en', 'es', 'fr'];
 const baseDomain = process.env.GW2T_NEXT_DOMAIN;
 
 export function middleware(request: NextRequest) {
+  if(request.nextUrl.pathname === '/_/health') {
+    return new NextResponse('UP');
+  }
+
   const { domain, protocol, port, path } = getUrlPartsFromRequest(request);
   const language = languages.find((lang) => domain === `${lang}.${baseDomain}`);
 

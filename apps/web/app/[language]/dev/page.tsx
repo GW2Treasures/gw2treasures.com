@@ -28,7 +28,7 @@ export default async function DeveloperPage() {
       <Headline id="api">API</Headline>
 
       <ul>
-        <li>coming soon&trade;</li>
+        <li><b><Link href="/dev/api">API</Link></b>: API provided by gw2treasures.com.</li>
       </ul>
 
       {user && (

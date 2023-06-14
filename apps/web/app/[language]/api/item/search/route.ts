@@ -1,6 +1,6 @@
-import { UnwrapJsonResponse } from 'app/api/helper';
+import { UnwrapJsonResponse } from '../../helper';
 import { NextResponse } from 'next/server';
-import { searchItems, splitSearchTerms } from 'app/api/search/route';
+import { searchItems, splitSearchTerms } from '../../search/route';
 import { decode } from 'gw2e-chat-codes';
 import { isTruthy } from '@gw2treasures/ui';
 

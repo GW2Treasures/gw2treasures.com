@@ -1,5 +1,5 @@
 import { getLinkProperties } from '@/lib/linkProperties';
-import { ApiSearchResponse } from 'app/api/search/route';
+import { ApiSearchResponse } from 'app/[language]/api/search/route';
 import { ReactElement, ReactNode } from 'react';
 import { localizedName } from '../../lib/localizedName';
 import { useJsonFetch, useStaleJsonResponse } from '../../lib/useFetch';

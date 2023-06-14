@@ -10,7 +10,7 @@ import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { useDebounce } from '@/lib/useDebounce';
 import { useJsonFetch } from '@/lib/useFetch';
 import { SkeletonTable } from '../Skeleton/SkeletonTable';
-import { ApiItemSearchResponse } from 'app/api/item/search/route';
+import { ApiItemSearchResponse } from 'app/[language]/api/item/search/route';
 import { ItemLink } from './ItemLink';
 import { Button } from '@gw2treasures/ui/components/Form/Button';
 import { getLinkProperties } from '@/lib/linkProperties';

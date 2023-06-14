@@ -57,3 +57,14 @@ spec:
             name: next
             port:
               name: http
+  - host: api.next.gw2treasures.kubernetes.localhost
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: next
+            port:
+              name: http
+

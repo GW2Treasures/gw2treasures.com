@@ -2,8 +2,10 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { getUrlFromParts, getUrlPartsFromRequest } from './lib/urlParts';
 import { SessionCookieName } from './lib/auth/cookie';
+import { Language } from '@gw2treasures/database';
 
-const languages = ['de', 'en', 'es', 'fr'];
+const languages = ['de', 'en', 'es', 'fr'] as readonly Language[];
+const subdomains = [...languages, 'api'] as const;
 const baseDomain = process.env.GW2T_NEXT_DOMAIN;
 
 export function middleware(request: NextRequest) {
@@ -12,7 +14,7 @@ export function middleware(request: NextRequest) {
   }
 
   const { domain, protocol, port, path } = getUrlPartsFromRequest(request);
-  const language = languages.find((lang) => domain === `${lang}.${baseDomain}`);
+  const language = subdomains.find((lang) => domain === `${lang}.${baseDomain}`);
 
   if(!language) {
     const url = getUrlFromParts({ protocol, domain: `en.${baseDomain}`, port, path });
@@ -22,18 +24,38 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
+  const headers = request.headers;
+
+  // set custom headers
+  if(language !== 'api') {
+    // handle normal language subdomains
+    headers.set('x-gw2t-lang', language);
+
+    // set user session based on cookie
+    if(request.cookies.has(SessionCookieName)) {
+      const sessionId = request.cookies.get(SessionCookieName)!.value;
+
+      headers.set('x-gw2t-session', sessionId);
+    }
+  } else {
+    // handle api requests
+    const lang = request.nextUrl.searchParams.get('lang')!;
+
+    if(languages.includes(lang as any)) {
+      headers.set('x-gw2t-lang', lang);
+    } else {
+      headers.set('x-gw2t-lang', 'en');
+    }
+
+    // get api key
+    const apiKey = getApiKeyFromRequest(request);
+    if(apiKey) {
+      headers.set('x-gw2t-apikey', apiKey);
+    }
+  }
+
   const url = request.nextUrl.clone();
   url.pathname = `/${language}${url.pathname}`;
-
-  const headers = request.headers;
-  headers.set('x-gw2t-lang', language);
-
-  // get session
-  if(request.cookies.has(SessionCookieName)) {
-    const sessionId = request.cookies.get(SessionCookieName)!.value;
-
-    headers.set('x-gw2t-session', sessionId);
-  }
 
   return NextResponse.rewrite(url, { headers: corsHeader(request), request: { headers }});
 }
@@ -58,3 +80,24 @@ function corsHeader(request: NextRequest): {} | { 'Access-Control-Allow-Origin':
 export const config = {
   matcher: '/((?!_next/static|_next/image|favicon.ico).*)',
 };
+
+function getApiKeyFromRequest(request: NextRequest): string | undefined {
+  if(request.headers.has('Authorization')) {
+    const authorizationHeader = request.headers.get('Authorization')!;
+    const [type, key] = authorizationHeader.split(' ');
+
+    if(type === 'Bearer') {
+      return key;
+    }
+
+    return undefined;
+  }
+
+  if(request.nextUrl.searchParams.has('apiKey')) {
+    const apiKey = request.nextUrl.searchParams.get('apiKey');
+
+    return apiKey ?? undefined;
+  }
+
+  return undefined;
+}

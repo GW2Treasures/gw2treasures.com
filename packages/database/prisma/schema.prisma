@@ -673,6 +673,8 @@ model User {
 
   reviewsRequested Review[] @relation("requester")
   reviewsReviewed  Review[] @relation("reviewer")
+
+  applications Application[] @relation("application")
 }
 
 enum UserRole {
@@ -708,6 +710,20 @@ model UserProvider {
   userId String
   user   User   @relation("provider", fields: [userId], references: [id], onDelete: Cascade)
   
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+}
+
+model Application {
+  id String @id @default(uuid())
+
+  name String
+
+  apiKey String
+
+  owner   User @relation("application", fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId String
+
   createdAt      DateTime   @default(now())
   updatedAt      DateTime   @updatedAt
 }

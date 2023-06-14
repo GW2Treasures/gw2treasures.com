@@ -719,7 +719,7 @@ model Application {
 
   name String
 
-  apiKey String
+  apiKey String @unique
 
   owner   User @relation("application", fields: [ownerId], references: [id], onDelete: Cascade)
   ownerId String

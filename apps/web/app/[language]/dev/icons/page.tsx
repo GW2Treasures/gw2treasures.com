@@ -24,15 +24,15 @@ export default function DeveloperIconsPage() {
         <thead><tr><th>Parameter</th><th>Description</th></tr></thead>
         <tbody>
           <tr>
-            <th><code>signature</code></th>
-            <td>The file signature you get from the official API.</td>
+            <th><Code inline>signature</Code></th>
+            <td>The <Code inline>file_signature</Code> you get from the official API.</td>
           </tr>
           <tr>
-            <th><code>file_id</code></th>
-            <td>The <code>file_id</code> you get from the official API.</td>
+            <th><Code inline>file_id</Code></th>
+            <td>The <Code inline>file_id</Code> you get from the official API.</td>
           </tr>
           <tr>
-            <th><code>size</code></th>
+            <th><Code inline>size</Code></th>
             <td>
               Valid sizes are:
               <ul>
@@ -46,9 +46,9 @@ export default function DeveloperIconsPage() {
       </Table>
 
       <p>
-        To load higher resolution icons for devices with higher dpi-screens, you can use the <code>srcset</code> attribute.
+        To load higher resolution icons for devices with higher dpi-screens, you can use the <Code inline>srcset</Code> attribute.
         Devices with lower resolutions, will still load the smaller file and save bandwith.
-        You can read more about the <code>srcset</code> attribute on the <ExternalLink href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#attr-srcset">MDN page about the <code>img</code> element</ExternalLink>.
+        You can read more about the <Code inline>srcset</Code> attribute on the <ExternalLink href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#attr-srcset">MDN page about the <Code inline>img</Code> element</ExternalLink>.
       </p>
 
       <Headline id="code">Code</Headline>
@@ -70,7 +70,7 @@ export default function DeveloperIconsPage() {
               <img src="https://icons-gw2.darthmaim-cdn.com/18CE5D78317265000CF3C23ED76AB3CEE86BA60E/65941-64px.png" width="64" height="64" alt=""/>
             </td>
             <td>
-              <code>https://icons-gw2.darthmaim-cdn.com/18CE5D78317265000CF3C23ED76AB3CEE86BA60E/65941-64px.png</code>
+              <Code inline>https://icons-gw2.darthmaim-cdn.com/18CE5D78317265000CF3C23ED76AB3CEE86BA60E/65941-64px.png</Code>
             </td>
           </tr>
           <tr>
@@ -78,7 +78,7 @@ export default function DeveloperIconsPage() {
               <img src="https://icons-gw2.darthmaim-cdn.com/4F19A8B4E309C3042358FB194F7190331DEF27EB/631494-32px.png" width="32" height="32" alt=""/>
             </td>
             <td>
-              <code>https://icons-gw2.darthmaim-cdn.com/4F19A8B4E309C3042358FB194F7190331DEF27EB/631494-32px.png</code>
+              <Code inline>https://icons-gw2.darthmaim-cdn.com/4F19A8B4E309C3042358FB194F7190331DEF27EB/631494-32px.png</Code>
             </td>
           </tr>
           <tr>
@@ -86,7 +86,7 @@ export default function DeveloperIconsPage() {
               <img src="https://icons-gw2.darthmaim-cdn.com/027D1D382447933D074BE45F405EA1F379471DEB/63127-16px.png" width="16" height="16" alt=""/>
             </td>
             <td>
-              <code>https://icons-gw2.darthmaim-cdn.com/027D1D382447933D074BE45F405EA1F379471DEB/63127-16px.png</code>
+              <Code inline>https://icons-gw2.darthmaim-cdn.com/027D1D382447933D074BE45F405EA1F379471DEB/63127-16px.png</Code>
             </td>
           </tr>
         </tbody>

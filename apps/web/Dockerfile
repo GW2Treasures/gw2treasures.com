@@ -48,6 +48,9 @@ COPY --from=builder --chown=nextjs:nodejs /app/apps/web/.next/static ./apps/web/
 COPY --from=builder --chown=nextjs:nodejs /app/apps/web/public ./apps/web/public
 COPY --from=builder --chown=nextjs:nodejs /app/apps/web/docker-entrypoint.sh ./
 
+# workaround for https://github.com/wooorm/starry-night/issues/9
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules/vscode-oniguruma/release/onig.wasm /app/node_modules/vscode-oniguruma/release/onig.wasm
+
 RUN chmod +x ./docker-entrypoint.sh
 
 USER nextjs

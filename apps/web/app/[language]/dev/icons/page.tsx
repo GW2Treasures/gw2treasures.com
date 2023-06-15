@@ -10,7 +10,7 @@ import { Table } from '@gw2treasures/ui/components/Table/Table';
 const htmlExample = `<img
   src="https://icons-gw2.darthmaim-cdn.com/9D94B96446F269662F6ACC2531394A06C0E03951/947657-32px.png"
   srcset="https://icons-gw2.darthmaim-cdn.com/9D94B96446F269662F6ACC2531394A06C0E03951/947657-64px.png 2x"
-  width="32" height="32" alt=" crossorigin="anonymous" referrerpolicy="no-referrer" loading="lazy" decoding="async"/>`;
+  width="32" height="32" alt="" crossorigin="anonymous" referrerpolicy="no-referrer" loading="lazy" decoding="async"/>`;
 
 export default function DeveloperIconsPage() {
   return (

@@ -113,8 +113,11 @@ const pages: Page[] = [
   { href: '/skill', title: 'Skills', icon: 'skill' },
   { href: '/mount', title: 'Mounts', icon: 'mount' },
   { href: '/wvw', title: 'Word vs. World (WvW)', icon: 'wvw' },
+
   { href: '/dev', title: 'Developer', icon: 'developer' },
   { href: '/dev/icons', title: 'Developer / Icons', icon: 'developer' },
+  { href: '/dev/api', title: 'Developer / API', icon: 'developer' },
+  { href: '/dev#applications', title: 'Developer / Your Applications', icon: 'developer' },
 
   { href: '/build', title: 'Builds', icon: 'builds' },
   { href: '/currency', title: 'Currencies', icon: 'coins' },

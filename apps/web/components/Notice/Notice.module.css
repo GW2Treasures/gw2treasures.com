@@ -16,9 +16,9 @@
 }
 
 .error {
-  border-left-color: #f44336;
+  border-left-color: var(--color-error);
   background-color: #f4433622;
-  --icon-color: #f44336;
+  --icon-color: var(--color-error);
 }
 
 .content {

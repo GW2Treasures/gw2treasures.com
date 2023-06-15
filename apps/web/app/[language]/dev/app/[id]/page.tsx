@@ -1,6 +1,8 @@
+import { FlexRow } from '@/components/Layout/FlexRow';
 import { PageLayout } from '@/components/Layout/PageLayout';
 import { getUser } from '@/lib/getUser';
 import { db } from '@/lib/prisma';
+import { Button } from '@gw2treasures/ui/components/Form/Button';
 import { CopyButton } from '@gw2treasures/ui/components/Form/Buttons/CopyButton';
 import { Label } from '@gw2treasures/ui/components/Form/Label';
 import { TextInput } from '@gw2treasures/ui/components/Form/TextInput';
@@ -23,6 +25,21 @@ async function getApplication(id: string) {
   return application;
 }
 
+async function deleteApplication(data: FormData) {
+  'use server';
+
+  const id = data.get('id')?.toString();
+  const user = await getUser();
+
+  if(!user) {
+    redirect('/login');
+  }
+
+  await db.application.deleteMany({ where: { id, ownerId: user.id }});
+
+  redirect('/dev#applications');
+}
+
 export default async function DevAppPage({ params: { id }}: { params: { id: string }}) {
   const application = await getApplication(id);
 
@@ -30,12 +47,18 @@ export default async function DevAppPage({ params: { id }}: { params: { id: stri
     <PageLayout>
       <Headline id="application">{application.name}</Headline>
 
-      <Label label="API Key">
-        <div style={{ display: 'flex', gap: 8 }}>
+      <form>
+        <input type="hidden" name="id" value={application.id}/>
+
+        <Label label="API Key">
           <TextInput value={application.apiKey} readOnly/>
           <CopyButton copy={application.apiKey}>Copy</CopyButton>
-        </div>
-      </Label>
+        </Label>
+
+        <FlexRow>
+          <Button intent="delete" icon="delete" type="submit" formAction={deleteApplication}>Delete Application</Button>
+        </FlexRow>
+      </form>
     </PageLayout>
   );
 }

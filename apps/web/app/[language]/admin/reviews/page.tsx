@@ -22,7 +22,7 @@ export default async function AdminUserPage() {
 
   return (
     <PageLayout>
-      <Headline id="reviews">Reviews</Headline>
+      <Headline id="reviews">Reviews ({reviews.length})</Headline>
 
       <Table>
         <thead>
@@ -53,5 +53,5 @@ export default async function AdminUserPage() {
 }
 
 export const metadata = {
-  title: 'Users'
+  title: 'Reviews'
 };

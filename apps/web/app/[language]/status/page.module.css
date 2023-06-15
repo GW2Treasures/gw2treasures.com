@@ -42,7 +42,7 @@
 
 .error {
   composes: status;
-  background-color: #ff0000;
+  background-color: var(--color-error);
 }
 
 .success {

@@ -4,34 +4,37 @@ import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { cache } from 'react';
 import { db } from '@/lib/prisma';
 import { FormatDate } from '@/components/Format/FormatDate';
+import { Code } from '@/components/Layout/Code';
 
-const getUsers = cache(() => {
-  return db.user.findMany();
+const getApplications = cache(() => {
+  return db.application.findMany({
+    include: { owner: { select: { name: true }}}
+  });
 });
 
 export default async function AdminUserPage() {
-  const users = await getUsers();
+  const apps = await getApplications();
 
   return (
     <PageLayout>
-      <Headline id="users">Users ({users.length})</Headline>
+      <Headline id="apps">Applications ({apps.length})</Headline>
 
       <Table>
         <thead>
           <tr>
-            <th>Username</th>
-            <th>Email</th>
-            <th>Roles</th>
+            <th>Name</th>
+            <th>Owner</th>
+            <th>API key</th>
             <th>Created At</th>
           </tr>
         </thead>
         <tbody>
-          {users.map((user) => (
-            <tr key={user.id}>
-              <td>{user.name}</td>
-              <td>{user.email}</td>
-              <td>{user.roles.join(', ')}</td>
-              <td><FormatDate date={user.createdAt}/></td>
+          {apps.map((app) => (
+            <tr key={app.id}>
+              <td>{app.name}</td>
+              <td>{app.owner.name}</td>
+              <td><Code inline>{app.apiKey}</Code></td>
+              <td><FormatDate date={app.createdAt}/></td>
             </tr>
           ))}
         </tbody>
@@ -41,5 +44,5 @@ export default async function AdminUserPage() {
 }
 
 export const metadata = {
-  title: 'Users'
+  title: 'Applications'
 };

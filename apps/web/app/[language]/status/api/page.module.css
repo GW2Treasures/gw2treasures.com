@@ -19,7 +19,7 @@
 
 .error {
   composes: request;
-  background-color: #ff0000;
+  background-color: var(--color-error);
 }
 
 .statusCodeGrid {

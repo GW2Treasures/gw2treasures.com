@@ -61,3 +61,7 @@
   padding: 8px;
   line-height: 16px;
 }
+
+.delete {
+  color: var(--color-error);
+}

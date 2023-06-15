@@ -50,12 +50,14 @@ import MoreIcon from './more.svg?svgr';
 import DeveloperIcon from './developer.svg?svgr';
 import AddIcon from './add.svg?svgr';
 import ReviewQueueIcon from './review-queue.svg?svgr';
+import DeleteIcon from './delete.svg?svgr';
 
 export type IconName = 'menu' | 'gw2treasures' | 'user' | 'revision' | 'search' | 'chevronDown' | 'chatlink' | 'jobs' | 'time'
  | 'mount' | 'skill' | 'specialization' | 'wvw' | 'profession' | 'skin' | 'achievement' | 'item' | 'builds'
  | 'armorsmith' | 'artificer' | 'chef' | 'huntsman' | 'jeweler' | 'leatherworker' | 'scribe' | 'tailor' | 'weaponsmith'
  | 'filter' | 'filter-active' | 'shuffle' | 'achievementPoints' | 'info' | 'locale' | 'checkmark' | 'close'
- | 'api-status' | 'discord' | 'external' | 'external-link' | 'mastery' | 'coins' | 'upgrade-slot' | 'infusion-slot' | 'enrichment-slot' | 'eye' | 'status' | 'unlock' | 'more' | 'developer' | 'add' | 'review-queue';
+ | 'api-status' | 'discord' | 'external' | 'external-link' | 'mastery' | 'coins' | 'upgrade-slot' | 'infusion-slot' | 'enrichment-slot'
+ | 'eye' | 'status' | 'unlock' | 'more' | 'developer' | 'add' | 'review-queue' | 'delete';
 
 type IconComponent = FunctionComponent<SVGProps<SVGSVGElement>>;
 
@@ -111,6 +113,7 @@ export const Icons: Record<IconName, IconComponent> = {
   'developer': DeveloperIcon,
   'add': AddIcon,
   'review-queue': ReviewQueueIcon,
+  'delete': DeleteIcon,
 };
 
 export type IconProp = IconName | JSX.Element;

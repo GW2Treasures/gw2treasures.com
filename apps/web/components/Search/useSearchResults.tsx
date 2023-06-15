@@ -1,5 +1,5 @@
 import { getLinkProperties } from '@/lib/linkProperties';
-import { ApiSearchResponse } from 'app/api/search/route';
+import { ApiSearchResponse } from 'app/[language]/api/search/route';
 import { ReactElement, ReactNode } from 'react';
 import { localizedName } from '../../lib/localizedName';
 import { useJsonFetch, useStaleJsonResponse } from '../../lib/useFetch';
@@ -113,8 +113,11 @@ const pages: Page[] = [
   { href: '/skill', title: 'Skills', icon: 'skill' },
   { href: '/mount', title: 'Mounts', icon: 'mount' },
   { href: '/wvw', title: 'Word vs. World (WvW)', icon: 'wvw' },
+
   { href: '/dev', title: 'Developer', icon: 'developer' },
   { href: '/dev/icons', title: 'Developer / Icons', icon: 'developer' },
+  { href: '/dev/api', title: 'Developer / API', icon: 'developer' },
+  { href: '/dev#applications', title: 'Developer / Your Applications', icon: 'developer' },
 
   { href: '/build', title: 'Builds', icon: 'builds' },
   { href: '/currency', title: 'Currencies', icon: 'coins' },

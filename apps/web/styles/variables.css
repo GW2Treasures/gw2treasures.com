@@ -39,6 +39,8 @@
 
   --color-diff-removed: #F4433633;
   --color-diff-removed-light: #F4433622;
+
+  --color-error: #f44336;
 }
 
 @media (prefers-color-scheme: dark) {

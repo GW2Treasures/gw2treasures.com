@@ -10,7 +10,7 @@ export const Label: FC<LabelProps> = ({ label, children }) => {
   return (
     <label className={styles.label}>
       <div>{label}</div>
-      {children}
+      <div className={styles.content}>{children}</div>
     </label>
   );
 };

@@ -1,12 +1,12 @@
 import { Code } from '@/components/Layout/Code';
 import { HeroLayout } from '@/components/Layout/HeroLayout';
+import { Highlight } from '@/components/Layout/Highlight';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
 import Link from 'next/link';
 
-const exampleCodeFetchWithAuthorizationHeader = `// example javascript fetch
-
-fetch('https://api.gw2treasures.com/items', {
+const exampleCodeFetchWithAuthorizationHeader =
+`fetch('https://api.gw2treasures.com/items', {
   headers: {
     Authorization: \`Bearer \${apiKey}\`
   }
@@ -24,7 +24,7 @@ export default function DeveloperIconsPage() {
 
       <p>The API key can be passed as header (<Code inline>Authorization: Bearer &lt;api-key&gt;</Code>) or as <Code inline>apiKey</Code> query paramer.</p>
 
-      <Code>{exampleCodeFetchWithAuthorizationHeader}</Code>
+      <Code><Highlight language="javascript" code={exampleCodeFetchWithAuthorizationHeader}/></Code>
 
       <Headline id="endpoints">Endpoints</Headline>
 

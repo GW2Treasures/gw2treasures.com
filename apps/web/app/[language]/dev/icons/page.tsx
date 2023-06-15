@@ -1,10 +1,16 @@
 /* eslint-disable @next/next/no-img-element */
 import { Code } from '@/components/Layout/Code';
 import { HeroLayout } from '@/components/Layout/HeroLayout';
+import { Highlight } from '@/components/Layout/Highlight';
 import { List } from '@/components/Layout/List';
 import { ExternalLink } from '@/components/Link/ExternalLink';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
+
+const htmlExample = `<img
+  src="https://icons-gw2.darthmaim-cdn.com/9D94B96446F269662F6ACC2531394A06C0E03951/947657-32px.png"
+  srcset="https://icons-gw2.darthmaim-cdn.com/9D94B96446F269662F6ACC2531394A06C0E03951/947657-64px.png 2x"
+  width="32" height="32" alt=" crossorigin="anonymous" referrerpolicy="no-referrer" loading="lazy" decoding="async"/>`;
 
 export default function DeveloperIconsPage() {
   return (
@@ -55,10 +61,7 @@ export default function DeveloperIconsPage() {
       <Headline id="code">Code</Headline>
       <p>Here is a complete optimized example code to load an icon:</p>
       <Code>
-        &lt;img{'\n'}
-        {'  '}src=&quot;https://icons-gw2.darthmaim-cdn.com/9D94B96446F269662F6ACC2531394A06C0E03951/947657-32px.png&quot;{'\n'}
-        {'  '}srcset=&quot;https://icons-gw2.darthmaim-cdn.com/9D94B96446F269662F6ACC2531394A06C0E03951/947657-64px.png 2x&quot;{'\n'}
-        {'  '}width=&quot;32&quot; height=&quot;32&quot; alt=&quot;&quot; crossorigin=&quot;anonymous&quot; referrerpolicy=&quot;no-referrer&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot;/&gt;
+        <Highlight language="html" code={htmlExample}/>
       </Code>
 
       <Headline id="examples">Examples</Headline>

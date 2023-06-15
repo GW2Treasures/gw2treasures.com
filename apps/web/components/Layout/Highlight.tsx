@@ -20,8 +20,10 @@ export const Highlight: FC<HighlightProps> = ({ code, language }) => {
   );
 };
 
+const starryNightPromise = createStarryNight(common);
+
 const HighlightAsync: FC<HighlightProps> = async ({ code, language }) => {
-  const starryNight = await createStarryNight(common);
+  const starryNight = await starryNightPromise;
 
   const scope = starryNight.flagToScope(language);
 

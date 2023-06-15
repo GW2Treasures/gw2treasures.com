@@ -1,7 +1,6 @@
 import { getCurrentUrl } from '@/lib/url';
-import { getUrlFromParts, getUrlPartsFromRequest } from '@/lib/urlParts';
 import { headers } from 'next/headers';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 
 const baseDomain = process.env.GW2T_NEXT_DOMAIN!;
 

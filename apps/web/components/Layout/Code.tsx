@@ -23,6 +23,6 @@ export const Code: FC<CodeProps> = ({ children, borderless = false, inline = fal
   }
 
   return (
-    <pre className={cx(borderless ? styles.code : styles.codeBorder, font.className)}>{children}</pre>
+    <pre className={cx(borderless ? styles.code : styles.codeBorder, font.className)}><code>{children}</code></pre>
   );
 };

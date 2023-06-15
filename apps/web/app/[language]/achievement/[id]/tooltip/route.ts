@@ -29,5 +29,7 @@ export async function GET(request: NextRequest, { params: { language, id }}: { p
   const data: Gw2Api.Achievement = JSON.parse(revision.data);
   const tooltip = await createTooltip(data, language);
 
-  return NextResponse.json(tooltip, { headers: { 'cache-control': 'public, max-age=3600' }});
+  return NextResponse.json(tooltip, {
+    headers: { 'cache-control': 'public, max-age=3600', 'Vary': 'Origin' }
+  });
 }

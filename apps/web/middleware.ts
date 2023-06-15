@@ -71,7 +71,14 @@ function corsHeader(request: NextRequest): {} | { 'Access-Control-Allow-Origin':
   const isAllowed = origin.match(regex);
 
   if(isAllowed) {
-    return { 'Access-Control-Allow-Origin': origin };
+    return {
+      'Access-Control-Allow-Origin': origin,
+
+      // `Vary: Origin` is required, because otherwise `Access-Control-Allow-Origin` is cached for wrong origins
+      // nextjs currently doesn't support setting `Vary` in middleware (https://github.com/vercel/next.js/issues/48480)
+      // so every relevant endpoint needs to set `Vary: Origin` on the response.
+      'Vary': 'Origin'
+    };
   }
 
   throw new Error('CORS');

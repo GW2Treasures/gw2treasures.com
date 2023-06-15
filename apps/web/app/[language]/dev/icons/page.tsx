@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { Code } from '@/components/Layout/Code';
 import { HeroLayout } from '@/components/Layout/HeroLayout';
+import { List } from '@/components/Layout/List';
 import { ExternalLink } from '@/components/Link/ExternalLink';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
@@ -35,11 +36,11 @@ export default function DeveloperIconsPage() {
             <th><Code inline>size</Code></th>
             <td>
               Valid sizes are:
-              <ul>
+              <List>
                 <li>64px</li>
                 <li>32px</li>
                 <li>16px</li>
-              </ul>
+              </List>
             </td>
           </tr>
         </tbody>

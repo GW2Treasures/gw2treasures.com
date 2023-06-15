@@ -4,6 +4,7 @@ import { LinkButton } from '@gw2treasures/ui/components/Form/Button';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import Link from 'next/link';
 import { db } from '@/lib/prisma';
+import { List } from '@/components/Layout/List';
 
 async function getApplications() {
   const user = await getUser();
@@ -21,15 +22,15 @@ export default async function DeveloperPage() {
   return (
     <HeroLayout hero={<Headline id="developer">Developer</Headline>} color="#2c8566" toc>
       <Headline id="services">Services</Headline>
-      <ul>
+      <List>
         <li><b><Link href="/dev/icons">Icons</Link></b>: Alternative to render.guildwars2.com with more features.</li>
-      </ul>
+      </List>
 
       <Headline id="api">API</Headline>
 
-      <ul>
+      <List>
         <li><b><Link href="/dev/api">API</Link></b>: API provided by gw2treasures.com.</li>
-      </ul>
+      </List>
 
       {user && (
         <>
@@ -40,11 +41,11 @@ export default async function DeveloperPage() {
             Your applications
           </Headline>
 
-          <ul>
+          <List>
             {applications.map(({ id, name }) => (
               <li key={id}><Link href={`/dev/app/${id}`}>{name}</Link></li>
             ))}
-          </ul>
+          </List>
         </>
       )}
     </HeroLayout>

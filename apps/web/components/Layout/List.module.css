@@ -1,0 +1,37 @@
+.list {
+  padding-left: 0;
+  margin: 8px 0;
+  list-style: none;
+  counter-reset: list;
+}
+
+.ul { composes: list; }
+.ol { composes: list; }
+
+.list > li {
+  line-height: 1.5;
+}
+
+.ul > li {
+  padding-left: 16px;
+}
+
+.ol > li {
+  counter-increment: list;
+  padding-left: 24px;
+}
+
+.list > li::before {
+  color: var(--color-text-muted);
+  position: absolute;
+}
+
+.ul > li::before {
+  content: '-';
+  margin-left: -16px;
+}
+
+.ol > li::before {
+  content: counter(list) '.';
+  margin-left: -24px;
+}

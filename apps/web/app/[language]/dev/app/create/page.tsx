@@ -8,6 +8,7 @@ import { redirect } from 'next/navigation';
 import { getUser } from '@/lib/getUser';
 import { Notice } from '@/components/Notice/Notice';
 import Link from 'next/link';
+import { FlexRow } from '@/components/Layout/FlexRow';
 
 async function createApplication(data: FormData) {
   'use server';
@@ -54,7 +55,10 @@ export default async function DevAppCreatePage() {
           <Label label="Name">
             <TextInput name="name"/>
           </Label>
-          <Button type="submit">Create Application</Button>
+
+          <FlexRow>
+            <Button type="submit">Create Application</Button>
+          </FlexRow>
         </form>
       )}
     </PageLayout>

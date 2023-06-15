@@ -14,6 +14,8 @@ export function middleware(request: NextRequest) {
   }
 
   const { domain, protocol, port, path } = getUrlPartsFromRequest(request);
+  const realUrl = getUrlFromParts({ domain, protocol, port, path });
+
   const language = subdomains.find((lang) => domain === `${lang}.${baseDomain}`);
 
   if(!language) {
@@ -25,6 +27,7 @@ export function middleware(request: NextRequest) {
   }
 
   const headers = request.headers;
+  headers.set('x-gw2t-real-url', realUrl);
 
   // set custom headers
   if(language !== 'api') {

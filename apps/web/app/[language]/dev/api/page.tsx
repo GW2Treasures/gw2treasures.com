@@ -1,8 +1,11 @@
 import { Code } from '@/components/Layout/Code';
 import { HeroLayout } from '@/components/Layout/HeroLayout';
 import { Highlight } from '@/components/Layout/Highlight';
+import { ExternalLink } from '@/components/Link/ExternalLink';
+import { getCurrentUrl } from '@/lib/url';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
+import { headers } from 'next/headers';
 import Link from 'next/link';
 
 const exampleCodeFetchWithAuthorizationHeader =
@@ -13,9 +16,14 @@ const exampleCodeFetchWithAuthorizationHeader =
 })`;
 
 export default function DeveloperIconsPage() {
+  const apiUrl = getCurrentUrl();
+  apiUrl.hostname = `api.${process.env.GW2T_NEXT_DOMAIN}`;
+  apiUrl.pathname = '/';
+
   return (
     <HeroLayout hero={<Headline id="api">API</Headline>} color="#2c8566" toc>
       <p>gw2treasures.com provides a public API. The API contains data not available in the official Guild Wars 2 API, for example deleted or community contributed content.</p>
+      <p>The API is available at <ExternalLink target="_blank" href={apiUrl.toString()}><Code inline>{apiUrl.toString()}</Code></ExternalLink>.</p>
 
       <Headline id="authorization">API Key</Headline>
       <p>All requests to the gw2treasures.com API require an API key. This API key is used for per application rate limiting and versioning. Some endpoints may require approval before an application can use them in the future.</p>

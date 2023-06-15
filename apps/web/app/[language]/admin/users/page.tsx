@@ -14,7 +14,7 @@ export default async function AdminUserPage() {
 
   return (
     <PageLayout>
-      <Headline id="users">Users</Headline>
+      <Headline id="users">Users ({users.length})</Headline>
 
       <Table>
         <thead>

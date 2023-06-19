@@ -88,7 +88,7 @@ function corsHeader(request: NextRequest): {} | { 'Access-Control-Allow-Origin':
 }
 
 export const config = {
-  matcher: '/((?!_next/static|_next/image|favicon.ico).*)',
+  matcher: '/((?!_next/static|_next/image|favicon.ico|android-chrome-[^/]+.png|apple-touch-icon.png|browserconfig.xml|favicon-[^/]+.png|mstile-[^/]+.png|robots.txt|safari-pinned-tab.svg|site.webmanifest|maskable_icon_[^/]+.png).*)',
 };
 
 function getApiKeyFromRequest(request: NextRequest): string | undefined {

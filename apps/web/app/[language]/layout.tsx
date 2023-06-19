@@ -52,6 +52,6 @@ export const metadata = {
   }
 };
 
-// export const generateStaticParams = process.env.NODE_ENV === 'development' ? undefined : function generateStaticParams() {
-//   return [{ language: 'de' }, { language: 'en' }, { language: 'es' }, { language: 'fr' }];
-// };
+export const generateStaticParams = function generateStaticParams() {
+  return [{ language: 'de' }, { language: 'en' }, { language: 'es' }, { language: 'fr' }];
+};

@@ -34,6 +34,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang={params.language} className={cx(bitter.variable, wotfard.variable)}>
+      <head>
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#b7000d"/>
+      </head>
       <body>
         <I18nProvider language={params.language}>
           <FormatProvider>
@@ -49,6 +52,27 @@ export const metadata = {
   title: {
     template: '%s · gw2treasures.com',
     default: ''
+  },
+  description: 'Guild Wars 2 Database and tool collection',
+  manifest: '/site.webmanifest',
+  applicationName: 'gw2treasures.com',
+  appleWebApp: {
+    capable: true,
+    title: 'gw2treasures.com',
+    statusBarStyle: 'default',
+  },
+  formatDetection: { address: false, date: false, email: false, telephone: false, url: false },
+  themeColor: '#b7000d',
+  icons: {
+    apple: { url: 'apple-touch-icon.png', sizes: '180x180' },
+    icon: [
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' }
+    ],
+    shortcut: { url: '/favicon.ico', type: 'image/x-icon', sizes: 'any' },
+  },
+  other: {
+    'msapplication-TileColor': '#b91d47'
   }
 };
 

@@ -37,6 +37,7 @@ import { FormatNumber } from '@/components/Format/FormatNumber';
 import { EditContents } from './_edit-content/EditContents';
 import { CurrencyLink } from '@/components/Currency/CurrencyLink';
 import { CurrencyValue } from '@/components/Currency/CurrencyValue';
+import { EditVendor } from './_edit-vendor/EditVendor';
 
 export interface ItemPageComponentProps {
   language: Language;
@@ -144,6 +145,15 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
               <RecipeBox key={recipe.id} recipe={recipe} outputItem={recipe.outputItem}/>
             ))}
           </RecipeBoxWrapper>
+        </>
+      )}
+
+      {(data.details?.vendor_ids?.length ?? 0) > 0 && (
+        <>
+          <Headline id="vendor">Vendor</Headline>
+          <p>Using this item opens a vendor.</p>
+
+          <EditVendor/>
         </>
       )}
 

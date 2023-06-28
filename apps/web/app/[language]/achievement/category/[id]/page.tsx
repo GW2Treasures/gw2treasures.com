@@ -4,7 +4,7 @@ import { db } from '@/lib/prisma';
 import { Gw2Api } from 'gw2-api-types';
 import { ItemList } from '@/components/ItemList/ItemList';
 import { AchievementLink } from '@/components/Achievement/AchievementLink';
-import { localizedName } from '@/lib/localizedName';
+import { compareLocalizedName, localizedName } from '@/lib/localizedName';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { Json } from '@/components/Format/Json';
 import { Tip } from '@/components/Tip/Tip';
@@ -46,7 +46,13 @@ async function AchievementCategoryPage({ params: { language, id }}: { params: { 
 
   const data: Gw2Api.Achievement.Category = JSON.parse(revision.data);
 
-  const historicAchievements = achievementCategory.achievements.filter(({ historic }) => historic);
+  const achievements = achievementCategory.achievements.sort(compareLocalizedName(language));
+  const [currentAchievements, historicAchievements] = achievements.reduce<[typeof achievements, typeof achievements]>(
+    ([current, historic], achievement) => achievement.historic
+      ? [current, [...historic, achievement]]
+      : [[...current, achievement], historic],
+    [[], []]
+  );
 
   return (
     <DetailLayout
@@ -64,7 +70,7 @@ async function AchievementCategoryPage({ params: { language, id }}: { params: { 
 
       <Headline id="achievements">Achievements</Headline>
       <ItemList>
-        {achievementCategory.achievements.filter(({ historic }) => !historic).map((achievement) => (
+        {currentAchievements.map((achievement) => (
           <li key={achievement.id}><AchievementLink achievement={achievement}/></li>
         ))}
       </ItemList>

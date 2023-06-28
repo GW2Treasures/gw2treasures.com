@@ -31,7 +31,7 @@
     "@typescript-eslint/eslint-plugin": "^5.42.0",
     "eslint": "8.38.0",
     "eslint-config-next": "13.4.7",
-    "typescript": "5.1.5"
+    "typescript": "5.1.6"
   },
   "peerDependencies": {
     "next": "13.4.7",

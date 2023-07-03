@@ -1,4 +1,6 @@
 'use client';
+import { AchievementLink } from '@/components/Achievement/AchievementLink';
+import { SearchAchievementDialog } from '@/components/Achievement/SearchAchievementDialog';
 import { Dialog } from '@/components/Dialog/Dialog';
 import { ItemLink } from '@/components/Item/ItemLink';
 import { SearchItemDialog } from '@/components/Item/SearchItemDialog';
@@ -7,7 +9,7 @@ import { Tab, TabList, TabProps } from '@/components/TabList/TabList';
 import { Tip } from '@/components/Tip/Tip';
 import { LocalizedEntity, localizedName } from '@/lib/localizedName';
 import { WithIcon } from '@/lib/with';
-import { Item, VendorTab } from '@gw2treasures/database';
+import { Achievement, Item, VendorTab } from '@gw2treasures/database';
 import { Icon } from '@gw2treasures/ui';
 import { Button } from '@gw2treasures/ui/components/Form/Button';
 import { Checkbox } from '@gw2treasures/ui/components/Form/Checkbox';
@@ -40,8 +42,9 @@ export interface EditVendorDialogProps {
   // TODO: add props
 }
 
-type EditVendorTab = Omit<VendorTab, 'requiresItemId'> & {
+type EditVendorTab = Omit<VendorTab, 'requiresItemId' | 'requiresAchievementId'> & {
   requiresItem: WithIcon<Pick<Item, 'id' | 'rarity' | keyof LocalizedEntity>> | null;
+  requiresAchievement: WithIcon<Pick<Achievement, 'id' | keyof LocalizedEntity>> | null;
 }
 
 const EmptyVendorTab: Omit<EditVendorTab, 'id'> = {
@@ -51,7 +54,7 @@ const EmptyVendorTab: Omit<EditVendorTab, 'id'> = {
   name_es: '',
   name_fr: '',
   requiresItem: null,
-  requiresAchievementId: null,
+  requiresAchievement: null,
   rotation: false,
   unlock_de: '',
   unlock_en: '',
@@ -70,6 +73,7 @@ export const EditVendorDialog: FC<EditVendorDialogProps> = ({ }) => {
   };
 
   const [addItemRequirement, setAddItemRequirement] = useState<string>();
+  const [addAchievementRequirement, setAddAchievementRequirement] = useState<string>();
 
   return (
     <>
@@ -111,11 +115,33 @@ export const EditVendorDialog: FC<EditVendorDialogProps> = ({ }) => {
                 {tab.requiresItem ? (<><ItemLink item={tab.requiresItem}/><Button icon="delete" appearance="menu" onClick={() => edit({ requiresItem: null })}>Delete</Button></>) : <Button icon="item" onClick={() => setAddItemRequirement(tab.id)}>Select Item</Button>}
               </Label>
               <Label label="Required Achievement" visualOnly>
-                <Button icon="achievement" disabled>Select Achievement</Button>
+                {tab.requiresAchievement ? (<><AchievementLink achievement={tab.requiresAchievement}/><Button icon="delete" appearance="menu" onClick={() => edit({ requiresAchievement: null })}>Delete</Button></>) : <Button icon="achievement" onClick={() => setAddAchievementRequirement(tab.id)}>Select Achievement</Button>}
               </Label>
               <Label label="Required Mastery" visualOnly>
                 <Button icon="mastery" disabled>Select Mastery</Button>
               </Label>
+              <FlexRow>
+                <div style={{ flex: 1 }}>
+                  <Label label="Unlock Description (DE)">
+                    <TextInput value={tab.unlock_de ?? ''} onChange={(unlock_de) => edit({ unlock_de })}/>
+                  </Label>
+                </div>
+                <div style={{ flex: 1 }}>
+                  <Label label="Unlock Description (EN)">
+                    <TextInput value={tab.unlock_en ?? ''} onChange={(unlock_en) => edit({ unlock_en })}/>
+                  </Label>
+                </div>
+                <div style={{ flex: 1 }}>
+                  <Label label="Unlock Description (ES)">
+                    <TextInput value={tab.unlock_es ?? ''} onChange={(unlock_es) => edit({ unlock_es })}/>
+                  </Label>
+                </div>
+                <div style={{ flex: 1 }}>
+                  <Label label="Unlock Description (FR)">
+                    <TextInput value={tab.unlock_fr ?? ''} onChange={(unlock_fr) => edit({ unlock_fr })}/>
+                  </Label>
+                </div>
+              </FlexRow>
               <Label label="Actions" visualOnly>
                 <FlexRow>
                   <Button appearance="menu" icon="delete" intent="delete" onClick={() => setTabs(tabs.filter(({ id }) => id !== tab.id))}>Delete Tab</Button>
@@ -140,6 +166,7 @@ export const EditVendorDialog: FC<EditVendorDialogProps> = ({ }) => {
         })}
       </TabList>
       <SearchItemDialog open={addItemRequirement !== undefined} onSubmit={(requiresItem) => { addItemRequirement && editTabWithId(addItemRequirement)({ requiresItem }); setAddItemRequirement(undefined); }}/>
+      <SearchAchievementDialog open={addAchievementRequirement !== undefined} onSubmit={(requiresAchievement) => { addAchievementRequirement && editTabWithId(addAchievementRequirement)({ requiresAchievement }); setAddAchievementRequirement(undefined); }}/>
     </>
   );
 };

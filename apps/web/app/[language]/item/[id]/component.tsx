@@ -37,6 +37,7 @@ import { FormatNumber } from '@/components/Format/FormatNumber';
 import { EditContents } from './_edit-content/EditContents';
 import { CurrencyLink } from '@/components/Currency/CurrencyLink';
 import { CurrencyValue } from '@/components/Currency/CurrencyValue';
+import { compareLocalizedName } from '@/lib/localizedName';
 import { EditVendor } from './_edit-vendor/EditVendor';
 
 export interface ItemPageComponentProps {
@@ -68,6 +69,8 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
 
   const showContents = item.type === 'Container' || item.contains.length > 0 || item.containsCurrency.length > 0;
   const canHaveContents = item.type === 'Container' || item.type === 'Consumable';
+
+  const compareByName = compareLocalizedName(language);
 
   return (
     <DetailLayout
@@ -114,7 +117,7 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
         <>
           <p>Required to complete the following achievements:</p>
           <ItemList>
-            {item.achievementBits.map((achievement) => <li key={achievement.id}><AchievementLink achievement={achievement}/></li>)}
+            {item.achievementBits.sort(compareByName).map((achievement) => <li key={achievement.id}><AchievementLink achievement={achievement}/></li>)}
           </ItemList>
         </>
       )}
@@ -123,7 +126,7 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
         <>
           <p>Rewarded for completing the following achievements:</p>
           <ItemList>
-            {item.achievementRewards.map((achievement) => <li key={achievement.id}><AchievementLink achievement={achievement}/></li>)}
+            {item.achievementRewards.sort(compareByName).map((achievement) => <li key={achievement.id}><AchievementLink achievement={achievement}/></li>)}
           </ItemList>
         </>
       )}
@@ -132,7 +135,7 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
         <>
           <p>The skin unlocked by this item is required to complete the following achievements:</p>
           <ItemList>
-            {skinAchievementBits.map((achievement) => <li key={achievement.id}><AchievementLink achievement={achievement}/></li>)}
+            {skinAchievementBits.sort(compareByName).map((achievement) => <li key={achievement.id}><AchievementLink achievement={achievement}/></li>)}
           </ItemList>
         </>
       )}

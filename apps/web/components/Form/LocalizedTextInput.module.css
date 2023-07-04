@@ -1,0 +1,38 @@
+.box {
+  border: 2px solid var(--color-border-dark);
+  border-radius: 2px;
+  flex: 1;
+  background-color: var(--color-background);
+
+  display: grid;
+  grid-template-columns: min-content 1fr;
+}
+
+.box:focus-within {
+  border-color: var(--color-focus);
+}
+
+.lang {
+  color: var(--color-text-muted);
+  padding: 8px 0 8px 16px;
+  font-size: 14px;
+  align-self: center;
+}
+
+.lang:focus {
+  color: var(--color-focus);
+}
+
+.input {
+  padding: 8px;
+  margin: 0;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  font: inherit;
+  align-self: stretch;
+}
+
+.input:focus {
+  outline: none;
+}

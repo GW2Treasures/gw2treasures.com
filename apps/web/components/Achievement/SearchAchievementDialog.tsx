@@ -34,7 +34,7 @@ export const SearchAchievementDialog: FC<SearchAchievementDialogProps> = ({ onSu
   return (
     <Dialog onClose={() => onSubmit(undefined)} title="Search Achievement" open={open}>
       <div style={{ display: 'flex', flexDirection: 'column', marginBottom: 16 }}>
-        <TextInput placeholder="Name / Chatlink / ID" value={searchValue} onChange={setSearchValue}/>
+        <TextInput placeholder="Name / ID" value={searchValue} onChange={setSearchValue}/>
       </div>
 
       {achievements === 'loading' ? (

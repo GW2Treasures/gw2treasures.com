@@ -9,6 +9,7 @@
   gap: 8px;
   align-items: stretch;
   margin-bottom: 16px;
+  flex-wrap: wrap;
 }
 
 .button {

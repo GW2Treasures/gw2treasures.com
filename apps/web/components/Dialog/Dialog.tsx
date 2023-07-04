@@ -9,9 +9,10 @@ export interface DialogProps {
   title: ReactNode,
   open?: boolean;
   onClose: () => void
+  wide?: boolean;
 }
 
-export const Dialog: FC<DialogProps> = ({ children, title, open = true, onClose }) => {
+export const Dialog: FC<DialogProps> = ({ children, title, open = true, onClose, wide }) => {
   const { refs, context } = useFloating({
     open,
     onOpenChange: onClose,
@@ -33,7 +34,7 @@ export const Dialog: FC<DialogProps> = ({ children, title, open = true, onClose 
     <FloatingPortal>
       <FloatingOverlay className={styles.overlay} style={transitionStyles}>
         <FloatingFocusManager context={context}>
-          <div ref={refs.setFloating} aria-labelledby={labelId} className={styles.dialog} {...getFloatingProps()}>
+          <div ref={refs.setFloating} aria-labelledby={labelId} className={wide ? styles.dialogWide : styles.dialog} {...getFloatingProps()}>
             <div className={styles.title}>
               <header id={labelId}>{title}</header>
               <button type="button" className={styles.close} onClick={onClose}><Icon icon="close"/></button>

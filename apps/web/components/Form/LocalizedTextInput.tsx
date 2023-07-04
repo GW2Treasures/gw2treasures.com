@@ -15,10 +15,10 @@ export const LocalizedTextInput: FC<LocalizedTextInputProps> = ({ value, onChang
   return (
     <div className={styles.box}>
       {languages.map((language) => (
-        <Fragment key={language}>
+        <div key={language} className={styles.row}>
           <label className={styles.lang} htmlFor={`${id}_${language}`}>{language.toUpperCase()}</label>
           <input className={styles.input} id={`${id}_${language}`} value={value[language]} onChange={(e) => onChange(language, e.target.value)}/>
-        </Fragment>
+        </div>
       ))}
     </div>
   );

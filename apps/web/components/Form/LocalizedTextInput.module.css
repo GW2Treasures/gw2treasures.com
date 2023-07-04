@@ -4,22 +4,45 @@
   flex: 1;
   background-color: var(--color-background);
 
-  display: grid;
-  grid-template-columns: min-content 1fr;
+  display: flex;
+  flex-direction: column;
+
+  transition: border-color .3s ease;
 }
 
 .box:focus-within {
   border-color: var(--color-focus);
 }
 
+.row {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  position: relative;
+}
+
+.row + .row {
+  margin-top: 1px;
+}
+
+.row + .row::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  height: 1px;
+  left: 16px;
+  right: 16px;
+  background-color: var(--color-border);
+}
+
 .lang {
   color: var(--color-text-muted);
   padding: 8px 0 8px 16px;
-  font-size: 14px;
+  font-size: 16px;
   align-self: center;
+  transition: color .3s ease;
 }
 
-.lang:focus {
+.row:focus-within .lang {
   color: var(--color-focus);
 }
 

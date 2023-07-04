@@ -2,6 +2,7 @@
 import { AchievementLink } from '@/components/Achievement/AchievementLink';
 import { SearchAchievementDialog } from '@/components/Achievement/SearchAchievementDialog';
 import { Dialog } from '@/components/Dialog/Dialog';
+import { LocalizedTextInput } from '@/components/Form/LocalizedTextInput';
 import { ItemLink } from '@/components/Item/ItemLink';
 import { SearchItemDialog } from '@/components/Item/SearchItemDialog';
 import { FlexRow } from '@/components/Layout/FlexRow';
@@ -31,7 +32,7 @@ export const EditVendor: FC<EditVendorProps> = ({ }) => {
   return (
     <>
       <Button onClick={() => setDialogOpen(true)}>Edit Vendor</Button>
-      <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)} title="Edit Vendor">
+      <Dialog wide open={dialogOpen} onClose={() => setDialogOpen(false)} title="Edit Vendor">
         <EditVendorDialog/>
       </Dialog>
     </>
@@ -83,28 +84,9 @@ export const EditVendorDialog: FC<EditVendorDialogProps> = ({ }) => {
 
           return (
             <Tab id={tab.id} title={localizedName(tab, 'en') || '[Untitled]'} icon="vendor" key={tab.id}>
-              <FlexRow>
-                <div style={{ flex: 1 }}>
-                  <Label label="Title (DE)">
-                    <TextInput value={tab.name_de} onChange={(name_de) => edit({ name_de })}/>
-                  </Label>
-                </div>
-                <div style={{ flex: 1 }}>
-                  <Label label="Title (EN)">
-                    <TextInput value={tab.name_en} onChange={(name_en) => edit({ name_en })}/>
-                  </Label>
-                </div>
-                <div style={{ flex: 1 }}>
-                  <Label label="Title (ES)">
-                    <TextInput value={tab.name_es} onChange={(name_es) => edit({ name_es })}/>
-                  </Label>
-                </div>
-                <div style={{ flex: 1 }}>
-                  <Label label="Title (FR)">
-                    <TextInput value={tab.name_fr} onChange={(name_fr) => edit({ name_fr })}/>
-                  </Label>
-                </div>
-              </FlexRow>
+              <Label label="Title">
+                <LocalizedTextInput value={{ de: tab.name_de ?? '', en: tab.name_en ?? '', es: tab.name_es ?? '', fr: tab.name_fr ?? '' }} onChange={(language, value) => edit({ [`name_${language}`]: value })}/>
+              </Label>
               <Label label="Daily Purchase Limit">
                 <NumberInput value={tab.dailyPurchaseLimit} onChange={(dailyPurchaseLimit) => edit({ dailyPurchaseLimit })} min={0} max={255}/>
               </Label>
@@ -120,28 +102,9 @@ export const EditVendorDialog: FC<EditVendorDialogProps> = ({ }) => {
               <Label label="Required Mastery" visualOnly>
                 <Button icon="mastery" disabled>Select Mastery</Button>
               </Label>
-              <FlexRow>
-                <div style={{ flex: 1 }}>
-                  <Label label="Unlock Description (DE)">
-                    <TextInput value={tab.unlock_de ?? ''} onChange={(unlock_de) => edit({ unlock_de })}/>
-                  </Label>
-                </div>
-                <div style={{ flex: 1 }}>
-                  <Label label="Unlock Description (EN)">
-                    <TextInput value={tab.unlock_en ?? ''} onChange={(unlock_en) => edit({ unlock_en })}/>
-                  </Label>
-                </div>
-                <div style={{ flex: 1 }}>
-                  <Label label="Unlock Description (ES)">
-                    <TextInput value={tab.unlock_es ?? ''} onChange={(unlock_es) => edit({ unlock_es })}/>
-                  </Label>
-                </div>
-                <div style={{ flex: 1 }}>
-                  <Label label="Unlock Description (FR)">
-                    <TextInput value={tab.unlock_fr ?? ''} onChange={(unlock_fr) => edit({ unlock_fr })}/>
-                  </Label>
-                </div>
-              </FlexRow>
+              <Label label="Unlock Description">
+                <LocalizedTextInput value={{ de: tab.unlock_de ?? '', en: tab.unlock_en ?? '', es: tab.unlock_es ?? '', fr: tab.unlock_fr ?? '' }} onChange={(language, value) => edit({ [`unlock_${language}`]: value })}/>
+              </Label>
               <Label label="Actions" visualOnly>
                 <FlexRow>
                   <Button appearance="menu" icon="delete" intent="delete" onClick={() => setTabs(tabs.filter(({ id }) => id !== tab.id))}>Delete Tab</Button>

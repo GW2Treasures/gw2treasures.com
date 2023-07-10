@@ -8,6 +8,7 @@ import { db } from '@/lib/prisma';
 import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { cache } from 'react';
+import { FlexRow } from '@/components/Layout/FlexRow';
 
 const getUserData = cache(async () => {
   const session = await getUser();
@@ -36,7 +37,10 @@ export default async function ProfilePage() {
 
   return (
     <HeroLayout hero={<Headline id="profile">{user.name}</Headline>} toc>
-      <LinkButton external href="/logout">Logout</LinkButton>
+      <FlexRow>
+        <LinkButton external href="/logout">Logout</LinkButton>
+        {user.roles.includes('Admin') && <LinkButton href="/admin/users">Admin</LinkButton>}
+      </FlexRow>
 
       <Headline id="sessions">Sessions</Headline>
       <Table>

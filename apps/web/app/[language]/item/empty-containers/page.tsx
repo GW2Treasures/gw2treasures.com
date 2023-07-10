@@ -4,6 +4,8 @@ import { PageLayout } from '@/components/Layout/PageLayout';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { ItemTable } from '@/components/Item/ItemTable';
 
+export const dynamic = 'force-dynamic';
+
 const getEmptyContainers = remember(60 * 10, async function getEmptyContainers() {
   const items = await db.item.findMany({
     where: { type: 'Container', contains: { none: {}}, containsCurrency: { none: {}}},

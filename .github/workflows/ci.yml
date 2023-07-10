@@ -30,6 +30,13 @@ jobs:
         npm -v
     - name: Install dependencies
       run: npm ci
+    - name: Cache turbo
+      uses: actions/cache@v3
+      with:
+        path: ./node_modules/.cache/turbo
+        key: turbo-cache-build-${{ runner.os }}-${{ github.sha }}
+        restore-keys: |
+          turbo-cache-build-${{ runner.os }}-
     - name: Run Build
       run: npm run build
 
@@ -117,10 +124,21 @@ jobs:
     - uses: actions/checkout@v3
     - uses: actions/setup-node@v3
       with:
-        node-version: 18
+        node-version: 20
         cache: npm
+    - name: Install latest npm
+      run: |
+        npm install --global npm@latest
+        npm -v
     - name: Install dependencies
       run: npm ci
+    - name: Cache turbo
+      uses: actions/cache@v3
+      with:
+        path: ./node_modules/.cache/turbo
+        key: turbo-cache-lint-${{ runner.os }}-${{ github.sha }}
+        restore-keys: |
+          turbo-cache-lint-${{ runner.os }}-
     - name: Run Lint
       run: npm run lint
 
@@ -185,9 +203,13 @@ jobs:
     - uses: actions/checkout@v3
     - uses: actions/setup-node@v3
       with:
-        node-version: 18
+        node-version: 20
         cache: npm
         registry-url: 'https://registry.npmjs.org'
+    - name: Install latest npm
+      run: |
+        npm install --global npm@latest
+        npm -v
     - name: Install dependencies
       run: npm ci
     - name: Run Publish

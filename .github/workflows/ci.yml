@@ -109,7 +109,7 @@ jobs:
     - name: Import images into k3d
       run: k3d image import gw2treasures/web gw2treasures/worker gw2treasures/legacy-importer gw2treasures/database-migration
     - run: kubectl apply -k kubernetes/local
-    - run: kubectl rollout status deployment next next-worker -n gw2treasures --timeout=120s
+    - run: kubectl rollout status deployment next-db next next-worker -n gw2treasures --timeout=180s
     - run: kubectl get deployment -n gw2treasures
       if: success() || failure()
     - run: kubectl get job -n gw2treasures
@@ -148,8 +148,10 @@ jobs:
     runs-on: ubuntu-latest
     if: always()
     steps:
-    - run: jq --exit-status 'all(.result == "success")' <<< '${{ toJson(needs) }}'
-    - run: exit 0
+    - name: Check job status 
+      run: jq --exit-status 'all(.result == "success")' <<< '${{ toJson(needs) }}'
+    - name: Success
+      run: exit 0
 
   publish-docker:
     name: Publish / Docker / ${{ matrix.target }}

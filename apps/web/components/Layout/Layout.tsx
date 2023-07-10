@@ -24,7 +24,7 @@ const getOpenReviews = remember(60, function getOpenReviews() {
 });
 
 const Layout: AsyncComponent<LayoutProps> = async ({ children }) => {
-  const loading = useLoading();
+  const loading = false;
   const user = await getUser();
   const openReviews = await getOpenReviews();
 

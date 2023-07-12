@@ -43,8 +43,8 @@ function toNumber(value: string): number | undefined {
 }
 
 type LocalizedNameInput = {
-  AND?: Prisma.Enumerable<LocalizedNameInput>;
-  OR?: Prisma.Enumerable<LocalizedNameInput>;
+  AND?: LocalizedNameInput[];
+  OR?: LocalizedNameInput[];
   name_de?: Prisma.StringFilter | string;
   name_en?: Prisma.StringFilter | string;
   name_es?: Prisma.StringFilter | string;

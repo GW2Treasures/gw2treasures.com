@@ -6,7 +6,6 @@ import rarityClasses from '@/components/Layout/RarityColor.module.css';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { Rarity } from '@/components/Item/Rarity';
 import { Gw2Api } from 'gw2-api-types';
-import { ItemTable } from '@/components/Item/ItemTable';
 import { notFound } from 'next/navigation';
 import { ItemList } from '@/components/ItemList/ItemList';
 import { SkinLink } from '@/components/Skin/SkinLink';
@@ -17,6 +16,8 @@ import { AchievementLink } from '@/components/Achievement/AchievementLink';
 import { TableOfContentAnchor } from '@gw2treasures/ui/components/TableOfContent/TableOfContent';
 import { ExternalLink } from '@/components/Link/ExternalLink';
 import { localizedName } from '@/lib/localizedName';
+import { createItemTableQuery } from '@/components/ItemTable/query';
+import { ItemTable } from '@/components/ItemTable/ItemTable';
 
 const getSkin = remember(60, async function getSkin(id: number, language: Language) {
   const [skin, revision] = await Promise.all([
@@ -44,10 +45,7 @@ async function SkinPage ({ params: { language, id }}: { params: { language: Lang
   const skinId: number = Number(id);
 
   const { skin, revision, similar } = await getSkin(skinId, language);
-
-  if(!skin) {
-    return <DetailLayout title={<Skeleton/>} breadcrumb={<Skeleton/>}><Skeleton/></DetailLayout>;
-  }
+  const unlockedByItemsQuery = createItemTableQuery({ where: { unlocksSkin: { some: { id: skinId }}}});
 
   const data: Gw2Api.Skin = JSON.parse(revision.data);
 
@@ -77,7 +75,8 @@ async function SkinPage ({ params: { language, id }}: { params: { language: Lang
       )}
 
       <Headline id="items">Unlocked by</Headline>
-      <ItemTable items={skin.unlockedByItems}/>
+      {/* <ItemTable items={skin.unlockedByItems}/> */}
+      <ItemTable query={unlockedByItemsQuery}/>
 
       {skin.wikiImage && (
         <>

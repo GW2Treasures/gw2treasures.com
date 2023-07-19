@@ -23,8 +23,9 @@ export const DropDown: FC<DropDown> = ({ children, button, preferredPlacement = 
     whileElementsMounted: autoUpdate,
     middleware: [
       offset(8),
-      flip({ padding: { top: 64, bottom: 8, left: 8, right: 8 }, crossAxis: false, fallbackAxisSideDirection: 'end' }),
-      shift({ padding: 8 }),
+      flip({ padding: { top: 48 + 8, bottom: 8, left: 8, right: 8 }, crossAxis: false, fallbackAxisSideDirection: 'end' }),
+      shift({ padding: { top: 48 + 8, bottom: 8, left: 8, right: 8 }}),
+      shift({ padding: { top: 48 + 48 + 8 }, rootBoundary: 'document' }),
       hideTop && hide({ padding: { top: 48 }}),
       arrow({ element: arrowRef, padding: 4 })
     ].filter(isTruthy),

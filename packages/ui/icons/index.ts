@@ -55,6 +55,9 @@ import ChevronDownIcon from './chevron-down.svg?svgr';
 import ChevronLeftIcon from './chevron-left.svg?svgr';
 import ChevronRightIcon from './chevron-right.svg?svgr';
 import ChevronUpIcon from './chevron-up.svg?svgr';
+import SortIcon from './sort.svg?svgr';
+import SortAscIcon from './sort-asc.svg?svgr';
+import SortDescIcon from './sort-desc.svg?svgr';
 
 export type IconName = 'menu' | 'gw2treasures' | 'user' | 'revision' | 'search' | 'chatlink' | 'jobs' | 'time'
  | 'mount' | 'skill' | 'specialization' | 'wvw' | 'profession' | 'skin' | 'achievement' | 'item' | 'builds'
@@ -62,7 +65,7 @@ export type IconName = 'menu' | 'gw2treasures' | 'user' | 'revision' | 'search' 
  | 'filter' | 'filter-active' | 'shuffle' | 'achievementPoints' | 'info' | 'locale' | 'checkmark' | 'close'
  | 'api-status' | 'discord' | 'external' | 'external-link' | 'mastery' | 'coins' | 'upgrade-slot' | 'infusion-slot' | 'enrichment-slot'
  | 'eye' | 'status' | 'unlock' | 'more' | 'developer' | 'add' | 'review-queue' | 'delete' | 'columns'
- | 'chevron-down' | 'chevron-left' | 'chevron-right' | 'chevron-up';
+ | 'chevron-down' | 'chevron-left' | 'chevron-right' | 'chevron-up' | 'sort' | 'sort-asc' | 'sort-desc';
 
 type IconComponent = FunctionComponent<SVGProps<SVGSVGElement>>;
 
@@ -123,6 +126,9 @@ export const Icons: Record<IconName, IconComponent> = {
   'chevron-left': ChevronLeftIcon,
   'chevron-right': ChevronRightIcon,
   'chevron-up': ChevronUpIcon,
+  'sort': SortIcon,
+  'sort-asc': SortAscIcon,
+  'sort-desc': SortDescIcon,
 };
 
 export type IconProp = IconName | JSX.Element;

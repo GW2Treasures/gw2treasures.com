@@ -22,3 +22,8 @@
   composes: container;
   justify-content: flex-end;
 }
+
+.space-between {
+  composes: container;
+  justify-content: space-between;
+}

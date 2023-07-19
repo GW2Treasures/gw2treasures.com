@@ -2,7 +2,7 @@ import { FC, ReactNode } from 'react';
 import styles from './FlexRow.module.css';
 
 interface FlexRowProps {
-  align?: 'left' | 'right' | 'center';
+  align?: 'left' | 'right' | 'center' | 'space-between';
   children: ReactNode;
 };
 

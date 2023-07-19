@@ -103,7 +103,7 @@ export const ItemTable: FC<ItemTableProps> = ({ query, defaultColumns = globalDe
             </tr>
           ))}
           {collapsed && totalItems > collapsedSize && (
-            <TableRowButton key="show-more" onClick={() => setCollapsed(false)}><Icon icon="chevronDown"/> Show {totalItems - collapsedSize} more</TableRowButton>
+            <TableRowButton key="show-more" onClick={() => setCollapsed(false)}><Icon icon="chevron-down"/> Show {totalItems - collapsedSize} more</TableRowButton>
           )}
         </tbody>
       </Table>

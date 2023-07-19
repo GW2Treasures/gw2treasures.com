@@ -9,12 +9,14 @@ import { Coins } from '../Format/Coins';
 type Result<Select extends Prisma.ItemSelect> =
   Awaited<ReturnType<typeof db.item.findFirstOrThrow<{ select: Select }>>>;
 
+export type OrderBy = Prisma.ItemOrderByWithRelationInput | Prisma.ItemOrderByWithRelationInput[]
+
 export interface ItemTableColumn<Select extends Prisma.ItemSelect> {
   id: DefaultColumnName,
   select: Select,
   render: (item: Result<Select>) => ReactNode,
   align?: 'right',
-  orderBy?: [ascending: Prisma.ItemOrderByWithRelationInput, descending: Prisma.ItemOrderByWithRelationInput]
+  orderBy?: [asc: OrderBy, desc: OrderBy]
 }
 
 // typehelper
@@ -82,7 +84,8 @@ export const defaultColumnDefinitions = {
   type: createColumn({
     id: 'type',
     select: { type: true, subtype: true },
-    render: (item) => <>{item.type} {item.subtype && `(${item.subtype})`}</>
+    render: (item) => <>{item.type} {item.subtype && `(${item.subtype})`}</>,
+    orderBy: [[{ type: 'asc' }, { subtype: 'asc' }], [{ type: 'desc' }, { subtype: 'desc' }]]
   }),
   vendorValue: createColumn({
     id: 'vendorValue',

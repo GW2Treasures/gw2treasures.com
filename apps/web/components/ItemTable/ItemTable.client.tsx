@@ -30,7 +30,7 @@ export interface ItemTableProps {
     id: DefaultColumnName,
     title: string,
     select: Signed<Prisma.ItemSelect>,
-    orderBy: [asc: Signed<Prisma.ItemOrderByWithRelationInput>, desc: Signed<Prisma.ItemOrderByWithRelationInput>]
+    orderBy: [asc: Signed<OrderBy>, desc: Signed<OrderBy>]
   }>;
   collapsed?: boolean;
 };

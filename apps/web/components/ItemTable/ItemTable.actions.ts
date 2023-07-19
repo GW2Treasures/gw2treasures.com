@@ -9,7 +9,7 @@ export interface ItemTableLoadOptions {
   skip?: number;
   take?: number;
   columns: Signed<Prisma.ItemSelect>[];
-  orderBy?: Signed<Prisma.ItemOrderByWithRelationInput>;
+  orderBy?: Signed<OrderBy>;
 }
 
 export async function loadItems(query: Signed<ItemTableQuery>, options: ItemTableLoadOptions): Promise<{ id: number }[]> {

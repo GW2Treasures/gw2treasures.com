@@ -36,7 +36,7 @@ async function getColumns() {
     const title = translate(`itemTable.column.${id}`);
     const select = await sign(column.select);
     const orderBy = column.orderBy
-      ? await Promise.all(column.orderBy.map(sign)) as [asc: Signed<Prisma.ItemOrderByWithRelationInput>, desc: Signed<Prisma.ItemOrderByWithRelationInput>]
+      ? await Promise.all(column.orderBy.map(sign)) as [asc: Signed<OrderBy>, desc: Signed<OrderBy>]
       : undefined;
 
     return [id, { id, title, select, orderBy }];

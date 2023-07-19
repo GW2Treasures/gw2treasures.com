@@ -2,11 +2,10 @@ import 'server-only';
 
 import { FC } from 'react';
 import { ItemTable as ClientComponent } from './ItemTable.client';
-import { DefaultColumnName, defaultColumnDefinitions } from './columns';
+import { DefaultColumnName, OrderBy, defaultColumnDefinitions } from './columns';
 import { ItemTableQuery, Signed, sign } from './query';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Notice } from '../Notice/Notice';
-import { Prisma } from '@gw2treasures/database';
 import { getLanguage, getTranslate } from '../I18n/getTranslate';
 
 interface ItemTableProps {

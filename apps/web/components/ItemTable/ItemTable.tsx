@@ -1,7 +1,7 @@
 'use client';
 
 import { FC, useEffect, useMemo, useState } from 'react';
-import { SignedItemTableQuery } from './query';
+import { Signed, ItemTableQuery } from './query';
 import { Item } from '@gw2treasures/database';
 import { loadItems, loadTotalItemCount } from './ItemTable.actions';
 import { SkeletonTable } from '../Skeleton/SkeletonTable';
@@ -21,7 +21,7 @@ const LOADING = false;
 type LOADING = typeof LOADING;
 
 export interface ItemTableProps {
-  query: SignedItemTableQuery;
+  query: Signed<ItemTableQuery>;
   defaultColumns?: DefaultColumnName[];
   collapsed?: boolean;
 };

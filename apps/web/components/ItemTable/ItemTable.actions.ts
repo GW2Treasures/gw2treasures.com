@@ -2,8 +2,8 @@
 
 import { db } from '@/lib/prisma';
 
-import { ItemTableQuery, SignedItemTableQuery, decodeItemTableQuery } from './query';
-import { Item, Prisma } from '@gw2treasures/database';
+import { ItemTableQuery, Signed, verify } from './query';
+import { Prisma } from '@gw2treasures/database';
 
 export interface ItemTableLoadOptions {
   skip?: number;
@@ -11,8 +11,8 @@ export interface ItemTableLoadOptions {
   columnSelects: Prisma.ItemSelect[];
 }
 
-export async function loadItems(query: SignedItemTableQuery, options: ItemTableLoadOptions): Promise<{ id: number }[]> {
-  const { where } = await decodeItemTableQuery(query);
+export async function loadItems(query: Signed<ItemTableQuery>, options: ItemTableLoadOptions): Promise<{ id: number }[]> {
+  const { where } = await verify(query);
   const { skip, take } = options;
 
   // TODO: this is a shallow merge, might need deep merging in the future
@@ -32,8 +32,8 @@ export async function loadItems(query: SignedItemTableQuery, options: ItemTableL
   return items as { id: number }[];
 }
 
-export async function loadTotalItemCount(query: SignedItemTableQuery): Promise<number> {
-  const { where } = await decodeItemTableQuery(query);
+export async function loadTotalItemCount(query: Signed<ItemTableQuery>): Promise<number> {
+  const { where } = await verify(query);
 
   return await db.item.count({ where });
 }

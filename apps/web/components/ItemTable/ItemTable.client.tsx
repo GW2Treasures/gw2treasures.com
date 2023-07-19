@@ -56,7 +56,7 @@ export const ItemTable: FC<ItemTableProps> = ({ query, defaultColumns = globalDe
   }, [availableColumns, columnNames]);
 
   useEffect(() => {
-    const take = collapsed ? 5 : pageSize;
+    const take = collapsed ? collapsedSize : pageSize;
     const skip = collapsed ? 0 : pageSize * page;
     loadItems(query, { columns: columns.map(({ select }) => select), take, skip }).then((items) => {
       setItems(items);
@@ -69,7 +69,7 @@ export const ItemTable: FC<ItemTableProps> = ({ query, defaultColumns = globalDe
   }, [query]);
 
   if(items === LOADING) {
-    return (<SkeletonTable icons columns={columns.map((column) => column.title)} rows={Math.min(totalItems, collapsed ? 5 : pageSize)}/>);
+    return (<SkeletonTable icons columns={columns.map((column) => column.title)} rows={Math.min(totalItems, collapsed ? collapsedSize : pageSize)}/>);
   }
 
   return (
@@ -102,7 +102,7 @@ export const ItemTable: FC<ItemTableProps> = ({ query, defaultColumns = globalDe
               </td>
             </tr>
           ))}
-          {collapsed && (
+          {collapsed && totalItems > collapsedSize && (
             <TableRowButton key="show-more" onClick={() => setCollapsed(false)}><Icon icon="chevronDown"/> Show {totalItems - collapsedSize} more</TableRowButton>
           )}
         </tbody>

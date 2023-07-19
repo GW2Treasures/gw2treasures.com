@@ -1,6 +1,7 @@
 .container {
   display: flex;
   gap: 8px;
+  align-items: center;
 }
 
 .container:not(:first-child) {

@@ -101,7 +101,7 @@ export const ItemTable: FC<ItemTableProps> = ({ query, defaultColumns, collapsed
       {!collapsed && (
         <FlexRow align="space-between">
           <div>
-            Showing <b>{pageSize}</b> of <b>{totalItems}</b> items
+            Showing <b>{items.length}</b> of <b>{totalItems}</b> items
           </div>
           <Pagination current={page} total={Math.ceil(totalItems / pageSize)} onPageChange={setPage}/>
         </FlexRow>

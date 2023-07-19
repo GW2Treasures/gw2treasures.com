@@ -1,10 +1,8 @@
 import 'server-only';
 
 import { AsyncComponent } from '@/lib/asyncComponent';
-import { translate, TranslationId } from './getTranslate';
+import { getLanguage, translate, TranslationId } from './getTranslate';
 import { FC } from 'react';
-import { headers } from 'next/headers';
-import { Language } from '@gw2treasures/database';
 
 export interface TransProps {
   id: TranslationId;
@@ -17,7 +15,7 @@ export const Trans: FC<TransProps> = ({ id }) => {
 };
 
 const TransInternal: AsyncComponent<TransProps> = async ({ id }) => {
-  const language = headers().get('x-gw2t-lang') as Language;
+  const language = getLanguage();
 
   const translation = await translate(language, id);
 

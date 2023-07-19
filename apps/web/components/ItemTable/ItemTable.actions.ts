@@ -8,7 +8,7 @@ import { Prisma } from '@gw2treasures/database';
 export interface ItemTableLoadOptions {
   skip?: number;
   take?: number;
-  columnSelects: Prisma.ItemSelect[];
+  columns: Signed<Prisma.ItemSelect>[];
 }
 
 export async function loadItems(query: Signed<ItemTableQuery>, options: ItemTableLoadOptions): Promise<{ id: number }[]> {
@@ -16,7 +16,8 @@ export async function loadItems(query: Signed<ItemTableQuery>, options: ItemTabl
   const { skip, take } = options;
 
   // TODO: this is a shallow merge, might need deep merging in the future
-  const select = options.columnSelects.reduce((combined, current) => ({ ...combined, ...current }));
+  const columns = await Promise.all(options.columns.map(verify));
+  const select = columns.reduce((combined, current) => ({ ...combined, ...current }));
 
   // always include id to use as key
   select.id = true;

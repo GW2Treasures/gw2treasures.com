@@ -5,6 +5,7 @@ import de from '../../translations/de.json';
 import en from '../../translations/en.json';
 import es from '../../translations/es.json';
 import fr from '../../translations/fr.json';
+import { headers } from 'next/headers';
 
 export type TranslationId = keyof typeof en;
 
@@ -25,7 +26,7 @@ export function getTranslate(language: Language) {
   const messages = getDictionary(language);
 
   return (id: TranslationId) => {
-    return messages[id];
+    return messages[id] ?? '[Missing translation: ' + id + ']';
   };
 }
 
@@ -33,4 +34,10 @@ export function translate(language: Language, id: TranslationId) {
   const messages = getDictionary(language);
 
   return messages[id] ?? '[Missing translation: ' + id + ']';
+}
+
+export function getLanguage() {
+  const language = headers().get('x-gw2t-lang') as Language;
+
+  return language;
 }

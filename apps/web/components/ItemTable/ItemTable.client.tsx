@@ -15,6 +15,7 @@ import { CopyButton } from '@gw2treasures/ui/components/Form/Buttons/CopyButton'
 import { Pagination } from '../Pagination/Pagination';
 import { FlexRow } from '../Layout/FlexRow';
 import { TableRowButton } from '@gw2treasures/ui/components/Table/TableRowButton';
+import { Prisma } from '@gw2treasures/database';
 
 const LOADING = false;
 type LOADING = typeof LOADING;
@@ -22,18 +23,15 @@ type LOADING = typeof LOADING;
 export interface ItemTableProps {
   query: Signed<ItemTableQuery>;
   defaultColumns?: DefaultColumnName[];
+  availableColumns: Record<DefaultColumnName, { title: string, select: Signed<Prisma.ItemSelect> }>;
   collapsed?: boolean;
 };
 
-const globalDefaultColumns = [
-  defaultColumnDefinitions.item,
-  defaultColumnDefinitions.level,
-  defaultColumnDefinitions.rarity,
-  defaultColumnDefinitions.type,
-  defaultColumnDefinitions.vendorValue,
+const globalDefaultColumns: DefaultColumnName[] = [
+  'item', 'level', 'rarity', 'type', 'vendorValue',
 ];
 
-export const ItemTable: FC<ItemTableProps> = ({ query, defaultColumns, collapsed: defaultCollapsed }) => {
+export const ItemTable: FC<ItemTableProps> = ({ query, defaultColumns, availableColumns, collapsed: defaultCollapsed }) => {
   const [items, setItems] = useState<{ id: number }[] | LOADING>(LOADING);
   const [totalItems, setTotalItems] = useState(3);
   const [page, setPage] = useState(0);
@@ -48,17 +46,15 @@ export const ItemTable: FC<ItemTableProps> = ({ query, defaultColumns, collapsed
   }, [query]);
 
   const columns = useMemo(() => {
-    if(!defaultColumns) {
-      return globalDefaultColumns;
-    }
-
-    return defaultColumns.map((name) => defaultColumnDefinitions[name]);
-  }, [defaultColumns]);
+    return (defaultColumns ?? globalDefaultColumns).map(
+      (id) => ({ id, align: defaultColumnDefinitions[id].align, render: defaultColumnDefinitions[id].render, ...availableColumns[id] })
+    );
+  }, [availableColumns, defaultColumns]);
 
   useEffect(() => {
     const take = collapsed ? 5 : pageSize;
     const skip = collapsed ? 0 : pageSize * page;
-    loadItems(query, { columnSelects: columns.map(({ select }) => select), take, skip }).then(setItems);
+    loadItems(query, { columns: columns.map(({ select }) => select), take, skip }).then(setItems);
   }, [collapsed, columns, page, query]);
 
   useEffect(() => {
@@ -66,7 +62,7 @@ export const ItemTable: FC<ItemTableProps> = ({ query, defaultColumns, collapsed
   }, [query]);
 
   if(items === LOADING) {
-    return (<SkeletonTable icons columns={columns.map((column) => column.id)} rows={Math.min(totalItems, pageSize)}/>);
+    return (<SkeletonTable icons columns={columns.map((column) => column.title)} rows={Math.min(totalItems, pageSize)}/>);
   }
 
   return (
@@ -74,7 +70,7 @@ export const ItemTable: FC<ItemTableProps> = ({ query, defaultColumns, collapsed
       <Table>
         <thead>
           <tr>
-            {columns.map((column) => <Table.HeaderCell key={column.id} align={column.align}>{column.id}</Table.HeaderCell>)}
+            {columns.map((column) => <Table.HeaderCell key={column.id} align={column.align}>{column.title}</Table.HeaderCell>)}
             <Table.HeaderCell small>&nbsp;</Table.HeaderCell>
           </tr>
         </thead>

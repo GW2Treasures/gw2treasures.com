@@ -27,6 +27,7 @@
   "navigation.mounts": "Mounts",
   "navigation.wvw": "World versus World",
   "navigation.developer": "Developer",
+  "itemTable.column.id": "ID",
   "itemTable.column.item": "Item",
   "itemTable.column.level": "Level",
   "itemTable.column.rarity": "Rarity",

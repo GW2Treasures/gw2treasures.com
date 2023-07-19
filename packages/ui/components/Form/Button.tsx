@@ -10,13 +10,13 @@ export interface CommonButtonProps {
   appearance?: 'primary' | 'secondary' | 'menu';
   intent?: 'delete';
   iconOnly?: boolean;
-  onClick?: MouseEventHandler<HTMLButtonElement> ;
   className?: string;
 }
 
 export interface ButtonProps extends CommonButtonProps {
   type?: 'button' | 'submit'
   disabled?: boolean;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
 
   form?: string;
   name?: string;
@@ -33,7 +33,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
   );
 });
 
-export interface LinkButtonProps extends ButtonProps {
+export interface LinkButtonProps extends CommonButtonProps {
+  onClick?: MouseEventHandler<HTMLAnchorElement>;
   href: string;
   locale?: string | false;
   prefetch?: boolean;

@@ -2,7 +2,7 @@
 
 import { db } from '@/lib/prisma';
 
-import { ItemTableQuery, decodeItemTableQuery } from './query';
+import { ItemTableQuery, SignedItemTableQuery, decodeItemTableQuery } from './query';
 import { Item, Prisma } from '@gw2treasures/database';
 
 export interface ItemTableLoadOptions {
@@ -11,8 +11,8 @@ export interface ItemTableLoadOptions {
   columnSelects: Prisma.ItemSelect[];
 }
 
-export async function loadItems(query: ItemTableQuery, options: ItemTableLoadOptions): Promise<{ id: number }[]> {
-  const { where } = decodeItemTableQuery(query);
+export async function loadItems(query: SignedItemTableQuery, options: ItemTableLoadOptions): Promise<{ id: number }[]> {
+  const { where } = await decodeItemTableQuery(query);
   const { skip, take } = options;
 
   // TODO: this is a shallow merge, might need deep merging in the future
@@ -32,8 +32,8 @@ export async function loadItems(query: ItemTableQuery, options: ItemTableLoadOpt
   return items as { id: number }[];
 }
 
-export async function loadTotalItemCount(query: ItemTableQuery): Promise<number> {
-  const { where } = decodeItemTableQuery(query);
+export async function loadTotalItemCount(query: SignedItemTableQuery): Promise<number> {
+  const { where } = await decodeItemTableQuery(query);
 
   return await db.item.count({ where });
 }

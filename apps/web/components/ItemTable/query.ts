@@ -1,13 +1,36 @@
 import { Prisma } from '@gw2treasures/database';
+import { signingKey } from './signingKey';
 
-export type ItemTableQuery = {
-  where: string;
+export interface ItemTableQuery {
+  where: Prisma.ItemWhereInput;
 }
 
-export function createItemTableQuery({ where }: { where: Prisma.ItemWhereInput }): ItemTableQuery {
-  return { where: JSON.stringify(where) };
+export interface SignedItemTableQuery extends ItemTableQuery {
+  signature: string;
 }
 
-export function decodeItemTableQuery(query: ItemTableQuery): { where: Prisma.ItemWhereInput } {
-  return { where: JSON.parse(query.where) };
+export async function createItemTableQuery(data: ItemTableQuery): Promise<SignedItemTableQuery> {
+  const key = await signingKey.getKey();
+  const dataBuffer = Buffer.from(JSON.stringify(data), 'utf8');
+
+  const signatureBuffer = await crypto.subtle.sign('HMAC', key, dataBuffer);
+  const signature = Buffer.from(signatureBuffer).toString('base64');
+
+  return { ...data, signature };
+}
+
+export async function decodeItemTableQuery(query: SignedItemTableQuery): Promise<ItemTableQuery> {
+  const { signature, ...data } = query;
+
+  const signatureBuffer = Buffer.from(signature, 'base64');
+  const dataBuffer = Buffer.from(JSON.stringify(data), 'utf8');
+  const key = await signingKey.getKey();
+
+  const valid = await crypto.subtle.verify('HMAC', key, signatureBuffer, dataBuffer);
+
+  if(!valid) {
+    throw new Error('Invalid query signature');
+  }
+
+  return data;
 }

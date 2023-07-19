@@ -45,7 +45,7 @@ async function SkinPage ({ params: { language, id }}: { params: { language: Lang
   const skinId: number = Number(id);
 
   const { skin, revision, similar } = await getSkin(skinId, language);
-  const unlockedByItemsQuery = createItemTableQuery({ where: { unlocksSkin: { some: { id: skinId }}}});
+  const unlockedByItemsQuery = await createItemTableQuery({ where: { unlocksSkin: { some: { id: skinId }}}});
 
   const data: Gw2Api.Skin = JSON.parse(revision.data);
 

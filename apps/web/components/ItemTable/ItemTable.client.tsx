@@ -4,7 +4,7 @@ import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { Signed, ItemTableQuery } from './query';
 import { loadItems, loadTotalItemCount } from './ItemTable.actions';
 import { SkeletonTable } from '../Skeleton/SkeletonTable';
-import { DefaultColumnName, defaultColumnDefinitions } from './columns';
+import { DefaultColumnName, OrderBy, defaultColumnDefinitions } from './columns';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { DropDown } from '../DropDown/DropDown';
 import { Button, LinkButton } from '@gw2treasures/ui/components/Form/Button';

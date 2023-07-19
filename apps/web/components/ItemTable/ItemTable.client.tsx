@@ -16,7 +16,6 @@ import { Pagination } from '../Pagination/Pagination';
 import { FlexRow } from '../Layout/FlexRow';
 import { TableRowButton } from '@gw2treasures/ui/components/Table/TableRowButton';
 import { Prisma } from '@gw2treasures/database';
-import { ItemTableColumnsButton } from './ColumnSelectDialog';
 import { Skeleton } from '../Skeleton/Skeleton';
 import { useItemTableContext } from './context';
 import { Notice } from '../Notice/Notice';

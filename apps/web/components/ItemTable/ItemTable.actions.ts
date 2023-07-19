@@ -31,3 +31,9 @@ export async function loadItems(query: ItemTableQuery, options: ItemTableLoadOpt
   // TODO: this could be generified as well, but probably not needed. The id is the only property the table needs.
   return items as { id: number }[];
 }
+
+export async function loadTotalItemCount(query: ItemTableQuery): Promise<number> {
+  const { where } = decodeItemTableQuery(query);
+
+  return await db.item.count({ where });
+}

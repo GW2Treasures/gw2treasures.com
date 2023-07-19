@@ -1,4 +1,6 @@
 import { ItemTable } from '@/components/ItemTable/ItemTable';
+import { ItemTableColumnsButton } from '@/components/ItemTable/ItemTableColumnsButton';
+import { ItemTableContext } from '@/components/ItemTable/ItemTableContext';
 import { PageLayout } from '@/components/Layout/PageLayout';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 
@@ -11,11 +13,12 @@ const query = {
 export default function ItemEmptyContainersPage() {
   return (
     <PageLayout>
-      <Headline id="empty">Empty Containers</Headline>
+      <ItemTableContext>
+        <Headline id="empty" actions={<ItemTableColumnsButton/>}>Empty Containers</Headline>
+        <p>This page shows all container items that don&apos;t have any contents. You can help by adding the content on the item page.</p>
 
-      <p>This page shows all container items that don&apos;t have any contents. You can help by adding the content on the item page.</p>
-
-      <ItemTable query={query}/>
+        <ItemTable query={query}/>
+      </ItemTableContext>
     </PageLayout>
   );
 }

@@ -32,10 +32,11 @@ async function getColumns() {
   const translate = getTranslate(language);
 
   const entries = await Promise.all(columns.map(async (column) => {
-    const title = await translate(`itemTable.column.${column.id}`);
+    const id = column.id;
+    const title = translate(`itemTable.column.${id}`);
     const select = await sign(column.select);
 
-    return [column.id, { id: column.id, title, select }];
+    return [id, { id, title, select }];
   }));
 
   return Object.fromEntries(entries);

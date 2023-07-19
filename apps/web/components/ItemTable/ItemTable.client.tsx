@@ -17,6 +17,7 @@ import { FlexRow } from '../Layout/FlexRow';
 import { TableRowButton } from '@gw2treasures/ui/components/Table/TableRowButton';
 import { Prisma } from '@gw2treasures/database';
 import { ColumnSelectDialog } from './ColumnSelectDialog';
+import { Skeleton } from '../Skeleton/Skeleton';
 
 const LOADING = false;
 type LOADING = typeof LOADING;
@@ -38,6 +39,7 @@ export const ItemTable: FC<ItemTableProps> = ({ query, defaultColumns = globalDe
   const [page, setPage] = useState(0);
   const [collapsed, setCollapsed] = useState(defaultCollapsed);
   const [columnNames, setColumnNames] = useState(defaultColumns);
+  const [loadedColumns, setLoadedColumns] = useState<DefaultColumnName[]>([]);
 
   const pageSize = 10;
   const collapsedSize = 5;
@@ -56,7 +58,10 @@ export const ItemTable: FC<ItemTableProps> = ({ query, defaultColumns = globalDe
   useEffect(() => {
     const take = collapsed ? 5 : pageSize;
     const skip = collapsed ? 0 : pageSize * page;
-    loadItems(query, { columns: columns.map(({ select }) => select), take, skip }).then(setItems);
+    loadItems(query, { columns: columns.map(({ select }) => select), take, skip }).then((items) => {
+      setItems(items);
+      setLoadedColumns(columns.map(({ id }) => id));
+    });
   }, [collapsed, columns, page, query]);
 
   useEffect(() => {
@@ -82,7 +87,11 @@ export const ItemTable: FC<ItemTableProps> = ({ query, defaultColumns = globalDe
         <tbody>
           {items.map((item) => (
             <tr key={item.id}>
-              {columns.map((column) => <td key={column.id} align={column.align}>{column.render(item as any)}</td>)}
+              {columns.map((column) => (
+                <td key={column.id} align={column.align}>
+                  {loadedColumns.includes(column.id) ? column.render(item as any) : <Skeleton width={48}/>}
+                </td>
+              ))}
               <td>
                 <DropDown button={<Button iconOnly appearance="menu"><Icon icon="more"/></Button>} preferredPlacement="right-start">
                   <MenuList>

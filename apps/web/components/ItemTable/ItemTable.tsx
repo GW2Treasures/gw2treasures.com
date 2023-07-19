@@ -15,6 +15,7 @@ import { encode } from 'gw2e-chat-codes';
 import { CopyButton } from '@gw2treasures/ui/components/Form/Buttons/CopyButton';
 import { Pagination } from '../Pagination/Pagination';
 import { FlexRow } from '../Layout/FlexRow';
+import { TableRowButton } from '@gw2treasures/ui/components/Table/TableRowButton';
 
 const LOADING = false;
 type LOADING = typeof LOADING;
@@ -22,6 +23,7 @@ type LOADING = typeof LOADING;
 export interface ItemTableProps {
   query: ItemTableQuery;
   defaultColumns?: DefaultColumnName[];
+  collapsed?: boolean;
 };
 
 const globalDefaultColumns = [
@@ -32,11 +34,14 @@ const globalDefaultColumns = [
   defaultColumnDefinitions.vendorValue,
 ];
 
-export const ItemTable: FC<ItemTableProps> = ({ query, defaultColumns }) => {
+export const ItemTable: FC<ItemTableProps> = ({ query, defaultColumns, collapsed: defaultCollapsed }) => {
   const [items, setItems] = useState<{ id: number }[] | LOADING>(LOADING);
   const [totalItems, setTotalItems] = useState(3);
   const [page, setPage] = useState(0);
-  const pageSize = 5;
+  const [collapsed, setCollapsed] = useState(defaultCollapsed);
+
+  const pageSize = 10;
+  const collapsedSize = 5;
 
   useEffect(() => {
     // show loading skeleton when the query changes
@@ -52,8 +57,10 @@ export const ItemTable: FC<ItemTableProps> = ({ query, defaultColumns }) => {
   }, [defaultColumns]);
 
   useEffect(() => {
-    loadItems(query, { columnSelects: columns.map(({ select }) => select), take: pageSize, skip: page * pageSize }).then(setItems);
-  }, [columns, page, query]);
+    const take = collapsed ? 5 : pageSize;
+    const skip = collapsed ? 0 : pageSize * page;
+    loadItems(query, { columnSelects: columns.map(({ select }) => select), take, skip }).then(setItems);
+  }, [collapsed, columns, page, query]);
 
   useEffect(() => {
     loadTotalItemCount(query).then(setTotalItems);
@@ -86,14 +93,19 @@ export const ItemTable: FC<ItemTableProps> = ({ query, defaultColumns }) => {
               </td>
             </tr>
           ))}
+          {collapsed && (
+            <TableRowButton key="show-more" onClick={() => setCollapsed(false)}><Icon icon="chevronDown"/> Show {totalItems - collapsedSize} more</TableRowButton>
+          )}
         </tbody>
       </Table>
-      <FlexRow align="space-between">
-        <div>
-          Showing <b>{pageSize}</b> of <b>{totalItems}</b> items
-        </div>
-        <Pagination current={page} total={Math.ceil(totalItems / pageSize)} onPageChange={setPage}/>
-      </FlexRow>
+      {!collapsed && (
+        <FlexRow align="space-between">
+          <div>
+            Showing <b>{pageSize}</b> of <b>{totalItems}</b> items
+          </div>
+          <Pagination current={page} total={Math.ceil(totalItems / pageSize)} onPageChange={setPage}/>
+        </FlexRow>
+      )}
     </>
   );
 };

@@ -76,7 +76,7 @@ async function SkinPage ({ params: { language, id }}: { params: { language: Lang
 
       <Headline id="items">Unlocked by</Headline>
       {/* <ItemTable items={skin.unlockedByItems}/> */}
-      <ItemTable query={unlockedByItemsQuery}/>
+      <ItemTable query={unlockedByItemsQuery} collapsed/>
 
       {skin.wikiImage && (
         <>

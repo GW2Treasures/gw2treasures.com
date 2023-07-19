@@ -40,31 +40,3 @@ export const getRevision = remember(60, async function getRevision(id: number, l
     data: revision ? JSON.parse(revision.data) as Gw2Api.Item : undefined,
   };
 });
-
-export const getSimilarItems = remember(60, async function getSimilarItems(item: Item) {
-  const similarItems = await db.item.findMany({
-    where: {
-      id: { not: item.id },
-      OR: [
-        { name_de: item.name_de },
-        { name_en: item.name_en },
-        { name_es: item.name_es },
-        { name_fr: item.name_fr },
-        { iconId: item.iconId },
-        { unlocksSkinIds: { hasSome: item.unlocksSkinIds }},
-        {
-          type: item.type,
-          subtype: item.subtype,
-          rarity: item.rarity,
-          weight: item.weight,
-          value: item.value,
-          level: item.level,
-        }
-      ]
-    },
-    include: { icon: true },
-    take: 32,
-  });
-
-  return similarItems;
-});

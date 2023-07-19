@@ -3,10 +3,17 @@
 
   border: 1px solid var(--dropdown-color-border);
   background: var(--color-background);
-  padding: 8px;
   border-radius: 2px;
   box-shadow: var(--shadow);
   z-index: 2;
+  max-height: var(--max-height);
+}
+
+.content {
+  max-height: calc(var(--max-height) - 2px);
+  padding: 8px;
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
 }
 
 .arrow {

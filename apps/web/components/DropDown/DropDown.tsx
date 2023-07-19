@@ -1,6 +1,6 @@
 'use client';
 
-import { arrow, autoUpdate, flip, hide, offset, Placement, shift, Side, useClick, useDismiss, useFloating, useFocus, useInteractions, useTransitionStyles } from '@floating-ui/react';
+import { arrow, autoUpdate, flip, hide, offset, Placement, shift, Side, size, useClick, useDismiss, useFloating, useFocus, useInteractions, useTransitionStyles } from '@floating-ui/react';
 import { Children, cloneElement, FC, ReactElement, ReactNode, useRef, useState } from 'react';
 import styles from './DropDown.module.css';
 import { isTruthy } from '@gw2treasures/ui';
@@ -15,6 +15,7 @@ export interface DropDown {
 export const DropDown: FC<DropDown> = ({ children, button, preferredPlacement = 'bottom-end', hideTop = true }) => {
   const [open, setOpen] = useState(false);
   const arrowRef = useRef<HTMLDivElement>(null);
+  const padding = { top: 48 + 8, bottom: 8, left: 8, right: 8 };
 
   const { x, y, strategy, context, middlewareData, placement, refs } = useFloating({
     open,
@@ -23,11 +24,12 @@ export const DropDown: FC<DropDown> = ({ children, button, preferredPlacement = 
     whileElementsMounted: autoUpdate,
     middleware: [
       offset(8),
-      flip({ padding: { top: 48 + 8, bottom: 8, left: 8, right: 8 }, crossAxis: false, fallbackAxisSideDirection: 'end' }),
-      shift({ padding: { top: 48 + 8, bottom: 8, left: 8, right: 8 }}),
+      flip({ padding, crossAxis: false, fallbackAxisSideDirection: 'end' }),
+      shift({ padding }),
       shift({ padding: { top: 48 + 48 + 8 }, rootBoundary: 'document' }),
       hideTop && hide({ padding: { top: 48 }}),
-      arrow({ element: arrowRef, padding: 4 })
+      size({ padding, apply({ availableHeight, elements }) { elements.floating.style.setProperty('--max-height', `${availableHeight}px`); } }),
+      arrow({ element: arrowRef, padding: 4 }),
     ].filter(isTruthy),
   });
 
@@ -71,7 +73,9 @@ export const DropDown: FC<DropDown> = ({ children, button, preferredPlacement = 
           }}
           {...getFloatingProps()}
         >
-          {children}
+          <div className={styles.content}>
+            {children}
+          </div>
           <div className={styles.arrow} ref={arrowRef} style={{
             left: middlewareData.arrow?.x ?? undefined,
             top: middlewareData.arrow?.y ?? undefined,

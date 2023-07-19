@@ -4,6 +4,7 @@ import { db } from '@/lib/prisma';
 
 import { ItemTableQuery, Signed, verify } from './query';
 import { Prisma } from '@gw2treasures/database';
+import { OrderBy } from './columns';
 
 export interface ItemTableLoadOptions {
   skip?: number;

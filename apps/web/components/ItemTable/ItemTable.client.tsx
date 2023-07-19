@@ -40,6 +40,7 @@ export const ItemTable: FC<ItemTableProps> = ({ query, defaultColumns = globalDe
   const [collapsed, setCollapsed] = useState(defaultCollapsed);
   const [columnNames, setColumnNames] = useState(defaultColumns);
   const [loadedColumns, setLoadedColumns] = useState<DefaultColumnName[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const pageSize = 10;
   const collapsedSize = 5;
@@ -58,9 +59,11 @@ export const ItemTable: FC<ItemTableProps> = ({ query, defaultColumns = globalDe
   useEffect(() => {
     const take = collapsed ? collapsedSize : pageSize;
     const skip = collapsed ? 0 : pageSize * page;
+    setLoading(true);
     loadItems(query, { columns: columns.map(({ select }) => select), take, skip }).then((items) => {
       setItems(items);
       setLoadedColumns(columns.map(({ id }) => id));
+      setLoading(false);
     });
   }, [collapsed, columns, page, query]);
 
@@ -112,7 +115,7 @@ export const ItemTable: FC<ItemTableProps> = ({ query, defaultColumns = globalDe
           <div>
             Showing <b>{items.length}</b> of <b>{totalItems}</b> items
           </div>
-          <Pagination current={page} total={Math.ceil(totalItems / pageSize)} onPageChange={setPage}/>
+          <Pagination disabled={loading} current={page} total={Math.ceil(totalItems / pageSize)} onPageChange={setPage}/>
         </FlexRow>
       )}
     </>

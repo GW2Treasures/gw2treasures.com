@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, useEffect, useMemo, useState } from 'react';
+import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { Signed, ItemTableQuery } from './query';
 import { loadItems, loadTotalItemCount } from './ItemTable.actions';
 import { SkeletonTable } from '../Skeleton/SkeletonTable';
@@ -26,7 +26,12 @@ type LOADING = typeof LOADING;
 export interface ItemTableProps {
   query: Signed<ItemTableQuery>;
   defaultColumns?: DefaultColumnName[];
-  availableColumns: Record<DefaultColumnName, { id: DefaultColumnName, title: string, select: Signed<Prisma.ItemSelect> }>;
+  availableColumns: Record<DefaultColumnName, {
+    id: DefaultColumnName,
+    title: string,
+    select: Signed<Prisma.ItemSelect>,
+    orderBy: [asc: Signed<Prisma.ItemOrderByWithRelationInput>, desc: Signed<Prisma.ItemOrderByWithRelationInput>]
+  }>;
   collapsed?: boolean;
 };
 
@@ -43,6 +48,8 @@ export const ItemTable: FC<ItemTableProps> = ({ query, defaultColumns = globalDe
   const [loadedColumns, setLoadedColumns] = useState<DefaultColumnName[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const [orderBy, setOrderBy] = useState<{ column: DefaultColumnName, order: 'asc' | 'desc'}>();
+
   const pageSize = 10;
   const collapsedSize = 5;
 
@@ -56,24 +63,42 @@ export const ItemTable: FC<ItemTableProps> = ({ query, defaultColumns = globalDe
 
   const columns = useMemo(() => {
     return (selectedColumns ?? defaultColumns).map(
-      (id) => ({ align: defaultColumnDefinitions[id].align, render: defaultColumnDefinitions[id].render, ...availableColumns[id] })
+      (id) => ({
+        align: defaultColumnDefinitions[id].align,
+        render: defaultColumnDefinitions[id].render,
+        ...availableColumns[id]
+      })
     );
   }, [availableColumns, selectedColumns, defaultColumns]);
 
   useEffect(() => {
     const take = collapsed ? collapsedSize : pageSize;
     const skip = collapsed ? 0 : pageSize * page;
+    const options = {
+      columns: columns.map(({ select }) => select),
+      orderBy: orderBy ? columns.find(({ id }) => id === orderBy.column)?.orderBy[orderBy.order === 'desc' ? 1 : 0] : undefined,
+      take, skip
+    };
     setLoading(true);
-    loadItems(query, { columns: columns.map(({ select }) => select), take, skip }).then((items) => {
+    loadItems(query, options).then((items) => {
       setItems(items);
       setLoadedColumns(columns.map(({ id }) => id));
       setLoading(false);
     });
-  }, [collapsed, columns, page, query]);
+  }, [collapsed, columns, orderBy, page, query]);
 
   useEffect(() => {
     loadTotalItemCount(query).then(setTotalItems);
   }, [query]);
+
+  const handleSort = useCallback((column: DefaultColumnName) => {
+    setCollapsed(false);
+    setOrderBy(
+      (orderBy) => orderBy?.column !== column || orderBy?.order !== 'desc'
+        ? { column, order: orderBy?.column !== column ? 'asc' : 'desc' }
+        : undefined
+    );
+  }, []);
 
   if(items === LOADING) {
     return (<SkeletonTable icons columns={columns.map((column) => column.title)} rows={Math.min(totalItems, collapsed ? collapsedSize : pageSize)}/>);
@@ -85,7 +110,11 @@ export const ItemTable: FC<ItemTableProps> = ({ query, defaultColumns = globalDe
       <Table>
         <thead>
           <tr>
-            {columns.map((column) => <Table.HeaderCell key={column.id} align={column.align}>{column.title}</Table.HeaderCell>)}
+            {columns.map((column) => (
+              <Table.HeaderCell key={column.id} align={column.align} sort={column.orderBy && (column.id === orderBy?.column ? orderBy.order : true)} onSort={() => handleSort(column.id)}>
+                {column.title}
+              </Table.HeaderCell>
+            ))}
             <Table.HeaderCell small/>
           </tr>
         </thead>

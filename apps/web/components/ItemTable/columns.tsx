@@ -14,6 +14,7 @@ export interface ItemTableColumn<Select extends Prisma.ItemSelect> {
   select: Select,
   render: (item: Result<Select>) => ReactNode,
   align?: 'right',
+  orderBy?: [ascending: Prisma.ItemOrderByWithRelationInput, descending: Prisma.ItemOrderByWithRelationInput]
 }
 
 // typehelper
@@ -29,6 +30,7 @@ export const defaultColumnDefinitions = {
     select: { id: true },
     render: ({ id }) => id,
     align: 'right',
+    orderBy: [{ id: 'asc' }, { id: 'desc' }]
   }),
   item: createColumn({
     id: 'item',
@@ -43,33 +45,39 @@ export const defaultColumnDefinitions = {
   name_de: createColumn({
     id: 'name_de',
     select: { name_de: true },
-    render: (item) => item.name_de
+    render: (item) => item.name_de,
+    orderBy: [{ name_de: 'asc' }, { name_de: 'desc' }]
   }),
   name_en: createColumn({
     id: 'name_en',
     select: { name_en: true },
-    render: (item) => item.name_en
+    render: (item) => item.name_en,
+    orderBy: [{ name_en: 'asc' }, { name_en: 'desc' }]
   }),
   name_es: createColumn({
     id: 'name_es',
     select: { name_es: true },
-    render: (item) => item.name_es
+    render: (item) => item.name_es,
+    orderBy: [{ name_es: 'asc' }, { name_es: 'desc' }]
   }),
   name_fr: createColumn({
     id: 'name_fr',
     select: { name_fr: true },
-    render: (item) => item.name_fr
+    render: (item) => item.name_fr,
+    orderBy: [{ name_fr: 'asc' }, { name_fr: 'desc' }]
   }),
   level: createColumn({
     id: 'level',
     select: { level: true },
     render: (item) => item.level,
     align: 'right',
+    orderBy: [{ level: 'asc' }, { level: 'desc' }]
   }),
   rarity: createColumn({
     id: 'rarity',
     select: { rarity: true },
-    render: (item) => <Rarity rarity={item.rarity}/>
+    render: (item) => <Rarity rarity={item.rarity}/>,
+    orderBy: [{ rarity: 'asc' }, { rarity: 'desc' }]
   }),
   type: createColumn({
     id: 'type',
@@ -81,6 +89,7 @@ export const defaultColumnDefinitions = {
     select: { value: true },
     render: (item) => <Coins value={item.value}/>,
     align: 'right',
+    orderBy: [{ value: 'asc' }, { value: 'desc' }]
   }),
 };
 

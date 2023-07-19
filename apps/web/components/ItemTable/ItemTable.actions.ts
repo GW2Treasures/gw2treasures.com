@@ -9,10 +9,12 @@ export interface ItemTableLoadOptions {
   skip?: number;
   take?: number;
   columns: Signed<Prisma.ItemSelect>[];
+  orderBy?: Signed<Prisma.ItemOrderByWithRelationInput>;
 }
 
 export async function loadItems(query: Signed<ItemTableQuery>, options: ItemTableLoadOptions): Promise<{ id: number }[]> {
   const { where } = await verify(query);
+  const orderBy = options.orderBy ? await verify(options.orderBy) : undefined;
   const { skip, take } = options;
 
   // TODO: this is a shallow merge, might need deep merging in the future
@@ -26,7 +28,8 @@ export async function loadItems(query: Signed<ItemTableQuery>, options: ItemTabl
     where,
     skip,
     take,
-    select
+    select,
+    orderBy
   });
 
   // TODO: this could be generified as well, but probably not needed. The id is the only property the table needs.

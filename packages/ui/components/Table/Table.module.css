@@ -107,11 +107,11 @@
   composes: sort;
 }
 
-.sortAsc:after {
+.sortAsc:before {
   border-color: currentColor transparent
 }
 
-.sortDesc:before {
+.sortDesc:after {
   border-color: currentColor transparent
 }
 

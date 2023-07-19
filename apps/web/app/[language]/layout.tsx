@@ -10,6 +10,7 @@ import localFont from 'next/font/local';
 import { cx } from '@gw2treasures/ui';
 import { I18nProvider } from '@/components/I18n/I18nProvider';
 import { Language } from '@gw2treasures/database';
+import { ItemTableContext } from '@/components/ItemTable/ItemTableContext';
 
 const bitter = Bitter({
   subsets: ['latin'],
@@ -40,7 +41,9 @@ export default function RootLayout({
       <body>
         <I18nProvider language={params.language}>
           <FormatProvider>
-            <Layout>{children}</Layout>
+            <ItemTableContext global>
+              <Layout>{children}</Layout>
+            </ItemTableContext>
           </FormatProvider>
         </I18nProvider>
       </body>

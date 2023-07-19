@@ -1,4 +1,6 @@
 import { ItemTable } from '@/components/ItemTable/ItemTable';
+import { ItemTableColumnsButton } from '@/components/ItemTable/ItemTableColumnsButton';
+import { ItemTableContext } from '@/components/ItemTable/ItemTableContext';
 import { Item } from '@gw2treasures/database';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 
@@ -28,9 +30,9 @@ export function SimilarItems({ item }: { item: Item }) {
   };
 
   return (
-    <>
-      <Headline id="similar">Similar Items</Headline>
+    <ItemTableContext>
+      <Headline id="similar" actions={<ItemTableColumnsButton/>}>Similar Items</Headline>
       <ItemTable query={query} collapsed/>
-    </>
+    </ItemTableContext>
   );
 }

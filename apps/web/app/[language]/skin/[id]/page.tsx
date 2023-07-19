@@ -1,6 +1,5 @@
 import { Language } from '@gw2treasures/database';
 import DetailLayout from '@/components/Layout/DetailLayout';
-import { Skeleton } from '@/components/Skeleton/Skeleton';
 import { db } from '@/lib/prisma';
 import rarityClasses from '@/components/Layout/RarityColor.module.css';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
@@ -16,8 +15,9 @@ import { AchievementLink } from '@/components/Achievement/AchievementLink';
 import { TableOfContentAnchor } from '@gw2treasures/ui/components/TableOfContent/TableOfContent';
 import { ExternalLink } from '@/components/Link/ExternalLink';
 import { localizedName } from '@/lib/localizedName';
-import { createItemTableQuery } from '@/components/ItemTable/query';
 import { ItemTable } from '@/components/ItemTable/ItemTable';
+import { ItemTableContext } from '@/components/ItemTable/ItemTableContext';
+import { ItemTableColumnsButton } from '@/components/ItemTable/ItemTableColumnsButton';
 
 const getSkin = remember(60, async function getSkin(id: number, language: Language) {
   const [skin, revision] = await Promise.all([
@@ -25,7 +25,6 @@ const getSkin = remember(60, async function getSkin(id: number, language: Langua
       where: { id },
       include: {
         icon: true,
-        unlockedByItems: { include: { icon: true }},
         achievementBits: { select: linkPropertiesWithoutRarity },
       }
     }),
@@ -73,9 +72,10 @@ async function SkinPage ({ params: { language, id }}: { params: { language: Lang
         </>
       )}
 
-      <Headline id="items">Unlocked by</Headline>
-      {/* <ItemTable items={skin.unlockedByItems}/> */}
-      <ItemTable query={{ where: { unlocksSkin: { some: { id: skinId }}}}} collapsed/>
+      <ItemTableContext>
+        <Headline id="items" actions={<ItemTableColumnsButton/>}>Unlocked by</Headline>
+        <ItemTable query={{ where: { unlocksSkin: { some: { id: skinId }}}}} collapsed/>
+      </ItemTableContext>
 
       {skin.wikiImage && (
         <>

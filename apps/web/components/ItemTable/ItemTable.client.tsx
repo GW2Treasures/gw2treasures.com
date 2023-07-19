@@ -16,8 +16,10 @@ import { Pagination } from '../Pagination/Pagination';
 import { FlexRow } from '../Layout/FlexRow';
 import { TableRowButton } from '@gw2treasures/ui/components/Table/TableRowButton';
 import { Prisma } from '@gw2treasures/database';
-import { ColumnSelectDialog } from './ColumnSelectDialog';
+import { ItemTableColumnsButton } from './ColumnSelectDialog';
 import { Skeleton } from '../Skeleton/Skeleton';
+import { useItemTableContext } from './context';
+import { Notice } from '../Notice/Notice';
 
 const LOADING = false;
 type LOADING = typeof LOADING;
@@ -34,11 +36,11 @@ const globalDefaultColumns: DefaultColumnName[] = [
 ];
 
 export const ItemTable: FC<ItemTableProps> = ({ query, defaultColumns = globalDefaultColumns, availableColumns, collapsed: defaultCollapsed }) => {
+  const { setDefaultColumns, setAvailableColumns, selectedColumns, isGlobalContext } = useItemTableContext();
   const [items, setItems] = useState<{ id: number }[] | LOADING>(LOADING);
   const [totalItems, setTotalItems] = useState(3);
   const [page, setPage] = useState(0);
   const [collapsed, setCollapsed] = useState(defaultCollapsed);
-  const [columnNames, setColumnNames] = useState(defaultColumns);
   const [loadedColumns, setLoadedColumns] = useState<DefaultColumnName[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -50,11 +52,14 @@ export const ItemTable: FC<ItemTableProps> = ({ query, defaultColumns = globalDe
     setItems(LOADING);
   }, [query]);
 
+  useEffect(() => setDefaultColumns(defaultColumns), [setDefaultColumns, defaultColumns]);
+  useEffect(() => setAvailableColumns(availableColumns), [setAvailableColumns, availableColumns]);
+
   const columns = useMemo(() => {
-    return columnNames.map(
+    return (selectedColumns ?? defaultColumns).map(
       (id) => ({ align: defaultColumnDefinitions[id].align, render: defaultColumnDefinitions[id].render, ...availableColumns[id] })
     );
-  }, [availableColumns, columnNames]);
+  }, [availableColumns, selectedColumns, defaultColumns]);
 
   useEffect(() => {
     const take = collapsed ? collapsedSize : pageSize;
@@ -77,9 +82,7 @@ export const ItemTable: FC<ItemTableProps> = ({ query, defaultColumns = globalDe
 
   return (
     <>
-      <FlexRow align="right">
-        <ColumnSelectDialog columns={columnNames} availableColumns={availableColumns} onChange={setColumnNames} defaultColumns={defaultColumns}/>
-      </FlexRow>
+      {process.env.NODE_ENV === 'development' && isGlobalContext && (<Notice type="warning">Missing ItemTableContext</Notice>)}
       <Table>
         <thead>
           <tr>

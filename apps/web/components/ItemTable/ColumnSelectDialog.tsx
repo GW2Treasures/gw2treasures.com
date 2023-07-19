@@ -19,7 +19,7 @@ export const ColumnSelectDialog: FC<ColumnSelectDialogProps> = ({ availableColum
   const values = Object.values(availableColumns);
 
   return (
-    <DropDown button={<Button>Columns</Button>} preferredPlacement="right-start">
+    <DropDown button={<Button icon="columns">Columns</Button>} preferredPlacement="right-start">
       <MenuList>
         {values.map((column) => (
           <Checkbox key={column.id} checked={columns.includes(column.id)} onChange={(checked) => onChange(values.filter(({ id }) => id !== column.id ? columns.includes(id) : checked).map(({ id }) => id))}>{column.title}</Checkbox>

@@ -1,6 +1,7 @@
 import { Button } from '@gw2treasures/ui/components/Form/Button';
 import { FC, MouseEventHandler, useCallback } from 'react';
 import styles from './Pagination.module.css';
+import { Icon } from '@gw2treasures/ui';
 
 interface PaginationProps {
   current: number;
@@ -19,9 +20,9 @@ export const Pagination: FC<PaginationProps> = ({ current, total, onPageChange }
 
   return (
     <div>
-      <Button onClick={handlePrev} disabled={current < 1}>&lt;</Button>
+      <Button iconOnly onClick={handlePrev} disabled={current < 1}><Icon icon="chevron-left"/></Button>
       <span className={styles.page}>{current + 1} / {total}</span>
-      <Button onClick={handleNext} disabled={current > total - 2}>&gt;</Button>
+      <Button iconOnly onClick={handleNext} disabled={current > total - 2}><Icon icon="chevron-right"/></Button>
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import { cx } from '../../lib/classNames';
 import Link from 'next/link';
-import { forwardRef, ReactNode } from 'react';
+import { forwardRef, MouseEventHandler, ReactNode } from 'react';
 import styles from './Button.module.css';
 import { IconProp, Icon } from '../../icons';
 
@@ -10,7 +10,7 @@ export interface CommonButtonProps {
   appearance?: 'primary' | 'secondary' | 'menu';
   intent?: 'delete';
   iconOnly?: boolean;
-  onClick?: () => void;
+  onClick?: MouseEventHandler<HTMLButtonElement> ;
   className?: string;
 }
 

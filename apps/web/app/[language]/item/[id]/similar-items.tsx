@@ -24,9 +24,7 @@ export function SimilarItems({ item }: { item: Item }) {
           level: item.level,
         }
       ]
-    },
-    include: { icon: true },
-    take: 32,
+    }
   };
 
   return (

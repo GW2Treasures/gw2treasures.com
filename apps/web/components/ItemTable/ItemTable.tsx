@@ -35,7 +35,7 @@ async function getColumns() {
     const title = await translate(`itemTable.column.${column.id}`);
     const select = await sign(column.select);
 
-    return [column.id, { title, select }];
+    return [column.id, { id: column.id, title, select }];
   }));
 
   return Object.fromEntries(entries);

@@ -16,6 +16,7 @@ import { Pagination } from '../Pagination/Pagination';
 import { FlexRow } from '../Layout/FlexRow';
 import { TableRowButton } from '@gw2treasures/ui/components/Table/TableRowButton';
 import { Prisma } from '@gw2treasures/database';
+import { ColumnSelectDialog } from './ColumnSelectDialog';
 
 const LOADING = false;
 type LOADING = typeof LOADING;
@@ -23,7 +24,7 @@ type LOADING = typeof LOADING;
 export interface ItemTableProps {
   query: Signed<ItemTableQuery>;
   defaultColumns?: DefaultColumnName[];
-  availableColumns: Record<DefaultColumnName, { title: string, select: Signed<Prisma.ItemSelect> }>;
+  availableColumns: Record<DefaultColumnName, { id: DefaultColumnName, title: string, select: Signed<Prisma.ItemSelect> }>;
   collapsed?: boolean;
 };
 
@@ -31,11 +32,12 @@ const globalDefaultColumns: DefaultColumnName[] = [
   'item', 'level', 'rarity', 'type', 'vendorValue',
 ];
 
-export const ItemTable: FC<ItemTableProps> = ({ query, defaultColumns, availableColumns, collapsed: defaultCollapsed }) => {
+export const ItemTable: FC<ItemTableProps> = ({ query, defaultColumns = globalDefaultColumns, availableColumns, collapsed: defaultCollapsed }) => {
   const [items, setItems] = useState<{ id: number }[] | LOADING>(LOADING);
   const [totalItems, setTotalItems] = useState(3);
   const [page, setPage] = useState(0);
   const [collapsed, setCollapsed] = useState(defaultCollapsed);
+  const [columnNames, setColumnNames] = useState(defaultColumns);
 
   const pageSize = 10;
   const collapsedSize = 5;
@@ -46,10 +48,10 @@ export const ItemTable: FC<ItemTableProps> = ({ query, defaultColumns, available
   }, [query]);
 
   const columns = useMemo(() => {
-    return (defaultColumns ?? globalDefaultColumns).map(
-      (id) => ({ id, align: defaultColumnDefinitions[id].align, render: defaultColumnDefinitions[id].render, ...availableColumns[id] })
+    return columnNames.map(
+      (id) => ({ align: defaultColumnDefinitions[id].align, render: defaultColumnDefinitions[id].render, ...availableColumns[id] })
     );
-  }, [availableColumns, defaultColumns]);
+  }, [availableColumns, columnNames]);
 
   useEffect(() => {
     const take = collapsed ? 5 : pageSize;
@@ -62,16 +64,19 @@ export const ItemTable: FC<ItemTableProps> = ({ query, defaultColumns, available
   }, [query]);
 
   if(items === LOADING) {
-    return (<SkeletonTable icons columns={columns.map((column) => column.title)} rows={Math.min(totalItems, pageSize)}/>);
+    return (<SkeletonTable icons columns={columns.map((column) => column.title)} rows={Math.min(totalItems, collapsed ? 5 : pageSize)}/>);
   }
 
   return (
     <>
+      <FlexRow align="right">
+        <ColumnSelectDialog columns={columnNames} availableColumns={availableColumns} onChange={setColumnNames} defaultColumns={defaultColumns}/>
+      </FlexRow>
       <Table>
         <thead>
           <tr>
             {columns.map((column) => <Table.HeaderCell key={column.id} align={column.align}>{column.title}</Table.HeaderCell>)}
-            <Table.HeaderCell small>&nbsp;</Table.HeaderCell>
+            <Table.HeaderCell small/>
           </tr>
         </thead>
         <tbody>

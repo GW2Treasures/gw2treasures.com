@@ -17,7 +17,7 @@ export async function loadItems(query: Signed<ItemTableQuery>, options: ItemTabl
 
   // TODO: this is a shallow merge, might need deep merging in the future
   const columns = await Promise.all(options.columns.map(verify));
-  const select = columns.reduce((combined, current) => ({ ...combined, ...current }));
+  const select = columns.reduce((combined, current) => ({ ...combined, ...current }), {});
 
   // always include id to use as key
   select.id = true;

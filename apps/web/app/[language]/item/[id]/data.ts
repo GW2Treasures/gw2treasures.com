@@ -22,9 +22,8 @@ export const getItem = remember(60, function getItem(id: number, language: Langu
       contains: { include: { contentItem: { select: { ...linkProperties, value: true, level: true, type: true, subtype: true }}}},
       containedIn: { include: { containerItem: { select: { ...linkProperties, value: true, level: true, type: true, subtype: true }}}},
       containsCurrency: { include: { currency: { select: linkPropertiesWithoutRarity }}},
-      suffixIn: { include: { icon: true }},
       _count: {
-        select: { ingredient: true }
+        select: { ingredient: true, suffixIn: true }
       }
     }
   });

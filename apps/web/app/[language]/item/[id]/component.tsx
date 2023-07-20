@@ -12,7 +12,6 @@ import { ItemList } from '@/components/ItemList/ItemList';
 import { ItemInfobox } from '@/components/Item/ItemInfobox';
 import { SkinLink } from '@/components/Skin/SkinLink';
 import { Json } from '@/components/Format/Json';
-import { ItemTable } from '@/components/Item/ItemTable';
 import { RecipeBox } from '@/components/Recipe/RecipeBox';
 import { ItemIngredientFor } from '@/components/Item/ItemIngredientFor';
 import { AsyncComponent } from '@/lib/asyncComponent';
@@ -38,6 +37,9 @@ import { EditContents } from './_edit-content/EditContents';
 import { CurrencyLink } from '@/components/Currency/CurrencyLink';
 import { CurrencyValue } from '@/components/Currency/CurrencyValue';
 import { compareLocalizedName } from '@/lib/localizedName';
+import { ItemTable } from '@/components/ItemTable/ItemTable';
+import { ItemTableContext } from '@/components/ItemTable/ItemTableContext';
+import { ItemTableColumnsButton } from '@/components/ItemTable/ItemTableColumnsButton';
 
 export interface ItemPageComponentProps {
   language: Language;
@@ -103,11 +105,11 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
         </>
       )}
 
-      {item.suffixIn.length > 0 && (
-        <>
-          <Headline id="upgrade">Upgrade in</Headline>
-          <ItemTable items={item.suffixIn}/>
-        </>
+      {item._count.suffixIn > 0 && (
+        <ItemTableContext>
+          <Headline id="upgrade" actions={<ItemTableColumnsButton/>}>Upgrade in</Headline>
+          <ItemTable query={{ where: { suffixItems: { some: { id: item.id }}}}}/>
+        </ItemTableContext>
       )}
 
       {(item.achievementBits.length > 0 || item.achievementRewards.length > 0 || skinAchievementBits.length > 0) && (<Headline id="achievements">Achievements</Headline>)}

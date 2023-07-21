@@ -41,7 +41,7 @@ export default function RootLayout({
       <body>
         <I18nProvider language={params.language}>
           <FormatProvider>
-            <ItemTableContext global>
+            <ItemTableContext global id="global">
               <Layout>{children}</Layout>
             </ItemTableContext>
           </FormatProvider>

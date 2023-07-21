@@ -72,7 +72,7 @@ async function SkinPage ({ params: { language, id }}: { params: { language: Lang
         </>
       )}
 
-      <ItemTableContext>
+      <ItemTableContext id="unlocksSkin">
         <Headline id="items" actions={<ItemTableColumnsButton/>}>Unlocked by</Headline>
         <ItemTable query={{ where: { unlocksSkin: { some: { id: skinId }}}}} collapsed/>
       </ItemTableContext>

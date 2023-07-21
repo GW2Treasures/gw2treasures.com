@@ -106,7 +106,7 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
       )}
 
       {item._count.suffixIn > 0 && (
-        <ItemTableContext>
+        <ItemTableContext id="suffixIn">
           <Headline id="upgrade" actions={<ItemTableColumnsButton/>}>Upgrade in</Headline>
           <ItemTable query={{ where: { suffixItems: { some: { id: item.id }}}}}/>
         </ItemTableContext>

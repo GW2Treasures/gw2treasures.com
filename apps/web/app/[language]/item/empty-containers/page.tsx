@@ -13,7 +13,7 @@ const query = {
 export default function ItemEmptyContainersPage() {
   return (
     <PageLayout>
-      <ItemTableContext>
+      <ItemTableContext id="emptyContainers">
         <Headline id="empty" actions={<ItemTableColumnsButton/>}>Empty Containers</Headline>
         <p>This page shows all container items that don&apos;t have any contents. You can help by adding the content on the item page.</p>
 

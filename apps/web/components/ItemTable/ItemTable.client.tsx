@@ -41,14 +41,15 @@ const globalDefaultColumns: DefaultColumnName[] = [
 
 export const ItemTable: FC<ItemTableProps> = ({ query, defaultColumns = globalDefaultColumns, availableColumns, collapsed: defaultCollapsed }) => {
   const { setDefaultColumns, setAvailableColumns, selectedColumns, isGlobalContext } = useItemTableContext();
+
   const [items, setItems] = useState<{ id: number }[] | LOADING>(LOADING);
   const [totalItems, setTotalItems] = useState(3);
   const [page, setPage] = useState(0);
   const [collapsed, setCollapsed] = useState(defaultCollapsed);
   const [loadedColumns, setLoadedColumns] = useState<DefaultColumnName[]>([]);
   const [loading, setLoading] = useState(true);
-
   const [orderBy, setOrderBy] = useState<{ column: DefaultColumnName, order: 'asc' | 'desc'}>();
+  const [range, setRange] = useState<{ length: number, offset: number }>();
 
   const pageSize = 10;
   const collapsedSize = 5;
@@ -84,6 +85,7 @@ export const ItemTable: FC<ItemTableProps> = ({ query, defaultColumns = globalDe
       setItems(items);
       setLoadedColumns(columns.map(({ id }) => id));
       setLoading(false);
+      setRange({ length: items.length, offset: skip });
     });
   }, [collapsed, columns, orderBy, page, query]);
 
@@ -144,7 +146,7 @@ export const ItemTable: FC<ItemTableProps> = ({ query, defaultColumns = globalDe
       {!collapsed && (
         <FlexRow align="space-between">
           <div>
-            Showing <b>{pageSize * page + 1}&ndash;{pageSize * page + items.length}</b> of <b>{totalItems}</b> items
+            Showing <b>{range ? range.offset + 1 : 0}&ndash;{(range?.offset ?? 0) + (range?.length ?? 0)}</b> of <b>{totalItems}</b> items
           </div>
           <Pagination disabled={loading} current={page} total={Math.ceil(totalItems / pageSize)} onPageChange={setPage}/>
         </FlexRow>

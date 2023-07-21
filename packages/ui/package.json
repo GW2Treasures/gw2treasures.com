@@ -30,11 +30,11 @@
     "@types/ua-parser-js": "^0.7.36",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "eslint": "8.44.0",
-    "eslint-config-next": "13.4.10",
+    "eslint-config-next": "13.4.11",
     "typescript": "5.1.6"
   },
   "peerDependencies": {
-    "next": "13.4.10",
+    "next": "13.4.11",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   }

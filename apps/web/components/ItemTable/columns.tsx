@@ -1,4 +1,4 @@
-import { Item, Prisma } from '@gw2treasures/database';
+import { Prisma } from '@gw2treasures/database';
 import { FunctionComponent, ReactNode } from 'react';
 import { db } from '@/lib/prisma';
 import { EntityIcon } from '../Entity/EntityIcon';

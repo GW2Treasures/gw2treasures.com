@@ -1,21 +1,20 @@
 import { createContext, useContext } from 'react';
-import { ItemTableProps } from './ItemTable.client';
-import { DefaultColumnName } from './columns';
+import { AvailableColumns } from './ItemTable.client';
 
-export interface Context {
-  availableColumns: ItemTableProps['availableColumns'];
-  setAvailableColumns: (availableColumns: ItemTableProps['availableColumns']) => void;
-  defaultColumns: DefaultColumnName[];
-  setDefaultColumns: (defaultColumns: DefaultColumnName[]) => void;
+export interface Context<ColumnId extends string> {
+  availableColumns: AvailableColumns<ColumnId>;
+  setAvailableColumns: (availableColumns: AvailableColumns<ColumnId>) => void;
+  defaultColumns: ColumnId[];
+  setDefaultColumns: (defaultColumns: ColumnId[]) => void;
 
-  selectedColumns: DefaultColumnName[] | undefined;
-  setSelectedColumns: (columns: DefaultColumnName[] | undefined) => void;
+  selectedColumns: ColumnId[] | undefined;
+  setSelectedColumns: (columns: ColumnId[] | undefined) => void;
 
   isGlobalContext: boolean;
 }
 
-export const context = createContext<Context>(undefined!);
+export const context = createContext<Context<any>>(undefined!);
 
-export function useItemTableContext() {
+export function useItemTableContext<ColumnId extends string>(): Context<ColumnId> {
   return useContext(context);
 }

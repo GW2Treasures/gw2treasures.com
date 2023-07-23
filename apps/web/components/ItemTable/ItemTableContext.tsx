@@ -3,7 +3,7 @@
 import { FC, ReactNode, useEffect, useMemo, useState } from 'react';
 import { context } from './context';
 import { ItemTableProps } from './ItemTable.client';
-import { DefaultColumnName } from './columns';
+import { GlobalColumnId } from './columns';
 
 interface ItemTableContextProps {
   children: ReactNode;
@@ -15,8 +15,8 @@ const emptyAvailableColumns = {} as ItemTableProps['availableColumns'];
 
 export const ItemTableContext: FC<ItemTableContextProps> = ({ children, id, global: isGlobalContext = false }) => {
   const [availableColumns, setAvailableColumns] = useState<ItemTableProps['availableColumns']>(emptyAvailableColumns);
-  const [defaultColumns, setDefaultColumns] = useState<DefaultColumnName[]>([]);
-  const [selectedColumns, setSelectedColumns] = useState<DefaultColumnName[]>();
+  const [defaultColumns, setDefaultColumns] = useState<GlobalColumnId[]>([]);
+  const [selectedColumns, setSelectedColumns] = useState<GlobalColumnId[]>();
 
   // store selected columns in localStorage if this is not the global context and available columns are set
   const localStorageKey = !isGlobalContext && availableColumns !== emptyAvailableColumns

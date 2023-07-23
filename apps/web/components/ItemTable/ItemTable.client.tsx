@@ -1,10 +1,10 @@
 'use client';
 
-import { FC, useCallback, useEffect, useMemo, useState } from 'react';
+import { FunctionComponent, createElement, useCallback, useEffect, useMemo, useState } from 'react';
 import { Signed, ItemTableQuery } from './query';
 import { loadItems, loadTotalItemCount } from './ItemTable.actions';
 import { SkeletonTable } from '../Skeleton/SkeletonTable';
-import { DefaultColumnName, OrderBy, defaultColumnDefinitions } from './columns';
+import { GlobalColumnId as GlobalColumnId, OrderBy, globalColumnRenderer } from './columns';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { DropDown } from '../DropDown/DropDown';
 import { Button, LinkButton } from '@gw2treasures/ui/components/Form/Button';
@@ -23,32 +23,37 @@ import { Notice } from '../Notice/Notice';
 const LOADING = false;
 type LOADING = typeof LOADING;
 
-export interface ItemTableProps {
+export type AvailableColumns<ColumnId extends string> = Record<ColumnId, {
+  id: ColumnId,
+  title: string,
+  select: Signed<Prisma.ItemSelect>,
+  orderBy?: [asc: Signed<OrderBy>, desc: Signed<OrderBy>],
+  align?: 'right',
+  component?: FunctionComponent<{ item: any }>
+}>
+
+export interface ItemTableProps<ExtraColumnId extends string = never> {
   query: Signed<ItemTableQuery>;
-  defaultColumns?: DefaultColumnName[];
-  availableColumns: Record<DefaultColumnName, {
-    id: DefaultColumnName,
-    title: string,
-    select: Signed<Prisma.ItemSelect>,
-    orderBy: [asc: Signed<OrderBy>, desc: Signed<OrderBy>]
-  }>;
+  defaultColumns?: (GlobalColumnId | ExtraColumnId)[];
+  availableColumns: AvailableColumns<GlobalColumnId | ExtraColumnId>;
   collapsed?: boolean;
 };
 
-const globalDefaultColumns: DefaultColumnName[] = [
+const globalDefaultColumns: GlobalColumnId[] = [
   'item', 'level', 'rarity', 'type', 'vendorValue',
 ];
 
-export const ItemTable: FC<ItemTableProps> = ({ query, defaultColumns = globalDefaultColumns, availableColumns, collapsed: defaultCollapsed }) => {
-  const { setDefaultColumns, setAvailableColumns, selectedColumns, isGlobalContext } = useItemTableContext();
+export const ItemTable = <ExtraColumnId extends string = never>({ query, defaultColumns = globalDefaultColumns, availableColumns, collapsed: initialCollapsed }: ItemTableProps<ExtraColumnId>) => {
+  type ColumnId = ExtraColumnId | GlobalColumnId;
+  const { setDefaultColumns, setAvailableColumns, selectedColumns, isGlobalContext } = useItemTableContext<ColumnId>();
 
   const [items, setItems] = useState<{ id: number }[] | LOADING>(LOADING);
   const [totalItems, setTotalItems] = useState(3);
   const [page, setPage] = useState(0);
-  const [collapsed, setCollapsed] = useState(defaultCollapsed);
-  const [loadedColumns, setLoadedColumns] = useState<DefaultColumnName[]>([]);
+  const [collapsed, setCollapsed] = useState(initialCollapsed);
+  const [loadedColumns, setLoadedColumns] = useState<ColumnId[]>([]);
   const [loading, setLoading] = useState(true);
-  const [orderBy, setOrderBy] = useState<{ column: DefaultColumnName, order: 'asc' | 'desc'}>();
+  const [orderBy, setOrderBy] = useState<{ column: ColumnId, order: 'asc' | 'desc'}>();
   const [range, setRange] = useState<{ length: number, offset: number }>();
 
   const pageSize = 10;
@@ -64,11 +69,7 @@ export const ItemTable: FC<ItemTableProps> = ({ query, defaultColumns = globalDe
 
   const columns = useMemo(() => {
     return (selectedColumns ?? defaultColumns).map(
-      (id) => ({
-        align: defaultColumnDefinitions[id].align,
-        render: defaultColumnDefinitions[id].render,
-        ...availableColumns[id]
-      })
+      (id) => availableColumns[id]
     );
   }, [availableColumns, selectedColumns, defaultColumns]);
 
@@ -77,7 +78,7 @@ export const ItemTable: FC<ItemTableProps> = ({ query, defaultColumns = globalDe
     const skip = collapsed ? 0 : pageSize * page;
     const options = {
       columns: columns.map(({ select }) => select),
-      orderBy: orderBy ? columns.find(({ id }) => id === orderBy.column)?.orderBy[orderBy.order === 'desc' ? 1 : 0] : undefined,
+      orderBy: orderBy ? columns.find(({ id }) => id === orderBy.column)?.orderBy?.[orderBy.order === 'desc' ? 1 : 0] : undefined,
       take, skip
     };
     setLoading(true);
@@ -93,7 +94,7 @@ export const ItemTable: FC<ItemTableProps> = ({ query, defaultColumns = globalDe
     loadTotalItemCount(query).then(setTotalItems);
   }, [query]);
 
-  const handleSort = useCallback((column: DefaultColumnName) => {
+  const handleSort = useCallback((column: ColumnId) => {
     setCollapsed(false);
     setOrderBy(
       (orderBy) => orderBy?.column !== column || orderBy?.order !== 'desc'
@@ -113,7 +114,7 @@ export const ItemTable: FC<ItemTableProps> = ({ query, defaultColumns = globalDe
         <thead>
           <tr>
             {columns.map((column) => (
-              <Table.HeaderCell key={column.id} align={column.align} sort={column.orderBy && (column.id === orderBy?.column ? orderBy.order : true)} onSort={() => handleSort(column.id)}>
+              <Table.HeaderCell key={column.id} align={column.align} sort={column.orderBy && (column.id === orderBy?.column ? orderBy?.order : true)} onSort={() => handleSort(column.id)}>
                 {column.title}
               </Table.HeaderCell>
             ))}
@@ -125,7 +126,9 @@ export const ItemTable: FC<ItemTableProps> = ({ query, defaultColumns = globalDe
             <tr key={item.id}>
               {columns.map((column) => (
                 <td key={column.id} align={column.align}>
-                  {loadedColumns.includes(column.id) ? column.render(item as any) : <Skeleton width={48}/>}
+                  {loadedColumns.includes(column.id) ? (
+                    column.component ? createElement(column.component, { item }) : globalColumnRenderer[column.id as GlobalColumnId](item as any)
+                  ) : <Skeleton width={48}/>}
                 </td>
               ))}
               <td>

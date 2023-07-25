@@ -40,6 +40,9 @@ import { compareLocalizedName } from '@/lib/localizedName';
 import { ItemTable } from '@/components/ItemTable/ItemTable';
 import { ItemTableContext } from '@/components/ItemTable/ItemTableContext';
 import { ItemTableColumnsButton } from '@/components/ItemTable/ItemTableColumnsButton';
+import { extraColumn, globalColumnDefinitions } from '@/components/ItemTable/columns';
+import { ContentChanceColumn, ContentQuantityColumn, ItemContentQuantityColumn } from './ExtraColumns';
+import { TODO } from '@/lib/todo';
 
 export interface ItemPageComponentProps {
   language: Language;
@@ -68,7 +71,7 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
 
   const skinAchievementBits = item.unlocksSkin.flatMap((skin) => skin.achievementBits);
 
-  const showContents = item.type === 'Container' || item.contains.length > 0 || item.containsCurrency.length > 0;
+  const showContents = item.type === 'Container' || item._count.contains > 0 || item.containsCurrency.length > 0;
   const canHaveContents = item.type === 'Container' || item.type === 'Consumable';
 
   const compareByName = compareLocalizedName(language);
@@ -163,34 +166,16 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
         </>
       )}
 
-      {!fixedRevision && item.containedIn.length > 0 && (
-        <>
-          <Headline id="contained">Contained In</Headline>
-          <Table>
-            <thead>
-              <tr>
-                <Table.HeaderCell>Item</Table.HeaderCell>
-                <Table.HeaderCell>Quantity</Table.HeaderCell>
-                <Table.HeaderCell>Chance</Table.HeaderCell>
-                <th>Level</th><th>Rarity</th><th>Type</th>
-              </tr>
-            </thead>
-            <tbody>
-              <TableCollapse>
-                {item.containedIn.map(((contains) => (
-                  <tr key={contains.containerItemId}>
-                    <td><ItemLink item={contains.containerItem}/></td>
-                    <td><FormatNumber value={contains.quantity}/></td>
-                    <td>{contains.chance}</td>
-                    <td>{contains.containerItem.level}</td>
-                    <td><Rarity rarity={contains.containerItem.rarity}/></td>
-                    <td>{contains.containerItem.type} {contains.containerItem.subtype && `(${contains.containerItem.subtype})`}</td>
-                  </tr>
-                )))}
-              </TableCollapse>
-            </tbody>
-          </Table>
-        </>
+      {!fixedRevision && item._count.containedIn > 0 && (
+        <ItemTableContext id="containedIn">
+          <Headline id="contained" actions={<ItemTableColumnsButton/>}>Contained In</Headline>
+          <ItemTable query={{ model: 'content', mapToItem: 'containerItem', where: { contentItemId: item.id }}}
+            extraColumns={[
+              extraColumn<'content'>({ id: 'quantity', select: { quantity: true }, title: 'Quantity', component: ContentQuantityColumn as TODO }),
+              extraColumn<'content'>({ id: 'chance', select: { chance: true }, title: 'Chance', component: ContentChanceColumn as TODO })
+            ]}
+            defaultColumns={['item', 'quantity', 'chance', 'level', 'rarity', 'type', 'vendorValue']}/>
+        </ItemTableContext>
       )}
 
       {item._count && item._count?.ingredient > 0 && (
@@ -206,8 +191,8 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
       )}
 
       {!fixedRevision && showContents && (
-        <>
-          <Headline id="content" actions={<EditContents itemId={itemId} contents={item.contains} currencyContents={item.containsCurrency}/>}>Contents</Headline>
+        <ItemTableContext id="contents">
+          <Headline id="content" actions={<><ItemTableColumnsButton/><EditContents itemId={itemId} contents={item.contains} currencyContents={item.containsCurrency}/></>}>Contents</Headline>
 
           {item.containsCurrency.length > 0 && (
             <ItemList>
@@ -227,33 +212,20 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
             </ItemList>
           )}
 
-          {item.contains.length > 0 && (
-            <Table>
-              <thead>
-                <tr>
-                  <Table.HeaderCell>Item</Table.HeaderCell>
-                  <Table.HeaderCell>Chance</Table.HeaderCell>
-                  <th>Level</th><th>Rarity</th><th>Type</th>
-                </tr>
-              </thead>
-              <tbody>
-                {item.contains.map(((contains) => (
-                  <tr key={contains.contentItemId}>
-                    <td><OutputCount count={contains.quantity}><ItemLink item={contains.contentItem}/></OutputCount></td>
-                    <td>{contains.chance}</td>
-                    <td>{contains.contentItem.level}</td>
-                    <td><Rarity rarity={contains.contentItem.rarity}/></td>
-                    <td>{contains.contentItem.type} {contains.contentItem.subtype && `(${contains.contentItem.subtype})`}</td>
-                  </tr>
-                )))}
-              </tbody>
-            </Table>
+          {item._count.contains > 0 && (
+            <ItemTable
+              query={{ model: 'content', mapToItem: 'contentItem', where: { containerItemId: item.id }}}
+              extraColumns={[
+                extraColumn<'content'>({ id: 'item', select: { quantity: true, contentItem: { select: globalColumnDefinitions.item.select }}, title: 'Item (Qty)', component: ItemContentQuantityColumn as TODO }),
+                extraColumn<'content'>({ id: 'chance', select: { chance: true }, title: 'Chance', component: ContentChanceColumn as TODO })
+              ]}
+              defaultColumns={['item', 'chance', 'level', 'rarity', 'type', 'vendorValue']}/>
           )}
 
-          {item.contains.length === 0 && item.containsCurrency.length === 0 && (
+          {item._count.contains === 0 && item.containsCurrency.length === 0 && (
             <p>The contents of this container are unknown. You can help by adding the contained items.</p>
           )}
-        </>
+        </ItemTableContext>
       )}
 
       <Headline id="history">History</Headline>

@@ -1,8 +1,17 @@
-import { Prisma } from '@gw2treasures/database';
+import { Content, Prisma } from '@gw2treasures/database';
 import { signingKey } from './signingKey';
 
-export interface ItemTableQuery {
-  where: Prisma.ItemWhereInput;
+export interface ItemTableQuery<Model extends QueryModel = 'item'> {
+  model?: Model;
+  where: ModelWhereMap[Model]['where'];
+  mapToItem?: ModelWhereMap[Model]['map']
+}
+
+export type QueryModel = keyof ModelWhereMap;
+
+type ModelWhereMap = {
+  'item': { where: Prisma.ItemWhereInput, map: undefined };
+  'content': { where: Prisma.ContentWhereInput, map: 'containerItem' | 'contentItem' };
 }
 
 export interface Signed<T> {

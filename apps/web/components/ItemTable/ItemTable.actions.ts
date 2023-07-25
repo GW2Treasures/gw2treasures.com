@@ -2,28 +2,31 @@
 
 import { db } from '@/lib/prisma';
 
-import { ItemTableQuery, Signed, verify } from './query';
-import { Prisma } from '@gw2treasures/database';
+import { ItemTableQuery, QueryModel, Signed, verify } from './query';
 import { OrderBy } from './columns';
+import deepmerge from 'deepmerge';
+import { TODO } from '@/lib/todo';
 
 export interface ItemTableLoadOptions {
   skip?: number;
   take?: number;
-  columns: Signed<Prisma.ItemSelect>[];
+  columns: Signed<any>[];
   orderBy?: Signed<OrderBy>;
 }
 
-export async function loadItems(query: Signed<ItemTableQuery>, options: ItemTableLoadOptions): Promise<{ id: number }[]> {
+export async function loadItems<Model extends QueryModel>(query: Signed<ItemTableQuery<Model>>, options: ItemTableLoadOptions): Promise<{ id: number }[]> {
   const { where } = await verify(query);
   const orderBy = options.orderBy ? await verify(options.orderBy) : undefined;
   const { skip, take } = options;
 
-  // TODO: this is a shallow merge, might need deep merging in the future
-  const columns = await Promise.all(options.columns.map(verify));
-  const select = columns.reduce((combined, current) => ({ ...combined, ...current }), {});
+  const idSelect = query.data.mapToItem ? { [query.data.mapToItem]: { select: { id: true }}} : { id: true };
 
-  // always include id to use as key
-  select.id = true;
+  const columns = await Promise.all(options.columns.map(verify));
+  const select = deepmerge.all([idSelect, ...columns]);
+
+  if(query.data.model === 'content') {
+    return db.content.findMany({ where, skip, take, select, orderBy: mapOrderBy(orderBy, query.data.mapToItem!) }) as TODO;
+  }
 
   const items = await db.item.findMany({
     where,
@@ -37,8 +40,24 @@ export async function loadItems(query: Signed<ItemTableQuery>, options: ItemTabl
   return items as { id: number }[];
 }
 
-export async function loadTotalItemCount(query: Signed<ItemTableQuery>): Promise<number> {
-  const { where } = await verify(query);
+export async function loadTotalItemCount<Model extends QueryModel>(query: Signed<ItemTableQuery<Model>>): Promise<number> {
+  const { where, model = 'item' } = await verify(query);
 
-  return await db.item.count({ where });
+  switch(model) {
+    case 'item': return db.item.count({ where });
+    case 'content': return db.content.count({ where });
+    default: throw new Error('Unsupported query model');
+  }
+}
+
+function mapOrderBy(orderBy: OrderBy | undefined, item: string) {
+  if(orderBy === undefined) {
+    return undefined;
+  }
+
+  if(Array.isArray(orderBy)) {
+    return orderBy.map((order) => ({ [item]: order }));
+  }
+
+  return { [item]: orderBy };
 }

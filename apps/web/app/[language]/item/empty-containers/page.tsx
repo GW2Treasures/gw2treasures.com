@@ -1,13 +1,12 @@
 import { ItemTable } from '@/components/ItemTable/ItemTable';
 import { ItemTableColumnsButton } from '@/components/ItemTable/ItemTableColumnsButton';
 import { ItemTableContext } from '@/components/ItemTable/ItemTableContext';
+import { ItemTableQuery } from '@/components/ItemTable/query';
 import { PageLayout } from '@/components/Layout/PageLayout';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 
-const query = {
+const query: ItemTableQuery = {
   where: { type: 'Container', contains: { none: {}}, containsCurrency: { none: {}}},
-  include: { icon: true },
-  take: 500,
 };
 
 export default function ItemEmptyContainersPage() {

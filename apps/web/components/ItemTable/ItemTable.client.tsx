@@ -1,7 +1,7 @@
 'use client';
 
 import { FunctionComponent, createElement, useCallback, useEffect, useMemo, useState } from 'react';
-import { Signed, ItemTableQuery } from './query';
+import { Signed, ItemTableQuery, QueryModel } from './query';
 import { loadItems, loadTotalItemCount } from './ItemTable.actions';
 import { SkeletonTable } from '../Skeleton/SkeletonTable';
 import { GlobalColumnId, OrderBy, globalColumnRenderer } from './columns';
@@ -32,8 +32,8 @@ export type AvailableColumns<ColumnId extends string> = Record<ColumnId, {
   component?: FunctionComponent<{ item: any }>
 }>
 
-export interface ItemTableProps<ExtraColumnId extends string = never> {
-  query: Signed<ItemTableQuery>;
+export interface ItemTableProps<ExtraColumnId extends string, Model extends QueryModel> {
+  query: Signed<ItemTableQuery<Model>>;
   defaultColumns?: (GlobalColumnId | ExtraColumnId)[];
   availableColumns: AvailableColumns<GlobalColumnId | ExtraColumnId>;
   collapsed?: boolean;
@@ -43,7 +43,7 @@ const globalDefaultColumns: GlobalColumnId[] = [
   'item', 'level', 'rarity', 'type', 'vendorValue',
 ];
 
-export const ItemTable = <ExtraColumnId extends string = never>({ query, defaultColumns = globalDefaultColumns, availableColumns, collapsed: initialCollapsed }: ItemTableProps<ExtraColumnId>) => {
+export const ItemTable = <ExtraColumnId extends string = never, Model extends QueryModel = 'item'>({ query, defaultColumns = globalDefaultColumns, availableColumns, collapsed: initialCollapsed }: ItemTableProps<ExtraColumnId, Model>) => {
   type ColumnId = ExtraColumnId | GlobalColumnId;
   const { setDefaultColumns, setAvailableColumns, selectedColumns, isGlobalContext } = useItemTableContext<ColumnId>();
 
@@ -124,13 +124,19 @@ export const ItemTable = <ExtraColumnId extends string = never>({ query, default
         <tbody>
           {items.map((item) => (
             <tr key={item.id}>
-              {columns.map((column) => (
-                <td key={column.id} align={column.align}>
-                  {loadedColumns.includes(column.id) ? (
-                    column.component ? createElement(column.component, { item }) : globalColumnRenderer[column.id as GlobalColumnId](item as any)
-                  ) : <Skeleton width={48}/>}
-                </td>
-              ))}
+              {columns.map((column) => {
+                const props = query.data.mapToItem && query.data.model !== undefined && query.data.model !== 'item'
+                  ? { item: (item as any)[query.data.mapToItem], [query.data.model]: item }
+                  : { item };
+
+                return (
+                  <td key={column.id} align={column.align}>
+                    {loadedColumns.includes(column.id) ? (
+                      column.component ? createElement(column.component, props) : globalColumnRenderer[column.id as GlobalColumnId](props.item)
+                    ) : <Skeleton width={48}/>}
+                  </td>
+                );
+              })}
               <td>
                 <DropDown button={<Button iconOnly appearance="menu"><Icon icon="more"/></Button>} preferredPlacement="right-start">
                   <MenuList>

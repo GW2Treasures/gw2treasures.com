@@ -90,7 +90,7 @@ export const EditContents: FC<EditContentsProps> = ({ itemId, contents, currency
 
   return (
     <>
-      <Button onClick={toggleDialog} appearance={appearance}>Edit Contents</Button>
+      <Button onClick={toggleDialog} appearance={appearance} icon="item">Edit Contents</Button>
       <Dialog open={dialogOpen} onClose={toggleDialog} title="Edit Contents">
         {canSubmitState === undefined ? (
           <Skeleton/>

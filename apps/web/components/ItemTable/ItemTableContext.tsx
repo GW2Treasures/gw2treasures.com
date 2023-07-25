@@ -2,7 +2,7 @@
 
 import { FC, ReactNode, useEffect, useMemo, useState } from 'react';
 import { context } from './context';
-import { ItemTableProps } from './ItemTable.client';
+import { AvailableColumns } from './ItemTable.client';
 import { GlobalColumnId } from './columns';
 
 interface ItemTableContextProps {
@@ -11,10 +11,10 @@ interface ItemTableContextProps {
   global?: boolean;
 };
 
-const emptyAvailableColumns = {} as ItemTableProps['availableColumns'];
+const emptyAvailableColumns = {} as AvailableColumns<any>;
 
 export const ItemTableContext: FC<ItemTableContextProps> = ({ children, id, global: isGlobalContext = false }) => {
-  const [availableColumns, setAvailableColumns] = useState<ItemTableProps['availableColumns']>(emptyAvailableColumns);
+  const [availableColumns, setAvailableColumns] = useState<AvailableColumns<any>>(emptyAvailableColumns);
   const [defaultColumns, setDefaultColumns] = useState<GlobalColumnId[]>([]);
   const [selectedColumns, setSelectedColumns] = useState<GlobalColumnId[]>();
 

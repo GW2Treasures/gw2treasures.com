@@ -5,6 +5,7 @@ import { EntityIcon } from '../Entity/EntityIcon';
 import { ItemLink } from '../Item/ItemLink';
 import { Rarity } from '../Item/Rarity';
 import { Coins } from '../Format/Coins';
+import { QueryModel } from './query';
 
 type Result<Select extends Prisma.ItemSelect> =
   Awaited<ReturnType<typeof db.item.findFirstOrThrow<{ select: Select }>>>;
@@ -18,7 +19,12 @@ export interface ItemTableColumn<Select extends Prisma.ItemSelect> {
   orderBy?: [asc: OrderBy, desc: OrderBy]
 }
 
-export interface ExtraColumn<Id extends string, Select extends Prisma.ItemSelect> {
+type ModelSelect = {
+  'item': { select: Prisma.ItemSelect },
+  'content': { select: Prisma.ContentSelect },
+}
+
+export interface ExtraColumn<Id extends string, Model extends QueryModel, Select extends ModelSelect[Model]['select']> {
   id: Id,
   select: Select,
   title: string;
@@ -31,7 +37,7 @@ export interface ExtraColumn<Id extends string, Select extends Prisma.ItemSelect
 function createColumn<Select extends Prisma.ItemSelect>(column: ItemTableColumn<Select>) {
   return column;
 }
-export function extraColumn<ID extends string, Select extends Prisma.ItemSelect>(column: ExtraColumn<ID, Select>) {
+export function extraColumn<Model extends QueryModel>(column: ExtraColumn<string, Model, ModelSelect[Model]['select']>) {
   return column;
 }
 

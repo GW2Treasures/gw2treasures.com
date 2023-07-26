@@ -3,7 +3,11 @@ import { db } from '../../db';
 
 export const AchievementsUnlocks: Job = {
   run: async () => {
+    console.log('Fetching achievement unlocks from gw2efficiency');
+
     const unlockData = await fetch('https://api.gw2efficiency.com/tracking/unlocks?id=achievements').then((r) => {
+      console.log(`https://api.gw2efficiency.com/tracking/unlocks?id=achievements returned ${r.status}`);
+
       if(r.status !== 200) {
         throw new Error(`https://api.gw2efficiency.com/tracking/unlocks?id=achievements returned ${r.status} ${r.statusText}`);
       }

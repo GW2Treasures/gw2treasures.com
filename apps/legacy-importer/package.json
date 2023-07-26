@@ -1,7 +1,7 @@
 {
   "name": "legacy-importer",
   "scripts": {
-    "prisma:generate": "prisma generate --schema=prisma/legacy.prisma",
+    "prisma:generate": "retry -n 3 -- prisma generate --schema=prisma/legacy.prisma",
     "build": "tsc",
     "predev": "npm run build",
     "dev": ". ./.env && node lib/index.js",
@@ -19,6 +19,7 @@
     "@typescript-eslint/parser": "^6.0.0",
     "eslint": "^8.37.0",
     "prisma": "^5.0.0",
+    "retry-cli": "^0.7.0",
     "typescript": "5.1.6"
   }
 }

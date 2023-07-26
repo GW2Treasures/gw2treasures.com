@@ -6,8 +6,7 @@
 			"outputs": [".next/**", "!.next/cache/**"]
 		},
     "dev": {
-      "dependsOn": ["^build", "@gw2treasures/database#prisma:migrate"],
-      "outputs": ["playwright-report", "test-results"]
+      "dependsOn": ["^build", "@gw2treasures/database#prisma:migrate"]
     }
 	}
 }

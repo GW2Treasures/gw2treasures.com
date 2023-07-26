@@ -125,7 +125,7 @@ jobs:
       image: mcr.microsoft.com/playwright:v1.36.0-jammy
     steps:
     - name: Add hosts
-      run: sudo echo "127.0.0.1 en.gw2treasures.localhost" | sudo tee -a /etc/hosts
+      run: echo "127.0.0.1 en.gw2treasures.localhost" | tee -a /etc/hosts
     - uses: actions/checkout@v3
     - uses: actions/download-artifact@v3
       with:

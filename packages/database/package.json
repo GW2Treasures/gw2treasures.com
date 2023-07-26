@@ -2,7 +2,7 @@
   "name": "@gw2treasures/database",
   "private": true,
   "scripts": {
-    "prisma:generate": "retry -n 3 -- prisma generate",
+    "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate deploy",
     "prisma:migrate-dev": "prisma migrate dev --name",
     "prisma:studio": "prisma studio",
@@ -15,7 +15,6 @@
   },
   "devDependencies": {
     "@tsconfig/node18": "^18.0.0",
-    "prisma": "^5.0.0",
-    "retry-cli": "tirsen/retry-cli#exit-code"
+    "prisma": "^5.0.0"
   }
 }

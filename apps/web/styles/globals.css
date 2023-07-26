@@ -50,3 +50,20 @@ a:where(:any-link:hover) {
 .color-format--reminder {
   color: var(--color-text-muted);
 }
+
+.loading_svg__path {
+  animation: rotate 1s ease-in-out infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion) {
+  .loading_svg__path {
+    animation-timing-function: linear;
+    animation-duration: 3s;
+  }
+}
+
+@keyframes rotate {
+  0% { transform: rotate(0); }
+  100% { transform: rotate(1turn); }
+}

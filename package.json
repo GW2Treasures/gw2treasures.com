@@ -12,7 +12,8 @@
     "prisma:migrate-dev": "npm run prisma:migrate-dev -w @gw2treasures/database",
     "build": "turbo run build",
     "lint": "turbo run lint",
-    "publish-package": "turbo run publish-package"
+    "publish-package": "turbo run publish-package",
+    "e2e": "turbo run e2e"
   },
   "devDependencies": {
     "turbo": "^1.8.8"

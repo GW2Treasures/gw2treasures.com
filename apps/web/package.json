@@ -8,7 +8,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "e2e": "playwright test"
   },
   "dependencies": {
     "@floating-ui/react": "^0.24.0",
@@ -31,6 +32,7 @@
     "ua-parser-js": "^1.0.35"
   },
   "devDependencies": {
+    "@playwright/test": "^1.36.2",
     "@prisma/nextjs-monorepo-workaround-plugin": "^5.0.0",
     "@types/node": "18.17.1",
     "@types/react": "18.2.16",

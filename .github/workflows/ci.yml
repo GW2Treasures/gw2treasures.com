@@ -88,6 +88,7 @@ jobs:
     - name: Pull docker images
       run: |
         DOCKER_PREFIX=ghcr.io/${{ github.repository }}/
+        DOCKER_PREFIX=$(echo $DOCKER_PREFIX | tr '[A-Z]' '[a-z]')
         VERSION=ci-run-${{ github.run_id }}
         docker pull $DOCKER_PREFIX/web:$VERSION
         docker pull $DOCKER_PREFIX/worker:$VERSION
@@ -122,6 +123,7 @@ jobs:
     - name: Pull docker images
       run: |
         DOCKER_PREFIX=ghcr.io/${{ github.repository }}/
+        DOCKER_PREFIX=$(echo $DOCKER_PREFIX | tr '[A-Z]' '[a-z]')
         VERSION=ci-run-${{ github.run_id }}
         docker pull $DOCKER_PREFIX/web:$VERSION
         docker pull $DOCKER_PREFIX/worker:$VERSION
@@ -151,6 +153,7 @@ jobs:
     - name: Pull docker images
       run: |
         DOCKER_PREFIX=ghcr.io/${{ github.repository }}/
+        DOCKER_PREFIX=$(echo $DOCKER_PREFIX | tr '[A-Z]' '[a-z]')
         VERSION=ci-run-${{ github.run_id }}
         docker pull $DOCKER_PREFIX/web:$VERSION
         docker pull $DOCKER_PREFIX/worker:$VERSION
@@ -219,6 +222,7 @@ jobs:
     - name: Pull docker images
       run: |
         DOCKER_PREFIX=ghcr.io/${{ github.repository }}/
+        DOCKER_PREFIX=$(echo $DOCKER_PREFIX | tr '[A-Z]' '[a-z]')
         VERSION=ci-run-${{ github.run_id }}
         docker pull $DOCKER_PREFIX/${{ matrix.target }}:$VERSION
         RUN_TAG=$VERSION

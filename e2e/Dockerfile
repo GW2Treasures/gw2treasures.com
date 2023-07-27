@@ -9,7 +9,7 @@ COPY . .
 RUN turbo prune --scope=e2e --docker
 
 # Rebuild the source code only when needed
-FROM mcr.microsoft.com/playwright:v1.36.0-jammy AS tester
+FROM mcr.microsoft.com/playwright:v1.36.2-jammy AS tester
 WORKDIR /app
 
 ENV CI=1

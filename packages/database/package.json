@@ -2,7 +2,7 @@
   "name": "@gw2treasures/database",
   "private": true,
   "scripts": {
-    "prisma:generate": "prisma generate",
+    "prisma:generate": "DEBUG=prisma* prisma generate",
     "prisma:migrate": "prisma migrate deploy",
     "prisma:migrate-dev": "prisma migrate dev --name",
     "prisma:studio": "prisma studio",

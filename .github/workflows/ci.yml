@@ -225,7 +225,6 @@ jobs:
         DOCKER_PREFIX=$(echo $DOCKER_PREFIX | tr '[A-Z]' '[a-z]')
         VERSION=ci-run-${{ github.run_id }}
         docker pull $DOCKER_PREFIX/${{ matrix.target }}:$VERSION
-        RUN_TAG=$VERSION
     - name: Login to GitHub Container Registry
       uses: docker/login-action@v2
       with:
@@ -234,7 +233,7 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
     - name: Push image
       run: |
-        IMAGE_ID=$DOCKER_PREFIX/${{ matrix.target }}
+        IMAGE_ID=ghcr.io/${{ github.repository }}/${{ matrix.target }}
         # Change all uppercase to lowercase
         IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
         # Strip git ref prefix from version
@@ -243,9 +242,10 @@ jobs:
         [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
         # Use Docker `latest` tag convention
         [ "$VERSION" == "main" ] && VERSION=latest
+        CI_TAG=ci-run-${{ github.run_id }}
         echo IMAGE_ID=$IMAGE_ID
         echo VERSION=$VERSION
-        docker tag $DOCKER_PREFIX/${{ matrix.target }}:$VERSION $IMAGE_ID:$VERSION
+        docker tag $DOCKER_PREFIX/${{ matrix.target }}:$CI_TAG $IMAGE_ID:$VERSION
         docker push $IMAGE_ID:$VERSION
 
   publish-npm:

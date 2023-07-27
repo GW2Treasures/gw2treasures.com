@@ -245,7 +245,7 @@ jobs:
         CI_TAG=ci-run-${{ github.run_id }}
         echo IMAGE_ID=$IMAGE_ID
         echo VERSION=$VERSION
-        docker tag $DOCKER_PREFIX/${{ matrix.target }}:$CI_TAG $IMAGE_ID:$VERSION
+        docker tag $IMAGE_ID:$CI_TAG $IMAGE_ID:$VERSION
         docker push $IMAGE_ID:$VERSION
 
   publish-npm:

@@ -19,6 +19,7 @@
     "publish-package": {
       "cache": false,
       "dependsOn": ["build"]
-    }
+    },
+    "e2e": {}
   }
 }

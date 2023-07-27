@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  e2e:
+    image: gw2treasures/e2e
+    build:
+      context: .
+      dockerfile: e2e/Dockerfile
+    restart: no
+    environment:
+      - BASE_URL=http://en.gw2treasures.docker:3000/
+
+  web:
+    environment:
+      - GW2T_NEXT_DOMAIN=gw2treasures.docker
+    networks:
+      default:
+        aliases:
+          - gw2treasures.docker
+          - de.gw2treasures.docker
+          - en.gw2treasures.docker
+          - es.gw2treasures.docker
+          - fr.gw2treasures.docker

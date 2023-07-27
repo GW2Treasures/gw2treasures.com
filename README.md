@@ -28,7 +28,7 @@ The website uses nextjs and the code is found in [apps/web](apps/web/).
 
 ### Worker
 
-The workers powering all background tasks of gw2treasures.com are located [apps/worker](apps/worker/). If you have workers running in docker, it is best to stop them first (`docker compose stop worker`), because they will not contain your changes.
+The workers powering all background tasks of gw2treasures.com are located in [apps/worker](apps/worker/). If you have workers running in docker, it is best to stop them first (`docker compose stop worker`), because they will not contain your changes.
 
 1. Make your changes
 2. Start the worker with `npm run dev:worker`
@@ -69,6 +69,25 @@ After this, you can log in with your gw2.me account.
 You can also run gw2.me locally ([gw2.me repository](https://github.com/GW2Treasures/gw2.me)), then you also need to set `GW2ME_URL` to `http://localhost:4000/`.
 
 You can also add the `Admin` role to your user if required, see [Database Access](#database-access).
+
+
+### End-to-End tests
+
+The e2e tests are located in [e2e](e2e/).
+
+#### Running local against dev server
+
+First make sure you are running the dev server (`npm run dev:web`). You can run the tests with `npm run e2e`. Follow the onscreen instructions to install all required dependencies.
+
+#### Running in docker
+
+```sh
+# start database and web server
+docker compose -f docker-compose.yml -f docker-compose.e2e.yml up -d web database database-migration
+
+# run e2e tests
+docker compose -f docker-compose.yml -f docker-compose.e2e.yml up e2e
+```
 
 ## License
 **gw2treasures.com** is licensed under the [MIT License](LICENSE).

@@ -62,10 +62,20 @@ jobs:
           *.output=type=docker,dest=/tmp/image-${{ matrix.target }}.tar
           *.cache-from=type=gha,scope=build-${{ matrix.target }}
           *.cache-to=type=gha,scope=build-${{ matrix.target }},mode=max
-    - uses: actions/upload-artifact@v3
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v2
       with:
-        name: docker-image-${{ matrix.target }}
-        path: /tmp/image-${{ matrix.target }}.tar
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    - name: Push image
+      run: |
+        IMAGE_ID=ghcr.io/${{ github.repository }}/${{ matrix.target }}
+        # Change all uppercase to lowercase
+        IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
+        VERSION=ci-run-${{ github.run_id }}
+        docker tag gw2treasures/${{ matrix.target }} $IMAGE_ID:$VERSION
+        docker push $IMAGE_ID:$VERSION
 
   test-compose:
     name: Test / docker compose
@@ -75,11 +85,18 @@ jobs:
     - name: Add hosts
       run: sudo echo "127.0.0.1 en.gw2treasures.localhost" | sudo tee -a /etc/hosts
     - uses: actions/checkout@v3
-    - uses: actions/download-artifact@v3
-      with:
-        path: /tmp
-    - name: Load docker image
-      run: ls /tmp/docker-image-*/image-*.tar | xargs -L1 docker load --input
+    - name: Pull docker images
+      run: |
+        DOCKER_PREFIX=ghcr.io/${{ github.repository }}/
+        VERSION=ci-run-${{ github.run_id }}
+        docker pull $DOCKER_PREFIX/web:$VERSION
+        docker pull $DOCKER_PREFIX/worker:$VERSION
+        docker pull $DOCKER_PREFIX/legacy-importer:$VERSION
+        docker pull $DOCKER_PREFIX/database-migration:$VERSION
+        docker tag $DOCKER_PREFIX/web:$VERSION gw2treasures/web
+        docker tag $DOCKER_PREFIX/worker:$VERSION gw2treasures/worker
+        docker tag $DOCKER_PREFIX/legacy-importer:$VERSION gw2treasures/legacy-importer
+        docker tag $DOCKER_PREFIX/database-migration:$VERSION gw2treasures/database-migration
     - name: Start docker compose
       run: docker compose up -d
     - name: Wait 30s
@@ -98,15 +115,22 @@ jobs:
     needs: build-docker
     steps:
     - uses: actions/checkout@v3
-    - uses: actions/download-artifact@v3
-      with:
-        path: /tmp
     - uses: nolar/setup-k3d-k3s@v1
       with:
         version: v1.26
         github-token: ${{ secrets.GITHUB_TOKEN }}
-    - name: Load docker image
-      run: ls /tmp/docker-image-*/image-*.tar | xargs -L1 docker load --input
+    - name: Pull docker images
+      run: |
+        DOCKER_PREFIX=ghcr.io/${{ github.repository }}/
+        VERSION=ci-run-${{ github.run_id }}
+        docker pull $DOCKER_PREFIX/web:$VERSION
+        docker pull $DOCKER_PREFIX/worker:$VERSION
+        docker pull $DOCKER_PREFIX/legacy-importer:$VERSION
+        docker pull $DOCKER_PREFIX/database-migration:$VERSION
+        docker tag $DOCKER_PREFIX/web:$VERSION gw2treasures/web
+        docker tag $DOCKER_PREFIX/worker:$VERSION gw2treasures/worker
+        docker tag $DOCKER_PREFIX/legacy-importer:$VERSION gw2treasures/legacy-importer
+        docker tag $DOCKER_PREFIX/database-migration:$VERSION gw2treasures/database-migration
     - name: Import images into k3d
       run: k3d image import gw2treasures/web gw2treasures/worker gw2treasures/legacy-importer gw2treasures/database-migration
     - run: kubectl apply -k kubernetes/local
@@ -124,11 +148,18 @@ jobs:
     needs: build-docker
     steps:
     - uses: actions/checkout@v3
-    - uses: actions/download-artifact@v3
-      with:
-        path: /tmp
-    - name: Load docker image
-      run: ls /tmp/docker-image-*/image-*.tar | xargs -L1 docker load --input
+    - name: Pull docker images
+      run: |
+        DOCKER_PREFIX=ghcr.io/${{ github.repository }}/
+        VERSION=ci-run-${{ github.run_id }}
+        docker pull $DOCKER_PREFIX/web:$VERSION
+        docker pull $DOCKER_PREFIX/worker:$VERSION
+        docker pull $DOCKER_PREFIX/legacy-importer:$VERSION
+        docker pull $DOCKER_PREFIX/database-migration:$VERSION
+        docker tag $DOCKER_PREFIX/web:$VERSION gw2treasures/web
+        docker tag $DOCKER_PREFIX/worker:$VERSION gw2treasures/worker
+        docker tag $DOCKER_PREFIX/legacy-importer:$VERSION gw2treasures/legacy-importer
+        docker tag $DOCKER_PREFIX/database-migration:$VERSION gw2treasures/database-migration
     - name: Start docker compose
       run: docker compose -f docker-compose.yml -f docker-compose.e2e.yml up -d web database database-migration
     - name: Wait for containers to be up
@@ -185,12 +216,12 @@ jobs:
       matrix:
         target: [ web, worker, legacy-importer, database-migration ]
     steps:
-    - uses: actions/download-artifact@v3
-      with:
-        name: docker-image-${{ matrix.target }}
-        path: /tmp
-    - name: Load docker image
-      run: docker load --input /tmp/image-${{ matrix.target }}.tar
+    - name: Pull docker images
+      run: |
+        DOCKER_PREFIX=ghcr.io/${{ github.repository }}/
+        VERSION=ci-run-${{ github.run_id }}
+        docker pull $DOCKER_PREFIX/${{ matrix.target }}:$VERSION
+        RUN_TAG=$VERSION
     - name: Login to GitHub Container Registry
       uses: docker/login-action@v2
       with:
@@ -199,7 +230,7 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
     - name: Push image
       run: |
-        IMAGE_ID=ghcr.io/${{ github.repository }}/${{ matrix.target }}
+        IMAGE_ID=$DOCKER_PREFIX/${{ matrix.target }}
         # Change all uppercase to lowercase
         IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
         # Strip git ref prefix from version
@@ -210,7 +241,7 @@ jobs:
         [ "$VERSION" == "main" ] && VERSION=latest
         echo IMAGE_ID=$IMAGE_ID
         echo VERSION=$VERSION
-        docker tag gw2treasures/${{ matrix.target }} $IMAGE_ID:$VERSION
+        docker tag $DOCKER_PREFIX/${{ matrix.target }}:$VERSION $IMAGE_ID:$VERSION
         docker push $IMAGE_ID:$VERSION
 
   publish-npm:

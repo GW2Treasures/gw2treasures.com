@@ -7,16 +7,11 @@ export type GlobalColumnId = 'id' | 'item' | 'icon' | 'name_de' | 'name_en' | 'n
 
 export interface ItemTableQuery<Model extends QueryModel = 'item'> {
   model?: Model;
-  where: ModelWhereMap[Model]['where'];
-  mapToItem?: ModelWhereMap[Model]['map']
+  where: ColumnModelTypes[Model]['where'];
+  mapToItem?: ColumnModelTypes[Model]['map']
 }
 
-export type QueryModel = keyof ModelWhereMap;
-
-export type ModelWhereMap = {
-  'item': { where: Prisma.ItemWhereInput, map: undefined };
-  'content': { where: Prisma.ContentWhereInput, map: 'containerItem' | 'contentItem' };
-}
+export type QueryModel = keyof ColumnModelTypes;
 
 export type Result<Select extends Prisma.ItemSelect> =
   Awaited<ReturnType<typeof db.item.findFirstOrThrow<{ select: Select }>>>;
@@ -32,8 +27,8 @@ export interface ItemTableColumn<Select extends Prisma.ItemSelect> {
 }
 
 export type ColumnModelTypes = {
-  'item': { select: Prisma.ItemSelect, orderBy: Prisma.ItemOrderByWithRelationInput },
-  'content': { select: Prisma.ContentSelect, orderBy: Prisma.ContentOrderByWithRelationInput },
+  'item': { select: Prisma.ItemSelect, orderBy: Prisma.ItemOrderByWithRelationInput, where: Prisma.ItemWhereInput, map: undefined },
+  'content': { select: Prisma.ContentSelect, orderBy: Prisma.ContentOrderByWithRelationInput, where: Prisma.ContentWhereInput, map: 'containerItem' | 'contentItem' },
 }
 
 export interface ExtraColumn<Id extends string, Model extends QueryModel, Select extends ColumnModelTypes[Model]['select']> {

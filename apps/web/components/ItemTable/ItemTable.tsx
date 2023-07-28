@@ -36,7 +36,13 @@ async function getColumns<T extends string>(extraColumns: ExtraColumn<T, any, an
       const title = translate(`itemTable.column.${id}`);
       const select = await sign(mapToItem ? { [mapToItem]: { select: column.select }} : column.select);
       const orderBy = column.orderBy
-        ? await Promise.all(column.orderBy.map(sign)) as [asc: Signed<OrderBy>, desc: Signed<OrderBy>]
+        ? await Promise.all(column.orderBy.map((order) => {
+          if(!mapToItem) {
+            return order;
+          }
+
+          return Array.isArray(order) ? order.map((by) => ({ [mapToItem]: by })) : { [mapToItem]: order };
+        }).map(sign)) as [asc: Signed<OrderBy>, desc: Signed<OrderBy>]
         : undefined;
       const align = column.align;
       const order = column.order;

@@ -25,7 +25,7 @@ export async function loadItems<Model extends QueryModel>(query: Signed<ItemTabl
   const select = deepmerge.all([idSelect, ...columns]);
 
   if(query.data.model === 'content') {
-    return db.content.findMany({ where, skip, take, select, orderBy: mapOrderBy(orderBy, query.data.mapToItem!) }) as TODO;
+    return db.content.findMany({ where, skip, take, select, orderBy: orderBy as TODO }) as TODO;
   }
 
   const items = await db.item.findMany({
@@ -48,16 +48,4 @@ export async function loadTotalItemCount<Model extends QueryModel>(query: Signed
     case 'content': return db.content.count({ where });
     default: throw new Error('Unsupported query model');
   }
-}
-
-function mapOrderBy(orderBy: OrderBy | undefined, item: string) {
-  if(orderBy === undefined) {
-    return undefined;
-  }
-
-  if(Array.isArray(orderBy)) {
-    return orderBy.map((order) => ({ [item]: order }));
-  }
-
-  return { [item]: orderBy };
 }

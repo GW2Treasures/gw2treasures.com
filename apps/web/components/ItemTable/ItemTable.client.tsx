@@ -1,10 +1,10 @@
 'use client';
 
-import { FunctionComponent, createElement, useCallback, useEffect, useMemo, useState } from 'react';
-import { Signed, ItemTableQuery, QueryModel } from './query';
+import { createElement, useCallback, useEffect, useMemo, useState } from 'react';
+import { Signed } from './query';
 import { loadItems, loadTotalItemCount } from './ItemTable.actions';
 import { SkeletonTable } from '../Skeleton/SkeletonTable';
-import { GlobalColumnId, OrderBy, globalColumnRenderer } from './columns';
+import { globalColumnRenderer } from './columns';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { DropDown } from '../DropDown/DropDown';
 import { Button, LinkButton } from '@gw2treasures/ui/components/Form/Button';
@@ -15,24 +15,13 @@ import { CopyButton } from '@gw2treasures/ui/components/Form/Buttons/CopyButton'
 import { Pagination } from '../Pagination/Pagination';
 import { FlexRow } from '../Layout/FlexRow';
 import { TableRowButton } from '@gw2treasures/ui/components/Table/TableRowButton';
-import { Prisma } from '@gw2treasures/database';
 import { Skeleton } from '../Skeleton/Skeleton';
 import { useItemTableContext } from './context';
 import { Notice } from '../Notice/Notice';
+import { AvailableColumns, GlobalColumnId, ItemTableQuery, QueryModel } from './types';
 
 const LOADING = false;
 type LOADING = typeof LOADING;
-
-export type AvailableColumn<ColumnId extends string> = {
-  id: ColumnId,
-  title: string,
-  select: Signed<Prisma.ItemSelect>,
-  orderBy?: [asc: Signed<OrderBy>, desc: Signed<OrderBy>],
-  align?: 'right',
-  component?: FunctionComponent<{ item: any }>
-}
-
-export type AvailableColumns<ColumnId extends string> = Record<ColumnId, AvailableColumn<ColumnId>>
 
 export interface ItemTableProps<ExtraColumnId extends string, Model extends QueryModel> {
   query: Signed<ItemTableQuery<Model>>;

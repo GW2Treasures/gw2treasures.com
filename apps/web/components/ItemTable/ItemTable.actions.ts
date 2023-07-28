@@ -2,10 +2,10 @@
 
 import { db } from '@/lib/prisma';
 
-import { ItemTableQuery, QueryModel, Signed, verify } from './query';
-import { ColumnModelTypes, OrderBy } from './columns';
+import { Signed, verify } from './query';
 import deepmerge from 'deepmerge';
 import { TODO } from '@/lib/todo';
+import { ColumnModelTypes, ItemTableQuery, OrderBy, QueryModel } from './types';
 
 export interface ItemTableLoadOptions<Model extends QueryModel> {
   skip?: number;

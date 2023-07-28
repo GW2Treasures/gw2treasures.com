@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react';
-import { AvailableColumns } from './ItemTable.client';
+import { AvailableColumns } from './types';
 
 export interface Context<ColumnId extends string> {
   availableColumns: AvailableColumns<ColumnId>;

@@ -1,13 +1,14 @@
 import 'server-only';
 
-import { AvailableColumn, AvailableColumns, ItemTable as ClientComponent } from './ItemTable.client';
-import { GlobalColumnId, ExtraColumn, OrderBy, globalColumnDefinitions } from './columns';
-import { ItemTableQuery, QueryModel, Signed, sign } from './query';
+import { ItemTable as ClientComponent } from './ItemTable.client';
+import { globalColumnDefinitions } from './columns';
+import { Signed, sign } from './query';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Notice } from '../Notice/Notice';
 import { getLanguage, getTranslate } from '../I18n/getTranslate';
+import { AvailableColumn, AvailableColumns, ExtraColumn, GlobalColumnId, ItemTableQuery, OrderBy, QueryModel } from './types';
 
-interface ItemTableProps<ExtraColumnId extends string, Model extends QueryModel> {
+export interface ItemTableProps<ExtraColumnId extends string, Model extends QueryModel> {
   query: ItemTableQuery<Model>;
   defaultColumns?: (ExtraColumnId | GlobalColumnId)[];
   collapsed?: boolean;

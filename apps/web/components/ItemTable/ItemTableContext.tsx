@@ -2,8 +2,7 @@
 
 import { FC, ReactNode, useEffect, useMemo, useState } from 'react';
 import { context } from './context';
-import { AvailableColumns } from './ItemTable.client';
-import { GlobalColumnId } from './columns';
+import { AvailableColumns, GlobalColumnId } from './types';
 
 interface ItemTableContextProps {
   children: ReactNode;

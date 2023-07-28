@@ -41,14 +41,13 @@ export interface ExtraColumn<Id extends string, Model extends QueryModel, Select
   orderBy?: [asc: OrderBy<ColumnModelTypes[Model]['orderBy']>, desc: OrderBy<ColumnModelTypes[Model]['orderBy']>]
 }
 
-export type AvailableColumn<ColumnId extends string> = {
+export type AvailableColumn<ColumnId extends string, Model extends QueryModel = QueryModel, Select extends ColumnModelTypes[Model]['select'] = ColumnModelTypes[Model]['select']> = {
   id: ColumnId,
   title: string,
-  select: Signed<Prisma.ItemSelect>,
-  orderBy?: [asc: Signed<OrderBy>, desc: Signed<OrderBy>],
+  select: Signed<Select>,
+  orderBy?: [asc: Signed<OrderBy<ColumnModelTypes[Model]['orderBy']>>, desc: Signed<OrderBy<ColumnModelTypes[Model]['orderBy']>>],
   align?: 'right',
-  component?: FunctionComponent<{ item: any }>
+  component?: FunctionComponent<{ item: Result<Select & { id: true }> }>
 }
 
 export type AvailableColumns<ColumnId extends string> = Record<ColumnId, AvailableColumn<ColumnId>>
-

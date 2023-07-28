@@ -28,11 +28,6 @@ import { RemovedFromApiNotice } from '@/components/Notice/RemovedFromApiNotice';
 import { RecipeBoxWrapper } from '@/components/Recipe/RecipeBoxWrapper';
 import { SimilarItems } from './similar-items';
 import { getItem, getRevision } from './data';
-import { ItemLink } from '@/components/Item/ItemLink';
-import { Rarity } from '@/components/Item/Rarity';
-import { OutputCount } from '@/components/Item/OutputCount';
-import { TableCollapse } from '@gw2treasures/ui/components/Table/TableCollapse';
-import { FormatNumber } from '@/components/Format/FormatNumber';
 import { EditContents } from './_edit-content/EditContents';
 import { CurrencyLink } from '@/components/Currency/CurrencyLink';
 import { CurrencyValue } from '@/components/Currency/CurrencyValue';
@@ -171,8 +166,8 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
           <Headline id="contained" actions={<ItemTableColumnsButton/>}>Contained In</Headline>
           <ItemTable query={{ model: 'content', mapToItem: 'containerItem', where: { contentItemId: item.id }}}
             extraColumns={[
-              extraColumn<'content'>({ id: 'quantity', select: { quantity: true }, title: 'Quantity', component: ContentQuantityColumn as TODO }),
-              extraColumn<'content'>({ id: 'chance', select: { chance: true }, title: 'Chance', component: ContentChanceColumn as TODO })
+              extraColumn<'content'>({ id: 'quantity', select: { quantity: true }, title: 'Quantity', component: ContentQuantityColumn as TODO, order: 71 }),
+              extraColumn<'content'>({ id: 'chance', select: { chance: true }, title: 'Chance', component: ContentChanceColumn as TODO, order: 72 })
             ]}
             defaultColumns={['item', 'quantity', 'chance', 'level', 'rarity', 'type', 'vendorValue']}/>
         </ItemTableContext>
@@ -192,7 +187,7 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
 
       {!fixedRevision && showContents && (
         <ItemTableContext id="contents">
-          <Headline id="content" actions={<><ItemTableColumnsButton/><EditContents itemId={itemId} contents={item.contains} currencyContents={item.containsCurrency}/></>}>Contents</Headline>
+          <Headline id="content" actions={<><EditContents itemId={itemId} contents={item.contains} currencyContents={item.containsCurrency}/><ItemTableColumnsButton/></>}>Contents</Headline>
 
           {item.containsCurrency.length > 0 && (
             <ItemList>
@@ -216,8 +211,9 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
             <ItemTable
               query={{ model: 'content', mapToItem: 'contentItem', where: { containerItemId: item.id }}}
               extraColumns={[
-                extraColumn<'content'>({ id: 'item', select: { quantity: true, contentItem: { select: globalColumnDefinitions.item.select }}, title: 'Item (Qty)', component: ItemContentQuantityColumn as TODO }),
-                extraColumn<'content'>({ id: 'chance', select: { chance: true }, title: 'Chance', component: ContentChanceColumn as TODO })
+                extraColumn<'content'>({ id: 'item', select: { quantity: true, contentItem: { select: globalColumnDefinitions.item.select }}, title: 'Item (Qty)', component: ItemContentQuantityColumn as TODO, order: 21 }),
+                extraColumn<'content'>({ id: 'quantity', select: { quantity: true }, title: 'Quantity', component: ContentQuantityColumn as TODO, order: 71 }),
+                extraColumn<'content'>({ id: 'chance', select: { chance: true }, title: 'Chance', component: ContentChanceColumn as TODO, order: 72 })
               ]}
               defaultColumns={['item', 'chance', 'level', 'rarity', 'type', 'vendorValue']}/>
           )}

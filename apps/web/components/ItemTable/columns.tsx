@@ -14,6 +14,7 @@ export type OrderBy = Prisma.ItemOrderByWithRelationInput | Prisma.ItemOrderByWi
 
 export interface ItemTableColumn<Select extends Prisma.ItemSelect> {
   id: GlobalColumnId,
+  order?: number,
   select: Select,
   align?: 'right',
   orderBy?: [asc: OrderBy, desc: OrderBy]
@@ -28,6 +29,7 @@ export interface ExtraColumn<Id extends string, Model extends QueryModel, Select
   id: Id,
   select: Select,
   title: string;
+  order?: number,
   component: FunctionComponent<{ item: Result<Select & { id: true }> }>
   align?: 'right',
   orderBy?: [asc: OrderBy, desc: OrderBy]
@@ -46,56 +48,67 @@ export type GlobalColumnId = 'id' | 'item' | 'icon' | 'name_de' | 'name_en' | 'n
 export const globalColumnDefinitions = {
   id: createColumn({
     id: 'id',
+    order: 10,
     select: {},
     align: 'right',
     orderBy: [{ id: 'asc' }, { id: 'desc' }]
   }),
   item: createColumn({
     id: 'item',
+    order: 20,
     select: { rarity: true, name_de: true, name_en: true, name_es: true, name_fr: true, icon: true },
   }),
   icon: createColumn({
     id: 'icon',
+    order: 30,
     select: { icon: true },
   }),
   name_de: createColumn({
     id: 'name_de',
+    order: 40,
     select: { name_de: true },
     orderBy: [{ name_de: 'asc' }, { name_de: 'desc' }]
   }),
   name_en: createColumn({
     id: 'name_en',
+    order: 50,
     select: { name_en: true },
     orderBy: [{ name_en: 'asc' }, { name_en: 'desc' }]
   }),
   name_es: createColumn({
     id: 'name_es',
+    order: 60,
     select: { name_es: true },
     orderBy: [{ name_es: 'asc' }, { name_es: 'desc' }]
   }),
   name_fr: createColumn({
     id: 'name_fr',
+    order: 70,
     select: { name_fr: true },
     orderBy: [{ name_fr: 'asc' }, { name_fr: 'desc' }]
   }),
   level: createColumn({
     id: 'level',
+    order: 80,
     select: { level: true },
     align: 'right',
     orderBy: [{ level: 'asc' }, { level: 'desc' }]
   }),
   rarity: createColumn({
     id: 'rarity',
+    order: 90,
     select: { rarity: true },
     orderBy: [{ rarity: 'asc' }, { rarity: 'desc' }]
   }),
   type: createColumn({
     id: 'type',
+    order: 100,
     select: { type: true, subtype: true },
     orderBy: [[{ type: 'asc' }, { subtype: 'asc' }], [{ type: 'desc' }, { subtype: 'desc' }]]
   }),
   vendorValue: createColumn({
     id: 'vendorValue',
+    order: 110,
     select: { value: true },
     align: 'right',
     orderBy: [{ value: 'asc' }, { value: 'desc' }]

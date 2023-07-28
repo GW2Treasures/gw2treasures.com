@@ -1,6 +1,6 @@
 import 'server-only';
 
-import { AvailableColumns, ItemTable as ClientComponent } from './ItemTable.client';
+import { AvailableColumn, AvailableColumns, ItemTable as ClientComponent } from './ItemTable.client';
 import { GlobalColumnId, ExtraColumn, OrderBy, globalColumnDefinitions } from './columns';
 import { ItemTableQuery, QueryModel, Signed, sign } from './query';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -39,8 +39,9 @@ async function getColumns<T extends string>(extraColumns: ExtraColumn<T, any, an
         ? await Promise.all(column.orderBy.map(sign)) as [asc: Signed<OrderBy>, desc: Signed<OrderBy>]
         : undefined;
       const align = column.align;
+      const order = column.order;
 
-      return [id, { id, title, select, orderBy, align }];
+      return [id, { id, title, select, orderBy, align, order }] as [GlobalColumnId | T, AvailableColumn<GlobalColumnId | T> & { order?: number }];
     }),
     ...extraColumns?.map(async (column) => {
       const id = column.id;
@@ -51,10 +52,25 @@ async function getColumns<T extends string>(extraColumns: ExtraColumn<T, any, an
         ? await Promise.all(column.orderBy.map(sign)) as [asc: Signed<OrderBy>, desc: Signed<OrderBy>]
         : undefined;
       const align = column.align;
+      const order = column.order;
 
-      return [id, { id, title, select, orderBy, align, component }];
+      return [id, { id, title, select, orderBy, align, component, order }] as [GlobalColumnId | T, AvailableColumn<GlobalColumnId | T> & { order?: number }];
     }) ?? []
   ]);
 
-  return Object.fromEntries(entries);
+  return Object.fromEntries(entries.sort(([, { order: orderA }], [, { order: orderB }]) => {
+    if(orderA === undefined && orderB === undefined) {
+      return 0;
+    }
+
+    if(orderA === undefined) {
+      return 1;
+    }
+
+    if(orderB === undefined) {
+      return -1;
+    }
+
+    return orderA - orderB;
+  })) as AvailableColumns<GlobalColumnId | T>;
 }

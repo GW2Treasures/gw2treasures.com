@@ -23,14 +23,16 @@ import { Notice } from '../Notice/Notice';
 const LOADING = false;
 type LOADING = typeof LOADING;
 
-export type AvailableColumns<ColumnId extends string> = Record<ColumnId, {
+export type AvailableColumn<ColumnId extends string> = {
   id: ColumnId,
   title: string,
   select: Signed<Prisma.ItemSelect>,
   orderBy?: [asc: Signed<OrderBy>, desc: Signed<OrderBy>],
   align?: 'right',
   component?: FunctionComponent<{ item: any }>
-}>
+}
+
+export type AvailableColumns<ColumnId extends string> = Record<ColumnId, AvailableColumn<ColumnId>>
 
 export interface ItemTableProps<ExtraColumnId extends string, Model extends QueryModel> {
   query: Signed<ItemTableQuery<Model>>;

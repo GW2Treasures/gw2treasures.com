@@ -124,31 +124,33 @@ export const ItemTable = <ExtraColumnId extends string = never, Model extends Qu
           </tr>
         </thead>
         <tbody>
-          {items.map((item) => (
-            <tr key={item.id}>
-              {columns.map((column) => {
-                const props = query.data.mapToItem && query.data.model !== undefined && query.data.model !== 'item'
-                  ? { item: (item as any)[query.data.mapToItem], [query.data.model]: item }
-                  : { item };
+          {items.map((item) => {
+            const props = query.data.mapToItem && query.data.model !== undefined && query.data.model !== 'item'
+            ? { item: (item as any)[query.data.mapToItem], [query.data.model]: item }
+            : { item };
 
-                return (
-                  <td key={column.id} align={column.align}>
-                    {loadedColumns.includes(column.id) ? (
-                      column.component ? createElement(column.component, props) : globalColumnRenderer[column.id as GlobalColumnId](props.item)
-                    ) : <Skeleton width={48}/>}
-                  </td>
-                );
-              })}
-              <td>
-                <DropDown button={<Button iconOnly appearance="menu"><Icon icon="more"/></Button>} preferredPlacement="right-start">
-                  <MenuList>
-                    <LinkButton appearance="menu" icon="eye" href={`/item/${item.id}`}>View Item</LinkButton>
-                    <CopyButton appearance="menu" icon="chatlink" copy={encode('item', item.id) || ''}>Copy chatlink</CopyButton>
-                  </MenuList>
-                </DropDown>
-              </td>
-            </tr>
-          ))}
+            return (
+              <tr key={props.item.id}>
+                {columns.map((column) => {
+                  return (
+                    <td key={column.id} align={column.align}>
+                      {loadedColumns.includes(column.id) ? (
+                        column.component ? createElement(column.component, props) : globalColumnRenderer[column.id as GlobalColumnId](props.item)
+                      ) : <Skeleton width={48}/>}
+                    </td>
+                  );
+                })}
+                <td>
+                  <DropDown button={<Button iconOnly appearance="menu"><Icon icon="more"/></Button>} preferredPlacement="right-start">
+                    <MenuList>
+                      <LinkButton appearance="menu" icon="eye" href={`/item/${item.id}`}>View Item</LinkButton>
+                      <CopyButton appearance="menu" icon="chatlink" copy={encode('item', item.id) || ''}>Copy chatlink</CopyButton>
+                    </MenuList>
+                  </DropDown>
+                </td>
+              </tr>
+            );
+          })}
           {collapsed && totalItems > collapsedSize && (
             <TableRowButton key="show-more" onClick={() => setCollapsed(false)}><Icon icon="chevron-down"/> Show {totalItems - collapsedSize} more</TableRowButton>
           )}

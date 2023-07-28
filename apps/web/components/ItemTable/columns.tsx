@@ -10,7 +10,7 @@ import { QueryModel } from './query';
 type Result<Select extends Prisma.ItemSelect> =
   Awaited<ReturnType<typeof db.item.findFirstOrThrow<{ select: Select }>>>;
 
-export type OrderBy = Prisma.ItemOrderByWithRelationInput | Prisma.ItemOrderByWithRelationInput[]
+export type OrderBy<T = Prisma.ItemOrderByWithRelationInput> = T | T[]
 
 export interface ItemTableColumn<Select extends Prisma.ItemSelect> {
   id: GlobalColumnId,
@@ -20,26 +20,26 @@ export interface ItemTableColumn<Select extends Prisma.ItemSelect> {
   orderBy?: [asc: OrderBy, desc: OrderBy]
 }
 
-type ModelSelect = {
-  'item': { select: Prisma.ItemSelect },
-  'content': { select: Prisma.ContentSelect },
+export type ColumnModelTypes = {
+  'item': { select: Prisma.ItemSelect, orderBy: Prisma.ItemOrderByWithRelationInput },
+  'content': { select: Prisma.ContentSelect, orderBy: Prisma.ContentOrderByWithRelationInput },
 }
 
-export interface ExtraColumn<Id extends string, Model extends QueryModel, Select extends ModelSelect[Model]['select']> {
+export interface ExtraColumn<Id extends string, Model extends QueryModel, Select extends ColumnModelTypes[Model]['select']> {
   id: Id,
   select: Select,
   title: string;
   order?: number,
   component: FunctionComponent<{ item: Result<Select & { id: true }> }>
   align?: 'right',
-  orderBy?: [asc: OrderBy, desc: OrderBy]
+  orderBy?: [asc: OrderBy<ColumnModelTypes[Model]['orderBy']>, desc: OrderBy<ColumnModelTypes[Model]['orderBy']>]
 }
 
 // typehelper
 function createColumn<Select extends Prisma.ItemSelect>(column: ItemTableColumn<Select>) {
   return column;
 }
-export function extraColumn<Model extends QueryModel>(column: ExtraColumn<string, Model, ModelSelect[Model]['select']>) {
+export function extraColumn<Model extends QueryModel>(column: ExtraColumn<string, Model, ColumnModelTypes[Model]['select']>) {
   return column;
 }
 

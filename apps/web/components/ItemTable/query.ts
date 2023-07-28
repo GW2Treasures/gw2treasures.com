@@ -1,4 +1,4 @@
-import { Content, Prisma } from '@gw2treasures/database';
+import { Prisma } from '@gw2treasures/database';
 import { signingKey } from './signingKey';
 
 export interface ItemTableQuery<Model extends QueryModel = 'item'> {

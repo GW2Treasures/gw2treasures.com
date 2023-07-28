@@ -212,7 +212,7 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
               query={{ model: 'content', mapToItem: 'contentItem', where: { containerItemId: item.id }}}
               extraColumns={[
                 extraColumn<'content'>({ id: 'item', select: { quantity: true, contentItem: { select: globalColumnDefinitions.item.select }}, title: 'Item (Qty)', component: ItemContentQuantityColumn as TODO, order: 21 }),
-                extraColumn<'content'>({ id: 'quantity', select: { quantity: true }, title: 'Quantity', component: ContentQuantityColumn as TODO, order: 71, orderBy: [{ quantity: 'asc' }, { quantity: 'desc' }] as any }),
+                extraColumn<'content'>({ id: 'quantity', select: { quantity: true }, title: 'Quantity', component: ContentQuantityColumn as TODO, order: 71, orderBy: [{ quantity: 'asc' }, { quantity: 'desc' }] }),
                 extraColumn<'content'>({ id: 'chance', select: { chance: true }, title: 'Chance', component: ContentChanceColumn as TODO, order: 72 })
               ]}
               defaultColumns={['item', 'chance', 'level', 'rarity', 'type', 'vendorValue']}/>

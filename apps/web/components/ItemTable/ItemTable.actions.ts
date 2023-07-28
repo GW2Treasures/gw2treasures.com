@@ -3,18 +3,18 @@
 import { db } from '@/lib/prisma';
 
 import { ItemTableQuery, QueryModel, Signed, verify } from './query';
-import { OrderBy } from './columns';
+import { ColumnModelTypes, OrderBy } from './columns';
 import deepmerge from 'deepmerge';
 import { TODO } from '@/lib/todo';
 
-export interface ItemTableLoadOptions {
+export interface ItemTableLoadOptions<Model extends QueryModel> {
   skip?: number;
   take?: number;
-  columns: Signed<any>[];
-  orderBy?: Signed<OrderBy>;
+  columns: Signed<TODO>[];
+  orderBy?: Signed<OrderBy<ColumnModelTypes[Model]['orderBy']>>;
 }
 
-export async function loadItems<Model extends QueryModel>(query: Signed<ItemTableQuery<Model>>, options: ItemTableLoadOptions): Promise<{ id: number }[]> {
+export async function loadItems<Model extends QueryModel>(query: Signed<ItemTableQuery<Model>>, options: ItemTableLoadOptions<Model>): Promise<{ id: number }[]> {
   const { where } = await verify(query);
   const orderBy = options.orderBy ? await verify(options.orderBy) : undefined;
   const { skip, take } = options;
@@ -33,7 +33,7 @@ export async function loadItems<Model extends QueryModel>(query: Signed<ItemTabl
     skip,
     take,
     select,
-    orderBy
+    orderBy: orderBy as TODO
   });
 
   // TODO: this could be generified as well, but probably not needed. The id is the only property the table needs.

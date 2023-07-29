@@ -187,7 +187,13 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
 
       {!fixedRevision && showContents && (
         <ItemTableContext id="contents">
-          <Headline id="content" actions={<><EditContents itemId={itemId} contents={item.contains} currencyContents={item.containsCurrency}/><ItemTableColumnsButton/></>}>Contents</Headline>
+          <Headline id="content" actions={[
+            <EditContents key="edit" itemId={itemId} contents={item.contains} currencyContents={item.containsCurrency}/>,
+            item._count.contains > 0 && <ItemTableColumnsButton key="columns"/>
+          ]}
+          >
+            Contents
+          </Headline>
 
           {item.containsCurrency.length > 0 && (
             <ItemList>

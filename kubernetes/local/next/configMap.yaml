@@ -7,3 +7,4 @@ metadata:
 data:
   db: postgresql://gw2treasures:f51f6aa0-73a7-45de-a068-6867fec97dc2@next-db:5432/gw2treasures?schema=public
   domain: next.gw2treasures.kubernetes.localhost
+  signing_key: eyJrZXlfb3BzIjpbInNpZ24iLCJ2ZXJpZnkiXSwiZXh0Ijp0cnVlLCJrdHkiOiJvY3QiLCJrIjoiclBSR0dPRlVRSXFOZlZ4dE5PWXR5QTRXTUliUTB2TW5WcFlxcnJuSFo5SSIsImFsZyI6IkhTMjU2In0=

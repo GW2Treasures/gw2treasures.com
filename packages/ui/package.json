@@ -19,7 +19,7 @@
     "publish-package": "if test `npm view . version | sed -n 2p` != $npm_package_version; then npm publish --access public; else echo not changed; fi"
   },
   "dependencies": {
-    "@floating-ui/react": "^0.24.0",
+    "@floating-ui/react": "^0.25.0",
     "@floating-ui/react-dom": "^2.0.0",
     "@svgr/webpack": "^8.0.0",
     "client-only": "^0.0.1",
@@ -29,7 +29,7 @@
     "@types/react": "18.2.17",
     "@types/ua-parser-js": "^0.7.36",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
-    "eslint": "8.44.0",
+    "eslint": "8.46.0",
     "eslint-config-next": "13.4.12",
     "typescript": "5.1.6"
   },

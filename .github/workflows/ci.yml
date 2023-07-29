@@ -45,7 +45,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        target: [ web, worker, legacy-importer, database-migration ]
+        target: [ web, worker, legacy-importer, database-migration, e2e ]
     steps:
     - uses: actions/checkout@v3
     - name: Set up Docker Buildx
@@ -159,16 +159,16 @@ jobs:
         docker pull $DOCKER_PREFIX/worker:$VERSION
         docker pull $DOCKER_PREFIX/legacy-importer:$VERSION
         docker pull $DOCKER_PREFIX/database-migration:$VERSION
+        docker pull $DOCKER_PREFIX/e2e:$VERSION
         docker tag $DOCKER_PREFIX/web:$VERSION gw2treasures/web
         docker tag $DOCKER_PREFIX/worker:$VERSION gw2treasures/worker
         docker tag $DOCKER_PREFIX/legacy-importer:$VERSION gw2treasures/legacy-importer
         docker tag $DOCKER_PREFIX/database-migration:$VERSION gw2treasures/database-migration
+        docker tag $DOCKER_PREFIX/e2e:$VERSION gw2treasures/e2e
     - name: Start docker compose
       run: docker compose -f docker-compose.yml -f docker-compose.e2e.yml up -d web database database-migration
     - name: Wait for containers to be up
       run: sleep 30
-    - name: Build e2e container
-      run: docker compose -f docker-compose.yml -f docker-compose.e2e.yml build e2e
     - name: Run e2e tests
       run: docker compose -f docker-compose.yml -f docker-compose.e2e.yml up e2e --no-log-prefix
     - name: Stop docker compose

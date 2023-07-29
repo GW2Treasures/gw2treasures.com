@@ -18,6 +18,6 @@ export const TableCollapse: FC<TableCollapseProps> = ({ children, limit = 5 }) =
 
   return [
     ...children.slice(0, 5),
-    <TableRowButton key="expand" onClick={() => setExpanded(true)}><Icon icon="chevronDown"/> Show {children.length - limit} more</TableRowButton>
+    <TableRowButton key="expand" onClick={() => setExpanded(true)}><Icon icon="chevron-down"/> Show {children.length - limit} more</TableRowButton>
   ] as any as ReactElement;
 };

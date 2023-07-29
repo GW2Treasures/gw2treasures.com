@@ -1,10 +1,9 @@
-import { createElement, forwardRef, ForwardRefExoticComponent, FunctionComponent, SVGProps } from 'react';
+import { createElement, FunctionComponent, SVGProps } from 'react';
 import MenuIcon from './menu.svg?svgr';
 import GW2TreasuresIcon from './gw2t.svg?svgr';
 import UserIcon from './user.svg?svgr';
 import RevisionIcon from './revision.svg?svgr';
 import SearchIcon from './search.svg?svgr';
-import ChevronDownIcon from './chevronDown.svg?svgr';
 import ChatlinkIcon from './chatlink.svg?svgr';
 import JobsIcon from './jobs.svg?svgr';
 import MountIcon from './mount.svg?svgr';
@@ -51,13 +50,23 @@ import DeveloperIcon from './developer.svg?svgr';
 import AddIcon from './add.svg?svgr';
 import ReviewQueueIcon from './review-queue.svg?svgr';
 import DeleteIcon from './delete.svg?svgr';
+import ColumnsIcon from './columns.svg?svgr';
+import ChevronDownIcon from './chevron-down.svg?svgr';
+import ChevronLeftIcon from './chevron-left.svg?svgr';
+import ChevronRightIcon from './chevron-right.svg?svgr';
+import ChevronUpIcon from './chevron-up.svg?svgr';
+import SortIcon from './sort.svg?svgr';
+import SortAscIcon from './sort-asc.svg?svgr';
+import SortDescIcon from './sort-desc.svg?svgr';
+import LoadingIcon from './loading.svg?svgr';
 
-export type IconName = 'menu' | 'gw2treasures' | 'user' | 'revision' | 'search' | 'chevronDown' | 'chatlink' | 'jobs' | 'time'
+export type IconName = 'menu' | 'gw2treasures' | 'user' | 'revision' | 'search' | 'chatlink' | 'jobs' | 'time'
  | 'mount' | 'skill' | 'specialization' | 'wvw' | 'profession' | 'skin' | 'achievement' | 'item' | 'builds'
  | 'armorsmith' | 'artificer' | 'chef' | 'huntsman' | 'jeweler' | 'leatherworker' | 'scribe' | 'tailor' | 'weaponsmith'
  | 'filter' | 'filter-active' | 'shuffle' | 'achievementPoints' | 'info' | 'locale' | 'checkmark' | 'close'
  | 'api-status' | 'discord' | 'external' | 'external-link' | 'mastery' | 'coins' | 'upgrade-slot' | 'infusion-slot' | 'enrichment-slot'
- | 'eye' | 'status' | 'unlock' | 'more' | 'developer' | 'add' | 'review-queue' | 'delete';
+ | 'eye' | 'status' | 'unlock' | 'more' | 'developer' | 'add' | 'review-queue' | 'delete' | 'columns'
+ | 'chevron-down' | 'chevron-left' | 'chevron-right' | 'chevron-up' | 'sort' | 'sort-asc' | 'sort-desc' | 'loading';
 
 type IconComponent = FunctionComponent<SVGProps<SVGSVGElement>>;
 
@@ -67,7 +76,6 @@ export const Icons: Record<IconName, IconComponent> = {
   'user': UserIcon,
   'revision': RevisionIcon,
   'search': SearchIcon,
-  'chevronDown': ChevronDownIcon,
   'chatlink': ChatlinkIcon,
   'jobs': JobsIcon,
   'mount': MountIcon,
@@ -114,6 +122,15 @@ export const Icons: Record<IconName, IconComponent> = {
   'add': AddIcon,
   'review-queue': ReviewQueueIcon,
   'delete': DeleteIcon,
+  'columns': ColumnsIcon,
+  'chevron-down': ChevronDownIcon,
+  'chevron-left': ChevronLeftIcon,
+  'chevron-right': ChevronRightIcon,
+  'chevron-up': ChevronUpIcon,
+  'sort': SortIcon,
+  'sort-asc': SortAscIcon,
+  'sort-desc': SortDescIcon,
+  'loading': LoadingIcon,
 };
 
 export type IconProp = IconName | JSX.Element;

@@ -1,3 +1,5 @@
+# syntax=docker/dockerfile:1.4
+
 ARG node_version=20-alpine
 
 FROM node:${node_version} AS source
@@ -11,7 +13,7 @@ RUN adduser --system --uid 1001 worker
 
 RUN npm i -g prisma
 
-COPY --chown=worker:nodejs packages/database/prisma ./prisma
+COPY --link --chown=worker:nodejs packages/database/prisma ./prisma
 
 USER worker
 

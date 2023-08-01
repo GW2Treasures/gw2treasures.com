@@ -1,3 +1,5 @@
+# syntax=docker/dockerfile:1.4
+
 ARG node_version=20-alpine
 
 
@@ -6,7 +8,7 @@ FROM node:${node_version} AS source
 RUN apk add --no-cache libc6-compat
 WORKDIR /source
 RUN npm i -g turbo
-COPY . .
+COPY --link . .
 RUN turbo prune --scope=worker --docker
 
 # Rebuild the source code only when needed
@@ -14,19 +16,19 @@ FROM node:${node_version} AS builder
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-COPY --from=source /source/out/json/ .
-COPY --from=source /source/out/package-lock.json package-lock.json
+COPY --link --from=source /source/out/json/ .
+COPY --link --from=source /source/out/package-lock.json package-lock.json
 
 # install dev dependencies
 RUN npm ci --include=dev
 
 # add source
-COPY --from=source /source/out/full/ .
+COPY --link --from=source /source/out/full/ .
 
 # build source
 RUN npx turbo run build --filter=worker...
 
-# Production image, copy all the files and run next
+# Production image, COPY --link all the files and run next
 FROM node:${node_version} AS runner
 RUN apk add --no-cache bind-tools
 WORKDIR /app
@@ -37,7 +39,7 @@ ENV NEXT_TELEMETRY_DISABLED 1
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 worker
 
-COPY --from=builder --chown=worker:nodejs /app/apps/worker/dist .
+COPY --link --from=builder --chown=worker:nodejs /app/apps/worker/dist .
 
 USER worker
 

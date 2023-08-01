@@ -1,3 +1,5 @@
+# syntax=docker/dockerfile:1.4
+
 ARG node_version=20-alpine
 
 FROM node:${node_version} AS source
@@ -5,7 +7,7 @@ FROM node:${node_version} AS source
 RUN apk add --no-cache libc6-compat
 WORKDIR /source
 RUN npm i -g turbo
-COPY . .
+COPY --link . .
 RUN turbo prune --scope=e2e --docker
 
 # Rebuild the source code only when needed
@@ -14,13 +16,13 @@ WORKDIR /app
 
 ENV CI=1
 
-COPY --from=source /source/out/json/ .
-COPY --from=source /source/out/package-lock.json package-lock.json
+COPY --link --from=source /source/out/json/ .
+COPY --link --from=source /source/out/package-lock.json package-lock.json
 
 # install dev dependencies
 RUN npm ci --include=dev
 
 # add source
-COPY --from=source /source/out/full/ .
+COPY --link --from=source /source/out/full/ .
 
 CMD [ "npm", "run", "e2e", "--", "--log-prefix=none" ]

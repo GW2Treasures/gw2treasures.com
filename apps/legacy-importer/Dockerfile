@@ -38,7 +38,7 @@ ENV NEXT_TELEMETRY_DISABLED 1
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 worker
 
-COPY --link --from=builder --chown=worker:nodejs /app .
+COPY --link --from=builder --chown=1001:1001 /app .
 
 USER worker
 

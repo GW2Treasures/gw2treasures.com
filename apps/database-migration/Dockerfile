@@ -13,7 +13,7 @@ RUN adduser --system --uid 1001 worker
 
 RUN npm i -g prisma
 
-COPY --link --chown=worker:nodejs packages/database/prisma ./prisma
+COPY --link --chown=1001:1001 packages/database/prisma ./prisma
 
 USER worker
 

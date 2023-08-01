@@ -45,13 +45,13 @@ COPY --link --from=builder /app/apps/web/package.json .
 
 # Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing
-COPY --link --from=builder --chown=nextjs:nodejs /app/apps/web/.next/standalone ./
-COPY --link --from=builder --chown=nextjs:nodejs /app/apps/web/.next/static ./apps/web/.next/static
-COPY --link --from=builder --chown=nextjs:nodejs /app/apps/web/public ./apps/web/public
-COPY --link --from=builder --chown=nextjs:nodejs /app/apps/web/docker-entrypoint.sh ./
+COPY --link --from=builder --chown=1001:1001 /app/apps/web/.next/standalone ./
+COPY --link --from=builder --chown=1001:1001 /app/apps/web/.next/static ./apps/web/.next/static
+COPY --link --from=builder --chown=1001:1001 /app/apps/web/public ./apps/web/public
+COPY --link --from=builder --chown=1001:1001 /app/apps/web/docker-entrypoint.sh ./
 
 # workaround for https://github.com/wooorm/starry-night/issues/9
-COPY --link --from=builder --chown=nextjs:nodejs /app/node_modules/vscode-oniguruma/release/onig.wasm /app/node_modules/vscode-oniguruma/release/onig.wasm
+COPY --link --from=builder --chown=1001:1001 /app/node_modules/vscode-oniguruma/release/onig.wasm /app/node_modules/vscode-oniguruma/release/onig.wasm
 
 RUN chmod +x ./docker-entrypoint.sh
 

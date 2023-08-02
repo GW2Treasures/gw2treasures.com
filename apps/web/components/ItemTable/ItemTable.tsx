@@ -61,7 +61,7 @@ async function getColumns<T extends string>(extraColumns: ExtraColumn<T, any, an
       const align = column.align;
       const order = column.order;
 
-      return [id, { id, title, select, orderBy, align, component, order }] as [GlobalColumnId | T, AvailableColumn<GlobalColumnId | T> & { order?: number }];
+      return [id, { id, title, select, orderBy, align, component, order }] as [GlobalColumnId | T, AvailableColumn<GlobalColumnId | T, any, any> & { order?: number }];
     }) ?? []
   ]);
 

@@ -1,0 +1,17 @@
+.crumbs {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: baseline;
+  gap: .5em;
+  --link-color: var(--color-text-muted);
+  white-space: nowrap;
+  flex-wrap: wrap;
+}
+
+.crumbs > li:nth-child(n+2)::before {
+  content: '›';
+  display: inline-block;
+  margin-right: .5em;
+}

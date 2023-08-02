@@ -30,13 +30,17 @@ a {
 }
 
 a:where(:any-link) {
-  color: var(--color-focus);
-}
-
-a:where(:any-link:hover) {
+  color: var(--link-color, var(--color-focus));
   text-decoration: underline;
   text-decoration-thickness: 2px;
   text-underline-offset: 2px;
+  text-decoration-color: transparent;
+  transition: text-decoration-color .3s ease;
+}
+
+a:where(:any-link:hover) {
+  text-decoration-color: currentColor;
+  transition: text-decoration-color .15s ease;
 }
 
 * {

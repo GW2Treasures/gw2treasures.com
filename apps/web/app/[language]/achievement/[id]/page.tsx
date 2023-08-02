@@ -6,7 +6,6 @@ import { localizedName } from '@/lib/localizedName';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { Json } from '@/components/Format/Json';
 import { FormatNumber } from '@/components/Format/FormatNumber';
-import { Separator } from '@/components/Layout/Separator';
 import { Icon } from '@gw2treasures/ui';
 import { format } from 'gw2-tooltip-html';
 import { notFound } from 'next/navigation';
@@ -22,6 +21,9 @@ import { AchievementLink } from '@/components/Achievement/AchievementLink';
 import { AchievementInfobox } from '@/components/Achievement/AchievementInfobox';
 import type * as CSS from 'csstype';
 import { RemovedFromApiNotice } from '@/components/Notice/RemovedFromApiNotice';
+import { Breadcrumb } from '@/components/Breadcrumb/Breadcrumb';
+import Link from 'next/link';
+import { AchievementCategoryLink } from '@/components/Achievement/AchievementCategoryLink';
 
 const MasteryColors: Record<MasteryRegion, CSS.Property.Color> = {
   'Tyria': '#FB8C00',
@@ -41,7 +43,7 @@ const getAchievement = remember(60, async function getAchievement(id: number, la
           select: {
             ...linkPropertiesWithoutRarity,
             categoryDisplayId: true,
-            achievementGroup: { select: { name_de: true, name_en: true, name_es: true, name_fr: true }},
+            achievementGroup: { select: { id: true, name_de: true, name_en: true, name_es: true, name_fr: true }},
             categoryDisplay: { select: linkPropertiesWithoutRarity }
           }
         },
@@ -79,7 +81,13 @@ async function AchievementPage({ params: { id, language }}: { params: { language
     <DetailLayout
       title={data.name}
       icon={achievement.icon}
-      breadcrumb={`Achievements › ${achievement.achievementCategory?.achievementGroup ? localizedName(achievement.achievementCategory?.achievementGroup, language) : 'Unknown Group'} › ${achievement.achievementCategory ? localizedName(achievement.achievementCategory, language) : 'Unknown Category'}`}
+      breadcrumb={(
+        <Breadcrumb>
+          <Link href="/achievement">Achievement</Link>
+          {achievement.achievementCategory?.achievementGroup ? <Link href={`/achievement#${achievement.achievementCategory.achievementGroup.id}`}>{localizedName(achievement.achievementCategory.achievementGroup, language)}</Link> : 'Unknown Group'}
+          {achievement.achievementCategory ? <AchievementCategoryLink achievementCategory={achievement.achievementCategory} icon="none"/> : 'Unknown Category'}
+        </Breadcrumb>
+      )}
       infobox={<AchievementInfobox achievement={achievement} data={data} language={language}/>}
     >
       {achievement.removedFromApi && (

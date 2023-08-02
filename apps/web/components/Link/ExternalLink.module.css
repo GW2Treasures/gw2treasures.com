@@ -1,10 +1,17 @@
 .link:hover {
-  text-decoration: none;
+  text-decoration-color: transparent;
+}
+
+.content {
+  text-decoration: underline 2px;
+  text-underline-offset: 2px;
+  text-decoration-color: transparent;
+  transition: text-decoration-color .3s ease;
 }
 
 .link:hover .content {
-  text-decoration: underline 2px;
-  text-underline-offset: 2px;
+  transition: text-decoration-color .15s ease;
+  text-decoration-color: currentColor;
 }
 
 .link:focus-visible {

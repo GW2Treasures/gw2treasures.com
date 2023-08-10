@@ -19,7 +19,7 @@
     "publish-package": "if test `npm view . version | sed -n 2p` != $npm_package_version; then npm publish --access public; else echo not changed; fi"
   },
   "dependencies": {
-    "@floating-ui/react": "0.25.0",
+    "@floating-ui/react": "0.25.1",
     "@floating-ui/react-dom": "2.0.1",
     "@svgr/webpack": "8.0.1",
     "client-only": "0.0.1",

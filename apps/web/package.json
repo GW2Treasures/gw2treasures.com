@@ -37,7 +37,7 @@
     "@types/react": "18.2.19",
     "@types/ua-parser-js": "0.7.36",
     "@typescript-eslint/eslint-plugin": "6.3.0",
-    "eslint": "8.46.0",
+    "eslint": "8.47.0",
     "eslint-config-next": "13.4.12",
     "gw2-api-types": "0.0.5",
     "typescript": "5.1.6"

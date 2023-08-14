@@ -5,5 +5,11 @@
   "addLabels": ["dependencies"],
   "kubernetes": {
     "fileMatch": ["kubernetes/.+\\.yaml$"]
-  }
+  },
+  "packageRules": [
+    {
+      "extends": ["monorepo:playwright"],
+      "matchPackageNames": ["mcr.microsoft.com/playwright"]
+    }
+  ]
 }

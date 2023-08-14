@@ -199,9 +199,19 @@ jobs:
     - name: Run Lint
       run: npm run lint
 
+  renovate:
+    name: Validate renovate config
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Install renovate
+      run: npm i -g renovate
+    - name: Validate config
+      run: renovate-config-validator
+
   success:
     name: Success
-    needs: [test-compose, test-kubernetes, test-e2e, build-node, lint]
+    needs: [test-compose, test-kubernetes, test-e2e, build-node, lint, renovate]
     runs-on: ubuntu-latest
     if: always()
     steps:

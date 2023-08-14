@@ -8,7 +8,6 @@
   },
   "packageRules": [
     {
-      "extends": ["monorepo:playwright"],
       "matchManagers": ["npm", "dockerfile"],
       "matchPackageNames": ["mcr.microsoft.com/playwright", "@playwright/test"],
       "groupName": "playwright"

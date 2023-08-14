@@ -207,7 +207,7 @@ jobs:
     - name: Install renovate
       run: npm i -g renovate
     - name: Validate config
-      run: renovate-config-validator
+      run: renovate-config-validator --strict
 
   success:
     name: Success

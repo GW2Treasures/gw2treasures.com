@@ -9,7 +9,8 @@
   "packageRules": [
     {
       "extends": ["monorepo:playwright"],
-      "matchPackageNames": ["mcr.microsoft.com/playwright"]
+      "matchPackageNames": ["mcr.microsoft.com/playwright", "@playwright/test"],
+      "groupName": "playwright"
     }
   ]
 }

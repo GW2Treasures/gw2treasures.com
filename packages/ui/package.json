@@ -21,7 +21,7 @@
   "dependencies": {
     "@floating-ui/react": "0.25.1",
     "@floating-ui/react-dom": "2.0.1",
-    "@svgr/webpack": "8.0.1",
+    "@svgr/webpack": "8.1.0",
     "client-only": "0.0.1",
     "server-only": "0.0.1"
   },

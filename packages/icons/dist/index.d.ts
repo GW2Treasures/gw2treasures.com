@@ -1,0 +1,3 @@
+
+export type IconName = 'achievement'|'achievement_points'|'add'|'api-status'|'armorsmith'|'artificer'|'builds'|'chatlink'|'checkmark'|'chef'|'chevron-down'|'chevron-left'|'chevron-right'|'chevron-up'|'close'|'coins'|'columns'|'delete'|'developer'|'discord'|'enrichment-slot'|'external-link'|'external'|'eye'|'filter-active'|'filter'|'gw2t'|'huntsman'|'info'|'infusion-slot'|'item'|'jeweler'|'jobs'|'leatherworker'|'loading'|'locale'|'mastery'|'menu'|'more'|'mount'|'profession'|'review-queue'|'revision'|'scribe'|'search'|'shuffle'|'skill'|'skin'|'sort-asc'|'sort-desc'|'sort'|'specialization'|'status'|'tailor'|'time'|'unlock'|'upgrade-slot'|'user'|'weaponsmith'|'wvw';
+export type IconProp = IconName | JSX.Element;

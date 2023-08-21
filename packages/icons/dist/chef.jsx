@@ -1,0 +1,5 @@
+import * as React from "react";
+import { forwardRef } from "react";
+const chef = (props, ref) => <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 16" ref={ref} {...props}><g clipPath="url(#a)"><path stroke="currentColor" d="M11.5 14.717V15a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-2.678c0-.103.033-.203.089-.29 1.215-1.875 1.215-5.189 0-7.065a.533.533 0 0 1-.089-.29v-.026a.5.5 0 0 1 .084-.277l.361-.542c.665-.997-.05-2.332-1.248-2.332H3.303c-1.198 0-1.913 1.335-1.248 2.332l.361.542a.5.5 0 0 1 .084.277v.027a.534.534 0 0 1-.089.29c-1.215 1.875-1.215 5.189 0 7.065a.533.533 0 0 1 .089.29V15a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-.283c0-.373.403-.631.763-.532 1.532.42 3.942.42 5.474 0 .36-.1.763.159.763.532Z" /></g><defs><clipPath id="a"><path fill="#fff" d="M0 0h16v16H0z" /></clipPath></defs></svg>;
+const ForwardRef = forwardRef(chef);
+export default ForwardRef;

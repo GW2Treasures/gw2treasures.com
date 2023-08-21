@@ -1,0 +1,5 @@
+import * as React from "react";
+import { forwardRef } from "react";
+const review-queue = (props, ref) => <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 16" ref={ref} {...props}><path fill="currentColor" d="M4 1c.28 0 .5.22.5.5V2h2v-.5a.5.5 0 1 1 1 0V2h2v-.5a.5.5 0 1 1 1 0V2c.83 0 1.5.67 1.5 1.5v2.54c-.35.06-.7.2-1 .4V3.5a.5.5 0 0 0-.5-.5h-7a.5.5 0 0 0-.5.5v10c0 .28.22.5.5.5h1.55c-.1.36-.06.7.07 1H3.5A1.5 1.5 0 0 1 2 13.5v-10C2 2.67 2.67 2 3.5 2v-.5c0-.28.22-.5.5-.5Zm5 7c.1 0 .2.03.29.1l-.91.9H5a.5.5 0 1 1 0-1h4Zm-3 3.44a.5.5 0 0 0-.5-.44H5a.5.5 0 0 0 0 1h.5c.05 0 .1 0 .16-.03.1-.18.2-.36.34-.53ZM5 5a.5.5 0 1 0 0 1h4a.5.5 0 1 0 0-1H5Zm6.34 2.46a1.56 1.56 0 0 1 2.2 2.2l-4.28 4.29c-.36.36-.8.6-1.3.73l-1.2.3a.601.601 0 0 1-.74-.74l.3-1.2c.12-.5.37-.94.73-1.3l4.29-4.28Z" /></svg>;
+const ForwardRef = forwardRef(review-queue);
+export default ForwardRef;

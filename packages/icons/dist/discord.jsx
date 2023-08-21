@@ -1,0 +1,5 @@
+import * as React from "react";
+import { forwardRef } from "react";
+const discord = (props, ref) => <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 16" ref={ref} {...props}><g clipPath="url(#a)"><path stroke="currentColor" strokeLinecap="round" d="M4.5 4.5h3" /><path stroke="currentColor" strokeLinejoin="round" d="M6 11.5a5.5 5.5 0 1 0-4.648-2.557L.5 11.5l2.557-.852c.851.54 1.86.852 2.943.852Z" /><path fill="currentColor" fillRule="evenodd" d="M6 13a7.04 7.04 0 0 1-1.261-.113 5.999 5.999 0 0 0 8.265 2.308l2.338.78a.5.5 0 0 0 .632-.633l-.779-2.338a5.999 5.999 0 0 0-2.308-8.265c.074.409.113.83.113 1.26 1.214.913 2 2.365 2 4.001a4.97 4.97 0 0 1-.775 2.675.5.5 0 0 0-.052.426l.536 1.608-1.608-.536a.5.5 0 0 0-.426.052c-.774.49-1.69.775-2.675.775a4.993 4.993 0 0 1-4-2Z" clipRule="evenodd" /><path stroke="currentColor" strokeLinecap="round" d="M4.5 6.5h2" /></g><defs><clipPath id="a"><path fill="#fff" d="M0 0h16v16H0z" /></clipPath></defs></svg>;
+const ForwardRef = forwardRef(discord);
+export default ForwardRef;

@@ -1,0 +1,5 @@
+import * as React from "react";
+import { forwardRef } from "react";
+const jeweler = (props, ref) => <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 16" ref={ref} {...props}><path stroke="currentColor" strokeLinejoin="round" d="m4.613 2.758 2-1.333a2.5 2.5 0 0 1 2.774 0l2 1.333a2.5 2.5 0 0 1 1.113 2.08v6.324a2.5 2.5 0 0 1-1.113 2.08l-2 1.333a2.5 2.5 0 0 1-2.774 0l-2-1.333a2.5 2.5 0 0 1-1.113-2.08V4.838a2.5 2.5 0 0 1 1.113-2.08Z" /><path stroke="currentColor" strokeLinejoin="round" d="m6.063 5.05 1-.8a1.5 1.5 0 0 1 1.874 0l1 .8a1.5 1.5 0 0 1 .563 1.17v3.93a1.5 1.5 0 0 1-.728 1.287l-.878.526a1.5 1.5 0 0 1-1.708-.114l-1.123-.899A1.5 1.5 0 0 1 5.5 9.78V6.22a1.5 1.5 0 0 1 .563-1.17Z" /><path stroke="currentColor" d="M8 1v3m4.5-.5-2 2m0 5 2 2M8 12v3m-2.5-4.5-2 2m2-7-2-2" /></svg>;
+const ForwardRef = forwardRef(jeweler);
+export default ForwardRef;

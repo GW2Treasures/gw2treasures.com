@@ -9,4 +9,5 @@
 .unlock {
   display: flex;
   flex-direction: column;
+  line-height: 1;
 }

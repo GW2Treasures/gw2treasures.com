@@ -23,7 +23,7 @@
 
 .icon {
   border-right: 1px solid var(--color-border);
-  padding: 4px 12px;
+  padding: 4px 12px 4px 16px;
 }
 
 .input:focus-visible {

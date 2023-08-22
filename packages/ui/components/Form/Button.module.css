@@ -45,6 +45,18 @@
   font-weight: 500;
 }
 
+.tertiary {
+  composes: button;
+
+  background-color: var(--color-background);
+  box-shadow: inset 0 0 0 1px var(--color-border);
+}
+
+.tertiary:hover:not(:disabled) {
+  background-color: var(--color-background-light);
+  box-shadow: inset 0 0 0 1px var(--color-border-dark);
+}
+
 .menu {
   composes: button;
 
@@ -60,6 +72,10 @@
 .iconOnly {
   padding: 8px;
   line-height: 16px;
+}
+
+.flex {
+  flex: 1;
 }
 
 .delete {

@@ -8,6 +8,11 @@ import { ExternalLink } from '../Link/ExternalLink';
 import { SkinLink } from './SkinLink';
 import { encode } from 'gw2e-chat-codes';
 import { FormatNumber } from '../Format/FormatNumber';
+import { FlexRow } from '../Layout/FlexRow';
+import { LinkButton } from '@gw2treasures/ui/components/Form/Button';
+import { ShareButton } from '../ShareButton/ShareButton';
+import { localizedName } from '@/lib/localizedName';
+import { getCurrentUrl } from '@/lib/url';
 
 interface SkinInfoboxProps {
   skin: Skin;
@@ -30,7 +35,11 @@ export const SkinInfobox: FC<SkinInfoboxProps> = ({ skin, language }) => {
       )}
 
       <Headline id="links" noToc>Links</Headline>
-      <ExternalLink href={`https://api.guildwars2.com/v2/skins/${skin.id}?v=latest&lang=${language}`} target="api">API</ExternalLink>
+      <FlexRow wrap>
+        <LinkButton appearance="tertiary" flex icon="external" external href={`https://api.guildwars2.com/v2/skins/${skin.id}?v=latest&lang=${language}`} target="api">API</LinkButton>
+        <LinkButton appearance="tertiary" flex icon="external" external href={`https://wiki.guildwars2.com/index.php?title=Special%3ASearch&search=${encodeURIComponent(chatlink)}&go=Go`} target="wiki">Wiki</LinkButton>
+        <ShareButton appearance="tertiary" flex data={{ title: localizedName(skin, language), url: getCurrentUrl().toString() }}/>
+      </FlexRow>
       {chatlink && <Chatlink chatlink={chatlink}/>}
     </div>
   );

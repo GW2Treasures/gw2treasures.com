@@ -24,14 +24,22 @@ import { RemovedFromApiNotice } from '@/components/Notice/RemovedFromApiNotice';
 import { Breadcrumb } from '@/components/Breadcrumb/Breadcrumb';
 import Link from 'next/link';
 import { AchievementCategoryLink } from '@/components/Achievement/AchievementCategoryLink';
+import { Metadata } from 'next';
 
 const MasteryColors: Record<MasteryRegion, CSS.Property.Color> = {
-  'Tyria': '#FB8C00',
-  'Maguuma': '#43A047',
-  'Desert': '#D81B60',
-  'Tundra': '#00ACC1',
-  'Unknown': '#1E88E5',
+  'Tyria': '#FB8C00', //    core
+  'Maguuma': '#43A047', //  HoT
+  'Desert': '#D81B60', //   PoF
+  'Tundra': '#00ACC1', //   Icebrood
+  'Unknown': '#1E88E5', //  EoD
 };
+
+export interface AchievementPageProps {
+  params: {
+    language: Language;
+    id: string;
+  }
+}
 
 const getAchievement = remember(60, async function getAchievement(id: number, language: Language) {
   const [achievement, revision] = await Promise.all([
@@ -70,7 +78,7 @@ const getAchievement = remember(60, async function getAchievement(id: number, la
   return { achievement, revision, categoryAchievements };
 });
 
-async function AchievementPage({ params: { id, language }}: { params: { language: Language, id: string }}) {
+async function AchievementPage({ params: { id, language }}: AchievementPageProps) {
   const achievementId: number = Number(id);
 
   const { achievement, revision, categoryAchievements } = await getAchievement(achievementId, language);
@@ -219,3 +227,20 @@ async function AchievementPage({ params: { id, language }}: { params: { language
 };
 
 export default AchievementPage;
+
+export async function generateMetadata({ params }: AchievementPageProps): Promise<Metadata> {
+  const id = Number(params.id);
+
+  const achievement = await db.achievement.findUnique({
+    where: { id },
+    select: { name_de: true, name_en: true, name_es: true, name_fr: true }
+  });
+
+  if(!achievement) {
+    notFound();
+  }
+
+  return {
+    title: localizedName(achievement, params.language)
+  };
+}

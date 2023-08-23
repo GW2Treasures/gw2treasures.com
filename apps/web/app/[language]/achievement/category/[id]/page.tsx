@@ -12,8 +12,16 @@ import { notFound } from 'next/navigation';
 import { Icon } from '@gw2treasures/ui';
 import { remember } from '@/lib/remember';
 import { RemovedFromApiNotice } from '@/components/Notice/RemovedFromApiNotice';
+import { Metadata } from 'next';
 
 export const dynamic = 'force-dynamic';
+
+export interface AchievementCategoryPageProps {
+  params: {
+    language: Language;
+    id: string;
+  }
+}
 
 const getData = remember(60, async function getData(id: number, language: Language) {
   const [achievementCategory, revision] = await Promise.all([
@@ -35,7 +43,7 @@ const getData = remember(60, async function getData(id: number, language: Langua
   return { achievementCategory, revision };
 });
 
-async function AchievementCategoryPage({ params: { language, id }}: { params: { language: Language, id: string }}) {
+async function AchievementCategoryPage({ params: { language, id }}: AchievementCategoryPageProps) {
   const achievementCategoryId = Number(id);
 
   if(isNaN(achievementCategoryId)) {
@@ -94,3 +102,20 @@ async function AchievementCategoryPage({ params: { language, id }}: { params: { 
 };
 
 export default AchievementCategoryPage;
+
+export async function generateMetadata({ params }: AchievementCategoryPageProps): Promise<Metadata> {
+  const id = Number(params.id);
+
+  const achievementCategory = await db.achievementCategory.findUnique({
+    where: { id },
+    select: { name_de: true, name_en: true, name_es: true, name_fr: true }
+  });
+
+  if(!achievementCategory) {
+    notFound();
+  }
+
+  return {
+    title: localizedName(achievementCategory, params.language)
+  };
+}

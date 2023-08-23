@@ -11,10 +11,10 @@
   "main": "./lib/index.js",
   "types": "./src/index.ts",
   "dependencies": {
-    "@prisma/client": "5.1.1"
+    "@prisma/client": "5.2.0"
   },
   "devDependencies": {
     "@tsconfig/node18": "18.2.1",
-    "prisma": "5.1.1"
+    "prisma": "5.2.0"
   }
 }

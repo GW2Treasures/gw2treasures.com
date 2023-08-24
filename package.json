@@ -17,6 +17,6 @@
     "e2e": "turbo run e2e"
   },
   "devDependencies": {
-    "turbo": "1.10.12"
+    "turbo": "1.10.13"
   }
 }

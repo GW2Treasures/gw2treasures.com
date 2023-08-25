@@ -88,6 +88,7 @@
   padding: 8px 16px;
   border-radius: 2px;
   color: var(--color-text);
+  text-decoration: none;
   display: grid;
   grid-template:
     "icon title    external" min-content
@@ -100,10 +101,6 @@
   composes: result;
 
   background-color: var(--color-background-light);
-  text-decoration: none;
-}
-
-.result:hover, .result:focus {
   text-decoration: none;
 }
 

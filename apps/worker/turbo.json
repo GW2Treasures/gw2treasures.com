@@ -1,12 +1,12 @@
 {
   "$schema": "https://turbo.build/schema.json",
-	"extends": ["//"],
-	"pipeline": {
+  "extends": ["//"],
+  "pipeline": {
     "dev": {
       "dependsOn": ["build"]
     },
-		"build": {
-			"outputs": ["dist/**"]
-		}
-	}
+    "build": {
+      "outputs": ["dist/**"]
+    }
+  }
 }

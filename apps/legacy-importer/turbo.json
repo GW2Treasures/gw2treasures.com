@@ -4,6 +4,9 @@
 	"pipeline": {
 		"build": {
 			"outputs": ["lib/**"]
-		}
+		},
+    "prisma:generate": {
+      "dependsOn": ["@gw2treasures/database#prisma:generate"]
+    }
 	}
 }

@@ -258,11 +258,13 @@ model Recipe {
 
   unlockedByItems Item[] @relation(name: "unlocks_recipe")
 
-  outputItemId Int?
-  outputItem   Item? @relation(name: "recipe_output", fields: [outputItemId], references: [id])
+  outputItemId    Int?
+  outputItem      Item? @relation(name: "recipe_output", fields: [outputItemId], references: [id])
+  outputItemIdRaw Int?
 
-  itemIngredients IngredientItem[]
-    
+  itemIngredients   IngredientItem[]
+  itemIngredientIds Int[]
+
   removedFromApi Boolean @default(false)
   
   currentRevision   Revision @relation("current", fields: [currentRevisionId], references: [id], onDelete: Cascade)

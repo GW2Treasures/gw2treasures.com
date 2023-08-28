@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@floating-ui/react": "0.25.1",
-    "@floating-ui/react-dom": "2.0.1",
+    "@floating-ui/react-dom": "2.0.2",
     "@gw2me/api": "0.1.0",
     "@gw2treasures/database": "*",
     "@gw2treasures/ui": "*",

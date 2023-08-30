@@ -35,7 +35,7 @@
     "@prisma/nextjs-monorepo-workaround-plugin": "5.2.0",
     "@types/node": "18.17.11",
     "@types/react": "18.2.21",
-    "@types/ua-parser-js": "0.7.36",
+    "@types/ua-parser-js": "0.7.37",
     "@typescript-eslint/eslint-plugin": "6.4.1",
     "eslint": "8.48.0",
     "eslint-config-next": "13.4.19",

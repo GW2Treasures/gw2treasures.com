@@ -15,7 +15,7 @@ jobs:
       matrix:
         target: [ web, reverse-proxy, assets, storage, wvw-crawler ]
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
     - name: Build the Docker image

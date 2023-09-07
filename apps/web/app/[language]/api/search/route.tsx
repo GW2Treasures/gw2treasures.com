@@ -7,8 +7,9 @@ import { isTruthy } from '@gw2treasures/ui';
 import { NextResponse } from 'next/server';
 
 type ChatCode = Exclude<ReturnType<typeof decode>, false>;
+type ChatCodeOfType<Type> = Type extends Exclude<ChatCode['type'], 'item' | 'objective' | 'build'> ? { type: Type, id: number } : Extract<ChatCode, { type: Type }>
 
-function isChatCodeWithType<T extends ChatCode['type']>(expectedType: T): (chatCode: ChatCode) => chatCode is Extract<ChatCode, { type: T }> {
+function isChatCodeWithType<T extends ChatCode['type']>(expectedType: T): (chatCode: ChatCode) => chatCode is ChatCodeOfType<T> {
   // @ts-ignore
   return (chatCode) => chatCode.type === expectedType;
 }
@@ -84,12 +85,24 @@ const searchAchievements = remember(60, async function searchAchievements(terms:
 
 export const searchItems = remember(60, function searchItems(terms: string[], chatCodes: ChatCode[]) {
   const nameQueries = nameQuery(terms);
+
   const itemChatCodes = chatCodes.filter(isChatCodeWithType('item'));
   const itemIdsInChatCodes = itemChatCodes.flatMap((chatCode) => [chatCode.id, ...(chatCode.upgrades || [])]);
+
+  const recipeChatCodes = chatCodes.filter(isChatCodeWithType('recipe'));
+  const recipeIdsInChatCodes = recipeChatCodes.map((chatCode) => chatCode.id);
+
   const numberTerms = terms.map(toNumber).filter(isTruthy);
 
   return db.item.findMany({
-    where: { OR: [...nameQueries, { id: { in: [...itemIdsInChatCodes, ...numberTerms] }}] },
+    where: {
+      OR: [
+        ...nameQueries,
+        { id: { in: [...itemIdsInChatCodes, ...numberTerms] }},
+        { recipeOutput: { some: { id: { in: recipeIdsInChatCodes }}}},
+        { unlocksRecipeIds: { hasSome: recipeIdsInChatCodes }},
+      ]
+    },
     take: 5,
     include: { icon: true }
   });

@@ -5,7 +5,7 @@ import { FC, Suspense } from 'react';
 import { Fragment, jsx, jsxs } from 'react/jsx-runtime';
 import { createStarryNight, common } from '@wooorm/starry-night';
 import { toJsxRuntime } from 'hast-util-to-jsx-runtime';
-import '@wooorm/starry-night/style/both.css';
+import '@wooorm/starry-night/style/both';
 
 interface HighlightProps {
   code: string;

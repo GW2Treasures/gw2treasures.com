@@ -19,7 +19,7 @@
     "gw2e-chat-codes": "1.4.2"
   },
   "devDependencies": {
-    "@tsconfig/node18": "18.2.1",
+    "@tsconfig/node18": "18.2.2",
     "@types/node": "18.17.15",
     "@typescript-eslint/eslint-plugin": "6.7.0",
     "@typescript-eslint/parser": "6.7.0",

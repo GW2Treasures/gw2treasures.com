@@ -1,0 +1,48 @@
+.tabList {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.tabButtons {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.button {
+  position: relative;
+  transition: all .3s ease;
+}
+
+.activeButton {
+  composes: button;
+}
+
+.button::after {
+  content: '';
+  position: absolute;
+  display: block;
+  bottom: -4px;
+  left: 16px;
+  right: 16px;
+  height: 4px;
+  border-radius: 2px;
+  background-color: var(--color-rarity, var(--color-focus));
+  opacity: 0;
+  transition: opacity .1s ease-in;
+}
+
+.activeButton::after {
+  opacity: 1;
+  transition: opacity .1s ease-out;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+  margin-left: auto;
+}

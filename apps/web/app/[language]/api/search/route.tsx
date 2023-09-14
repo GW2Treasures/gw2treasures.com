@@ -52,7 +52,7 @@ type LocalizedNameInput = {
   name_fr?: Prisma.StringFilter | string;
 }
 
-function nameQuery(terms: string[]): LocalizedNameInput[] {
+export function nameQuery(terms: string[]): LocalizedNameInput[] {
   const nameQueries: LocalizedNameInput[] = ['de', 'en', 'es', 'fr'].map((lang) => ({
     AND: terms.map((term) => ({ [`name_${lang}`]: { contains: term, mode: 'insensitive' }}))
   }));

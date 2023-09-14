@@ -19,12 +19,18 @@
   flex-direction: column;
   background: var(--color-background);
   border: 1px solid var(--dialog-color-border);
-  min-width: 500px;
+  min-width: var(--dialog-min-width, 500px);
   box-shadow: var(--shadow);
   border-radius: 2px;
   overflow: hidden;
 
   --table-sticky-top: -16px;
+}
+
+.dialogWide {
+  composes: dialog;
+
+  --dialog-min-width: 1200px;
 }
 
 @media(max-width: 640px) {

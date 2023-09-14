@@ -55,6 +55,12 @@ model Item {
   // review queue
   reviews Review[] @relation("itemReview")
 
+  // vendor
+  vendorOffer             VendorOffer[] @relation("vendorOffer")
+  vendorCost              VendorCost[]  @relation("vendorCostItem")
+  vendors                 Vendor[]      @relation("vendorItem")
+  vendorTabRequiresItem   VendorTab[]   @relation("vendorTabRequiresItem")
+  vendorOfferRequiresItem VendorOffer[] @relation("vendorOfferRequiresItem")
 
   removedFromApi Boolean @default(false)
 
@@ -326,6 +332,10 @@ model Achievement {
   rewardsItem    Item[] @relation(name: "rewards_item")
   rewardsItemIds Int[]
 
+  // vendor
+  vendorTabRequiresAchievement   VendorTab[]   @relation("vendorTabRequiresAchievement")
+  vendorOfferRequiresAchievement VendorOffer[] @relation("vendorOfferRequiresAchievement")
+
   unlocks Float?
 
   removedFromApi Boolean @default(false)
@@ -573,7 +583,11 @@ model Currency {
 
   order Int
 
+  // container
   containedIn CurrencyContent[] @relation("containedCurrency")
+
+  // vendor
+  vendorCost  VendorCost[]  @relation("vendorCostCurrency")
 
   removedFromApi Boolean @default(false)
   
@@ -607,6 +621,110 @@ model CurrencyHistory {
   revision Revision @relation(fields: [revisionId], references: [id], onDelete: Cascade)
 
   @@id([currencyId, revisionId])
+}
+
+model VendorNpc {
+  // `VendorNpc` are npcs that open a `Vendor` when interacted with.
+  // TODO: add location
+
+  id String @id @default(uuid())
+
+  name_de String
+  name_en String
+  name_es String
+  name_fr String
+
+  vendors Vendor[] @relation("vendorNpc")
+}
+
+model Vendor {
+  // `Vendor` is the shop window that opens, not an npc. A vendor window can also be opened in other ways (for example by items) 
+
+  id String @id @default(uuid())
+
+  tabs VendorTab[] @relation("vendorTabs")
+
+  npcs VendorNpc[] @relation("vendorNpc")
+  items Item[]     @relation("vendorItem")
+}
+
+model VendorTab {
+  id String @id @default(uuid())
+  vendorId String
+
+  name_de String
+  name_en String
+  name_es String
+  name_fr String
+
+  dailyPurchaseLimit Int?
+  rotation           Boolean
+
+  // requirements
+  requiresItemId Int?
+  requiresItem   Item? @relation("vendorTabRequiresItem", fields: [requiresItemId], references: [id], onDelete: Cascade)
+
+  requiresAchievementId Int?
+  requiresAchievement   Achievement? @relation("vendorTabRequiresAchievement", fields: [requiresAchievementId], references: [id], onDelete: Cascade)
+  
+  // requiresMasteryId Int?
+  // requiresMastery   Mastery? @relation("vendorTabRequiresMastery", fields: [requiresMasteryId], references: [id], onDelete: Cascade)
+
+  // optional unlock description
+  unlock_de String?
+  unlock_en String?
+  unlock_es String?
+  unlock_fr String?
+
+  offers VendorOffer[] @relation("offers")
+
+  vendor Vendor @relation("vendorTabs", fields: [vendorId], references: [id], onDelete: Cascade)
+}
+
+model VendorOffer {
+  id String @id @default(uuid())
+
+  vendorTabId String
+  itemId      Int
+  quantity    Int
+
+  dailyPurchaseLimit     Int?
+  weeklyPurchaseLimit    Int?
+  characterPurchaseLimit Int?
+  accountPurchaseLimit   Int?
+
+  requiresItemId Int?
+  requiresItem   Item? @relation("vendorOfferRequiresItem", fields: [requiresItemId], references: [id], onDelete: Cascade)
+
+  requiresAchievementId Int?
+  requiresAchievement   Achievement? @relation("vendorOfferRequiresAchievement", fields: [requiresAchievementId], references: [id], onDelete: Cascade)
+
+  // requiresMasteryId Int?
+  // requiresMastery   Mastery? @relation("vendorOfferRequiresMastery", fields: [requiresMasteryId], references: [id], onDelete: Cascade)
+
+  unlock_de String?
+  unlock_en String?
+  unlock_es String?
+  unlock_fr String?
+
+  cost VendorCost[] @relation("cost")
+  
+  vendorTab VendorTab @relation("offers", fields: [vendorTabId], references: [id], onDelete: Cascade)
+  item      Item      @relation("vendorOffer", fields: [itemId], references: [id], onDelete: Cascade)  
+}
+
+model VendorCost {
+  id String @id @default(uuid())
+
+  offerId String
+
+  quantity   Int
+  itemId     Int?
+  currencyId Int?
+
+  offer    VendorOffer @relation("cost", fields: [offerId], references: [id], onDelete: Cascade)
+  item     Item?       @relation("vendorCostItem", fields: [itemId], references: [id], onDelete: Cascade)
+  currency Currency?   @relation("vendorCostCurrency", fields: [currencyId], references: [id], onDelete: Cascade)
 }
 
 model Job {

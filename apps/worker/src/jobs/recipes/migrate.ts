@@ -37,10 +37,14 @@ export const RecipesMigrate: Job = {
 
     for(const recipe of recipesToMigrate) {
       const data: Gw2Api.Recipe = JSON.parse(recipe.currentRevision.data);
-
       const update = await migrate(data, recipe.version);
 
-      await db.recipe.update({ where: { id: recipe.id }, data: update });
+      try {
+        await db.recipe.update({ where: { id: recipe.id }, data: update });
+      } catch(cause) {
+        console.log(update);
+        throw new Error(`Error migrating recipe ${recipe.id}`, { cause });
+      }
     }
 
     return `Migrated ${recipesToMigrate.length} recipes to version ${CURRENT_VERSION}`;

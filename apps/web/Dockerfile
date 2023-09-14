@@ -1,3 +1,5 @@
+# syntax=docker/dockerfile:1.4
+
 ARG node_version=20-alpine
 
 FROM node:${node_version} AS source
@@ -5,7 +7,7 @@ FROM node:${node_version} AS source
 RUN apk add --no-cache libc6-compat
 WORKDIR /source
 RUN npm i -g turbo
-COPY . .
+COPY --link . .
 RUN turbo prune --scope=web --docker
 
 # Install dependencies only when needed
@@ -15,16 +17,16 @@ WORKDIR /app
 ENV NEXT_TELEMETRY_DISABLED 1
 
 # Install dependencies based on the preferred package manager
-COPY --from=source /source/out/json/ .
-COPY --from=source /source/out/package-lock.json package-lock.json
+COPY --link --from=source /source/out/json/ .
+COPY --link --from=source /source/out/package-lock.json package-lock.json
 
 RUN npm ci --include=dev
 
-COPY --from=source /source/out/full/ .
+COPY --link --from=source /source/out/full/ .
 
 RUN npm ls sharp && npm run build -- --filter=web...
 
-# Production image, copy all the files and run next
+# Production image, COPY --link all the files and run next
 FROM node:${node_version} AS runner
 RUN apk add --no-cache bind-tools
 WORKDIR /app
@@ -37,27 +39,28 @@ RUN adduser --system --uid 1001 nextjs
 
 RUN npm i -g prisma
 
-COPY --from=builder /app/apps/web/public ./public
-COPY --from=builder /app/apps/web/next.config.js .
-COPY --from=builder /app/apps/web/package.json .
+COPY --link --from=builder /app/apps/web/public ./public
+COPY --link --from=builder /app/apps/web/next.config.js .
+COPY --link --from=builder /app/apps/web/package.json .
 
 # Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing
-COPY --from=builder --chown=nextjs:nodejs /app/apps/web/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/apps/web/.next/static ./apps/web/.next/static
-COPY --from=builder --chown=nextjs:nodejs /app/apps/web/public ./apps/web/public
-COPY --from=builder --chown=nextjs:nodejs /app/apps/web/docker-entrypoint.sh ./
+COPY --link --from=builder --chown=1001:1001 /app/apps/web/.next/standalone ./
+COPY --link --from=builder --chown=1001:1001 /app/apps/web/.next/static ./apps/web/.next/static
+COPY --link --from=builder --chown=1001:1001 /app/apps/web/public ./apps/web/public
+COPY --link --from=builder --chown=1001:1001 /app/apps/web/docker-entrypoint.sh ./
 
 # workaround for https://github.com/wooorm/starry-night/issues/9
-COPY --from=builder --chown=nextjs:nodejs /app/node_modules/vscode-oniguruma/release/onig.wasm /app/node_modules/vscode-oniguruma/release/onig.wasm
+COPY --link --from=builder --chown=1001:1001 /app/node_modules/vscode-oniguruma/release/onig.wasm /app/node_modules/vscode-oniguruma/release/onig.wasm
 
 RUN chmod +x ./docker-entrypoint.sh
 
 USER nextjs
 
-EXPOSE 3000
-
+ENV HOSTNAME 0.0.0.0
 ENV PORT 3000
+
+EXPOSE 3000
 
 ENTRYPOINT [ "./docker-entrypoint.sh" ]
 CMD [ "node", "apps/web/server.js" ]

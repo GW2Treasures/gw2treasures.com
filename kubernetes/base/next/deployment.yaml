@@ -54,6 +54,12 @@ spec:
               name: next
               key: gw2me_client_secret
               optional: true
+        - name: SIGNING_KEY
+          valueFrom:
+            configMapKeyRef:
+              name: next
+              key: signing_key
+              optional: true
         ports:
         - containerPort: 3000
           protocol: TCP

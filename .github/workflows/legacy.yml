@@ -15,11 +15,11 @@ jobs:
       matrix:
         target: [ web, reverse-proxy, assets, storage, wvw-crawler ]
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v2
+      uses: docker/setup-buildx-action@v3
     - name: Build the Docker image
-      uses: docker/bake-action@v3.1.0
+      uses: docker/bake-action@v4.0.0
       with:
         workdir: legacy
         files: docker-compose.yml
@@ -30,7 +30,7 @@ jobs:
           *.cache-to=type=gha,scope=build-${{ matrix.target }},mode=max
     - name: Login to GitHub Container Registry
       if: github.event_name == 'push'
-      uses: docker/login-action@v2
+      uses: docker/login-action@v3
       with:
         registry: ghcr.io
         username: ${{ github.actor }}

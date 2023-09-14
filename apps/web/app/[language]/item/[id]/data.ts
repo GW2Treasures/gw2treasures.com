@@ -20,11 +20,9 @@ export const getItem = remember(60, function getItem(id: number, language: Langu
       achievementBits: { select: linkPropertiesWithoutRarity, orderBy: { id: 'asc' }},
       achievementRewards: { select: linkPropertiesWithoutRarity, orderBy: { id: 'asc' }},
       contains: { include: { contentItem: { select: { ...linkProperties, value: true, level: true, type: true, subtype: true }}}},
-      containedIn: { include: { containerItem: { select: { ...linkProperties, value: true, level: true, type: true, subtype: true }}}},
       containsCurrency: { include: { currency: { select: linkPropertiesWithoutRarity }}},
-      suffixIn: { include: { icon: true }},
       _count: {
-        select: { ingredient: true }
+        select: { ingredient: true, suffixIn: true, contains: true, containedIn: true }
       }
     }
   });
@@ -39,32 +37,4 @@ export const getRevision = remember(60, async function getRevision(id: number, l
     revision,
     data: revision ? JSON.parse(revision.data) as Gw2Api.Item : undefined,
   };
-});
-
-export const getSimilarItems = remember(60, async function getSimilarItems(item: Item) {
-  const similarItems = await db.item.findMany({
-    where: {
-      id: { not: item.id },
-      OR: [
-        { name_de: item.name_de },
-        { name_en: item.name_en },
-        { name_es: item.name_es },
-        { name_fr: item.name_fr },
-        { iconId: item.iconId },
-        { unlocksSkinIds: { hasSome: item.unlocksSkinIds }},
-        {
-          type: item.type,
-          subtype: item.subtype,
-          rarity: item.rarity,
-          weight: item.weight,
-          value: item.value,
-          level: item.level,
-        }
-      ]
-    },
-    include: { icon: true },
-    take: 32,
-  });
-
-  return similarItems;
 });

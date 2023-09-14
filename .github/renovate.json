@@ -1,0 +1,16 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended", ":pinAllExceptPeerDependencies"],
+  "ignorePaths": ["legacy/**"],
+  "addLabels": ["dependencies"],
+  "kubernetes": {
+    "fileMatch": ["kubernetes/.+\\.yaml$"]
+  },
+  "packageRules": [
+    {
+      "matchManagers": ["npm", "dockerfile"],
+      "matchPackageNames": ["mcr.microsoft.com/playwright", "@playwright/test"],
+      "groupName": "playwright"
+    }
+  ]
+}

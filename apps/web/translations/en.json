@@ -26,5 +26,16 @@
   "navigation.skills": "Skills",
   "navigation.mounts": "Mounts",
   "navigation.wvw": "World versus World",
-  "navigation.developer": "Developer"
+  "navigation.developer": "Developer",
+  "itemTable.column.id": "ID",
+  "itemTable.column.item": "Item",
+  "itemTable.column.level": "Level",
+  "itemTable.column.rarity": "Rarity",
+  "itemTable.column.type": "Type",
+  "itemTable.column.vendorValue": "Vendor Value",
+  "itemTable.column.name_de": "Name (DE)",
+  "itemTable.column.name_en": "Name (EN)",
+  "itemTable.column.name_es": "Name (ES)",
+  "itemTable.column.name_fr": "Name (FR)",
+  "itemTable.column.icon": "Icon"
 }

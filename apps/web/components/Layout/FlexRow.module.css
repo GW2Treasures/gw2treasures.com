@@ -1,6 +1,7 @@
 .container {
   display: flex;
   gap: 8px;
+  align-items: center;
 }
 
 .container:not(:first-child) {
@@ -20,4 +21,13 @@
 .right {
   composes: container;
   justify-content: flex-end;
+}
+
+.space-between {
+  composes: container;
+  justify-content: space-between;
+}
+
+.wrap {
+  flex-wrap: wrap;
 }

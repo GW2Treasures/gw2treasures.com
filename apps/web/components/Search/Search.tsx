@@ -1,6 +1,6 @@
 'use client';
 
-import React, { FC, Fragment, ReactElement, useRef, useState } from 'react';
+import React, { ChangeEventHandler, FC, Fragment, KeyboardEventHandler, ReactElement, useCallback, useRef, useState } from 'react';
 import styles from './Search.module.css';
 import { useRouter } from 'next/navigation';
 import { usePageResults, useSearchApiResults } from './useSearchResults';
@@ -66,23 +66,42 @@ export const Search: FC<SearchProps> = ({ }) => {
 
   let index = 0;
 
+  const handleSearchChange: ChangeEventHandler<HTMLInputElement> = useCallback((e) => {
+    setValue(e.target.value);
+    setOpen(true);
+  }, []);
+
+  const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = useCallback((e) => {
+    if(e.key === 'Enter' && activeIndex !== null) {
+      const current = listRef.current[activeIndex];
+
+      if(current === null) {
+        return;
+      }
+
+      current.click();
+      e.preventDefault();
+    }
+  }, [activeIndex]);
+
   return (
     <form className={styles.search} ref={refs.setReference} {...getReferenceProps()}>
       <Icon icon="search"/>
       {/* <div className={styles.restriciton}>Item</div> */}
-      <input className={styles.searchInput} placeholder="Search (ALT + Q)" accessKey="q" value={value} onChange={(e) => { setValue(e.target.value); setOpen(true); }} onKeyDown={(e) => {
-        if(e.key === 'Enter' && activeIndex !== null) {
-          const current = listRef.current[activeIndex];
 
-          if(current === null) {
-            return;
-          }
+      <input
+        className={styles.searchInput}
+        placeholder="Search (ALT + Q)"
+        autoComplete="off"
+        spellCheck="false"
+        accessKey="q"
+        enterKeyHint="search"
+        value={value}
+        onChange={handleSearchChange}
+        onKeyDown={handleKeyDown}/>
 
-          current.click();
-          e.preventDefault();
-        }
-      }}/>
       {loading && (open || searchValue) && <div className={styles.loading}/>}
+
       {open && (
         <div className={styles.dropdown} ref={refs.setFloating} {...getFloatingProps()} style={{
           top: y ?? 0,

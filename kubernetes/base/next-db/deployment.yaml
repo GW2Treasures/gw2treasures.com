@@ -23,7 +23,7 @@ spec:
           claimName: next-db
       containers:
       - name: next-db
-        image: postgres:15-alpine
+        image: postgres:16-alpine
         resources:
           requests:
             memory: "256Mi"

@@ -1,7 +1,7 @@
 {
   "name": "legacy-importer",
   "scripts": {
-    "prisma:generate": "DEBUG=prisma* prisma generate --schema=prisma/legacy.prisma",
+    "prisma:generate": "prisma generate --schema=prisma/legacy.prisma",
     "build": "tsc",
     "predev": "npm run build",
     "dev": ". ./.env && node lib/index.js",
@@ -9,16 +9,16 @@
   },
   "dependencies": {
     "@gw2treasures/database": "*",
-    "@prisma/client": "5.1.1",
+    "@prisma/client": "5.3.1",
     "gw2-api-types": "0.0.5"
   },
   "devDependencies": {
-    "@tsconfig/node18": "18.2.0",
-    "@types/node": "18.17.5",
-    "@typescript-eslint/eslint-plugin": "6.4.0",
-    "@typescript-eslint/parser": "6.4.0",
-    "eslint": "8.47.0",
-    "prisma": "5.1.1",
-    "typescript": "5.1.6"
+    "@tsconfig/node18": "18.2.2",
+    "@types/node": "18.17.18",
+    "@typescript-eslint/eslint-plugin": "6.7.2",
+    "@typescript-eslint/parser": "6.7.2",
+    "eslint": "8.49.0",
+    "prisma": "5.3.1",
+    "typescript": "5.2.2"
   }
 }

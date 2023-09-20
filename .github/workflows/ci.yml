@@ -19,7 +19,7 @@ jobs:
       matrix:
         node: [ 18, 20 ]
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node }}
@@ -47,11 +47,11 @@ jobs:
       matrix:
         target: [ web, worker, legacy-importer, database-migration, e2e ]
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v2
+      uses: docker/setup-buildx-action@v3
     - name: Build the Docker image
-      uses: docker/bake-action@v3.1.0
+      uses: docker/bake-action@v4.0.0
       with:
         files: |
           ./docker-compose.yml
@@ -63,7 +63,7 @@ jobs:
           *.cache-from=type=gha,scope=build-${{ matrix.target }}
           *.cache-to=type=gha,scope=build-${{ matrix.target }},mode=max
     - name: Login to GitHub Container Registry
-      uses: docker/login-action@v2
+      uses: docker/login-action@v3
       with:
         registry: ghcr.io
         username: ${{ github.actor }}
@@ -84,7 +84,7 @@ jobs:
     steps:
     - name: Add hosts
       run: sudo echo "127.0.0.1 en.gw2treasures.localhost" | sudo tee -a /etc/hosts
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Pull docker images
       run: |
         DOCKER_PREFIX=ghcr.io/${{ github.repository }}
@@ -115,7 +115,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build-docker
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - uses: nolar/setup-k3d-k3s@v1
       with:
         version: v1.26
@@ -149,7 +149,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build-docker
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Pull docker images
       run: |
         DOCKER_PREFIX=ghcr.io/${{ github.repository }}
@@ -178,7 +178,7 @@ jobs:
     name: Lint
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - uses: actions/setup-node@v3
       with:
         node-version: 20
@@ -203,7 +203,7 @@ jobs:
     name: Validate renovate config
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Install renovate
       run: npm i -g renovate
     - name: Validate config
@@ -236,7 +236,7 @@ jobs:
         VERSION=ci-run-${{ github.run_id }}
         docker pull $DOCKER_PREFIX/${{ matrix.target }}:$VERSION
     - name: Login to GitHub Container Registry
-      uses: docker/login-action@v2
+      uses: docker/login-action@v3
       with:
         registry: ghcr.io
         username: ${{ github.actor }}
@@ -270,7 +270,7 @@ jobs:
       matrix:
         target: [ ui ]
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - uses: actions/setup-node@v3
       with:
         node-version: 20

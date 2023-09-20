@@ -1,8 +1,9 @@
 .languages {
   display: grid;
   grid-template-columns: auto 1fr;
-  gap: 4px 8px;
+  gap: 0px 8px;
   align-items: baseline;
+  line-height: 1.5;
 }
 
 .lang {

@@ -5,7 +5,6 @@ const withSvgIcons = require('@gw2treasures/ui/svg-loader');
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
-    appDir: true,
     outputFileTracingRoot: path.join(__dirname, '../../'),
     serverActions: true,
   },

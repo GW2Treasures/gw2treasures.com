@@ -1,5 +1,7 @@
+/* eslint-disable @next/next/no-img-element */
 import { FC } from 'react';
 import { Code } from '../Layout/Code';
+import { Tip } from '../Tip/Tip';
 
 export interface JsonProps {
   data: object;
@@ -17,7 +19,14 @@ function renderJson([key, value]: [string, any], index: number, array: any[]) {
 function renderValue(value: any, index: number, array: any[]) {
   switch(typeof value) {
     case 'string':
-      return <span key={index} style={{ color: '#009688' }}>&quot;{value.startsWith('https://render.guildwars2.com/') ? <a href={value} style={{ color: '#009688' }}>{value}</a> : value.replaceAll('"', '\\"')}&quot;{index < array.length - 1 && comma}</span>;
+      return (
+        <span key={index} style={{ color: '#009688' }}>
+          &quot;{value.startsWith('https://render.guildwars2.com/')
+            ? <Tip tip={<img src={value} alt="Preview"/>}><a href={value} style={{ color: '#009688' }}>{value}</a></Tip>
+            : value.replaceAll('"', '\\"')
+          }&quot;{index < array.length - 1 && comma}
+        </span>
+      );
     case 'number':
     case 'boolean':
       return <span key={index} style={{ color: '#e91e63' }}>{value.toString()}{index < array.length - 1 && comma}</span>;

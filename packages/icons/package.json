@@ -1,0 +1,40 @@
+{
+  "name": "@gw2treasures/icons",
+  "version": "0.0.1",
+  "description": "Icons for gw2treasures.com",
+  "main": "dist/index.js",
+  "types": "dist/index.ts",
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "ts-node build",
+    "publish-package": "if test `npm view . version | sed -n 2p` != $npm_package_version; then npm publish --access public; else echo not changed; fi"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gw2treasures/gw2treasures.com.git"
+  },
+  "keywords": [
+    "gw2treasures",
+    "icons"
+  ],
+  "author": "darthmaim",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gw2treasures/gw2treasures.com/issues"
+  },
+  "homepage": "https://github.com/gw2treasures/gw2treasures.com#readme",
+  "devDependencies": {
+    "@svgr/core": "^8.1.0",
+    "@svgr/plugin-jsx": "^8.1.0",
+    "@types/node": "^20.5.0",
+    "rimraf": "^5.0.1",
+    "ts-node": "^10.9.1"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}

@@ -60,7 +60,13 @@ export function middleware(request: NextRequest) {
   const url = request.nextUrl.clone();
   url.pathname = `/${language}${url.pathname}`;
 
-  return NextResponse.rewrite(url, { headers: corsHeader(request), request: { headers }});
+  return NextResponse.rewrite(url, {
+    headers: {
+      ...corsHeader(request),
+      ...generateCsp(headers),
+    },
+    request: { headers }
+  });
 }
 
 function corsHeader(request: NextRequest): {} | { 'Access-Control-Allow-Origin': string } {
@@ -110,4 +116,30 @@ function getApiKeyFromRequest(request: NextRequest): string | undefined {
   }
 
   return undefined;
+}
+
+// see https://nextjs.org/docs/app/building-your-application/configuring/content-security-policy
+function generateCsp(headers: Headers): { 'Content-Security-Policy': string } {
+  const nonce = Buffer.from(crypto.randomUUID()).toString('base64');
+
+  const cspHeader = `
+    default-src 'self';
+    script-src 'self' 'nonce-${nonce}' 'strict-dynamic';
+    style-src 'self' 'unsafe-inline';
+    img-src 'self' icons-gw2.darthmaim-cdn.com render.guildwars2.com;
+    font-src 'self';
+    object-src 'none';
+    base-uri 'self';
+    form-action 'self';
+    frame-ancestors 'none';
+    block-all-mixed-content;
+    upgrade-insecure-requests;
+  `.replace(/\s{2,}/g, ' ');
+
+  headers.set('x-nonce', nonce);
+  headers.set('Content-Security-Policy', cspHeader);
+
+  return {
+    'Content-Security-Policy': cspHeader
+  };
 }

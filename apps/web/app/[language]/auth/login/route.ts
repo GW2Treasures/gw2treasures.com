@@ -5,7 +5,7 @@ import { NextRequest } from 'next/server';
 
 const client_id = process.env.GW2ME_CLIENT_ID;
 
-export function GET(request: NextRequest) {
+export function GET(request: NextRequest): Promise<never> {
   if(!client_id) {
     console.error('GW2ME_CLIENT_ID not set');
     redirect('/login?error');

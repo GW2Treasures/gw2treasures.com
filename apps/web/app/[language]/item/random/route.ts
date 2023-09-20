@@ -3,7 +3,7 @@ import { db } from '@/lib/prisma';
 
 export const dynamic = 'force-dynamic';
 
-export async function GET() {
+export async function GET(): Promise<never> {
   const count = await db.item.count();
 
   const item = await db.item.findFirst({ take: 1, skip: Math.floor(Math.random() * count), select: { id: true }});

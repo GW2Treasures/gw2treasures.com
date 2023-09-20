@@ -1,11 +1,9 @@
-import { FunctionComponent, ReactNode } from 'react';
+import { ReactNode } from 'react';
 import styles from './Layout.module.css';
 import { Icon } from '@gw2treasures/ui';
 import Navigation from './Header/Navigation';
 import Link from 'next/link';
 import { Search } from '../Search/Search';
-import LoaderIcon from './loader.svg?svgr';
-import { useLoading } from '../../lib/useLoading';
 import { LinkButton } from '@gw2treasures/ui/components/Form/Button';
 import { ExternalLink } from '../Link/ExternalLink';
 import { LanguageDropdown } from './Header/LanguageDropdown';
@@ -24,7 +22,6 @@ const getOpenReviews = remember(60, function getOpenReviews() {
 });
 
 const Layout: AsyncComponent<LayoutProps> = async ({ children }) => {
-  const loading = false;
   const user = await getUser();
   const openReviews = await getOpenReviews();
 
@@ -33,8 +30,7 @@ const Layout: AsyncComponent<LayoutProps> = async ({ children }) => {
       <div className={styles.layout}>
         <Menu navigation={<Navigation/>}>
           <Link href="/" className={styles.title}>
-            <Icon icon="gw2treasures"/>
-            {loading && (<LoaderIcon className={styles.loader}/>)}
+            <Icon icon="gw2t"/>
             <span>gw2treasures.com</span>
           </Link>
           <Search/>

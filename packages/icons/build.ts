@@ -7,7 +7,10 @@ import { join } from 'path';
 
 const svgrConfig: Config = {
   ref: true,
-  plugins: ['@svgr/plugin-jsx']
+  plugins: ['@svgr/plugin-jsx'],
+  template: (variables, { tpl }) => {
+    return tpl`(${variables.props}) => (${variables.jsx})`;
+  }
 };
 
 async function build() {
@@ -24,6 +27,7 @@ async function build() {
   // 3. get icons
   console.log('Get icons...');
   const iconFiles = (await readdir('icons')).filter((file) => file.endsWith('.svg'));
+  const icons: Record<string, string> = {};
 
   console.log('Building icons...');
   for(const file of iconFiles) {
@@ -33,13 +37,24 @@ async function build() {
 
     const jsCode = await transform(content, svgrConfig, { componentName, filePath: file });
 
-    await writeFile(join('dist', componentName + '.jsx'), jsCode);
+    icons[componentName] = jsCode.replace(/;$/, '');
+
+    //await writeFile(join('dist', componentName + '.jsx'), jsCode);
   }
+
+  const output = `import React from 'react';
+export const icons = {\n${Object.entries(icons)
+  .map(([key, value]) => `  '${key}': React.forwardRef(${value})`)
+  .join(',\n')
+}\n};`
+
+  writeFile(join('dist', 'index.js'), output);
 
   console.log('Build types file...');
   const index = `
 export type IconName = ${iconFiles.map((name) => `'${name.split('.')[0]}'`).join('|')};
 export type IconProp = IconName | JSX.Element;
+export const icons: Record<IconName, FunctionComponent<SVGProps<SVGSVGElement>>>;
 `;
 
   await writeFile(join('dist', 'index.d.ts'), index);

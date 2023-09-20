@@ -21,7 +21,7 @@
   "dependencies": {
     "@floating-ui/react": "0.25.4",
     "@floating-ui/react-dom": "2.0.2",
-    "@svgr/webpack": "8.1.0",
+    "@gw2treasures/icons": "*",
     "client-only": "0.0.1",
     "server-only": "0.0.1"
   },

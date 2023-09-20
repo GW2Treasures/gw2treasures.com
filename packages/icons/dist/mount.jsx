@@ -1,5 +1,0 @@
-import * as React from "react";
-import { forwardRef } from "react";
-const mount = (props, ref) => <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 16" ref={ref} {...props}><g clipPath="url(#a)"><path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" d="M14.5 6.5c.223.537.414 1.035.568 1.5m0 0c-1.728-.97-2.574-1.373-3.568-1.5-1.32-3.5-4.704-3.74-11-4 3.434 1.5 4.596 2.172 5 3-.311.08-.6.166-.868.26C2.939 5.513 2.036 5.46.5 5.5c1.079.623 1.59.982 1.672 1.702C1.409 7.932.978 8.747.5 9.5V14A1.5 1.5 0 0 0 2 15.5h1.167c.184 0 .333-.15.333-.333v0A2.667 2.667 0 0 1 6.167 12.5H7.5c2.84-.02 3.856.49 5 2 1.388-.812 2.26-1.592 2.699-2.5m-.131-4c.56 1.686.646 2.932.13 4m0 0c-1.496-.802-1.76-1.126-4.698-1.5m-1-3c-.454-.814-1-1-2-1l2 1Z" /></g><defs><clipPath id="a"><path fill="#fff" d="M0 0h16v16H0z" /></clipPath></defs></svg>;
-const ForwardRef = forwardRef(mount);
-export default ForwardRef;

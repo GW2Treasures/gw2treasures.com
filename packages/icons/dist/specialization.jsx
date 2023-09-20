@@ -1,5 +1,0 @@
-import * as React from "react";
-import { forwardRef } from "react";
-const specialization = (props, ref) => <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 16" ref={ref} {...props}><rect width={3} height={3} x={12.5} y={6.5} stroke="currentColor" rx={1} /><rect width={3} height={3} x={12.5} y={11.5} stroke="currentColor" rx={1} /><rect width={3} height={3} x={12.5} y={1.5} stroke="currentColor" rx={1} /><path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" d="m8.5 8 2-5m-2 5 2 5m-2-5h2" /><path stroke="currentColor" strokeLinejoin="round" d="M2.945 4.87a1 1 0 0 1 1.11 0l2 1.333a1 1 0 0 1 .445.832v1.93a1 1 0 0 1-.445.832l-2 1.333a1 1 0 0 1-1.11 0l-2-1.333A1 1 0 0 1 .5 8.965v-1.93a1 1 0 0 1 .445-.832l2-1.333Z" /></svg>;
-const ForwardRef = forwardRef(specialization);
-export default ForwardRef;

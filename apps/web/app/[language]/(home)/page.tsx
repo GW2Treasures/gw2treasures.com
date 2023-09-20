@@ -22,7 +22,7 @@ function HomePage() {
     <HeroLayout hero={(
       <div className={styles.hero}>
         <div className={styles.heroContent}>
-          <div className={styles.heroTitle}><Icon icon="gw2treasures"/> gw2treasures.com</div>
+          <div className={styles.heroTitle}><Icon icon="gw2t"/> gw2treasures.com</div>
           <div className={styles.heroSubtitle}>The Guild Wars 2® Database</div>
         </div>
       </div>

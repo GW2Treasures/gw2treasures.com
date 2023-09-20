@@ -1,5 +1,0 @@
-import * as React from "react";
-import { forwardRef } from "react";
-const leatherworker = (props, ref) => <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 16" ref={ref} {...props}><path stroke="currentColor" strokeLinejoin="round" d="M6.5 2.716V2a1.5 1.5 0 1 1 3 0v.793a.707.707 0 0 0 1.207.5l1.086-1.086a1 1 0 0 1 1.414 0l.194.194a1 1 0 0 1 .107 1.288l-1.822 2.55a1 1 0 0 0-.186.581v4.059c0 .398.158.779.44 1.06l1.353 1.354a1 1 0 0 1 0 1.414l-.086.086a1 1 0 0 1-1.414 0l-1-1a1 1 0 0 0-.707-.293h-.672a1 1 0 0 0-.707.293 1 1 0 0 1-1.414 0 1 1 0 0 0-.707-.293h-.672a1 1 0 0 0-.707.293l-1 1a1 1 0 0 1-1.414 0l-.086-.086a1 1 0 0 1 0-1.414l1.5-1.5a1 1 0 0 0 .293-.707V6.82a1 1 0 0 0-.186-.58L2.492 3.69A1 1 0 0 1 2.6 2.4l.194-.194a1 1 0 0 1 1.414 0l1.14 1.14c.098.098.23.153.37.153.432 0 .783-.35.783-.784Z" /></svg>;
-const ForwardRef = forwardRef(leatherworker);
-export default ForwardRef;

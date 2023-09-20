@@ -9,7 +9,6 @@
     "icons/",
     "lib/",
     "index.ts",
-    "svg-loader.js",
     "types.d.ts",
     "tsconfig.json",
     ".eslintrc.json"

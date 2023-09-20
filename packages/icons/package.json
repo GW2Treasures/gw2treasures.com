@@ -3,9 +3,14 @@
   "version": "0.0.1",
   "description": "Icons for gw2treasures.com",
   "main": "dist/index.js",
+  "types": "dist/index.ts",
+  "files": [
+    "dist/"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "ts-node build"
+    "build": "ts-node build",
+    "publish-package": "if test `npm view . version | sed -n 2p` != $npm_package_version; then npm publish --access public; else echo not changed; fi"
   },
   "repository": {
     "type": "git",

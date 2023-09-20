@@ -23,7 +23,7 @@
     "gw2-tooltip-html": "0.0.4",
     "gw2e-chat-codes": "1.4.2",
     "hast-util-to-jsx-runtime": "2.1.1",
-    "next": "13.5.1",
+    "next": "13.5.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-error-boundary": "4.0.11",
@@ -38,7 +38,7 @@
     "@types/ua-parser-js": "0.7.37",
     "@typescript-eslint/eslint-plugin": "6.7.2",
     "eslint": "8.49.0",
-    "eslint-config-next": "13.5.1",
+    "eslint-config-next": "13.5.2",
     "gw2-api-types": "0.0.5",
     "typescript": "5.2.2"
   }

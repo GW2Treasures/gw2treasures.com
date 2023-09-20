@@ -27,5 +27,9 @@
     "@types/node": "^20.5.0",
     "rimraf": "^5.0.1",
     "ts-node": "^10.9.1"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   }
 }

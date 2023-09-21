@@ -3,7 +3,7 @@
   "extends": ["//"],
   "pipeline": {
     "build": {
-      "outputs": ["dist"],
+      "outputs": ["dist/**"],
       "inputs": ["build.ts", "icons/*.svg"],
       "dependsOn": ["^build"]
     }

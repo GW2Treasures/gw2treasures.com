@@ -20,6 +20,7 @@ import { ItemTableContext } from '@/components/ItemTable/ItemTableContext';
 import { ItemTableColumnsButton } from '@/components/ItemTable/ItemTableColumnsButton';
 import { format } from 'gw2-tooltip-html';
 import styles from './page.module.css';
+import { Metadata } from 'next';
 
 const getSkin = remember(60, async function getSkin(id: number, language: Language) {
   const [skin, revision] = await Promise.all([
@@ -42,7 +43,14 @@ const getSkin = remember(60, async function getSkin(id: number, language: Langua
   return { skin, revision, similar };
 });
 
-async function SkinPage ({ params: { language, id }}: { params: { language: Language, id: string }}) {
+interface SkinPageProps {
+  params: {
+    language: Language;
+    id: string;
+  }
+}
+
+async function SkinPage ({ params: { language, id }}: SkinPageProps) {
   const skinId: number = Number(id);
 
   const { skin, revision, similar } = await getSkin(skinId, language);
@@ -113,3 +121,12 @@ async function SkinPage ({ params: { language, id }}: { params: { language: Lang
 };
 
 export default SkinPage;
+
+export async function generateMetadata({ params: { language, id }}: SkinPageProps): Promise<Metadata> {
+  const skinId: number = Number(id);
+  const { skin } = await getSkin(skinId, language);
+
+  return {
+    title: localizedName(skin, language)
+  };
+};

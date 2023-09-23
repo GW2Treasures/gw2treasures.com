@@ -18,6 +18,8 @@ import { localizedName } from '@/lib/localizedName';
 import { ItemTable } from '@/components/ItemTable/ItemTable';
 import { ItemTableContext } from '@/components/ItemTable/ItemTableContext';
 import { ItemTableColumnsButton } from '@/components/ItemTable/ItemTableColumnsButton';
+import { format } from 'gw2-tooltip-html';
+import styles from './page.module.css';
 
 const getSkin = remember(60, async function getSkin(id: number, language: Language) {
   const [skin, revision] = await Promise.all([
@@ -57,6 +59,7 @@ async function SkinPage ({ params: { language, id }}: { params: { language: Lang
     >
       <TableOfContentAnchor id="tooltip">Tooltip</TableOfContentAnchor>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        {data.description && (<p className={styles.description} dangerouslySetInnerHTML={{ __html: format(data.description) }}/>)}
         <div><Rarity rarity={data.rarity}/></div>
         <div>{data.details?.type}</div>
         <div>{data.details?.weight_class}</div>

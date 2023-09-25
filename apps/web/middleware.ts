@@ -119,12 +119,12 @@ function getApiKeyFromRequest(request: NextRequest): string | undefined {
 }
 
 // see https://nextjs.org/docs/app/building-your-application/configuring/content-security-policy
-function generateCsp(headers: Headers): { 'Content-Security-Policy': string } {
+function generateCsp(headers: Headers): { 'Content-Security-Policy-Report-Only': string, 'Report-To': string } {
   const nonce = Buffer.from(crypto.randomUUID()).toString('base64');
 
   const cspHeader = `
     default-src 'self';
-    script-src 'self' 'nonce-${nonce}' 'strict-dynamic';
+    script-src 'self' 'nonce-${nonce}' 'strict-dynamic' ${process.env.NODE_ENV !== 'production' ? '\'unsafe-eval\'' : ''};
     style-src 'self' 'unsafe-inline';
     img-src 'self' icons-gw2.darthmaim-cdn.com render.guildwars2.com;
     font-src 'self';
@@ -134,12 +134,25 @@ function generateCsp(headers: Headers): { 'Content-Security-Policy': string } {
     frame-ancestors 'none';
     block-all-mixed-content;
     upgrade-insecure-requests;
+    report-uri https://gw2treasures.report-uri.com/r/d/csp/reportOnly;
+    report-to csp;
   `.replace(/\s{2,}/g, ' ');
 
   headers.set('x-nonce', nonce);
   headers.set('Content-Security-Policy', cspHeader);
 
   return {
-    'Content-Security-Policy': cspHeader
+    'Content-Security-Policy-Report-Only': cspHeader,
+    'Report-To': JSON.stringify({
+      group: 'default',
+      max_age: 31536000,
+      endpoints: [{ url: 'https://gw2treasures.report-uri.com/a/d/g' }],
+      include_subdomains: true
+    }) + ',' + JSON.stringify({
+      group: 'csp',
+      max_age: 31536000,
+      endpoints: [{ url: 'https://gw2treasures.report-uri.com/r/d/csp/reportOnly' }],
+      include_subdomains: true
+    })
   };
 }

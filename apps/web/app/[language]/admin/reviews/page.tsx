@@ -6,6 +6,8 @@ import { db } from '@/lib/prisma';
 import { FormatDate } from '@/components/Format/FormatDate';
 import Link from 'next/link';
 
+export const dynamic = 'force-dynamic';
+
 const getReviews = cache(() => {
   return db.review.findMany({
     include: {

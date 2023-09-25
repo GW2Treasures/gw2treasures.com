@@ -58,7 +58,7 @@ export function useSearchApiResults(searchValue: string): SearchResults[] {
     subtitle: (
       <>
         {(achievement.achievementCategory ? localizedName(achievement.achievementCategory, language) : 'Achievement')}
-        {achievement.points > 0 && (<> ▪ {achievement.points} <Icon icon="achievementPoints"/></>)}
+        {achievement.points > 0 && (<> ▪ {achievement.points} <Icon icon="achievement_points"/></>)}
         {achievement.mastery && (<> ▪ <Icon icon="mastery"/> {achievement.mastery}</>)}
       </>
     ),

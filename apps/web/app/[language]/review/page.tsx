@@ -6,6 +6,8 @@ import Link from 'next/link';
 import { ReviewQueue } from '@gw2treasures/database';
 import { FormatNumber } from '@/components/Format/FormatNumber';
 
+export const dynamic = 'force-dynamic';
+
 const getQueues = async function getQueues() {
   const queues = await db.review.groupBy({
     by: ['queue'],

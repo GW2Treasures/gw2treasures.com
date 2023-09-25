@@ -1,1 +1,1 @@
-declare const fetch: typeof import('undici').fetch;
+declare const fetch: typeof import('undici-types').fetch;

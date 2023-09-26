@@ -25,7 +25,7 @@
     "server-only": "0.0.1"
   },
   "devDependencies": {
-    "@types/react": "18.2.22",
+    "@types/react": "18.2.23",
     "@types/ua-parser-js": "0.7.37",
     "@typescript-eslint/eslint-plugin": "6.7.3",
     "eslint": "8.50.0",

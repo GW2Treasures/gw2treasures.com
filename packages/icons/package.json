@@ -1,6 +1,6 @@
 {
   "name": "@gw2treasures/icons",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Icons for gw2treasures.com",
   "main": "dist/index.js",
   "types": "dist/index.ts",

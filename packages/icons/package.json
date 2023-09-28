@@ -12,7 +12,10 @@
     "build": "ts-node build",
     "publish-package": "if test `npm view . version | sed -n 2p` != $npm_package_version; then npm publish --access public; else echo not changed; fi"
   },
-  "repository": "GW2Treasures/gw2treasures.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GW2Treasures/gw2treasures.com.git"
+  },
   "keywords": [
     "gw2treasures",
     "icons"

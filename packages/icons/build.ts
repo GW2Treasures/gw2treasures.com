@@ -8,6 +8,13 @@ import { join } from 'path';
 const svgrConfig: Config = {
   ref: true,
   plugins: ['@svgr/plugin-jsx'],
+  jsx: {
+    babelConfig: {
+      plugins: [
+        ['@babel/plugin-transform-react-jsx', { runtime: 'automatic' }]
+      ]
+    }
+  },
   template: (variables, { tpl }) => {
     return tpl`(${variables.props}) => (${variables.jsx})`;
   }
@@ -37,12 +44,15 @@ async function build() {
 
     const jsCode = await transform(content, svgrConfig, { componentName, filePath: file });
 
-    icons[componentName] = jsCode.replace(/;$/, '');
+    icons[componentName] = jsCode.replace(`var _reactJsxRuntime = require("react/jsx-runtime");
+`, '').replace(/;$/, '');
 
     //await writeFile(join('dist', componentName + '.jsx'), jsCode);
   }
 
   const output = `import React from 'react';
+import _reactJsxRuntime from 'react/jsx-runtime';
+
 export const icons = {\n${Object.entries(icons)
   .map(([key, value]) => `  '${key}': React.forwardRef(${value})`)
   .join(',\n')

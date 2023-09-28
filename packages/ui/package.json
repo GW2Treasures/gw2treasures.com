@@ -20,7 +20,6 @@
   "dependencies": {
     "@floating-ui/react": "0.25.4",
     "@floating-ui/react-dom": "2.0.2",
-    "@gw2treasures/icons": "*",
     "client-only": "0.0.1",
     "server-only": "0.0.1"
   },
@@ -33,6 +32,7 @@
     "typescript": "5.2.2"
   },
   "peerDependencies": {
+    "@gw2treasures/icons": "^0.0.4",
     "next": "^13.4.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"

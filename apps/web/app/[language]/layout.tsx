@@ -3,6 +3,8 @@ import 'server-only';
 import '../../styles/globals.css';
 import '../../styles/variables.css';
 
+import '@gw2treasures/icons/styles.css';
+
 import { FormatProvider } from '@/components/Format/FormatContext';
 import Layout from '@/components/Layout/Layout';
 import { Bitter } from 'next/font/google';

@@ -17,7 +17,7 @@ import { FlexRow } from '../Layout/FlexRow';
 import { TableRowButton } from '@gw2treasures/ui/components/Table/TableRowButton';
 import { Skeleton } from '../Skeleton/Skeleton';
 import { useItemTableContext } from './context';
-import { Notice } from '../Notice/Notice';
+import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import { AvailableColumns, GlobalColumnId, ItemTableQuery, QueryModel } from './types';
 
 const LOADING = false;

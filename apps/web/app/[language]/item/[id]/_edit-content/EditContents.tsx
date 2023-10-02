@@ -18,7 +18,7 @@ import { canSubmit, submitToReview } from './actions';
 import { AddedCurrency, AddedItem, CanSubmitResponse, EditContentSubmitError } from './types';
 import { Skeleton } from '@/components/Skeleton/Skeleton';
 import Link from 'next/link';
-import { Notice } from '@/components/Notice/Notice';
+import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { SearchCurrencyDialog, SearchCurrencyDialogSubmitHandler } from '@/components/Currency/SearchCurrencyDialog';
 import { CurrencyLink } from '@/components/Currency/CurrencyLink';

@@ -6,7 +6,7 @@ import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { db } from '@/lib/prisma';
 import { redirect } from 'next/navigation';
 import { getUser } from '@/lib/getUser';
-import { Notice } from '@/components/Notice/Notice';
+import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import Link from 'next/link';
 import { FlexRow } from '@/components/Layout/FlexRow';
 

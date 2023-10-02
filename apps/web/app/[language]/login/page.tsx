@@ -1,6 +1,6 @@
 import { LinkButton } from '@gw2treasures/ui/components/Form/Button';
 import { PageLayout } from '@/components/Layout/PageLayout';
-import { Notice } from '@/components/Notice/Notice';
+import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import { getUser } from '@/lib/getUser';
 import { redirect } from 'next/navigation';
 import { Icon } from '@gw2treasures/ui';

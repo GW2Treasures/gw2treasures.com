@@ -7,7 +7,7 @@ import { AchievementLink } from '@/components/Achievement/AchievementLink';
 import { compareLocalizedName, localizedName } from '@/lib/localizedName';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { Json } from '@/components/Format/Json';
-import { Tip } from '@/components/Tip/Tip';
+import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 import { notFound } from 'next/navigation';
 import { Icon } from '@gw2treasures/ui';
 import { remember } from '@/lib/remember';

@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { FC } from 'react';
 import { Code } from '../Layout/Code';
-import { Tip } from '../Tip/Tip';
+import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 
 export interface JsonProps {
   data: object;

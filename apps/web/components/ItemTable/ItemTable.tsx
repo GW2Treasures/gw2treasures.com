@@ -4,7 +4,7 @@ import { ItemTable as ClientComponent } from './ItemTable.client';
 import { globalColumnDefinitions } from './columns';
 import { Signed, sign } from './query';
 import { ErrorBoundary } from 'react-error-boundary';
-import { Notice } from '../Notice/Notice';
+import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import { getLanguage, getTranslate } from '../I18n/getTranslate';
 import { AvailableColumn, AvailableColumns, ExtraColumn, GlobalColumnId, ItemTableQuery, OrderBy, QueryModel } from './types';
 

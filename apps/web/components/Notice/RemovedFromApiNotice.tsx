@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Notice } from './Notice';
+import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 
 export interface RemovedFromApiNoticeProps {
   type: string;

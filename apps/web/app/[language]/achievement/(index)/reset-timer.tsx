@@ -1,7 +1,7 @@
 'use client';
 
 import { useFormatContext } from '@/components/Format/FormatContext';
-import { Tip } from '@/components/Tip/Tip';
+import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 import { FC, useEffect, useState } from 'react';
 import styles from './styles.module.css';
 

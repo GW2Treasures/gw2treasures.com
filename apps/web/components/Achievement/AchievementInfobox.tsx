@@ -6,7 +6,7 @@ import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { LanguageLinks } from '../Infobox/LanguageLinks';
 import { ExternalLink } from '../Link/ExternalLink';
 import { AchievementLink } from './AchievementLink';
-import { FlexRow } from '../Layout/FlexRow';
+import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { LinkButton } from '@gw2treasures/ui/components/Form/Button';
 import { ShareButton } from '../ShareButton/ShareButton';
 import { localizedName } from '@/lib/localizedName';

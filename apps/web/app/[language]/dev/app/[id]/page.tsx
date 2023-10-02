@@ -1,4 +1,4 @@
-import { FlexRow } from '@/components/Layout/FlexRow';
+import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { PageLayout } from '@/components/Layout/PageLayout';
 import { getUser } from '@/lib/getUser';
 import { db } from '@/lib/prisma';

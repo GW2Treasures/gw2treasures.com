@@ -8,7 +8,7 @@ import { redirect } from 'next/navigation';
 import { getUser } from '@/lib/getUser';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import Link from 'next/link';
-import { FlexRow } from '@/components/Layout/FlexRow';
+import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 
 async function createApplication(data: FormData) {
   'use server';

@@ -8,7 +8,7 @@ import { ExternalLink } from '../Link/ExternalLink';
 import { SkinLink } from './SkinLink';
 import { encode } from 'gw2e-chat-codes';
 import { FormatNumber } from '../Format/FormatNumber';
-import { FlexRow } from '../Layout/FlexRow';
+import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { LinkButton } from '@gw2treasures/ui/components/Form/Button';
 import { ShareButton } from '../ShareButton/ShareButton';
 import { localizedName } from '@/lib/localizedName';

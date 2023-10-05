@@ -7,7 +7,7 @@ import { FormatDate } from '@/components/Format/FormatDate';
 import { Fact } from '@/components/Skill/SkillTooltip';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import { format } from 'gw2-tooltip-html';
-import { Separator } from '@/components/Layout/Separator';
+import { Separator } from '@gw2treasures/ui/components/Layout/Separator';
 import { Json } from '@/components/Format/Json';
 import { notFound } from 'next/navigation';
 import { Fragment } from 'react';

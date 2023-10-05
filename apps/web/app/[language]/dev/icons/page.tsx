@@ -2,7 +2,7 @@
 import { Code } from '@/components/Layout/Code';
 import { HeroLayout } from '@/components/Layout/HeroLayout';
 import { Highlight } from '@/components/Layout/Highlight';
-import { List } from '@/components/Layout/List';
+import { List } from '@gw2treasures/ui/components/Layout/List';
 import { ExternalLink } from '@/components/Link/ExternalLink';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { Table } from '@gw2treasures/ui/components/Table/Table';

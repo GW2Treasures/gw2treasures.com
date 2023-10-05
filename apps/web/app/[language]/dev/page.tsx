@@ -4,7 +4,7 @@ import { LinkButton } from '@gw2treasures/ui/components/Form/Button';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import Link from 'next/link';
 import { db } from '@/lib/prisma';
-import { List } from '@/components/Layout/List';
+import { List } from '@gw2treasures/ui/components/Layout/List';
 
 async function getApplications() {
   const user = await getUser();

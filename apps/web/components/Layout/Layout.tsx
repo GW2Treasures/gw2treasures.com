@@ -5,7 +5,7 @@ import Navigation from './Header/Navigation';
 import Link from 'next/link';
 import { Search } from '../Search/Search';
 import { LinkButton } from '@gw2treasures/ui/components/Form/Button';
-import { ExternalLink } from '../Link/ExternalLink';
+import { ExternalLink } from '@gw2treasures/ui/components/Link/ExternalLink';
 import { LanguageDropdown } from './Header/LanguageDropdown';
 import { Menu } from './Header/Menu';
 import { AsyncComponent } from '@/lib/asyncComponent';

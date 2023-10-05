@@ -4,7 +4,7 @@ import { FC } from 'react';
 import { FormatNumber } from '../Format/FormatNumber';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { LanguageLinks } from '../Infobox/LanguageLinks';
-import { ExternalLink } from '../Link/ExternalLink';
+import { ExternalLink } from '@gw2treasures/ui/components/Link/ExternalLink';
 import { AchievementLink } from './AchievementLink';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { LinkButton } from '@gw2treasures/ui/components/Form/Button';

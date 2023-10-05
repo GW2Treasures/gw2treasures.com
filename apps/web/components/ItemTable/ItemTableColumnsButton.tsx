@@ -23,7 +23,7 @@ export const ItemTableColumnsButton: FC<ItemTableColumnsButtonProps> = () => {
           <Checkbox key={column.id} checked={columns.includes(column.id)} onChange={(checked) => setSelectedColumns(values.filter(({ id }) => id !== column.id ? columns.includes(id) : checked).map(({ id }) => id))}>{column.title}</Checkbox>
         ))}
         <Separator/>
-        <Button appearance="menu" onClick={() => setSelectedColumns(undefined)}>Reset to default</Button>
+        <Button appearance="menu" onClick={() => setSelectedColumns(undefined)} disabled={selectedColumns === undefined}>Reset to default</Button>
       </MenuList>
     </DropDown>
   );

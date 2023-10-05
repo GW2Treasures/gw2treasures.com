@@ -1,7 +1,7 @@
 import { Code } from '@/components/Layout/Code';
 import { HeroLayout } from '@/components/Layout/HeroLayout';
 import { Highlight } from '@/components/Layout/Highlight';
-import { ExternalLink } from '@/components/Link/ExternalLink';
+import { ExternalLink } from '@gw2treasures/ui/components/Link/ExternalLink';
 import { getCurrentUrl } from '@/lib/url';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { Table } from '@gw2treasures/ui/components/Table/Table';

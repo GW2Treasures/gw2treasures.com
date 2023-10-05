@@ -4,7 +4,7 @@ import { FC } from 'react';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { Chatlink } from '../Infobox/Chatlink';
 import { LanguageLinks } from '../Infobox/LanguageLinks';
-import { ExternalLink } from '../Link/ExternalLink';
+import { ExternalLink } from '@gw2treasures/ui/components/Link/ExternalLink';
 import { SkinLink } from './SkinLink';
 import { encode } from 'gw2e-chat-codes';
 import { FormatNumber } from '../Format/FormatNumber';

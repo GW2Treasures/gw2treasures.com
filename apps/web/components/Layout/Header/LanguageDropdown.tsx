@@ -7,7 +7,7 @@ import { FormatConfigDialog } from '@/components/Format/FormatConfigDialog';
 import { MenuList } from '@/components/MenuList/MenuList';
 import { Icon } from '@gw2treasures/ui';
 import { FC, useCallback, useState } from 'react';
-import { Separator } from '../Separator';
+import { Separator } from '@gw2treasures/ui/components/Layout/Separator';
 import styles from '../Layout.module.css';
 import { useRouter } from 'next/navigation';
 import { useLanguage } from '@/components/I18n/Context';

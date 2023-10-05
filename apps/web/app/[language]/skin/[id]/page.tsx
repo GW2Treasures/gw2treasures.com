@@ -13,7 +13,7 @@ import { remember } from '@/lib/remember';
 import { linkPropertiesWithoutRarity } from '@/lib/linkProperties';
 import { AchievementLink } from '@/components/Achievement/AchievementLink';
 import { TableOfContentAnchor } from '@gw2treasures/ui/components/TableOfContent/TableOfContent';
-import { ExternalLink } from '@/components/Link/ExternalLink';
+import { ExternalLink } from '@gw2treasures/ui/components/Link/ExternalLink';
 import { localizedName } from '@/lib/localizedName';
 import { ItemTable } from '@/components/ItemTable/ItemTable';
 import { ItemTableContext } from '@/components/ItemTable/ItemTableContext';

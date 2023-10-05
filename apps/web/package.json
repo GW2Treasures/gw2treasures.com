@@ -33,7 +33,7 @@
     "ua-parser-js": "1.0.36"
   },
   "devDependencies": {
-    "@prisma/nextjs-monorepo-workaround-plugin": "5.4.0",
+    "@prisma/nextjs-monorepo-workaround-plugin": "5.4.1",
     "@types/node": "18.18.3",
     "@types/react": "18.2.25",
     "@types/ua-parser-js": "0.7.37",

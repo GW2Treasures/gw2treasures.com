@@ -13,7 +13,7 @@
   "dependencies": {
     "@floating-ui/react": "0.26.0",
     "@floating-ui/react-dom": "2.0.2",
-    "@gw2me/api": "0.1.1",
+    "@gw2me/client": "0.1.2",
     "@gw2treasures/database": "*",
     "@gw2treasures/icons": "*",
     "@gw2treasures/ui": "*",

@@ -5,8 +5,7 @@ import { db } from '@/lib/prisma';
 import parseUserAgent from 'ua-parser-js';
 import { getUrlFromParts, getUrlPartsFromRequest } from '@/lib/urlParts';
 import { authCookie } from '@/lib/auth/cookie';
-import { getAccessToken } from '@gw2me/api';
-import { rest } from '@gw2me/api';
+import { getAccessToken, rest } from '@gw2me/client';
 
 const client_id = process.env.GW2ME_CLIENT_ID;
 const client_secret = process.env.GW2ME_CLIENT_SECRET;

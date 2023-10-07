@@ -4,7 +4,7 @@ import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import { getUser } from '@/lib/getUser';
 import { redirect } from 'next/navigation';
 import { Icon } from '@gw2treasures/ui';
-import { Scope, getAuthorizationUrl } from '@gw2me/api';
+import { Scope, getAuthorizationUrl } from '@gw2me/client';
 import { getCurrentUrl } from '@/lib/url';
 
 export default async function LoginPage({ searchParams }: { searchParams: { logout?: '', error?: '' }}) {

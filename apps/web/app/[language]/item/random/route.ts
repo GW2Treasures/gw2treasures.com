@@ -1,8 +1,6 @@
 import { notFound, redirect } from 'next/navigation';
 import { db } from '@/lib/prisma';
 
-export const dynamic = 'force-dynamic';
-
 export async function GET(): Promise<never> {
   const count = await db.item.count();
 

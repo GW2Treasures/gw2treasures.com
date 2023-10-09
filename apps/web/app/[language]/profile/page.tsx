@@ -32,8 +32,6 @@ const getUserData = cache(async () => {
   };
 });
 
-export const dynamic = 'force-dynamic';
-
 export default async function ProfilePage() {
   const { sessionId, user } = await getUserData();
 

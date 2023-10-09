@@ -6,8 +6,6 @@ import { AchievementLink } from '@/components/Achievement/AchievementLink';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { remember } from '@/lib/remember';
 
-export const dynamic = 'force-dynamic';
-
 const getUncategorizedAchievements = remember(60, async function getData(language: Language) {
   const achievements = await db.achievement.findMany({
     where: { achievementCategoryId: null },

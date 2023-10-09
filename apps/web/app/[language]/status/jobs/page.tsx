@@ -8,9 +8,6 @@ import { ReloadCheckbox } from '@/components/Reload/ReloadCheckbox';
 import { remember } from '@/lib/remember';
 import styles from '../page.module.css';
 
-export const revalidate = 3;
-export const dynamic = 'force-dynamic';
-
 const getJobs = remember(1, async function getJobs() {
   const [running, finished] = await Promise.all([
     db.job.findMany({ where: { OR: [{ state: { in: ['Running', 'Queued'] }}, { cron: { not: '' }}] }, orderBy: [{ priority: 'desc' }, { scheduledAt: 'asc' }] }),

@@ -15,8 +15,6 @@ import Link from 'next/link';
 import { FormatNumber } from '@/components/Format/FormatNumber';
 import { AchievementLink } from '@/components/Achievement/AchievementLink';
 
-export const dynamic = 'force-dynamic';
-
 function HomePage() {
   return (
     <HeroLayout hero={(

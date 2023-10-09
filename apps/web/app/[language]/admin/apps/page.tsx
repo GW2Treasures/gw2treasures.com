@@ -6,8 +6,6 @@ import { db } from '@/lib/prisma';
 import { FormatDate } from '@/components/Format/FormatDate';
 import { Code } from '@/components/Layout/Code';
 
-export const dynamic = 'force-dynamic';
-
 const getApplications = cache(() => {
   return db.application.findMany({
     include: { owner: { select: { name: true }}}

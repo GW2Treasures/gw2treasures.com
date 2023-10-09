@@ -5,8 +5,6 @@ import { db } from '@/lib/prisma';
 import Link from 'next/link';
 import styles from './page.module.css';
 
-export const dynamic = 'force-dynamic';
-
 function getStatus() {
   const last30Minutes = new Date();
   last30Minutes.setMinutes(last30Minutes.getMinutes() - 30);

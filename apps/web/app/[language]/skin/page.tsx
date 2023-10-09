@@ -10,8 +10,6 @@ import { HeroLayout } from '@/components/Layout/HeroLayout';
 import { remember } from '@/lib/remember';
 import { Icon } from '@gw2treasures/database';
 
-export const dynamic = 'force-dynamic';
-
 const getSkins = remember(60, async function getSkins() {
   const [newSkins, byTypes] = await Promise.all([
     db.skin.findMany({ take: 24, include: { icon: true }, orderBy: { createdAt: 'desc' }}),

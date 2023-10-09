@@ -1,4 +1,4 @@
-import { FC, ReactNode } from 'react';
+import { ReactNode, forwardRef } from 'react';
 import styles from './Notice.module.css';
 import { IconName } from '@gw2treasures/icons';
 import { cx } from '../../lib';
@@ -10,11 +10,11 @@ export interface NoticeProps {
   icon?: IconName;
 }
 
-export const Notice: FC<NoticeProps> = ({ children, type = 'info', icon }) => {
+export const Notice = forwardRef<HTMLDivElement, NoticeProps>(function Notice({ children, type = 'info', icon }, ref) {
   return (
-    <div className={cx(styles.notice, styles[type])}>
+    <div className={cx(styles.notice, styles[type])} ref={ref}>
       {icon && <Icon icon={icon}/>}
       <p className={styles.content}>{children}</p>
     </div>
   );
-};
+});

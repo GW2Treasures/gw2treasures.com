@@ -15,8 +15,6 @@ import { remember } from '@/lib/remember';
 import { linkProperties } from '@/lib/linkProperties';
 import { Metadata } from 'next';
 
-export const dynamic = 'force-dynamic';
-
 interface BuildPageProps {
   params: { language: Language, id: string }
 }

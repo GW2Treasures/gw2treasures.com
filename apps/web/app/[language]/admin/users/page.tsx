@@ -5,8 +5,6 @@ import { cache } from 'react';
 import { db } from '@/lib/prisma';
 import { FormatDate } from '@/components/Format/FormatDate';
 
-export const dynamic = 'force-dynamic';
-
 const getUsers = cache(() => {
   return db.user.findMany();
 });

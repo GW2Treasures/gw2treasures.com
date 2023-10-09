@@ -13,8 +13,6 @@ import { Icon } from '@gw2treasures/ui';
 import { remember } from '@/lib/remember';
 import { RemovedFromApiNotice } from '@/components/Notice/RemovedFromApiNotice';
 
-export const dynamic = 'force-dynamic';
-
 const getData = remember(60, async function getData(id: number, language: Language) {
   const [achievementCategory, revision] = await Promise.all([
     db.achievementCategory.findUnique({

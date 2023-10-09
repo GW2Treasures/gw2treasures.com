@@ -6,8 +6,6 @@ import { createTooltip } from '@/components/Item/ItemTooltip';
 import { Gw2Api } from 'gw2-api-types';
 import { remember } from '@/lib/remember';
 
-export const dynamic = 'force-dynamic';
-
 const getItemRevision = remember(60, function getItemRevision(id: number, language: Language, revisionId?: string) {
   return revisionId
     ? db.revision.findFirst({ where: { id: revisionId, entity: 'Item' }})

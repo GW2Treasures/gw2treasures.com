@@ -6,8 +6,6 @@ import { createTooltip } from '@/components/Achievement/AchievementTooltip';
 import { Gw2Api } from 'gw2-api-types';
 import { remember } from '@/lib/remember';
 
-export const dynamic = 'force-dynamic';
-
 const getAchievementRevision = remember(60, function getAchievementRevision(id: number, language: Language, revisionId?: string) {
   return revisionId
     ? db.revision.findFirst({ where: { id: revisionId, entity: 'Achievement' }})

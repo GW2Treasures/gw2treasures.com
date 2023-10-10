@@ -9,7 +9,7 @@ import styles from './page.module.css';
 import { ReloadCheckbox } from '@/components/Reload/ReloadCheckbox';
 import { PeriodSelect } from './period-select';
 import { availablePeriods } from './available-periods';
-import { Tip } from '@/components/Tip/Tip';
+import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 
 async function getData(hours: number) {
   const now = new Date();

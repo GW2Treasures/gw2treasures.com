@@ -8,8 +8,6 @@ import { linkProperties } from '@/lib/linkProperties';
 import { ItemLink } from '@/components/Item/ItemLink';
 import { FormatDate } from '@/components/Format/FormatDate';
 
-export const dynamic = 'force-dynamic';
-
 const getItems = remember(60, async function getItems(language: Language) {
   const [recentlyAdded, recentlyUpdated] = await Promise.all([
     db.item.findMany({

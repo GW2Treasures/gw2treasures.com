@@ -12,7 +12,7 @@ import { TextInput } from '@gw2treasures/ui/components/Form/TextInput';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { useLanguage } from '../I18n/Context';
 import { ItemLink, ItemLinkProps } from '../Item/ItemLink';
-import { Separator } from '../Layout/Separator';
+import { Separator } from '@gw2treasures/ui/components/Layout/Separator';
 import { MenuList } from '../MenuList/MenuList';
 import { ShowMore } from '../ShowMore/ShowMore';
 import { Table } from '@gw2treasures/ui/components/Table/Table';

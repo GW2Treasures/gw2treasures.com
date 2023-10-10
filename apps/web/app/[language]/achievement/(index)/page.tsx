@@ -12,8 +12,6 @@ import { ResetTimer } from './reset-timer';
 import { RemovedFromApiNotice } from '@/components/Notice/RemovedFromApiNotice';
 import Link from 'next/link';
 
-export const dynamic = 'force-dynamic';
-
 const getAchivementGroups = remember(60, async function getAchivementGroups(language: string) {
   const groups = await db.achievementGroup.findMany({
     include: {

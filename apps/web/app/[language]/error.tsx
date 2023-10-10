@@ -3,7 +3,6 @@
 import { Button } from '@gw2treasures/ui/components/Form/Button';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { HeroLayout } from '@/components/Layout/HeroLayout';
-import { Separator } from '@/components/Layout/Separator';
 
 export default function Error({ error, reset }: { error: Error; reset: () => void; }) {
   return (

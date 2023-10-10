@@ -1,7 +1,7 @@
 import { FormatDate } from '@/components/Format/FormatDate';
 import { ItemLink } from '@/components/Item/ItemLink';
 import { HeroLayout } from '@/components/Layout/HeroLayout';
-import { Notice } from '@/components/Notice/Notice';
+import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import { getUser } from '@/lib/getUser';
 import { linkProperties, linkPropertiesWithoutRarity } from '@/lib/linkProperties';
 import { db } from '@/lib/prisma';

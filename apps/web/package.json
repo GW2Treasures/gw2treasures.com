@@ -11,35 +11,36 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@floating-ui/react": "0.25.1",
-    "@floating-ui/react-dom": "2.0.1",
-    "@gw2me/api": "0.1.0",
+    "@floating-ui/react": "0.26.0",
+    "@floating-ui/react-dom": "2.0.2",
+    "@gw2me/client": "0.1.2",
     "@gw2treasures/database": "*",
+    "@gw2treasures/icons": "*",
     "@gw2treasures/ui": "*",
-    "@wooorm/starry-night": "2.1.1",
+    "@wooorm/starry-night": "3.0.0",
     "chalk": "5.3.0",
     "client-only": "0.0.1",
     "deepmerge": "4.3.1",
     "gw2-tooltip-html": "0.0.4",
-    "gw2e-chat-codes": "1.3.2",
-    "hast-util-to-jsx-runtime": "1.2.0",
-    "next": "13.4.19",
+    "gw2e-chat-codes": "1.4.2",
+    "hast-util-to-jsx-runtime": "2.2.0",
+    "next": "13.5.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-error-boundary": "4.0.11",
     "server-only": "0.0.1",
-    "sharp": "0.32.5",
-    "ua-parser-js": "1.0.35"
+    "sharp": "0.32.6",
+    "ua-parser-js": "1.0.36"
   },
   "devDependencies": {
-    "@prisma/nextjs-monorepo-workaround-plugin": "5.1.1",
-    "@types/node": "18.17.7",
-    "@types/react": "18.2.20",
-    "@types/ua-parser-js": "0.7.36",
-    "@typescript-eslint/eslint-plugin": "6.4.1",
-    "eslint": "8.47.0",
-    "eslint-config-next": "13.4.19",
+    "@prisma/nextjs-monorepo-workaround-plugin": "5.4.2",
+    "@types/node": "18.18.4",
+    "@types/react": "18.2.27",
+    "@types/ua-parser-js": "0.7.37",
+    "@typescript-eslint/eslint-plugin": "6.7.5",
+    "eslint": "8.51.0",
+    "eslint-config-next": "13.5.4",
     "gw2-api-types": "0.0.5",
-    "typescript": "5.1.6"
+    "typescript": "5.2.2"
   }
 }

@@ -12,8 +12,6 @@ import { CurrencyLink } from '@/components/Currency/CurrencyLink';
 import { CurrencyValue } from '@/components/Currency/CurrencyValue';
 import { ItemLink } from '@/components/Item/ItemLink';
 
-export const dynamic = 'force-dynamic';
-
 const getCurrency = remember(60, async function getCurrency(id: number, language: Language) {
   if(isNaN(id)) {
     notFound();

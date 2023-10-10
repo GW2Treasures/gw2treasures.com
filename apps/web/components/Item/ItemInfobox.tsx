@@ -11,7 +11,7 @@ import { localizedName } from '@/lib/localizedName';
 import { getCurrentUrl } from '@/lib/url';
 import { ShareButton } from '../ShareButton/ShareButton';
 import { LinkButton } from '@gw2treasures/ui/components/Form/Button';
-import { FlexRow } from '../Layout/FlexRow';
+import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 
 interface ItemInfoboxProps {
   item: Item;

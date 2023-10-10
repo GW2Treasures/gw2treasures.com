@@ -14,7 +14,7 @@ import styles from './RecipeBox.module.css';
 import { encode } from 'gw2e-chat-codes';
 import { ShowMore } from '../ShowMore/ShowMore';
 import { ResetTimer } from 'app/[language]/achievement/(index)/reset-timer';
-import { Tip } from '../Tip/Tip';
+import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 import { OutputCount } from '../Item/OutputCount';
 
 interface RecipeBoxProps {

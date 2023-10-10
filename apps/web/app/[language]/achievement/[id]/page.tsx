@@ -176,9 +176,9 @@ async function AchievementPage({ params: { id, language }}: AchievementPageProps
           <tr>
             <th>Achievement Points</th>
             {data.tiers.map((tier) => (
-              <td key={tier.count}>{tier.points} <Icon icon="achievementPoints"/></td>
+              <td key={tier.count}>{tier.points} <Icon icon="achievement_points"/></td>
             ))}
-            <td>{data.tiers.reduce((total, tier) => total + tier.points, 0)} <Icon icon="achievementPoints"/></td>
+            <td>{data.tiers.reduce((total, tier) => total + tier.points, 0)} <Icon icon="achievement_points"/></td>
           </tr>
         </tbody>
       </table>

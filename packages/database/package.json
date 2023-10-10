@@ -2,7 +2,7 @@
   "name": "@gw2treasures/database",
   "private": true,
   "scripts": {
-    "prisma:generate": "DEBUG=prisma* prisma generate",
+    "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate deploy",
     "prisma:migrate-dev": "prisma migrate dev --name",
     "prisma:studio": "prisma studio",
@@ -11,10 +11,10 @@
   "main": "./lib/index.js",
   "types": "./src/index.ts",
   "dependencies": {
-    "@prisma/client": "5.1.1"
+    "@prisma/client": "5.4.2"
   },
   "devDependencies": {
-    "@tsconfig/node18": "18.2.1",
-    "prisma": "5.1.1"
+    "@tsconfig/node18": "18.2.2",
+    "prisma": "5.4.2"
   }
 }

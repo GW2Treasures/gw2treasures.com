@@ -3,6 +3,8 @@ import 'server-only';
 import '../../styles/globals.css';
 import '../../styles/variables.css';
 
+import '@gw2treasures/icons/styles.css';
+
 import { FormatProvider } from '@/components/Format/FormatContext';
 import Layout from '@/components/Layout/Layout';
 import { Bitter } from 'next/font/google';
@@ -78,7 +80,3 @@ export const metadata = {
     'msapplication-TileColor': '#b91d47'
   }
 };
-
-export const generateStaticParams = process.env.NODE_ENV === 'production' ? function generateStaticParams() {
-  return [{ language: 'de' }, { language: 'en' }, { language: 'es' }, { language: 'fr' }];
-} : undefined;

@@ -3,8 +3,6 @@ import { remember } from '@/lib/remember';
 import { Language } from '@gw2treasures/database';
 import { BuildTable } from './BuildTable';
 
-export const dynamic = 'force-dynamic';
-
 const getBuilds = remember(60, async function getBuilds(language: Language) {
   const builds = await db.build.findMany({
     orderBy: { id: 'desc' },

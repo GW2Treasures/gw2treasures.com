@@ -5,7 +5,7 @@ import styles from './Button.module.css';
 import { IconProp, Icon } from '../../icons';
 
 export interface CommonButtonProps {
-  children: ReactNode;
+  children?: ReactNode;
   icon?: IconProp;
   appearance?: 'primary' | 'secondary' | 'tertiary' | 'menu';
   flex?: boolean;
@@ -29,7 +29,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
   return (
     <button ref={ref} onClick={onClick} className={cx(styles[appearance], iconOnly && styles.iconOnly, flex && styles.flex, intent && styles[intent], className)} form={form} type={type} disabled={disabled} name={name} value={value} formAction={formAction as any}>
       {icon && <Icon icon={icon}/>}
-      <span>{children}</span>
+      {children && <span>{children}</span>}
     </button>
   );
 });

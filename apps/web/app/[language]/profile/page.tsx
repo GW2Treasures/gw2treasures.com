@@ -8,7 +8,7 @@ import { db } from '@/lib/prisma';
 import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { cache } from 'react';
-import { FlexRow } from '@/components/Layout/FlexRow';
+import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 
 const getUserData = cache(async () => {
   const session = await getUser();
@@ -31,8 +31,6 @@ const getUserData = cache(async () => {
     user,
   };
 });
-
-export const dynamic = 'force-dynamic';
 
 export default async function ProfilePage() {
   const { sessionId, user } = await getUserData();

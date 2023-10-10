@@ -52,7 +52,7 @@ export default async function DevAppPage({ params: { id }}: { params: { id: stri
 
         <Label label="API Key">
           <TextInput value={application.apiKey} readOnly/>
-          <CopyButton copy={application.apiKey}>Copy</CopyButton>
+          <CopyButton copy={application.apiKey} icon="copy">Copy</CopyButton>
         </Label>
 
         <FlexRow>

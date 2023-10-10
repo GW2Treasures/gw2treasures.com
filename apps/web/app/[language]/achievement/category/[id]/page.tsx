@@ -92,7 +92,7 @@ async function AchievementCategoryPage({ params: { language, id }}: AchievementC
             <tr key={achievement.id}>
               <td><AchievementLink achievement={achievement}/></td>
               <td align="right">{achievement.points} <Icon icon="achievement_points"/></td>
-              <td>{achievement.mastery}</td>
+              <td>{achievement.mastery === 'Unknown' ? 'EoD / SotO' : achievement.mastery}</td>
               <td>{achievement.rewardsItem.length > 0 && (
                 <ItemList>
                   {achievement.rewardsItem.map((item) => (

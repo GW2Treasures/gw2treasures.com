@@ -9,7 +9,7 @@ export interface PublicApiErrorResponse {
 }
 
 export function publicApi<ResponseType, DynamicRouteSegments>(
-  callback: (params?: DynamicRouteSegments, searchParams?: [string, string][]) => Promise<ResponseType>
+  callback: (params: DynamicRouteSegments, searchParams: Record<string, string>) => Promise<ResponseType>
 ): (
   request: NextRequest,
   context: { params: DynamicRouteSegments }
@@ -39,10 +39,10 @@ export function publicApi<ResponseType, DynamicRouteSegments>(
     const searchParams = request.nextUrl.searchParams;
     searchParams.delete('apiKey');
     searchParams.sort();
-    const searchParamsAsArray = Array.from(searchParams.entries());
+    const searchParamsAsObject = Object.fromEntries(searchParams);
 
     // get reponse
-    const response = await cachedCallback(params, searchParamsAsArray);
+    const response = await cachedCallback(params, searchParamsAsObject);
 
     // return new response
     return NextResponse.json(response, {

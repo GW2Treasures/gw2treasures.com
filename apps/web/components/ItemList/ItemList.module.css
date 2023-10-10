@@ -8,6 +8,14 @@
   max-width: 2560px;
 }
 
+.list:not(:last-child) {
+  margin-bottom: calc(1.5em - 8px);
+}
+
+.list:last-child {
+  margin-bottom: -8px;
+}
+
 .list > li {
   margin-bottom: 8px;
   align-items: center;
@@ -18,8 +26,4 @@
   /* use inline to fix column rendering in safari */
   display: inline-flex;
   width: 100%;
-}
-
-.list > li:last-child {
-  margin-bottom: 0;
 }

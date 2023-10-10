@@ -13,6 +13,9 @@ import { Icon } from '@gw2treasures/ui';
 import { remember } from '@/lib/remember';
 import { RemovedFromApiNotice } from '@/components/Notice/RemovedFromApiNotice';
 import { Metadata } from 'next';
+import { Table } from '@gw2treasures/ui/components/Table/Table';
+import { linkProperties } from '@/lib/linkProperties';
+import { ItemLink } from '@/components/Item/ItemLink';
 
 export interface AchievementCategoryPageProps {
   params: {
@@ -27,7 +30,7 @@ const getData = remember(60, async function getData(id: number, language: Langua
       where: { id },
       include: {
         icon: true,
-        achievements: { include: { icon: true }},
+        achievements: { include: { icon: true, rewardsItem: { select: linkProperties }}},
         achievementGroup: true,
       }
     }),
@@ -75,11 +78,33 @@ async function AchievementCategoryPage({ params: { language, id }}: AchievementC
       )}
 
       <Headline id="achievements">Achievements</Headline>
-      <ItemList>
-        {currentAchievements.map((achievement) => (
-          <li key={achievement.id}><AchievementLink achievement={achievement}/></li>
-        ))}
-      </ItemList>
+      <Table>
+        <thead>
+          <tr>
+            <Table.HeaderCell>Achievement</Table.HeaderCell>
+            <Table.HeaderCell align="right">AP <Icon icon="achievement_points"/></Table.HeaderCell>
+            <Table.HeaderCell>Mastery <Icon icon="mastery"/></Table.HeaderCell>
+            <Table.HeaderCell small>Items</Table.HeaderCell>
+          </tr>
+        </thead>
+        <tbody>
+          {currentAchievements.map((achievement) => (
+            <tr key={achievement.id}>
+              <td><AchievementLink achievement={achievement}/></td>
+              <td align="right">{achievement.points} <Icon icon="achievement_points"/></td>
+              <td>{achievement.mastery}</td>
+              <td>{achievement.rewardsItem.length > 0 && (
+                <ItemList>
+                  {achievement.rewardsItem.map((item) => (
+                    <li key={item.id}><ItemLink item={item} icon={32}/></li>
+                  ))}
+                </ItemList>
+              )}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
 
       {historicAchievements.length > 0 && (
         <>

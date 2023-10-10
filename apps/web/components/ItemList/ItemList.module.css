@@ -19,3 +19,7 @@
   display: inline-flex;
   width: 100%;
 }
+
+.list > li:last-child {
+  margin-bottom: 0;
+}

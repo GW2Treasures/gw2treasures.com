@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import { Language, MasteryRegion } from '@gw2treasures/database';
 import DetailLayout from '@/components/Layout/DetailLayout';
 import { db } from '@/lib/prisma';
@@ -25,6 +26,7 @@ import { Breadcrumb } from '@/components/Breadcrumb/Breadcrumb';
 import Link from 'next/link';
 import { AchievementCategoryLink } from '@/components/Achievement/AchievementCategoryLink';
 import { Metadata } from 'next';
+import { AccountAchievementProgressHeader, AccountAchievementProgressRow } from '@/components/Achievement/AccountAchievementProgress';
 
 const MasteryColors: Record<MasteryRegion, CSS.Property.Color> = {
   'Tyria': '#FB8C00', //    core
@@ -140,24 +142,31 @@ async function AchievementPage({ params: { id, language }}: AchievementPageProps
 
       {(data.bits || categoryAchievements.length > 0) && (
         <Table>
-          <thead><tr><th {...{ width: 1 }} align="right">#</th><th {...{ width: 1 }}>Type</th><th>Objective</th></tr></thead>
+          <thead>
+            <tr>
+              <Table.HeaderCell small align="right">#</Table.HeaderCell>
+              <Table.HeaderCell small>Type</Table.HeaderCell>
+              <Table.HeaderCell>Objective</Table.HeaderCell>
+              <AccountAchievementProgressHeader/>
+            </tr>
+          </thead>
           <tbody>
             {data.bits && data.bits.map((bit, index) => {
               switch(bit.type) {
                 case 'Item': {
                   const item = achievement.bitsItem.find(({ id }) => id === bit.id);
-                  return <tr key={bit.id}><td align="right">{index}</td><td>Item</td><td>{item ? (<ItemLink item={item}/>) : `Unknown item ${bit.id}`}</td></tr>;
+                  return <tr key={index}><td align="right">{index}</td><td>Item</td><td>{item ? (<ItemLink item={item}/>) : `Unknown item ${bit.id}`}</td><AccountAchievementProgressRow achievementId={achievement.id} bitId={index}/></tr>;
                 }
                 case 'Skin': {
                   const skin = achievement.bitsSkin.find(({ id }) => id === bit.id);
-                  return <tr key={bit.id}><td align="right">{index}</td><td>Skin</td><td>{skin ? (<SkinLink skin={skin}/>) : `Unknown skin ${bit.id}`}</td></tr>;
+                  return <tr key={index}><td align="right">{index}</td><td>Skin</td><td>{skin ? (<SkinLink skin={skin}/>) : `Unknown skin ${bit.id}`}</td><AccountAchievementProgressRow achievementId={achievement.id} bitId={index}/></tr>;
                 }
-                case 'Text': return bit.text !== '' && <tr key={bit.id}><td align="right">{index}</td><td>Text</td><td>{bit.text}</td></tr>;
-                case 'Minipet': return <tr key={bit.id}><td align="right">{index}</td><td>Minipet</td><td>{bit.id}</td></tr>;
+                case 'Text': return bit.text !== '' && <tr key={index}><td align="right">{index}</td><td>Text</td><td>{bit.text}</td><AccountAchievementProgressRow achievementId={achievement.id} bitId={index}/></tr>;
+                case 'Minipet': return <tr key={index}><td align="right">{index}</td><td>Minipet</td><td>{bit.id}</td><AccountAchievementProgressRow achievementId={achievement.id} bitId={index}/></tr>;
               }
             })}
             {categoryAchievements.map((achievement, index) => (
-              <tr key={achievement.id}><td align="right">{(data.bits?.length || 0) + index}</td><td>Achievement</td><td><AchievementLink achievement={achievement}/></td></tr>
+              <tr key={achievement.id}><td align="right">{(data.bits?.length || 0) + index}</td><td>Achievement</td><td><AchievementLink achievement={achievement}/></td><AccountAchievementProgressRow achievementId={achievement.id}/></tr>
             ))}
           </tbody>
         </Table>

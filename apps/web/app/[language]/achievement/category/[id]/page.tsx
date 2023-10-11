@@ -16,6 +16,7 @@ import { Metadata } from 'next';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { linkProperties } from '@/lib/linkProperties';
 import { ItemLink } from '@/components/Item/ItemLink';
+import { AccountAchievementProgressHeader, AccountAchievementProgressRow } from '@/components/Achievement/AccountAchievementProgress';
 
 export interface AchievementCategoryPageProps {
   params: {
@@ -85,6 +86,7 @@ async function AchievementCategoryPage({ params: { language, id }}: AchievementC
             <Table.HeaderCell align="right">AP <Icon icon="achievement_points"/></Table.HeaderCell>
             <Table.HeaderCell>Mastery <Icon icon="mastery"/></Table.HeaderCell>
             <Table.HeaderCell small>Items</Table.HeaderCell>
+            <AccountAchievementProgressHeader/>
           </tr>
         </thead>
         <tbody>
@@ -101,6 +103,7 @@ async function AchievementCategoryPage({ params: { language, id }}: AchievementC
                 </ItemList>
               )}
               </td>
+              <AccountAchievementProgressRow achievementId={achievement.id}/>
             </tr>
           ))}
         </tbody>

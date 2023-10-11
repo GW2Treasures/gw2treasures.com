@@ -13,6 +13,8 @@ import { cx } from '@gw2treasures/ui';
 import { I18nProvider } from '@/components/I18n/I18nProvider';
 import { Language } from '@gw2treasures/database';
 import { ItemTableContext } from '@/components/ItemTable/ItemTableContext';
+import { Gw2ApiProvider } from '@/components/Gw2Api/Gw2ApiProvider';
+import { getUser } from '@/lib/getUser';
 
 const bitter = Bitter({
   subsets: ['latin'],
@@ -28,13 +30,15 @@ const wotfard = localFont({
   variable: '--font-wotfard',
 });
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
   params,
 }: {
   children: React.ReactNode;
   params: { language: Language; };
 }) {
+  const user = await getUser();
+
   return (
     <html lang={params.language} className={cx(bitter.variable, wotfard.variable)}>
       <head>
@@ -44,7 +48,9 @@ export default function RootLayout({
         <I18nProvider language={params.language}>
           <FormatProvider>
             <ItemTableContext global id="global">
-              <Layout>{children}</Layout>
+              <Gw2ApiProvider user={user}>
+                <Layout>{children}</Layout>
+              </Gw2ApiProvider>
             </ItemTableContext>
           </FormatProvider>
         </I18nProvider>

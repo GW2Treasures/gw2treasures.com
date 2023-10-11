@@ -6,6 +6,7 @@ import parseUserAgent from 'ua-parser-js';
 import { getUrlFromParts, getUrlPartsFromRequest } from '@/lib/urlParts';
 import { authCookie } from '@/lib/auth/cookie';
 import { getAccessToken, rest } from '@gw2me/client';
+import { expiresAtFromExpiresIn } from '@/lib/expiresAtFromExpiresIn';
 
 const client_id = process.env.GW2ME_CLIENT_ID;
 const client_secret = process.env.GW2ME_CLIENT_SECRET;
@@ -77,8 +78,3 @@ export async function GET(request: NextRequest) {
   }
 }
 
-function expiresAtFromExpiresIn(expiresInSeconds: number) {
-  const date = new Date();
-  date.setSeconds(date.getSeconds() + expiresInSeconds);
-  return date;
-}

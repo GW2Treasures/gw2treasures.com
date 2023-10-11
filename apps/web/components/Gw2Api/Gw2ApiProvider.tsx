@@ -14,10 +14,7 @@ export const Gw2ApiProvider: FC<Gw2ApiProviderProps> = ({ children, user }) => {
   const [value, setValue] = useState<Gw2ApiContext>({ accounts: [] });
 
   useEffect(() => {
-    console.log('useEffect');
-
     if(!user) {
-      console.log('user not set');
       return;
     }
 
@@ -29,8 +26,6 @@ export const Gw2ApiProvider: FC<Gw2ApiProviderProps> = ({ children, user }) => {
       setValue({ accounts });
     });
   }, [user]);
-
-  console.log(value);
 
   return (
     <Gw2ApiContext.Provider value={value}>

@@ -5,14 +5,11 @@ import { getUser } from '@/lib/getUser';
 import { rest, refreshToken as getFreshToken } from '@gw2me/client';
 import { UserProvider } from '@gw2treasures/database';
 import { expiresAtFromExpiresIn } from '@/lib/expiresAtFromExpiresIn';
-import chalk from 'chalk';
 
 const client_id = process.env.GW2ME_CLIENT_ID!;
 const client_secret = process.env.GW2ME_CLIENT_SECRET!;
 
 export async function fetchAccounts() {
-  console.log(chalk.bold.redBright('=== FETCH ACCOUNTS ==='));
-
   const user = await getUser();
 
   if(!user) {

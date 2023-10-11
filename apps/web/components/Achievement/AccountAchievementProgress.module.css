@@ -6,9 +6,9 @@
   content: '';
   display: block;
   position: absolute;
-  inset: 8px 4px;
+  inset: 8px 8px 8px 0;
   background-color: rgb(139 195 74 / 20%);
-  width: calc(var(--progress) * (100% - 8px));
+  width: calc(var(--progress) * (100% - 16px));
   min-width: 4px;
   border-radius: 2px;
   pointer-events: none;

@@ -2,19 +2,19 @@
 import 'server-only';
 import { db } from '@/lib/prisma';
 import { getUser } from '@/lib/getUser';
-import { rest, refreshToken as getFreshToken } from '@gw2me/client';
+import { rest, refreshToken as getFreshToken, Scope } from '@gw2me/client';
 import { UserProvider } from '@gw2treasures/database';
 import { expiresAtFromExpiresIn } from '@/lib/expiresAtFromExpiresIn';
+import { FetchAccountResponse, ErrorCode } from './types';
 
 const client_id = process.env.GW2ME_CLIENT_ID!;
 const client_secret = process.env.GW2ME_CLIENT_SECRET!;
 
-export async function fetchAccounts() {
+export async function fetchAccounts(): Promise<FetchAccountResponse> {
   const user = await getUser();
 
   if(!user) {
-    console.error('Not logged in');
-    return undefined;
+    return { error: ErrorCode.NOT_LOGGED_IN };
   }
 
   const token = await db.userProvider.findFirst({
@@ -22,23 +22,36 @@ export async function fetchAccounts() {
   });
 
   if(!token) {
-    console.error('Not logged in');
-    return undefined;
+    return { error: ErrorCode.NOT_LOGGED_IN };
+  }
+
+  const requiredScopes = [Scope.GW2_Account, Scope.GW2_Progression];
+  if(requiredScopes.some((scope) => !token.scope.includes(scope))) {
+    return { error: ErrorCode.MISSING_PERMISSION };
   }
 
   const access_token = await ensureActiveAccessToken(token);
 
   if(!access_token) {
     console.error('Unable to get access_token');
-    return undefined;
+    return { error: ErrorCode.REAUTHORIZE };
   }
 
-  const { accounts } = await rest.accounts({ access_token });
+  const response = await rest.accounts({ access_token });
 
-  return Promise.all(accounts.map(async ({ id: accountId, name }) => ({
+  if(!response.accounts) {
+    return { error: ErrorCode.REAUTHORIZE };
+  }
+
+  const accounts = await Promise.all(response.accounts.map(async ({ id: accountId, name }) => ({
     name,
     ...await rest.subtoken({ access_token, accountId }),
   })));
+
+  return {
+    error: undefined,
+    accounts
+  };
 }
 
 async function ensureActiveAccessToken({

@@ -27,6 +27,6 @@
     "eslint": "8.51.0",
     "gw2-api-types": "0.0.5",
     "typescript": "5.2.2",
-    "undici-types": "5.26.0"
+    "undici-types": "5.26.1"
   }
 }

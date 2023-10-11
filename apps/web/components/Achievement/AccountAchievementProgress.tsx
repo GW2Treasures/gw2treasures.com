@@ -48,6 +48,8 @@ export const AccountAchievementProgressCell: FC<AccountAchievementProgressCellPr
 
   if(!result) {
     return (<td><Skeleton/></td>);
+  } else if (!Array.isArray(result)) {
+    return (<td/>);
   }
 
   const progress = result.find(({ id }) => id === achievementId);

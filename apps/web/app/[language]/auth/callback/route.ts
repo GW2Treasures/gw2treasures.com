@@ -49,6 +49,7 @@ export async function GET(request: NextRequest) {
         accessToken: token.access_token,
         accessTokenExpiresAt: expiresAtFromExpiresIn(token.expires_in),
         refreshToken: token.refresh_token,
+        scope: token.scope.split(' '),
         user: { create: { name: user.name, email: user.email }}
       },
       update: {
@@ -56,6 +57,7 @@ export async function GET(request: NextRequest) {
         accessToken: token.access_token,
         accessTokenExpiresAt: expiresAtFromExpiresIn(token.expires_in),
         refreshToken: token.refresh_token,
+        scope: token.scope.split(' '),
       }
     });
 

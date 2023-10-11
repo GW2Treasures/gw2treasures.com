@@ -192,7 +192,14 @@ async function AchievementPage({ params: { id, language }}: AchievementPageProps
                 case 'Coins':
                   return (<li key="coins"><span><span className={styles.listIcon}><Icon icon="coins"/></span> <Coins value={reward.count!}/></span></li>);
                 case 'Mastery':
-                  return (<li key={reward.id}><span><span className={styles.listIcon} style={reward.region ? { '--icon-color': MasteryColors[reward.region] } : undefined}><Icon icon="mastery"/></span> {reward.region} Mastery</span></li>);
+                  return (
+                    <li key={reward.id}>
+                      <span>
+                        <span className={styles.listIcon} style={reward.region ? { '--icon-color': MasteryColors[reward.region], backgroundColor: `${MasteryColors[reward.region]}22` } : undefined}><Icon icon="mastery"/></span>
+                        {' '}{reward.region === 'Unknown' ? 'EoD / SotO' : reward.region} Mastery
+                      </span>
+                    </li>
+                  );
                 case 'Title':
                   return <li key={reward.id}><span><span className={styles.listIcon}><Icon icon="achievement"/></span> Title {reward.id}</span></li>;
                 case 'Item':

@@ -709,6 +709,8 @@ model UserProvider {
   refreshToken          String?
   refreshTokenExpiresAt DateTime?
 
+  scope String[] @default([])
+
   userId String
   user   User   @relation("provider", fields: [userId], references: [id], onDelete: Cascade)
   

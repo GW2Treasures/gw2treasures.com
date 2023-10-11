@@ -4,8 +4,16 @@ import { headers } from 'next/headers';
 import { db } from '@/lib/prisma';
 import { cache } from 'react';
 import { redirect } from 'next/navigation';
+import { UserRole } from '@gw2treasures/database';
 
-export const getUser = cache(async function getUser() {
+export interface SessionUser {
+  sessionId: string;
+  id: string;
+  name: string;
+  roles: UserRole[];
+}
+
+export const getUser = cache(async function getUser(): Promise<SessionUser | undefined> {
   const sessionId = headers().get('x-gw2t-session');
   const session = await getSessionFromDb(sessionId);
 

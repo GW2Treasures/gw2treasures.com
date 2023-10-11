@@ -51,7 +51,7 @@ async function redirectToGw2Me() {
   const redirect_uri = new URL('/auth/callback', getCurrentUrl()).toString();
 
   // get gw2.me auth url
-  const url = getAuthorizationUrl({ redirect_uri, client_id, scopes: [Scope.Identify, Scope.Email] });
+  const url = getAuthorizationUrl({ redirect_uri, client_id, scopes: [Scope.Identify, Scope.Email, Scope.GW2_Account, Scope.GW2_Progression] });
 
   // redirect to gw2.me
   redirect(url);

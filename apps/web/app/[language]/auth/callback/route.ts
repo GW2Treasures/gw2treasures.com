@@ -1,26 +1,17 @@
-import { Language } from '@gw2treasures/database';
 import { redirect } from 'next/navigation';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
 import { db } from '@/lib/prisma';
 import parseUserAgent from 'ua-parser-js';
 import { getUrlFromParts, getUrlPartsFromRequest } from '@/lib/urlParts';
 import { authCookie } from '@/lib/auth/cookie';
-import { getAccessToken, rest } from '@gw2me/client';
 import { expiresAtFromExpiresIn } from '@/lib/expiresAtFromExpiresIn';
 import { getUser } from '@/lib/getUser';
 import { cookies } from 'next/headers';
 import { isRedirectError } from 'next/dist/client/components/redirect';
 import { isNotFoundError } from 'next/dist/client/components/not-found';
-
-const client_id = process.env.GW2ME_CLIENT_ID;
-const client_secret = process.env.GW2ME_CLIENT_SECRET;
+import { gw2me } from '@/lib/gw2me';
 
 export async function GET(request: NextRequest) {
-  if(!client_id || !client_secret) {
-    console.error('GW2ME_CLIENT_ID or GW2ME_CLIENT_SECRET not set');
-    redirect('/login?error');
-  }
-
   try {
     // get code from querystring
     const { searchParams } = new URL(request.url);
@@ -38,8 +29,8 @@ export async function GET(request: NextRequest) {
       path: '/auth/callback'
     });
 
-    const token = await getAccessToken({ client_id, client_secret, code, redirect_uri });
-    const { user } = await rest.user({ access_token: token.access_token });
+    const token = await gw2me.getAccessToken({ code, redirect_uri });
+    const { user } = await gw2me.api(token.access_token).user();
 
     // build provider key
     const provider = { provider: 'gw2.me', providerAccountId: user.id };

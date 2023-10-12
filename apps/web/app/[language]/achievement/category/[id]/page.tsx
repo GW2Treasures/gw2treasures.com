@@ -17,6 +17,7 @@ import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { linkProperties } from '@/lib/linkProperties';
 import { ItemLink } from '@/components/Item/ItemLink';
 import { AccountAchievementProgressHeader, AccountAchievementProgressRow } from '@/components/Achievement/AccountAchievementProgress';
+import { AchievementPoints } from '@/components/Achievement/AchievementPoints';
 
 export interface AchievementCategoryPageProps {
   params: {
@@ -93,7 +94,7 @@ async function AchievementCategoryPage({ params: { language, id }}: AchievementC
           {currentAchievements.map((achievement) => (
             <tr key={achievement.id}>
               <td><AchievementLink achievement={achievement}/></td>
-              <td align="right">{achievement.points} <Icon icon="achievement_points"/></td>
+              <td align="right"><AchievementPoints points={achievement.points}/></td>
               <td>{achievement.mastery === 'Unknown' ? 'EoD / SotO' : achievement.mastery}</td>
               <td>{achievement.rewardsItem.length > 0 && (
                 <ItemList>

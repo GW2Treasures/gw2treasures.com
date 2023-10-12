@@ -9,6 +9,7 @@ import { ItemLinkTooltip } from '../Item/ItemLinkTooltip';
 import { Tooltip } from '../Tooltip/Tooltip';
 import { AchievementLinkTooltip } from '../Achievement/AchievementLinkTooltip';
 import { Icon, IconName } from '@gw2treasures/ui';
+import { AchievementPoints } from '../Achievement/AchievementPoints';
 
 export interface SearchResults {
   id: string;
@@ -58,7 +59,7 @@ export function useSearchApiResults(searchValue: string): SearchResults[] {
     subtitle: (
       <>
         {(achievement.achievementCategory ? localizedName(achievement.achievementCategory, language) : 'Achievement')}
-        {achievement.points > 0 && (<> ▪ {achievement.points} <Icon icon="achievement_points"/></>)}
+        {achievement.points > 0 && (<> ▪ <AchievementPoints points={achievement.points}/></>)}
         {achievement.mastery && (<> ▪ <Icon icon="mastery"/> {achievement.mastery}</>)}
       </>
     ),

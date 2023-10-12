@@ -19,7 +19,10 @@ const getUserData = cache(async () => {
 
   const user = await db.user.findUnique({
     where: { id: session.id },
-    include: { sessions: true, providers: true },
+    include: {
+      sessions: { orderBy: { lastUsed: 'desc' }},
+      providers: true
+    },
   });
 
   if(!user) {

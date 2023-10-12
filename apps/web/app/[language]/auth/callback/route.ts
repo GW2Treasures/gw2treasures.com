@@ -7,6 +7,10 @@ import { getUrlFromParts, getUrlPartsFromRequest } from '@/lib/urlParts';
 import { authCookie } from '@/lib/auth/cookie';
 import { getAccessToken, rest } from '@gw2me/client';
 import { expiresAtFromExpiresIn } from '@/lib/expiresAtFromExpiresIn';
+import { getUser } from '@/lib/getUser';
+import { cookies } from 'next/headers';
+import { isRedirectError } from 'next/dist/client/components/redirect';
+import { isNotFoundError } from 'next/dist/client/components/not-found';
 
 const client_id = process.env.GW2ME_CLIENT_ID;
 const client_secret = process.env.GW2ME_CLIENT_SECRET;
@@ -61,6 +65,20 @@ export async function GET(request: NextRequest) {
       }
     });
 
+    // reuse existing session (when reauthorizing)
+    const existingSession = await getUser();
+    if(existingSession) {
+      if(existingSession.id === userId) {
+        // the existing session was for the same user and we can reuse it
+        redirect('/profile');
+      } else {
+        // just logged in with a different user - lets delete the old session
+        await db.userSession.delete({ where: { id: existingSession.sessionId }});
+      }
+    }
+
+    // we couldn't reuse an existing session (doesn't exist or different user), so we have to create a new one...
+
     // parse user-agent to set session name
     const userAgentString = request.headers.get('user-agent');
     const userAgent = userAgentString ? parseUserAgent(userAgentString) : undefined;
@@ -70,11 +88,13 @@ export async function GET(request: NextRequest) {
     const session = await db.userSession.create({ data: { info: sessionName, userId }});
 
     // send response with session cookie
-    const profileUrl = getUrlFromParts({ ...parts, path: '/profile' });
-    const response = NextResponse.redirect(profileUrl);
-    response.cookies.set(authCookie(session.id, parts.protocol === 'https:'));
-    return response;
+    cookies().set(authCookie(session.id, parts.protocol === 'https:'));
+    redirect('/profile');
   } catch(error) {
+    if(isRedirectError(error) || isNotFoundError(error)) {
+      throw error;
+    }
+
     console.error(error);
     redirect('/login?error');
   }

@@ -8,8 +8,10 @@ export type FetchAccountResponse = {
   error: ErrorCode;
 } | {
   error: undefined;
-  accounts: {
-    name: string;
-    subtoken: string;
-  }[];
+  accounts: Gw2Account[];
 };
+
+export interface Gw2Account {
+  name: string;
+  subtoken: string;
+}

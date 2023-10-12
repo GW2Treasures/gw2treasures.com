@@ -1,11 +1,11 @@
 'use client';
 
-import { FC, useContext } from 'react';
-import { Gw2ApiContext } from '../Gw2Api/Gw2ApiContext';
+import { FC } from 'react';
 import { Skeleton } from '../Skeleton/Skeleton';
 import { useGw2Api } from '../Gw2Api/use-gw2-api';
 import { Icon } from '@gw2treasures/ui';
-import styles from './AccountAchievementProgress.module.css';
+import { useGw2Accounts } from '../Gw2Api/use-gw2-accounts';
+import { ProgressCell } from './ProgressCell';
 
 export interface HeaderProps {}
 export interface RowProps {
@@ -19,7 +19,7 @@ export interface AccountAchievementProgressCellProps {
 }
 
 export const AccountAchievementProgressHeader: FC<HeaderProps> = ({ }) => {
-  const { accounts } = useContext(Gw2ApiContext);
+  const accounts = useGw2Accounts();
 
   return accounts.map((account) => (
     <th key={account.name}>{account.name}</th>
@@ -27,7 +27,7 @@ export const AccountAchievementProgressHeader: FC<HeaderProps> = ({ }) => {
 };
 
 export const AccountAchievementProgressRow: FC<RowProps> = ({ achievementId, bitId }) => {
-  const { accounts } = useContext(Gw2ApiContext);
+  const accounts = useGw2Accounts();
 
   return accounts.map((account) => (
     <AccountAchievementProgressCell achievementId={achievementId} bitId={bitId} subtoken={account.subtoken} key={account.name}/>
@@ -60,14 +60,14 @@ export const AccountAchievementProgressCell: FC<AccountAchievementProgressCellPr
 
   if(bitId !== undefined) {
     return progress.bits?.includes(bitId)
-      ? <td className={styles.cell} style={{ '--progress': 1 }}><Icon icon="checkmark"/></td>
+      ? <ProgressCell progress={1}><Icon icon="checkmark"/></ProgressCell>
       : <td/>;
   }
 
   return (
-    <td className={styles.cell} style={{ '--progress': progress.done ? 1 : progress.current / progress.max }}>
+    <ProgressCell progress={progress.done ? 1 : progress.current / progress.max}>
       {progress.done ? <Icon icon="checkmark"/> : `${progress.current} / ${progress.max}`}
       {progress.repeated && ` (↻ ${progress.repeated})`}
-    </td>
+    </ProgressCell>
   );
 };

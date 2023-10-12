@@ -27,6 +27,7 @@ import Link from 'next/link';
 import { AchievementCategoryLink } from '@/components/Achievement/AchievementCategoryLink';
 import { Metadata } from 'next';
 import { AccountAchievementProgressHeader, AccountAchievementProgressRow } from '@/components/Achievement/AccountAchievementProgress';
+import { TierTable } from './tier-table';
 
 const MasteryColors: Record<MasteryRegion, CSS.Property.Color> = {
   'Tyria': '#FB8C00', //    core
@@ -173,24 +174,7 @@ async function AchievementPage({ params: { id, language }}: AchievementPageProps
       )}
 
       <Headline id="tiers">Tiers</Headline>
-      <table className={styles.tierTable}>
-        <tbody>
-          <tr>
-            <th>Objectives</th>
-            {data.tiers.map((tier) => (
-              <td key={tier.count}><FormatNumber value={tier.count}/></td>
-            ))}
-            <td>Total</td>
-          </tr>
-          <tr>
-            <th>Achievement Points</th>
-            {data.tiers.map((tier) => (
-              <td key={tier.count}>{tier.points} <Icon icon="achievement_points"/></td>
-            ))}
-            <td>{data.tiers.reduce((total, tier) => total + tier.points, 0)} <Icon icon="achievement_points"/></td>
-          </tr>
-        </tbody>
-      </table>
+      <TierTable achievementId={achievement.id} tiers={data.tiers}/>
 
       {data.rewards && (
         <>

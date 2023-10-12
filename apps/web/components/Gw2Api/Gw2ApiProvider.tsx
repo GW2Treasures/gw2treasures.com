@@ -1,10 +1,10 @@
 'use client';
 
-import { FC, ReactNode, useEffect, useState } from 'react';
+import { FC, ReactNode, useCallback, useMemo, useRef, useState } from 'react';
 import { Gw2ApiContext } from './Gw2ApiContext';
 import { SessionUser } from '@/lib/getUser';
 import { fetchAccounts } from './fetch-accounts-action';
-import { ErrorCode } from './types';
+import { ErrorCode, Gw2Account } from './types';
 import styles from './Gw2ApiProvider.module.css';
 import { Button } from '@gw2treasures/ui/components/Form/Button';
 import { reauthorize } from './reauthorize';
@@ -16,23 +16,32 @@ export interface Gw2ApiProviderProps {
 }
 
 export const Gw2ApiProvider: FC<Gw2ApiProviderProps> = ({ children, user }) => {
-  const [value, setValue] = useState<Gw2ApiContext>({ accounts: [] });
+  const accounts = useRef<Promise<Gw2Account[]>>();
   const [error, setError] = useState<ErrorCode>();
 
-  useEffect(() => {
-    if(!user) {
-      return;
+  // eslint-disable-next-line require-await
+  const getAccounts = useCallback(async () => {
+    if(!user || typeof window === 'undefined') {
+      return [];
     }
 
-    fetchAccounts().then((response) => {
-      if(response.error !== undefined) {
-        setError(response.error);
-        return;
-      }
+    if(accounts.current === undefined) {
+      console.log('fetch accounts');
 
-      setValue({ accounts: response.accounts });
-    });
+      accounts.current = fetchAccounts().then((response) => {
+        if(response.error !== undefined) {
+          setError(response.error);
+          return [];
+        }
+
+        return response.accounts;
+      });
+    }
+
+    return accounts.current;
   }, [user]);
+
+  const value = useMemo(() => ({ getAccounts }), [getAccounts]);
 
   return (
     <Gw2ApiContext.Provider value={value}>

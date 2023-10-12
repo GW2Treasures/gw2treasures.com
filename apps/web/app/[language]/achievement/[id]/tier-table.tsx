@@ -62,7 +62,7 @@ type Gw2ApiAccountProgression = {
 
 const TierTableAccountRow: FC<TierTableAccountRowProps> = ({ achievementId, tiers, account }) => {
   const data = useGw2Api<Gw2ApiAccountProgression>(`/v2/account/achievements?access_token=${account.subtoken}`);
-  const progress = data?.find(({ id }) => id === achievementId);
+  const progress = Array.isArray(data) ? data?.find(({ id }) => id === achievementId) : undefined;
 
   return (
     <tr key={account.name}>

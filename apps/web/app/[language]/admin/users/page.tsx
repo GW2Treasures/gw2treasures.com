@@ -6,7 +6,10 @@ import { db } from '@/lib/prisma';
 import { FormatDate } from '@/components/Format/FormatDate';
 
 const getUsers = cache(() => {
-  return db.user.findMany();
+  return db.user.findMany({
+    orderBy: { createdAt: 'asc' },
+    include: { sessions: { take: 1, orderBy: { lastUsed: 'desc' }, select: { lastUsed: true }}}
+  });
 });
 
 export default async function AdminUserPage() {
@@ -23,6 +26,7 @@ export default async function AdminUserPage() {
             <th>Email</th>
             <th>Roles</th>
             <th>Created At</th>
+            <th>Last access</th>
           </tr>
         </thead>
         <tbody>
@@ -32,6 +36,7 @@ export default async function AdminUserPage() {
               <td>{user.email}</td>
               <td>{user.roles.join(', ')}</td>
               <td><FormatDate date={user.createdAt}/></td>
+              <td>{user.sessions.length > 0 ? <FormatDate date={user.sessions[0].lastUsed}/> : '-'}</td>
             </tr>
           ))}
         </tbody>

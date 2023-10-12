@@ -7,5 +7,11 @@ export interface ProgressCellProps {
 }
 
 export const ProgressCell: FC<ProgressCellProps> = ({ progress, children }) => {
-  return <td className={progress != 0 ? styles.cell : undefined} style={{ '--progress': progress }}>{children}</td>;
+  return (
+    <td className={progress != 0 ? styles.cell : undefined} style={{ '--progress': progress }}>
+      <div className={styles.content}>
+        {children}
+      </div>
+    </td>
+  );
 };

@@ -10,6 +10,7 @@ import { useGw2Accounts } from '@/components/Gw2Api/use-gw2-accounts';
 import { Gw2Account } from '@/components/Gw2Api/types';
 import { Skeleton } from '@/components/Skeleton/Skeleton';
 import { ProgressCell } from '@/components/Achievement/ProgressCell';
+import { AchievementPoints } from '@/components/Achievement/AchievementPoints';
 
 export interface TierTableProps {
   achievement: Gw2Api.Achievement;
@@ -36,9 +37,9 @@ export const TierTable: FC<TierTableProps> = ({ achievement }) => {
         <tr>
           <th>Achievement Points</th>
           {tiers.map((tier) => (
-            <td key={tier.count}>{tier.points} <Icon icon="achievement_points"/></td>
+            <td key={tier.count}><AchievementPoints points={tier.points}/></td>
           ))}
-          <td align="right"><b>{pointCap} <Icon icon="achievement_points"/></b></td>
+          <td align="right"><b><AchievementPoints points={pointCap}/></b></td>
         </tr>
         {accounts.map((account) => (
           <TierTableAccountRow key={account.name} achievement={achievement} account={account}/>
@@ -95,7 +96,7 @@ const TierTableAccountRow: FC<TierTableAccountRowProps> = ({ achievement, accoun
       )}
       <td align="right">
         {progress?.repeated && `(↻ ${progress.repeated}) `}
-        {earnedPoints} <Icon icon="achievement_points"/>
+        <AchievementPoints points={earnedPoints}/>
       </td>
     </tr>
   );

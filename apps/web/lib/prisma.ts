@@ -2,16 +2,16 @@ import { PrismaClient } from '@gw2treasures/database';
 
 // https://pris.ly/d/help/next-js-best-practices
 
-declare global {
-  // allow global `var` declarations
-  // eslint-disable-next-line no-var
-  var db: PrismaClient | undefined;
-}
+const prismaClientSingleton = () => {
+  return new PrismaClient();
+};
 
-export const db =
-  global.db ||
-  new PrismaClient({
-    log: ['query'],
-  });
+type PrismaClientSingleton = ReturnType<typeof prismaClientSingleton>
 
-if (process.env.NODE_ENV !== 'production') global.db = db;
+const globalForPrisma = globalThis as unknown as {
+  db: PrismaClientSingleton | undefined
+};
+
+export const db = globalForPrisma.db ?? prismaClientSingleton();
+
+if (process.env.NODE_ENV !== 'production') globalForPrisma.db = db;

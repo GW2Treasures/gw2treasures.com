@@ -40,7 +40,7 @@ type Gw2ApiAccountProgression = {
   max: number,
   done: boolean,
   bits?: number[],
-  repeated?: boolean,
+  repeated?: number,
 }[];
 
 export const AccountAchievementProgressCell: FC<AccountAchievementProgressCellProps> = ({ achievementId, subtoken, bitId }) => {

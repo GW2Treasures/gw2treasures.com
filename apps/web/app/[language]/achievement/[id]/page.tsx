@@ -174,7 +174,7 @@ async function AchievementPage({ params: { id, language }}: AchievementPageProps
       )}
 
       <Headline id="tiers">Tiers</Headline>
-      <TierTable achievementId={achievement.id} tiers={data.tiers}/>
+      <TierTable achievement={data}/>
 
       {data.rewards && (
         <>

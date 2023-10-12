@@ -2,13 +2,11 @@
 import 'server-only';
 import { db } from '@/lib/prisma';
 import { getUser } from '@/lib/getUser';
-import { rest, refreshToken as getFreshToken, Scope } from '@gw2me/client';
+import { Scope } from '@gw2me/client';
 import { UserProvider } from '@gw2treasures/database';
 import { expiresAtFromExpiresIn } from '@/lib/expiresAtFromExpiresIn';
 import { FetchAccountResponse, ErrorCode } from './types';
-
-const client_id = process.env.GW2ME_CLIENT_ID!;
-const client_secret = process.env.GW2ME_CLIENT_SECRET!;
+import { gw2me } from '@/lib/gw2me';
 
 export async function fetchAccounts(): Promise<FetchAccountResponse> {
   const user = await getUser();
@@ -37,7 +35,7 @@ export async function fetchAccounts(): Promise<FetchAccountResponse> {
     return { error: ErrorCode.REAUTHORIZE };
   }
 
-  const response = await rest.accounts({ access_token });
+  const response = await gw2me.api(access_token).accounts();
 
   if(!response.accounts) {
     return { error: ErrorCode.REAUTHORIZE };
@@ -45,7 +43,7 @@ export async function fetchAccounts(): Promise<FetchAccountResponse> {
 
   const accounts = await Promise.all(response.accounts.map(async ({ id: accountId, name }) => ({
     name,
-    ...await rest.subtoken({ access_token, accountId }),
+    ...await gw2me.api(access_token).subtoken(accountId),
   })));
 
   return {
@@ -69,7 +67,7 @@ async function ensureActiveAccessToken({
   }
 
   if(refreshToken && (refreshTokenExpiresAt === null || refreshTokenExpiresAt > now)) {
-    const fresh = await getFreshToken({ refresh_token: refreshToken, client_id, client_secret });
+    const fresh = await gw2me.refreshToken({ refresh_token: refreshToken });
 
     await db.userProvider.update({
       where: { provider_providerAccountId: { provider, providerAccountId }},

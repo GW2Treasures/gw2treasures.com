@@ -4,7 +4,8 @@ import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import { getUser } from '@/lib/getUser';
 import { redirect } from 'next/navigation';
 import { Icon } from '@gw2treasures/ui';
-import { Scope, getAuthorizationUrl } from '@gw2me/client';
+import { Scope } from '@gw2me/client';
+import { gw2me } from '@/lib/gw2me';
 import { getCurrentUrl } from '@/lib/url';
 
 export default async function LoginPage({ searchParams }: { searchParams: { logout?: '', error?: '' }}) {
@@ -35,23 +36,15 @@ export const metadata = {
   title: 'Login'
 };
 
-
-const client_id = process.env.GW2ME_CLIENT_ID;
-
 // eslint-disable-next-line require-await
 async function redirectToGw2Me() {
   'use server';
-
-  if(!client_id) {
-    console.error('GW2ME_CLIENT_ID not set');
-    redirect('/login?error');
-  }
 
   // build redirect url
   const redirect_uri = new URL('/auth/callback', getCurrentUrl()).toString();
 
   // get gw2.me auth url
-  const url = getAuthorizationUrl({ redirect_uri, client_id, scopes: [Scope.Identify, Scope.Email], include_granted_scopes: true });
+  const url = gw2me.getAuthorizationUrl({ redirect_uri, scopes: [Scope.Identify, Scope.Email], include_granted_scopes: true });
 
   // redirect to gw2.me
   redirect(url);

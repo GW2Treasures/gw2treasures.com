@@ -1,4 +1,4 @@
-import React, { cloneElement, FunctionComponent, isValidElement, ReactElement, ReactNode } from 'react';
+import React, { cloneElement, CSSProperties, FunctionComponent, isValidElement, ReactElement, ReactNode } from 'react';
 import styles from './DetailLayout.module.css';
 import { TableOfContentContext, TableOfContent } from '@gw2treasures/ui/components/TableOfContent/TableOfContent';
 import { Icon } from '@gw2treasures/database';
@@ -17,12 +17,13 @@ interface DetailLayoutProps {
   infobox?: ReactNode;
   className?: string;
   actions?: ReactNode[];
+  color?: CSSProperties['--hero-color'];
 };
 
-const DetailLayout: FunctionComponent<DetailLayoutProps> = ({ title, icon, breadcrumb, children, infobox, className, iconType, actions }) => {
+const DetailLayout: FunctionComponent<DetailLayoutProps> = ({ title, icon, breadcrumb, children, infobox, className, iconType, actions, color }) => {
   return (
     <TableOfContentContext>
-      <main className={[styles.main, className].filter(Boolean).join(' ')}>
+      <main className={[styles.main, className].filter(Boolean).join(' ')} style={color ? { '--hero-color': color } : undefined}>
         <div className={infobox ? styles.headline : styles.headlineWithoutInfobox}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           {icon && typeof icon === 'object' && (isValidElement<any>(icon) ? cloneElement(icon, { className: styles.icon }) : <EntityIcon icon={icon} size={48} className={styles.icon} type={iconType}/>)}

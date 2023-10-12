@@ -67,6 +67,7 @@ async function AchievementCategoryPage({ params: { language, id }}: AchievementC
 
   return (
     <DetailLayout
+      color={achievementCategory.icon?.color ?? undefined}
       title={data.name}
       icon={achievementCategory.icon}
       breadcrumb={`Achievements › ${achievementCategory.achievementGroup ? localizedName(achievementCategory.achievementGroup, language) : 'Unknown Group'}`}

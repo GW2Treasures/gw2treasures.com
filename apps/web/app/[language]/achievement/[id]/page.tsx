@@ -90,6 +90,7 @@ async function AchievementPage({ params: { id, language }}: AchievementPageProps
 
   return (
     <DetailLayout
+      color={achievement.icon?.color ?? undefined}
       title={data.name}
       icon={achievement.icon}
       breadcrumb={(

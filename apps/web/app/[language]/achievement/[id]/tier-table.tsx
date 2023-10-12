@@ -12,12 +12,16 @@ import { Skeleton } from '@/components/Skeleton/Skeleton';
 import { ProgressCell } from '@/components/Achievement/ProgressCell';
 
 export interface TierTableProps {
-  achievementId: number;
-  tiers: Gw2Api.Achievement['tiers'];
+  achievement: Gw2Api.Achievement;
 }
 
-export const TierTable: FC<TierTableProps> = ({ achievementId, tiers }) => {
+export const TierTable: FC<TierTableProps> = ({ achievement }) => {
   const accounts = useGw2Accounts();
+  const { tiers, flags } = achievement;
+
+  const isRepeatable = flags.includes('Repeatable');
+  const totalPoints = tiers.reduce((total, tier) => total + tier.points, 0);
+  const pointCap = isRepeatable ? Math.max(0, achievement.point_cap ?? 0) : totalPoints;
 
   return (
     <table className={styles.tierTable}>
@@ -27,17 +31,17 @@ export const TierTable: FC<TierTableProps> = ({ achievementId, tiers }) => {
           {tiers.map((tier) => (
             <td key={tier.count}><FormatNumber value={tier.count}/></td>
           ))}
-          <td><b>Total</b></td>
+          <td align="right"><b>Total</b></td>
         </tr>
         <tr>
           <th>Achievement Points</th>
           {tiers.map((tier) => (
             <td key={tier.count}>{tier.points} <Icon icon="achievement_points"/></td>
           ))}
-          <td><b>{tiers.reduce((total, tier) => total + tier.points, 0)} <Icon icon="achievement_points"/></b></td>
+          <td align="right"><b>{pointCap} <Icon icon="achievement_points"/></b></td>
         </tr>
         {accounts.map((account) => (
-          <TierTableAccountRow key={account.name} achievementId={achievementId} tiers={tiers} account={account}/>
+          <TierTableAccountRow key={account.name} achievement={achievement} account={account}/>
         ))}
       </tbody>
     </table>
@@ -46,8 +50,7 @@ export const TierTable: FC<TierTableProps> = ({ achievementId, tiers }) => {
 
 
 interface TierTableAccountRowProps {
-  achievementId: number;
-  tiers: Gw2Api.Achievement['tiers'];
+  achievement: Gw2Api.Achievement;
   account: Gw2Account;
 }
 
@@ -57,12 +60,21 @@ type Gw2ApiAccountProgression = {
   max: number,
   done: boolean,
   bits?: number[],
-  repeated?: boolean,
+  repeated?: number,
 }[];
 
-const TierTableAccountRow: FC<TierTableAccountRowProps> = ({ achievementId, tiers, account }) => {
+const TierTableAccountRow: FC<TierTableAccountRowProps> = ({ achievement, account }) => {
+  const { tiers, flags } = achievement;
   const data = useGw2Api<Gw2ApiAccountProgression>(`/v2/account/achievements?access_token=${account.subtoken}`);
-  const progress = Array.isArray(data) ? data?.find(({ id }) => id === achievementId) : undefined;
+  const progress = Array.isArray(data) ? data?.find(({ id }) => id === achievement.id) : undefined;
+
+  const isRepeatable = flags.includes('Repeatable');
+  const totalPoints = tiers.reduce((total, tier) => total + tier.points, 0);
+  const pointCap = isRepeatable ? Math.max(0, achievement.point_cap ?? 0) : totalPoints;
+
+  const repeated = progress?.repeated ?? 0;
+  const currentPoints = tiers.reduce((total, tier) => (progress?.current ?? 0) >= tier.count ? total + tier.points : total, 0);
+  const earnedPoints = Math.min(pointCap, currentPoints + (repeated * totalPoints));
 
   return (
     <tr key={account.name}>
@@ -81,7 +93,10 @@ const TierTableAccountRow: FC<TierTableAccountRowProps> = ({ achievementId, tier
           );
         })
       )}
-      <td>{progress && progress.done ? (<Icon icon="checkmark"/>) : `${progress?.current ?? 0} / ${tiers.at(-1)?.count}`}</td>
+      <td align="right">
+        {progress?.repeated && `(↻ ${progress.repeated}) `}
+        {earnedPoints} <Icon icon="achievement_points"/>
+      </td>
     </tr>
   );
 };

@@ -3,13 +3,13 @@ import { NextRequest } from 'next/server';
 import { healthMiddleware } from './middleware/health';
 import { NextMiddleware } from './middleware/types';
 import { logMiddleware } from './middleware/log';
-import { realUrlMiddleware } from 'middleware/real-url';
-import { subdomainMiddleware } from 'middleware/subdomain';
-import { languageMiddleware } from 'middleware/language';
-import { sessionMiddleware } from 'middleware/session';
-import { apiKeyMiddleware } from 'middleware/api-key';
-import { rewriteMiddleware } from 'middleware/rewrite';
-import { corsMiddleware } from 'middleware/cors';
+import { realUrlMiddleware } from './middleware/real-url';
+import { subdomainMiddleware } from './middleware/subdomain';
+import { languageMiddleware } from './middleware/language';
+import { sessionMiddleware } from './middleware/session';
+import { apiKeyMiddleware } from './middleware/api-key';
+import { rewriteMiddleware } from './middleware/rewrite';
+import { corsMiddleware } from './middleware/cors';
 
 export async function middleware(request: NextRequest) {
   const middlewares: NextMiddleware[] = [

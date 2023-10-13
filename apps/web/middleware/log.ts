@@ -15,6 +15,7 @@ export const logMiddleware: NextMiddleware = async (request, next, data) => {
   const response = await next(request);
 
   // console.log('<', requestId, Object.fromEntries(response.headers.entries()));
+  response.headers.append('x-request-id', requestId);
 
   return response;
 };

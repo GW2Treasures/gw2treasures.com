@@ -1,4 +1,3 @@
-import { getUrlFromRequest } from '@/lib/url';
 import { NextMiddleware } from './types';
 import { Language } from '@gw2treasures/database';
 import { NextResponse } from 'next/server';

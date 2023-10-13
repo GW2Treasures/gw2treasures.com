@@ -1,6 +1,5 @@
 import { getUrlFromRequest } from '@/lib/url';
 import { NextMiddleware } from './types';
-import { NextRequest } from 'next/server';
 
 declare module './types' {
   interface NextMiddlewareData {

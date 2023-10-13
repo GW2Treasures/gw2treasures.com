@@ -1,9 +1,9 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
 import { db } from '@/lib/prisma';
-import { getUrlFromParts, getUrlPartsFromRequest } from '@/lib/urlParts';
 import { SessionCookieName, authCookie } from '@/lib/auth/cookie';
-
-const baseDomain = process.env.GW2T_NEXT_DOMAIN;
+import { getCurrentUrl } from '@/lib/url';
+import { redirect } from 'next/navigation';
+import { cookies } from 'next/headers';
 
 export async function GET(request: NextRequest) {
   const sessionId = request.cookies.get(SessionCookieName)?.value ?? '';
@@ -12,12 +12,6 @@ export async function GET(request: NextRequest) {
     await db.userSession.deleteMany({ where: { id: sessionId }});
   }
 
-  // build login url
-  const parts = getUrlPartsFromRequest(request);
-  const loginUrl = getUrlFromParts({ ...parts, path: '/login?logout' });
-
-  const response = NextResponse.redirect(loginUrl);
-  response.cookies.set({ ...authCookie('', parts.protocol === 'https:'), expires: new Date(0) });
-
-  return response;
+  cookies().delete(authCookie('', getCurrentUrl().protocol === 'https:'));
+  return redirect('/login?logout');
 }

@@ -1,7 +1,6 @@
 import { redirect } from 'next/navigation';
 import { NextRequest, userAgent } from 'next/server';
 import { db } from '@/lib/prisma';
-import { getUrlFromParts, getUrlPartsFromRequest } from '@/lib/urlParts';
 import { authCookie } from '@/lib/auth/cookie';
 import { expiresAtFromExpiresIn } from '@/lib/expiresAtFromExpiresIn';
 import { getUser } from '@/lib/getUser';
@@ -9,6 +8,7 @@ import { cookies } from 'next/headers';
 import { isRedirectError } from 'next/dist/client/components/redirect';
 import { isNotFoundError } from 'next/dist/client/components/not-found';
 import { gw2me } from '@/lib/gw2me';
+import { getCurrentUrl } from '@/lib/url';
 
 export async function GET(request: NextRequest) {
   try {
@@ -22,13 +22,9 @@ export async function GET(request: NextRequest) {
     }
 
     // build callback url
-    const parts = getUrlPartsFromRequest(request);
-    const redirect_uri = getUrlFromParts({
-      ...parts,
-      path: '/auth/callback'
-    });
+    const callbackUrl = new URL('/auth/callback', getCurrentUrl());
 
-    const token = await gw2me.getAccessToken({ code, redirect_uri });
+    const token = await gw2me.getAccessToken({ code, redirect_uri: callbackUrl.toString() });
     const { user } = await gw2me.api(token.access_token).user();
 
     // build provider key
@@ -77,7 +73,7 @@ export async function GET(request: NextRequest) {
     const session = await db.userSession.create({ data: { info: sessionName, userId }});
 
     // send response with session cookie
-    cookies().set(authCookie(session.id, parts.protocol === 'https:'));
+    cookies().set(authCookie(session.id, callbackUrl.protocol === 'https:'));
     redirect('/profile');
   } catch(error) {
     if(isRedirectError(error) || isNotFoundError(error)) {

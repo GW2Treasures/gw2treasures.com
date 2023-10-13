@@ -1,7 +1,6 @@
 import { redirect } from 'next/navigation';
-import { NextRequest } from 'next/server';
+import { NextRequest, userAgent } from 'next/server';
 import { db } from '@/lib/prisma';
-import parseUserAgent from 'ua-parser-js';
 import { getUrlFromParts, getUrlPartsFromRequest } from '@/lib/urlParts';
 import { authCookie } from '@/lib/auth/cookie';
 import { expiresAtFromExpiresIn } from '@/lib/expiresAtFromExpiresIn';
@@ -71,9 +70,8 @@ export async function GET(request: NextRequest) {
     // we couldn't reuse an existing session (doesn't exist or different user), so we have to create a new one...
 
     // parse user-agent to set session name
-    const userAgentString = request.headers.get('user-agent');
-    const userAgent = userAgentString ? parseUserAgent(userAgentString) : undefined;
-    const sessionName = userAgent ? `${userAgent.browser.name} on ${userAgent.os.name}` : 'Session';
+    const ua = userAgent(request);
+    const sessionName = ua ? `${ua.browser.name} on ${ua.os.name}` : 'Session';
 
     // create a new session
     const session = await db.userSession.create({ data: { info: sessionName, userId }});

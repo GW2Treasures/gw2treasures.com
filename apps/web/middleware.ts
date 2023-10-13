@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { getUrlFromParts, getUrlPartsFromRequest } from './lib/urlParts';
 import { SessionCookieName } from './lib/auth/cookie';
 import { Language } from '@gw2treasures/database';
+import { getUrlFromRequest } from './lib/url';
 
 const languages = ['de', 'en', 'es', 'fr'] as readonly Language[];
 const subdomains = [...languages, 'api'] as const;
@@ -13,13 +13,12 @@ export function middleware(request: NextRequest) {
     return new NextResponse('UP');
   }
 
-  const { domain, protocol, port, path } = getUrlPartsFromRequest(request);
-  const realUrl = getUrlFromParts({ domain, protocol, port, path });
+  const url = getUrlFromRequest(request);
 
-  const language = subdomains.find((lang) => domain === `${lang}.${baseDomain}`);
+  const language = subdomains.find((lang) => url.hostname === `${lang}.${baseDomain}`);
 
   if(!language) {
-    const url = getUrlFromParts({ protocol, domain: `en.${baseDomain}`, port, path });
+    url.hostname = `en.${baseDomain}`;
 
     console.log(`> Redirecting to ${url}`);
 
@@ -27,7 +26,7 @@ export function middleware(request: NextRequest) {
   }
 
   const headers = request.headers;
-  headers.set('x-gw2t-real-url', realUrl);
+  headers.set('x-gw2t-real-url', url.toString());
 
   // set custom headers
   if(language !== 'api') {
@@ -57,10 +56,10 @@ export function middleware(request: NextRequest) {
     }
   }
 
-  const url = request.nextUrl.clone();
-  url.pathname = `/${language}${url.pathname}`;
+  const internalUrl = request.nextUrl.clone();
+  internalUrl.pathname = `/${language}${url.pathname}`;
 
-  return NextResponse.rewrite(url, { headers: corsHeader(request), request: { headers }});
+  return NextResponse.rewrite(internalUrl, { headers: corsHeader(request), request: { headers }});
 }
 
 function corsHeader(request: NextRequest): {} | { 'Access-Control-Allow-Origin': string } {

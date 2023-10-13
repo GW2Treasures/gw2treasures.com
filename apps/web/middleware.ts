@@ -9,29 +9,48 @@ const subdomains = [...languages, 'api'] as const;
 const baseDomain = process.env.GW2T_NEXT_DOMAIN;
 
 export function middleware(request: NextRequest) {
+  // healthcheck endpoint
   if(request.nextUrl.pathname === '/_/health') {
     return new NextResponse('UP');
   }
 
+  // get original url before any proxies from request
   const url = getUrlFromRequest(request);
 
-  const language = subdomains.find((lang) => url.hostname === `${lang}.${baseDomain}`);
+  // find the language by parsing the hostname
+  const subdomain = subdomains.find((lang) => url.hostname === `${lang}.${baseDomain}`);
 
-  if(!language) {
+  // handle language not found
+  if(!subdomain) {
+    // if no language was detected we need to redirect to the correct domain
     url.hostname = `en.${baseDomain}`;
+
+    // if we attempted to do this already, show error
+    if(request.cookies.has('redirect_loop')) {
+      return new NextResponse(`Could not redirect to ${url.toString()}.`, { status: 500 });
+    }
 
     console.log(`> Redirecting to ${url}`);
 
-    return NextResponse.redirect(url);
+    // create redirect
+    const redirect = NextResponse.redirect(url);
+
+    // set cookie to detect redirect loops
+    redirect.cookies.set('redirect_loop', '1', { maxAge: 10 });
+
+    // return redirect
+    return redirect;
   }
 
+  // set internal headers
   const headers = request.headers;
+
+  // add real url to internal headers
   headers.set('x-gw2t-real-url', url.toString());
 
-  // set custom headers
-  if(language !== 'api') {
+  if(subdomain !== 'api') {
     // handle normal language subdomains
-    headers.set('x-gw2t-lang', language);
+    headers.set('x-gw2t-lang', subdomain);
 
     // set user session based on cookie
     if(request.cookies.has(SessionCookieName)) {
@@ -41,13 +60,10 @@ export function middleware(request: NextRequest) {
     }
   } else {
     // handle api requests
-    const lang = request.nextUrl.searchParams.get('lang')!;
-
-    if(languages.includes(lang as any)) {
-      headers.set('x-gw2t-lang', lang);
-    } else {
-      headers.set('x-gw2t-lang', 'en');
-    }
+    // set languae based on `lang` search param, fallback to en
+    const lang = request.nextUrl.searchParams.get('lang');
+    const isValidLang = lang && lang in Language;
+    headers.set('x-gw2t-lang', isValidLang ? lang : 'en');
 
     // get api key
     const apiKey = getApiKeyFromRequest(request);
@@ -56,9 +72,11 @@ export function middleware(request: NextRequest) {
     }
   }
 
+  // prepend the internal url with the subdomain
   const internalUrl = request.nextUrl.clone();
-  internalUrl.pathname = `/${language}${url.pathname}`;
+  internalUrl.pathname = `/${subdomain}${url.pathname}`;
 
+  // rewrite
   return NextResponse.rewrite(internalUrl, { headers: corsHeader(request), request: { headers }});
 }
 

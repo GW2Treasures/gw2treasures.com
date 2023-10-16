@@ -61,6 +61,7 @@ export function useSearchApiResults(searchValue: string): SearchResults[] {
         {(achievement.achievementCategory ? localizedName(achievement.achievementCategory, language) : 'Achievement')}
         {achievement.points > 0 && (<> ▪ <AchievementPoints points={achievement.points}/></>)}
         {achievement.mastery && (<> ▪ <Icon icon="mastery"/> {achievement.mastery}</>)}
+        {achievement.rewardsTitleIds.length > 0 && (<> ▪ <Icon icon="title"/></>)}
       </>
     ),
     render: (link) => <Tooltip content={<AchievementLinkTooltip achievement={getLinkProperties(achievement)}/>} key={link.key}>{link}</Tooltip>

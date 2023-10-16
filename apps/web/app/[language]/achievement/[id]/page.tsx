@@ -186,14 +186,14 @@ async function AchievementPage({ params: { id, language }}: AchievementPageProps
             {data.rewards.map((reward) => {
               switch(reward.type) {
                 case 'Coins':
-                  return (<li key="coins"><span><span className={styles.listIcon}><Icon icon="coins"/></span> <Coins value={reward.count!}/></span></li>);
+                  return (<li key="coins"><FlexRow><span className={styles.listIcon}><Icon icon="coins"/></span> <Coins value={reward.count!}/></FlexRow></li>);
                 case 'Mastery':
                   return (
                     <li key={reward.id}>
-                      <span>
+                      <FlexRow>
                         <span className={styles.listIcon} style={reward.region ? { '--icon-color': MasteryColors[reward.region], backgroundColor: `${MasteryColors[reward.region]}22` } : undefined}><Icon icon="mastery"/></span>
-                        {' '}{reward.region === 'Unknown' ? 'EoD / SotO' : reward.region} Mastery
-                      </span>
+                        {reward.region === 'Unknown' ? 'EoD / SotO' : reward.region} Mastery
+                      </FlexRow>
                     </li>
                   );
                 case 'Title':
@@ -204,7 +204,7 @@ async function AchievementPage({ params: { id, language }}: AchievementPageProps
                         <span className={styles.listIcon}>
                           <Icon icon="title"/>
                         </span>
-                        <span>Title: {title ? <span dangerouslySetInnerHTML={{ __html: format(localizedName(title, language)) }}/> : `Unknown (${reward.id})` }</span>
+                        {title ? <span dangerouslySetInnerHTML={{ __html: format(localizedName(title, language)) }}/> : `Unknown (${reward.id})` }
                       </FlexRow>
                     </li>
                   );

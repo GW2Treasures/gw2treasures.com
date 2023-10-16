@@ -19,7 +19,7 @@ interface MigratedAchievement {
   bitsItemIds?: number[]
   bitsSkinIds?: number[]
   rewardsItemIds?: number[]
-  rewardsTitleId?: number[]
+  rewardsTitleIds?: number[]
 
   bitsItem?: Prisma.ItemCreateNestedManyWithoutAchievementBitsInput
   bitsSkin?: Prisma.SkinCreateNestedManyWithoutAchievementBitsInput
@@ -91,7 +91,7 @@ export async function createMigrator() {
     if(currentVersion < 6) {
       const titleRewards = en.rewards?.filter(({ type }) => type === 'Title').map(toId) ?? [];
 
-      update.rewardsTitleId = titleRewards;
+      update.rewardsTitleIds = titleRewards;
       update.rewardsTitle = { connect: titleRewards.filter((id) => titleIds.includes(id)).map((id) => ({ id })) };
     }
 

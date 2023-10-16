@@ -25,7 +25,7 @@
     "@typescript-eslint/parser": "6.7.5",
     "@vercel/ncc": "0.38.0",
     "eslint": "8.51.0",
-    "gw2-api-types": "0.0.5",
+    "gw2-api-types": "0.0.6",
     "typescript": "5.2.2",
     "undici-types": "5.26.3"
   }

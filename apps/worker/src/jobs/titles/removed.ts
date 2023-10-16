@@ -4,19 +4,19 @@ import { Prisma } from '@gw2treasures/database';
 import { getCurrentBuild } from '../helper/getCurrentBuild';
 import { appendHistory } from '../helper/appendHistory';
 
-export const CurrenciesRemoved: Job = {
+export const TitlesRemoved: Job = {
   run: async (removedIds: number[]) => {
     const build = await getCurrentBuild();
     const buildId = build.id;
 
     for(const removedId of removedIds) {
-      const currency = await db.currency.findUnique({ where: { id: removedId }, include: { current_de: true, current_en: true, current_es: true, current_fr: true }});
+      const title = await db.title.findUnique({ where: { id: removedId }, include: { current_de: true, current_en: true, current_es: true, current_fr: true }});
 
-      if(!currency) {
+      if(!title) {
         continue;
       }
 
-      const update: Prisma.CurrencyUpdateArgs['data'] = {
+      const update: Prisma.TitleUpdateArgs['data'] = {
         removedFromApi: true,
         history: { createMany: { data: [] }}
       };
@@ -25,10 +25,10 @@ export const CurrenciesRemoved: Job = {
       for(const language of ['de', 'en', 'es', 'fr'] as const) {
         const revision = await db.revision.create({
           data: {
-            data: currency[`current_${language}`].data,
+            data: title[`current_${language}`].data,
             description: 'Removed from API',
             type: 'Removed',
-            entity: 'Currency',
+            entity: 'Title',
             language,
             buildId,
           }
@@ -38,9 +38,9 @@ export const CurrenciesRemoved: Job = {
         update.history = appendHistory(update, revision.id);
       }
 
-      await db.currency.update({ where: { id: removedId }, data: update });
+      await db.title.update({ where: { id: removedId }, data: update });
     }
 
-    return `Marked ${removedIds.length} currencies as removed`;
+    return `Marked ${removedIds.length} titles as removed`;
   }
 };

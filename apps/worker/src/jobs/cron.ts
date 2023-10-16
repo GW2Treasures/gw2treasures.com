@@ -39,6 +39,10 @@ export async function registerCronJobs() {
   await registerJob('currencies.update', '*/30 * * * *');
   await registerJob('currencies.migrate', '*/6 * * * *');
 
+  await registerJob('titles.check', '*/5 * * * *');
+  await registerJob('titles.update', '*/30 * * * *');
+  await registerJob('titles.migrate', '*/6 * * * *');
+
   await registerJob('gw2api-requests.cleanup', '33 3 * * *');
 
   await registerJob('icons.colors', '37 * * * *');

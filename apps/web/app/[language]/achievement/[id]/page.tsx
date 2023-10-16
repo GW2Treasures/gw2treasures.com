@@ -28,6 +28,7 @@ import { AchievementCategoryLink } from '@/components/Achievement/AchievementCat
 import { Metadata } from 'next';
 import { AccountAchievementProgressHeader, AccountAchievementProgressRow } from '@/components/Achievement/AccountAchievementProgress';
 import { TierTable } from './tier-table';
+import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 
 const MasteryColors: Record<MasteryRegion, CSS.Property.Color> = {
   'Tyria': '#FB8C00', //    core
@@ -63,6 +64,7 @@ const getAchievement = remember(60, async function getAchievement(id: number, la
         bitsItem: { select: linkProperties },
         bitsSkin: { select: linkProperties },
         rewardsItem: { select: linkProperties },
+        rewardsTitle: { select: { id: true, name_de: true, name_en: true, name_es: true, name_fr: true }}
       }
     }),
     db.revision.findFirst({ where: { [`currentAchievement_${language}`]: { id }}})
@@ -195,7 +197,17 @@ async function AchievementPage({ params: { id, language }}: AchievementPageProps
                     </li>
                   );
                 case 'Title':
-                  return <li key={reward.id}><span><span className={styles.listIcon}><Icon icon="achievement"/></span> Title {reward.id}</span></li>;
+                  const title = achievement.rewardsTitle.find(({ id }) => id === reward.id);
+                  return (
+                    <li key={reward.id}>
+                      <FlexRow>
+                        <span className={styles.listIcon}>
+                          <Icon icon="title"/>
+                        </span>
+                        <span>Title: {title ? <span dangerouslySetInnerHTML={{ __html: format(localizedName(title, language)) }}/> : `Unknown (${reward.id})` }</span>
+                      </FlexRow>
+                    </li>
+                  );
                 case 'Item':
                   const item = achievement.rewardsItem.find(({ id }) => id === reward.id);
                   return (

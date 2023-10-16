@@ -10,7 +10,7 @@
   "dependencies": {
     "@gw2treasures/database": "*",
     "@prisma/client": "5.4.2",
-    "gw2-api-types": "0.0.5"
+    "gw2-api-types": "0.0.6"
   },
   "devDependencies": {
     "@tsconfig/node18": "18.2.2",

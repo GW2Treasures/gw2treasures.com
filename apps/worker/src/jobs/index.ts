@@ -41,6 +41,12 @@ import { SkinsRediscovered } from './skins/rediscovered';
 import { SkinsRemoved } from './skins/removed';
 import { SkinsUnlocks } from './skins/unlocks';
 import { SkinsUpdate } from './skins/update';
+import { TitlesCheck } from './titles/check';
+import { titlesMigrate } from './titles/migrate';
+import { TitlesNew } from './titles/new';
+import { TitlesRediscovered } from './titles/rediscovered';
+import { TitlesRemoved } from './titles/removed';
+import { TitlesUpdate } from './titles/update';
 
 const jobsInternal = {
   'test': { run: () => undefined } as Job,
@@ -90,6 +96,13 @@ const jobsInternal = {
   'currencies.rediscovered': CurrenciesRediscovered,
   'currencies.update': CurrenciesUpdate,
   'currencies.migrate': CurrenciesMigrate,
+
+  'titles.check': TitlesCheck,
+  'titles.new': TitlesNew,
+  'titles.removed': TitlesRemoved,
+  'titles.rediscovered': TitlesRediscovered,
+  'titles.update': TitlesUpdate,
+  'titles.migrate': titlesMigrate,
 
   'gw2api-requests.cleanup': Gw2ApiRequestsCleanup,
 

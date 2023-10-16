@@ -8,6 +8,10 @@
   max-width: 2560px;
 }
 
+.singleColumn {
+  column-count: 1;
+}
+
 .list:not(:last-child) {
   margin-bottom: calc(1.5em - 8px);
 }

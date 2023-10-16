@@ -18,6 +18,7 @@ import { linkProperties } from '@/lib/linkProperties';
 import { ItemLink } from '@/components/Item/ItemLink';
 import { AccountAchievementProgressHeader, AccountAchievementProgressRow } from '@/components/Achievement/AccountAchievementProgress';
 import { AchievementPoints } from '@/components/Achievement/AchievementPoints';
+import { format } from 'gw2-tooltip-html';
 
 export interface AchievementCategoryPageProps {
   params: {
@@ -32,7 +33,7 @@ const getData = remember(60, async function getData(id: number, language: Langua
       where: { id },
       include: {
         icon: true,
-        achievements: { include: { icon: true, rewardsItem: { select: linkProperties }}},
+        achievements: { include: { icon: true, rewardsItem: { select: linkProperties }, rewardsTitle: { select: { id: true, name_de: true, name_en: true, name_es: true, name_fr: true }}}},
         achievementGroup: true,
       }
     }),
@@ -86,8 +87,9 @@ async function AchievementCategoryPage({ params: { language, id }}: AchievementC
           <tr>
             <Table.HeaderCell>Achievement</Table.HeaderCell>
             <Table.HeaderCell align="right">AP <Icon icon="achievement_points"/></Table.HeaderCell>
-            <Table.HeaderCell>Mastery <Icon icon="mastery"/></Table.HeaderCell>
-            <Table.HeaderCell small>Items</Table.HeaderCell>
+            <Table.HeaderCell><Icon icon="mastery"/> Mastery</Table.HeaderCell>
+            <Table.HeaderCell><Icon icon="title"/> Title</Table.HeaderCell>
+            <Table.HeaderCell>Items</Table.HeaderCell>
             <AccountAchievementProgressHeader/>
           </tr>
         </thead>
@@ -97,8 +99,9 @@ async function AchievementCategoryPage({ params: { language, id }}: AchievementC
               <td><AchievementLink achievement={achievement}/></td>
               <td align="right"><AchievementPoints points={achievement.points}/></td>
               <td>{achievement.mastery === 'Unknown' ? 'EoD / SotO' : achievement.mastery}</td>
+              <td>{achievement.rewardsTitle.map((title) => <span key={title.id} dangerouslySetInnerHTML={{ __html: format(localizedName(title, language)) }}/>)}</td>
               <td>{achievement.rewardsItem.length > 0 && (
-                <ItemList>
+                <ItemList singleColumn>
                   {achievement.rewardsItem.map((item) => (
                     <li key={item.id}><ItemLink item={item} icon={32}/></li>
                   ))}

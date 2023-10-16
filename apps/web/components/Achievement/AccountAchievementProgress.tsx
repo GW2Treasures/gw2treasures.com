@@ -59,7 +59,7 @@ export const AccountAchievementProgressCell: FC<AccountAchievementProgressCellPr
   }
 
   if(bitId !== undefined) {
-    return progress.bits?.includes(bitId)
+    return progress.done || progress.bits?.includes(bitId)
       ? <ProgressCell progress={1}><Icon icon="checkmark"/></ProgressCell>
       : <td/>;
   }

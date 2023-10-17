@@ -14,6 +14,7 @@ export async function registerCronJobs() {
   await registerJob('items.update', '*/3 * * * *');
   await registerJob('items.migrate', '*/6 * * * *');
   await registerJob('items.containerContent', '47 11 * * *');
+  await registerJob('items.views', '57 * * * *');
 
   await registerJob('skills.check', '*/5 * * * *');
   await registerJob('skills.update', '*/3 * * * *');

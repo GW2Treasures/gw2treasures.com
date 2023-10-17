@@ -58,6 +58,8 @@ model Item {
 
   removedFromApi Boolean @default(false)
 
+  views Int @default(0)
+
   current_de Revision @relation("current_de", fields: [currentId_de], references: [id], onDelete: Cascade)
   currentId_de String @unique
   
@@ -815,4 +817,27 @@ enum ReviewState {
   Open
   Approved
   Rejected
+}
+
+model PageView {
+  id String @id @default(uuid())
+
+  timestamp DateTime @default(now()) @db.Timestamp()
+
+  page   String
+  pageId Int?
+
+  @@index([timestamp, page, pageId])
+}
+
+model PageViewHistory {
+  id String @id @default(uuid())
+
+  date  DateTime @db.Date
+  count Int
+
+  page   String
+  pageId Int?
+
+  @@index([date, page, pageId])
 }

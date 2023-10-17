@@ -14,6 +14,7 @@ export async function registerCronJobs() {
   await registerJob('items.update', '*/3 * * * *');
   await registerJob('items.migrate', '*/6 * * * *');
   await registerJob('items.containerContent', '47 11 * * *');
+  await registerJob('items.views', '57 * * * *');
 
   await registerJob('skills.check', '*/5 * * * *');
   await registerJob('skills.update', '*/3 * * * *');
@@ -47,7 +48,9 @@ export async function registerCronJobs() {
 
   await registerJob('icons.colors', '37 * * * *');
 
-  await registerJob('jobs.cleanup', '*/15 * * * *');
+  await registerJob('page-views.aggregate', '* * * * *');
+
+  await registerJob('jobs.cleanup', '8 0 * * *');
 }
 
 async function registerJob(name: JobName, cron: string, data: Prisma.InputJsonValue = {}) {

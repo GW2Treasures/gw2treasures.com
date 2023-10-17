@@ -38,6 +38,7 @@ import { ItemTableColumnsButton } from '@/components/ItemTable/ItemTableColumnsB
 import { extraColumn, globalColumnDefinitions } from '@/components/ItemTable/columns';
 import { ContentChanceColumn, ContentQuantityColumn, ItemContentQuantityColumn } from './ExtraColumns';
 import { TODO } from '@/lib/todo';
+import { pageView } from '@/lib/pageView';
 
 export interface ItemPageComponentProps {
   language: Language;
@@ -54,7 +55,8 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
   // load data
   const [item, { revision, data }] = await Promise.all([
     getItem(itemId, language),
-    getRevision(itemId, language, revisionId)
+    getRevision(itemId, language, revisionId),
+    pageView('item', itemId)
   ]);
 
   // 404 if item doesnt exist

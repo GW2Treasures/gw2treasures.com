@@ -22,8 +22,10 @@ import { ItemsNew } from './items/new';
 import { ItemsRediscovered } from './items/rediscovered';
 import { ItemsRemoved } from './items/removed';
 import { ItemsUpdate } from './items/update';
+import { ItemsViews } from './items/views';
 import { Job } from './job';
 import { JobsCleanup } from './jobs/cleanup';
+import { PageViewAggregate } from './page-view/aggregate';
 import { RecipesCheck } from './recipes/check';
 import { RecipesMigrate } from './recipes/migrate';
 import { RecipesNew } from './recipes/new';
@@ -58,6 +60,7 @@ const jobsInternal = {
   'items.update': ItemsUpdate,
   'items.migrate': ItemsMigrate,
   'items.containerContent': ItemsContainerContent,
+  'items.views': ItemsViews,
 
   'skills.check': SkillsCheck,
   'skills.new': SkillsNew,
@@ -107,6 +110,8 @@ const jobsInternal = {
   'gw2api-requests.cleanup': Gw2ApiRequestsCleanup,
 
   'icons.colors': IconsColors,
+
+  'page-views.aggregate': PageViewAggregate,
 
   'jobs.cleanup': JobsCleanup,
 };

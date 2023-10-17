@@ -53,6 +53,10 @@ type LocalizedNameInput = {
 }
 
 function nameQuery(terms: string[]): LocalizedNameInput[] {
+  if(terms.length === 0) {
+    return [];
+  }
+
   const nameQueries: LocalizedNameInput[] = ['de', 'en', 'es', 'fr'].map((lang) => ({
     AND: terms.map((term) => ({ [`name_${lang}`]: { contains: term, mode: 'insensitive' }}))
   }));
@@ -95,16 +99,17 @@ export const searchItems = remember(60, function searchItems(terms: string[], ch
   const numberTerms = terms.map(toNumber).filter(isTruthy);
 
   return db.item.findMany({
-    where: {
+    where: terms.length + chatCodes.length > 0 ? {
       OR: [
         ...nameQueries,
         { id: { in: [...itemIdsInChatCodes, ...numberTerms] }},
         { recipeOutput: { some: { id: { in: recipeIdsInChatCodes }}}},
         { unlocksRecipeIds: { hasSome: recipeIdsInChatCodes }},
       ]
-    },
+    } : undefined,
     take: 5,
-    include: { icon: true }
+    include: { icon: true },
+    orderBy: { views: 'desc' }
   });
 });
 
@@ -114,7 +119,7 @@ const searchSkills = remember(60, function searchSkills(terms: string[], chatCod
   const skillIdsInChatCodes = skillChatCodes.map(({ id }) => id);
 
   return db.skill.findMany({
-    where: { OR: [...nameQueries, { id: { in: skillIdsInChatCodes }}] },
+    where: terms.length + chatCodes.length > 0 ? { OR: [...nameQueries, { id: { in: skillIdsInChatCodes }}] } : undefined,
     take: 5,
     include: { icon: true }
   });
@@ -130,7 +135,7 @@ const searchSkins = remember(60, function searchSkins(terms: string[], chatCodes
   ];
 
   return db.skin.findMany({
-    where: { OR: [...nameQueries, { id: { in: skinIdsInChatcodes }}] },
+    where: terms.length + chatCodes.length > 0 ? { OR: [...nameQueries, { id: { in: skinIdsInChatcodes }}] } : undefined,
     take: 5,
     include: { icon: true }
   });

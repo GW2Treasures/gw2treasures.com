@@ -33,7 +33,7 @@ export async function loadItems<Model extends QueryModel>(query: Signed<ItemTabl
     skip,
     take,
     select,
-    orderBy: orderBy as TODO
+    orderBy: orderBy as TODO ?? [{ views: 'desc' }, { id: 'asc' }]
   });
 
   // TODO: this could be generified as well, but probably not needed. The id is the only property the table needs.

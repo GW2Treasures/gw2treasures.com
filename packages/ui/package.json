@@ -28,7 +28,6 @@
   },
   "devDependencies": {
     "@types/react": "18.2.29",
-    "@types/ua-parser-js": "0.7.37",
     "@typescript-eslint/eslint-plugin": "6.8.0",
     "eslint": "8.51.0",
     "eslint-config-next": "13.5.5",

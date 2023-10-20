@@ -1,16 +1,17 @@
-.loading_svg__path {
-  animation: loading_svg_rotate 1s ease-in-out infinite;
+.gw2treasures-icons__loading__path {
+  animation: gw2treasures-icons__loading_rotate 1s ease-in-out infinite;
   will-change: transform;
+  transform-origin: center center;
 }
 
 @media (prefers-reduced-motion) {
-  .loading_svg__path {
+  .gw2treasures-icons__loading__path {
     animation-timing-function: linear;
     animation-duration: 3s;
   }
 }
 
-@keyframes loading_svg_rotate {
+@keyframes gw2treasures-icons__loading_rotate {
   0% { transform: rotate(0); }
   100% { transform: rotate(1turn); }
 }

@@ -73,7 +73,6 @@ export const metadata = {
     statusBarStyle: 'default',
   },
   formatDetection: { address: false, date: false, email: false, telephone: false, url: false },
-  themeColor: '#b7000d',
   icons: {
     apple: { url: 'apple-touch-icon.png', sizes: '180x180' },
     icon: [
@@ -85,4 +84,8 @@ export const metadata = {
   other: {
     'msapplication-TileColor': '#b91d47'
   }
+};
+
+export const viewport = {
+  themeColor: '#b7000d',
 };

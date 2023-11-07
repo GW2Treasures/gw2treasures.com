@@ -1,7 +1,7 @@
 'use client';
 
 import { Icon } from '@gw2treasures/ui';
-import { FC, ReactNode, useEffect, useState } from 'react';
+import { type FC, type ReactNode, useEffect, useState } from 'react';
 import styles from '../Layout.module.css';
 
 export interface MenuProps {

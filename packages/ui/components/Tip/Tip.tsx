@@ -1,7 +1,7 @@
 'use client';
 
-import { arrow, autoUpdate, flip, FloatingPortal, offset, Placement, shift, Side, useDismiss, useFloating, useFocus, useHover, useInteractions, useRole, useTransitionStyles } from '@floating-ui/react';
-import { Children, cloneElement, FC, ReactElement, ReactNode, useRef, useState } from 'react';
+import { arrow, autoUpdate, flip, FloatingPortal, offset, type Placement, shift, type Side, useDismiss, useFloating, useFocus, useHover, useInteractions, useRole, useTransitionStyles } from '@floating-ui/react';
+import { Children, cloneElement, type FC, type ReactElement, type ReactNode, useRef, useState } from 'react';
 import styles from './Tip.module.css';
 
 export interface TipProps {

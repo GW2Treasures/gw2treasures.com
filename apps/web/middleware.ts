@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { NextRequest } from 'next/server';
 import { healthMiddleware } from './middleware/health';
-import { NextMiddleware } from './middleware/types';
+import type { NextMiddleware } from './middleware/types';
 import { logMiddleware } from './middleware/log';
 import { realUrlMiddleware } from './middleware/real-url';
 import { subdomainMiddleware } from './middleware/subdomain';

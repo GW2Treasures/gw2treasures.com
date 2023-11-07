@@ -11,7 +11,7 @@ import { Bitter } from 'next/font/google';
 import localFont from 'next/font/local';
 import { cx } from '@gw2treasures/ui';
 import { I18nProvider } from '@/components/I18n/I18nProvider';
-import { Language } from '@gw2treasures/database';
+import type { Language } from '@gw2treasures/database';
 import { ItemTableContext } from '@/components/ItemTable/ItemTableContext';
 import { Gw2ApiProvider } from '@/components/Gw2Api/Gw2ApiProvider';
 import { getUser } from '@/lib/getUser';

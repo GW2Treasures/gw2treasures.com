@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
-import { FC } from 'react';
-import { Gw2Api } from 'gw2-api-types';
+import type { FC } from 'react';
+import type { Gw2Api } from 'gw2-api-types';
 import { format } from 'gw2-tooltip-html';
 import styles from './SkillTooltip.module.css';
 import { Separator } from '@gw2treasures/ui/components/Layout/Separator';

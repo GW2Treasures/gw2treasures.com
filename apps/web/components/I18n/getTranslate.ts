@@ -1,5 +1,5 @@
 import 'server-only';
-import { Language } from '@gw2treasures/database';
+import type { Language } from '@gw2treasures/database';
 
 import de from '../../translations/de.json';
 import en from '../../translations/en.json';

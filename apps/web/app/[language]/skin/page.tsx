@@ -8,7 +8,7 @@ import Link from 'next/link';
 import { FormatNumber } from '@/components/Format/FormatNumber';
 import { HeroLayout } from '@/components/Layout/HeroLayout';
 import { remember } from '@/lib/remember';
-import { Icon } from '@gw2treasures/database';
+import type { Icon } from '@gw2treasures/database';
 
 const getSkins = remember(60, async function getSkins() {
   const [newSkins, byTypes] = await Promise.all([

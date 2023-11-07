@@ -1,10 +1,10 @@
-import { Language } from '@gw2treasures/database';
+import type { Language } from '@gw2treasures/database';
 import DetailLayout from '@/components/Layout/DetailLayout';
 import { db } from '@/lib/prisma';
 import rarityClasses from '@/components/Layout/RarityColor.module.css';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { Rarity } from '@/components/Item/Rarity';
-import { Gw2Api } from 'gw2-api-types';
+import type { Gw2Api } from 'gw2-api-types';
 import { notFound } from 'next/navigation';
 import { ItemList } from '@/components/ItemList/ItemList';
 import { SkinLink } from '@/components/Skin/SkinLink';
@@ -20,7 +20,7 @@ import { ItemTableContext } from '@/components/ItemTable/ItemTableContext';
 import { ItemTableColumnsButton } from '@/components/ItemTable/ItemTableColumnsButton';
 import { format } from 'gw2-tooltip-html';
 import styles from './page.module.css';
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 
 const getSkin = remember(60, async function getSkin(id: number, language: Language) {
   const [skin, revision] = await Promise.all([

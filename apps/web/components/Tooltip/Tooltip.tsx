@@ -1,7 +1,7 @@
 'use client';
 
-import { autoUpdate, ElementProps, flip, FloatingContext, FloatingPortal, offset, shift, useClick, useClientPoint, useDismiss, useFloating, useFocus, useHover, useInteractions, useMergeRefs, useRole, useTransitionStyles } from '@floating-ui/react';
-import { Children, cloneElement, FC, ReactElement, ReactNode, Ref, useMemo, useRef, useState } from 'react';
+import { autoUpdate, flip, FloatingPortal, offset, shift, useClick, useClientPoint, useDismiss, useFloating, useHover, useInteractions, useMergeRefs, useRole, useTransitionStyles } from '@floating-ui/react';
+import { Children, cloneElement, type FC, type ReactElement, type ReactNode, type Ref, useMemo, useRef, useState } from 'react';
 import styles from './Tooltip.module.css';
 
 export interface TooltipProps {

@@ -1,9 +1,9 @@
 'use client';
 
-import { LocalizedEntity, localizedName } from '@/lib/localizedName';
-import { WithIcon } from '@/lib/with';
-import { Currency } from '@gw2treasures/database';
-import { FC, useEffect, useState } from 'react';
+import { type LocalizedEntity, localizedName } from '@/lib/localizedName';
+import type { WithIcon } from '@/lib/with';
+import type { Currency } from '@gw2treasures/database';
+import { type FC, useEffect, useState } from 'react';
 import { Dialog } from '../Dialog/Dialog';
 import { TextInput } from '@gw2treasures/ui/components/Form/TextInput';
 import { Table } from '@gw2treasures/ui/components/Table/Table';

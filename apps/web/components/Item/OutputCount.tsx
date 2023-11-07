@@ -1,4 +1,4 @@
-import { FC, ReactNode } from 'react';
+import { type FC, type ReactNode } from 'react';
 import styles from './OutputCount.module.css';
 
 export interface OutputCountProps {

@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import type { FC } from 'react';
 import { LinkButton } from '@gw2treasures/ui/components/Form/Button';
 import { Trans } from '../../I18n/Trans';
 import styles from './Navigation.module.css';
@@ -7,7 +7,7 @@ interface NavigationProps {
   // TODO: define props
 };
 
-const Navigation: FunctionComponent<NavigationProps> = () => {
+const Navigation: FC<NavigationProps> = () => {
   return (
     <ul className={styles.navigation}>
       <li className={styles.item}><LinkButton appearance="menu" href="/item" icon="item"><Trans id="navigation.items"/></LinkButton></li>

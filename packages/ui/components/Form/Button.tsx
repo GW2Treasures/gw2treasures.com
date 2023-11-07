@@ -1,8 +1,8 @@
 import { cx } from '../../lib/classNames';
 import Link from 'next/link';
-import { forwardRef, MouseEventHandler, ReactNode } from 'react';
+import { forwardRef, type MouseEventHandler, type ReactNode } from 'react';
 import styles from './Button.module.css';
-import { IconProp, Icon } from '../../icons';
+import { type IconProp, Icon } from '../../icons';
 
 export interface CommonButtonProps {
   children?: ReactNode;

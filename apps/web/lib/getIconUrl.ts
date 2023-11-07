@@ -1,4 +1,4 @@
-import { Icon } from '@gw2treasures/database';
+import type { Icon } from '@gw2treasures/database';
 
 export type IconSize = 16 | 32 | 64;
 

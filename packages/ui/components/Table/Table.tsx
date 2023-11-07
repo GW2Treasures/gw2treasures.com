@@ -1,4 +1,4 @@
-import { FC, ReactNode, ThHTMLAttributes } from 'react';
+import type { FC, ReactNode, ThHTMLAttributes } from 'react';
 import styles from './Table.module.css';
 import { Icon } from '../../icons';
 

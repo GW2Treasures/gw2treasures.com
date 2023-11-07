@@ -1,11 +1,11 @@
 'use client';
 
 import NextLink from 'next/link';
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import { EntityIcon } from '../Entity/EntityIcon';
 import styles from './EntityLink.module.css';
 import rarityClasses from '../Layout/RarityColor.module.css';
-import { EntityLinkProps } from './EntityLink';
+import type { EntityLinkProps } from './EntityLink';
 import { localizedName } from '@/lib/localizedName';
 import { useLanguage } from '../I18n/Context';
 import { localizedUrl } from '@/lib/localizedUrl';

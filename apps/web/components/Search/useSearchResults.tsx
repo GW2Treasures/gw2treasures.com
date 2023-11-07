@@ -1,14 +1,14 @@
 import { getLinkProperties } from '@/lib/linkProperties';
-import { ApiSearchResponse } from 'app/[language]/api/search/route';
-import { ReactElement, ReactNode } from 'react';
-import { localizedName } from '../../lib/localizedName';
-import { useJsonFetch, useStaleJsonResponse } from '../../lib/useFetch';
+import type { ApiSearchResponse } from 'app/[language]/api/search/route';
+import type { ReactElement, ReactNode } from 'react';
+import { localizedName } from '@/lib/localizedName';
+import { useJsonFetch, useStaleJsonResponse } from '@/lib/useFetch';
 import { useLanguage } from '../I18n/Context';
 import { EntityIcon } from '../Entity/EntityIcon';
 import { ItemLinkTooltip } from '../Item/ItemLinkTooltip';
 import { Tooltip } from '../Tooltip/Tooltip';
 import { AchievementLinkTooltip } from '../Achievement/AchievementLinkTooltip';
-import { Icon, IconName } from '@gw2treasures/ui';
+import { Icon, type IconName } from '@gw2treasures/ui';
 import { AchievementPoints } from '../Achievement/AchievementPoints';
 
 export interface SearchResults {

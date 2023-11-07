@@ -1,7 +1,7 @@
 import { ItemTable } from '@/components/ItemTable/ItemTable';
 import { ItemTableColumnsButton } from '@/components/ItemTable/ItemTableColumnsButton';
 import { ItemTableContext } from '@/components/ItemTable/ItemTableContext';
-import { ItemTableQuery } from '@/components/ItemTable/types';
+import type { ItemTableQuery } from '@/components/ItemTable/types';
 import { PageLayout } from '@/components/Layout/PageLayout';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 

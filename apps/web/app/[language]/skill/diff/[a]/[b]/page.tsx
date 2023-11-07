@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Gw2Api } from 'gw2-api-types';
+import type { Gw2Api } from 'gw2-api-types';
 import { DiffLayout, DiffLayoutHeader, DiffLayoutRow } from '@/components/Layout/DiffLayout';
 import { EntityIcon } from '@/components/Entity/EntityIcon';
 import { parseIcon } from '@/lib/parseIcon';

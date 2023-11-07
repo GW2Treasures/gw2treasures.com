@@ -1,4 +1,4 @@
-import React, { CSSProperties, FC, ReactNode } from 'react';
+import type { CSSProperties, FC, ReactNode } from 'react';
 import styles from './HeroLayout.module.css';
 import { PageLayout } from './PageLayout';
 

@@ -1,4 +1,4 @@
-import { Language } from '@gw2treasures/database';
+import type { Language } from '@gw2treasures/database';
 import { notFound } from 'next/navigation';
 import { db } from '@/lib/prisma';
 import { remember } from '@/lib/remember';

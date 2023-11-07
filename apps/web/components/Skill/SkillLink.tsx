@@ -1,8 +1,8 @@
-import { FC } from 'react';
-import { Language, Skill } from '@gw2treasures/database';
+import type { FC } from 'react';
+import type { Language, Skill } from '@gw2treasures/database';
 import { EntityLink } from '../Link/EntityLink';
-import { WithIcon } from '../../lib/with';
-import { IconSize } from '@/lib/getIconUrl';
+import type { WithIcon } from '@/lib/with';
+import type { IconSize } from '@/lib/getIconUrl';
 
 export interface SkillLinkProps {
   skill: WithIcon<Skill>;

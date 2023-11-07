@@ -1,6 +1,6 @@
 'use client';
 
-import React, { FC } from 'react';
+import type { FC } from 'react';
 import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 import { useFormatContext } from './FormatContext';
 import styles from './Format.module.css';

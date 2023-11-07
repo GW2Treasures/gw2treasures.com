@@ -3,10 +3,10 @@
 import { FormatNumber } from '@/components/Format/FormatNumber';
 import { ItemLink } from '@/components/Item/ItemLink';
 import { OutputCount } from '@/components/Item/OutputCount';
-import { LocalizedEntity } from '@/lib/localizedName';
-import { WithIcon } from '@/lib/with';
-import { ContentChance, Item } from '@gw2treasures/database';
-import { FC } from 'react';
+import type { LocalizedEntity } from '@/lib/localizedName';
+import type { WithIcon } from '@/lib/with';
+import type { ContentChance, Item } from '@gw2treasures/database';
+import type { FC } from 'react';
 
 export interface ContentChanceColumnProps {
   content: { chance: ContentChance }

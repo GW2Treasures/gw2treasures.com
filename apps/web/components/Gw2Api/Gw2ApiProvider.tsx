@@ -1,10 +1,10 @@
 'use client';
 
-import { FC, ReactNode, useCallback, useMemo, useRef, useState } from 'react';
+import { type FC, type ReactNode, useCallback, useMemo, useRef, useState } from 'react';
 import { Gw2ApiContext } from './Gw2ApiContext';
-import { SessionUser } from '@/lib/getUser';
+import type { SessionUser } from '@/lib/getUser';
 import { fetchAccounts } from './fetch-accounts-action';
-import { ErrorCode, Gw2Account } from './types';
+import { ErrorCode, type Gw2Account } from './types';
 import styles from './Gw2ApiProvider.module.css';
 import { Button } from '@gw2treasures/ui/components/Form/Button';
 import { reauthorize } from './reauthorize';

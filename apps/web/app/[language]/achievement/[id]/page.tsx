@@ -1,12 +1,11 @@
 /* eslint-disable react/no-array-index-key */
-import { Language, MasteryRegion } from '@gw2treasures/database';
+import type { Language, MasteryRegion } from '@gw2treasures/database';
 import DetailLayout from '@/components/Layout/DetailLayout';
 import { db } from '@/lib/prisma';
-import { Gw2Api } from 'gw2-api-types';
+import type { Gw2Api } from 'gw2-api-types';
 import { localizedName } from '@/lib/localizedName';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { Json } from '@/components/Format/Json';
-import { FormatNumber } from '@/components/Format/FormatNumber';
 import { Icon } from '@gw2treasures/ui';
 import { format } from 'gw2-tooltip-html';
 import { notFound } from 'next/navigation';
@@ -25,7 +24,7 @@ import { RemovedFromApiNotice } from '@/components/Notice/RemovedFromApiNotice';
 import { Breadcrumb } from '@/components/Breadcrumb/Breadcrumb';
 import Link from 'next/link';
 import { AchievementCategoryLink } from '@/components/Achievement/AchievementCategoryLink';
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 import { AccountAchievementProgressHeader, AccountAchievementProgressRow } from '@/components/Achievement/AccountAchievementProgress';
 import { TierTable } from './tier-table';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';

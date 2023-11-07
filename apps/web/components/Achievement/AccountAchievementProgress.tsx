@@ -1,6 +1,6 @@
 'use client';
 
-import { FC } from 'react';
+import type { FC } from 'react';
 import { Skeleton } from '../Skeleton/Skeleton';
 import { useGw2Api } from '../Gw2Api/use-gw2-api';
 import { Icon } from '@gw2treasures/ui';

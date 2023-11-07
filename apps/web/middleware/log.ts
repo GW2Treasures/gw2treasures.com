@@ -1,4 +1,4 @@
-import { NextMiddleware } from './types';
+import type { NextMiddleware } from './types';
 
 declare module './types' {
   interface NextMiddlewareData {

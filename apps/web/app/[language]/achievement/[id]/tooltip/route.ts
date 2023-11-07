@@ -1,9 +1,9 @@
 import { notFound } from 'next/navigation';
 import { db } from '@/lib/prisma';
-import { Language } from '@gw2treasures/database';
+import type { Language } from '@gw2treasures/database';
 import { NextRequest, NextResponse } from 'next/server';
 import { createTooltip } from '@/components/Achievement/AchievementTooltip';
-import { Gw2Api } from 'gw2-api-types';
+import type { Gw2Api } from 'gw2-api-types';
 import { remember } from '@/lib/remember';
 
 const getAchievementRevision = remember(60, function getAchievementRevision(id: number, language: Language, revisionId?: string) {

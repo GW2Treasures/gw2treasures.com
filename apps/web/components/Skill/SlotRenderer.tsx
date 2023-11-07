@@ -1,5 +1,5 @@
-import { Gw2Api } from 'gw2-api-types';
-import { FC } from 'react';
+import type { Gw2Api } from 'gw2-api-types';
+import type { FC } from 'react';
 import styles from './SlotRenderer.module.css';
 
 interface SlotRendererProps {

@@ -1,7 +1,7 @@
 import { remember } from '@/lib/remember';
 import { db } from '@/lib/prisma';
-import { Prisma } from '@gw2treasures/database';
-import { UnwrapJsonResponse } from '../helper';
+import type { Prisma } from '@gw2treasures/database';
+import type { UnwrapJsonResponse } from '../helper';
 import { decode } from 'gw2e-chat-codes';
 import { isTruthy } from '@gw2treasures/ui';
 import { NextResponse } from 'next/server';

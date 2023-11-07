@@ -1,8 +1,7 @@
-import { LocalizedEntity } from '@/lib/localizedName';
-import { IngredientItem, Item, Recipe, Revision } from '@gw2treasures/database';
-import { FC, Fragment } from 'react';
-import { With, WithIcon } from '../../lib/with';
-import { ItemLink, ItemLinkProps } from '../Item/ItemLink';
+import type { IngredientItem } from '@gw2treasures/database';
+import { type FC, Fragment } from 'react';
+import type { With } from '@/lib/with';
+import { ItemLink, type ItemLinkProps } from '../Item/ItemLink';
 import styles from './Ingredients.module.css';
 
 interface IngredientsProps {

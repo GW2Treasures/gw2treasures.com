@@ -1,7 +1,7 @@
 'use client';
 
-import { FC, forwardRef, useCallback, useEffect, useState } from 'react';
-import { Button, ButtonProps } from '../Button';
+import { type FC, forwardRef, useCallback, useEffect, useState } from 'react';
+import { Button, type ButtonProps } from '../Button';
 
 export interface CopyButtonProps extends Omit<ButtonProps, 'onClick'> {
   copy: string;

@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 import { Coins } from '../Format/Coins';
 import { FormatNumber } from '../Format/FormatNumber';
 

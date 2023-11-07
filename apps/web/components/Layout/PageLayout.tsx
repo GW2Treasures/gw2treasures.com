@@ -1,4 +1,4 @@
-import { FC, ReactNode } from 'react';
+import { type FC, type ReactNode } from 'react';
 import { TableOfContent, TableOfContentContext } from '@gw2treasures/ui/components/TableOfContent/TableOfContent';
 import styles from './PageLayout.module.css';
 

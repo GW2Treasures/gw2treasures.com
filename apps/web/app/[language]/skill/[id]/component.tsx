@@ -1,10 +1,9 @@
-import { FunctionComponent, ReactElement } from 'react';
 import Link from 'next/link';
-import { Language } from '@gw2treasures/database';
+import type { Language } from '@gw2treasures/database';
 import DetailLayout from '@/components/Layout/DetailLayout';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { TableOfContentAnchor } from '@gw2treasures/ui/components/TableOfContent/TableOfContent';
-import { Gw2Api } from 'gw2-api-types';
+import type { Gw2Api } from 'gw2-api-types';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { FormatDate } from '@/components/Format/FormatDate';
@@ -12,7 +11,7 @@ import { Json } from '@/components/Format/Json';
 import { SkillTooltip } from '@/components/Skill/SkillTooltip';
 import { SkillInfobox } from '@/components/Skill/SkillInfobox';
 import { getSkill } from './getSkill';
-import { AsyncComponent } from '@/lib/asyncComponent';
+import type { AsyncComponent } from '@/lib/asyncComponent';
 import { RemovedFromApiNotice } from '@/components/Notice/RemovedFromApiNotice';
 
 export interface SkillPageComponentProps {

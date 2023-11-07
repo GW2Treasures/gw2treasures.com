@@ -1,6 +1,6 @@
-import { use, useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Gw2ApiContext } from './Gw2ApiContext';
-import { Gw2Account } from './types';
+import type { Gw2Account } from './types';
 
 export function useGw2Accounts() {
   const [accounts, setAccounts] = useState<Gw2Account[]>([]);

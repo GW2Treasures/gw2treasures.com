@@ -1,5 +1,5 @@
-import { CSSProperties, FC } from 'react';
-import { Icon, IconName } from '@gw2treasures/ui';
+import type { CSSProperties, FC } from 'react';
+import { Icon, type IconName } from '@gw2treasures/ui';
 import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 
 export type Discipline = 'Armorsmith' | 'Artificer' | 'Chef' | 'Huntsman' | 'Jeweler' | 'Leatherworker' | 'Scribe' | 'Tailor' | 'Weaponsmith';

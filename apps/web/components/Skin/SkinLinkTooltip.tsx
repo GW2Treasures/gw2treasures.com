@@ -1,18 +1,14 @@
 'use client';
 
 import { cx } from '@gw2treasures/ui';
-import { LocalizedEntity, localizedName } from '@/lib/localizedName';
-import { WithIcon } from '@/lib/with';
-import { Item, Language } from '@gw2treasures/database';
-import { FC } from 'react';
+import { type LocalizedEntity, localizedName } from '@/lib/localizedName';
+import type { WithIcon } from '@/lib/with';
+import type { Item, Language } from '@gw2treasures/database';
+import type { FC } from 'react';
 import { useLanguage } from '../I18n/Context';
-import { Skeleton } from '../Skeleton/Skeleton';
 import { EntityIcon } from '../Entity/EntityIcon';
 import styles from './SkinLinkTooltip.module.css';
 import rarityStyles from '../Layout/RarityColor.module.css';
-import { ErrorBoundary } from 'react-error-boundary';
-import { useJsonFetch } from '@/lib/useFetch';
-import { localizedUrl } from '@/lib/localizedUrl';
 
 export interface SkinLinkTooltipProps {
   item: WithIcon<Pick<Item, 'id' | 'rarity' | keyof LocalizedEntity>>

@@ -1,10 +1,10 @@
 import { Prisma } from '@gw2treasures/database';
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { EntityIcon } from '../Entity/EntityIcon';
 import { ItemLink } from '../Item/ItemLink';
 import { Rarity } from '../Item/Rarity';
 import { Coins } from '../Format/Coins';
-import { ColumnModelTypes, ExtraColumn, GlobalColumnId, ItemTableColumn, QueryModel, Result } from './types';
+import type { ColumnModelTypes, ExtraColumn, GlobalColumnId, ItemTableColumn, QueryModel, Result } from './types';
 
 // typehelper
 function createColumn<Select extends Prisma.ItemSelect>(column: ItemTableColumn<Select>) {

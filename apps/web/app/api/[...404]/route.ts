@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { PublicApiErrorResponse } from '..';
+import type { PublicApiErrorResponse } from '..';
 
 export function GET() {
   return NextResponse.json<PublicApiErrorResponse>(

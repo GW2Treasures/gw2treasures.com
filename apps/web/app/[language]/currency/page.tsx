@@ -1,4 +1,4 @@
-import { Language } from '@gw2treasures/database';
+import type { Language } from '@gw2treasures/database';
 import { db } from '@/lib/prisma';
 import { remember } from '@/lib/remember';
 import { HeroLayout } from '@/components/Layout/HeroLayout';

@@ -1,7 +1,7 @@
 'use client';
 
 import { Icon } from '../../icons';
-import { KeyboardEventHandler, ReactNode, forwardRef, useCallback, useEffect, useId, useRef } from 'react';
+import { type KeyboardEventHandler, type ReactNode, forwardRef, useCallback, useEffect, useId, useRef } from 'react';
 import styles from './Checkbox.module.css';
 
 export interface CheckboxProps {

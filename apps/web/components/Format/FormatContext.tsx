@@ -1,7 +1,7 @@
 'use client';
 
 import { useHydrated } from 'lib/useHydrated';
-import { createContext, FC, ReactNode, useContext, useEffect, useMemo, useState } from 'react';
+import { createContext, type FC, type ReactNode, useContext, useEffect, useMemo, useState } from 'react';
 import { useLanguage } from '../I18n/Context';
 
 const defaultLocale = new Intl.NumberFormat(undefined).resolvedOptions().locale;

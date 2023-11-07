@@ -1,11 +1,11 @@
-import { AnchorHTMLAttributes, forwardRef, ReactElement } from 'react';
-import { Language } from '@gw2treasures/database';
-import { IconSize } from '@/lib/getIconUrl';
-import { LocalizedEntity } from '@/lib/localizedName';
-import { WithIcon } from '@/lib/with';
+import { type AnchorHTMLAttributes, forwardRef, type ReactElement } from 'react';
+import type { Language } from '@gw2treasures/database';
+import type { IconSize } from '@/lib/getIconUrl';
+import type { LocalizedEntity } from '@/lib/localizedName';
+import type { WithIcon } from '@/lib/with';
 import { EntityLinkInternal } from './EntityLinkInternal';
 import { getLinkProperties } from '@/lib/linkProperties';
-import { EntityIconType } from '../Entity/EntityIcon';
+import type { EntityIconType } from '../Entity/EntityIcon';
 
 interface CustomEntityLinkProps {
   href: string;

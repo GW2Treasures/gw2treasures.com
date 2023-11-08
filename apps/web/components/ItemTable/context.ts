@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react';
-import { AvailableColumns } from './types';
+import type { AvailableColumns } from './types';
 
 export interface Context<ColumnId extends string> {
   availableColumns: AvailableColumns<ColumnId>;

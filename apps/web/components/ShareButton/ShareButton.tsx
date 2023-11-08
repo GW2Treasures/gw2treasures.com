@@ -1,7 +1,7 @@
 'use client';
 
-import { Button, ButtonProps } from '@gw2treasures/ui/components/Form/Button';
-import { FC, useCallback, useEffect, useState } from 'react';
+import { Button, type ButtonProps } from '@gw2treasures/ui/components/Form/Button';
+import { type FC, useCallback, useEffect, useState } from 'react';
 
 export interface ShareButtonProps {
   data: ShareData;

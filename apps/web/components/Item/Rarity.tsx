@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from 'react';
+import type { FC, ReactNode } from 'react';
 import { cx } from '@gw2treasures/ui';
 import styles from './Rarity.module.css';
 import rarityStyles from '../Layout/RarityColor.module.css';

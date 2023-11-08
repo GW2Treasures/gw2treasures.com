@@ -1,4 +1,4 @@
-import { FC, KeyboardEventHandler, ReactNode, useCallback, useId, useRef } from 'react';
+import { type FC, type KeyboardEventHandler, type ReactNode, useCallback, useId, useRef } from 'react';
 import styles from './Radiobutton.module.css';
 
 export interface RadiobuttonProps {

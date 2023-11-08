@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from 'react';
+import type { FC, ReactNode } from 'react';
 import { TableOfContentAnchor } from '../TableOfContent/TableOfContent';
 import styles from './Headline.module.css';
 

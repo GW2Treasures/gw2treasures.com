@@ -1,6 +1,6 @@
 'use client';
 
-import { FC } from 'react';
+import type { FC } from 'react';
 import { useFormatContext } from './FormatContext';
 import styles from './Format.module.css';
 import { cx } from '@gw2treasures/ui';

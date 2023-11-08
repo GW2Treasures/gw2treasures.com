@@ -5,7 +5,7 @@ import { HeroLayout } from '@/components/Layout/HeroLayout';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { getUser } from '@/lib/getUser';
 import { db } from '@/lib/prisma';
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { cache } from 'react';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';

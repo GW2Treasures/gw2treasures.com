@@ -1,6 +1,6 @@
-import { Achievement, Language } from '@gw2treasures/database';
-import { Gw2Api } from 'gw2-api-types';
-import { FC } from 'react';
+import type { Achievement, Language } from '@gw2treasures/database';
+import type { Gw2Api } from 'gw2-api-types';
+import type { FC } from 'react';
 import { FormatNumber } from '../Format/FormatNumber';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { LanguageLinks } from '../Infobox/LanguageLinks';

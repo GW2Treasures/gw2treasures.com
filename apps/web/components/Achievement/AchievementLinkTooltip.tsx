@@ -1,10 +1,10 @@
 'use client';
 
 import { cx } from '@gw2treasures/ui';
-import { LocalizedEntity, localizedName } from '@/lib/localizedName';
-import { WithIcon } from '@/lib/with';
-import { Achievement, Language } from '@gw2treasures/database';
-import { FC } from 'react';
+import { type LocalizedEntity, localizedName } from '@/lib/localizedName';
+import type { WithIcon } from '@/lib/with';
+import type { Achievement, Language } from '@gw2treasures/database';
+import type { FC } from 'react';
 import { useLanguage } from '../I18n/Context';
 import { EntityIcon } from '../Entity/EntityIcon';
 import styles from './AchievementLinkTooltip.module.css';

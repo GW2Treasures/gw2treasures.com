@@ -1,4 +1,4 @@
-import { UnwrapJsonResponse } from '../../helper';
+import type { UnwrapJsonResponse } from '../../helper';
 import { NextResponse } from 'next/server';
 import { searchItems, splitSearchTerms } from '../../search/route';
 import { decode } from 'gw2e-chat-codes';

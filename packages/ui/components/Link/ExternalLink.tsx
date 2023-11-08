@@ -1,6 +1,6 @@
 
 import { Icon } from '../../icons';
-import { FC, ReactNode } from 'react';
+import type { FC, ReactNode } from 'react';
 import styles from './ExternalLink.module.css';
 
 export interface ExternalLinkProps {

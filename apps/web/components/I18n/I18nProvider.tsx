@@ -1,8 +1,8 @@
 import 'server-only';
 
-import { FC, ReactNode } from 'react';
+import { type FC, type ReactNode } from 'react';
 import { I18nProvider as ContextProvider } from './Context';
-import { Language } from '@gw2treasures/database';
+import type { Language } from '@gw2treasures/database';
 
 export interface I18nProviderProps {
   children: ReactNode;

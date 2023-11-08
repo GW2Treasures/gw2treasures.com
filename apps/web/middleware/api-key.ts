@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server';
-import { NextMiddleware } from './types';
+import type { NextMiddleware } from './types';
 
 export const apiKeyMiddleware: NextMiddleware = (request, next, data) => {
   const subdomain = data.subdomain;

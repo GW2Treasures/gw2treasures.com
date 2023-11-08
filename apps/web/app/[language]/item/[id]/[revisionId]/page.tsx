@@ -1,6 +1,6 @@
-import { Language } from '@gw2treasures/database';
+import type { Language } from '@gw2treasures/database';
 import { ItemPageComponent } from '../component';
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 import { getRevision } from '../data';
 import { notFound } from 'next/navigation';
 

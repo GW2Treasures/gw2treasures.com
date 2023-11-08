@@ -1,8 +1,8 @@
 import 'server-only';
 
-import { AsyncComponent } from '@/lib/asyncComponent';
-import { getLanguage, translate, TranslationId } from './getTranslate';
-import { FC } from 'react';
+import type { AsyncComponent } from '@/lib/asyncComponent';
+import { getLanguage, translate, type TranslationId } from './getTranslate';
+import type { FC } from 'react';
 
 export interface TransProps {
   id: TranslationId;

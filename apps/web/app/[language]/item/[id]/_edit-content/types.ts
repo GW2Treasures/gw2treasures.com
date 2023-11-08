@@ -1,5 +1,5 @@
-import { LocalizedEntity } from '@/lib/localizedName';
-import { WithIcon } from '@/lib/with';
+import type { LocalizedEntity } from '@/lib/localizedName';
+import type { WithIcon } from '@/lib/with';
 import { ContentChance } from '@gw2treasures/database';
 
 export interface AddedItem {

@@ -1,5 +1,5 @@
 import 'server-only';
-import { FC, Suspense } from 'react';
+import { type FC, Suspense } from 'react';
 
 // @ts-expect-error
 import { Fragment, jsx, jsxs } from 'react/jsx-runtime';

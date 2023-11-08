@@ -3,9 +3,9 @@ import 'server-only';
 import { db } from '@/lib/prisma';
 import { getUser } from '@/lib/getUser';
 import { Scope } from '@gw2me/client';
-import { UserProvider } from '@gw2treasures/database';
+import type { UserProvider } from '@gw2treasures/database';
 import { expiresAtFromExpiresIn } from '@/lib/expiresAtFromExpiresIn';
-import { FetchAccountResponse, ErrorCode } from './types';
+import { type FetchAccountResponse, ErrorCode } from './types';
 import { gw2me } from '@/lib/gw2me';
 
 export async function fetchAccounts(): Promise<FetchAccountResponse> {

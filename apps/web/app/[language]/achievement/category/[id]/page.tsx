@@ -1,7 +1,7 @@
-import { Language } from '@gw2treasures/database';
+import type { Language } from '@gw2treasures/database';
 import DetailLayout from '@/components/Layout/DetailLayout';
 import { db } from '@/lib/prisma';
-import { Gw2Api } from 'gw2-api-types';
+import type { Gw2Api } from 'gw2-api-types';
 import { ItemList } from '@/components/ItemList/ItemList';
 import { AchievementLink } from '@/components/Achievement/AchievementLink';
 import { compareLocalizedName, localizedName } from '@/lib/localizedName';
@@ -12,7 +12,7 @@ import { notFound } from 'next/navigation';
 import { Icon } from '@gw2treasures/ui';
 import { remember } from '@/lib/remember';
 import { RemovedFromApiNotice } from '@/components/Notice/RemovedFromApiNotice';
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { linkProperties } from '@/lib/linkProperties';
 import { ItemLink } from '@/components/Item/ItemLink';

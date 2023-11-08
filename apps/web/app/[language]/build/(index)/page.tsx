@@ -1,6 +1,6 @@
 import { db } from '@/lib/prisma';
 import { remember } from '@/lib/remember';
-import { Language } from '@gw2treasures/database';
+import type { Language } from '@gw2treasures/database';
 import { BuildTable } from './BuildTable';
 
 const getBuilds = remember(60, async function getBuilds(language: Language) {

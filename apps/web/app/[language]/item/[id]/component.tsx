@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Language } from '@gw2treasures/database';
+import type { Language } from '@gw2treasures/database';
 import { ItemTooltip } from '@/components/Item/ItemTooltip';
 import DetailLayout from '@/components/Layout/DetailLayout';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
@@ -14,7 +14,7 @@ import { SkinLink } from '@/components/Skin/SkinLink';
 import { Json } from '@/components/Format/Json';
 import { RecipeBox } from '@/components/Recipe/RecipeBox';
 import { ItemIngredientFor } from '@/components/Item/ItemIngredientFor';
-import { AsyncComponent } from '@/lib/asyncComponent';
+import type { AsyncComponent } from '@/lib/asyncComponent';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 import { SkeletonTable } from '@/components/Skeleton/SkeletonTable';
@@ -37,7 +37,7 @@ import { ItemTableContext } from '@/components/ItemTable/ItemTableContext';
 import { ItemTableColumnsButton } from '@/components/ItemTable/ItemTableColumnsButton';
 import { extraColumn, globalColumnDefinitions } from '@/components/ItemTable/columns';
 import { ContentChanceColumn, ContentQuantityColumn, ItemContentQuantityColumn } from './ExtraColumns';
-import { TODO } from '@/lib/todo';
+import type { TODO } from '@/lib/todo';
 import { pageView } from '@/lib/pageView';
 
 export interface ItemPageComponentProps {

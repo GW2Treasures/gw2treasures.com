@@ -1,13 +1,13 @@
 'use client';
 
-import { Gw2Api } from 'gw2-api-types';
-import { FC } from 'react';
+import type { Gw2Api } from 'gw2-api-types';
+import type { FC } from 'react';
 import styles from './page.module.css';
 import { FormatNumber } from '@/components/Format/FormatNumber';
 import { Icon } from '@gw2treasures/ui';
 import { useGw2Api } from '@/components/Gw2Api/use-gw2-api';
 import { useGw2Accounts } from '@/components/Gw2Api/use-gw2-accounts';
-import { Gw2Account } from '@/components/Gw2Api/types';
+import type { Gw2Account } from '@/components/Gw2Api/types';
 import { Skeleton } from '@/components/Skeleton/Skeleton';
 import { ProgressCell } from '@/components/Achievement/ProgressCell';
 import { AchievementPoints } from '@/components/Achievement/AchievementPoints';

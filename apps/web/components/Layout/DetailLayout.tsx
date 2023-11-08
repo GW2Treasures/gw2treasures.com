@@ -1,8 +1,8 @@
-import React, { cloneElement, CSSProperties, FunctionComponent, isValidElement, ReactElement, ReactNode } from 'react';
+import { cloneElement, type CSSProperties, type FC, isValidElement, type ReactElement, type ReactNode } from 'react';
 import styles from './DetailLayout.module.css';
 import { TableOfContentContext, TableOfContent } from '@gw2treasures/ui/components/TableOfContent/TableOfContent';
-import { Icon } from '@gw2treasures/database';
-import { EntityIcon, EntityIconType } from '../Entity/EntityIcon';
+import type { Icon } from '@gw2treasures/database';
+import { EntityIcon, type EntityIconType } from '../Entity/EntityIcon';
 import { Button } from '@gw2treasures/ui/components/Form/Button';
 import { Icon as IconComponent } from '@gw2treasures/ui';
 import { DropDown } from '../DropDown/DropDown';
@@ -20,7 +20,7 @@ interface DetailLayoutProps {
   color?: CSSProperties['--hero-color'];
 };
 
-const DetailLayout: FunctionComponent<DetailLayoutProps> = ({ title, icon, breadcrumb, children, infobox, className, iconType, actions, color }) => {
+const DetailLayout: FC<DetailLayoutProps> = ({ title, icon, breadcrumb, children, infobox, className, iconType, actions, color }) => {
   return (
     <TableOfContentContext>
       <main className={[styles.main, className].filter(Boolean).join(' ')} style={color ? { '--hero-color': color } : undefined}>

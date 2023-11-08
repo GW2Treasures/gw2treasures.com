@@ -1,4 +1,4 @@
-import { Language } from '@gw2treasures/database';
+import type { Language } from '@gw2treasures/database';
 
 export interface LocalizedEntity {
   name_de: string;

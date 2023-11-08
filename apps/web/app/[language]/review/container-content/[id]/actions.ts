@@ -5,7 +5,7 @@ import { db } from '@/lib/prisma';
 import { ReviewState } from '@gw2treasures/database';
 import { redirect } from 'next/navigation';
 import { getRandomContainerContentReviewId } from '../random';
-import { EditContentOrder } from 'app/[language]/item/[id]/_edit-content/types';
+import type { EditContentOrder } from 'app/[language]/item/[id]/_edit-content/types';
 
 export async function approve(data: FormData) {
   const { id, user, review } = await getUserAndReview(data);

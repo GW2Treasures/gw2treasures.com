@@ -1,7 +1,7 @@
 import { getUser } from '@/lib/getUser';
 import { LinkButton } from '@gw2treasures/ui/components/Form/Button';
 import { notFound, redirect } from 'next/navigation';
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 interface AdminLayoutProps {
   children: ReactNode;

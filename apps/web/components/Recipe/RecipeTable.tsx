@@ -1,22 +1,21 @@
 'use client';
 
-import { IngredientItem, Recipe, Revision } from '@gw2treasures/database';
-import { FC, memo, useDeferredValue, useMemo, useState } from 'react';
-import { Icon } from '@gw2treasures/ui';
-import { localizedName } from '../../lib/localizedName';
-import { With } from '../../lib/with';
+import type { IngredientItem, Recipe, Revision } from '@gw2treasures/database';
+import { type FC, memo, useDeferredValue, useMemo, useState } from 'react';
+import { localizedName } from '@/lib/localizedName';
+import type { With } from '@/lib/with';
 import { DropDown } from '../DropDown/DropDown';
 import { Button } from '@gw2treasures/ui/components/Form/Button';
 import { Checkbox } from '@gw2treasures/ui/components/Form/Checkbox';
 import { TextInput } from '@gw2treasures/ui/components/Form/TextInput';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { useLanguage } from '../I18n/Context';
-import { ItemLink, ItemLinkProps } from '../Item/ItemLink';
+import { ItemLink, type ItemLinkProps } from '../Item/ItemLink';
 import { Separator } from '@gw2treasures/ui/components/Layout/Separator';
 import { MenuList } from '../MenuList/MenuList';
 import { ShowMore } from '../ShowMore/ShowMore';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
-import { Discipline, DisciplineIcon } from './DisciplineIcon';
+import { type Discipline, DisciplineIcon } from './DisciplineIcon';
 import { Ingredients } from './Ingredients';
 import recipeBoxStyles from './RecipeBox.module.css';
 import styles from './RecipeTable.module.css';

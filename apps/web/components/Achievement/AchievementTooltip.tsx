@@ -1,9 +1,9 @@
 import 'server-only';
-import { Gw2Api } from 'gw2-api-types';
+import type { Gw2Api } from 'gw2-api-types';
 import { ClientAchievementTooltip } from './AchievementTooltip.client';
 import { getTranslate } from '../I18n/getTranslate';
-import { Language } from '@gw2treasures/database';
-import { AsyncComponent } from '@/lib/asyncComponent';
+import type { Language } from '@gw2treasures/database';
+import type { AsyncComponent } from '@/lib/asyncComponent';
 import { format } from 'gw2-tooltip-html';
 
 export interface AchievementTooltipProps {

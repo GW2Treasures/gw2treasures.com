@@ -1,5 +1,5 @@
-import { FC } from 'react';
-import { IconSize } from '@/lib/getIconUrl';
+import type { FC } from 'react';
+import type { IconSize } from '@/lib/getIconUrl';
 import { Skeleton } from '../Skeleton/Skeleton';
 import styles from './EntityLink.module.css';
 

@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useCallback } from 'react';
+import { type ChangeEvent, type FC, useCallback } from 'react';
 import styles from './TextInput.module.css';
 
 export interface TextInputProps {

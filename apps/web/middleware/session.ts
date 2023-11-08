@@ -1,4 +1,4 @@
-import { NextMiddleware } from './types';
+import type { NextMiddleware } from './types';
 import { SessionCookieName } from '@/lib/auth/cookie';
 
 export const sessionMiddleware: NextMiddleware = (request, next, data) => {

@@ -1,8 +1,7 @@
 import { Button } from '@gw2treasures/ui/components/Form/Button';
-import { FC, MouseEventHandler, useCallback } from 'react';
+import { type FC, type MouseEventHandler, useCallback } from 'react';
 import styles from './Pagination.module.css';
 import { Icon } from '@gw2treasures/ui';
-import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 
 interface PaginationProps {
   current: number;

@@ -1,9 +1,9 @@
-import { FC } from 'react';
-import { Language, Skin } from '@gw2treasures/database';
-import { IconSize } from '@/lib/getIconUrl';
+import type { FC } from 'react';
+import type { Language, Skin } from '@gw2treasures/database';
+import type { IconSize } from '@/lib/getIconUrl';
 import { EntityLink } from '../Link/EntityLink';
-import { WithIcon } from '../../lib/with';
-import { LocalizedEntity } from '@/lib/localizedName';
+import type { WithIcon } from '@/lib/with';
+import type { LocalizedEntity } from '@/lib/localizedName';
 import { getLinkProperties } from '@/lib/linkProperties';
 import { Tooltip } from '../Tooltip/Tooltip';
 import { SkinLinkTooltip } from './SkinLinkTooltip';

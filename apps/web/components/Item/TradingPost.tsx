@@ -1,7 +1,7 @@
 'use client';
 
-import { Gw2Api } from 'gw2-api-types';
-import { FC, useEffect, useState } from 'react';
+import type { Gw2Api } from 'gw2-api-types';
+import { type FC, useEffect, useState } from 'react';
 import { Coins } from '../Format/Coins';
 import { FormatNumber } from '../Format/FormatNumber';
 import styles from './TradingPost.module.css';

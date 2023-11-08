@@ -1,5 +1,5 @@
 import { Language } from '@gw2treasures/database';
-import { NextMiddleware } from './types';
+import type { NextMiddleware } from './types';
 import { NextResponse } from 'next/server';
 
 const languages = Object.values(Language);

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { NextMiddleware } from './types';
+import type { NextMiddleware } from './types';
 
 export const rewriteMiddleware: NextMiddleware = (request, next, { subdomain }) => {
   // prepend the internal url with the subdomain

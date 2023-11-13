@@ -3,7 +3,7 @@ import { db } from '@/lib/prisma';
 import type { AsyncComponent } from '@/lib/asyncComponent';
 import 'server-only';
 import { remember } from '@/lib/remember';
-import { linkProperties } from '@/lib/linkProperties';
+import { linkProperties, linkPropertiesWithoutRarity } from '@/lib/linkProperties';
 
 const getIngredientFor = remember(60, async function getIngredientFor(itemId: number) {
   const recipes = await db.recipe.findMany({
@@ -16,6 +16,7 @@ const getIngredientFor = remember(60, async function getIngredientFor(itemId: nu
       currentRevision: { select: { data: true }},
       outputItem: { select: linkProperties },
       itemIngredients: { select: { count: true, Item: { select: linkProperties }}},
+      currencyIngredients: { select: { count: true, Currency: { select: linkPropertiesWithoutRarity }}},
       unlockedByItems: { select: linkProperties }
     }
   });

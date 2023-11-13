@@ -4,7 +4,7 @@ import { Gw2Api } from 'gw2-api-types';
 import { toId } from '../helper/toId';
 import { db } from '../../db';
 
-export const CURRENT_VERSION = 3;
+export const CURRENT_VERSION = 4;
 
 /** @see Prisma.RecipeUpdateInput  */
 interface MigratedRecipe {

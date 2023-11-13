@@ -13,6 +13,12 @@ import { SkillInfobox } from '@/components/Skill/SkillInfobox';
 import { getSkill } from './getSkill';
 import type { AsyncComponent } from '@/lib/asyncComponent';
 import { RemovedFromApiNotice } from '@/components/Notice/RemovedFromApiNotice';
+import { Tooltip } from '@/components/Tooltip/Tooltip';
+import { SkillLinkTooltip } from '@/components/Skill/SkillLinkTooltip';
+import { getLinkProperties } from '@/lib/linkProperties';
+import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
+import { Icon } from '@gw2treasures/ui';
+import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 
 export interface SkillPageComponentProps {
   language: Language;
@@ -59,16 +65,35 @@ export const SkillPageComponent: AsyncComponent<SkillPageComponentProps> = async
 
       <Table>
         <thead>
-          <tr><th {...{ width: 1 }}>Build</th><th {...{ width: 1 }}>Language</th><th>Description</th><th {...{ width: 1 }}>Date</th><th>Actions</th></tr>
+          <tr>
+            <Table.HeaderCell small/>
+            <Table.HeaderCell small>Build</Table.HeaderCell>
+            <Table.HeaderCell>Description</Table.HeaderCell>
+            <Table.HeaderCell small>Date</Table.HeaderCell>
+            <Table.HeaderCell small>Actions</Table.HeaderCell>
+          </tr>
         </thead>
         <tbody>
           {skill.history.map((history) => (
             <tr key={history.revisionId}>
-              <td>{history.revisionId === revision.id ? <b>{history.revision.buildId || '-'}</b> : history.revision.buildId || '-'}</td>
-              <td>{history.revision.language}</td>
-              <td><Link href={`/skill/${skill.id}/${history.revisionId}`}>{history.revision.description}</Link></td>
+              <td style={{ paddingRight: 0 }}>{history.revisionId === revision.id && <Tip tip="Currently viewing"><Icon icon="eye"/></Tip>}</td>
+              <td>{history.revision.buildId !== 0 ? (<Link href={`/build/${history.revision.buildId}`}>{history.revision.buildId}</Link>) : '-'}</td>
+              <td>
+                <Tooltip content={<SkillLinkTooltip skill={getLinkProperties(skill)} language={language} revision={history.revisionId}/>}>
+                  <Link href={`/skill/${skill.id}/${history.revisionId}`}>
+                    {history.revision.description}
+                  </Link>
+                </Tooltip>
+              </td>
               <td><FormatDate date={history.revision.createdAt} relative/></td>
-              <td>{revision.id !== history.revisionId && (<Link href={`/skill/diff/${history.revisionId}/${revision.id}`}>Compare</Link>)}</td>
+              <td>
+                {history.revisionId !== revision.id && (
+                  <FlexRow>
+                    <Link href={`/skill/${skill.id}/${history.revisionId}`}>View</Link> ·
+                    <Link href={`/skill/diff/${history.revisionId}/${revision.id}`}>Compare</Link>
+                  </FlexRow>
+                )}
+              </td>
             </tr>
           ))}
         </tbody>

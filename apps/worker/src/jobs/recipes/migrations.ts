@@ -13,14 +13,18 @@ interface MigratedRecipe {
   flags?: string[];
 
   outputItemIdRaw?: number;
-  itemIngredientIds?: number[];
   outputItemId?: number;
 
+  itemIngredientIds?: number[];
   itemIngredients?: Prisma.IngredientItemUpdateManyWithoutRecipeNestedInput
+
+  currencyIngredientIds?: number[];
+  currencyIngredients?: Prisma.IngredientCurrencyUpdateManyWithoutRecipeNestedInput
 }
 
 export async function createMigrator() {
   const knownItemIds = (await db.item.findMany({ select: { id: true }})).map(toId);
+  const knownCurrencyIds = (await db.currency.findMany({ select: { id: true }})).map(toId);
 
   // eslint-disable-next-line require-await
   return async function migrate(recipe: Gw2Api.Recipe, currentVersion = -1) {
@@ -55,6 +59,23 @@ export async function createMigrator() {
       };
     }
 
-    return update;
+    // Version 4: Add currencies
+    if(currentVersion < 4) {
+      const currencyIngredients = recipe.ingredients.filter(({ type }) => type === 'Currency');
+
+      update.currencyIngredientIds = currencyIngredients.map(toId);
+
+      update.currencyIngredients = {
+        connectOrCreate: currencyIngredients.filter(({ id }) => knownCurrencyIds.includes(id)).map((ingredient) => ({
+          where: { recipeId_currencyId: { currencyId: ingredient.id, recipeId: recipe.id }},
+          create: {
+            currencyId: ingredient.id,
+            count: ingredient.count
+          }
+        })),
+      };
+    }
+
+    return update satisfies Prisma.RecipeUpdateInput;
   };
 }

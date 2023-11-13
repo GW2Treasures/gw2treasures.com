@@ -1,6 +1,6 @@
 'use client';
 
-import type { IngredientItem, Recipe, Revision } from '@gw2treasures/database';
+import type { IngredientCurrency, IngredientItem, Recipe, Revision } from '@gw2treasures/database';
 import { type FC, memo, useDeferredValue, useMemo, useState } from 'react';
 import { localizedName } from '@/lib/localizedName';
 import type { With } from '@/lib/with';
@@ -20,11 +20,13 @@ import { Ingredients } from './Ingredients';
 import recipeBoxStyles from './RecipeBox.module.css';
 import styles from './RecipeTable.module.css';
 import { OutputCount } from '../Item/OutputCount';
+import type { CurrencyLinkProps } from '../Currency/CurrencyLink';
 
 interface RecipeTableProps {
   recipes: With<Pick<Recipe, 'id' | 'rating' | 'disciplines' | 'outputCount'>, {
     currentRevision: Pick<Revision, 'data'>,
     itemIngredients: With<Pick<IngredientItem, 'count'>, { Item: ItemLinkProps['item'] }>[]
+    currencyIngredients: With<Pick<IngredientCurrency, 'count'>, { Currency: CurrencyLinkProps['currency'] }>[]
     outputItem: ItemLinkProps['item'] | null;
     unlockedByItems: ItemLinkProps['item'][]
   }>[]

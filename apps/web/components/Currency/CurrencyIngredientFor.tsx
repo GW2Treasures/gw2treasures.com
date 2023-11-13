@@ -5,9 +5,9 @@ import 'server-only';
 import { remember } from '@/lib/remember';
 import { linkProperties, linkPropertiesWithoutRarity } from '@/lib/linkProperties';
 
-const getIngredientFor = remember(60, async function getIngredientFor(itemId: number) {
+const getIngredientForCurrency = remember(60, async function getIngredientForCurrency(currencyId: number) {
   const recipes = await db.recipe.findMany({
-    where: { itemIngredients: { some: { itemId }}},
+    where: { currencyIngredients: { some: { currencyId }}},
     select: {
       id: true,
       rating: true,
@@ -24,12 +24,12 @@ const getIngredientFor = remember(60, async function getIngredientFor(itemId: nu
   return recipes;
 });
 
-interface ItemIngredientForProps {
-  itemId: number;
+interface CurrencyIngredientForProps {
+  currencyId: number;
 };
 
-export const ItemIngredientFor: AsyncComponent<ItemIngredientForProps> = async ({ itemId }) => {
-  const recipes = await getIngredientFor(itemId);
+export const CurrencyIngredientFor: AsyncComponent<CurrencyIngredientForProps> = async ({ currencyId }) => {
+  const recipes = await getIngredientForCurrency(currencyId);
 
   return (
     <RecipeTable recipes={recipes}/>

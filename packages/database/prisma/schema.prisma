@@ -267,6 +267,9 @@ model Recipe {
   itemIngredients   IngredientItem[]
   itemIngredientIds Int[]
 
+  currencyIngredients   IngredientCurrency[]
+  currencyIngredientIds Int[]
+
   removedFromApi Boolean @default(false)
   
   currentRevision   Revision @relation("current", fields: [currentRevisionId], references: [id], onDelete: Cascade)
@@ -292,6 +295,18 @@ model IngredientItem {
   Item   Item   @relation(fields: [itemId], references: [id], onDelete: Cascade)
 
   @@id([recipeId, itemId])
+}
+
+model IngredientCurrency {
+  recipeId   Int
+  currencyId Int
+
+  count Int
+
+  Recipe   Recipe   @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  Currency Currency @relation(fields: [currencyId], references: [id], onDelete: Cascade)
+
+  @@id([recipeId, currencyId])
 }
 
 model Achievement {
@@ -586,6 +601,8 @@ model Currency {
   order Int
 
   containedIn CurrencyContent[] @relation("containedCurrency")
+
+  ingredient IngredientCurrency[]
 
   removedFromApi Boolean @default(false)
   

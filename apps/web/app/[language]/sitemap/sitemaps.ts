@@ -12,8 +12,8 @@ interface SitemapEntry {
 }
 
 interface Sitemap {
-  getCount(): Promise<number>
-  getEntries(skip: number, take: number): Promise<SitemapEntry[]>
+  getCount(): number | Promise<number>
+  getEntries(skip: number, take: number): SitemapEntry[] | Promise<SitemapEntry[]>
 }
 
 export const pageSize = 20_000;
@@ -147,6 +147,35 @@ export const sitemaps: Record<string, Sitemap> = {
       }));
     }
   },
+  'static': {
+    getCount() {
+      // always returning 1 is okay because 1 page will always be enough for all static pages
+      return 1;
+    },
+
+    getEntries() {
+      const url = getCurrentUrl();
+      const alternateBaseUrls = getLocalizedBaseUrls();
+
+      return [
+        '/',
+        '/about',
+        '/status',
+        '/status/jobs',
+        '/status/api',
+        '/dev',
+        '/dev/icons',
+        '/dev/api',
+        '/login',
+        '/review',
+        '/item/empty-containers',
+        '/achievement/uncategorized',
+      ].map((page) => ({
+        url: new URL(page, url),
+        alternates: alternateBaseUrls.map(({ lang, base }) => ({ lang, href: new URL(page, base) }))
+      }));
+    }
+  }
 };
 
 function getLocalizedBaseUrls() {

@@ -175,11 +175,11 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
         </ItemTableContext>
       )}
 
-      {item._count && item._count?.ingredient > 0 && (
+      {item._count.ingredient > 0 && (
         <Suspense fallback={(
           <>
             <Headline id="crafting">Used in crafting</Headline>
-            <SkeletonTable columns={['Output', 'Rating', 'Disciplines', 'Ingredients']} rows={item._count?.ingredient}/>
+            <SkeletonTable columns={['Output', 'Rating', 'Disciplines', 'Ingredients']} rows={item._count.ingredient}/>
           </>
         )}
         >

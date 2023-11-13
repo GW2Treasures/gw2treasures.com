@@ -1,5 +1,5 @@
 import type { LocalizedEntity } from '@/lib/localizedName';
-import type { IngredientItem, Item, Recipe, Revision } from '@gw2treasures/database';
+import type { Currency, IngredientCurrency, IngredientItem, Item, Recipe, Revision } from '@gw2treasures/database';
 import type { FC } from 'react';
 import { Icon } from '@gw2treasures/ui';
 import type { With, WithIcon } from '@/lib/with';
@@ -21,6 +21,7 @@ interface RecipeBoxProps {
   recipe: Recipe & {
     currentRevision: Revision,
     itemIngredients: With<IngredientItem, { Item: WithIcon<Pick<Item, 'id' | 'rarity' | keyof LocalizedEntity>> }>[]
+    currencyIngredients: With<IngredientCurrency, { Currency: WithIcon<Pick<Currency, 'id' | keyof LocalizedEntity>> }>[]
     unlockedByItems?: WithIcon<Pick<Item, 'id' | 'rarity' | keyof LocalizedEntity>>[]
   },
   outputItem: WithIcon<Pick<Item, 'id' | 'rarity' | keyof LocalizedEntity>> | null,

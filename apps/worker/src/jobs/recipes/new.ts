@@ -3,7 +3,6 @@ import { db } from '../../db';
 import { getCurrentBuild } from '../helper/getCurrentBuild';
 import { Gw2Api } from 'gw2-api-types';
 import { fetchApi } from '../helper/fetchApi';
-import { toId } from '../helper/toId';
 import { createMigrator } from './migrations';
 
 export const RecipesNew: Job = {
@@ -19,12 +18,10 @@ export const RecipesNew: Job = {
     for(const recipe of recipes) {
       const revision = await db.revision.create({ data: { data: JSON.stringify(recipe), language: 'en', buildId, type: 'Added', entity: 'Recipe', description: 'Added to API' }});
 
-      // check which items exist
-      const itemIngredients = recipe.ingredients
-        .filter((ingredient) => ingredient.type === 'Item');
-
-      const items = await db.item.findMany({
-        where: { id: { in: [recipe.output_item_id, ...itemIngredients.map(toId)] }}
+      // load output item
+      const outputItem = await db.item.findUnique({
+        where: { id: recipe.output_item_id },
+        select: { id: true }
       });
 
       const unlockedByItemIds = await db.item.findMany({ where: { unlocksRecipeIds: { has: recipe.id }}, select: { id: true }});
@@ -38,7 +35,7 @@ export const RecipesNew: Job = {
           rating: recipe.min_rating,
           disciplines: recipe.disciplines,
           outputCount: recipe.output_item_count,
-          outputItemId: items.some(({ id }) => id === recipe.output_item_id) ? recipe.output_item_id : undefined,
+          outputItemId: outputItem?.id,
           timeToCraftMs: recipe.time_to_craft_ms,
 
           ...data,
@@ -46,13 +43,6 @@ export const RecipesNew: Job = {
           currentRevisionId: revision.id,
           history: { connect: { id: revision.id }},
 
-          itemIngredients: {
-            createMany: {
-              data: itemIngredients
-                .filter((ingredient) => items.some(({ id }) => id === ingredient.id))
-                .map(({ id, count }) => ({ itemId: id, count }))
-            }
-          },
           unlockedByItems: { connect: unlockedByItemIds }
         }
       });

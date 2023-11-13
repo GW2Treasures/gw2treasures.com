@@ -1,9 +1,8 @@
 import { Job } from '../job';
 import { db } from '../../db';
 import { queueJobForIds } from '../helper/queueJobsForIds';
-import { Prisma } from '@gw2treasures/database';
-
-export const CURRENT_VERSION = 1;
+import { CURRENT_VERSION, createMigrator } from './migrations';
+import { Gw2Api } from 'gw2-api-types';
 
 export const SkillsMigrate: Job = {
   run: async (ids: number[] | Record<string, never>) => {
@@ -34,12 +33,22 @@ export const SkillsMigrate: Job = {
       return 'No skills to update';
     }
 
-    for(const skill of skillsToMigrate) {
-      const update: Prisma.SkillUpdateInput = {
-        version: CURRENT_VERSION
-      };
+    const migrate = await createMigrator();
 
-      await db.skill.update({ where: { id: skill.id }, data: update });
+    for(const skill of skillsToMigrate) {
+      const de: Gw2Api.Skill = JSON.parse(skill.current_de.data);
+      const en: Gw2Api.Skill = JSON.parse(skill.current_en.data);
+      const es: Gw2Api.Skill = JSON.parse(skill.current_es.data);
+      const fr: Gw2Api.Skill = JSON.parse(skill.current_fr.data);
+
+      const data = await migrate({ de, en, es, fr }, skill.version);
+
+      try {
+        await db.skill.update({ where: { id: skill.id }, data });
+      } catch(cause) {
+        console.log(data);
+        throw new Error(`Error migrating skill ${skill.id}`, { cause });
+      }
     }
 
     return `Migrated ${skillsToMigrate.length} skills to version ${CURRENT_VERSION}`;

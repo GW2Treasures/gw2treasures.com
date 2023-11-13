@@ -4,7 +4,7 @@ import { Gw2Api } from 'gw2-api-types';
 import { toId } from '../helper/toId';
 import { db } from '../../db';
 
-export const CURRENT_VERSION = 2;
+export const CURRENT_VERSION = 3;
 
 /** @see Prisma.RecipeUpdateInput  */
 interface MigratedRecipe {
@@ -34,20 +34,24 @@ export async function createMigrator() {
     }
 
     // Version 2: Add raw item ids in case recipe gets added to db first
-    if(currentVersion < 2) {
+    // Version 3: Fix non item ids being added
+    if(currentVersion < 3) {
+      const itemIngredients = recipe.ingredients.filter(({ type }) => type === 'Item');
+
       update.outputItemIdRaw = recipe.output_item_id;
-      update.itemIngredientIds = recipe.ingredients.map(toId);
+      update.itemIngredientIds = itemIngredients.map(toId);
 
       // update relations if they were missed in the past
       update.outputItemId = knownItemIds.includes(recipe.output_item_id) ? recipe.output_item_id : undefined;
       update.itemIngredients = {
-        connectOrCreate: recipe.ingredients.filter(({ id }) => knownItemIds.includes(id)).map((ingredient) => ({
+        connectOrCreate: itemIngredients.filter(({ id }) => knownItemIds.includes(id)).map((ingredient) => ({
           where: { recipeId_itemId: { itemId: ingredient.id, recipeId: recipe.id }},
           create: {
             itemId: ingredient.id,
             count: ingredient.count
           }
-        }))
+        })),
+        deleteMany: { recipeId: recipe.id, itemId: { notIn: itemIngredients.map(toId) }}
       };
     }
 

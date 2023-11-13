@@ -53,7 +53,7 @@ export const SkillPageComponent: AsyncComponent<SkillPageComponentProps> = async
       )}
 
       <TableOfContentAnchor id="tooltip">Tooltip</TableOfContentAnchor>
-      <SkillTooltip data={data}/>
+      <SkillTooltip skill={data} language={language}/>
 
       <Headline id="history">History</Headline>
 

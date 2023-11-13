@@ -11,6 +11,9 @@ import { ItemList } from '@/components/ItemList/ItemList';
 import { CurrencyLink } from '@/components/Currency/CurrencyLink';
 import { CurrencyValue } from '@/components/Currency/CurrencyValue';
 import { ItemLink } from '@/components/Item/ItemLink';
+import { Suspense } from 'react';
+import { SkeletonTable } from '@/components/Skeleton/SkeletonTable';
+import { CurrencyIngredientFor } from '@/components/Currency/CurrencyIngredientFor';
 
 const getCurrency = remember(60, async function getCurrency(id: number, language: Language) {
   if(isNaN(id)) {
@@ -21,7 +24,10 @@ const getCurrency = remember(60, async function getCurrency(id: number, language
     where: { id },
     include: {
       icon: true,
-      containedIn: { include: { containerItem: { select: linkProperties }}}
+      containedIn: { include: { containerItem: { select: linkProperties }}},
+      _count: {
+        select: { ingredient: true }
+      }
     },
   });
 
@@ -75,6 +81,18 @@ export default async function CurrencyPage({ params: { id, language }}: { params
             ))}
           </ItemList>
         </>
+      )}
+
+      {currency._count.ingredient > 0 && (
+        <Suspense fallback={(
+          <>
+            <Headline id="crafting">Used in crafting</Headline>
+            <SkeletonTable columns={['Output', 'Rating', 'Disciplines', 'Ingredients']} rows={currency._count.ingredient}/>
+          </>
+        )}
+        >
+          <CurrencyIngredientFor currencyId={currency.id}/>
+        </Suspense>
       )}
 
       <Headline id="data">Data</Headline>

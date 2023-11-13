@@ -57,11 +57,100 @@ export const sitemaps: Record<string, Sitemap> = {
       }));
     }
   },
+  'achievements': {
+    getCount() {
+      return db.achievement.count();
+    },
+
+    async getEntries(skip, take) {
+      const url = getCurrentUrl();
+      const alternateBaseUrls = getLocalizedBaseUrls();
+
+      const achievements = await db.achievement.findMany({ skip, take, select: { id: true, updatedAt: true }});
+
+      return achievements.map((achievement) => ({
+        url: new URL(`/achievement/${achievement.id}`, url),
+        lastmod: achievement.updatedAt,
+        alternates: alternateBaseUrls.map(({ lang, base }) => ({ lang, href: new URL(`/achievement/${achievement.id}`, base) }))
+      }));
+    }
+  },
+  'achievement-categories': {
+    getCount() {
+      return db.achievementCategory.count();
+    },
+
+    async getEntries(skip, take) {
+      const url = getCurrentUrl();
+      const alternateBaseUrls = getLocalizedBaseUrls();
+
+      const achievementCategories = await db.achievementCategory.findMany({ skip, take, select: { id: true, updatedAt: true }});
+
+      return achievementCategories.map((category) => ({
+        url: new URL(`/achievement/category/${category.id}`, url),
+        lastmod: category.updatedAt,
+        alternates: alternateBaseUrls.map(({ lang, base }) => ({ lang, href: new URL(`/achievement/category/${category.id}`, base) }))
+      }));
+    }
+  },
+  'builds': {
+    getCount() {
+      return db.build.count();
+    },
+
+    async getEntries(skip, take) {
+      const url = getCurrentUrl();
+      const alternateBaseUrls = getLocalizedBaseUrls();
+
+      const builds = await db.build.findMany({ skip, take, select: { id: true, updatedAt: true }});
+
+      return builds.map((build) => ({
+        url: new URL(`/build/${build.id}`, url),
+        lastmod: build.updatedAt,
+        alternates: alternateBaseUrls.map(({ lang, base }) => ({ lang, href: new URL(`/build/${build.id}`, base) }))
+      }));
+    }
+  },
+  'currencies': {
+    getCount() {
+      return db.currency.count();
+    },
+
+    async getEntries(skip, take) {
+      const url = getCurrentUrl();
+      const alternateBaseUrls = getLocalizedBaseUrls();
+
+      const currencies = await db.currency.findMany({ skip, take, select: { id: true, updatedAt: true }});
+
+      return currencies.map((currency) => ({
+        url: new URL(`/currency/${currency.id}`, url),
+        lastmod: currency.updatedAt,
+        alternates: alternateBaseUrls.map(({ lang, base }) => ({ lang, href: new URL(`/currency/${currency.id}`, base) }))
+      }));
+    }
+  },
+  'skins': {
+    getCount() {
+      return db.skin.count();
+    },
+
+    async getEntries(skip, take) {
+      const url = getCurrentUrl();
+      const alternateBaseUrls = getLocalizedBaseUrls();
+
+      const skins = await db.skin.findMany({ skip, take, select: { id: true, updatedAt: true }});
+
+      return skins.map((skin) => ({
+        url: new URL(`/skin/${skin.id}`, url),
+        lastmod: skin.updatedAt,
+        alternates: alternateBaseUrls.map(({ lang, base }) => ({ lang, href: new URL(`/skin/${skin.id}`, base) }))
+      }));
+    }
+  },
 };
 
 function getLocalizedBaseUrls() {
   const url = getCurrentUrl();
-  const language = getLanguage();
 
   const urlDefault = new URL(url);
   urlDefault.hostname = baseDomain;

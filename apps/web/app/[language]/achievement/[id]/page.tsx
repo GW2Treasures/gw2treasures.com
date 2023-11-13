@@ -1,11 +1,11 @@
-import { Language, MasteryRegion } from '@gw2treasures/database';
+/* eslint-disable react/no-array-index-key */
+import type { Language, MasteryRegion } from '@gw2treasures/database';
 import DetailLayout from '@/components/Layout/DetailLayout';
 import { db } from '@/lib/prisma';
-import { Gw2Api } from 'gw2-api-types';
+import type { Gw2Api } from 'gw2-api-types';
 import { localizedName } from '@/lib/localizedName';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { Json } from '@/components/Format/Json';
-import { FormatNumber } from '@/components/Format/FormatNumber';
 import { Icon } from '@gw2treasures/ui';
 import { format } from 'gw2-tooltip-html';
 import { notFound } from 'next/navigation';
@@ -24,14 +24,25 @@ import { RemovedFromApiNotice } from '@/components/Notice/RemovedFromApiNotice';
 import { Breadcrumb } from '@/components/Breadcrumb/Breadcrumb';
 import Link from 'next/link';
 import { AchievementCategoryLink } from '@/components/Achievement/AchievementCategoryLink';
+import type { Metadata } from 'next';
+import { AccountAchievementProgressHeader, AccountAchievementProgressRow } from '@/components/Achievement/AccountAchievementProgress';
+import { TierTable } from './tier-table';
+import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 
 const MasteryColors: Record<MasteryRegion, CSS.Property.Color> = {
-  'Tyria': '#FB8C00',
-  'Maguuma': '#43A047',
-  'Desert': '#D81B60',
-  'Tundra': '#00ACC1',
-  'Unknown': '#1E88E5',
+  'Tyria': '#FB8C00', //    core
+  'Maguuma': '#43A047', //  HoT
+  'Desert': '#D81B60', //   PoF
+  'Tundra': '#00ACC1', //   Icebrood
+  'Unknown': '#1E88E5', //  EoD
 };
+
+export interface AchievementPageProps {
+  params: {
+    language: Language;
+    id: string;
+  }
+}
 
 const getAchievement = remember(60, async function getAchievement(id: number, language: Language) {
   const [achievement, revision] = await Promise.all([
@@ -52,6 +63,7 @@ const getAchievement = remember(60, async function getAchievement(id: number, la
         bitsItem: { select: linkProperties },
         bitsSkin: { select: linkProperties },
         rewardsItem: { select: linkProperties },
+        rewardsTitle: { select: { id: true, name_de: true, name_en: true, name_es: true, name_fr: true }}
       }
     }),
     db.revision.findFirst({ where: { [`currentAchievement_${language}`]: { id }}})
@@ -70,7 +82,7 @@ const getAchievement = remember(60, async function getAchievement(id: number, la
   return { achievement, revision, categoryAchievements };
 });
 
-async function AchievementPage({ params: { id, language }}: { params: { language: Language, id: string }}) {
+async function AchievementPage({ params: { id, language }}: AchievementPageProps) {
   const achievementId: number = Number(id);
 
   const { achievement, revision, categoryAchievements } = await getAchievement(achievementId, language);
@@ -79,6 +91,7 @@ async function AchievementPage({ params: { id, language }}: { params: { language
 
   return (
     <DetailLayout
+      color={achievement.icon?.color ?? undefined}
       title={data.name}
       icon={achievement.icon}
       breadcrumb={(
@@ -132,48 +145,38 @@ async function AchievementPage({ params: { id, language }}: { params: { language
 
       {(data.bits || categoryAchievements.length > 0) && (
         <Table>
-          <thead><tr><th {...{ width: 1 }} align="right">#</th><th {...{ width: 1 }}>Type</th><th>Objective</th></tr></thead>
+          <thead>
+            <tr>
+              <Table.HeaderCell small align="right">#</Table.HeaderCell>
+              <Table.HeaderCell small>Type</Table.HeaderCell>
+              <Table.HeaderCell>Objective</Table.HeaderCell>
+              <AccountAchievementProgressHeader/>
+            </tr>
+          </thead>
           <tbody>
             {data.bits && data.bits.map((bit, index) => {
               switch(bit.type) {
                 case 'Item': {
                   const item = achievement.bitsItem.find(({ id }) => id === bit.id);
-                  return <tr key={bit.id}><td align="right">{index}</td><td>Item</td><td>{item ? (<ItemLink item={item}/>) : `Unknown item ${bit.id}`}</td></tr>;
+                  return <tr key={index}><td align="right">{index}</td><td>Item</td><td>{item ? (<ItemLink item={item}/>) : `Unknown item ${bit.id}`}</td><AccountAchievementProgressRow achievementId={achievement.id} bitId={index}/></tr>;
                 }
                 case 'Skin': {
                   const skin = achievement.bitsSkin.find(({ id }) => id === bit.id);
-                  return <tr key={bit.id}><td align="right">{index}</td><td>Skin</td><td>{skin ? (<SkinLink skin={skin}/>) : `Unknown skin ${bit.id}`}</td></tr>;
+                  return <tr key={index}><td align="right">{index}</td><td>Skin</td><td>{skin ? (<SkinLink skin={skin}/>) : `Unknown skin ${bit.id}`}</td><AccountAchievementProgressRow achievementId={achievement.id} bitId={index}/></tr>;
                 }
-                case 'Text': return bit.text !== '' && <tr key={bit.id}><td align="right">{index}</td><td>Text</td><td>{bit.text}</td></tr>;
-                case 'Minipet': return <tr key={bit.id}><td align="right">{index}</td><td>Minipet</td><td>{bit.id}</td></tr>;
+                case 'Text': return bit.text !== '' && <tr key={index}><td align="right">{index}</td><td>Text</td><td>{bit.text}</td><AccountAchievementProgressRow achievementId={achievement.id} bitId={index}/></tr>;
+                case 'Minipet': return <tr key={index}><td align="right">{index}</td><td>Minipet</td><td>{bit.id}</td><AccountAchievementProgressRow achievementId={achievement.id} bitId={index}/></tr>;
               }
             })}
             {categoryAchievements.map((achievement, index) => (
-              <tr key={achievement.id}><td align="right">{(data.bits?.length || 0) + index}</td><td>Achievement</td><td><AchievementLink achievement={achievement}/></td></tr>
+              <tr key={achievement.id}><td align="right">{(data.bits?.length || 0) + index}</td><td>Achievement</td><td><AchievementLink achievement={achievement}/></td><AccountAchievementProgressRow achievementId={achievement.id}/></tr>
             ))}
           </tbody>
         </Table>
       )}
 
       <Headline id="tiers">Tiers</Headline>
-      <table className={styles.tierTable}>
-        <tbody>
-          <tr>
-            <th>Objectives</th>
-            {data.tiers.map((tier) => (
-              <td key={tier.count}><FormatNumber value={tier.count}/></td>
-            ))}
-            <td>Total</td>
-          </tr>
-          <tr>
-            <th>Achievement Points</th>
-            {data.tiers.map((tier) => (
-              <td key={tier.count}>{tier.points} <Icon icon="achievement_points"/></td>
-            ))}
-            <td>{data.tiers.reduce((total, tier) => total + tier.points, 0)} <Icon icon="achievement_points"/></td>
-          </tr>
-        </tbody>
-      </table>
+      <TierTable achievement={data}/>
 
       {data.rewards && (
         <>
@@ -182,11 +185,28 @@ async function AchievementPage({ params: { id, language }}: { params: { language
             {data.rewards.map((reward) => {
               switch(reward.type) {
                 case 'Coins':
-                  return (<li key="coins"><span><span className={styles.listIcon}><Icon icon="coins"/></span> <Coins value={reward.count!}/></span></li>);
+                  return (<li key="coins"><FlexRow><span className={styles.listIcon}><Icon icon="coins"/></span> <Coins value={reward.count!}/></FlexRow></li>);
                 case 'Mastery':
-                  return (<li key={reward.id}><span><span className={styles.listIcon} style={reward.region ? { '--icon-color': MasteryColors[reward.region] } : undefined}><Icon icon="mastery"/></span> {reward.region} Mastery</span></li>);
+                  return (
+                    <li key={reward.id}>
+                      <FlexRow>
+                        <span className={styles.listIcon} style={reward.region ? { '--icon-color': MasteryColors[reward.region], backgroundColor: `${MasteryColors[reward.region]}22` } : undefined}><Icon icon="mastery"/></span>
+                        {reward.region === 'Unknown' ? 'EoD / SotO' : reward.region} Mastery
+                      </FlexRow>
+                    </li>
+                  );
                 case 'Title':
-                  return <li key={reward.id}><span><span className={styles.listIcon}><Icon icon="achievement"/></span> Title {reward.id}</span></li>;
+                  const title = achievement.rewardsTitle.find(({ id }) => id === reward.id);
+                  return (
+                    <li key={reward.id}>
+                      <FlexRow>
+                        <span className={styles.listIcon}>
+                          <Icon icon="title"/>
+                        </span>
+                        {title ? <span dangerouslySetInnerHTML={{ __html: format(localizedName(title, language)) }}/> : `Unknown (${reward.id})` }
+                      </FlexRow>
+                    </li>
+                  );
                 case 'Item':
                   const item = achievement.rewardsItem.find(({ id }) => id === reward.id);
                   return (
@@ -219,3 +239,20 @@ async function AchievementPage({ params: { id, language }}: { params: { language
 };
 
 export default AchievementPage;
+
+export async function generateMetadata({ params }: AchievementPageProps): Promise<Metadata> {
+  const id = Number(params.id);
+
+  const achievement = await db.achievement.findUnique({
+    where: { id },
+    select: { name_de: true, name_en: true, name_es: true, name_fr: true }
+  });
+
+  if(!achievement) {
+    notFound();
+  }
+
+  return {
+    title: localizedName(achievement, params.language)
+  };
+}

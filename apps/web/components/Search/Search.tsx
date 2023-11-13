@@ -1,11 +1,11 @@
 'use client';
 
-import React, { ChangeEventHandler, FC, Fragment, KeyboardEventHandler, ReactElement, useCallback, useRef, useState } from 'react';
+import { type ChangeEventHandler, type FC, Fragment, type KeyboardEventHandler, type ReactElement, useCallback, useRef, useState } from 'react';
 import styles from './Search.module.css';
 import { useRouter } from 'next/navigation';
 import { usePageResults, useSearchApiResults } from './useSearchResults';
 import Link from 'next/link';
-import { useDebounce } from '../../lib/useDebounce';
+import { useDebounce } from '@/lib/useDebounce';
 import { autoUpdate, offset, size, useClick, useDismiss, useFloating, useFocus, useInteractions, useListNavigation } from '@floating-ui/react';
 import { Icon } from '@gw2treasures/ui';
 
@@ -44,7 +44,7 @@ export const Search: FC<SearchProps> = ({ }) => {
 
   // Merge all the interactions into prop getters
   const { getReferenceProps, getFloatingProps, getItemProps } = useInteractions([
-    useFocus(context, { keyboardOnly: false }),
+    useFocus(context, { visibleOnly: false }),
     useClick(context, { toggle: false, keyboardHandlers: false }),
     useDismiss(context),
     useListNavigation(context, {

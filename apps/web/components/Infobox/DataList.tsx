@@ -1,4 +1,4 @@
-import { FC, Fragment, ReactNode } from 'react';
+import { type FC, Fragment, type ReactNode } from 'react';
 import { isTruthy } from '@gw2treasures/ui';
 import styles from './DataList.module.css';
 

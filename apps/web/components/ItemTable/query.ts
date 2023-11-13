@@ -1,5 +1,5 @@
 import { signingKey } from './signingKey';
-import { ItemTableQuery } from './types';
+import type { ItemTableQuery } from './types';
 
 export interface Signed<T> {
   data: T;

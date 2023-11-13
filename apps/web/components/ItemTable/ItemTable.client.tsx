@@ -1,7 +1,7 @@
 'use client';
 
 import { createElement, useCallback, useEffect, useMemo, useState } from 'react';
-import { Signed } from './query';
+import type { Signed } from './query';
 import { loadItems, loadTotalItemCount } from './ItemTable.actions';
 import { SkeletonTable } from '../Skeleton/SkeletonTable';
 import { globalColumnRenderer } from './columns';
@@ -13,12 +13,12 @@ import { MenuList } from '../MenuList/MenuList';
 import { encode } from 'gw2e-chat-codes';
 import { CopyButton } from '@gw2treasures/ui/components/Form/Buttons/CopyButton';
 import { Pagination } from '../Pagination/Pagination';
-import { FlexRow } from '../Layout/FlexRow';
+import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { TableRowButton } from '@gw2treasures/ui/components/Table/TableRowButton';
 import { Skeleton } from '../Skeleton/Skeleton';
 import { useItemTableContext } from './context';
-import { Notice } from '../Notice/Notice';
-import { AvailableColumns, GlobalColumnId, ItemTableQuery, QueryModel } from './types';
+import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
+import type { AvailableColumns, GlobalColumnId, ItemTableQuery, QueryModel } from './types';
 
 const LOADING = false;
 type LOADING = typeof LOADING;

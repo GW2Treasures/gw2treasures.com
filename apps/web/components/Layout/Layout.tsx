@@ -1,14 +1,14 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import styles from './Layout.module.css';
 import { Icon } from '@gw2treasures/ui';
 import Navigation from './Header/Navigation';
 import Link from 'next/link';
 import { Search } from '../Search/Search';
 import { LinkButton } from '@gw2treasures/ui/components/Form/Button';
-import { ExternalLink } from '../Link/ExternalLink';
+import { ExternalLink } from '@gw2treasures/ui/components/Link/ExternalLink';
 import { LanguageDropdown } from './Header/LanguageDropdown';
 import { Menu } from './Header/Menu';
-import { AsyncComponent } from '@/lib/asyncComponent';
+import type { AsyncComponent } from '@/lib/asyncComponent';
 import { getUser } from '@/lib/getUser';
 import { db } from '@/lib/prisma';
 import { remember } from '@/lib/remember';

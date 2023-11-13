@@ -1,7 +1,7 @@
 'use client';
 
-import { arrow, autoUpdate, flip, hide, offset, Placement, shift, Side, size, useClick, useDismiss, useFloating, useFocus, useInteractions, useTransitionStyles } from '@floating-ui/react';
-import { Children, cloneElement, FC, ReactElement, ReactNode, useRef, useState } from 'react';
+import { arrow, autoUpdate, flip, hide, offset, type Placement, shift, type Side, size, useClick, useDismiss, useFloating, useFocus, useInteractions, useTransitionStyles } from '@floating-ui/react';
+import { Children, cloneElement, type FC, type ReactElement, type ReactNode, useRef, useState } from 'react';
 import styles from './DropDown.module.css';
 import { isTruthy } from '@gw2treasures/ui';
 

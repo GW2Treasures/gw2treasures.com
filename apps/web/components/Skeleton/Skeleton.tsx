@@ -1,5 +1,5 @@
 import { cx } from '@gw2treasures/ui';
-import { FC } from 'react';
+import type { FC } from 'react';
 import style from './Skeleton.module.css';
 
 export interface SkeletonProps {

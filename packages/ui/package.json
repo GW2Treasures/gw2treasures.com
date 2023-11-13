@@ -1,7 +1,10 @@
 {
   "name": "@gw2treasures/ui",
-  "version": "0.0.9",
-  "repository": "GW2Treasures/gw2treasures.com",
+  "version": "0.0.18",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GW2Treasures/gw2treasures.com.git"
+  },
   "main": "index.ts",
   "types": "index.ts",
   "files": [
@@ -18,22 +21,21 @@
     "publish-package": "if test `npm view . version | sed -n 2p` != $npm_package_version; then npm publish --access public; else echo not changed; fi"
   },
   "dependencies": {
-    "@floating-ui/react": "0.25.4",
-    "@floating-ui/react-dom": "2.0.2",
-    "@gw2treasures/icons": "*",
+    "@floating-ui/react": "0.26.2",
+    "@floating-ui/react-dom": "2.0.4",
     "client-only": "0.0.1",
     "server-only": "0.0.1"
   },
   "devDependencies": {
-    "@types/react": "18.2.22",
-    "@types/ua-parser-js": "0.7.37",
-    "@typescript-eslint/eslint-plugin": "6.7.2",
-    "eslint": "8.49.0",
-    "eslint-config-next": "13.5.2",
+    "@types/react": "18.2.37",
+    "@typescript-eslint/eslint-plugin": "6.11.0",
+    "eslint": "8.53.0",
+    "eslint-config-next": "14.0.2",
     "typescript": "5.2.2"
   },
   "peerDependencies": {
-    "next": "^13.4.0",
+    "@gw2treasures/icons": "~0.0.5",
+    "next": "^13.4.0 || ^14.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   }

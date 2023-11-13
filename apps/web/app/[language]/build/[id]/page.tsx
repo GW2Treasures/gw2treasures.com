@@ -1,4 +1,4 @@
-import { Language } from '@gw2treasures/database';
+import type { Language } from '@gw2treasures/database';
 import DetailLayout from '@/components/Layout/DetailLayout';
 import { db } from '@/lib/prisma';
 import { FormatDate } from '@/components/Format/FormatDate';
@@ -8,14 +8,12 @@ import { SkillLink } from '@/components/Skill/SkillLink';
 import { ItemLink } from '@/components/Item/ItemLink';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { AsyncComponent } from '@/lib/asyncComponent';
-import { FC, Suspense } from 'react';
+import type { AsyncComponent } from '@/lib/asyncComponent';
+import { type FC, Suspense } from 'react';
 import { SkeletonLink } from '@/components/Link/SkeletonLink';
 import { remember } from '@/lib/remember';
 import { linkProperties } from '@/lib/linkProperties';
-import { Metadata } from 'next';
-
-export const dynamic = 'force-dynamic';
+import type { Metadata } from 'next';
 
 interface BuildPageProps {
   params: { language: Language, id: string }

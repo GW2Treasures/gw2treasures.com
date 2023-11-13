@@ -28,7 +28,7 @@ export const CurrenciesRemoved: Job = {
             data: currency[`current_${language}`].data,
             description: 'Removed from API',
             type: 'Removed',
-            entity: 'currency',
+            entity: 'Currency',
             language,
             buildId,
           }

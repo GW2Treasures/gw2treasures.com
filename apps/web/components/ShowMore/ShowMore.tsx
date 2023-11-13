@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, ReactNode, useCallback, useState } from 'react';
+import { type FC, type ReactNode, useCallback, useState } from 'react';
 import { Button } from '@gw2treasures/ui/components/Form/Button';
 import styles from './ShowMore.module.css';
 

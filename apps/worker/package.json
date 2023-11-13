@@ -20,13 +20,12 @@
   },
   "devDependencies": {
     "@tsconfig/node18": "18.2.2",
-    "@types/node": "18.17.18",
-    "@typescript-eslint/eslint-plugin": "6.7.2",
-    "@typescript-eslint/parser": "6.7.2",
-    "@vercel/ncc": "0.38.0",
-    "eslint": "8.49.0",
-    "gw2-api-types": "0.0.5",
-    "typescript": "5.2.2",
-    "undici-types": "5.25.1"
+    "@types/node": "18.18.9",
+    "@typescript-eslint/eslint-plugin": "6.11.0",
+    "@typescript-eslint/parser": "6.11.0",
+    "@vercel/ncc": "0.38.1",
+    "eslint": "8.53.0",
+    "gw2-api-types": "0.0.6",
+    "typescript": "5.2.2"
   }
 }

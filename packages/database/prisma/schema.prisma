@@ -58,6 +58,8 @@ model Item {
 
   removedFromApi Boolean @default(false)
 
+  views Int @default(0)
+
   current_de Revision @relation("current_de", fields: [currentId_de], references: [id], onDelete: Cascade)
   currentId_de String @unique
   
@@ -326,6 +328,9 @@ model Achievement {
   rewardsItem    Item[] @relation(name: "rewards_item")
   rewardsItemIds Int[]
 
+  rewardsTitle    Title[] @relation(name: "rewards_title")
+  rewardsTitleIds Int[]
+
   unlocks Float?
 
   removedFromApi Boolean @default(false)
@@ -538,6 +543,13 @@ model Revision {
   currentCurrency_es Currency? @relation("current_es")
   currentCurrency_fr Currency? @relation("current_fr")
   currencyHistory CurrencyHistory[]
+  
+  // titles
+  currentTitle_de Title? @relation("current_de")
+  currentTitle_en Title? @relation("current_en")
+  currentTitle_es Title? @relation("current_es")
+  currentTitle_fr Title? @relation("current_fr")
+  titleHistory TitleHistory[]
 
   // recipes
   currentRecipe Recipe? @relation("current")
@@ -607,6 +619,50 @@ model CurrencyHistory {
   revision Revision @relation(fields: [revisionId], references: [id], onDelete: Cascade)
 
   @@id([currencyId, revisionId])
+}
+
+model Title {
+  id Int @id
+
+  name_de String
+  name_en String
+  name_es String
+  name_fr String
+
+  achievements Achievement[] @relation(name: "rewards_title")
+
+  removedFromApi Boolean @default(false)
+  
+  current_de Revision @relation("current_de", fields: [currentId_de], references: [id], onDelete: Cascade)
+  currentId_de String @unique
+  
+  current_en Revision @relation("current_en", fields: [currentId_en], references: [id], onDelete: Cascade)
+  currentId_en String @unique
+  
+  current_es Revision @relation("current_es", fields: [currentId_es], references: [id], onDelete: Cascade)
+  currentId_es String @unique
+  
+  current_fr Revision @relation("current_fr", fields: [currentId_fr], references: [id], onDelete: Cascade)
+  currentId_fr String @unique
+
+  history TitleHistory[]
+  
+  lastCheckedAt  DateTime   @default(now())
+
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  version Int @default(0)
+}
+
+model TitleHistory {
+  titleId Int
+  revisionId String
+
+  currency Title @relation(fields: [titleId], references: [id], onDelete: Cascade)
+  revision Revision @relation(fields: [revisionId], references: [id], onDelete: Cascade)
+
+  @@id([titleId, revisionId])
 }
 
 model Job {
@@ -709,6 +765,8 @@ model UserProvider {
   refreshToken          String?
   refreshTokenExpiresAt DateTime?
 
+  scope String[] @default([])
+
   userId String
   user   User   @relation("provider", fields: [userId], references: [id], onDelete: Cascade)
   
@@ -759,4 +817,27 @@ enum ReviewState {
   Open
   Approved
   Rejected
+}
+
+model PageView {
+  id String @id @default(uuid())
+
+  timestamp DateTime @default(now()) @db.Timestamp()
+
+  page   String
+  pageId Int?
+
+  @@index([timestamp, page, pageId])
+}
+
+model PageViewHistory {
+  id String @id @default(uuid())
+
+  date  DateTime @db.Date
+  count Int
+
+  page   String
+  pageId Int?
+
+  @@index([date, page, pageId])
 }

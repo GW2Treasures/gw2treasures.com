@@ -2,11 +2,11 @@ import 'server-only';
 
 import { ItemTable as ClientComponent } from './ItemTable.client';
 import { globalColumnDefinitions } from './columns';
-import { Signed, sign } from './query';
+import { type Signed, sign } from './query';
 import { ErrorBoundary } from 'react-error-boundary';
-import { Notice } from '../Notice/Notice';
+import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import { getLanguage, getTranslate } from '../I18n/getTranslate';
-import { AvailableColumn, AvailableColumns, ExtraColumn, GlobalColumnId, ItemTableQuery, OrderBy, QueryModel } from './types';
+import type { AvailableColumn, AvailableColumns, ExtraColumn, GlobalColumnId, ItemTableQuery, OrderBy, QueryModel } from './types';
 
 export interface ItemTableProps<ExtraColumnId extends string, Model extends QueryModel> {
   query: ItemTableQuery<Model>;

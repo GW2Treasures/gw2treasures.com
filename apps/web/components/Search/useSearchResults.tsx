@@ -1,14 +1,16 @@
 import { getLinkProperties } from '@/lib/linkProperties';
-import { ApiSearchResponse } from 'app/[language]/api/search/route';
-import { ReactElement, ReactNode } from 'react';
-import { localizedName } from '../../lib/localizedName';
-import { useJsonFetch, useStaleJsonResponse } from '../../lib/useFetch';
+import type { ApiSearchResponse } from 'app/[language]/api/search/route';
+import type { ReactElement, ReactNode } from 'react';
+import { localizedName } from '@/lib/localizedName';
+import { useJsonFetch, useStaleJsonResponse } from '@/lib/useFetch';
 import { useLanguage } from '../I18n/Context';
 import { EntityIcon } from '../Entity/EntityIcon';
 import { ItemLinkTooltip } from '../Item/ItemLinkTooltip';
 import { Tooltip } from '../Tooltip/Tooltip';
 import { AchievementLinkTooltip } from '../Achievement/AchievementLinkTooltip';
-import { Icon, IconName } from '@gw2treasures/ui';
+import { Icon, type IconName } from '@gw2treasures/ui';
+import { AchievementPoints } from '../Achievement/AchievementPoints';
+import { SkillLinkTooltip } from '../Skill/SkillLinkTooltip';
 
 export interface SearchResults {
   id: string;
@@ -38,13 +40,14 @@ export function useSearchApiResults(searchValue: string): SearchResults[] {
     render: (link) => <Tooltip content={<ItemLinkTooltip item={getLinkProperties(item)}/>} key={link.key}>{link}</Tooltip>
   }));
 
-  const skills = response.loading ? [] : response.data.skills.map((skill) => ({
+  const skills = response.loading ? [] : response.data.skills.map<SearchResult>((skill) => ({
     title: localizedName(skill, language),
     icon: skill.icon && <EntityIcon type="skill" icon={skill.icon} size={32}/>,
     href: `/skill/${skill.id}`,
+    render: (link) => <Tooltip content={<SkillLinkTooltip skill={getLinkProperties(skill)}/>} key={link.key}>{link}</Tooltip>
   }));
 
-  const skins = response.loading ? [] : response.data.skins.map((skin) => ({
+  const skins = response.loading ? [] : response.data.skins.map<SearchResult>((skin) => ({
     title: localizedName(skin, language),
     subtitle: <>{skin.rarity} {skin.weight} {(skin.subtype !== 'Generic' ? skin.subtype : '') || skin.type}</>,
     icon: skin.icon && <EntityIcon icon={skin.icon} size={32}/>,
@@ -58,27 +61,28 @@ export function useSearchApiResults(searchValue: string): SearchResults[] {
     subtitle: (
       <>
         {(achievement.achievementCategory ? localizedName(achievement.achievementCategory, language) : 'Achievement')}
-        {achievement.points > 0 && (<> ▪ {achievement.points} <Icon icon="achievement_points"/></>)}
+        {achievement.points > 0 && (<> ▪ <AchievementPoints points={achievement.points}/></>)}
         {achievement.mastery && (<> ▪ <Icon icon="mastery"/> {achievement.mastery}</>)}
+        {achievement.rewardsTitleIds.length > 0 && (<> ▪ <Icon icon="title"/></>)}
       </>
     ),
     render: (link) => <Tooltip content={<AchievementLinkTooltip achievement={getLinkProperties(achievement)}/>} key={link.key}>{link}</Tooltip>
   }));
 
-  const categories = response.loading ? [] : response.data.achievementCategories.map((category) => ({
+  const categories = response.loading ? [] : response.data.achievementCategories.map<SearchResult>((category) => ({
     title: localizedName(category, language),
     icon: category.icon && <EntityIcon icon={category.icon} size={32}/>,
     href: `/achievement/category/${category.id}`,
     subtitle: category.achievementGroup ? localizedName(category.achievementGroup, language) : 'Category',
   }));
 
-  const groups = response.loading ? [] : response.data.achievementGroups.map((group) => ({
+  const groups = response.loading ? [] : response.data.achievementGroups.map<SearchResult>((group) => ({
     title: localizedName(group, language),
     icon: <Icon icon="achievement"/>,
     href: `/achievement#${group.id}`,
   }));
 
-  const builds = response.loading ? [] : response.data.builds.map((build) => ({
+  const builds = response.loading ? [] : response.data.builds.map<SearchResult>((build) => ({
     title: `Build ${build.id}`,
     icon: <Icon icon="builds"/>,
     href: `/build/${build.id}`,

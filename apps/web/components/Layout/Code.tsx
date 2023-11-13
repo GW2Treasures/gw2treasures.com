@@ -1,4 +1,4 @@
-import { FC, ReactNode } from 'react';
+import { type FC, type ReactNode } from 'react';
 import styles from './Code.module.css';
 import { Source_Code_Pro } from 'next/font/google';
 import { cx } from '@gw2treasures/ui';

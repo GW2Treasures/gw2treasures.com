@@ -11,5 +11,8 @@ declare module 'csstype' {
     // add known custom properties
     '--icon-size'?: `${string}px`;
     '--icon-color'?: Property.Color,
+
+    // allow all custom properties
+    [index: `--${string}`]: string | number;
   }
 }

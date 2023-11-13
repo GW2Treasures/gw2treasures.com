@@ -1,11 +1,11 @@
 import Link from 'next/link';
-import { Language } from '@gw2treasures/database';
+import type { Language } from '@gw2treasures/database';
 import { ItemTooltip } from '@/components/Item/ItemTooltip';
 import DetailLayout from '@/components/Layout/DetailLayout';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { TableOfContentAnchor } from '@gw2treasures/ui/components/TableOfContent/TableOfContent';
 import rarityClasses from '@/components/Layout/RarityColor.module.css';
-import { Notice } from '@/components/Notice/Notice';
+import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { FormatDate } from '@/components/Format/FormatDate';
 import { ItemList } from '@/components/ItemList/ItemList';
@@ -14,7 +14,7 @@ import { SkinLink } from '@/components/Skin/SkinLink';
 import { Json } from '@/components/Format/Json';
 import { RecipeBox } from '@/components/Recipe/RecipeBox';
 import { ItemIngredientFor } from '@/components/Item/ItemIngredientFor';
-import { AsyncComponent } from '@/lib/asyncComponent';
+import type { AsyncComponent } from '@/lib/asyncComponent';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 import { SkeletonTable } from '@/components/Skeleton/SkeletonTable';
@@ -23,7 +23,7 @@ import { AchievementLink } from '@/components/Achievement/AchievementLink';
 import { Tooltip } from '@/components/Tooltip/Tooltip';
 import { ItemLinkTooltip } from '@/components/Item/ItemLinkTooltip';
 import { Icon } from '@gw2treasures/ui';
-import { Tip } from '@/components/Tip/Tip';
+import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 import { RemovedFromApiNotice } from '@/components/Notice/RemovedFromApiNotice';
 import { RecipeBoxWrapper } from '@/components/Recipe/RecipeBoxWrapper';
 import { SimilarItems } from './similar-items';
@@ -37,7 +37,8 @@ import { ItemTableContext } from '@/components/ItemTable/ItemTableContext';
 import { ItemTableColumnsButton } from '@/components/ItemTable/ItemTableColumnsButton';
 import { extraColumn, globalColumnDefinitions } from '@/components/ItemTable/columns';
 import { ContentChanceColumn, ContentQuantityColumn, ItemContentQuantityColumn } from './ExtraColumns';
-import { TODO } from '@/lib/todo';
+import type { TODO } from '@/lib/todo';
+import { pageView } from '@/lib/pageView';
 
 export interface ItemPageComponentProps {
   language: Language;
@@ -54,7 +55,8 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
   // load data
   const [item, { revision, data }] = await Promise.all([
     getItem(itemId, language),
-    getRevision(itemId, language, revisionId)
+    getRevision(itemId, language, revisionId),
+    pageView('item', itemId)
   ]);
 
   // 404 if item doesnt exist

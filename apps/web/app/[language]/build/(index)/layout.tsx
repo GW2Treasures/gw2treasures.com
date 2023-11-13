@@ -1,6 +1,6 @@
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { HeroLayout } from '@/components/Layout/HeroLayout';
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 export default function BuildLayout({ children }: { children: ReactNode }) {
   return (

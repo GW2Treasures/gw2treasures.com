@@ -1,8 +1,8 @@
 'use client';
 
-import { FC, ReactNode, useEffect, useMemo, useState } from 'react';
+import { type FC, type ReactNode, useEffect, useMemo, useState } from 'react';
 import { context } from './context';
-import { AvailableColumns, GlobalColumnId } from './types';
+import type { AvailableColumns, GlobalColumnId } from './types';
 
 interface ItemTableContextProps {
   children: ReactNode;

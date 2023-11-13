@@ -1,20 +1,20 @@
-import { LocalizedEntity } from '@/lib/localizedName';
-import { IngredientItem, Item, Recipe, Revision } from '@gw2treasures/database';
-import { FC } from 'react';
+import type { LocalizedEntity } from '@/lib/localizedName';
+import type { IngredientItem, Item, Recipe, Revision } from '@gw2treasures/database';
+import type { FC } from 'react';
 import { Icon } from '@gw2treasures/ui';
-import { With, WithIcon } from '../../lib/with';
+import type { With, WithIcon } from '@/lib/with';
 import { DropDown } from '../DropDown/DropDown';
 import { Button, LinkButton } from '@gw2treasures/ui/components/Form/Button';
 import { CopyButton } from '@gw2treasures/ui/components/Form/Buttons/CopyButton';
 import { ItemLink } from '../Item/ItemLink';
 import { MenuList } from '../MenuList/MenuList';
-import { Discipline, DisciplineIcon } from './DisciplineIcon';
+import { type Discipline, DisciplineIcon } from './DisciplineIcon';
 import { Ingredients } from './Ingredients';
 import styles from './RecipeBox.module.css';
 import { encode } from 'gw2e-chat-codes';
 import { ShowMore } from '../ShowMore/ShowMore';
 import { ResetTimer } from 'app/[language]/achievement/(index)/reset-timer';
-import { Tip } from '../Tip/Tip';
+import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 import { OutputCount } from '../Item/OutputCount';
 
 interface RecipeBoxProps {

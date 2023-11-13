@@ -1,10 +1,10 @@
-import { Language } from '@gw2treasures/database';
+import type { Language } from '@gw2treasures/database';
 import DetailLayout from '@/components/Layout/DetailLayout';
 import { db } from '@/lib/prisma';
 import rarityClasses from '@/components/Layout/RarityColor.module.css';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { Rarity } from '@/components/Item/Rarity';
-import { Gw2Api } from 'gw2-api-types';
+import type { Gw2Api } from 'gw2-api-types';
 import { notFound } from 'next/navigation';
 import { ItemList } from '@/components/ItemList/ItemList';
 import { SkinLink } from '@/components/Skin/SkinLink';
@@ -13,11 +13,14 @@ import { remember } from '@/lib/remember';
 import { linkPropertiesWithoutRarity } from '@/lib/linkProperties';
 import { AchievementLink } from '@/components/Achievement/AchievementLink';
 import { TableOfContentAnchor } from '@gw2treasures/ui/components/TableOfContent/TableOfContent';
-import { ExternalLink } from '@/components/Link/ExternalLink';
+import { ExternalLink } from '@gw2treasures/ui/components/Link/ExternalLink';
 import { localizedName } from '@/lib/localizedName';
 import { ItemTable } from '@/components/ItemTable/ItemTable';
 import { ItemTableContext } from '@/components/ItemTable/ItemTableContext';
 import { ItemTableColumnsButton } from '@/components/ItemTable/ItemTableColumnsButton';
+import { format } from 'gw2-tooltip-html';
+import styles from './page.module.css';
+import type { Metadata } from 'next';
 
 const getSkin = remember(60, async function getSkin(id: number, language: Language) {
   const [skin, revision] = await Promise.all([
@@ -40,7 +43,14 @@ const getSkin = remember(60, async function getSkin(id: number, language: Langua
   return { skin, revision, similar };
 });
 
-async function SkinPage ({ params: { language, id }}: { params: { language: Language, id: string }}) {
+interface SkinPageProps {
+  params: {
+    language: Language;
+    id: string;
+  }
+}
+
+async function SkinPage ({ params: { language, id }}: SkinPageProps) {
   const skinId: number = Number(id);
 
   const { skin, revision, similar } = await getSkin(skinId, language);
@@ -57,6 +67,7 @@ async function SkinPage ({ params: { language, id }}: { params: { language: Lang
     >
       <TableOfContentAnchor id="tooltip">Tooltip</TableOfContentAnchor>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        {data.description && (<p className={styles.description} dangerouslySetInnerHTML={{ __html: format(data.description) }}/>)}
         <div><Rarity rarity={data.rarity}/></div>
         <div>{data.details?.type}</div>
         <div>{data.details?.weight_class}</div>
@@ -110,3 +121,12 @@ async function SkinPage ({ params: { language, id }}: { params: { language: Lang
 };
 
 export default SkinPage;
+
+export async function generateMetadata({ params: { language, id }}: SkinPageProps): Promise<Metadata> {
+  const skinId: number = Number(id);
+  const { skin } = await getSkin(skinId, language);
+
+  return {
+    title: localizedName(skin, language)
+  };
+};

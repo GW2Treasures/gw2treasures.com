@@ -1,14 +1,14 @@
 import { FormatDate } from '@/components/Format/FormatDate';
 import { ItemLink } from '@/components/Item/ItemLink';
 import { HeroLayout } from '@/components/Layout/HeroLayout';
-import { Notice } from '@/components/Notice/Notice';
+import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import { getUser } from '@/lib/getUser';
 import { linkProperties, linkPropertiesWithoutRarity } from '@/lib/linkProperties';
 import { db } from '@/lib/prisma';
 import { Button, LinkButton } from '@gw2treasures/ui/components/Form/Button';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
-import { EditContentOrder } from 'app/[language]/item/[id]/_edit-content/types';
+import type { EditContentOrder } from 'app/[language]/item/[id]/_edit-content/types';
 import { notFound } from 'next/navigation';
 import { approve, reject } from './actions';
 import Link from 'next/link';

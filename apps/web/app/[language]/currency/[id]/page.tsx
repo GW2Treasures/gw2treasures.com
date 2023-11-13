@@ -1,18 +1,16 @@
-import { Language } from '@gw2treasures/database';
+import type { Language } from '@gw2treasures/database';
 import { db } from '@/lib/prisma';
 import { remember } from '@/lib/remember';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import DetailLayout from '@/components/Layout/DetailLayout';
 import { notFound } from 'next/navigation';
-import { Gw2Api } from 'gw2-api-types';
+import type { Gw2Api } from 'gw2-api-types';
 import { Json } from '@/components/Format/Json';
 import { linkProperties } from '@/lib/linkProperties';
 import { ItemList } from '@/components/ItemList/ItemList';
 import { CurrencyLink } from '@/components/Currency/CurrencyLink';
 import { CurrencyValue } from '@/components/Currency/CurrencyValue';
 import { ItemLink } from '@/components/Item/ItemLink';
-
-export const dynamic = 'force-dynamic';
 
 const getCurrency = remember(60, async function getCurrency(id: number, language: Language) {
   if(isNaN(id)) {

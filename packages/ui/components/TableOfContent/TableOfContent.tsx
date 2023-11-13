@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, FC, MouseEventHandler, ReactNode, useCallback, useContext, useEffect, useReducer, useState } from 'react';
+import { createContext, type FC, type MouseEventHandler, type ReactNode, useCallback, useContext, useEffect, useReducer, useState } from 'react';
 import styles from './TableOfContent.module.css';
 
 type Anchor = { id: string, element: HTMLElement, label: ReactNode };

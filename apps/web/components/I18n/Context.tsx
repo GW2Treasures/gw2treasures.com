@@ -1,7 +1,7 @@
 'use client';
 
-import { Language } from '@gw2treasures/database';
-import { createContext, FC, ReactNode, useContext } from 'react';
+import type { Language } from '@gw2treasures/database';
+import { createContext, type FC, type ReactNode, useContext } from 'react';
 
 interface I18nContext {
   language: Language;

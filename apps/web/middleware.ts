@@ -1,113 +1,45 @@
 import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
-import { getUrlFromParts, getUrlPartsFromRequest } from './lib/urlParts';
-import { SessionCookieName } from './lib/auth/cookie';
-import { Language } from '@gw2treasures/database';
+import { NextRequest } from 'next/server';
+import { healthMiddleware } from './middleware/health';
+import type { NextMiddleware } from './middleware/types';
+import { logMiddleware } from './middleware/log';
+import { realUrlMiddleware } from './middleware/real-url';
+import { subdomainMiddleware } from './middleware/subdomain';
+import { languageMiddleware } from './middleware/language';
+import { sessionMiddleware } from './middleware/session';
+import { apiKeyMiddleware } from './middleware/api-key';
+import { rewriteMiddleware } from './middleware/rewrite';
+import { corsMiddleware } from './middleware/cors';
 
-const languages = ['de', 'en', 'es', 'fr'] as readonly Language[];
-const subdomains = [...languages, 'api'] as const;
-const baseDomain = process.env.GW2T_NEXT_DOMAIN;
+export async function middleware(request: NextRequest) {
+  const middlewares: NextMiddleware[] = [
+    logMiddleware,
+    healthMiddleware,
+    corsMiddleware,
+    realUrlMiddleware,
+    subdomainMiddleware,
+    languageMiddleware,
+    sessionMiddleware,
+    apiKeyMiddleware,
+    rewriteMiddleware,
+  ];
 
-export function middleware(request: NextRequest) {
-  if(request.nextUrl.pathname === '/_/health') {
-    return new NextResponse('UP');
-  }
+  const data = {};
 
-  const { domain, protocol, port, path } = getUrlPartsFromRequest(request);
-  const realUrl = getUrlFromParts({ domain, protocol, port, path });
-
-  const language = subdomains.find((lang) => domain === `${lang}.${baseDomain}`);
-
-  if(!language) {
-    const url = getUrlFromParts({ protocol, domain: `en.${baseDomain}`, port, path });
-
-    console.log(`> Redirecting to ${url}`);
-
-    return NextResponse.redirect(url);
-  }
-
-  const headers = request.headers;
-  headers.set('x-gw2t-real-url', realUrl);
-
-  // set custom headers
-  if(language !== 'api') {
-    // handle normal language subdomains
-    headers.set('x-gw2t-lang', language);
-
-    // set user session based on cookie
-    if(request.cookies.has(SessionCookieName)) {
-      const sessionId = request.cookies.get(SessionCookieName)!.value;
-
-      headers.set('x-gw2t-session', sessionId);
-    }
-  } else {
-    // handle api requests
-    const lang = request.nextUrl.searchParams.get('lang')!;
-
-    if(languages.includes(lang as any)) {
-      headers.set('x-gw2t-lang', lang);
-    } else {
-      headers.set('x-gw2t-lang', 'en');
+  let index = 0;
+  const next = async (request: NextRequest) => {
+    if (index < middlewares.length) {
+      return await middlewares[index++](request, next, data);
     }
 
-    // get api key
-    const apiKey = getApiKeyFromRequest(request);
-    if(apiKey) {
-      headers.set('x-gw2t-apikey', apiKey);
-    }
-  }
+    return NextResponse.next({ request });
+  };
 
-  const url = request.nextUrl.clone();
-  url.pathname = `/${language}${url.pathname}`;
+  const response = await next(request);
 
-  return NextResponse.rewrite(url, { headers: corsHeader(request), request: { headers }});
-}
-
-function corsHeader(request: NextRequest): {} | { 'Access-Control-Allow-Origin': string } {
-  const origin = request.headers.get('Origin');
-
-  if(!origin) {
-    return {};
-  }
-
-  const regex = new RegExp(`^https?://(${languages.join('|')})\.${baseDomain?.replace('.', '\.')}`);
-  const isAllowed = origin.match(regex);
-
-  if(isAllowed) {
-    return {
-      'Access-Control-Allow-Origin': origin,
-
-      // `Vary: Origin` is required, because otherwise `Access-Control-Allow-Origin` is cached for wrong origins
-      // nextjs currently doesn't support setting `Vary` in middleware (https://github.com/vercel/next.js/issues/48480)
-      // so every relevant endpoint needs to set `Vary: Origin` on the response.
-      'Vary': 'Origin'
-    };
-  }
-
-  throw new Error('CORS');
+  return response;
 }
 
 export const config = {
   matcher: '/((?!_next/static|_next/image|favicon.ico|android-chrome-[^/]+.png|apple-touch-icon.png|browserconfig.xml|favicon-[^/]+.png|mstile-[^/]+.png|robots.txt|safari-pinned-tab.svg|site.webmanifest|maskable_icon_[^/]+.png).*)',
 };
-
-function getApiKeyFromRequest(request: NextRequest): string | undefined {
-  if(request.headers.has('Authorization')) {
-    const authorizationHeader = request.headers.get('Authorization')!;
-    const [type, key] = authorizationHeader.split(' ');
-
-    if(type === 'Bearer') {
-      return key;
-    }
-
-    return undefined;
-  }
-
-  if(request.nextUrl.searchParams.has('apiKey')) {
-    const apiKey = request.nextUrl.searchParams.get('apiKey');
-
-    return apiKey ?? undefined;
-  }
-
-  return undefined;
-}

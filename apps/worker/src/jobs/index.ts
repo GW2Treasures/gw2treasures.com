@@ -22,8 +22,10 @@ import { ItemsNew } from './items/new';
 import { ItemsRediscovered } from './items/rediscovered';
 import { ItemsRemoved } from './items/removed';
 import { ItemsUpdate } from './items/update';
+import { ItemsViews } from './items/views';
 import { Job } from './job';
 import { JobsCleanup } from './jobs/cleanup';
+import { PageViewAggregate } from './page-view/aggregate';
 import { RecipesCheck } from './recipes/check';
 import { RecipesMigrate } from './recipes/migrate';
 import { RecipesNew } from './recipes/new';
@@ -41,6 +43,12 @@ import { SkinsRediscovered } from './skins/rediscovered';
 import { SkinsRemoved } from './skins/removed';
 import { SkinsUnlocks } from './skins/unlocks';
 import { SkinsUpdate } from './skins/update';
+import { TitlesCheck } from './titles/check';
+import { titlesMigrate } from './titles/migrate';
+import { TitlesNew } from './titles/new';
+import { TitlesRediscovered } from './titles/rediscovered';
+import { TitlesRemoved } from './titles/removed';
+import { TitlesUpdate } from './titles/update';
 
 const jobsInternal = {
   'test': { run: () => undefined } as Job,
@@ -52,6 +60,7 @@ const jobsInternal = {
   'items.update': ItemsUpdate,
   'items.migrate': ItemsMigrate,
   'items.containerContent': ItemsContainerContent,
+  'items.views': ItemsViews,
 
   'skills.check': SkillsCheck,
   'skills.new': SkillsNew,
@@ -91,9 +100,18 @@ const jobsInternal = {
   'currencies.update': CurrenciesUpdate,
   'currencies.migrate': CurrenciesMigrate,
 
+  'titles.check': TitlesCheck,
+  'titles.new': TitlesNew,
+  'titles.removed': TitlesRemoved,
+  'titles.rediscovered': TitlesRediscovered,
+  'titles.update': TitlesUpdate,
+  'titles.migrate': titlesMigrate,
+
   'gw2api-requests.cleanup': Gw2ApiRequestsCleanup,
 
   'icons.colors': IconsColors,
+
+  'page-views.aggregate': PageViewAggregate,
 
   'jobs.cleanup': JobsCleanup,
 };

@@ -1,18 +1,22 @@
 {
   "name": "@gw2treasures/icons",
-  "version": "0.0.2",
+  "version": "0.0.14",
   "description": "Icons for gw2treasures.com",
   "main": "dist/index.js",
   "types": "dist/index.ts",
   "files": [
-    "dist/"
+    "dist/",
+    "styles.css"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "ts-node build",
     "publish-package": "if test `npm view . version | sed -n 2p` != $npm_package_version; then npm publish --access public; else echo not changed; fi"
   },
-  "repository": "https://github.com/GW2Treasures/gw2treasures.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GW2Treasures/gw2treasures.com.git"
+  },
   "keywords": [
     "gw2treasures",
     "icons"
@@ -24,9 +28,10 @@
   },
   "homepage": "https://github.com/gw2treasures/gw2treasures.com#readme",
   "devDependencies": {
+    "@babel/plugin-transform-react-jsx": "7.22.15",
     "@svgr/core": "8.1.0",
     "@svgr/plugin-jsx": "8.1.0",
-    "@types/node": "18.17.18",
+    "@types/node": "18.18.9",
     "rimraf": "3.0.2",
     "ts-node": "10.9.1"
   },

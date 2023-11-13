@@ -1,4 +1,4 @@
-import { FC, Fragment, Key, memo, ReactNode, useCallback, useMemo, useState } from 'react';
+import { type FC, Fragment, type Key, memo, type ReactNode, useCallback, useMemo, useState } from 'react';
 import { Table } from './Table';
 import styles from './Table.module.css';
 

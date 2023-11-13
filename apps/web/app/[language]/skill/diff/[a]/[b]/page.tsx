@@ -1,13 +1,13 @@
 import Link from 'next/link';
-import { Gw2Api } from 'gw2-api-types';
+import type { Gw2Api } from 'gw2-api-types';
 import { DiffLayout, DiffLayoutHeader, DiffLayoutRow } from '@/components/Layout/DiffLayout';
 import { EntityIcon } from '@/components/Entity/EntityIcon';
 import { parseIcon } from '@/lib/parseIcon';
 import { FormatDate } from '@/components/Format/FormatDate';
 import { Fact } from '@/components/Skill/SkillTooltip';
-import { Notice } from '@/components/Notice/Notice';
+import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import { format } from 'gw2-tooltip-html';
-import { Separator } from '@/components/Layout/Separator';
+import { Separator } from '@gw2treasures/ui/components/Layout/Separator';
 import { Json } from '@/components/Format/Json';
 import { notFound } from 'next/navigation';
 import { Fragment } from 'react';

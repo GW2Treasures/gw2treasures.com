@@ -1,9 +1,9 @@
-import { FC, useMemo } from 'react';
+import { type FC, useMemo } from 'react';
 import { Dialog } from '../Dialog/Dialog';
 import { Label } from '@gw2treasures/ui/components/Form/Label';
 import { Select } from '@gw2treasures/ui/components/Form/Select';
 import { useLanguage } from '../I18n/Context';
-import { Separator } from '../Layout/Separator';
+import { Separator } from '@gw2treasures/ui/components/Layout/Separator';
 import { MenuList } from '../MenuList/MenuList';
 import { useFormatContext } from './FormatContext';
 import { FormatDate } from './FormatDate';

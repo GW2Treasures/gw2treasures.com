@@ -1,7 +1,7 @@
 import { Code } from '@/components/Layout/Code';
 import { HeroLayout } from '@/components/Layout/HeroLayout';
 import { Highlight } from '@/components/Layout/Highlight';
-import { ExternalLink } from '@/components/Link/ExternalLink';
+import { ExternalLink } from '@gw2treasures/ui/components/Link/ExternalLink';
 import { getCurrentUrl } from '@/lib/url';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
@@ -45,11 +45,42 @@ export default function DeveloperIconsPage() {
         </thead>
         <tbody>
           <tr>
-            <th><Code inline>/items</Code></th>
+            <th><Link href="#/items"><Code inline>/items</Code></Link></th>
             <td>Get a list of all item ids</td>
           </tr>
         </tbody>
       </Table>
+
+      <Headline id="/items">GET <Code inline>/items</Code></Headline>
+      <p>Get a list of all item ids.</p>
+
+      <Table>
+        <thead>
+          <tr>
+            <Table.HeaderCell small>Parameter</Table.HeaderCell>
+            <Table.HeaderCell>Description</Table.HeaderCell>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th><Code inline>type</Code></th>
+            <td>Filter the item <Code inline>type</Code>. Examples: Weapon, Armor, …</td>
+          </tr>
+          <tr>
+            <th><Code inline>subtype</Code></th>
+            <td>Filter the item subtype (provided in <Code inline>details.type</Code>). Examples: Axe, Coat, …</td>
+          </tr>
+          <tr>
+            <th><Code inline>rarity</Code></th>
+            <td>Filter the item <Code inline>rarity</Code>. Examples: Exotic, Ascended, …</td>
+          </tr>
+          <tr>
+            <th><Code inline>weight</Code></th>
+            <td>Filter the item weight. Only returns items with type Armor. Examples: Light, Medium, Heavy</td>
+          </tr>
+        </tbody>
+      </Table>
+
     </HeroLayout>
   );
 };

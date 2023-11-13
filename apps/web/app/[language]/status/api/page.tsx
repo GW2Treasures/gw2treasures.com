@@ -3,13 +3,13 @@ import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { PageLayout } from '@/components/Layout/PageLayout';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { db } from '@/lib/prisma';
-import { ApiRequest } from '@gw2treasures/database';
+import type { ApiRequest } from '@gw2treasures/database';
 import { Fragment } from 'react';
 import styles from './page.module.css';
 import { ReloadCheckbox } from '@/components/Reload/ReloadCheckbox';
 import { PeriodSelect } from './period-select';
 import { availablePeriods } from './available-periods';
-import { Tip } from '@/components/Tip/Tip';
+import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 
 async function getData(hours: number) {
   const now = new Date();

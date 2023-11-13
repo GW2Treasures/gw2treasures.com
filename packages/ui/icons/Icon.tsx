@@ -1,5 +1,5 @@
-import { cloneElement, CSSProperties, forwardRef, FunctionComponent } from 'react';
-import { getIcon, IconProp } from './index';
+import { cloneElement, type CSSProperties, forwardRef, type FunctionComponent } from 'react';
+import { getIcon, type IconProp } from './index';
 import styles from './Icon.module.css';
 import { cx } from '../lib';
 

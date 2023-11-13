@@ -1,16 +1,16 @@
 'use client';
 
-import { LocalizedEntity } from '@/lib/localizedName';
-import { WithIcon } from '@/lib/with';
-import { Item } from '@gw2treasures/database';
-import { FC, useState } from 'react';
+import type { LocalizedEntity } from '@/lib/localizedName';
+import type { WithIcon } from '@/lib/with';
+import type { Item } from '@gw2treasures/database';
+import { type FC, useState } from 'react';
 import { Dialog } from '../Dialog/Dialog';
 import { TextInput } from '@gw2treasures/ui/components/Form/TextInput';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { useDebounce } from '@/lib/useDebounce';
 import { useJsonFetch } from '@/lib/useFetch';
 import { SkeletonTable } from '../Skeleton/SkeletonTable';
-import { ApiItemSearchResponse } from 'app/[language]/api/item/search/route';
+import type { ApiItemSearchResponse } from 'app/[language]/api/item/search/route';
 import { ItemLink } from './ItemLink';
 import { Button } from '@gw2treasures/ui/components/Form/Button';
 import { getLinkProperties } from '@/lib/linkProperties';

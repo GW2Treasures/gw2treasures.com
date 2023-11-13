@@ -1,8 +1,7 @@
-import { FlexRow } from '@/components/Layout/FlexRow';
 import { getUser } from '@/lib/getUser';
-import { Button, LinkButton } from '@gw2treasures/ui/components/Form/Button';
+import { LinkButton } from '@gw2treasures/ui/components/Form/Button';
 import { notFound, redirect } from 'next/navigation';
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 interface AdminLayoutProps {
   children: ReactNode;

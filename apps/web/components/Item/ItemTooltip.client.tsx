@@ -1,4 +1,4 @@
-import { FC, Fragment } from 'react';
+import { type FC, Fragment } from 'react';
 import { FormatNumber } from '../Format/FormatNumber';
 import { ItemTooltip } from './ItemTooltip';
 import { Rarity } from './Rarity';

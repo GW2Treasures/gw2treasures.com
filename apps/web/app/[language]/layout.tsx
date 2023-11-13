@@ -3,14 +3,18 @@ import 'server-only';
 import '../../styles/globals.css';
 import '../../styles/variables.css';
 
+import '@gw2treasures/icons/styles.css';
+
 import { FormatProvider } from '@/components/Format/FormatContext';
 import Layout from '@/components/Layout/Layout';
 import { Bitter } from 'next/font/google';
 import localFont from 'next/font/local';
 import { cx } from '@gw2treasures/ui';
 import { I18nProvider } from '@/components/I18n/I18nProvider';
-import { Language } from '@gw2treasures/database';
+import type { Language } from '@gw2treasures/database';
 import { ItemTableContext } from '@/components/ItemTable/ItemTableContext';
+import { Gw2ApiProvider } from '@/components/Gw2Api/Gw2ApiProvider';
+import { getUser } from '@/lib/getUser';
 
 const bitter = Bitter({
   subsets: ['latin'],
@@ -26,13 +30,15 @@ const wotfard = localFont({
   variable: '--font-wotfard',
 });
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
   params,
 }: {
   children: React.ReactNode;
   params: { language: Language; };
 }) {
+  const user = await getUser();
+
   return (
     <html lang={params.language} className={cx(bitter.variable, wotfard.variable)}>
       <head>
@@ -42,7 +48,9 @@ export default function RootLayout({
         <I18nProvider language={params.language}>
           <FormatProvider>
             <ItemTableContext global id="global">
-              <Layout>{children}</Layout>
+              <Gw2ApiProvider user={user}>
+                <Layout>{children}</Layout>
+              </Gw2ApiProvider>
             </ItemTableContext>
           </FormatProvider>
         </I18nProvider>
@@ -65,7 +73,6 @@ export const metadata = {
     statusBarStyle: 'default',
   },
   formatDetection: { address: false, date: false, email: false, telephone: false, url: false },
-  themeColor: '#b7000d',
   icons: {
     apple: { url: 'apple-touch-icon.png', sizes: '180x180' },
     icon: [
@@ -79,6 +86,6 @@ export const metadata = {
   }
 };
 
-export const generateStaticParams = process.env.NODE_ENV === 'production' ? function generateStaticParams() {
-  return [{ language: 'de' }, { language: 'en' }, { language: 'es' }, { language: 'fr' }];
-} : undefined;
+export const viewport = {
+  themeColor: '#b7000d',
+};

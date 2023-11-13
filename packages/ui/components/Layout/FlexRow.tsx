@@ -1,6 +1,6 @@
-import { FC, ReactNode } from 'react';
+import type { FC, ReactNode } from 'react';
 import styles from './FlexRow.module.css';
-import { cx } from '@gw2treasures/ui';
+import { cx } from '../../lib';
 
 interface FlexRowProps {
   align?: 'left' | 'right' | 'center' | 'space-between';

@@ -17,12 +17,15 @@
   text-align: left;
 }
 
-.tierTable tr:first-child {
-  border-bottom: 2px solid var(--color-border);
+.tierTable tr:not(:last-child) {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.tierTable tr:nth-child(1) {
+  border-bottom-width: 3px;
 }
 
 .tierTable td:last-child {
-  font-weight: 500;
   padding-left: 32px;
 }
 

@@ -1,6 +1,6 @@
 import { RecipeTable } from '../Recipe/RecipeTable';
 import { db } from '@/lib/prisma';
-import { AsyncComponent } from '@/lib/asyncComponent';
+import type { AsyncComponent } from '@/lib/asyncComponent';
 import 'server-only';
 import { remember } from '@/lib/remember';
 import { linkProperties } from '@/lib/linkProperties';

@@ -1,7 +1,7 @@
 'use client';
 
 import { Icon } from '@gw2treasures/ui';
-import { FC } from 'react';
+import type { FC } from 'react';
 import styles from './Chatlink.module.css';
 
 export interface ChatlinkProps {

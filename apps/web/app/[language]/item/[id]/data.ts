@@ -1,8 +1,8 @@
 import { remember } from '@/lib/remember';
-import { Item, Language } from '@gw2treasures/database';
+import type { Item, Language } from '@gw2treasures/database';
 import { db } from '@/lib/prisma';
 import { linkProperties, linkPropertiesWithoutRarity } from '@/lib/linkProperties';
-import { Gw2Api } from 'gw2-api-types';
+import type { Gw2Api } from 'gw2-api-types';
 
 export const getItem = remember(60, function getItem(id: number, language: Language) {
   return db.item.findUnique({

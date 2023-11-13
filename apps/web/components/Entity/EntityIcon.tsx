@@ -1,10 +1,10 @@
 'use client';
 
 /* eslint-disable @next/next/no-img-element */
-import { FC, useCallback, useState } from 'react';
-import { Icon } from '@gw2treasures/database';
+import { type FC, useCallback, useState } from 'react';
+import type { Icon } from '@gw2treasures/database';
 import styles from './EntityIcon.module.css';
-import { getIconUrl, IconSize } from '@/lib/getIconUrl';
+import { getIconUrl, type IconSize } from '@/lib/getIconUrl';
 import { cx } from '@gw2treasures/ui';
 
 export type EntityIconType = 'skill';

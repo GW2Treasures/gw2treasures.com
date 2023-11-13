@@ -1,7 +1,7 @@
 'use server';
 
 import { getUser } from '@/lib/getUser';
-import { CanSubmitResponse, EditContentOrder, EditContentSubmitError } from './types';
+import { type CanSubmitResponse, type EditContentOrder, EditContentSubmitError } from './types';
 import { db } from '@/lib/prisma';
 import { ContentChance, ReviewState } from '@gw2treasures/database';
 

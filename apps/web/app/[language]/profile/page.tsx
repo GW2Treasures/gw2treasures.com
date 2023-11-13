@@ -5,10 +5,10 @@ import { HeroLayout } from '@/components/Layout/HeroLayout';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { getUser } from '@/lib/getUser';
 import { db } from '@/lib/prisma';
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { cache } from 'react';
-import { FlexRow } from '@/components/Layout/FlexRow';
+import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 
 const getUserData = cache(async () => {
   const session = await getUser();
@@ -19,7 +19,10 @@ const getUserData = cache(async () => {
 
   const user = await db.user.findUnique({
     where: { id: session.id },
-    include: { sessions: true, providers: true },
+    include: {
+      sessions: { orderBy: { lastUsed: 'desc' }},
+      providers: true
+    },
   });
 
   if(!user) {
@@ -31,8 +34,6 @@ const getUserData = cache(async () => {
     user,
   };
 });
-
-export const dynamic = 'force-dynamic';
 
 export default async function ProfilePage() {
   const { sessionId, user } = await getUserData();

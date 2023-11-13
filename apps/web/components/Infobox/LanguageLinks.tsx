@@ -1,5 +1,5 @@
-import { Language } from '@gw2treasures/database';
-import { cloneElement, FC, ReactElement } from 'react';
+import type { Language } from '@gw2treasures/database';
+import { cloneElement, type FC, type ReactElement } from 'react';
 import styles from './LanguageLinks.module.css';
 
 interface LanguageLinksProps {

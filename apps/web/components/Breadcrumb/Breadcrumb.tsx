@@ -1,4 +1,4 @@
-import { Children, FC, ReactNode } from 'react';
+import { Children, type FC, type ReactNode } from 'react';
 import styles from './Breadcrumb.module.css';
 
 export interface BreadcrumbProps {

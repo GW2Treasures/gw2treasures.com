@@ -1,13 +1,13 @@
 'use client';
 
-import { FC, useCallback, useEffect, useState } from 'react';
-import { Button, ButtonProps } from '../Button';
+import { type FC, forwardRef, useCallback, useEffect, useState } from 'react';
+import { Button, type ButtonProps } from '../Button';
 
 export interface CopyButtonProps extends Omit<ButtonProps, 'onClick'> {
   copy: string;
 }
 
-export const CopyButton: FC<CopyButtonProps> = ({ copy, ...props }) => {
+export const CopyButton: FC<CopyButtonProps> = forwardRef<HTMLButtonElement, CopyButtonProps>(function CopyButton ({ copy, ...props }, ref) {
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
@@ -31,6 +31,6 @@ export const CopyButton: FC<CopyButtonProps> = ({ copy, ...props }) => {
   const overrideProps: Partial<ButtonProps> = copied && props.icon ? { icon: 'checkmark' } : {};
 
   return (
-    <Button onClick={handleCopy} {...props} {...overrideProps}/>
+    <Button onClick={handleCopy} {...props} {...overrideProps} ref={ref}/>
   );
-};
+});

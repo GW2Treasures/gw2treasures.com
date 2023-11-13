@@ -1,0 +1,20 @@
+.cell {
+  position: relative;
+}
+
+.cell::before {
+  content: '';
+  display: block;
+  position: absolute;
+  inset: 6px 8px 6px 0;
+  background-color: var(--color-diff-added);
+  width: calc(var(--progress) * (100% - 16px));
+  min-width: 4px;
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+.content {
+  position: relative;
+  padding-right: 16px;
+}

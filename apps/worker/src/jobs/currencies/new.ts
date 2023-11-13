@@ -22,6 +22,8 @@ export const CurrenciesNew: Job = {
 
       const iconId = await createIcon(en.icon);
 
+      // TODO: add ingredients
+
       await db.currency.create({
         data: {
           id,

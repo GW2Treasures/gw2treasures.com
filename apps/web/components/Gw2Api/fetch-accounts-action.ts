@@ -23,7 +23,7 @@ export async function fetchAccounts(): Promise<FetchAccountResponse> {
     return { error: ErrorCode.NOT_LOGGED_IN };
   }
 
-  const requiredScopes = [Scope.GW2_Account, Scope.GW2_Progression];
+  const requiredScopes = [Scope.GW2_Account, Scope.GW2_Progression, Scope.GW2_Characters, Scope.GW2_Inventories, Scope.GW2_Unlocks];
   if(requiredScopes.some((scope) => !token.scope.includes(scope))) {
     return { error: ErrorCode.MISSING_PERMISSION };
   }

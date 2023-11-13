@@ -48,7 +48,7 @@ export const Gw2ApiProvider: FC<Gw2ApiProviderProps> = ({ children, user }) => {
       {children}
       {(error === ErrorCode.REAUTHORIZE || error === ErrorCode.MISSING_PERMISSION) && (
         <form className={styles.dialog} action={reauthorize}>
-          Authorize gw2treasures.com to view your progress.
+          Authorize gw2treasures.com to get your inventory and progress.
           <div>
             <FlexRow>
               <Button onClick={() => setError(undefined)}>Later</Button>

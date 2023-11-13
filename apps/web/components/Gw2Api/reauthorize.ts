@@ -11,7 +11,7 @@ export async function reauthorize() {
   const redirect_uri = new URL('/auth/callback', getCurrentUrl()).toString();
 
   // get gw2.me auth url
-  const url = gw2me.getAuthorizationUrl({ redirect_uri, scopes: [Scope.Identify, Scope.Email, Scope.GW2_Account, Scope.GW2_Progression], prompt: 'consent' });
+  const url = gw2me.getAuthorizationUrl({ redirect_uri, scopes: [Scope.Identify, Scope.Email, Scope.GW2_Account, Scope.GW2_Progression, Scope.GW2_Characters, Scope.GW2_Inventories, Scope.GW2_Unlocks], prompt: 'consent' });
 
   // redirect to gw2.me
   redirect(url);

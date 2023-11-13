@@ -1,26 +1,42 @@
 /* eslint-disable @next/next/no-img-element */
-import type { FC } from 'react';
 import type { Gw2Api } from 'gw2-api-types';
-import { format } from 'gw2-tooltip-html';
+import type { AsyncComponent } from '@/lib/asyncComponent';
+import type { Language } from '@gw2treasures/database';
+import { ClientSkillTooltip } from './SkillTooltip.client';
+import type { FC } from 'react';
 import styles from './SkillTooltip.module.css';
-import { Separator } from '@gw2treasures/ui/components/Layout/Separator';
+import { format } from 'gw2-tooltip-html';
 
 export interface SkillTooltipProps {
-  data: Gw2Api.Skill;
+  skill: Gw2Api.Skill;
+  language: Language;
 }
 
-export const SkillTooltip: FC<SkillTooltipProps> = ({ data }) => {
+
+export const SkillTooltip: AsyncComponent<SkillTooltipProps> = async ({ skill, language }) => {
+  const tooltip = await createTooltip(skill, language);
+
   return (
-    <div>
-      <div dangerouslySetInnerHTML={{ __html: format(data.description) }} className={styles.description}/>
-      { /* eslint-disable-next-line react/no-array-index-key */ }
-      {data.facts?.map((fact, index) => <Fact key={index} fact={fact}/>)}
-      {data.facts && data.traited_facts && data.facts?.length > 0 && data.traited_facts?.length > 0 && (<Separator/>)}
-      { /* eslint-disable-next-line react/no-array-index-key */ }
-      {data.traited_facts?.map((fact, index) => <Fact key={index} fact={fact}/>)}
-    </div>
+    <ClientSkillTooltip tooltip={tooltip}/>
   );
 };
+
+export interface SkillTooltip {
+  language: Language,
+  description: string,
+  facts?: Gw2Api.Skill['facts'],
+  traited_facts?: Gw2Api.Skill['traited_facts'],
+}
+
+// eslint-disable-next-line require-await
+export async function createTooltip(skill: Gw2Api.Skill, language: Language): Promise<SkillTooltip> {
+  return {
+    language,
+    description: skill.description,
+    facts: skill.facts,
+    traited_facts: skill.traited_facts,
+  };
+}
 
 type ArrayType<T> = T extends Array<any> ? T[0] : never;
 
@@ -101,5 +117,5 @@ function renderText(fact: FactProps['fact']) {
 };
 
 function renderMarkup(text: string | undefined) {
-    return text && (<span dangerouslySetInnerHTML={{ __html: format(text) }}/>);
+  return text && (<span dangerouslySetInnerHTML={{ __html: format(text) }}/>);
 };

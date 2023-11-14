@@ -7,7 +7,6 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import { getLanguage, getTranslate } from '../I18n/getTranslate';
 import type { AvailableColumn, AvailableColumns, ExtraColumn, GlobalColumnId, ItemTableQuery, OrderBy, QueryModel } from './types';
-import { loadItems, loadTotalItemCount } from './ItemTable.actions';
 
 export interface ItemTableProps<ExtraColumnId extends string, Model extends QueryModel> {
   query: ItemTableQuery<Model>;
@@ -22,20 +21,7 @@ export const ItemTable = async <ExtraColumnId extends string = never, Model exte
 
   return (
     <ErrorBoundary fallback={<Notice type="error">Error loading items.</Notice>}>
-      <ClientComponent
-        availableColumns={availableColumns}
-        // eslint-disable-next-line require-await
-        loadItems={async (options) => {
-          'use server';
-          return loadItems(signedQuery, options);
-        }}
-        // eslint-disable-next-line require-await
-        loadTotalItemCount={async () => {
-          'use server';
-          return loadTotalItemCount(signedQuery);
-        }}
-        mappingConfig={query.mapToItem && query.model ? { mapToItem: query.mapToItem, model: query.model } : undefined}
-        {...props}/>
+      <ClientComponent query={signedQuery} availableColumns={availableColumns} {...props}/>
     </ErrorBoundary>
   );
 };

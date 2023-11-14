@@ -2,7 +2,7 @@
 
 import { createElement, useCallback, useEffect, useMemo, useState } from 'react';
 import type { Signed } from './query';
-import { loadItems, loadTotalItemCount } from './ItemTable.actions';
+import { type ItemTableLoadOptions } from './ItemTable.actions';
 import { SkeletonTable } from '../Skeleton/SkeletonTable';
 import { globalColumnRenderer } from './columns';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
@@ -155,4 +155,20 @@ export const ItemTable = <ExtraColumnId extends string = never, Model extends Qu
       )}
     </>
   );
+};
+
+function loadItems<Model extends QueryModel>(query: Signed<ItemTableQuery<Model>>, options: ItemTableLoadOptions<Model>): Promise<{ id: number }[]> {
+  return fetch('/api/item/item-table', {
+    method: 'POST',
+    body: JSON.stringify({ query, options }),
+    headers: { 'content-type': 'application/json' }
+  }).then((r) => r.json());
+};
+
+function loadTotalItemCount<Model extends QueryModel>(query: Signed<ItemTableQuery<Model>>): Promise<number> {
+  return fetch('/api/item/item-table?count', {
+    method: 'POST',
+    body: JSON.stringify({ query }),
+    headers: { 'content-type': 'application/json' }
+  }).then((r) => r.json());
 };

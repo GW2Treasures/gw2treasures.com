@@ -26,8 +26,8 @@ export const RecipesCheck: Job = {
 
     // queue follow up jobs
     await queueJobForIds('recipes.new', newIds);
-    // await queueJobForIds('recipes.removed', removedIds);
-    // await queueJobForIds('recipes.rediscovered', rediscoveredIds);
+    await queueJobForIds('recipes.removed', removedIds);
+    await queueJobForIds('recipes.rediscovered', rediscoveredIds);
 
     return `${newIds.length} added, ${removedIds.length} removed, ${rediscoveredIds.length} rediscovered`;
   }

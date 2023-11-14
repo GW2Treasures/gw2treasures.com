@@ -34,6 +34,7 @@ export async function registerCronJobs() {
   await registerJob('achievements.unlocks', '7 * * * *');
 
   await registerJob('recipes.check', '*/5 * * * *');
+  await registerJob('recipes.update', '*/3 * * * *');
   await registerJob('recipes.migrate', '*/6 * * * *');
 
   await registerJob('currencies.check', '*/5 * * * *');

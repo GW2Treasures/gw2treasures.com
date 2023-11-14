@@ -51,8 +51,3 @@ export type AvailableColumn<ColumnId extends string, Model extends QueryModel = 
 }
 
 export type AvailableColumns<ColumnId extends string> = Record<ColumnId, AvailableColumn<ColumnId>>
-
-export interface MappingConfig<Model extends QueryModel = 'item'> {
-  model: Model;
-  mapToItem: ColumnModelTypes[Model]['map']
-}

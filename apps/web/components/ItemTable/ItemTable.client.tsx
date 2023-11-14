@@ -1,7 +1,8 @@
 'use client';
 
 import { createElement, useCallback, useEffect, useMemo, useState } from 'react';
-import type { ItemTableLoadOptions } from './ItemTable.actions';
+import type { Signed } from './query';
+import { loadItems, loadTotalItemCount } from './ItemTable.actions';
 import { SkeletonTable } from '../Skeleton/SkeletonTable';
 import { globalColumnRenderer } from './columns';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
@@ -17,32 +18,23 @@ import { TableRowButton } from '@gw2treasures/ui/components/Table/TableRowButton
 import { Skeleton } from '../Skeleton/Skeleton';
 import { useItemTableContext } from './context';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
-import type { AvailableColumns, GlobalColumnId, MappingConfig, QueryModel } from './types';
+import type { AvailableColumns, GlobalColumnId, ItemTableQuery, QueryModel } from './types';
 
 const LOADING = false;
 type LOADING = typeof LOADING;
 
 export interface ItemTableProps<ExtraColumnId extends string, Model extends QueryModel> {
+  query: Signed<ItemTableQuery<Model>>;
   defaultColumns?: (GlobalColumnId | ExtraColumnId)[];
   availableColumns: AvailableColumns<GlobalColumnId | ExtraColumnId>;
   collapsed?: boolean;
-  mappingConfig?: MappingConfig<Model>,
-  loadItems: (options: ItemTableLoadOptions<Model>) => Promise<{ id: number }[]>
-  loadTotalItemCount: () => Promise<number>
 };
 
 const globalDefaultColumns: GlobalColumnId[] = [
   'item', 'level', 'rarity', 'type', 'vendorValue',
 ];
 
-export const ItemTable = <ExtraColumnId extends string = never, Model extends QueryModel = 'item'>({
-  defaultColumns = globalDefaultColumns,
-  availableColumns,
-  collapsed: initialCollapsed,
-  mappingConfig,
-  loadItems,
-  loadTotalItemCount,
-}: ItemTableProps<ExtraColumnId, Model>) => {
+export const ItemTable = <ExtraColumnId extends string = never, Model extends QueryModel = 'item'>({ query, defaultColumns = globalDefaultColumns, availableColumns, collapsed: initialCollapsed }: ItemTableProps<ExtraColumnId, Model>) => {
   type ColumnId = ExtraColumnId | GlobalColumnId;
   const { setDefaultColumns, setAvailableColumns, selectedColumns, isGlobalContext } = useItemTableContext<ColumnId>();
 
@@ -61,7 +53,7 @@ export const ItemTable = <ExtraColumnId extends string = never, Model extends Qu
   useEffect(() => {
     // show loading skeleton when the query changes
     setItems(LOADING);
-  }, [loadItems]);
+  }, [query]);
 
   useEffect(() => setDefaultColumns(defaultColumns), [setDefaultColumns, defaultColumns]);
   useEffect(() => setAvailableColumns(availableColumns), [setAvailableColumns, availableColumns]);
@@ -81,17 +73,17 @@ export const ItemTable = <ExtraColumnId extends string = never, Model extends Qu
       take, skip
     };
     setLoading(true);
-    loadItems(options).then((items) => {
+    loadItems(query, options).then((items) => {
       setItems(items);
       setLoadedColumns(columns.map(({ id }) => id));
       setLoading(false);
       setRange({ length: items.length, offset: skip });
     });
-  }, [collapsed, columns, orderBy, page, loadItems]);
+  }, [collapsed, columns, orderBy, page, query]);
 
   useEffect(() => {
-    loadTotalItemCount().then(setTotalItems);
-  }, [loadTotalItemCount]);
+    loadTotalItemCount(query).then(setTotalItems);
+  }, [query]);
 
   const handleSort = useCallback((column: ColumnId) => {
     setCollapsed(false);
@@ -122,8 +114,8 @@ export const ItemTable = <ExtraColumnId extends string = never, Model extends Qu
         </thead>
         <tbody>
           {items.map((item) => {
-            const props = mappingConfig?.mapToItem && mappingConfig.model !== undefined && mappingConfig.model !== 'item'
-            ? { item: (item as any)[mappingConfig.mapToItem], [mappingConfig.model]: item }
+            const props = query.data.mapToItem && query.data.model !== undefined && query.data.model !== 'item'
+            ? { item: (item as any)[query.data.mapToItem], [query.data.model]: item }
             : { item };
 
             return (

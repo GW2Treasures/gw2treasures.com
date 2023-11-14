@@ -29,6 +29,9 @@ import { PageViewAggregate } from './page-view/aggregate';
 import { RecipesCheck } from './recipes/check';
 import { RecipesMigrate } from './recipes/migrate';
 import { RecipesNew } from './recipes/new';
+import { RecipesRediscovered } from './recipes/rediscovered';
+import { RecipesRemoved } from './recipes/removed';
+import { RecipesUpdate } from './recipes/update';
 import { SkillsCheck } from './skills/check';
 import { SkillsMigrate } from './skills/migrate';
 import { SkillsNew } from './skills/new';
@@ -92,6 +95,9 @@ const jobsInternal = {
   'recipes.check': RecipesCheck,
   'recipes.new': RecipesNew,
   'recipes.migrate': RecipesMigrate,
+  'recipes.rediscovered': RecipesRediscovered,
+  'recipes.removed': RecipesRemoved,
+  'recipes.update': RecipesUpdate,
 
   'currencies.check': CurrenciesCheck,
   'currencies.new': CurrenciesNew,

@@ -1,9 +1,8 @@
 import { Job } from '../job';
 import { db } from '../../db';
 import { getCurrentBuild } from '../helper/getCurrentBuild';
-import { Gw2Api } from 'gw2-api-types';
-import { fetchApi } from '../helper/fetchApi';
 import { createMigrator } from './migrations';
+import { loadRecipes } from '../helper/loadRecipes';
 
 export const RecipesNew: Job = {
   run: async (newIds: number[]) => {
@@ -11,7 +10,7 @@ export const RecipesNew: Job = {
     const buildId = build.id;
 
     // load recipes from API
-    const recipes = await fetchApi<Gw2Api.Recipe[]>(`/v2/recipes?ids=${newIds.join(',')}`);
+    const recipes = await loadRecipes(newIds);
 
     const migrate = await createMigrator();
 

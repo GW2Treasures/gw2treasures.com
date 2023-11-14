@@ -24,16 +24,8 @@ export const ItemTable = async <ExtraColumnId extends string = never, Model exte
     <ErrorBoundary fallback={<Notice type="error">Error loading items.</Notice>}>
       <ClientComponent
         availableColumns={availableColumns}
-        // eslint-disable-next-line require-await
-        loadItems={async (options) => {
-          'use server';
-          return loadItems(signedQuery, options);
-        }}
-        // eslint-disable-next-line require-await
-        loadTotalItemCount={async () => {
-          'use server';
-          return loadTotalItemCount(signedQuery);
-        }}
+        loadItems={loadItems.bind(null, signedQuery)}
+        loadTotalItemCount={loadTotalItemCount.bind(null, signedQuery)}
         mappingConfig={query.mapToItem && query.model ? { mapToItem: query.mapToItem, model: query.model } : undefined}
         {...props}/>
     </ErrorBoundary>

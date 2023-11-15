@@ -9,6 +9,7 @@ import { getCurrentBuild } from '../helper/getCurrentBuild';
 import { loadColors } from '../helper/loadColors';
 import { LocalizedObject } from '../helper/types';
 import { Gw2Api } from 'gw2-api-types';
+import { JobName } from '..';
 
 interface ColorsJobProps {
   ids: number[];
@@ -22,54 +23,11 @@ export const ColorsJob: Job = {
     const buildId = build.id;
 
     if(!data.ids) {
-      // const queuedJobs = await db.job.count({ where: { type: { in: ['colors'] }, state: { in: ['Queued', 'Running'] }, cron: null }});
-      // if(queuedJobs > 0) {
-      //   return 'Waiting for pending follow up jobs';
-      // }
-
-      // get known ids
-      const knownIds = (await db.color.findMany({
-        where: { removedFromApi: false },
-        select: { id: true },
-      })).map(toId);
-
-      // get ids currently in the api
-      const apiIds = await fetchApi<number[]>('/v2/colors');
-
-      // get new or rediscovered ids
-      const newOrRediscoveredIds = apiIds.filter((id) => !knownIds.includes(id));
-
-      // also load all ids where the lastCheckedAt is before the build.createdAt
-      // these ids were not checked on the current build and thus should be queued
-      const knownIdsLastUpdatedOnOldBuild = (await db.color.findMany({
-        where: { lastCheckedAt: { lt: build.createdAt }, removedFromApi: false, id: { notIn: newOrRediscoveredIds }},
-        select: { id: true }
-      })).map(toId);
-
-      // some stats
-      let jobCount = 0;
-      let idCount = 0;
-
-      // create new/rediscover/update jobs
-      for(const ids of batch([...newOrRediscoveredIds, ...knownIdsLastUpdatedOnOldBuild], 200)) {
-        await db.job.create({ data: { type: 'colors', data: { ids }}});
-        jobCount++;
-        idCount += ids.length;
-      }
-
-      // build list of ids that are no longer available in the api
-      const removedIds = knownIds.filter((id) => !apiIds.includes(id));
-
-      // create remove jobs
-      // these are separate because we can skip the api request, they have no other special casing
-      for(const ids of batch(removedIds, 200)) {
-        await db.job.create({ data: { type: 'colors', data: { ids, removed: true }}});
-        jobCount++;
-        idCount += ids.length;
-      }
-
-      // output
-      return `Queued ${jobCount} jobs for ${idCount} colors`;
+      return createSubJobs(
+        'colors',
+        () => fetchApi<number[]>('/v2/colors'),
+        db.color.findMany
+      );
     }
 
     // load the current ids from the db
@@ -108,7 +66,8 @@ export const ColorsJob: Job = {
         ]);
 
         // check if nothing changed
-        if(known && revision_de === known.current_de && revision_en === known.current_en && revision_es === known.current_es && revision_fr === known.current_fr) {
+        const revisionsChanged = !known || revision_de !== known.current_de || revision_en !== known.current_en || revision_es !== known.current_es || revision_fr !== known.current_fr;
+        if(known && !revisionsChanged) {
           return;
         }
 
@@ -155,6 +114,73 @@ export const ColorsJob: Job = {
   }
 
 };
+
+type FindManyArgs = {
+  select: { id: true },
+  where: {
+    removedFromApi: false,
+    id?: { notIn: number[] },
+    lastCheckedAt?: { lt: Date }
+  }
+}
+
+async function createSubJobs(
+  jobName: JobName,
+  getIdsFromApi: () => Promise<number[]>,
+  findMany: (args: FindManyArgs) => Promise<{ id: number }[]>
+) {
+  // const queuedJobs = await db.job.count({ where: { type: { in: [jobName] }, state: { in: ['Queued', 'Running'] }, cron: null }});
+  // if(queuedJobs > 0) {
+  //   return 'Waiting for pending follow up jobs';
+  // }
+
+  const build = await getCurrentBuild();
+
+  // get known ids
+  const knownIds = (await findMany({
+    where: { removedFromApi: false },
+    select: { id: true },
+  })).map(toId);
+
+  // get ids currently in the api
+  const apiIds = await getIdsFromApi();
+
+  // get new or rediscovered ids
+  const newOrRediscoveredIds = apiIds.filter((id) => !knownIds.includes(id));
+
+  // also load all ids where the lastCheckedAt is before the build.createdAt
+  // these ids were not checked on the current build and thus should be queued
+  const knownIdsLastUpdatedOnOldBuild = (await findMany({
+    where: { lastCheckedAt: { lt: build.createdAt }, removedFromApi: false, id: { notIn: newOrRediscoveredIds }},
+    select: { id: true }
+  })).map(toId);
+
+  // some stats
+  let jobCount = 0;
+  let idCount = 0;
+
+  // create new/rediscover/update jobs
+  for(const ids of batch([...newOrRediscoveredIds, ...knownIdsLastUpdatedOnOldBuild], 200)) {
+    await db.job.create({ data: { type: jobName, data: { ids }}});
+    jobCount++;
+    idCount += ids.length;
+  }
+
+  // build list of ids that are no longer available in the api
+  const removedIds = knownIds.filter((id) => !apiIds.includes(id));
+
+  // create remove jobs
+  // these are separate because we can skip the api request, they have no other special casing
+  for(const ids of batch(removedIds, 200)) {
+    await db.job.create({ data: { type: jobName, data: { ids, removed: true }}});
+    jobCount++;
+    idCount += ids.length;
+  }
+
+  // output
+  return `Queued ${jobCount} jobs for ${idCount} entries`;
+}
+
 
 type PrismaTransaction = Omit<PrismaClient, '$connect' | '$disconnect' | '$on' | '$transaction' | '$use' | '$extends'>;
 

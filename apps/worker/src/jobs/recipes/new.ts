@@ -27,6 +27,9 @@ export const RecipesNew: Job = {
 
       const data = await migrate(recipe);
 
+      // delete deleteMany if it exists, because prisma doesn't allow deleteMany on create queries
+      delete data.itemIngredients?.deleteMany;
+
       await db.recipe.create({
         data: {
           id: recipe.id,

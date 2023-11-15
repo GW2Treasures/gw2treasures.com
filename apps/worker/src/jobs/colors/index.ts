@@ -4,7 +4,7 @@ import { fetchApi } from '../helper/fetchApi';
 import { createEntityMap } from '../helper/map';
 import { toId } from '../helper/toId';
 import { Job } from '../job';
-import { Language, Prisma } from '@gw2treasures/database';
+import { Language, Prisma, PrismaClient } from '@gw2treasures/database';
 import { getCurrentBuild } from '../helper/getCurrentBuild';
 import { loadColors } from '../helper/loadColors';
 import { LocalizedObject } from '../helper/types';
@@ -86,100 +86,101 @@ export const ColorsJob: Job = {
 
     // iterate over all ids
     for(const id of data.ids) {
-      // TODO wrap in transaction
+      await db.$transaction(async (tx) => {
+        // get the db and api entry
+        const known = knownEntities.get(id);
+        const updated = updatedEntities?.get(id);
 
-      // get the db and api entry
-      const known = knownEntities.get(id);
-      const updated = updatedEntities?.get(id);
+        // parse known data
+        const knownData: undefined | LocalizedObject<Gw2Api.Color> = known ? {
+          de: JSON.parse(known.current_de.data),
+          en: JSON.parse(known.current_en.data),
+          es: JSON.parse(known.current_es.data),
+          fr: JSON.parse(known.current_fr.data),
+        } : undefined;
 
-      // parse known data
-      const knownData: undefined | LocalizedObject<Gw2Api.Color> = known ? {
-        de: JSON.parse(known.current_de.data),
-        en: JSON.parse(known.current_en.data),
-        es: JSON.parse(known.current_es.data),
-        fr: JSON.parse(known.current_fr.data),
-      } : undefined;
+        // create revisions
+        const [revision_de, revision_en, revision_es, revision_fr] = await Promise.all([
+          (await createRevision(tx, knownData?.de, updated?.de, known?.removedFromApi, { buildId, entity: 'Color', language: 'de' })) ?? known!.current_de,
+          (await createRevision(tx, knownData?.en, updated?.en, known?.removedFromApi, { buildId, entity: 'Color', language: 'en' })) ?? known!.current_en,
+          (await createRevision(tx, knownData?.es, updated?.es, known?.removedFromApi, { buildId, entity: 'Color', language: 'es' })) ?? known!.current_es,
+          (await createRevision(tx, knownData?.fr, updated?.fr, known?.removedFromApi, { buildId, entity: 'Color', language: 'fr' })) ?? known!.current_fr,
+        ]);
 
-      // create revisions
-      const [revision_de, revision_en, revision_es, revision_fr] = await Promise.all([
-        (await createRevision(knownData?.de, updated?.de, known?.removedFromApi, { buildId, entity: 'Color', language: 'de' })) ?? known!.current_de,
-        (await createRevision(knownData?.en, updated?.en, known?.removedFromApi, { buildId, entity: 'Color', language: 'en' })) ?? known!.current_en,
-        (await createRevision(knownData?.es, updated?.es, known?.removedFromApi, { buildId, entity: 'Color', language: 'es' })) ?? known!.current_es,
-        (await createRevision(knownData?.fr, updated?.fr, known?.removedFromApi, { buildId, entity: 'Color', language: 'fr' })) ?? known!.current_fr,
-      ]);
+        // check if nothing changed
+        if(known && revision_de === known.current_de && revision_en === known.current_en && revision_es === known.current_es && revision_fr === known.current_fr) {
+          return;
+        }
 
-      // check if nothing changed
-      if(known && revision_de === known.current_de && revision_en === known.current_en && revision_es === known.current_es && revision_fr === known.current_fr) {
-        continue;
-      }
+        // TODO: data migration
 
-      // TODO: data migration
+        const data = {
+          id,
 
-      const data = {
-        id,
+          name_de: updated?.de.name ?? known?.name_de ?? '',
+          name_en: updated?.en.name ?? known?.name_en ?? '',
+          name_es: updated?.es.name ?? known?.name_es ?? '',
+          name_fr: updated?.fr.name ?? known?.name_fr ?? '',
 
-        name_de: updated?.de.name ?? known?.name_de ?? '',
-        name_en: updated?.en.name ?? known?.name_en ?? '',
-        name_es: updated?.es.name ?? known?.name_es ?? '',
-        name_fr: updated?.fr.name ?? known?.name_fr ?? '',
+          currentId_de: revision_de.id,
+          currentId_en: revision_en.id,
+          currentId_es: revision_es.id,
+          currentId_fr: revision_fr.id,
 
-        currentId_de: revision_de.id,
-        currentId_en: revision_en.id,
-        currentId_es: revision_es.id,
-        currentId_fr: revision_fr.id,
+          history: {
+            connectOrCreate: [
+              { where: { colorId_revisionId: { revisionId: revision_de.id, colorId: id }}, create: { revisionId: revision_de.id }},
+              { where: { colorId_revisionId: { revisionId: revision_en.id, colorId: id }}, create: { revisionId: revision_en.id }},
+              { where: { colorId_revisionId: { revisionId: revision_es.id, colorId: id }}, create: { revisionId: revision_es.id }},
+              { where: { colorId_revisionId: { revisionId: revision_fr.id, colorId: id }}, create: { revisionId: revision_fr.id }},
+            ]
+          },
 
-        history: {
-          connectOrCreate: [
-            { where: { colorId_revisionId: { revisionId: revision_de.id, colorId: id }}, create: { revisionId: revision_de.id }},
-            { where: { colorId_revisionId: { revisionId: revision_en.id, colorId: id }}, create: { revisionId: revision_en.id }},
-            { where: { colorId_revisionId: { revisionId: revision_es.id, colorId: id }}, create: { revisionId: revision_es.id }},
-            { where: { colorId_revisionId: { revisionId: revision_fr.id, colorId: id }}, create: { revisionId: revision_fr.id }},
-          ]
-        },
+          lastCheckedAt: new Date(),
+          removedFromApi: false,
+        } satisfies Prisma.ColorUncheckedCreateInput & Prisma.ColorUncheckedUpdateInput;
 
-        lastCheckedAt: new Date(),
-        removedFromApi: false,
-      } satisfies Prisma.ColorUncheckedCreateInput & Prisma.ColorUncheckedUpdateInput;
+        // update in db
+        await tx.color.upsert({
+          where: { id },
+          create: data,
+          update: data
+        });
 
-      // update in db
-      await db.color.upsert({
-        where: { id },
-        create: data,
-        update: data
+        processedEntityCount++;
       });
-
-      processedEntityCount++;
     }
 
-    return `Updated ${processedEntityCount}/${data.ids.length} ids`;
+    return `Updated ${processedEntityCount}/${data.ids.length}`;
   }
 
 };
 
+type PrismaTransaction = Omit<PrismaClient, '$connect' | '$disconnect' | '$on' | '$transaction' | '$use' | '$extends'>;
 
-function createRevision<T>(known: T | undefined, updated: T | undefined, wasRemoved: boolean | undefined, base: { buildId: number, entity: string, language: Language }) {
+function createRevision<T>(tx: PrismaTransaction, known: T | undefined, updated: T | undefined, wasRemoved: boolean | undefined, base: { buildId: number, entity: string, language: Language }) {
   // convert data to json
   const knownData = JSON.stringify(known);
   const updatedData = JSON.stringify(updated);
 
   // new
   if(!knownData) {
-    return db.revision.create({ data: { ...base, data: updatedData, type: 'Added', description: 'Added to API' }});
+    return tx.revision.create({ data: { ...base, data: updatedData, type: 'Added', description: 'Added to API' }});
   }
 
   // removed
   if(!updatedData) {
-    return db.revision.create({ data: { ...base, data: knownData, type: 'Removed', description: 'Removed from API' }});
+    return tx.revision.create({ data: { ...base, data: knownData, type: 'Removed', description: 'Removed from API' }});
   }
 
   // rediscovered
   if(wasRemoved) {
-    return db.revision.create({ data: { ...base, data: updatedData, type: 'Update', description: 'Rediscoverd in API' }});
+    return tx.revision.create({ data: { ...base, data: updatedData, type: 'Update', description: 'Rediscoverd in API' }});
   }
 
   // updated
   if(knownData !== updatedData || wasRemoved) {
-    return db.revision.create({ data: { ...base, data: updatedData, type: 'Update', description: 'Updated in API' }});
+    return tx.revision.create({ data: { ...base, data: updatedData, type: 'Update', description: 'Updated in API' }});
   }
 
   // nothing has changed, so we don't need to create a new revision

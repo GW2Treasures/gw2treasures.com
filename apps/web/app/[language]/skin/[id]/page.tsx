@@ -21,6 +21,7 @@ import { ItemTableColumnsButton } from '@/components/ItemTable/ItemTableColumnsB
 import { format } from 'gw2-tooltip-html';
 import styles from './page.module.css';
 import type { Metadata } from 'next';
+import { Json } from '@/components/Format/Json';
 
 const getSkin = remember(60, async function getSkin(id: number, language: Language) {
   const [skin, revision] = await Promise.all([
@@ -116,6 +117,9 @@ async function SkinPage ({ params: { language, id }}: SkinPageProps) {
           </ItemList>
         </>
       )}
+
+      <Headline id="data">Data</Headline>
+      <Json data={data}/>
     </DetailLayout>
   );
 };

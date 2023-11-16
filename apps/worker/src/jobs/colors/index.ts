@@ -129,10 +129,11 @@ async function createSubJobs(
   getIdsFromApi: () => Promise<number[]>,
   findMany: (args: FindManyArgs) => Promise<{ id: number }[]>
 ) {
-  // const queuedJobs = await db.job.count({ where: { type: { in: [jobName] }, state: { in: ['Queued', 'Running'] }, cron: null }});
-  // if(queuedJobs > 0) {
-  //   return 'Waiting for pending follow up jobs';
-  // }
+  const queuedJobs = await db.job.count({ where: { type: jobName, state: { in: ['Queued', 'Running'] }, cron: null }});
+
+  if(queuedJobs > 0) {
+    return 'Waiting for pending follow up jobs';
+  }
 
   const build = await getCurrentBuild();
 
@@ -205,7 +206,7 @@ function createRevision<T>(tx: PrismaTransaction, known: T | undefined, updated:
   }
 
   // updated
-  if(knownData !== updatedData || wasRemoved) {
+  if(knownData !== updatedData) {
     return tx.revision.create({ data: { ...base, data: updatedData, type: 'Update', description: 'Updated in API' }});
   }
 

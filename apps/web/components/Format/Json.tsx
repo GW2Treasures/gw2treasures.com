@@ -17,6 +17,8 @@ function renderJson([key, value]: [string, any], index: number, array: any[]) {
 }
 
 function renderValue(value: any, index: number, array: any[]) {
+  const maybeComma = index < array.length - 1 && comma;
+
   switch(typeof value) {
     case 'string':
       return (
@@ -24,16 +26,19 @@ function renderValue(value: any, index: number, array: any[]) {
           &quot;{value.startsWith('https://render.guildwars2.com/')
             ? <Tip tip={<img src={value} alt="Preview"/>}><a href={value} style={{ color: '#009688' }}>{value}</a></Tip>
             : value.replaceAll('"', '\\"')
-          }&quot;{index < array.length - 1 && comma}
+          }&quot;{maybeComma}
         </span>
       );
     case 'number':
     case 'boolean':
-      return <span key={index} style={{ color: '#e91e63' }}>{value.toString()}{index < array.length - 1 && comma}</span>;
+      return <span key={index} style={{ color: '#e91e63' }}>{value.toString()}{maybeComma}</span>;
     case 'object':
+      if(value === null) {
+        return <span key={index} style={{ color: '#e91e63' }}>null{maybeComma}</span>;
+      }
       return Array.isArray(value)
-        ? <span key={index}>[{value.length > 0 && (<div style={{ marginLeft: 16 }}>{value.map(renderValue)}</div>)}]{index < array.length - 1 && comma}</span>
-        : <span key={index}>{'{'}{Object.entries(value).map(renderJson)}{'}'}{index < array.length - 1 && comma}</span>;
+        ? <span key={index}>[{value.length > 0 && (<div style={{ marginLeft: 16 }}>{value.map(renderValue)}</div>)}]{maybeComma}</span>
+        : <span key={index}>{'{'}{Object.entries(value).map(renderJson)}{'}'}{maybeComma}</span>;
   }
 
   return typeof value;

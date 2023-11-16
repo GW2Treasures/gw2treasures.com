@@ -7,6 +7,7 @@ import { AchievementsRediscovered } from './achievements/rediscovered';
 import { AchievementsRemoved } from './achievements/removed';
 import { AchievementsUnlocks } from './achievements/unlocks';
 import { AchievementsUpdate } from './achievements/update';
+import { ColorsJob } from './colors';
 import { CurrenciesCheck } from './currencies/check';
 import { CurrenciesMigrate } from './currencies/migrate';
 import { CurrenciesNew } from './currencies/new';
@@ -112,6 +113,8 @@ const jobsInternal = {
   'titles.rediscovered': TitlesRediscovered,
   'titles.update': TitlesUpdate,
   'titles.migrate': titlesMigrate,
+
+  'colors': ColorsJob,
 
   'gw2api-requests.cleanup': Gw2ApiRequestsCleanup,
 

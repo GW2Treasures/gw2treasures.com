@@ -4,25 +4,18 @@ import { fetchApi } from '../helper/fetchApi';
 import { createEntityMap } from '../helper/map';
 import { toId } from '../helper/toId';
 import { Job } from '../job';
-import { Language, Prisma, PrismaClient } from '@gw2treasures/database';
+import { Language, PrismaClient, Revision } from '@gw2treasures/database';
 import { getCurrentBuild } from '../helper/getCurrentBuild';
 import { loadColors } from '../helper/loadColors';
 import { LocalizedObject } from '../helper/types';
-import { Gw2Api } from 'gw2-api-types';
 import { JobName } from '..';
+import { isEmptyObject } from '../helper/is';
 
-interface ColorsJobProps {
-  ids: number[];
-  removed?: boolean;
-}
+interface ColorsJobProps extends ProcessEntitiesData<number> {}
 
 export const ColorsJob: Job = {
-  async run(data: ColorsJobProps | Record<string, never>) {
-    // get the current build
-    const build = await getCurrentBuild();
-    const buildId = build.id;
-
-    if(!data.ids) {
+  run(data: ColorsJobProps | Record<string, never>) {
+    if(isEmptyObject(data)) {
       return createSubJobs(
         'colors',
         () => fetchApi<number[]>('/v2/colors'),
@@ -30,89 +23,16 @@ export const ColorsJob: Job = {
       );
     }
 
-    // load the current ids from the db
-    const knownEntities = await createEntityMap(db.color.findMany({
-      where: { id: { in: data.ids }},
-      include: { current_de: true, current_en: true, current_es: true, current_fr: true }
-    }));
-
-    // fetch latest from api
-    // if we are currently handling removed ids we can skip the api call
-    const updatedEntities = data.removed ? undefined : await loadColors(data.ids);
-
-    let processedEntityCount = 0;
-
-    // iterate over all ids
-    for(const id of data.ids) {
-      await db.$transaction(async (tx) => {
-        // get the db and api entry
-        const known = knownEntities.get(id);
-        const updated = updatedEntities?.get(id);
-
-        // parse known data
-        const knownData: undefined | LocalizedObject<Gw2Api.Color> = known ? {
-          de: JSON.parse(known.current_de.data),
-          en: JSON.parse(known.current_en.data),
-          es: JSON.parse(known.current_es.data),
-          fr: JSON.parse(known.current_fr.data),
-        } : undefined;
-
-        // create revisions
-        const [revision_de, revision_en, revision_es, revision_fr] = await Promise.all([
-          (await createRevision(tx, knownData?.de, updated?.de, known?.removedFromApi, { buildId, entity: 'Color', language: 'de' })) ?? known!.current_de,
-          (await createRevision(tx, knownData?.en, updated?.en, known?.removedFromApi, { buildId, entity: 'Color', language: 'en' })) ?? known!.current_en,
-          (await createRevision(tx, knownData?.es, updated?.es, known?.removedFromApi, { buildId, entity: 'Color', language: 'es' })) ?? known!.current_es,
-          (await createRevision(tx, knownData?.fr, updated?.fr, known?.removedFromApi, { buildId, entity: 'Color', language: 'fr' })) ?? known!.current_fr,
-        ]);
-
-        // check if nothing changed
-        const revisionsChanged = !known || revision_de !== known.current_de || revision_en !== known.current_en || revision_es !== known.current_es || revision_fr !== known.current_fr;
-        if(known && !revisionsChanged) {
-          return;
-        }
-
-        // TODO: data migration
-
-        const data = {
-          id,
-
-          name_de: updated?.de.name ?? known?.name_de ?? '',
-          name_en: updated?.en.name ?? known?.name_en ?? '',
-          name_es: updated?.es.name ?? known?.name_es ?? '',
-          name_fr: updated?.fr.name ?? known?.name_fr ?? '',
-
-          currentId_de: revision_de.id,
-          currentId_en: revision_en.id,
-          currentId_es: revision_es.id,
-          currentId_fr: revision_fr.id,
-
-          history: {
-            connectOrCreate: [
-              { where: { colorId_revisionId: { revisionId: revision_de.id, colorId: id }}, create: { revisionId: revision_de.id }},
-              { where: { colorId_revisionId: { revisionId: revision_en.id, colorId: id }}, create: { revisionId: revision_en.id }},
-              { where: { colorId_revisionId: { revisionId: revision_es.id, colorId: id }}, create: { revisionId: revision_es.id }},
-              { where: { colorId_revisionId: { revisionId: revision_fr.id, colorId: id }}, create: { revisionId: revision_fr.id }},
-            ]
-          },
-
-          lastCheckedAt: new Date(),
-          removedFromApi: false,
-        } satisfies Prisma.ColorUncheckedCreateInput & Prisma.ColorUncheckedUpdateInput;
-
-        // update in db
-        await tx.color.upsert({
-          where: { id },
-          create: data,
-          update: data
-        });
-
-        processedEntityCount++;
-      });
-    }
-
-    return `Updated ${processedEntityCount}/${data.ids.length}`;
+    return processLocalizedEntities(
+      data,
+      'Color',
+      (colorId, revisionId) => ({ colorId_revisionId: { revisionId, colorId }}),
+      (colors) => ({ name_de: colors.de.name, name_en: colors.en.name, name_es: colors.es.name, name_fr: colors.fr.name }),
+      db.color.findMany,
+      loadColors,
+      (tx, data) => tx.color.upsert(data),
+    );
   }
-
 };
 
 type FindManyArgs = {
@@ -182,6 +102,141 @@ async function createSubJobs(
   return `Queued ${jobCount} jobs for ${idCount} entries`;
 }
 
+interface ProcessEntitiesData<Id extends string | number> {
+  ids: Id[];
+  removed?: boolean;
+}
+
+type GetEntitiesArgs<Id> = {
+  where: { id: { in: Id[] }},
+  include: { current_de: true, current_en: true, current_es: true, current_fr: true },
+};
+
+type DbEntityBase<Id extends string | number> = {
+  id: Id,
+  current_de: Revision,
+  current_en: Revision,
+  current_es: Revision,
+  current_fr: Revision,
+  removedFromApi: boolean,
+}
+
+type UpsertInput<Id, HistoryId, ExtraData> = {
+  where: { id: Id },
+  create: UpsertInputData<Id, HistoryId> & ExtraData,
+  update: UpsertInputData<Id, HistoryId> & Partial<ExtraData>,
+}
+
+type UpsertInputData<Id, HistoryId> = {
+  id: Id,
+  currentId_de: string,
+  currentId_en: string,
+  currentId_es: string,
+  currentId_fr: string,
+
+  history: {
+    connectOrCreate: [
+      { where: HistoryId, create: { revisionId: string }},
+      { where: HistoryId, create: { revisionId: string }},
+      { where: HistoryId, create: { revisionId: string }},
+      { where: HistoryId, create: { revisionId: string }},
+    ]
+  },
+
+  lastCheckedAt: Date,
+  removedFromApi: boolean,
+};
+
+async function processLocalizedEntities<Id extends string | number, DbEntity extends DbEntityBase<Id>, ApiEntity extends { id: Id }, HistoryId, ExtraData>(
+  data: ProcessEntitiesData<Id>,
+  entityName: string,
+  createHistoryId: (id: Id, revisionId: string) => HistoryId,
+  migrate: (entity: LocalizedObject<ApiEntity>) => ExtraData | Promise<ExtraData>,
+  getEntitiesFromDb: (args: GetEntitiesArgs<Id>) => Promise<DbEntity[]>,
+  getEntitiesFromApi: (ids: Id[]) => Promise<Map<Id, LocalizedObject<ApiEntity>>>,
+  upsert: (tx: PrismaTransaction, data: UpsertInput<Id, HistoryId, ExtraData>) => Promise<unknown>,
+) {
+  // get the current build
+  const build = await getCurrentBuild();
+  const buildId = build.id;
+
+  // load the current ids from the db
+  const dbEntities = await createEntityMap(getEntitiesFromDb({
+    where: { id: { in: data.ids }},
+    include: { current_de: true, current_en: true, current_es: true, current_fr: true }
+  }));
+
+  // fetch latest from api
+  // if we are currently handling removed ids we can skip the api call
+  const apiEntities = data.removed ? undefined : await getEntitiesFromApi(data.ids);
+
+  let processedEntityCount = 0;
+
+  // iterate over all ids
+  for(const id of data.ids) {
+    await db.$transaction(async (tx) => {
+      // get the db and api entry
+      const dbEntity = dbEntities.get(id);
+      const apiData = apiEntities?.get(id);
+
+      // parse known data
+      const dbData: undefined | LocalizedObject<ApiEntity> = dbEntity ? {
+        de: JSON.parse(dbEntity.current_de.data),
+        en: JSON.parse(dbEntity.current_en.data),
+        es: JSON.parse(dbEntity.current_es.data),
+        fr: JSON.parse(dbEntity.current_fr.data),
+      } : undefined;
+
+      // create revisions
+      const [revision_de, revision_en, revision_es, revision_fr] = await Promise.all([
+        (await createRevision(tx, dbData?.de, apiData?.de, dbEntity?.removedFromApi, { buildId, entity: entityName, language: 'de' })) ?? dbEntity!.current_de,
+        (await createRevision(tx, dbData?.en, apiData?.en, dbEntity?.removedFromApi, { buildId, entity: entityName, language: 'en' })) ?? dbEntity!.current_en,
+        (await createRevision(tx, dbData?.es, apiData?.es, dbEntity?.removedFromApi, { buildId, entity: entityName, language: 'es' })) ?? dbEntity!.current_es,
+        (await createRevision(tx, dbData?.fr, apiData?.fr, dbEntity?.removedFromApi, { buildId, entity: entityName, language: 'fr' })) ?? dbEntity!.current_fr,
+      ]);
+
+      // check if nothing changed
+      const revisionsChanged = !dbEntity || revision_de !== dbEntity.current_de || revision_en !== dbEntity.current_en || revision_es !== dbEntity.current_es || revision_fr !== dbEntity.current_fr;
+      if(!revisionsChanged) {
+        return;
+      }
+
+      const data: UpsertInputData<Id, HistoryId> & ExtraData = {
+        id,
+
+        ...await migrate(apiData ?? dbData!),
+
+        currentId_de: revision_de.id,
+        currentId_en: revision_en.id,
+        currentId_es: revision_es.id,
+        currentId_fr: revision_fr.id,
+
+        history: {
+          connectOrCreate: [
+            { where: createHistoryId(id, revision_de.id), create: { revisionId: revision_de.id }},
+            { where: createHistoryId(id, revision_en.id), create: { revisionId: revision_en.id }},
+            { where: createHistoryId(id, revision_es.id), create: { revisionId: revision_es.id }},
+            { where: createHistoryId(id, revision_fr.id), create: { revisionId: revision_fr.id }},
+          ]
+        },
+
+        lastCheckedAt: new Date(),
+        removedFromApi: !!apiData,
+      };
+
+      // update in db
+      await upsert(tx, {
+        where: { id },
+        create: data,
+        update: data
+      });
+
+      processedEntityCount++;
+    });
+  }
+
+  return `Updated ${processedEntityCount}/${data.ids.length}`;
+}
 
 type PrismaTransaction = Omit<PrismaClient, '$connect' | '$disconnect' | '$on' | '$transaction' | '$use' | '$extends'>;
 

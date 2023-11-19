@@ -15,7 +15,8 @@
     "build:icons": "turbo run build --filter=@gw2treasures/icons",
     "lint": "turbo run lint",
     "publish-package": "turbo run publish-package",
-    "e2e": "turbo run e2e"
+    "e2e": "turbo run e2e",
+    "test": "turbo run test"
   },
   "devDependencies": {
     "turbo": "1.10.16"

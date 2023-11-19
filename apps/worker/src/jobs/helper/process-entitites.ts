@@ -1,11 +1,12 @@
-import { Language, PrismaClient, Revision } from '@gw2treasures/database';
+import { Language, Revision } from '@gw2treasures/database';
 import { JobName } from '..';
-import { db } from '../../db';
+import { PrismaTransaction, db } from '../../db';
 import { batch } from './batch';
 import { getCurrentBuild } from './getCurrentBuild';
 import { toId } from './toId';
 import { LocalizedObject } from './types';
 import { createEntityMap } from './map';
+import { createRevision as createRevisionInDb } from './revision-create';
 
 type FindManyArgs = {
   select: { id: true },
@@ -108,7 +109,7 @@ type UpsertInput<Id, HistoryId, ExtraData> = {
   update: UpsertInputData<Id, HistoryId> & Partial<ExtraData>,
 }
 
-type UpsertInputData<Id, HistoryId> = {
+export type UpsertInputData<Id, HistoryId> = {
   id: Id,
   currentId_de: string,
   currentId_en: string,
@@ -126,6 +127,7 @@ type UpsertInputData<Id, HistoryId> = {
 
   lastCheckedAt: Date,
   removedFromApi: boolean,
+  version: number,
 };
 
 export async function processLocalizedEntities<Id extends string | number, DbEntity extends DbEntityBase<Id>, ApiEntity extends { id: Id }, HistoryId, ExtraData>(
@@ -211,7 +213,8 @@ export async function processLocalizedEntities<Id extends string | number, DbEnt
         },
 
         lastCheckedAt: new Date(),
-        removedFromApi: !!apiData,
+        removedFromApi: !apiData,
+        version: currentVersion,
       };
 
       // update in db
@@ -228,8 +231,6 @@ export async function processLocalizedEntities<Id extends string | number, DbEnt
   return `Updated ${processedEntityCount}/${data.ids.length}`;
 }
 
-type PrismaTransaction = Omit<PrismaClient, '$connect' | '$disconnect' | '$on' | '$transaction' | '$use' | '$extends'>;
-
 function createRevision<T>(tx: PrismaTransaction, known: T | undefined, updated: T | undefined, wasRemoved: boolean | undefined, base: { buildId: number, entity: string, language: Language }) {
   // convert data to json
   const knownData = known !== undefined && JSON.stringify(known);
@@ -237,22 +238,22 @@ function createRevision<T>(tx: PrismaTransaction, known: T | undefined, updated:
 
   // new
   if(!knownData && updatedData) {
-    return tx.revision.create({ data: { ...base, data: updatedData, type: 'Added', description: 'Added to API' }});
+    return createRevisionInDb({ ...base, data: updatedData, type: 'Added', description: 'Added to API' }, tx);
   }
 
   // removed
   if(knownData && !updatedData && !wasRemoved) {
-    return tx.revision.create({ data: { ...base, data: knownData, type: 'Removed', description: 'Removed from API' }});
+    return createRevisionInDb({ ...base, data: knownData, type: 'Removed', description: 'Removed from API' }, tx);
   }
 
   // rediscovered
   if(knownData && updatedData && wasRemoved) {
-    return tx.revision.create({ data: { ...base, data: updatedData, type: 'Update', description: 'Rediscoverd in API' }});
+    return createRevisionInDb({ ...base, data: updatedData, type: 'Update', description: 'Rediscoverd in API' }, tx);
   }
 
   // updated
   if(knownData && updatedData && knownData !== updatedData) {
-    return tx.revision.create({ data: { ...base, data: updatedData, type: 'Update', description: 'Updated in API' }});
+    return createRevisionInDb({ ...base, data: updatedData, type: 'Update', description: 'Updated in API' }, tx);
   }
 
   // nothing has changed, so we don't need to create a new revision

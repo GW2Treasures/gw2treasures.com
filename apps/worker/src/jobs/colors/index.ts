@@ -15,11 +15,14 @@ interface ColorsJobProps extends ProcessEntitiesData<number> {}
 
 export const ColorsJob: Job = {
   run(data: ColorsJobProps | Record<string, never>) {
+    const CURRENT_VERSION = 1;
+
     if(isEmptyObject(data)) {
       return createSubJobs(
         'colors',
         () => fetchApi<number[]>('/v2/colors'),
-        db.color.findMany
+        db.color.findMany,
+        CURRENT_VERSION
       );
     }
 
@@ -31,6 +34,7 @@ export const ColorsJob: Job = {
       db.color.findMany,
       loadColors,
       (tx, data) => tx.color.upsert(data),
+      CURRENT_VERSION
     );
   }
 };
@@ -38,16 +42,18 @@ export const ColorsJob: Job = {
 type FindManyArgs = {
   select: { id: true },
   where: {
-    removedFromApi: false,
+    removedFromApi?: false,
     id?: { notIn: number[] },
-    lastCheckedAt?: { lt: Date }
+    lastCheckedAt?: { lt: Date },
+    version?: { lt: number },
   }
 }
 
 async function createSubJobs(
   jobName: JobName,
   getIdsFromApi: () => Promise<number[]>,
-  findMany: (args: FindManyArgs) => Promise<{ id: number }[]>
+  findMany: (args: FindManyArgs) => Promise<{ id: number }[]>,
+  currentVersion: number,
 ) {
   const queuedJobs = await db.job.count({ where: { type: jobName, state: { in: ['Queued', 'Running'] }, cron: null }});
 
@@ -76,12 +82,18 @@ async function createSubJobs(
     select: { id: true }
   })).map(toId);
 
+  // and then also include ids that need to be migrated
+  const idsToBeMigrated = (await findMany({
+    where: { version: { lt: currentVersion }, id: { notIn: [...newOrRediscoveredIds, ...knownIdsLastUpdatedOnOldBuild] }},
+    select: { id: true }
+  })).map(toId);
+
   // some stats
   let jobCount = 0;
   let idCount = 0;
 
   // create new/rediscover/update jobs
-  for(const ids of batch([...newOrRediscoveredIds, ...knownIdsLastUpdatedOnOldBuild], 200)) {
+  for(const ids of batch([...newOrRediscoveredIds, ...knownIdsLastUpdatedOnOldBuild, ...idsToBeMigrated], 200)) {
     await db.job.create({ data: { type: jobName, data: { ids }}});
     jobCount++;
     idCount += ids.length;
@@ -119,6 +131,7 @@ type DbEntityBase<Id extends string | number> = {
   current_es: Revision,
   current_fr: Revision,
   removedFromApi: boolean,
+  version: number,
 }
 
 type UpsertInput<Id, HistoryId, ExtraData> = {
@@ -151,10 +164,11 @@ async function processLocalizedEntities<Id extends string | number, DbEntity ext
   data: ProcessEntitiesData<Id>,
   entityName: string,
   createHistoryId: (id: Id, revisionId: string) => HistoryId,
-  migrate: (entity: LocalizedObject<ApiEntity>) => ExtraData | Promise<ExtraData>,
+  migrate: (entity: LocalizedObject<ApiEntity>, version: number) => ExtraData | Promise<ExtraData>,
   getEntitiesFromDb: (args: GetEntitiesArgs<Id>) => Promise<DbEntity[]>,
   getEntitiesFromApi: (ids: Id[]) => Promise<Map<Id, LocalizedObject<ApiEntity>>>,
   upsert: (tx: PrismaTransaction, data: UpsertInput<Id, HistoryId, ExtraData>) => Promise<unknown>,
+  currentVersion: number,
 ) {
   // get the current build
   const build = await getCurrentBuild();
@@ -197,14 +211,22 @@ async function processLocalizedEntities<Id extends string | number, DbEntity ext
 
       // check if nothing changed
       const revisionsChanged = !dbEntity || revision_de !== dbEntity.current_de || revision_en !== dbEntity.current_en || revision_es !== dbEntity.current_es || revision_fr !== dbEntity.current_fr;
-      if(!revisionsChanged) {
+
+      // check if the db has an old migration version
+      const migrationVersionChanged = dbEntity?.version != currentVersion;
+
+      // if nothing changed and we also don't have to migrate anything we can early return
+      if(!revisionsChanged && !migrationVersionChanged) {
         return;
       }
+
+      // always run all migrations if a revision changed, otherwise run only required migrations
+      const migrationVersion = revisionsChanged ? -1 : dbEntity.version;
 
       const data: UpsertInputData<Id, HistoryId> & ExtraData = {
         id,
 
-        ...await migrate(apiData ?? dbData!),
+        ...await migrate(apiData ?? dbData!, migrationVersion),
 
         currentId_de: revision_de.id,
         currentId_en: revision_en.id,
@@ -242,26 +264,26 @@ type PrismaTransaction = Omit<PrismaClient, '$connect' | '$disconnect' | '$on' |
 
 function createRevision<T>(tx: PrismaTransaction, known: T | undefined, updated: T | undefined, wasRemoved: boolean | undefined, base: { buildId: number, entity: string, language: Language }) {
   // convert data to json
-  const knownData = JSON.stringify(known);
-  const updatedData = JSON.stringify(updated);
+  const knownData = known !== undefined && JSON.stringify(known);
+  const updatedData = updated !== undefined && JSON.stringify(updated);
 
   // new
-  if(!knownData) {
+  if(!knownData && updatedData) {
     return tx.revision.create({ data: { ...base, data: updatedData, type: 'Added', description: 'Added to API' }});
   }
 
   // removed
-  if(!updatedData) {
+  if(knownData && !updatedData && !wasRemoved) {
     return tx.revision.create({ data: { ...base, data: knownData, type: 'Removed', description: 'Removed from API' }});
   }
 
   // rediscovered
-  if(wasRemoved) {
+  if(knownData && updatedData && wasRemoved) {
     return tx.revision.create({ data: { ...base, data: updatedData, type: 'Update', description: 'Rediscoverd in API' }});
   }
 
   // updated
-  if(knownData !== updatedData) {
+  if(knownData && updatedData && knownData !== updatedData) {
     return tx.revision.create({ data: { ...base, data: updatedData, type: 'Update', description: 'Updated in API' }});
   }
 

@@ -2,6 +2,7 @@ import { randomUUID } from 'crypto';
 import { UpsertInputData, processLocalizedEntities } from './process-entitites';
 import { LocalizedObject } from './types';
 import { Build, Prisma, Revision } from '@gw2treasures/database';
+import { db } from '../../db';
 
 function loadFromApi<T extends { id: number }>(entity: T) {
   return Promise.resolve(new Map<number, LocalizedObject<T>>([[entity.id, { de: entity, en: entity, es: entity, fr: entity }]]));
@@ -14,6 +15,12 @@ jest.mock('./revision-create', () => ({
 jest.mock('./getCurrentBuild', () => ({
   getCurrentBuild: () => Promise.resolve({ id: 1, createdAt: new Date(), updatedAt: new Date() } satisfies Build)
 }));
+
+// mock db.$transaction
+const originalTransaction = db.$transaction;
+// @ts-expect-error doesnt match the $transaction signature
+db.$transaction = jest.fn((fn) => fn(db));
+afterAll(() => { db.$transaction = originalTransaction; });
 
 type TestDbEntity = {
   id: number,

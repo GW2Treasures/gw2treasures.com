@@ -1,7 +1,7 @@
 import { randomUUID } from 'crypto';
 import { UpsertInputData, processLocalizedEntities } from './process-entitites';
 import { LocalizedObject } from './types';
-import { Prisma, Revision } from '@gw2treasures/database';
+import { Build, Prisma, Revision } from '@gw2treasures/database';
 
 function loadFromApi<T extends { id: number }>(entity: T) {
   return Promise.resolve(new Map<number, LocalizedObject<T>>([[entity.id, { de: entity, en: entity, es: entity, fr: entity }]]));
@@ -9,6 +9,10 @@ function loadFromApi<T extends { id: number }>(entity: T) {
 
 jest.mock('./revision-create', () => ({
   createRevision: (data: Prisma.RevisionUncheckedCreateInput) => Promise.resolve({ id: `test-${data.type}-${randomUUID()}` })
+}));
+
+jest.mock('./getCurrentBuild', () => ({
+  getCurrentBuild: () => Promise.resolve({ id: 1, createdAt: new Date(), updatedAt: new Date() } satisfies Build)
 }));
 
 type TestDbEntity = {

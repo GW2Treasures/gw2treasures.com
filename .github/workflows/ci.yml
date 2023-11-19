@@ -236,7 +236,7 @@ jobs:
 
   success:
     name: Success
-    needs: [test-compose, test-kubernetes, test-e2e, build-node, lint, renovate]
+    needs: [test-compose, test-kubernetes, test-e2e, test-unit, build-node, lint, renovate]
     runs-on: ubuntu-latest
     if: always()
     steps:

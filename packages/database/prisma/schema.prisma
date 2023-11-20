@@ -52,6 +52,10 @@ model Item {
   // currency
   containsCurrency CurrencyContent[] @relation("containsCurrency")
 
+  // color
+  unlocksColor    Color[]  @relation("unlocks_color")
+  unlocksColorIds Int[]    
+
   // review queue
   reviews Review[] @relation("itemReview")
 
@@ -696,6 +700,8 @@ model Color {
   name_en String
   name_es String
   name_fr String
+
+  unlockedByItems Item[] @relation("unlocks_color")
 
   removedFromApi Boolean @default(false)
   

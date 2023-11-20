@@ -16,3 +16,7 @@ export function isTruthy<T>(value: T | Falsy): value is T {
 export function isFalsy(value: unknown): value is Falsy {
   return !value;
 }
+
+export function isEmptyObject(obj: unknown): obj is Record<string, never> {
+  return typeof obj === 'object' && obj != undefined && Object.keys(obj).length === 0;
+}

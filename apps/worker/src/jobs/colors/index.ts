@@ -24,7 +24,18 @@ export const ColorsJob: Job = {
       data,
       'Color',
       (colorId, revisionId) => ({ colorId_revisionId: { revisionId, colorId }}),
-      (colors) => ({ name_de: colors.de.name, name_en: colors.en.name, name_es: colors.es.name, name_fr: colors.fr.name }),
+      async (colors) => {
+        // TODO: only run this for new colors
+        const unlockedByItemIds = await db.item.findMany({ where: { unlocksColorIds: { has: colors.en.id }}, select: { id: true }});
+
+        return {
+          name_de: colors.de.name,
+          name_en: colors.en.name,
+          name_es: colors.es.name,
+          name_fr: colors.fr.name,
+          unlockedByItems: { connect: unlockedByItemIds }
+        };
+      },
       db.color.findMany,
       loadColors,
       (tx, data) => tx.color.upsert(data),

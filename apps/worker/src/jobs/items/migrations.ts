@@ -5,7 +5,7 @@ import { isTruthy } from '../helper/is';
 import { toId } from '../helper/toId';
 import { isDefined, LocalizedObject } from '../helper/types';
 
-export const CURRENT_VERSION = 8;
+export const CURRENT_VERSION = 9;
 
 /** @see Prisma.ItemUpdateInput */
 interface MigratedItem {
@@ -32,12 +32,16 @@ interface MigratedItem {
 
   unlocksRecipeIds?: number[]
   unlocksRecipe?: Prisma.RecipeUpdateManyWithoutUnlockedByItemsNestedInput
+
+  unlocksColorIds?: number[]
+  unlocksColor?: Prisma.ColorUpdateManyWithoutUnlockedByItemsNestedInput
 }
 
 export async function createMigrator() {
   const knownSkinIds = (await db.skin.findMany({ select: { id: true }})).map(toId);
   const knownItemIds = (await db.item.findMany({ select: { id: true }})).map(toId);
   const knownRecipeIds = (await db.recipe.findMany({ select: { id: true }})).map(toId);
+  const knownColorIds = (await db.color.findMany({ select: { id: true }})).map(toId);
 
   // eslint-disable-next-line require-await
   return async function migrate({ de, en, es, fr }: LocalizedObject<Gw2Api.Item>, currentVersion = -1) {
@@ -90,6 +94,17 @@ export async function createMigrator() {
       }
     }
 
-    return update;
+    // Version 9: Add color unlocks
+    if(currentVersion < 9) {
+      const unlocksColors = en.type === 'Consumable' && en.details?.type === 'Unlock' && en.details?.unlock_type === 'Dye';
+      if(unlocksColors) {
+        const unlocksColorIds = [en.details?.color_id].filter(isTruthy);
+
+        update.unlocksColorIds = unlocksColorIds;
+        update.unlocksColor = { connect: unlocksColorIds.filter((id) => knownColorIds.includes(id)).map((id) => ({ id })) };
+      }
+    }
+
+    return update satisfies Prisma.ItemUpdateInput;
   };
 }

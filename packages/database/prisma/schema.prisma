@@ -701,6 +701,10 @@ model Color {
   name_es String
   name_fr String
 
+  cloth_rgb   String @default("")
+  leather_rgb String @default("")
+  metal_rgb   String @default("")
+
   unlockedByItems Item[] @relation("unlocks_color")
 
   removedFromApi Boolean @default(false)

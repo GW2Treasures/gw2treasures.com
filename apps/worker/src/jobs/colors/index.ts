@@ -9,7 +9,7 @@ interface ColorsJobProps extends ProcessEntitiesData<number> {}
 
 export const ColorsJob: Job = {
   run(data: ColorsJobProps | Record<string, never>) {
-    const CURRENT_VERSION = 1;
+    const CURRENT_VERSION = 2;
 
     if(isEmptyObject(data)) {
       return createSubJobs(
@@ -33,6 +33,11 @@ export const ColorsJob: Job = {
           name_en: colors.en.name,
           name_es: colors.es.name,
           name_fr: colors.fr.name,
+
+          cloth_rgb: rgbToHex(colors.en.cloth.rgb),
+          leather_rgb: rgbToHex(colors.en.cloth.rgb),
+          metal_rgb: rgbToHex(colors.en.cloth.rgb),
+
           unlockedByItems: { connect: unlockedByItemIds }
         };
       },
@@ -43,3 +48,7 @@ export const ColorsJob: Job = {
     );
   }
 };
+
+function rgbToHex(rgb: [number, number, number]): string {
+  return rgb.map((component) => component.toString(16).padStart(2, '0')).join('');
+}

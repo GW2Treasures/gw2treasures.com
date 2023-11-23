@@ -8,17 +8,11 @@
 }
 
 .slot {
-  --_slot-border-color: rgba(0 0 0 / .2);
-
-  border: 1px solid var(--_slot-border-color);
+  composes: color from './base.module.css';
 }
 
 .dark {
-  --_slot-border-color: transparent;
-}
-
-@media (prefers-color-scheme: dark) {
-  .dark { --_slot-border-color: rgba(255 255 255 / .1); }
+  composes: dark from './base.module.css';
 }
 
 .slot:nth-child(1) { border-top-left-radius: 2px; }

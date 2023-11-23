@@ -1,8 +1,8 @@
 import type { FC } from 'react';
 import styles from './DyeSlots.module.css';
-import { cx } from '../../lib';
-
-type RGB = [number, number, number];
+import { cx } from '@gw2treasures/ui/lib';
+import type { RGB } from './types';
+import { isDark } from './is-dark';
 
 interface DyeSlotsProps {
   slots: RGB[]
@@ -23,6 +23,3 @@ export const DyeSlots: FC<DyeSlotsProps> = ({ slots }) => {
   );
 };
 
-function isDark(rgb: RGB): boolean {
-  return (Math.max(...rgb) + Math.min(...rgb)) < 0xFF;
-}

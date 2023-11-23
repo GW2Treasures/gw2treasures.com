@@ -8,6 +8,8 @@ import type { Language } from '@gw2treasures/database';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { unstable_cache } from 'next/cache';
+import { DyeColor } from '@/components/Color/DyeColor';
+import { hexToRgb } from '@/components/Color/hex-to-rgb';
 
 const getColors = unstable_cache((language: Language) => {
   return db.color.findMany({
@@ -55,9 +57,9 @@ export default async function ColorPage({ params }: { params: { language: Langua
                     ))}
                   </ItemList>
                 </td>
-                <td><div style={{ width: 64, height: 32, borderRadius: 2, backgroundColor: `#${color.cloth_rgb}` }}/></td>
-                <td><div style={{ width: 64, height: 32, borderRadius: 2, backgroundColor: `#${color.leather_rgb}` }}/></td>
-                <td><div style={{ width: 64, height: 32, borderRadius: 2, backgroundColor: `#${color.metal_rgb}` }}/></td>
+                <td><DyeColor color={hexToRgb(color.cloth_rgb)}/></td>
+                <td><DyeColor color={hexToRgb(color.leather_rgb)}/></td>
+                <td><DyeColor color={hexToRgb(color.metal_rgb)}/></td>
               </tr>
             );
           })}

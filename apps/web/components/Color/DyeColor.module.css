@@ -1,0 +1,11 @@
+.box {
+  composes: color from './base.module.css';
+
+  width: 64px;
+  height: 32px;
+  border-radius: 2px;
+}
+
+.dark {
+  composes: dark from './base.module.css';
+}

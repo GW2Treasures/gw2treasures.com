@@ -3,7 +3,7 @@ import { fetchApi } from '../helper/fetchApi';
 import { Job } from '../job';
 import { loadColors } from '../helper/loadColors';
 import { isEmptyObject } from '../helper/is';
-import { type ProcessEntitiesData, createSubJobs, processLocalizedEntities } from '../helper/process-entitites';
+import { type ProcessEntitiesData, createSubJobs, processLocalizedEntities, Changes } from '../helper/process-entitites';
 
 interface ColorsJobProps extends ProcessEntitiesData<number> {}
 
@@ -24,9 +24,11 @@ export const ColorsJob: Job = {
       data,
       'Color',
       (colorId, revisionId) => ({ colorId_revisionId: { revisionId, colorId }}),
-      async (colors) => {
-        // TODO: only run this for new colors
-        const unlockedByItemIds = await db.item.findMany({ where: { unlocksColorIds: { has: colors.en.id }}, select: { id: true }});
+      async (colors, version, changes) => {
+        // if this is a new color lets check if there are items waiting for it
+        const unlockedByItemIds = changes === Changes.New
+          ? await db.item.findMany({ where: { unlocksColorIds: { has: colors.en.id }}, select: { id: true }})
+          : [];
 
         return {
           name_de: colors.de.name,

@@ -32,7 +32,7 @@ export default async function ColorPage({ params }: { params: { language: Langua
   const colors = await getColors(params.language);
 
   return (
-    <HeroLayout hero={<Headline id="colors">Colors</Headline>} color="#fbc02d">
+    <HeroLayout hero={<Headline id="colors">Colors</Headline>} color="#f9a825">
       <Table>
         <thead>
           <tr>

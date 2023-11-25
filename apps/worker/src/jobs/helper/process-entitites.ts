@@ -130,11 +130,19 @@ export type UpsertInputData<Id, HistoryId> = {
   version: number,
 };
 
+export enum Changes {
+  New,
+  Remove,
+  Update,
+  Migrate,
+  None,
+}
+
 export async function processLocalizedEntities<Id extends string | number, DbEntity extends DbEntityBase<Id>, ApiEntity extends { id: Id }, HistoryId, ExtraData>(
   data: ProcessEntitiesData<Id>,
   entityName: string,
   createHistoryId: (id: Id, revisionId: string) => HistoryId,
-  migrate: (entity: LocalizedObject<ApiEntity>, version: number) => ExtraData | Promise<ExtraData>,
+  migrate: (entity: LocalizedObject<ApiEntity>, version: number, changes: Changes) => ExtraData | Promise<ExtraData>,
   getEntitiesFromDb: (args: GetEntitiesArgs<Id>) => Promise<DbEntity[]>,
   getEntitiesFromApi: (ids: Id[]) => Promise<Map<Id, LocalizedObject<ApiEntity>>>,
   upsert: (tx: PrismaTransaction, data: UpsertInput<Id, HistoryId, ExtraData>) => Promise<unknown>,
@@ -193,10 +201,17 @@ export async function processLocalizedEntities<Id extends string | number, DbEnt
       // always run all migrations if a revision changed, otherwise run only required migrations
       const migrationVersion = revisionsChanged ? -1 : dbEntity.version;
 
+      const changes =
+        !dbData ? Changes.New :
+        !apiData ? Changes.Remove :
+        revisionsChanged ? Changes.Update :
+        migrationVersionChanged ? Changes.Migrate :
+        Changes.None;
+
       const data: UpsertInputData<Id, HistoryId> & ExtraData = {
         id,
 
-        ...await migrate(apiData ?? dbData!, migrationVersion),
+        ...await migrate(apiData ?? dbData!, migrationVersion, changes),
 
         currentId_de: revision_de.id,
         currentId_en: revision_en.id,

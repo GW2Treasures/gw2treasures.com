@@ -125,6 +125,7 @@ const pages: Page[] = [
 
   { href: '/build', title: 'Builds', icon: 'builds' },
   { href: '/currency', title: 'Currencies', icon: 'coins' },
+  { href: '/color', title: 'Colors', icon: 'color' },
 
   { href: '/item/random', title: 'Random Item', icon: 'shuffle' },
   { href: '/item/empty-containers', title: 'Empty containers', icon: 'item' },

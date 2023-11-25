@@ -52,3 +52,8 @@
 .value {
   color: #1E971E;
 }
+
+.unlocksColor {
+  display: flex;
+  gap: 8px;
+}

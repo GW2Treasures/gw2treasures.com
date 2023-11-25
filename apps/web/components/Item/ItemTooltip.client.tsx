@@ -8,6 +8,10 @@ import styles from './ItemTooltip.module.css';
 import { ItemLink } from './ItemLink';
 import { Icon } from '@gw2treasures/ui';
 import { EntityIcon } from '@/components/Entity/EntityIcon';
+import { DyeColor } from '../Color/DyeColor';
+import { hexToRgb } from '../Color/hex-to-rgb';
+import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
+import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 
 export interface ClientItemTooltipProps {
   tooltip: ItemTooltip;
@@ -129,7 +133,18 @@ export const ClientItemTooltip: FC<ClientItemTooltipProps> = ({ tooltip }) => {
         }
       </div>
     )),
-    // TODO: color
+    tooltip.unlocksColor && (
+      <div>
+        <div className={styles.consumableName}>
+          {tooltip.unlocksColor.name}
+        </div>
+        <div className={styles.unlocksColor}>
+          <Tip preferredPlacement="bottom" tip="Cloth"><DyeColor color={hexToRgb(tooltip.unlocksColor.colors.cloth)}/></Tip>
+          <Tip preferredPlacement="bottom" tip="Leather"><DyeColor color={hexToRgb(tooltip.unlocksColor.colors.leather)}/></Tip>
+          <Tip preferredPlacement="bottom" tip="Metal"><DyeColor color={hexToRgb(tooltip.unlocksColor.colors.metal)}/></Tip>
+        </div>
+      </div>
+    ),
     // TODO: skin
     <Rarity key="rarity" rarity={tooltip.rarity.value}>{tooltip.rarity.label}</Rarity>,
     tooltip.type,

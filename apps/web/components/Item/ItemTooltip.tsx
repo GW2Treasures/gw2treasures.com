@@ -8,9 +8,10 @@ import { format } from 'gw2-tooltip-html';
 import { isTruthy } from '@gw2treasures/ui';
 import { getLinkProperties, linkProperties } from '@/lib/linkProperties';
 import type { WithIcon } from '@/lib/with';
-import type { LocalizedEntity } from '@/lib/localizedName';
+import { localizedName, type LocalizedEntity } from '@/lib/localizedName';
 import { db } from '@/lib/prisma';
 import { parseIcon } from '@/lib/parseIcon';
+import type { RGB } from '../Color/types';
 
 export interface ItemTooltipProps {
   item: Gw2Api.Item;
@@ -60,6 +61,10 @@ export async function createTooltip(item: Gw2Api.Item, language: Language): Prom
   const infusionIds = item.details?.infusion_slots?.map(({ item_id }) => item_id).map(Number).filter(isTruthy);
   const infusions = infusionIds?.length ? (await db.item.findMany({ where: { id: { in: infusionIds }}, select: { ...linkProperties, [`current_${language}`]: { select: { data: true }}}})).map(mapItemToTooltip) : [];
 
+  const unlocksColor = item.type === 'Consumable' && item.details?.type === 'Unlock' && item.details.unlock_type === 'Dye' && item.details.color_id
+    ? await db.color.findUnique({ where: { id: item.details.color_id } })
+    : null;
+
   return {
     language,
     weaponStrength: item.type === 'Weapon' ? { label: 'Strength', min: item.details?.min_power ?? 0, max: item.details?.max_power ?? 0 } : undefined,
@@ -87,6 +92,7 @@ export async function createTooltip(item: Gw2Api.Item, language: Language): Prom
           : (isEnrichment ? 'Unused Enrichment Slot' : 'Unused Infusion Slot')
       };
     }),
+    unlocksColor: unlocksColor ? { id: unlocksColor.id, name: localizedName(unlocksColor, language), colors: { cloth: unlocksColor.cloth_rgb, leather: unlocksColor.leather_rgb, metal: unlocksColor.metal_rgb }} : undefined,
     rarity: { label: t(`rarity.${item.rarity}`), value: item.rarity },
     type: item.details?.type,
     weightClass: item.details?.weight_class,
@@ -137,6 +143,7 @@ export interface ItemTooltip {
     unused?: undefined,
     item: ItemWithAttributes
   }))[],
+  unlocksColor?: { id: number, name: string, colors: { cloth: string, leather: string, metal: string } }
   rarity: { label: string, value: Gw2Api.Item['rarity'] },
   type?: string,
   weightClass?: string,

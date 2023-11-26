@@ -3,6 +3,7 @@
   width: var(--icon-size, 16px);
   height: var(--icon-size, 16px);
   color: var(--icon-color, currentColor);
+  flex-shrink: 0;
 
   /* svgs promoted to their own layer render better for some reason */
   will-change: transform;

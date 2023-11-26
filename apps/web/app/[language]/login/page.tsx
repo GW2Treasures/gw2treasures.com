@@ -7,6 +7,7 @@ import { Icon } from '@gw2treasures/ui';
 import { Scope } from '@gw2me/client';
 import { gw2me } from '@/lib/gw2me';
 import { getCurrentUrl } from '@/lib/url';
+import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 
 export default async function LoginPage({ searchParams }: { searchParams: { logout?: '', error?: '' }}) {
   const user = await getUser();
@@ -25,9 +26,18 @@ export default async function LoginPage({ searchParams }: { searchParams: { logo
         <Notice>Logout successful</Notice>
       )}
 
+      <p>
+        Login to contribute to gw2treasures.com and to view your progression, inventory, and more.
+      </p>
+
       <form>
         <Button type="submit" formAction={redirectToGw2Me}><Icon icon="gw2me" color="#b7000d"/> Login with gw2.me</Button>
       </form>
+
+      <FlexRow>
+        <Icon icon="cookie"/>
+        <p>By logging in you accept that gw2treasures.com will store cookies in your browser.</p>
+      </FlexRow>
     </PageLayout>
   );
 }

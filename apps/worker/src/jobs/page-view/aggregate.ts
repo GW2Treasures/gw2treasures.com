@@ -1,8 +1,9 @@
 import { db } from '../../db';
 import { Job } from '../job';
 
-function getDate(timestamp: Date): string {
-  const date = `${timestamp.getUTCFullYear()}-${timestamp.getUTCMonth() + 1}-${timestamp.getUTCDate()}T00:00:00.000Z`;
+function getDate(timestamp: Date): Date {
+  const date = new Date(timestamp);
+  date.setUTCHours(0, 0, 0, 0);
 
   return date;
 }
@@ -18,7 +19,7 @@ export const PageViewAggregate: Job = {
     const views = await db.pageView.findMany({ where: { timestamp: { lt: before }}});
 
     // group views by date/page/pageId
-    const map = new Map<string, { date: string, page: string, pageId: number | null, count: number }>();
+    const map = new Map<string, { date: Date, page: string, pageId: number | null, count: number }>();
     views.forEach(({ page, pageId, timestamp }) => {
       const date = getDate(timestamp);
       const key = `${date}:${page}:${pageId}`;

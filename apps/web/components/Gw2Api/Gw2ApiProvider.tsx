@@ -9,15 +9,16 @@ import styles from './Gw2ApiProvider.module.css';
 import { Button } from '@gw2treasures/ui/components/Form/Button';
 import { reauthorize } from './reauthorize';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
+import { useUser } from '../User/use-user';
 
 export interface Gw2ApiProviderProps {
   children: ReactNode;
-  user: SessionUser | undefined;
 }
 
-export const Gw2ApiProvider: FC<Gw2ApiProviderProps> = ({ children, user }) => {
+export const Gw2ApiProvider: FC<Gw2ApiProviderProps> = ({ children }) => {
   const accounts = useRef<Promise<Gw2Account[]>>();
   const [error, setError] = useState<ErrorCode>();
+  const { user } = useUser();
 
   // eslint-disable-next-line require-await
   const getAccounts = useCallback(async () => {

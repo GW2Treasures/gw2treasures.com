@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { usePageResults, useSearchApiResults } from './useSearchResults';
 import Link from 'next/link';
 import { useDebounce } from '@/lib/useDebounce';
-import { autoUpdate, offset, size, useClick, useDismiss, useFloating, useFocus, useInteractions, useListNavigation } from '@floating-ui/react';
+import { autoUpdate, offset, shift, size, useClick, useDismiss, useFloating, useFocus, useInteractions, useListNavigation } from '@floating-ui/react';
 import { Icon } from '@gw2treasures/ui';
 
 export interface SearchProps {
@@ -30,10 +30,11 @@ export const Search: FC<SearchProps> = ({ }) => {
     whileElementsMounted: autoUpdate,
     middleware: [
       offset(4),
+      shift({ padding: 16 }),
       size({
-        apply({ rects, availableHeight, elements }) {
+        apply({ rects, availableHeight, elements, availableWidth }) {
           Object.assign(elements.floating.style, {
-            width: `${rects.reference.width}px`,
+            width: `${Math.min(availableWidth, Math.max(360, rects.reference.width))}px`,
             maxHeight: `${availableHeight}px`
           });
         },

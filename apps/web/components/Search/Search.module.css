@@ -67,6 +67,9 @@
 
 .dropdown {
   position: absolute;
+  width: max-content;
+  top: 0;
+  left: 0;
   font-size: 16px;
   background-color: var(--color-background);
   padding: 8px;

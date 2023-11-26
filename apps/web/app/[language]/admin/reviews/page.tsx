@@ -12,7 +12,7 @@ const getReviews = cache(() => {
       requester: { select: { name: true }},
       reviewer: { select: { name: true }},
     },
-    orderBy: { createdAt: 'desc' },
+    orderBy: [{ reviewedAt: 'desc' }, { createdAt: 'desc' }],
     take: 500,
   });
 });

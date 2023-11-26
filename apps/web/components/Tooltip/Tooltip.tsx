@@ -28,7 +28,7 @@ export const Tooltip: FC<TooltipProps> = ({ children, content }) => {
   // Merge all the interactions into prop getters
   const { getReferenceProps, getFloatingProps } = useInteractions([
     useClientPoint(context),
-    useHover(context, { move: true }),
+    useHover(context, { move: true, mouseOnly: true }),
     useClick(context, {
       ignoreMouse: true,
     }),

@@ -15,6 +15,7 @@ import type { Language } from '@gw2treasures/database';
 import { ItemTableContext } from '@/components/ItemTable/ItemTableContext';
 import { Gw2ApiProvider } from '@/components/Gw2Api/Gw2ApiProvider';
 import { getUser } from '@/lib/getUser';
+import { UserProvider } from '@/components/User/UserProvider';
 
 const bitter = Bitter({
   subsets: ['latin'],
@@ -48,9 +49,11 @@ export default async function RootLayout({
         <I18nProvider language={params.language}>
           <FormatProvider>
             <ItemTableContext global id="global">
-              <Gw2ApiProvider user={user}>
-                <Layout>{children}</Layout>
-              </Gw2ApiProvider>
+              <UserProvider user={user}>
+                <Gw2ApiProvider>
+                  <Layout>{children}</Layout>
+                </Gw2ApiProvider>
+              </UserProvider>
             </ItemTableContext>
           </FormatProvider>
         </I18nProvider>

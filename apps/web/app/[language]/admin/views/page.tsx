@@ -9,7 +9,7 @@ const getViews = cache(async function getViews() {
   const sevenDaysAgo = new Date();
   sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
-  const [views, mostViewed] = await Promise.all([
+  const [views, mostViewed, todaysPageViews] = await Promise.all([
     db.pageViewHistory.groupBy({
       by: 'date',
       _sum: { count: true },
@@ -22,21 +22,24 @@ const getViews = cache(async function getViews() {
       where: { date: { gte: sevenDaysAgo }},
       orderBy: { _sum: { count: 'desc' }},
       take: 25,
-    })
+    }),
+    db.pageView.count(),
   ]);
 
-  return { views, mostViewed };
+  return { views, mostViewed, todaysPageViews };
 });
 
 export default async function AdminUserPage() {
-  const { views, mostViewed } = await getViews();
-  const totalViews = views.reduce((total, views) => total + (views._sum.count ?? 0), 0);
+  const { views, mostViewed, todaysPageViews } = await getViews();
+  const totalViews = todaysPageViews + views.reduce((total, views) => total + (views._sum.count ?? 0), 0);
 
   return (
     <PageLayout>
       <Headline id="reviews">Page Views (last 7 days)</Headline>
 
-      <DataList data={[{ key: 'total', label: 'Total', value: totalViews },
+      <DataList data={[
+        { key: 'total', label: 'Total', value: totalViews },
+        { key: 'today', label: 'Past 24h', value: todaysPageViews },
         ...views.map(({ date, _sum }) => ({
           key: date.toISOString(),
           label: `${date.getUTCFullYear()}-${date.getUTCMonth() + 1}-${date.getUTCDate()}`,

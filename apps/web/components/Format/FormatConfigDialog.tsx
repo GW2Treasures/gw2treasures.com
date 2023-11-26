@@ -10,6 +10,7 @@ import { FormatNumber } from './FormatNumber';
 import { Icon } from '@gw2treasures/ui';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import styles from './FormatConfigDialog.module.css';
+import { useUser } from '../User/use-user';
 
 export interface FormatConfigDialogProps {
   open: boolean;
@@ -54,12 +55,16 @@ export const FormatConfigDialog: FC<FormatConfigDialogProps> = ({ open, onClose 
     return availableRegions.map((region) => ({ value: region, label: `${formatter.of(region)} (${region})` }));
   }, [currentLanguage]);
 
+  const { user } = useUser();
+
   return (
     <Dialog title="Formatting Settings" onClose={onClose} open={open}>
       <div className={styles.layout}>
-        <div className={styles.box}>
-          <FlexRow><Icon icon="cookie"/> Changing your settings will store cookies in your browser.</FlexRow>
-        </div>
+        {!user && (
+          <div className={styles.box}>
+            <FlexRow><Icon icon="cookie"/> Changing your settings will store cookies in your browser.</FlexRow>
+          </div>
+        )}
         <div className={styles.inputs}>
           <Label label="Language">
             <Select options={[{ label: `Current language (${currentLanguage})`, value: 'auto' }, ...languages]} value={language} onChange={(language) => setLocale(language, region)}/>

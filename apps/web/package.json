@@ -23,7 +23,7 @@
     "deepmerge": "4.3.1",
     "gw2-tooltip-html": "0.0.4",
     "gw2e-chat-codes": "1.4.2",
-    "hast-util-to-jsx-runtime": "2.2.0",
+    "hast-util-to-jsx-runtime": "2.3.0",
     "next": "14.0.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",

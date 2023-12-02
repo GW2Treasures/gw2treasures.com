@@ -14,11 +14,12 @@ function getStatus() {
     db.apiRequest.count({ where: { createdAt: { gt: last30Minutes }}}),
     db.apiRequest.count({ where: { createdAt: { gt: last30Minutes }, status: { notIn: [200, 206] }}}),
     db.apiRequest.count({ where: { createdAt: { gt: last30Minutes }, responseTimeMs: { gt: 5000 }}}),
+    db.$queryRaw<[{ size: string }]>`SELECT pg_size_pretty(pg_database_size(current_database())) as size;`,
   ]);
 }
 
 export default async function StatusPage() {
-  const [queuedJobs, apiTotal, apiErrors, apiSlow] = await getStatus();
+  const [queuedJobs, apiTotal, apiErrors, apiSlow, [dbTotal]] = await getStatus();
 
   const apiErrorsPercentage = apiErrors / apiTotal;
   const apiSlowPercentage = apiSlow / apiTotal;
@@ -43,6 +44,11 @@ export default async function StatusPage() {
               ? <><FormatNumber value={apiSlow}/> slow requests in the last 30 minutes</>
               : <><FormatNumber value={apiTotal}/> requests in the last 30 minutes</>)}
         </span>
+      </Link>
+      <Link href="/status/database" className={styles.statusRow}>
+        <span className={styles.success}/>
+        <span className={styles.statusTitle}>Database</span>
+        <span className={styles.statusDescription}>{dbTotal.size}</span>
       </Link>
     </HeroLayout>
   );

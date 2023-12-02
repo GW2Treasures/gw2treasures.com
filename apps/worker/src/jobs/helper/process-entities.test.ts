@@ -79,7 +79,8 @@ describe('process-entities', () => {
 
   test('no changes', async () => {
     const data = await testProcessLocalizedEntities({}, {});
-    expect(data).toBeUndefined();
+    expect(data).toBeDefined();
+    expect(data).toMatchObject({ currentId_en: TestDbEntityBase.current_en.id });
   });
 
   test('updated', async () => {

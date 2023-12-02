@@ -80,7 +80,7 @@ export async function createSubJobs(
   }
 
   // output
-  return `Queued ${jobCount} jobs for ${idCount} entries`;
+  return `Queued ${jobCount} jobs for ${idCount} entries (${newOrRediscoveredIds.length} new, ${knownIdsLastUpdatedOnOldBuild.length} updated, ${idsToBeMigrated.length} migrated, ${removedIds.length} removed)`;
 }
 
 export interface ProcessEntitiesData<Id extends string | number> {
@@ -194,9 +194,10 @@ export async function processLocalizedEntities<Id extends string | number, DbEnt
       const migrationVersionChanged = dbEntity?.version != currentVersion;
 
       // if nothing changed and we also don't have to migrate anything we can early return
-      if(!revisionsChanged && !migrationVersionChanged) {
-        return;
-      }
+      // we can't early return, because we need to set lastChecked
+      // if(!revisionsChanged && !migrationVersionChanged) {
+      //   return;
+      // }
 
       // always run all migrations if a revision changed, otherwise run only required migrations
       const migrationVersion = revisionsChanged ? -1 : dbEntity.version;

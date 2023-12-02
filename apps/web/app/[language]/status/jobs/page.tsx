@@ -23,8 +23,8 @@ function formatTime(totalSeconds: number) {
 
   return (
     <>
-      {minutes > 0 && <><FormatNumber value={minutes}/>m </>}
-      <FormatNumber value={seconds}/>s
+      {minutes > 0 && <><FormatNumber value={minutes} unit="m"/> </>}
+      <FormatNumber value={seconds} unit="s"/>
     </>
   );
 }
@@ -40,10 +40,10 @@ async function JobPage() {
       <Table>
         <thead>
           <tr>
-            <th {...{ width: 1 }}>Status</th>
-            <th>Job</th>
-            <th {...{ width: 1 }}>Runtime</th>
-            <th {...{ width: 1 }}>Scheduled</th>
+            <Table.HeaderCell small>Status</Table.HeaderCell>
+            <Table.HeaderCell>Job</Table.HeaderCell>
+            <Table.HeaderCell small align="right">Runtime</Table.HeaderCell>
+            <Table.HeaderCell small align="right">Scheduled</Table.HeaderCell>
           </tr>
         </thead>
         <tbody>
@@ -51,8 +51,8 @@ async function JobPage() {
             <tr key={job.id}>
               <td style={{ whiteSpace: 'nowrap' }}><span className={job.state === 'Running' ? styles.running : styles.queued}/>{job.state === 'Running' ? 'Running' : 'Queued'}</td>
               <th><b>{job.type}</b></th>
-              <td style={{ whiteSpace: 'nowrap' }}>{job.state === 'Running' ? formatTime(Math.round((now.valueOf() - job.startedAt!.valueOf()) / 1000)) : '-'}</td>
-              <td><FormatDate key={job.id} date={job.scheduledAt} relative/></td>
+              <td style={{ whiteSpace: 'nowrap' }} align="right">{job.state === 'Running' ? formatTime(Math.round((now.valueOf() - job.startedAt!.valueOf()) / 1000)) : '-'}</td>
+              <td align="right"><FormatDate key={job.id} date={job.scheduledAt} relative/></td>
             </tr>
           ))}
           {running.length === 0 && <tr><td colSpan={5} style={{ textAlign: 'center' }}>No jobs currently running</td></tr>}
@@ -63,11 +63,11 @@ async function JobPage() {
       <Table>
         <thead>
           <tr>
-            <th {...{ width: 1 }}>Status</th>
-            <th {...{ width: 1 }}>Job</th>
-            <th>Output</th>
-            <th {...{ width: 1 }}>Runtime</th>
-            <th {...{ width: 1 }}>Finished</th>
+            <Table.HeaderCell small>Status</Table.HeaderCell>
+            <Table.HeaderCell small>Job</Table.HeaderCell>
+            <Table.HeaderCell>Output</Table.HeaderCell>
+            <Table.HeaderCell small align="right">Runtime</Table.HeaderCell>
+            <Table.HeaderCell small align="right">Finished</Table.HeaderCell>
           </tr>
         </thead>
         <tbody>
@@ -76,8 +76,8 @@ async function JobPage() {
               <td style={{ whiteSpace: 'nowrap' }}><span className={job.state === 'Error' ? styles.error : styles.success}/>{job.state}</td>
               <th><b>{job.type}</b></th>
               <td style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>{job.output}</td>
-              <td style={{ whiteSpace: 'nowrap' }}>{formatTime((job.finishedAt!.valueOf() - job.startedAt!.valueOf()) / 1000)}</td>
-              <td><FormatDate date={job.finishedAt} relative/></td>
+              <td align="right" style={{ whiteSpace: 'nowrap' }}>{formatTime((job.finishedAt!.valueOf() - job.startedAt!.valueOf()) / 1000)}</td>
+              <td align="right"><FormatDate date={job.finishedAt} relative/></td>
             </tr>
           ))}
         </tbody>

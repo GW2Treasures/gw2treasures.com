@@ -118,7 +118,7 @@
 }
 
 .headerNavVisible,
-.headerMainScrolled + .headerNav:focus-within {
+.headerMainScrolled + .headerNav:has(:focus-visible) {
   position: fixed;
   border-bottom: 1px solid var(--color-border-transparent);
   animation: slideIn .1s ease-out;

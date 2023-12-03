@@ -11,12 +11,12 @@ export interface HeadlineProps {
 
 export const Headline: FC<HeadlineProps> = ({ children, id, noToc = false, actions }) => {
   return (
-    <header role="heading" className={styles.headline} aria-level={2}>
+    <h2 className={styles.headline}>
       {!noToc && <TableOfContentAnchor id={id}>{children}</TableOfContentAnchor>}
       <span className={styles.content}>
         {children}
       </span>
       {actions && <div className={styles.actions}>{actions}</div>}
-    </header>
+    </h2>
   );
 };

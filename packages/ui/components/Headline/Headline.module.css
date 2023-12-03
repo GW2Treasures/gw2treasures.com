@@ -1,4 +1,5 @@
 .headline {
+  font: inherit;
   margin: 32px 0 16px;
   display: flex;
   flex-wrap: wrap;

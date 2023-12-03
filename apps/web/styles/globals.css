@@ -9,6 +9,7 @@ body {
   background-color: var(--color-background);
   -webkit-tap-highlight-color: transparent;
   text-size-adjust: none;
+  scroll-padding: 64px 16px 16px;
 }
 
 b {

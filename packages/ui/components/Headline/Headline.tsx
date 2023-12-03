@@ -1,5 +1,7 @@
+'use client';
+
 import type { FC, ReactNode } from 'react';
-import { TableOfContentAnchor } from '../TableOfContent/TableOfContent';
+import { useTableOfContentAnchor } from '../TableOfContent/TableOfContent';
 import styles from './Headline.module.css';
 
 export interface HeadlineProps {
@@ -10,9 +12,10 @@ export interface HeadlineProps {
 }
 
 export const Headline: FC<HeadlineProps> = ({ children, id, noToc = false, actions }) => {
+  const ref = useTableOfContentAnchor(id, { label: children, enabled: !noToc });
+
   return (
-    <h2 className={styles.headline}>
-      {!noToc && <TableOfContentAnchor id={id}>{children}</TableOfContentAnchor>}
+    <h2 className={styles.headline} ref={ref} id={id}>
       <span className={styles.content}>
         {children}
       </span>

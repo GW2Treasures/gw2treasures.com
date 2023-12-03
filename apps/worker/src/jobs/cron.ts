@@ -51,7 +51,7 @@ export async function registerCronJobs() {
 
   await registerJob('icons.colors', '37 * * * *');
 
-  await registerJob('page-views.aggregate', '* * * * *');
+  await registerJob('page-views.aggregate', '1 0 * * *');
 
   await registerJob('jobs.cleanup', '8 * * * *');
 }

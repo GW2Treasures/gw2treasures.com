@@ -31,7 +31,7 @@ export interface DataTableClientRowsProps {
 export const DataTableClientRows: FC<DataTableClientRowsProps> = ({ children, sortableColumns }) => {
   const { sortBy, sortOrder } = useContext(DataTableContext).state;
 
-  if(sortBy) {
+  if(sortBy && sortableColumns[sortBy]) {
     const sortedChildren = sortableColumns[sortBy].map((index) => children[index]);
 
     if(sortOrder === 'desc') {

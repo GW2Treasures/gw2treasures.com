@@ -10,7 +10,7 @@ const getDbStats = unstable_cache(() => {
     db.$queryRaw<{ table_name: string, size: string, size_index: string, size_total: string, rows: number }[]>`
       SELECT
         relname AS table_name,
-        pg_size_pretty(pg_relation_size(c.oid)) as size,
+        pg_size_pretty(pg_table_size(c.oid)) as size,
         pg_size_pretty(pg_indexes_size(c.oid)) AS size_index,
         pg_size_pretty(pg_total_relation_size(c.oid)) AS size_total,
         reltuples as rows
@@ -52,7 +52,7 @@ export default async function StatusDatabasePage() {
         </tbody>
       </Table>
     </PageLayout>
-  )
+  );
 }
 
 export const metadata = {

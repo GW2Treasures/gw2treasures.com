@@ -2,11 +2,11 @@ import type { FC, ReactNode, ThHTMLAttributes } from 'react';
 import styles from './Table.module.css';
 import { Icon } from '../../icons';
 
-interface TableProps {
+export interface TableProps {
   children: ReactNode;
 };
 
-interface HeaderCellProps {
+export interface HeaderCellProps {
   children?: ReactNode;
   small?: boolean;
   align?: ThHTMLAttributes<HTMLTableCellElement>['align'],

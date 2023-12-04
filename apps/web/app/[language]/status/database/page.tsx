@@ -35,16 +35,16 @@ export default async function StatusDatabasePage() {
         <DbStats.Column id="table" title="Table">
           {({ table_name }) => table_name}
         </DbStats.Column>
-        <DbStats.Column id="rows" align="right" title="Row Estimate" sort={(a, b) => a.rows - b.rows}>
+        <DbStats.Column id="rows" align="right" title="Row Estimate" sortBy="rows">
           {({ rows }) => rows === -1 ? <span style={{ color: 'var(--color-text-muted' }}>?</span> : <FormatNumber value={rows}/>}
         </DbStats.Column>
-        <DbStats.Column id="data" align="right" title="Size (Data)" sort={(a, b) => compare(a.size, b.size)}>
+        <DbStats.Column id="data" align="right" title="Size (Data)" sortBy="size">
           {({ size }) => formatSize(size)}
         </DbStats.Column>
-        <DbStats.Column id="index" align="right" title="Size (Index)" sort={(a, b) => compare(a.size_index, b.size_index)}>
+        <DbStats.Column id="index" align="right" title="Size (Index)" sortBy="size_index">
           {({ size_index }) => formatSize(size_index)}
         </DbStats.Column>
-        <DbStats.Column id="total" align="right" title="Total Size" sort={(a, b) => compare(a.size_total, b.size_total)}>
+        <DbStats.Column id="total" align="right" title="Total Size" sortBy="size_total">
           {({ size_total }) => formatSize(size_total)}
         </DbStats.Column>
       </DbStats.Table>
@@ -55,10 +55,6 @@ export default async function StatusDatabasePage() {
 export const metadata = {
   title: 'Database Stats'
 };
-
-function compare(a: bigint, b: bigint) {
-  return (a < b ? -1 : a > b ? 1 : 0);
-}
 
 function formatSize(size: bigint): string {
   const units = ['bytes', 'kB', 'MB', 'GB', 'TB'];

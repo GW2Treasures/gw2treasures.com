@@ -18,6 +18,7 @@ export interface DataTableColumnProps<T> extends Pick<HeaderCellProps, 'align' |
   title: ReactNode,
   children: ((row: T, index: number) => ReactNode),
   sort?: (a: T, b: T, aIndex: number, bIndex: number) => number,
+  sortBy?: ComparableProperties<T> | ((row: T) => Comparable)
 }
 
 export interface DataTableDynamicColumnsProps<T> {
@@ -53,10 +54,14 @@ export function createDataTable<T>(rows: T[], getRowKey: (row: T) => Key): {
 
       const sortableColumns = Object.fromEntries(children
         .filter(isStaticColumn)
-        .filter((column) => isDefinied(column.props.sort))
+        .filter((column) => isDefinied(column.props.sort) || isDefinied(column.props.sortBy))
         .map((column) => {
           const columnOrder = rowsWithIndex
-            .toSorted((a, b) => column.props.sort!(a.row, b.row, a.index, b.index))
+            .toSorted((a, b) => {
+              const sort = column.props.sort ?? sortBy(column.props.sortBy!);
+
+              return sort(a.row, b.row, a.index, b.index);
+            })
             .map(({ index }) => index);
 
           return [column.props.id, columnOrder];
@@ -69,7 +74,7 @@ export function createDataTable<T>(rows: T[], getRowKey: (row: T) => Key): {
             <thead>
               <tr>
                 {columns.map((column) => isStaticColumn(column) ? (
-                  <DataTableClientColumn id={column.props.id} key={column.props.id} sortable={!!column.props.sort} align={column.props.align} small={column.props.small}>
+                  <DataTableClientColumn id={column.props.id} key={column.props.id} sortable={!!column.props.sort || !!column.props.sortBy} align={column.props.align} small={column.props.small}>
                     {column.props.title}
                   </DataTableClientColumn>
                 ) : (
@@ -97,3 +102,34 @@ export function createDataTable<T>(rows: T[], getRowKey: (row: T) => Key): {
   };
 }
 
+type Comparable = string | number | bigint | null | undefined;
+
+export function compare<T extends Comparable>(a: T, b: T) {
+  if(a == null) {
+    if(b == null) {
+      return 0;
+    }
+    return -1;
+  }
+  if(b == null) {
+    return 1;
+  }
+
+  if(typeof a === 'string' && typeof b === 'string') {
+    return a.localeCompare(b);
+  }
+
+  if((typeof a === 'number' || typeof a === 'bigint') && (typeof b === 'number' || typeof b === 'bigint')) {
+    return a < b ? -1 : a > b ? 1 : 0;
+  }
+
+  throw new Error(`Cant compare ${typeof a} and ${typeof b}`);
+}
+
+type ComparableProperties<T> = {[K in keyof T]: T[K] extends Comparable ? K : never}[keyof T];
+
+export function sortBy<T>(by: ComparableProperties<T> | ((x: T) => Comparable)): (a: T, b: T) => number {
+  return typeof by === 'function'
+    ? (a, b) => compare(by(a), by(b))
+    : (a, b) => compare((a as any)[by], (b as any)[by]);
+}

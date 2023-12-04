@@ -1,9 +1,8 @@
 import { Table, type HeaderCellProps } from './Table';
 import { type FC, type Key, type ReactElement, type ReactNode } from 'react';
 import 'server-only';
-import { DataTableClient, DataTableClientColumn, DataTableClientRows } from './DataTable.client';
+import { DataTableClient, DataTableClientCell, DataTableClientColumn, DataTableClientColumnSelection, DataTableClientRows } from './DataTable.client';
 import { isDefinied } from '../../lib';
-
 
 // table
 export interface DataTableProps<T> {
@@ -18,7 +17,8 @@ export interface DataTableColumnProps<T> extends Pick<HeaderCellProps, 'align' |
   title: ReactNode,
   children: ((row: T, index: number) => ReactNode),
   sort?: (a: T, b: T, aIndex: number, bIndex: number) => number,
-  sortBy?: ComparableProperties<T> | ((row: T) => Comparable)
+  sortBy?: ComparableProperties<T> | ((row: T) => Comparable),
+  hidden?: boolean,
 }
 
 export interface DataTableDynamicColumnsProps<T> {
@@ -26,16 +26,27 @@ export interface DataTableDynamicColumnsProps<T> {
   headers: ReactNode,
 }
 
+export interface DataTableColumnSelectionProps {
+  children: ReactNode;
+}
+
 export function createDataTable<T>(rows: T[], getRowKey: (row: T) => Key): {
   Table: FC<DataTableProps<T>>,
   Column: FC<DataTableColumnProps<T>>,
   DynamicColumns: FC<DataTableDynamicColumnsProps<T>>,
+  ColumnSelection: FC<DataTableColumnSelectionProps>,
 } {
+  const datatableId = crypto.randomUUID();
+
   const Column: FC<DataTableColumnProps<T>> = () => {
     throw new Error('Only use DataTable.Column inside of DataTable.Table');
   };
   const DynamicColumns: FC<DataTableDynamicColumnsProps<T>> = () => {
     throw new Error('Only use DataTable.DynamicColumns inside of DataTable.Table');
+  };
+
+  const ColumnSelection: FC<DataTableColumnSelectionProps> = ({ children }) => {
+    return <DataTableClientColumnSelection id={datatableId}>{children}</DataTableClientColumnSelection>;
   };
 
   function isStaticColumn(child: ReactElement): child is ColumnReactElement<T> {
@@ -69,7 +80,7 @@ export function createDataTable<T>(rows: T[], getRowKey: (row: T) => Key): {
       );
 
       return (
-        <DataTableClient>
+        <DataTableClient id={datatableId} columns={columns.filter(isStaticColumn).map((column) => ({ id: column.props.id, title: column.props.title, hidden: !!column.props.hidden }))}>
           <Table>
             <thead>
               <tr>
@@ -87,7 +98,9 @@ export function createDataTable<T>(rows: T[], getRowKey: (row: T) => Key): {
                 {rows.map((row, index) => (
                   <tr key={getRowKey(row)}>
                     {columns.map((column) => isStaticColumn(column) ? (
-                      <td key={column.props.id} align={column.props.align}>{column.props.children(row, index)}</td>
+                      <DataTableClientCell key={column.props.id} columnId={column.props.id}>
+                        <td align={column.props.align}>{column.props.children(row, index)}</td>
+                      </DataTableClientCell>
                     ) : column.props.children(row, index))}
                   </tr>
                 ))}
@@ -99,6 +112,7 @@ export function createDataTable<T>(rows: T[], getRowKey: (row: T) => Key): {
     },
     Column,
     DynamicColumns,
+    ColumnSelection,
   };
 }
 

@@ -86,6 +86,7 @@
   margin: -8px -16px;
   padding: 8px 16px;
   text-align: inherit;
+  border-radius: 2px;
 }
 
 .sortIcon {
@@ -95,6 +96,11 @@
 
 .sortButton:hover .sortIcon {
   color: var(--color-text);
+}
+
+.sortButton:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus);
 }
 
 .sort {

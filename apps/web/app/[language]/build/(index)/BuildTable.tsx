@@ -3,7 +3,7 @@
 import { useFormatContext } from '@/components/Format/FormatContext';
 import { FormatDate } from '@/components/Format/FormatDate';
 import { FormatNumber } from '@/components/Format/FormatNumber';
-import { type DataTableColumn, useDataTable } from '@gw2treasures/ui/components/Table/DataTable';
+import { type DataTableColumn, useDataTable } from '@gw2treasures/ui/components/Table/use-datatable';
 import type { Build } from '@gw2treasures/database';
 import Link from 'next/link';
 import { type FC, useCallback, useMemo } from 'react';
@@ -40,6 +40,7 @@ export const BuildTable: FC<BuildTableProps> = ({ rows }) => {
     [f]
   );
 
+  // TODO: replace with @gw2treasures/ui DataTable
   const BuildTable = useDataTable<BuildWithUpdates>(buildTableColumns, buildRowKey, group);
 
   return <BuildTable rows={rows}/>;

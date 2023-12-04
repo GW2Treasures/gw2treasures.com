@@ -14,6 +14,7 @@ export interface DataTableProps<T> {
   rows: T[];
 }
 
+/** @deprecated Use DataTable instead */
 export function useDataTable<T>(columns: DataTableColumn<T>[], rowKey: (row: T) => Key, groups?: (row: T) => { value: string, label: ReactNode }): FC<DataTableProps<T>> {
   return memo(useMemo(() =>
     function DataTable({ rows }) {

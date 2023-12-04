@@ -6,7 +6,7 @@ import { EntityIcon, type EntityIconType } from '../Entity/EntityIcon';
 import { Button } from '@gw2treasures/ui/components/Form/Button';
 import { Icon as IconComponent } from '@gw2treasures/ui';
 import { DropDown } from '../DropDown/DropDown';
-import { MenuList } from '../MenuList/MenuList';
+import { MenuList } from '@gw2treasures/ui/components/Layout/MenuList';
 
 interface DetailLayoutProps {
   title: ReactNode;

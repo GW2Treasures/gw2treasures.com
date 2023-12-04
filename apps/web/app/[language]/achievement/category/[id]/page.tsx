@@ -19,6 +19,7 @@ import { ItemLink } from '@/components/Item/ItemLink';
 import { AccountAchievementProgressHeader, AccountAchievementProgressRow } from '@/components/Achievement/AccountAchievementProgress';
 import { AchievementPoints } from '@/components/Achievement/AchievementPoints';
 import { format } from 'gw2-tooltip-html';
+import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
 
 export interface AchievementCategoryPageProps {
   params: {
@@ -66,6 +67,8 @@ async function AchievementCategoryPage({ params: { language, id }}: AchievementC
     [[], []]
   );
 
+  const CurrentAchievements = createDataTable(currentAchievements, ({ id }) => id);
+
   return (
     <DetailLayout
       color={achievementCategory.icon?.color ?? undefined}
@@ -82,37 +85,32 @@ async function AchievementCategoryPage({ params: { language, id }}: AchievementC
       )}
 
       <Headline id="achievements">Achievements</Headline>
-      <Table>
-        <thead>
-          <tr>
-            <Table.HeaderCell>Achievement</Table.HeaderCell>
-            <Table.HeaderCell align="right">AP <Icon icon="achievement_points"/></Table.HeaderCell>
-            <Table.HeaderCell><Icon icon="mastery"/> Mastery</Table.HeaderCell>
-            <Table.HeaderCell><Icon icon="title"/> Title</Table.HeaderCell>
-            <Table.HeaderCell>Items</Table.HeaderCell>
-            <AccountAchievementProgressHeader/>
-          </tr>
-        </thead>
-        <tbody>
-          {currentAchievements.map((achievement) => (
-            <tr key={achievement.id}>
-              <td><AchievementLink achievement={achievement}/></td>
-              <td align="right"><AchievementPoints points={achievement.points}/></td>
-              <td>{achievement.mastery === 'Unknown' ? 'EoD / SotO' : achievement.mastery}</td>
-              <td>{achievement.rewardsTitle.map((title) => <span key={title.id} dangerouslySetInnerHTML={{ __html: format(localizedName(title, language)) }}/>)}</td>
-              <td>{achievement.rewardsItem.length > 0 && (
-                <ItemList singleColumn>
-                  {achievement.rewardsItem.map((item) => (
-                    <li key={item.id}><ItemLink item={item} icon={32}/></li>
-                  ))}
-                </ItemList>
-              )}
-              </td>
-              <AccountAchievementProgressRow achievementId={achievement.id}/>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
+      <CurrentAchievements.Table>
+        <CurrentAchievements.Column id="achievement" title="Achievement" sortBy={`name_${language}`}>
+          {(achievement) => <AchievementLink achievement={achievement}/>}
+        </CurrentAchievements.Column>
+        <CurrentAchievements.Column id="points" align="right" title="AP" sortBy="points">
+          {({ points }) => <AchievementPoints points={points}/>}
+        </CurrentAchievements.Column>
+        <CurrentAchievements.Column id="mastery" title={<><Icon icon="mastery"/> Mastery</>} sortBy="mastery">
+          {({ mastery }) => mastery === 'Unknown' ? 'EoD / SotO' : mastery}
+        </CurrentAchievements.Column>
+        <CurrentAchievements.Column id="title" title={<><Icon icon="title"/> Title</>} sortBy={({ rewardsTitle }) => rewardsTitle.length}>
+          {({ rewardsTitle }) => rewardsTitle.map((title) => <span key={title.id} dangerouslySetInnerHTML={{ __html: format(localizedName(title, language)) }}/>)}
+        </CurrentAchievements.Column>
+        <CurrentAchievements.Column id="items" title="Items" sortBy={({ rewardsItem }) => rewardsItem.length}>
+          {({ rewardsItem }) => rewardsItem.length > 0 && (
+            <ItemList singleColumn>
+              {rewardsItem.map((item) => (
+                <li key={item.id}><ItemLink item={item} icon={32}/></li>
+              ))}
+            </ItemList>
+          )}
+        </CurrentAchievements.Column>
+        <CurrentAchievements.DynamicColumns headers={<AccountAchievementProgressHeader/>}>
+          {({ id }) => <AccountAchievementProgressRow achievementId={id}/>}
+        </CurrentAchievements.DynamicColumns>
+      </CurrentAchievements.Table>
 
       {historicAchievements.length > 0 && (
         <>

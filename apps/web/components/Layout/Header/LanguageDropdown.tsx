@@ -1,6 +1,6 @@
 'use client';
 
-import { DropDown } from '@/components/DropDown/DropDown';
+import { DropDown } from '@gw2treasures/ui/components/DropDown/DropDown';
 import { Button } from '@gw2treasures/ui/components/Form/Button';
 import { Radiobutton } from '@gw2treasures/ui/components/Form/Radiobutton';
 import { FormatConfigDialog } from '@/components/Format/FormatConfigDialog';

@@ -6,7 +6,7 @@ import { type ItemTableLoadOptions } from './ItemTable.actions';
 import { SkeletonTable } from '../Skeleton/SkeletonTable';
 import { globalColumnRenderer } from './columns';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
-import { DropDown } from '../DropDown/DropDown';
+import { DropDown } from '@gw2treasures/ui/components/DropDown/DropDown';
 import { Button, LinkButton } from '@gw2treasures/ui/components/Form/Button';
 import { Icon } from '@gw2treasures/ui';
 import { MenuList } from '@gw2treasures/ui/components/Layout/MenuList';

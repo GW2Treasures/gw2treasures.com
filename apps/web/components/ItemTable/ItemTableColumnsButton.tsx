@@ -1,7 +1,7 @@
 'use client';
 
 import type { FC } from 'react';
-import { DropDown } from '../DropDown/DropDown';
+import { DropDown } from '@gw2treasures/ui/components/DropDown/DropDown';
 import { Button } from '@gw2treasures/ui/components/Form/Button';
 import { Checkbox } from '@gw2treasures/ui/components/Form/Checkbox';
 import { MenuList } from '@gw2treasures/ui/components/Layout/MenuList';

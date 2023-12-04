@@ -4,7 +4,7 @@ import type { IngredientCurrency, IngredientItem, Recipe, Revision } from '@gw2t
 import { type FC, memo, useDeferredValue, useMemo, useState } from 'react';
 import { localizedName } from '@/lib/localizedName';
 import type { With } from '@/lib/with';
-import { DropDown } from '../DropDown/DropDown';
+import { DropDown } from '@gw2treasures/ui/components/DropDown/DropDown';
 import { Button } from '@gw2treasures/ui/components/Form/Button';
 import { Checkbox } from '@gw2treasures/ui/components/Form/Checkbox';
 import { TextInput } from '@gw2treasures/ui/components/Form/TextInput';

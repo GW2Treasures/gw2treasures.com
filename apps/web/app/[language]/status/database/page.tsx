@@ -32,23 +32,20 @@ export default async function StatusDatabasePage() {
       <Headline id="db">Database</Headline>
       <p>Total Size: {total[0].size}.</p>
       <DbStats.Table>
-        <DbStats.Column id="table" render={({ table_name }) => table_name}>
-          Table
+        <DbStats.Column id="table" title="Table">
+          {({ table_name }) => table_name}
         </DbStats.Column>
-        <DbStats.Column id="rows" align="right"
-          render={({ rows }) => rows === -1 ? <span style={{ color: 'var(--color-text-muted' }}>?</span> : <FormatNumber value={rows}/>}
-          sort={(a, b) => a.rows - b.rows}
-        >
-          Row Estimate
+        <DbStats.Column id="rows" align="right" title="Row Estimate" sort={(a, b) => a.rows - b.rows}>
+          {({ rows }) => rows === -1 ? <span style={{ color: 'var(--color-text-muted' }}>?</span> : <FormatNumber value={rows}/>}
         </DbStats.Column>
-        <DbStats.Column id="data" align="right" render={({ size }) => formatSize(size)} sort={(a, b) => compare(a.size, b.size)}>
-          Size (Data)
+        <DbStats.Column id="data" align="right" title="Size (Data)" sort={(a, b) => compare(a.size, b.size)}>
+          {({ size }) => formatSize(size)}
         </DbStats.Column>
-        <DbStats.Column id="index" align="right" render={({ size_index }) => formatSize(size_index)} sort={(a, b) => compare(a.size_index, b.size_index)}>
-          Size (Index)
+        <DbStats.Column id="index" align="right" title="Size (Index)" sort={(a, b) => compare(a.size_index, b.size_index)}>
+          {({ size_index }) => formatSize(size_index)}
         </DbStats.Column>
-        <DbStats.Column id="total" align="right" render={({ size_total }) => formatSize(size_total)} sort={(a, b) => compare(a.size_total, b.size_total)}>
-          Total Size
+        <DbStats.Column id="total" align="right" title="Total Size" sort={(a, b) => compare(a.size_total, b.size_total)}>
+          {({ size_total }) => formatSize(size_total)}
         </DbStats.Column>
       </DbStats.Table>
     </PageLayout>

@@ -15,8 +15,8 @@ type DynamicColumnsReactElement<T> = ReactElement<DataTableDynamicColumnsProps<T
 
 export interface DataTableColumnProps<T> extends Pick<HeaderCellProps, 'align' | 'small'> {
   id: string,
-  children: ReactNode,
-  render: ((row: T, index: number) => ReactNode),
+  title: ReactNode,
+  children: ((row: T, index: number) => ReactNode),
   sort?: (a: T, b: T, aIndex: number, bIndex: number) => number,
 }
 
@@ -70,7 +70,7 @@ export function createDataTable<T>(rows: T[], getRowKey: (row: T) => Key): {
               <tr>
                 {columns.map((column) => isStaticColumn(column) ? (
                   <DataTableClientColumn id={column.props.id} key={column.props.id} sortable={!!column.props.sort} align={column.props.align} small={column.props.small}>
-                    {column.props.children}
+                    {column.props.title}
                   </DataTableClientColumn>
                 ) : (
                   column.props.headers
@@ -82,7 +82,7 @@ export function createDataTable<T>(rows: T[], getRowKey: (row: T) => Key): {
                 {rows.map((row, index) => (
                   <tr key={getRowKey(row)}>
                     {columns.map((column) => isStaticColumn(column) ? (
-                      <td key={column.props.id} align={column.props.align}>{column.props.render(row, index)}</td>
+                      <td key={column.props.id} align={column.props.align}>{column.props.children(row, index)}</td>
                     ) : column.props.children(row, index))}
                   </tr>
                 ))}

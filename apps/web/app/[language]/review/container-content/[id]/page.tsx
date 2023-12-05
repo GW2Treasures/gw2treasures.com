@@ -15,6 +15,8 @@ import Link from 'next/link';
 import { CurrencyLink } from '@/components/Currency/CurrencyLink';
 import { FormatNumber } from '@/components/Format/FormatNumber';
 import { CurrencyValue } from '@/components/Currency/CurrencyValue';
+import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
+import { Separator } from '@gw2treasures/ui/components/Layout/Separator';
 
 const getReview = async function getReview(id: string) {
   const review = await db.review.findUnique({
@@ -153,11 +155,14 @@ export default async function ReviewContainerContentPage({ params: { id }, searc
         <Notice>You need to <Link href="/login">Login</Link> to review this change.</Notice>
       )}
 
-      <form style={{ display: 'flex', gap: 16 }}>
+      <form>
         <input type="hidden" name="id" value={id}/>
-        <LinkButton external href="/review/container-content">Skip</LinkButton>
-        <Button type="submit" disabled={!canReview} formAction={approve}>Approve</Button>
-        <Button type="submit" disabled={!canReview} formAction={reject}>Reject</Button>
+        <FlexRow>
+          <LinkButton external href="/review/container-content" icon="chevron-right">Skip</LinkButton>
+          <Separator/>
+          <Button type="submit" disabled={!canReview} formAction={approve} icon="checkmark">Approve</Button>
+          <Button type="submit" disabled={!canReview} formAction={reject} icon="cancel">Reject</Button>
+        </FlexRow>
       </form>
     </HeroLayout>
   );

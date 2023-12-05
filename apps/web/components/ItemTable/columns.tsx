@@ -20,6 +20,7 @@ export const globalColumnDefinitions = {
     order: 10,
     select: {},
     align: 'right',
+    small: true,
     orderBy: [{ id: 'asc' }, { id: 'desc' }]
   }),
   item: createColumn({

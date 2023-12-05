@@ -2,6 +2,7 @@
   color: var(--link-color, var(--color-focus));
   display: inline-flex;
   align-items: center;
+  justify-self: flex-start;
   text-decoration: none;
   gap: 8px;
   overflow: hidden;

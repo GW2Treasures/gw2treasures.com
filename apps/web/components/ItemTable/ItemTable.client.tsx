@@ -105,7 +105,7 @@ export const ItemTable = <ExtraColumnId extends string = never, Model extends Qu
         <thead>
           <tr>
             {columns.map((column) => (
-              <Table.HeaderCell key={column.id} align={column.align} sort={column.orderBy && (column.id === orderBy?.column ? orderBy?.order : true)} onSort={() => handleSort(column.id)}>
+              <Table.HeaderCell key={column.id} align={column.align} small={column.small} sort={column.orderBy && (column.id === orderBy?.column ? orderBy?.order : true)} onSort={() => handleSort(column.id)}>
                 {column.title}
               </Table.HeaderCell>
             ))}

@@ -8,5 +8,7 @@
 
 .count {
   text-align: right;
+  font-feature-settings: "tnum" 1;
   margin-right: 8px;
+  min-width: var(--ingredient-count-min-width);
 }

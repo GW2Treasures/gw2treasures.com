@@ -53,7 +53,7 @@ export default async function StatusDatabasePage() {
 }
 
 export const metadata = {
-  title: 'Database Stats'
+  title: 'Database Status'
 };
 
 function formatSize(size: bigint): string {

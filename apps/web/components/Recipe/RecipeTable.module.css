@@ -4,6 +4,7 @@
   height: 100%;
   gap: 8px;
   justify-content: center;
+  align-items: flex-start;
 }
 
 .unlock {

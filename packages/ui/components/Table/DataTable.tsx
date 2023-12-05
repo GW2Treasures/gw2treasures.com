@@ -33,7 +33,7 @@ export interface DataTableColumnSelectionProps {
   children: ReactNode;
 }
 
-export function createDataTable<T>(rows: T[], getRowKey: (row: T) => Key): {
+export function createDataTable<T>(rows: T[], getRowKey: (row: T, index: number) => Key): {
   Table: FC<DataTableProps<T>>,
   Column: FC<DataTableColumnProps<T>>,
   DynamicColumns: FC<DataTableDynamicColumnsProps<T>>,
@@ -102,7 +102,7 @@ export function createDataTable<T>(rows: T[], getRowKey: (row: T) => Key): {
                   const Row = rowFilter ?? 'tr';
 
                   return (
-                    <Row key={getRowKey(row)} index={index}>
+                    <Row key={getRowKey(row, index)} index={index}>
                       {columns.map((column) => isStaticColumn(column) ? (
                         <DataTableClientCell key={column.props.id} columnId={column.props.id} align={column.props.align}>
                           {column.props.children(row, index)}

@@ -27,7 +27,7 @@ export const AchievementInfobox: FC<AchievementInfoboxProps> = ({ achievement, l
       {achievement.unlocks !== null && (
         <>
           <Headline id="unlocks" noToc>Unlocks</Headline>
-          <p>Unlocked by <b><FormatNumber value={achievement.unlocks * 100}/>%</b> of players on <ExternalLink href="https://gw2efficiency.com/account/unlock-statistics?filter.key=achievements">gw2efficiency</ExternalLink>.</p>
+          <p>Unlocked by <b><FormatNumber value={achievement.unlocks * 100} unit="%"/></b> of players on <ExternalLink href="https://gw2efficiency.com/account/unlock-statistics?filter.key=achievements">gw2efficiency</ExternalLink>.</p>
         </>
       )}
 

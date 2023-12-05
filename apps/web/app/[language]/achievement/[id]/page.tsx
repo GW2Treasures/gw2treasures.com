@@ -16,7 +16,6 @@ import { ItemList } from '@/components/ItemList/ItemList';
 import { linkProperties, linkPropertiesWithoutRarity } from '@/lib/linkProperties';
 import { ItemLink } from '@/components/Item/ItemLink';
 import { SkinLink } from '@/components/Skin/SkinLink';
-import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { AchievementLink } from '@/components/Achievement/AchievementLink';
 import { AchievementInfobox } from '@/components/Achievement/AchievementInfobox';
 import type * as CSS from 'csstype';
@@ -28,6 +27,9 @@ import type { Metadata } from 'next';
 import { AccountAchievementProgressHeader, AccountAchievementProgressRow } from '@/components/Achievement/AccountAchievementProgress';
 import { TierTable } from './tier-table';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
+import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
+import { AchievementPoints } from '@/components/Achievement/AchievementPoints';
+import { FormatNumber } from '@/components/Format/FormatNumber';
 
 const MasteryColors: Record<MasteryRegion, CSS.Property.Color> = {
   'Tyria': '#FB8C00', //    core
@@ -36,6 +38,8 @@ const MasteryColors: Record<MasteryRegion, CSS.Property.Color> = {
   'Tundra': '#00ACC1', //   Icebrood
   'Unknown': '#1E88E5', //  EoD
 };
+
+const notPartOfCategoryDisplayFlags = ['Repeatable', 'RequiresUnlock', 'Hidden', 'Weekly', 'IgnoreNearlyComplete'];
 
 export interface AchievementPageProps {
   params: {
@@ -76,7 +80,10 @@ const getAchievement = remember(60, async function getAchievement(id: number, la
   const data: Gw2Api.Achievement = JSON.parse(revision.data);
 
   const categoryAchievements = data.flags.includes('CategoryDisplay')
-    ? await db.achievement.findMany({ where: { achievementCategoryId: achievement.achievementCategoryId, id: { not: achievement.id }, historic: false }, select: linkPropertiesWithoutRarity })
+    ? await db.achievement.findMany({
+        where: { achievementCategoryId: achievement.achievementCategoryId, id: { not: achievement.id }, historic: false, NOT: { flags: { hasSome: notPartOfCategoryDisplayFlags }}},
+        select: { ...linkPropertiesWithoutRarity, points: true, unlocks: true }
+      })
     : [];
 
   return { achievement, revision, categoryAchievements };
@@ -88,6 +95,9 @@ async function AchievementPage({ params: { id, language }}: AchievementPageProps
   const { achievement, revision, categoryAchievements } = await getAchievement(achievementId, language);
 
   const data: Gw2Api.Achievement = JSON.parse(revision.data);
+
+  const Bits = data.bits && data.bits.length > 0 && !data.flags.includes('CategoryDisplay') ? createDataTable(data.bits, (_, index) => index) : undefined;
+  const CategoryAchievements = data.flags.includes('CategoryDisplay') && categoryAchievements.length > 0 ? createDataTable(categoryAchievements, (achievement) => achievement.id) : undefined;
 
   return (
     <DetailLayout
@@ -118,7 +128,7 @@ async function AchievementPage({ params: { id, language }}: AchievementPageProps
         </>
       )}
 
-      {achievement.id !== achievement.achievementCategory?.categoryDisplayId && achievement.achievementCategory?.categoryDisplay && (
+      {achievement.id !== achievement.achievementCategory?.categoryDisplayId && achievement.achievementCategory?.categoryDisplay && !data.flags.some((flag) => notPartOfCategoryDisplayFlags.includes(flag)) && (
         <>
           <Headline id="unlock">Part of</Headline>
           <AchievementLink achievement={achievement.achievementCategory.categoryDisplay}/>
@@ -140,39 +150,53 @@ async function AchievementPage({ params: { id, language }}: AchievementPageProps
         </>
       )}
 
-      <Headline id="objectives">Objectives</Headline>
+      <Headline id="objectives" actions={(
+        <FlexRow>
+          {Bits && <Bits.ColumnSelection>Select Columns</Bits.ColumnSelection>}
+          {CategoryAchievements && <CategoryAchievements.ColumnSelection>Select Columns</CategoryAchievements.ColumnSelection>}
+        </FlexRow>
+      )}
+      >
+        Objectives
+      </Headline>
       <p dangerouslySetInnerHTML={{ __html: format(data.requirement.replace('  ', ` ${data.tiers[data.tiers.length - 1].count} `)) }}/>
 
-      {(data.bits || categoryAchievements.length > 0) && (
-        <Table>
-          <thead>
-            <tr>
-              <Table.HeaderCell small align="right">#</Table.HeaderCell>
-              <Table.HeaderCell small>Type</Table.HeaderCell>
-              <Table.HeaderCell>Objective</Table.HeaderCell>
-              <AccountAchievementProgressHeader/>
-            </tr>
-          </thead>
-          <tbody>
-            {data.bits && data.bits.map((bit, index) => {
+      {Bits && (
+        <Bits.Table>
+          <Bits.Column id="index" title="Index" small align="right" hidden>{(_, index) => index}</Bits.Column>
+          <Bits.Column id="type" title="Type" small hidden>{({ type }) => type}</Bits.Column>
+          <Bits.Column id="objective" title="Objective">
+            {(bit) => {
               switch(bit.type) {
-                case 'Item': {
+                case 'Item':
                   const item = achievement.bitsItem.find(({ id }) => id === bit.id);
-                  return <tr key={index}><td align="right">{index}</td><td>Item</td><td>{item ? (<ItemLink item={item}/>) : `Unknown item ${bit.id}`}</td><AccountAchievementProgressRow achievementId={achievement.id} bitId={index}/></tr>;
-                }
-                case 'Skin': {
+                  return item ? (<ItemLink item={item}/>) : `Unknown item ${bit.id}`;
+                case 'Skin':
                   const skin = achievement.bitsSkin.find(({ id }) => id === bit.id);
-                  return <tr key={index}><td align="right">{index}</td><td>Skin</td><td>{skin ? (<SkinLink skin={skin}/>) : `Unknown skin ${bit.id}`}</td><AccountAchievementProgressRow achievementId={achievement.id} bitId={index}/></tr>;
-                }
-                case 'Text': return bit.text !== '' && <tr key={index}><td align="right">{index}</td><td>Text</td><td>{bit.text}</td><AccountAchievementProgressRow achievementId={achievement.id} bitId={index}/></tr>;
-                case 'Minipet': return <tr key={index}><td align="right">{index}</td><td>Minipet</td><td>{bit.id}</td><AccountAchievementProgressRow achievementId={achievement.id} bitId={index}/></tr>;
+                  return skin ? (<SkinLink skin={skin}/>) : `Unknown skin ${bit.id}`;
+                case 'Text':
+                  return bit.text;
+                case 'Minipet':
+                  return `Minipet ${bit.id}`;
               }
-            })}
-            {categoryAchievements.map((achievement, index) => (
-              <tr key={achievement.id}><td align="right">{(data.bits?.length || 0) + index}</td><td>Achievement</td><td><AchievementLink achievement={achievement}/></td><AccountAchievementProgressRow achievementId={achievement.id}/></tr>
-            ))}
-          </tbody>
-        </Table>
+            }}
+          </Bits.Column>
+          <Bits.DynamicColumns headers={<AccountAchievementProgressHeader/>}>
+            {(_, index) => <AccountAchievementProgressRow achievementId={achievement.id} bitId={index}/>}
+          </Bits.DynamicColumns>
+        </Bits.Table>
+      )}
+
+      {CategoryAchievements && (
+        <CategoryAchievements.Table>
+          <CategoryAchievements.Column id="id" title="ID" small align="right" hidden sortBy="id">{({ id }) => id}</CategoryAchievements.Column>
+          <CategoryAchievements.Column id="achievement" title="Achievement">{(achievement) => <AchievementLink achievement={achievement}/>}</CategoryAchievements.Column>
+          <CategoryAchievements.Column id="points" title="AP" align="right" hidden sortBy="points">{({ points }) => <AchievementPoints points={points}/>}</CategoryAchievements.Column>
+          <CategoryAchievements.Column id="unlocks" title="Unlocks" align="right" hidden sortBy="unlocks">{({ unlocks }) => unlocks && <FormatNumber value={Math.round(unlocks * 1000) / 10} unit="%"/>}</CategoryAchievements.Column>
+          <CategoryAchievements.DynamicColumns headers={<AccountAchievementProgressHeader/>}>
+            {(_, index) => <AccountAchievementProgressRow achievementId={achievement.id} bitId={index}/>}
+          </CategoryAchievements.DynamicColumns>
+        </CategoryAchievements.Table>
       )}
 
       <Headline id="tiers">Tiers</Headline>

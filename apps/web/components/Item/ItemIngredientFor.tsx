@@ -18,7 +18,8 @@ const getIngredientFor = remember(60, async function getIngredientFor(itemId: nu
       itemIngredients: { select: { count: true, Item: { select: linkProperties }}},
       currencyIngredients: { select: { count: true, Currency: { select: linkPropertiesWithoutRarity }}},
       unlockedByItems: { select: linkProperties }
-    }
+    },
+    orderBy: { outputItem: { views: 'desc' }}
   });
 
   return recipes;

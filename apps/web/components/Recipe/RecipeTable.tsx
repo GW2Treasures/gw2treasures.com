@@ -98,7 +98,7 @@ export const RecipeTable: FC<RecipeTableProps> = ({ recipes }) => {
             <th>Ingredients</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody style={{ '--ingredient-count-min-width': '3ch' }}>
           {recipes.map((recipe) => (
             <RecipeTableRow key={recipe.id} recipe={recipe} visible={(!filter || ((!!recipe.outputItem && localizedName(recipe.outputItem, language).toLowerCase().includes(filter)) || recipe.rating.toString() === filter)) && (recipe.disciplines.length === 0 || recipe.disciplines.some((discipline) => disciplineFilter.includes(discipline as Discipline)))}/>
           ))}

@@ -1,10 +1,10 @@
 'use client';
 
-import { DropDown } from '@/components/DropDown/DropDown';
+import { DropDown } from '@gw2treasures/ui/components/DropDown/DropDown';
 import { Button } from '@gw2treasures/ui/components/Form/Button';
 import { Radiobutton } from '@gw2treasures/ui/components/Form/Radiobutton';
 import { FormatConfigDialog } from '@/components/Format/FormatConfigDialog';
-import { MenuList } from '@/components/MenuList/MenuList';
+import { MenuList } from '@gw2treasures/ui/components/Layout/MenuList';
 import { Icon } from '@gw2treasures/ui';
 import { type FC, useCallback, useState } from 'react';
 import { Separator } from '@gw2treasures/ui/components/Layout/Separator';

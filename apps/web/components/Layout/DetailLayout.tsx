@@ -5,8 +5,8 @@ import type { Icon } from '@gw2treasures/database';
 import { EntityIcon, type EntityIconType } from '../Entity/EntityIcon';
 import { Button } from '@gw2treasures/ui/components/Form/Button';
 import { Icon as IconComponent } from '@gw2treasures/ui';
-import { DropDown } from '../DropDown/DropDown';
-import { MenuList } from '../MenuList/MenuList';
+import { DropDown } from '@gw2treasures/ui/components/DropDown/DropDown';
+import { MenuList } from '@gw2treasures/ui/components/Layout/MenuList';
 
 interface DetailLayoutProps {
   title: ReactNode;

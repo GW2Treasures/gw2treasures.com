@@ -4,9 +4,12 @@ import 'server-only';
 import { DataTableClient, DataTableClientCell, DataTableClientColumn, DataTableClientColumnSelection, DataTableClientRows } from './DataTable.client';
 import { isDefinied } from '../../lib';
 
+export type DataTableRowFilterComponent = FC<{ children: ReactNode, index: number }>;
+
 // table
 export interface DataTableProps<T> {
-  children: Array<ColumnReactElement<T> | DynamicColumnsReactElement<T>>
+  children: Array<ColumnReactElement<T> | DynamicColumnsReactElement<T>>,
+  rowFilter?: DataTableRowFilterComponent,
 }
 
 type ColumnReactElement<T> = ReactElement<DataTableColumnProps<T>, FC<DataTableColumnProps<T>>>;
@@ -54,7 +57,7 @@ export function createDataTable<T>(rows: T[], getRowKey: (row: T) => Key): {
   }
 
   return {
-    Table: function DataTable({ children }: DataTableProps<T>) {
+    Table: function DataTable({ children, rowFilter }: DataTableProps<T>) {
       const columns = children;
 
       if(columns.some((child) => child.type !== Column && child.type !== DynamicColumns)) {
@@ -95,15 +98,19 @@ export function createDataTable<T>(rows: T[], getRowKey: (row: T) => Key): {
             </thead>
             <tbody>
               <DataTableClientRows sortableColumns={sortableColumns}>
-                {rows.map((row, index) => (
-                  <tr key={getRowKey(row)}>
-                    {columns.map((column) => isStaticColumn(column) ? (
-                      <DataTableClientCell key={column.props.id} columnId={column.props.id}>
-                        <td align={column.props.align}>{column.props.children(row, index)}</td>
-                      </DataTableClientCell>
-                    ) : column.props.children(row, index))}
-                  </tr>
-                ))}
+                {rows.map((row, index) => {
+                  const Row = rowFilter ?? 'tr';
+
+                  return (
+                    <Row key={getRowKey(row)} index={index}>
+                      {columns.map((column) => isStaticColumn(column) ? (
+                        <DataTableClientCell key={column.props.id} columnId={column.props.id} align={column.props.align}>
+                          {column.props.children(row, index)}
+                        </DataTableClientCell>
+                      ) : column.props.children(row, index))}
+                    </Row>
+                  );
+                })}
               </DataTableClientRows>
             </tbody>
           </Table>

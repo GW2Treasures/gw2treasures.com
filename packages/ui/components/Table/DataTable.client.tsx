@@ -7,7 +7,7 @@ import { MenuList } from '../Layout/MenuList';
 import { Separator } from '../Layout/Separator';
 import { DataTableGlobalContext, type AvailableColumn } from './DataTableContext';
 import { Table, type HeaderCellProps } from './Table';
-import { useState, type FC, type ReactNode, createContext, useCallback, useContext, useEffect, useMemo } from 'react';
+import { useState, type FC, type ReactNode, createContext, useCallback, useContext, useEffect, useMemo, type ThHTMLAttributes } from 'react';
 
 type DataTableContext = { id: string, sortBy: string | undefined, sortOrder: 'asc' | 'desc', visibleColumns: string[] };
 const defaultDataTableContext: DataTableContext = { id: '', sortBy: undefined, sortOrder: 'asc', visibleColumns: [] };
@@ -94,13 +94,14 @@ export const DataTableClientColumn: FC<DataTableClientColumnProps> = ({ id, chil
 export interface DataTableClientCellProps {
   children: ReactNode;
   columnId: string;
+  align: ThHTMLAttributes<HTMLTableCellElement>['align']
 }
 
-export const DataTableClientCell: FC<DataTableClientCellProps> = ({ children, columnId }) => {
+export const DataTableClientCell: FC<DataTableClientCellProps> = ({ children, columnId, align }) => {
   const { state: { visibleColumns }} = useContext(DataTableContext);
   const isVisible = visibleColumns.includes(columnId);
 
-  return isVisible ? children : null;
+  return <td hidden={!isVisible} align={align}>{children}</td>;
 };
 
 

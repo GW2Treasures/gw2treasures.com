@@ -1,7 +1,5 @@
-'use client';
-
 import type { IngredientCurrency, IngredientItem, Recipe, Revision } from '@gw2treasures/database';
-import { type FC, memo, useDeferredValue, useMemo, useState } from 'react';
+import { type FC, memo, useDeferredValue, useMemo, useState, type ReactNode } from 'react';
 import { localizedName } from '@/lib/localizedName';
 import type { With } from '@/lib/with';
 import { DropDown } from '@gw2treasures/ui/components/DropDown/DropDown';
@@ -21,9 +19,13 @@ import recipeBoxStyles from './RecipeBox.module.css';
 import styles from './RecipeTable.module.css';
 import { OutputCount } from '../Item/OutputCount';
 import type { CurrencyLinkProps } from '../Currency/CurrencyLink';
+import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
+import { RecipeRowFilter, RecipeTableDisciplineFilter, RecipeTableProvider, RecipeTableSearch } from './RecipeTable.client';
+import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
+import { getLanguage } from '../I18n/getTranslate';
 
-interface RecipeTableProps {
-  recipes: With<Pick<Recipe, 'id' | 'rating' | 'disciplines' | 'outputCount'>, {
+export interface RecipeTableProps {
+  recipes: With<Pick<Recipe, 'id' | 'rating' | 'disciplines' | 'outputCount' | 'outputItemId'>, {
     currentRevision: Pick<Revision, 'data'>,
     itemIngredients: With<Pick<IngredientItem, 'count'>, { Item: ItemLinkProps['item'] }>[]
     currencyIngredients: With<Pick<IngredientCurrency, 'count'>, { Currency: CurrencyLinkProps['currency'] }>[]
@@ -32,110 +34,82 @@ interface RecipeTableProps {
   }>[]
 };
 
-export const EmptyDisciplineCounts: Record<Discipline, number> = {
-  'Armorsmith': 0,
-  'Artificer': 0,
-  'Chef': 0,
-  'Huntsman': 0,
-  'Jeweler': 0,
-  'Leatherworker': 0,
-  'Scribe': 0,
-  'Tailor': 0,
-  'Weaponsmith': 0,
-};
-
-const DisciplineNames = Object.keys(EmptyDisciplineCounts) as Discipline[];
-
-function toggleArray<T>(array: T[], value: T): T[] {
-  const withoutValue = array.filter((v) => v !== value);
-  return withoutValue.length === array.length ? [...array, value] : withoutValue;
-}
-
 export const RecipeTable: FC<RecipeTableProps> = ({ recipes }) => {
-  const [search, setSearch] = useState('');
-  const filter = useDeferredValue(search.toLowerCase());
+  const language = getLanguage();
 
-  const language = useLanguage();
+  const Recipes = createDataTable(recipes, (recipe) => recipe.id);
 
-  const [disciplineFilter, setDisciplineFilter] = useState(DisciplineNames);
+  const recipeIndexByDiscipline = recipes.reduce<Partial<Record<Discipline, number[]>>>((record, recipe, index) => {
+    const update = Object.fromEntries(
+      recipe.disciplines.map((discipline) => [discipline, [...record[discipline as Discipline] ?? [], index]])
+    );
 
-  const disciplines = useMemo(() => recipes.reduce((sums, { disciplines }) => {
-    return { ...sums, ...Object.fromEntries(disciplines.map((d) => [d, sums[d as Discipline] + 1])) };
-  }, EmptyDisciplineCounts), [recipes]);
+    return { ...record, ...update };
+  }, {});
+
+  const recipeNamesSearchIndex = recipes.reduce<Record<string, number[]>>((record, recipe, index) => {
+    const strings = [];
+
+    if(recipe.outputItem) {
+      strings.push(localizedName(recipe.outputItem, language));
+    }
+
+    for(const ingredient of recipe.itemIngredients) {
+      strings.push(localizedName(ingredient.Item, language));
+    }
+    for(const ingredient of recipe.currencyIngredients) {
+      strings.push(localizedName(ingredient.Currency, language));
+    }
+    for(const unlock of recipe.unlockedByItems) {
+      strings.push(localizedName(unlock, language));
+    }
+
+    return {
+      ...record,
+      ...Object.fromEntries(strings.map((string) => [string, [...record[string] ?? [], index]]))
+    };
+  }, {});
 
   return (
-    <>
+    <RecipeTableProvider recipeIndexByDiscipline={recipeIndexByDiscipline} recipeNamesSearchIndex={recipeNamesSearchIndex}>
       <Headline id="crafting" actions={(
-        <>
-          <TextInput value={search} onChange={setSearch} type="search" placeholder="Search…"/>
-          <DropDown button={<Button icon={disciplineFilter.length === DisciplineNames.length ? 'filter' : 'filter-active'}>Filter</Button>}>
-            <MenuList>
-              <Checkbox checked={disciplineFilter.length > 0} indeterminate={disciplineFilter.length < DisciplineNames.length && disciplineFilter.length > 0} onChange={() => setDisciplineFilter(disciplineFilter.length > 0 ? [] : DisciplineNames)}>
-                All
-                <span style={{ marginLeft: 'auto', paddingLeft: 16 }}>{recipes.length}</span>
-              </Checkbox>
-              <Separator/>
-              {(Object.entries(disciplines) as [Discipline, number][]).map(([discipline, count]) => (
-                <Checkbox key={discipline} checked={disciplineFilter.includes(discipline)} onChange={() => setDisciplineFilter(toggleArray(disciplineFilter, discipline))}>
-                  <DisciplineIcon discipline={discipline}/> {discipline}
-                  <span style={{ marginLeft: 'auto', paddingLeft: 16, opacity: count === 0 ? 0.5 : 1 }}>{count}</span>
-                </Checkbox>
-              ))}
-            </MenuList>
-          </DropDown>
-        </>
+        <FlexRow>
+          <RecipeTableSearch/>
+          <RecipeTableDisciplineFilter totalCount={recipes.length}/>
+          <Recipes.ColumnSelection>Columns</Recipes.ColumnSelection>
+        </FlexRow>
       )}
       >
         Used in crafting
       </Headline>
 
-      <Table>
-        <thead>
-          <tr>
-            <th>Output</th>
-            <th {...{ width: 1 }}>Rating</th>
-            <th {...{ width: 1 }}>Disciplines</th>
-            <th>Ingredients</th>
-          </tr>
-        </thead>
-        <tbody style={{ '--ingredient-count-min-width': '3ch' }}>
-          {recipes.map((recipe) => (
-            <RecipeTableRow key={recipe.id} recipe={recipe} visible={(!filter || ((!!recipe.outputItem && localizedName(recipe.outputItem, language).toLowerCase().includes(filter)) || recipe.rating.toString() === filter)) && (recipe.disciplines.length === 0 || recipe.disciplines.some((discipline) => disciplineFilter.includes(discipline as Discipline)))}/>
-          ))}
-        </tbody>
-      </Table>
-    </>
+      <div style={{ '--ingredient-count-min-width': '3ch' }}>
+        <Recipes.Table rowFilter={RecipeRowFilter}>
+          <Recipes.Column id="id" title="ID" align="right" small sortBy="id" hidden>{({ id }) => id}</Recipes.Column>
+          <Recipes.Column id="outputId" title="Item ID" align="right" small sortBy="outputItemId" hidden>{({ outputItemId }) => outputItemId}</Recipes.Column>
+          <Recipes.Column id="output" title="Output">
+            {(recipe) => (
+              <div className={styles.outputColumn}>
+                <OutputCount count={recipe.outputCount}>
+                  {recipe.outputItem ? (<ItemLink item={recipe.outputItem}/>) : 'Unknown'}
+                </OutputCount>
+                {!!recipe.unlockedByItems?.length && (
+                  <div className={styles.unlock}>
+                    <ShowMore>
+                      {recipe.unlockedByItems.map((unlock) => (<ItemLink key={unlock.id} item={unlock} icon={16}/>))}
+                    </ShowMore>
+                  </div>
+                )}
+              </div>
+            )}
+          </Recipes.Column>
+          <Recipes.Column id="rating" title="Rating" align="right" sortBy="rating">{({ rating }) => rating}</Recipes.Column>
+          <Recipes.Column id="disciplines" title="Disciplines">
+            {({ disciplines }) => <span className={recipeBoxStyles.disciplines}>{disciplines.map((discipline) => <DisciplineIcon discipline={discipline as Discipline} key={discipline}/>)}</span>}
+          </Recipes.Column>
+          <Recipes.Column id="ingredients" title="Ingredients">{(recipe) => <Ingredients recipe={recipe}/>}</Recipes.Column>
+        </Recipes.Table>
+      </div>
+    </RecipeTableProvider>
   );
 };
-
-interface RecipeTableRowProps {
-  recipe: RecipeTableProps['recipes'][0];
-  visible: boolean;
-};
-
-const RecipeTableRow: FC<RecipeTableRowProps> = memo(function RecipeTableRow({ recipe, visible }) {
-  return (
-    <tr key={recipe.id} hidden={!visible}>
-      <td>
-        <div className={styles.outputColumn}>
-          <OutputCount count={recipe.outputCount}>
-            {recipe.outputItem ? (<ItemLink item={recipe.outputItem}/>) : 'Unknown'}
-          </OutputCount>
-          {!!recipe.unlockedByItems?.length && (
-            <div className={styles.unlock}>
-              <ShowMore>
-                {recipe.unlockedByItems.map((unlock) => (<ItemLink key={unlock.id} item={unlock} icon={16}/>))}
-              </ShowMore>
-            </div>
-          )}
-        </div>
-      </td>
-      <td align="right">{recipe.rating}</td>
-      <td><span className={recipeBoxStyles.disciplines}>{recipe.disciplines.map((discipline) => <DisciplineIcon discipline={discipline as Discipline} key={discipline}/>)}</span></td>
-      <td>
-        <Ingredients recipe={recipe}/>
-      </td>
-    </tr>
-  );
-});
-

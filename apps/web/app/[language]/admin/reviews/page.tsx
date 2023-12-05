@@ -1,10 +1,10 @@
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { PageLayout } from '@/components/Layout/PageLayout';
-import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { cache } from 'react';
 import { db } from '@/lib/prisma';
 import { FormatDate } from '@/components/Format/FormatDate';
 import Link from 'next/link';
+import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
 
 const getReviews = cache(() => {
   return db.review.findMany({
@@ -12,7 +12,7 @@ const getReviews = cache(() => {
       requester: { select: { name: true }},
       reviewer: { select: { name: true }},
     },
-    orderBy: [{ reviewedAt: 'desc' }, { createdAt: 'desc' }],
+    orderBy: [{ updatedAt: 'desc' }],
     take: 500,
   });
 });
@@ -20,34 +20,20 @@ const getReviews = cache(() => {
 export default async function AdminUserPage() {
   const reviews = await getReviews();
 
+  const Reviews = createDataTable(reviews, (review) => review.id);
+
   return (
     <PageLayout>
       <Headline id="reviews">Reviews ({reviews.length})</Headline>
 
-      <Table>
-        <thead>
-          <tr>
-            <th>Queue</th>
-            <th>State</th>
-            <th>Created by</th>
-            <th>Created at</th>
-            <th>Reviewed by</th>
-            <th>Reviewed at</th>
-          </tr>
-        </thead>
-        <tbody>
-          {reviews.map((review) => (
-            <tr key={review.id}>
-              <td><Link href={`/review/container-content/${review.id}`}>{review.queue}</Link></td>
-              <td>{review.state}</td>
-              <td>{review.requester?.name}</td>
-              <td><FormatDate date={review.createdAt}/></td>
-              <td>{review.reviewer?.name}</td>
-              <td><FormatDate date={review.reviewedAt}/></td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
+      <Reviews.Table>
+        <Reviews.Column id="queue" title="Queue" sortBy="queue">{({ id, queue }) => <Link href={`/review/container-content/${id}`}>{queue}</Link>}</Reviews.Column>
+        <Reviews.Column id="state" title="State" sortBy="state">{({ state }) => state}</Reviews.Column>
+        <Reviews.Column id="requester" title="Created by" sortBy="requesterId">{({ requester }) => requester?.name}</Reviews.Column>
+        <Reviews.Column id="createdAt" title="Created at" sortBy="createdAt">{({ createdAt }) => <FormatDate date={createdAt}/>}</Reviews.Column>
+        <Reviews.Column id="reviewer" title="Reviewed by" sortBy="reviewerId">{({ reviewer }) => reviewer?.name}</Reviews.Column>
+        <Reviews.Column id="reviewedAt" title="Reviewed at" sortBy="reviewedAt">{({ reviewedAt }) => <FormatDate date={reviewedAt}/>}</Reviews.Column>
+      </Reviews.Table>
     </PageLayout>
   );
 }

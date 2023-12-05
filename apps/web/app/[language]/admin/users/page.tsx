@@ -1,9 +1,9 @@
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { PageLayout } from '@/components/Layout/PageLayout';
-import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { cache } from 'react';
 import { db } from '@/lib/prisma';
 import { FormatDate } from '@/components/Format/FormatDate';
+import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
 
 const getUsers = cache(() => {
   return db.user.findMany({
@@ -15,32 +15,19 @@ const getUsers = cache(() => {
 export default async function AdminUserPage() {
   const users = await getUsers();
 
+  const Users = createDataTable(users, (user) => user.id);
+
   return (
     <PageLayout>
       <Headline id="users">Users ({users.length})</Headline>
 
-      <Table>
-        <thead>
-          <tr>
-            <th>Username</th>
-            <th>Email</th>
-            <th>Roles</th>
-            <th>Created At</th>
-            <th>Last access</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user) => (
-            <tr key={user.id}>
-              <td>{user.name}</td>
-              <td>{user.email}</td>
-              <td>{user.roles.join(', ')}</td>
-              <td><FormatDate date={user.createdAt}/></td>
-              <td>{user.sessions.length > 0 ? <FormatDate date={user.sessions[0].lastUsed}/> : '-'}</td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
+      <Users.Table>
+        <Users.Column id="name" title="Username" sortBy="name">{({ name }) => name}</Users.Column>
+        <Users.Column id="email" title="Email" sortBy="email">{({ email }) => email}</Users.Column>
+        <Users.Column id="roles" title="Roles" sortBy={({ roles }) => roles.length}>{({ roles }) => roles.join(', ')}</Users.Column>
+        <Users.Column id="createdAt" title="Created At" sortBy="createdAt">{({ createdAt }) => <FormatDate date={createdAt}/>}</Users.Column>
+        <Users.Column id="session" title="Last access" sortBy={({ sessions }) => sessions[0]?.lastUsed}>{({ sessions }) => sessions.length > 0 ? <FormatDate date={sessions[0].lastUsed}/> : '-'}</Users.Column>
+      </Users.Table>
     </PageLayout>
   );
 }

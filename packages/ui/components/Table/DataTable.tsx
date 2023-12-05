@@ -123,7 +123,7 @@ export function createDataTable<T>(rows: T[], getRowKey: (row: T) => Key): {
   };
 }
 
-type Comparable = string | number | bigint | null | undefined;
+type Comparable = string | number | bigint | null | undefined | Date;
 
 export function compare<T extends Comparable>(a: T, b: T) {
   if(a == null) {
@@ -142,6 +142,10 @@ export function compare<T extends Comparable>(a: T, b: T) {
 
   if((typeof a === 'number' || typeof a === 'bigint') && (typeof b === 'number' || typeof b === 'bigint')) {
     return a < b ? -1 : a > b ? 1 : 0;
+  }
+
+  if(a instanceof Date && b instanceof Date) {
+    return a.valueOf() - b.valueOf();
   }
 
   throw new Error(`Cant compare ${typeof a} and ${typeof b}`);

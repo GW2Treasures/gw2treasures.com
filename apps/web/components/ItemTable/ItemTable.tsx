@@ -46,9 +46,10 @@ async function getColumns<T extends string>(extraColumns: ExtraColumn<T, any, an
         }).map(sign)) as [asc: Signed<OrderBy>, desc: Signed<OrderBy>]
         : undefined;
       const align = column.align;
+      const small = column.small;
       const order = column.order;
 
-      return [id, { id, title, select, orderBy, align, order }] as [GlobalColumnId | T, AvailableColumn<GlobalColumnId | T> & { order?: number }];
+      return [id, { id, title, select, orderBy, align, small, order }] as [GlobalColumnId | T, AvailableColumn<GlobalColumnId | T> & { order?: number }];
     }),
     ...extraColumns?.map(async (column) => {
       const id = column.id;
@@ -59,9 +60,10 @@ async function getColumns<T extends string>(extraColumns: ExtraColumn<T, any, an
         ? await Promise.all(column.orderBy.map(sign)) as [asc: Signed<OrderBy>, desc: Signed<OrderBy>]
         : undefined;
       const align = column.align;
+      const small = column.small;
       const order = column.order;
 
-      return [id, { id, title, select, orderBy, align, component, order }] as [GlobalColumnId | T, AvailableColumn<GlobalColumnId | T, any, any> & { order?: number }];
+      return [id, { id, title, select, orderBy, align, small, component, order }] as [GlobalColumnId | T, AvailableColumn<GlobalColumnId | T, any, any> & { order?: number }];
     }) ?? []
   ]);
 

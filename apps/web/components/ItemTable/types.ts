@@ -23,6 +23,7 @@ export interface ItemTableColumn<Select extends Prisma.ItemSelect> {
   order?: number,
   select: Select,
   align?: 'right',
+  small?: boolean;
   orderBy?: [asc: OrderBy, desc: OrderBy]
 }
 
@@ -38,6 +39,7 @@ export interface ExtraColumn<Id extends string, Model extends QueryModel, Select
   order?: number,
   component: FC<{ item: Result<Select & { id: true }> }>
   align?: 'right',
+  small?: boolean,
   orderBy?: [asc: OrderBy<ColumnModelTypes[Model]['orderBy']>, desc: OrderBy<ColumnModelTypes[Model]['orderBy']>]
 }
 
@@ -47,6 +49,7 @@ export type AvailableColumn<ColumnId extends string, Model extends QueryModel = 
   select: Signed<Select>,
   orderBy?: [asc: Signed<OrderBy<ColumnModelTypes[Model]['orderBy']>>, desc: Signed<OrderBy<ColumnModelTypes[Model]['orderBy']>>],
   align?: 'right',
+  small?: boolean,
   component?: FC<{ item: Result<Select & { id: true }> }>
 }
 

@@ -325,6 +325,8 @@ model Achievement {
   points   Int            @default(0)
   mastery  MasteryRegion?
 
+  flags String[]
+
   icon   Icon? @relation(fields: [iconId], references: [id])
   iconId Int?
 

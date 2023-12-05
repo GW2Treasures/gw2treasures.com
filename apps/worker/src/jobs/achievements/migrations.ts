@@ -7,7 +7,7 @@ function toId<T>({ id }: { id: T }): T {
   return id;
 }
 
-export const CURRENT_VERSION = 6;
+export const CURRENT_VERSION = 7;
 
 /** @see Prisma.AchievementUpdateInput */
 interface MigratedAchievement {
@@ -15,6 +15,7 @@ interface MigratedAchievement {
 
   points?: number
   mastery?: MasteryRegion | null
+  flags?: string[]
 
   bitsItemIds?: number[]
   bitsSkinIds?: number[]
@@ -93,6 +94,10 @@ export async function createMigrator() {
 
       update.rewardsTitleIds = titleRewards;
       update.rewardsTitle = { connect: titleRewards.filter((id) => titleIds.includes(id)).map((id) => ({ id })) };
+    }
+
+    if(currentVersion < 7) {
+      update.flags = en.flags;
     }
 
     return update;

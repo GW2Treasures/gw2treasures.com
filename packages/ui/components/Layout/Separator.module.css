@@ -4,4 +4,5 @@
   background: var(--color-border);
   border: none;
   margin: 8px;
+  align-self: stretch;
 }

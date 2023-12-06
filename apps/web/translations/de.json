@@ -1,5 +1,7 @@
 {
+  "subtitle": "Die Guild Wars 2® Datenbank",
   "items.new": "Neue Gegenstände",
+  "achievements.new": "Neue Erfolge",
   "rarity.Basic": "Einfach",
   "rarity.Fine": "Edel",
   "rarity.Masterwork": "Meisterwerk",
@@ -15,5 +17,14 @@
   "navigation.specializations": "Spezialisierungen",
   "navigation.skills": "Fertigkeiten",
   "navigation.mounts": "Reittiere",
-  "navigation.wvw": "Welt gegen Welt"
+  "navigation.wvw": "Welt gegen Welt",
+  "search.placeholder": "Suche",
+  "search.results.items": "Gegenstände",
+  "search.results.skills": "Fertigkeiten",
+  "search.results.skins": "Skins",
+  "search.results.achievements": "Erfolge",
+  "search.results.achievements.categories": "Erfolgskategorien",
+  "search.results.achievements.groups": "Erfolgsgruppen",
+  "search.results.builds": "Builds",
+  "search.results.pages": "Seiten"
 }

@@ -3,7 +3,7 @@ import styles from './Layout.module.css';
 import { Icon } from '@gw2treasures/ui';
 import Navigation from './Header/Navigation';
 import Link from 'next/link';
-import { Search } from '../Search/Search';
+import { Search, type SearchProps } from '../Search/Search';
 import { LinkButton } from '@gw2treasures/ui/components/Form/Button';
 import { ExternalLink } from '@gw2treasures/ui/components/Link/ExternalLink';
 import { LanguageDropdown } from './Header/LanguageDropdown';
@@ -12,6 +12,7 @@ import type { AsyncComponent } from '@/lib/asyncComponent';
 import { getUser } from '@/lib/getUser';
 import { db } from '@/lib/prisma';
 import { remember } from '@/lib/remember';
+import { getTranslate } from '../I18n/getTranslate';
 
 interface LayoutProps {
   children: ReactNode;
@@ -24,6 +25,19 @@ const getOpenReviews = remember(60, function getOpenReviews() {
 const Layout: AsyncComponent<LayoutProps> = async ({ children }) => {
   const user = await getUser();
   const openReviews = await getOpenReviews();
+  const t = getTranslate();
+
+  const searchTranslations: SearchProps['translations'] = {
+    placeholder: t('search.placeholder'),
+    items: t('search.results.items'),
+    skills: t('search.results.skills'),
+    skins: t('search.results.skins'),
+    achievements: t('search.results.achievements'),
+    'achievements.categories': t('search.results.achievements.categories'),
+    'achievements.groups': t('search.results.achievements.groups'),
+    builds: t('search.results.builds'),
+    pages: t('search.results.pages'),
+  };
 
   return (
     <div>
@@ -33,7 +47,7 @@ const Layout: AsyncComponent<LayoutProps> = async ({ children }) => {
             <Icon icon="gw2t"/>
             <span>gw2treasures.com</span>
           </Link>
-          <Search/>
+          <Search translations={searchTranslations}/>
           <div className={styles.right}>
             <LinkButton appearance="menu" href="/review">
               <Icon icon="review-queue"/><span className={styles.responsive}> Review {openReviews > 0 && (<span className={styles.badge}>{openReviews}</span>)}</span>

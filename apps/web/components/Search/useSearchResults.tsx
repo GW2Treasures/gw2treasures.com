@@ -14,7 +14,6 @@ import { SkillLinkTooltip } from '../Skill/SkillLinkTooltip';
 
 export interface SearchResults {
   id: string;
-  title: ReactNode;
   results: SearchResult[];
   loading: boolean;
 }
@@ -89,13 +88,13 @@ export function useSearchApiResults(searchValue: string): SearchResults[] {
   }));
 
   return [
-    { id: 'items', title: 'Items', results: items, loading: fetchResponse.loading },
-    { id: 'skills', title: 'Skills', results: skills, loading: fetchResponse.loading },
-    { id: 'skins', title: 'Skins', results: skins, loading: fetchResponse.loading },
-    { id: 'achievements', title: 'Achievements', results: achievements, loading: fetchResponse.loading },
-    { id: 'achievements.categories', title: 'Achievement Categories', results: categories, loading: fetchResponse.loading },
-    { id: 'achievements.groups', title: 'Achievement Groups', results: groups, loading: fetchResponse.loading },
-    { id: 'builds', title: 'Builds', results: builds, loading: fetchResponse.loading },
+    { id: 'items', results: items, loading: fetchResponse.loading },
+    { id: 'skills', results: skills, loading: fetchResponse.loading },
+    { id: 'skins', results: skins, loading: fetchResponse.loading },
+    { id: 'achievements', results: achievements, loading: fetchResponse.loading },
+    { id: 'achievements.categories', results: categories, loading: fetchResponse.loading },
+    { id: 'achievements.groups', results: groups, loading: fetchResponse.loading },
+    { id: 'builds', results: builds, loading: fetchResponse.loading },
   ];
 }
 
@@ -140,5 +139,5 @@ export function usePageResults(searchValue: string): SearchResults {
     .filter((_, index) => index < 5)
     .map(({ title, icon, href }) => ({ title, href, icon: <Icon icon={icon}/> }));
 
-  return { id: 'pages', title: 'Pages', results, loading: false };
+  return { id: 'pages', results, loading: false };
 }

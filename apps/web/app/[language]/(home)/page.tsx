@@ -5,7 +5,6 @@ import { ItemLink } from '@/components/Item/ItemLink';
 import { ItemList } from '@/components/ItemList/ItemList';
 import { HeroLayout } from '@/components/Layout/HeroLayout';
 import { SkeletonLink } from '@/components/Link/SkeletonLink';
-import { Search } from '@/components/Search/Search';
 import { Suspense } from 'react';
 import { Icon } from '@gw2treasures/ui';
 import { db } from '@/lib/prisma';
@@ -21,7 +20,7 @@ function HomePage() {
       <div className={styles.hero}>
         <div className={styles.heroContent}>
           <div className={styles.heroTitle}><Icon icon="gw2t"/> gw2treasures.com</div>
-          <div className={styles.heroSubtitle}>The Guild Wars 2® Database</div>
+          <div className={styles.heroSubtitle}><Trans id="subtitle"/></div>
         </div>
       </div>
     )}
@@ -38,7 +37,7 @@ function HomePage() {
       </Suspense>
 
       <Headline id="new-achievements">
-        New Achievements
+        <Trans id="achievements.new"/>
       </Headline>
       <Suspense fallback={<ListFallback size={24}/>}>
         <NewAchievements/>
@@ -102,10 +101,10 @@ async function DbStats() {
 
   return (
     <div className={styles.statsRow}>
-      <Link href="/item" className={styles.stat}><span className={styles.statCount}><FormatNumber value={counts.items}/></span> Items</Link>
-      <Link href="/skin" className={styles.stat}><span className={styles.statCount}><FormatNumber value={counts.skins}/></span> Skins</Link>
-      <Link href="/skill" className={styles.stat}><span className={styles.statCount}><FormatNumber value={counts.skills}/></span> Skills</Link>
-      <Link href="/achievement" className={styles.stat}><span className={styles.statCount}><FormatNumber value={counts.achievements}/></span> Achievements</Link>
+      <Link href="/item" className={styles.stat}><span className={styles.statCount}><FormatNumber value={counts.items}/></span> <Trans id="navigation.items"/></Link>
+      <Link href="/skin" className={styles.stat}><span className={styles.statCount}><FormatNumber value={counts.skins}/></span> <Trans id="navigation.skins"/></Link>
+      <Link href="/skill" className={styles.stat}><span className={styles.statCount}><FormatNumber value={counts.skills}/></span> <Trans id="navigation.skills"/></Link>
+      <Link href="/achievement" className={styles.stat}><span className={styles.statCount}><FormatNumber value={counts.achievements}/></span> <Trans id="navigation.achievements"/></Link>
     </div>
   );
 }

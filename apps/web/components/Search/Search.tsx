@@ -10,18 +10,25 @@ import { autoUpdate, offset, shift, size, useClick, useDismiss, useFloating, use
 import { Icon } from '@gw2treasures/ui';
 
 export interface SearchProps {
-  // TODO: add props
+  translations: {
+    placeholder: string,
+    items: string,
+    skills: string,
+    skins: string,
+    achievements: string,
+    'achievements.categories': string,
+    'achievements.groups': string,
+    builds: string,
+    pages: string,
+  };
 }
 
-export const Search: FC<SearchProps> = ({ }) => {
+export const Search: FC<SearchProps> = ({ translations }) => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('');
   const searchValue = useDebounce(value);
-  // const searchForm = useRef<HTMLFormElement>(null);
   const listRef = useRef<(HTMLAnchorElement | null)[]>([]);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
-
-  const router = useRouter();
 
   const { refs, context, x, y } = useFloating({
     open,
@@ -91,7 +98,7 @@ export const Search: FC<SearchProps> = ({ }) => {
 
       <input
         className={styles.searchInput}
-        placeholder="Search (ALT + Q)"
+        placeholder={`${translations.placeholder} (ALT + Q)`}
         autoComplete="off"
         spellCheck="false"
         accessKey="q"
@@ -108,9 +115,9 @@ export const Search: FC<SearchProps> = ({ }) => {
           left: x ?? 0,
         }}
         >
-          {searchResults.map(({ title, results, id }) => results.length > 0 && (
+          {searchResults.map(({ results, id }) => results.length > 0 && (
             <Fragment key={id}>
-              <div className={styles.category}>{title}</div>
+              <div className={styles.category}>{translations[id as keyof typeof translations]}</div>
               {results.map((result) => {
                 const currentIndex = index++;
                 const render = result.render ?? ((link: ReactElement) => link);

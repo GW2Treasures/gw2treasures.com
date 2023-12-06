@@ -22,7 +22,9 @@ const getDictionary = (language: Language): Record<TranslationId, string> => {
   }
 };
 
-export function getTranslate(language: Language) {
+export function getTranslate(language?: Language) {
+  language ??= getLanguage();
+
   const messages = getDictionary(language);
 
   return (id: TranslationId) => {

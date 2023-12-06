@@ -1,5 +1,7 @@
 {
+  "subtitle": "The Guild Wars 2® Database",
   "items.new": "New items",
+  "achievements.new": "New achievements",
   "attribute.Power": "Power",
   "attribute.Precision": "Precision",
   "attribute.Toughness": "Toughness",
@@ -38,5 +40,14 @@
   "itemTable.column.name_es": "Name (ES)",
   "itemTable.column.name_fr": "Name (FR)",
   "itemTable.column.icon": "Icon",
-  "table.columns": "Columns"
+  "table.columns": "Columns",
+  "search.placeholder": "Search",
+  "search.results.items": "Items",
+  "search.results.skills": "Skills",
+  "search.results.skins": "Skins",
+  "search.results.achievements": "Achievements",
+  "search.results.achievements.categories": "Achievement Categories",
+  "search.results.achievements.groups": "Achievement Groups",
+  "search.results.builds": "Builds",
+  "search.results.pages": "Pages"
 }

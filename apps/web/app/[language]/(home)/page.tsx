@@ -19,6 +19,7 @@ function HomePage() {
     <HeroLayout hero={(
       <div className={styles.hero}>
         <div className={styles.heroContent}>
+          <div className={styles.anniversary}>10 Years</div>
           <div className={styles.heroTitle}><Icon icon="gw2t"/> gw2treasures.com</div>
           <div className={styles.heroSubtitle}><Trans id="subtitle"/></div>
         </div>

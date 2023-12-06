@@ -82,6 +82,14 @@
   --icon-color: #b7000d;
 }
 
+.title:hover {
+  text-decoration: none;
+}
+
+.title:hover > span {
+  text-decoration: underline;
+}
+
 .loader {
   position: absolute;
   top: 2px;
@@ -184,4 +192,8 @@
   background-color: var(--color-background-light);
   padding: 0px 8px;
   border-radius: 2000px;
+}
+
+.emoji {
+  text-decoration: none !important;
 }

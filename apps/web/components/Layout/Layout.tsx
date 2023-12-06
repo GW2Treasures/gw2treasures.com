@@ -13,6 +13,7 @@ import { getUser } from '@/lib/getUser';
 import { db } from '@/lib/prisma';
 import { remember } from '@/lib/remember';
 import { getTranslate } from '../I18n/getTranslate';
+import cakeImg from './cake.png';
 
 interface LayoutProps {
   children: ReactNode;
@@ -46,6 +47,8 @@ const Layout: AsyncComponent<LayoutProps> = async ({ children }) => {
           <Link href="/" className={styles.title}>
             <Icon icon="gw2t"/>
             <span>gw2treasures.com</span>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img className={styles.cake} src={cakeImg.src} alt="" width={24} height={24}/>
           </Link>
           <Search translations={searchTranslations}/>
           <div className={styles.right}>

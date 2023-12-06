@@ -20,6 +20,7 @@ import { AccountAchievementProgressHeader, AccountAchievementProgressRow } from 
 import { AchievementPoints } from '@/components/Achievement/AchievementPoints';
 import { format } from 'gw2-tooltip-html';
 import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
+import { ColumnSelect } from '@/components/Table/ColumnSelect';
 
 export interface AchievementCategoryPageProps {
   params: {
@@ -84,7 +85,7 @@ async function AchievementCategoryPage({ params: { language, id }}: AchievementC
         <p>{data.description}</p>
       )}
 
-      <Headline id="achievements" actions={<CurrentAchievements.ColumnSelection>Columns</CurrentAchievements.ColumnSelection>}>Achievements</Headline>
+      <Headline id="achievements" actions={<ColumnSelect table={CurrentAchievements}/>}>Achievements</Headline>
       <CurrentAchievements.Table>
         <CurrentAchievements.Column id="id" title="ID" sortBy="id" hidden small align="right">
           {({ id }) => id}

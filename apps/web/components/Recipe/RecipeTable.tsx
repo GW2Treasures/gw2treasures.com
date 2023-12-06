@@ -23,6 +23,7 @@ import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
 import { RecipeRowFilter, RecipeTableDisciplineFilter, RecipeTableProvider, RecipeTableSearch } from './RecipeTable.client';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { getLanguage } from '../I18n/getTranslate';
+import { ColumnSelect } from '../Table/ColumnSelect';
 
 export interface RecipeTableProps {
   recipes: With<Pick<Recipe, 'id' | 'rating' | 'disciplines' | 'outputCount' | 'outputItemId'>, {
@@ -76,7 +77,7 @@ export const RecipeTable: FC<RecipeTableProps> = ({ recipes }) => {
         <FlexRow>
           <RecipeTableSearch/>
           <RecipeTableDisciplineFilter totalCount={recipes.length}/>
-          <Recipes.ColumnSelection>Columns</Recipes.ColumnSelection>
+          <ColumnSelect table={Recipes}/>
         </FlexRow>
       )}
       >

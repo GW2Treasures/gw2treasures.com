@@ -30,6 +30,7 @@ import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
 import { AchievementPoints } from '@/components/Achievement/AchievementPoints';
 import { FormatNumber } from '@/components/Format/FormatNumber';
+import { ColumnSelect } from '@/components/Table/ColumnSelect';
 
 const MasteryColors: Record<MasteryRegion, CSS.Property.Color> = {
   'Tyria': '#FB8C00', //    core
@@ -152,8 +153,8 @@ async function AchievementPage({ params: { id, language }}: AchievementPageProps
 
       <Headline id="objectives" actions={(
         <FlexRow>
-          {Bits && <Bits.ColumnSelection>Select Columns</Bits.ColumnSelection>}
-          {CategoryAchievements && <CategoryAchievements.ColumnSelection>Select Columns</CategoryAchievements.ColumnSelection>}
+          {Bits && <ColumnSelect table={Bits}/>}
+          {CategoryAchievements && <ColumnSelect table={CategoryAchievements}/>}
         </FlexRow>
       )}
       >

@@ -13,6 +13,7 @@ import { localizedName } from '@/lib/localizedName';
 import { ItemLink } from '@/components/Item/ItemLink';
 import { AccountAchievementProgressHeader, AccountAchievementProgressRow } from '@/components/Achievement/AccountAchievementProgress';
 import { PageLayout } from '@/components/Layout/PageLayout';
+import { ColumnSelect } from '@/components/Table/ColumnSelect';
 
 const getUncategorizedAchievements = remember(60, async function getData(language: Language) {
   const achievements = await db.achievement.findMany({
@@ -30,7 +31,7 @@ async function AchievementUncategorizedPage({ params: { language }}: { params: {
 
   return (
     <PageLayout>
-      <Headline id="achievements" actions={<UncategorizedAchievements.ColumnSelection>Columns</UncategorizedAchievements.ColumnSelection>}>Uncategorized Achievements</Headline>
+      <Headline id="achievements" actions={<ColumnSelect table={UncategorizedAchievements}/>}>Uncategorized Achievements</Headline>
 
       <p>Achievements that are currently not assigned to any category.</p>
 

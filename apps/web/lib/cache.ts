@@ -5,7 +5,7 @@ export function cache<Args extends unknown[], Return>(cb: (...args: Args) => Pro
   tags?: string[];
 }): (...args: Args) => Promise<Return> {
   const cached = nextCache(
-    async (...args: any) => { const data = JSON.stringify(await cb(...args), serialize); console.log('cache', data); return data; },
+    async (...args: any) => JSON.stringify(await cb(...args), serialize),
     [...keyParts, cb.toString()],
     options
   );

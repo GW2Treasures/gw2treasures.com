@@ -33,7 +33,7 @@
     "tslib": "2.6.2"
   },
   "devDependencies": {
-    "@types/node": "18.19.2",
+    "@types/node": "18.19.3",
     "@types/react": "18.2.42",
     "@typescript-eslint/eslint-plugin": "6.13.2",
     "eslint": "8.55.0",

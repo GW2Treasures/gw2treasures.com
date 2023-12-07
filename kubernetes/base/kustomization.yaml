@@ -7,7 +7,7 @@ commonLabels:
 
 resources:
 - namespace.yaml
-- next-db
+- database
 - next
 - next-importer
 - next-worker

@@ -144,7 +144,7 @@ export const TableOfContent: FC<TableOfContentProps> = ({ }) => {
   const handleClick = useCallback((id: string, element: HTMLElement, event: React.MouseEvent) => {
     event.preventDefault();
 
-    element.scrollIntoView();
+    element.scrollIntoView({ behavior: 'smooth' });
     element.focus();
 
     ignoreScroll();

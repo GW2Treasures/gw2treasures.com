@@ -2,7 +2,7 @@ kind: Service
 apiVersion: v1
 
 metadata:
-  name: next-db
+  name: database
 
 spec:
   ports:
@@ -11,7 +11,7 @@ spec:
     protocol: TCP
     targetPort: 5432
   selector:
-    name: next-db
+    name: database
   sessionAffinity: None
   type: ClusterIP
 status:

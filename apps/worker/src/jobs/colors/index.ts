@@ -45,7 +45,8 @@ export const ColorsJob: Job = {
       },
       db.color.findMany,
       loadColors,
-      (tx, data) => tx.color.upsert(data),
+      (tx, data) => tx.color.create(data),
+      (tx, data) => tx.color.update(data),
       CURRENT_VERSION
     );
   }

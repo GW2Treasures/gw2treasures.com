@@ -103,13 +103,16 @@ type DbEntityBase<Id extends string | number> = {
   version: number,
 }
 
-type UpsertInput<Id, HistoryId, ExtraData> = {
-  where: { id: Id },
-  create: UpsertInputData<Id, HistoryId> & ExtraData,
-  update: UpsertInputData<Id, HistoryId> & Partial<ExtraData>,
+type CreateInput<Id, HistoryId, ExtraData> = {
+  data: InputData<Id, HistoryId> & ExtraData,
 }
 
-export type UpsertInputData<Id, HistoryId> = {
+type UpdateInput<Id, HistoryId, ExtraData> = {
+  where: { id: Id },
+  data: Partial<InputData<Id, HistoryId> & ExtraData> | { lastCheckedAt: Date },
+}
+
+export type InputData<Id, HistoryId> = {
   id: Id,
   currentId_de: string,
   currentId_en: string,
@@ -145,7 +148,8 @@ export async function processLocalizedEntities<Id extends string | number, DbEnt
   migrate: (entity: LocalizedObject<ApiEntity>, version: number, changes: Changes) => ExtraData | Promise<ExtraData>,
   getEntitiesFromDb: (args: GetEntitiesArgs<Id>) => Promise<DbEntity[]>,
   getEntitiesFromApi: (ids: Id[]) => Promise<Map<Id, LocalizedObject<ApiEntity>>>,
-  upsert: (tx: PrismaTransaction, data: UpsertInput<Id, HistoryId, ExtraData>) => Promise<unknown>,
+  create: (tx: PrismaTransaction, data: CreateInput<Id, HistoryId, ExtraData>) => Promise<unknown>,
+  update: (tx: PrismaTransaction, data: UpdateInput<Id, HistoryId, ExtraData>) => Promise<unknown>,
   currentVersion: number,
 ) {
   // get the current build
@@ -194,10 +198,10 @@ export async function processLocalizedEntities<Id extends string | number, DbEnt
       const migrationVersionChanged = dbEntity?.version != currentVersion;
 
       // if nothing changed and we also don't have to migrate anything we can early return
-      // we can't early return, because we need to set lastChecked
-      // if(!revisionsChanged && !migrationVersionChanged) {
-      //   return;
-      // }
+      if(!revisionsChanged && !migrationVersionChanged) {
+        await update(tx, { where: { id }, data: { lastCheckedAt: new Date() }});
+        return;
+      }
 
       // always run all migrations if a revision changed, otherwise run only required migrations
       const migrationVersion = revisionsChanged ? -1 : dbEntity.version;
@@ -209,7 +213,7 @@ export async function processLocalizedEntities<Id extends string | number, DbEnt
         migrationVersionChanged ? Changes.Migrate :
         Changes.None;
 
-      const data: UpsertInputData<Id, HistoryId> & ExtraData = {
+      const data: InputData<Id, HistoryId> & ExtraData = {
         id,
 
         ...await migrate(apiData ?? dbData!, migrationVersion, changes),
@@ -234,11 +238,11 @@ export async function processLocalizedEntities<Id extends string | number, DbEnt
       };
 
       // update in db
-      await upsert(tx, {
-        where: { id },
-        create: data,
-        update: data
-      });
+      if(changes === Changes.New) {
+        await create(tx, { data });
+      } else {
+        await update(tx, { where: { id }, data });
+      }
 
       processedEntityCount++;
     });

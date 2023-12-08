@@ -1,5 +1,5 @@
 import { randomUUID } from 'crypto';
-import { UpsertInputData, processLocalizedEntities } from './process-entitites';
+import { InputData, processLocalizedEntities } from './process-entitites';
 import { LocalizedObject } from './types';
 import { Build, Prisma, Revision } from '@gw2treasures/database';
 import { db } from '../../db';
@@ -44,8 +44,14 @@ const TestDbEntityBase: TestDbEntity = {
   version: 1,
 };
 
-async function testProcessLocalizedEntities(dbEntity: Partial<TestDbEntity> | undefined, apiEntity: object | undefined): Promise<UpsertInputData<number, { testId_revisionId: { testId: string, revisionId: string }}> | undefined> {
-  let upsertData = undefined;
+async function testProcessLocalizedEntities(
+  dbEntity: Partial<TestDbEntity> | undefined, apiEntity: object | undefined
+): Promise<
+  | { create: InputData<number, { testId_revisionId: { testId: string, revisionId: string }}>, update: never }
+  | { update: InputData<number, { testId_revisionId: { testId: string, revisionId: string }}>, create: never }
+  | undefined
+>{
+  let data = undefined;
 
   await processLocalizedEntities(
     { ids: [1] },
@@ -54,49 +60,54 @@ async function testProcessLocalizedEntities(dbEntity: Partial<TestDbEntity> | un
     () => ({}), // migrate
     () => Promise.resolve(dbEntity ? [{ ...TestDbEntityBase, ...dbEntity }] : []), // get from db
     () => apiEntity ? loadFromApi({ id: 1, ...apiEntity }) : Promise.resolve(new Map()), // get from api
-    (_, data) => {
-      upsertData = data.create;
+    (_, create) => {
+      data = { create: create.data };
+      return Promise.resolve();
+    },
+    (_, update) => {
+      data = { update: update.data };
       return Promise.resolve();
     },
     1
   );
 
-  return upsertData;
+  return data;
 }
 
 describe('process-entities', () => {
   test('new', async () => {
     const data = await testProcessLocalizedEntities(undefined, {});
-    expect(data).toMatchObject({ id: 1, removedFromApi: false });
-    expect(data?.currentId_en).toMatch(/^test-Added-/);
+    expect(data).toMatchObject({ create: { id: 1, removedFromApi: false }});
+    expect(data!.create.currentId_en).toMatch(/^test-Added-/);
   });
 
   test('removed', async () => {
     const data = await testProcessLocalizedEntities({}, undefined);
-    expect(data).toMatchObject({ removedFromApi: true });
-    expect(data?.currentId_en).toMatch(/^test-Removed-/);
+    expect(data?.update).toMatchObject({ removedFromApi: true });
+    expect(data?.update.currentId_en).toMatch(/^test-Removed-/);
   });
 
   test('no changes', async () => {
     const data = await testProcessLocalizedEntities({}, {});
     expect(data).toBeDefined();
-    expect(data).toMatchObject({ currentId_en: TestDbEntityBase.current_en.id });
+    expect(data).toHaveProperty('update.lastCheckedAt');
+    expect(Object.keys(data!.update)).toHaveLength(1);
   });
 
   test('updated', async () => {
     const data = await testProcessLocalizedEntities({}, { updated: true });
-    expect(data).toBeDefined();
-    expect(data?.currentId_en).toMatch(/^test-Update-/);
+    expect(data?.update).toBeDefined();
+    expect(data?.update.currentId_en).toMatch(/^test-Update-/);
   });
 
   test('rediscovered', async () => {
     const data = await testProcessLocalizedEntities({ removedFromApi: true }, { updated: true });
-    expect(data).toMatchObject({ removedFromApi: false });
-    expect(data?.currentId_en).toMatch(/^test-Update-/);
+    expect(data?.update).toMatchObject({ removedFromApi: false });
+    expect(data?.update.currentId_en).toMatch(/^test-Update-/);
   });
 
   test('migration', async () => {
     const data = await testProcessLocalizedEntities({ version: 0 }, {});
-    expect(data).toMatchObject({ currentId_en: TestDbEntityBase.current_en.id, version: 1 });
+    expect(data?.update).toMatchObject({ currentId_en: TestDbEntityBase.current_en.id, version: 1 });
   });
 });

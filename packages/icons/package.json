@@ -32,7 +32,7 @@
     "@svgr/plugin-jsx": "8.1.0",
     "@types/node": "18.19.3",
     "rimraf": "5.0.5",
-    "ts-node": "10.9.1"
+    "ts-node": "10.9.2"
   },
   "peerDependencies": {
     "react": "^18.2.0",

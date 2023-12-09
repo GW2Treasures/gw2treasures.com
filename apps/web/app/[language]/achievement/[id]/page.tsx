@@ -195,7 +195,7 @@ async function AchievementPage({ params: { id, language }}: AchievementPageProps
           <CategoryAchievements.Column id="points" title="AP" align="right" hidden sortBy="points">{({ points }) => <AchievementPoints points={points}/>}</CategoryAchievements.Column>
           <CategoryAchievements.Column id="unlocks" title="Unlocks" align="right" hidden sortBy="unlocks">{({ unlocks }) => unlocks && <FormatNumber value={Math.round(unlocks * 1000) / 10} unit="%"/>}</CategoryAchievements.Column>
           <CategoryAchievements.DynamicColumns headers={<AccountAchievementProgressHeader/>}>
-            {(_, index) => <AccountAchievementProgressRow achievementId={achievement.id} bitId={index}/>}
+            {({ id }) => <AccountAchievementProgressRow achievementId={id}/>}
           </CategoryAchievements.DynamicColumns>
         </CategoryAchievements.Table>
       )}

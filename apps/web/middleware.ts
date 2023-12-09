@@ -10,6 +10,7 @@ import { sessionMiddleware } from './middleware/session';
 import { apiKeyMiddleware } from './middleware/api-key';
 import { rewriteMiddleware } from './middleware/rewrite';
 import { corsMiddleware } from './middleware/cors';
+import { userAgentMiddleware } from './middleware/user-agent';
 
 export async function middleware(request: NextRequest) {
   const middlewares: NextMiddleware[] = [
@@ -19,6 +20,7 @@ export async function middleware(request: NextRequest) {
     realUrlMiddleware,
     subdomainMiddleware,
     languageMiddleware,
+    userAgentMiddleware,
     sessionMiddleware,
     apiKeyMiddleware,
     rewriteMiddleware,

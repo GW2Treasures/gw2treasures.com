@@ -38,7 +38,7 @@
     "@typescript-eslint/eslint-plugin": "6.13.2",
     "eslint": "8.55.0",
     "eslint-config-next": "14.0.4",
-    "gw2-api-types": "0.0.7",
+    "gw2-api-types": "0.0.8",
     "typescript": "5.3.3"
   }
 }

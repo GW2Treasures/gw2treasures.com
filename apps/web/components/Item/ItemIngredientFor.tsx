@@ -18,6 +18,7 @@ const getIngredientFor = remember(60, async function getIngredientFor(itemId: nu
       outputItem: { select: linkProperties },
       itemIngredients: { select: { count: true, Item: { select: linkProperties }}},
       currencyIngredients: { select: { count: true, Currency: { select: linkPropertiesWithoutRarity }}},
+      guildUpgradeIngredients: { select: { count: true, GuildUpgrade: { select: linkPropertiesWithoutRarity }}},
       unlockedByItems: { select: linkProperties }
     },
     orderBy: { outputItem: { views: 'desc' }}

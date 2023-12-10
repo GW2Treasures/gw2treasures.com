@@ -8,7 +8,6 @@ import type { Gw2Api } from 'gw2-api-types';
 import { Json } from '@/components/Format/Json';
 import { linkProperties } from '@/lib/linkProperties';
 import { ItemList } from '@/components/ItemList/ItemList';
-import { CurrencyLink } from '@/components/Currency/CurrencyLink';
 import { CurrencyValue } from '@/components/Currency/CurrencyValue';
 import { ItemLink } from '@/components/Item/ItemLink';
 import { Suspense } from 'react';

@@ -1,18 +1,10 @@
-import type { IngredientCurrency, IngredientItem, Recipe, Revision } from '@gw2treasures/database';
-import { type FC, memo, useDeferredValue, useMemo, useState, type ReactNode } from 'react';
+import type { IngredientCurrency, IngredientGuildUpgrade, IngredientItem, Recipe, Revision } from '@gw2treasures/database';
+import { type FC } from 'react';
 import { localizedName } from '@/lib/localizedName';
 import type { With } from '@/lib/with';
-import { DropDown } from '@gw2treasures/ui/components/DropDown/DropDown';
-import { Button } from '@gw2treasures/ui/components/Form/Button';
-import { Checkbox } from '@gw2treasures/ui/components/Form/Checkbox';
-import { TextInput } from '@gw2treasures/ui/components/Form/TextInput';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
-import { useLanguage } from '../I18n/Context';
 import { ItemLink, type ItemLinkProps } from '../Item/ItemLink';
-import { Separator } from '@gw2treasures/ui/components/Layout/Separator';
-import { MenuList } from '@gw2treasures/ui/components/Layout/MenuList';
 import { ShowMore } from '../ShowMore/ShowMore';
-import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { type Discipline, DisciplineIcon } from './DisciplineIcon';
 import { Ingredients } from './Ingredients';
 import recipeBoxStyles from './RecipeBox.module.css';
@@ -24,12 +16,14 @@ import { RecipeRowFilter, RecipeTableDisciplineFilter, RecipeTableProvider, Reci
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { getLanguage } from '../I18n/getTranslate';
 import { ColumnSelect } from '../Table/ColumnSelect';
+import type { GuildUpgradeLinkProps } from '../GuildUpgrade/GuildUpgradeLink';
 
 export interface RecipeTableProps {
   recipes: With<Pick<Recipe, 'id' | 'rating' | 'disciplines' | 'outputCount' | 'outputItemId'>, {
     currentRevision: Pick<Revision, 'data'>,
     itemIngredients: With<Pick<IngredientItem, 'count'>, { Item: ItemLinkProps['item'] }>[]
     currencyIngredients: With<Pick<IngredientCurrency, 'count'>, { Currency: CurrencyLinkProps['currency'] }>[]
+    guildUpgradeIngredients: With<Pick<IngredientGuildUpgrade, 'count'>, { GuildUpgrade: GuildUpgradeLinkProps['guildUpgrade'] }>[]
     outputItem: ItemLinkProps['item'] | null;
     unlockedByItems: ItemLinkProps['item'][]
   }>[]

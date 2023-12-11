@@ -5,9 +5,9 @@ import 'server-only';
 import { remember } from '@/lib/remember';
 import { linkProperties, linkPropertiesWithoutRarity } from '@/lib/linkProperties';
 
-const getIngredientForCurrency = remember(60, async function getIngredientForCurrency(currencyId: number) {
+const getIngredientForGuildUpgrade = remember(60, async function getIngredientForGuildUpgrade(guildUpgradeId: number) {
   const recipes = await db.recipe.findMany({
-    where: { currencyIngredients: { some: { currencyId }}},
+    where: { guildUpgradeIngredients: { some: { guildUpgradeId }}},
     select: {
       id: true,
       rating: true,
@@ -26,12 +26,12 @@ const getIngredientForCurrency = remember(60, async function getIngredientForCur
   return recipes;
 });
 
-interface CurrencyIngredientForProps {
-  currencyId: number;
+interface GuildUpgradeIngredientForProps {
+  guildUpgradeId: number;
 };
 
-export const CurrencyIngredientFor: AsyncComponent<CurrencyIngredientForProps> = async ({ currencyId }) => {
-  const recipes = await getIngredientForCurrency(currencyId);
+export const GuildUpgradeIngredientFor: AsyncComponent<GuildUpgradeIngredientForProps> = async ({ guildUpgradeId }) => {
+  const recipes = await getIngredientForGuildUpgrade(guildUpgradeId);
 
   return (
     <RecipeTable recipes={recipes}/>

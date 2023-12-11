@@ -14,6 +14,7 @@ import { CurrenciesNew } from './currencies/new';
 import { CurrenciesRediscovered } from './currencies/rediscovered';
 import { CurrenciesRemoved } from './currencies/removed';
 import { CurrenciesUpdate } from './currencies/update';
+import { GuildUpgradesJob } from './guild-upgrades';
 import { Gw2ApiRequestsCleanup } from './gw2api-requests/cleanup';
 import { IconsColors } from './icons/colors';
 import { ItemsCheck } from './items/check';
@@ -115,6 +116,7 @@ const jobsInternal = {
   'titles.migrate': titlesMigrate,
 
   'colors': ColorsJob,
+  'guild-upgrades': GuildUpgradesJob,
 
   'gw2api-requests.cleanup': Gw2ApiRequestsCleanup,
 

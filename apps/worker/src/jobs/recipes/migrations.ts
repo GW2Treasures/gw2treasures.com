@@ -4,7 +4,7 @@ import { Gw2Api } from 'gw2-api-types';
 import { toId } from '../helper/toId';
 import { db } from '../../db';
 
-export const CURRENT_VERSION = 4;
+export const CURRENT_VERSION = 6;
 
 /** @see Prisma.RecipeUpdateInput  */
 interface MigratedRecipe {
@@ -20,11 +20,18 @@ interface MigratedRecipe {
 
   currencyIngredientIds?: number[];
   currencyIngredients?: Prisma.IngredientCurrencyUpdateManyWithoutRecipeNestedInput
+
+  guildUpgradeIngredientIds?: number[];
+  guildUpgradeIngredients?: Prisma.IngredientGuildUpgradeUpdateManyWithoutRecipeNestedInput
+
+  outputGuildUpgradeIdRaw?: number;
+  outputGuildUpgradeId?: number;
 }
 
 export async function createMigrator() {
   const knownItemIds = (await db.item.findMany({ select: { id: true }})).map(toId);
   const knownCurrencyIds = (await db.currency.findMany({ select: { id: true }})).map(toId);
+  const knownGuildUpgradeIds = (await db.guildUpgrade.findMany({ select: { id: true }})).map(toId);
 
   // eslint-disable-next-line require-await
   return async function migrate(recipe: Gw2Api.Recipe, currentVersion = -1) {
@@ -74,6 +81,29 @@ export async function createMigrator() {
           }
         })),
       };
+    }
+
+    // Version 5: Add guild upgrades ingredients
+    if(currentVersion < 5) {
+      const guildUpgradeIngredients = recipe.ingredients.filter(({ type }) => type === 'GuildUpgrade');
+
+      update.guildUpgradeIngredientIds = guildUpgradeIngredients.map(toId);
+
+      update.guildUpgradeIngredients = {
+        connectOrCreate: guildUpgradeIngredients.filter(({ id }) => knownGuildUpgradeIds.includes(id)).map((ingredient) => ({
+          where: { recipeId_guildUpgradeId: { guildUpgradeId: ingredient.id, recipeId: recipe.id }},
+          create: {
+            guildUpgradeId: ingredient.id,
+            count: ingredient.count
+          }
+        })),
+      };
+    }
+
+    // Version 6: Add output guild upgrade
+    if(currentVersion < 6) {
+      update.outputGuildUpgradeIdRaw = recipe.output_upgrade_id;
+      update.outputGuildUpgradeId = recipe.output_upgrade_id && knownGuildUpgradeIds.includes(recipe.output_upgrade_id) ? recipe.output_upgrade_id : undefined;
     }
 
     return update satisfies Prisma.RecipeUpdateInput;

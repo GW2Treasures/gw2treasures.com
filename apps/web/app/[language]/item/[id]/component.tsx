@@ -39,6 +39,7 @@ import { extraColumn, globalColumnDefinitions } from '@/components/ItemTable/col
 import { ContentChanceColumn, ContentQuantityColumn, ItemContentQuantityColumn } from './ExtraColumns';
 import type { TODO } from '@/lib/todo';
 import { pageView } from '@/lib/pageView';
+import { GuildUpgradeLink } from '@/components/GuildUpgrade/GuildUpgradeLink';
 
 export interface ItemPageComponentProps {
   language: Language;
@@ -101,6 +102,15 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
           <ItemList>
             {item.unlocksSkin.map((skin) => <li key={skin.id}><SkinLink skin={skin}/> {skin.weight} {skin.subtype ?? skin.type}</li>)}
             {item.unlocksSkinIds.filter((id) => item.unlocksSkin.every((skin) => skin.id !== id)).map((id) => <li key={id}>Unknown skin ({id})</li>)}
+          </ItemList>
+        </>
+      )}
+
+      {item.unlocksGuildUpgrade.length > 0 && (
+        <>
+          <Headline id="guild-upgrades">Unlocked Guild Upgrades</Headline>
+          <ItemList>
+            {item.unlocksGuildUpgrade.map((guildUpgrade) => <li key={guildUpgrade.id}><GuildUpgradeLink guildUpgrade={guildUpgrade}/></li>)}
           </ItemList>
         </>
       )}

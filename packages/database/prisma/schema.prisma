@@ -54,7 +54,11 @@ model Item {
 
   // color
   unlocksColor    Color[]  @relation("unlocks_color")
-  unlocksColorIds Int[]    
+  unlocksColorIds Int[]
+
+  // guild upgrades
+  unlocksGuildUpgrade    GuildUpgrade[]  @relation("unlocks_guild_upgrade")
+  unlocksGuildUpgradeIds Int[]
 
   // review queue
   reviews Review[] @relation("itemReview")
@@ -98,6 +102,7 @@ model Icon {
   achievements Achievement[]
   achievementCategories AchievementCategory[]
   currencies Currency[]
+  guildUpgrades GuildUpgrade[]
 }
 
 model Content {
@@ -268,11 +273,18 @@ model Recipe {
   outputItem      Item? @relation(name: "recipe_output", fields: [outputItemId], references: [id])
   outputItemIdRaw Int?
 
+  outputGuildUpgradeId    Int?
+  outputGuildUpgrade      GuildUpgrade? @relation(name: "recipe_output", fields: [outputGuildUpgradeId], references: [id])
+  outputGuildUpgradeIdRaw Int?
+
   itemIngredients   IngredientItem[]
   itemIngredientIds Int[]
 
   currencyIngredients   IngredientCurrency[]
   currencyIngredientIds Int[]
+
+  guildUpgradeIngredients   IngredientGuildUpgrade[]
+  guildUpgradeIngredientIds Int[]
 
   removedFromApi Boolean @default(false)
   
@@ -311,6 +323,18 @@ model IngredientCurrency {
   Currency Currency @relation(fields: [currencyId], references: [id], onDelete: Cascade)
 
   @@id([recipeId, currencyId])
+}
+
+model IngredientGuildUpgrade {
+  recipeId   Int
+  guildUpgradeId Int
+
+  count Int
+
+  Recipe       Recipe       @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  GuildUpgrade GuildUpgrade @relation(fields: [guildUpgradeId], references: [id], onDelete: Cascade)
+
+  @@id([recipeId, guildUpgradeId])
 }
 
 model Achievement {
@@ -582,6 +606,13 @@ model Revision {
   currentColor_es Color? @relation("current_es")
   currentColor_fr Color? @relation("current_fr")
   colorHistory ColorHistory[]
+  
+  // colors
+  currentGuildUpgrade_de GuildUpgrade? @relation("current_de")
+  currentGuildUpgrade_en GuildUpgrade? @relation("current_en")
+  currentGuildUpgrade_es GuildUpgrade? @relation("current_es")
+  currentGuildUpgrade_fr GuildUpgrade? @relation("current_fr")
+  guildUpgradeHistory GuildUpgradeHistory[]
 }
 
 enum RevisionType {
@@ -741,6 +772,56 @@ model ColorHistory {
   revision Revision @relation(fields: [revisionId], references: [id], onDelete: Cascade)
 
   @@id([colorId, revisionId])
+}
+
+model GuildUpgrade {
+  id Int @id
+
+  name_de String
+  name_en String
+  name_es String
+  name_fr String
+
+  icon   Icon? @relation(fields: [iconId], references: [id])
+  iconId Int?
+
+  ingredient   IngredientGuildUpgrade[]
+  recipeOutput Recipe[] @relation(name: "recipe_output")
+  
+  unlockedByItems Item[] @relation("unlocks_guild_upgrade")
+
+  removedFromApi Boolean @default(false)
+  
+  current_de Revision @relation("current_de", fields: [currentId_de], references: [id], onDelete: Cascade)
+  currentId_de String @unique
+  
+  current_en Revision @relation("current_en", fields: [currentId_en], references: [id], onDelete: Cascade)
+  currentId_en String @unique
+  
+  current_es Revision @relation("current_es", fields: [currentId_es], references: [id], onDelete: Cascade)
+  currentId_es String @unique
+  
+  current_fr Revision @relation("current_fr", fields: [currentId_fr], references: [id], onDelete: Cascade)
+  currentId_fr String @unique
+
+  history GuildUpgradeHistory[]
+  
+  lastCheckedAt  DateTime   @default(now())
+
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  version Int @default(0)
+}
+
+model GuildUpgradeHistory {
+  guildUpgradeId Int
+  revisionId String
+
+  guildUpgrade GuildUpgrade @relation(fields: [guildUpgradeId], references: [id], onDelete: Cascade)
+  revision Revision @relation(fields: [revisionId], references: [id], onDelete: Cascade)
+
+  @@id([guildUpgradeId, revisionId])
 }
 
 model Job {

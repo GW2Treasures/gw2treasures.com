@@ -54,7 +54,11 @@ model Item {
 
   // color
   unlocksColor    Color[]  @relation("unlocks_color")
-  unlocksColorIds Int[]    
+  unlocksColorIds Int[]
+
+  // guild upgrades
+  unlocksGuildUpgrade    GuildUpgrade[]  @relation("unlocks_guild_upgrade")
+  unlocksGuildUpgradeIds Int[]
 
   // review queue
   reviews Review[] @relation("itemReview")
@@ -268,6 +272,10 @@ model Recipe {
   outputItemId    Int?
   outputItem      Item? @relation(name: "recipe_output", fields: [outputItemId], references: [id])
   outputItemIdRaw Int?
+
+  outputGuildUpgradeId    Int?
+  outputGuildUpgrade      GuildUpgrade? @relation(name: "recipe_output", fields: [outputGuildUpgradeId], references: [id])
+  outputGuildUpgradeIdRaw Int?
 
   itemIngredients   IngredientItem[]
   itemIngredientIds Int[]
@@ -777,7 +785,10 @@ model GuildUpgrade {
   icon   Icon? @relation(fields: [iconId], references: [id])
   iconId Int?
 
-  ingredient IngredientGuildUpgrade[]
+  ingredient   IngredientGuildUpgrade[]
+  recipeOutput Recipe[] @relation(name: "recipe_output")
+  
+  unlockedByItems Item[] @relation("unlocks_guild_upgrade")
 
   removedFromApi Boolean @default(false)
   

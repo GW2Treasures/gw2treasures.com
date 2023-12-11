@@ -62,7 +62,7 @@ export async function createTooltip(item: Gw2Api.Item, language: Language): Prom
   const infusions = infusionIds?.length ? (await db.item.findMany({ where: { id: { in: infusionIds }}, select: { ...linkProperties, [`current_${language}`]: { select: { data: true }}}})).map(mapItemToTooltip) : [];
 
   const unlocksColor = item.type === 'Consumable' && item.details?.type === 'Unlock' && item.details.unlock_type === 'Dye' && item.details.color_id
-    ? await db.color.findUnique({ where: { id: item.details.color_id } })
+    ? await db.color.findUnique({ where: { id: item.details.color_id }})
     : null;
 
   return {

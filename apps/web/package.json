@@ -11,7 +11,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@floating-ui/react": "0.26.3",
+    "@floating-ui/react": "0.26.4",
     "@floating-ui/react-dom": "2.0.4",
     "@gw2me/client": "0.2.0",
     "@gw2treasures/database": "*",

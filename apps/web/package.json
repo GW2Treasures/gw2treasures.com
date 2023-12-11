@@ -13,6 +13,7 @@
   "dependencies": {
     "@floating-ui/react": "0.26.4",
     "@floating-ui/react-dom": "2.0.4",
+    "@formatjs/intl-localematcher": "0.5.2",
     "@gw2me/client": "0.2.0",
     "@gw2treasures/database": "*",
     "@gw2treasures/icons": "*",
@@ -24,6 +25,7 @@
     "gw2-tooltip-html": "0.0.4",
     "gw2e-chat-codes": "1.4.2",
     "hast-util-to-jsx-runtime": "2.3.0",
+    "negotiator": "0.6.3",
     "next": "14.0.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -33,6 +35,7 @@
     "tslib": "2.6.2"
   },
   "devDependencies": {
+    "@types/negotiator": "0.6.3",
     "@types/node": "18.19.3",
     "@types/react": "18.2.43",
     "@typescript-eslint/eslint-plugin": "6.13.2",

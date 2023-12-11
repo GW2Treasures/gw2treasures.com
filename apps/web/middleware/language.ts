@@ -1,6 +1,8 @@
 import type { NextMiddleware } from './types';
 import { Language } from '@gw2treasures/database';
 import { NextResponse } from 'next/server';
+import { match } from '@formatjs/intl-localematcher';
+import Negotiator from 'negotiator';
 
 const baseDomain = process.env.GW2T_NEXT_DOMAIN;
 
@@ -15,7 +17,9 @@ export const languageMiddleware: NextMiddleware = (request, next, data) => {
   // handle language not found
   if(!subdomain) {
     // if no language was detected we need to redirect to the correct domain
-    url.hostname = `en.${baseDomain}`;
+    const acceptLanguage = new Negotiator({ headers: Object.fromEntries(request.headers.entries()) }).languages();
+    const language = match(acceptLanguage, Object.values(Language), Language.en);
+    url.hostname = `${language}.${baseDomain}`;
 
     // if we attempted to do this already, show error
     if(request.cookies.has('redirect_loop')) {

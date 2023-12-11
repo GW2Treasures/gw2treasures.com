@@ -46,6 +46,7 @@ export async function registerCronJobs() {
   await registerJob('titles.migrate', '*/6 * * * *');
 
   await registerJob('colors', '*/5 * * * *');
+  await registerJob('guild-upgrades', '*/5 * * * *');
 
   await registerJob('gw2api-requests.cleanup', '33 3 * * *');
 

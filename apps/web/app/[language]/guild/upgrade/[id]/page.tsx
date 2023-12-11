@@ -9,6 +9,13 @@ import { Json } from '@/components/Format/Json';
 import { Suspense } from 'react';
 import { SkeletonTable } from '@/components/Skeleton/SkeletonTable';
 import { GuildUpgradeIngredientFor } from '@/components/GuildUpgrade/GuildUpgradeIngredientFor';
+import { linkProperties, linkPropertiesWithoutRarity } from '@/lib/linkProperties';
+import { ItemList } from '@/components/ItemList/ItemList';
+import { ItemLink } from '@/components/Item/ItemLink';
+import type { Metadata } from 'next';
+import { localizedName } from '@/lib/localizedName';
+import { RecipeBoxWrapper } from '@/components/Recipe/RecipeBoxWrapper';
+import { RecipeBox } from '@/components/Recipe/RecipeBox';
 
 const getGuildUpgrade = remember(60, async function getGuildUpgrade(id: number, language: Language) {
   if(isNaN(id)) {
@@ -19,6 +26,8 @@ const getGuildUpgrade = remember(60, async function getGuildUpgrade(id: number, 
     where: { id },
     include: {
       icon: true,
+      unlockedByItems: { select: linkProperties },
+      recipeOutput: { include: { currentRevision: true, itemIngredients: { include: { Item: { select: linkProperties }}}, currencyIngredients: { include: { Currency: { select: linkPropertiesWithoutRarity }}}, guildUpgradeIngredients: { include: { GuildUpgrade: { select: linkPropertiesWithoutRarity }}}, unlockedByItems: { select: linkProperties }, outputItem: { select: linkProperties }}},
       _count: {
         select: { ingredient: true }
       }
@@ -40,7 +49,14 @@ const getRevision = remember(60, async function getRevision(id: number, language
 });
 
 
-export default async function GuildUpgradePage({ params: { id, language }}: { params: { id: string, language: Language }}) {
+interface GuildUpgradePageProps {
+  params: {
+    id: string;
+    language: Language;
+  };
+}
+
+export default async function GuildUpgradePage({ params: { id, language }}: GuildUpgradePageProps) {
   const guildUpgradeId = Number(id);
   const [guildUpgrade, { revision, data }] = await Promise.all([
     getGuildUpgrade(guildUpgradeId, language),
@@ -54,6 +70,28 @@ export default async function GuildUpgradePage({ params: { id, language }}: { pa
   return (
     <DetailLayout title={data.name} breadcrumb="Guild Upgrade" icon={guildUpgrade.icon}>
       <p>{data.description}</p>
+
+      {guildUpgrade.unlockedByItems.length > 0 && (
+        <>
+          <Headline id="items">Unlocked by</Headline>
+          <ItemList>
+            {guildUpgrade.unlockedByItems.map((item) => (
+              <li key={item.id}><ItemLink item={item}/></li>
+            ))}
+          </ItemList>
+        </>
+      )}
+
+      {guildUpgrade.recipeOutput && guildUpgrade.recipeOutput.length > 0 && (
+        <>
+          <Headline id="crafted-from">Crafted From</Headline>
+          <RecipeBoxWrapper>
+            {guildUpgrade.recipeOutput.map((recipe) => (
+              <RecipeBox key={recipe.id} recipe={recipe} outputItem={recipe.outputItem}/>
+            ))}
+          </RecipeBoxWrapper>
+        </>
+      )}
 
       {guildUpgrade._count.ingredient > 0 && (
         <Suspense fallback={(
@@ -72,3 +110,16 @@ export default async function GuildUpgradePage({ params: { id, language }}: { pa
     </DetailLayout>
   );
 }
+
+export async function generateMetadata({ params: { language, id }}: GuildUpgradePageProps): Promise<Metadata> {
+  const skinId: number = Number(id);
+  const guildUpgrade = await getGuildUpgrade(skinId, language);
+
+  if(!guildUpgrade) {
+    notFound();
+  }
+
+  return {
+    title: localizedName(guildUpgrade, language)
+  };
+};

@@ -32,6 +32,14 @@ export const GuildUpgradesJob: Job = {
           ? await getGuildUpgradeIngredient(guildUpgrade.en.id)
           : [];
 
+        const recipeOutput = changes === Changes.New
+          ? await db.recipe.findMany({ where: { outputGuildUpgradeIdRaw: guildUpgrade.en.id }, select: { id: true }})
+          : [];
+
+        const itemUnlocks = changes === Changes.New
+          ? await db.item.findMany({ where: { unlocksGuildUpgradeIds: { has: guildUpgrade.en.id }}, select: { id: true }})
+          : [];
+
         const iconId = await createIcon(guildUpgrade.en.icon);
 
         return {
@@ -41,7 +49,9 @@ export const GuildUpgradesJob: Job = {
           name_fr: guildUpgrade.fr.name,
           iconId,
 
-          ingredient: { createMany: { data: ingredientRecipeIds }}
+          ingredient: { createMany: { data: ingredientRecipeIds }},
+          recipeOutput: { connect: recipeOutput },
+          unlockedByItems: { connect: itemUnlocks },
         } satisfies Prisma.GuildUpgradeUncheckedUpdateInput;
       },
       db.guildUpgrade.findMany,

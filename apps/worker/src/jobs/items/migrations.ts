@@ -5,7 +5,7 @@ import { isTruthy } from '../helper/is';
 import { toId } from '../helper/toId';
 import { isDefined, LocalizedObject } from '../helper/types';
 
-export const CURRENT_VERSION = 9;
+export const CURRENT_VERSION = 10;
 
 /** @see Prisma.ItemUpdateInput */
 interface MigratedItem {
@@ -35,6 +35,9 @@ interface MigratedItem {
 
   unlocksColorIds?: number[]
   unlocksColor?: Prisma.ColorUpdateManyWithoutUnlockedByItemsNestedInput
+
+  unlocksGuildUpgradeIds?: number[]
+  unlocksGuildUpgrade?: Prisma.GuildUpgradeUpdateManyWithoutUnlockedByItemsNestedInput
 }
 
 export async function createMigrator() {
@@ -42,6 +45,7 @@ export async function createMigrator() {
   const knownItemIds = (await db.item.findMany({ select: { id: true }})).map(toId);
   const knownRecipeIds = (await db.recipe.findMany({ select: { id: true }})).map(toId);
   const knownColorIds = (await db.color.findMany({ select: { id: true }})).map(toId);
+  const knownGuildUpgradeIds = (await db.guildUpgrade.findMany({ select: { id: true }})).map(toId);
 
   // eslint-disable-next-line require-await
   return async function migrate({ de, en, es, fr }: LocalizedObject<Gw2Api.Item>, currentVersion = -1) {
@@ -102,6 +106,17 @@ export async function createMigrator() {
 
         update.unlocksColorIds = unlocksColorIds;
         update.unlocksColor = { connect: unlocksColorIds.filter((id) => knownColorIds.includes(id)).map((id) => ({ id })) };
+      }
+    }
+
+    // Version 9: Add guild upgrade unlocks
+    if(currentVersion < 10) {
+      const unlocksGuildUpgrades = en.type === 'Consumable' && en.details?.type === 'Generic' && en.details?.guild_upgrade_id !== undefined;
+      if(unlocksGuildUpgrades) {
+        const unlocksGuildUpgradeIds = [en.details?.guild_upgrade_id].filter(isTruthy);
+
+        update.unlocksGuildUpgradeIds = unlocksGuildUpgradeIds;
+        update.unlocksGuildUpgrade = { connect: unlocksGuildUpgradeIds.filter((id) => knownGuildUpgradeIds.includes(id)).map((id) => ({ id })) };
       }
     }
 

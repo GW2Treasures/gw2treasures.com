@@ -4,7 +4,7 @@ import { Gw2Api } from 'gw2-api-types';
 import { toId } from '../helper/toId';
 import { db } from '../../db';
 
-export const CURRENT_VERSION = 5;
+export const CURRENT_VERSION = 6;
 
 /** @see Prisma.RecipeUpdateInput  */
 interface MigratedRecipe {
@@ -23,6 +23,9 @@ interface MigratedRecipe {
 
   guildUpgradeIngredientIds?: number[];
   guildUpgradeIngredients?: Prisma.IngredientGuildUpgradeUpdateManyWithoutRecipeNestedInput
+
+  outputGuildUpgradeIdRaw?: number;
+  outputGuildUpgradeId?: number;
 }
 
 export async function createMigrator() {
@@ -80,7 +83,7 @@ export async function createMigrator() {
       };
     }
 
-    // Version 5: Add guild upgrades
+    // Version 5: Add guild upgrades ingredients
     if(currentVersion < 5) {
       const guildUpgradeIngredients = recipe.ingredients.filter(({ type }) => type === 'GuildUpgrade');
 
@@ -95,6 +98,12 @@ export async function createMigrator() {
           }
         })),
       };
+    }
+
+    // Version 6: Add output guild upgrade
+    if(currentVersion < 6) {
+      update.outputGuildUpgradeIdRaw = recipe.output_upgrade_id;
+      update.outputGuildUpgradeId = recipe.output_upgrade_id && knownGuildUpgradeIds.includes(recipe.output_upgrade_id) ? recipe.output_upgrade_id : undefined;
     }
 
     return update satisfies Prisma.RecipeUpdateInput;

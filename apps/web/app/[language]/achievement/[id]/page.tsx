@@ -33,11 +33,13 @@ import { FormatNumber } from '@/components/Format/FormatNumber';
 import { ColumnSelect } from '@/components/Table/ColumnSelect';
 
 const MasteryColors: Record<MasteryRegion, CSS.Property.Color> = {
-  'Tyria': '#FB8C00', //    core
-  'Maguuma': '#43A047', //  HoT
-  'Desert': '#D81B60', //   PoF
-  'Tundra': '#00ACC1', //   Icebrood
-  'Unknown': '#1E88E5', //  EoD
+  'Tyria': '#FB8C00', //   core
+  'Maguuma': '#43A047', // HoT
+  'Desert': '#D81B60', //  PoF
+  'Tundra': '#00ACC1', //  Icebrood
+  'Jade': '#1E88E5', //    EoD
+  'Sky': '#F3D71F', //     SotO
+  'Unknown': 'currentColor',
 };
 
 const notPartOfCategoryDisplayFlags = ['Repeatable', 'RequiresUnlock', 'Hidden', 'Weekly', 'IgnoreNearlyComplete'];
@@ -216,7 +218,7 @@ async function AchievementPage({ params: { id, language }}: AchievementPageProps
                     <li key={reward.id}>
                       <FlexRow>
                         <span className={styles.listIcon} style={reward.region ? { '--icon-color': MasteryColors[reward.region], backgroundColor: `${MasteryColors[reward.region]}22` } : undefined}><Icon icon="mastery"/></span>
-                        {reward.region === 'Unknown' ? 'EoD / SotO' : reward.region} Mastery
+                        {reward.region} Mastery
                       </FlexRow>
                     </li>
                   );

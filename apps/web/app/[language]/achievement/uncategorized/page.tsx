@@ -46,7 +46,7 @@ async function AchievementUncategorizedPage({ params: { language }}: { params: {
           {({ points }) => <AchievementPoints points={points}/>}
         </UncategorizedAchievements.Column>
         <UncategorizedAchievements.Column id="mastery" title={<><Icon icon="mastery"/> Mastery</>} sortBy="mastery">
-          {({ mastery }) => mastery === 'Unknown' ? 'EoD / SotO' : mastery}
+          {({ mastery }) => mastery}
         </UncategorizedAchievements.Column>
         <UncategorizedAchievements.Column id="title" title={<><Icon icon="title"/> Title</>} sortBy={({ rewardsTitle }) => rewardsTitle.length}>
           {({ rewardsTitle }) => rewardsTitle.map((title) => <span key={title.id} dangerouslySetInnerHTML={{ __html: format(localizedName(title, language)) }}/>)}

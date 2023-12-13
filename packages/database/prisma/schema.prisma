@@ -407,6 +407,8 @@ enum MasteryRegion {
   Desert
   Maguuma
   Tundra
+  Jade
+  Sky
   Unknown
 }
 

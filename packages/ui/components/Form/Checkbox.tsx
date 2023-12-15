@@ -12,9 +12,10 @@ export interface CheckboxProps {
   onChange?: (checked: boolean) => void;
   name?: string;
   children: ReactNode;
+  disabled?: boolean;
 }
 
-export const Checkbox = forwardRef<HTMLLabelElement, CheckboxProps>(({ checked, defaultChecked, formValue, indeterminate = false, onChange, name, children }, ref) => {
+export const Checkbox = forwardRef<HTMLLabelElement, CheckboxProps>(({ checked, defaultChecked, formValue, indeterminate = false, onChange, name, disabled, children }, ref) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const id = useId();
 
@@ -32,8 +33,8 @@ export const Checkbox = forwardRef<HTMLLabelElement, CheckboxProps>(({ checked, 
   }, []);
 
   return (
-    <label htmlFor={id} className={styles.wrapper} tabIndex={0} onKeyDown={labelOnKeyDown} ref={ref}>
-      <input id={id} ref={inputRef} type="checkbox" checked={checked} defaultChecked={defaultChecked} onChange={(e) => onChange?.(e.target.checked)} className={styles.input} tabIndex={-1} name={name} value={formValue}/>
+    <label htmlFor={id} className={disabled ? styles.disabled : styles.wrapper} tabIndex={0} onKeyDown={labelOnKeyDown} ref={ref} aria-disabled={disabled}>
+      <input id={id} ref={inputRef} type="checkbox" checked={checked} defaultChecked={defaultChecked} onChange={(e) => onChange?.(e.target.checked)} className={styles.input} tabIndex={-1} name={name} value={formValue} disabled={disabled}/>
       <div className={styles.checkbox}><Icon icon="checkmark"/></div>
       <div className={styles.label}>
         {children}

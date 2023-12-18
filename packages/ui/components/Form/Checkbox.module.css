@@ -9,7 +9,7 @@
 }
 
 .wrapper:not(.disabled):hover {
-  background-color: var(--color-background-light);
+  background-color: var(--color-background-light-transparent);
 }
 
 .wrapper:focus-visible {

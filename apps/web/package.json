@@ -31,7 +31,7 @@
     "react-dom": "18.2.0",
     "react-error-boundary": "4.0.12",
     "server-only": "0.0.1",
-    "sharp": "0.33.0",
+    "sharp": "0.32.6",
     "tslib": "2.6.2"
   },
   "devDependencies": {

@@ -1,6 +1,6 @@
 'use client';
 
-import { createElement, useCallback, useEffect, useMemo, useState } from 'react';
+import { createElement, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { Signed } from './query';
 import { type ItemTableLoadOptions } from './ItemTable.actions';
 import { SkeletonTable } from '../Skeleton/SkeletonTable';
@@ -47,6 +47,8 @@ export const ItemTable = <ExtraColumnId extends string = never, Model extends Qu
   const [orderBy, setOrderBy] = useState<{ column: ColumnId, order: 'asc' | 'desc'}>();
   const [range, setRange] = useState<{ length: number, offset: number }>();
 
+  const requestId = useRef(0);
+
   const pageSize = 10;
   const collapsedSize = 5;
 
@@ -73,7 +75,11 @@ export const ItemTable = <ExtraColumnId extends string = never, Model extends Qu
       take, skip
     };
     setLoading(true);
+    const currentRequestId = ++requestId.current;
     loadItems(query, options).then((items) => {
+      if(currentRequestId !== requestId.current) {
+        return;
+      }
       setItems(items);
       setLoadedColumns(columns.map(({ id }) => id));
       setLoading(false);

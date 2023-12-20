@@ -1,3 +1,13 @@
+.title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+
+  font-family: var(--font-bitter);
+  color: var(--color-rarity);
+}
+
 .row + .row {
   margin-top: 8px;
 }

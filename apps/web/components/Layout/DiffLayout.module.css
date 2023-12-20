@@ -21,9 +21,7 @@
   padding: 8px 16px;
   flex: 1;
   max-width: 50%;
-
-  box-shadow: var(--shadow);
-  clip-path: inset(0px 0 0px -8px);
+  border-left: 1px solid var(--color-border-transparent);
 }
 
 .added .left { background-color: var(--color-diff-removed-light); }
@@ -78,4 +76,6 @@
   .removed .left { display: block; }
   .removed .right { display: none; }
   .changed .left { display: block; }
+  .left, .right { max-width: initial; }
+  .right { border-left: none; }
 }

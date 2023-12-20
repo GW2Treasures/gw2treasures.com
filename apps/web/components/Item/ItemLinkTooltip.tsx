@@ -30,13 +30,16 @@ export const ItemLinkTooltip: FC<ItemLinkTooltipProps> = ({ item, language, revi
 
   return (
     <div className={rarityStyles[item.rarity]}>
-      <div className={cx(styles.title)}>
-        {item.icon && (<EntityIcon icon={item.icon} size={32}/>)}
-        {localizedName(item, language)}
-      </div>
-
       <ErrorBoundary fallback={<span>Error</span>}>
-        {tooltip.loading && <div className={styles.loading}><Skeleton/><br/><Skeleton width={120}/></div>}
+        {tooltip.loading && (
+          <>
+            <div className={cx(styles.title)}>
+              {item.icon && (<EntityIcon icon={item.icon} size={32}/>)}
+              {localizedName(item, language)}
+            </div>
+            <div className={styles.loading}><Skeleton/><br/><Skeleton width={120}/></div>
+          </>
+        )}
         {!tooltip.loading && <ClientItemTooltip tooltip={tooltip.data}/>}
       </ErrorBoundary>
     </div>

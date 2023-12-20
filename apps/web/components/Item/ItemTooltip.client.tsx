@@ -98,7 +98,27 @@ function renderConsumable(consumable: ItemTooltip['consumable']) {
 }
 
 export const ClientItemTooltip: FC<ClientItemTooltipProps> = ({ tooltip, hideTitle = false }) => {
-  const data: ReactNode[] = [
+  const data = renderItemTooltipRows(tooltip);
+
+  return (
+    <div>
+      {!hideTitle && (
+        <div className={styles.title}>
+          {tooltip.icon && (<EntityIcon icon={tooltip.icon} size={32}/>)}
+          {tooltip.name}
+        </div>
+      )}
+
+      {data.filter(isTruthy).map((content, index) => {
+        // eslint-disable-next-line react/no-array-index-key
+        return <div className={styles.row} key={index}>{content}</div>;
+      })}
+    </div>
+  );
+};
+
+export function renderItemTooltipRows(tooltip: ItemTooltip): ReactNode[] {
+  return [
     tooltip.weaponStrength && (<>{tooltip.weaponStrength.label}: <FormatNumber value={tooltip.weaponStrength.min} className={styles.value}/> – <FormatNumber value={tooltip.weaponStrength.max} className={styles.value}/></>),
     tooltip.defense && <>{tooltip.defense.label}: <FormatNumber value={tooltip.defense.value} className={styles.value}/></>,
     renderAttributes(tooltip.attributes),
@@ -155,20 +175,4 @@ export const ClientItemTooltip: FC<ClientItemTooltipProps> = ({ tooltip, hideTit
     ...tooltip.flags,
     tooltip.value && (<Coins value={tooltip.value}/>),
   ];
-
-  return (
-    <div>
-      {!hideTitle && (
-        <div className={styles.title}>
-          {tooltip.icon && (<EntityIcon icon={tooltip.icon} size={32}/>)}
-          {tooltip.name}
-        </div>
-      )}
-
-      {data.filter(isTruthy).map((content, index) => {
-        // eslint-disable-next-line react/no-array-index-key
-        return <div className={styles.row} key={index}>{content}</div>;
-      })}
-    </div>
-  );
-};
+}

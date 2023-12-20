@@ -40,6 +40,7 @@ import { ContentChanceColumn, ContentQuantityColumn, ItemContentQuantityColumn }
 import type { TODO } from '@/lib/todo';
 import { pageView } from '@/lib/pageView';
 import { GuildUpgradeLink } from '@/components/GuildUpgrade/GuildUpgradeLink';
+import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { parseIcon } from '@/lib/parseIcon';
 
 export interface ItemPageComponentProps {
@@ -270,7 +271,14 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
                 </Tooltip>
               </td>
               <td><FormatDate date={history.revision.createdAt} relative/></td>
-              <td>{history.revisionId !== revision.id && <Link href={`/item/${item.id}/${history.revisionId}`}>View</Link>}</td>
+              <td>
+                {history.revisionId !== revision.id && (
+                  <FlexRow>
+                    <Link href={`/item/${item.id}/${history.revisionId}`}>View</Link> ·
+                    <Link href={`/item/diff/${history.revisionId}/${revision.id}`}>Compare</Link>
+                  </FlexRow>
+                )}
+              </td>
             </tr>
           ))}
         </tbody>

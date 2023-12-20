@@ -26,3 +26,19 @@
 .noRarity {
   --color-rarity: initial;
 }
+
+.missingIcon {
+  display: inline-block;
+  width: var(--icon-size);
+  height: var(--icon-size);
+  background-color: var(--color-background-light);
+  border-radius: 2px;
+  color: var(--color-text-muted);
+  text-align: center;
+  line-height: var(--icon-size);
+}
+
+.missingIcon::before {
+  content: '?';
+  opacity: .5;
+}

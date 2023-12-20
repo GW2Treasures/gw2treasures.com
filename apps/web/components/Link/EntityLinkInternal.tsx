@@ -30,7 +30,7 @@ export const EntityLinkInternal = forwardRef<HTMLAnchorElement, EntityLinkProps>
       {...props}
     >
       <>
-        {icon !== 'none' && entity.icon && (typeof icon === 'number' ? <EntityIcon icon={entity.icon} size={icon} type={iconType}/> : icon)}
+        {icon !== 'none' && (entity.icon ? (typeof icon === 'number' ? <EntityIcon icon={entity.icon} size={icon} type={iconType}/> : icon) : <span className={styles.missingIcon} style={{ '--icon-size': `${icon}px` }}/>)}
         <span className={styles.name}>{localizedName(entity, language ?? defaultLanguage)}</span>
       </>
     </NextLink>

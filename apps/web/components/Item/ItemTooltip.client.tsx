@@ -119,8 +119,8 @@ export const ClientItemTooltip: FC<ClientItemTooltipProps> = ({ tooltip, hideTit
 
 export function renderItemTooltipRows(tooltip: ItemTooltip): ReactNode[] {
   return [
-    tooltip.weaponStrength && (<>{tooltip.weaponStrength.label}: <FormatNumber value={tooltip.weaponStrength.min} className={styles.value}/> – <FormatNumber value={tooltip.weaponStrength.max} className={styles.value}/></>),
-    tooltip.defense && <>{tooltip.defense.label}: <FormatNumber value={tooltip.defense.value} className={styles.value}/></>,
+    renderWeaponStrength(tooltip),
+    renderDefense(tooltip),
     renderAttributes(tooltip.attributes),
     tooltip.buff && (<p className={styles.buff} dangerouslySetInnerHTML={{ __html: tooltip.buff }}/>),
     renderConsumable(tooltip.consumable),
@@ -175,4 +175,26 @@ export function renderItemTooltipRows(tooltip: ItemTooltip): ReactNode[] {
     ...tooltip.flags,
     tooltip.value && (<Coins value={tooltip.value}/>),
   ];
+}
+
+export function renderWeaponStrength({ weaponStrength }: ItemTooltip) {
+  if(!weaponStrength) {
+    return;
+  }
+
+  return (
+    <>
+      {weaponStrength.label}: <FormatNumber value={weaponStrength.min} className={styles.value}/> – <FormatNumber value={weaponStrength.max} className={styles.value}/>
+    </>
+  );
+}
+
+export function renderDefense({ defense }: ItemTooltip) {
+  if(!defense) {
+    return;
+  }
+
+  return (
+    <>{defense.label}: <FormatNumber value={defense.value} className={styles.value}/></>
+  );
 }

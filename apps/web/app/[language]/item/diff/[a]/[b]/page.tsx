@@ -11,7 +11,7 @@ import { notFound } from 'next/navigation';
 import { Fragment } from 'react';
 import { db } from '@/lib/prisma';
 import { remember } from '@/lib/remember';
-import { ClientItemTooltip } from '@/components/Item/ItemTooltip.client';
+import { ClientItemTooltip, renderDefense, renderWeaponStrength } from '@/components/Item/ItemTooltip.client';
 import { createTooltip } from '@/components/Item/ItemTooltip';
 import type { Language } from '@gw2treasures/database';
 
@@ -67,6 +67,9 @@ export default async function ItemDiffPage({ params }: { params: { a: string, b:
           <Notice>You are comparing an old version against a newer version. <Link href={`/item/diff/${b.id}/${a.id}`}>Switch around</Link></Notice>
         </div>
       )}
+
+      <DiffLayoutRow left={renderWeaponStrength(tooltipA)} right={renderWeaponStrength(tooltipB)} changed={tooltipA.weaponStrength?.min !== tooltipB.weaponStrength?.min || tooltipA.weaponStrength?.max !== tooltipB.weaponStrength?.max}/>
+      <DiffLayoutRow left={renderDefense(tooltipA)} right={renderDefense(tooltipB)} changed={tooltipA.defense !== tooltipB.defense}/>
 
       <DiffLayoutRow left={<ClientItemTooltip tooltip={tooltipA} hideTitle/>} right={<ClientItemTooltip tooltip={tooltipB} hideTitle/>}/>
 

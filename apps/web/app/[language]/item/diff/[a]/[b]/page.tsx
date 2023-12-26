@@ -11,7 +11,7 @@ import { notFound } from 'next/navigation';
 import { Fragment } from 'react';
 import { db } from '@/lib/prisma';
 import { remember } from '@/lib/remember';
-import { ClientItemTooltip, renderDefense, renderWeaponStrength } from '@/components/Item/ItemTooltip.client';
+import { renderDefense, renderWeaponStrength } from '@/components/Item/ItemTooltip.client';
 import { createTooltip } from '@/components/Item/ItemTooltip';
 import type { Language } from '@gw2treasures/database';
 
@@ -71,7 +71,16 @@ export default async function ItemDiffPage({ params }: { params: { a: string, b:
       <DiffLayoutRow left={renderWeaponStrength(tooltipA)} right={renderWeaponStrength(tooltipB)} changed={tooltipA.weaponStrength?.min !== tooltipB.weaponStrength?.min || tooltipA.weaponStrength?.max !== tooltipB.weaponStrength?.max}/>
       <DiffLayoutRow left={renderDefense(tooltipA)} right={renderDefense(tooltipB)} changed={tooltipA.defense !== tooltipB.defense}/>
 
-      <DiffLayoutRow left={<ClientItemTooltip tooltip={tooltipA} hideTitle/>} right={<ClientItemTooltip tooltip={tooltipB} hideTitle/>}/>
+      {(tooltipA.attributes || tooltipB.attributes) && (
+        [...Array(Math.max(tooltipA.attributes?.length ?? 0, tooltipB.attributes?.length ?? 0)).keys()].map((_, i) => (
+          <DiffLayoutRow key={i}
+            left={tooltipA.attributes?.[i] && `+${tooltipA.attributes[i].value} ${tooltipA.attributes[i].label}`}
+            right={tooltipB.attributes?.[i] && `+${tooltipB.attributes[i].value} ${tooltipB.attributes[i].label}`}
+            changed={tooltipA.attributes?.[i].value !== tooltipB.attributes?.[i].value || tooltipA.attributes?.[i].label !== tooltipB.attributes?.[i].label}/>
+        ))
+      )}
+
+      {/* <DiffLayoutRow left={<ClientItemTooltip tooltip={tooltipA} hideTitle/>} right={<ClientItemTooltip tooltip={tooltipB} hideTitle/>}/> */}
 
       <DiffLayoutRow left={<Separator/>} right={<Separator/>}/>
       <DiffLayoutRow left={<Json data={dataA} borderless/>} right={<Json data={dataB} borderless/>} changed/>

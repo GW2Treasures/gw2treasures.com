@@ -17,7 +17,7 @@ export interface ClientItemTooltipProps {
   hideTitle?: boolean;
 };
 
-function renderAttributes(attributes: ItemTooltip['attributes']) {
+export function renderAttributes(attributes: ItemTooltip['attributes']) {
   if(!attributes) {
     return;
   }

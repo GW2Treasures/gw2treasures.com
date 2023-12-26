@@ -45,6 +45,10 @@ interface DiffLayoutRowProps {
 };
 
 export const DiffLayoutRow: FC<DiffLayoutRowProps> = ({ left, right, changed = false }) => {
+  if(!left && !right) {
+    return null;
+  }
+
   return (
     <div className={cx(styles.diffRow, !left && styles.added, !right && styles.removed, left && right && changed && styles.changed)}>
       <div className={styles.left}>{left}</div>

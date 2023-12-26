@@ -16,13 +16,14 @@ import type { RGB } from '../Color/types';
 export interface ItemTooltipProps {
   item: Gw2Api.Item;
   language: Language;
+  hideTitle?: boolean;
 }
 
-export const ItemTooltip: AsyncComponent<ItemTooltipProps> = async ({ item, language }) => {
+export const ItemTooltip: AsyncComponent<ItemTooltipProps> = async ({ item, language, hideTitle }) => {
   const tooltip = await createTooltip(item, language);
 
   return (
-    <ClientItemTooltip tooltip={tooltip}/>
+    <ClientItemTooltip tooltip={tooltip} hideTitle={hideTitle}/>
   );
 };
 
@@ -65,8 +66,12 @@ export async function createTooltip(item: Gw2Api.Item, language: Language): Prom
     ? await db.color.findUnique({ where: { id: item.details.color_id }})
     : null;
 
+  const icon = parseIcon(item.icon);
+
   return {
     language,
+    name: item.name,
+    icon,
     weaponStrength: item.type === 'Weapon' ? { label: 'Strength', min: item.details?.min_power ?? 0, max: item.details?.max_power ?? 0 } : undefined,
     defense: item.type === 'Armor' ? { label: 'Defense', value: item.details?.defense ?? 0 } : undefined,
     attributes: item.details?.infix_upgrade?.attributes && item.details.infix_upgrade.attributes.length > 0 ? item.details.infix_upgrade.attributes.map((({ attribute, modifier }) => ({ label: t(`attribute.${attribute}`), value: modifier }))) : undefined,
@@ -121,6 +126,8 @@ export type ItemWithAttributes = WithIcon<LocalizedEntity> & {
 
 export interface ItemTooltip {
   language: Language,
+  name: string,
+  icon?: { id: number, signature: string },
   weaponStrength?: { label: string, min: number, max: number },
   defense?: { label: string, value: number },
   attributes?: { label: string, value: number }[],

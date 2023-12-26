@@ -40,6 +40,8 @@ import { ContentChanceColumn, ContentQuantityColumn, ItemContentQuantityColumn }
 import type { TODO } from '@/lib/todo';
 import { pageView } from '@/lib/pageView';
 import { GuildUpgradeLink } from '@/components/GuildUpgrade/GuildUpgradeLink';
+import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
+import { parseIcon } from '@/lib/parseIcon';
 
 export interface ItemPageComponentProps {
   language: Language;
@@ -74,10 +76,12 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
 
   const compareByName = compareLocalizedName(language);
 
+  const icon = parseIcon(data.icon);
+
   return (
     <DetailLayout
       title={data.name || data.chat_link}
-      icon={item.icon}
+      icon={icon?.id === item.icon?.id ? item.icon : (icon ? { ...icon, color: null } : null)}
       className={rarityClasses[data.rarity]}
       breadcrumb={`Item › ${data.type}${data.details ? ` › ${data.details?.type}` : ''}`}
       infobox={<ItemInfobox item={item} data={data} language={language}/>}
@@ -94,7 +98,7 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
       )}
 
       <TableOfContentAnchor id="tooltip">Tooltip</TableOfContentAnchor>
-      <ItemTooltip item={data} language={language}/>
+      <ItemTooltip item={data} language={language} hideTitle/>
 
       {item.unlocksSkinIds.length > 0 && (
         <>
@@ -267,7 +271,14 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
                 </Tooltip>
               </td>
               <td><FormatDate date={history.revision.createdAt} relative/></td>
-              <td>{history.revisionId !== revision.id && <Link href={`/item/${item.id}/${history.revisionId}`}>View</Link>}</td>
+              <td>
+                {history.revisionId !== revision.id && (
+                  <FlexRow>
+                    <Link href={`/item/${item.id}/${history.revisionId}`}>View</Link> ·
+                    <Link href={`/item/diff/${history.revisionId}/${revision.id}`}>Compare</Link>
+                  </FlexRow>
+                )}
+              </td>
             </tr>
           ))}
         </tbody>

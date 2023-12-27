@@ -99,6 +99,18 @@ model Item {
   version Int @default(0)
 }
 
+model TradingPostHistory {
+  itemId Int
+  time   DateTime @default(now())
+
+  buyQuantity   Int?
+  buyPrice      Int?
+  sellQuantity  Int?
+  sellPrice     Int?
+  
+  @@unique([itemId,  time])
+}
+
 model Icon {
   id Int @id
   signature String

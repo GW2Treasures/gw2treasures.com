@@ -3,7 +3,7 @@ import { fetchApi } from '../helper/fetchApi';
 import { Job } from '../job';
 import { toId } from '../helper/toId';
 import { Gw2Api } from 'gw2-api-types';
-import { PrismaPromise } from '@gw2treasures/database';
+import { Prisma, PrismaPromise } from '@gw2treasures/database';
 
 export const TpJob: Job = {
   async run() {
@@ -18,23 +18,33 @@ export const TpJob: Job = {
     const prices = await fetchApi<Gw2Api.Commerce.Price[]>(`/v2/commerce/prices?ids=${itemIds.map(toId).join(',')}`);
 
     const updates: PrismaPromise<unknown>[] = [];
+    const history: Prisma.TradingPostHistoryCreateInput[] = [];
 
     for(const price of prices) {
+      const data = {
+        buyQuantity: price.buys?.quantity,
+        buyPrice: price.buys?.unit_price,
+        sellQuantity: price.sells?.quantity,
+        sellPrice: price.sells?.unit_price,
+      };
+
       const update = db.item.updateMany({
         where: { id: price.id },
         data: {
           tpTradeable: true,
           tpWhitelisted: price.whitelisted,
-          buyQuantity: price.buys?.quantity,
-          buyPrice: price.buys?.unit_price,
-          sellQuantity: price.sells?.quantity,
-          sellPrice: price.sells?.unit_price,
+          ...data,
           tpCheckedAt,
         }
       });
 
       updates.push(update);
+      history.push({ itemId: price.id, ...data });
     }
+
+    updates.push(db.tradingPostHistory.createMany({
+      data: history
+    }));
 
     await db.$transaction(updates);
 

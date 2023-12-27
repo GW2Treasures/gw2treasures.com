@@ -33,6 +33,7 @@ export async function generateMetadata({ params: { language, id }}: ItemPageProp
     title: data.name || id,
     openGraph: {
       images: icon ? [{ url: getIconUrl(icon, 64), width: 64, height: 64, type: 'image/png' }] : []
-    }
+    },
+    twitter: { card: 'summary' }
   };
 };

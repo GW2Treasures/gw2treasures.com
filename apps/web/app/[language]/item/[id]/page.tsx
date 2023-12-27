@@ -3,6 +3,8 @@ import { ItemPageComponent } from './component';
 import type { Metadata } from 'next';
 import { getRevision } from './data';
 import { notFound } from 'next/navigation';
+import { getIconUrl } from '@/lib/getIconUrl';
+import { parseIcon } from '@/lib/parseIcon';
 
 export interface ItemPageProps {
   params: {
@@ -25,7 +27,12 @@ export async function generateMetadata({ params: { language, id }}: ItemPageProp
     notFound();
   }
 
+  const icon = parseIcon(data.icon);
+
   return {
-    title: data.name || id
+    title: data.name || id,
+    openGraph: {
+      images: icon ? [{ url: getIconUrl(icon, 64), width: 64, height: 64, type: 'image/png' }] : []
+    }
   };
 };

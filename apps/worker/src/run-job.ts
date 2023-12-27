@@ -5,9 +5,11 @@ import { db } from './db';
 import { jobs } from './jobs';
 
 export async function runJob(job: Job) {
+  const startedAt = new Date();
+
   // update job in db to state 'Running'
   // add the current job state as where condition, so we can detect if a different worker has already claimed this job
-  const q = await db.job.updateMany({ data: { state: 'Running', startedAt: new Date() }, where: { id: job.id, state: job.state }});
+  const q = await db.job.updateMany({ data: { state: 'Running', startedAt }, where: { id: job.id, state: job.state }});
 
   // if nothing was updated, the job is already claimed
   if(q.count === 0) {
@@ -15,7 +17,7 @@ export async function runJob(job: Job) {
     return;
   }
 
-  console.log(`Running ${chalk.blue(job.type)} (${chalk.gray(job.id)})`);
+  console.log(`Running ${chalk.blue(job.type)} ${chalk.gray(`(${job.id})`)}`);
 
   try {
     // get runner
@@ -29,14 +31,20 @@ export async function runJob(job: Job) {
     // run the job
     const output = await runner.run(job.data as object ?? undefined);
 
+    // store finish timestamp
+    const finishedAt = new Date();
+
     // update job in db
     await db.job.update({
       where: { id: job.id },
-      data: { state: 'Success', finishedAt: new Date(), output: output ?? '' }
+      data: { state: 'Success', finishedAt, output: output ?? '' }
     });
 
-    console.log(`${chalk.green('>')} ${output ?? 'Done.'}`);
+    // calculate runtime
+    const runtime = finishedAt.valueOf() - startedAt.valueOf();
 
+    // print out output and runtime
+    console.log(`${chalk.green('>')} ${output ?? 'Done.'} ${chalk.gray(`(${runtime} ms)`)}`);
   } catch(error) {
     console.error(chalk.red('>'), error);
 

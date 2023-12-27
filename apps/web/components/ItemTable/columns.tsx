@@ -5,6 +5,11 @@ import { ItemLink } from '../Item/ItemLink';
 import { Rarity } from '../Item/Rarity';
 import { Coins } from '../Format/Coins';
 import type { ColumnModelTypes, ExtraColumn, GlobalColumnId, ItemTableColumn, QueryModel, Result } from './types';
+import { FormatNumber } from '../Format/FormatNumber';
+import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
+import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
+import { Icon } from '@gw2treasures/ui';
+import { FormatDate } from '../Format/FormatDate';
 
 // typehelper
 function createColumn<Select extends Prisma.ItemSelect>(column: ItemTableColumn<Select>) {
@@ -83,6 +88,34 @@ export const globalColumnDefinitions = {
     align: 'right',
     orderBy: [{ value: 'asc' }, { value: 'desc' }]
   }),
+  buyPrice: createColumn({
+    id: 'buyPrice',
+    order: 120,
+    select: { buyPrice: true, tpCheckedAt: true },
+    align: 'right',
+    orderBy: [{ buyPrice: 'asc' }, { buyPrice: 'desc' }]
+  }),
+  buyQuantity: createColumn({
+    id: 'buyQuantity',
+    order: 130,
+    select: { buyQuantity: true },
+    align: 'right',
+    orderBy: [{ buyQuantity: 'asc' }, { buyQuantity: 'desc' }]
+  }),
+  sellPrice: createColumn({
+    id: 'sellPrice',
+    order: 140,
+    select: { sellPrice: true, tpCheckedAt: true },
+    align: 'right',
+    orderBy: [{ sellPrice: 'asc' }, { sellPrice: 'desc' }]
+  }),
+  sellQuantity: createColumn({
+    id: 'sellQuantity',
+    order: 150,
+    select: { sellQuantity: true },
+    align: 'right',
+    orderBy: [{ sellQuantity: 'asc' }, { sellQuantity: 'desc' }]
+  }),
 };
 
 type Renderer = {
@@ -101,4 +134,29 @@ export const globalColumnRenderer: Renderer = {
   rarity: (item) => <Rarity rarity={item.rarity}/>,
   type: (item) => <>{item.type} {item.subtype && `(${item.subtype})`}</>,
   vendorValue: (item) => <Coins value={item.value}/>,
+  buyPrice: (item) => renderPriceWithOptionalWarning(item.tpCheckedAt, item.buyPrice),
+  buyQuantity: (item) => <FormatNumber value={item.buyQuantity}/>,
+  sellPrice: (item) => renderPriceWithOptionalWarning(item.tpCheckedAt, item.sellPrice),
+  sellQuantity: (item) => <FormatNumber value={item.sellQuantity}/>,
 };
+
+function renderPriceWithOptionalWarning(date: Date | string | null, price: number | null): ReactNode {
+  if(price === null) {
+    return '-';
+  }
+
+  const lastCheckedAt = date ? new Date(date) : undefined;
+  const now = new Date();
+
+  // if we don't have a timestamp or the timestamp is more than 12 hours ago show a warning
+  if(!lastCheckedAt || (now.valueOf() - lastCheckedAt.valueOf()) > 1000 * 60 * 60 * 12) {
+    return (
+      <FlexRow align="right">
+        <Tip tip={<>Last Updated: <FormatDate date={lastCheckedAt}/></>}><Icon icon="warning" color="var(--color-text-muted)"/></Tip>
+        <Coins value={price}/>
+      </FlexRow>
+    );
+  }
+
+  return <Coins value={price}/>;
+}

@@ -26,6 +26,15 @@ model Item {
   value   Int     @default(0)
   level   Int     @default(0)
 
+  // tp
+  tpTradeable   Boolean @default(false)
+  tpWhitelisted Boolean @default(false)
+  buyQuantity   Int?
+  buyPrice      Int?
+  sellQuantity  Int?
+  sellPrice     Int?
+  tpCheckedAt   DateTime?
+
   // skins
   unlocksSkin    Skin[]
   unlocksSkinIds Int[]
@@ -88,6 +97,18 @@ model Item {
   updatedAt      DateTime   @updatedAt
 
   version Int @default(0)
+}
+
+model TradingPostHistory {
+  itemId Int
+  time   DateTime @default(now())
+
+  buyQuantity   Int?
+  buyPrice      Int?
+  sellQuantity  Int?
+  sellPrice     Int?
+  
+  @@unique([itemId,  time])
 }
 
 model Icon {

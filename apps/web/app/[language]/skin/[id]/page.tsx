@@ -86,7 +86,7 @@ async function SkinPage ({ params: { language, id }}: SkinPageProps) {
 
       <ItemTableContext id="unlocksSkin">
         <Headline id="items" actions={<ItemTableColumnsButton/>}>Unlocked by</Headline>
-        <ItemTable query={{ where: { unlocksSkin: { some: { id: skinId }}}}} collapsed/>
+        <ItemTable query={{ where: { unlocksSkin: { some: { id: skinId }}}}} collapsed defaultColumns={['item', 'level', 'rarity', 'type', 'vendorValue', 'sellPrice']}/>
       </ItemTableContext>
 
       {skin.wikiImage && (

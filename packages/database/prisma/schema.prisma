@@ -26,6 +26,14 @@ model Item {
   value   Int     @default(0)
   level   Int     @default(0)
 
+  // tp
+  tpTradeable   Boolean @default(false)
+  tpWhitelisted Boolean @default(false)
+  buyQuantity   Int?
+  buyPrice      Int?
+  sellQuantity  Int?
+  sellPrice     Int?
+
   // skins
   unlocksSkin    Skin[]
   unlocksSkinIds Int[]

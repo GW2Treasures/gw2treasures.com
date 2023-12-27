@@ -3,7 +3,7 @@ import type { FC } from 'react';
 import { db } from '@/lib/prisma';
 import type { Signed } from './query';
 
-export type GlobalColumnId = 'id' | 'item' | 'icon' | 'name_de' | 'name_en' | 'name_es' | 'name_fr' | 'level' | 'rarity' | 'type' | 'vendorValue';
+export type GlobalColumnId = 'id' | 'item' | 'icon' | 'name_de' | 'name_en' | 'name_es' | 'name_fr' | 'level' | 'rarity' | 'type' | 'vendorValue' | 'buyPrice' | 'buyQuantity' | 'sellPrice' | 'sellQuantity';
 
 export interface ItemTableQuery<Model extends QueryModel = 'item'> {
   model?: Model;

@@ -5,6 +5,7 @@ import { ItemLink } from '../Item/ItemLink';
 import { Rarity } from '../Item/Rarity';
 import { Coins } from '../Format/Coins';
 import type { ColumnModelTypes, ExtraColumn, GlobalColumnId, ItemTableColumn, QueryModel, Result } from './types';
+import { FormatNumber } from '../Format/FormatNumber';
 
 // typehelper
 function createColumn<Select extends Prisma.ItemSelect>(column: ItemTableColumn<Select>) {
@@ -83,6 +84,34 @@ export const globalColumnDefinitions = {
     align: 'right',
     orderBy: [{ value: 'asc' }, { value: 'desc' }]
   }),
+  buyPrice: createColumn({
+    id: 'buyPrice',
+    order: 120,
+    select: { buyPrice: true },
+    align: 'right',
+    orderBy: [{ buyPrice: 'asc' }, { buyPrice: 'desc' }]
+  }),
+  buyQuantity: createColumn({
+    id: 'buyQuantity',
+    order: 130,
+    select: { buyQuantity: true },
+    align: 'right',
+    orderBy: [{ buyQuantity: 'asc' }, { buyQuantity: 'desc' }]
+  }),
+  sellPrice: createColumn({
+    id: 'sellPrice',
+    order: 140,
+    select: { sellPrice: true },
+    align: 'right',
+    orderBy: [{ sellPrice: 'asc' }, { sellPrice: 'desc' }]
+  }),
+  sellQuantity: createColumn({
+    id: 'sellQuantity',
+    order: 150,
+    select: { sellQuantity: true },
+    align: 'right',
+    orderBy: [{ sellQuantity: 'asc' }, { sellQuantity: 'desc' }]
+  }),
 };
 
 type Renderer = {
@@ -101,4 +130,8 @@ export const globalColumnRenderer: Renderer = {
   rarity: (item) => <Rarity rarity={item.rarity}/>,
   type: (item) => <>{item.type} {item.subtype && `(${item.subtype})`}</>,
   vendorValue: (item) => <Coins value={item.value}/>,
+  buyPrice: (item) => item.buyPrice ? <Coins value={item.buyPrice}/> : '-',
+  buyQuantity: (item) => <FormatNumber value={item.buyQuantity}/>,
+  sellPrice: (item) => item.sellPrice ? <Coins value={item.sellPrice}/> : '-',
+  sellQuantity: (item) => <FormatNumber value={item.sellQuantity}/>,
 };

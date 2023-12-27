@@ -33,6 +33,7 @@ model Item {
   buyPrice      Int?
   sellQuantity  Int?
   sellPrice     Int?
+  tpCheckedAt   DateTime?
 
   // skins
   unlocksSkin    Skin[]

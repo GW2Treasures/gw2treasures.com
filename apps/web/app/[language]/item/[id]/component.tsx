@@ -118,7 +118,7 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
       {item._count.suffixIn > 0 && (
         <ItemTableContext id="suffixIn">
           <Headline id="upgrade" actions={<ItemTableColumnsButton/>}>Upgrade in</Headline>
-          <ItemTable query={{ where: { suffixItems: { some: { id: item.id }}}}}/>
+          <ItemTable query={{ where: { suffixItems: { some: { id: item.id }}}}} defaultColumns={['item', 'level', 'rarity', 'type', 'vendorValue', 'sellPrice']}/>
         </ItemTableContext>
       )}
 
@@ -181,7 +181,7 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
               extraColumn<'content'>({ id: 'quantity', select: { quantity: true }, title: 'Quantity', component: ContentQuantityColumn as TODO, order: 71, align: 'right', small: true, orderBy: [{ quantity: 'asc' }, { quantity: 'desc' }] }),
               extraColumn<'content'>({ id: 'chance', select: { chance: true }, title: 'Chance', component: ContentChanceColumn as TODO, order: 72, orderBy: [{ chance: 'asc' }, { chance: 'desc' }] })
             ]}
-            defaultColumns={['item', 'quantity', 'chance', 'level', 'rarity', 'type', 'vendorValue']}/>
+            defaultColumns={['item', 'quantity', 'chance', 'level', 'rarity', 'type', 'vendorValue', 'sellPrice']}/>
         </ItemTableContext>
       )}
 
@@ -233,7 +233,7 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
                 extraColumn<'content'>({ id: 'quantity', select: { quantity: true }, title: 'Quantity', component: ContentQuantityColumn as TODO, order: 71, small: true, orderBy: [{ quantity: 'asc' }, { quantity: 'desc' }] }),
                 extraColumn<'content'>({ id: 'chance', select: { chance: true }, title: 'Chance', component: ContentChanceColumn as TODO, order: 72, orderBy: [{ chance: 'asc' }, { chance: 'desc' }] })
               ]}
-              defaultColumns={['item', 'chance', 'level', 'rarity', 'type', 'vendorValue']}/>
+              defaultColumns={['item', 'chance', 'level', 'rarity', 'type', 'vendorValue', 'sellPrice']}/>
           )}
 
           {item._count.contains === 0 && item.containsCurrency.length === 0 && (

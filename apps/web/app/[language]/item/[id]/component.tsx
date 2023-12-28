@@ -40,6 +40,7 @@ import { ContentChanceColumn, ContentQuantityColumn, ItemContentQuantityColumn }
 import type { TODO } from '@/lib/todo';
 import { pageView } from '@/lib/pageView';
 import { GuildUpgradeLink } from '@/components/GuildUpgrade/GuildUpgradeLink';
+import { TradingPostHistory } from './trading-post-history';
 
 export interface ItemPageComponentProps {
   language: Language;
@@ -95,6 +96,8 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
 
       <TableOfContentAnchor id="tooltip">Tooltip</TableOfContentAnchor>
       <ItemTooltip item={data} language={language}/>
+
+      <TradingPostHistory itemId={item.id}/>
 
       {item.unlocksSkinIds.length > 0 && (
         <>

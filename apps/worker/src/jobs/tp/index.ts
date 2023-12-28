@@ -14,7 +14,7 @@ export const TpJob: Job = {
     // TODO: handle when items are removed from the commerce APIs
     const itemIds = await db.item.findMany({
       where: { id: { in: priceIds }},
-      orderBy: { tpCheckedAt: 'desc' },
+      orderBy: { tpCheckedAt: 'asc' },
       take: 200,
     });
 

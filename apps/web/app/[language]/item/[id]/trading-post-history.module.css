@@ -27,3 +27,50 @@
   margin-left: auto;
   font-feature-settings: "tnum" 1;
 }
+
+.toggle {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+  padding: 8px 16px 8px 32px;
+  border-radius: 2px;
+  transition: box-shadow .3s ease, background-color .1s ease;
+}
+
+.toggleUnchecked {
+  composes: toggle;
+  color: var(--color-text-muted);
+}
+
+.toggle:hover {
+  cursor: pointer;
+  box-shadow: inset 0 0 0 1px var(--color-border-dark);
+  background-color: var(--color-background-light);
+}
+
+.toggle:focus-visible {
+  box-shadow: var(--shadow-focus);
+  outline: none;
+}
+
+.toggleBorder {
+  position: absolute;
+  left: 16px;
+  top: 8px;
+  width: 4px;
+  height: calc(100% - 16px);
+  border-radius: 2px;
+}
+
+.toggleCheckbox {
+  display: none;
+}
+
+.toggleLabel {
+
+}
+
+.toggleValue {
+  font-weight: 500;
+}

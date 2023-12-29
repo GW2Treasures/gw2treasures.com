@@ -15,7 +15,7 @@ import { Bar, Circle, Line, LinePath } from '@visx/shape';
 import { Threshold } from '@visx/threshold';
 import { Tooltip, TooltipWithBounds, useTooltip } from '@visx/tooltip';
 import { bisector, extent } from 'd3-array';
-import { useMemo, type FC, type MouseEvent, type TouchEvent, useState } from 'react';
+import { useMemo, type FC, type MouseEvent, type TouchEvent, useState, useId, type ReactNode, useRef, type KeyboardEventHandler, useCallback } from 'react';
 import tipStyles from '@gw2treasures/ui/components/Tip/Tip.module.css';
 import styles from './trading-post-history.module.css';
 
@@ -41,9 +41,16 @@ const colors = {
   buyQuantity: '#FF9800',
 };
 
+const labels = {
+  sellPrice: 'Sell Price',
+  buyPrice: 'Buy Price',
+  sellQuantity: 'Sell Listings',
+  buyQuantity: 'Buy Orders',
+};
+
 // size of chart
 const height = 420;
-const margin = { top: 20, bottom: 40, left: 80, right: 56 };
+const margin = { top: 20, bottom: 40, left: 80, right: 64 };
 
 export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientInternalProps> = ({ history, width }) => {
   const [xMax, yMax] = useMemo(() => [
@@ -118,23 +125,19 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
 
   return (
     <>
-      <div style={{ display: 'flex', gap: 32, marginBottom: 32 }}>
-        <div style={{ borderLeft: `4px solid ${visibility.sellPrice ? colors.sellPrice : 'var(--color-border-dark)'}`, paddingLeft: 8 }} onClick={() => setVisibility({ ...visibility, sellPrice: !visibility.sellPrice })}>
-          <div>Sell Price</div>
-          <div style={{ fontWeight: 500, marginTop: 8 }}>{current.sellPrice ? (<Coins value={current.sellPrice}/>) : <span>-</span>}</div>
-        </div>
-        <div style={{ borderLeft: `4px solid ${visibility.buyPrice ? colors.buyPrice : 'var(--color-border-dark)'}`, paddingLeft: 8 }} onClick={() => setVisibility({ ...visibility, buyPrice: !visibility.buyPrice })}>
-          <div>Buy Price</div>
-          <div style={{ fontWeight: 500, marginTop: 8 }}>{current.buyPrice ? (<Coins value={current.buyPrice}/>) : <span>-</span>}</div>
-        </div>
-        <div style={{ borderLeft: `4px dashed ${visibility.sellQuantity ? colors.sellQuantity : 'var(--color-border-dark)'}`, paddingLeft: 8 }} onClick={() => setVisibility({ ...visibility, sellQuantity: !visibility.sellQuantity })}>
-          <div>Sell Listings</div>
-          <div style={{ fontWeight: 500, marginTop: 8 }}><FormatNumber value={current.sellQuantity}/></div>
-        </div>
-        <div style={{ borderLeft: `4px dashed ${visibility.buyQuantity ? colors.buyQuantity : 'var(--color-border-dark)'}`, paddingLeft: 8 }} onClick={() => setVisibility({ ...visibility, buyQuantity: !visibility.buyQuantity })}>
-          <div>Buy Orders</div>
-          <div style={{ fontWeight: 500, marginTop: 8 }}><FormatNumber value={current.buyQuantity}/></div>
-        </div>
+      <div style={{ display: 'flex', marginBottom: 32 }}>
+        <ChartToggle checked={visibility.sellPrice} onChange={(sellPrice) => setVisibility({ ...visibility, sellPrice })} color={colors.sellPrice} label={labels.sellPrice}>
+          {current.sellPrice ? (<Coins value={current.sellPrice}/>) : <span>-</span>}
+        </ChartToggle>
+        <ChartToggle checked={visibility.buyPrice} onChange={(buyPrice) => setVisibility({ ...visibility, buyPrice })} color={colors.buyPrice} label={labels.buyPrice}>
+          {current.buyPrice ? (<Coins value={current.buyPrice}/>) : <span>-</span>}
+        </ChartToggle>
+        <ChartToggle checked={visibility.sellQuantity} onChange={(sellQuantity) => setVisibility({ ...visibility, sellQuantity })} color={colors.sellQuantity} dashed label={labels.sellQuantity}>
+          <FormatNumber value={current.sellQuantity}/>
+        </ChartToggle>
+        <ChartToggle checked={visibility.buyQuantity} onChange={(buyQuantity) => setVisibility({ ...visibility, buyQuantity })} color={colors.buyQuantity} dashed label={labels.buyQuantity}>
+          <FormatNumber value={current.buyQuantity}/>
+        </ChartToggle>
       </div>
 
       <div style={{ position: 'relative' }}>
@@ -253,25 +256,25 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
                 <div className={styles.tooltip}>
                   {visibility.sellPrice && (
                     <div className={styles.tooltipLine} style={{ '--_color': colors.sellPrice }}>
-                      <span className={styles.tooltipLineLabel}>Sell Price:</span>
+                      <span className={styles.tooltipLineLabel}>{labels.sellPrice}:</span>
                       <span className={styles.tooltipLineValue}>{tooltipData.sellPrice ? (<Coins value={tooltipData?.sellPrice ?? 0}/>) : '-'}</span>
                     </div>
                   )}
                   {visibility.buyPrice && (
                     <div className={styles.tooltipLine} style={{ '--_color': colors.buyPrice }}>
-                      <span className={styles.tooltipLineLabel}>Buy Price:</span>
+                      <span className={styles.tooltipLineLabel}>{labels.buyPrice}:</span>
                       <span className={styles.tooltipLineValue}>{tooltipData.buyPrice ? (<Coins value={tooltipData.buyPrice}/>) : '-'}</span>
                     </div>
                   )}
                   {visibility.sellQuantity && (
                     <div className={styles.tooltipLine} style={{ '--_color': colors.sellQuantity }}>
-                      <span className={styles.tooltipLineLabel}>Sell Listings:</span>
+                      <span className={styles.tooltipLineLabel}>{labels.sellQuantity}:</span>
                       <span className={styles.tooltipLineValue}><FormatNumber value={tooltipData?.sellQuantity ?? 0}/></span>
                     </div>
                   )}
                   {visibility.buyQuantity && (
                     <div className={styles.tooltipLine} style={{ '--_color': colors.buyQuantity }}>
-                      <span className={styles.tooltipLineLabel}>Buy Orders:</span>
+                      <span className={styles.tooltipLineLabel}>{labels.buyQuantity}:</span>
                       <span className={styles.tooltipLineValue}><FormatNumber value={tooltipData?.buyQuantity ?? 0}/></span>
                     </div>
                   )}
@@ -295,3 +298,34 @@ function renderGoldTick(props: TickRendererProps) {
     </svg>
   );
 }
+
+interface ChartToggleProps {
+  label: ReactNode;
+  children: ReactNode;
+  checked: boolean;
+  onChange: (checked: boolean) => void;
+  color: string;
+  dashed?: boolean;
+}
+
+const ChartToggle: FC<ChartToggleProps> = ({ label, children, checked, onChange, color, dashed }) => {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const id = useId();
+
+  const labelOnKeyDown: KeyboardEventHandler<HTMLLabelElement> = useCallback((e) => {
+    if(e.key === 'Enter' || e.key === ' ') {
+      inputRef.current?.click();
+      e.preventDefault();
+    }
+  }, []);
+
+
+  return (
+    <label className={checked ? styles.toggle : styles.toggleUnchecked} htmlFor={id} tabIndex={0} onKeyDown={labelOnKeyDown}>
+      <input className={styles.toggleCheckbox} type="checkbox" checked={checked} id={id} onChange={() => onChange(!checked)} ref={inputRef}/>
+      <svg className={styles.toggleBorder} viewBox="0 0 1 7" preserveAspectRatio="none"><path d="M0,0 L0,7" strokeWidth={4} stroke={checked ? color : 'var(--color-border-dark)'} strokeDasharray={dashed ? '1.2 0.8' : undefined}/></svg>
+      <div className={styles.toggleLabel}>{label}</div>
+      <div className={styles.toggleValue}>{children}</div>
+    </label>
+  );
+};

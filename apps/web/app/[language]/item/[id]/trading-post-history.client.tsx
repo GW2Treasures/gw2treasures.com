@@ -17,7 +17,7 @@ import { Tooltip, TooltipWithBounds, useTooltip } from '@visx/tooltip';
 import { bisector, extent } from 'd3-array';
 import { useMemo, type FC, type MouseEvent, type TouchEvent, useState } from 'react';
 import tipStyles from '@gw2treasures/ui/components/Tip/Tip.module.css';
-import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
+import styles from './trading-post-history.module.css';
 
 export interface TradingPostHistoryClientProps {
   history: TradingPostHistory[]
@@ -43,7 +43,7 @@ const colors = {
 
 // size of chart
 const height = 420;
-const margin = { top: 20, bottom: 40, left: 80, right: 80 };
+const margin = { top: 20, bottom: 40, left: 80, right: 56 };
 
 export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientInternalProps> = ({ history, width }) => {
   const [xMax, yMax] = useMemo(() => [
@@ -169,25 +169,29 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
                 strokeWidth={1}
                 pointerEvents="none"
                 strokeDasharray="4 2"/>
-              <Circle
-                cx={x(tooltipData) + margin.left}
-                cy={quantityScale(tooltipData.sellQuantity ?? 0) + margin.top}
-                r={4}
-                fill={colors.sellQuantity}
-                stroke="var(--color-background)"
-                strokeWidth={2}
-                style={{ filter: 'drop-shadow(0 0 4px rgba(0,0,0,0.12))' }}
-                pointerEvents="none"/>
-              <Circle
-                cx={x(tooltipData) + margin.left}
-                cy={quantityScale(tooltipData.buyQuantity ?? 0) + margin.top}
-                r={4}
-                fill={colors.buyQuantity}
-                stroke="var(--color-background)"
-                strokeWidth={2}
-                style={{ filter: 'drop-shadow(0 0 4px rgba(0,0,0,0.12))' }}
-                pointerEvents="none"/>
-              {tooltipData.sellPrice && (
+              {visibility.sellQuantity && (
+                <Circle
+                  cx={x(tooltipData) + margin.left}
+                  cy={quantityScale(tooltipData.sellQuantity ?? 0) + margin.top}
+                  r={4}
+                  fill={colors.sellQuantity}
+                  stroke="var(--color-background)"
+                  strokeWidth={2}
+                  style={{ filter: 'drop-shadow(0 0 4px rgba(0,0,0,0.12))' }}
+                  pointerEvents="none"/>
+              )}
+              {visibility.buyQuantity && (
+                <Circle
+                  cx={x(tooltipData) + margin.left}
+                  cy={quantityScale(tooltipData.buyQuantity ?? 0) + margin.top}
+                  r={4}
+                  fill={colors.buyQuantity}
+                  stroke="var(--color-background)"
+                  strokeWidth={2}
+                  style={{ filter: 'drop-shadow(0 0 4px rgba(0,0,0,0.12))' }}
+                  pointerEvents="none"/>
+              )}
+              {visibility.sellPrice && tooltipData.sellPrice && (
                 <Circle
                   cx={x(tooltipData) + margin.left}
                   cy={priceScale(tooltipData.sellPrice ?? 0) + margin.top}
@@ -198,7 +202,7 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
                   style={{ filter: 'drop-shadow(0 0 4px rgba(0,0,0,0.12))' }}
                   pointerEvents="none"/>
               )}
-              {tooltipData.buyPrice && (
+              {visibility.buyPrice && tooltipData.buyPrice && (
                 <Circle
                   cx={x(tooltipData) + margin.left}
                   cy={priceScale(tooltipData.buyPrice ?? 0) + margin.top}
@@ -236,20 +240,44 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
             >
               <FormatDate date={tooltipData?.time}/>
             </Tooltip>
-            <TooltipWithBounds
-              // set this to random so it correctly updates with parent bounds
-              key={Math.random()}
-              top={tooltipTop}
-              left={tooltipLeft}
-              className={tipStyles.tip}
-              unstyled
-              applyPositionStyle
-            >
-              <FlexRow align="space-between">Sell Price: {tooltipData.sellPrice ? (<Coins value={tooltipData?.sellPrice ?? 0}/>) : <span>-</span>}</FlexRow>
-              <FlexRow align="space-between">Buy Price: {tooltipData.buyPrice ? (<Coins value={tooltipData.buyPrice}/>) : <span>-</span>}</FlexRow>
-              <FlexRow align="space-between">Sell Listings: <FormatNumber value={tooltipData?.sellQuantity ?? 0}/></FlexRow>
-              <FlexRow align="space-between">Buy Orders: <FormatNumber value={tooltipData?.buyQuantity ?? 0}/></FlexRow>
-            </TooltipWithBounds>
+            {(visibility.sellPrice || visibility.buyPrice || visibility.sellQuantity || visibility.buyQuantity) && (
+              <TooltipWithBounds
+                // set this to random so it correctly updates with parent bounds
+                key={Math.random()}
+                top={tooltipTop}
+                left={tooltipLeft}
+                className={tipStyles.tip}
+                unstyled
+                applyPositionStyle
+              >
+                <div className={styles.tooltip}>
+                  {visibility.sellPrice && (
+                    <div className={styles.tooltipLine} style={{ '--_color': colors.sellPrice }}>
+                      <span className={styles.tooltipLineLabel}>Sell Price:</span>
+                      <span className={styles.tooltipLineValue}>{tooltipData.sellPrice ? (<Coins value={tooltipData?.sellPrice ?? 0}/>) : '-'}</span>
+                    </div>
+                  )}
+                  {visibility.buyPrice && (
+                    <div className={styles.tooltipLine} style={{ '--_color': colors.buyPrice }}>
+                      <span className={styles.tooltipLineLabel}>Buy Price:</span>
+                      <span className={styles.tooltipLineValue}>{tooltipData.buyPrice ? (<Coins value={tooltipData.buyPrice}/>) : '-'}</span>
+                    </div>
+                  )}
+                  {visibility.sellQuantity && (
+                    <div className={styles.tooltipLine} style={{ '--_color': colors.sellQuantity }}>
+                      <span className={styles.tooltipLineLabel}>Sell Listings:</span>
+                      <span className={styles.tooltipLineValue}><FormatNumber value={tooltipData?.sellQuantity ?? 0}/></span>
+                    </div>
+                  )}
+                  {visibility.buyQuantity && (
+                    <div className={styles.tooltipLine} style={{ '--_color': colors.buyQuantity }}>
+                      <span className={styles.tooltipLineLabel}>Buy Orders:</span>
+                      <span className={styles.tooltipLineValue}><FormatNumber value={tooltipData?.buyQuantity ?? 0}/></span>
+                    </div>
+                  )}
+                </div>
+              </TooltipWithBounds>
+            )}
           </>
         )}
       </div>

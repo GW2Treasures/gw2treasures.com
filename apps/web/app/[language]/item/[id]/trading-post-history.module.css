@@ -1,0 +1,29 @@
+.tooltip {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tooltipLine {
+  display: flex;
+  align-items: center;
+}
+
+.tooltipLine::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 4px;
+  background-color: var(--_color);
+  margin-right: 8px;
+}
+
+.tooltipLineLabel {
+  margin-right: 8px;
+}
+
+.tooltipLineValue {
+  margin-left: auto;
+  font-feature-settings: "tnum" 1;
+}

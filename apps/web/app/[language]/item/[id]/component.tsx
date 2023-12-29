@@ -40,6 +40,7 @@ import { ContentChanceColumn, ContentQuantityColumn, ItemContentQuantityColumn }
 import type { TODO } from '@/lib/todo';
 import { pageView } from '@/lib/pageView';
 import { GuildUpgradeLink } from '@/components/GuildUpgrade/GuildUpgradeLink';
+import { TradingPostHistory } from './trading-post-history';
 
 export interface ItemPageComponentProps {
   language: Language;
@@ -240,6 +241,10 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
             <p>The contents of this container are unknown. You can help by adding the contained items.</p>
           )}
         </ItemTableContext>
+      )}
+
+      {item.tpTradeable && !fixedRevision && (
+        <TradingPostHistory itemId={item.id}/>
       )}
 
       <Headline id="history">History</Headline>

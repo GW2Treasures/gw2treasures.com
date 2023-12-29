@@ -97,7 +97,9 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
       <TableOfContentAnchor id="tooltip">Tooltip</TableOfContentAnchor>
       <ItemTooltip item={data} language={language}/>
 
-      <TradingPostHistory itemId={item.id}/>
+      {item.tpTradeable && (
+        <TradingPostHistory itemId={item.id}/>
+      )}
 
       {item.unlocksSkinIds.length > 0 && (
         <>

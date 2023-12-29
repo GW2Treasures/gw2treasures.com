@@ -33,6 +33,13 @@ export interface TradingPostHistoryClientInternalProps extends TradingPostHistor
 
 const bisectDate = bisector<TradingPostHistory, Date>((d) => d.time).left;
 
+const colors = {
+  sellPrice: '#1976D2',
+  buyPrice: '#D32F2F',
+  sellQuantity: '#4FC3F7',
+  buyQuantity: '#FF9800',
+};
+
 export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientInternalProps> = ({ history, width }) => {
   const height = 420;
   const margin = { top: 20, bottom: 40, left: 80, right: 80 };
@@ -94,19 +101,19 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
   return (
     <>
       <div style={{ display: 'flex', gap: 32, marginBottom: 32 }}>
-        <div style={{ borderLeft: '4px solid #1976D2', paddingLeft: 8 }}>
+        <div style={{ borderLeft: `4px solid ${colors.sellPrice}`, paddingLeft: 8 }}>
           <div>Sell Price</div>
           <div style={{ fontWeight: 500, marginTop: 8 }}><Coins value={history.at(-1)!.sellPrice!}/></div>
         </div>
-        <div style={{ borderLeft: '4px solid #D32F2F', paddingLeft: 8 }}>
+        <div style={{ borderLeft: `4px solid ${colors.buyPrice}`, paddingLeft: 8 }}>
           <div>Buy Price</div>
           <div style={{ fontWeight: 500, marginTop: 8 }}><Coins value={history.at(-1)!.buyPrice!}/></div>
         </div>
-        <div style={{ borderLeft: '4px dashed #4FC3F7', paddingLeft: 8 }}>
+        <div style={{ borderLeft: `4px dashed ${colors.sellQuantity}`, paddingLeft: 8 }}>
           <div>Sell Listings</div>
           <div style={{ fontWeight: 500, marginTop: 8 }}><FormatNumber value={history.at(-1)!.sellQuantity!}/></div>
         </div>
-        <div style={{ borderLeft: '4px dashed #FF9800', paddingLeft: 8 }}>
+        <div style={{ borderLeft: `4px dashed ${colors.buyQuantity}`, paddingLeft: 8 }}>
           <div>Buy Orders</div>
           <div style={{ fontWeight: 500, marginTop: 8 }}><FormatNumber value={history.at(-1)!.buyQuantity!}/></div>
         </div>
@@ -123,13 +130,13 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
             <AxisBottom scale={xScale} top={yMax} stroke="var(--color-border-dark)" tickStroke="var(--color-border-dark)" tickLabelProps={{ fill: 'var(--color-text)', fontFamily: 'var(--font-wotfard)', fontSize: 12 }} numTicks={width >= 1000 ? 10 : 6}/>
 
             <g strokeWidth={2} strokeLinejoin="round" strokeLinecap="round">
-              <Threshold id="quantity" data={history} x={x} y0={(d) => quantityScale(d.sellQuantity ?? 0)} y1={(d) => quantityScale(d.buyQuantity ?? 0)} clipAboveTo={0} clipBelowTo={yMax} curve={curveLinear} aboveAreaProps={{ fill: '#4FC3F7', fillOpacity: .1 }} belowAreaProps={{ fill: '#FF9800', fillOpacity: .1 }}/>
+              <Threshold id="quantity" data={history} x={x} y0={(d) => quantityScale(d.sellQuantity ?? 0)} y1={(d) => quantityScale(d.buyQuantity ?? 0)} clipAboveTo={0} clipBelowTo={yMax} curve={curveLinear} aboveAreaProps={{ fill: colors.sellQuantity, fillOpacity: .1 }} belowAreaProps={{ fill: colors.buyQuantity, fillOpacity: .1 }}/>
 
-              <LinePath data={history} y={(d) => quantityScale(d.sellQuantity ?? 0)} x={x} curve={curveLinear} stroke="#4FC3F7" strokeDasharray="4 4"/>
-              <LinePath data={history} y={(d) => quantityScale(d.buyQuantity ?? 0)} x={x} curve={curveLinear} stroke="#FF9800" strokeDasharray="4 4"/>
+              <LinePath data={history} y={(d) => quantityScale(d.sellQuantity ?? 0)} x={x} curve={curveLinear} stroke={colors.sellQuantity} strokeDasharray="4 4"/>
+              <LinePath data={history} y={(d) => quantityScale(d.buyQuantity ?? 0)} x={x} curve={curveLinear} stroke={colors.buyQuantity} strokeDasharray="4 4"/>
 
-              <LinePath data={history} y={(d) => priceScale(d.sellPrice ?? 0)} x={x} curve={curveLinear} stroke="#1976D2"/>
-              <LinePath data={history} y={(d) => priceScale(d.buyPrice ?? 0)} x={x} curve={curveLinear} stroke="#D32F2F"/>
+              <LinePath data={history} y={(d) => priceScale(d.sellPrice ?? 0)} x={x} defined={(d) => !!d.sellPrice} curve={curveLinear} stroke={colors.sellPrice}/>
+              <LinePath data={history} y={(d) => priceScale(d.buyPrice ?? 0)} x={x} defined={(d) => !!d.buyPrice} curve={curveLinear} stroke={colors.buyPrice}/>
             </g>
           </Group>
 
@@ -144,36 +151,40 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
                 strokeDasharray="5,2"/>
               <Circle
                 cx={x(tooltipData) + margin.left}
-                cy={quantityScale(tooltipData.sellQuantity!) + margin.top}
+                cy={quantityScale(tooltipData.sellQuantity ?? 0) + margin.top}
                 r={4}
-                fill="#4FC3F7"
+                fill={colors.sellQuantity}
                 stroke="var(--color-background)"
                 strokeWidth={2}
                 pointerEvents="none"/>
               <Circle
                 cx={x(tooltipData) + margin.left}
-                cy={quantityScale(tooltipData.buyQuantity!) + margin.top}
+                cy={quantityScale(tooltipData.buyQuantity ?? 0) + margin.top}
                 r={4}
-                fill="#FF9800"
+                fill={colors.buyQuantity}
                 stroke="var(--color-background)"
                 strokeWidth={2}
                 pointerEvents="none"/>
-              <Circle
-                cx={x(tooltipData) + margin.left}
-                cy={priceScale(tooltipData.sellPrice!) + margin.top}
-                r={4}
-                fill="#1976D2"
-                stroke="var(--color-background)"
-                strokeWidth={2}
-                pointerEvents="none"/>
-              <Circle
-                cx={x(tooltipData) + margin.left}
-                cy={priceScale(tooltipData.buyPrice!) + margin.top}
-                r={4}
-                fill="#D32F2F"
-                stroke="var(--color-background)"
-                strokeWidth={2}
-                pointerEvents="none"/>
+              {tooltipData.sellPrice && (
+                <Circle
+                  cx={x(tooltipData) + margin.left}
+                  cy={priceScale(tooltipData.sellPrice ?? 0) + margin.top}
+                  r={4}
+                  fill={colors.sellPrice}
+                  stroke="var(--color-background)"
+                  strokeWidth={2}
+                  pointerEvents="none"/>
+              )}
+              {tooltipData.buyPrice && (
+                <Circle
+                  cx={x(tooltipData) + margin.left}
+                  cy={priceScale(tooltipData.buyPrice ?? 0) + margin.top}
+                  r={4}
+                  fill={colors.buyPrice}
+                  stroke="var(--color-background)"
+                  strokeWidth={2}
+                  pointerEvents="none"/>
+              )}
             </g>
           )}
 
@@ -210,10 +221,10 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
               unstyled
               applyPositionStyle
             >
-              <FlexRow align="space-between">Sell Price: <Coins value={tooltipData?.sellPrice!}/></FlexRow>
-              <FlexRow align="space-between">Buy Price: <Coins value={tooltipData?.buyPrice!}/></FlexRow>
-              <FlexRow align="space-between">Sell Listings: <FormatNumber value={tooltipData?.sellQuantity}/></FlexRow>
-              <FlexRow align="space-between">Buy Orders: <FormatNumber value={tooltipData?.buyQuantity}/></FlexRow>
+              <FlexRow align="space-between">Sell Price: {tooltipData.sellPrice ? (<Coins value={tooltipData?.sellPrice ?? 0}/>) : <span>-</span>}</FlexRow>
+              <FlexRow align="space-between">Buy Price: {tooltipData.buyPrice ? (<Coins value={tooltipData.buyPrice}/>) : <span>-</span>}</FlexRow>
+              <FlexRow align="space-between">Sell Listings: <FormatNumber value={tooltipData?.sellQuantity ?? 0}/></FlexRow>
+              <FlexRow align="space-between">Buy Orders: <FormatNumber value={tooltipData?.buyQuantity ?? 0}/></FlexRow>
             </TooltipWithBounds>
           </>
         )}

@@ -15,7 +15,7 @@ import { Bar, Circle, Line, LinePath } from '@visx/shape';
 import { Threshold } from '@visx/threshold';
 import { Tooltip, TooltipWithBounds, useTooltip } from '@visx/tooltip';
 import { bisector, extent } from 'd3-array';
-import type { FC, MouseEvent, TouchEvent } from 'react';
+import { useMemo, type FC, type MouseEvent, type TouchEvent, useState } from 'react';
 import tipStyles from '@gw2treasures/ui/components/Tip/Tip.module.css';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 
@@ -33,6 +33,7 @@ export interface TradingPostHistoryClientInternalProps extends TradingPostHistor
 
 const bisectDate = bisector<TradingPostHistory, Date>((d) => d.time).left;
 
+// color config
 const colors = {
   sellPrice: '#1976D2',
   buyPrice: '#D32F2F',
@@ -40,12 +41,28 @@ const colors = {
   buyQuantity: '#FF9800',
 };
 
-export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientInternalProps> = ({ history, width }) => {
-  const height = 420;
-  const margin = { top: 20, bottom: 40, left: 80, right: 80 };
+// size of chart
+const height = 420;
+const margin = { top: 20, bottom: 40, left: 80, right: 80 };
 
-  const xMax = width - margin.left - margin.right;
-  const yMax = height - margin.top - margin.bottom;
+export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientInternalProps> = ({ history, width }) => {
+  const [xMax, yMax] = useMemo(() => [
+    width - margin.left - margin.right,
+    height - margin.top - margin.bottom,
+  ], [width]);
+
+  // calculate max values
+  const max = useMemo(() => history.reduce<{ sellPrice: number, buyPrice: number, sellQuantity: number, buyQuantity: number }>(
+    (max, current) => ({
+      sellPrice: Math.max(max.sellPrice, current.sellPrice ?? 0),
+      buyPrice: Math.max(max.buyPrice, current.buyPrice ?? 0),
+      sellQuantity: Math.max(max.sellQuantity, current.sellQuantity ?? 0),
+      buyQuantity: Math.max(max.buyQuantity, current.buyQuantity ?? 0),
+    }), { sellPrice: 0, buyPrice: 0, sellQuantity: 0, buyQuantity: 0 }),
+    [history]
+  );
+
+  const [visibility, setVisibility] = useState({ sellPrice: true, buyPrice: true, sellQuantity: true, buyQuantity: true });
 
   const xScale = scaleTime({
     range: [0, xMax],
@@ -53,23 +70,22 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
     domain: extent(history, ({ time }) => time) as [Date, Date],
   });
 
-  const maxPrice = Math.max(...history.flatMap(({ buyPrice, sellPrice }) => [buyPrice ?? 0, sellPrice ?? 0]));
-  const maxQuantity = Math.max(...history.flatMap(({ buyQuantity, sellQuantity }) => [buyQuantity ?? 0, sellQuantity ?? 0]));
-
   const priceScale = scaleLinear({
     range: [yMax, 0],
     round: true,
-    domain: [0, maxPrice],
+    domain: [0, Math.max(max.sellPrice, max.buyPrice)],
   });
 
   const quantityScale = scaleLinear({
     range: [yMax, 0],
     round: true,
-    domain: [0, maxQuantity],
+    domain: [0, Math.max(max.sellQuantity, max.buyQuantity)],
   });
 
-  const x = (d: typeof history[0]) => xScale(d.time);
+  // helper functions
+  const x = (d: TradingPostHistory) => xScale(d.time);
 
+  // tooltip
   const {
     tooltipData,
     tooltipLeft,
@@ -79,6 +95,7 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
     hideTooltip,
   } = useTooltip<TradingPostHistory>();
 
+  // tooltip event handler
   const handleTooltip = (event: TouchEvent<SVGRectElement> | MouseEvent<SVGRectElement>) => {
     const { x, y } = localPoint(event) || { x: 0, y: 0 };
     const x0 = xScale.invert(x - margin.left);
@@ -95,27 +112,28 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
       tooltipLeft: x,
       tooltipTop: y,
     });
-
   };
+
+  const current = history.at(-1)!;
 
   return (
     <>
       <div style={{ display: 'flex', gap: 32, marginBottom: 32 }}>
-        <div style={{ borderLeft: `4px solid ${colors.sellPrice}`, paddingLeft: 8 }}>
+        <div style={{ borderLeft: `4px solid ${visibility.sellPrice ? colors.sellPrice : 'var(--color-border-dark)'}`, paddingLeft: 8 }} onClick={() => setVisibility({ ...visibility, sellPrice: !visibility.sellPrice })}>
           <div>Sell Price</div>
-          <div style={{ fontWeight: 500, marginTop: 8 }}><Coins value={history.at(-1)!.sellPrice!}/></div>
+          <div style={{ fontWeight: 500, marginTop: 8 }}>{current.sellPrice ? (<Coins value={current.sellPrice}/>) : <span>-</span>}</div>
         </div>
-        <div style={{ borderLeft: `4px solid ${colors.buyPrice}`, paddingLeft: 8 }}>
+        <div style={{ borderLeft: `4px solid ${visibility.buyPrice ? colors.buyPrice : 'var(--color-border-dark)'}`, paddingLeft: 8 }} onClick={() => setVisibility({ ...visibility, buyPrice: !visibility.buyPrice })}>
           <div>Buy Price</div>
-          <div style={{ fontWeight: 500, marginTop: 8 }}><Coins value={history.at(-1)!.buyPrice!}/></div>
+          <div style={{ fontWeight: 500, marginTop: 8 }}>{current.buyPrice ? (<Coins value={current.buyPrice}/>) : <span>-</span>}</div>
         </div>
-        <div style={{ borderLeft: `4px dashed ${colors.sellQuantity}`, paddingLeft: 8 }}>
+        <div style={{ borderLeft: `4px dashed ${visibility.sellQuantity ? colors.sellQuantity : 'var(--color-border-dark)'}`, paddingLeft: 8 }} onClick={() => setVisibility({ ...visibility, sellQuantity: !visibility.sellQuantity })}>
           <div>Sell Listings</div>
-          <div style={{ fontWeight: 500, marginTop: 8 }}><FormatNumber value={history.at(-1)!.sellQuantity!}/></div>
+          <div style={{ fontWeight: 500, marginTop: 8 }}><FormatNumber value={current.sellQuantity}/></div>
         </div>
-        <div style={{ borderLeft: `4px dashed ${colors.buyQuantity}`, paddingLeft: 8 }}>
+        <div style={{ borderLeft: `4px dashed ${visibility.buyQuantity ? colors.buyQuantity : 'var(--color-border-dark)'}`, paddingLeft: 8 }} onClick={() => setVisibility({ ...visibility, buyQuantity: !visibility.buyQuantity })}>
           <div>Buy Orders</div>
-          <div style={{ fontWeight: 500, marginTop: 8 }}><FormatNumber value={history.at(-1)!.buyQuantity!}/></div>
+          <div style={{ fontWeight: 500, marginTop: 8 }}><FormatNumber value={current.buyQuantity}/></div>
         </div>
       </div>
 
@@ -130,13 +148,15 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
             <AxisBottom scale={xScale} top={yMax} stroke="var(--color-border-dark)" tickStroke="var(--color-border-dark)" tickLabelProps={{ fill: 'var(--color-text)', fontFamily: 'var(--font-wotfard)', fontSize: 12 }} numTicks={width >= 1000 ? 10 : 6}/>
 
             <g strokeWidth={2} strokeLinejoin="round" strokeLinecap="round">
-              <Threshold id="quantity" data={history} x={x} y0={(d) => quantityScale(d.sellQuantity ?? 0)} y1={(d) => quantityScale(d.buyQuantity ?? 0)} clipAboveTo={0} clipBelowTo={yMax} curve={curveLinear} aboveAreaProps={{ fill: colors.sellQuantity, fillOpacity: .1 }} belowAreaProps={{ fill: colors.buyQuantity, fillOpacity: .1 }}/>
+              {visibility.sellQuantity && visibility.buyQuantity && (
+                <Threshold id="quantity" data={history} x={x} y0={(d) => quantityScale(d.sellQuantity ?? 0)} y1={(d) => quantityScale(d.buyQuantity ?? 0)} clipAboveTo={0} clipBelowTo={yMax} curve={curveLinear} aboveAreaProps={{ fill: colors.sellQuantity, fillOpacity: .1 }} belowAreaProps={{ fill: colors.buyQuantity, fillOpacity: .1 }}/>
+              )}
 
-              <LinePath data={history} y={(d) => quantityScale(d.sellQuantity ?? 0)} x={x} curve={curveLinear} stroke={colors.sellQuantity} strokeDasharray="4 4"/>
-              <LinePath data={history} y={(d) => quantityScale(d.buyQuantity ?? 0)} x={x} curve={curveLinear} stroke={colors.buyQuantity} strokeDasharray="4 4"/>
+              {visibility.sellQuantity && (<LinePath data={history} y={(d) => quantityScale(d.sellQuantity ?? 0)} x={x} curve={curveLinear} stroke={colors.sellQuantity} strokeDasharray="4"/>)}
+              {visibility.buyQuantity && (<LinePath data={history} y={(d) => quantityScale(d.buyQuantity ?? 0)} x={x} curve={curveLinear} stroke={colors.buyQuantity} strokeDasharray="4"/>)}
 
-              <LinePath data={history} y={(d) => priceScale(d.sellPrice ?? 0)} x={x} defined={(d) => !!d.sellPrice} curve={curveLinear} stroke={colors.sellPrice}/>
-              <LinePath data={history} y={(d) => priceScale(d.buyPrice ?? 0)} x={x} defined={(d) => !!d.buyPrice} curve={curveLinear} stroke={colors.buyPrice}/>
+              {visibility.sellPrice && (<LinePath data={history} y={(d) => priceScale(d.sellPrice ?? 0)} x={x} defined={(d) => !!d.sellPrice} curve={curveLinear} stroke={colors.sellPrice}/>)}
+              {visibility.buyPrice && (<LinePath data={history} y={(d) => priceScale(d.buyPrice ?? 0)} x={x} defined={(d) => !!d.buyPrice} curve={curveLinear} stroke={colors.buyPrice}/>)}
             </g>
           </Group>
 
@@ -148,7 +168,7 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
                 stroke="var(--color-border-dark)"
                 strokeWidth={1}
                 pointerEvents="none"
-                strokeDasharray="5,2"/>
+                strokeDasharray="4 2"/>
               <Circle
                 cx={x(tooltipData) + margin.left}
                 cy={quantityScale(tooltipData.sellQuantity ?? 0) + margin.top}
@@ -156,6 +176,7 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
                 fill={colors.sellQuantity}
                 stroke="var(--color-background)"
                 strokeWidth={2}
+                style={{ filter: 'drop-shadow(0 0 4px rgba(0,0,0,0.12))' }}
                 pointerEvents="none"/>
               <Circle
                 cx={x(tooltipData) + margin.left}
@@ -164,6 +185,7 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
                 fill={colors.buyQuantity}
                 stroke="var(--color-background)"
                 strokeWidth={2}
+                style={{ filter: 'drop-shadow(0 0 4px rgba(0,0,0,0.12))' }}
                 pointerEvents="none"/>
               {tooltipData.sellPrice && (
                 <Circle
@@ -173,6 +195,7 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
                   fill={colors.sellPrice}
                   stroke="var(--color-background)"
                   strokeWidth={2}
+                  style={{ filter: 'drop-shadow(0 0 4px rgba(0,0,0,0.12))' }}
                   pointerEvents="none"/>
               )}
               {tooltipData.buyPrice && (
@@ -183,6 +206,7 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
                   fill={colors.buyPrice}
                   stroke="var(--color-background)"
                   strokeWidth={2}
+                  style={{ filter: 'drop-shadow(0 0 4px rgba(0,0,0,0.12))' }}
                   pointerEvents="none"/>
               )}
             </g>

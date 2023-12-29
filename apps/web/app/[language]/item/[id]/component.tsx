@@ -97,10 +97,6 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
       <TableOfContentAnchor id="tooltip">Tooltip</TableOfContentAnchor>
       <ItemTooltip item={data} language={language}/>
 
-      {item.tpTradeable && (
-        <TradingPostHistory itemId={item.id}/>
-      )}
-
       {item.unlocksSkinIds.length > 0 && (
         <>
           <Headline id="skins">Unlocked Skins</Headline>
@@ -245,6 +241,10 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
             <p>The contents of this container are unknown. You can help by adding the contained items.</p>
           )}
         </ItemTableContext>
+      )}
+
+      {item.tpTradeable && !fixedRevision && (
+        <TradingPostHistory itemId={item.id}/>
       )}
 
       <Headline id="history">History</Headline>

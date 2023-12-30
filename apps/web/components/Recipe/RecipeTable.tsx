@@ -17,6 +17,7 @@ import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { getLanguage } from '../I18n/getTranslate';
 import { ColumnSelect } from '../Table/ColumnSelect';
 import type { GuildUpgradeLinkProps } from '../GuildUpgrade/GuildUpgradeLink';
+import { RecipeDropdown } from './RecipeDropdown';
 
 export interface RecipeTableProps {
   recipes: With<Pick<Recipe, 'id' | 'rating' | 'disciplines' | 'outputCount' | 'outputItemId'>, {
@@ -103,6 +104,9 @@ export const RecipeTable: FC<RecipeTableProps> = ({ recipes }) => {
             {({ disciplines }) => <span className={recipeBoxStyles.disciplines}>{disciplines.map((discipline) => <DisciplineIcon discipline={discipline as Discipline} key={discipline}/>)}</span>}
           </Recipes.Column>
           <Recipes.Column id="ingredients" title="Ingredients">{(recipe) => <Ingredients recipe={recipe}/>}</Recipes.Column>
+          <Recipes.Column id="actions" title="" small>
+            {({ id, outputItemId }) => (<RecipeDropdown id={id} outputItemId={outputItemId}/>)}
+          </Recipes.Column>
         </Recipes.Table>
       </div>
     </RecipeTableProvider>

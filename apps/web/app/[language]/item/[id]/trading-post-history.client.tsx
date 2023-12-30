@@ -58,7 +58,7 @@ const labels = {
 const height = 420;
 const margin = { top: 20, bottom: 40, left: 80, right: 80 };
 
-type Range = '90' | '365' | 'all';
+type Range = '90' | '365' | 'full';
 
 function downSample<T>(data: T[], points: number): T[] {
   // TODO: use some more advanced downsampling
@@ -75,7 +75,7 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
   const [range, setRange] = useState<Range>('90');
 
   const history = useMemo(() => {
-    if(range === 'all') {
+    if(range === 'full') {
       return downSample(completeHistory, 365 * 2);
     }
 
@@ -101,7 +101,7 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
 
   const [visibility, setVisibility] = useState({ sellPrice: true, buyPrice: true, sellQuantity: true, buyQuantity: true });
   const [thresholdVisible, setThresholdVisible] = useState(true);
-  const [smoothCurve, setSmoothCurve] = useState(false);
+  const [smoothCurve, setSmoothCurve] = useState(true);
 
   const xScale = scaleTime({
     range: [0, xMax],
@@ -174,7 +174,7 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
         </ChartToggle>
         <div style={{ marginLeft: 'auto' }}>
           <FlexRow>
-            <Select options={[{ value: '90', label: '3 Months' }, { value: '365', label: '1 Year' }, { value: 'all', label: 'All' }]} value={range} onChange={(range) => setRange(range as Range)}/>
+            <Select options={[{ value: '90', label: '3 Months' }, { value: '365', label: '1 Year' }, { value: 'full', label: 'Full history' }]} value={range} onChange={(range) => setRange(range as Range)}/>
             <DropDown button={<Button icon="settings">Settings</Button>}>
               <MenuList>
                 <Checkbox checked={thresholdVisible} onChange={setThresholdVisible}>Highlight Supply/Demand Difference</Checkbox>

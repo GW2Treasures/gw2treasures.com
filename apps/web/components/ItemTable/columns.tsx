@@ -91,28 +91,28 @@ export const globalColumnDefinitions = {
   buyPrice: createColumn({
     id: 'buyPrice',
     order: 120,
-    select: { buyPrice: true, tpCheckedAt: true },
+    select: { buyPrice: true, tpCheckedAt: true, tpTradeable: true },
     align: 'right',
     orderBy: [{ buyPrice: 'asc' }, { buyPrice: 'desc' }]
   }),
   buyQuantity: createColumn({
     id: 'buyQuantity',
     order: 130,
-    select: { buyQuantity: true },
+    select: { buyQuantity: true, tpTradeable: true },
     align: 'right',
     orderBy: [{ buyQuantity: 'asc' }, { buyQuantity: 'desc' }]
   }),
   sellPrice: createColumn({
     id: 'sellPrice',
     order: 140,
-    select: { sellPrice: true, tpCheckedAt: true },
+    select: { sellPrice: true, tpCheckedAt: true, tpTradeable: true },
     align: 'right',
-    orderBy: [{ sellPrice: 'asc' }, { sellPrice: 'desc' }]
+    orderBy: [{ sellPrice: { sort: 'asc', nulls: 'first' }}, { sellPrice: { sort: 'asc', nulls: 'last' }}]
   }),
   sellQuantity: createColumn({
     id: 'sellQuantity',
     order: 150,
-    select: { sellQuantity: true },
+    select: { sellQuantity: true, tpTradeable: true },
     align: 'right',
     orderBy: [{ sellQuantity: 'asc' }, { sellQuantity: 'desc' }]
   }),
@@ -134,10 +134,10 @@ export const globalColumnRenderer: Renderer = {
   rarity: (item) => <Rarity rarity={item.rarity}/>,
   type: (item) => <>{item.type} {item.subtype && `(${item.subtype})`}</>,
   vendorValue: (item) => <Coins value={item.value}/>,
-  buyPrice: (item) => renderPriceWithOptionalWarning(item.tpCheckedAt, item.buyPrice),
-  buyQuantity: (item) => <FormatNumber value={item.buyQuantity}/>,
-  sellPrice: (item) => renderPriceWithOptionalWarning(item.tpCheckedAt, item.sellPrice),
-  sellQuantity: (item) => <FormatNumber value={item.sellQuantity}/>,
+  buyPrice: (item) => !item.tpTradeable ? '-' : renderPriceWithOptionalWarning(item.tpCheckedAt, item.buyPrice),
+  buyQuantity: (item) => !item.tpTradeable ? '-' : <FormatNumber value={item.buyQuantity ?? 0}/>,
+  sellPrice: (item) => !item.tpTradeable ? '-' : renderPriceWithOptionalWarning(item.tpCheckedAt, item.sellPrice),
+  sellQuantity: (item) => !item.tpTradeable ? '-' : <FormatNumber value={item.sellQuantity ?? 0}/>,
 };
 
 function renderPriceWithOptionalWarning(date: Date | string | null, price: number | null): ReactNode {

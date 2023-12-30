@@ -23,21 +23,13 @@ export const TradingPostHistory: FC<TradingPostHistoryProps> = ({ itemId }) => {
 const TradingPostHistoryClientLazy = lazy(() => import('./trading-post-history.client').then(({ TradingPostHistoryClient }) => ({ default: TradingPostHistoryClient })));
 
 export const TradingPostHistoryAsync: AsyncComponent<TradingPostHistoryProps> = async ({ itemId }) => {
-  const startDate = new Date();
-  startDate.setDate(startDate.getDate() - 365);
-
   const history = await db.tradingPostHistory.findMany({
-    where: { itemId, time: { gt: startDate }},
+    where: { itemId },
     orderBy: { time: 'asc' },
   });
 
-  // await new Promise((resolve) => setTimeout(resolve, 3000));
-
-  // TODO: use some more advanced downsampling
-  const bucketSize = Math.ceil(history.length / 500);
-
   return (
-    <TradingPostHistoryClientLazy history={history.filter((_, i) => i % bucketSize === 0)}/>
+    <TradingPostHistoryClientLazy history={history}/>
   );
 };
 

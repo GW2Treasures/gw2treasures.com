@@ -5,7 +5,7 @@ import { FormatDate } from '@/components/Format/FormatDate';
 import { FormatNumber } from '@/components/Format/FormatNumber';
 import type { TradingPostHistory } from '@gw2treasures/database';
 import { AxisBottom, AxisLeft, AxisRight, type TickRendererProps } from '@visx/axis';
-import { curveLinear } from '@visx/curve';
+import { curveLinear, curveMonotoneX } from '@visx/curve';
 import { localPoint } from '@visx/event';
 import { GridRows } from '@visx/grid';
 import { Group } from '@visx/group';
@@ -18,13 +18,19 @@ import { bisector, extent } from 'd3-array';
 import { useMemo, type FC, type MouseEvent, type TouchEvent, useState, useId, type ReactNode, useRef, type KeyboardEventHandler, useCallback } from 'react';
 import tipStyles from '@gw2treasures/ui/components/Tip/Tip.module.css';
 import styles from './trading-post-history.module.css';
+import { Checkbox } from '@gw2treasures/ui/components/Form/Checkbox';
+import { DropDown } from '@gw2treasures/ui/components/DropDown/DropDown';
+import { Button } from '@gw2treasures/ui/components/Form/Button';
+import { MenuList } from '@gw2treasures/ui/components/Layout/MenuList';
+import { Select } from '@gw2treasures/ui/components/Form/Select';
+import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 
 export interface TradingPostHistoryClientProps {
   history: TradingPostHistory[]
 }
 
 export const TradingPostHistoryClient: FC<TradingPostHistoryClientProps> = (props) => {
-  return (<ParentSize ignoreDimensions={['height', 'top', 'left']} style={{ height: 'auto', overflow: 'hidden' }}>{({ width }) => <TradingPostHistoryClientInternal width={width} {...props}/>}</ParentSize>);
+  return (<ParentSize ignoreDimensions={['height', 'top', 'left']} style={{ height: 'auto' }}>{({ width }) => <TradingPostHistoryClientInternal width={width} {...props}/>}</ParentSize>);
 };
 
 export interface TradingPostHistoryClientInternalProps extends TradingPostHistoryClientProps {
@@ -38,7 +44,7 @@ const colors = {
   sellPrice: '#1976D2',
   buyPrice: '#D32F2F',
   sellQuantity: '#4FC3F7',
-  buyQuantity: '#FF9800',
+  buyQuantity: '#FF7043',
 };
 
 const labels = {
@@ -50,13 +56,37 @@ const labels = {
 
 // size of chart
 const height = 420;
-const margin = { top: 20, bottom: 40, left: 80, right: 64 };
+const margin = { top: 20, bottom: 40, left: 80, right: 80 };
 
-export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientInternalProps> = ({ history, width }) => {
+type Range = '90' | '365' | 'all';
+
+function downSample<T>(data: T[], points: number): T[] {
+  // TODO: use some more advanced downsampling
+  const bucketSize = Math.ceil(data.length / points);
+  return data.filter((_, i) => i % bucketSize === 0);
+}
+
+export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientInternalProps> = ({ history: completeHistory, width }) => {
   const [xMax, yMax] = useMemo(() => [
     width - margin.left - margin.right,
     height - margin.top - margin.bottom,
   ], [width]);
+
+  const [range, setRange] = useState<Range>('90');
+
+  const history = useMemo(() => {
+    if(range === 'all') {
+      return downSample(completeHistory, 365 * 2);
+    }
+
+    const days = Number(range);
+
+    const date = new Date();
+    date.setDate(date.getDate() - days);
+    const dateValue = date.valueOf();
+
+    return downSample(completeHistory.filter((entry) => entry.time.valueOf() > dateValue), 365);
+  }, [completeHistory, range]);
 
   // calculate max values
   const max = useMemo(() => history.reduce<{ sellPrice: number, buyPrice: number, sellQuantity: number, buyQuantity: number }>(
@@ -70,6 +100,8 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
   );
 
   const [visibility, setVisibility] = useState({ sellPrice: true, buyPrice: true, sellQuantity: true, buyQuantity: true });
+  const [thresholdVisible, setThresholdVisible] = useState(true);
+  const [smoothCurve, setSmoothCurve] = useState(false);
 
   const xScale = scaleTime({
     range: [0, xMax],
@@ -123,9 +155,11 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
 
   const current = history.at(-1)!;
 
+  const curve = smoothCurve ? curveMonotoneX : curveLinear;
+
   return (
     <>
-      <div style={{ display: 'flex', marginBottom: 32 }}>
+      <div style={{ display: 'flex', marginBottom: 32, flexWrap: 'wrap' }}>
         <ChartToggle checked={visibility.sellPrice} onChange={(sellPrice) => setVisibility({ ...visibility, sellPrice })} color={colors.sellPrice} label={labels.sellPrice}>
           {current.sellPrice ? (<Coins value={current.sellPrice}/>) : <span>-</span>}
         </ChartToggle>
@@ -138,9 +172,20 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
         <ChartToggle checked={visibility.buyQuantity} onChange={(buyQuantity) => setVisibility({ ...visibility, buyQuantity })} color={colors.buyQuantity} dashed label={labels.buyQuantity}>
           <FormatNumber value={current.buyQuantity}/>
         </ChartToggle>
+        <div style={{ marginLeft: 'auto' }}>
+          <FlexRow>
+            <Select options={[{ value: '90', label: '3 Months' }, { value: '365', label: '1 Year' }, { value: 'all', label: 'All' }]} value={range} onChange={(range) => setRange(range as Range)}/>
+            <DropDown button={<Button icon="settings">Settings</Button>}>
+              <MenuList>
+                <Checkbox checked={thresholdVisible} onChange={setThresholdVisible}>Highlight Supply/Demand Difference</Checkbox>
+                <Checkbox checked={smoothCurve} onChange={setSmoothCurve}>Smooth Curve</Checkbox>
+              </MenuList>
+            </DropDown>
+          </FlexRow>
+        </div>
       </div>
 
-      <div style={{ position: 'relative' }}>
+      <div style={{ position: 'relative', overflow: 'hidden' }}>
         <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`}>
           <Group left={margin.left} top={margin.top}>
             <GridRows scale={priceScale} width={xMax} height={yMax} numTicks={6} stroke="var(--color-border)"/>
@@ -151,15 +196,15 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
             <AxisBottom scale={xScale} top={yMax} stroke="var(--color-border-dark)" tickStroke="var(--color-border-dark)" tickLabelProps={{ fill: 'var(--color-text)', fontFamily: 'var(--font-wotfard)', fontSize: 12 }} numTicks={width >= 1000 ? 10 : 6}/>
 
             <g strokeWidth={2} strokeLinejoin="round" strokeLinecap="round">
-              {visibility.sellQuantity && visibility.buyQuantity && (
-                <Threshold id="quantity" data={history} x={x} y0={(d) => quantityScale(d.sellQuantity ?? 0)} y1={(d) => quantityScale(d.buyQuantity ?? 0)} clipAboveTo={0} clipBelowTo={yMax} curve={curveLinear} aboveAreaProps={{ fill: colors.sellQuantity, fillOpacity: .1 }} belowAreaProps={{ fill: colors.buyQuantity, fillOpacity: .1 }}/>
+              {visibility.sellQuantity && visibility.buyQuantity && thresholdVisible && (
+                <Threshold id="quantity" data={history} x={x} y0={(d) => quantityScale(d.sellQuantity ?? 0)} y1={(d) => quantityScale(d.buyQuantity ?? 0)} clipAboveTo={0} clipBelowTo={yMax} curve={curve} aboveAreaProps={{ fill: colors.sellQuantity, fillOpacity: .08 }} belowAreaProps={{ fill: colors.buyQuantity, fillOpacity: .08 }}/>
               )}
 
-              {visibility.sellQuantity && (<LinePath data={history} y={(d) => quantityScale(d.sellQuantity ?? 0)} x={x} curve={curveLinear} stroke={colors.sellQuantity} strokeDasharray="4"/>)}
-              {visibility.buyQuantity && (<LinePath data={history} y={(d) => quantityScale(d.buyQuantity ?? 0)} x={x} curve={curveLinear} stroke={colors.buyQuantity} strokeDasharray="4"/>)}
+              {visibility.sellQuantity && (<LinePath data={history} y={(d) => quantityScale(d.sellQuantity ?? 0)} x={x} curve={curve} stroke={colors.sellQuantity} strokeDasharray="4"/>)}
+              {visibility.buyQuantity && (<LinePath data={history} y={(d) => quantityScale(d.buyQuantity ?? 0)} x={x} curve={curve} stroke={colors.buyQuantity} strokeDasharray="4"/>)}
 
-              {visibility.sellPrice && (<LinePath data={history} y={(d) => priceScale(d.sellPrice ?? 0)} x={x} defined={(d) => !!d.sellPrice} curve={curveLinear} stroke={colors.sellPrice}/>)}
-              {visibility.buyPrice && (<LinePath data={history} y={(d) => priceScale(d.buyPrice ?? 0)} x={x} defined={(d) => !!d.buyPrice} curve={curveLinear} stroke={colors.buyPrice}/>)}
+              {visibility.sellPrice && (<LinePath data={history} y={(d) => priceScale(d.sellPrice ?? 0)} x={x} defined={(d) => !!d.sellPrice} curve={curve} stroke={colors.sellPrice}/>)}
+              {visibility.buyPrice && (<LinePath data={history} y={(d) => priceScale(d.buyPrice ?? 0)} x={x} defined={(d) => !!d.buyPrice} curve={curve} stroke={colors.buyPrice}/>)}
             </g>
           </Group>
 

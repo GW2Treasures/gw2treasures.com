@@ -55,6 +55,7 @@ import { TitlesRediscovered } from './titles/rediscovered';
 import { TitlesRemoved } from './titles/removed';
 import { TitlesUpdate } from './titles/update';
 import { TpJob } from './tp';
+import { TpImportJob } from './tp/import';
 
 const jobsInternal = {
   'test': { run: () => undefined } as Job,
@@ -120,6 +121,7 @@ const jobsInternal = {
   'guild-upgrades': GuildUpgradesJob,
 
   'tp': TpJob,
+  'tp.import': TpImportJob,
 
   'gw2api-requests.cleanup': Gw2ApiRequestsCleanup,
 

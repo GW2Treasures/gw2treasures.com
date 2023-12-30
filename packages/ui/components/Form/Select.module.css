@@ -5,9 +5,20 @@
   background-color: var(--color-background);
   font: inherit;
   color: var(--color-text);
-  padding: 6px 24px 6px 8px;
+  padding: 6px 40px 6px 16px;
   line-height: 20px;
   transition: border-color .3s ease;
+  appearance: none;
+  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 16"%3E%3Cpath stroke="%23555" stroke-linecap="round" stroke-linejoin="round" d="M2.5 5.5 8 11l5.5-5.5"/%3E%3C/svg%3E%0A');
+  background-size: 16px 16px;
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+}
+
+@media (prefers-color-scheme: dark) {
+  .select {
+    background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 16"%3E%3Cpath stroke="%23999" stroke-linecap="round" stroke-linejoin="round" d="M2.5 5.5 8 11l5.5-5.5"/%3E%3C/svg%3E%0A');
+  }
 }
 
 .select:focus {

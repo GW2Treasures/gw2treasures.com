@@ -24,7 +24,7 @@ spec:
             memory: "64Mi"
             cpu: "20m"
           limits:
-            memory: "256Mi"
+            memory: "512Mi"
             cpu: "250m"
         env:
         - name: DATABASE_URL

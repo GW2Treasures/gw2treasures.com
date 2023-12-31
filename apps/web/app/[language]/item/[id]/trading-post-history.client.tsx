@@ -56,7 +56,8 @@ const labels = {
 
 // size of chart
 const height = 420;
-const margin = { top: 20, bottom: 40, left: 80, right: 80 };
+const marginDefault = { top: 20, bottom: 40, left: 88, right: 88 };
+const marginMobile = { top: 20, bottom: 40, left: 0, right: 0 };
 
 type Range = '90' | '365' | 'full';
 
@@ -67,10 +68,13 @@ function downSample<T>(data: T[], points: number): T[] {
 }
 
 export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientInternalProps> = ({ history: completeHistory, width }) => {
+  const isMobile = width < 720;
+  const margin = isMobile ? marginMobile : marginDefault;
+
   const [xMax, yMax] = useMemo(() => [
     width - margin.left - margin.right,
     height - margin.top - margin.bottom,
-  ], [width]);
+  ], [width, margin]);
 
   const [range, setRange] = useState<Range>('90');
 
@@ -159,20 +163,22 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
 
   return (
     <>
-      <div style={{ display: 'flex', marginBottom: 32, flexWrap: 'wrap' }}>
-        <ChartToggle checked={visibility.sellPrice} onChange={(sellPrice) => setVisibility({ ...visibility, sellPrice })} color={colors.sellPrice} label={labels.sellPrice}>
-          {current.sellPrice ? (<Coins value={current.sellPrice}/>) : <span>-</span>}
-        </ChartToggle>
-        <ChartToggle checked={visibility.buyPrice} onChange={(buyPrice) => setVisibility({ ...visibility, buyPrice })} color={colors.buyPrice} label={labels.buyPrice}>
-          {current.buyPrice ? (<Coins value={current.buyPrice}/>) : <span>-</span>}
-        </ChartToggle>
-        <ChartToggle checked={visibility.sellQuantity} onChange={(sellQuantity) => setVisibility({ ...visibility, sellQuantity })} color={colors.sellQuantity} dashed label={labels.sellQuantity}>
-          <FormatNumber value={current.sellQuantity}/>
-        </ChartToggle>
-        <ChartToggle checked={visibility.buyQuantity} onChange={(buyQuantity) => setVisibility({ ...visibility, buyQuantity })} color={colors.buyQuantity} dashed label={labels.buyQuantity}>
-          <FormatNumber value={current.buyQuantity}/>
-        </ChartToggle>
-        <div style={{ marginLeft: 'auto' }}>
+      <FlexRow wrap align="space-between">
+        <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+          <ChartToggle checked={visibility.sellPrice} onChange={(sellPrice) => setVisibility({ ...visibility, sellPrice })} color={colors.sellPrice} label={labels.sellPrice}>
+            {current.sellPrice ? (<Coins value={current.sellPrice}/>) : <span>-</span>}
+          </ChartToggle>
+          <ChartToggle checked={visibility.buyPrice} onChange={(buyPrice) => setVisibility({ ...visibility, buyPrice })} color={colors.buyPrice} label={labels.buyPrice}>
+            {current.buyPrice ? (<Coins value={current.buyPrice}/>) : <span>-</span>}
+          </ChartToggle>
+          <ChartToggle checked={visibility.sellQuantity} onChange={(sellQuantity) => setVisibility({ ...visibility, sellQuantity })} color={colors.sellQuantity} dashed label={labels.sellQuantity}>
+            <FormatNumber value={current.sellQuantity}/>
+          </ChartToggle>
+          <ChartToggle checked={visibility.buyQuantity} onChange={(buyQuantity) => setVisibility({ ...visibility, buyQuantity })} color={colors.buyQuantity} dashed label={labels.buyQuantity}>
+            <FormatNumber value={current.buyQuantity}/>
+          </ChartToggle>
+        </div>
+        <div>
           <FlexRow>
             <Select options={[{ value: '90', label: '3 Months' }, { value: '365', label: '1 Year' }, { value: 'full', label: 'Full history' }]} value={range} onChange={(range) => setRange(range as Range)}/>
             <DropDown button={<Button icon="settings">Settings</Button>}>
@@ -183,16 +189,21 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
             </DropDown>
           </FlexRow>
         </div>
-      </div>
+      </FlexRow>
 
-      <div style={{ position: 'relative', overflow: 'hidden' }}>
-        <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`}>
+      <div style={{ position: 'relative', overflow: 'hidden', margin: '32px -16px', padding: '0 16px' }}>
+        <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} style={{ overflow: 'visible' }}>
           <Group left={margin.left} top={margin.top}>
             <GridRows scale={priceScale} width={xMax} height={yMax} numTicks={6} stroke="var(--color-border)"/>
             {/* <GridColumns scale={xScale} width={xMax} height={yMax} numTicks={width >= 1000 ? 10 : 6} stroke="var(--color-border)"/> */}
 
-            <AxisLeft scale={priceScale} stroke="var(--color-border-dark)" tickStroke="var(--color-border-dark)" tickComponent={renderGoldTick} tickFormat={(v) => v.toString()} numTicks={6}/>
-            <AxisRight scale={quantityScale} left={xMax} stroke="var(--color-border-dark)" tickStroke="var(--color-border-dark)" tickLabelProps={{ fill: 'var(--color-text)', fontFamily: 'var(--font-wotfard)', fontSize: 12 }} numTicks={6}/>
+            {!isMobile && (
+              <>
+                <AxisLeft scale={priceScale} stroke="var(--color-border-dark)" tickStroke="var(--color-border-dark)" tickComponent={renderGoldTick} tickFormat={(v) => v.toString()} numTicks={6}/>
+                <AxisRight scale={quantityScale} left={xMax} stroke="var(--color-border-dark)" tickStroke="var(--color-border-dark)" tickLabelProps={{ fill: 'var(--color-text)', fontFamily: 'var(--font-wotfard)', fontSize: 12 }} numTicks={6}/>
+              </>
+            )}
+
             <AxisBottom scale={xScale} top={yMax} stroke="var(--color-border-dark)" tickStroke="var(--color-border-dark)" tickLabelProps={{ fill: 'var(--color-text)', fontFamily: 'var(--font-wotfard)', fontSize: 12 }} numTicks={width >= 1000 ? 10 : 6}/>
 
             <g strokeWidth={2} strokeLinejoin="round" strokeLinecap="round">
@@ -281,7 +292,7 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
               // set this to random so it correctly updates with parent bounds
               key={Math.random()}
               top={yMax + margin.top - 4}
-              left={tooltipLeft}
+              left={(tooltipLeft ?? 0) + 8}
               applyPositionStyle
               className={tipStyles.tip}
               style={{ textAlign: 'center', transform: 'translateX(-50%)', minWidth: 72 }}
@@ -293,7 +304,7 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
                 // set this to random so it correctly updates with parent bounds
                 key={Math.random()}
                 top={tooltipTop}
-                left={tooltipLeft}
+                left={(tooltipLeft ?? 0) + 16}
                 className={tipStyles.tip}
                 unstyled
                 applyPositionStyle

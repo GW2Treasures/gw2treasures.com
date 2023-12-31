@@ -11,7 +11,7 @@ export const Coins: FC<CoinsProps> = ({ value }) => {
   const copper = value % 100;
 
   return (
-    <span>
+    <span className={styles.coins}>
       {gold > 0 && <span className={styles.g}>{gold}</span>}
       {silver > 0 && <span className={styles.s}>{silver}</span>}
       {(copper > 0 || value === 0) && <span className={styles.c}>{copper}</span>}

@@ -69,7 +69,7 @@ export const RecipeTable: FC<RecipeTableProps> = ({ recipes }) => {
   return (
     <RecipeTableProvider recipeIndexByDiscipline={recipeIndexByDiscipline} recipeNamesSearchIndex={recipeNamesSearchIndex}>
       <Headline id="crafting" actions={(
-        <FlexRow>
+        <FlexRow wrap>
           <RecipeTableSearch/>
           <RecipeTableDisciplineFilter totalCount={recipes.length}/>
           <ColumnSelect table={Recipes}/>

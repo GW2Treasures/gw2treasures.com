@@ -54,7 +54,7 @@ spec:
               - /bin/sh
               - -i
               - -c
-              - mysqladmin status -uroot -p$MYSQL_ROOT_PASSWORD
+              - mariadb-admin status -uroot -p$MYSQL_ROOT_PASSWORD
           initialDelaySeconds: 15
           timeoutSeconds: 2
           periodSeconds: 10
@@ -66,7 +66,7 @@ spec:
               - /bin/sh
               - -i
               - -c
-              - mysqladmin status -uroot -p$MYSQL_ROOT_PASSWORD
+              - mariadb-admin status -uroot -p$MYSQL_ROOT_PASSWORD
           initialDelaySeconds: 45
           timeoutSeconds: 2
           periodSeconds: 10

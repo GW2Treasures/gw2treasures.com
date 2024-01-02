@@ -23,7 +23,7 @@ spec:
           claimName: db
       containers:
       - name: db
-        image: mariadb:latest
+        image: mariadb:11.2
         args:
         - --ignore_db_dirs=lost+found
         resources:

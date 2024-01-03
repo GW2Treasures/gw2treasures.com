@@ -2,7 +2,7 @@ apiVersion: batch/v1
 kind: Job
 
 metadata:
-  name: next-importer
+  name: legacy-importer
 
 spec:
   ttlSecondsAfterFinished: 10
@@ -19,7 +19,7 @@ spec:
                 values:
                 - 'true'
       containers:
-      - name: next-importer
+      - name: legacy-importer
         image: ghcr.io/gw2treasures/gw2treasures.com/legacy-importer:latest
         imagePullPolicy: IfNotPresent
         resources:
@@ -38,6 +38,6 @@ spec:
         - name: LEGACY_DATABASE_URL
           valueFrom:
             configMapKeyRef:
-              name: next-importer
+              name: legacy-importer
               key: legacy_db
       restartPolicy: Never

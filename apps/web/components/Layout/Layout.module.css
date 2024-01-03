@@ -165,7 +165,8 @@
 
 .footerLinks {
   display: flex;
-  gap: 32px;
+  gap: 16px;
+  color: var(--color-text-muted);
 }
 
 .disclaimer {

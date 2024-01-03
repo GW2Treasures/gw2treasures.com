@@ -2,21 +2,21 @@ kind: Deployment
 apiVersion: apps/v1
 
 metadata:
-  name: next-worker
+  name: worker
 
 spec:
   replicas: 5
   revisionHistoryLimit: 1
   selector:
     matchLabels:
-      name: next-worker
+      name: worker
   template:
     metadata:
       labels:
-        name: next-worker
+        name: worker
     spec:
       containers:
-      - name: next-worker
+      - name: worker
         image: ghcr.io/gw2treasures/gw2treasures.com/worker:latest
         imagePullPolicy: IfNotPresent
         resources:

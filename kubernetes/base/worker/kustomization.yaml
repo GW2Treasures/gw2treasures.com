@@ -1,6 +1,6 @@
 commonLabels:
   app.kubernetes.io/component: backend
-  app.kubernetes.io/name: next-worker
+  app.kubernetes.io/name: worker
 
 resources:
 - deployment.yaml

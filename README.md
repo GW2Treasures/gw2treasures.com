@@ -89,5 +89,19 @@ docker compose -f docker-compose.yml -f docker-compose.e2e.yml up -d web databas
 docker compose -f docker-compose.yml -f docker-compose.e2e.yml up e2e
 ```
 
+### Upgrade database
+
+When the database version is upgraded to a new major version, you need to run the following steps to migrate the data from the old version to the new one.
+
+These instructions only work for migrating from the preceeding database version. If you need to migrate multiple versions, checkout old commits and run the steps from the corresponding README for each version.
+
+1. Make sure all other containers are stopped (`docker compose stop`).
+2. Start the new database (`docker compose up -d database`).
+3. Start the old database by running `docker compose -f docker-compose.yml -f docker-compose.database-migration.yml up -d database-old`.
+4. Run `docker compose exec database-old bash -c 'pg_dumpall -p 5432 -U gw2treasures | PGPASSWORD=$POSTGRES_PASSWORD psql -U gw2treasures -h database'` to migrate the data to the new database.
+5. Stop the old database `docker compose -f docker-compose.yml -f docker-compose.database-migration.yml down database-old`.
+6. Verify everything works.
+7. Delete the old volume `rm -r .docker/database`.
+
 ## License
 **gw2treasures.com** is licensed under the [MIT License](LICENSE).

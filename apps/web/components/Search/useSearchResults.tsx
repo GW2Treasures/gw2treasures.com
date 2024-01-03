@@ -106,6 +106,8 @@ const pages: Page[] = [
   { href: '/status/api', title: 'API Status', icon: 'api-status' },
   { href: '/status/database', title: 'Database Status', icon: 'columns' },
   { href: '/about', title: 'About', icon: 'info' },
+  { href: '/about/legal', title: 'Legal Notice', icon: 'info' },
+  { href: '/about/privacy', title: 'Privacy Policy', icon: 'info' },
   { href: '/review', title: 'Review Queues', icon: 'review-queue' },
   { href: 'https://discord.gg/gvx6ZSE', title: 'Discord', icon: 'discord' },
 

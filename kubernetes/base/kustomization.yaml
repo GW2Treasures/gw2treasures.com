@@ -9,6 +9,6 @@ resources:
 - namespace.yaml
 - database
 - next
-- next-importer
+- legacy-importer
 - worker
 - database-migration

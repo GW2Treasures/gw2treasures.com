@@ -1,6 +1,6 @@
 commonLabels:
   app.kubernetes.io/component: backend
-  app.kubernetes.io/name: next-importer
+  app.kubernetes.io/name: legacy-importer
 
 resources:
-- job.yaml
+- configMap.yaml

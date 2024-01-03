@@ -29,9 +29,10 @@ interface FormatContextProps {
   defaultLocale: string;
   defaultRegion: string;
 
-  utcFormat: Intl.DateTimeFormat;
-  localFormat: Intl.DateTimeFormat;
-  relativeFormat: Intl.RelativeTimeFormat;
+  utcDateTimeFormat: Intl.DateTimeFormat;
+  localDateTimeFormat: Intl.DateTimeFormat;
+  localDateFormat: Intl.DateTimeFormat;
+  relativeTimeFormat: Intl.RelativeTimeFormat;
   numberFormat: Intl.NumberFormat;
 }
 
@@ -73,9 +74,10 @@ export const FormatProvider: FC<FormatProviderProps> = ({ children }) => {
   // create context
   const context: FormatContextProps = useMemo(() => ({
     language, region, locale, setLocale: (language, region) => { setLanguage(language); setRegion(region); }, defaultLocale, defaultRegion,
-    utcFormat: new Intl.DateTimeFormat(locale, { timeZone: 'UTC', dateStyle: 'short', timeStyle: 'short' }),
-    localFormat: new Intl.DateTimeFormat(locale, { dateStyle: 'short', timeStyle: 'short' }),
-    relativeFormat: new Intl.RelativeTimeFormat(locale, { numeric: 'auto' }),
+    utcDateTimeFormat: new Intl.DateTimeFormat(locale, { timeZone: 'UTC', dateStyle: 'short', timeStyle: 'short' }),
+    localDateTimeFormat: new Intl.DateTimeFormat(locale, { dateStyle: 'short', timeStyle: 'short' }),
+    localDateFormat: new Intl.DateTimeFormat(locale, { dateStyle: 'short' }),
+    relativeTimeFormat: new Intl.RelativeTimeFormat(locale, { numeric: 'auto' }),
     numberFormat: new Intl.NumberFormat(locale, { useGrouping: true }),
   }), [language, region, locale]);
 

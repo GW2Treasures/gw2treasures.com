@@ -8,10 +8,11 @@ import styles from './Format.module.css';
 export interface FormatDateProps {
   date?: Date | null;
   relative?: boolean;
+  dateOnly?: boolean;
 }
 
-export const FormatDate: FC<FormatDateProps> = ({ date = null, relative = false }) => {
-  const { relativeFormat, localFormat } = useFormatContext();
+export const FormatDate: FC<FormatDateProps> = ({ date = null, relative = false, dateOnly = false }) => {
+  const { relativeTimeFormat, localDateTimeFormat, localDateFormat } = useFormatContext();
 
   const difference = date && relative ? formatRelative(date) : undefined;
 
@@ -23,9 +24,9 @@ export const FormatDate: FC<FormatDateProps> = ({ date = null, relative = false 
 
   if(relative) {
     return (
-      <Tip tip={localFormat.format(date)}>
+      <Tip tip={localDateTimeFormat.format(date)}>
         <time dateTime={date?.toISOString()} className={styles.format} suppressHydrationWarning>
-          {relativeFormat.format(Math.round(difference!.value), difference!.unit)}
+          {relativeTimeFormat.format(Math.round(difference!.value), difference!.unit)}
         </time>
       </Tip>
     );
@@ -33,7 +34,7 @@ export const FormatDate: FC<FormatDateProps> = ({ date = null, relative = false 
 
   return (
     <time dateTime={date?.toISOString()} className={styles.format} suppressHydrationWarning>
-      {localFormat.format(date)}
+      {dateOnly ? localDateFormat.format(date) : localDateTimeFormat.format(date)}
     </time>
   );
 };

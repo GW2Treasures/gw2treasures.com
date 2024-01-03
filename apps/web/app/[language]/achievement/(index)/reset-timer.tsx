@@ -21,7 +21,7 @@ function getNextReset(relativeTo?: Date) {
 }
 
 export const ResetTimer: FC<ResetTimerProps> = ({ relativeTo }) => {
-  const { localFormat } = useFormatContext();
+  const { localDateTimeFormat } = useFormatContext();
   const [remaining, setRemaining] = useState(0);
   const reset = getNextReset();
 
@@ -36,7 +36,7 @@ export const ResetTimer: FC<ResetTimerProps> = ({ relativeTo }) => {
   }, [setRemaining, relativeTo]);
 
   return (
-    <Tip tip={localFormat.format(reset)}>
+    <Tip tip={localDateTimeFormat.format(reset)}>
       <time dateTime={reset.toISOString()} className={styles.reset}>
         Reset: {[remaining / 3600, remaining / 60, remaining].map(format).join(':')}
       </time>

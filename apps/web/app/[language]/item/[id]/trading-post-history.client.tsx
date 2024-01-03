@@ -67,6 +67,13 @@ function downSample<T>(data: T[], points: number): T[] {
   return data.filter((_, i) => i % bucketSize === 0);
 }
 
+function daysAgo(days: number) {
+  const date = new Date();
+  date.setDate(date.getDate() - days);
+
+  return date;
+}
+
 export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientInternalProps> = ({ history: completeHistory, width }) => {
   const isMobile = width < 720;
   const margin = isMobile ? marginMobile : marginDefault;
@@ -76,6 +83,8 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
     height - margin.top - margin.bottom,
   ], [width, margin]);
 
+  const showDateOnlyBefore = daysAgo(14).valueOf();
+
   const [range, setRange] = useState<Range>('90');
 
   const history = useMemo(() => {
@@ -84,10 +93,7 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
     }
 
     const days = Number(range);
-
-    const date = new Date();
-    date.setDate(date.getDate() - days);
-    const dateValue = date.valueOf();
+    const dateValue = daysAgo(days).valueOf();
 
     return downSample(completeHistory.filter((entry) => entry.time.valueOf() > dateValue), 365);
   }, [completeHistory, range]);
@@ -297,7 +303,7 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
               className={tipStyles.tip}
               style={{ textAlign: 'center', transform: 'translateX(-50%)', minWidth: 72 }}
             >
-              <FormatDate date={tooltipData?.time}/>
+              <FormatDate date={tooltipData.time} dateOnly={tooltipData.time.valueOf() < showDateOnlyBefore}/>
             </Tooltip>
             {(visibility.sellPrice || visibility.buyPrice || visibility.sellQuantity || visibility.buyQuantity) && (
               <TooltipWithBounds

@@ -136,7 +136,7 @@ jobs:
     - name: Import images into k3d
       run: k3d image import gw2treasures/web gw2treasures/worker gw2treasures/legacy-importer gw2treasures/database-migration
     - run: kubectl apply -k kubernetes/local
-    - run: kubectl rollout status deployment database next worker -n gw2treasures --timeout=180s
+    - run: kubectl rollout status deployment database-pg16 next worker -n gw2treasures --timeout=180s
     - run: kubectl get deployment -n gw2treasures
       if: success() || failure()
     - run: kubectl get job -n gw2treasures

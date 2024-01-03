@@ -2,28 +2,28 @@ apiVersion: apps/v1
 kind: Deployment
 
 metadata:
-  name: database
+  name: database-pg16
 
 spec:
   replicas: 1
   revisionHistoryLimit: 1
   selector:
     matchLabels:
-      name: database
+      name: database-pg16
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        name: database
+        name: database-pg16
     spec:
       volumes:
-      - name: database-data
+      - name: database-pg16-data
         persistentVolumeClaim:
-          claimName: database
+          claimName: database-pg16
       containers:
-      - name: database
-        image: postgres:16.1-alpine
+      - name: database-pg16
+        image: timescale/timescaledb:2.13.0-pg16
         resources:
           requests:
             memory: "256Mi"
@@ -35,12 +35,12 @@ spec:
         - name: POSTGRES_USER
           valueFrom:
             configMapKeyRef:
-              name: database
+              name: database-pg16
               key: user
         - name: POSTGRES_PASSWORD
           valueFrom:
             configMapKeyRef:
-              name: database
+              name: database-pg16
               key: password
         - name: POSTGRES_DB
           value: gw2treasures
@@ -72,7 +72,7 @@ spec:
           successThreshold: 1
           failureThreshold: 3
         volumeMounts:
-        - name: database-data
+        - name: database-pg16-data
           mountPath: /var/lib/postgresql/data
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File

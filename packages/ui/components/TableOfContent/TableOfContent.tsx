@@ -128,10 +128,10 @@ export const TableOfContent: FC<TableOfContentProps> = ({ }) => {
     return () => window.removeEventListener('scroll', listener);
   }, [getActiveIdFromScroll]);
 
-  // ignores scroll events during the next 500ms
+  // ignores scroll events during the next 1000ms
   const ignoreScroll = useCallback(() => {
     shouldIgnoreScroll.current = true;
-    setTimeout(() => { shouldIgnoreScroll.current = false; }, 500);
+    setTimeout(() => { shouldIgnoreScroll.current = false; }, 1000);
   }, []);
 
   // focus first anchor
@@ -144,8 +144,15 @@ export const TableOfContent: FC<TableOfContentProps> = ({ }) => {
   const handleClick = useCallback((id: string, element: HTMLElement, event: React.MouseEvent) => {
     event.preventDefault();
 
+    // tabIndex returns -1 even when tabIndex is unset
+    // so we set it to -1 to make sure the element is focusable
+    if(element.tabIndex === -1) {
+      element.tabIndex = -1;
+    }
+
     element.scrollIntoView({ behavior: 'smooth' });
-    element.focus();
+    element.focus({ preventScroll: true });
+    element.blur();
 
     ignoreScroll();
     setActiveId(id);

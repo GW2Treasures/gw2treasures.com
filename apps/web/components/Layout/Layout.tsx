@@ -72,8 +72,10 @@ const Layout: AsyncComponent<LayoutProps> = async ({ children }) => {
         <footer className={styles.footer}>
           <span><b>gw2treasures.com</b> by darthmaim &copy; {new Date().getFullYear()}</span>
           <div className={styles.footerLinks}>
-            <Link href="/about">About</Link>
-            <Link href="/status">Status</Link>
+            <Link href="/about">About</Link> /
+            <Link href="/about/legal">Legal</Link> /
+            <Link href="/about/privacy">Privacy</Link> /
+            <Link href="/status">Status</Link> /
             <ExternalLink href="https://discord.gg/gvx6ZSE" target="_blank">Discord</ExternalLink>
           </div>
         </footer>

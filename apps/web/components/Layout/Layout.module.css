@@ -165,6 +165,7 @@
 
 .footerLinks {
   display: flex;
+  flex-wrap: wrap;
   gap: 16px;
   color: var(--color-text-muted);
 }

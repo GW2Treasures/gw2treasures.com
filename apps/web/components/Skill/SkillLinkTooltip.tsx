@@ -30,7 +30,7 @@ export const SkillLinkTooltip: FC<SkillLinkTooltipProps> = ({ skill, language, r
   return (
     <div>
       <div className={cx(styles.title)}>
-        {skill.icon && (<EntityIcon icon={skill.icon} size={32}/>)}
+        {skill.icon && (<EntityIcon icon={skill.icon} size={32} type="skill"/>)}
         {localizedName(skill, language)}
       </div>
 

@@ -24,6 +24,10 @@ spec:
       containers:
       - name: database-pg16
         image: timescale/timescaledb:2.13.0-pg16
+        args:
+        - "postgres"
+        - "-c"
+        - "max_connections=50"
         resources:
           requests:
             memory: "256Mi"
@@ -46,8 +50,6 @@ spec:
           value: gw2treasures
         - name: PGDATA
           value: /var/lib/postgresql/data/pgdata
-        - name: TS_TUNE_MAX_CONNS
-          value: "50"
 
         readinessProbe:
           exec:

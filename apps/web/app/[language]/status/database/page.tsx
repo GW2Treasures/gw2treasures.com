@@ -2,25 +2,31 @@ import { FormatNumber } from '@/components/Format/FormatNumber';
 import { PageLayout } from '@/components/Layout/PageLayout';
 import { cache } from '@/lib/cache';
 import { db } from '@/lib/prisma';
+import { Prisma } from '@gw2treasures/database';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
 
 const getDbStats = cache(() => {
+  const hypertables = ['TradingPostHistory'];
+
   return Promise.all([
     db.$queryRaw<{ table_name: string, size: bigint, size_index: bigint, size_total: bigint, rows: number }[]>`
-      SELECT
-        relname AS table_name,
-        pg_table_size(c.oid) as size,
-        pg_indexes_size(c.oid) AS size_index,
-        pg_total_relation_size(c.oid) AS size_total,
-        reltuples as rows
-      FROM pg_class c
-      JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
-      WHERE relkind = 'r' AND nspname = CURRENT_SCHEMA AND relname NOT LIKE 'User%'
-      ORDER BY relname;`,
+      SELECT * FROM (
+        SELECT
+          relname AS table_name,
+          pg_table_size(c.oid) as size,
+          pg_indexes_size(c.oid) AS size_index,
+          pg_total_relation_size(c.oid) AS size_total,
+          reltuples as rows
+        FROM pg_class c
+        JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+        WHERE relkind = 'r' AND nspname = CURRENT_SCHEMA AND relname NOT LIKE 'User%' AND relname NOT IN (${Prisma.join(hypertables)})
+        UNION SELECT 'TradingPostHistory' as table_name, table_bytes as size, index_bytes as size_index, total_bytes as size_total, approximate_row_count('"TradingPostHistory"') as rows FROM hypertable_detailed_size('"TradingPostHistory"')
+      )
+      ORDER BY table_name;`,
     db.$queryRaw<[{ size: string }]>`SELECT pg_size_pretty(pg_database_size(current_database())) as size;`
   ]);
-}, ['db-stats'], { revalidate: 60 * 60 });
+}, ['db-stats'], { revalidate: 60 });
 
 export default async function StatusDatabasePage() {
   const [stats, total] = await getDbStats();
@@ -56,7 +62,11 @@ export const metadata = {
   title: 'Database Status'
 };
 
-function formatSize(size: bigint): string {
+function formatSize(size: bigint | null): string {
+  if(size === null) {
+    return '?';
+  }
+
   const units = ['bytes', 'kB', 'MB', 'GB', 'TB'];
 
   while(size > 8192) {

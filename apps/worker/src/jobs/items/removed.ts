@@ -25,6 +25,7 @@ export const ItemsRemoved: Job = {
       for(const language of ['de', 'en', 'es', 'fr'] as const) {
         const revision = await db.revision.create({
           data: {
+            previousRevisionId: item[`currentId_${language}`],
             data: item[`current_${language}`].data,
             description: 'Removed from API',
             type: 'Removed',

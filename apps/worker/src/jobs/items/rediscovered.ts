@@ -45,6 +45,7 @@ export const ItemsRediscovered: Job = {
       for(const language of ['de', 'en', 'es', 'fr'] as const) {
         const revision = await db.revision.create({
           data: {
+            previousRevisionId: item[`currentId_${language}`],
             data: JSON.stringify(data[language]),
             description: 'Rediscovered in API',
             entity: 'Item',

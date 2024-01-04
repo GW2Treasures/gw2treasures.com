@@ -32,7 +32,7 @@ type TestDbEntity = {
   version: number,
 }
 
-const revisionBase: Revision = { buildId: 1, createdAt: new Date(), data: JSON.stringify({ id: 1 }), description: 'Test', entity: 'test', id: 'test-revision', language: 'en', type: 'Import' };
+const revisionBase: Revision = { buildId: 1, createdAt: new Date(), data: JSON.stringify({ id: 1 }), description: 'Test', entity: 'test', id: 'test-revision', language: 'en', type: 'Import', previousRevisionId: null };
 
 const TestDbEntityBase: TestDbEntity = {
   id: 1,

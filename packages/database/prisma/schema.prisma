@@ -564,6 +564,10 @@ model Revision {
 
   @@index([language, type])
 
+  previousRevisionId String? @unique
+  previousRevision   Revision? @relation("previous", fields: [previousRevisionId], references: [id])
+  nextRevision       Revision? @relation("previous")
+
   // items
   currentItem_de Item? @relation("current_de")
   currentItem_en Item? @relation("current_en")

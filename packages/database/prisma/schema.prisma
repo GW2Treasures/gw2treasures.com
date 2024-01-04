@@ -1,11 +1,12 @@
 generator client {
   provider = "prisma-client-js"
-  previewFeatures = []
+  previewFeatures = ["postgresqlExtensions"]
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  extensions = [timescaledb]
 }
 
 model Item {

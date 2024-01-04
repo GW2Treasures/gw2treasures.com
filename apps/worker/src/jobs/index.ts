@@ -34,6 +34,7 @@ import { RecipesNew } from './recipes/new';
 import { RecipesRediscovered } from './recipes/rediscovered';
 import { RecipesRemoved } from './recipes/removed';
 import { RecipesUpdate } from './recipes/update';
+import { RevisionsPrevious } from './revisions/previous';
 import { SkillsCheck } from './skills/check';
 import { SkillsMigrate } from './skills/migrate';
 import { SkillsNew } from './skills/new';
@@ -122,6 +123,8 @@ const jobsInternal = {
 
   'tp': TpJob,
   'tp.import': TpImportJob,
+
+  'revisions.previous': RevisionsPrevious,
 
   'gw2api-requests.cleanup': Gw2ApiRequestsCleanup,
 

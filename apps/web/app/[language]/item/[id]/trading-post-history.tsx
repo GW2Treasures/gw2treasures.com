@@ -28,6 +28,19 @@ export const TradingPostHistoryAsync: AsyncComponent<TradingPostHistoryProps> = 
     orderBy: { time: 'asc' },
   });
 
+  // const history = await db.$queryRaw`
+  //   SELECT
+  //     time_bucket('1 day', time) as time,
+  //     MAX("sellPrice") as "sellPrice",
+  //     MAX("buyPrice") as "buyPrice",
+  //     MAX("sellQuantity")::int as "sellQuantity",
+  //     MAX("buyQuantity")::int as "buyQuantity"
+  //   FROM "TradingPostHistory"
+  //   WHERE "itemId" = ${itemId}
+  //   GROUP BY 1
+  //   ORDER BY time ASC
+  // ;`;
+
   return (
     <TradingPostHistoryClientLazy history={history}/>
   );

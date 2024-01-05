@@ -7,7 +7,7 @@ import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
 
 const getDbStats = cache(() => {
-  const hypertables = ['TradingPostHistory'];
+  const hypertables = ['TradingPostHistory', 'PageView'];
 
   return Promise.all([
     db.$queryRaw<{ table_name: string, size: bigint, size_index: bigint, size_total: bigint, rows: number }[]>`
@@ -22,6 +22,7 @@ const getDbStats = cache(() => {
         JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
         WHERE relkind = 'r' AND nspname = CURRENT_SCHEMA AND relname NOT LIKE 'User%' AND relname NOT IN (${Prisma.join(hypertables)})
         UNION SELECT 'TradingPostHistory' as table_name, table_bytes as size, index_bytes as size_index, total_bytes as size_total, approximate_row_count('"TradingPostHistory"') as rows FROM hypertable_detailed_size('"TradingPostHistory"')
+        UNION SELECT 'PageView' as table_name, table_bytes as size, index_bytes as size_index, total_bytes as size_total, approximate_row_count('"PageView"') as rows FROM hypertable_detailed_size('"PageView"')
       )
       ORDER BY table_name;`,
     db.$queryRaw<[{ size: string }]>`SELECT pg_size_pretty(pg_database_size(current_database())) as size;`

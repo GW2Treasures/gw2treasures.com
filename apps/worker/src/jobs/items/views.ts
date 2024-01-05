@@ -11,7 +11,7 @@ export const ItemsViews: Job = {
     // get views grouped by item id
     const views = await db.pageView.groupBy({
       by: ['pageId'],
-      where: { page: 'item', timestamp: { gte: past24hours }, pageId: { not: null }},
+      where: { page: 'item', time: { gte: past24hours }},
       _count: true,
     });
 

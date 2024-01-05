@@ -1,3 +1,5 @@
+import type {} from 'react-dom/experimental';
+
 // icons
 export * from './icons';
 

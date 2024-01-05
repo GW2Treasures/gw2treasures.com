@@ -26,6 +26,7 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
         <LinkButton appearance="menu" href="/admin/reviews">Reviews</LinkButton>
         <LinkButton appearance="menu" href="/admin/apps">Apps</LinkButton>
         <LinkButton appearance="menu" href="/admin/views">Page Views</LinkButton>
+        <LinkButton appearance="menu" href="/admin/jobs">Jobs</LinkButton>
       </div>
       {children}
     </div>

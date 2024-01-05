@@ -1,6 +1,6 @@
 generator client {
   provider = "prisma-client-js"
-  previewFeatures = ["postgresqlExtensions"]
+  previewFeatures = ["postgresqlExtensions", "views"]
 }
 
 datasource db {
@@ -1007,24 +1007,21 @@ enum ReviewState {
 }
 
 model PageView {
-  id String @id @default(uuid())
-
-  timestamp DateTime @default(now()) @db.Timestamp()
+  time DateTime @default(now())
 
   page   String
-  pageId Int?
+  pageId Int @default(0)
 
-  @@index([timestamp, page, pageId])
+  @@unique([time, page, pageId])
 }
 
-model PageViewHistory {
-  id String @id @default(uuid())
-
-  date  DateTime @db.Date
-  count Int
+view PageView_daily {
+  bucket DateTime @default(now())
 
   page   String
-  pageId Int?
+  pageId Int
 
-  @@index([date, page, pageId])
+  count Int
+
+  @@unique([bucket, page, pageId])
 }

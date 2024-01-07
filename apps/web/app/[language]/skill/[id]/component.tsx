@@ -19,6 +19,7 @@ import { getLinkProperties } from '@/lib/linkProperties';
 import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 import { Icon } from '@gw2treasures/ui';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
+import { pageView } from '@/lib/pageView';
 
 export interface SkillPageComponentProps {
   language: Language;
@@ -29,6 +30,7 @@ export interface SkillPageComponentProps {
 export const SkillPageComponent: AsyncComponent<SkillPageComponentProps> = async ({ language, skillId, revisionId }) => {
   const fixedRevision = revisionId !== undefined;
   const { skill, revision } = await getSkill(skillId, language, revisionId);
+  await pageView('skill', skillId);
 
   const data: Gw2Api.Skill = JSON.parse(revision.data);
 

@@ -22,6 +22,7 @@ import { format } from 'gw2-tooltip-html';
 import styles from './page.module.css';
 import type { Metadata } from 'next';
 import { Json } from '@/components/Format/Json';
+import { pageView } from '@/lib/pageView';
 
 const getSkin = remember(60, async function getSkin(id: number, language: Language) {
   const [skin, revision] = await Promise.all([
@@ -55,6 +56,7 @@ async function SkinPage ({ params: { language, id }}: SkinPageProps) {
   const skinId: number = Number(id);
 
   const { skin, revision, similar } = await getSkin(skinId, language);
+  await pageView('skin', skinId);
 
   const data: Gw2Api.Skin = JSON.parse(revision.data);
 

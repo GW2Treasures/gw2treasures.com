@@ -13,6 +13,7 @@ import { ItemLink } from '@/components/Item/ItemLink';
 import { Suspense } from 'react';
 import { SkeletonTable } from '@/components/Skeleton/SkeletonTable';
 import { CurrencyIngredientFor } from '@/components/Currency/CurrencyIngredientFor';
+import { pageView } from '@/lib/pageView';
 
 const getCurrency = remember(60, async function getCurrency(id: number, language: Language) {
   if(isNaN(id)) {
@@ -49,7 +50,8 @@ export default async function CurrencyPage({ params: { id, language }}: { params
   const currencyId = Number(id);
   const [currency, { revision, data }] = await Promise.all([
     getCurrency(currencyId, language),
-    getRevision(currencyId, language)
+    getRevision(currencyId, language),
+    pageView('currency', currencyId),
   ]);
 
   if(!currency || !revision || !data) {

@@ -16,6 +16,7 @@ import type { Metadata } from 'next';
 import { localizedName } from '@/lib/localizedName';
 import { RecipeBoxWrapper } from '@/components/Recipe/RecipeBoxWrapper';
 import { RecipeBox } from '@/components/Recipe/RecipeBox';
+import { pageView } from '@/lib/pageView';
 
 const getGuildUpgrade = remember(60, async function getGuildUpgrade(id: number, language: Language) {
   if(isNaN(id)) {
@@ -60,7 +61,8 @@ export default async function GuildUpgradePage({ params: { id, language }}: Guil
   const guildUpgradeId = Number(id);
   const [guildUpgrade, { revision, data }] = await Promise.all([
     getGuildUpgrade(guildUpgradeId, language),
-    getRevision(guildUpgradeId, language)
+    getRevision(guildUpgradeId, language),
+    pageView('guild/upgrade', guildUpgradeId),
   ]);
 
   if(!guildUpgrade || !revision || !data) {

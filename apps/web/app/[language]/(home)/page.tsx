@@ -13,8 +13,11 @@ import styles from './page.module.css';
 import Link from 'next/link';
 import { FormatNumber } from '@/components/Format/FormatNumber';
 import { AchievementLink } from '@/components/Achievement/AchievementLink';
+import { pageView } from '@/lib/pageView';
 
-function HomePage() {
+async function HomePage() {
+  await pageView('/');
+
   return (
     <HeroLayout hero={(
       <div className={styles.hero}>

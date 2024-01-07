@@ -31,6 +31,7 @@ import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
 import { AchievementPoints } from '@/components/Achievement/AchievementPoints';
 import { FormatNumber } from '@/components/Format/FormatNumber';
 import { ColumnSelect } from '@/components/Table/ColumnSelect';
+import { pageView } from '@/lib/pageView';
 
 const MasteryColors: Record<MasteryRegion, CSS.Property.Color> = {
   'Tyria': '#FB8C00', //   core
@@ -96,6 +97,7 @@ async function AchievementPage({ params: { id, language }}: AchievementPageProps
   const achievementId: number = Number(id);
 
   const { achievement, revision, categoryAchievements } = await getAchievement(achievementId, language);
+  await pageView('achievement', achievementId);
 
   const data: Gw2Api.Achievement = JSON.parse(revision.data);
 

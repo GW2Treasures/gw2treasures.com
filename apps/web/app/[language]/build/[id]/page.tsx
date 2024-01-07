@@ -14,6 +14,7 @@ import { SkeletonLink } from '@/components/Link/SkeletonLink';
 import { remember } from '@/lib/remember';
 import { linkProperties } from '@/lib/linkProperties';
 import type { Metadata } from 'next';
+import { pageView } from '@/lib/pageView';
 
 interface BuildPageProps {
   params: { language: Language, id: string }
@@ -82,6 +83,7 @@ async function BuildDetail({ params: { id, language }}: BuildPageProps) {
   const skillsPromise = getUpdatedSkills(buildId, language);
 
   const build = await getBuild(buildId);
+  await pageView('build', buildId);
 
   return (
     <DetailLayout title={`Build ${build.id}`} breadcrumb="Build">

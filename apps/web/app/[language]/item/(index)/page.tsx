@@ -7,6 +7,7 @@ import { remember } from '@/lib/remember';
 import { linkProperties } from '@/lib/linkProperties';
 import { ItemLink } from '@/components/Item/ItemLink';
 import { FormatDate } from '@/components/Format/FormatDate';
+import { pageView } from '@/lib/pageView';
 
 const getItems = remember(60, async function getItems(language: Language) {
   const [recentlyAdded, recentlyUpdated] = await Promise.all([
@@ -28,6 +29,7 @@ const getItems = remember(60, async function getItems(language: Language) {
 
 export default async function ItemPage({ params: { language }}: { params: { language: Language }}) {
   const { recentlyAdded, recentlyUpdated } = await getItems(language);
+  pageView('item');
 
   return (
     <HeroLayout hero={<Headline id="items">Items</Headline>} toc>

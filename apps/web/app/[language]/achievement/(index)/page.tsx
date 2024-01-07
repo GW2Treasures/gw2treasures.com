@@ -11,6 +11,7 @@ import { remember } from '@/lib/remember';
 import { ResetTimer } from './reset-timer';
 import { RemovedFromApiNotice } from '@/components/Notice/RemovedFromApiNotice';
 import Link from 'next/link';
+import { pageView } from '@/lib/pageView';
 
 const getAchivementGroups = remember(60, async function getAchivementGroups(language: string) {
   const groups = await db.achievementGroup.findMany({
@@ -32,6 +33,7 @@ const getAchivementGroups = remember(60, async function getAchivementGroups(lang
 
 export default async function AchievementPage({ params: { language }}: { params: { language: Language }}) {
   const groups = await getAchivementGroups(language);
+  await pageView('achievement');
 
   return (
     <HeroLayout hero={<Headline id="achievements" actions={<ResetTimer/>}>Achievements</Headline>} color="#663399" toc>

@@ -7,8 +7,10 @@ import { getUser } from '@/lib/getUser';
 import { db } from '@/lib/prisma';
 import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
-import { cache } from 'react';
+import { Suspense, cache } from 'react';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
+import { Accounts } from './accounts';
+import { Skeleton } from '@/components/Skeleton/Skeleton';
 
 const getUserData = cache(async () => {
   const session = await getUser();
@@ -44,6 +46,11 @@ export default async function ProfilePage() {
         <LinkButton external href="/logout">Logout</LinkButton>
         {user.roles.includes('Admin') && <LinkButton href="/admin/users">Admin</LinkButton>}
       </FlexRow>
+
+      <Headline id="accounts">Accounts</Headline>
+      <Suspense fallback={<Skeleton/>}>
+        <Accounts/>
+      </Suspense>
 
       <Headline id="sessions">Sessions</Headline>
       <Table>

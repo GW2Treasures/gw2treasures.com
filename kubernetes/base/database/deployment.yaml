@@ -30,7 +30,7 @@ spec:
         - "max_connections=50"
         resources:
           requests:
-            memory: "256Mi"
+            memory: "1536Mi"
             cpu: "100m"
         ports:
         - containerPort: 5432

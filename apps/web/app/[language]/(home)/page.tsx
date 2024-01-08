@@ -33,6 +33,8 @@ async function HomePage() {
         <DbStats/>
       </Suspense>
 
+      <p>Welcome to the new version of gw2treasures.com! Thank you for 10 years of support. This new version is a complete rewrite, so not all pages have been migrated yet. If you have feedback, find issues or have feature requests, please <Link href="/about">report them</Link> or even contribute yourself, everything is open-source.</p>
+
       <Headline id="new-items">
         <Trans id="items.new"/>
       </Headline>

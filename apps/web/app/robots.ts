@@ -7,9 +7,8 @@ export default function robots(): MetadataRoute.Robots {
   return {
     rules: {
       userAgent: '*',
-      // allow: '/',
+      allow: '/',
       disallow: [
-        '/', // prevent indexing until the rewrite is hosted at gw2treasures.com
         '/auth',
       ]
     },

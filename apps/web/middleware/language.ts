@@ -18,7 +18,11 @@ export const languageMiddleware: NextMiddleware = (request, next, data) => {
   if(!subdomain) {
     // if no language was detected we need to redirect to the correct domain
     const acceptLanguage = new Negotiator({ headers: Object.fromEntries(request.headers.entries()) }).languages();
-    const language = match(acceptLanguage, Object.values(Language), Language.en);
+
+    const language = acceptLanguage.length === 1 && acceptLanguage[0] === '*'
+      ? Language.en
+      : match(acceptLanguage, Object.values(Language), Language.en);
+
     url.hostname = `${language}.${baseDomain}`;
 
     // if we attempted to do this already, show error

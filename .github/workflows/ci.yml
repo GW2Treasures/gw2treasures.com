@@ -60,6 +60,7 @@ jobs:
         targets: ${{ matrix.target }}
         set: |
           *.output=type=docker
+          *.platform=linux/amd64,linux/arm64
           *.cache-from=type=gha,scope=build-${{ matrix.target }}
           *.cache-to=type=gha,scope=build-${{ matrix.target }},mode=max
     - name: Login to GitHub Container Registry

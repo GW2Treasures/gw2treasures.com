@@ -20,6 +20,11 @@ spec:
       labels:
         name: next
     spec:
+      tolerations:
+      - key: arch
+        operator: Equal
+        value: arm64
+        effect: NoSchedule
       containers:
       - name: next
         image: ghcr.io/gw2treasures/gw2treasures.com/web:latest

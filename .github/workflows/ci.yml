@@ -257,19 +257,15 @@ jobs:
       matrix:
         target: [ web, worker, legacy-importer, database-migration ]
     steps:
-    - name: Pull docker images
-      run: |
-        DOCKER_PREFIX=ghcr.io/${{ github.repository }}
-        DOCKER_PREFIX=$(echo $DOCKER_PREFIX | tr '[A-Z]' '[a-z]')
-        VERSION=ci-run-${{ github.run_id }}
-        docker pull $DOCKER_PREFIX/${{ matrix.target }}:$VERSION
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
     - name: Login to GitHub Container Registry
       uses: docker/login-action@v3
       with:
         registry: ghcr.io
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
-    - name: Push image
+    - name: Tag image version
       run: |
         IMAGE_ID=ghcr.io/${{ github.repository }}/${{ matrix.target }}
         # Change all uppercase to lowercase
@@ -283,8 +279,7 @@ jobs:
         CI_TAG=ci-run-${{ github.run_id }}
         echo IMAGE_ID=$IMAGE_ID
         echo VERSION=$VERSION
-        docker tag $IMAGE_ID:$CI_TAG $IMAGE_ID:$VERSION
-        docker push $IMAGE_ID:$VERSION
+        docker buildx imagetools create $IMAGE_ID:$CI_TAG --tag $IMAGE_ID:$VERSION
 
   publish-npm:
     name: Publish / npm / ${{ matrix.target }}

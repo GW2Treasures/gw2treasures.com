@@ -8,16 +8,11 @@ spec:
   ttlSecondsAfterFinished: 10
   template:
     spec:
-      affinity:
-        nodeAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 1
-            preference:
-              matchExpressions:
-              - key: node-role.kubernetes.io/master
-                operator: NotIn
-                values:
-                - 'true'
+      tolerations:
+      - key: arch
+        operator: Equal
+        value: arm64
+        effect: NoSchedule
       containers:
       - name: legacy-importer
         image: ghcr.io/gw2treasures/gw2treasures.com/legacy-importer:latest

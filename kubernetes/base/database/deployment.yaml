@@ -17,6 +17,11 @@ spec:
       labels:
         name: database-pg16
     spec:
+      tolerations:
+      - key: arch
+        operator: Equal
+        value: arm64
+        effect: NoSchedule
       volumes:
       - name: database-pg16-data
         persistentVolumeClaim:

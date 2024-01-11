@@ -15,6 +15,11 @@ spec:
       labels:
         name: worker
     spec:
+      tolerations:
+      - key: arch
+        operator: Equal
+        value: arm64
+        effect: NoSchedule
       containers:
       - name: worker
         image: ghcr.io/gw2treasures/gw2treasures.com/worker:latest

@@ -8,6 +8,11 @@ spec:
   ttlSecondsAfterFinished: 10
   template:
     spec:
+      tolerations:
+      - key: arch
+        operator: Equal
+        value: arm64
+        effect: NoSchedule
       containers:
       - name: database-migration
         image: ghcr.io/gw2treasures/gw2treasures.com/database-migration:latest

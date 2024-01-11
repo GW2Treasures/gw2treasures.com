@@ -74,8 +74,8 @@ jobs:
           ./docker-compose.e2e.yml
         targets: ${{ matrix.target }}
         set: |
-          *.output=type=image,push=true
-          *.tag=${{ env.IMAGE_NAME }}
+          ${{ matrix.target }}.output=type=image,push=true
+          ${{ matrix.target }}.tags=${{ env.IMAGE_NAME }}
           *.platform=linux/amd64,linux/arm64
           *.cache-from=type=gha,scope=build-${{ matrix.target }}
           *.cache-to=type=gha,scope=build-${{ matrix.target }},mode=max

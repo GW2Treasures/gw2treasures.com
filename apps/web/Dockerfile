@@ -2,7 +2,7 @@
 
 ARG node_version=20.10.0-alpine
 
-FROM node:${node_version} AS source
+FROM --platform=$BUILDPLATFORM node:${node_version} AS source
 # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
 RUN apk add --no-cache libc6-compat
 WORKDIR /source
@@ -11,7 +11,7 @@ COPY --link . .
 RUN turbo prune --scope=web --docker
 
 # Install dependencies only when needed
-FROM node:${node_version} AS builder
+FROM --platform=$BUILDPLATFORM node:${node_version} AS builder
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 ENV NEXT_TELEMETRY_DISABLED 1

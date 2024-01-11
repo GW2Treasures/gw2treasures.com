@@ -12,6 +12,7 @@ RUN turbo prune --scope=web --docker
 
 # Install dependencies only when needed
 FROM --platform=$BUILDPLATFORM node:${node_version} AS builder
+ARG TARGETPLATFORM
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 ENV NEXT_TELEMETRY_DISABLED 1
@@ -20,14 +21,14 @@ ENV NEXT_TELEMETRY_DISABLED 1
 COPY --link --from=source /source/out/json/ .
 COPY --link --from=source /source/out/package-lock.json package-lock.json
 
-RUN npm ci --include=dev
+RUN npm ci --include=dev --cpu $TARGETPLATFORM
 
 COPY --link --from=source /source/out/full/ .
 
 RUN npm ls sharp && npm run build -- --filter=web...
 
 # Production image, COPY --link all the files and run next
-FROM node:${node_version} AS runner
+FROM --platform=$TARGETPLATFORM node:${node_version} AS runner
 RUN apk add --no-cache bind-tools
 WORKDIR /app
 

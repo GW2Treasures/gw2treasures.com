@@ -22,10 +22,12 @@ export const ItemsViews: Job = {
     const idsWithViews = views.map(({ pageId }) => pageId!);
 
     // set all items with 0 views to 0
-    await db.item.updateMany({
-      where: { id: { notIn: idsWithViews }},
-      data: { views: 0 }
-    });
+    await db.$transaction(batch(idsWithViews, 5000).map(
+      (ids) => db.item.updateMany({
+        where: { id: { notIn: ids }},
+        data: { views: 0 }
+      })
+    ));
 
     // update views for all items that had views
     for(const ids of batch(idsWithViews, 500)) {

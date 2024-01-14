@@ -18,7 +18,7 @@ spec:
         name: wvw-crawler
     spec:
       nodeSelector:
-        beta.kubernetes.io/arch: amd64
+        kubernetes.io/arch: amd64
       containers:
       - name: wvw-crawler
         image: ghcr.io/gw2treasures/gw2treasures.com/legacy/wvw-crawler:latest

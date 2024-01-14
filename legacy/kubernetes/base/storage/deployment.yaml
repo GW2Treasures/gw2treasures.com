@@ -21,7 +21,7 @@ spec:
         name: storage
     spec:
       nodeSelector:
-        beta.kubernetes.io/arch: amd64
+        kubernetes.io/arch: amd64
       containers:
       - name: storage
         image: ghcr.io/gw2treasures/gw2treasures.com/legacy/storage:latest

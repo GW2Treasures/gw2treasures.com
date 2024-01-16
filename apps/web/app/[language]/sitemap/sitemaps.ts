@@ -200,3 +200,17 @@ function getLocalizedBaseUrls() {
     { lang: 'fr', base: urlFr },
   ];
 }
+
+export const getSitemapsForType = (baseUrl: string) => async (type: keyof typeof sitemaps) => {
+  const count = await sitemaps[type].getCount();
+
+  const pageCount = Math.ceil(count / pageSize);
+  const pages = Array(pageCount).fill(undefined);
+
+  const sitemapXml = pages
+    .map((_, page) => `<sitemap><loc>${baseUrl}/${type}/${page}</loc></sitemap>`)
+    .join('');
+
+  return sitemapXml;
+};
+

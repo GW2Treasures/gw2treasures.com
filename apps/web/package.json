@@ -11,7 +11,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@floating-ui/react": "0.26.5",
+    "@floating-ui/react": "0.26.6",
     "@floating-ui/react-dom": "2.0.5",
     "@formatjs/intl-localematcher": "0.5.3",
     "@gw2me/client": "0.2.1",

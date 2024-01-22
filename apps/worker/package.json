@@ -29,7 +29,7 @@
     "eslint": "8.56.0",
     "gw2-api-types": "0.0.8",
     "jest": "29.7.0",
-    "ts-jest": "29.1.1",
+    "ts-jest": "29.1.2",
     "typescript": "5.3.3"
   }
 }

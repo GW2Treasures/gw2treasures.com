@@ -6,7 +6,7 @@
     "build": "npm run ncc",
     "dev": ". ./.env && node dist/index.js",
     "lint": "eslint src",
-    "ncc": "ncc build src/index.ts -o dist",
+    "ncc": "ncc build src/index.ts --out dist --target es2023 --external sharp",
     "postncc": "mv dist/client/* dist/ && rm -r dist/client",
     "clean": "rm -rf dist",
     "types": "tsc",

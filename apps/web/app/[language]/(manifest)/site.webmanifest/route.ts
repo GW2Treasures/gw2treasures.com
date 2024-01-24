@@ -6,7 +6,7 @@ export function GET() {
   const protocol = getCurrentUrl().protocol;
 
   return NextResponse.json({
-    id: 'gw2t',
+    id: '/',
     name: 'gw2treasures.com',
     short_name: 'gw2treasures.com',
     start_url: '/',

@@ -30,7 +30,7 @@
     "@babel/plugin-transform-react-jsx": "7.23.4",
     "@svgr/core": "8.1.0",
     "@svgr/plugin-jsx": "8.1.0",
-    "@types/node": "20.11.6",
+    "@types/node": "20.11.7",
     "rimraf": "5.0.5",
     "ts-node": "10.9.2"
   },

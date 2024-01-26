@@ -18,7 +18,7 @@
     "@gw2treasures/database": "*",
     "@gw2treasures/icons": "*",
     "@gw2treasures/ui": "*",
-    "@visx/axis": "3.5.0",
+    "@visx/axis": "3.8.0",
     "@visx/brush": "3.6.1",
     "@visx/curve": "3.3.0",
     "@visx/event": "3.3.0",

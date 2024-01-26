@@ -20,7 +20,7 @@ import tipStyles from '@gw2treasures/ui/components/Tip/Tip.module.css';
 import styles from './trading-post-history.module.css';
 import { Checkbox } from '@gw2treasures/ui/components/Form/Checkbox';
 import { DropDown } from '@gw2treasures/ui/components/DropDown/DropDown';
-import { Button } from '@gw2treasures/ui/components/Form/Button';
+import { Button, LinkButton } from '@gw2treasures/ui/components/Form/Button';
 import { MenuList } from '@gw2treasures/ui/components/Layout/MenuList';
 import { Select } from '@gw2treasures/ui/components/Form/Select';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
@@ -180,7 +180,8 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
         </div>
         <div>
           <FlexRow>
-            <Select options={[{ value: '90', label: '3 Months' }, { value: '365', label: '1 Year' }, { value: 'full', label: 'Full history' }]} value={range} onChange={(range) => setRange(range as Range)}/>
+            <LinkButton appearance="menu" icon="diff" href={`/tradingpost/compare?ids=${history[0].itemId}`}>Compare</LinkButton>
+            <Select options={[{ value: '14', label: '2 Weeks' }, { value: '90', label: '3 Months' }, { value: '365', label: '1 Year' }, { value: 'full', label: 'Full history' }]} value={range} onChange={(range) => setRange(range as Range)}/>
             <DropDown button={<Button icon="settings">Settings</Button>}>
               <MenuList>
                 <Checkbox checked={thresholdVisible} onChange={setThresholdVisible}>Highlight Supply/Demand Difference</Checkbox>

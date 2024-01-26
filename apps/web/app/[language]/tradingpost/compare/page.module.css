@@ -1,0 +1,50 @@
+.layout {
+  display: flex;
+}
+
+.chartArea {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+.itemArea {
+  flex: 0 0 500px;
+  border-left: 1px solid var(--color-border);
+}
+
+.item {
+  padding: 16px;
+  display: flex;
+}
+
+.item + .item {
+  border-top: 1px solid var(--color-border);
+}
+
+.itemPrices {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0 8px 0 auto;
+  white-space: nowrap;
+  text-align: right;
+  font-feature-settings: "tnum" 1;
+}
+
+.color {
+  width: 4px;
+  border-radius: 2px;
+  background-color: var(--color);
+  margin-right: 12px;
+}
+
+.addItemButtonWrapper {
+  padding: 16px;
+  display: flex;
+}
+
+.addItemButton {
+  flex: 1;
+  justify-content: center;
+}

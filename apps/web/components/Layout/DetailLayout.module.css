@@ -3,10 +3,11 @@
 
   display: grid;
   grid-template:
-    "headline infobox padding" min-content
-    "content  infobox .      " min-content
-    "content  toc     .      " 1fr /
-    calc(100% - clamp(250px, 25%, 360px) - 16px) clamp(250px, 25%, 360px) 16px;
+    "headline infobox  padding" min-content
+    "content  infobox  .      " min-content
+    "content  toc      .      " 1fr
+    "content  feedback .      " min-content
+    / calc(100% - clamp(250px, 25%, 360px) - 16px) clamp(250px, 25%, 360px) 16px;
 }
 
 .headline {
@@ -94,10 +95,11 @@
 @media (max-width: 920px) {
   .main {
     grid-template:
-      "headline" min-content
-      "infobox " min-content
-      "content " 1fr /
-       100%;
+      "headline " min-content
+      "infobox  " min-content
+      "content  " 1fr
+      "feedback " min-content
+      / 100%;
   }
   .main::before { display: none; }
   .infobox { border-width: 0 0 1px 0; }

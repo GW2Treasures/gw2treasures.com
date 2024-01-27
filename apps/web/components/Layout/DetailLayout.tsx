@@ -8,6 +8,7 @@ import { Icon as IconComponent } from '@gw2treasures/ui';
 import { DropDown } from '@gw2treasures/ui/components/DropDown/DropDown';
 import { MenuList } from '@gw2treasures/ui/components/Layout/MenuList';
 import { getLanguage, getTranslate } from '@/lib/translate';
+import { Feedback } from '../Feedback/Feedback';
 
 interface DetailLayoutProps {
   title: ReactNode;
@@ -16,12 +17,13 @@ interface DetailLayoutProps {
   breadcrumb?: ReactNode;
   children: ReactNode;
   infobox?: ReactNode;
+  feedback?: boolean;
   className?: string;
   actions?: ReactNode[];
   color?: CSSProperties['--hero-color'];
 }
 
-const DetailLayout: FC<DetailLayoutProps> = async ({ title, icon, breadcrumb, children, infobox, className, iconType, actions, color }) => {
+const DetailLayout: FC<DetailLayoutProps> = async ({ title, icon, breadcrumb, children, infobox, feedback, className, iconType, actions, color }) => {
   const language = await getLanguage();
   const t = getTranslate(language);
 
@@ -51,6 +53,7 @@ const DetailLayout: FC<DetailLayoutProps> = async ({ title, icon, breadcrumb, ch
         <div className={styles.content}>
           {children}
         </div>
+        {feedback && (<Feedback/>)}
       </main>
     </TableOfContentContext>
   );

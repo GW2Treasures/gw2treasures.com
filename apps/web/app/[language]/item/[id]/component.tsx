@@ -115,6 +115,7 @@ export const ItemPageComponent: FC<ItemPageComponentProps> = async ({ language, 
         canHaveContents ? <EditContents key="edit-content" appearance="menu" contents={item.contains} currencyContents={item.containsCurrency} itemId={item.id}/> : undefined,
         <LinkButton key="mf" appearance="menu" icon="mystic-forge" href={`/item/${item.id}/edit-mystic-forge`}>Add Mystic Forge Recipe</LinkButton>
       ]}
+      feedback
     >
       {item[`currentId_${language}`] !== revision.id && (
         <Notice icon="revision">You are viewing an old revision of this item{revision.buildId !== 0 && (<> (<Link href={`/build/${revision.buildId}`}>Build {revision.buildId}</Link>)</>)}. Some data is only available when viewing the latest version. <Link href={`/item/${item.id}`}>View latest</Link>.</Notice>

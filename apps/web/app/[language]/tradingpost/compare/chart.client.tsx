@@ -76,7 +76,7 @@ const ChartInternal: FC<ChartProps & { width: number, height: number }> = ({ dat
   const handleTooltip = (event: TouchEvent<SVGRectElement> | MouseEvent<SVGRectElement>) => {
     const { x, y } = localPoint(event) || { x: 0, y: 0 };
     const x0 = timeScale.invert(x - margin.left);
-    const tooltipData: { itemId: number, entry: TradingPostHistory }[] = []
+    const tooltipData: { itemId: number, entry: TradingPostHistory }[] = [];
 
     for(const item of items) {
       const index = bisectDate(historyByItem[item.id], x0, 1);
@@ -86,11 +86,11 @@ const ChartInternal: FC<ChartProps & { width: number, height: number }> = ({ dat
       if (d1) {
         d = x0.valueOf() - d0.time.valueOf() > d1.time.valueOf() - x0.valueOf() ? d1 : d0;
       }
-      tooltipData.push({ itemId: item.id, entry: d })
+      tooltipData.push({ itemId: item.id, entry: d });
     }
 
     showTooltip({
-      tooltipData: tooltipData,
+      tooltipData,
       tooltipLeft: x,
       tooltipTop: y,
     });
@@ -119,17 +119,16 @@ const ChartInternal: FC<ChartProps & { width: number, height: number }> = ({ dat
               pointerEvents="none"
               strokeDasharray="4 2"/>
             {tooltipData.map(({ itemId, entry }, index) => (
-              <>
-                <Circle
-                  cx={x(entry) + margin.left}
-                  cy={priceScale(entry.sellPrice ?? 0) + margin.top}
-                  r={4}
-                  fill={colorPalette[index % 5]}
-                  stroke="var(--color-background)"
-                  strokeWidth={2}
-                  style={{ filter: 'drop-shadow(0 0 4px rgba(0,0,0,0.12))' }}
-                  pointerEvents="none"/>
-              </>
+              <Circle
+                key={itemId}
+                cx={x(entry) + margin.left}
+                cy={priceScale(entry.sellPrice ?? 0) + margin.top}
+                r={4}
+                fill={colorPalette[index % 5]}
+                stroke="var(--color-background)"
+                strokeWidth={2}
+                style={{ filter: 'drop-shadow(0 0 4px rgba(0,0,0,0.12))' }}
+                pointerEvents="none"/>
             ))}
           </g>
         )}
@@ -171,7 +170,7 @@ const ChartInternal: FC<ChartProps & { width: number, height: number }> = ({ dat
           >
             <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
               {tooltipData.map(({ entry }, index) => (
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <div key={entry.itemId} style={{ display: 'flex', justifyContent: 'space-between' }}>
                   <div>
                     <span style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: colorPalette[index % colorPalette.length], display: 'inline-block', marginRight: 8 }}/>
                     <ItemLink item={items[index]} icon={16}/>

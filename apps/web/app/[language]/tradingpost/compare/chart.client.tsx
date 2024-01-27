@@ -32,7 +32,7 @@ export const Chart: FC<ChartProps> = (props) => {
 };
 
 const ChartInternal: FC<ChartProps & { width: number, height: number }> = ({ data, items, width, height }) => {
-  const margin = { top: 0, bottom: 40, left: 88, right: 0 };
+  const margin = { top: 0, bottom: 40, left: 0, right: 0 };
 
   const xMax = width - margin.left - margin.right;
   const yMax = height - margin.top - margin.bottom;
@@ -101,12 +101,11 @@ const ChartInternal: FC<ChartProps & { width: number, height: number }> = ({ dat
       <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} style={{ overflow: 'visible' }}>
         <Group left={margin.left} top={margin.top}>
           <GridRows scale={priceScale} width={xMax} height={yMax} numTicks={6} stroke="var(--color-border)"/>
-          <AxisLeft scale={priceScale} stroke="var(--color-border-dark)" tickStroke="var(--color-border-dark)" tickComponent={renderGoldTick} tickFormat={(v) => v.toString()} numTicks={6}/>
+          <AxisLeft scale={priceScale} stroke="var(--color-border-dark)" tickStroke="var(--color-border-dark)" tickComponent={renderGoldTick} tickFormat={(v) => v.toString()} numTicks={6} hideAxisLine hideZero hideTicks/>
           <AxisBottom scale={timeScale} top={yMax} stroke="var(--color-border-dark)" tickStroke="var(--color-border-dark)" tickLabelProps={{ fill: 'var(--color-text)', fontFamily: 'var(--font-wotfard)', fontSize: 12 }} numTicks={7}/>
-          <Line from={{ x: xMax, y: 0 }} to={{ x: xMax, y: yMax }} stroke="var(--color-border)"/>
 
           {items.map((item, index) => (
-            <LinePath key={item.id} data={historyByItem[item.id]} y={(d) => priceScale(d.sellPrice ?? 0)} x={(d) => timeScale(d.time)} curve={curveMonotoneX} strokeWidth={2} stroke={colorPalette[index % colorPalette.length]} strokeLinejoin="round" strokeLinecap="round"/>
+            <LinePath key={item.id} data={historyByItem[item.id]} y={(d) => priceScale(d.sellPrice ?? 0)} defined={(d) => d.sellPrice !== null} x={(d) => timeScale(d.time)} curve={curveMonotoneX} strokeWidth={2} stroke={colorPalette[index % colorPalette.length]} strokeLinejoin="round" strokeLinecap="round"/>
           ))}
         </Group>
 
@@ -130,15 +129,6 @@ const ChartInternal: FC<ChartProps & { width: number, height: number }> = ({ dat
                   strokeWidth={2}
                   style={{ filter: 'drop-shadow(0 0 4px rgba(0,0,0,0.12))' }}
                   pointerEvents="none"/>
-                {/* <image
-                  x={x(entry) + margin.left - 8}
-                  y={priceScale(entry.sellPrice ?? 0) + margin.top - 8}
-                  width={16}
-                  height={16}
-                  href={getIconUrl(items[index].icon!, 32)}
-                  clip-path="inset(0% round 2px)"
-                  style={{ filter: 'drop-shadow(0 0 4px rgba(0,0,0,0.12))', transition: 'all 50ms ease' }}
-                  /> */}
               </>
             ))}
           </g>
@@ -201,8 +191,8 @@ const ChartInternal: FC<ChartProps & { width: number, height: number }> = ({ dat
 
 function renderGoldTick(props: TickRendererProps) {
   return (
-    <svg style={{ overflow: 'visible', fontFeatureSettings: '"tnum" 1' }} x="0" y="-.5em" fontSize={12} fontFamily="var(--font-wotfard)">
-      <foreignObject x={props.x - 60 - 8} y={props.y} width={60} height="1em" style={{ textAlign: 'right' }}>
+    <svg style={{ overflow: 'visible', fontFeatureSettings: '"tnum" 1' }} x="0" y="-1.5em" fontSize={12} fontFamily="var(--font-wotfard)">
+      <foreignObject x={props.x + 16} y={props.y} width={60} height="1em">
         <Coins value={Number(props.formattedValue)}/>
       </foreignObject>
     </svg>

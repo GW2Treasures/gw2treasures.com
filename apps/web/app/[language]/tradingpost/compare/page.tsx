@@ -29,7 +29,9 @@ export default async function TradingpostChartsPage({ searchParams }: { searchPa
   return (
     <div className={styles.layout}>
       <div className={styles.chartArea}>
-        <Chart data={history} items={items}/>
+        {items.length > 0 && (
+          <Chart data={history} items={items}/>
+        )}
       </div>
       <div className={styles.itemArea}>
         {items.map((item, index) => (

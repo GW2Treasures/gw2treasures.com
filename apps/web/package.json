@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@floating-ui/react": "0.26.7",
-    "@floating-ui/react-dom": "2.0.7",
+    "@floating-ui/react-dom": "2.0.8",
     "@formatjs/intl-localematcher": "0.5.4",
     "@gw2me/client": "0.2.1",
     "@gw2treasures/database": "*",

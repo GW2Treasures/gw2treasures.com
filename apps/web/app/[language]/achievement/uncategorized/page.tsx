@@ -3,7 +3,6 @@ import { db } from '@/lib/prisma';
 import { ItemList } from '@/components/ItemList/ItemList';
 import { AchievementLink } from '@/components/Achievement/AchievementLink';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
-import { remember } from '@/lib/remember';
 import { AchievementPoints } from '@/components/Achievement/AchievementPoints';
 import { Icon } from '@gw2treasures/ui';
 import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
@@ -14,18 +13,19 @@ import { ItemLink } from '@/components/Item/ItemLink';
 import { AccountAchievementProgressHeader, AccountAchievementProgressRow } from '@/components/Achievement/AccountAchievementProgress';
 import { PageLayout } from '@/components/Layout/PageLayout';
 import { ColumnSelect } from '@/components/Table/ColumnSelect';
+import { cache } from '@/lib/cache';
 
-const getUncategorizedAchievements = remember(60, async function getData(language: Language) {
+const getUncategorizedAchievements = cache(async () => {
   const achievements = await db.achievement.findMany({
     where: { achievementCategoryId: null },
     include: { icon: true, rewardsItem: { select: linkProperties }, rewardsTitle: { select: { id: true, name_de: true, name_en: true, name_es: true, name_fr: true }}}
   });
 
   return { achievements };
-});
+}, ['uncategorized-achievements'], { revalidate: 60 });
 
 async function AchievementUncategorizedPage({ params: { language }}: { params: { language: Language }}) {
-  const { achievements } = await getUncategorizedAchievements(language);
+  const { achievements } = await getUncategorizedAchievements();
 
   const UncategorizedAchievements = createDataTable(achievements, ({ id }) => id);
 

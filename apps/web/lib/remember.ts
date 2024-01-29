@@ -2,6 +2,7 @@ import chalk from 'chalk';
 
 const logPrefix = (msg: any, ...params: any[]) => console.log(chalk.green('cache') + ' -', msg, ...params);
 
+/** @deprecated */
 export function remember<Args extends any[], Out>(seconds: number, callback: (...args: Args) => Out): (...args: Args) => Out {
   const log = (msg: any, ...params: any) => logPrefix(callback.name || 'anonymous', '-', msg, ...params);
 

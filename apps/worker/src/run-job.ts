@@ -17,7 +17,7 @@ export async function runJob(job: Job) {
     return;
   }
 
-  console.log(`Running ${chalk.blue(job.type)} ${chalk.gray(`(${job.id})`)}`);
+  console.log(`Running ${chalk.blue(job.type)} ${chalk.gray(`(${job.id}) (${(process.memoryUsage().heapTotal / 1024 / 1024).toFixed(2)} MB)`)}`);
 
   try {
     // get runner

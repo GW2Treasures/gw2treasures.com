@@ -11,17 +11,20 @@ import { Menu } from './Header/Menu';
 import type { AsyncComponent } from '@/lib/asyncComponent';
 import { getUser } from '@/lib/getUser';
 import { db } from '@/lib/prisma';
-import { remember } from '@/lib/remember';
 import { getTranslate } from '../I18n/getTranslate';
 import cakeImg from './cake.png';
+import { cache } from '@/lib/cache';
+import { minutes } from '@/lib/time';
 
 interface LayoutProps {
   children: ReactNode;
 };
 
-const getOpenReviews = remember(60, function getOpenReviews() {
-  return db.review.count({ where: { state: 'Open' }});
-});
+const getOpenReviews = cache(
+  () => db.review.count({ where: { state: 'Open' }}),
+  ['open-reviews'],
+  { revalidate: minutes(10).seconds }
+);
 
 const Layout: AsyncComponent<LayoutProps> = async ({ children }) => {
   const user = await getUser();

@@ -3,13 +3,13 @@ import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { ItemList } from '@/components/ItemList/ItemList';
 import { HeroLayout } from '@/components/Layout/HeroLayout';
 import type { Language } from '@gw2treasures/database';
-import { remember } from '@/lib/remember';
 import { linkProperties } from '@/lib/linkProperties';
 import { ItemLink } from '@/components/Item/ItemLink';
 import { FormatDate } from '@/components/Format/FormatDate';
 import { pageView } from '@/lib/pageView';
+import { cache } from '@/lib/cache';
 
-const getItems = remember(60, async function getItems(language: Language) {
+const getItems = cache(async (language: Language) => {
   const [recentlyAdded, recentlyUpdated] = await Promise.all([
     db.item.findMany({
       select: { ...linkProperties, createdAt: true },
@@ -25,7 +25,7 @@ const getItems = remember(60, async function getItems(language: Language) {
   ]);
 
   return { recentlyAdded, recentlyUpdated };
-});
+}, ['items'], { revalidate: 60 });
 
 export default async function ItemPage({ params: { language }}: { params: { language: Language }}) {
   const { recentlyAdded, recentlyUpdated } = await getItems(language);

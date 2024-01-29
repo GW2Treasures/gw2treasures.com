@@ -4,13 +4,13 @@ import type { Language } from '@gw2treasures/database';
 import { NextRequest, NextResponse } from 'next/server';
 import { createTooltip } from '@/components/Achievement/AchievementTooltip';
 import type { Gw2Api } from 'gw2-api-types';
-import { remember } from '@/lib/remember';
+import { cache } from '@/lib/cache';
 
-const getAchievementRevision = remember(60, function getAchievementRevision(id: number, language: Language, revisionId?: string) {
+const getAchievementRevision = cache((id: number, language: Language, revisionId?: string) => {
   return revisionId
     ? db.revision.findFirst({ where: { id: revisionId, entity: 'Achievement' }})
     : db.revision.findFirst({ where: { [`currentAchievement_${language}`]: { id }}});
-});
+}, ['achievement-revision'], { revalidate: 60 });
 
 export async function GET(request: NextRequest, { params: { language, id }}: { params: { language: Language, id: string }}) {
   const achievementId = Number(id);

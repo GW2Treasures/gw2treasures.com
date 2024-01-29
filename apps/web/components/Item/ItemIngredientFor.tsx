@@ -25,7 +25,7 @@ const getIngredientFor = cache(async (itemId: number) => {
   });
 
   return recipes;
-}, ['ingredients-for']);
+}, ['ingredients-for'], { revalidate: 60 });
 
 interface ItemIngredientForProps {
   itemId: number;

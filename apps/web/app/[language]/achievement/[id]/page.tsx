@@ -32,6 +32,7 @@ import { AchievementPoints } from '@/components/Achievement/AchievementPoints';
 import { FormatNumber } from '@/components/Format/FormatNumber';
 import { ColumnSelect } from '@/components/Table/ColumnSelect';
 import { pageView } from '@/lib/pageView';
+import { cache } from '@/lib/cache';
 
 const MasteryColors: Record<MasteryRegion, CSS.Property.Color> = {
   'Tyria': '#FB8C00', //   core
@@ -52,7 +53,7 @@ export interface AchievementPageProps {
   }
 }
 
-const getAchievement = remember(60, async function getAchievement(id: number, language: Language) {
+const getAchievement = cache(async (id: number, language: Language) => {
   const [achievement, revision] = await Promise.all([
     db.achievement.findUnique({
       where: { id },
@@ -91,7 +92,7 @@ const getAchievement = remember(60, async function getAchievement(id: number, la
     : [];
 
   return { achievement, revision, categoryAchievements };
-});
+}, ['achievement'], { revalidate: 60 });
 
 async function AchievementPage({ params: { id, language }}: AchievementPageProps) {
   const achievementId: number = Number(id);

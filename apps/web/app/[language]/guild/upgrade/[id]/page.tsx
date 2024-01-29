@@ -17,8 +17,9 @@ import { localizedName } from '@/lib/localizedName';
 import { RecipeBoxWrapper } from '@/components/Recipe/RecipeBoxWrapper';
 import { RecipeBox } from '@/components/Recipe/RecipeBox';
 import { pageView } from '@/lib/pageView';
+import { cache } from '@/lib/cache';
 
-const getGuildUpgrade = remember(60, async function getGuildUpgrade(id: number, language: Language) {
+const getGuildUpgrade = cache(async (id: number, language: Language) => {
   if(isNaN(id)) {
     notFound();
   }
@@ -36,9 +37,9 @@ const getGuildUpgrade = remember(60, async function getGuildUpgrade(id: number, 
   });
 
   return guildUpgrade;
-});
+}, ['guild-upgrade'], { revalidate: 60 });
 
-const getRevision = remember(60, async function getRevision(id: number, language: Language, revisionId?: string) {
+const getRevision = cache(async (id: number, language: Language, revisionId?: string) => {
   const revision = revisionId
     ? await db.revision.findUnique({ where: { id: revisionId }})
     : await db.revision.findFirst({ where: { [`currentGuildUpgrade_${language}`]: { id }}});
@@ -47,7 +48,7 @@ const getRevision = remember(60, async function getRevision(id: number, language
     revision,
     data: revision ? JSON.parse(revision.data) as Gw2Api.Guild.Upgrade : undefined,
   };
-});
+}, ['guild-upgrade-revision'], { revalidate: 60 });
 
 
 interface GuildUpgradePageProps {

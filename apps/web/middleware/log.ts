@@ -10,7 +10,7 @@ export const logMiddleware: NextMiddleware = async (request, next, data) => {
   const requestId = crypto.randomUUID();
   data.requestId = requestId;
 
-  console.log(`> ${(requestId)} ${request.method} ${request.nextUrl.toString()}`);
+  console.log(`> [${requestId}] ${request.method} ${request.nextUrl.pathname}${request.nextUrl.search}`);
 
   const response = await next(request);
 

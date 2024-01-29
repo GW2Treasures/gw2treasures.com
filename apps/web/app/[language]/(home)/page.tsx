@@ -8,7 +8,6 @@ import { SkeletonLink } from '@/components/Link/SkeletonLink';
 import { Suspense } from 'react';
 import { Icon } from '@gw2treasures/ui';
 import { db } from '@/lib/prisma';
-import { remember } from '@/lib/remember';
 import styles from './page.module.css';
 import Link from 'next/link';
 import { FormatNumber } from '@/components/Format/FormatNumber';

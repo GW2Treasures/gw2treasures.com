@@ -11,7 +11,6 @@ import { notFound } from 'next/navigation';
 import type { AsyncComponent } from '@/lib/asyncComponent';
 import { type FC, Suspense } from 'react';
 import { SkeletonLink } from '@/components/Link/SkeletonLink';
-import { remember } from '@/lib/remember';
 import { linkProperties } from '@/lib/linkProperties';
 import type { Metadata } from 'next';
 import { pageView } from '@/lib/pageView';

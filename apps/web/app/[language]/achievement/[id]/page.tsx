@@ -9,7 +9,6 @@ import { Json } from '@/components/Format/Json';
 import { Icon } from '@gw2treasures/ui';
 import { format } from 'gw2-tooltip-html';
 import { notFound } from 'next/navigation';
-import { remember } from '@/lib/remember';
 import styles from './page.module.css';
 import { Coins } from '@/components/Format/Coins';
 import { ItemList } from '@/components/ItemList/ItemList';

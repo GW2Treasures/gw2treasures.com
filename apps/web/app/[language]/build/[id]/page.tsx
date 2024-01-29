@@ -15,6 +15,7 @@ import { remember } from '@/lib/remember';
 import { linkProperties } from '@/lib/linkProperties';
 import type { Metadata } from 'next';
 import { pageView } from '@/lib/pageView';
+import { cache } from '@/lib/cache';
 
 interface BuildPageProps {
   params: { language: Language, id: string }
@@ -34,7 +35,7 @@ function timed<Args extends any[], Out>(callback: (...args: Args) => Promise<Out
   return timedFunction;
 }
 
-const getBuild = remember(60, timed(async function getBuild(buildId: number) {
+const getBuild = cache(timed(async function getBuild(buildId: number) {
   const build = await db.build.findUnique({
     where: { id: buildId },
   });
@@ -44,9 +45,9 @@ const getBuild = remember(60, timed(async function getBuild(buildId: number) {
   }
 
   return build;
-}));
+}), ['build'], { revalidate: 600 });
 
-const getUpdatedItems = remember(60, timed(function getUpdatedItems(buildId: number, language: Language) {
+const getUpdatedItems = cache(timed(function getUpdatedItems(buildId: number, language: Language) {
   // return db.item.findMany({
   //   where: { history: { some: { revision: { buildId, type: 'Update', language, entity: 'Item' }}}},
   //   include: { icon: true },
@@ -58,9 +59,9 @@ const getUpdatedItems = remember(60, timed(function getUpdatedItems(buildId: num
     include: { itemHistory: { include: { item: { select: linkProperties }}}},
     take: 500,
   });
-}));
+}), ['build-updated-items'], { revalidate: 600 });
 
-const getUpdatedSkills = remember(60, timed(function getUpdatedSkills(buildId: number, language: Language) {
+const getUpdatedSkills = cache(timed(function getUpdatedSkills(buildId: number, language: Language) {
   return db.skill.findMany({
     where: { history: { some: { revision: { buildId, type: 'Update', language }}}},
     include: {
@@ -74,7 +75,7 @@ const getUpdatedSkills = remember(60, timed(function getUpdatedSkills(buildId: n
     },
     take: 500,
   });
-}));
+}), ['build-updated-skills'], { revalidate: 600 });
 
 async function BuildDetail({ params: { id, language }}: BuildPageProps) {
   const buildId: number = Number(id);

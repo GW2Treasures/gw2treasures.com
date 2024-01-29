@@ -6,6 +6,7 @@ import { ReviewState } from '@gw2treasures/database';
 import { redirect } from 'next/navigation';
 import { getRandomContainerContentReviewId } from '../random';
 import type { EditContentOrder } from 'app/[language]/item/[id]/_edit-content/types';
+import { revalidateTag } from 'next/cache';
 
 export async function approve(data: FormData) {
   const { id, user, review } = await getUserAndReview(data);
@@ -50,6 +51,8 @@ export async function approve(data: FormData) {
       data: { reviewerId: user.id, reviewedAt: new Date(), state: ReviewState.Approved }
     }),
   ]);
+
+  revalidateTag('open-reviews');
 
   const nextId = await getRandomContainerContentReviewId();
 

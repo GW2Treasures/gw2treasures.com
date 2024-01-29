@@ -1,6 +1,5 @@
 import type { Language } from '@gw2treasures/database';
 import { db } from '@/lib/prisma';
-import { remember } from '@/lib/remember';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import DetailLayout from '@/components/Layout/DetailLayout';
 import { notFound } from 'next/navigation';
@@ -14,8 +13,9 @@ import { Suspense } from 'react';
 import { SkeletonTable } from '@/components/Skeleton/SkeletonTable';
 import { CurrencyIngredientFor } from '@/components/Currency/CurrencyIngredientFor';
 import { pageView } from '@/lib/pageView';
+import { cache } from '@/lib/cache';
 
-const getCurrency = remember(60, async function getCurrency(id: number, language: Language) {
+const getCurrency = cache(async (id: number, language: Language) => {
   if(isNaN(id)) {
     notFound();
   }
@@ -32,9 +32,9 @@ const getCurrency = remember(60, async function getCurrency(id: number, language
   });
 
   return currency;
-});
+}, ['currency'], { revalidate: 60 });
 
-const getRevision = remember(60, async function getRevision(id: number, language: Language, revisionId?: string) {
+const getRevision = cache(async (id: number, language: Language, revisionId?: string) => {
   const revision = revisionId
     ? await db.revision.findUnique({ where: { id: revisionId }})
     : await db.revision.findFirst({ where: { [`currentCurrency_${language}`]: { id }}});
@@ -43,8 +43,7 @@ const getRevision = remember(60, async function getRevision(id: number, language
     revision,
     data: revision ? JSON.parse(revision.data) as Gw2Api.Currency : undefined,
   };
-});
-
+}, ['currency-revision'], { revalidate: 60 });
 
 export default async function CurrencyPage({ params: { id, language }}: { params: { id: string, language: Language }}) {
   const currencyId = Number(id);

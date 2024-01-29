@@ -1,10 +1,10 @@
-import { remember } from '@/lib/remember';
 import { db } from '@/lib/prisma';
 import type { Prisma } from '@gw2treasures/database';
 import type { UnwrapJsonResponse } from '../helper';
 import { decode } from 'gw2e-chat-codes';
 import { isTruthy } from '@gw2treasures/ui';
 import { NextResponse } from 'next/server';
+import { cache } from '@/lib/cache';
 
 type ChatCode = Exclude<ReturnType<typeof decode>, false>;
 type ChatCodeOfType<Type> = Type extends Exclude<ChatCode['type'], 'item' | 'objective' | 'build'> ? { type: Type, id: number } : Extract<ChatCode, { type: Type }>
@@ -64,7 +64,7 @@ function nameQuery(terms: string[]): LocalizedNameInput[] {
   return nameQueries;
 }
 
-const searchAchievements = remember(60, async function searchAchievements(terms: string[]) {
+const searchAchievements = cache(async (terms: string[]) => {
   const nameQueries = nameQuery(terms);
 
   const [achievements, achievementCategories, achievementGroups] = await Promise.all([
@@ -85,9 +85,9 @@ const searchAchievements = remember(60, async function searchAchievements(terms:
   ]);
 
   return { achievements, achievementCategories, achievementGroups };
-});
+}, ['search', 'search-achievements'], { revalidate: 60 });
 
-export const searchItems = remember(60, function searchItems(terms: string[], chatCodes: ChatCode[]) {
+export const searchItems = cache((terms: string[], chatCodes: ChatCode[]) => {
   const nameQueries = nameQuery(terms);
 
   const itemChatCodes = chatCodes.filter(isChatCodeWithType('item'));
@@ -111,9 +111,9 @@ export const searchItems = remember(60, function searchItems(terms: string[], ch
     include: { icon: true },
     orderBy: { views: 'desc' }
   });
-});
+}, ['search', 'search-items'], { revalidate: 60 });
 
-const searchSkills = remember(60, function searchSkills(terms: string[], chatCodes: ChatCode[]) {
+const searchSkills = cache((terms: string[], chatCodes: ChatCode[]) => {
   const nameQueries = nameQuery(terms);
   const skillChatCodes = chatCodes.filter(isChatCodeWithType('skill'));
   const skillIdsInChatCodes = skillChatCodes.map(({ id }) => id);
@@ -123,9 +123,9 @@ const searchSkills = remember(60, function searchSkills(terms: string[], chatCod
     take: 5,
     include: { icon: true }
   });
-});
+}, ['search', 'search-skills'], { revalidate: 60 });
 
-const searchSkins = remember(60, function searchSkins(terms: string[], chatCodes: ChatCode[]) {
+const searchSkins = cache((terms: string[], chatCodes: ChatCode[]) => {
   const nameQueries = nameQuery(terms);
   const itemChatCodes = chatCodes.filter(isChatCodeWithType('item'));
   const skinChatCodes = chatCodes.filter(isChatCodeWithType('skin'));
@@ -139,14 +139,14 @@ const searchSkins = remember(60, function searchSkins(terms: string[], chatCodes
     take: 5,
     include: { icon: true }
   });
-});
+}, ['search', 'search-skins'], { revalidate: 60 });
 
-const searchBuilds = remember(60, function searchBuilds(terms: string[]) {
+const searchBuilds = cache((terms: string[]) => {
   return db.build.findMany({
     where: { OR: terms.map((term) => ({ id: Number(term) })) },
     take: 5,
   });
-});
+}, ['search', 'search-builds'], { revalidate: 60 });
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);

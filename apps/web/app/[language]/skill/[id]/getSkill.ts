@@ -1,9 +1,9 @@
 import type { Language } from '@gw2treasures/database';
 import { notFound } from 'next/navigation';
 import { db } from '@/lib/prisma';
-import { remember } from '@/lib/remember';
+import { cache } from '@/lib/cache';
 
-export const getSkill = remember(60, async function getSkill(id: number, language: Language, revisionId?: string) {
+export const getSkill = cache(async (id: number, language: Language, revisionId?: string) => {
   const [skill, revision] = await Promise.all([
     db.skill.findUnique({
       where: { id },
@@ -26,4 +26,4 @@ export const getSkill = remember(60, async function getSkill(id: number, languag
   }
 
   return { skill, revision };
-});
+}, ['skill'], { revalidate: 60 });

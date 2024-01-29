@@ -2,10 +2,10 @@ import { RecipeTable } from '../Recipe/RecipeTable';
 import { db } from '@/lib/prisma';
 import type { AsyncComponent } from '@/lib/asyncComponent';
 import 'server-only';
-import { remember } from '@/lib/remember';
 import { linkProperties, linkPropertiesWithoutRarity } from '@/lib/linkProperties';
+import { cache } from '@/lib/cache';
 
-const getIngredientForGuildUpgrade = remember(60, async function getIngredientForGuildUpgrade(guildUpgradeId: number) {
+const getIngredientForGuildUpgrade = cache(async (guildUpgradeId: number) => {
   const recipes = await db.recipe.findMany({
     where: { guildUpgradeIngredients: { some: { guildUpgradeId }}},
     select: {
@@ -24,7 +24,7 @@ const getIngredientForGuildUpgrade = remember(60, async function getIngredientFo
   });
 
   return recipes;
-});
+}, ['ingredient-for-guild-upgrade'], { revalidate: 60 });
 
 interface GuildUpgradeIngredientForProps {
   guildUpgradeId: number;

@@ -1,6 +1,7 @@
 import { unstable_cache as nextCache } from 'next/cache';
 
 export function cache<Args extends unknown[], Return>(cb: (...args: Args) => Promise<Return>, keyParts: string[], options?: {
+  /** in seconds */
   revalidate?: number | false;
   tags?: string[];
 }): (...args: Args) => Promise<Return> {

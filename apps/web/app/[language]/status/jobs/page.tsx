@@ -5,17 +5,17 @@ import { FormatDate } from '@/components/Format/FormatDate';
 import { FormatNumber } from '@/components/Format/FormatNumber';
 import { PageLayout } from '@/components/Layout/PageLayout';
 import { ReloadCheckbox } from '@/components/Reload/ReloadCheckbox';
-import { remember } from '@/lib/remember';
 import styles from '../page.module.css';
+import { cache } from '@/lib/cache';
 
-const getJobs = remember(1, async function getJobs() {
+const getJobs = cache(async () => {
   const [running, finished] = await Promise.all([
     db.job.findMany({ where: { OR: [{ state: { in: ['Running', 'Queued'] }}, { cron: { not: '' }}] }, orderBy: [{ priority: 'desc' }, { scheduledAt: 'asc' }] }),
     db.job.findMany({ where: { state: { notIn: ['Running', 'Queued'] }}, orderBy: { finishedAt: 'desc' }, take: 100 }),
   ]);
 
   return { running, finished, now: new Date() };
-});
+}, ['jobs'], { revalidate: 1 });
 
 function formatTime(totalSeconds: number) {
   const minutes = Math.floor(totalSeconds / 60);

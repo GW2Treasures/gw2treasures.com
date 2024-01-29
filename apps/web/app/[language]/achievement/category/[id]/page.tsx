@@ -10,10 +10,8 @@ import { Json } from '@/components/Format/Json';
 import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 import { notFound } from 'next/navigation';
 import { Icon } from '@gw2treasures/ui';
-import { remember } from '@/lib/remember';
 import { RemovedFromApiNotice } from '@/components/Notice/RemovedFromApiNotice';
 import type { Metadata } from 'next';
-import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { linkProperties } from '@/lib/linkProperties';
 import { ItemLink } from '@/components/Item/ItemLink';
 import { AccountAchievementProgressHeader, AccountAchievementProgressRow } from '@/components/Achievement/AccountAchievementProgress';
@@ -21,6 +19,7 @@ import { AchievementPoints } from '@/components/Achievement/AchievementPoints';
 import { format } from 'gw2-tooltip-html';
 import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
 import { ColumnSelect } from '@/components/Table/ColumnSelect';
+import { cache } from '@/lib/cache';
 
 export interface AchievementCategoryPageProps {
   params: {
@@ -29,7 +28,7 @@ export interface AchievementCategoryPageProps {
   }
 }
 
-const getData = remember(60, async function getData(id: number, language: Language) {
+const getAchievementCategory = cache(async (id: number, language: Language) => {
   const [achievementCategory, revision] = await Promise.all([
     db.achievementCategory.findUnique({
       where: { id },
@@ -47,7 +46,7 @@ const getData = remember(60, async function getData(id: number, language: Langua
   }
 
   return { achievementCategory, revision };
-});
+}, ['achievement-category'], { revalidate: 60 });
 
 async function AchievementCategoryPage({ params: { language, id }}: AchievementCategoryPageProps) {
   const achievementCategoryId = Number(id);
@@ -56,7 +55,7 @@ async function AchievementCategoryPage({ params: { language, id }}: AchievementC
     notFound();
   }
 
-  const { achievementCategory, revision } = await getData(achievementCategoryId, language);
+  const { achievementCategory, revision } = await getAchievementCategory(achievementCategoryId, language);
 
   const data: Gw2Api.Achievement.Category = JSON.parse(revision.data);
 

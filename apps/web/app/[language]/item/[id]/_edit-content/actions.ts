@@ -4,6 +4,7 @@ import { getUser } from '@/lib/getUser';
 import { type CanSubmitResponse, type EditContentOrder, EditContentSubmitError } from './types';
 import { db } from '@/lib/prisma';
 import { ContentChance, ReviewState } from '@gw2treasures/database';
+import { revalidateTag } from 'next/cache';
 
 // eslint-disable-next-line require-await
 export async function submitToReview({ itemId, removedItems, addedItems, removedCurrencies, addedCurrencies }: { itemId: number } & EditContentOrder): Promise<EditContentSubmitError | true> {
@@ -70,6 +71,8 @@ export async function submitToReview({ itemId, removedItems, addedItems, removed
       relatedItemId: itemId,
     }
   });
+
+  revalidateTag('open-reviews');
 
   return true;
 }

@@ -7,13 +7,13 @@ import { Fragment } from 'react';
 import type { Gw2Api } from 'gw2-api-types';
 import { AchievementCategoryLink } from '@/components/Achievement/AchievementCategoryLink';
 import type { Language } from '@gw2treasures/database';
-import { remember } from '@/lib/remember';
 import { ResetTimer } from './reset-timer';
 import { RemovedFromApiNotice } from '@/components/Notice/RemovedFromApiNotice';
 import Link from 'next/link';
 import { pageView } from '@/lib/pageView';
+import { cache } from '@/lib/cache';
 
-const getAchivementGroups = remember(60, async function getAchivementGroups(language: string) {
+const getAchivementGroups = cache(async (language: string) => {
   const groups = await db.achievementGroup.findMany({
     include: {
       achievementCategories: {
@@ -29,7 +29,7 @@ const getAchivementGroups = remember(60, async function getAchivementGroups(lang
   });
 
   return groups;
-});
+}, ['achievement-groups'], { revalidate: 60 });
 
 export default async function AchievementPage({ params: { language }}: { params: { language: Language }}) {
   const groups = await getAchivementGroups(language);

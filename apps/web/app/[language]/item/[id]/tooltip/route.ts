@@ -4,13 +4,13 @@ import type { Language } from '@gw2treasures/database';
 import { NextRequest, NextResponse } from 'next/server';
 import { createTooltip } from '@/components/Item/ItemTooltip';
 import type { Gw2Api } from 'gw2-api-types';
-import { remember } from '@/lib/remember';
+import { cache } from '@/lib/cache';
 
-const getItemRevision = remember(60, function getItemRevision(id: number, language: Language, revisionId?: string) {
+const getItemRevision = cache(function (id: number, language: Language, revisionId?: string) {
   return revisionId
     ? db.revision.findFirst({ where: { id: revisionId, entity: 'Item' }})
     : db.revision.findFirst({ where: { [`currentItem_${language}`]: { id }}});
-});
+}, ['item-tooltip'], { revalidate: 60 });
 
 export async function GET(request: NextRequest, { params: { language, id }}: { params: { language: Language, id: string }}) {
   const itemId = Number(id);

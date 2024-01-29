@@ -27,9 +27,13 @@ export const SkinsAppearance: Job = {
     if(offset === undefined) {
       const skins = await db.skin.aggregate({ _max: { id: true }});
 
-      for(let i = 1; i < (skins._max.id ?? 0); i += batchSize) {
+      for(let i = 0; i < (skins._max.id ?? 0) / batchSize; i++) {
+        const scheduledAt = new Date();
+        // space jobs by 2 minutes
+        scheduledAt.setMinutes(scheduledAt.getMinutes() + 2 * i);
+
         await db.job.create({
-          data: { type: 'skins.appearance', data: { offset: i } satisfies SkinsAppearanceProps },
+          data: { type: 'skins.appearance', data: { offset: i * batchSize + 1 } satisfies SkinsAppearanceProps, scheduledAt },
         });
       }
 

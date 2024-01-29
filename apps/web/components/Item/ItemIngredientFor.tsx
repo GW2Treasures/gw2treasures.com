@@ -2,10 +2,10 @@ import { RecipeTable } from '../Recipe/RecipeTable';
 import { db } from '@/lib/prisma';
 import type { AsyncComponent } from '@/lib/asyncComponent';
 import 'server-only';
-import { remember } from '@/lib/remember';
 import { linkProperties, linkPropertiesWithoutRarity } from '@/lib/linkProperties';
+import { cache } from '@/lib/cache';
 
-const getIngredientFor = remember(60, async function getIngredientFor(itemId: number) {
+const getIngredientFor = cache(async (itemId: number) => {
   const recipes = await db.recipe.findMany({
     where: { itemIngredients: { some: { itemId }}},
     select: {
@@ -25,7 +25,7 @@ const getIngredientFor = remember(60, async function getIngredientFor(itemId: nu
   });
 
   return recipes;
-});
+}, ['ingredients-for']);
 
 interface ItemIngredientForProps {
   itemId: number;

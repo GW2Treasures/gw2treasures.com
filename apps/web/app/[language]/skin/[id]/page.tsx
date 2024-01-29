@@ -23,8 +23,9 @@ import styles from './page.module.css';
 import type { Metadata } from 'next';
 import { Json } from '@/components/Format/Json';
 import { pageView } from '@/lib/pageView';
+import { cache } from '@/lib/cache';
 
-const getSkin = remember(60, async function getSkin(id: number, language: Language) {
+const getSkin = cache(async (id: number, language: Language) => {
   const [skin, revision] = await Promise.all([
     db.skin.findUnique({
       where: { id },
@@ -43,7 +44,7 @@ const getSkin = remember(60, async function getSkin(id: number, language: Langua
   const similar = await db.skin.findMany({ where: { OR: [{ name_en: skin.name_en }, { iconId: skin.iconId }], id: { not: skin.id }}, include: { icon: true }});
 
   return { skin, revision, similar };
-});
+}, ['get-skin'], { revalidate: 60 });
 
 interface SkinPageProps {
   params: {

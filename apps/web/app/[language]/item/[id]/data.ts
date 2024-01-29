@@ -1,10 +1,10 @@
-import { remember } from '@/lib/remember';
 import type { Item, Language } from '@gw2treasures/database';
 import { db } from '@/lib/prisma';
 import { linkProperties, linkPropertiesWithoutRarity } from '@/lib/linkProperties';
 import type { Gw2Api } from 'gw2-api-types';
+import { cache } from '@/lib/cache';
 
-export const getItem = remember(60, function getItem(id: number, language: Language) {
+export const getItem = cache((id: number, language: Language) => {
   return db.item.findUnique({
     where: { id },
     include: {
@@ -27,9 +27,9 @@ export const getItem = remember(60, function getItem(id: number, language: Langu
       }
     }
   });
-});
+}, ['item'], { revalidate: 60 });
 
-export const getRevision = remember(60, async function getRevision(id: number, language: Language, revisionId?: string) {
+export const getRevision = cache(async (id: number, language: Language, revisionId?: string) => {
   const revision = revisionId
     ? await db.revision.findUnique({ where: { id: revisionId }})
     : await db.revision.findFirst({ where: { [`currentItem_${language}`]: { id }}});
@@ -38,4 +38,4 @@ export const getRevision = remember(60, async function getRevision(id: number, l
     revision,
     data: revision ? JSON.parse(revision.data) as Gw2Api.Item : undefined,
   };
-});
+}, ['revision-item'], { revalidate: 60 });

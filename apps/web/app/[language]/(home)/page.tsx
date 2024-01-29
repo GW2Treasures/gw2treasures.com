@@ -14,6 +14,7 @@ import Link from 'next/link';
 import { FormatNumber } from '@/components/Format/FormatNumber';
 import { AchievementLink } from '@/components/Achievement/AchievementLink';
 import { pageView } from '@/lib/pageView';
+import { cache } from '@/lib/cache';
 
 async function HomePage() {
   await pageView('/');
@@ -63,9 +64,11 @@ function ListFallback({ size }: { size: number }) {
   );
 }
 
-const getNewItems = remember(15, function getNewItems() {
-  return db.item.findMany({ take: 24, include: { icon: true }, orderBy: { createdAt: 'desc' }});
-});
+const getNewItems = cache(
+  () => db.item.findMany({ take: 24, include: { icon: true }, orderBy: { createdAt: 'desc' }}),
+  ['home-items-new'],
+  { revalidate: 60 }
+);
 
 async function NewItems() {
   const items = await getNewItems();
@@ -77,9 +80,11 @@ async function NewItems() {
   );
 }
 
-const getNewAchievements = remember(15, function getNewItems() {
-  return db.achievement.findMany({ take: 24, include: { icon: true }, orderBy: { createdAt: 'desc' }});
-});
+const getNewAchievements = cache(
+  () => db.achievement.findMany({ take: 24, include: { icon: true }, orderBy: { createdAt: 'desc' }}),
+  ['home-achievements-new'],
+  { revalidate: 60 }
+);
 
 async function NewAchievements() {
   const achievements = await getNewAchievements();
@@ -91,7 +96,7 @@ async function NewAchievements() {
   );
 }
 
-const getDbStats = remember(15, async function getDbStats() {
+const getDbStats = cache(async() => {
   const [items, achievements, skills, skins] = await Promise.all([
     db.item.count(),
     db.achievement.count(),
@@ -100,7 +105,7 @@ const getDbStats = remember(15, async function getDbStats() {
   ]);
 
   return { items, achievements, skills, skins };
-});
+}, ['home-db-stats'], { revalidate: 60 });
 
 async function DbStats() {
   const counts = await getDbStats();

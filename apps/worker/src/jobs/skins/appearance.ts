@@ -36,7 +36,7 @@ export const SkinsAppearance: Job = {
       return 'Queued follow up jobs';
     }
 
-    const query = `[[Has context::Skin]][[Has game id::≥${offset}]][[Has game id::<<${offset + batchSize}]]|?Has game id|?Has skin set.Has appearance=Has set appearance|limit=${batchSize}`;
+    const query = `[[Has context::Skin]][[Has game id::≥${offset}]][[Has game id::<<${offset + batchSize}]]|?Has game id|?Has appearance|?Has skin set.Has appearance=Has set appearance|limit=${batchSize}`;
     const url = `https://wiki.guildwars2.com/api.php?action=ask&query=${encodeURIComponent(query)}&format=json`;
 
     console.log('> Fetch images for skins from wiki');

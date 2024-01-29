@@ -1,7 +1,7 @@
-import { remember } from '@/lib/remember';
 import { headers } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/prisma';
+import { cache } from '@/lib/cache';
 
 export interface PublicApiErrorResponse {
   error: number;
@@ -9,15 +9,13 @@ export interface PublicApiErrorResponse {
 }
 
 export function publicApi<ResponseType, DynamicRouteSegments>(
-  callback: (params: DynamicRouteSegments, searchParams: Record<string, string>) => Promise<ResponseType>
+  callback: (params: DynamicRouteSegments, searchParams: Record<string, string>) => Promise<ResponseType>,
+  { maxAge = 60 }: { maxAge?: number } = {}
 ): (
   request: NextRequest,
   context: { params: DynamicRouteSegments }
 ) => Promise<NextResponse<ResponseType | PublicApiErrorResponse>>
 {
-  const maxAge = 60;
-  const cachedCallback = remember(maxAge, callback);
-
   return async (request, { params }) => {
     // verify api key
     const apiKey = headers().get('x-gw2t-apikey');
@@ -42,7 +40,9 @@ export function publicApi<ResponseType, DynamicRouteSegments>(
     const searchParamsAsObject = Object.fromEntries(searchParams);
 
     // get reponse
-    const response = await cachedCallback(params, searchParamsAsObject);
+    const response = await cache(() => {
+      return callback(params, searchParamsAsObject);
+    }, ['web-api-request', request.nextUrl.toString()], { revalidate: maxAge })();
 
     // return new response
     return NextResponse.json(response, {

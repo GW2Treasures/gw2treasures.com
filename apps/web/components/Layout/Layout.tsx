@@ -14,7 +14,6 @@ import { db } from '@/lib/prisma';
 import { getTranslate } from '../I18n/getTranslate';
 import cakeImg from './cake.png';
 import { cache } from '@/lib/cache';
-import { minutes } from '@/lib/time';
 
 interface LayoutProps {
   children: ReactNode;
@@ -23,7 +22,7 @@ interface LayoutProps {
 const getOpenReviews = cache(
   () => db.review.count({ where: { state: 'Open' }}),
   ['open-reviews'],
-  { revalidate: minutes(10).seconds }
+  { revalidate: 600 }
 );
 
 const Layout: AsyncComponent<LayoutProps> = async ({ children }) => {

@@ -37,6 +37,7 @@
     "gw2-tooltip-html": "0.0.4",
     "gw2e-chat-codes": "1.4.2",
     "hast-util-to-jsx-runtime": "2.3.0",
+    "isbot": "4.4.0",
     "negotiator": "0.6.3",
     "next": "14.1.0",
     "react": "18.2.0",

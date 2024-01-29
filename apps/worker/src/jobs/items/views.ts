@@ -32,7 +32,7 @@ export const ItemsViews: Job = {
     // update views for all items that had views
     for(const ids of batch(idsWithViews, 500)) {
       await db.$transaction(ids.map((id) =>
-        db.item.update({ where: { id }, data: { views: viewsById[id] ?? 0 }})
+        db.item.updateMany({ where: { id }, data: { views: viewsById[id] ?? 0 }})
       ));
     }
 

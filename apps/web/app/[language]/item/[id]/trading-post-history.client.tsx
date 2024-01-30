@@ -117,12 +117,14 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
     range: [yMax, 0],
     round: true,
     domain: [0, Math.max(max.sellPrice, max.buyPrice)],
+    nice: true,
   });
 
   const quantityScale = scaleLinear({
     range: [yMax, 0],
     round: true,
     domain: [0, Math.max(max.sellQuantity, max.buyQuantity)],
+    nice: true,
   });
 
   // helper functions

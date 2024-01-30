@@ -53,6 +53,7 @@ const ChartInternal: FC<ChartProps & { width: number, height: number }> = ({ dat
     range: [yMax, 0],
     round: true,
     domain: [0, maxPrice],
+    nice: true,
   });
 
   const timeScale = scaleTime({
@@ -102,7 +103,7 @@ const ChartInternal: FC<ChartProps & { width: number, height: number }> = ({ dat
         <Group left={margin.left} top={margin.top}>
           <GridRows scale={priceScale} width={xMax} height={yMax} numTicks={6} stroke="var(--color-border)"/>
           <AxisLeft scale={priceScale} stroke="var(--color-border-dark)" tickStroke="var(--color-border-dark)" tickComponent={renderGoldTick} tickFormat={(v) => v.toString()} numTicks={6} hideAxisLine hideZero hideTicks/>
-          <AxisBottom scale={timeScale} top={yMax} stroke="var(--color-border-dark)" tickStroke="var(--color-border-dark)" tickLabelProps={{ fill: 'var(--color-text)', fontFamily: 'var(--font-wotfard)', fontSize: 12 }} numTicks={7}/>
+          <AxisBottom scale={timeScale} top={yMax} stroke="var(--color-border-dark)" tickStroke="var(--color-border-dark)" tickLabelProps={{ fill: 'var(--color-text)', fontFamily: 'var(--font-wotfard)', fontSize: 12 }} numTicks={7} tickValues={timeScale.ticks(5).slice(1)}/>
 
           {items.map((item, index) => (
             <LinePath key={item.id} data={historyByItem[item.id]} y={(d) => priceScale(d.sellPrice ?? 0)} defined={(d) => d.sellPrice !== null} x={(d) => timeScale(d.time)} curve={curveMonotoneX} strokeWidth={2} stroke={colorPalette[index % colorPalette.length]} strokeLinejoin="round" strokeLinecap="round"/>
@@ -190,8 +191,8 @@ const ChartInternal: FC<ChartProps & { width: number, height: number }> = ({ dat
 
 function renderGoldTick(props: TickRendererProps) {
   return (
-    <svg style={{ overflow: 'visible', fontFeatureSettings: '"tnum" 1' }} x="0" y="-1.5em" fontSize={12} fontFamily="var(--font-wotfard)">
-      <foreignObject x={props.x + 16} y={props.y} width={60} height="1em">
+    <svg style={{ overflow: 'visible', fontFeatureSettings: '"tnum" 1' }} x="0" y="0" fontSize={12} fontFamily="var(--font-wotfard)">
+      <foreignObject x={props.x + 16} y={props.y + 8} width={60} height="1em">
         <Coins value={Number(props.formattedValue)}/>
       </foreignObject>
     </svg>

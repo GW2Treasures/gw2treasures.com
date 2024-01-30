@@ -1,6 +1,7 @@
 FROM node:6 as build
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN echo "deb http://archive.debian.org/debian stretch main" > /etc/apt/sources.list \
+  && apt-get update && apt-get install -y --no-install-recommends \
     webp \
     pngcrush \
   && rm -rf /var/lib/apt/lists/*

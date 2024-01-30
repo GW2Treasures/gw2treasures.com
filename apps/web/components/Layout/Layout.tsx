@@ -22,7 +22,7 @@ interface LayoutProps {
 const getOpenReviews = cache(
   () => db.review.count({ where: { state: 'Open' }}),
   ['open-reviews'],
-  { revalidate: 600 }
+  { revalidate: 600, tags: ['open-reviews'] }
 );
 
 const Layout: AsyncComponent<LayoutProps> = async ({ children }) => {

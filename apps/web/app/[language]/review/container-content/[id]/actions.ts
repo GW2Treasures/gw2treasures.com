@@ -68,6 +68,8 @@ export async function reject(data: FormData) {
     data: { reviewerId: user.id, reviewedAt: new Date(), state: ReviewState.Rejected }
   });
 
+  revalidateTag('open-reviews');
+
   const nextId = await getRandomContainerContentReviewId();
 
   redirect(nextId ? `/review/container-content/${nextId}` : '/review');

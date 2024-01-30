@@ -15,7 +15,9 @@ export const userAgentMiddleware: NextMiddleware = (request, next) => {
   const flags = [isBot && 'Bot', isPrefetch && 'Prefetch'].filter(Boolean);
 
   // log flags and useragent
-  console.log('  ' + (flags.length > 0 ? `(${flags.join(', ')}) ` : '') + (ua ?? '-'));
+  if(process.env.NODE_ENV === 'production') {
+    console.log('  ' + (flags.length > 0 ? `(${flags.join(', ')}) ` : '') + (ua ?? '-'));
+  }
 
   // append header if UA is a bot
   request.headers.append('x-gw2t-is-bot', isBot ? '1' : '0');

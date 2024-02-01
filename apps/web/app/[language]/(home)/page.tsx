@@ -22,7 +22,6 @@ async function HomePage() {
     <HeroLayout hero={(
       <div className={styles.hero}>
         <div className={styles.heroContent}>
-          <div className={styles.anniversary}>10 Years</div>
           <div className={styles.heroTitle}><Icon icon="gw2t"/> gw2treasures.com</div>
           <div className={styles.heroSubtitle}><Trans id="subtitle"/></div>
         </div>
@@ -32,8 +31,6 @@ async function HomePage() {
       <Suspense fallback={<div className={styles.statsRow}/>}>
         <DbStats/>
       </Suspense>
-
-      <p>Welcome to the new version of gw2treasures.com! Thank you for 10 years of support. This new version is a complete rewrite, so not all pages have been migrated yet. If you have feedback, find issues or have feature requests, please <Link href="/about">report them</Link> or even contribute yourself, everything is open-source.</p>
 
       <Headline id="new-items">
         <Trans id="items.new"/>

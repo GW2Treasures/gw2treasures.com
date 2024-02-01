@@ -29,13 +29,16 @@ export const SkillLinkTooltip: FC<SkillLinkTooltipProps> = ({ skill, language, r
 
   return (
     <div>
-      <div className={cx(styles.title)}>
-        {skill.icon && (<EntityIcon icon={skill.icon} size={32} type="skill"/>)}
-        {localizedName(skill, language)}
-      </div>
-
       <ErrorBoundary fallback={<span>Error</span>}>
-        {tooltip.loading && <div className={styles.loading}><Skeleton/><br/><Skeleton width={120}/></div>}
+        {tooltip.loading && (
+          <>
+            <div className={cx(styles.title)}>
+              {skill.icon && (<EntityIcon icon={skill.icon} size={32} type="skill"/>)}
+              {localizedName(skill, language)}
+            </div>
+            <div className={styles.loading}><Skeleton/><br/><Skeleton width={120}/></div>
+          </>
+        )}
         {!tooltip.loading && <ClientSkillTooltip tooltip={tooltip.data}/>}
       </ErrorBoundary>
     </div>

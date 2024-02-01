@@ -20,6 +20,7 @@ import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 import { Icon } from '@gw2treasures/ui';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { pageView } from '@/lib/pageView';
+import { parseIcon } from '@/lib/parseIcon';
 
 export interface SkillPageComponentProps {
   language: Language;
@@ -42,10 +43,12 @@ export const SkillPageComponent: AsyncComponent<SkillPageComponentProps> = async
     data.weapon_type !== 'None' && data.weapon_type,
   ].filter(Boolean).join(' › ');
 
+  const icon = parseIcon(data.icon);
+
   return (
     <DetailLayout
       title={data.name}
-      icon={skill.icon}
+      icon={icon?.id === skill.icon?.id ? skill.icon : (icon ? { ...icon, color: null } : null)}
       iconType="skill"
       breadcrumb={breadcrumb}
       infobox={<SkillInfobox skill={skill} data={data} language={language}/>}
@@ -61,7 +64,7 @@ export const SkillPageComponent: AsyncComponent<SkillPageComponentProps> = async
       )}
 
       <TableOfContentAnchor id="tooltip">Tooltip</TableOfContentAnchor>
-      <SkillTooltip skill={data} language={language}/>
+      <SkillTooltip skill={data} language={language} hideTitle/>
 
       <Headline id="history">History</Headline>
 

@@ -41,6 +41,7 @@ import type { TODO } from '@/lib/todo';
 import { pageView } from '@/lib/pageView';
 import { GuildUpgradeLink } from '@/components/GuildUpgrade/GuildUpgradeLink';
 import { TradingPostHistory } from './trading-post-history';
+import { parseIcon } from '@/lib/parseIcon';
 
 export interface ItemPageComponentProps {
   language: Language;
@@ -75,10 +76,12 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
 
   const compareByName = compareLocalizedName(language);
 
+  const icon = parseIcon(data.icon);
+
   return (
     <DetailLayout
       title={data.name || data.chat_link}
-      icon={item.icon}
+      icon={icon?.id === item.icon?.id ? item.icon : (icon ? { ...icon, color: null } : null)}
       className={rarityClasses[data.rarity]}
       breadcrumb={`Item › ${data.type}${data.details ? ` › ${data.details?.type}` : ''}`}
       infobox={<ItemInfobox item={item} data={data} language={language}/>}
@@ -95,7 +98,7 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
       )}
 
       <TableOfContentAnchor id="tooltip">Tooltip</TableOfContentAnchor>
-      <ItemTooltip item={data} language={language}/>
+      <ItemTooltip item={data} language={language} hideTitle/>
 
       {item.unlocksSkinIds.length > 0 && (
         <>

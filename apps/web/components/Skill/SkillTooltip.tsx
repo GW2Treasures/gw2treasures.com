@@ -6,23 +6,26 @@ import { ClientSkillTooltip } from './SkillTooltip.client';
 import type { FC } from 'react';
 import styles from './SkillTooltip.module.css';
 import { format } from 'gw2-tooltip-html';
+import { parseIcon } from '@/lib/parseIcon';
 
 export interface SkillTooltipProps {
   skill: Gw2Api.Skill;
   language: Language;
+  hideTitle?: boolean;
 }
 
-
-export const SkillTooltip: AsyncComponent<SkillTooltipProps> = async ({ skill, language }) => {
+export const SkillTooltip: AsyncComponent<SkillTooltipProps> = async ({ skill, language, hideTitle }) => {
   const tooltip = await createTooltip(skill, language);
 
   return (
-    <ClientSkillTooltip tooltip={tooltip}/>
+    <ClientSkillTooltip tooltip={tooltip} hideTitle={hideTitle}/>
   );
 };
 
 export interface SkillTooltip {
   language: Language,
+  name: string,
+  icon?: { id: number, signature: string },
   description: string,
   facts?: Gw2Api.Skill['facts'],
   traited_facts?: Gw2Api.Skill['traited_facts'],
@@ -30,8 +33,12 @@ export interface SkillTooltip {
 
 // eslint-disable-next-line require-await
 export async function createTooltip(skill: Gw2Api.Skill, language: Language): Promise<SkillTooltip> {
+  const icon = parseIcon(skill.icon);
+
   return {
     language,
+    name: skill.name,
+    icon,
     description: skill.description,
     facts: skill.facts,
     traited_facts: skill.traited_facts,

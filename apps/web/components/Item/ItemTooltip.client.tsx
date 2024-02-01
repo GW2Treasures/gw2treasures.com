@@ -1,4 +1,4 @@
-import { type FC, Fragment } from 'react';
+import { type FC, Fragment, type ReactNode } from 'react';
 import { FormatNumber } from '../Format/FormatNumber';
 import { ItemTooltip } from './ItemTooltip';
 import { Rarity } from './Rarity';
@@ -10,11 +10,11 @@ import { Icon } from '@gw2treasures/ui';
 import { EntityIcon } from '@/components/Entity/EntityIcon';
 import { DyeColor } from '../Color/DyeColor';
 import { hexToRgb } from '../Color/hex-to-rgb';
-import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 
 export interface ClientItemTooltipProps {
   tooltip: ItemTooltip;
+  hideTitle?: boolean;
 };
 
 function renderAttributes(attributes: ItemTooltip['attributes']) {
@@ -97,8 +97,8 @@ function renderConsumable(consumable: ItemTooltip['consumable']) {
   );
 }
 
-export const ClientItemTooltip: FC<ClientItemTooltipProps> = ({ tooltip }) => {
-  const data = [
+export const ClientItemTooltip: FC<ClientItemTooltipProps> = ({ tooltip, hideTitle = false }) => {
+  const data: ReactNode[] = [
     tooltip.weaponStrength && (<>{tooltip.weaponStrength.label}: <FormatNumber value={tooltip.weaponStrength.min} className={styles.value}/> – <FormatNumber value={tooltip.weaponStrength.max} className={styles.value}/></>),
     tooltip.defense && <>{tooltip.defense.label}: <FormatNumber value={tooltip.defense.value} className={styles.value}/></>,
     renderAttributes(tooltip.attributes),
@@ -158,6 +158,13 @@ export const ClientItemTooltip: FC<ClientItemTooltipProps> = ({ tooltip }) => {
 
   return (
     <div>
+      {!hideTitle && (
+        <div className={styles.title}>
+          {tooltip.icon && (<EntityIcon icon={tooltip.icon} size={32}/>)}
+          {tooltip.name}
+        </div>
+      )}
+
       {data.filter(isTruthy).map((content, index) => {
         // eslint-disable-next-line react/no-array-index-key
         return <div className={styles.row} key={index}>{content}</div>;

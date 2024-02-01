@@ -19,9 +19,17 @@ export const SkillsUpdate: Job = {
         return 'Waiting for pending follow up jobs';
       }
 
-      // add 15 minutes to timestamp to make sure api cache is updated
+      // wait at least 30 minutes after build is live
+      const cooldownDate = new Date(build.createdAt);
+      cooldownDate.setMinutes(cooldownDate.getMinutes() + 30);
+
+      if(cooldownDate < new Date()) {
+        return `Waiting for Build ${build.id} to be at least 30 min old`;
+      }
+
+      // update skills for 60 minutes after build release
       const checkDate = new Date(build.createdAt);
-      checkDate.setMinutes(checkDate.getMinutes() + 15);
+      checkDate.setMinutes(checkDate.getMinutes() + 60);
 
       const idsToUpdate = (await db.skill.findMany({
         where: { lastCheckedAt: { lt: checkDate }, removedFromApi: false },

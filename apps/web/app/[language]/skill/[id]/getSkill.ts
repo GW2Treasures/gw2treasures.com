@@ -2,28 +2,35 @@ import type { Language } from '@gw2treasures/database';
 import { notFound } from 'next/navigation';
 import { db } from '@/lib/prisma';
 import { cache } from '@/lib/cache';
+import type { Gw2Api } from 'gw2-api-types';
 
 export const getSkill = cache(async (id: number, language: Language, revisionId?: string) => {
-  const [skill, revision] = await Promise.all([
-    db.skill.findUnique({
-      where: { id },
-      include: {
-        history: {
-          include: { revision: { select: { id: true, buildId: true, createdAt: true, description: true, language: true }}},
-          where: { revision: { language }},
-          orderBy: { revision: { createdAt: 'desc' }}
-        },
-        icon: true,
-      }
-    }),
-    revisionId
-      ? db.revision.findUnique({ where: { id: revisionId }})
-      : db.revision.findFirst({ where: { [`currentSkill_${language}`]: { id }}})
-  ]);
+  const skill = await db.skill.findUnique({
+    where: { id },
+    include: {
+      history: {
+        include: { revision: { select: { id: true, buildId: true, createdAt: true, description: true, language: true }}},
+        where: { revision: { language }},
+        orderBy: { revision: { createdAt: 'desc' }}
+      },
+      icon: true,
+    }
+  });
 
-  if(!skill || !revision) {
+  if(!skill) {
     notFound();
   }
 
-  return { skill, revision };
+  return skill;
 }, ['skill'], { revalidate: 60 });
+
+export const getRevision = cache(async (id: number, language: Language, revisionId?: string) => {
+  const revision = revisionId
+    ? await db.revision.findUnique({ where: { id: revisionId }})
+    : await db.revision.findFirst({ where: { [`currentSkill_${language}`]: { id }}});
+
+  return {
+    revision,
+    data: revision ? JSON.parse(revision.data) as Gw2Api.Skill : undefined,
+  };
+}, ['revision-skill'], { revalidate: 60 });

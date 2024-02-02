@@ -1,4 +1,4 @@
-import { Language, Revision } from '@gw2treasures/database';
+import { Revision } from '@gw2treasures/database';
 import { JobName } from '..';
 import { PrismaTransaction, db } from '../../db';
 import { batch } from './batch';
@@ -189,10 +189,10 @@ export async function processLocalizedEntities<Id extends string | number, DbEnt
 
       // create revisions
       const [revision_de, revision_en, revision_es, revision_fr] = await Promise.all([
-        (await createRevision(tx, dbData?.de, apiData?.de, dbEntity?.removedFromApi, { buildId, entity: entityName, language: 'de' })) ?? dbEntity!.current_de,
-        (await createRevision(tx, dbData?.en, apiData?.en, dbEntity?.removedFromApi, { buildId, entity: entityName, language: 'en' })) ?? dbEntity!.current_en,
-        (await createRevision(tx, dbData?.es, apiData?.es, dbEntity?.removedFromApi, { buildId, entity: entityName, language: 'es' })) ?? dbEntity!.current_es,
-        (await createRevision(tx, dbData?.fr, apiData?.fr, dbEntity?.removedFromApi, { buildId, entity: entityName, language: 'fr' })) ?? dbEntity!.current_fr,
+        (await createRevision(tx, dbData?.de, apiData?.de, dbEntity?.removedFromApi, { buildId, entity: entityName, language: 'de', previousRevisionId: dbEntity?.current_de.id ?? null })) ?? dbEntity!.current_de,
+        (await createRevision(tx, dbData?.en, apiData?.en, dbEntity?.removedFromApi, { buildId, entity: entityName, language: 'en', previousRevisionId: dbEntity?.current_en.id ?? null })) ?? dbEntity!.current_en,
+        (await createRevision(tx, dbData?.es, apiData?.es, dbEntity?.removedFromApi, { buildId, entity: entityName, language: 'es', previousRevisionId: dbEntity?.current_es.id ?? null })) ?? dbEntity!.current_es,
+        (await createRevision(tx, dbData?.fr, apiData?.fr, dbEntity?.removedFromApi, { buildId, entity: entityName, language: 'fr', previousRevisionId: dbEntity?.current_fr.id ?? null })) ?? dbEntity!.current_fr,
       ]);
 
       // check if nothing changed
@@ -255,7 +255,7 @@ export async function processLocalizedEntities<Id extends string | number, DbEnt
   return `Updated ${processedEntityCount}/${data.ids.length}`;
 }
 
-function createRevision<T>(tx: PrismaTransaction, known: T | undefined, updated: T | undefined, wasRemoved: boolean | undefined, base: { buildId: number, entity: string, language: Language }) {
+function createRevision<T>(tx: PrismaTransaction, known: T | undefined, updated: T | undefined, wasRemoved: boolean | undefined, base: Pick<Revision, 'buildId' | 'entity' | 'language' | 'previousRevisionId'>) {
   // convert data to json
   const knownData = known !== undefined && JSON.stringify(known);
   const updatedData = updated !== undefined && JSON.stringify(updated);

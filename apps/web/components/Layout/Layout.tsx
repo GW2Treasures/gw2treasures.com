@@ -10,23 +10,15 @@ import { LanguageDropdown } from './Header/LanguageDropdown';
 import { Menu } from './Header/Menu';
 import type { AsyncComponent } from '@/lib/asyncComponent';
 import { getUser } from '@/lib/getUser';
-import { db } from '@/lib/prisma';
 import { getTranslate } from '../I18n/getTranslate';
-import { cache } from '@/lib/cache';
+import { ReviewCountBadge } from './Header/ReviewCountBadge';
 
 interface LayoutProps {
   children: ReactNode;
 };
 
-const getOpenReviews = cache(
-  () => db.review.count({ where: { state: 'Open' }}),
-  ['open-reviews'],
-  { revalidate: 600, tags: ['open-reviews'] }
-);
-
 const Layout: AsyncComponent<LayoutProps> = async ({ children }) => {
   const user = await getUser();
-  const openReviews = await getOpenReviews();
   const t = getTranslate();
 
   const searchTranslations: SearchProps['translations'] = {
@@ -52,7 +44,7 @@ const Layout: AsyncComponent<LayoutProps> = async ({ children }) => {
           <Search translations={searchTranslations}/>
           <div className={styles.right}>
             <LinkButton appearance="menu" href="/review">
-              <Icon icon="review-queue"/><span className={styles.responsive}> Review {openReviews > 0 && (<span className={styles.badge}>{openReviews}</span>)}</span>
+              <Icon icon="review-queue"/><span className={styles.responsive}> Review<ReviewCountBadge/></span>
             </LinkButton>
             <LanguageDropdown/>
             {user ? (

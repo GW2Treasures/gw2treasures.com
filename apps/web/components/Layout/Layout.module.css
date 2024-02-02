@@ -190,12 +190,6 @@
   .responsive { display: none; }
 }
 
-.badge {
-  background-color: var(--color-background-light);
-  padding: 0px 8px;
-  border-radius: 2000px;
-}
-
 .emoji {
   text-decoration: none !important;
 }

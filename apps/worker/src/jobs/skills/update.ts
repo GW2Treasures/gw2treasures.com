@@ -23,7 +23,7 @@ export const SkillsUpdate: Job = {
       const cooldownDate = new Date(build.createdAt);
       cooldownDate.setMinutes(cooldownDate.getMinutes() + 30);
 
-      if(cooldownDate < new Date()) {
+      if(cooldownDate > new Date()) {
         return `Waiting for Build ${build.id} to be at least 30 min old`;
       }
 

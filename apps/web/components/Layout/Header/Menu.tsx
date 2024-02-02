@@ -30,7 +30,7 @@ export const Menu: FC<MenuProps> = ({ children, navigation }) => {
   return (
     <div className={styles.header}>
       <header className={scrolledDown ? styles.headerMainScrolled : styles.headerMain} suppressHydrationWarning>
-        <button className={styles.menuButton} onClick={() => setMenuOpen(!menuOpen)} tabIndex={-1}>
+        <button className={styles.menuButton} onClick={() => setMenuOpen(!menuOpen)} tabIndex={-1} aria-label="Menu">
           <Icon icon="menu"/>
         </button>
         {children}

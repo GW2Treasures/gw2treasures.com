@@ -19,5 +19,5 @@ export const UserProvider: FC<UserProviderProps> = ({ children }) => {
 const UserLoader: FC = async ({ }) => {
   const user = await getUser();
 
-  return <UserSetter context={{ user }}/>;
+  return <UserSetter context={{ user, loading: false }}/>;
 };

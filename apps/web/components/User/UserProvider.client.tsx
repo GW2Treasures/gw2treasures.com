@@ -8,7 +8,7 @@ interface UserProviderProps {
 };
 
 export const UserProvider: FC<UserProviderProps> = ({ children }) => {
-  const [user, setUser] = useState<UserContext>({ user: undefined });
+  const [user, setUser] = useState<UserContext>({ user: undefined, loading: true });
 
   return (
     <UserContext.Provider value={user}>

@@ -10,7 +10,7 @@ import { FormatDate } from '@/components/Format/FormatDate';
 import { Json } from '@/components/Format/Json';
 import { SkillTooltip } from '@/components/Skill/SkillTooltip';
 import { SkillInfobox } from '@/components/Skill/SkillInfobox';
-import { getSkill } from './getSkill';
+import { getRevision, getSkill } from './getSkill';
 import type { AsyncComponent } from '@/lib/asyncComponent';
 import { RemovedFromApiNotice } from '@/components/Notice/RemovedFromApiNotice';
 import { Tooltip } from '@/components/Tooltip/Tooltip';
@@ -21,6 +21,7 @@ import { Icon } from '@gw2treasures/ui';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { pageView } from '@/lib/pageView';
 import { parseIcon } from '@/lib/parseIcon';
+import { notFound } from 'next/navigation';
 
 export interface SkillPageComponentProps {
   language: Language;
@@ -30,10 +31,16 @@ export interface SkillPageComponentProps {
 
 export const SkillPageComponent: AsyncComponent<SkillPageComponentProps> = async ({ language, skillId, revisionId }) => {
   const fixedRevision = revisionId !== undefined;
-  const { skill, revision } = await getSkill(skillId, language, revisionId);
-  await pageView('skill', skillId);
 
-  const data: Gw2Api.Skill = JSON.parse(revision.data);
+  const [skill, { revision, data }] = await Promise.all([
+    getSkill(skillId, language),
+    getRevision(skillId, language, revisionId),
+    pageView('skill', skillId)
+  ]);
+
+  if(!skill || !revision || !data) {
+    notFound();
+  }
 
   const breadcrumb = [
     'Skill',

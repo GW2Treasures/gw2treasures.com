@@ -7,6 +7,7 @@ import { toId } from './toId';
 import { LocalizedObject } from './types';
 import { createEntityMap } from './map';
 import { createRevision as createRevisionInDb } from './revision-create';
+import { getUpdateCheckpoint } from './updateCheckpoints';
 
 type FindManyArgs = {
   select: { id: true },
@@ -44,12 +45,15 @@ export async function createSubJobs(
   // get new or rediscovered ids
   const newOrRediscoveredIds = apiIds.filter((id) => !knownIds.includes(id));
 
-  // also load all ids where the lastCheckedAt is before the build.createdAt
+  // also load all ids where the lastCheckedAt is before the builds checkpoint
   // these ids were not checked on the current build and thus should be queued
-  const knownIdsLastUpdatedOnOldBuild = (await findMany({
-    where: { lastCheckedAt: { lt: build.createdAt }, removedFromApi: false, id: { notIn: newOrRediscoveredIds }},
-    select: { id: true }
-  })).map(toId);
+  const checkpoint = getUpdateCheckpoint(build.createdAt);
+  const knownIdsLastUpdatedOnOldBuild = checkpoint
+    ? (await findMany({
+        where: { lastCheckedAt: { lt: checkpoint }, removedFromApi: false, id: { notIn: newOrRediscoveredIds }},
+        select: { id: true }
+      })).map(toId)
+    : [];
 
   // and then also include ids that need to be migrated
   const idsToBeMigrated = (await findMany({

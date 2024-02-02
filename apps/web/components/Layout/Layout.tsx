@@ -11,7 +11,7 @@ import { Menu } from './Header/Menu';
 import type { AsyncComponent } from '@/lib/asyncComponent';
 import { getUser } from '@/lib/getUser';
 import { getTranslate } from '../I18n/getTranslate';
-import { ReviewCountBadge } from '../Review/ReviewCountBadge';
+import { ReviewCountBadge } from './Header/ReviewCountBadge';
 
 interface LayoutProps {
   children: ReactNode;

@@ -3,6 +3,7 @@
   border-radius: 2px;
   overflow: hidden;
   flex-shrink: 0;
+  aspect-ratio: 1 / 1;
 }
 
 .icon {

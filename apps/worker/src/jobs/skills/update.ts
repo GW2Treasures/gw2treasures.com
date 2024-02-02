@@ -5,6 +5,7 @@ import { loadSkills } from '../helper/loadSkills';
 import { queueJobForIds } from '../helper/queueJobsForIds';
 import { createIcon } from '../helper/createIcon';
 import { localeExists } from '../helper/types';
+import { getUpdateCheckpoint } from '../helper/updateCheckpoints';
 
 export const SkillsUpdate: Job = {
   run: async (ids: number[] | Record<string, never>) => {
@@ -19,20 +20,15 @@ export const SkillsUpdate: Job = {
         return 'Waiting for pending follow up jobs';
       }
 
-      // wait at least 30 minutes after build is live
-      const cooldownDate = new Date(build.createdAt);
-      cooldownDate.setMinutes(cooldownDate.getMinutes() + 30);
+      // get checkpoint
+      const checkpoint = getUpdateCheckpoint(build.createdAt);
 
-      if(cooldownDate > new Date()) {
-        return `Waiting for Build ${build.id} to be at least 30 min old`;
+      if(!checkpoint) {
+        return `Waiting for Build ${build.id} to be older`;
       }
 
-      // update skills for 60 minutes after build release
-      const checkDate = new Date(build.createdAt);
-      checkDate.setMinutes(checkDate.getMinutes() + 60);
-
       const idsToUpdate = (await db.skill.findMany({
-        where: { lastCheckedAt: { lt: checkDate }, removedFromApi: false },
+        where: { lastCheckedAt: { lt: checkpoint }, removedFromApi: false },
         orderBy: { lastCheckedAt: 'asc' },
         select: { id: true }
       })).map(({ id }) => id);

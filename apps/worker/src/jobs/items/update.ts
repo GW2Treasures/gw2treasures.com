@@ -6,6 +6,7 @@ import { queueJobForIds } from '../helper/queueJobsForIds';
 import { createIcon } from '../helper/createIcon';
 import { localeExists } from '../helper/types';
 import { createMigrator } from './migrations';
+import { getUpdateCheckpoint } from '../helper/updateCheckpoints';
 
 export const ItemsUpdate: Job = {
   run: async (ids: number[] | Record<string, never>) => {
@@ -20,12 +21,15 @@ export const ItemsUpdate: Job = {
         return 'Waiting for pending follow up jobs';
       }
 
-      // add 15 minutes to timestamp to make sure api cache is updated
-      const checkDate = new Date(build.createdAt);
-      checkDate.setMinutes(checkDate.getMinutes() + 15);
+      // get checkpoint
+      const checkpoint = getUpdateCheckpoint(build.createdAt);
+
+      if(!checkpoint) {
+        return `Waiting for Build ${build.id} to be older`;
+      }
 
       const idsToUpdate = (await db.item.findMany({
-        where: { lastCheckedAt: { lt: checkDate }, removedFromApi: false },
+        where: { lastCheckedAt: { lt: checkpoint }, removedFromApi: false },
         orderBy: { lastCheckedAt: 'asc' },
         select: { id: true }
       })).map(({ id }) => id);

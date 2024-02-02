@@ -6,3 +6,4 @@ export interface UserContext {
 }
 
 export const UserContext = createContext<UserContext>({ user: undefined });
+export const SetUserContext = createContext<(context: UserContext) => void>(() => {});

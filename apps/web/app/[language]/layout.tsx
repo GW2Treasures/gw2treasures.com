@@ -14,7 +14,6 @@ import { I18nProvider } from '@/components/I18n/I18nProvider';
 import type { Language } from '@gw2treasures/database';
 import { ItemTableContext } from '@/components/ItemTable/ItemTableContext';
 import { Gw2ApiProvider } from '@/components/Gw2Api/Gw2ApiProvider';
-import { getUser } from '@/lib/getUser';
 import { UserProvider } from '@/components/User/UserProvider';
 import { DataTableContext } from '@gw2treasures/ui/components/Table/DataTableContext';
 
@@ -32,15 +31,13 @@ const wotfard = localFont({
   variable: '--font-wotfard',
 });
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
   params,
 }: {
   children: React.ReactNode;
   params: { language: Language; };
 }) {
-  const user = await getUser();
-
   return (
     <html lang={params.language} className={cx(bitter.variable, wotfard.variable)}>
       <head>
@@ -52,7 +49,7 @@ export default async function RootLayout({
           <FormatProvider>
             <ItemTableContext global id="global">
               <DataTableContext>
-                <UserProvider user={user}>
+                <UserProvider>
                   <Gw2ApiProvider>
                     <Layout>{children}</Layout>
                   </Gw2ApiProvider>

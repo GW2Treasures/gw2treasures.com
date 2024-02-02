@@ -20,11 +20,15 @@ export const Gw2ApiProvider: FC<Gw2ApiProviderProps> = ({ children }) => {
   const accounts = useRef<Promise<Gw2Account[]>>();
   const [error, setError] = useState<ErrorCode>();
   const [dismissed, setDismissed] = useState(false);
-  const { user } = useUser();
+  const { user, loading: loadingUser } = useUser();
 
   // eslint-disable-next-line require-await
   const getAccounts = useCallback(async () => {
-    if(!user || typeof window === 'undefined') {
+    if(loadingUser || typeof window === 'undefined') {
+      return [];
+    }
+
+    if(!user) {
       if(!dismissed) {
         setError(ErrorCode.NOT_LOGGED_IN);
       }
@@ -46,7 +50,7 @@ export const Gw2ApiProvider: FC<Gw2ApiProviderProps> = ({ children }) => {
     }
 
     return accounts.current;
-  }, [dismissed, user]);
+  }, [dismissed, loadingUser, user]);
 
   const handleDismiss = useCallback(() => {
     setError(undefined);

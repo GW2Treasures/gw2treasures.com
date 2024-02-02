@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { FC, ReactNode } from 'react';
 import styles from './Layout.module.css';
 import { Icon } from '@gw2treasures/ui';
 import Navigation from './Header/Navigation';
@@ -8,17 +8,15 @@ import { LinkButton } from '@gw2treasures/ui/components/Form/Button';
 import { ExternalLink } from '@gw2treasures/ui/components/Link/ExternalLink';
 import { LanguageDropdown } from './Header/LanguageDropdown';
 import { Menu } from './Header/Menu';
-import type { AsyncComponent } from '@/lib/asyncComponent';
-import { getUser } from '@/lib/getUser';
 import { getTranslate } from '../I18n/getTranslate';
 import { ReviewCountBadge } from './Header/ReviewCountBadge';
+import { UserButton } from './Header/UserButton';
 
 interface LayoutProps {
   children: ReactNode;
 };
 
-const Layout: AsyncComponent<LayoutProps> = async ({ children }) => {
-  const user = await getUser();
+const Layout: FC<LayoutProps> = ({ children }) => {
   const t = getTranslate();
 
   const searchTranslations: SearchProps['translations'] = {
@@ -47,15 +45,7 @@ const Layout: AsyncComponent<LayoutProps> = async ({ children }) => {
               <Icon icon="review-queue"/><span className={styles.responsive}> Review<ReviewCountBadge/></span>
             </LinkButton>
             <LanguageDropdown/>
-            {user ? (
-              <LinkButton appearance="menu" href="/profile">
-                <Icon icon="user"/><span className={styles.responsive}> {user.name}</span>
-              </LinkButton>
-            ) : (
-              <LinkButton appearance="menu" href="/login">
-                <Icon icon="user"/><span className={styles.responsive}> Login</span>
-              </LinkButton>
-            )}
+            <UserButton/>
           </div>
         </Menu>
         <hr className={styles.headerShadow}/>

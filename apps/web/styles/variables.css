@@ -58,7 +58,7 @@
     --color-border-dark: #222428;
     --color-border-transparent: rgba(0 0 0 / .37);
 
-    --color-focus: #2196f3;
+    --color-focus: #3da9ff;
 
     --color-rarity-ascended-rgb: 255 0 107;
     --color-rarity-ascended: rgb(var(--color-rarity-ascended-rgb));

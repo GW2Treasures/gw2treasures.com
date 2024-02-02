@@ -1,11 +1,8 @@
 import { PrismaClient } from '@gw2treasures/database';
-import { unstable_noStore } from 'next/cache';
 
 // https://pris.ly/d/help/next-js-best-practices
 
 const prismaClientSingleton = () => {
-  unstable_noStore();
-
   const datasourceUrl = new URL(process.env.DATABASE_URL!);
   datasourceUrl.searchParams.set('application_name', 'web');
 

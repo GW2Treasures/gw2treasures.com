@@ -23,6 +23,7 @@ export default async function DeveloperPage() {
     <HeroLayout hero={<Headline id="developer">Developer</Headline>} color="#2c8566" toc>
       <Headline id="services">Services</Headline>
       <List>
+        <li><b><Link href="https://gw2.me/">gw2.me</Link></b>: Auth service for your applications</li>
         <li><b><Link href="/dev/icons">Icons</Link></b>: Alternative to render.guildwars2.com with more features.</li>
       </List>
 
@@ -51,3 +52,7 @@ export default async function DeveloperPage() {
     </HeroLayout>
   );
 }
+
+export const metadata = {
+  title: 'Developer Resources'
+};

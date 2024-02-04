@@ -5,6 +5,7 @@ import { getRevision } from './data';
 import { notFound } from 'next/navigation';
 import { getIconUrl } from '@/lib/getIconUrl';
 import { parseIcon } from '@/lib/parseIcon';
+import { getAlternateUrls } from '@/lib/url';
 
 export interface ItemPageProps {
   params: {
@@ -34,6 +35,7 @@ export async function generateMetadata({ params: { language, id }}: ItemPageProp
     openGraph: {
       images: icon ? [{ url: getIconUrl(icon, 64), width: 64, height: 64, type: 'image/png' }] : []
     },
-    twitter: { card: 'summary' }
+    twitter: { card: 'summary' },
+    alternates: getAlternateUrls(`/item/${id}`)
   };
 };

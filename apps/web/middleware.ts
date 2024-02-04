@@ -11,6 +11,7 @@ import { apiKeyMiddleware } from './middleware/api-key';
 import { rewriteMiddleware } from './middleware/rewrite';
 import { corsMiddleware } from './middleware/cors';
 import { userAgentMiddleware } from './middleware/user-agent';
+import { dropSearchParamsMiddleware } from 'middleware/drop-search-params';
 
 export async function middleware(request: NextRequest) {
   const middlewares: NextMiddleware[] = [
@@ -18,6 +19,7 @@ export async function middleware(request: NextRequest) {
     healthMiddleware,
     corsMiddleware,
     realUrlMiddleware,
+    dropSearchParamsMiddleware,
     subdomainMiddleware,
     languageMiddleware,
     userAgentMiddleware,

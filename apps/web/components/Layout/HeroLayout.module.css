@@ -8,6 +8,7 @@
   background-blend-mode: multiply;
   background-position: left top;
   background-size: cover;
+  background-repeat: no-repeat;
   text-shadow: 0 0 2px rgba(0 0 0 / .2);
   color: #fff;
 }

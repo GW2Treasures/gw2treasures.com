@@ -23,6 +23,7 @@ import type { Metadata } from 'next';
 import { Json } from '@/components/Format/Json';
 import { pageView } from '@/lib/pageView';
 import { cache } from '@/lib/cache';
+import { getAlternateUrls } from '@/lib/url';
 
 const getSkin = cache(async (id: number, language: Language) => {
   const [skin, revision] = await Promise.all([
@@ -133,6 +134,7 @@ export async function generateMetadata({ params: { language, id }}: SkinPageProp
   const { skin } = await getSkin(skinId, language);
 
   return {
-    title: localizedName(skin, language)
+    title: localizedName(skin, language),
+    alternates: getAlternateUrls(`/skin/${id}`)
   };
 };

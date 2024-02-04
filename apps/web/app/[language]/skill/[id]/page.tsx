@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation';
 import { parseIcon } from '@/lib/parseIcon';
 import { getIconUrl } from '@/lib/getIconUrl';
 import { getRevision } from './getSkill';
+import { getAlternateUrls } from '@/lib/url';
 
 export interface SkillPageProps {
   params: {
@@ -34,7 +35,8 @@ export async function generateMetadata({ params: { language, id }}: SkillPagePro
     openGraph: {
       images: icon ? [{ url: getIconUrl(icon, 64), width: 64, height: 64, type: 'image/png' }] : []
     },
-    twitter: { card: 'summary' }
+    twitter: { card: 'summary' },
+    alternates: getAlternateUrls(`/skill/${id}`)
   };
 };
 

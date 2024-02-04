@@ -27,6 +27,7 @@ export async function generateMetadata({ params: { language, id, revisionId }}: 
   }
 
   return {
-    title: `${data.name || id} @ ${revisionId}`
+    title: `${data.name || id} @ ${revisionId}`,
+    robots: { index: false }
   };
 };

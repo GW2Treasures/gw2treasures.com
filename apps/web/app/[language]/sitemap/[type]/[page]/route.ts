@@ -1,9 +1,8 @@
-import { getCurrentUrl } from '@/lib/url';
 import { NextRequest } from 'next/server';
 import { pageSize, sitemaps } from '../../sitemaps';
 import { notFound } from 'next/navigation';
 
-export async function GET(request: NextRequest, { params: { type, page }}: { params: { type: string, page: string }}) {
+export async function GET(_: NextRequest, { params: { type, page }}: { params: { type: string, page: string }}) {
   if(!(type in sitemaps)) {
     notFound();
   }

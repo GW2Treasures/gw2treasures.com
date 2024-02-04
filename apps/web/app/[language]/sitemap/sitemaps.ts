@@ -1,6 +1,5 @@
-import { getLanguage } from '@/components/I18n/getTranslate';
 import { db } from '@/lib/prisma';
-import { getCurrentUrl } from '@/lib/url';
+import { getAlternateUrls } from '@/lib/url';
 
 interface SitemapEntry {
   url: string | URL;
@@ -27,16 +26,13 @@ export const sitemaps: Record<string, Sitemap> = {
     },
 
     async getEntries(skip, take) {
-      const url = getCurrentUrl();
-      const alternateBaseUrls = getLocalizedBaseUrls();
-
       const items = await db.item.findMany({ skip, take, select: { id: true, updatedAt: true }});
 
-      return items.map((item) => ({
-        url: new URL(`/item/${item.id}`, url),
-        lastmod: item.updatedAt,
-        alternates: alternateBaseUrls.map(({ lang, base }) => ({ lang, href: new URL(`/item/${item.id}`, base) }))
-      }));
+      return items.map((item) => getEntryForUrl(
+        `/item/${item.id}`,
+        { lastmod: item.updatedAt }
+      ));
+
     }
   },
   'skills': {
@@ -45,16 +41,13 @@ export const sitemaps: Record<string, Sitemap> = {
     },
 
     async getEntries(skip, take) {
-      const url = getCurrentUrl();
-      const alternateBaseUrls = getLocalizedBaseUrls();
-
       const skills = await db.skill.findMany({ skip, take, select: { id: true, updatedAt: true }});
 
-      return skills.map((skill) => ({
-        url: new URL(`/skill/${skill.id}`, url),
-        lastmod: skill.updatedAt,
-        alternates: alternateBaseUrls.map(({ lang, base }) => ({ lang, href: new URL(`/skill/${skill.id}`, base) }))
-      }));
+      return skills.map((skill) => getEntryForUrl(
+        `/skill/${skill.id}`,
+        { lastmod: skill.updatedAt }
+      ));
+
     }
   },
   'achievements': {
@@ -63,16 +56,12 @@ export const sitemaps: Record<string, Sitemap> = {
     },
 
     async getEntries(skip, take) {
-      const url = getCurrentUrl();
-      const alternateBaseUrls = getLocalizedBaseUrls();
-
       const achievements = await db.achievement.findMany({ skip, take, select: { id: true, updatedAt: true }});
 
-      return achievements.map((achievement) => ({
-        url: new URL(`/achievement/${achievement.id}`, url),
-        lastmod: achievement.updatedAt,
-        alternates: alternateBaseUrls.map(({ lang, base }) => ({ lang, href: new URL(`/achievement/${achievement.id}`, base) }))
-      }));
+      return achievements.map((achievement) => getEntryForUrl(
+        `/achievement/${achievement.id}`,
+        { lastmod: achievement.updatedAt }
+      ));
     }
   },
   'achievement-categories': {
@@ -81,16 +70,12 @@ export const sitemaps: Record<string, Sitemap> = {
     },
 
     async getEntries(skip, take) {
-      const url = getCurrentUrl();
-      const alternateBaseUrls = getLocalizedBaseUrls();
-
       const achievementCategories = await db.achievementCategory.findMany({ skip, take, select: { id: true, updatedAt: true }});
 
-      return achievementCategories.map((category) => ({
-        url: new URL(`/achievement/category/${category.id}`, url),
-        lastmod: category.updatedAt,
-        alternates: alternateBaseUrls.map(({ lang, base }) => ({ lang, href: new URL(`/achievement/category/${category.id}`, base) }))
-      }));
+      return achievementCategories.map((category) => getEntryForUrl(
+        `/achievement/category/${category.id}`,
+        { lastmod: category.updatedAt }
+      ));
     }
   },
   'builds': {
@@ -99,16 +84,9 @@ export const sitemaps: Record<string, Sitemap> = {
     },
 
     async getEntries(skip, take) {
-      const url = getCurrentUrl();
-      const alternateBaseUrls = getLocalizedBaseUrls();
-
       const builds = await db.build.findMany({ skip, take, select: { id: true, updatedAt: true }});
 
-      return builds.map((build) => ({
-        url: new URL(`/build/${build.id}`, url),
-        lastmod: build.updatedAt,
-        alternates: alternateBaseUrls.map(({ lang, base }) => ({ lang, href: new URL(`/build/${build.id}`, base) }))
-      }));
+      return builds.map((build) => getEntryForUrl(`/build/${build.id}`, { lastmod: build.updatedAt }));
     }
   },
   'currencies': {
@@ -117,16 +95,9 @@ export const sitemaps: Record<string, Sitemap> = {
     },
 
     async getEntries(skip, take) {
-      const url = getCurrentUrl();
-      const alternateBaseUrls = getLocalizedBaseUrls();
-
       const currencies = await db.currency.findMany({ skip, take, select: { id: true, updatedAt: true }});
 
-      return currencies.map((currency) => ({
-        url: new URL(`/currency/${currency.id}`, url),
-        lastmod: currency.updatedAt,
-        alternates: alternateBaseUrls.map(({ lang, base }) => ({ lang, href: new URL(`/currency/${currency.id}`, base) }))
-      }));
+      return currencies.map((currency) => getEntryForUrl(`/currency/${currency.id}`, { lastmod: currency.updatedAt }));
     }
   },
   'skins': {
@@ -135,16 +106,9 @@ export const sitemaps: Record<string, Sitemap> = {
     },
 
     async getEntries(skip, take) {
-      const url = getCurrentUrl();
-      const alternateBaseUrls = getLocalizedBaseUrls();
-
       const skins = await db.skin.findMany({ skip, take, select: { id: true, updatedAt: true }});
 
-      return skins.map((skin) => ({
-        url: new URL(`/skin/${skin.id}`, url),
-        lastmod: skin.updatedAt,
-        alternates: alternateBaseUrls.map(({ lang, base }) => ({ lang, href: new URL(`/skin/${skin.id}`, base) }))
-      }));
+      return skins.map((skin) => getEntryForUrl(`/skin/${skin.id}`, { lastmod: skin.updatedAt }));
     }
   },
   'static': {
@@ -154,9 +118,6 @@ export const sitemaps: Record<string, Sitemap> = {
     },
 
     getEntries() {
-      const url = getCurrentUrl();
-      const alternateBaseUrls = getLocalizedBaseUrls();
-
       return [
         '/',
         '/about',
@@ -170,35 +131,20 @@ export const sitemaps: Record<string, Sitemap> = {
         '/review',
         '/item/empty-containers',
         '/achievement/uncategorized',
-      ].map((page) => ({
-        url: new URL(page, url),
-        alternates: alternateBaseUrls.map(({ lang, base }) => ({ lang, href: new URL(page, base) }))
-      }));
+      ].map((page) => getEntryForUrl(page));
     }
   }
 };
 
-function getLocalizedBaseUrls() {
-  const url = getCurrentUrl();
+function getEntryForUrl(pathname: string, additionalProps: Omit<SitemapEntry, 'url' | 'alternates'> = {}): SitemapEntry {
+  const alternates = getAlternateUrls(pathname);
+  console.log(alternates);
 
-  const urlDefault = new URL(url);
-  urlDefault.hostname = baseDomain;
-  const urlDe = new URL(url);
-  urlDe.hostname = `de.${baseDomain}`;
-  const urlEn = new URL(url);
-  urlEn.hostname = `en.${baseDomain}`;
-  const urlEs = new URL(url);
-  urlEs.hostname = `es.${baseDomain}`;
-  const urlFr = new URL(url);
-  urlFr.hostname = `fr.${baseDomain}`;
-
-  return [
-    { lang: 'x-default', base: urlDefault },
-    { lang: 'de', base: urlDe },
-    { lang: 'en', base: urlDe },
-    { lang: 'es', base: urlEs },
-    { lang: 'fr', base: urlFr },
-  ];
+  return {
+    url: alternates.canonical,
+    alternates: Object.entries(alternates.languages).map(([lang, href]) => ({ lang, href })),
+    ...additionalProps
+  };
 }
 
 export const getSitemapsForType = (baseUrl: string) => async (type: keyof typeof sitemaps) => {

@@ -14,6 +14,7 @@ import { FormatNumber } from '@/components/Format/FormatNumber';
 import { AchievementLink } from '@/components/Achievement/AchievementLink';
 import { pageView } from '@/lib/pageView';
 import { cache } from '@/lib/cache';
+import { getAlternateUrls } from '@/lib/url';
 
 async function HomePage() {
   await pageView('/');
@@ -118,6 +119,9 @@ async function DbStats() {
 
 export default HomePage;
 
-export const metadata = {
-  title: 'Home'
-};
+export function generateMetadata() {
+  return {
+    title: 'Home',
+    alternates: getAlternateUrls('/')
+  };
+}

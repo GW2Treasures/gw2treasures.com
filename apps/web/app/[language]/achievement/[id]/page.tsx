@@ -32,6 +32,7 @@ import { FormatNumber } from '@/components/Format/FormatNumber';
 import { ColumnSelect } from '@/components/Table/ColumnSelect';
 import { pageView } from '@/lib/pageView';
 import { cache } from '@/lib/cache';
+import { getAlternateUrls } from '@/lib/url';
 
 const MasteryColors: Record<MasteryRegion, CSS.Property.Color> = {
   'Tyria': '#FB8C00', //   core
@@ -282,6 +283,7 @@ export async function generateMetadata({ params }: AchievementPageProps): Promis
   }
 
   return {
-    title: localizedName(achievement, params.language)
+    title: localizedName(achievement, params.language),
+    alternates: getAlternateUrls(`/achievement/${id}`)
   };
 }

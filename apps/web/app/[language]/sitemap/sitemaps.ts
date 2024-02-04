@@ -138,7 +138,6 @@ export const sitemaps: Record<string, Sitemap> = {
 
 function getEntryForUrl(pathname: string, additionalProps: Omit<SitemapEntry, 'url' | 'alternates'> = {}): SitemapEntry {
   const alternates = getAlternateUrls(pathname);
-  console.log(alternates);
 
   return {
     url: alternates.canonical,

@@ -15,8 +15,8 @@
   "devDependencies": {
     "@tsconfig/node18": "18.2.2",
     "@types/node": "20.11.16",
-    "@typescript-eslint/eslint-plugin": "6.20.0",
-    "@typescript-eslint/parser": "6.20.0",
+    "@typescript-eslint/eslint-plugin": "6.21.0",
+    "@typescript-eslint/parser": "6.21.0",
     "eslint": "8.56.0",
     "prisma": "5.9.1",
     "typescript": "5.3.3"

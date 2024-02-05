@@ -36,6 +36,7 @@
   color: var(--color-text-muted);
   text-align: center;
   line-height: var(--icon-size);
+  flex-shrink: 0;
 }
 
 .missingIcon::before {

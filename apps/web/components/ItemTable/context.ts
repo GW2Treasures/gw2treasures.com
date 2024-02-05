@@ -10,6 +10,7 @@ export interface Context<ColumnId extends string> {
   selectedColumns: ColumnId[] | undefined;
   setSelectedColumns: (columns: ColumnId[] | undefined) => void;
 
+  id: string;
   isGlobalContext: boolean;
 }
 

@@ -54,8 +54,9 @@ export const ItemTableContext: FC<ItemTableContextProps> = ({ children, id, glob
     availableColumns, setAvailableColumns,
     defaultColumns, setDefaultColumns,
     selectedColumns, setSelectedColumns,
+    id,
     isGlobalContext,
-  }), [availableColumns, defaultColumns, selectedColumns, isGlobalContext]);
+  }), [availableColumns, defaultColumns, selectedColumns, id, isGlobalContext]);
 
   return (
     <context.Provider value={value}>{children}</context.Provider>

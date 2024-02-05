@@ -8,7 +8,7 @@ import { globalColumnRenderer } from './columns';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { DropDown } from '@gw2treasures/ui/components/DropDown/DropDown';
 import { Button, LinkButton } from '@gw2treasures/ui/components/Form/Button';
-import { Icon } from '@gw2treasures/ui';
+import { Icon, isEmptyObject } from '@gw2treasures/ui';
 import { MenuList } from '@gw2treasures/ui/components/Layout/MenuList';
 import { encode } from 'gw2e-chat-codes';
 import { CopyButton } from '@gw2treasures/ui/components/Form/Buttons/CopyButton';
@@ -19,6 +19,7 @@ import { Skeleton } from '../Skeleton/Skeleton';
 import { useItemTableContext } from './context';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import type { AvailableColumns, GlobalColumnId, ItemTableQuery, QueryModel } from './types';
+import { getHistoryState, updateHistoryState } from './history-state';
 
 const LOADING = false;
 type LOADING = typeof LOADING;
@@ -36,15 +37,15 @@ const globalDefaultColumns: GlobalColumnId[] = [
 
 export const ItemTable = <ExtraColumnId extends string = never, Model extends QueryModel = 'item'>({ query, defaultColumns = globalDefaultColumns, availableColumns, collapsed: initialCollapsed }: ItemTableProps<ExtraColumnId, Model>) => {
   type ColumnId = ExtraColumnId | GlobalColumnId;
-  const { setDefaultColumns, setAvailableColumns, selectedColumns, isGlobalContext } = useItemTableContext<ColumnId>();
+  const { setDefaultColumns, setAvailableColumns, selectedColumns, id, isGlobalContext } = useItemTableContext<ColumnId>();
 
   const [items, setItems] = useState<{ id: number }[] | LOADING>(LOADING);
   const [totalItems, setTotalItems] = useState(3);
-  const [page, setPage] = useState(0);
-  const [collapsed, setCollapsed] = useState(initialCollapsed);
+  const [page, setPage] = useState(getHistoryState(id).page ?? 0);
+  const [collapsed, setCollapsed] = useState(initialCollapsed && isEmptyObject(getHistoryState(id)));
   const [loadedColumns, setLoadedColumns] = useState<ColumnId[]>([]);
   const [loading, setLoading] = useState(true);
-  const [orderBy, setOrderBy] = useState<{ column: ColumnId, order: 'asc' | 'desc'}>();
+  const [orderBy, setOrderBy] = useState<{ column: ColumnId, order: 'asc' | 'desc'} | undefined>(getHistoryState<ColumnId>(id).orderBy);
   const [range, setRange] = useState<{ length: number, offset: number }>();
 
   const requestId = useRef(0);
@@ -90,6 +91,9 @@ export const ItemTable = <ExtraColumnId extends string = never, Model extends Qu
   useEffect(() => {
     loadTotalItemCount(query).then(setTotalItems);
   }, [query]);
+
+  useEffect(() => updateHistoryState(id, { page }), [id, page]);
+  useEffect(() => updateHistoryState(id, { orderBy }), [id, orderBy]);
 
   const handleSort = useCallback((column: ColumnId) => {
     setCollapsed(false);

@@ -5,7 +5,14 @@ export function fetchApi<T>(endpoint: string): Promise<T> {
   const startTime = performance.now();
 
   try {
-    return fetch(`https://api.guildwars2.com${endpoint}`, { headers: { 'X-Schema-Version': '2022-03-23T19:00:00.000Z' }}).then(async (r) => {
+    return fetch(
+      `https://api.guildwars2.com${endpoint}`, {
+      headers: {
+        'X-Schema-Version': '2022-03-23T19:00:00.000Z',
+        'User-Agent': 'Mozilla/5.0 (compatible; gw2treasures.com-worker/1.0; +https://gw2treasures.com)'
+      },
+      redirect: 'error',
+    }).then(async (r) => {
       await db.apiRequest.create({
         data: {
           endpoint: endpoint.split('?')[0],

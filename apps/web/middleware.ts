@@ -12,6 +12,7 @@ import { rewriteMiddleware } from './middleware/rewrite';
 import { corsMiddleware } from './middleware/cors';
 import { userAgentMiddleware } from './middleware/user-agent';
 import { dropSearchParamsMiddleware } from 'middleware/drop-search-params';
+import { contentSecurityPolicyMiddleware } from 'middleware/content-security-policy';
 
 export async function middleware(request: NextRequest) {
   const middlewares: NextMiddleware[] = [
@@ -21,6 +22,7 @@ export async function middleware(request: NextRequest) {
     realUrlMiddleware,
     dropSearchParamsMiddleware,
     subdomainMiddleware,
+    contentSecurityPolicyMiddleware,
     languageMiddleware,
     userAgentMiddleware,
     sessionMiddleware,

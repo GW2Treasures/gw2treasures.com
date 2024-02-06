@@ -16,15 +16,13 @@ export const contentSecurityPolicyMiddleware: NextMiddleware = async (request, n
   // generate nonce
   const nonce = Buffer.from(crypto.randomUUID()).toString('base64');
 
-  // set port if its not a default port (for local development)
-  const port = url && ((url.port !== '443' && url.protocol === 'https:') || (url.port !== '80' && url.protocol === 'http:'))
-    ? `:${url.port}`
-    : '';
+  // set port if its not a default port (for local development) including `:`
+  const portSuffix = url?.port ? `:${url.port}` : '';
 
   // generate list of alternate language domains
   const alternateLanguageDomains = languageSubdomains
     .filter((language) => language !== subdomain)
-    .map((language) => `${language}.${baseDomain}${port}`);
+    .map((language) => `${language}.${baseDomain}${portSuffix}`);
 
   // construct CSP header
   const cspHeader = `

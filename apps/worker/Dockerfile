@@ -15,6 +15,7 @@ RUN turbo prune --scope=worker --docker
 FROM node:${node_version} AS builder
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
+ENV CI true
 
 COPY --link --from=source /source/out/json/ .
 COPY --link --from=source /source/out/package-lock.json package-lock.json

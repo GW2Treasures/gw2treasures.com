@@ -1,0 +1,28 @@
+{
+  "name": "@gw2treasures/tsconfig",
+  "version": "0.0.1",
+  "description": "Common tsconfig files for gw2treasures projects",
+  "scripts": {
+    "publish-package": "if test `npm view . version | sed -n 2p` != $npm_package_version; then npm publish; else echo not changed; fi"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GW2Treasures/gw2treasures.git"
+  },
+  "keywords": [
+    "gw2treasures",
+    "tsconfig"
+  ],
+  "files": [
+    "*.json"
+  ],
+  "author": "darthmaim",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/GW2Treasures/gw2treasures/issues"
+  },
+  "homepage": "https://github.com/GW2Treasures/gw2treasures#readme",
+  "publishConfig": {
+    "access": "public"
+  }
+}

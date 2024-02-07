@@ -1,6 +1,6 @@
 {
   "name": "@gw2treasures/helper",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "gw2treasures.com utility library",
   "exports": {
     "./is": {

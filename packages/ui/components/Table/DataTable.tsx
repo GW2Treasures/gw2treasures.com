@@ -2,7 +2,7 @@ import { Table, type HeaderCellProps } from './Table';
 import { type FC, type Key, type ReactElement, type ReactNode } from 'react';
 import 'server-only';
 import { DataTableClient, DataTableClientCell, DataTableClientColumn, DataTableClientColumnSelection, DataTableClientRows } from './DataTable.client';
-import { isDefinied } from '@gw2treasures/helper/is';
+import { isDefined } from '@gw2treasures/helper/is';
 
 export type DataTableRowFilterComponent = FC<{ children: ReactNode, index: number }>;
 
@@ -68,7 +68,7 @@ export function createDataTable<T>(rows: T[], getRowKey: (row: T, index: number)
 
       const sortableColumns = Object.fromEntries(children
         .filter(isStaticColumn)
-        .filter((column) => isDefinied(column.props.sort) || isDefinied(column.props.sortBy))
+        .filter((column) => isDefined(column.props.sort) || isDefined(column.props.sortBy))
         .map((column) => {
           const columnOrder = rowsWithIndex
             .toSorted((a, b) => {

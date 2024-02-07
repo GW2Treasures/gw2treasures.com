@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@gw2treasures/database": "*",
-    "@gw2treasures/helper": "0.0.1",
+    "@gw2treasures/helper": "*",
     "chalk": "5.3.0",
     "cron-parser": "4.9.0",
     "fast-average-color-node": "3.0.0",

@@ -35,8 +35,8 @@
   "homepage": "https://github.com/gw2treasures/gw2.me#readme",
   "devDependencies": {
     "@tsconfig/recommended": "1.0.3",
-    "@typescript-eslint/eslint-plugin": "6.20.0",
-    "@typescript-eslint/parser": "6.20.0",
+    "@typescript-eslint/eslint-plugin": "6.21.0",
+    "@typescript-eslint/parser": "6.21.0",
     "eslint": "8.56.0",
     "typescript": "5.3.3"
   }

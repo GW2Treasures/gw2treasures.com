@@ -21,11 +21,8 @@
     "url": "git+https://github.com/GW2Treasures/gw2.me.git"
   },
   "keywords": [
-    "gw2me",
-    "gw2",
-    "guildwars2",
-    "auth",
-    "oauth2"
+    "gw2treasures",
+    "helper"
   ],
   "files": [
     "dist/"

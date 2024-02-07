@@ -18,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/GW2Treasures/gw2treasures.git"
+    "url": "git+https://github.com/GW2Treasures/gw2treasures.com.git"
   },
   "keywords": [
     "gw2treasures",
@@ -30,9 +30,9 @@
   "author": "darthmaim",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/GW2Treasures/gw2treasures/issues"
+    "url": "https://github.com/gw2treasures/gw2treasures.com/issues"
   },
-  "homepage": "https://github.com/GW2Treasures/gw2treasures#readme",
+  "homepage": "https://github.com/gw2treasures/gw2treasures.com#readme",
   "devDependencies": {
     "@tsconfig/recommended": "1.0.3",
     "@typescript-eslint/eslint-plugin": "6.21.0",

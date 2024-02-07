@@ -2,7 +2,7 @@ import { Table, type HeaderCellProps } from './Table';
 import { type FC, type Key, type ReactElement, type ReactNode } from 'react';
 import 'server-only';
 import { DataTableClient, DataTableClientCell, DataTableClientColumn, DataTableClientColumnSelection, DataTableClientRows } from './DataTable.client';
-import { isDefinied } from '../../lib';
+import { isDefinied } from '@gw2treasures/helper/is';
 
 export type DataTableRowFilterComponent = FC<{ children: ReactNode, index: number }>;
 

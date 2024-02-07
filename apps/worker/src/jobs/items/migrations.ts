@@ -1,7 +1,7 @@
 import { Prisma } from '@gw2treasures/database';
 import { Gw2Api } from 'gw2-api-types';
 import { db } from '../../db';
-import { isTruthy } from '../helper/is';
+import { isTruthy } from '@gw2treasures/helper/is';
 import { toId } from '../helper/toId';
 import { isDefined, LocalizedObject } from '../helper/types';
 

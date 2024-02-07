@@ -1,5 +1,5 @@
 import { type FC, Fragment, type ReactNode } from 'react';
-import { isTruthy } from '@gw2treasures/ui';
+import { isTruthy } from '@gw2treasures/helper/is';
 import styles from './DataList.module.css';
 
 interface DataListProps {

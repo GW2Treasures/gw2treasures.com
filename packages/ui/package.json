@@ -23,6 +23,7 @@
   "dependencies": {
     "@floating-ui/react": "0.26.9",
     "@floating-ui/react-dom": "2.0.8",
+    "@gw2treasures/helper": "0.0.1",
     "client-only": "0.0.1",
     "server-only": "0.0.1"
   },

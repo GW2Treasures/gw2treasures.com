@@ -2,7 +2,7 @@ import type { UnwrapJsonResponse } from '../../helper';
 import { NextResponse } from 'next/server';
 import { searchItems, splitSearchTerms } from '../../search/helper';
 import { decode } from 'gw2e-chat-codes';
-import { isTruthy } from '@gw2treasures/ui';
+import { isTruthy } from '@gw2treasures/helper/is';
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);

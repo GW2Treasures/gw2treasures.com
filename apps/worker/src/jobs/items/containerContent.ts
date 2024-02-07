@@ -3,7 +3,7 @@ import { db } from '../../db';
 import { queueJobForIds } from '../helper/queueJobsForIds';
 import { toId } from '../helper/toId';
 import { Job } from '../job';
-import { isTruthy } from '../helper/is';
+import { isTruthy } from '@gw2treasures/helper/is';
 
 interface WikiAskResponse {
   query: {

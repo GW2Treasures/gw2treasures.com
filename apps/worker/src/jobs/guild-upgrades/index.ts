@@ -2,7 +2,7 @@ import { db } from '../../db';
 import { fetchApi } from '../helper/fetchApi';
 import { Job } from '../job';
 import { loadGuildUpgrades } from '../helper/loadGuildUpgrades';
-import { isEmptyObject } from '../helper/is';
+import { isEmptyObject } from '@gw2treasures/helper/is';
 import { type ProcessEntitiesData, createSubJobs, processLocalizedEntities, Changes } from '../helper/process-entitites';
 import { Prisma } from '@gw2treasures/database';
 import { Gw2Api } from 'gw2-api-types';

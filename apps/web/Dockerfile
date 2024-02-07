@@ -10,22 +10,29 @@ RUN npm i -g turbo
 COPY --link . .
 RUN turbo prune --scope=web --docker
 
-# Install dependencies only when needed
+# Install dependencies (on TARGETPLATFORM)
+FROM --platform=$TARGETPLATFORM node:${node_version} AS dependencies
+RUN apk add --no-cache libc6-compat
+WORKDIR /app
+
+# Copy pruned package.json from source
+COPY --link --from=source /source/out/json/ .
+COPY --link --from=source /source/out/package-lock.json package-lock.json
+
+RUN npm ci --include=dev
+
+# Build application on BUILDPLATFORM for speed
 FROM --platform=$BUILDPLATFORM node:${node_version} AS builder
 ARG TARGETPLATFORM
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 ENV NEXT_TELEMETRY_DISABLED 1
 
-# Install dependencies based on the preferred package manager
-COPY --link --from=source /source/out/json/ .
-COPY --link --from=source /source/out/package-lock.json package-lock.json
-
-RUN npm ci --include=dev --cpu $TARGETPLATFORM
-
+# copy dependencies and source
+COPY --link --from=dependencies /app .
 COPY --link --from=source /source/out/full/ .
 
-RUN npm ls sharp && npm run build -- --filter=web...
+RUN npm run build -- --filter=web...
 
 # Production image, COPY --link all the files and run next
 FROM --platform=$TARGETPLATFORM node:${node_version} AS runner

@@ -1,7 +1,7 @@
 import { Prisma } from '@gw2treasures/database';
 import { db } from '../../db';
 import { Job } from '../job';
-import { isEmptyObject } from '../helper/is';
+import { isEmptyObject } from '@gw2treasures/helper/is';
 import { batch } from '../helper/batch';
 import { toId } from '../helper/toId';
 

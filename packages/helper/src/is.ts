@@ -20,3 +20,7 @@ export function isFalsy(value: unknown): value is Falsy {
 export function isEmptyObject(obj: unknown): obj is Record<string, never> {
   return typeof obj === 'object' && obj != undefined && Object.keys(obj).length === 0;
 }
+
+export function isString(value: unknown): value is string {
+  return typeof value === 'string';
+}

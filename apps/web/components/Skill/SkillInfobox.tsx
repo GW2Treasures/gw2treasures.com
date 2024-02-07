@@ -1,7 +1,7 @@
 import type { Language, Skill } from '@gw2treasures/database';
 import type { Gw2Api } from 'gw2-api-types';
 import type { FC } from 'react';
-import { isTruthy } from '@gw2treasures/ui';
+import { isTruthy } from '@gw2treasures/helper/is';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { Chatlink } from '../Infobox/Chatlink';
 import { DataList } from '../Infobox/DataList';

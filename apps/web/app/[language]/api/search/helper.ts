@@ -1,7 +1,7 @@
 import { db } from '@/lib/prisma';
 import type { Prisma } from '@gw2treasures/database';
 import { decode } from 'gw2e-chat-codes';
-import { isTruthy } from '@gw2treasures/ui';
+import { isTruthy } from '@gw2treasures/helper/is';
 import { cache } from '@/lib/cache';
 
 type ChatCode = Exclude<ReturnType<typeof decode>, false>;

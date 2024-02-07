@@ -27,6 +27,7 @@ ARG TARGETPLATFORM
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 ENV NEXT_TELEMETRY_DISABLED 1
+ENV CI true
 
 # copy dependencies and source
 COPY --link --from=dependencies /app .

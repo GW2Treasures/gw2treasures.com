@@ -1,6 +1,6 @@
 import { db } from '../../db';
 import { batch } from '../helper/batch';
-import { isEmptyObject } from '../helper/is';
+import { isEmptyObject } from '@gw2treasures/helper/is';
 import { toId } from '../helper/toId';
 import { Job } from '../job';
 

@@ -5,7 +5,7 @@ export function isUndefined(value: unknown): value is Undefined {
   return value == null;
 }
 
-export function isDefinied<T>(value: T | Undefined): value is T {
+export function isDefined<T>(value: T | Undefined): value is T {
   return value != null;
 }
 

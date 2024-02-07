@@ -291,7 +291,7 @@ jobs:
       id-token: write
     strategy:
       matrix:
-        target: [ ui, icons ]
+        target: [ ui, icons, helper ]
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4

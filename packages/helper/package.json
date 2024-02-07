@@ -1,0 +1,46 @@
+{
+  "name": "@gw2treasures/helper",
+  "version": "0.0.1",
+  "description": "gw2treasures.com utility library",
+  "exports": {
+    "./is": {
+      "types": "./dist/is.d.ts",
+      "default": "./dist/is.js"
+    }
+  },
+  "scripts": {
+    "build": "npm run clean && if test $CI; then npm run build:ci; else npm run build:local; fi",
+    "build:local": "tsc --declarationMap",
+    "build:ci": "tsc",
+    "clean": "rm -rf dist/",
+    "lint": "eslint src",
+    "publish-package": "if test `npm view . version | sed -n 2p` != $npm_package_version; then npm publish --access public; else echo not changed; fi"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GW2Treasures/gw2.me.git"
+  },
+  "keywords": [
+    "gw2me",
+    "gw2",
+    "guildwars2",
+    "auth",
+    "oauth2"
+  ],
+  "files": [
+    "dist/"
+  ],
+  "author": "darthmaim",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gw2treasures/gw2.me/issues"
+  },
+  "homepage": "https://github.com/gw2treasures/gw2.me#readme",
+  "devDependencies": {
+    "@tsconfig/recommended": "1.0.3",
+    "@typescript-eslint/eslint-plugin": "6.20.0",
+    "@typescript-eslint/parser": "6.20.0",
+    "eslint": "8.56.0",
+    "typescript": "5.3.3"
+  }
+}

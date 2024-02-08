@@ -28,6 +28,7 @@
   "homepage": "https://github.com/GW2Treasures/gw2treasures.com#readme",
   "devDependencies": {
     "@babel/plugin-transform-react-jsx": "7.23.4",
+    "@gw2treasures/tsconfig": "*",
     "@svgr/core": "8.1.0",
     "@svgr/plugin-jsx": "8.1.0",
     "@types/node": "20.11.16",

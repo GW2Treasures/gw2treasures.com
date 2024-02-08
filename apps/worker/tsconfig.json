@@ -1,11 +1,12 @@
 {
-  "extends": "@tsconfig/node18/tsconfig.json",
+  "extends": "@gw2treasures/tsconfig/base",
   "compilerOptions": {
-    "outDir": "./lib",
+    // don't emit anything, tsc is only used to validate types in worker
     "noEmit": true,
-    "module": "esnext",
-    "moduleResolution": "bundler"
+    "declaration": false,
+
+    // TODO: remove verbatimModuleSyntax override
+    "verbatimModuleSyntax": false
   },
   "include": ["./src"],
-  "exclude": ["node_modules"]
 }

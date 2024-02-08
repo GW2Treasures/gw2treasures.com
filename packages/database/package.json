@@ -9,12 +9,12 @@
     "build": "tsc"
   },
   "main": "./lib/index.js",
-  "types": "./src/index.ts",
+  "types": "./src/index.d.ts",
   "dependencies": {
     "@prisma/client": "5.9.1"
   },
   "devDependencies": {
-    "@tsconfig/node18": "18.2.2",
+    "@gw2treasures/tsconfig": "*",
     "prisma": "5.9.1"
   }
 }

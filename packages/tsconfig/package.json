@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Common tsconfig files for gw2treasures projects",
   "scripts": {
-    "publish-package": "if test `npm view . version | sed -n 2p` != $npm_package_version; then npm publish; else echo not changed; fi"
+    "publish-package": "gw2treasures-publish-package"
   },
   "repository": {
     "type": "git",

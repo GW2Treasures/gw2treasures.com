@@ -1,0 +1,8 @@
+{
+  "extends": "@gw2treasures/tsconfig/base",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "declaration": false
+  },
+  "include": ["./src"]
+}

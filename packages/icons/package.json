@@ -10,7 +10,7 @@
   ],
   "scripts": {
     "build": "ts-node build",
-    "publish-package": "if test `npm view . version | sed -n 2p` != $npm_package_version; then npm publish --access public; else echo not changed; fi"
+    "publish-package": "gw2treasures-publish-package"
   },
   "repository": {
     "type": "git",
@@ -38,5 +38,8 @@
   "peerDependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

@@ -18,7 +18,7 @@
   ],
   "scripts": {
     "lint": "eslint .",
-    "publish-package": "if test `npm view . version | sed -n 2p` != $npm_package_version; then npm publish --access public; else echo not changed; fi"
+    "publish-package": "gw2treasures-publish-package"
   },
   "author": "darthmaim",
   "license": "MIT",
@@ -29,7 +29,6 @@
   "dependencies": {
     "@floating-ui/react": "0.26.9",
     "@floating-ui/react-dom": "2.0.8",
-    "@gw2treasures/helper": "0.0.4",
     "client-only": "0.0.1",
     "server-only": "0.0.1"
   },
@@ -41,10 +40,14 @@
     "typescript": "5.3.3"
   },
   "peerDependencies": {
+    "@gw2treasures/helper": "~0.0.4",
     "@gw2treasures/icons": "~0.0.5",
     "@gw2treasures/tsconfig": "~0.0.1",
     "next": "^13.4.0 || ^14.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

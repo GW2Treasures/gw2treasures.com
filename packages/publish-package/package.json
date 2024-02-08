@@ -1,19 +1,16 @@
 {
-  "name": "@gw2treasures/helper",
-  "version": "0.0.4",
-  "description": "gw2treasures.com utility library",
-  "exports": {
-    "./is": {
-      "types": "./dist/is.d.ts",
-      "default": "./dist/is.js"
-    }
+  "name": "@gw2treasures/publish-package",
+  "version": "0.0.1",
+  "description": "gw2treasures.com publish package script",
+  "bin": {
+    "gw2treasures-publish-package": "dist/index.js"
   },
+  "type": "module",
   "scripts": {
-    "build": "npm run clean && if test $CI; then npm run build:ci; else npm run build:local; fi",
-    "build:local": "tsc --declarationMap",
-    "build:ci": "tsc",
+    "build": "npm run clean && tsc && chmod +x dist/index.js && npm install",
     "clean": "rm -rf dist/",
     "lint": "eslint src",
+    "dev": "npm run build && GITHUB_EVENT_NAME=pull_request node dist/index.js",
     "publish-package": "gw2treasures-publish-package"
   },
   "repository": {
@@ -22,7 +19,7 @@
   },
   "keywords": [
     "gw2treasures",
-    "helper"
+    "publish-package"
   ],
   "files": [
     "dist/"

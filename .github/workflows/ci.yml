@@ -284,14 +284,14 @@ jobs:
   publish-npm:
     name: Publish / npm / ${{ matrix.target }}
     runs-on: ubuntu-latest
-    if: github.event_name == 'push'
     needs: [success]
     permissions:
       contents: read
       id-token: write
+      pull-requests: write
     strategy:
       matrix:
-        target: [ ui, icons, helper ]
+        target: [ ui, icons, helper, tsconfig, publish-package ]
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
@@ -307,6 +307,31 @@ jobs:
       run: npm ci
     - name: Run Publish
       run: npm run publish-package -- --filter=${{ matrix.target }}
+      id: publish
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         NPM_CONFIG_PROVENANCE: true
+        GITHUB_EVENT_NAME: ${{ github.event_name }}
+    - name: Find Comment
+      if: github.event_name == 'pull_request'
+      uses: peter-evans/find-comment@v3
+      id: fc
+      with:
+        issue-number: ${{ github.event.pull_request.number }}
+        comment-author: 'github-actions[bot]'
+        body-includes: Publish / npm / ${{ matrix.target }}
+    - name: Delete comment if found but nothing will be published
+      if: github.event_name == 'pull_request' && steps.fc.outputs.comment-id && !steps.publish.outputs.publish
+      uses: detomarco/delete-comment@v1.0.4
+      with:
+        comment-id: ${{ steps.fc.outputs.comment-id }}
+    - name: Add comment with packages to be published
+      if: github.event_name == 'pull_request' && steps.publish.outputs.publish
+      uses: peter-evans/create-or-update-comment@v4
+      with:
+        comment-id: ${{ steps.fc.outputs.comment-id }}
+        issue-number: ${{ github.event.pull_request.number }}
+        edit-mode: replace
+        body: |
+          **Publish / npm / ${{ matrix.target }}**
+          Merging this PR will publish the npm package `${{ steps.publish.outputs.publish }}`

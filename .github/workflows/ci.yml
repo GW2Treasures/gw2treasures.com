@@ -322,9 +322,14 @@ jobs:
         body-includes: Publish / npm / ${{ matrix.target }}
     - name: Delete comment if found but nothing will be published
       if: github.event_name == 'pull_request' && steps.fc.outputs.comment-id && !steps.publish.outputs.publish
-      uses: detomarco/delete-comment@v1.0.11
+      uses: actions/github-script@v7
       with:
-        comment-id: ${{ steps.fc.outputs.comment-id }}
+        script: |
+          github.rest.issues.deleteComment({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            comment_id: ${{ steps.fc.outputs.comment-id }}
+          })
     - name: Add comment with packages to be published
       if: github.event_name == 'pull_request' && steps.publish.outputs.publish
       uses: peter-evans/create-or-update-comment@v4

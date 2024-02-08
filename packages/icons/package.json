@@ -1,6 +1,6 @@
 {
   "name": "@gw2treasures/icons",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "description": "Icons for gw2treasures.com",
   "main": "dist/index.js",
   "types": "dist/index.ts",
@@ -23,9 +23,9 @@
   "author": "darthmaim",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/gw2treasures/gw2treasures.com/issues"
+    "url": "https://github.com/GW2Treasures/gw2treasures.com/issues"
   },
-  "homepage": "https://github.com/gw2treasures/gw2treasures.com#readme",
+  "homepage": "https://github.com/GW2Treasures/gw2treasures.com#readme",
   "devDependencies": {
     "@babel/plugin-transform-react-jsx": "7.23.4",
     "@svgr/core": "8.1.0",

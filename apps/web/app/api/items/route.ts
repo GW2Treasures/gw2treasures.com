@@ -1,7 +1,10 @@
 import { db } from '@/lib/prisma';
 import { publicApi } from '..';
+import { cache } from '@/lib/cache';
 
-export const GET = publicApi(async ({ searchParams: { rarity, type, subtype, weight }}) => {
+const maxAge = 60;
+
+const getData = cache(async ({ rarity, type, subtype, weight }) => {
   const items = await db.item.findMany({
     where: { rarity, type, subtype, weight },
     select: { id: true },
@@ -11,4 +14,9 @@ export const GET = publicApi(async ({ searchParams: { rarity, type, subtype, wei
   const ids = items.map(({ id }) => id);
 
   return { json: ids };
-}, { maxAge: 1 });
+}, ['api/items'], { revalidate: maxAge });
+
+export const GET = publicApi(
+  ({ searchParams: { rarity, type, subtype, weight }}) => getData({ rarity, type, subtype, weight }),
+  { maxAge }
+);

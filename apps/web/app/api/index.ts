@@ -9,8 +9,8 @@ export interface PublicApiErrorResponse {
   text?: string;
 }
 
-export interface CallbackParams<DynamicRouteSegments> {
-  params: DynamicRouteSegments;
+export interface CallbackParams<DynamicRouteSegments extends string = never> {
+  params: Record<DynamicRouteSegments, string>;
   searchParams: Record<string, string>;
   language: Language
 }
@@ -21,12 +21,14 @@ export interface CallbackResult<T = any> {
   stringAsJson?: string
 }
 
-export function publicApi<ResponseType, DynamicRouteSegments>(
-  callback: (request: CallbackParams<DynamicRouteSegments>) => Promise<CallbackResult<ResponseType> | PublicApiErrorResponse>,
+export type PublicApiResponse<T = any> = CallbackResult<T> | PublicApiErrorResponse
+
+export function publicApi<DynamicRouteSegments extends string = never, ResponseType = any>(
+  callback: (request: CallbackParams<DynamicRouteSegments>) => PublicApiResponse<ResponseType> | Promise<PublicApiResponse<ResponseType>>,
   { maxAge = 60 }: { maxAge?: number } = {}
 ): (
   request: NextRequest,
-  context: { params: DynamicRouteSegments }
+  context: { params: Record<DynamicRouteSegments, string> }
 ) => Promise<NextResponse<ResponseType | PublicApiErrorResponse>>
 {
   return async (request, { params }) => {
@@ -56,7 +58,7 @@ export function publicApi<ResponseType, DynamicRouteSegments>(
       searchParams.sort();
       const searchParamsAsObject = Object.fromEntries(searchParams);
 
-      // TODO: add cache
+      // TODO: add global cache here instead of caching inside the callback?
       const response = await callback({ params, searchParams: searchParamsAsObject, language });
 
 

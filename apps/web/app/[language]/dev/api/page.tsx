@@ -48,6 +48,10 @@ export default function DeveloperIconsPage() {
             <th><Link href="#/items"><Code inline>/items</Code></Link></th>
             <td>Get a list of all item ids</td>
           </tr>
+          <tr>
+            <th><Link href="#/items/:id/data"><Code inline>/items/:id/data</Code></Link></th>
+            <td>Get data of an item (same format as returned by the official Guild Wars 2 API)</td>
+          </tr>
         </tbody>
       </Table>
 
@@ -77,6 +81,24 @@ export default function DeveloperIconsPage() {
           <tr>
             <th><Code inline>weight</Code></th>
             <td>Filter the item weight. Only returns items with type Armor. Examples: Light, Medium, Heavy</td>
+          </tr>
+        </tbody>
+      </Table>
+
+      <Headline id="/items/:id/data">GET <Code inline>/items/:id/data</Code></Headline>
+      <p>Get data of an item (same format as returned by the official Guild Wars 2 API).</p>
+
+      <Table>
+        <thead>
+          <tr>
+            <Table.HeaderCell small>Parameter</Table.HeaderCell>
+            <Table.HeaderCell>Description</Table.HeaderCell>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th><Code inline>lang</Code></th>
+            <td>The language of the item (<Code inline>de</Code> / <Code inline>en</Code> / <Code inline>es</Code> / <Code inline>fr</Code>)</td>
           </tr>
         </tbody>
       </Table>

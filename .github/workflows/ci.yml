@@ -233,7 +233,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Install renovate
-      run: npm i -g renovate
+      run: npm i -g renovate@37.180.1
     - name: Validate config
       run: renovate-config-validator --strict
 

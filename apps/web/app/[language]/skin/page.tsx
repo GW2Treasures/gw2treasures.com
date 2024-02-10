@@ -61,3 +61,7 @@ function notNull<T>(x: T | null): x is T {
 }
 
 export default SkinPage;
+
+export const metadata = {
+  title: 'Skins'
+};

@@ -107,3 +107,7 @@ export default function DeveloperIconsPage() {
     </HeroLayout>
   );
 };
+
+export const metadata = {
+  title: 'API'
+};

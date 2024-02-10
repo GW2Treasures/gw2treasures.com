@@ -17,6 +17,8 @@ import { FormatNumber } from '@/components/Format/FormatNumber';
 import { CurrencyValue } from '@/components/Currency/CurrencyValue';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { Separator } from '@gw2treasures/ui/components/Layout/Separator';
+import { localizedName } from '@/lib/localizedName';
+import type { Language } from '@gw2treasures/database';
 
 const getReview = async function getReview(id: string) {
   const review = await db.review.findUnique({
@@ -41,7 +43,17 @@ const getReview = async function getReview(id: string) {
   return { review, item: review.relatedItem };
 };
 
-export default async function ReviewContainerContentPage({ params: { id }, searchParams }: { params: { id: string }, searchParams: { error?: '' }}) {
+interface ReviewContainerContentPageProps {
+  params: {
+    id: string;
+    language: Language;
+  };
+  searchParams: {
+    error?: '';
+  };
+}
+
+export default async function ReviewContainerContentPage({ params: { id }, searchParams }: ReviewContainerContentPageProps) {
   const { item, review } = await getReview(id);
   const { removedItems, addedItems, removedCurrencies = [], addedCurrencies = [] } = review.changes as unknown as EditContentOrder;
 
@@ -166,4 +178,13 @@ export default async function ReviewContainerContentPage({ params: { id }, searc
       </form>
     </HeroLayout>
   );
+}
+
+
+export async function generateMetadata({ params: { id, language }}: ReviewContainerContentPageProps) {
+  const { item, review } = await getReview(id);
+
+  return {
+    title: `Review Container Content: ${localizedName(item, language)}`
+  };
 }

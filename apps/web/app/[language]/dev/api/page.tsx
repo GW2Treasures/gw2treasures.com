@@ -87,6 +87,7 @@ export default function DeveloperIconsPage() {
 
       <Headline id="/items/:id/data">GET <Code inline>/items/:id/data</Code></Headline>
       <p>Get data of an item (same format as returned by the official Guild Wars 2 API).</p>
+      <p>The HTTP response will contain a <Code inline>X-Created-At</Code> header with an ISO 8601 timestamp when the item was first discovered.</p>
 
       <Table>
         <thead>

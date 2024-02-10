@@ -1,7 +1,7 @@
 {
   "name": "@gw2treasures/eslint-plugin-nextjs",
   "version": "0.0.1",
-  "description": "ESLint rule requiring a metadata export from all page files",
+  "description": "ESLint plugin with custom rules for Next.js",
   "main": "dist/index.js",
   "scripts": {
     "build": "npm run clean && tsc",
@@ -16,6 +16,7 @@
   "keywords": [
     "gw2treasures",
     "eslint",
+    "eslint-plugin",
     "nextjs",
     "metadata"
   ],

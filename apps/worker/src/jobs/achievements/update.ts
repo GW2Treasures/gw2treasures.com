@@ -6,6 +6,7 @@ import { queueJobForIds } from '../helper/queueJobsForIds';
 import { createIcon } from '../helper/createIcon';
 import { localeExists } from '../helper/types';
 import { createMigrator } from './migrations';
+import { schema } from '../helper/schema';
 
 export const AchievementsUpdate: Job = {
   run: async (ids: number[] | Record<string, never>) => {
@@ -56,10 +57,10 @@ export const AchievementsUpdate: Job = {
     const migrate = await createMigrator();
 
     for(const { existing, de, en, es, fr } of achievements) {
-      const revision_de = existing.current_de.data !== JSON.stringify(de) ? await db.revision.create({ data: { data: JSON.stringify(de), language: 'de', buildId, type: 'Update', entity: 'Achievement', description: 'Updated in API' }}) : existing.current_de;
-      const revision_en = existing.current_en.data !== JSON.stringify(en) ? await db.revision.create({ data: { data: JSON.stringify(en), language: 'en', buildId, type: 'Update', entity: 'Achievement', description: 'Updated in API' }}) : existing.current_en;
-      const revision_es = existing.current_es.data !== JSON.stringify(es) ? await db.revision.create({ data: { data: JSON.stringify(es), language: 'es', buildId, type: 'Update', entity: 'Achievement', description: 'Updated in API' }}) : existing.current_es;
-      const revision_fr = existing.current_fr.data !== JSON.stringify(fr) ? await db.revision.create({ data: { data: JSON.stringify(fr), language: 'fr', buildId, type: 'Update', entity: 'Achievement', description: 'Updated in API' }}) : existing.current_fr;
+      const revision_de = existing.current_de.data !== JSON.stringify(de) ? await db.revision.create({ data: { data: JSON.stringify(de), language: 'de', buildId, type: 'Update', entity: 'Achievement', description: 'Updated in API', schema }}) : existing.current_de;
+      const revision_en = existing.current_en.data !== JSON.stringify(en) ? await db.revision.create({ data: { data: JSON.stringify(en), language: 'en', buildId, type: 'Update', entity: 'Achievement', description: 'Updated in API', schema }}) : existing.current_en;
+      const revision_es = existing.current_es.data !== JSON.stringify(es) ? await db.revision.create({ data: { data: JSON.stringify(es), language: 'es', buildId, type: 'Update', entity: 'Achievement', description: 'Updated in API', schema }}) : existing.current_es;
+      const revision_fr = existing.current_fr.data !== JSON.stringify(fr) ? await db.revision.create({ data: { data: JSON.stringify(fr), language: 'fr', buildId, type: 'Update', entity: 'Achievement', description: 'Updated in API', schema }}) : existing.current_fr;
 
       const iconId = await createIcon(en.icon);
       const data = await migrate({ de, en, es, fr });

@@ -4,6 +4,7 @@ import { Prisma } from '@gw2treasures/database';
 import { getCurrentBuild } from '../helper/getCurrentBuild';
 import { createMigrator } from './migrations';
 import { loadRecipes } from '../helper/loadRecipes';
+import { schema } from '../helper/schema';
 
 export const RecipesRediscovered: Job = {
   run: async (rediscoveredIds: number[]) => {
@@ -36,6 +37,7 @@ export const RecipesRediscovered: Job = {
 
       const revision = await db.revision.create({
         data: {
+          schema,
           data: JSON.stringify(data),
           description: 'Rediscovered in API',
           entity: 'Recipe',

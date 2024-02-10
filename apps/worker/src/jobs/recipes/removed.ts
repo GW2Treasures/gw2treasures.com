@@ -2,6 +2,7 @@ import { Job } from '../job';
 import { db } from '../../db';
 import { Prisma } from '@gw2treasures/database';
 import { getCurrentBuild } from '../helper/getCurrentBuild';
+import { schema } from '../helper/schema';
 
 export const RecipesRemoved: Job = {
   run: async (removedIds: number[]) => {
@@ -20,6 +21,7 @@ export const RecipesRemoved: Job = {
 
       const revision = await db.revision.create({
         data: {
+          schema,
           data: recipe.currentRevision.data,
           description: 'Removed from API',
           type: 'Removed',

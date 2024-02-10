@@ -5,6 +5,7 @@ import { getCurrentBuild } from '../helper/getCurrentBuild';
 import { loadSkills } from '../helper/loadSkills';
 import { createIcon } from '../helper/createIcon';
 import { appendHistory } from '../helper/appendHistory';
+import { schema } from '../helper/schema';
 
 export const SkillsRediscovered: Job = {
   run: async (rediscoveredIds: number[]) => {
@@ -41,6 +42,7 @@ export const SkillsRediscovered: Job = {
       for(const language of ['de', 'en', 'es', 'fr'] as const) {
         const revision = await db.revision.create({
           data: {
+            schema,
             data: JSON.stringify(data[language]),
             description: 'Rediscovered in API',
             entity: 'Skill',

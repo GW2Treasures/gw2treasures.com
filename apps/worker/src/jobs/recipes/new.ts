@@ -3,6 +3,7 @@ import { db } from '../../db';
 import { getCurrentBuild } from '../helper/getCurrentBuild';
 import { createMigrator } from './migrations';
 import { loadRecipes } from '../helper/loadRecipes';
+import { schema } from '../helper/schema';
 
 export const RecipesNew: Job = {
   run: async (newIds: number[]) => {
@@ -15,7 +16,7 @@ export const RecipesNew: Job = {
     const migrate = await createMigrator();
 
     for(const recipe of recipes) {
-      const revision = await db.revision.create({ data: { data: JSON.stringify(recipe), language: 'en', buildId, type: 'Added', entity: 'Recipe', description: 'Added to API' }});
+      const revision = await db.revision.create({ data: { data: JSON.stringify(recipe), language: 'en', buildId, type: 'Added', entity: 'Recipe', description: 'Added to API', schema }});
 
       // load output item
       const outputItem = await db.item.findUnique({

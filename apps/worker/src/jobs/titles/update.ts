@@ -5,6 +5,7 @@ import { loadTitles } from '../helper/loadTitles';
 import { queueJobForIds } from '../helper/queueJobsForIds';
 import { localeExists } from '../helper/types';
 import { createMigrator } from './migrations';
+import { schema } from '../helper/schema';
 
 export const TitlesUpdate: Job = {
   run: async (ids: number[] | Record<string, never>) => {
@@ -68,10 +69,10 @@ export const TitlesUpdate: Job = {
         continue;
       }
 
-      const revision_de = changed_de ? await db.revision.create({ data: { data: JSON.stringify(de), language: 'de', buildId, type: 'Update', entity: 'Title', description: 'Updated in API' }}) : existing.current_de;
-      const revision_en = changed_en ? await db.revision.create({ data: { data: JSON.stringify(en), language: 'en', buildId, type: 'Update', entity: 'Title', description: 'Updated in API' }}) : existing.current_en;
-      const revision_es = changed_es ? await db.revision.create({ data: { data: JSON.stringify(es), language: 'es', buildId, type: 'Update', entity: 'Title', description: 'Updated in API' }}) : existing.current_es;
-      const revision_fr = changed_fr ? await db.revision.create({ data: { data: JSON.stringify(fr), language: 'fr', buildId, type: 'Update', entity: 'Title', description: 'Updated in API' }}) : existing.current_fr;
+      const revision_de = changed_de ? await db.revision.create({ data: { data: JSON.stringify(de), language: 'de', buildId, type: 'Update', entity: 'Title', description: 'Updated in API', schema }}) : existing.current_de;
+      const revision_en = changed_en ? await db.revision.create({ data: { data: JSON.stringify(en), language: 'en', buildId, type: 'Update', entity: 'Title', description: 'Updated in API', schema }}) : existing.current_en;
+      const revision_es = changed_es ? await db.revision.create({ data: { data: JSON.stringify(es), language: 'es', buildId, type: 'Update', entity: 'Title', description: 'Updated in API', schema }}) : existing.current_es;
+      const revision_fr = changed_fr ? await db.revision.create({ data: { data: JSON.stringify(fr), language: 'fr', buildId, type: 'Update', entity: 'Title', description: 'Updated in API', schema }}) : existing.current_fr;
 
       const data = await migrate({ de, en, es, fr });
 

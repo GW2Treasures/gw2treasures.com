@@ -5,6 +5,7 @@ import { queueJobForIds } from '../helper/queueJobsForIds';
 import { createMigrator } from './migrations';
 import { loadRecipes } from '../helper/loadRecipes';
 import { toId } from '../helper/toId';
+import { schema } from '../helper/schema';
 
 export const RecipesUpdate: Job = {
   run: async (ids: number[] | Record<string, never>) => {
@@ -65,7 +66,7 @@ export const RecipesUpdate: Job = {
         continue;
       }
 
-      const revision = changed ? await db.revision.create({ data: { data: JSON.stringify(updated), language: 'en', buildId, type: 'Update', entity: 'Recipe', description: 'Updated in API' }}) : existing.currentRevision;
+      const revision = changed ? await db.revision.create({ data: { data: JSON.stringify(updated), language: 'en', buildId, type: 'Update', entity: 'Recipe', description: 'Updated in API', schema }}) : existing.currentRevision;
 
       // load output item
       const outputItem = await db.item.findUnique({

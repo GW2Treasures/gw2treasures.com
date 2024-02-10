@@ -1,0 +1,41 @@
+{
+  "name": "@gw2treasures/eslint-plugin-nextjs",
+  "version": "0.0.1",
+  "description": "ESLint rule requiring a metadata export from all page files",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "npm run clean && tsup src/index.ts",
+    "clean": "rm -rf dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GW2Treasures/gw2treasures.com.git"
+  },
+  "keywords": [
+    "gw2treasures",
+    "eslint",
+    "nextjs",
+    "metadata"
+  ],
+  "files": [
+    "dist/"
+  ],
+  "author": "darthmaim",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/GW2Treasures/gw2treasures.com/issues"
+  },
+  "homepage": "https://github.com/GW2Treasures/gw2treasures.com#readme",
+  "dependencies": {
+    "@typescript-eslint/utils": "6.21.0"
+  },
+  "devDependencies": {
+    "tsup": "8.0.2"
+  },
+  "peerDependencies": {
+    "eslint": "^8.56.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

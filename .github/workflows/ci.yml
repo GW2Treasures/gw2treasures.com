@@ -291,7 +291,7 @@ jobs:
       pull-requests: write
     strategy:
       matrix:
-        target: [ ui, icons, helper, tsconfig, publish-package ]
+        target: [ ui, icons, helper, tsconfig, publish-package, eslint-plugin-nextjs ]
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4

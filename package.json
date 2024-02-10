@@ -13,12 +13,13 @@
     "prisma:migrate-dev": "npm run prisma:migrate-dev -w @gw2treasures/database",
     "build": "turbo run build",
     "build:icons": "turbo run build --filter=@gw2treasures/icons",
-    "lint": "turbo run lint",
+    "lint": "turbo run lint -- -f gha",
     "publish-package": "turbo run publish-package",
     "e2e": "turbo run e2e",
     "test": "turbo run test"
   },
   "devDependencies": {
+    "eslint-formatter-gha": "^1.4.3",
     "turbo": "1.12.3"
   }
 }

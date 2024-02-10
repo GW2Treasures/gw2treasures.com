@@ -1,0 +1,48 @@
+{
+  "name": "@gw2treasures/eslint-plugin-nextjs",
+  "version": "0.0.1",
+  "description": "ESLint plugin with custom rules for Next.js",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "npm run clean && tsc",
+    "lint": "eslint src",
+    "clean": "rm -rf dist/",
+    "publish-package": "gw2treasures-publish-package"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GW2Treasures/gw2treasures.com.git"
+  },
+  "keywords": [
+    "gw2treasures",
+    "eslint",
+    "eslint-plugin",
+    "nextjs",
+    "metadata"
+  ],
+  "files": [
+    "dist/"
+  ],
+  "author": "darthmaim",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/GW2Treasures/gw2treasures.com/issues"
+  },
+  "homepage": "https://github.com/GW2Treasures/gw2treasures.com#readme",
+  "dependencies": {
+    "@typescript-eslint/utils": "6.21.0"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "6.21.0",
+    "@typescript-eslint/parser": "6.21.0",
+    "eslint": "8.56.0",
+    "tsup": "8.0.2",
+    "typescript": "5.3.3"
+  },
+  "peerDependencies": {
+    "eslint": "^8.56.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

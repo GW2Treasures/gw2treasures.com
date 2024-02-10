@@ -1,6 +1,6 @@
 {
   "extends": "next/core-web-vitals",
-  "plugins": ["@typescript-eslint"],
+  "plugins": ["@typescript-eslint", "@gw2treasures/nextjs"],
 
   "rules": {
     // `"foo"` → `'foo'`
@@ -123,6 +123,12 @@
         },{
           "selector": "typeLike", "format": ["PascalCase"]
         }]
+      }
+    },
+    {
+      "files": ["**/page.tsx"],
+      "rules": {
+        "@gw2treasures/nextjs/require-metadata": "warn"
       }
     }
   ]

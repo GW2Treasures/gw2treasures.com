@@ -17,7 +17,7 @@ Common tsconfig files for gw2treasures projects.
 ## Installation
 
 ```
-npm i @gw2treasures/tsconfig
+npm i -D @gw2treasures/tsconfig
 ```
 
 ## License

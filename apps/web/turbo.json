@@ -7,6 +7,9 @@
     },
     "dev": {
       "dependsOn": ["^build", "@gw2treasures/database#prisma:migrate"]
+    },
+    "lint": {
+      "dependsOn": ["@gw2treasures/eslint-plugin-nextjs#build"]
     }
   }
 }

@@ -7,6 +7,7 @@ import { createIcon } from '../helper/createIcon';
 import { localeExists } from '../helper/types';
 import { createMigrator } from './migrations';
 import { getUpdateCheckpoint } from '../helper/updateCheckpoints';
+import { schema } from '../helper/schema';
 
 export const ItemsUpdate: Job = {
   run: async (ids: number[] | Record<string, never>) => {
@@ -73,10 +74,10 @@ export const ItemsUpdate: Job = {
         continue;
       }
 
-      const revision_de = changed_de ? await db.revision.create({ data: { data: JSON.stringify(de), language: 'de', buildId, type: 'Update', entity: 'Item', description: 'Updated in API', previousRevisionId: existing.currentId_de }}) : existing.current_de;
-      const revision_en = changed_en ? await db.revision.create({ data: { data: JSON.stringify(en), language: 'en', buildId, type: 'Update', entity: 'Item', description: 'Updated in API', previousRevisionId: existing.currentId_en }}) : existing.current_en;
-      const revision_es = changed_es ? await db.revision.create({ data: { data: JSON.stringify(es), language: 'es', buildId, type: 'Update', entity: 'Item', description: 'Updated in API', previousRevisionId: existing.currentId_es }}) : existing.current_es;
-      const revision_fr = changed_fr ? await db.revision.create({ data: { data: JSON.stringify(fr), language: 'fr', buildId, type: 'Update', entity: 'Item', description: 'Updated in API', previousRevisionId: existing.currentId_fr }}) : existing.current_fr;
+      const revision_de = changed_de ? await db.revision.create({ data: { data: JSON.stringify(de), language: 'de', buildId, type: 'Update', entity: 'Item', description: 'Updated in API', previousRevisionId: existing.currentId_de, schema }}) : existing.current_de;
+      const revision_en = changed_en ? await db.revision.create({ data: { data: JSON.stringify(en), language: 'en', buildId, type: 'Update', entity: 'Item', description: 'Updated in API', previousRevisionId: existing.currentId_en, schema }}) : existing.current_en;
+      const revision_es = changed_es ? await db.revision.create({ data: { data: JSON.stringify(es), language: 'es', buildId, type: 'Update', entity: 'Item', description: 'Updated in API', previousRevisionId: existing.currentId_es, schema }}) : existing.current_es;
+      const revision_fr = changed_fr ? await db.revision.create({ data: { data: JSON.stringify(fr), language: 'fr', buildId, type: 'Update', entity: 'Item', description: 'Updated in API', previousRevisionId: existing.currentId_fr, schema }}) : existing.current_fr;
 
       const iconId = await createIcon(en.icon);
       const data = await migrate({ de, en, es, fr });

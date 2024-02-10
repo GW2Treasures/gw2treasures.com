@@ -1,5 +1,6 @@
 import chalk from 'chalk';
 import { db } from '../../db';
+import { schemaVersion } from './schema';
 
 export function fetchApi<T>(endpoint: string): Promise<T> {
   const startTime = performance.now();
@@ -8,7 +9,7 @@ export function fetchApi<T>(endpoint: string): Promise<T> {
     return fetch(
       `https://api.guildwars2.com${endpoint}`, {
       headers: {
-        'X-Schema-Version': '2022-03-23T19:00:00.000Z',
+        'X-Schema-Version': schemaVersion,
         'User-Agent': 'Mozilla/5.0 (compatible; gw2treasures.com-worker/1.0; +https://gw2treasures.com)'
       },
       redirect: 'manual',

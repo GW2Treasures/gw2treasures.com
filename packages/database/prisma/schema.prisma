@@ -552,6 +552,7 @@ model Revision {
 
   entity String?
 
+  schema String
   data String
   description String?
   type RevisionType @default(Update)

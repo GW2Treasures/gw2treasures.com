@@ -17,6 +17,7 @@ export interface CallbackParams<DynamicRouteSegments extends string = never> {
 
 export interface CallbackResult<T = any> {
   status?: number,
+  header?: Record<string, string>
   json?: T,
   stringAsJson?: string
 }
@@ -77,6 +78,7 @@ export function publicApi<DynamicRouteSegments extends string = never, ResponseT
       return new NextResponse(response.stringAsJson ?? JSON.stringify(response.json), {
         status: response.status ?? 200,
         headers: {
+          ...response.header,
           'Content-Type': 'application/json',
           'Cache-Control': `public, max-age=${maxAge}`,
           'Access-Control-Allow-Origin': '*',

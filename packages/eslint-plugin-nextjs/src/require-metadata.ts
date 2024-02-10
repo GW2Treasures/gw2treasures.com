@@ -45,8 +45,6 @@ export const requireMetadata = ESLintUtils.RuleCreator.withoutDocs({
       ExportSpecifier(node) {
         if(isExported(node) && node.exported.name === 'metadata') {
           hasMetadataExport = true;
-        } else {
-          console.log(`exporting ${node.local.name} as ${node.exported.name}`);
         }
       },
 

@@ -16,6 +16,8 @@
 
   "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
 
+  "ignorePatterns": ["dist/**"],
+
   "rules": {
     // `"foo"` → `'foo'`
     "@typescript-eslint/quotes": ["warn", "single"],

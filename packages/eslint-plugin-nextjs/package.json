@@ -6,7 +6,8 @@
   "scripts": {
     "build": "npm run clean && tsup src/index.ts",
     "lint": "eslint src",
-    "clean": "rm -rf dist/"
+    "clean": "rm -rf dist/",
+    "publish-package": "gw2treasures-publish-package"
   },
   "repository": {
     "type": "git",

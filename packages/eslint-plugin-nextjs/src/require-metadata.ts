@@ -51,7 +51,7 @@ export const requireMetadata = ESLintUtils.RuleCreator.withoutDocs({
         if(!hasMetadataExport && !hasGenerateMetadataExport) {
           context.report({
             messageId: 'require-metadata',
-            loc: program.loc.end
+            loc: { line: program.loc.end.line - 1, column: 0 }
           });
         }
       },

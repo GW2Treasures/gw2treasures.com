@@ -2,6 +2,12 @@
   "extends": "@gw2treasures/tsconfig/base",
   "compilerOptions": {
     "outDir": "./dist",
+
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+
+    // TODO: remove verbatimModuleSyntax override
+    "verbatimModuleSyntax": false
   },
   "include": ["./src"]
 }

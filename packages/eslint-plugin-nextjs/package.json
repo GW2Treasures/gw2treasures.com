@@ -4,7 +4,7 @@
   "description": "ESLint rule requiring a metadata export from all page files",
   "main": "dist/index.js",
   "scripts": {
-    "build": "npm run clean && tsup src/index.ts",
+    "build": "npm run clean && tsc",
     "lint": "eslint src",
     "clean": "rm -rf dist/",
     "publish-package": "gw2treasures-publish-package"

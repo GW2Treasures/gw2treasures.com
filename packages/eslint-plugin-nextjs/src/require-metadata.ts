@@ -1,5 +1,4 @@
-import { ESLintUtils, TSESTree } from '@typescript-eslint/utils';
-import { getPropertyName } from '@typescript-eslint/utils/dist/ast-utils';
+import { ESLintUtils, TSESTree, ASTUtils } from '@typescript-eslint/utils';
 
 function isExported(node: TSESTree.Node | undefined) {
   return node !== undefined && node.parent?.type === TSESTree.AST_NODE_TYPES.ExportNamedDeclaration;
@@ -15,7 +14,7 @@ export const requireMetadata = ESLintUtils.RuleCreator.withoutDocs({
 
     return {
       Property(property) {
-        if(getPropertyName(property) === 'title' && metadataDeclarator && property.parent === metadataDeclarator.init) {
+        if(ASTUtils.getPropertyName(property) === 'title' && metadataDeclarator && property.parent === metadataDeclarator.init) {
           hasMetadataTitle = true;
         }
       },
@@ -61,7 +60,7 @@ export const requireMetadata = ESLintUtils.RuleCreator.withoutDocs({
   meta: {
     docs: {
       description: 'Pages should define metadata with title',
-      recommended: 'warn'
+      recommended: 'recommended'
     },
     messages: {
       'require-metadata': 'Export `metadata` or `generateMetadata`',

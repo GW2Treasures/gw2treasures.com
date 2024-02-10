@@ -64,3 +64,7 @@ export default async function DevAppCreatePage() {
     </PageLayout>
   );
 }
+
+export const metadata = {
+  title: 'Create Application'
+};

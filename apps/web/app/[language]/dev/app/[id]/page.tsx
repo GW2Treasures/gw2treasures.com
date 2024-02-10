@@ -40,7 +40,13 @@ async function deleteApplication(data: FormData) {
   redirect('/dev#applications');
 }
 
-export default async function DevAppPage({ params: { id }}: { params: { id: string }}) {
+interface DevAppPageProps {
+  params: {
+    id: string;
+  };
+}
+
+export default async function DevAppPage({ params: { id }}: DevAppPageProps) {
   const application = await getApplication(id);
 
   return (
@@ -61,4 +67,17 @@ export default async function DevAppPage({ params: { id }}: { params: { id: stri
       </form>
     </PageLayout>
   );
+}
+
+
+export async function generateMetadata({ params: { id }}: DevAppPageProps) {
+  const application = getApplication(id);
+
+  if(!application) {
+    return notFound();
+  }
+
+  return {
+    title: `Application: ${(await application).name}`
+  };
 }

@@ -25,3 +25,7 @@ export default async function CurrencyPage() {
     </HeroLayout>
   );
 }
+
+export const metadata = {
+  title: 'Currencies'
+};

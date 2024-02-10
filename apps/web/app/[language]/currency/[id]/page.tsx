@@ -14,6 +14,7 @@ import { SkeletonTable } from '@/components/Skeleton/SkeletonTable';
 import { CurrencyIngredientFor } from '@/components/Currency/CurrencyIngredientFor';
 import { pageView } from '@/lib/pageView';
 import { cache } from '@/lib/cache';
+import { localizedName } from '@/lib/localizedName';
 
 const getCurrency = cache(async (id: number, language: Language) => {
   if(isNaN(id)) {
@@ -45,7 +46,14 @@ const getRevision = cache(async (id: number, language: Language, revisionId?: st
   };
 }, ['currency-revision'], { revalidate: 60 });
 
-export default async function CurrencyPage({ params: { id, language }}: { params: { id: string, language: Language }}) {
+interface CurrencyPageProps {
+  params: {
+    id: string;
+    language: Language;
+  };
+}
+
+export default async function CurrencyPage({ params: { id, language }}: CurrencyPageProps) {
   const currencyId = Number(id);
   const [currency, { revision, data }] = await Promise.all([
     getCurrency(currencyId, language),
@@ -99,4 +107,17 @@ export default async function CurrencyPage({ params: { id, language }}: { params
       <Json data={data}/>
     </DetailLayout>
   );
+}
+
+export async function generateMetadata({ params: { id, language }}: CurrencyPageProps) {
+  const currencyId = Number(id);
+  const currency = await getCurrency(currencyId, language);
+
+  if(!currency) {
+    return notFound();
+  }
+
+  return {
+    title: localizedName(currency, language)
+  };
 }

@@ -1,70 +1,60 @@
 import { ESLintUtils, TSESTree } from '@typescript-eslint/utils';
-import { getPropertyName, isFunction } from '@typescript-eslint/utils/dist/ast-utils';
+import { getPropertyName } from '@typescript-eslint/utils/dist/ast-utils';
 
-function isNamedExport(node: TSESTree.ProgramStatement): node is TSESTree.ExportNamedDeclaration {
-  return node.type === TSESTree.AST_NODE_TYPES.ExportNamedDeclaration;
-}
-function isVariableDeclaration(node: TSESTree.NamedExportDeclarations | null): node is TSESTree.VariableDeclaration {
-  return node !== null && node.type === TSESTree.AST_NODE_TYPES.VariableDeclaration;
-}
-function isIdentifer(node: TSESTree.Node): node is TSESTree.Identifier {
-  return node.type === TSESTree.AST_NODE_TYPES.Identifier;
-}
-function isObjectExpression(node: TSESTree.Expression | null): node is TSESTree.ObjectExpression {
-  return node !== null && node.type === TSESTree.AST_NODE_TYPES.ObjectExpression;
-}
-function isProperty(node: TSESTree.ObjectLiteralElement): node is TSESTree.Property {
-  return node.type === TSESTree.AST_NODE_TYPES.Property;
+function isExported(node: TSESTree.Node | undefined) {
+  return node !== undefined && node.parent?.type === TSESTree.AST_NODE_TYPES.ExportNamedDeclaration;
 }
 
 export const requireMetadata = ESLintUtils.RuleCreator.withoutDocs({
   create(context) {
+    let metadataDeclarator: TSESTree.VariableDeclarator;
+    let hasMetadataTitle = false;
+
+    let hasMetadataExport = false;
+    let hasGenerateMetadataExport = false;
+
     return {
-      Program(program) {
+      Property(property) {
+        if(getPropertyName(property) === 'title' && metadataDeclarator && property.parent === metadataDeclarator.init) {
+          hasMetadataTitle = true;
+        }
+      },
 
-        const hasMetadataExport = program.body
-          .filter(isNamedExport)
-          .some((e) => {
-            if(isVariableDeclaration(e.declaration) && e.declaration.kind === 'const') {
-              const variableDeclaration = e.declaration.declarations[0];
+      VariableDeclarator(node) {
+        if(isExported(node.parent) && node.id.type === TSESTree.AST_NODE_TYPES.Identifier && node.id.name === 'metadata') {
+          metadataDeclarator = node;
+          hasMetadataExport = true;
+        }
+      },
 
-              if(isIdentifer(variableDeclaration.id) && variableDeclaration.id.name === 'metadata') {
-                const object = variableDeclaration.init;
+      'VariableDeclarator:exit'(node: TSESTree.VariableDeclarator) {
+        if(node === metadataDeclarator && !hasMetadataTitle) {
+          context.report({
+            node: node.init ?? node,
+            messageId: 'require-metadata-title',
+          });
+        }
+      },
 
-                if(isObjectExpression(object)) {
-                  // const hasTitle = object.properties.filter(isProperty).some(({ key }) => isIdentifer(key) && key.name === 'title')
-                  const hasTitle = object.properties.filter(isProperty).some((node) => getPropertyName(node) ===  'title')
+      FunctionDeclaration(node) {
+        if(isExported(node) && node.id?.name === 'generateMetadata') {
+          hasGenerateMetadataExport = true;
+        }
+      },
 
-                  if(!hasTitle) {
-                    context.report({
-                      messageId: 'require-metadata-title',
-                      node: object,
-                      suggest: [
-                        {
-                          messageId: 'require-metadata-title-fix',
-                          fix: (fixer) => fixer.insertTextBefore(object.properties[0], `title: '',\n${' '.repeat(object.properties[0].loc.start.column)}`)
-                        }
-                      ]
-                    });
-                  }
-                }
+      ExportSpecifier(node) {
+        if(isExported(node) && node.exported.name === 'metadata') {
+          hasMetadataExport = true;
+        } else {
+          console.log(`exporting ${node.local.name} as ${node.exported.name}`);
+        }
+      },
 
-                return true;
-              }
-            } else if (isFunction(e.declaration)) {
-              if(e.declaration.id?.name === 'generateMetadata') {
-                return true;
-              }
-            }
-
-            return false;
-          })
-
-        if(!hasMetadataExport) {
+      'Program:exit'(program: TSESTree.Program) {
+        if(!hasMetadataExport && !hasGenerateMetadataExport) {
           context.report({
             messageId: 'require-metadata',
-            node: program,
-            // loc: { line: 0, column: 0 }
+            loc: program.loc.end
           });
         }
       },
@@ -76,13 +66,11 @@ export const requireMetadata = ESLintUtils.RuleCreator.withoutDocs({
       recommended: 'warn'
     },
     messages: {
-      'require-metadata': 'Define and export `metadata` or `generateMetadata`',
+      'require-metadata': 'Export `metadata` or `generateMetadata`',
       'require-metadata-title': 'Add title to metadata',
-      'require-metadata-title-fix': 'Add title to metadata',
     },
     type: 'suggestion',
     schema: [],
-    hasSuggestions: true
   },
   defaultOptions: [],
 });

@@ -16,7 +16,7 @@ php $PHP_OPTS artisan gw2treasures:minis -u
 php $PHP_OPTS artisan gw2treasures:mounts -u
 php $PHP_OPTS artisan gw2treasures:novelties -u
 php $PHP_OPTS artisan gw2treasures:professions -u
-php $PHP_OPTS artisan gw2treasures:removed-items
+#php $PHP_OPTS artisan gw2treasures:removed-items
 php $PHP_OPTS artisan gw2treasures:skills -u
 php $PHP_OPTS artisan gw2treasures:skins -u
 php $PHP_OPTS artisan gw2treasures:specializations -u

@@ -16,6 +16,7 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
 # Copy pruned package.json from source
+COPY --link .gitignore .gitignore
 COPY --link --from=source /source/out/json/ .
 COPY --link --from=source /source/out/package-lock.json package-lock.json
 
@@ -48,7 +49,6 @@ RUN adduser --system --uid 1001 nextjs
 
 RUN npm i -g prisma
 
-COPY --link --from=builder /app/apps/web/public ./public
 COPY --link --from=builder /app/apps/web/next.config.js .
 COPY --link --from=builder /app/apps/web/package.json .
 

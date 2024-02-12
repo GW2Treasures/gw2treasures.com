@@ -50,5 +50,6 @@
   "item.flag.SoulbindOnAcquire": "Seelengebunden bei Erhalt",
   "item.flag.SoulBindOnUse": "Seelengebunden bei Benutzung",
   "item.flag.NoSalvage": "Nicht wiederverwertbar",
-  "item.flag.NoSell": "Unverkäuflich"
+  "item.flag.NoSell": "Unverkäuflich",
+  "item.upgrade.empty": "Freier Aufwertungsplatz"
 }

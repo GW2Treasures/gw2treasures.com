@@ -67,5 +67,6 @@
   "item.flag.SoulbindOnAcquire": "Soulbound on Acquire",
   "item.flag.SoulBindOnUse": "Soulbound on Use",
   "item.flag.NoSalvage": "Not salvagable",
-  "item.flag.NoSell": "Not sellable"
+  "item.flag.NoSell": "Not sellable",
+  "item.upgrade.empty": "Unused Upgrade Slot"
 }

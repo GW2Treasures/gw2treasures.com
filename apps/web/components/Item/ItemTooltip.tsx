@@ -43,20 +43,20 @@ export async function createTooltip(item: Gw2Api.Item, language: Language): Prom
   // get upgrades
   const upgradeIds = [item.details?.suffix_item_id, item.details?.secondary_suffix_item_id].map(Number).filter(isTruthy);
   const upgrades: ItemTooltip['upgrades'] = upgradeIds.length > 0
-    ? (await db.item.findMany({ where: { id: { in: upgradeIds }}, select: { ...linkProperties, [`current_${language}`]: { select: { data: true }}}})).map(mapItemToTooltip)
+    ? (await db.item.findMany({ where: { id: { in: upgradeIds }}, select: { ...linkProperties, [`current_${language}`]: { select: { data: true }}}})).map(mapItemToTooltip).map((item) => ({ item }))
     : [];
 
   // get empty upgrades
   if(!item.flags.includes('NotUpgradeable') && ['Armor', 'Back', 'Weapon', 'Trinket'].includes(item.type)) {
     if(upgrades.length === 0) {
-      upgrades.push(null);
+      upgrades.push({ unused: t('item.upgrade.empty') });
     }
     if(
       item.type === 'Weapon'
       && (['Greatsword', 'Hammer', 'Longbow', 'Rifle', 'Shortbow', 'Staff'] as Array<string | undefined>).includes(item.details?.type)
       && upgrades.length === 1
     ) {
-      upgrades.push(null);
+      upgrades.push({ unused: t('item.upgrade.empty') });
     }
   }
 
@@ -168,7 +168,7 @@ export interface ItemTooltip {
     icon?: { id: number, signature: string }
   },
   bonuses?: string[],
-  upgrades?: (ItemWithAttributes | null)[];
+  upgrades?: ({ item: ItemWithAttributes, unused?: never }| { item?: never, unused: string })[];
   infusions?: ItemTooltipInfusion[],
   unlocksColor?: { id: number, name: string, colors: { cloth: string, leather: string, metal: string } }
   rarity: { label: string, value: Gw2Api.Item['rarity'] },

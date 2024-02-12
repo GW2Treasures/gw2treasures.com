@@ -105,16 +105,16 @@ export const ClientItemTooltip: FC<ClientItemTooltipProps> = ({ tooltip, hideTit
     tooltip.buff && (<p className={styles.buff} dangerouslySetInnerHTML={{ __html: tooltip.buff }}/>),
     renderConsumable(tooltip.consumable),
     renderBonuses(tooltip.bonuses),
-    tooltip.upgrades && tooltip.upgrades.map((upgrade, slot) => upgrade === null ? (
+    tooltip.upgrades && tooltip.upgrades.map((upgrade, slot) => !upgrade.item ? (
       // eslint-disable-next-line react/no-array-index-key
-      <div key={slot} className={styles.row}><Icon icon="upgrade-slot"/> Unused Upgrade Slot</div>
+      <div key={slot} className={styles.row}><Icon icon="upgrade-slot"/> {upgrade.unused}</div>
     ) : (
       // eslint-disable-next-line react/no-array-index-key
       <div key={slot} className={styles.row}>
-        <ItemLink item={upgrade} icon={16} language={tooltip.language}/>
-        {renderAttributes(upgrade.attributes)}
-        {upgrade.buff && (<p className={styles.buff} dangerouslySetInnerHTML={{ __html: upgrade.buff }}/>)}
-        {renderBonuses(upgrade.bonuses)}
+        <ItemLink item={upgrade.item} icon={16} language={tooltip.language}/>
+        {renderAttributes(upgrade.item.attributes)}
+        {upgrade.item.buff && (<p className={styles.buff} dangerouslySetInnerHTML={{ __html: upgrade.item.buff }}/>)}
+        {renderBonuses(upgrade.item.bonuses)}
       </div>
     )),
     tooltip.infusions && tooltip.infusions.map((infusion, slot) => (

@@ -122,6 +122,8 @@ type Renderer = {
   [id in GlobalColumnId]: (item: Result<(typeof globalColumnDefinitions)[id]['select'] & { id: true }>) => ReactNode;
 };
 
+const empty = <span style={{ color: 'var(--color-text-muted)' }}>-</span>;
+
 export const globalColumnRenderer: Renderer = {
   id: (item) => item.id,
   item: (item) => <ItemLink item={item}/>,
@@ -133,11 +135,11 @@ export const globalColumnRenderer: Renderer = {
   level: (item) => item.level,
   rarity: (item) => <Rarity rarity={item.rarity}/>,
   type: (item) => <>{item.type} {item.subtype && `(${item.subtype})`}</>,
-  vendorValue: (item) => item.vendorValue === null ? '-' : <Coins value={item.vendorValue}/>,
-  buyPrice: (item) => !item.tpTradeable ? '-' : renderPriceWithOptionalWarning(item.tpCheckedAt, item.buyPrice),
-  buyQuantity: (item) => !item.tpTradeable ? '-' : <FormatNumber value={item.buyQuantity ?? 0}/>,
-  sellPrice: (item) => !item.tpTradeable ? '-' : renderPriceWithOptionalWarning(item.tpCheckedAt, item.sellPrice),
-  sellQuantity: (item) => !item.tpTradeable ? '-' : <FormatNumber value={item.sellQuantity ?? 0}/>,
+  vendorValue: (item) => item.vendorValue === null ? empty : <Coins value={item.vendorValue}/>,
+  buyPrice: (item) => !item.tpTradeable ? empty : renderPriceWithOptionalWarning(item.tpCheckedAt, item.buyPrice),
+  buyQuantity: (item) => !item.tpTradeable ? empty : <FormatNumber value={item.buyQuantity ?? 0}/>,
+  sellPrice: (item) => !item.tpTradeable ? empty : renderPriceWithOptionalWarning(item.tpCheckedAt, item.sellPrice),
+  sellQuantity: (item) => !item.tpTradeable ? empty : <FormatNumber value={item.sellQuantity ?? 0}/>,
 };
 
 function renderPriceWithOptionalWarning(date: Date | string | null, price: number | null): ReactNode {

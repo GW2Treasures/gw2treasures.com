@@ -51,5 +51,7 @@
   "item.flag.SoulBindOnUse": "Seelengebunden bei Benutzung",
   "item.flag.NoSalvage": "Nicht wiederverwertbar",
   "item.flag.NoSell": "Unverkäuflich",
-  "item.upgrade.empty": "Freier Aufwertungsplatz"
+  "item.upgrade.empty": "Freier Aufwertungsplatz",
+  "item.infusion.emptyEnrichment": "Ungenutzter Anreicherungsplatz",
+  "item.infusion.emptyInfusion": "Ungenutzter Infusionsplatz"
 }

@@ -76,7 +76,7 @@ export async function createTooltip(item: Gw2Api.Item, language: Language): Prom
       type: isEnrichment ? 'Enrichment' : 'Infusion',
       unused: infusion.item_id
         ? (isEnrichment ? `Unknown Enrichment (${infusion.item_id})` : `Unknown Infusion (${infusion.item_id})`)
-        : (isEnrichment ? 'Unused Enrichment Slot' : 'Unused Infusion Slot')
+        : (isEnrichment ? t('item.infusion.emptyEnrichment') : t('item.infusion.emptyInfusion'))
     };
   });
 

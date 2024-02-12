@@ -84,9 +84,9 @@ export const globalColumnDefinitions = {
   vendorValue: createColumn({
     id: 'vendorValue',
     order: 110,
-    select: { value: true },
+    select: { vendorValue: true },
     align: 'right',
-    orderBy: [{ value: 'asc' }, { value: 'desc' }]
+    orderBy: [{ vendorValue: { sort: 'asc', nulls: 'last' }}, { vendorValue: { sort: 'desc', nulls: 'last' }}]
   }),
   buyPrice: createColumn({
     id: 'buyPrice',
@@ -133,7 +133,7 @@ export const globalColumnRenderer: Renderer = {
   level: (item) => item.level,
   rarity: (item) => <Rarity rarity={item.rarity}/>,
   type: (item) => <>{item.type} {item.subtype && `(${item.subtype})`}</>,
-  vendorValue: (item) => <Coins value={item.value}/>,
+  vendorValue: (item) => item.vendorValue === null ? '-' : <Coins value={item.vendorValue}/>,
   buyPrice: (item) => !item.tpTradeable ? '-' : renderPriceWithOptionalWarning(item.tpCheckedAt, item.buyPrice),
   buyQuantity: (item) => !item.tpTradeable ? '-' : <FormatNumber value={item.buyQuantity ?? 0}/>,
   sellPrice: (item) => !item.tpTradeable ? '-' : renderPriceWithOptionalWarning(item.tpCheckedAt, item.sellPrice),

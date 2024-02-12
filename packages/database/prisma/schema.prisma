@@ -21,12 +21,12 @@ model Item {
   icon   Icon? @relation(fields: [iconId], references: [id])
   iconId Int?
 
-  rarity  String  @default("")
-  type    String  @default("")
-  subtype String?
-  weight  String?
-  value   Int     @default(0)
-  level   Int     @default(0)
+  rarity      String  @default("")
+  type        String  @default("")
+  subtype     String?
+  weight      String?
+  vendorValue Int?
+  level       Int      @default(0)
 
   // tp
   tpTradeable   Boolean @default(false)

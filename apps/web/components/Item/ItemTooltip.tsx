@@ -3,7 +3,6 @@ import type { Gw2Api } from 'gw2-api-types';
 import { ClientItemTooltip } from './ItemTooltip.client';
 import { getTranslate } from '@/lib/translate';
 import type { Item, Language, Rarity } from '@gw2treasures/database';
-import type { AsyncComponent } from '@/lib/asyncComponent';
 import { format } from 'gw2-tooltip-html';
 import { isTruthy } from '@gw2treasures/helper/is';
 import { getLinkProperties, linkProperties } from '@/lib/linkProperties';
@@ -11,6 +10,7 @@ import type { WithIcon } from '@/lib/with';
 import { localizedName, type LocalizedEntity } from '@/lib/localizedName';
 import { db } from '@/lib/prisma';
 import { parseIcon } from '@/lib/parseIcon';
+import type { FC } from 'react';
 
 export interface ItemTooltipProps {
   item: Gw2Api.Item;
@@ -18,7 +18,7 @@ export interface ItemTooltipProps {
   hideTitle?: boolean;
 }
 
-export const ItemTooltip: AsyncComponent<ItemTooltipProps> = async ({ item, language, hideTitle }) => {
+export const ItemTooltip: FC<ItemTooltipProps> = async ({ item, language, hideTitle }) => {
   const tooltip = await createTooltip(item, language);
 
   return (

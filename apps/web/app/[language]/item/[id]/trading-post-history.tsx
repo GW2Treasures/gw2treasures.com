@@ -1,4 +1,3 @@
-import type { AsyncComponent } from '@/lib/asyncComponent';
 import { db } from '@/lib/prisma';
 import { Suspense, type FC, lazy } from 'react';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
@@ -22,7 +21,7 @@ export const TradingPostHistory: FC<TradingPostHistoryProps> = ({ itemId }) => {
 
 const TradingPostHistoryClientLazy = lazy(() => import('./trading-post-history.client').then(({ TradingPostHistoryClient }) => ({ default: TradingPostHistoryClient })));
 
-export const TradingPostHistoryAsync: AsyncComponent<TradingPostHistoryProps> = async ({ itemId }) => {
+export const TradingPostHistoryAsync: FC<TradingPostHistoryProps> = async ({ itemId }) => {
   const history = await db.tradingPostHistory.findMany({
     where: { itemId },
     orderBy: { time: 'asc' },

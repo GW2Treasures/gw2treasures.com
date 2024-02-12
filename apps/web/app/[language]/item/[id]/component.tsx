@@ -14,9 +14,8 @@ import { SkinLink } from '@/components/Skin/SkinLink';
 import { Json } from '@/components/Format/Json';
 import { RecipeBox } from '@/components/Recipe/RecipeBox';
 import { ItemIngredientFor } from '@/components/Item/ItemIngredientFor';
-import type { AsyncComponent } from '@/lib/asyncComponent';
 import { notFound } from 'next/navigation';
-import { Suspense } from 'react';
+import { Suspense, type FC } from 'react';
 import { SkeletonTable } from '@/components/Skeleton/SkeletonTable';
 import { getLinkProperties } from '@/lib/linkProperties';
 import { AchievementLink } from '@/components/Achievement/AchievementLink';
@@ -50,7 +49,7 @@ export interface ItemPageComponentProps {
   revisionId?: string;
 }
 
-export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async ({ language, itemId, revisionId }) => {
+export const ItemPageComponent: FC<ItemPageComponentProps> = async ({ language, itemId, revisionId }) => {
   // validate itemId
   if(isNaN(itemId)) {
     notFound();

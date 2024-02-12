@@ -42,7 +42,7 @@ import { pageView } from '@/lib/pageView';
 import { GuildUpgradeLink } from '@/components/GuildUpgrade/GuildUpgradeLink';
 import { TradingPostHistory } from './trading-post-history';
 import { parseIcon } from '@/lib/parseIcon';
-import { getTranslate } from '@/components/I18n/getTranslate';
+import { getTranslate } from '@/lib/translate';
 
 export interface ItemPageComponentProps {
   language: Language;

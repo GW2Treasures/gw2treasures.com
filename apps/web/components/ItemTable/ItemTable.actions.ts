@@ -8,7 +8,7 @@ import type { TODO } from '@/lib/todo';
 import type { ColumnModelTypes, GlobalColumnId, ItemTableQuery, LoadItemsResult, OrderBy, QueryModel } from './types';
 import { globalColumnDefinitions } from './columns';
 import { isString } from '@gw2treasures/helper/is';
-import { getTranslate, type TranslationId } from '../I18n/getTranslate';
+import { getTranslate, type TranslationId } from '@/lib/translate';
 
 export interface ItemTableLoadOptions<Model extends QueryModel> {
   skip?: number;

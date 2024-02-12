@@ -1,6 +1,6 @@
 import 'server-only';
 
-import { translate, type TranslationId } from './getTranslate';
+import { translate, type TranslationId } from '@/lib/translate';
 import type { FC } from 'react';
 import type { Language } from '@gw2treasures/database';
 

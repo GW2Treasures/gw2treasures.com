@@ -10,7 +10,7 @@ import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 import { Icon } from '@gw2treasures/ui';
 import { FormatDate } from '../Format/FormatDate';
-import type { TranslationId } from '../I18n/getTranslate';
+import type { TranslationId } from '@/lib/translate';
 
 // typehelper
 function createColumn<Select extends Prisma.ItemSelect, Translations extends TranslationId>(column: ItemTableColumn<Select, Translations>) {

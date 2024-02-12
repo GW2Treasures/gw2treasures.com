@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import { ItemTableColumnsButton as ClientComponent } from './ItemTableColumnsButton.client';
-import { translateMany } from '../I18n/getTranslate';
+import { translateMany } from '@/lib/translate';
 import 'server-only';
 
 export interface ItemTableColumnsButtonProps {};

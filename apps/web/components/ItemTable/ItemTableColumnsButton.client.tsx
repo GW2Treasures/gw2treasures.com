@@ -9,7 +9,7 @@ import { Separator } from '@gw2treasures/ui/components/Layout/Separator';
 import { useItemTableContext } from './context';
 import { Icon } from '@gw2treasures/ui';
 import { useUser } from '../User/use-user';
-import type { TranslationSubset } from '../I18n/getTranslate';
+import type { TranslationSubset } from '@/lib/translate';
 
 export interface ItemTableColumnsButtonProps {
   translations: TranslationSubset<'table.columns' | 'table.columns.reset'>

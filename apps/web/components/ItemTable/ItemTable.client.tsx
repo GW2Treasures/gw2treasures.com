@@ -21,7 +21,7 @@ import { useItemTableContext } from './context';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import type { AvailableColumns, GlobalColumnId, ItemTableQuery, LoadItemsResult, QueryModel } from './types';
 import { getHistoryState, updateHistoryState } from './history-state';
-import type { TranslationId } from '../I18n/getTranslate';
+import type { TranslationId } from '@/lib/translate';
 
 const LOADING = false;
 type LOADING = typeof LOADING;

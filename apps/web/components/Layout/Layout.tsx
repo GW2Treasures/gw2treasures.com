@@ -8,7 +8,7 @@ import { LinkButton } from '@gw2treasures/ui/components/Form/Button';
 import { ExternalLink } from '@gw2treasures/ui/components/Link/ExternalLink';
 import { LanguageDropdown } from './Header/LanguageDropdown';
 import { Menu } from './Header/Menu';
-import { getTranslate } from '../I18n/getTranslate';
+import { getTranslate } from '@/lib/translate';
 import { ReviewCountBadge } from './Header/ReviewCountBadge';
 import { UserButton } from './Header/UserButton';
 

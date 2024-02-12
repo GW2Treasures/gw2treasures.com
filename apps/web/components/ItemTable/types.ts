@@ -2,7 +2,7 @@ import { Prisma } from '@gw2treasures/database';
 import type { FC } from 'react';
 import { db } from '@/lib/prisma';
 import type { Signed } from './query';
-import type { TranslationId } from '../I18n/getTranslate';
+import type { TranslationId } from '@/lib/translate';
 
 export type GlobalColumnId = 'id' | 'item' | 'icon' | 'name_de' | 'name_en' | 'name_es' | 'name_fr' | 'level' | 'rarity' | 'type' | 'vendorValue' | 'buyPrice' | 'buyQuantity' | 'sellPrice' | 'sellQuantity';
 

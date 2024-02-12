@@ -1,7 +1,7 @@
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { HeroLayout } from '@/components/Layout/HeroLayout';
 import { getCurrentUrl } from '@/lib/url';
-import { getLanguage } from '@/components/I18n/getTranslate';
+import { getLanguage } from '@/lib/translate';
 import Link from 'next/link';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 

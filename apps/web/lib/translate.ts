@@ -1,10 +1,10 @@
 import 'server-only';
 import type { Language } from '@gw2treasures/database';
 
-import de from '../../translations/de.json';
-import en from '../../translations/en.json';
-import es from '../../translations/es.json';
-import fr from '../../translations/fr.json';
+import de from '../translations/de.json';
+import en from '../translations/en.json';
+import es from '../translations/es.json';
+import fr from '../translations/fr.json';
 import { headers } from 'next/headers';
 
 export type TranslationId = keyof typeof en;

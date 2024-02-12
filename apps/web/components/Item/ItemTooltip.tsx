@@ -1,7 +1,7 @@
 import 'server-only';
 import type { Gw2Api } from 'gw2-api-types';
 import { ClientItemTooltip } from './ItemTooltip.client';
-import { getTranslate } from '../I18n/getTranslate';
+import { getTranslate } from '@/lib/translate';
 import type { Item, Language, Rarity } from '@gw2treasures/database';
 import type { AsyncComponent } from '@/lib/asyncComponent';
 import { format } from 'gw2-tooltip-html';

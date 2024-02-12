@@ -2,6 +2,7 @@ import { Prisma } from '@gw2treasures/database';
 import type { FC } from 'react';
 import { db } from '@/lib/prisma';
 import type { Signed } from './query';
+import type { TranslationId } from '../I18n/getTranslate';
 
 export type GlobalColumnId = 'id' | 'item' | 'icon' | 'name_de' | 'name_en' | 'name_es' | 'name_fr' | 'level' | 'rarity' | 'type' | 'vendorValue' | 'buyPrice' | 'buyQuantity' | 'sellPrice' | 'sellQuantity';
 
@@ -18,13 +19,14 @@ export type Result<Select extends Prisma.ItemSelect> =
 
 export type OrderBy<T = Prisma.ItemOrderByWithRelationInput> = T | T[]
 
-export interface ItemTableColumn<Select extends Prisma.ItemSelect> {
+export interface ItemTableColumn<Select extends Prisma.ItemSelect, Translations extends TranslationId> {
   id: GlobalColumnId,
   order?: number,
   select: Select,
   align?: 'right',
-  small?: boolean;
-  orderBy?: [asc: OrderBy, desc: OrderBy]
+  small?: boolean,
+  orderBy?: [asc: OrderBy, desc: OrderBy],
+  translations?: Translations[]
 }
 
 export type ColumnModelTypes = {
@@ -45,6 +47,7 @@ export interface ExtraColumn<Id extends string, Model extends QueryModel, Select
 
 export type AvailableColumn<ColumnId extends string, Model extends QueryModel = QueryModel, Select extends ColumnModelTypes[Model]['select'] = ColumnModelTypes[Model]['select']> = {
   id: ColumnId,
+  globalColumnId?: Signed<GlobalColumnId>
   title: string,
   select: Signed<Select>,
   orderBy?: [asc: Signed<OrderBy<ColumnModelTypes[Model]['orderBy']>>, desc: Signed<OrderBy<ColumnModelTypes[Model]['orderBy']>>],
@@ -54,3 +57,8 @@ export type AvailableColumn<ColumnId extends string, Model extends QueryModel = 
 }
 
 export type AvailableColumns<ColumnId extends string> = Record<ColumnId, AvailableColumn<ColumnId>>
+
+export type LoadItemsResult = Promise<{
+  items: { id: number }[],
+  translations: Partial<Record<TranslationId, string>>
+}>;

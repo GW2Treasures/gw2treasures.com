@@ -19,8 +19,9 @@ import { TableRowButton } from '@gw2treasures/ui/components/Table/TableRowButton
 import { Skeleton } from '../Skeleton/Skeleton';
 import { useItemTableContext } from './context';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
-import type { AvailableColumns, GlobalColumnId, ItemTableQuery, QueryModel } from './types';
+import type { AvailableColumns, GlobalColumnId, ItemTableQuery, LoadItemsResult, QueryModel } from './types';
 import { getHistoryState, updateHistoryState } from './history-state';
+import type { TranslationId } from '../I18n/getTranslate';
 
 const LOADING = false;
 type LOADING = typeof LOADING;
@@ -48,6 +49,7 @@ export const ItemTable = <ExtraColumnId extends string = never, Model extends Qu
   const [loading, setLoading] = useState(true);
   const [orderBy, setOrderBy] = useState<{ column: ColumnId, order: 'asc' | 'desc'} | undefined>(getHistoryState<ColumnId>(id).orderBy);
   const [range, setRange] = useState<{ length: number, offset: number }>();
+  const [translations, setTranslations] = useState<Partial<Record<TranslationId, string>>>({});
 
   const requestId = useRef(0);
 
@@ -72,17 +74,18 @@ export const ItemTable = <ExtraColumnId extends string = never, Model extends Qu
     const take = collapsed ? collapsedSize : pageSize;
     const skip = collapsed ? 0 : pageSize * page;
     const options = {
-      columns: columns.map(({ select }) => select),
+      columns: columns.map(({ globalColumnId, select }) => globalColumnId ?? select),
       orderBy: orderBy ? columns.find(({ id }) => id === orderBy.column)?.orderBy?.[orderBy.order === 'desc' ? 1 : 0] : undefined,
       take, skip
     };
     setLoading(true);
     const currentRequestId = ++requestId.current;
-    loadItems(query, options).then((items) => {
+    loadItems(query, options).then(({ items, translations }) => {
       if(currentRequestId !== requestId.current) {
         return;
       }
       setItems(items);
+      setTranslations(translations);
       setLoadedColumns(columns.map(({ id }) => id));
       setLoading(false);
       setRange({ length: items.length, offset: skip });
@@ -126,8 +129,8 @@ export const ItemTable = <ExtraColumnId extends string = never, Model extends Qu
         <tbody>
           {items.map((item) => {
             const props = query.data.mapToItem && query.data.model !== undefined && query.data.model !== 'item'
-            ? { item: (item as any)[query.data.mapToItem], [query.data.model]: item }
-            : { item };
+            ? { item: (item as any)[query.data.mapToItem], [query.data.model]: item, translations }
+            : { item, translations };
 
             return (
               <tr key={props.item.id}>
@@ -135,7 +138,7 @@ export const ItemTable = <ExtraColumnId extends string = never, Model extends Qu
                   return (
                     <td key={column.id} align={column.align}>
                       {loadedColumns.includes(column.id) ? (
-                        column.component ? createElement(column.component, props) : globalColumnRenderer[column.id as GlobalColumnId](props.item)
+                        column.component ? createElement(column.component, props) : globalColumnRenderer[column.id as GlobalColumnId](props.item, props.translations as Record<TranslationId, string>)
                       ) : <Skeleton width={48}/>}
                     </td>
                   );
@@ -168,7 +171,7 @@ export const ItemTable = <ExtraColumnId extends string = never, Model extends Qu
   );
 };
 
-function loadItems<Model extends QueryModel>(query: Signed<ItemTableQuery<Model>>, options: ItemTableLoadOptions<Model>): Promise<{ id: number }[]> {
+function loadItems<Model extends QueryModel>(query: Signed<ItemTableQuery<Model>>, options: ItemTableLoadOptions<Model>): LoadItemsResult {
   return fetch('/api/item/item-table', {
     method: 'POST',
     body: JSON.stringify({ query, options }),

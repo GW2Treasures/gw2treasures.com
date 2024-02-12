@@ -5,39 +5,54 @@ import { db } from '@/lib/prisma';
 import { type Signed, verify } from './query';
 import deepmerge from 'deepmerge';
 import type { TODO } from '@/lib/todo';
-import type { ColumnModelTypes, ItemTableQuery, OrderBy, QueryModel } from './types';
+import type { ColumnModelTypes, GlobalColumnId, ItemTableQuery, LoadItemsResult, OrderBy, QueryModel } from './types';
+import { globalColumnDefinitions } from './columns';
+import { isString } from '@gw2treasures/helper/is';
+import { getTranslate, type TranslationId } from '../I18n/getTranslate';
 
 export interface ItemTableLoadOptions<Model extends QueryModel> {
   skip?: number;
   take?: number;
-  columns: Signed<TODO>[];
+  columns: Signed<GlobalColumnId | object>[];
   orderBy?: Signed<OrderBy<ColumnModelTypes[Model]['orderBy']>>;
 }
 
-export async function loadItems<Model extends QueryModel>(query: Signed<ItemTableQuery<Model>>, options: ItemTableLoadOptions<Model>): Promise<{ id: number }[]> {
-  const { where } = await verify(query);
+const defaultItemSort = [{ views: 'desc' }, { id: 'asc' }];
+
+export async function loadItems<Model extends QueryModel>(query: Signed<ItemTableQuery<Model>>, options: ItemTableLoadOptions<Model>): LoadItemsResult {
+  const { where, mapToItem, model = 'item' } = await verify(query);
   const orderBy = options.orderBy ? await verify(options.orderBy) : undefined;
   const { skip, take } = options;
 
-  const idSelect = query.data.mapToItem ? { [query.data.mapToItem]: { select: { id: true }}} : { id: true };
+  const mapToItemSelect = (select: object) => mapToItem ? { [mapToItem]: { select }} : select;
+
+  const idSelect = mapToItemSelect({ id: true });
 
   const columns = await Promise.all(options.columns.map(verify));
-  const select = deepmerge.all([idSelect, ...columns]);
+  const selects = [
+    idSelect,
+    ...columns.map((column) => isString(column) ? mapToItemSelect(globalColumnDefinitions[column].select) : column)
+  ];
+  const select = deepmerge.all(selects);
 
-  if(query.data.model === 'content') {
-    return db.content.findMany({ where, skip, take, select, orderBy: orderBy as TODO }) as TODO;
-  }
+  const findManyArgs = { where, skip, take, select: select as TODO, orderBy: orderBy as TODO };
 
-  const items = await db.item.findMany({
-    where,
-    skip,
-    take,
-    select,
-    orderBy: orderBy as TODO ?? [{ views: 'desc' }, { id: 'asc' }]
-  });
+  const items: TODO =
+    model === 'content' ? await db.content.findMany(findManyArgs) :
+    model === 'item' ? await db.item.findMany({ ...findManyArgs, orderBy: findManyArgs.orderBy ?? defaultItemSort }) :
+    undefined;
 
-  // TODO: this could be generified as well, but probably not needed. The id is the only property the table needs.
-  return items as { id: number }[];
+  const translationIds = Array.from(new Set(columns.flatMap((column) => isString(column)
+    ? (globalColumnDefinitions[column].translations ?? [])
+    : []
+  )));
+
+  const translate = getTranslate();
+  const translations = Object.fromEntries(
+    translationIds.map((translationId) => [translationId, translate(translationId)])
+  );
+
+  return { items, translations };
 }
 
 export async function loadTotalItemCount<Model extends QueryModel>(query: Signed<ItemTableQuery<Model>>): Promise<number> {

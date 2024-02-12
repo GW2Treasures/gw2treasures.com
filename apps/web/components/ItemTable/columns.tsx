@@ -10,9 +10,10 @@ import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 import { Icon } from '@gw2treasures/ui';
 import { FormatDate } from '../Format/FormatDate';
+import type { TranslationId } from '../I18n/getTranslate';
 
 // typehelper
-function createColumn<Select extends Prisma.ItemSelect>(column: ItemTableColumn<Select>) {
+function createColumn<Select extends Prisma.ItemSelect, Translations extends TranslationId>(column: ItemTableColumn<Select, Translations>) {
   return column;
 }
 export function extraColumn<Model extends QueryModel>(column: ExtraColumn<string, Model, ColumnModelTypes[Model]['select']>) {
@@ -73,7 +74,7 @@ export const globalColumnDefinitions = {
     id: 'rarity',
     order: 90,
     select: { rarity: true },
-    orderBy: [{ rarity: 'asc' }, { rarity: 'desc' }]
+    orderBy: [{ rarity: 'asc' }, { rarity: 'desc' }],
   }),
   type: createColumn({
     id: 'type',
@@ -118,8 +119,11 @@ export const globalColumnDefinitions = {
   }),
 };
 
+type ColumnDefinition<Id extends GlobalColumnId> = (typeof globalColumnDefinitions)[Id];
+type AvailableTranslations<Id extends GlobalColumnId> = ColumnDefinition<Id> extends ItemTableColumn<any, infer Translations> ? Translations : never;
+
 type Renderer = {
-  [id in GlobalColumnId]: (item: Result<(typeof globalColumnDefinitions)[id]['select'] & { id: true }>) => ReactNode;
+  [Id in GlobalColumnId]: (item: Result<ColumnDefinition<Id>['select'] & { id: true }>, translations: Record<AvailableTranslations<Id>, string>) => ReactNode;
 };
 
 const empty = <span style={{ color: 'var(--color-text-muted)' }}>-</span>;
@@ -135,7 +139,7 @@ export const globalColumnRenderer: Renderer = {
   level: (item) => item.level,
   rarity: (item) => <Rarity rarity={item.rarity}/>,
   type: (item) => <>{item.type} {item.subtype && `(${item.subtype})`}</>,
-  vendorValue: (item) => item.vendorValue === null ? empty : <Coins value={item.vendorValue}/>,
+  vendorValue: (item, t) => item.vendorValue === null ? empty : <Coins value={item.vendorValue}/>,
   buyPrice: (item) => !item.tpTradeable ? empty : renderPriceWithOptionalWarning(item.tpCheckedAt, item.buyPrice),
   buyQuantity: (item) => !item.tpTradeable ? empty : <FormatNumber value={item.buyQuantity ?? 0}/>,
   sellPrice: (item) => !item.tpTradeable ? empty : renderPriceWithOptionalWarning(item.tpCheckedAt, item.sellPrice),

@@ -34,7 +34,7 @@ export function getTranslate(language?: Language) {
   };
 }
 
-export function translate(language: Language, id: TranslationId) {
+export function translate(id: TranslationId, language?: Language) {
   const translate = getTranslate(language);
 
   return translate(id);

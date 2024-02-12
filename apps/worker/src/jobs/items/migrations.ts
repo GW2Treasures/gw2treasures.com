@@ -5,7 +5,7 @@ import { isDefined, isTruthy } from '@gw2treasures/helper/is';
 import { toId } from '../helper/toId';
 import { LocalizedObject } from '../helper/types';
 
-export const CURRENT_VERSION = 10;
+export const CURRENT_VERSION = 11;
 
 /** @see Prisma.ItemUpdateInput */
 interface MigratedItem {
@@ -18,7 +18,7 @@ interface MigratedItem {
   type?: string
   subtype?: string | null
   weight?: string | null
-  value?: number
+  vendorValue?: number | null
   level?: number
   unlocksSkinIds?: number[]
   removedFromApi?: boolean
@@ -58,7 +58,6 @@ export async function createMigrator() {
       update.type = en.type;
       update.subtype = en.details?.type;
       update.weight = en.details?.weight_class;
-      update.value = Number(en.vendor_value);
       update.level = Number(en.level);
     }
 
@@ -109,7 +108,7 @@ export async function createMigrator() {
       }
     }
 
-    // Version 9: Add guild upgrade unlocks
+    // Version 10: Add guild upgrade unlocks
     if(currentVersion < 10) {
       const unlocksGuildUpgrades = en.type === 'Consumable' && en.details?.type === 'Generic' && en.details?.guild_upgrade_id !== undefined;
       if(unlocksGuildUpgrades) {
@@ -118,6 +117,11 @@ export async function createMigrator() {
         update.unlocksGuildUpgradeIds = unlocksGuildUpgradeIds;
         update.unlocksGuildUpgrade = { connect: unlocksGuildUpgradeIds.filter((id) => knownGuildUpgradeIds.includes(id)).map((id) => ({ id })) };
       }
+    }
+
+    // Version 11: Set vendorValue
+    if(currentVersion < 11) {
+      update.vendorValue = en.flags.includes('NoSell') ? null : Number(en.vendor_value);
     }
 
     return update satisfies Prisma.ItemUpdateInput;

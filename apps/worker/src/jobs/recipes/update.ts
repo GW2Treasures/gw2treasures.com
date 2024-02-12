@@ -30,7 +30,7 @@ export const RecipesUpdate: Job = {
         select: { id: true }
       })).map(({ id }) => id);
 
-      await queueJobForIds('recipes.update', idsToUpdate, 1);
+      await queueJobForIds('recipes.update', idsToUpdate, { priority: 1 });
       return `Queued update for ${idsToUpdate.length} recipes (Build ${build.id})`;
     }
 

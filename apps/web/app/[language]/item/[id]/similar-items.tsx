@@ -20,7 +20,7 @@ export function SimilarItems({ item }: { item: Item }) {
           subtype: item.subtype,
           rarity: item.rarity,
           weight: item.weight,
-          value: item.value,
+          vendorValue: item.vendorValue,
           level: item.level,
         }
       ]

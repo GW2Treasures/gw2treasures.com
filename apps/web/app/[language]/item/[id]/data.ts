@@ -20,7 +20,7 @@ export const getItem = cache((id: number, language: Language) => {
       unlocksRecipe: { include: { currentRevision: true, itemIngredients: { include: { Item: { select: linkProperties }}}, currencyIngredients: { include: { Currency: { select: linkPropertiesWithoutRarity }}}, guildUpgradeIngredients: { include: { GuildUpgrade: { select: linkPropertiesWithoutRarity }}}, unlockedByItems: { select: linkProperties }, outputItem: { select: linkProperties }}},
       achievementBits: { select: linkPropertiesWithoutRarity, orderBy: { id: 'asc' }},
       achievementRewards: { select: linkPropertiesWithoutRarity, orderBy: { id: 'asc' }},
-      contains: { include: { contentItem: { select: { ...linkProperties, value: true, level: true, type: true, subtype: true }}}},
+      contains: { include: { contentItem: { select: { ...linkProperties, vendorValue: true, level: true, type: true, subtype: true }}}},
       containsCurrency: { include: { currency: { select: linkPropertiesWithoutRarity }}},
       _count: {
         select: { ingredient: true, suffixIn: true, contains: true, containedIn: true }

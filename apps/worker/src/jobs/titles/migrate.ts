@@ -21,7 +21,7 @@ export const titlesMigrate: Job = {
         select: { id: true }
       })).map(toId);
 
-      queueJobForIds('titles.migrate', idsToUpdate, 1);
+      queueJobForIds('titles.migrate', idsToUpdate, { priority: 1 });
       return `Queued migration for ${idsToUpdate.length} titles`;
     }
 

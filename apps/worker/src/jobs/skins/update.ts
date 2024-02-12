@@ -31,7 +31,7 @@ export const SkinsUpdate: Job = {
         select: { id: true }
       })).map(({ id }) => id);
 
-      await queueJobForIds('skins.update', idsToUpdate, 1);
+      await queueJobForIds('skins.update', idsToUpdate, { priority: 1 });
       return `Queued update for ${idsToUpdate.length} skins (Build ${build.id})`;
     }
 

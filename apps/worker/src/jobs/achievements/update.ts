@@ -31,7 +31,7 @@ export const AchievementsUpdate: Job = {
         select: { id: true }
       })).map(({ id }) => id);
 
-      await queueJobForIds('achievements.update', idsToUpdate, 1);
+      await queueJobForIds('achievements.update', idsToUpdate, { priority: 1 });
       return `Queued update for ${idsToUpdate.length} achievements (Build ${build.id})`;
     }
 

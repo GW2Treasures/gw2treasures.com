@@ -22,7 +22,7 @@ export const ItemsMigrate: Job = {
         select: { id: true }
       })).map(({ id }) => id);
 
-      queueJobForIds('items.migrate', idsToUpdate, 1);
+      queueJobForIds('items.migrate', idsToUpdate, { priority: 1, batchSize: 1000 });
       return `Queued migration for ${idsToUpdate.length} items`;
     }
 

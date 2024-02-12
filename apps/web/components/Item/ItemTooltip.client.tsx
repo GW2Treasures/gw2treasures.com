@@ -153,7 +153,7 @@ export const ClientItemTooltip: FC<ClientItemTooltipProps> = ({ tooltip, hideTit
     // TODO: restrictions
     tooltip.description && (<p className={styles.description} dangerouslySetInnerHTML={{ __html: tooltip.description }}/>),
     ...tooltip.flags,
-    tooltip.value && (<Coins value={tooltip.value}/>),
+    tooltip.vendorValue && (<Coins value={tooltip.vendorValue}/>),
   ];
 
   return (

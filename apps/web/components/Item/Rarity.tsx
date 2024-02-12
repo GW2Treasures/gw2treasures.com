@@ -2,9 +2,10 @@ import type { FC, ReactNode } from 'react';
 import { cx } from '@gw2treasures/ui';
 import styles from './Rarity.module.css';
 import rarityStyles from '../Layout/RarityColor.module.css';
+import type { Rarity as RarityEnum } from '@gw2treasures/database';
 
 export interface RarityProps {
-  rarity: string;
+  rarity: RarityEnum;
   children?: ReactNode;
 }
 

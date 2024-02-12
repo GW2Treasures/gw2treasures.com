@@ -2,7 +2,7 @@ import 'server-only';
 import type { Gw2Api } from 'gw2-api-types';
 import { ClientItemTooltip } from './ItemTooltip.client';
 import { getTranslate } from '../I18n/getTranslate';
-import type { Item, Language } from '@gw2treasures/database';
+import type { Item, Language, Rarity } from '@gw2treasures/database';
 import type { AsyncComponent } from '@/lib/asyncComponent';
 import { format } from 'gw2-tooltip-html';
 import { isTruthy } from '@gw2treasures/helper/is';
@@ -135,7 +135,7 @@ function formatMarkup(value: string | undefined) {
 
 export type ItemWithAttributes = WithIcon<LocalizedEntity> & {
   id: number,
-  rarity: string,
+  rarity: Rarity,
   attributes?: { label: string, value: number }[],
   buff?: string,
   bonuses?: string[]

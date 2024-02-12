@@ -1,12 +1,12 @@
 import type { LocalizedEntity } from '@/lib/localizedName';
 import type { WithIcon } from '@/lib/with';
-import { ContentChance } from '@gw2treasures/database';
+import { ContentChance, Rarity } from '@gw2treasures/database';
 
 export interface AddedItem {
   _id: string;
   item: WithIcon<{
     id: number;
-    rarity: string;
+    rarity: Rarity;
   } & LocalizedEntity>;
   quantity: number;
   chance: ContentChance;

@@ -21,7 +21,7 @@ model Item {
   icon   Icon? @relation(fields: [iconId], references: [id])
   iconId Int?
 
-  rarity      String  @default("")
+  rarity      Rarity
   type        String  @default("")
   subtype     String?
   weight      String?
@@ -99,6 +99,17 @@ model Item {
   updatedAt      DateTime   @updatedAt
 
   version Int @default(0)
+}
+
+enum Rarity {
+  Junk
+  Basic
+  Fine
+  Masterwork
+  Rare
+  Exotic
+  Ascended
+  Legendary
 }
 
 model TradingPostHistory {
@@ -226,7 +237,7 @@ model Skin {
   icon   Icon? @relation(fields: [iconId], references: [id])
   iconId Int?
 
-  rarity  String  @default("")
+  rarity  Rarity
   type    String  @default("")
   subtype String?
   weight  String?

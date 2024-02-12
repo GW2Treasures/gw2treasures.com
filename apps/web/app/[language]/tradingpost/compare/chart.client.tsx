@@ -32,7 +32,7 @@ export const Chart: FC<ChartProps> = (props) => {
 };
 
 const ChartInternal: FC<ChartProps & { width: number, height: number }> = ({ data, items, width, height }) => {
-  const margin = { top: 0, bottom: 40, left: 88, right: 0 };
+  const margin = { top: 0, bottom: 40, left: 0, right: 0 };
 
   const xMax = width - margin.left - margin.right;
   const yMax = height - margin.top - margin.bottom;
@@ -53,6 +53,7 @@ const ChartInternal: FC<ChartProps & { width: number, height: number }> = ({ dat
     range: [yMax, 0],
     round: true,
     domain: [0, maxPrice],
+    nice: true,
   });
 
   const timeScale = scaleTime({
@@ -76,9 +77,13 @@ const ChartInternal: FC<ChartProps & { width: number, height: number }> = ({ dat
   const handleTooltip = (event: TouchEvent<SVGRectElement> | MouseEvent<SVGRectElement>) => {
     const { x, y } = localPoint(event) || { x: 0, y: 0 };
     const x0 = timeScale.invert(x - margin.left);
-    const tooltipData: { itemId: number, entry: TradingPostHistory }[] = []
+    const tooltipData: { itemId: number, entry: TradingPostHistory }[] = [];
 
     for(const item of items) {
+      if(!historyByItem[item.id]?.length) {
+        continue;
+      }
+
       const index = bisectDate(historyByItem[item.id], x0, 1);
       const d0 = historyByItem[item.id][index - 1];
       const d1 = historyByItem[item.id][index];
@@ -86,11 +91,11 @@ const ChartInternal: FC<ChartProps & { width: number, height: number }> = ({ dat
       if (d1) {
         d = x0.valueOf() - d0.time.valueOf() > d1.time.valueOf() - x0.valueOf() ? d1 : d0;
       }
-      tooltipData.push({ itemId: item.id, entry: d })
+      tooltipData.push({ itemId: item.id, entry: d });
     }
 
     showTooltip({
-      tooltipData: tooltipData,
+      tooltipData,
       tooltipLeft: x,
       tooltipTop: y,
     });
@@ -101,12 +106,11 @@ const ChartInternal: FC<ChartProps & { width: number, height: number }> = ({ dat
       <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} style={{ overflow: 'visible' }}>
         <Group left={margin.left} top={margin.top}>
           <GridRows scale={priceScale} width={xMax} height={yMax} numTicks={6} stroke="var(--color-border)"/>
-          <AxisLeft scale={priceScale} stroke="var(--color-border-dark)" tickStroke="var(--color-border-dark)" tickComponent={renderGoldTick} tickFormat={(v) => v.toString()} numTicks={6}/>
-          <AxisBottom scale={timeScale} top={yMax} stroke="var(--color-border-dark)" tickStroke="var(--color-border-dark)" tickLabelProps={{ fill: 'var(--color-text)', fontFamily: 'var(--font-wotfard)', fontSize: 12 }} numTicks={7}/>
-          <Line from={{ x: xMax, y: 0 }} to={{ x: xMax, y: yMax }} stroke="var(--color-border)"/>
+          <AxisLeft scale={priceScale} stroke="var(--color-border-dark)" tickStroke="var(--color-border-dark)" tickComponent={renderGoldTick} tickFormat={(v) => v.toString()} numTicks={6} hideAxisLine hideZero hideTicks/>
+          <AxisBottom scale={timeScale} top={yMax} stroke="var(--color-border-dark)" tickStroke="var(--color-border-dark)" tickLabelProps={{ fill: 'var(--color-text)', fontFamily: 'var(--font-wotfard)', fontSize: 12 }} numTicks={7} tickValues={timeScale.ticks(5).slice(1)}/>
 
           {items.map((item, index) => (
-            <LinePath key={item.id} data={historyByItem[item.id]} y={(d) => priceScale(d.sellPrice ?? 0)} x={(d) => timeScale(d.time)} curve={curveMonotoneX} strokeWidth={2} stroke={colorPalette[index % colorPalette.length]} strokeLinejoin="round" strokeLinecap="round"/>
+            <LinePath key={item.id} data={historyByItem[item.id]} y={(d) => priceScale(d.sellPrice ?? 0)} defined={(d) => d.sellPrice !== null} x={(d) => timeScale(d.time)} curve={curveMonotoneX} strokeWidth={2} stroke={colorPalette[index % colorPalette.length]} strokeLinejoin="round" strokeLinecap="round"/>
           ))}
         </Group>
 
@@ -120,26 +124,16 @@ const ChartInternal: FC<ChartProps & { width: number, height: number }> = ({ dat
               pointerEvents="none"
               strokeDasharray="4 2"/>
             {tooltipData.map(({ itemId, entry }, index) => (
-              <>
-                <Circle
-                  cx={x(entry) + margin.left}
-                  cy={priceScale(entry.sellPrice ?? 0) + margin.top}
-                  r={4}
-                  fill={colorPalette[index % 5]}
-                  stroke="var(--color-background)"
-                  strokeWidth={2}
-                  style={{ filter: 'drop-shadow(0 0 4px rgba(0,0,0,0.12))' }}
-                  pointerEvents="none"/>
-                {/* <image
-                  x={x(entry) + margin.left - 8}
-                  y={priceScale(entry.sellPrice ?? 0) + margin.top - 8}
-                  width={16}
-                  height={16}
-                  href={getIconUrl(items[index].icon!, 32)}
-                  clip-path="inset(0% round 2px)"
-                  style={{ filter: 'drop-shadow(0 0 4px rgba(0,0,0,0.12))', transition: 'all 50ms ease' }}
-                  /> */}
-              </>
+              <Circle
+                key={itemId}
+                cx={x(entry) + margin.left}
+                cy={priceScale(entry.sellPrice ?? 0) + margin.top}
+                r={4}
+                fill={colorPalette[index % 5]}
+                stroke="var(--color-background)"
+                strokeWidth={2}
+                style={{ filter: 'drop-shadow(0 0 4px rgba(0,0,0,0.12))' }}
+                pointerEvents="none"/>
             ))}
           </g>
         )}
@@ -159,8 +153,6 @@ const ChartInternal: FC<ChartProps & { width: number, height: number }> = ({ dat
       {tooltipOpen && tooltipData && (
         <>
           <Tooltip
-            // set this to random so it correctly updates with parent bounds
-            key={Math.random()}
             top={yMax + margin.top - 4}
             left={(tooltipLeft ?? 0) + 8}
             applyPositionStyle
@@ -170,8 +162,6 @@ const ChartInternal: FC<ChartProps & { width: number, height: number }> = ({ dat
             <FormatDate date={tooltipData?.[0].entry.time}/>
           </Tooltip>
           <TooltipWithBounds
-            // set this to random so it correctly updates with parent bounds
-            key={Math.random()}
             top={tooltipTop}
             left={(tooltipLeft ?? 0)}
             offsetLeft={16}
@@ -181,7 +171,7 @@ const ChartInternal: FC<ChartProps & { width: number, height: number }> = ({ dat
           >
             <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
               {tooltipData.map(({ entry }, index) => (
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <div key={entry.itemId} style={{ display: 'flex', justifyContent: 'space-between' }}>
                   <div>
                     <span style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: colorPalette[index % colorPalette.length], display: 'inline-block', marginRight: 8 }}/>
                     <ItemLink item={items[index]} icon={16}/>
@@ -201,8 +191,8 @@ const ChartInternal: FC<ChartProps & { width: number, height: number }> = ({ dat
 
 function renderGoldTick(props: TickRendererProps) {
   return (
-    <svg style={{ overflow: 'visible', fontFeatureSettings: '"tnum" 1' }} x="0" y="-.5em" fontSize={12} fontFamily="var(--font-wotfard)">
-      <foreignObject x={props.x - 60 - 8} y={props.y} width={60} height="1em" style={{ textAlign: 'right' }}>
+    <svg style={{ overflow: 'visible', fontFeatureSettings: '"tnum" 1' }} x="0" y="0" fontSize={12} fontFamily="var(--font-wotfard)">
+      <foreignObject x={props.x + 16} y={props.y + 8} width={60} height="1em">
         <Coins value={Number(props.formattedValue)}/>
       </foreignObject>
     </svg>

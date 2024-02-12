@@ -1,4 +1,4 @@
-import { Prisma } from '@gw2treasures/database';
+import { Prisma, Rarity as RarityEnum } from '@gw2treasures/database';
 import type { ReactNode } from 'react';
 import { EntityIcon } from '../Entity/EntityIcon';
 import { ItemLink } from '../Item/ItemLink';
@@ -75,6 +75,7 @@ export const globalColumnDefinitions = {
     order: 90,
     select: { rarity: true },
     orderBy: [{ rarity: 'asc' }, { rarity: 'desc' }],
+    translations: Object.values(RarityEnum).map((rarity) => `rarity.${rarity}` as const)
   }),
   type: createColumn({
     id: 'type',
@@ -137,9 +138,9 @@ export const globalColumnRenderer: Renderer = {
   name_es: (item) => item.name_es,
   name_fr: (item) => item.name_fr,
   level: (item) => item.level,
-  rarity: (item) => <Rarity rarity={item.rarity}/>,
+  rarity: (item, t) => <Rarity rarity={item.rarity}>{t[`rarity.${item.rarity}`]}</Rarity>,
   type: (item) => <>{item.type} {item.subtype && `(${item.subtype})`}</>,
-  vendorValue: (item, t) => item.vendorValue === null ? empty : <Coins value={item.vendorValue}/>,
+  vendorValue: (item) => item.vendorValue === null ? empty : <Coins value={item.vendorValue}/>,
   buyPrice: (item) => !item.tpTradeable ? empty : renderPriceWithOptionalWarning(item.tpCheckedAt, item.buyPrice),
   buyQuantity: (item) => !item.tpTradeable ? empty : <FormatNumber value={item.buyQuantity ?? 0}/>,
   sellPrice: (item) => !item.tpTradeable ? empty : renderPriceWithOptionalWarning(item.tpCheckedAt, item.sellPrice),

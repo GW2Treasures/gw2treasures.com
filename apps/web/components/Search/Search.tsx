@@ -2,25 +2,25 @@
 
 import { type ChangeEventHandler, type FC, Fragment, type KeyboardEventHandler, type ReactElement, useCallback, useRef, useState } from 'react';
 import styles from './Search.module.css';
-import { useRouter } from 'next/navigation';
 import { usePageResults, useSearchApiResults } from './useSearchResults';
 import Link from 'next/link';
 import { useDebounce } from '@/lib/useDebounce';
-import { autoUpdate, offset, shift, size, useClick, useDismiss, useFloating, useFocus, useInteractions, useListNavigation } from '@floating-ui/react';
+import { autoUpdate, offset, shift, size, useDismiss, useFloating, useFocus, useInteractions, useListNavigation } from '@floating-ui/react';
 import { Icon } from '@gw2treasures/ui';
+import type { TranslationSubset } from '@/lib/translate';
 
 export interface SearchProps {
-  translations: {
-    placeholder: string,
-    items: string,
-    skills: string,
-    skins: string,
-    achievements: string,
-    'achievements.categories': string,
-    'achievements.groups': string,
-    builds: string,
-    pages: string,
-  };
+  translations: TranslationSubset<
+   | 'search.placeholder'
+   | 'search.results.items'
+   | 'search.results.skills'
+   | 'search.results.skins'
+   | 'search.results.achievements'
+   | 'search.results.achievements.categories'
+   | 'search.results.achievements.groups'
+   | 'search.results.builds'
+   | 'search.results.pages'
+  >
 }
 
 export const Search: FC<SearchProps> = ({ translations }) => {
@@ -98,7 +98,7 @@ export const Search: FC<SearchProps> = ({ translations }) => {
 
       <input
         className={styles.searchInput}
-        placeholder={`${translations.placeholder} (ALT + Q)`}
+        placeholder={`${translations['search.placeholder']} (ALT + Q)`}
         autoComplete="off"
         spellCheck="false"
         accessKey="q"
@@ -117,10 +117,12 @@ export const Search: FC<SearchProps> = ({ translations }) => {
         >
           {searchResults.map(({ results, id }) => results.length > 0 && (
             <Fragment key={id}>
-              <div className={styles.category}>{translations[id as keyof typeof translations]}</div>
+              <div className={styles.category}>{translations[`search.results.${id}`]}</div>
               {results.map((result) => {
                 const currentIndex = index++;
                 const render = result.render ?? ((link: ReactElement) => link);
+
+                const isExternal = result.href.startsWith('http');
 
                 return render(
                   <Link
@@ -129,7 +131,8 @@ export const Search: FC<SearchProps> = ({ translations }) => {
                     key={result.href}
                     className={activeIndex === currentIndex ? styles.resultActive : styles.result}
                     id={result.href}
-                    target={result.href.startsWith('http') ? '_blank' : undefined}
+                    target={isExternal ? '_blank' : undefined}
+                    rel={isExternal ? 'noreferrer noopener' : undefined}
                     ref={(node) => listRef.current[currentIndex] = node}
                     {...getItemProps({
                       onClick: (e) => !e.defaultPrevented && setOpen(false)
@@ -144,7 +147,7 @@ export const Search: FC<SearchProps> = ({ translations }) => {
                         {result.subtitle}
                       </div>
                     )}
-                    {result.href.startsWith('http') && <span className={styles.external}><Icon icon="external"/></span>}
+                    {isExternal && <span className={styles.external}><Icon icon="external"/></span>}
                   </Link>
                 );
               })}

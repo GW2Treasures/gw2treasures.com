@@ -14,7 +14,7 @@ import type { CurrencyLinkProps } from '../Currency/CurrencyLink';
 import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
 import { RecipeRowFilter, RecipeTableDisciplineFilter, RecipeTableProvider, RecipeTableSearch } from './RecipeTable.client';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
-import { getLanguage } from '../I18n/getTranslate';
+import { getLanguage } from '@/lib/translate';
 import { ColumnSelect } from '../Table/ColumnSelect';
 import type { GuildUpgradeLinkProps } from '../GuildUpgrade/GuildUpgradeLink';
 import { RecipeDropdown } from './RecipeDropdown';

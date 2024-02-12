@@ -1,5 +1,5 @@
 import { type AnchorHTMLAttributes, forwardRef, type ReactElement } from 'react';
-import type { Language } from '@gw2treasures/database';
+import type { Language, Rarity } from '@gw2treasures/database';
 import type { IconSize } from '@/lib/getIconUrl';
 import type { LocalizedEntity } from '@/lib/localizedName';
 import type { WithIcon } from '@/lib/with';
@@ -9,7 +9,7 @@ import type { EntityIconType } from '../Entity/EntityIcon';
 
 interface CustomEntityLinkProps {
   href: string;
-  entity: WithIcon<LocalizedEntity> & { rarity?: string };
+  entity: WithIcon<LocalizedEntity> & { rarity?: Rarity };
   icon?: IconSize | 'none' | ReactElement;
   iconType?: EntityIconType;
   language?: Language;

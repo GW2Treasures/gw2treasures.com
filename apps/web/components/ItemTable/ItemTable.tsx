@@ -5,7 +5,7 @@ import { globalColumnDefinitions } from './columns';
 import { type Signed, sign } from './query';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
-import { getLanguage, getTranslate } from '../I18n/getTranslate';
+import { getLanguage, getTranslate } from '@/lib/translate';
 import type { AvailableColumn, AvailableColumns, ExtraColumn, GlobalColumnId, ItemTableQuery, OrderBy, QueryModel } from './types';
 
 export interface ItemTableProps<ExtraColumnId extends string, Model extends QueryModel> {
@@ -48,8 +48,9 @@ async function getColumns<T extends string>(extraColumns: ExtraColumn<T, any, an
       const align = column.align;
       const small = column.small;
       const order = column.order;
+      const globalColumnId = await sign(id);
 
-      return [id, { id, title, select, orderBy, align, small, order }] as [GlobalColumnId | T, AvailableColumn<GlobalColumnId | T> & { order?: number }];
+      return [id, { id, title, select, orderBy, align, small, order, globalColumnId }] as [GlobalColumnId | T, AvailableColumn<GlobalColumnId | T> & { order?: number }];
     }),
     ...extraColumns?.map(async (column) => {
       const id = column.id;

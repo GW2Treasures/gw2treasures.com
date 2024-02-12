@@ -42,6 +42,7 @@ import { pageView } from '@/lib/pageView';
 import { GuildUpgradeLink } from '@/components/GuildUpgrade/GuildUpgradeLink';
 import { TradingPostHistory } from './trading-post-history';
 import { parseIcon } from '@/lib/parseIcon';
+import { getTranslate } from '@/lib/translate';
 
 export interface ItemPageComponentProps {
   language: Language;
@@ -77,6 +78,8 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
   const compareByName = compareLocalizedName(language);
 
   const icon = parseIcon(data.icon);
+
+  const t = getTranslate(language);
 
   return (
     <DetailLayout
@@ -182,8 +185,8 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
           <Headline id="contained" actions={<ItemTableColumnsButton/>}>Contained In</Headline>
           <ItemTable query={{ model: 'content', mapToItem: 'containerItem', where: { contentItemId: item.id }}}
             extraColumns={[
-              extraColumn<'content'>({ id: 'quantity', select: { quantity: true }, title: 'Quantity', component: ContentQuantityColumn as TODO, order: 71, align: 'right', small: true, orderBy: [{ quantity: 'asc' }, { quantity: 'desc' }] }),
-              extraColumn<'content'>({ id: 'chance', select: { chance: true }, title: 'Chance', component: ContentChanceColumn as TODO, order: 72, orderBy: [{ chance: 'asc' }, { chance: 'desc' }] })
+              extraColumn<'content'>({ id: 'quantity', select: { quantity: true }, title: t('container.quantity'), component: ContentQuantityColumn as TODO, order: 71, align: 'right', small: true, orderBy: [{ quantity: 'asc' }, { quantity: 'desc' }] }),
+              extraColumn<'content'>({ id: 'chance', select: { chance: true }, title: t('container.chance'), component: ContentChanceColumn as TODO, order: 72, orderBy: [{ chance: 'asc' }, { chance: 'desc' }] })
             ]}
             defaultColumns={['item', 'quantity', 'chance', 'level', 'rarity', 'type', 'vendorValue', 'sellPrice']}/>
         </ItemTableContext>
@@ -233,9 +236,9 @@ export const ItemPageComponent: AsyncComponent<ItemPageComponentProps> = async (
             <ItemTable
               query={{ model: 'content', mapToItem: 'contentItem', where: { containerItemId: item.id }}}
               extraColumns={[
-                extraColumn<'content'>({ id: 'item', select: { quantity: true, contentItem: { select: globalColumnDefinitions.item.select }}, title: 'Item (Qty)', component: ItemContentQuantityColumn as TODO, order: 21 }),
-                extraColumn<'content'>({ id: 'quantity', select: { quantity: true }, title: 'Quantity', component: ContentQuantityColumn as TODO, order: 71, small: true, orderBy: [{ quantity: 'asc' }, { quantity: 'desc' }] }),
-                extraColumn<'content'>({ id: 'chance', select: { chance: true }, title: 'Chance', component: ContentChanceColumn as TODO, order: 72, orderBy: [{ chance: 'asc' }, { chance: 'desc' }] })
+                extraColumn<'content'>({ id: 'item', select: { quantity: true, contentItem: { select: globalColumnDefinitions.item.select }}, title: `${t('itemTable.column.item')} (${t('container.quantity')})`, component: ItemContentQuantityColumn as TODO, order: 21 }),
+                extraColumn<'content'>({ id: 'quantity', select: { quantity: true }, title: t('container.quantity'), component: ContentQuantityColumn as TODO, order: 71, small: true, orderBy: [{ quantity: 'asc' }, { quantity: 'desc' }] }),
+                extraColumn<'content'>({ id: 'chance', select: { chance: true }, title: t('container.chance'), component: ContentChanceColumn as TODO, order: 72, orderBy: [{ chance: 'asc' }, { chance: 'desc' }] })
               ]}
               defaultColumns={['item', 'chance', 'level', 'rarity', 'type', 'vendorValue', 'sellPrice']}/>
           )}

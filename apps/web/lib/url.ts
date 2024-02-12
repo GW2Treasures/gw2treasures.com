@@ -1,4 +1,4 @@
-import { getLanguage } from '@/components/I18n/getTranslate';
+import { getLanguage } from '@/lib/translate';
 import { Language } from '@gw2treasures/database';
 import type { Metadata } from 'next';
 import { headers } from 'next/headers';

@@ -3,12 +3,12 @@ import styles from './Layout.module.css';
 import { Icon } from '@gw2treasures/ui';
 import Navigation from './Header/Navigation';
 import Link from 'next/link';
-import { Search, type SearchProps } from '../Search/Search';
+import { Search } from '../Search/Search';
 import { LinkButton } from '@gw2treasures/ui/components/Form/Button';
 import { ExternalLink } from '@gw2treasures/ui/components/Link/ExternalLink';
 import { LanguageDropdown } from './Header/LanguageDropdown';
 import { Menu } from './Header/Menu';
-import { getTranslate } from '../I18n/getTranslate';
+import { getTranslate, translateMany } from '@/lib/translate';
 import { ReviewCountBadge } from './Header/ReviewCountBadge';
 import { UserButton } from './Header/UserButton';
 
@@ -19,17 +19,17 @@ interface LayoutProps {
 const Layout: FC<LayoutProps> = ({ children }) => {
   const t = getTranslate();
 
-  const searchTranslations: SearchProps['translations'] = {
-    placeholder: t('search.placeholder'),
-    items: t('search.results.items'),
-    skills: t('search.results.skills'),
-    skins: t('search.results.skins'),
-    achievements: t('search.results.achievements'),
-    'achievements.categories': t('search.results.achievements.categories'),
-    'achievements.groups': t('search.results.achievements.groups'),
-    builds: t('search.results.builds'),
-    pages: t('search.results.pages'),
-  };
+  const searchTranslations = translateMany([
+    'search.placeholder',
+    'search.results.items',
+    'search.results.skills',
+    'search.results.skins',
+    'search.results.achievements',
+    'search.results.achievements.categories',
+    'search.results.achievements.groups',
+    'search.results.builds',
+    'search.results.pages'
+  ]);
 
   return (
     <div>

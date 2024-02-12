@@ -1,13 +1,15 @@
 import 'server-only';
 import type { Language } from '@gw2treasures/database';
 
-import de from '../../translations/de.json';
-import en from '../../translations/en.json';
-import es from '../../translations/es.json';
-import fr from '../../translations/fr.json';
+import de from '../translations/de.json';
+import en from '../translations/en.json';
+import es from '../translations/es.json';
+import fr from '../translations/fr.json';
 import { headers } from 'next/headers';
 
 export type TranslationId = keyof typeof en;
+
+export type TranslationSubset<T extends TranslationId> = Record<T, string>
 
 const dictionaryDe: Record<TranslationId, string> = { ...en, ...de };
 const dictionaryEs: Record<TranslationId, string> = { ...en, ...es };
@@ -32,10 +34,16 @@ export function getTranslate(language?: Language) {
   };
 }
 
-export function translate(language: Language, id: TranslationId) {
-  const messages = getDictionary(language);
+export function translate(id: TranslationId, language?: Language) {
+  const translate = getTranslate(language);
 
-  return messages[id] ?? '[Missing translation: ' + id + ']';
+  return translate(id);
+}
+
+export function translateMany<T extends TranslationId>(ids: T[], language?: Language): TranslationSubset<T> {
+  const translate = getTranslate(language);
+
+  return Object.fromEntries(ids.map((id) => [id, translate(id)])) as TranslationSubset<T>;
 }
 
 export function getLanguage() {

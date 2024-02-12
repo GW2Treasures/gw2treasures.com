@@ -45,6 +45,7 @@
   "itemTable.column.sellQuantity": "Sell Listings",
   "itemTable.column.icon": "Icon",
   "table.columns": "Columns",
+  "table.columns.reset": "Reset columns",
   "search.placeholder": "Search",
   "search.results.items": "Items",
   "search.results.skills": "Skills",
@@ -53,5 +54,7 @@
   "search.results.achievements.categories": "Achievement Categories",
   "search.results.achievements.groups": "Achievement Groups",
   "search.results.builds": "Builds",
-  "search.results.pages": "Pages"
+  "search.results.pages": "Pages",
+  "container.quantity": "Quantity",
+  "container.chance": "Chance"
 }

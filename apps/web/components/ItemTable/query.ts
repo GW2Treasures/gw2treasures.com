@@ -2,6 +2,7 @@ import { signingKey } from './signingKey';
 import type { ItemTableQuery } from './types';
 
 export interface Signed<T> {
+  /** @deprecated Don't access `data` directly. Use `verify` instead */
   data: T;
   signature: string;
 }

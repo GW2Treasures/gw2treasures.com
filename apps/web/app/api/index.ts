@@ -2,7 +2,7 @@ import { headers } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/prisma';
 import type { Language } from '@gw2treasures/database';
-import { getLanguage } from '@/components/I18n/getTranslate';
+import { getLanguage } from '@/lib/translate';
 
 export interface PublicApiErrorResponse {
   error: number;

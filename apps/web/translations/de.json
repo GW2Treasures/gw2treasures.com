@@ -26,5 +26,17 @@
   "search.results.achievements.categories": "Erfolgskategorien",
   "search.results.achievements.groups": "Erfolgsgruppen",
   "search.results.builds": "Builds",
-  "search.results.pages": "Seiten"
+  "search.results.pages": "Seiten",
+  "itemTable.column.item": "Gegenstand",
+  "itemTable.column.rarity": "Seltenheit",
+  "itemTable.column.type": "Typ",
+  "itemTable.column.vendorValue": "Händlerwert",
+  "itemTable.column.buyPrice": "Kaufpreis",
+  "itemTable.column.buyQuantity": "Nachfrage",
+  "itemTable.column.sellPrice": "Verkaufspreis",
+  "itemTable.column.sellQuantity": "Angebote",
+  "itemTable.column.icon": "Icon",
+  "table.columns": "Spalten",
+  "table.columns.reset": "Spalten zurücksetzen",
+  "container.quantity": "Anzahl"
 }

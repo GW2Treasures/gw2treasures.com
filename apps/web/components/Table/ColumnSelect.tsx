@@ -9,6 +9,6 @@ export interface ColumnSelectProps {
 
 export const ColumnSelect: FC<ColumnSelectProps> = ({ table: { ColumnSelection }, children }) => {
   return (
-    <ColumnSelection>{children ?? <Trans id="table.columns"/>}</ColumnSelection>
+    <ColumnSelection reset={<Trans id="table.columns.reset"/>}>{children ?? <Trans id="table.columns"/>}</ColumnSelection>
   );
 };

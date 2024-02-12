@@ -108,9 +108,10 @@ export const DataTableClientCell: FC<DataTableClientCellProps> = ({ children, co
 export interface DataTableClientColumnSelectionProps {
   id: string;
   children: ReactNode;
+  reset: ReactNode;
 }
 
-export const DataTableClientColumnSelection: FC<DataTableClientColumnSelectionProps> = ({ id, children }) => {
+export const DataTableClientColumnSelection: FC<DataTableClientColumnSelectionProps> = ({ id, children, reset }) => {
   const { columns, setColumns } = useContext(DataTableGlobalContext);
   const { currentAvailableColumns, currentColumns } = useCurrentColumns(id);
 
@@ -121,7 +122,7 @@ export const DataTableClientColumnSelection: FC<DataTableClientColumnSelectionPr
           <Checkbox key={column.id} checked={currentColumns.includes(column.id)} onChange={(checked) => setColumns(id, currentAvailableColumns.map(({ id }) => id).filter((id) => id === column.id ? checked : currentColumns.includes(id)))}>{column.title}</Checkbox>
         ))}
         <Separator/>
-        <Button appearance="menu" onClick={() => setColumns(id, undefined)} disabled={columns[id] === undefined}>Reset to default</Button>
+        <Button appearance="menu" onClick={() => setColumns(id, undefined)} disabled={columns[id] === undefined}>{reset}</Button>
       </MenuList>
     </DropDown>
   );

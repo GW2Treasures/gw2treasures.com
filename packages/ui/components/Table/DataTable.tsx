@@ -31,6 +31,7 @@ export interface DataTableDynamicColumnsProps<T> {
 
 export interface DataTableColumnSelectionProps {
   children: ReactNode;
+  reset: ReactNode;
 }
 
 export function createDataTable<T>(rows: T[], getRowKey: (row: T, index: number) => Key): {
@@ -48,8 +49,8 @@ export function createDataTable<T>(rows: T[], getRowKey: (row: T, index: number)
     throw new Error('Only use DataTable.DynamicColumns inside of DataTable.Table');
   };
 
-  const ColumnSelection: FC<DataTableColumnSelectionProps> = ({ children }) => {
-    return <DataTableClientColumnSelection id={datatableId}>{children}</DataTableClientColumnSelection>;
+  const ColumnSelection: FC<DataTableColumnSelectionProps> = ({ children, reset }) => {
+    return <DataTableClientColumnSelection id={datatableId} reset={reset}>{children}</DataTableClientColumnSelection>;
   };
 
   function isStaticColumn(child: ReactElement): child is ColumnReactElement<T> {

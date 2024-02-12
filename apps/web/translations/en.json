@@ -56,5 +56,16 @@
   "search.results.builds": "Builds",
   "search.results.pages": "Pages",
   "container.quantity": "Quantity",
-  "container.chance": "Chance"
+  "container.chance": "Chance",
+  "item.strength": "Strength",
+  "item.defense": "Defense",
+  "item.level": "Required Level",
+  "item.consume": "Double-click to consume.",
+  "item.selectStats": "Double-click to select stats.",
+  "item.flag.Unique": "Unique",
+  "item.flag.AccountBound": "Account Bound on Acquire",
+  "item.flag.SoulbindOnAcquire": "Soulbound on Acquire",
+  "item.flag.SoulBindOnUse": "Soulbound on Use",
+  "item.flag.NoSalvage": "Not salvagable",
+  "item.flag.NoSell": "Not sellable"
 }

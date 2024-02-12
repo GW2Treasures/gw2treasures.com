@@ -93,10 +93,10 @@ export async function createTooltip(item: Gw2Api.Item, language: Language): Prom
     name: item.name,
     icon,
     weaponStrength: item.type === 'Weapon'
-      ? { label: 'Strength', min: item.details?.min_power ?? 0, max: item.details?.max_power ?? 0 }
+      ? { label: t('item.strength'), min: item.details?.min_power ?? 0, max: item.details?.max_power ?? 0 }
       : undefined,
     defense: item.type === 'Armor'
-      ? { label: 'Defense', value: item.details?.defense ?? 0 }
+      ? { label: t('item.defense'), value: item.details?.defense ?? 0 }
       : undefined,
     attributes: item.details?.infix_upgrade?.attributes && item.details.infix_upgrade.attributes.length > 0
       ? item.details.infix_upgrade.attributes.map((({ attribute, modifier }) => ({ label: t(`attribute.${attribute}`), value: modifier })))
@@ -105,7 +105,7 @@ export async function createTooltip(item: Gw2Api.Item, language: Language): Prom
       ? format(item.details.infix_upgrade.buff.description)
       : undefined,
     consumable: item.type === 'Consumable' && item.details
-      ? { name: item.details.name, apply_count: item.details.apply_count, duration_ms: item.details.duration_ms, description: formatMarkup(item.details.description), icon: parseIcon(item.details.icon) }
+      ? { label: t('item.consume'), name: item.details.name, apply_count: item.details.apply_count, duration_ms: item.details.duration_ms, description: formatMarkup(item.details.description), icon: parseIcon(item.details.icon) }
       : undefined,
     bonuses: item.details?.bonuses?.map(format),
     upgrades: upgrades.length > 0 ? upgrades : undefined,
@@ -114,16 +114,16 @@ export async function createTooltip(item: Gw2Api.Item, language: Language): Prom
     rarity: { label: t(`rarity.${item.rarity}`), value: item.rarity },
     type: item.details?.type,
     weightClass: item.details?.weight_class,
-    level: item.level > 0 ? { label: 'Required Level', value: item.level } : undefined,
+    level: item.level > 0 ? { label: t('item.level'), value: item.level } : undefined,
     description: item.description ? format(item.description) : undefined,
     flags: [
-      item.details?.stat_choices && 'Double-click to select stats.',
-      item.flags.includes('Unique') && 'Unique',
-      item.flags.includes('AccountBound') && 'Account Bound on Acquire',
-      item.flags.includes('SoulbindOnAcquire') ? 'Soulbound on Acquire' :
-      item.flags.includes('SoulBindOnUse') && 'Soulbound on Use',
-      item.flags.includes('NoSalvage') && 'Not salvagable',
-      item.flags.includes('NoSell') && 'Not sellable'
+      item.details?.stat_choices && t('item.selectStats'),
+      item.flags.includes('Unique') && t('item.flag.Unique'),
+      item.flags.includes('AccountBound') && t('item.flag.AccountBound'),
+      item.flags.includes('SoulbindOnAcquire') ? t('item.flag.SoulbindOnAcquire') :
+      item.flags.includes('SoulBindOnUse') && t('item.flag.SoulBindOnUse'),
+      item.flags.includes('NoSalvage') && t('item.flag.NoSalvage'),
+      item.flags.includes('NoSell') && t('item.flag.NoSell'),
     ].filter(isTruthy),
     vendorValue: !item.flags.includes('NoSell') ? item.vendor_value : undefined,
   };
@@ -160,6 +160,7 @@ export interface ItemTooltip {
   attributes?: { label: string, value: number }[],
   buff?: string,
   consumable?: {
+    label: string,
     duration_ms?: number,
     apply_count?: number,
     name?: string,

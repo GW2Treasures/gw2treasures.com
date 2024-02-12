@@ -76,7 +76,7 @@ function renderConsumable(consumable: ItemTooltip['consumable']) {
 
   return (
     <>
-      <div className={styles.row}>Double-click to consume.</div>
+      <div className={styles.row}>{consumable.label}</div>
       {(consumable.name || consumable.duration_ms || consumable.icon || consumable.apply_count || consumable.description) && (
         <div className={styles.consumable}>
           {consumable.icon && <EntityIcon icon={consumable.icon} size={32}/>}

@@ -30,6 +30,7 @@
   "itemTable.column.item": "Gegenstand",
   "itemTable.column.rarity": "Seltenheit",
   "itemTable.column.type": "Typ",
+  "itemTable.column.level": "Stufe",
   "itemTable.column.vendorValue": "Händlerwert",
   "itemTable.column.buyPrice": "Kaufpreis",
   "itemTable.column.buyQuantity": "Nachfrage",
@@ -38,5 +39,16 @@
   "itemTable.column.icon": "Icon",
   "table.columns": "Spalten",
   "table.columns.reset": "Spalten zurücksetzen",
-  "container.quantity": "Anzahl"
+  "container.quantity": "Anzahl",
+  "item.strength": "Waffenstärke",
+  "item.defense": "Verteidigung",
+  "item.level": "Erforderliche Stufe",
+  "item.consume": "Zum Benutzen doppelklicken.",
+  "item.selectStats": "Doppelklicken, um Werte auszuwählen.",
+  "item.flag.Unique": "Einzigartig",
+  "item.flag.AccountBound": "Accountgebunden bei Erhalt",
+  "item.flag.SoulbindOnAcquire": "Seelengebunden bei Erhalt",
+  "item.flag.SoulBindOnUse": "Seelengebunden bei Benutzung",
+  "item.flag.NoSalvage": "Nicht wiederverwertbar",
+  "item.flag.NoSell": "Unverkäuflich"
 }

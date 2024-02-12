@@ -11,7 +11,6 @@ import type { WithIcon } from '@/lib/with';
 import { localizedName, type LocalizedEntity } from '@/lib/localizedName';
 import { db } from '@/lib/prisma';
 import { parseIcon } from '@/lib/parseIcon';
-import type { RGB } from '../Color/types';
 
 export interface ItemTooltipProps {
   item: Gw2Api.Item;
@@ -78,7 +77,7 @@ export async function createTooltip(item: Gw2Api.Item, language: Language): Prom
     buff: (!item.details?.infix_upgrade?.attributes || item.details.infix_upgrade.attributes.length === 0) && item.details?.infix_upgrade?.buff?.description ? format(item.details.infix_upgrade.buff.description) : undefined,
     consumable: item.type === 'Consumable' ? { name: item.details?.name, apply_count: item.details?.apply_count, duration_ms: item.details?.duration_ms, description: item.details?.description ? format(item.details.description) : undefined, icon: parseIcon(item.details?.icon) } : undefined,
     bonuses: item.details?.bonuses?.map(format),
-    upgrades,
+    upgrades: upgrades.length > 0 ? upgrades : undefined,
     infusions: item.details?.infusion_slots?.map((infusion) => {
       const item = infusion.item_id && infusions.find(({ id }) => id === Number(infusion.item_id));
       const isEnrichment = infusion.flags?.[0] === 'Enrichment';

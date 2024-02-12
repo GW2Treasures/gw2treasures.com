@@ -80,6 +80,10 @@ const ChartInternal: FC<ChartProps & { width: number, height: number }> = ({ dat
     const tooltipData: { itemId: number, entry: TradingPostHistory }[] = [];
 
     for(const item of items) {
+      if(!historyByItem[item.id]?.length) {
+        continue;
+      }
+
       const index = bisectDate(historyByItem[item.id], x0, 1);
       const d0 = historyByItem[item.id][index - 1];
       const d1 = historyByItem[item.id][index];
@@ -149,8 +153,6 @@ const ChartInternal: FC<ChartProps & { width: number, height: number }> = ({ dat
       {tooltipOpen && tooltipData && (
         <>
           <Tooltip
-            // set this to random so it correctly updates with parent bounds
-            key={Math.random()}
             top={yMax + margin.top - 4}
             left={(tooltipLeft ?? 0) + 8}
             applyPositionStyle
@@ -160,8 +162,6 @@ const ChartInternal: FC<ChartProps & { width: number, height: number }> = ({ dat
             <FormatDate date={tooltipData?.[0].entry.time}/>
           </Tooltip>
           <TooltipWithBounds
-            // set this to random so it correctly updates with parent bounds
-            key={Math.random()}
             top={tooltipTop}
             left={(tooltipLeft ?? 0)}
             offsetLeft={16}

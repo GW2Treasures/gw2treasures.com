@@ -9,6 +9,8 @@ import { headers } from 'next/headers';
 
 export type TranslationId = keyof typeof en;
 
+export type TranslationSubset<T extends TranslationId> = Record<T, string>
+
 const dictionaryDe: Record<TranslationId, string> = { ...en, ...de };
 const dictionaryEs: Record<TranslationId, string> = { ...en, ...es };
 const dictionaryFr: Record<TranslationId, string> = { ...en, ...fr };
@@ -33,9 +35,15 @@ export function getTranslate(language?: Language) {
 }
 
 export function translate(language: Language, id: TranslationId) {
-  const messages = getDictionary(language);
+  const translate = getTranslate(language);
 
-  return messages[id] ?? '[Missing translation: ' + id + ']';
+  return translate(id);
+}
+
+export function translateMany<T extends TranslationId>(ids: T[], language?: Language): TranslationSubset<T> {
+  const translate = getTranslate(language);
+
+  return Object.fromEntries(ids.map((id) => [id, translate(id)])) as TranslationSubset<T>;
 }
 
 export function getLanguage() {

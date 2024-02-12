@@ -122,6 +122,8 @@ export const Search: FC<SearchProps> = ({ translations }) => {
                 const currentIndex = index++;
                 const render = result.render ?? ((link: ReactElement) => link);
 
+                const isExternal = result.href.startsWith('http');
+
                 return render(
                   <Link
                     tabIndex={-1}
@@ -129,7 +131,8 @@ export const Search: FC<SearchProps> = ({ translations }) => {
                     key={result.href}
                     className={activeIndex === currentIndex ? styles.resultActive : styles.result}
                     id={result.href}
-                    target={result.href.startsWith('http') ? '_blank' : undefined}
+                    target={isExternal ? '_blank' : undefined}
+                    rel={isExternal ? 'noreferrer noopener' : undefined}
                     ref={(node) => listRef.current[currentIndex] = node}
                     {...getItemProps({
                       onClick: (e) => !e.defaultPrevented && setOpen(false)
@@ -144,7 +147,7 @@ export const Search: FC<SearchProps> = ({ translations }) => {
                         {result.subtitle}
                       </div>
                     )}
-                    {result.href.startsWith('http') && <span className={styles.external}><Icon icon="external"/></span>}
+                    {isExternal && <span className={styles.external}><Icon icon="external"/></span>}
                   </Link>
                 );
               })}

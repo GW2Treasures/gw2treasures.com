@@ -20,7 +20,7 @@ export const SkinsMigrate: Job = {
         select: { id: true }
       })).map(({ id }) => id);
 
-      queueJobForIds('skins.migrate', idsToUpdate, 1);
+      queueJobForIds('skins.migrate', idsToUpdate, { priority: 1 });
       return `Queued migration for ${idsToUpdate.length} skins`;
     }
 

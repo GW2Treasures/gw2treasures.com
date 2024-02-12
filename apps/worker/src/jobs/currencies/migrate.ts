@@ -21,7 +21,7 @@ export const CurrenciesMigrate: Job = {
         select: { id: true }
       })).map(toId);
 
-      queueJobForIds('currencies.migrate', idsToUpdate, 1);
+      queueJobForIds('currencies.migrate', idsToUpdate, { priority: 1 });
       return `Queued migration for ${idsToUpdate.length} currencies`;
     }
 

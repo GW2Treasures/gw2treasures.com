@@ -31,7 +31,7 @@ export const CurrenciesUpdate: Job = {
         select: { id: true }
       })).map(({ id }) => id);
 
-      await queueJobForIds('currencies.update', idsToUpdate, 1);
+      await queueJobForIds('currencies.update', idsToUpdate, { priority: 1 });
       return `Queued update for ${idsToUpdate.length} currencies (Build ${build.id})`;
     }
 

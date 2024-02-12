@@ -20,7 +20,7 @@ export const SkillsMigrate: Job = {
         select: { id: true }
       })).map(({ id }) => id);
 
-      queueJobForIds('skills.migrate', idsToUpdate, 1);
+      queueJobForIds('skills.migrate', idsToUpdate, { priority: 1 });
       return `Queued migration for ${idsToUpdate.length} skills`;
     }
 

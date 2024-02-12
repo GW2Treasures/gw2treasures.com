@@ -8,7 +8,6 @@ import { SkillLink } from '@/components/Skill/SkillLink';
 import { ItemLink } from '@/components/Item/ItemLink';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import type { AsyncComponent } from '@/lib/asyncComponent';
 import { type FC, Suspense } from 'react';
 import { SkeletonLink } from '@/components/Link/SkeletonLink';
 import { linkProperties } from '@/lib/linkProperties';
@@ -116,7 +115,7 @@ const Fallback: FC<{ headline: string, id: string }> = ({ headline, id }) => {
   );
 };
 
-const UpdatedItems: AsyncComponent<{ itemsPromise: ReturnType<typeof getUpdatedItems> }> = async function({ itemsPromise }) {
+const UpdatedItems: FC<{ itemsPromise: ReturnType<typeof getUpdatedItems> }> = async function({ itemsPromise }) {
   const itemRevisions = await itemsPromise;
 
   return (
@@ -131,7 +130,7 @@ const UpdatedItems: AsyncComponent<{ itemsPromise: ReturnType<typeof getUpdatedI
   );
 };
 
-const UpdatedSkills: AsyncComponent<{ skillsPromise: ReturnType<typeof getUpdatedSkills> }> = async function({ skillsPromise }) {
+const UpdatedSkills: FC<{ skillsPromise: ReturnType<typeof getUpdatedSkills> }> = async function({ skillsPromise }) {
   const skills = await skillsPromise;
 
   return (

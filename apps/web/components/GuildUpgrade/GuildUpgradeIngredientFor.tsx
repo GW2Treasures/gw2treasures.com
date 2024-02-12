@@ -1,9 +1,9 @@
 import { RecipeTable } from '../Recipe/RecipeTable';
 import { db } from '@/lib/prisma';
-import type { AsyncComponent } from '@/lib/asyncComponent';
 import 'server-only';
 import { linkProperties, linkPropertiesWithoutRarity } from '@/lib/linkProperties';
 import { cache } from '@/lib/cache';
+import type { FC } from 'react';
 
 const getIngredientForGuildUpgrade = cache(async (guildUpgradeId: number) => {
   const recipes = await db.recipe.findMany({
@@ -30,7 +30,7 @@ interface GuildUpgradeIngredientForProps {
   guildUpgradeId: number;
 };
 
-export const GuildUpgradeIngredientFor: AsyncComponent<GuildUpgradeIngredientForProps> = async ({ guildUpgradeId }) => {
+export const GuildUpgradeIngredientFor: FC<GuildUpgradeIngredientForProps> = async ({ guildUpgradeId }) => {
   const recipes = await getIngredientForGuildUpgrade(guildUpgradeId);
 
   return (

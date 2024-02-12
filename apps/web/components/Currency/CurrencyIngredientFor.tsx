@@ -1,9 +1,9 @@
 import { RecipeTable } from '../Recipe/RecipeTable';
 import { db } from '@/lib/prisma';
-import type { AsyncComponent } from '@/lib/asyncComponent';
 import 'server-only';
 import { linkProperties, linkPropertiesWithoutRarity } from '@/lib/linkProperties';
 import { cache } from '@/lib/cache';
+import type { FC } from 'react';
 
 const getIngredientForCurrency = cache(async (currencyId: number) => {
   const recipes = await db.recipe.findMany({
@@ -30,7 +30,7 @@ interface CurrencyIngredientForProps {
   currencyId: number;
 };
 
-export const CurrencyIngredientFor: AsyncComponent<CurrencyIngredientForProps> = async ({ currencyId }) => {
+export const CurrencyIngredientFor: FC<CurrencyIngredientForProps> = async ({ currencyId }) => {
   const recipes = await getIngredientForCurrency(currencyId);
 
   return (

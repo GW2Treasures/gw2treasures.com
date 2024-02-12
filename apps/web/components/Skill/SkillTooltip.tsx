@@ -1,6 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
 import type { Gw2Api } from 'gw2-api-types';
-import type { AsyncComponent } from '@/lib/asyncComponent';
 import type { Language } from '@gw2treasures/database';
 import { ClientSkillTooltip } from './SkillTooltip.client';
 import type { FC } from 'react';
@@ -14,7 +13,7 @@ export interface SkillTooltipProps {
   hideTitle?: boolean;
 }
 
-export const SkillTooltip: AsyncComponent<SkillTooltipProps> = async ({ skill, language, hideTitle }) => {
+export const SkillTooltip: FC<SkillTooltipProps> = async ({ skill, language, hideTitle }) => {
   const tooltip = await createTooltip(skill, language);
 
   return (

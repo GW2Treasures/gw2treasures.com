@@ -12,8 +12,8 @@ import { Icon, type IconName } from '@gw2treasures/ui';
 import { AchievementPoints } from '../Achievement/AchievementPoints';
 import { SkillLinkTooltip } from '../Skill/SkillLinkTooltip';
 
-export interface SearchResults {
-  id: string;
+export interface SearchResults<Id extends string> {
+  id: Id;
   results: SearchResult[];
   loading: boolean;
 }
@@ -26,7 +26,7 @@ export interface SearchResult {
   render?: (link: ReactElement) => ReactNode;
 }
 
-export function useSearchApiResults(searchValue: string): SearchResults[] {
+export function useSearchApiResults(searchValue: string) {
   const fetchResponse = useJsonFetch<ApiSearchResponse>(`/api/search?q=${encodeURIComponent(searchValue)}`);
   const response = useStaleJsonResponse(fetchResponse);
   const language = useLanguage();
@@ -87,14 +87,16 @@ export function useSearchApiResults(searchValue: string): SearchResults[] {
     href: `/build/${build.id}`,
   }));
 
+  const results = <Id extends string>(id: Id, results: SearchResult[]): SearchResults<Id> => ({ id, results, loading: fetchResponse.loading });
+
   return [
-    { id: 'items', results: items, loading: fetchResponse.loading },
-    { id: 'skills', results: skills, loading: fetchResponse.loading },
-    { id: 'skins', results: skins, loading: fetchResponse.loading },
-    { id: 'achievements', results: achievements, loading: fetchResponse.loading },
-    { id: 'achievements.categories', results: categories, loading: fetchResponse.loading },
-    { id: 'achievements.groups', results: groups, loading: fetchResponse.loading },
-    { id: 'builds', results: builds, loading: fetchResponse.loading },
+    results('items', items),
+    results('skills', skills),
+    results('skins', skins),
+    results('achievements', achievements),
+    results('achievements.categories', categories),
+    results('achievements.groups', groups),
+    results('builds', builds),
   ];
 }
 
@@ -135,7 +137,7 @@ const pages: Page[] = [
   { href: '/achievement/uncategorized', title: 'Uncategorized Achievements', icon: 'achievement' },
 ];
 
-export function usePageResults(searchValue: string): SearchResults {
+export function usePageResults(searchValue: string): SearchResults<'pages'> {
   const results = pages
     .filter(({ title }) => title.toLowerCase().includes(searchValue.toLowerCase()))
     .filter((_, index) => index < 5)

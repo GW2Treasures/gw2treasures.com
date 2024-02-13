@@ -9,10 +9,13 @@ export interface HeroLayoutProps {
   hero: ReactNode;
   color?: CSSProperties['--hero-color'];
   toc?: boolean;
+  skipPreload?: boolean;
 }
 
-export const HeroLayout: FC<HeroLayoutProps> = ({ children, hero, color, toc }) => {
-  preload(heroMask.src, { as: 'image' });
+export const HeroLayout: FC<HeroLayoutProps> = ({ children, hero, color, toc, skipPreload }) => {
+  if(!skipPreload) {
+    preload(heroMask.src, { as: 'image' });
+  }
 
   return (
     <div style={{ '--hero-color': color ?? '#b7000d' }}>

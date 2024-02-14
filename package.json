@@ -20,6 +20,6 @@
   },
   "devDependencies": {
     "eslint-formatter-gha": "1.4.3",
-    "turbo": "1.12.3"
+    "turbo": "1.12.4"
   }
 }

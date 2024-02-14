@@ -3,6 +3,7 @@
 }
 
 .content {
+  white-space: normal;
   text-decoration: underline 2px;
   text-underline-offset: 2px;
   text-decoration-color: transparent;
@@ -16,4 +17,8 @@
 
 .link:focus-visible {
   outline-color: var(--color-focus);
+}
+
+.icon {
+  white-space: nowrap;
 }

@@ -14,7 +14,7 @@
     "@floating-ui/react": "0.26.9",
     "@floating-ui/react-dom": "2.0.8",
     "@formatjs/intl-localematcher": "0.5.4",
-    "@gw2me/client": "0.2.1",
+    "@gw2me/client": "0.2.2",
     "@gw2treasures/database": "*",
     "@gw2treasures/eslint-plugin-nextjs": "*",
     "@gw2treasures/helper": "*",

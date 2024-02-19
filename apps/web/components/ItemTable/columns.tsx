@@ -110,7 +110,7 @@ export const globalColumnDefinitions = {
     order: 140,
     select: { sellPrice: true, tpCheckedAt: true, tpTradeable: true },
     align: 'right',
-    orderBy: [{ sellPrice: { sort: 'asc', nulls: 'first' }}, { sellPrice: { sort: 'asc', nulls: 'last' }}]
+    orderBy: [{ sellPrice: { sort: 'asc', nulls: 'first' }}, { sellPrice: { sort: 'desc', nulls: 'last' }}]
   }),
   sellQuantity: createColumn({
     id: 'sellQuantity',

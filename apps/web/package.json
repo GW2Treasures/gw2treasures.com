@@ -54,7 +54,7 @@
     "@types/negotiator": "0.6.3",
     "@types/node": "20.11.19",
     "@types/react": "18.2.56",
-    "@typescript-eslint/eslint-plugin": "7.0.1",
+    "@typescript-eslint/eslint-plugin": "7.0.2",
     "eslint": "8.56.0",
     "eslint-config-next": "14.1.0",
     "gw2-api-types": "0.0.8",

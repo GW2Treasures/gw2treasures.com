@@ -11,10 +11,10 @@
   "main": "./lib/index.js",
   "types": "./src/index.d.ts",
   "dependencies": {
-    "@prisma/client": "5.10.0"
+    "@prisma/client": "5.10.1"
   },
   "devDependencies": {
     "@gw2treasures/tsconfig": "*",
-    "prisma": "5.10.0"
+    "prisma": "5.10.1"
   }
 }

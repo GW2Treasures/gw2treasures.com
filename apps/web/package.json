@@ -36,7 +36,7 @@
     "client-only": "0.0.1",
     "d3-array": "3.2.4",
     "deepmerge": "4.3.1",
-    "gw2-tooltip-html": "0.0.4",
+    "gw2-tooltip-html": "0.0.6",
     "gw2e-chat-codes": "1.4.2",
     "hast-util-to-jsx-runtime": "2.3.0",
     "isbot": "5.1.0",

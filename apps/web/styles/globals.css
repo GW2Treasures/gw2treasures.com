@@ -56,3 +56,13 @@ a:where(:any-link:hover) {
 .color-format--reminder {
   color: var(--color-text-muted);
 }
+
+.color-format--flavor {
+  color: #327d9b;
+}
+
+@media (prefers-color-scheme: dark) {
+  .color-format--flavor {
+    color: #3ab3c0;
+  }
+}

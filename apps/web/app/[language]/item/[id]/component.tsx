@@ -48,6 +48,7 @@ import { AstralAcclaim } from '@/components/Format/AstralAcclaim';
 import { Breadcrumb, BreadcrumbItem } from '@/components/Breadcrumb/Breadcrumb';
 import { Trans } from '@/components/I18n/Trans';
 import { MysticForgeRecipeBox } from '@/components/Recipe/MysticForgeRecipeBox';
+import { MysticForgeRecipeTable } from '@/components/Recipe/MysticForgeRecipeTable';
 
 export interface ItemPageComponentProps {
   language: Language;
@@ -245,15 +246,8 @@ export const ItemPageComponent: FC<ItemPageComponentProps> = async ({ language, 
         </Suspense>
       )}
 
-      {item.mysticForgeIngredient.length > 0 && (
-        <>
-          <Headline id="mystic-forge">Used in Mystic Forge</Headline>
-          <RecipeBoxWrapper>
-            {item.mysticForgeIngredient.map(({ Recipe }) => (
-              <MysticForgeRecipeBox key={Recipe.id} recipe={Recipe} outputItem={Recipe.outputItem}/>
-            ))}
-          </RecipeBoxWrapper>
-        </>
+      {item._count.mysticForgeIngredient > 0 && (
+        <MysticForgeRecipeTable ingredientItemId={item.id}/>
       )}
 
       {!fixedRevision && showContents && (

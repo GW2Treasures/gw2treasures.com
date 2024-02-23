@@ -42,13 +42,12 @@ import { GuildUpgradeLink } from '@/components/GuildUpgrade/GuildUpgradeLink';
 import { TradingPostHistory } from './trading-post-history';
 import { parseIcon } from '@/lib/parseIcon';
 import { getTranslate } from '@/lib/translate';
-import { db } from '@/lib/prisma';
 import { ItemLink } from '@/components/Item/ItemLink';
 import { OutputCount } from '@/components/Item/OutputCount';
-import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { AstralAcclaim } from '@/components/Format/AstralAcclaim';
 import { Breadcrumb, BreadcrumbItem } from '@/components/Breadcrumb/Breadcrumb';
 import { Trans } from '@/components/I18n/Trans';
+import { MysticForgeRecipeBox } from '@/components/Recipe/MysticForgeRecipeBox';
 
 export interface ItemPageComponentProps {
   language: Language;
@@ -181,12 +180,15 @@ export const ItemPageComponent: FC<ItemPageComponentProps> = async ({ language, 
         </>
       )}
 
-      {item.recipeOutput && item.recipeOutput.length > 0 && (
+      {(item.recipeOutput.length > 0 || item.mysticForgeRecipeOutput.length > 0) && (
         <>
           <Headline id="crafted-from">Crafted From</Headline>
           <RecipeBoxWrapper>
             {item.recipeOutput.map((recipe) => (
               <RecipeBox key={recipe.id} recipe={recipe} outputItem={item}/>
+            ))}
+            {item.mysticForgeRecipeOutput.map((recipe) => (
+              <MysticForgeRecipeBox key={recipe.id} recipe={recipe} outputItem={item}/>
             ))}
           </RecipeBoxWrapper>
         </>
@@ -234,13 +236,24 @@ export const ItemPageComponent: FC<ItemPageComponentProps> = async ({ language, 
       {item._count.ingredient > 0 && (
         <Suspense fallback={(
           <>
-            <Headline id="crafting">Used in crafting</Headline>
+            <Headline id="crafting">Used in Crafting</Headline>
             <SkeletonTable columns={['Output', 'Rating', 'Disciplines', 'Ingredients']} rows={item._count.ingredient}/>
           </>
         )}
         >
           <ItemIngredientFor itemId={item.id}/>
         </Suspense>
+      )}
+
+      {item.mysticForgeIngredient.length > 0 && (
+        <>
+          <Headline id="mystic-forge">Used in Mystic Forge</Headline>
+          <RecipeBoxWrapper>
+            {item.mysticForgeIngredient.map(({ Recipe }) => (
+              <MysticForgeRecipeBox key={Recipe.id} recipe={Recipe} outputItem={Recipe.outputItem}/>
+            ))}
+          </RecipeBoxWrapper>
+        </>
       )}
 
       {!fixedRevision && showContents && (

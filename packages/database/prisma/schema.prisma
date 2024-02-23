@@ -48,6 +48,10 @@ model Item {
   unlocksRecipe    Recipe[]         @relation(name: "unlocks_recipe")
   unlocksRecipeIds Int[]
 
+  // mystic forge recipes
+  mysticForgeRecipeOutput MysticForgeRecipe[]         @relation("mystic_forge_output")
+  mysticForgeIngredient   MysticForgeIngredientItem[] @relation("mystic_forge_ingredient")
+
   // achievements
   achievementRewards Achievement[] @relation(name: "rewards_item")
   achievementBits    Achievement[] @relation(name: "bits_item")
@@ -372,6 +376,36 @@ model IngredientGuildUpgrade {
   GuildUpgrade GuildUpgrade @relation(fields: [guildUpgradeId], references: [id], onDelete: Cascade)
 
   @@id([recipeId, guildUpgradeId])
+}
+
+model MysticForgeRecipe {
+  id String @id @default(uuid())
+
+  outputCountMin Int
+  outputCountMax Int
+
+  outputItemId    Int?
+  outputItem      Item? @relation("mystic_forge_output", fields: [outputItemId], references: [id])
+  outputItemIdRaw Int?
+
+  itemIngredients MysticForgeIngredientItem[]
+
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  version Int @default(0)
+}
+
+model MysticForgeIngredientItem {
+  id String @id @default(uuid())
+
+  mysticForgeRecipeId String
+  itemId              Int
+
+  count Int
+
+  Recipe MysticForgeRecipe @relation(fields: [mysticForgeRecipeId], references: [id], onDelete: Cascade)
+  Item   Item              @relation("mystic_forge_ingredient", fields: [itemId], references: [id], onDelete: Cascade)
 }
 
 model Achievement {

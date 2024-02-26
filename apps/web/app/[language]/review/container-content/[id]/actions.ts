@@ -4,7 +4,7 @@ import { getUser } from '@/lib/getUser';
 import { db } from '@/lib/prisma';
 import { ReviewState } from '@gw2treasures/database';
 import { redirect } from 'next/navigation';
-import { getRandomContainerContentReviewId } from '../random';
+import { getRandomReviewId } from '../../random';
 import type { EditContentOrder } from 'app/[language]/item/[id]/_edit-content/types';
 import { revalidateTag } from 'next/cache';
 
@@ -54,7 +54,7 @@ export async function approve(data: FormData) {
 
   revalidateTag('open-reviews');
 
-  const nextId = await getRandomContainerContentReviewId();
+  const nextId = await getRandomReviewId('ContainerContent');
 
   redirect(nextId ? `/review/container-content/${nextId}` : '/review');
 }
@@ -70,7 +70,7 @@ export async function reject(data: FormData) {
 
   revalidateTag('open-reviews');
 
-  const nextId = await getRandomContainerContentReviewId();
+  const nextId = await getRandomReviewId('ContainerContent');
 
   redirect(nextId ? `/review/container-content/${nextId}` : '/review');
 }

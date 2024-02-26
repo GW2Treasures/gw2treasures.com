@@ -99,7 +99,7 @@ export const EditContents: FC<EditContentsProps> = ({ itemId, contents, currency
           canSubmitState.reason === 'PENDING_REVIEW' ? (
             canSubmitState.ownReview
               ? (<p>You must wait for your <Link href={`/review/container-content/${canSubmitState.reviewId}`}>suggested change</Link> to be reviewed before you can submit another change.</p>)
-              : (<p>There is already a suggested changes for this item. You can <Link href={`/review/container-content/${canSubmitState.reviewId}`}>review the change now</Link>.</p>)
+              : (<p>There is already a suggested change for this item. You can <Link href={`/review/container-content/${canSubmitState.reviewId}`}>review the change now</Link>.</p>)
           ) :
           (<p>Unknown error</p>)
         ) : (

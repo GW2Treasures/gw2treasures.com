@@ -34,6 +34,10 @@ export default async function ReviewPage() {
             <td><Link prefetch={false} href="/review/container-content">Container Content</Link></td>
             <td><FormatNumber value={queues.ContainerContent ?? 0}/></td>
           </tr>
+          <tr>
+            <td><Link prefetch={false} href="/review/mystic-forge">Mystic Forge</Link></td>
+            <td><FormatNumber value={queues.MysticForge ?? 0}/></td>
+          </tr>
         </tbody>
       </Table>
     </HeroLayout>

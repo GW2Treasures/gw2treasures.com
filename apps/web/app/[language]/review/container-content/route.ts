@@ -1,8 +1,9 @@
 import { redirect } from 'next/navigation';
-import { getRandomContainerContentReviewId } from './random';
+import { getRandomReviewId } from '../random';
+import { ReviewQueue } from '@gw2treasures/database';
 
 export async function GET(): Promise<never> {
-  const id = await getRandomContainerContentReviewId();
+  const id = await getRandomReviewId(ReviewQueue.ContainerContent);
 
   if(!id) {
     redirect('/review');

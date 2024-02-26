@@ -1,8 +1,8 @@
 import { db } from '@/lib/prisma';
-import { Prisma } from '@gw2treasures/database';
+import { Prisma, ReviewQueue } from '@gw2treasures/database';
 
-export async function getRandomContainerContentReviewId(): Promise<string | undefined> {
-  const where: Prisma.ReviewWhereInput = { queue: 'ContainerContent', state: 'Open' };
+export async function getRandomReviewId(queue: ReviewQueue): Promise<string | undefined> {
+  const where: Prisma.ReviewWhereInput = { queue, state: 'Open' };
   const count = await db.review.count({ where });
 
   if(count === 0) {

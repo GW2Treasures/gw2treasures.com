@@ -3,7 +3,7 @@ import { EditMysticForge } from 'app/[language]/item/[id]/edit-mystic-forge/Edit
 import type { EditMysticForgePageProps } from 'app/[language]/item/[id]/edit-mystic-forge/page';
 
 
-export default function({ params, searchParams }: EditMysticForgePageProps) {
+export default function EditMysticForgePage({ params, searchParams }: EditMysticForgePageProps) {
   const outputItemId = Number(params.id);
 
   return (
@@ -11,4 +11,8 @@ export default function({ params, searchParams }: EditMysticForgePageProps) {
       <EditMysticForge outputItemId={outputItemId} recipeId={searchParams.recipe}/>
     </Modal>
   );
+};
+
+export const metadata = {
+  title: 'Edit Mystic Forge'
 };

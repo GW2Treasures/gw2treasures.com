@@ -18,9 +18,12 @@ export default function EditMysticForgePage({ params, searchParams }: EditMystic
 
   return (
     <PageLayout>
-      <Headline id="mf">Edit MF</Headline>
+      <Headline id="mf">{searchParams.recipe ? 'Edit Mystic Forge Recipe' : 'Add Mystic Forge Recipe'}</Headline>
       <EditMysticForge outputItemId={outputItemId} recipeId={searchParams.recipe}/>
     </PageLayout>
   );
 }
 
+export const metadata = {
+  title: 'Edit Mystic Forge'
+};

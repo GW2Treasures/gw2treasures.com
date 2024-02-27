@@ -1,7 +1,5 @@
 import 'server-only';
 import { type FC, Suspense } from 'react';
-
-// @ts-expect-error
 import { Fragment, jsx, jsxs } from 'react/jsx-runtime';
 import { createStarryNight, common } from '@wooorm/starry-night';
 import { toJsxRuntime } from 'hast-util-to-jsx-runtime';

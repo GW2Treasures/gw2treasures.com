@@ -22,6 +22,7 @@ export const getItem = cache((id: number, language: Language) => {
       achievementRewards: { select: linkPropertiesWithoutRarity, orderBy: { id: 'asc' }},
       contains: { include: { contentItem: { select: { ...linkProperties, vendorValue: true, level: true, type: true, subtype: true }}}},
       containsCurrency: { include: { currency: { select: linkPropertiesWithoutRarity }}},
+      wizardsVaultListings: true,
       _count: {
         select: { ingredient: true, suffixIn: true, contains: true, containedIn: true }
       }

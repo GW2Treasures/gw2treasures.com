@@ -1,7 +1,5 @@
 import 'server-only';
 import { type FC, Suspense } from 'react';
-
-// @ts-expect-error
 import { Fragment, jsx, jsxs } from 'react/jsx-runtime';
 import { createStarryNight, common } from '@wooorm/starry-night';
 import { toJsxRuntime } from 'hast-util-to-jsx-runtime';
@@ -32,6 +30,7 @@ const HighlightAsync: FC<HighlightProps> = async ({ code, language }) => {
   }
 
   const tree = starryNight.highlight(code, scope);
+  // @ts-expect-error
   const reactNode = toJsxRuntime(tree, { Fragment, jsx, jsxs });
 
   return reactNode;

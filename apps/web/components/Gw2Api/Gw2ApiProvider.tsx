@@ -2,7 +2,6 @@
 
 import { type FC, type ReactNode, useCallback, useMemo, useRef, useState } from 'react';
 import { Gw2ApiContext } from './Gw2ApiContext';
-import type { SessionUser } from '@/lib/getUser';
 import { fetchAccounts } from './fetch-accounts-action';
 import { ErrorCode, type Gw2Account } from './types';
 import styles from './Gw2ApiProvider.module.css';
@@ -57,7 +56,7 @@ export const Gw2ApiProvider: FC<Gw2ApiProviderProps> = ({ children }) => {
     setDismissed(true);
   }, []);
 
-  const value = useMemo(() => ({ getAccounts }), [getAccounts]);
+  const value = useMemo(() => ({ getAccounts, error }), [getAccounts, error]);
 
   return (
     <Gw2ApiContext.Provider value={value}>

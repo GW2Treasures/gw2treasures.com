@@ -46,6 +46,7 @@ import { db } from '@/lib/prisma';
 import { ItemLink } from '@/components/Item/ItemLink';
 import { OutputCount } from '@/components/Item/OutputCount';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
+import { AstralAcclaim } from '@/components/Format/AstralAcclaim';
 
 export interface ItemPageComponentProps {
   language: Language;
@@ -70,8 +71,6 @@ export const ItemPageComponent: FC<ItemPageComponentProps> = async ({ language, 
   if(!item || !revision || !data) {
     notFound();
   }
-
-  const astralAcclaim = item.wizardsVaultListings.length > 0 ? await db.currency.findUnique({ where: { id: 63 }, select: linkPropertiesWithoutRarity }) : undefined;
 
   const fixedRevision = revisionId !== undefined;
 
@@ -202,7 +201,7 @@ export const ItemPageComponent: FC<ItemPageComponentProps> = async ({ language, 
                 <tr key={listing.id}>
                   <td><OutputCount count={listing.count}><ItemLink item={item}/></OutputCount></td>
                   <td>{listing.type}</td>
-                  <td><FlexRow align="right">{listing.cost} <CurrencyLink currency={astralAcclaim!}/></FlexRow></td>
+                  <td align="right"><AstralAcclaim value={listing.cost}/></td>
                 </tr>
               ))}
             </tbody>

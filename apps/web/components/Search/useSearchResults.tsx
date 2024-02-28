@@ -115,6 +115,7 @@ const pages: Page[] = [
 
   { href: '/item', title: 'Items', icon: 'item' },
   { href: '/achievement', title: 'Achievements', icon: 'achievement' },
+  { href: '/wizards-vault', title: 'Wizard\'s Vault', icon: 'wizardsvault' },
   { href: '/skin', title: 'Skins', icon: 'skin' },
   { href: '/profession', title: 'Professions', icon: 'profession' },
   { href: '/specialization', title: 'Specializations', icon: 'specialization' },

@@ -11,8 +11,9 @@ const nextConfig = {
         'es.gw2treasures.localhost:3000', 
         'fr.gw2treasures.localhost:3000'
       ] : undefined
-    }
+    },
   },
+  redirects: () => [{ source: '/wizardsvault', destination: '/wizards-vault', permanent: true }],
   transpilePackages: ['@gw2treasures/ui'],
   reactStrictMode: true,
   output: 'standalone',

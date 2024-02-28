@@ -12,7 +12,7 @@ const Navigation: FC<NavigationProps> = () => {
     <ul className={styles.navigation}>
       <li className={styles.item}><LinkButton appearance="menu" href="/item" icon="item"><Trans id="navigation.items"/></LinkButton></li>
       <li className={styles.item}><LinkButton appearance="menu" href="/achievement" icon="achievement"><Trans id="navigation.achievements"/></LinkButton></li>
-      <li className={styles.item}><LinkButton appearance="menu" href="/wizardsvault" icon="wizardsvault"><Trans id="navigation.wizardsVault"/><span className={styles.new}>new</span></LinkButton></li>
+      <li className={styles.item}><LinkButton appearance="menu" href="/wizards-vault" icon="wizardsvault"><Trans id="navigation.wizardsVault"/><span className={styles.new}>new</span></LinkButton></li>
       <li className={styles.item}><LinkButton appearance="menu" href="/skin" icon="skin"><Trans id="navigation.skins"/></LinkButton></li>
       <li className={styles.item}><LinkButton appearance="menu" href="/profession" icon="profession"><Trans id="navigation.professions"/></LinkButton></li>
       <li className={styles.item}><LinkButton appearance="menu" href="/specialization" icon="specialization"><Trans id="navigation.specializations"/></LinkButton></li>

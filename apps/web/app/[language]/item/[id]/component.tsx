@@ -17,7 +17,7 @@ import { ItemIngredientFor } from '@/components/Item/ItemIngredientFor';
 import { notFound } from 'next/navigation';
 import { Suspense, type FC } from 'react';
 import { SkeletonTable } from '@/components/Skeleton/SkeletonTable';
-import { getLinkProperties } from '@/lib/linkProperties';
+import { getLinkProperties, linkPropertiesWithoutRarity } from '@/lib/linkProperties';
 import { AchievementLink } from '@/components/Achievement/AchievementLink';
 import { Tooltip } from '@/components/Tooltip/Tooltip';
 import { ItemLinkTooltip } from '@/components/Item/ItemLinkTooltip';
@@ -42,6 +42,10 @@ import { GuildUpgradeLink } from '@/components/GuildUpgrade/GuildUpgradeLink';
 import { TradingPostHistory } from './trading-post-history';
 import { parseIcon } from '@/lib/parseIcon';
 import { getTranslate } from '@/lib/translate';
+import { db } from '@/lib/prisma';
+import { ItemLink } from '@/components/Item/ItemLink';
+import { OutputCount } from '@/components/Item/OutputCount';
+import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 
 export interface ItemPageComponentProps {
   language: Language;
@@ -66,6 +70,8 @@ export const ItemPageComponent: FC<ItemPageComponentProps> = async ({ language, 
   if(!item || !revision || !data) {
     notFound();
   }
+
+  const astralAcclaim = item.wizardsVaultListings.length > 0 ? await db.currency.findUnique({ where: { id: 63 }, select: linkPropertiesWithoutRarity }) : undefined;
 
   const fixedRevision = revisionId !== undefined;
 
@@ -176,6 +182,30 @@ export const ItemPageComponent: FC<ItemPageComponentProps> = async ({ language, 
               <RecipeBox key={recipe.id} recipe={recipe} outputItem={item}/>
             ))}
           </RecipeBoxWrapper>
+        </>
+      )}
+
+      {item.wizardsVaultListings.length > 0 && (
+        <>
+          <Headline id="wizardsvault">Wizard&apos;s Vault</Headline>
+          <Table>
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Type</th>
+                <th>Cost</th>
+              </tr>
+            </thead>
+            <tbody>
+              {item.wizardsVaultListings.map((listing) => (
+                <tr key={listing.id}>
+                  <td><OutputCount count={listing.count}><ItemLink item={item}/></OutputCount></td>
+                  <td>{listing.type}</td>
+                  <td><FlexRow>{listing.cost} <CurrencyLink currency={astralAcclaim!}/></FlexRow></td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
         </>
       )}
 

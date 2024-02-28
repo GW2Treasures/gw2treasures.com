@@ -1,6 +1,6 @@
 import { Gw2Api } from 'gw2-api-types';
 import { fetchApi } from './fetchApi';
-import { groupEntitiesById } from './groupById';
+import { groupLocalizedEntitiesById } from './groupById';
 
 export async function loadSkills(ids: number[]) {
   const start = new Date();
@@ -14,7 +14,7 @@ export async function loadSkills(ids: number[]) {
 
   console.log(`Fetched ${ids.length} skills in ${(new Date().valueOf() - start.valueOf()) / 1000}s`);
 
-  return groupEntitiesById(de, en, es, fr);
+  return groupLocalizedEntitiesById(de, en, es, fr);
 }
 
 function normalizeSkill(skill: Gw2Api.Skill): Gw2Api.Skill {

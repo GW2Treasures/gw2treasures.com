@@ -1,5 +1,5 @@
 import { randomUUID } from 'crypto';
-import { InputData, processLocalizedEntities } from './process-entitites';
+import { InputDataLocalized, processLocalizedEntities } from './process-entitites';
 import { LocalizedObject } from './types';
 import { Build, Prisma, Revision } from '@gw2treasures/database';
 import { db } from '../../db';
@@ -47,8 +47,8 @@ const TestDbEntityBase: TestDbEntity = {
 async function testProcessLocalizedEntities(
   dbEntity: Partial<TestDbEntity> | undefined, apiEntity: object | undefined
 ): Promise<
-  | { create: InputData<number, { testId_revisionId: { testId: string, revisionId: string }}>, update: never }
-  | { update: InputData<number, { testId_revisionId: { testId: string, revisionId: string }}>, create: never }
+  | { create: InputDataLocalized<number, { testId_revisionId: { testId: string, revisionId: string }}>, update: never }
+  | { update: InputDataLocalized<number, { testId_revisionId: { testId: string, revisionId: string }}>, create: never }
   | undefined
 >{
   let data = undefined;
@@ -110,4 +110,6 @@ describe('process-entities', () => {
     const data = await testProcessLocalizedEntities({ version: 0 }, {});
     expect(data?.update).toMatchObject({ currentId_en: TestDbEntityBase.current_en.id, version: 1 });
   });
+
+  // TODO: add tests for processEntities (not localized)
 });

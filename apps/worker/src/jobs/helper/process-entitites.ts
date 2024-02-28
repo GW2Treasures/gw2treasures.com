@@ -95,10 +95,22 @@ export interface ProcessEntitiesData<Id extends string | number> {
 
 type GetEntitiesArgs<Id> = {
   where: { id: { in: Id[] }},
+  include: { current: true },
+};
+
+type GetLocalizedEntitiesArgs<Id> = {
+  where: { id: { in: Id[] }},
   include: { current_de: true, current_en: true, current_es: true, current_fr: true },
 };
 
 type DbEntityBase<Id extends string | number> = {
+  id: Id,
+  current: Revision,
+  removedFromApi: boolean,
+  version: number,
+}
+
+type DbLocalizedEntityBase<Id extends string | number> = {
   id: Id,
   current_de: Revision,
   current_en: Revision,
@@ -112,12 +124,36 @@ type CreateInput<Id, HistoryId, ExtraData> = {
   data: InputData<Id, HistoryId> & ExtraData,
 }
 
+type CreateInputLocalized<Id, HistoryId, ExtraData> = {
+  data: InputDataLocalized<Id, HistoryId> & ExtraData,
+}
+
 type UpdateInput<Id, HistoryId, ExtraData> = {
   where: { id: Id },
   data: Partial<InputData<Id, HistoryId> & ExtraData> | { lastCheckedAt: Date },
 }
 
+type UpdateInputLocalized<Id, HistoryId, ExtraData> = {
+  where: { id: Id },
+  data: Partial<InputDataLocalized<Id, HistoryId> & ExtraData> | { lastCheckedAt: Date },
+}
+
 export type InputData<Id, HistoryId> = {
+  id: Id,
+  currentId: string,
+
+  history: {
+    connectOrCreate: [
+      { where: HistoryId, create: { revisionId: string }}
+    ]
+  },
+
+  lastCheckedAt: Date,
+  removedFromApi: boolean,
+  version: number,
+};
+
+export type InputDataLocalized<Id, HistoryId> = {
   id: Id,
   currentId_de: string,
   currentId_en: string,
@@ -146,15 +182,15 @@ export enum Changes {
   None,
 }
 
-export async function processLocalizedEntities<Id extends string | number, DbEntity extends DbEntityBase<Id>, ApiEntity extends { id: Id }, HistoryId, ExtraData>(
+export async function processLocalizedEntities<Id extends string | number, DbEntity extends DbLocalizedEntityBase<Id>, ApiEntity extends { id: Id }, HistoryId, ExtraData>(
   data: ProcessEntitiesData<Id>,
   entityName: string,
   createHistoryId: (id: Id, revisionId: string) => HistoryId,
   migrate: (entity: LocalizedObject<ApiEntity>, version: number, changes: Changes) => ExtraData | Promise<ExtraData>,
-  getEntitiesFromDb: (args: GetEntitiesArgs<Id>) => Promise<DbEntity[]>,
+  getEntitiesFromDb: (args: GetLocalizedEntitiesArgs<Id>) => Promise<DbEntity[]>,
   getEntitiesFromApi: (ids: Id[]) => Promise<Map<Id, LocalizedObject<ApiEntity>>>,
-  create: (tx: PrismaTransaction, data: CreateInput<Id, HistoryId, ExtraData>) => Promise<unknown>,
-  update: (tx: PrismaTransaction, data: UpdateInput<Id, HistoryId, ExtraData>) => Promise<unknown>,
+  create: (tx: PrismaTransaction, data: CreateInputLocalized<Id, HistoryId, ExtraData>) => Promise<unknown>,
+  update: (tx: PrismaTransaction, data: UpdateInputLocalized<Id, HistoryId, ExtraData>) => Promise<unknown>,
   currentVersion: number,
 ) {
   // get the current build
@@ -218,7 +254,7 @@ export async function processLocalizedEntities<Id extends string | number, DbEnt
         migrationVersionChanged ? Changes.Migrate :
         Changes.None;
 
-      const data: InputData<Id, HistoryId> & ExtraData = {
+      const data: InputDataLocalized<Id, HistoryId> & ExtraData = {
         id,
 
         ...await migrate(apiData ?? dbData!, migrationVersion, changes),
@@ -234,6 +270,101 @@ export async function processLocalizedEntities<Id extends string | number, DbEnt
             { where: createHistoryId(id, revision_en.id), create: { revisionId: revision_en.id }},
             { where: createHistoryId(id, revision_es.id), create: { revisionId: revision_es.id }},
             { where: createHistoryId(id, revision_fr.id), create: { revisionId: revision_fr.id }},
+          ]
+        },
+
+        lastCheckedAt: new Date(),
+        removedFromApi: !apiData,
+        version: currentVersion,
+      };
+
+      // update in db
+      if(changes === Changes.New) {
+        await create(tx, { data });
+      } else {
+        await update(tx, { where: { id }, data });
+      }
+
+      processedEntityCount++;
+    });
+  }
+
+  return `Updated ${processedEntityCount}/${data.ids.length}`;
+}
+
+// TODO: refactor processEntities and processLocalizedEntities to share more code
+export async function processEntities<Id extends string | number, DbEntity extends DbEntityBase<Id>, ApiEntity extends { id: Id }, HistoryId, ExtraData>(
+  data: ProcessEntitiesData<Id>,
+  entityName: string,
+  createHistoryId: (id: Id, revisionId: string) => HistoryId,
+  migrate: (entity: ApiEntity, version: number, changes: Changes) => ExtraData | Promise<ExtraData>,
+  getEntitiesFromDb: (args: GetEntitiesArgs<Id>) => Promise<DbEntity[]>,
+  getEntitiesFromApi: (ids: Id[]) => Promise<Map<Id, ApiEntity>>,
+  create: (tx: PrismaTransaction, data: CreateInput<Id, HistoryId, ExtraData>) => Promise<unknown>,
+  update: (tx: PrismaTransaction, data: UpdateInput<Id, HistoryId, ExtraData>) => Promise<unknown>,
+  currentVersion: number,
+) {
+  // get the current build
+  const build = await getCurrentBuild();
+  const buildId = build.id;
+
+  // load the current ids from the db
+  const dbEntities = await createEntityMap(getEntitiesFromDb({
+    where: { id: { in: data.ids }},
+    include: { current: true }
+  }));
+
+  // fetch latest from api
+  // if we are currently handling removed ids we can skip the api call
+  const apiEntities = data.removed ? undefined : await getEntitiesFromApi(data.ids);
+
+  let processedEntityCount = 0;
+
+  // iterate over all ids
+  for(const id of data.ids) {
+    await db.$transaction(async (tx) => {
+      // get the db and api entry
+      const dbEntity = dbEntities.get(id);
+      const apiData = apiEntities?.get(id);
+
+      // parse known data
+      const dbData: undefined | ApiEntity = dbEntity ? JSON.parse(dbEntity.current.data) : undefined;
+
+      // create revision
+      const revision = await createRevision(tx, dbData, apiData, dbEntity?.removedFromApi, { buildId, entity: entityName, language: 'en', previousRevisionId: dbEntity?.current.id ?? null }) ?? dbEntity!.current;
+
+      // check if nothing changed
+      const revisionsChanged = !dbEntity || revision !== dbEntity.current;
+
+      // check if the db has an old migration version
+      const migrationVersionChanged = dbEntity?.version != currentVersion;
+
+      // if nothing changed and we also don't have to migrate anything we can early return
+      if(!revisionsChanged && !migrationVersionChanged) {
+        await update(tx, { where: { id }, data: { lastCheckedAt: new Date() }});
+        return;
+      }
+
+      // always run all migrations if a revision changed, otherwise run only required migrations
+      const migrationVersion = revisionsChanged ? -1 : dbEntity.version;
+
+      const changes =
+        !dbData ? Changes.New :
+        !apiData ? Changes.Remove :
+        revisionsChanged ? Changes.Update :
+        migrationVersionChanged ? Changes.Migrate :
+        Changes.None;
+
+      const data: InputData<Id, HistoryId> & ExtraData = {
+        id,
+
+        ...await migrate(apiData ?? dbData!, migrationVersion, changes),
+
+        currentId: revision.id,
+
+        history: {
+          connectOrCreate: [
+            { where: createHistoryId(id, revision.id), create: { revisionId: revision.id }}
           ]
         },
 

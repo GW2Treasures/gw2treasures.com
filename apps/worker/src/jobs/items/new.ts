@@ -26,6 +26,7 @@ export const ItemsNew: Job = {
       const achievementReward = await db.achievement.findMany({ where: { rewardsItemIds: { has: id }}, select: { id: true }});
       const suffixIn = await db.item.findMany({ where: { suffixItemIds: { has: id }}, select: { id: true }});
       const recipeOutput = await db.recipe.findMany({ where: { outputItemIdRaw: id }, select: { id: true }});
+      const wizardsVaultListing = await db.wizardsVaultListing.findMany({ where: { itemIdRaw: id }, select: { id: true }});
       // TODO: recipe ingredients
 
       await db.item.create({
@@ -50,7 +51,8 @@ export const ItemsNew: Job = {
           achievementBits: { connect: achievementBit },
           achievementRewards: { connect: achievementReward },
           suffixIn: { connect: suffixIn },
-          recipeOutput: { connect: recipeOutput }
+          recipeOutput: { connect: recipeOutput },
+          wizardsVaultListings: { connect: wizardsVaultListing },
         }
       });
     }

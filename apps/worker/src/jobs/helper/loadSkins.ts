@@ -1,6 +1,6 @@
 import { Gw2Api } from 'gw2-api-types';
 import { fetchApi } from './fetchApi';
-import { groupEntitiesById } from './groupById';
+import { groupLocalizedEntitiesById } from './groupById';
 
 export async function loadSkins(ids: number[]) {
   const start = new Date();
@@ -14,5 +14,5 @@ export async function loadSkins(ids: number[]) {
 
   console.log(`Fetched ${ids.length} skins in ${(new Date().valueOf() - start.valueOf()) / 1000}s`);
 
-  return groupEntitiesById(de, en, es, fr);
+  return groupLocalizedEntitiesById(de, en, es, fr);
 }

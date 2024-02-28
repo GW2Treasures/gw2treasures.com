@@ -1,6 +1,6 @@
 import { Gw2Api } from 'gw2-api-types';
 import { fetchApi } from './fetchApi';
-import { groupEntitiesById } from './groupById';
+import { groupLocalizedEntitiesById } from './groupById';
 
 export async function loadAchievements(ids: number[]) {
   const start = new Date();
@@ -14,7 +14,7 @@ export async function loadAchievements(ids: number[]) {
 
   console.log(`Fetched ${ids.length} achievements in ${(new Date().valueOf() - start.valueOf()) / 1000}s`);
 
-  return groupEntitiesById(de, en, es, fr);
+  return groupLocalizedEntitiesById(de, en, es, fr);
 }
 
 export async function loadAchievementCategories() {
@@ -29,7 +29,7 @@ export async function loadAchievementCategories() {
 
   console.log(`Fetched ${en.length} achievement categories in ${(new Date().valueOf() - start.valueOf()) / 1000}s`);
 
-  return groupEntitiesById(de, en, es, fr);
+  return groupLocalizedEntitiesById(de, en, es, fr);
 }
 
 export async function loadAchievementGroups() {
@@ -44,6 +44,6 @@ export async function loadAchievementGroups() {
 
   console.log(`Fetched ${en.length} achievement groups in ${(new Date().valueOf() - start.valueOf()) / 1000}s`);
 
-  return groupEntitiesById(de, en, es, fr);
+  return groupLocalizedEntitiesById(de, en, es, fr);
 }
 

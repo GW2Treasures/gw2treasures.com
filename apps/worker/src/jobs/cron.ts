@@ -47,6 +47,7 @@ export async function registerCronJobs() {
 
   await registerJob('colors', '*/5 * * * *');
   await registerJob('guild-upgrades', '*/5 * * * *');
+  await registerJob('wizardsvault.listings', '*/5 * * * *');
 
   await registerJob('tp', '* * * * *');
 

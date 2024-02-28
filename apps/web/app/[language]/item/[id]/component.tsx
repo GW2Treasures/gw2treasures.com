@@ -188,12 +188,13 @@ export const ItemPageComponent: FC<ItemPageComponentProps> = async ({ language, 
       {item.wizardsVaultListings.length > 0 && (
         <>
           <Headline id="wizardsvault">Wizard&apos;s Vault</Headline>
+          <p>This item is available in the <Link href="/wizardsvault">Wizard&apos;s Vault</Link>.</p>
           <Table>
             <thead>
               <tr>
                 <th>Item</th>
                 <th>Type</th>
-                <th>Cost</th>
+                <th align="right">Cost</th>
               </tr>
             </thead>
             <tbody>
@@ -201,7 +202,7 @@ export const ItemPageComponent: FC<ItemPageComponentProps> = async ({ language, 
                 <tr key={listing.id}>
                   <td><OutputCount count={listing.count}><ItemLink item={item}/></OutputCount></td>
                   <td>{listing.type}</td>
-                  <td><FlexRow>{listing.cost} <CurrencyLink currency={astralAcclaim!}/></FlexRow></td>
+                  <td><FlexRow align="right">{listing.cost} <CurrencyLink currency={astralAcclaim!}/></FlexRow></td>
                 </tr>
               ))}
             </tbody>

@@ -71,6 +71,9 @@ model Item {
   unlocksGuildUpgrade    GuildUpgrade[]  @relation("unlocks_guild_upgrade")
   unlocksGuildUpgradeIds Int[]
 
+  // wizardsvault
+  wizardsVaultListings WizardsVaultListing[] @relation("wizardsvault_listing")
+
   // review queue
   reviews Review[] @relation("itemReview")
 
@@ -654,6 +657,10 @@ model Revision {
   currentGuildUpgrade_es GuildUpgrade? @relation("current_es")
   currentGuildUpgrade_fr GuildUpgrade? @relation("current_fr")
   guildUpgradeHistory GuildUpgradeHistory[]
+
+  // wizardsvault
+  currentWizardsVaultListing WizardsVaultListing? @relation("current")
+  wizardsVaultListingHistory WizardsVaultListingHistory[]
 }
 
 enum RevisionType {
@@ -863,6 +870,48 @@ model GuildUpgradeHistory {
   revision Revision @relation(fields: [revisionId], references: [id], onDelete: Cascade)
 
   @@id([guildUpgradeId, revisionId])
+}
+
+model WizardsVaultListing {
+  id Int @id
+
+  itemId    Int?
+  item      Item? @relation("wizardsvault_listing", fields: [itemId], references: [id], onDelete: SetNull)
+  itemIdRaw Int
+
+  count Int
+  type  WizardsVaultListingType
+  cost  Int
+
+  removedFromApi Boolean @default(false)
+  
+  current Revision @relation("current", fields: [currentId], references: [id], onDelete: Cascade)
+  currentId String @unique
+
+  history WizardsVaultListingHistory[]
+  
+  lastCheckedAt  DateTime   @default(now())
+
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  version Int @default(0)
+}
+
+model WizardsVaultListingHistory {
+  wizardsVaultListingId Int
+  revisionId String
+
+  guildUpgrade WizardsVaultListing @relation(fields: [wizardsVaultListingId], references: [id], onDelete: Cascade)
+  revision     Revision @relation(fields: [revisionId], references: [id], onDelete: Cascade)
+
+  @@id([wizardsVaultListingId, revisionId])
+}
+
+enum WizardsVaultListingType {
+  Normal
+  Featured
+  Legacy
 }
 
 model Job {

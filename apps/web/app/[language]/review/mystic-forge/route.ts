@@ -6,11 +6,11 @@ import type { NextRequest } from 'next/server';
 export async function GET(request: NextRequest): Promise<never> {
   const skip = request.nextUrl.searchParams.get('skip') || undefined;
 
-  const id = await getRandomReviewId(ReviewQueue.ContainerContent, skip);
+  const id = await getRandomReviewId(ReviewQueue.MysticForge, skip);
 
   if(!id) {
     redirect('/review');
   }
 
-  redirect(`/review/container-content/${id}`);
+  redirect(`/review/mystic-forge/${id}`);
 }

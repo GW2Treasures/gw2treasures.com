@@ -15,7 +15,18 @@ export interface SubmitEditMysticForgeRequest {
     itemId: number | undefined,
     count: number | undefined,
   } | undefined)[]
-}
+};
+
+export interface SubmitEditMysticForgeOrder extends SubmitEditMysticForgeRequest {
+  recipeId?: string,
+  outputItemId: number,
+  outputCountMin: number,
+  outputCountMax: number,
+  ingredients: {
+    itemId: number,
+    count: number,
+  }[]
+};
 
 export async function submitEditMysticForge(_: unknown, data: SubmitEditMysticForgeRequest): Promise<{ error: string, success?: never } | { error?: never, success: true }> {
   const user = await getUser();

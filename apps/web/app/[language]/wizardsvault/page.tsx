@@ -8,6 +8,8 @@ import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
 import { WizardVaultObjectives } from './objectives';
+import { ErrorBoundary } from 'react-error-boundary';
+import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 
 export default async function WizardsVaultPage() {
   const listings = await db.wizardsVaultListing.findMany({ include: { item: { select: linkProperties }}, orderBy: { type: 'asc' }});
@@ -18,7 +20,10 @@ export default async function WizardsVaultPage() {
   return (
     <HeroLayout hero={<Headline id="wizardsvault">Wizard&apos;s Vault</Headline>} color="#ff9800">
       <Headline id="objectives">Objectives</Headline>
-      <WizardVaultObjectives/>
+      <Notice>Wizard&apos;s Vault objective display is still experimental and may contain bugs.</Notice>
+      <ErrorBoundary fallback={<Notice type="error">Unknown error</Notice>}>
+        <WizardVaultObjectives/>
+      </ErrorBoundary>
 
       <Headline id="rewards">Rewards</Headline>
       <Listings.Table>

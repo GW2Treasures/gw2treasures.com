@@ -386,7 +386,6 @@ model MysticForgeRecipe {
 
   outputItemId    Int?
   outputItem      Item? @relation("mystic_forge_output", fields: [outputItemId], references: [id])
-  outputItemIdRaw Int?
 
   itemIngredients MysticForgeIngredientItem[]
 

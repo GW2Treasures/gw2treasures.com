@@ -882,6 +882,7 @@ model WizardsVaultListing {
   count Int
   type  WizardsVaultListingType
   cost  Int
+  limit Int?
 
   removedFromApi Boolean @default(false)
   

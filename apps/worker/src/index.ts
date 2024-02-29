@@ -1,4 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import { config } from 'dotenv';
+config({ path: ['.env.local', '.env'] });
+
 import { registerCronJobs } from './jobs/cron';
 import { worker } from './worker';
 import { healthServer } from './health-server';

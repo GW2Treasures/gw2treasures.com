@@ -43,7 +43,7 @@ export const WizardVaultObjectives: FC<WizardVaultObjectivesProps> = ({}) => {
 
   if(!user.user) {
     return (
-      <p><Link href="/login">Login</Link> to see your personal Wizard&apos; Vault objectives.</p>
+      <p><Link href="/login">Login</Link> to see your personal Wizard&apos;s Vault objectives.</p>
     );
   }
 

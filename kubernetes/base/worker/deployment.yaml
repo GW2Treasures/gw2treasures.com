@@ -37,6 +37,12 @@ spec:
             configMapKeyRef:
               name: next
               key: db
+        - name: WORKER_GW2_API_KEY
+          valueFrom:
+            configMapKeyRef:
+              name: worker
+              key: gw2-api-key
+              optional: true
         - name: HEALTH_PORT
           value: "9090"
         ports:

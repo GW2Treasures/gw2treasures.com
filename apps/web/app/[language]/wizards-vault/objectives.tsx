@@ -80,9 +80,9 @@ export const WizardVaultObjectives: FC<WizardVaultObjectivesProps> = ({}) => {
           {accounts.map((account) => (
             <tr key={account.account.id}>
               <td>{account.account.name}</td>
-              <td align="right">{account.daily ? <>{account.daily.meta_reward_claimed && <Tip tip="Reward claimed"><Icon icon="checkmark"/></Tip>} {account.daily.meta_progress_current} / {account.daily.meta_progress_complete}</> : 0 }</td>
-              <td align="right">{account.weekly ? <>{account.weekly.meta_reward_claimed && <Tip tip="Reward claimed"><Icon icon="checkmark"/></Tip>} {account.weekly.meta_progress_current} / {account.weekly.meta_progress_complete}</> : 0 }</td>
-              <td align="right">{account.special ? <>{account.special.objectives.filter(({ claimed }) => claimed).length} / {account.special.objectives.length}</> : 0}</td>
+              <td align="right">{account.daily ? <>{account.daily.meta_reward_claimed && <Tip tip="Reward claimed"><Icon icon="checkmark"/></Tip>} {account.daily.meta_progress_current} / {account.daily.meta_progress_complete}</> : <Tip tip="Account has not logged in since last reset."><span>0 / ?</span></Tip> }</td>
+              <td align="right">{account.weekly ? <>{account.weekly.meta_reward_claimed && <Tip tip="Reward claimed"><Icon icon="checkmark"/></Tip>} {account.weekly.meta_progress_current} / {account.weekly.meta_progress_complete}</> : <Tip tip="Account has not logged in since last reset."><span>0 / ?</span></Tip> }</td>
+              <td align="right">{account.special ? <>{account.special.objectives.filter(({ claimed }) => claimed).length} / {account.special.objectives.length}</> : <Tip tip="Account has not logged in since last reset."><span>0 / ?</span></Tip>}</td>
               {/* <td>{account.acclaim}</td> */}
             </tr>
           ))}
@@ -98,7 +98,7 @@ export const WizardVaultObjectives: FC<WizardVaultObjectivesProps> = ({}) => {
       {accounts.map((account) => (
         <Fragment key={account.account.id}>
           <Headline id={account.account.id}>{account.account.name}</Headline>
-          {!account.lastModifedToday && <Notice>This account has not logged since the last reset. Not all objectives can be shown and special objectives may be outdated.</Notice>}
+          {!account.lastModifedToday && <Notice>This account has not logged in since the last reset. Not all objectives can be shown and special objectives may be outdated.</Notice>}
 
           <Table>
             <thead>

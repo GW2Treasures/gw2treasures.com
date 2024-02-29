@@ -20,7 +20,7 @@ interface SkinsAppearanceProps {
   offset?: number
 }
 
-const batchSize = 2500;
+const batchSize = 1500;
 
 export const SkinsAppearance: Job = {
   run: async ({ offset = undefined }: SkinsAppearanceProps) => {

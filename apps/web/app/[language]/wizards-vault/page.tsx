@@ -18,7 +18,6 @@ export default async function WizardsVaultPage() {
 
   return (
     <HeroLayout hero={<Headline id="wizardsvault" actions={<ResetTimer/>}>Wizard&apos;s Vault</Headline>} color="#ff9800" toc>
-      <Notice>Wizard&apos;s Vault objectives are still experimental.</Notice>
       <Headline id="objectives">Objectives</Headline>
       <ErrorBoundary fallback={<Notice type="error">Unknown error</Notice>}>
         <WizardVaultObjectives/>

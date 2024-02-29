@@ -4,7 +4,7 @@
     "prisma": "prisma generate",
     "prebuild": "npm run clean && npm run types",
     "build": "npm run ncc",
-    "dev": ". ./.env && node dist/index.js",
+    "dev": "node dist/index.js",
     "lint": "eslint src",
     "ncc": "ncc build src/index.ts --out dist --target es2023 --external sharp",
     "postncc": "mv dist/client/* dist/ && rm -r dist/client",
@@ -17,6 +17,7 @@
     "@gw2treasures/helper": "*",
     "chalk": "5.3.0",
     "cron-parser": "4.9.0",
+    "dotenv": "^16.4.5",
     "fast-average-color-node": "3.0.0",
     "gw2e-chat-codes": "1.4.2"
   },

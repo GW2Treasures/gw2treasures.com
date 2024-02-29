@@ -27,6 +27,7 @@ export default async function WizardsVaultPage() {
       <Listings.Table>
         <Listings.Column id="item" title="Item">{({ item, itemIdRaw, count }) => <OutputCount count={count}>{item ? <ItemLink item={item}/> : `Unknown item ${itemIdRaw}`}</OutputCount>}</Listings.Column>
         <Listings.Column id="type" title="Type" sortBy="type">{({ type }) => type}</Listings.Column>
+        <Listings.Column id="limit" title="Purchase Limit" sortBy="limit" align="right">{({ limit }) => limit}</Listings.Column>
         <Listings.Column id="cost" title="Cost" align="right" sortBy="cost">{({ cost }) => <AstralAcclaim value={cost}/>}</Listings.Column>
       </Listings.Table>
     </HeroLayout>

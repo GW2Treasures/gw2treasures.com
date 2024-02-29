@@ -193,6 +193,7 @@ export const ItemPageComponent: FC<ItemPageComponentProps> = async ({ language, 
               <tr>
                 <th>Item</th>
                 <th>Type</th>
+                <th align="right">Purchase Limit</th>
                 <th align="right">Cost</th>
               </tr>
             </thead>
@@ -201,6 +202,7 @@ export const ItemPageComponent: FC<ItemPageComponentProps> = async ({ language, 
                 <tr key={listing.id}>
                   <td><OutputCount count={listing.count}><ItemLink item={item}/></OutputCount></td>
                   <td>{listing.type}</td>
+                  <td align="right">{listing.limit}</td>
                   <td align="right"><AstralAcclaim value={listing.cost}/></td>
                 </tr>
               ))}

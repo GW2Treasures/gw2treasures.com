@@ -10,9 +10,13 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import { AstralAcclaim } from '@/components/Format/AstralAcclaim';
 import { ResetTimer } from '../achievement/(index)/reset-timer';
+import { pageView } from '@/lib/pageView';
 
 export default async function WizardsVaultPage() {
-  const listings = await db.wizardsVaultListing.findMany({ include: { item: { select: linkProperties }}, orderBy: { type: 'asc' }});
+  const [listings] = await Promise.all([
+    db.wizardsVaultListing.findMany({ include: { item: { select: linkProperties }}, orderBy: { type: 'asc' }}),
+    pageView('wizards-vault')
+  ]);
 
   const Listings = createDataTable(listings, ({ id }) => id);
 

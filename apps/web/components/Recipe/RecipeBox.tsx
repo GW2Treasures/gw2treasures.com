@@ -8,7 +8,7 @@ import { type Discipline, DisciplineIcon } from './DisciplineIcon';
 import { Ingredients } from './Ingredients';
 import styles from './RecipeBox.module.css';
 import { ShowMore } from '../ShowMore/ShowMore';
-import { ResetTimer } from 'app/[language]/achievement/(index)/reset-timer';
+import { ResetTimer } from '../Reset/ResetTimer';
 import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 import { OutputCount } from '../Item/OutputCount';
 import { RecipeDropdown } from './RecipeDropdown';
@@ -46,7 +46,7 @@ export const RecipeBox: FC<RecipeBoxProps> = ({ recipe, outputItem }) => {
         <Icon icon="time"/>
       </div>
       {recipe.type === 'RefinementEctoplasm' && (
-        <Tip tip={<ResetTimer/>}>
+        <Tip tip={<span>Reset: <ResetTimer/></span>}>
           <div className={styles.info}>
             <Icon icon="revision"/> Can only be crafted once per day.
           </div>

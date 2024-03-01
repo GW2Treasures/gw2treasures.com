@@ -1,7 +1,7 @@
 import { db } from '@/lib/prisma';
-import type { Prisma } from '@gw2treasures/database';
+import type { Prisma, Rarity } from '@gw2treasures/database';
 import { decode } from 'gw2e-chat-codes';
-import { isTruthy } from '@gw2treasures/helper/is';
+import { isDefined, isTruthy } from '@gw2treasures/helper/is';
 import { cache } from '@/lib/cache';
 
 type ChatCode = Exclude<ReturnType<typeof decode>, false>;
@@ -86,7 +86,17 @@ export const searchAchievements = cache(async (terms: string[]) => {
   return { achievements, achievementCategories, achievementGroups };
 }, ['search', 'search-achievements'], { revalidate: 60 });
 
-export const searchItems = cache((terms: string[], chatCodes: ChatCode[]) => {
+export type ItemFilters = {
+  iconId?: number | null,
+  rarity?: Rarity,
+  type?: string,
+  subtype?: string | null,
+  weight?: string | null,
+  vendorValue?: number | null,
+  level?: number,
+}
+
+export const searchItems = cache((terms: string[], chatCodes: ChatCode[], filter?: ItemFilters) => {
   const nameQueries = nameQuery(terms);
 
   const itemChatCodes = chatCodes.filter(isChatCodeWithType('item'));
@@ -97,15 +107,20 @@ export const searchItems = cache((terms: string[], chatCodes: ChatCode[]) => {
 
   const numberTerms = terms.map(toNumber).filter(isTruthy);
 
-  return db.item.findMany({
-    where: terms.length + chatCodes.length > 0 ? {
+  const where = [
+    filter,
+    terms.length + chatCodes.length > 0 ? {
       OR: [
         ...nameQueries,
         { id: { in: [...itemIdsInChatCodes, ...numberTerms] }},
         { recipeOutput: { some: { id: { in: recipeIdsInChatCodes }}}},
         { unlocksRecipeIds: { hasSome: recipeIdsInChatCodes }},
       ]
-    } : undefined,
+    } : undefined
+  ].filter(isDefined);
+
+  return db.item.findMany({
+    where: { AND: where },
     take: 5,
     include: { icon: true },
     orderBy: { views: 'desc' }

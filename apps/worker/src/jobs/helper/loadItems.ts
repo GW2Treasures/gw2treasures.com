@@ -26,6 +26,10 @@ function normalizeItem(item: Gw2Api.Item): Gw2Api.Item {
   if(item.upgrades_from !== undefined) {
     item.upgrades_from = item.upgrades_from?.sort((a, b) => a.item_id - b.item_id);
   }
+  // remove `"secondary_suffix_item_id": ""`
+  if('secondary_suffix_item_id' in item && item.secondary_suffix_item_id === '') {
+    delete item.secondary_suffix_item_id;
+  }
 
   return item;
 }

@@ -9,7 +9,6 @@ import { WizardVaultObjectives } from './objectives';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import { AstralAcclaim } from '@/components/Format/AstralAcclaim';
-import { ResetTimer } from '../achievement/(index)/reset-timer';
 import { pageView } from '@/lib/pageView';
 
 export default async function WizardsVaultPage() {
@@ -21,7 +20,7 @@ export default async function WizardsVaultPage() {
   const Listings = createDataTable(listings, ({ id }) => id);
 
   return (
-    <HeroLayout hero={<Headline id="wizardsvault" actions={<ResetTimer/>}>Wizard&apos;s Vault</Headline>} color="#ff9800" toc>
+    <HeroLayout hero={<Headline id="wizardsvault">Wizard&apos;s Vault</Headline>} color="#ff9800" toc>
       <Headline id="objectives">Objectives</Headline>
       <ErrorBoundary fallback={<Notice type="error">Unknown error</Notice>}>
         <WizardVaultObjectives/>

@@ -17,7 +17,7 @@ import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 import Link from 'next/link';
 import { useState, type FC, useContext, useEffect, Fragment } from 'react';
 import styles from './objectives.module.css';
-import { ItemLink } from '@/components/Item/ItemLink';
+import { ResetTimer, getResetDate } from '@/components/Reset/ResetTimer';
 
 export interface WizardVaultObjectivesProps { }
 
@@ -90,6 +90,12 @@ export const WizardVaultObjectives: FC<WizardVaultObjectivesProps> = ({}) => {
             <td>Rewards</td>
             <td align="right">{accountRewards(accounts.find((account) => account.daily)?.daily)}</td>
             <td align="right">{accountRewards(accounts.find((account) => account.weekly)?.weekly)}</td>
+            <td align="right">-</td>
+          </tr>
+          <tr>
+            <td>Reset</td>
+            <td align="right"><ResetTimer reset="current-daily"/></td>
+            <td align="right"><ResetTimer reset="current-weekly"/></td>
             <td align="right">-</td>
           </tr>
         </tbody>
@@ -181,8 +187,8 @@ async function loadAccountsWizardsVault(subtoken: string, lang: Language): Promi
   const account: AccountWizardsVaultData['account'] = await fetch(`https://api.guildwars2.com/v2/account?v=2019-02-21T00:00:00.000Z&access_token=${subtoken}`).then((r) => r.json());
 
   const lastModified = new Date(account.last_modified);
-  const lastModifedToday = lastModified > lastDailyReset();
-  const lastModifiedThisWeek = lastModified > lastWeeklyReset();
+  const lastModifedToday = lastModified > getResetDate('last-daily');
+  const lastModifiedThisWeek = lastModified > getResetDate('last-weekly');
 
   const [daily, weekly, special, acclaim] = await Promise.all([
     lastModifedToday ? fetch(`https://api.guildwars2.com/v2/account/wizardsvault/daily?v=2019-02-21T00:00:00.000Z&lang=${lang}&access_token=${subtoken}`).then((r) => r.json()) as Promise<WizardsProgress> : undefined,
@@ -199,19 +205,6 @@ async function loadAccountsWizardsVault(subtoken: string, lang: Language): Promi
     lastModifiedThisWeek,
     daily, weekly, special, acclaim
   };
-}
-
-function lastDailyReset() {
-  const reset = new Date();
-  reset.setUTCHours(0, 0, 0, 0);
-  return reset;
-}
-
-function lastWeeklyReset() {
-  const reset = new Date();
-  reset.setUTCDate(reset.getUTCDate() - (reset.getUTCDay() + 6) % 7);
-  reset.setUTCHours(7, 30, 0, 0);
-  return reset;
 }
 
 function accountRewards(progress: WizardsProgress | undefined) {

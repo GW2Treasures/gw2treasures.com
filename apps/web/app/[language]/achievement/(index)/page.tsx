@@ -7,11 +7,11 @@ import { Fragment } from 'react';
 import type { Gw2Api } from 'gw2-api-types';
 import { AchievementCategoryLink } from '@/components/Achievement/AchievementCategoryLink';
 import type { Language } from '@gw2treasures/database';
-import { ResetTimer } from './reset-timer';
 import { RemovedFromApiNotice } from '@/components/Notice/RemovedFromApiNotice';
 import Link from 'next/link';
 import { pageView } from '@/lib/pageView';
 import { cache } from '@/lib/cache';
+import { ResetTimer } from '@/components/Reset/ResetTimer';
 
 const getAchivementGroups = cache(async (language: string) => {
   const groups = await db.achievementGroup.findMany({
@@ -36,7 +36,7 @@ export default async function AchievementPage({ params: { language }}: { params:
   await pageView('achievement');
 
   return (
-    <HeroLayout hero={<Headline id="achievements" actions={<ResetTimer/>}>Achievements</Headline>} color="#663399" toc>
+    <HeroLayout hero={<Headline id="achievements" actions={<span>Reset: <ResetTimer/></span>}>Achievements</Headline>} color="#663399" toc>
       {groups.map((group) => {
         const data: Gw2Api.Achievement.Group = JSON.parse(group[`current_${language}`].data);
 

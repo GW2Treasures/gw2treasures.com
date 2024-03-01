@@ -7,6 +7,7 @@ import { AchievementsRediscovered } from './achievements/rediscovered';
 import { AchievementsRemoved } from './achievements/removed';
 import { AchievementsUnlocks } from './achievements/unlocks';
 import { AchievementsUpdate } from './achievements/update';
+import { AchievementsViews } from './achievements/views';
 import { ColorsJob } from './colors';
 import { CurrenciesCheck } from './currencies/check';
 import { CurrenciesMigrate } from './currencies/migrate';
@@ -94,6 +95,7 @@ const jobsInternal = {
   'achievements.update': AchievementsUpdate,
   'achievements.migrate': AchievementsMigrate,
   'achievements.unlocks': AchievementsUnlocks,
+  'achievements.views': AchievementsViews,
 
   'achievements.categories': AchievementCategories,
   'achievements.groups': AchievementGroups,

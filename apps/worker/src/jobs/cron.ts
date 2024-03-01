@@ -32,6 +32,7 @@ export async function registerCronJobs() {
   await registerJob('achievements.categories', '*/10 * * * *');
   await registerJob('achievements.groups', '*/10 * * * *');
   await registerJob('achievements.unlocks', '7 * * * *');
+  await registerJob('achievements.views', '57 * * * *');
 
   await registerJob('recipes.check', '*/5 * * * *');
   await registerJob('recipes.update', '*/3 * * * *');

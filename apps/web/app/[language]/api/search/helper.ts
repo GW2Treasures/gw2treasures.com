@@ -69,7 +69,8 @@ export const searchAchievements = cache(async (terms: string[]) => {
     db.achievement.findMany({
       where: terms.length > 0 ? { OR: nameQueries } : undefined,
       take: 5,
-      include: { icon: true, achievementCategory: true }
+      include: { icon: true, achievementCategory: true },
+      orderBy: { views: 'desc' }
     }),
     db.achievementCategory.findMany({
       where: terms.length > 0 ? { OR: nameQueries } : undefined,

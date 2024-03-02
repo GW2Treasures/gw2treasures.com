@@ -11,6 +11,7 @@ import { localizedName, type LocalizedEntity } from '@/lib/localizedName';
 import { db } from '@/lib/prisma';
 import { parseIcon } from '@/lib/parseIcon';
 import type { FC } from 'react';
+import type { SubType, TypeWithSubtype } from './ItemType.types';
 
 export interface ItemTooltipProps {
   item: Gw2Api.Item;
@@ -104,7 +105,7 @@ export async function createTooltip(item: Gw2Api.Item, language: Language): Prom
     buff: (!item.details?.infix_upgrade?.attributes || item.details.infix_upgrade.attributes.length === 0) && item.details?.infix_upgrade?.buff?.description
       ? format(item.details.infix_upgrade.buff.description)
       : undefined,
-    consumable: item.type === 'Consumable' && item.details
+    consumable: (item.type === 'Consumable' || (item.type === 'Container' && item.details?.type === 'GiftBox')) && item.details
       ? { label: t('item.consume'), name: item.details.name, apply_count: item.details.apply_count, duration_ms: item.details.duration_ms, description: formatMarkup(item.details.description), icon: parseIcon(item.details.icon) }
       : undefined,
     bonuses: item.details?.bonuses?.map(format),
@@ -112,7 +113,7 @@ export async function createTooltip(item: Gw2Api.Item, language: Language): Prom
     infusions,
     unlocksColor: unlocksColor ? { id: unlocksColor.id, name: localizedName(unlocksColor, language), colors: { cloth: unlocksColor.cloth_rgb, leather: unlocksColor.leather_rgb, metal: unlocksColor.metal_rgb }} : undefined,
     rarity: { label: t(`rarity.${item.rarity}`), value: item.rarity },
-    type: item.details?.type,
+    type: item.details?.type ? t(`item.type.short.${item.type}.${item.details.type}` as any) : t(`item.type.${item.type}`),
     weightClass: item.details?.weight_class,
     level: item.level > 0 ? { label: t('item.level'), value: item.level } : undefined,
     description: item.description ? format(item.description) : undefined,

@@ -47,6 +47,8 @@ import { ItemLink } from '@/components/Item/ItemLink';
 import { OutputCount } from '@/components/Item/OutputCount';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { AstralAcclaim } from '@/components/Format/AstralAcclaim';
+import { Breadcrumb } from '@/components/Breadcrumb/Breadcrumb';
+import { Trans } from '@/components/I18n/Trans';
 
 export interface ItemPageComponentProps {
   language: Language;
@@ -90,7 +92,13 @@ export const ItemPageComponent: FC<ItemPageComponentProps> = async ({ language, 
       title={data.name || data.chat_link}
       icon={icon?.id === item.icon?.id ? item.icon : (icon ? { ...icon, color: null } : null)}
       className={rarityClasses[data.rarity]}
-      breadcrumb={`Item › ${data.type}${data.details ? ` › ${data.details?.type}` : ''}`}
+      breadcrumb={(
+        <Breadcrumb>
+          <Link href="/item"><Trans id="navigation.items"/></Link>
+          <Trans id={`item.type.${data.type}`}/>
+          {data.details?.type && <Trans id={`item.type.${data.type}.${data.details.type}` as any}/>}
+        </Breadcrumb>
+      )}
       infobox={<ItemInfobox item={item} data={data} language={language}/>}
       actions={canHaveContents ? [<EditContents key="edit-content" appearance="menu" contents={item.contains} currencyContents={item.containsCurrency} itemId={item.id}/>] : undefined}
     >

@@ -11,6 +11,7 @@ import { Menu } from './Header/Menu';
 import { getTranslate, translateMany } from '@/lib/translate';
 import { ReviewCountBadge } from './Header/ReviewCountBadge';
 import { UserButton } from './Header/UserButton';
+import { translations as itemTypeTranslations } from '../Item/ItemType.translations';
 
 interface LayoutProps {
   children: ReactNode;
@@ -28,7 +29,8 @@ const Layout: FC<LayoutProps> = ({ children }) => {
     'search.results.achievements.categories',
     'search.results.achievements.groups',
     'search.results.builds',
-    'search.results.pages'
+    'search.results.pages',
+    ...itemTypeTranslations.short
   ]);
 
   return (

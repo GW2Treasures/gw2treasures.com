@@ -8,7 +8,7 @@ export interface BreadcrumbProps {
 export const Breadcrumb: FC<BreadcrumbProps> = ({ children }) => {
   return (
     <ol className={styles.crumbs}>
-      {Children.map(children, (child, index) => (
+      {Children.map(children, (child, index) => child && (
         <li>{child}</li>
       ))}
     </ol>

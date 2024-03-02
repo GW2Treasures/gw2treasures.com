@@ -11,6 +11,9 @@ import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 import { Icon } from '@gw2treasures/ui';
 import { FormatDate } from '../Format/FormatDate';
 import type { TranslationId } from '@/lib/translate';
+import type { Gw2Api } from 'gw2-api-types';
+import { translations } from '../Item/ItemType.translations';
+import { ItemType } from '../Item/ItemType';
 
 // typehelper
 function createColumn<Select extends Prisma.ItemSelect, Translations extends TranslationId>(column: ItemTableColumn<Select, Translations>) {
@@ -81,7 +84,8 @@ export const globalColumnDefinitions = {
     id: 'type',
     order: 100,
     select: { type: true, subtype: true },
-    orderBy: [[{ type: 'asc' }, { subtype: 'asc' }], [{ type: 'desc' }, { subtype: 'desc' }]]
+    orderBy: [[{ type: 'asc' }, { subtype: 'asc' }], [{ type: 'desc' }, { subtype: 'desc' }]],
+    translations: translations.long
   }),
   vendorValue: createColumn({
     id: 'vendorValue',
@@ -140,7 +144,7 @@ export const globalColumnRenderer: Renderer = {
   name_fr: (item) => item.name_fr,
   level: (item) => item.level,
   rarity: (item, t) => <Rarity rarity={item.rarity}>{t[`rarity.${item.rarity}`]}</Rarity>,
-  type: (item) => <>{item.type} {item.subtype && `(${item.subtype})`}</>,
+  type: (item, t) => <ItemType type={item.type as any} subtype={item.subtype as any} translations={t} display="long"/>,
   vendorValue: (item, t) => item.vendorValue === null ? empty(t['item.flag.NoSell']) : <Coins value={item.vendorValue}/>,
   buyPrice: (item) => !item.tpTradeable ? empty() : renderPriceWithOptionalWarning(item.tpCheckedAt, item.buyPrice),
   buyQuantity: (item) => !item.tpTradeable ? empty() : <FormatNumber value={item.buyQuantity ?? 0}/>,

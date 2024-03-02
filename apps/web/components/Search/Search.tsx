@@ -8,6 +8,8 @@ import { useDebounce } from '@/lib/useDebounce';
 import { autoUpdate, offset, shift, size, useDismiss, useFloating, useFocus, useInteractions, useListNavigation } from '@floating-ui/react';
 import { Icon } from '@gw2treasures/ui';
 import type { TranslationSubset } from '@/lib/translate';
+import type { translations as itemTypeTranslations } from '../Item/ItemType.translations';
+import type { Rarity } from '@gw2treasures/database';
 
 export interface SearchProps {
   translations: TranslationSubset<
@@ -20,6 +22,8 @@ export interface SearchProps {
    | 'search.results.achievements.groups'
    | 'search.results.builds'
    | 'search.results.pages'
+   | typeof itemTypeTranslations.short[0]
+   | `rarity.${Rarity}`
   >
 }
 
@@ -65,7 +69,7 @@ export const Search: FC<SearchProps> = ({ translations }) => {
   ]);
 
   const searchResults = [
-    ...useSearchApiResults(searchValue),
+    ...useSearchApiResults(searchValue, translations),
     usePageResults(searchValue),
   ];
 

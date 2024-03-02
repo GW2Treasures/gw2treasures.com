@@ -12,6 +12,7 @@ import { getTranslate, translateMany } from '@/lib/translate';
 import { ReviewCountBadge } from './Header/ReviewCountBadge';
 import { UserButton } from './Header/UserButton';
 import { translations as itemTypeTranslations } from '../Item/ItemType.translations';
+import { Rarity } from '@gw2treasures/database';
 
 interface LayoutProps {
   children: ReactNode;
@@ -30,7 +31,8 @@ const Layout: FC<LayoutProps> = ({ children }) => {
     'search.results.achievements.groups',
     'search.results.builds',
     'search.results.pages',
-    ...itemTypeTranslations.short
+    ...itemTypeTranslations.short,
+    ...Object.values(Rarity).map((rarity) => `rarity.${rarity}` as const)
   ]);
 
   return (

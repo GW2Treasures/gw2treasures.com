@@ -164,7 +164,7 @@ function renderPriceWithOptionalWarning(date: Date | string | null, price: numbe
   if(!lastCheckedAt || (now.valueOf() - lastCheckedAt.valueOf()) > 1000 * 60 * 60 * 12) {
     return (
       <FlexRow align="right">
-        <Tip tip={<>Last Updated: <FormatDate date={lastCheckedAt}/></>}><Icon icon="warning" color="var(--color-text-muted)"/></Tip>
+        <Tip tip={<>Last Updated: <FormatDate relative date={lastCheckedAt}/></>}><Icon icon="warning" color="var(--color-text-muted)"/></Tip>
         <Coins value={price}/>
       </FlexRow>
     );

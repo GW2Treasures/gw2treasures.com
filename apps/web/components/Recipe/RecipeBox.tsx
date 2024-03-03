@@ -12,6 +12,7 @@ import { ResetTimer } from '../Reset/ResetTimer';
 import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 import { OutputCount } from '../Item/OutputCount';
 import { RecipeDropdown } from './RecipeDropdown';
+import { UnknownItem } from '../Item/UnknownItem';
 
 interface RecipeBoxProps {
   recipe: Recipe & {
@@ -29,7 +30,7 @@ export const RecipeBox: FC<RecipeBoxProps> = ({ recipe, outputItem }) => {
     <div className={styles.box} data-recipe-id={recipe.id}>
       <div className={styles.title}>
         <OutputCount count={recipe.outputCount}>
-          {outputItem !== null ? <ItemLink item={outputItem}/> : <span>Unknown Item</span>}
+          {outputItem !== null ? <ItemLink item={outputItem}/> : <UnknownItem id={recipe.outputItemIdRaw ?? 0}/>}
         </OutputCount>
         <RecipeDropdown id={recipe.id} outputItemId={recipe.outputItemId}/>
       </div>

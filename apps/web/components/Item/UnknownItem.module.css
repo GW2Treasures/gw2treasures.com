@@ -1,0 +1,17 @@
+.unknown {
+  display: inline-flex;
+  align-items: center;
+  justify-self: flex-start;
+  gap: 8px;
+  overflow: hidden;
+}
+
+.label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 2px 0;
+}
+
+.chatlink {
+  user-select: all;
+}

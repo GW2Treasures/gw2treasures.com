@@ -20,3 +20,20 @@
 [data-icon-type="skill"] .icon {
   transform: scale(1.333333);
 }
+
+.missingIcon {
+  display: inline-block;
+  width: var(--icon-size);
+  height: var(--icon-size);
+  background-color: var(--color-background-light);
+  border-radius: 2px;
+  color: var(--color-text-muted);
+  text-align: center;
+  line-height: var(--icon-size);
+  flex-shrink: 0;
+}
+
+.missingIcon::before {
+  content: '?';
+  opacity: .5;
+}

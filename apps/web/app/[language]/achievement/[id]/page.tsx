@@ -33,6 +33,7 @@ import { ColumnSelect } from '@/components/Table/ColumnSelect';
 import { pageView } from '@/lib/pageView';
 import { cache } from '@/lib/cache';
 import { getAlternateUrls } from '@/lib/url';
+import { UnknownItem } from '@/components/Item/UnknownItem';
 
 const MasteryColors: Record<MasteryRegion, CSS.Property.Color> = {
   'Tyria': '#FB8C00', //   core
@@ -176,7 +177,7 @@ async function AchievementPage({ params: { id, language }}: AchievementPageProps
               switch(bit.type) {
                 case 'Item':
                   const item = achievement.bitsItem.find(({ id }) => id === bit.id);
-                  return item ? (<ItemLink item={item}/>) : `Unknown item ${bit.id}`;
+                  return item ? (<ItemLink item={item}/>) : <UnknownItem id={bit.id}/>;
                 case 'Skin':
                   const skin = achievement.bitsSkin.find(({ id }) => id === bit.id);
                   return skin ? (<SkinLink skin={skin}/>) : `Unknown skin ${bit.id}`;
@@ -241,7 +242,7 @@ async function AchievementPage({ params: { id, language }}: AchievementPageProps
                   const item = achievement.rewardsItem.find(({ id }) => id === reward.id);
                   return (
                     <li key={reward.id}>
-                      {item ? (<ItemLink item={item}/>) : `Unknown item ${reward.id}`}
+                      {item ? (<ItemLink item={item}/>) : <UnknownItem id={reward.id}/>}
                       {reward.count && reward.count > 1 && (<span>&times;{reward.count}</span>)}
                     </li>
                   );

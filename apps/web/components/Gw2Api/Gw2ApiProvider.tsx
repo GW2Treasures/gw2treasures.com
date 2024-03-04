@@ -25,37 +25,32 @@ export const Gw2ApiProvider: FC<Gw2ApiProviderProps> = ({ children }) => {
 
   // eslint-disable-next-line require-await
   const getAccounts = useCallback(async (requiredScopes: Scope[]) => {
+    // if the current user is not yet loaded or we SSR
     if(loadingUser || typeof window === 'undefined') {
       return [];
     }
 
+    // if the user is not logged in and hasn't dismissed the toast yet show error
     if(!user) {
       if(!dismissed) {
         setError(ErrorCode.NOT_LOGGED_IN);
       }
 
+      // no accounts :(
       return [];
     }
 
-    if(accounts.current === undefined) {
-      accounts.current = [requiredScopes, fetchAccounts(requiredScopes).then((response) => {
-        if(response.error !== undefined) {
-          setError(response.error);
-          setMissingScopes(requestedScopes);
-          return [];
-        }
+    // get previous (pending) request
+    const [requestedScopes, pendingPromise] = accounts.current ?? [[], undefined];
 
-        return response.accounts;
-      })];
-    }
+    // if there was no previous request yet or we need more permissions
+    if(!pendingPromise || !requiredScopes.every((required) => requestedScopes.includes(required))) {
+      // always add to the scope, so we request the max amount of scopes the user has encountered
+      const combinedScopes = [...requestedScopes, ...requiredScopes];
 
-    const [requestedScopes, pendingPromise] = accounts.current;
-
-    // if we require more scopes than already requested...
-    if(!requiredScopes.every((required) => requestedScopes.includes(required))) {
-      const combinedScopes = Array.from(new Set([...requestedScopes, ...requiredScopes]));
-
-      accounts.current = [combinedScopes, fetchAccounts(combinedScopes).then((response) => {
+      // fetch accounts
+      // TODO: we might be able to even skip the request if we know we are missing scopes...
+      const promise = fetchAccounts(combinedScopes).then((response) => {
         if(response.error !== undefined) {
           setError(response.error);
           setMissingScopes(combinedScopes);
@@ -63,7 +58,12 @@ export const Gw2ApiProvider: FC<Gw2ApiProviderProps> = ({ children }) => {
         }
 
         return response.accounts;
-      })];
+      });
+
+      // store request so subsequent calls return the same promise
+      accounts.current = [combinedScopes, promise];
+
+      return promise;
     }
 
     return pendingPromise;
@@ -74,6 +74,7 @@ export const Gw2ApiProvider: FC<Gw2ApiProviderProps> = ({ children }) => {
     setDismissed(true);
   }, []);
 
+  // make sure the context value only changes if getAccounts or error changes
   const value = useMemo(() => ({ getAccounts, error }), [getAccounts, error]);
 
   return (

@@ -41,14 +41,17 @@ export async function fetchAccounts(): Promise<FetchAccountResponse> {
     return { error: ErrorCode.REAUTHORIZE };
   }
 
-  const accounts = await Promise.all(response.accounts.map(async ({ id: accountId, name }) => ({
-    name,
-    ...await gw2me.api(access_token).subtoken(accountId),
+  const accounts = await Promise.all(response.accounts.map(async ({ id, name }) => ({
+    id, name,
+
+    // TODO: move to own action
+    ...await gw2me.api(access_token).subtoken(id),
   })));
 
   return {
     error: undefined,
-    accounts
+    accounts,
+    scopes: token.scope as Scope[]
   };
 }
 

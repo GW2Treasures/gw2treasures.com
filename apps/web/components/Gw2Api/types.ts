@@ -1,3 +1,5 @@
+import type { Scope } from '@gw2me/client';
+
 export enum ErrorCode {
   NOT_LOGGED_IN,
   MISSING_PERMISSION,
@@ -9,9 +11,11 @@ export type FetchAccountResponse = {
 } | {
   error: undefined;
   accounts: Gw2Account[];
+  scopes: Scope[];
 };
 
 export interface Gw2Account {
+  id: string,
   name: string;
   subtoken: string;
 }

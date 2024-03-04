@@ -36,9 +36,10 @@ export async function fetchAccounts(): Promise<FetchAccountResponse> {
     return { error: ErrorCode.REAUTHORIZE };
   }
 
-  const response = await gw2me.api(access_token).accounts();
-
-  if(!response.accounts) {
+  let response;
+  try {
+    response = await gw2me.api(access_token).accounts();
+  } catch(e) {
     return { error: ErrorCode.REAUTHORIZE };
   }
 

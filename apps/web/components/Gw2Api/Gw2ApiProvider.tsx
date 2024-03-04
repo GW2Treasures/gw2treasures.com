@@ -36,8 +36,6 @@ export const Gw2ApiProvider: FC<Gw2ApiProviderProps> = ({ children }) => {
     }
 
     if(accounts.current === undefined) {
-      console.log('fetch accounts');
-
       accounts.current = fetchAccounts().then((response) => {
         if(response.error !== undefined) {
           setError(response.error);

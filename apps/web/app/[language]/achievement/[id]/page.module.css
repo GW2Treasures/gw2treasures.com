@@ -7,10 +7,6 @@
   padding: 8px 16px;
 }
 
-.tierTable td:last-child {
-  border-left-width: 2px;
-}
-
 .tierTable th {
   padding: 8px 32px 8px 0;
   font-weight: 500;
@@ -25,7 +21,7 @@
   border-bottom-width: 3px;
 }
 
-.tierTable td:last-child {
+.tierTable .totalColumn {
   padding-left: 32px;
 }
 

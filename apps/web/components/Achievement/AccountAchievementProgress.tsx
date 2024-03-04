@@ -6,6 +6,7 @@ import { Icon } from '@gw2treasures/ui';
 import { useGw2Accounts } from '../Gw2Api/use-gw2-accounts';
 import { ProgressCell } from './ProgressCell';
 import { useSubscription } from '../Gw2Api/Gw2AccountSubscriptionProvider';
+import { Scope } from '@gw2me/client';
 
 export interface HeaderProps {}
 export interface RowProps {
@@ -19,7 +20,7 @@ export interface AccountAchievementProgressCellProps {
 }
 
 export const AccountAchievementProgressHeader: FC<HeaderProps> = ({ }) => {
-  const accounts = useGw2Accounts();
+  const accounts = useGw2Accounts([Scope.GW2_Progression]);
 
   return accounts.map((account) => (
     <th key={account.name}>{account.name}</th>
@@ -27,7 +28,7 @@ export const AccountAchievementProgressHeader: FC<HeaderProps> = ({ }) => {
 };
 
 export const AccountAchievementProgressRow: FC<RowProps> = ({ achievementId, bitId }) => {
-  const accounts = useGw2Accounts();
+  const accounts = useGw2Accounts([Scope.GW2_Progression]);
 
   return accounts.map((account) => (
     <AccountAchievementProgressCell achievementId={achievementId} bitId={bitId} accountId={account.id} key={account.name}/>

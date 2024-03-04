@@ -9,7 +9,7 @@ import { type FetchAccountResponse, ErrorCode, type FetchAccessTokenResponse } f
 import { gw2me } from '@/lib/gw2me';
 import { isDefined } from '@gw2treasures/helper/is';
 
-export async function fetchAccounts(): Promise<FetchAccountResponse> {
+export async function fetchAccounts(requiredScopes: Scope[]): Promise<FetchAccountResponse> {
   const user = await getUser();
 
   if(!user) {
@@ -24,7 +24,6 @@ export async function fetchAccounts(): Promise<FetchAccountResponse> {
     return { error: ErrorCode.NOT_LOGGED_IN };
   }
 
-  const requiredScopes = [Scope.GW2_Account, Scope.GW2_Progression];
   if(requiredScopes.some((scope) => !token.scope.includes(scope))) {
     return { error: ErrorCode.MISSING_PERMISSION };
   }

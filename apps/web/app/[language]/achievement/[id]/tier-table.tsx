@@ -11,13 +11,14 @@ import { Skeleton } from '@/components/Skeleton/Skeleton';
 import { ProgressCell } from '@/components/Achievement/ProgressCell';
 import { AchievementPoints } from '@/components/Achievement/AchievementPoints';
 import { useSubscription } from '@/components/Gw2Api/Gw2AccountSubscriptionProvider';
+import { Scope } from '@gw2me/client';
 
 export interface TierTableProps {
   achievement: Gw2Api.Achievement;
 }
 
 export const TierTable: FC<TierTableProps> = ({ achievement }) => {
-  const accounts = useGw2Accounts();
+  const accounts = useGw2Accounts([Scope.GW2_Progression]);
   const { tiers, flags } = achievement;
 
   const isRepeatable = flags.includes('Repeatable');

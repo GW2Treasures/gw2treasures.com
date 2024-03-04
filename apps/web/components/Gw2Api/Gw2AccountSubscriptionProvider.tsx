@@ -50,6 +50,7 @@ export const Gw2AccountSubscriptionProvider: FC<Gw2AccountSubscriptionProviderPr
     () => activeSubscriptions.reduce<Partial<Record<SubscriptionType, boolean>>>((active, { type }) => ({ ...active, [type]: true }), {}),
     [activeSubscriptions]
   );
+
   const cache = useRef<Cache>({});
 
   // TODO: persist access tokens to localStorage so we don't have to refetch on hard reload?

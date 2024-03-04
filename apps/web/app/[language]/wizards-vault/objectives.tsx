@@ -19,10 +19,14 @@ import { useState, type FC, useContext, useEffect, Fragment } from 'react';
 import styles from './objectives.module.css';
 import { ResetTimer, getResetDate } from '@/components/Reset/ResetTimer';
 import { ProgressCell } from '@/components/Achievement/ProgressCell';
+import { Scope } from '@gw2me/client';
+import { fetchAccessTokens } from '@/components/Gw2Api/fetch-accounts-action';
 
 export interface WizardVaultObjectivesProps { }
 
 const EMPTY_ACCOUNTS: never[] = [];
+
+const requiredScopes = [Scope.GW2_Progression];
 
 export const WizardVaultObjectives: FC<WizardVaultObjectivesProps> = ({}) => {
   const user = useUser();
@@ -32,7 +36,10 @@ export const WizardVaultObjectives: FC<WizardVaultObjectivesProps> = ({}) => {
 
   useEffect(() => {
     if (user.user) {
-      getAccounts().then((accounts) => Promise.all(accounts.map(({ subtoken }) => loadAccountsWizardsVault(subtoken, language)))).then(setAccounts);
+      // TODO: use useSubscription
+      getAccounts(requiredScopes)
+        .then((accounts) => fetchAccessTokens(accounts.map(({ id }) => id)))
+        .then((accounts) => accounts.error !== undefined ? EMPTY_ACCOUNTS : Promise.all(Object.values(accounts.accessTokens).map((accessToken) => loadAccountsWizardsVault(accessToken.accessToken, language)))).then(setAccounts);
     } else {
       setAccounts(EMPTY_ACCOUNTS);
     }
@@ -50,7 +57,7 @@ export const WizardVaultObjectives: FC<WizardVaultObjectivesProps> = ({}) => {
 
   if(error) {
     return (
-      <form action={reauthorize}>
+      <form action={reauthorize.bind(null, requiredScopes, undefined)}>
         <p>Authorize gw2treasures.com to view your objectives.</p>
         <FlexRow>
           <SubmitButton type="submit" icon="gw2me-outline">Authorize</SubmitButton>

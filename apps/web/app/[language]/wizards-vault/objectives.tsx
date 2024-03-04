@@ -112,7 +112,7 @@ export const WizardVaultObjectives: FC<WizardVaultObjectivesProps> = ({}) => {
       {accounts.map((account) => (
         <Fragment key={account.account.id}>
           <Headline id={account.account.id}>{account.account.name}</Headline>
-          {!account.lastModifedToday && <Notice>This account has not logged in since the last reset. Not all objectives can be shown and special objectives may be outdated.</Notice>}
+          {!account.lastModifiedToday && <Notice>This account has not logged in since the last reset. Not all objectives can be shown and special objectives may be outdated.</Notice>}
 
           <Table>
             <thead>
@@ -166,7 +166,7 @@ export const WizardVaultObjectives: FC<WizardVaultObjectivesProps> = ({}) => {
 
 interface AccountWizardsVaultData {
   account: { id: string, last_modified: string, name: string },
-  lastModifedToday: boolean,
+  lastModifiedToday: boolean,
   lastModifiedThisWeek: boolean,
   daily: WizardsProgress | undefined,
   weekly: WizardsProgress | undefined,
@@ -195,11 +195,11 @@ async function loadAccountsWizardsVault(subtoken: string, lang: Language): Promi
   const account: AccountWizardsVaultData['account'] = await fetch(`https://api.guildwars2.com/v2/account?v=2019-02-21T00:00:00.000Z&access_token=${subtoken}`).then((r) => r.json());
 
   const lastModified = new Date(account.last_modified);
-  const lastModifedToday = lastModified > getResetDate('last-daily');
+  const lastModifiedToday = lastModified > getResetDate('last-daily');
   const lastModifiedThisWeek = lastModified > getResetDate('last-weekly');
 
   const [daily, weekly, special, acclaim] = await Promise.all([
-    lastModifedToday ? fetch(`https://api.guildwars2.com/v2/account/wizardsvault/daily?v=2019-02-21T00:00:00.000Z&lang=${lang}&access_token=${subtoken}`).then((r) => r.ok ? r.json() : undefined) as Promise<WizardsProgress | undefined> : undefined,
+    lastModifiedToday ? fetch(`https://api.guildwars2.com/v2/account/wizardsvault/daily?v=2019-02-21T00:00:00.000Z&lang=${lang}&access_token=${subtoken}`).then((r) => r.ok ? r.json() : undefined) as Promise<WizardsProgress | undefined> : undefined,
     lastModifiedThisWeek ? fetch(`https://api.guildwars2.com/v2/account/wizardsvault/weekly?v=2019-02-21T00:00:00.000Z&lang=${lang}&access_token=${subtoken}`).then((r) => r.ok ? r.json() : undefined) as Promise<WizardsProgress | undefined> : undefined,
     fetch(`https://api.guildwars2.com/v2/account/wizardsvault/special?v=2019-02-21T00:00:00.000Z&lang=${lang}&access_token=${subtoken}`).then((r) => r.ok ? r.json() : undefined) as Promise<WizardsProgress | undefined>,
     // TODO: needs wallet permission
@@ -209,7 +209,7 @@ async function loadAccountsWizardsVault(subtoken: string, lang: Language): Promi
 
   return {
     account,
-    lastModifedToday,
+    lastModifiedToday,
     lastModifiedThisWeek,
     daily, weekly, special, acclaim
   };

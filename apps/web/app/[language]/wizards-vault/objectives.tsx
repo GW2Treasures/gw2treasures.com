@@ -7,7 +7,7 @@ import { useLanguage } from '@/components/I18n/Context';
 import { Skeleton } from '@/components/Skeleton/Skeleton';
 import { useUser } from '@/components/User/use-user';
 import type { Language } from '@gw2treasures/database';
-import { Icon } from '@gw2treasures/ui';
+import { Icon, cx } from '@gw2treasures/ui';
 import { SubmitButton } from '@gw2treasures/ui/components/Form/Buttons/SubmitButton';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
@@ -18,6 +18,7 @@ import Link from 'next/link';
 import { useState, type FC, useContext, useEffect, Fragment } from 'react';
 import styles from './objectives.module.css';
 import { ResetTimer, getResetDate } from '@/components/Reset/ResetTimer';
+import { ProgressCell } from '@/components/Achievement/ProgressCell';
 
 export interface WizardVaultObjectivesProps { }
 
@@ -119,32 +120,32 @@ export const WizardVaultObjectives: FC<WizardVaultObjectivesProps> = ({}) => {
             </thead>
             <tbody>
               {account.daily?.objectives.map((objective) => (
-                <tr key={objective.id}>
+                <tr key={objective.id} className={cx(objective.claimed && styles.claimed)}>
                   <td>Daily</td>
                   <td>{objective.track}</td>
                   <td>{objective.title}</td>
                   <td align="right">{objective.claimed && <Tip tip="Reward claimed"><Icon icon="checkmark"/></Tip>}</td>
-                  <td>{objective.progress_current} / {objective.progress_complete}</td>
+                  <ProgressCell progress={objective.progress_current / objective.progress_complete}>{objective.progress_current} / {objective.progress_complete}</ProgressCell>
                   <td align="right"><AstralAcclaim value={objective.acclaim}/></td>
                 </tr>
               ))}
               {account.weekly?.objectives.map((objective, i) => (
-                <tr key={objective.id} className={i === 0 ? styles.rowSection : undefined}>
+                <tr key={objective.id} className={cx(i === 0 && styles.rowSection, objective.claimed && styles.claimed)}>
                   <td>Weekly</td>
                   <td>{objective.track}</td>
                   <td>{objective.title}</td>
                   <td align="right">{objective.claimed && <Tip tip="Reward claimed"><Icon icon="checkmark"/></Tip>}</td>
-                  <td>{objective.progress_current} / {objective.progress_complete}</td>
+                  <ProgressCell progress={objective.progress_current / objective.progress_complete}>{objective.progress_current} / {objective.progress_complete}</ProgressCell>
                   <td align="right"><AstralAcclaim value={objective.acclaim}/></td>
                 </tr>
               ))}
               {account.special?.objectives.map((objective, i) => (
-                <tr key={objective.id} className={i === 0 ? styles.rowSection : undefined}>
+                <tr key={objective.id} className={cx(i === 0 && styles.rowSection, objective.claimed && styles.claimed)}>
                   <td>Special</td>
                   <td>{objective.track}</td>
                   <td>{objective.title}</td>
                   <td align="right">{objective.claimed && <Tip tip="Reward claimed"><Icon icon="checkmark"/></Tip>}</td>
-                  <td>{objective.progress_current} / {objective.progress_complete}</td>
+                  <ProgressCell progress={objective.progress_current / objective.progress_complete}>{objective.progress_current} / {objective.progress_complete}</ProgressCell>
                   <td align="right"><AstralAcclaim value={objective.acclaim}/></td>
                 </tr>
               ))}
@@ -191,9 +192,9 @@ async function loadAccountsWizardsVault(subtoken: string, lang: Language): Promi
   const lastModifiedThisWeek = lastModified > getResetDate('last-weekly');
 
   const [daily, weekly, special, acclaim] = await Promise.all([
-    lastModifedToday ? fetch(`https://api.guildwars2.com/v2/account/wizardsvault/daily?v=2019-02-21T00:00:00.000Z&lang=${lang}&access_token=${subtoken}`).then((r) => r.json()) as Promise<WizardsProgress> : undefined,
-    lastModifiedThisWeek ? fetch(`https://api.guildwars2.com/v2/account/wizardsvault/weekly?v=2019-02-21T00:00:00.000Z&lang=${lang}&access_token=${subtoken}`).then((r) => r.json()) as Promise<WizardsProgress> : undefined,
-    fetch(`https://api.guildwars2.com/v2/account/wizardsvault/special?v=2019-02-21T00:00:00.000Z&lang=${lang}&access_token=${subtoken}`).then((r) => r.json()) as Promise<WizardsProgress>,
+    lastModifedToday ? fetch(`https://api.guildwars2.com/v2/account/wizardsvault/daily?v=2019-02-21T00:00:00.000Z&lang=${lang}&access_token=${subtoken}`).then((r) => r.ok ? r.json() : undefined) as Promise<WizardsProgress | undefined> : undefined,
+    lastModifiedThisWeek ? fetch(`https://api.guildwars2.com/v2/account/wizardsvault/weekly?v=2019-02-21T00:00:00.000Z&lang=${lang}&access_token=${subtoken}`).then((r) => r.ok ? r.json() : undefined) as Promise<WizardsProgress | undefined> : undefined,
+    fetch(`https://api.guildwars2.com/v2/account/wizardsvault/special?v=2019-02-21T00:00:00.000Z&lang=${lang}&access_token=${subtoken}`).then((r) => r.ok ? r.json() : undefined) as Promise<WizardsProgress | undefined>,
     // TODO: needs wallet permission
     // fetch(`https://api.guildwars2.com/v2/account/wallet?v=2019-02-21T00:00:00.000Z&access_token=${subtoken}`).then((r) => r.json()).then((wallet) => wallet.find((currency: any) => currency.id === 63)?.value) as Promise<number>,
     0

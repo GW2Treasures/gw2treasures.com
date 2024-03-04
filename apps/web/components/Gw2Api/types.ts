@@ -6,10 +6,11 @@ export enum ErrorCode {
   REAUTHORIZE,
 }
 
+export type ErrorResponse = {
+  error: ErrorCode
+}
 
-export type FetchAccountResponse = {
-  error: ErrorCode;
-} | {
+export type FetchAccountSuccessResponse = {
   error: undefined;
   accounts: Gw2Account[];
   scopes: Scope[];
@@ -20,10 +21,10 @@ export interface Gw2Account {
   name: string;
 }
 
+export type FetchAccountResponse = ErrorResponse | FetchAccountSuccessResponse;
 
-export type FetchAccessTokenResponse = {
-  error: ErrorCode,
-} | {
+
+export type FetchAccessTokenResponse = ErrorResponse | {
   error: undefined,
   accessTokens: Record<string, AccessToken>,
 }

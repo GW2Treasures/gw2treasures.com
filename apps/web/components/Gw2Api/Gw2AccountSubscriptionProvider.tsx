@@ -2,7 +2,7 @@
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import type { FC, MutableRefObject, ReactNode } from 'react';
-import { useGw2Accounts } from './use-gw2-accounts';
+import { fetchAccessTokens } from './fetch-accounts-action';
 
 export interface Gw2AccountSubscriptionProviderProps {
   children: ReactNode
@@ -51,29 +51,60 @@ export const Gw2AccountSubscriptionProvider: FC<Gw2AccountSubscriptionProviderPr
     [activeSubscriptions]
   );
   const cache = useRef<Cache>({});
-  const accounts = useGw2Accounts();
+
+  // TODO: persist access tokens to localStorage so we don't have to refetch on hard reload?
+  const accessTokenCache = useRef<Record<string, { accessToken: string, expiresAt: Date } | undefined>>({});
 
   const setCache = <T extends SubscriptionType>(type: T, accountId: string, response: SubscriptionResponse<T> | undefined) => {
     cache.current = { ...cache.current, [type]: { ...cache.current.achievements, [accountId]: response }};
   };
 
-  // TODO: run interval per account (in the future there might be pages that do not request all accounts, some accounts might be hidden by default, ...)
   useInterval(activeTypes.achievements, 60, useCallback(async () => {
-    // fetch achievement progress for each account
-    const data = await Promise.all(accounts.map(async (account): Promise<SubscriptionResponse<'achievements'> & { accountId: string }> => {
-      const response = await fetch(`https://api.guildwars2.com/v2/account/achievements?access_token=${account.subtoken}`, { redirect: 'manual' });
+    // get all achievement subscriptions
+    const subscriptions = activeSubscriptions.filter(hasType('achievements'));
 
-      if(!response.ok) {
-        setCache('achievements', account.id, { error: true });
-        return { accountId: account.id, error: true };
+    // get all accounts with an active subscription
+    const accountIds = Array.from(new Set(subscriptions.map(({ accountId }) => accountId)));
+
+    // check which accounts we need to load, some accounts might still be cached
+    const accountIdsToLoad = accountIds.filter((id) => accessTokenCache.current[id] === undefined || accessTokenCache.current[id]!.expiresAt < new Date());
+
+    if(accountIdsToLoad.length > 0) {
+      const fetchedAccessTokens = await fetchAccessTokens(accountIdsToLoad);
+
+      // add the successfully fetched access tokens to the cache
+      accountIdsToLoad.forEach((id) => {
+        accessTokenCache.current[id] = fetchedAccessTokens.error === undefined ? fetchedAccessTokens.accessTokens[id] : undefined;
+      });
+    }
+
+    // fetch achievement progress for each account
+    const data = await Promise.all(accountIds.map(async (accountId): Promise<SubscriptionResponse<'achievements'> & { accountId: string }> => {
+      // get token from cache
+      const accessToken = accessTokenCache.current[accountId];
+
+      // check if token is valid
+      if(!accessToken || accessToken.expiresAt < new Date()) {
+        setCache('achievements', accountId, { error: true });
+        return { accountId, error: true };
       }
 
+      // call gw2 api
+      const response = await fetch(`https://api.guildwars2.com/v2/account/achievements?access_token=${accessToken.accessToken}`, { redirect: 'manual' });
+
+      // check if response is ok
+      if(!response.ok) {
+        setCache('achievements', accountId, { error: true });
+        return { accountId, error: true };
+      }
+
+      // get response content
       const data: Gw2ApiAccountProgression = await response.json();
 
       // add to cache
-      setCache('achievements', account.id, { error: false, data });
+      setCache('achievements', accountId, { error: false, data });
 
-      return { accountId: account.id, error: false, data };
+      return { accountId, error: false, data };
     }));
 
     const dataByAccount = new Map(data.map(({ accountId, ...data }) => [accountId, data]));
@@ -81,7 +112,7 @@ export const Gw2AccountSubscriptionProvider: FC<Gw2AccountSubscriptionProviderPr
     for(const subscription of activeSubscriptions.filter(hasType('achievements'))) {
       subscription.callback(dataByAccount.get(subscription.accountId)!);
     }
-  }, [accounts, activeSubscriptions]));
+  }, [activeSubscriptions]));
 
   const subscribe = useCallback(<T extends SubscriptionType>(type: T, accountId: string, callback: SubscriptionCallback<T>): CancelSubscription => {
     const subscription = { type, accountId, callback };

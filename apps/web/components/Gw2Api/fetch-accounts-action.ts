@@ -5,8 +5,9 @@ import { getUser } from '@/lib/getUser';
 import { Scope } from '@gw2me/client';
 import type { UserProvider } from '@gw2treasures/database';
 import { expiresAtFromExpiresIn } from '@/lib/expiresAtFromExpiresIn';
-import { type FetchAccountResponse, ErrorCode } from './types';
+import { type FetchAccountResponse, ErrorCode, type FetchAccessTokenResponse } from './types';
 import { gw2me } from '@/lib/gw2me';
+import { isDefined } from '@gw2treasures/helper/is';
 
 export async function fetchAccounts(): Promise<FetchAccountResponse> {
   const user = await getUser();
@@ -41,17 +42,50 @@ export async function fetchAccounts(): Promise<FetchAccountResponse> {
     return { error: ErrorCode.REAUTHORIZE };
   }
 
-  const accounts = await Promise.all(response.accounts.map(async ({ id, name }) => ({
-    id, name,
+  return {
+    error: undefined,
+    accounts: response.accounts,
+    scopes: token.scope as Scope[]
+  };
+}
 
-    // TODO: move to own action
-    ...await gw2me.api(access_token).subtoken(id),
-  })));
+export async function fetchAccessTokens(accountIds: string[]): Promise<FetchAccessTokenResponse> {
+  console.log('fetch access tokens', accountIds);
+
+  const user = await getUser();
+
+  if(!user) {
+    return { error: ErrorCode.NOT_LOGGED_IN };
+  }
+
+  const token = await db.userProvider.findFirst({
+    where: { userId: user.id, provider: 'gw2.me' }
+  });
+
+  if(!token) {
+    return { error: ErrorCode.NOT_LOGGED_IN };
+  }
+
+  const gw2meToken = await ensureActiveAccessToken(token);
+
+  if(!gw2meToken) {
+    console.error('Unable to get access_token');
+    return { error: ErrorCode.REAUTHORIZE };
+  }
+
+  const api = gw2me.api(gw2meToken);
+
+  const subtokens = await Promise.all(accountIds.map(
+    (accountId) => api.subtoken(accountId)
+      .then(({ subtoken, expiresAt }) => [accountId, { accessToken: subtoken, expiresAt: new Date(expiresAt) }] as const)
+      .catch(() => undefined)
+  ));
+
+  const responseAsObject = Object.fromEntries(subtokens.filter(isDefined));
 
   return {
     error: undefined,
-    accounts,
-    scopes: token.scope as Scope[]
+    accessTokens: responseAsObject,
   };
 }
 

@@ -6,6 +6,7 @@ export enum ErrorCode {
   REAUTHORIZE,
 }
 
+
 export type FetchAccountResponse = {
   error: ErrorCode;
 } | {
@@ -17,5 +18,17 @@ export type FetchAccountResponse = {
 export interface Gw2Account {
   id: string,
   name: string;
-  subtoken: string;
+}
+
+
+export type FetchAccessTokenResponse = {
+  error: ErrorCode,
+} | {
+  error: undefined,
+  accessTokens: Record<string, AccessToken>,
+}
+
+export type AccessToken = {
+  accessToken: string,
+  expiresAt: Date,
 }

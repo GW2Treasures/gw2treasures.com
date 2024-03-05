@@ -31,10 +31,6 @@ export const WizardVaultObjectives: FC<WizardVaultObjectivesProps> = ({}) => {
 
   return (
     <>
-      {!user.loading && !user.user && (
-        <Notice><Link href="/login">Login</Link> to see your personal Wizard&apos;s Vault objectives and progress.</Notice>
-      )}
-
       {!accounts.loading && accounts.error && (
         <Notice type="error">Error loading your accounts from the Guild Wars 2 API.</Notice>
       )}
@@ -43,8 +39,8 @@ export const WizardVaultObjectives: FC<WizardVaultObjectivesProps> = ({}) => {
         <form action={reauthorize.bind(null, requiredScopes, undefined)}>
           <Notice>
             <FlexRow align="space-between" wrap>
-              Authorize gw2treasures.com to view your objectives.
-              <SubmitButton type="submit" icon="gw2me-outline" appearance="tertiary">Authorize</SubmitButton>
+              {user.user ? 'Authorize gw2treasures.com to see your personal Wizard\'s Vault objectives and progress.' : 'Login to see your personal Wizard\'s Vault objectives and progress.'}
+              <SubmitButton type="submit" icon="gw2me-outline" appearance="tertiary">{user.user ? 'Authorize' : 'Login'}</SubmitButton>
             </FlexRow>
           </Notice>
         </form>

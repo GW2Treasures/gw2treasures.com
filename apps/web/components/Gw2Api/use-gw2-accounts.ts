@@ -1,6 +1,6 @@
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { Gw2ApiContext } from './Gw2ApiContext';
-import type { Gw2Account } from './types';
+import { ErrorCode, type Gw2Account } from './types';
 import type { Scope } from '@gw2me/client';
 import { useUser } from '../User/use-user';
 
@@ -30,10 +30,6 @@ export function useGw2Accounts(requiredScopes: Scope[]): UseGw2AccountsResult {
       return { loading: true };
     }
 
-    if(error) {
-      return { loading: false, error: true };
-    }
-
     return { loading: false, error: false, accounts, scopes };
-  }, [accounts, error, scopes]);
+  }, [accounts, scopes]);
 }

@@ -33,10 +33,10 @@
     "server-only": "0.0.1"
   },
   "devDependencies": {
-    "@types/react": "18.2.61",
-    "@typescript-eslint/eslint-plugin": "7.1.0",
+    "@types/react": "18.2.63",
+    "@typescript-eslint/eslint-plugin": "7.1.1",
     "eslint": "8.57.0",
-    "eslint-config-next": "14.1.1",
+    "eslint-config-next": "14.1.2",
     "typescript": "5.3.3"
   },
   "peerDependencies": {

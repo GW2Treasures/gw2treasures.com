@@ -5,9 +5,11 @@ import type { Scope } from '@gw2me/client';
 export interface Gw2ApiContext {
   getAccounts(requiredScopes: Scope[]): Promise<Gw2Account[]>,
   error: ErrorCode | undefined,
+  scopes: Scope[],
 }
 
 export const Gw2ApiContext = createContext<Gw2ApiContext>({
-  getAccounts: (requiredScopes: Scope[]) => Promise.resolve([]),
+  getAccounts: () => Promise.resolve([]),
   error: undefined,
+  scopes: [],
 });

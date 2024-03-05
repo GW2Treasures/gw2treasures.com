@@ -11,7 +11,6 @@ import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { useUser } from '../User/use-user';
 import { SubmitButton } from '@gw2treasures/ui/components/Form/Buttons/SubmitButton';
 import type { Scope } from '@gw2me/client';
-import { Icon } from '@gw2treasures/ui';
 
 export interface Gw2ApiProviderProps {
   children: ReactNode;
@@ -20,6 +19,7 @@ export interface Gw2ApiProviderProps {
 export const Gw2ApiProvider: FC<Gw2ApiProviderProps> = ({ children }) => {
   const accounts = useRef<[requestedScopes: Scope[], Promise<Gw2Account[]>]>();
   const [error, setError] = useState<ErrorCode>();
+  const [grantedScopes, setGrantedScopes] = useState<Scope[]>([]);
   const [missingScopes, setMissingScopes] = useState<Scope[]>([]);
   const [dismissed, setDismissed] = useState(false);
   const { user, loading: loadingUser } = useUser();
@@ -54,9 +54,12 @@ export const Gw2ApiProvider: FC<Gw2ApiProviderProps> = ({ children }) => {
       const promise = fetchAccounts(combinedScopes).then((response) => {
         if(response.error !== undefined) {
           setError(response.error);
+          setGrantedScopes([]);
           setMissingScopes(combinedScopes);
           return [];
         }
+
+        setGrantedScopes(response.scopes);
 
         return response.accounts;
       });
@@ -75,8 +78,11 @@ export const Gw2ApiProvider: FC<Gw2ApiProviderProps> = ({ children }) => {
     setDismissed(true);
   }, []);
 
+  // const scopes = useStablePrimitiveArray(grantedScopes);
+  const scopes = grantedScopes;
+
   // make sure the context value only changes if getAccounts or error changes
-  const value = useMemo(() => ({ getAccounts, error }), [getAccounts, error]);
+  const value = useMemo(() => ({ getAccounts, error, scopes }), [getAccounts, scopes, error]);
 
   return (
     <Gw2ApiContext.Provider value={value}>

@@ -8,6 +8,8 @@ import { ProgressCell } from './ProgressCell';
 import { useSubscription } from '../Gw2Api/Gw2AccountSubscriptionProvider';
 import { Scope } from '@gw2me/client';
 
+const requiredScopes = [Scope.GW2_Progression];
+
 export interface HeaderProps {}
 export interface RowProps {
   achievementId: number;
@@ -20,18 +22,18 @@ export interface AccountAchievementProgressCellProps {
 }
 
 export const AccountAchievementProgressHeader: FC<HeaderProps> = ({ }) => {
-  const accounts = useGw2Accounts([Scope.GW2_Progression]);
+  const accounts = useGw2Accounts(requiredScopes);
 
-  return accounts.map((account) => (
+  return !accounts.loading && !accounts.error && accounts.accounts.map((account) => (
     <th key={account.name}>{account.name}</th>
   ));
 };
 
 export const AccountAchievementProgressRow: FC<RowProps> = ({ achievementId, bitId }) => {
-  const accounts = useGw2Accounts([Scope.GW2_Progression]);
+  const accounts = useGw2Accounts(requiredScopes);
 
-  return accounts.map((account) => (
-    <AccountAchievementProgressCell achievementId={achievementId} bitId={bitId} accountId={account.id} key={account.name}/>
+  return !accounts.loading && !accounts.error && accounts.accounts.map((account) => (
+    <AccountAchievementProgressCell key={account.id} achievementId={achievementId} bitId={bitId} accountId={account.id}/>
   ));
 };
 

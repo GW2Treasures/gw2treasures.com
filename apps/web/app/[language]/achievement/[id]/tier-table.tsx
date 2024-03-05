@@ -17,8 +17,10 @@ export interface TierTableProps {
   achievement: Gw2Api.Achievement;
 }
 
+const requiredScopes = [Scope.GW2_Progression];
+
 export const TierTable: FC<TierTableProps> = ({ achievement }) => {
-  const accounts = useGw2Accounts([Scope.GW2_Progression]);
+  const accounts = useGw2Accounts(requiredScopes);
   const { tiers, flags } = achievement;
 
   const isRepeatable = flags.includes('Repeatable');
@@ -42,7 +44,7 @@ export const TierTable: FC<TierTableProps> = ({ achievement }) => {
           ))}
           <td align="right" className={styles.totalColumn}><b><AchievementPoints points={pointCap}/></b></td>
         </tr>
-        {accounts.map((account) => (
+        {!accounts.loading && !accounts.error && accounts.accounts.map((account) => (
           <TierTableAccountRow key={account.id} achievement={achievement} account={account}/>
         ))}
       </tbody>

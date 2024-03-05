@@ -17,6 +17,9 @@ import { Scope } from '@gw2me/client';
 import { useSubscription } from '@/components/Gw2Api/Gw2AccountSubscriptionProvider';
 import { useGw2Accounts } from '@/components/Gw2Api/use-gw2-accounts';
 import type { Gw2Account } from '@/components/Gw2Api/types';
+import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
+import { SubmitButton } from '@gw2treasures/ui/components/Form/Buttons/SubmitButton';
+import { reauthorize } from '@/components/Gw2Api/reauthorize';
 
 export interface WizardVaultObjectivesProps { }
 
@@ -26,21 +29,25 @@ export const WizardVaultObjectives: FC<WizardVaultObjectivesProps> = ({}) => {
   const user = useUser();
   const accounts = useGw2Accounts(requiredScopes);
 
-  // if(error) {
-  //   return (
-  //     <form action={reauthorize.bind(null, requiredScopes, undefined)}>
-  //       <p>Authorize gw2treasures.com to view your objectives.</p>
-  //       <FlexRow>
-  //         <SubmitButton type="submit" icon="gw2me-outline">Authorize</SubmitButton>
-  //       </FlexRow>
-  //     </form>
-  //   );
-  // }
-
   return (
     <>
       {!user.loading && !user.user && (
         <Notice><Link href="/login">Login</Link> to see your personal Wizard&apos;s Vault objectives and progress.</Notice>
+      )}
+
+      {!accounts.loading && accounts.error && (
+        <Notice type="error">Error loading your accounts from the Guild Wars 2 API.</Notice>
+      )}
+
+      {!accounts.loading && !accounts.error && accounts.accounts.length === 0 && (
+        <form action={reauthorize.bind(null, requiredScopes, undefined)}>
+          <Notice>
+            <FlexRow align="space-between" wrap>
+              Authorize gw2treasures.com to view your objectives.
+              <SubmitButton type="submit" icon="gw2me-outline" appearance="tertiary">Authorize</SubmitButton>
+            </FlexRow>
+          </Notice>
+        </form>
       )}
 
       <Table>
@@ -54,12 +61,12 @@ export const WizardVaultObjectives: FC<WizardVaultObjectivesProps> = ({}) => {
           </tr>
         </thead>
         <tbody>
-          {user.user && accounts.length === 0 && (
+          {user.user && accounts.loading && (
             <tr>
               <td>Loading accounts <Icon icon="loading"/></td>
             </tr>
           )}
-          {accounts.map((account) => (
+          {!accounts.loading && !accounts.error && accounts.accounts.map((account) => (
             <AccountOverviewRow key={account.id} account={account}/>
           ))}
           <tr className={styles.rowSection}>
@@ -77,7 +84,7 @@ export const WizardVaultObjectives: FC<WizardVaultObjectivesProps> = ({}) => {
         </tbody>
       </Table>
 
-      {accounts.map((account) => (
+      {!accounts.loading && !accounts.error && accounts.accounts.map((account) => (
         <Fragment key={account.id}>
           <Headline id={account.id}>{account.name}</Headline>
           <AccountObjectiveDetails account={account}/>

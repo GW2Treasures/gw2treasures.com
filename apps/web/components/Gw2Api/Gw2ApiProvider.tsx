@@ -11,6 +11,7 @@ import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { useUser } from '../User/use-user';
 import { SubmitButton } from '@gw2treasures/ui/components/Form/Buttons/SubmitButton';
 import type { Scope } from '@gw2me/client';
+import { Icon } from '@gw2treasures/ui';
 
 export interface Gw2ApiProviderProps {
   children: ReactNode;
@@ -82,7 +83,7 @@ export const Gw2ApiProvider: FC<Gw2ApiProviderProps> = ({ children }) => {
       {children}
       {(error === ErrorCode.REAUTHORIZE || error === ErrorCode.MISSING_PERMISSION || error === ErrorCode.NOT_LOGGED_IN) && (
         <form className={styles.dialog} action={reauthorize.bind(null, missingScopes, undefined)}>
-          Authorize gw2treasures.com to access your Guild Wars 2 accounts. ({missingScopes})
+          Authorize gw2treasures.com to access your Guild Wars 2 accounts.
           <div>
             <FlexRow>
               <Button onClick={handleDismiss}>Later</Button>

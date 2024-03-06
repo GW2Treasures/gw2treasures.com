@@ -38,7 +38,7 @@ export const WizardVaultObjectives: FC<WizardVaultObjectivesProps> = ({}) => {
       {!accounts.loading && !accounts.error && accounts.accounts.length === 0 && (
         <form action={reauthorize.bind(null, requiredScopes, undefined)}>
           <Notice>
-            <FlexRow align="space-between" wrap>
+            <FlexRow wrap>
               {user.user ? 'Authorize gw2treasures.com to see your personal Wizard\'s Vault objectives and progress.' : 'Login to see your personal Wizard\'s Vault objectives and progress.'}
               <SubmitButton type="submit" icon="gw2me-outline" appearance="tertiary">{user.user ? 'Authorize' : 'Login'}</SubmitButton>
             </FlexRow>

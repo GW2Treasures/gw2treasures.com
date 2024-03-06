@@ -16,6 +16,7 @@ import { ItemTableContext } from '@/components/ItemTable/ItemTableContext';
 import { Gw2ApiProvider } from '@/components/Gw2Api/Gw2ApiProvider';
 import { UserProvider } from '@/components/User/UserProvider';
 import { DataTableContext } from '@gw2treasures/ui/components/Table/DataTableContext';
+import { Gw2AccountSubscriptionProvider } from '@/components/Gw2Api/Gw2AccountSubscriptionProvider';
 
 const bitter = Bitter({
   subsets: ['latin'],
@@ -51,7 +52,9 @@ export default function RootLayout({
               <DataTableContext>
                 <UserProvider>
                   <Gw2ApiProvider>
-                    <Layout>{children}</Layout>
+                    <Gw2AccountSubscriptionProvider>
+                      <Layout>{children}</Layout>
+                    </Gw2AccountSubscriptionProvider>
                   </Gw2ApiProvider>
                 </UserProvider>
               </DataTableContext>

@@ -12,6 +12,7 @@
   gap: 16px;
   align-items: center;
   justify-content: space-between;
+  animation: slide-in .3s ease-out;
 }
 
 @media (max-width: 799px) {
@@ -20,5 +21,13 @@
     left: 0;
     right: 0;
     border-width: 1px 0 0 0;
+    animation: slide-in-mobile .3s ease-out;
   }
+}
+
+@keyframes slide-in {
+  from { transform: translateX(32px); opacity: 0; }
+}
+@keyframes slide-in-mobile {
+  from { transform: translateY(32px); opacity: 0; }
 }

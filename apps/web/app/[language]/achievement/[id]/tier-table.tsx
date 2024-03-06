@@ -5,19 +5,22 @@ import type { FC } from 'react';
 import styles from './page.module.css';
 import { FormatNumber } from '@/components/Format/FormatNumber';
 import { Icon } from '@gw2treasures/ui';
-import { useGw2Api } from '@/components/Gw2Api/use-gw2-api';
 import { useGw2Accounts } from '@/components/Gw2Api/use-gw2-accounts';
 import type { Gw2Account } from '@/components/Gw2Api/types';
 import { Skeleton } from '@/components/Skeleton/Skeleton';
 import { ProgressCell } from '@/components/Achievement/ProgressCell';
 import { AchievementPoints } from '@/components/Achievement/AchievementPoints';
+import { useSubscription } from '@/components/Gw2Api/Gw2AccountSubscriptionProvider';
+import { Scope } from '@gw2me/client';
 
 export interface TierTableProps {
   achievement: Gw2Api.Achievement;
 }
 
+const requiredScopes = [Scope.GW2_Progression];
+
 export const TierTable: FC<TierTableProps> = ({ achievement }) => {
-  const accounts = useGw2Accounts();
+  const accounts = useGw2Accounts(requiredScopes);
   const { tiers, flags } = achievement;
 
   const isRepeatable = flags.includes('Repeatable');
@@ -32,17 +35,17 @@ export const TierTable: FC<TierTableProps> = ({ achievement }) => {
           {tiers.map((tier) => (
             <td key={tier.count}><FormatNumber value={tier.count}/></td>
           ))}
-          <td align="right"><b>Total</b></td>
+          <td align="right" className={styles.totalColumn}><b>Total</b></td>
         </tr>
         <tr>
           <th>Achievement Points</th>
           {tiers.map((tier) => (
             <td key={tier.count}><AchievementPoints points={tier.points}/></td>
           ))}
-          <td align="right"><b><AchievementPoints points={pointCap}/></b></td>
+          <td align="right" className={styles.totalColumn}><b><AchievementPoints points={pointCap}/></b></td>
         </tr>
-        {accounts.map((account) => (
-          <TierTableAccountRow key={account.name} achievement={achievement} account={account}/>
+        {!accounts.loading && !accounts.error && accounts.accounts.map((account) => (
+          <TierTableAccountRow key={account.id} achievement={achievement} account={account}/>
         ))}
       </tbody>
     </table>
@@ -55,19 +58,13 @@ interface TierTableAccountRowProps {
   account: Gw2Account;
 }
 
-type Gw2ApiAccountProgression = {
-  id: number,
-  current: number,
-  max: number,
-  done: boolean,
-  bits?: number[],
-  repeated?: number,
-}[];
-
 const TierTableAccountRow: FC<TierTableAccountRowProps> = ({ achievement, account }) => {
   const { tiers, flags } = achievement;
-  const data = useGw2Api<Gw2ApiAccountProgression>(`/v2/account/achievements?access_token=${account.subtoken}`);
-  const progress = Array.isArray(data) ? data?.find(({ id }) => id === achievement.id) : undefined;
+  const achievements = useSubscription('achievements', account.id);
+
+  const progress = !achievements.loading && !achievements.error
+    ? achievements.data.find(({ id }) => id === achievement.id)
+    : undefined;
 
   const isRepeatable = flags.includes('Repeatable');
   const totalPoints = tiers.reduce((total, tier) => total + tier.points, 0);
@@ -78,26 +75,32 @@ const TierTableAccountRow: FC<TierTableAccountRowProps> = ({ achievement, accoun
   const earnedPoints = Math.min(pointCap, currentPoints + (repeated * totalPoints));
 
   return (
-    <tr key={account.name}>
+    <tr>
       <th>{account.name}</th>
-      {data === undefined ? <td colSpan={99}><Skeleton/></td> : (
-        tiers.map((tier, index) => {
-          const previousTier = index === 0 ? { points: 0, count: 0 } : tiers[index - 1];
-          const isDone = progress && (progress.done || progress.current >= tier.count);
-          const isCurrent = progress && !isDone && progress.current >= previousTier.count;
-          const percentage = isDone ? 1 : isCurrent ? ((progress.current - previousTier.count) / (tier.count - previousTier.count)) : 0;
+      {achievements.loading ? (
+        <td colSpan={tiers.length + 1}><Skeleton/></td>
+      ) : achievements.error ? (
+        <td colSpan={tiers.length + 1} style={{ color: 'var(--color-error)' }}>Error fetching data</td>
+      ) : (
+        <>
+          {tiers.map((tier, index) => {
+            const previousTier = index === 0 ? { points: 0, count: 0 } : tiers[index - 1];
+            const isDone = progress && (progress.done || progress.current >= tier.count);
+            const isCurrent = progress && !isDone && progress.current >= previousTier.count;
+            const percentage = isDone ? 1 : isCurrent ? ((progress.current - previousTier.count) / (tier.count - previousTier.count)) : 0;
 
-          return (
-            <ProgressCell key={tier.count} progress={percentage}>
-              {isDone ? <Icon icon="checkmark"/> : isCurrent ? `${progress.current} / ${tier.count}` : null}
-            </ProgressCell>
-          );
-        })
+            return (
+              <ProgressCell key={tier.count} progress={percentage}>
+                {isDone ? <Icon icon="checkmark"/> : isCurrent ? `${progress.current} / ${tier.count}` : null}
+              </ProgressCell>
+            );
+          })}
+          <td align="right" className={styles.totalColumn}>
+            {progress?.repeated && `(↻ ${progress.repeated}) `}
+            <AchievementPoints points={earnedPoints}/>
+          </td>
+        </>
       )}
-      <td align="right">
-        {progress?.repeated && `(↻ ${progress.repeated}) `}
-        <AchievementPoints points={earnedPoints}/>
-      </td>
     </tr>
   );
 };

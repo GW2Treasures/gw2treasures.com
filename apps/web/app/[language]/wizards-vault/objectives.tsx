@@ -1,72 +1,51 @@
 'use client';
 
 import { AstralAcclaim } from '@/components/Format/AstralAcclaim';
-import { Gw2ApiContext } from '@/components/Gw2Api/Gw2ApiContext';
-import { reauthorize } from '@/components/Gw2Api/reauthorize';
-import { useLanguage } from '@/components/I18n/Context';
 import { Skeleton } from '@/components/Skeleton/Skeleton';
 import { useUser } from '@/components/User/use-user';
-import type { Language } from '@gw2treasures/database';
 import { Icon, cx } from '@gw2treasures/ui';
-import { SubmitButton } from '@gw2treasures/ui/components/Form/Buttons/SubmitButton';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
-import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 import Link from 'next/link';
-import { useState, type FC, useContext, useEffect, Fragment } from 'react';
+import { type FC, Fragment } from 'react';
 import styles from './objectives.module.css';
-import { ResetTimer, getResetDate } from '@/components/Reset/ResetTimer';
+import { ResetTimer } from '@/components/Reset/ResetTimer';
 import { ProgressCell } from '@/components/Achievement/ProgressCell';
+import { Scope } from '@gw2me/client';
+import { useSubscription } from '@/components/Gw2Api/Gw2AccountSubscriptionProvider';
+import { useGw2Accounts } from '@/components/Gw2Api/use-gw2-accounts';
+import type { Gw2Account } from '@/components/Gw2Api/types';
+import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
+import { SubmitButton } from '@gw2treasures/ui/components/Form/Buttons/SubmitButton';
+import { reauthorize } from '@/components/Gw2Api/reauthorize';
 
 export interface WizardVaultObjectivesProps { }
 
-const EMPTY_ACCOUNTS: never[] = [];
+const requiredScopes = [Scope.GW2_Progression];
 
 export const WizardVaultObjectives: FC<WizardVaultObjectivesProps> = ({}) => {
   const user = useUser();
-  const [accounts, setAccounts] = useState<AccountWizardsVaultData[]>(EMPTY_ACCOUNTS);
-  const { getAccounts, error } = useContext(Gw2ApiContext);
-  const language = useLanguage();
-
-  useEffect(() => {
-    if (user.user) {
-      getAccounts().then((accounts) => Promise.all(accounts.map(({ subtoken }) => loadAccountsWizardsVault(subtoken, language)))).then(setAccounts);
-    } else {
-      setAccounts(EMPTY_ACCOUNTS);
-    }
-  }, [getAccounts, language, user.user]);
-
-  if(user.loading) {
-    return <Skeleton/>;
-  }
-
-  if(!user.user) {
-    return (
-      <p><Link href="/login">Login</Link> to see your personal Wizard&apos;s Vault objectives.</p>
-    );
-  }
-
-  if(error) {
-    return (
-      <form action={reauthorize}>
-        <p>Authorize gw2treasures.com to view your objectives.</p>
-        <FlexRow>
-          <SubmitButton type="submit" icon="gw2me-outline">Authorize</SubmitButton>
-        </FlexRow>
-      </form>
-    );
-  }
-
-  if(accounts.length === 0) {
-    return (
-      <Skeleton/>
-    );
-  }
+  const accounts = useGw2Accounts(requiredScopes);
 
   return (
     <>
+      {!accounts.loading && accounts.error && (
+        <Notice type="error">Error loading your accounts from the Guild Wars 2 API.</Notice>
+      )}
+
+      {!accounts.loading && !accounts.error && accounts.accounts.length === 0 && (
+        <form action={reauthorize.bind(null, requiredScopes, undefined)}>
+          <Notice>
+            <FlexRow wrap>
+              {user.user ? 'Authorize gw2treasures.com to see your personal Wizard\'s Vault objectives and progress.' : 'Login to see your personal Wizard\'s Vault objectives and progress.'}
+              <SubmitButton type="submit" icon="gw2me-outline" appearance="tertiary">{user.user ? 'Authorize' : 'Login'}</SubmitButton>
+            </FlexRow>
+          </Notice>
+        </form>
+      )}
+
       <Table>
         <thead>
           <tr>
@@ -78,19 +57,18 @@ export const WizardVaultObjectives: FC<WizardVaultObjectivesProps> = ({}) => {
           </tr>
         </thead>
         <tbody>
-          {accounts.map((account) => (
-            <tr key={account.account.id}>
-              <td>{account.account.name}</td>
-              <td align="right">{account.daily ? <>{account.daily.meta_reward_claimed && <Tip tip="Reward claimed"><Icon icon="checkmark"/></Tip>} {account.daily.meta_progress_current} / {account.daily.meta_progress_complete}</> : <Tip tip="Account has not logged in since last reset."><span>0 / ?</span></Tip> }</td>
-              <td align="right">{account.weekly ? <>{account.weekly.meta_reward_claimed && <Tip tip="Reward claimed"><Icon icon="checkmark"/></Tip>} {account.weekly.meta_progress_current} / {account.weekly.meta_progress_complete}</> : <Tip tip="Account has not logged in since last reset."><span>0 / ?</span></Tip> }</td>
-              <td align="right">{account.special ? <>{account.special.objectives.filter(({ claimed }) => claimed).length} / {account.special.objectives.length}</> : <Tip tip="Account has not logged in since last reset."><span>0 / ?</span></Tip>}</td>
-              {/* <td>{account.acclaim}</td> */}
+          {user.user && accounts.loading && (
+            <tr>
+              <td>Loading accounts <Icon icon="loading"/></td>
             </tr>
+          )}
+          {!accounts.loading && !accounts.error && accounts.accounts.map((account) => (
+            <AccountOverviewRow key={account.id} account={account}/>
           ))}
           <tr className={styles.rowSection}>
             <td>Rewards</td>
-            <td align="right">{accountRewards(accounts.find((account) => account.daily)?.daily)}</td>
-            <td align="right">{accountRewards(accounts.find((account) => account.weekly)?.weekly)}</td>
+            <td align="right"><AstralAcclaim value={20}/></td>
+            <td align="right"><AstralAcclaim value={450}/></td>
             <td align="right">-</td>
           </tr>
           <tr>
@@ -102,70 +80,105 @@ export const WizardVaultObjectives: FC<WizardVaultObjectivesProps> = ({}) => {
         </tbody>
       </Table>
 
-      {accounts.map((account) => (
-        <Fragment key={account.account.id}>
-          <Headline id={account.account.id}>{account.account.name}</Headline>
-          {!account.lastModifedToday && <Notice>This account has not logged in since the last reset. Not all objectives can be shown and special objectives may be outdated.</Notice>}
-
-          <Table>
-            <thead>
-              <tr>
-                <th>Type</th>
-                <th>Track</th>
-                <th>Objective</th>
-                <Table.HeaderCell small/>
-                <th>Progress</th>
-                <th align="right">Astral Acclaim</th>
-              </tr>
-            </thead>
-            <tbody>
-              {account.daily?.objectives.map((objective) => (
-                <tr key={objective.id} className={cx(objective.claimed && styles.claimed)}>
-                  <td>Daily</td>
-                  <td>{objective.track}</td>
-                  <td>{objective.title}</td>
-                  <td align="right">{objective.claimed && <Tip tip="Reward claimed"><Icon icon="checkmark"/></Tip>}</td>
-                  <ProgressCell progress={objective.progress_current / objective.progress_complete}>{objective.progress_current} / {objective.progress_complete}</ProgressCell>
-                  <td align="right"><AstralAcclaim value={objective.acclaim}/></td>
-                </tr>
-              ))}
-              {account.weekly?.objectives.map((objective, i) => (
-                <tr key={objective.id} className={cx(i === 0 && styles.rowSection, objective.claimed && styles.claimed)}>
-                  <td>Weekly</td>
-                  <td>{objective.track}</td>
-                  <td>{objective.title}</td>
-                  <td align="right">{objective.claimed && <Tip tip="Reward claimed"><Icon icon="checkmark"/></Tip>}</td>
-                  <ProgressCell progress={objective.progress_current / objective.progress_complete}>{objective.progress_current} / {objective.progress_complete}</ProgressCell>
-                  <td align="right"><AstralAcclaim value={objective.acclaim}/></td>
-                </tr>
-              ))}
-              {account.special?.objectives.map((objective, i) => (
-                <tr key={objective.id} className={cx(i === 0 && styles.rowSection, objective.claimed && styles.claimed)}>
-                  <td>Special</td>
-                  <td>{objective.track}</td>
-                  <td>{objective.title}</td>
-                  <td align="right">{objective.claimed && <Tip tip="Reward claimed"><Icon icon="checkmark"/></Tip>}</td>
-                  <ProgressCell progress={objective.progress_current / objective.progress_complete}>{objective.progress_current} / {objective.progress_complete}</ProgressCell>
-                  <td align="right"><AstralAcclaim value={objective.acclaim}/></td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
+      {!accounts.loading && !accounts.error && accounts.accounts.map((account) => (
+        <Fragment key={account.id}>
+          <Headline id={account.id}>{account.name}</Headline>
+          <AccountObjectiveDetails account={account}/>
         </Fragment>
       ))}
     </>
   );
 };
 
-interface AccountWizardsVaultData {
-  account: { id: string, last_modified: string, name: string },
-  lastModifedToday: boolean,
-  lastModifiedThisWeek: boolean,
-  daily: WizardsProgress | undefined,
-  weekly: WizardsProgress | undefined,
-  special: WizardsProgress | undefined,
-  acclaim: number,
+interface AccountObjectivesProps {
+  account: Gw2Account
 }
+
+const AccountOverviewRow: FC<AccountObjectivesProps> = ({ account }) => {
+  const wizardsVault = useSubscription('wizards-vault', account.id);
+
+  if(wizardsVault.loading || wizardsVault.error) {
+    return (
+      <tr key={account.id}>
+        <td>{account.name} {wizardsVault.loading && <Icon icon="loading"/>}</td>
+        <td colSpan={3} align="right">{!wizardsVault.loading && wizardsVault.error && <span style={{ color: 'red' }}>Error loading Wizard&apos;s Vault progress from Guild Wars 2 API</span>}</td>
+      </tr>
+    );
+  }
+
+  return (
+    <tr key={account.id}>
+      <td>{account.name}</td>
+      <td align="right">{wizardsVault.data.daily ? <>{wizardsVault.data.daily.meta_reward_claimed && <Tip tip="Reward claimed"><Icon icon="checkmark"/></Tip>} {wizardsVault.data.daily.meta_progress_current} / {wizardsVault.data.daily.meta_progress_complete}</> : <Tip tip="Account has not logged in since last reset."><span>0 / ?</span></Tip> }</td>
+      <td align="right">{wizardsVault.data.weekly ? <>{wizardsVault.data.weekly.meta_reward_claimed && <Tip tip="Reward claimed"><Icon icon="checkmark"/></Tip>} {wizardsVault.data.weekly.meta_progress_current} / {wizardsVault.data.weekly.meta_progress_complete}</> : <Tip tip="Account has not logged in since last reset."><span>0 / ?</span></Tip> }</td>
+      <td align="right">{wizardsVault.data.special ? <>{wizardsVault.data.special.objectives.filter(({ claimed }) => claimed).length} / {wizardsVault.data.special.objectives.length}</> : <Tip tip="Account has not logged in since last reset."><span>0 / ?</span></Tip>}</td>
+      {/* <td>{wizardsVault.data.acclaim}</td> */}
+    </tr>
+  );
+};
+
+const AccountObjectiveDetails: FC<AccountObjectivesProps> = ({ account }) => {
+  const wizardsVault = useSubscription('wizards-vault', account.id);
+
+  if(wizardsVault.loading) {
+    return <Skeleton/>;
+  }
+
+  if(wizardsVault.error) {
+    return <Notice type="error">Error loading data</Notice>;
+  }
+
+  return (
+    <>
+      {!wizardsVault.data.lastModifiedToday && <Notice>This account has not logged in since the last reset. Not all objectives can be shown and special objectives may be outdated.</Notice>}
+
+      <Table>
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>Track</th>
+            <th>Objective</th>
+            <Table.HeaderCell small/>
+            <th>Progress</th>
+            <th align="right">Astral Acclaim</th>
+          </tr>
+        </thead>
+        <tbody>
+          {wizardsVault.data.daily?.objectives.map((objective) => (
+            <tr key={objective.id} className={cx(objective.claimed && styles.claimed)}>
+              <td>Daily</td>
+              <td>{objective.track}</td>
+              <td>{objective.title}</td>
+              <td align="right">{objective.claimed && <Tip tip="Reward claimed"><Icon icon="checkmark"/></Tip>}</td>
+              <ProgressCell progress={objective.progress_current / objective.progress_complete}>{objective.progress_current} / {objective.progress_complete}</ProgressCell>
+              <td align="right"><AstralAcclaim value={objective.acclaim}/></td>
+            </tr>
+          ))}
+          {wizardsVault.data.weekly?.objectives.map((objective, i) => (
+            <tr key={objective.id} className={cx(i === 0 && styles.rowSection, objective.claimed && styles.claimed)}>
+              <td>Weekly</td>
+              <td>{objective.track}</td>
+              <td>{objective.title}</td>
+              <td align="right">{objective.claimed && <Tip tip="Reward claimed"><Icon icon="checkmark"/></Tip>}</td>
+              <ProgressCell progress={objective.progress_current / objective.progress_complete}>{objective.progress_current} / {objective.progress_complete}</ProgressCell>
+              <td align="right"><AstralAcclaim value={objective.acclaim}/></td>
+            </tr>
+          ))}
+          {wizardsVault.data.special?.objectives.map((objective, i) => (
+            <tr key={objective.id} className={cx(i === 0 && styles.rowSection, objective.claimed && styles.claimed)}>
+              <td>Special</td>
+              <td>{objective.track}</td>
+              <td>{objective.title}</td>
+              <td align="right">{objective.claimed && <Tip tip="Reward claimed"><Icon icon="checkmark"/></Tip>}</td>
+              <ProgressCell progress={objective.progress_current / objective.progress_complete}>{objective.progress_current} / {objective.progress_complete}</ProgressCell>
+              <td align="right"><AstralAcclaim value={objective.acclaim}/></td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+    </>
+  );
+};
 
 interface WizardsProgress {
   meta_progress_current: number,
@@ -182,36 +195,4 @@ interface WizardsProgress {
     progress_complete: number,
     claimed: boolean,
   }[]
-}
-
-async function loadAccountsWizardsVault(subtoken: string, lang: Language): Promise<AccountWizardsVaultData> {
-  const account: AccountWizardsVaultData['account'] = await fetch(`https://api.guildwars2.com/v2/account?v=2019-02-21T00:00:00.000Z&access_token=${subtoken}`).then((r) => r.json());
-
-  const lastModified = new Date(account.last_modified);
-  const lastModifedToday = lastModified > getResetDate('last-daily');
-  const lastModifiedThisWeek = lastModified > getResetDate('last-weekly');
-
-  const [daily, weekly, special, acclaim] = await Promise.all([
-    lastModifedToday ? fetch(`https://api.guildwars2.com/v2/account/wizardsvault/daily?v=2019-02-21T00:00:00.000Z&lang=${lang}&access_token=${subtoken}`).then((r) => r.ok ? r.json() : undefined) as Promise<WizardsProgress | undefined> : undefined,
-    lastModifiedThisWeek ? fetch(`https://api.guildwars2.com/v2/account/wizardsvault/weekly?v=2019-02-21T00:00:00.000Z&lang=${lang}&access_token=${subtoken}`).then((r) => r.ok ? r.json() : undefined) as Promise<WizardsProgress | undefined> : undefined,
-    fetch(`https://api.guildwars2.com/v2/account/wizardsvault/special?v=2019-02-21T00:00:00.000Z&lang=${lang}&access_token=${subtoken}`).then((r) => r.ok ? r.json() : undefined) as Promise<WizardsProgress | undefined>,
-    // TODO: needs wallet permission
-    // fetch(`https://api.guildwars2.com/v2/account/wallet?v=2019-02-21T00:00:00.000Z&access_token=${subtoken}`).then((r) => r.json()).then((wallet) => wallet.find((currency: any) => currency.id === 63)?.value) as Promise<number>,
-    0
-  ]);
-
-  return {
-    account,
-    lastModifedToday,
-    lastModifiedThisWeek,
-    daily, weekly, special, acclaim
-  };
-}
-
-function accountRewards(progress: WizardsProgress | undefined) {
-  if(!progress) {
-    return '?';
-  }
-
-  return <AstralAcclaim value={progress.meta_reward_astral}/>;
 }

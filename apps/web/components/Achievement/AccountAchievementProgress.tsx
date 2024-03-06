@@ -2,10 +2,13 @@
 
 import type { FC } from 'react';
 import { Skeleton } from '../Skeleton/Skeleton';
-import { useGw2Api } from '../Gw2Api/use-gw2-api';
 import { Icon } from '@gw2treasures/ui';
 import { useGw2Accounts } from '../Gw2Api/use-gw2-accounts';
 import { ProgressCell } from './ProgressCell';
+import { useSubscription } from '../Gw2Api/Gw2AccountSubscriptionProvider';
+import { Scope } from '@gw2me/client';
+
+const requiredScopes = [Scope.GW2_Progression];
 
 export interface HeaderProps {}
 export interface RowProps {
@@ -15,44 +18,35 @@ export interface RowProps {
 export interface AccountAchievementProgressCellProps {
   achievementId: number;
   bitId?: number;
-  subtoken: string;
+  accountId: string;
 }
 
 export const AccountAchievementProgressHeader: FC<HeaderProps> = ({ }) => {
-  const accounts = useGw2Accounts();
+  const accounts = useGw2Accounts(requiredScopes);
 
-  return accounts.map((account) => (
+  return !accounts.loading && !accounts.error && accounts.accounts.map((account) => (
     <th key={account.name}>{account.name}</th>
   ));
 };
 
 export const AccountAchievementProgressRow: FC<RowProps> = ({ achievementId, bitId }) => {
-  const accounts = useGw2Accounts();
+  const accounts = useGw2Accounts(requiredScopes);
 
-  return accounts.map((account) => (
-    <AccountAchievementProgressCell achievementId={achievementId} bitId={bitId} subtoken={account.subtoken} key={account.name}/>
+  return !accounts.loading && !accounts.error && accounts.accounts.map((account) => (
+    <AccountAchievementProgressCell key={account.id} achievementId={achievementId} bitId={bitId} accountId={account.id}/>
   ));
 };
 
-type Gw2ApiAccountProgression = {
-  id: number,
-  current: number,
-  max: number,
-  done: boolean,
-  bits?: number[],
-  repeated?: number,
-}[];
+export const AccountAchievementProgressCell: FC<AccountAchievementProgressCellProps> = ({ achievementId, accountId, bitId }) => {
+  const achievements = useSubscription('achievements', accountId);
 
-export const AccountAchievementProgressCell: FC<AccountAchievementProgressCellProps> = ({ achievementId, subtoken, bitId }) => {
-  const result = useGw2Api<Gw2ApiAccountProgression>(`/v2/account/achievements?access_token=${subtoken}`);
-
-  if(!result) {
+  if(achievements.loading) {
     return (<td><Skeleton/></td>);
-  } else if (!Array.isArray(result)) {
+  } else if (achievements.error) {
     return (<td/>);
   }
 
-  const progress = result.find(({ id }) => id === achievementId);
+  const progress = achievements.data.find(({ id }) => id === achievementId);
 
   if(!progress) {
     return (<td/>);

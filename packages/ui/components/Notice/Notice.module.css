@@ -6,22 +6,23 @@
   display: flex;
   align-items: center;
   gap: 16px;
-  --icon-color: #0288d1;
 }
 
 .warning {
   border-left-color: #ffc107;
   background-color: #ffc10722;
-  --icon-color: #ffa000;
 }
 
 .error {
   border-left-color: var(--color-error);
   background-color: #f4433622;
-  --icon-color: var(--color-error);
 }
+
+.notice .icon { --icon-color: #0288d1; }
+.warning .icon { --icon-color: #ffa000; }
+.error .icon { --icon-color: var(--color-error); }
 
 .content {
   flex: 1;
-  margin: 0;
+  line-height: 1.5;
 }

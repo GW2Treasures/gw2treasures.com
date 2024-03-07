@@ -1,8 +1,10 @@
 import { icons, type IconName } from '@gw2treasures/icons';
-import { createElement } from 'react';
+import { createElement, type CSSProperties } from 'react';
 
 export { type IconName } from '@gw2treasures/icons';
+
 export type IconProp = IconName | JSX.Element;
+export type IconColor = CSSProperties['--icon-color'];
 
 export function getIcon(icon?: IconProp): JSX.Element | undefined {
   if(typeof icon === 'string') {

@@ -1,5 +1,3 @@
-import { Button } from '@gw2treasures/ui/components/Form/Button';
-import { PageLayout } from '@/components/Layout/PageLayout';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import { getUser } from '@/lib/getUser';
 import { redirect } from 'next/navigation';
@@ -7,9 +5,12 @@ import { Icon } from '@gw2treasures/ui';
 import { Scope } from '@gw2me/client';
 import { gw2me } from '@/lib/gw2me';
 import { getAlternateUrls, getCurrentUrl } from '@/lib/url';
-import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { getReturnToUrl, setReturnToUrlCookie } from '@/lib/login-url';
 import type { Metadata } from 'next';
+import { HeroLayout } from '@/components/Layout/HeroLayout';
+import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
+import { Trans } from '@/components/I18n/Trans';
+import { SubmitButton } from '@gw2treasures/ui/components/Form/Buttons/SubmitButton';
 
 export default async function LoginPage({ searchParams }: { searchParams: { logout?: '', error?: '', returnTo?: string }}) {
   const user = await getUser();
@@ -19,7 +20,7 @@ export default async function LoginPage({ searchParams }: { searchParams: { logo
   }
 
   return (
-    <PageLayout>
+    <HeroLayout hero={<Headline id="login"><Trans id="login"/></Headline>}>
       {searchParams.error !== undefined && (
         <Notice type="error">Unknown error</Notice>
       )}
@@ -32,15 +33,15 @@ export default async function LoginPage({ searchParams }: { searchParams: { logo
         Login to contribute to gw2treasures.com and to view your progression, inventory, and more.
       </p>
 
-      <form>
-        <Button type="submit" formAction={redirectToGw2Me.bind(null, searchParams.returnTo)}><Icon icon="gw2me" color="#b7000d"/> Login with gw2.me</Button>
+      <form action={redirectToGw2Me.bind(null, searchParams.returnTo)}>
+        <SubmitButton icon="gw2me" iconColor="#b7000d" type="submit">Login with gw2.me</SubmitButton>
       </form>
 
-      <FlexRow>
+      <div style={{ display: 'flex', gap: 8, alignItems: 'center', padding: '12px 16px', border: '1px solid var(--color-border)', borderRadius: 2, marginTop: 32 }}>
         <Icon icon="cookie"/>
         <p>By logging in you accept that gw2treasures.com will store cookies in your browser.</p>
-      </FlexRow>
-    </PageLayout>
+      </div>
+    </HeroLayout>
   );
 }
 

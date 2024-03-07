@@ -8,12 +8,13 @@ import { Scope } from '@gw2me/client';
 import { gw2me } from '@/lib/gw2me';
 import { getCurrentUrl } from '@/lib/url';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
+import { getReturnToUrl, setReturnToUrlCookie } from '@/lib/login-url';
 
-export default async function LoginPage({ searchParams }: { searchParams: { logout?: '', error?: '' }}) {
+export default async function LoginPage({ searchParams }: { searchParams: { logout?: '', error?: '', returnTo?: string }}) {
   const user = await getUser();
 
   if(user) {
-    redirect('/profile');
+    redirect(getReturnToUrl(searchParams.returnTo));
   }
 
   return (
@@ -31,7 +32,7 @@ export default async function LoginPage({ searchParams }: { searchParams: { logo
       </p>
 
       <form>
-        <Button type="submit" formAction={redirectToGw2Me}><Icon icon="gw2me" color="#b7000d"/> Login with gw2.me</Button>
+        <Button type="submit" formAction={redirectToGw2Me.bind(null, searchParams.returnTo)}><Icon icon="gw2me" color="#b7000d"/> Login with gw2.me</Button>
       </form>
 
       <FlexRow>
@@ -47,7 +48,7 @@ export const metadata = {
 };
 
 // eslint-disable-next-line require-await
-async function redirectToGw2Me() {
+async function redirectToGw2Me(returnTo?: string) {
   'use server';
 
   // build redirect url
@@ -55,6 +56,9 @@ async function redirectToGw2Me() {
 
   // get gw2.me auth url
   const url = gw2me.getAuthorizationUrl({ redirect_uri, scopes: [Scope.Identify, Scope.Email], include_granted_scopes: true });
+
+  // set cookie with url to return to after auth
+  setReturnToUrlCookie(returnTo);
 
   // redirect to gw2.me
   redirect(url);

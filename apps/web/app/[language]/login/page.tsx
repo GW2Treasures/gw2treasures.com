@@ -6,9 +6,10 @@ import { redirect } from 'next/navigation';
 import { Icon } from '@gw2treasures/ui';
 import { Scope } from '@gw2me/client';
 import { gw2me } from '@/lib/gw2me';
-import { getCurrentUrl } from '@/lib/url';
+import { getAlternateUrls, getCurrentUrl } from '@/lib/url';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { getReturnToUrl, setReturnToUrlCookie } from '@/lib/login-url';
+import type { Metadata } from 'next';
 
 export default async function LoginPage({ searchParams }: { searchParams: { logout?: '', error?: '', returnTo?: string }}) {
   const user = await getUser();
@@ -43,8 +44,11 @@ export default async function LoginPage({ searchParams }: { searchParams: { logo
   );
 }
 
-export const metadata = {
-  title: 'Login'
+export function generateMetadata(): Metadata {
+  return {
+    title: 'Login',
+    alternates: getAlternateUrls('/login'),
+  };
 };
 
 // eslint-disable-next-line require-await

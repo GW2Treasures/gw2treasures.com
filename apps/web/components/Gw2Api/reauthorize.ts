@@ -10,7 +10,7 @@ export async function reauthorize(requiredScopes: Scope[], prompt?: Authorizatio
   // build redirect url
   const redirect_uri = new URL('/auth/callback', getCurrentUrl()).toString();
 
-  const scopes = Array.from(new Set([Scope.GW2_Account, ...requiredScopes]));
+  const scopes = Array.from(new Set([Scope.Identify, Scope.Email, Scope.GW2_Account, ...requiredScopes]));
 
   // get gw2.me auth url
   const url = gw2me.getAuthorizationUrl({ redirect_uri, scopes, prompt, include_granted_scopes: true });

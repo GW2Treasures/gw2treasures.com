@@ -23,7 +23,9 @@ import { reauthorize } from '@/components/Gw2Api/reauthorize';
 
 export interface WizardVaultObjectivesProps { }
 
-const requiredScopes = [Scope.GW2_Progression];
+const requiredScopes = [Scope.GW2_Account, Scope.GW2_Progression];
+
+const loginUrl = `/login?returnTo=${encodeURIComponent('/wizards-vault')}&scopes=${encodeURIComponent(requiredScopes.join(','))}`;
 
 export const WizardVaultObjectives: FC<WizardVaultObjectivesProps> = ({}) => {
   const user = useUser();
@@ -35,12 +37,16 @@ export const WizardVaultObjectives: FC<WizardVaultObjectivesProps> = ({}) => {
         <Notice type="error">Error loading your accounts from the Guild Wars 2 API.</Notice>
       )}
 
-      {!accounts.loading && !accounts.error && accounts.accounts.length === 0 && (
+      {!user.loading && !user.user ? (
+        <Notice>
+          <Link href={loginUrl}>Login</Link> to see your personal Wizard&apos;s Vault objectives and progress.
+        </Notice>
+      ) : !accounts.loading && !accounts.error && accounts.accounts.length === 0 && (
         <form action={reauthorize.bind(null, requiredScopes, undefined)}>
           <Notice>
             <FlexRow wrap>
-              {user.user ? 'Authorize gw2treasures.com to see your personal Wizard\'s Vault objectives and progress.' : 'Login to see your personal Wizard\'s Vault objectives and progress.'}
-              <SubmitButton type="submit" icon="gw2me-outline" appearance="tertiary">{user.user ? 'Authorize' : 'Login'}</SubmitButton>
+              Authorize gw2treasures.com to see your personal Wizard&apos;s Vault objectives and progress.
+              <SubmitButton type="submit" icon="gw2me-outline" appearance="tertiary">Authorize</SubmitButton>
             </FlexRow>
           </Notice>
         </form>
@@ -130,7 +136,7 @@ const AccountObjectiveDetails: FC<AccountObjectivesProps> = ({ account }) => {
 
   return (
     <>
-      {!wizardsVault.data.lastModifiedToday && <Notice>This account has not logged in since the last reset. Not all objectives can be shown and special objectives may be outdated.</Notice>}
+      {!wizardsVault.data.lastModifiedToday && <Notice>This account has not logged in to the game since the last reset. Not all objectives can be shown and special objectives may be outdated.</Notice>}
 
       <Table>
         <thead>

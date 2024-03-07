@@ -13,6 +13,7 @@ import { ReviewCountBadge } from './Header/ReviewCountBadge';
 import { UserButton } from './Header/UserButton';
 import { translations as itemTypeTranslations } from '../Item/ItemType.translations';
 import { Rarity } from '@gw2treasures/database';
+import { LiveUpdateStatus } from './Header/LiveUpdateStatus';
 
 interface LayoutProps {
   children: ReactNode;
@@ -44,6 +45,7 @@ const Layout: FC<LayoutProps> = ({ children }) => {
             <span>gw2treasures.com</span>
           </Link>
           <Search translations={searchTranslations}/>
+          <LiveUpdateStatus/>
           <div className={styles.right}>
             <LinkButton appearance="menu" href="/review">
               <Icon icon="review-queue"/><span className={styles.responsive}> Review<ReviewCountBadge/></span>

@@ -1,0 +1,16 @@
+.live {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  color: #ef5350;
+  background-color: currentColor;
+  border-radius: 4px;
+  vertical-align: 2px;
+  margin-right: 8px;
+  animation: live ease-in 2s infinite;
+}
+
+@keyframes live {
+  0% { box-shadow: 0 0 0 0 currentColor; }
+  40% { box-shadow: 0 0 0 4px transparent; }
+}

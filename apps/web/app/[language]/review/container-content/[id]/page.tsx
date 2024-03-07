@@ -19,6 +19,7 @@ import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { Separator } from '@gw2treasures/ui/components/Layout/Separator';
 import { localizedName } from '@/lib/localizedName';
 import type { Language } from '@gw2treasures/database';
+import { getLoginUrlWithReturnTo } from '@/lib/login-url';
 
 const getReview = async function getReview(id: string) {
   const review = await db.review.findUnique({
@@ -164,7 +165,7 @@ export default async function ReviewContainerContentPage({ params: { id }, searc
       <Headline id="actions">Actions</Headline>
 
       {!user && (
-        <Notice>You need to <Link href="/login">Login</Link> to review this change.</Notice>
+        <Notice>You need to <Link href={getLoginUrlWithReturnTo()}>Login</Link> to review this change.</Notice>
       )}
 
       <form>

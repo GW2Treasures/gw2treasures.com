@@ -9,6 +9,7 @@ import { isRedirectError } from 'next/dist/client/components/redirect';
 import { isNotFoundError } from 'next/dist/client/components/not-found';
 import { gw2me } from '@/lib/gw2me';
 import { getCurrentUrl } from '@/lib/url';
+import { getReturnToUrlFromCookie } from '@/lib/login-url';
 
 export async function GET(request: NextRequest) {
   try {
@@ -56,7 +57,7 @@ export async function GET(request: NextRequest) {
     if(existingSession) {
       if(existingSession.id === userId) {
         // the existing session was for the same user and we can reuse it
-        redirect('/profile');
+        redirect(getReturnToUrlFromCookie());
       } else {
         // just logged in with a different user - lets delete the old session
         await db.userSession.delete({ where: { id: existingSession.sessionId }});
@@ -74,7 +75,7 @@ export async function GET(request: NextRequest) {
 
     // send response with session cookie
     cookies().set(authCookie(session.id, callbackUrl.protocol === 'https:'));
-    redirect('/profile');
+    redirect(getReturnToUrlFromCookie());
   } catch(error) {
     if(isRedirectError(error) || isNotFoundError(error)) {
       throw error;
@@ -84,4 +85,3 @@ export async function GET(request: NextRequest) {
     redirect('/login?error');
   }
 }
-

@@ -5,6 +5,7 @@ import { Suspense, type FC } from 'react';
 import { Skeleton } from '@/components/Skeleton/Skeleton';
 import styles from '../Layout.module.css';
 import 'server-only';
+import { Trans } from '@/components/I18n/Trans';
 
 
 // exported suspended wrapper around the actual button
@@ -37,7 +38,7 @@ interface UserButtonButtonProps {
 const UserButtonButton: FC<UserButtonButtonProps> = ({ user }) => {
   return (
     <LinkButton appearance="menu" href={user ? '/profile' : '/login'}>
-      <Icon icon="user"/><span className={styles.responsive}> {user === 'loading' ? <Skeleton width={90}/> : user ? user.name : 'Login'}</span>
+      <Icon icon="user"/><span className={styles.responsive}> {user === 'loading' ? <Skeleton width={90}/> : user ? user.name : <Trans id="login"/>}</span>
     </LinkButton>
   );
 };

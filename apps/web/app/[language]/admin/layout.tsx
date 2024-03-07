@@ -10,11 +10,7 @@ interface AdminLayoutProps {
 export default async function AdminLayout({ children }: AdminLayoutProps) {
   const user = await getUser();
 
-  if(!user) {
-    redirect('/login');
-  }
-
-  if(!user.roles.includes('Admin')) {
+  if(!user || !user.roles.includes('Admin')) {
     notFound();
   }
 

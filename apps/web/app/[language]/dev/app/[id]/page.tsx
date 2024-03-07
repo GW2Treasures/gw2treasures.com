@@ -8,12 +8,13 @@ import { Label } from '@gw2treasures/ui/components/Form/Label';
 import { TextInput } from '@gw2treasures/ui/components/Form/TextInput';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { notFound, redirect } from 'next/navigation';
+import { getLoginUrlWithReturnTo } from '@/lib/login-url';
 
 async function getApplication(id: string) {
   const user = await getUser();
 
   if(!user) {
-    redirect('/login');
+    redirect(getLoginUrlWithReturnTo());
   }
 
   const application = await db.application.findUnique({ where: { id }});
@@ -32,7 +33,7 @@ async function deleteApplication(data: FormData) {
   const user = await getUser();
 
   if(!user) {
-    redirect('/login');
+    redirect(getLoginUrlWithReturnTo());
   }
 
   await db.application.deleteMany({ where: { id, ownerId: user.id }});

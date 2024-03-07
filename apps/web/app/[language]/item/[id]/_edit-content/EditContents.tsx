@@ -95,7 +95,7 @@ export const EditContents: FC<EditContentsProps> = ({ itemId, contents, currency
         {canSubmitState === undefined ? (
           <Skeleton/>
         ) : canSubmitState.canSubmit === false ? (
-          canSubmitState.reason === 'LOGIN' ? (<p>You need to <Link href="/login">Login</Link> to submit changes.</p>) :
+          canSubmitState.reason === 'LOGIN' ? (<p>You need to <Link href={`/login?returnTo=${encodeURIComponent(`/item/${itemId}`)}`}>Login</Link> to submit changes.</p>) :
           canSubmitState.reason === 'PENDING_REVIEW' ? (
             canSubmitState.ownReview
               ? (<p>You must wait for your <Link href={`/review/container-content/${canSubmitState.reviewId}`}>suggested change</Link> to be reviewed before you can submit another change.</p>)

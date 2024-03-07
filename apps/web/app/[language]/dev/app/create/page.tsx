@@ -10,13 +10,14 @@ import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import Link from 'next/link';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { Form, type FormState } from '@gw2treasures/ui/components/Form/Form';
+import { getLoginUrlWithReturnTo } from '@/lib/login-url';
 
 async function createApplication(_: FormState, data: FormData): Promise<FormState> {
   'use server';
 
   const name = data.get('name');
 
-  if(typeof name !== 'string' || name.length < 2) {
+  if(typeof name !== 'string' || name.trim().length < 2) {
     return { error: 'Invalid name.' };
   }
 
@@ -28,7 +29,7 @@ async function createApplication(_: FormState, data: FormData): Promise<FormStat
 
   const application = await db.application.create({
     data: {
-      name,
+      name: name.trim(),
       apiKey: crypto.randomUUID(),
       ownerId: user.id,
     }
@@ -44,7 +45,7 @@ export default async function DevAppCreatePage() {
     <PageLayout>
       <Headline id="create">Create Application</Headline>
       {!user && (
-        <Notice type="warning">You need to <Link href="/login">Login</Link> to create applications.</Notice>
+        <Notice type="warning">You need to <Link href={getLoginUrlWithReturnTo()}>Login</Link> to create applications.</Notice>
       )}
 
       <p>

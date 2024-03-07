@@ -1,5 +1,5 @@
 import { PageLayout } from '@/components/Layout/PageLayout';
-import { Button } from '@gw2treasures/ui/components/Form/Button';
+import { SubmitButton } from '@gw2treasures/ui/components/Form/Buttons/SubmitButton';
 import { Label } from '@gw2treasures/ui/components/Form/Label';
 import { TextInput } from '@gw2treasures/ui/components/Form/TextInput';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
@@ -9,20 +9,21 @@ import { getUser } from '@/lib/getUser';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import Link from 'next/link';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
+import { Form, type FormState } from '@gw2treasures/ui/components/Form/Form';
 
-async function createApplication(data: FormData) {
+async function createApplication(_: FormState, data: FormData): Promise<FormState> {
   'use server';
 
   const name = data.get('name');
 
-  if(typeof name !== 'string') {
-    redirect('/dev/app/create?error');
+  if(typeof name !== 'string' || name.length < 2) {
+    return { error: 'Invalid name.' };
   }
 
   const user = await getUser();
 
   if(!user) {
-    redirect('/login');
+    return { error: 'Not logged in.' };
   }
 
   const application = await db.application.create({
@@ -51,15 +52,15 @@ export default async function DevAppCreatePage() {
       </p>
 
       {user && (
-        <form action={createApplication}>
+        <Form action={createApplication}>
           <Label label="Name">
             <TextInput name="name"/>
           </Label>
 
           <FlexRow>
-            <Button type="submit">Create Application</Button>
+            <SubmitButton type="submit" icon="add">Create Application</SubmitButton>
           </FlexRow>
-        </form>
+        </Form>
       )}
     </PageLayout>
   );

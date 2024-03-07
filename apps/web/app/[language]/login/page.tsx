@@ -91,16 +91,12 @@ function getScopesFromString(scopeString?: string) {
   // parse scopes
   const parsedScopes = scopeString?.split(',') ?? [];
 
-  console.log(parsedScopes);
-
   // add all valid scopes to the scopes set
   for(const scope of parsedScopes) {
     if(validScopes.includes(scope)) {
       scopes.add(scope as Scope);
     }
   }
-
-  console.log(scopes);
 
   // return the array of scopes to request
   return Array.from(scopes);

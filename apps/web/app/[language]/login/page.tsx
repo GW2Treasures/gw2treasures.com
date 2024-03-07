@@ -12,7 +12,16 @@ import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { Trans } from '@/components/I18n/Trans';
 import { SubmitButton } from '@gw2treasures/ui/components/Form/Buttons/SubmitButton';
 
-export default async function LoginPage({ searchParams }: { searchParams: { logout?: '', error?: '', returnTo?: string }}) {
+interface LoginPageProps {
+  searchParams: {
+    logout?: '',
+    error?: '',
+    returnTo?: string,
+    scopes?: string,
+  }
+}
+
+export default async function LoginPage({ searchParams }: LoginPageProps) {
   const user = await getUser();
 
   if(user) {
@@ -33,7 +42,7 @@ export default async function LoginPage({ searchParams }: { searchParams: { logo
         Login to contribute to gw2treasures.com and to view your progression, inventory, and more.
       </p>
 
-      <form action={redirectToGw2Me.bind(null, searchParams.returnTo)}>
+      <form action={redirectToGw2Me.bind(null, searchParams.returnTo, searchParams.scopes)}>
         <SubmitButton icon="gw2me" iconColor="#b7000d" type="submit">Login with gw2.me</SubmitButton>
       </form>
 
@@ -53,18 +62,46 @@ export function generateMetadata(): Metadata {
 };
 
 // eslint-disable-next-line require-await
-async function redirectToGw2Me(returnTo?: string) {
+async function redirectToGw2Me(returnTo?: string, additionalScopes?: string) {
   'use server';
 
   // build redirect url
   const redirect_uri = new URL('/auth/callback', getCurrentUrl()).toString();
 
+  // get scopes to request from gw2.me
+  const scopes = getScopesFromString(additionalScopes);
+
   // get gw2.me auth url
-  const url = gw2me.getAuthorizationUrl({ redirect_uri, scopes: [Scope.Identify, Scope.Email], include_granted_scopes: true });
+  const url = gw2me.getAuthorizationUrl({ redirect_uri, scopes, include_granted_scopes: true });
 
   // set cookie with url to return to after auth
   setReturnToUrlCookie(returnTo);
 
   // redirect to gw2.me
   redirect(url);
+}
+
+function getScopesFromString(scopeString?: string) {
+  // valid scope values to validate the provided scopes against
+  const validScopes: string[] = Object.values(Scope);
+
+  // default scopes that are always requested
+  const scopes = new Set([Scope.Identify, Scope.Email]);
+
+  // parse scopes
+  const parsedScopes = scopeString?.split(',') ?? [];
+
+  console.log(parsedScopes);
+
+  // add all valid scopes to the scopes set
+  for(const scope of parsedScopes) {
+    if(validScopes.includes(scope)) {
+      scopes.add(scope as Scope);
+    }
+  }
+
+  console.log(scopes);
+
+  // return the array of scopes to request
+  return Array.from(scopes);
 }

@@ -1,7 +1,7 @@
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { Gw2ApiContext } from './Gw2ApiContext';
-import { ErrorCode, type Gw2Account } from './types';
-import type { Scope } from '@gw2me/client';
+import { type Gw2Account } from './types';
+import { Scope } from '@gw2me/client';
 import { useUser } from '../User/use-user';
 
 type UseGw2AccountsResult =
@@ -14,7 +14,7 @@ const loading = [] as Gw2Account[];
 export function useGw2Accounts(requiredScopes: Scope[]): UseGw2AccountsResult {
   const user = useUser();
   const [accounts, setAccounts] = useState<Gw2Account[]>(loading);
-  const { getAccounts, error, scopes } = useContext(Gw2ApiContext);
+  const { getAccounts, scopes } = useContext(Gw2ApiContext);
 
   useEffect(() => {
     // wait until the user is loaded
@@ -22,7 +22,11 @@ export function useGw2Accounts(requiredScopes: Scope[]): UseGw2AccountsResult {
       return;
     }
 
-    getAccounts(requiredScopes).then(setAccounts);
+    // always require at least the `account` permission
+    const scopes = Array.from(new Set([Scope.GW2_Account, ...requiredScopes]));
+
+    // get accounts
+    getAccounts(scopes).then(setAccounts);
   }, [getAccounts, requiredScopes, user.loading]);
 
   return useMemo<UseGw2AccountsResult>(() => {

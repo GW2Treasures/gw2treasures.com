@@ -5,6 +5,7 @@ import type { FC, MutableRefObject, ReactNode } from 'react';
 import { fetchAccessTokens } from './fetch-accounts-action';
 import type { Language } from '@gw2treasures/database';
 import { getResetDate } from '../Reset/ResetTimer';
+import { useVisibilityState } from '@/lib/useVisibilityState';
 
 export interface Gw2AccountSubscriptionProviderProps {
   children: ReactNode
@@ -203,15 +204,17 @@ export function useSubscription<T extends SubscriptionType>(type: T, accountId: 
 function useInterval(active: boolean = false, seconds: number, callback: () => void) {
   const callbackRef = useRefTo(callback);
   const activeRef = useRefTo(active);
+  const visibility = useVisibilityState();
+  const visibilityRef = useRefTo(visibility);
 
   const interval = useRef<ReturnType<typeof setInterval>>();
 
   // start interval
   useEffect(() => {
-    if(active && interval.current === undefined) {
+    if(active && visibility === 'visible' && interval.current === undefined) {
       interval.current = setInterval(() => {
-        // if this should not be active anymore stop the interval
-        if(!activeRef.current) {
+        // if this should not be active anymore or the page is not visible stop the interval
+        if(!activeRef.current || visibilityRef.current === 'hidden') {
           clearInterval(interval.current);
           interval.current = undefined;
           return;
@@ -224,7 +227,7 @@ function useInterval(active: boolean = false, seconds: number, callback: () => v
       // call callback immediately
       callbackRef.current();
     }
-  }, [active, activeRef, callbackRef, seconds]);
+  }, [active, activeRef, callbackRef, seconds, visibility, visibilityRef]);
 
   useEffect(() => () => interval.current && clearInterval(interval.current), []);
 }

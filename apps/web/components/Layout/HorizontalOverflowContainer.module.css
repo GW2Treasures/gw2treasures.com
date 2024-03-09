@@ -1,0 +1,70 @@
+.container {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--color-background);
+}
+
+
+.content {
+  overflow-x: auto;
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.content::-webkit-scrollbar {
+  display: none;
+}
+
+
+.button {
+  --_color: var(--color-background);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 48px;
+  padding: 0 8px;
+  background: var(--_color);
+  border: none;
+  border-radius: 0;
+  z-index: 1;
+  cursor: pointer;
+  transition: opacity .3s ease;
+}
+
+.button:not(.hidden):hover {
+  --_color: var(--color-background-light);
+}
+
+.hidden:hover {
+  opacity: 1;
+  pointer-events: initial;
+  cursor: default;
+}
+
+.button:focus {
+  outline: none;
+}
+.button:focus-visible {
+  box-shadow: var(--shadow-focus);
+}
+
+.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.left {
+  composes: button;
+
+  left: 0;
+  padding-right: 16px;
+  background: linear-gradient(to right, var(--_color), var(--_color) 32px, transparent);
+}
+
+.right {
+  composes: button;
+
+  right: 0;
+  padding-left: 16px;
+  background: linear-gradient(to left, var(--_color), var(--_color) 32px, transparent);
+}

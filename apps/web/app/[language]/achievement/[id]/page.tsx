@@ -19,7 +19,7 @@ import { AchievementLink } from '@/components/Achievement/AchievementLink';
 import { AchievementInfobox } from '@/components/Achievement/AchievementInfobox';
 import type * as CSS from 'csstype';
 import { RemovedFromApiNotice } from '@/components/Notice/RemovedFromApiNotice';
-import { Breadcrumb } from '@/components/Breadcrumb/Breadcrumb';
+import { Breadcrumb, BreadcrumbItem } from '@/components/Breadcrumb/Breadcrumb';
 import Link from 'next/link';
 import { AchievementCategoryLink } from '@/components/Achievement/AchievementCategoryLink';
 import type { Metadata } from 'next';
@@ -34,6 +34,7 @@ import { pageView } from '@/lib/pageView';
 import { cache } from '@/lib/cache';
 import { getAlternateUrls } from '@/lib/url';
 import { UnknownItem } from '@/components/Item/UnknownItem';
+import { getTranslate } from '@/lib/translate';
 
 const MasteryColors: Record<MasteryRegion, CSS.Property.Color> = {
   'Tyria': '#FB8C00', //   core
@@ -106,6 +107,8 @@ async function AchievementPage({ params: { id, language }}: AchievementPageProps
   const Bits = data.bits && data.bits.length > 0 && !data.flags.includes('CategoryDisplay') ? createDataTable(data.bits, (_, index) => index) : undefined;
   const CategoryAchievements = data.flags.includes('CategoryDisplay') && categoryAchievements.length > 0 ? createDataTable(categoryAchievements, (achievement) => achievement.id) : undefined;
 
+  const t = getTranslate(language);
+
   return (
     <DetailLayout
       color={achievement.icon?.color ?? undefined}
@@ -113,9 +116,9 @@ async function AchievementPage({ params: { id, language }}: AchievementPageProps
       icon={achievement.icon}
       breadcrumb={(
         <Breadcrumb>
-          <Link href="/achievement">Achievement</Link>
-          {achievement.achievementCategory?.achievementGroup ? <Link href={`/achievement#${achievement.achievementCategory.achievementGroup.id}`}>{localizedName(achievement.achievementCategory.achievementGroup, language)}</Link> : 'Unknown Group'}
-          {achievement.achievementCategory ? <AchievementCategoryLink achievementCategory={achievement.achievementCategory} icon="none"/> : 'Unknown Category'}
+          <BreadcrumbItem href="/achievement" name={t('navigation.achievements')}/>
+          {achievement.achievementCategory?.achievementGroup ? <BreadcrumbItem href={`/achievement#${achievement.achievementCategory.achievementGroup.id}`} name={localizedName(achievement.achievementCategory.achievementGroup, language)}/> : <BreadcrumbItem name="Unknown Group"/>}
+          {achievement.achievementCategory ? <BreadcrumbItem name={localizedName(achievement.achievementCategory, language)} href={`/achievement/category/${achievement.achievementCategoryId}`}><AchievementCategoryLink achievementCategory={achievement.achievementCategory} icon="none"/></BreadcrumbItem> : <BreadcrumbItem name="Unknown Category"/>}
         </Breadcrumb>
       )}
       infobox={<AchievementInfobox achievement={achievement} data={data} language={language}/>}

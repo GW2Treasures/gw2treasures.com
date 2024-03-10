@@ -80,6 +80,9 @@ const TierTableAccountRow: FC<TierTableAccountRowProps> = ({ achievement, accoun
     achievement.prerequisites?.map((prerequisitesId) => achievements.data.find(({ id }) => prerequisitesId === id))
       .every((prerequisite) => prerequisite?.done);
 
+  const requiresUnlock = achievement.flags.includes('RequiresUnlock');
+  const hasUnlock = progress?.unlocked;
+
   return (
     <tr>
       <th>{account.name}</th>
@@ -104,12 +107,14 @@ const TierTableAccountRow: FC<TierTableAccountRowProps> = ({ achievement, accoun
           <td align="right" className={styles.totalColumn}>
             {requiresPrerequisites && !hasPrerequisites ? (
               <Tip tip="Missing prerequisites"><Icon icon="lock"/></Tip>
+            ) : (requiresUnlock && !hasUnlock ? (
+              <Tip tip="Missing unlock"><Icon icon="lock"/></Tip>
             ) : (
               <>
                 {progress?.repeated && `(↻ ${progress.repeated}) `}
                 <AchievementPoints points={earnedPoints}/>
               </>
-            )}
+            ))}
           </td>
         </>
       )}

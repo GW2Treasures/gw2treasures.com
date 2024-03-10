@@ -56,8 +56,15 @@ export const AccountAchievementProgressCell: FC<AccountAchievementProgressCellPr
       .map((prerequisitesId) => achievements.data.find(({ id }) => prerequisitesId === id))
       .every((prerequisite) => prerequisite?.done);
 
+  const requiresUnlock = achievement.flags.includes('RequiresUnlock');
+  const hasUnlock = progress?.unlocked;
+
   if(requiresPrerequisites && !hasPrerequisites) {
     return (<td><Tip tip="Missing prerequisites"><Icon icon="lock"/></Tip></td>);
+  }
+
+  if(requiresUnlock && !hasUnlock) {
+    return (<td><Tip tip="Missing unlock"><Icon icon="lock"/></Tip></td>);
   }
 
   if(!progress) {

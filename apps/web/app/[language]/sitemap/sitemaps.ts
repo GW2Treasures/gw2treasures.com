@@ -131,6 +131,7 @@ export const sitemaps: Record<string, Sitemap> = {
         '/review',
         '/item/empty-containers',
         '/achievement/uncategorized',
+        '/wizards-vault'
       ].map((page) => getEntryForUrl(page));
     }
   }

@@ -61,7 +61,7 @@ async function AchievementUncategorizedPage({ params: { language }}: { params: {
           )}
         </UncategorizedAchievements.Column>
         <UncategorizedAchievements.DynamicColumns headers={<AccountAchievementProgressHeader/>}>
-          {({ id }) => <AccountAchievementProgressRow achievementId={id}/>}
+          {(achievement) => <AccountAchievementProgressRow achievement={achievement}/>}
         </UncategorizedAchievements.DynamicColumns>
       </UncategorizedAchievements.Table>
     </PageLayout>

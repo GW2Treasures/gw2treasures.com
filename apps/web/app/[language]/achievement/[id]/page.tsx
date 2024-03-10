@@ -89,7 +89,6 @@ const getAchievement = cache(async (id: number, language: Language) => {
   const categoryAchievements = data.flags.includes('CategoryDisplay')
     ? await db.achievement.findMany({
         where: { achievementCategoryId: achievement.achievementCategoryId, id: { not: achievement.id }, historic: false, NOT: { flags: { hasSome: notPartOfCategoryDisplayFlags }}},
-        select: { ...linkPropertiesWithoutRarity, points: true, unlocks: true }
       })
     : [];
 
@@ -192,7 +191,7 @@ async function AchievementPage({ params: { id, language }}: AchievementPageProps
             }}
           </Bits.Column>
           <Bits.DynamicColumns headers={<AccountAchievementProgressHeader/>}>
-            {(_, index) => <AccountAchievementProgressRow achievementId={achievement.id} bitId={index}/>}
+            {(_, index) => <AccountAchievementProgressRow achievement={achievement} bitId={index}/>}
           </Bits.DynamicColumns>
         </Bits.Table>
       )}
@@ -204,7 +203,7 @@ async function AchievementPage({ params: { id, language }}: AchievementPageProps
           <CategoryAchievements.Column id="points" title="AP" align="right" hidden sortBy="points">{({ points }) => <AchievementPoints points={points}/>}</CategoryAchievements.Column>
           <CategoryAchievements.Column id="unlocks" title="Unlocks" align="right" hidden sortBy="unlocks">{({ unlocks }) => unlocks && <FormatNumber value={Math.round(unlocks * 1000) / 10} unit="%"/>}</CategoryAchievements.Column>
           <CategoryAchievements.DynamicColumns headers={<AccountAchievementProgressHeader/>}>
-            {({ id }) => <AccountAchievementProgressRow achievementId={id}/>}
+            {(achievement) => <AccountAchievementProgressRow achievement={achievement}/>}
           </CategoryAchievements.DynamicColumns>
         </CategoryAchievements.Table>
       )}

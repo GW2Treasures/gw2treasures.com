@@ -12,6 +12,7 @@ import { ProgressCell } from '@/components/Achievement/ProgressCell';
 import { AchievementPoints } from '@/components/Achievement/AchievementPoints';
 import { useSubscription } from '@/components/Gw2Api/Gw2AccountSubscriptionProvider';
 import { Scope } from '@gw2me/client';
+import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 
 export interface TierTableProps {
   achievement: Gw2Api.Achievement;
@@ -74,6 +75,11 @@ const TierTableAccountRow: FC<TierTableAccountRowProps> = ({ achievement, accoun
   const currentPoints = tiers.reduce((total, tier) => (progress?.current ?? 0) >= tier.count ? total + tier.points : total, 0);
   const earnedPoints = Math.min(pointCap, currentPoints + (repeated * totalPoints));
 
+  const requiresPrerequisites = !!achievement.prerequisites?.length;
+  const hasPrerequisites = !achievements.loading && !achievements.error &&
+    achievement.prerequisites?.map((prerequisitesId) => achievements.data.find(({ id }) => prerequisitesId === id))
+      .every((prerequisite) => prerequisite?.done);
+
   return (
     <tr>
       <th>{account.name}</th>
@@ -96,8 +102,14 @@ const TierTableAccountRow: FC<TierTableAccountRowProps> = ({ achievement, accoun
             );
           })}
           <td align="right" className={styles.totalColumn}>
-            {progress?.repeated && `(↻ ${progress.repeated}) `}
-            <AchievementPoints points={earnedPoints}/>
+            {requiresPrerequisites && !hasPrerequisites ? (
+              <Tip tip="Missing prerequisites"><Icon icon="lock"/></Tip>
+            ) : (
+              <>
+                {progress?.repeated && `(↻ ${progress.repeated}) `}
+                <AchievementPoints points={earnedPoints}/>
+              </>
+            )}
           </td>
         </>
       )}

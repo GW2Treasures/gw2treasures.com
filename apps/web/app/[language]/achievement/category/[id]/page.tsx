@@ -111,7 +111,7 @@ async function AchievementCategoryPage({ params: { language, id }}: AchievementC
           )}
         </CurrentAchievements.Column>
         <CurrentAchievements.DynamicColumns headers={<AccountAchievementProgressHeader/>}>
-          {({ id }) => <AccountAchievementProgressRow achievementId={id}/>}
+          {(achievement) => <AccountAchievementProgressRow achievement={achievement}/>}
         </CurrentAchievements.DynamicColumns>
       </CurrentAchievements.Table>
 

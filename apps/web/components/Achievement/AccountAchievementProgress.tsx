@@ -7,16 +7,18 @@ import { useGw2Accounts } from '../Gw2Api/use-gw2-accounts';
 import { ProgressCell } from './ProgressCell';
 import { useSubscription } from '../Gw2Api/Gw2AccountSubscriptionProvider';
 import { Scope } from '@gw2me/client';
+import type { Achievement } from '@gw2treasures/database';
+import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 
 const requiredScopes = [Scope.GW2_Progression];
 
 export interface HeaderProps {}
 export interface RowProps {
-  achievementId: number;
+  achievement: Achievement;
   bitId?: number;
 }
 export interface AccountAchievementProgressCellProps {
-  achievementId: number;
+  achievement: Achievement;
   bitId?: number;
   accountId: string;
 }
@@ -29,15 +31,15 @@ export const AccountAchievementProgressHeader: FC<HeaderProps> = ({ }) => {
   ));
 };
 
-export const AccountAchievementProgressRow: FC<RowProps> = ({ achievementId, bitId }) => {
+export const AccountAchievementProgressRow: FC<RowProps> = ({ achievement, bitId }) => {
   const accounts = useGw2Accounts(requiredScopes);
 
   return !accounts.loading && !accounts.error && accounts.accounts.map((account) => (
-    <AccountAchievementProgressCell key={account.id} achievementId={achievementId} bitId={bitId} accountId={account.id}/>
+    <AccountAchievementProgressCell key={account.id} achievement={achievement} bitId={bitId} accountId={account.id}/>
   ));
 };
 
-export const AccountAchievementProgressCell: FC<AccountAchievementProgressCellProps> = ({ achievementId, accountId, bitId }) => {
+export const AccountAchievementProgressCell: FC<AccountAchievementProgressCellProps> = ({ achievement, accountId, bitId }) => {
   const achievements = useSubscription('achievements', accountId);
 
   if(achievements.loading) {
@@ -46,7 +48,24 @@ export const AccountAchievementProgressCell: FC<AccountAchievementProgressCellPr
     return (<td/>);
   }
 
-  const progress = achievements.data.find(({ id }) => id === achievementId);
+  const progress = achievements.data.find(({ id }) => id === achievement.id);
+
+  const requiresPrerequisites = achievement.prerequisitesIds.length > 0;
+  const hasPrerequisites = !achievements.loading && !achievements.error &&
+    achievement.prerequisitesIds
+      .map((prerequisitesId) => achievements.data.find(({ id }) => prerequisitesId === id))
+      .every((prerequisite) => prerequisite?.done);
+
+  const requiresUnlock = achievement.flags.includes('RequiresUnlock');
+  const hasUnlock = progress?.unlocked;
+
+  if(requiresPrerequisites && !hasPrerequisites) {
+    return (<td><Tip tip="Missing prerequisites"><Icon icon="lock"/></Tip></td>);
+  }
+
+  if(requiresUnlock && !hasUnlock) {
+    return (<td><Tip tip="Missing unlock"><Icon icon="lock"/></Tip></td>);
+  }
 
   if(!progress) {
     return (<td/>);

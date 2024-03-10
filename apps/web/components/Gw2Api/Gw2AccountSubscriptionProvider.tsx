@@ -249,6 +249,7 @@ type Gw2ApiAccountProgression = {
   done: boolean,
   bits?: number[],
   repeated?: number,
+  unlocked?: boolean,
 }[];
 
 interface AccountWizardsVaultData {

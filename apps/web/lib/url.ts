@@ -16,6 +16,10 @@ export function getUrlFromRequest(request: Request) {
   return url;
 }
 
+export function absoluteUrl(href: string) {
+  return new URL(href, getCurrentUrl());
+}
+
 const baseDomain = process.env.GW2T_NEXT_DOMAIN!;
 const allLanguages = ['x-default', ...Object.values(Language)] as const;
 

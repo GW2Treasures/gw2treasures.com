@@ -52,8 +52,8 @@ export const Tooltip: FC<TooltipProps> = ({ children, content }) => {
   return (
     <>
       {cloneElement(Children.only(children), { ...getReferenceProps(children.props), ref })}
-      <FloatingPortal>
-        {isMounted && (
+      {isMounted && (
+        <FloatingPortal>
           <div
             ref={refs.setFloating}
             className={styles.tooltip}
@@ -72,8 +72,8 @@ export const Tooltip: FC<TooltipProps> = ({ children, content }) => {
               top: middlewareData.arrow?.y ?? undefined
             }}/>
           </div>
-        )}
-      </FloatingPortal>
+        </FloatingPortal>
+      )}
     </>
   );
 };

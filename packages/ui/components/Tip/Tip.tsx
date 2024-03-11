@@ -54,8 +54,8 @@ export const Tip: FC<TipProps> = ({ children, tip, preferredPlacement = 'top' })
   return (
     <>
       {cloneElement(Children.only(children), { ref: refs.setReference, ...getReferenceProps(children.props) })}
-      <FloatingPortal>
-        {isMounted && (
+      {isMounted && (
+        <FloatingPortal>
           <div
             ref={refs.setFloating}
             className={styles.tip}
@@ -76,8 +76,8 @@ export const Tip: FC<TipProps> = ({ children, tip, preferredPlacement = 'top' })
               ...{ [staticSide]: 'calc(var(--arrow-size) * -0.5)' }
             }}/>
           </div>
-        )}
-      </FloatingPortal>
+        </FloatingPortal>
+      )}
     </>
   );
 };

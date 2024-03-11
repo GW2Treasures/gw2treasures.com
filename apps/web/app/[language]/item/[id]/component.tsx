@@ -194,7 +194,7 @@ export const ItemPageComponent: FC<ItemPageComponentProps> = async ({ language, 
 
       {item.wizardsVaultListings.length > 0 && (
         <>
-          <Headline id="wizardsvault">Wizard&apos;s Vault</Headline>
+          <Headline id="wizards-vault">Wizard&apos;s Vault</Headline>
           <p>This item is available in the <Link href="/wizards-vault">Wizard&apos;s Vault</Link>.</p>
           <Table>
             <thead>

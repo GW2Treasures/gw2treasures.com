@@ -21,7 +21,7 @@ export default async function WizardsVaultPage() {
   const Listings = createDataTable(listings, ({ id }) => id);
 
   return (
-    <HeroLayout hero={<Headline id="wizardsvault">Wizard&apos;s Vault</Headline>} color="#ff9800" toc>
+    <HeroLayout hero={<Headline id="wizards-vault">Wizard&apos;s Vault</Headline>} color="#ff9800" toc>
       <Headline id="objectives">Objectives</Headline>
       <ErrorBoundary fallback={<Notice type="error">Unknown error</Notice>}>
         <WizardVaultObjectives/>

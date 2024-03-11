@@ -3,7 +3,7 @@ import { fetchApi } from '../helper/fetchApi';
 import { Job } from '../job';
 import { loadColors } from '../helper/loadColors';
 import { isEmptyObject } from '@gw2treasures/helper/is';
-import { type ProcessEntitiesData, createSubJobs, processLocalizedEntities, Changes } from '../helper/process-entitites';
+import { type ProcessEntitiesData, createSubJobs, processLocalizedEntities, Changes } from '../helper/process-entities';
 
 interface ColorsJobProps extends ProcessEntitiesData<number> {}
 

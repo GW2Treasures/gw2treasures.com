@@ -2,7 +2,7 @@ import { db } from '../../db';
 import { fetchApi } from '../helper/fetchApi';
 import { Job } from '../job';
 import { isEmptyObject } from '@gw2treasures/helper/is';
-import { type ProcessEntitiesData, createSubJobs, processEntities } from '../helper/process-entitites';
+import { type ProcessEntitiesData, createSubJobs, processEntities } from '../helper/process-entities';
 import { Prisma } from '@gw2treasures/database';
 import { loadWizardsVaultListings } from '../helper/loadWizardsVaultListings';
 import { toId } from '../helper/toId';

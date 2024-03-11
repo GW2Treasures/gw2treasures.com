@@ -20,14 +20,17 @@ import type { Gw2Account } from '@/components/Gw2Api/types';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { SubmitButton } from '@gw2treasures/ui/components/Form/Buttons/SubmitButton';
 import { reauthorize } from '@/components/Gw2Api/reauthorize';
+import { Waypoint } from '@/components/Waypoint/Waypoint';
 
-export interface WizardVaultObjectivesProps { }
+export interface WizardVaultObjectivesProps {
+  objectiveWaypoints: Record<number, number>,
+}
 
 const requiredScopes = [Scope.GW2_Account, Scope.GW2_Progression];
 
 const loginUrl = `/login?returnTo=${encodeURIComponent('/wizards-vault')}&scopes=${encodeURIComponent(requiredScopes.join(','))}`;
 
-export const WizardVaultObjectives: FC<WizardVaultObjectivesProps> = ({}) => {
+export const WizardVaultObjectives: FC<WizardVaultObjectivesProps> = ({ objectiveWaypoints }) => {
   const user = useUser();
   const accounts = useGw2Accounts(requiredScopes);
 
@@ -69,7 +72,7 @@ export const WizardVaultObjectives: FC<WizardVaultObjectivesProps> = ({}) => {
             </tr>
           )}
           {!accounts.loading && !accounts.error && accounts.accounts.map((account) => (
-            <AccountOverviewRow key={account.id} account={account}/>
+            <AccountOverviewRow key={account.id} account={account} objectiveWaypoints={objectiveWaypoints}/>
           ))}
           <tr className={styles.rowSection}>
             <td>Rewards</td>
@@ -89,7 +92,7 @@ export const WizardVaultObjectives: FC<WizardVaultObjectivesProps> = ({}) => {
       {!accounts.loading && !accounts.error && accounts.accounts.map((account) => (
         <Fragment key={account.id}>
           <Headline id={account.id}>{account.name}</Headline>
-          <AccountObjectiveDetails account={account}/>
+          <AccountObjectiveDetails account={account} objectiveWaypoints={objectiveWaypoints}/>
         </Fragment>
       ))}
     </>
@@ -97,7 +100,8 @@ export const WizardVaultObjectives: FC<WizardVaultObjectivesProps> = ({}) => {
 };
 
 interface AccountObjectivesProps {
-  account: Gw2Account
+  account: Gw2Account,
+  objectiveWaypoints: Record<number, number>,
 }
 
 const AccountOverviewRow: FC<AccountObjectivesProps> = ({ account }) => {
@@ -123,7 +127,7 @@ const AccountOverviewRow: FC<AccountObjectivesProps> = ({ account }) => {
   );
 };
 
-const AccountObjectiveDetails: FC<AccountObjectivesProps> = ({ account }) => {
+const AccountObjectiveDetails: FC<AccountObjectivesProps> = ({ account, objectiveWaypoints }) => {
   const wizardsVault = useSubscription('wizards-vault', account.id);
 
   if(wizardsVault.loading) {
@@ -145,6 +149,7 @@ const AccountObjectiveDetails: FC<AccountObjectivesProps> = ({ account }) => {
             <th>Track</th>
             <th>Objective</th>
             <Table.HeaderCell small/>
+            <Table.HeaderCell small/>
             <th>Progress</th>
             <th align="right">Astral Acclaim</th>
           </tr>
@@ -155,7 +160,8 @@ const AccountObjectiveDetails: FC<AccountObjectivesProps> = ({ account }) => {
               <td>Daily</td>
               <td>{objective.track}</td>
               <td>{objective.title}</td>
-              <td align="right">{objective.claimed && <Tip tip="Reward claimed"><Icon icon="checkmark"/></Tip>}</td>
+              <td>{objectiveWaypoints[objective.id] && (<Waypoint id={objectiveWaypoints[objective.id]}/>)}</td>
+              <td>{objective.claimed && <Tip tip="Reward claimed"><Icon icon="checkmark"/></Tip>}</td>
               <ProgressCell progress={objective.progress_current / objective.progress_complete}>{objective.progress_current} / {objective.progress_complete}</ProgressCell>
               <td align="right"><AstralAcclaim value={objective.acclaim}/></td>
             </tr>
@@ -165,7 +171,8 @@ const AccountObjectiveDetails: FC<AccountObjectivesProps> = ({ account }) => {
               <td>Weekly</td>
               <td>{objective.track}</td>
               <td>{objective.title}</td>
-              <td align="right">{objective.claimed && <Tip tip="Reward claimed"><Icon icon="checkmark"/></Tip>}</td>
+              <td>{objectiveWaypoints[objective.id] && (<Waypoint id={objectiveWaypoints[objective.id]}/>)}</td>
+              <td>{objective.claimed && <Tip tip="Reward claimed"><Icon icon="checkmark"/></Tip>}</td>
               <ProgressCell progress={objective.progress_current / objective.progress_complete}>{objective.progress_current} / {objective.progress_complete}</ProgressCell>
               <td align="right"><AstralAcclaim value={objective.acclaim}/></td>
             </tr>
@@ -175,7 +182,8 @@ const AccountObjectiveDetails: FC<AccountObjectivesProps> = ({ account }) => {
               <td>Special</td>
               <td>{objective.track}</td>
               <td>{objective.title}</td>
-              <td align="right">{objective.claimed && <Tip tip="Reward claimed"><Icon icon="checkmark"/></Tip>}</td>
+              <td>{objectiveWaypoints[objective.id] && (<Waypoint id={objectiveWaypoints[objective.id]}/>)}</td>
+              <td>{objective.claimed && <Tip tip="Reward claimed"><Icon icon="checkmark"/></Tip>}</td>
               <ProgressCell progress={objective.progress_current / objective.progress_complete}>{objective.progress_current} / {objective.progress_complete}</ProgressCell>
               <td align="right"><AstralAcclaim value={objective.acclaim}/></td>
             </tr>

@@ -58,6 +58,7 @@ import { TitlesUpdate } from './titles/update';
 import { TpJob } from './tp';
 import { TpImportJob } from './tp/import';
 import { WizardsVaultListingsJob } from './wizardsvault/listings';
+import { WizardsVaultObjectivesJob } from './wizardsvault/objectives';
 import { WizardsVaultPurchaseLimitJob } from './wizardsvault/purchase-limit';
 
 const jobsInternal = {
@@ -124,6 +125,7 @@ const jobsInternal = {
   'colors': ColorsJob,
   'guild-upgrades': GuildUpgradesJob,
   'wizardsvault.listings': WizardsVaultListingsJob,
+  'wizardsvault.objectives': WizardsVaultObjectivesJob,
   'wizardsvault.purchase-limit': WizardsVaultPurchaseLimitJob,
 
   'tp': TpJob,

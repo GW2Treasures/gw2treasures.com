@@ -1,13 +1,13 @@
 import { AstralAcclaim } from '@/components/Format/AstralAcclaim';
-import { HeroLayout } from '@/components/Layout/HeroLayout';
 import { PageLayout } from '@/components/Layout/PageLayout';
 import { ColumnSelect } from '@/components/Table/ColumnSelect';
+import { Waypoint } from '@/components/Waypoint/Waypoint';
 import { cache } from '@/lib/cache';
 import { compareLocalizedName, localizedName } from '@/lib/localizedName';
 import { db } from '@/lib/prisma';
 import type { Language } from '@gw2treasures/database';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
-import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
+import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
 import Link from 'next/link';
 
@@ -36,6 +36,7 @@ export default async function WizardsVaultObjectivesPage({ params: { language }}
         <Objectives.Column id="id" sortBy="id" title="ID" align="right" hidden>{({ id }) => id}</Objectives.Column>
         <Objectives.Column id="track" sortBy="track" title="Track">{({ track }) => track}</Objectives.Column>
         <Objectives.Column id="title" sort={compareLocalizedName(language)} title="Objective">{(objective) => localizedName(objective, language)}</Objectives.Column>
+        <Objectives.Column id="wp" title="Waypoint">{({ waypointId }) => waypointId && <FlexRow><Waypoint id={waypointId}/> {waypointId}</FlexRow>}</Objectives.Column>
         <Objectives.Column id="acclaim" sortBy="acclaim" title="Astral Acclaim" align="right">{({ acclaim }) => <AstralAcclaim value={acclaim}/>}</Objectives.Column>
       </Objectives.Table>
     </PageLayout>

@@ -14,8 +14,9 @@ import { UnknownItem } from '@/components/Item/UnknownItem';
 import { LinkButton } from '@gw2treasures/ui/components/Form/Button';
 
 export default async function WizardsVaultPage() {
-  const [listings] = await Promise.all([
+  const [listings, objectiveWaypoints] = await Promise.all([
     db.wizardsVaultListing.findMany({ include: { item: { select: linkProperties }}, orderBy: { type: 'asc' }}),
+    db.wizardsVaultObjective.findMany({ where: { waypointId: { not: null }}, select: { id: true, waypointId: true }}).then((waypoints) => waypoints.reduce<Record<number, number>>((map, objective) => ({ ...map, [objective.id]: objective.waypointId! }), {})),
     pageView('wizards-vault')
   ]);
 
@@ -25,7 +26,7 @@ export default async function WizardsVaultPage() {
     <HeroLayout hero={<Headline id="wizards-vault">Wizard&apos;s Vault</Headline>} color="#ff9800" toc>
       <Headline id="objectives" actions={<LinkButton icon="chevron-right" href="/wizards-vault/objectives" appearance="tertiary">All Objectives</LinkButton>}>Objectives</Headline>
       <ErrorBoundary fallback={<Notice type="error">Unknown error</Notice>}>
-        <WizardVaultObjectives/>
+        <WizardVaultObjectives objectiveWaypoints={objectiveWaypoints}/>
       </ErrorBoundary>
 
       <Headline id="rewards">Rewards</Headline>

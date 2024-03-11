@@ -1,5 +1,5 @@
 import { randomUUID } from 'crypto';
-import { InputDataLocalized, processLocalizedEntities } from './process-entitites';
+import { InputDataLocalized, processLocalizedEntities } from './process-entities';
 import { LocalizedObject } from './types';
 import { Build, Prisma, Revision } from '@gw2treasures/database';
 import { db } from '../../db';

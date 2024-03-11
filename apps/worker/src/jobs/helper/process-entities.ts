@@ -404,7 +404,7 @@ function createRevision<T>(tx: PrismaTransaction, known: T | undefined, updated:
 
   // rediscovered
   if(knownData && updatedData && wasRemoved) {
-    return createRevisionInDb({ ...base, schema, data: updatedData, type: 'Update', description: 'Rediscoverd in API' }, tx);
+    return createRevisionInDb({ ...base, schema, data: updatedData, type: 'Update', description: 'Rediscovered in API' }, tx);
   }
 
   // updated

@@ -14,17 +14,18 @@ export const Breadcrumb: FC<BreadcrumbProps> = ({ children }) => {
       {Children.map(children, (child) => isTruthy(child) && (
         <li>{child}</li>
       ))}
-      <script type="application/ld+json">{JSON.stringify({
-        '@context': 'https://schema.org',
-        '@type': 'BreadcrumbList',
-        'itemListElement': children.filter(isTruthy).map(({ props }, index) => ({
-          '@type': 'ListItem',
-          'position': index + 1,
-          'name': props.name,
-          'item': props.href ? absoluteUrl(props.href) : undefined
-        }))
-      })}
-      </script>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{
+        __html: JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'BreadcrumbList',
+          'itemListElement': children.filter(isTruthy).map(({ props }, index) => ({
+            '@type': 'ListItem',
+            'position': index + 1,
+            'name': props.name,
+            'item': props.href ? absoluteUrl(props.href) : undefined
+          }))
+        })
+      }}/>
     </ol>
   );
 };

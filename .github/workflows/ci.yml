@@ -66,7 +66,7 @@ jobs:
         VERSION=ci-run-${{ github.run_id }}
         echo "IMAGE_NAME=$IMAGE_ID:$VERSION" >> $GITHUB_ENV
     - name: Build the Docker image
-      uses: docker/bake-action@v4.2.0
+      uses: docker/bake-action@v4.3.0
       with:
         files: |
           ./docker-compose.yml

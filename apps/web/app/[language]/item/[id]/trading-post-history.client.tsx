@@ -1,6 +1,6 @@
 'use client';
 
-import { Coins } from '@/components/Format/Coins';
+import { Coins, coinsToGoldSilverCopper } from '@/components/Format/Coins';
 import { FormatDate } from '@/components/Format/FormatDate';
 import { FormatNumber } from '@/components/Format/FormatNumber';
 import type { TradingPostHistory } from '@gw2treasures/database';
@@ -56,6 +56,7 @@ const labels = {
 
 // size of chart
 const height = 420;
+const brushHeight = 40;
 const marginDefault = { top: 20, bottom: 40, left: 88, right: 88 };
 const marginMobile = { top: 20, bottom: 40, left: 0, right: 0 };
 
@@ -70,11 +71,6 @@ function downSample<T>(data: T[], points: number): T[] {
 export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientInternalProps> = ({ history: completeHistory, width }) => {
   const isMobile = width < 720;
   const margin = isMobile ? marginMobile : marginDefault;
-
-  const [xMax, yMax] = useMemo(() => [
-    width - margin.left - margin.right,
-    height - margin.top - margin.bottom,
-  ], [width, margin]);
 
   const [range, setRange] = useState<Range>('90');
 
@@ -107,11 +103,7 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
   const [thresholdVisible, setThresholdVisible] = useState(true);
   const [smoothCurve, setSmoothCurve] = useState(true);
 
-  const xScale = scaleTime({
-    range: [0, xMax],
-    round: true,
-    domain: extent(history, ({ time }) => time) as [Date, Date],
-  });
+  const yMax = useMemo(() => height - margin.top - margin.bottom, [margin]);
 
   const priceScale = scaleLinear({
     range: [yMax, 0],
@@ -125,6 +117,19 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
     round: true,
     domain: [0, Math.max(max.sellQuantity, max.buyQuantity)],
     nice: true,
+  });
+
+  const dynamicMargin = isMobile ? { left: 0, right: 0 } : {
+    left: priceScale.ticks(6).map((v) => estimateGoldTickLength(v) + 20).reduce((max, length) => Math.max(max, length), 0),
+    right: quantityScale.ticks(6).map((value) => quantityScale.tickFormat(6)(value).length * 9).reduce((max, length) => Math.max(max, length), 0),
+  };
+
+  const xMax = width - dynamicMargin.left - dynamicMargin.right;
+
+  const xScale = scaleTime({
+    range: [0, xMax],
+    round: true,
+    domain: extent(history, ({ time }) => time) as [Date, Date],
   });
 
   // helper functions
@@ -143,7 +148,7 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
   // tooltip event handler
   const handleTooltip = (event: TouchEvent<SVGRectElement> | MouseEvent<SVGRectElement>) => {
     const { x, y } = localPoint(event) || { x: 0, y: 0 };
-    const x0 = xScale.invert(x - margin.left);
+    const x0 = xScale.invert(x - dynamicMargin.left);
     const index = bisectDate(history, x0, 1);
     const d0 = history[index - 1];
     const d1 = history[index];
@@ -196,18 +201,18 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
 
       <div style={{ position: 'relative', overflow: 'hidden', margin: '32px -16px', padding: '0 16px' }}>
         <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} style={{ overflow: 'visible' }}>
-          <Group left={margin.left} top={margin.top}>
-            <GridRows scale={priceScale} width={xMax} height={yMax} numTicks={6} stroke="var(--color-border)"/>
+          <Group left={dynamicMargin.left} top={margin.top}>
+            <GridRows scale={priceScale} width={xMax} height={yMax} numTicks={6} stroke="var(--color-border-dark)" strokeDasharray="4 4"/>
             {/* <GridColumns scale={xScale} width={xMax} height={yMax} numTicks={width >= 1000 ? 10 : 6} stroke="var(--color-border)"/> */}
 
             {!isMobile && (
               <>
-                <AxisLeft scale={priceScale} stroke="var(--color-border-dark)" tickStroke="var(--color-border-dark)" tickComponent={renderGoldTick} tickFormat={(v) => v.toString()} numTicks={6}/>
-                <AxisRight scale={quantityScale} left={xMax} stroke="var(--color-border-dark)" tickStroke="var(--color-border-dark)" tickLabelProps={{ fill: 'var(--color-text)', fontFamily: 'var(--font-wotfard)', fontSize: 12 }} numTicks={6}/>
+                <AxisLeft scale={priceScale} strokeWidth={0} tickComponent={renderGoldTick} tickFormat={(v) => v.toString()} numTicks={6}/>
+                <AxisRight scale={quantityScale} left={xMax} strokeWidth={0} tickLabelProps={{ fill: 'var(--color-text)', fontFamily: 'var(--font-wotfard)', fontSize: 12 }} numTicks={6}/>
               </>
             )}
 
-            <AxisBottom scale={xScale} top={yMax} stroke="var(--color-border-dark)" tickStroke="var(--color-border-dark)" tickLabelProps={{ fill: 'var(--color-text)', fontFamily: 'var(--font-wotfard)', fontSize: 12 }} numTicks={width >= 1000 ? 10 : 6}/>
+            <AxisBottom scale={xScale} top={yMax} stroke="var(--color-border)" strokeWidth={2} tickStroke="var(--color-border)" tickLabelProps={{ fill: 'var(--color-text)', fontFamily: 'var(--font-wotfard)', fontSize: 12 }} numTicks={width >= 1000 ? 10 : 6}/>
 
             <g strokeWidth={2} strokeLinejoin="round" strokeLinecap="round">
               {visibility.sellQuantity && visibility.buyQuantity && thresholdVisible && (
@@ -225,15 +230,15 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
           {tooltipOpen && tooltipData && (
             <g>
               <Line
-                from={{ x: x(tooltipData) + margin.left, y: margin.top }}
-                to={{ x: x(tooltipData) + margin.left, y: yMax + margin.top }}
+                from={{ x: x(tooltipData) + dynamicMargin.left, y: margin.top }}
+                to={{ x: x(tooltipData) + dynamicMargin.left, y: yMax + margin.top }}
                 stroke="var(--color-border-dark)"
                 strokeWidth={1}
                 pointerEvents="none"
                 strokeDasharray="4 2"/>
               {visibility.sellQuantity && (
                 <Circle
-                  cx={x(tooltipData) + margin.left}
+                  cx={x(tooltipData) + dynamicMargin.left}
                   cy={quantityScale(tooltipData.sellQuantity ?? 0) + margin.top}
                   r={4}
                   fill={colors.sellQuantity}
@@ -244,7 +249,7 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
               )}
               {visibility.buyQuantity && (
                 <Circle
-                  cx={x(tooltipData) + margin.left}
+                  cx={x(tooltipData) + dynamicMargin.left}
                   cy={quantityScale(tooltipData.buyQuantity ?? 0) + margin.top}
                   r={4}
                   fill={colors.buyQuantity}
@@ -255,7 +260,7 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
               )}
               {visibility.sellPrice && tooltipData.sellPrice && (
                 <Circle
-                  cx={x(tooltipData) + margin.left}
+                  cx={x(tooltipData) + dynamicMargin.left}
                   cy={priceScale(tooltipData.sellPrice ?? 0) + margin.top}
                   r={4}
                   fill={colors.sellPrice}
@@ -266,7 +271,7 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
               )}
               {visibility.buyPrice && tooltipData.buyPrice && (
                 <Circle
-                  cx={x(tooltipData) + margin.left}
+                  cx={x(tooltipData) + dynamicMargin.left}
                   cy={priceScale(tooltipData.buyPrice ?? 0) + margin.top}
                   r={4}
                   fill={colors.buyPrice}
@@ -279,7 +284,7 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
           )}
 
           <Bar
-            x={margin.left}
+            x={dynamicMargin.left}
             y={margin.top}
             width={xMax}
             height={yMax}
@@ -289,6 +294,7 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
             onMouseMove={handleTooltip}
             onMouseLeave={() => hideTooltip()}/>
         </svg>
+
         {tooltipOpen && tooltipData && (
           <>
             <Tooltip
@@ -357,6 +363,21 @@ function renderGoldTick(props: TickRendererProps) {
     </svg>
   );
 }
+
+function estimateGoldTickLength(value: number) {
+  const { gold, silver, copper } = coinsToGoldSilverCopper(value);
+
+  return (
+    // width of gold (14px circle + 8px per char)
+    (gold > 0 ? 14 + gold.toString().length * 8 : 0) +
+    (silver > 0 ? 14 + silver.toString().length * 8 : 0) +
+    (copper > 0 || value === 0 ? 14 + copper.toString().length * 8 : 0) +
+    // margin between two sizes
+    (copper && silver || copper && gold || silver && copper ? 6 : 0) +
+    // additional margin if all are set
+    (copper && silver && gold ? 6 : 0)
+    );
+};
 
 interface ChartToggleProps {
   label: ReactNode;

@@ -31,7 +31,7 @@
     "@gw2treasures/tsconfig": "*",
     "@svgr/core": "8.1.0",
     "@svgr/plugin-jsx": "8.1.0",
-    "@types/node": "20.11.27",
+    "@types/node": "20.11.28",
     "rimraf": "5.0.5",
     "ts-node": "10.9.2"
   },

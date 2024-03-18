@@ -24,6 +24,9 @@ import { Button, LinkButton } from '@gw2treasures/ui/components/Form/Button';
 import { MenuList } from '@gw2treasures/ui/components/Layout/MenuList';
 import { Select } from '@gw2treasures/ui/components/Form/Select';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
+import type BaseBrush from '@visx/brush/lib/BaseBrush';
+import { Brush } from '@visx/brush';
+import type { Bounds } from '@visx/brush/lib/types';
 
 export interface TradingPostHistoryClientProps {
   history: TradingPostHistory[]
@@ -56,6 +59,7 @@ const labels = {
 
 // size of chart
 const height = 420;
+const brushBorder = 2;
 const brushHeight = 40;
 const marginDefault = { top: 20, bottom: 40, left: 88, right: 88 };
 const marginMobile = { top: 20, bottom: 40, left: 0, right: 0 };
@@ -69,71 +73,98 @@ function downSample<T>(data: T[], points: number): T[] {
 }
 
 export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientInternalProps> = ({ history: completeHistory, width }) => {
-  const isMobile = width < 720;
-  const margin = isMobile ? marginMobile : marginDefault;
+  // reference to the brush element
+  const brushRef = useRef<BaseBrush>(null);
 
-  const [range, setRange] = useState<Range>('90');
+  // data of the selected range
+  const [data, setData] = useState(completeHistory);
 
-  const history = useMemo(() => {
-    if(range === 'full') {
-      return downSample(completeHistory, 365 * 2);
-    }
-
-    const days = Number(range);
-
-    const date = new Date();
-    date.setDate(date.getDate() - days);
-    const dateValue = date.valueOf();
-
-    return downSample(completeHistory.filter((entry) => entry.time.valueOf() > dateValue), 365);
-  }, [completeHistory, range]);
+  // options
+  const [visibility, setVisibility] = useState({ sellPrice: true, buyPrice: true, sellQuantity: true, buyQuantity: true });
+  const [thresholdVisible, setThresholdVisible] = useState(true);
+  const [smoothCurve, setSmoothCurve] = useState(true);
+  const curve = smoothCurve ? curveMonotoneX : curveLinear;
 
   // calculate max values
-  const max = useMemo(() => history.reduce<{ sellPrice: number, buyPrice: number, sellQuantity: number, buyQuantity: number }>(
+  const max = useMemo(() => data.reduce<{ sellPrice: number, buyPrice: number, sellQuantity: number, buyQuantity: number }>(
     (max, current) => ({
       sellPrice: Math.max(max.sellPrice, current.sellPrice ?? 0),
       buyPrice: Math.max(max.buyPrice, current.buyPrice ?? 0),
       sellQuantity: Math.max(max.sellQuantity, current.sellQuantity ?? 0),
       buyQuantity: Math.max(max.buyQuantity, current.buyQuantity ?? 0),
     }), { sellPrice: 0, buyPrice: 0, sellQuantity: 0, buyQuantity: 0 }),
-    [history]
+    [data]
+  );
+  const maxComplete = useMemo(() => completeHistory.reduce<{ sellPrice: number, buyPrice: number, sellQuantity: number, buyQuantity: number }>(
+    (max, current) => ({
+      sellPrice: Math.max(max.sellPrice, current.sellPrice ?? 0),
+      buyPrice: Math.max(max.buyPrice, current.buyPrice ?? 0),
+      sellQuantity: Math.max(max.sellQuantity, current.sellQuantity ?? 0),
+      buyQuantity: Math.max(max.buyQuantity, current.buyQuantity ?? 0),
+    }), { sellPrice: 0, buyPrice: 0, sellQuantity: 0, buyQuantity: 0 }),
+    [completeHistory]
   );
 
-  const [visibility, setVisibility] = useState({ sellPrice: true, buyPrice: true, sellQuantity: true, buyQuantity: true });
-  const [thresholdVisible, setThresholdVisible] = useState(true);
-  const [smoothCurve, setSmoothCurve] = useState(true);
+  // sizing
+  const isMobile = width < 720;
+  const margin = isMobile ? marginMobile : marginDefault;
 
   const yMax = useMemo(() => height - margin.top - margin.bottom, [margin]);
 
-  const priceScale = scaleLinear({
+  // y-scales for main chart
+  const priceScale = useMemo(() => scaleLinear({
     range: [yMax, 0],
     round: true,
     domain: [0, Math.max(max.sellPrice, max.buyPrice)],
     nice: true,
-  });
+  }), [max.buyPrice, max.sellPrice, yMax]);
 
-  const quantityScale = scaleLinear({
+  const quantityScale = useMemo(() => scaleLinear({
     range: [yMax, 0],
     round: true,
     domain: [0, Math.max(max.sellQuantity, max.buyQuantity)],
     nice: true,
-  });
+  }), [max.buyQuantity, max.sellQuantity, yMax]);
 
-  const dynamicMargin = isMobile ? { left: 0, right: 0 } : {
+  // y-scales for brush
+  const priceBrushScale = useMemo(() => scaleLinear({
+    range: [brushHeight, 0],
+    round: true,
+    domain: [0, Math.max(maxComplete.sellPrice, maxComplete.buyPrice)],
+    nice: true,
+  }), [maxComplete.buyPrice, maxComplete.sellPrice]);
+
+  const quantityBrushScale = useMemo(() => scaleLinear({
+    range: [brushHeight, 0],
+    round: true,
+    domain: [0, Math.max(maxComplete.sellQuantity, maxComplete.buyQuantity)],
+    nice: true,
+  }), [maxComplete.buyQuantity, maxComplete.sellQuantity]);
+
+  // calculate left/right margin depending on y-scales
+  const dynamicMargin = useMemo(() => isMobile ? { left: 0, right: 0 } : {
     left: priceScale.ticks(6).map((v) => estimateGoldTickLength(v) + 20).reduce((max, length) => Math.max(max, length), 0),
     right: quantityScale.ticks(6).map((value) => quantityScale.tickFormat(6)(value).length * 9).reduce((max, length) => Math.max(max, length), 0),
-  };
+  }, [isMobile, priceScale, quantityScale]);
 
   const xMax = width - dynamicMargin.left - dynamicMargin.right;
 
-  const xScale = scaleTime({
+  // x-scale for main chart
+  const xScale = useMemo(() => scaleTime({
     range: [0, xMax],
     round: true,
-    domain: extent(history, ({ time }) => time) as [Date, Date],
-  });
+    domain: extent(data, ({ time }) => time) as [Date, Date],
+  }), [data, xMax]);
+
+  // x-scale for brush
+  const xBrushScale = useMemo(() => scaleTime({
+    range: [0, xMax - brushBorder * 2],
+    round: true,
+    domain: extent(completeHistory, ({ time }) => time) as [Date, Date],
+  }), [completeHistory, xMax]);
 
   // helper functions
-  const x = (d: TradingPostHistory) => xScale(d.time);
+  const x = useCallback((d: TradingPostHistory) => xScale(d.time), [xScale]);
 
   // tooltip
   const {
@@ -149,9 +180,9 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
   const handleTooltip = (event: TouchEvent<SVGRectElement> | MouseEvent<SVGRectElement>) => {
     const { x, y } = localPoint(event) || { x: 0, y: 0 };
     const x0 = xScale.invert(x - dynamicMargin.left);
-    const index = bisectDate(history, x0, 1);
-    const d0 = history[index - 1];
-    const d1 = history[index];
+    const index = bisectDate(data, x0, 1);
+    const d0 = data[index - 1];
+    const d1 = data[index];
     let d = d0;
     if (d1) {
       d = x0.valueOf() - d0.time.valueOf() > d1.time.valueOf() - x0.valueOf() ? d1 : d0;
@@ -164,9 +195,31 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
     });
   };
 
-  const current = history.at(-1)!;
+  // brush
+  const initialBrushPosition = useMemo(
+    () => ({
+      start: { x: xBrushScale(completeHistory.at(0)!.time) },
+      end: { x: xBrushScale(completeHistory.at(-1)!.time) },
+    }),
+    [completeHistory, xBrushScale],
+  );
 
-  const curve = smoothCurve ? curveMonotoneX : curveLinear;
+  const onBrushChange = useCallback((domain: Bounds | null) => {
+    if(!domain) {
+      return;
+    }
+
+    const { x0, x1 } = domain;
+    const filteredData = completeHistory.filter((s) => {
+      const x = s.time.getTime();
+      return x > x0 && x < x1;
+    });
+    setData(filteredData);
+  }, [completeHistory]);
+
+
+  // get latest data point (shown in legend)
+  const current = completeHistory.at(-1)!;
 
   return (
     <>
@@ -187,8 +240,7 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
         </div>
         <div>
           <FlexRow>
-            <LinkButton appearance="menu" icon="diff" href={`/tradingpost/compare?ids=${history[0].itemId}`}>Compare</LinkButton>
-            <Select options={[{ value: '14', label: '2 Weeks' }, { value: '90', label: '3 Months' }, { value: '365', label: '1 Year' }, { value: 'full', label: 'Full history' }]} value={range} onChange={(range) => setRange(range as Range)}/>
+            <LinkButton appearance="menu" icon="diff" href={`/tradingpost/compare?ids=${completeHistory[0].itemId}`}>Compare</LinkButton>
             <DropDown button={<Button icon="settings">Settings</Button>}>
               <MenuList>
                 <Checkbox checked={thresholdVisible} onChange={setThresholdVisible}>Highlight Supply/Demand Difference</Checkbox>
@@ -200,6 +252,37 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
       </FlexRow>
 
       <div style={{ position: 'relative', overflow: 'hidden', margin: '32px -16px', padding: '0 16px' }}>
+        <div style={{ marginBottom: 32, marginLeft: dynamicMargin.left, marginRight: dynamicMargin.right, display: 'flex' }}>
+          <svg width={xMax} height={brushHeight + brushBorder * 2} viewBox={`0 0 ${xMax} ${brushHeight + brushBorder * 2}`} style={{ overflow: 'visible' }}>
+            <rect x={brushBorder / 2} y={brushBorder / 2} width={xMax - brushBorder} height={brushHeight + brushBorder} stroke="var(--color-border-dark)" strokeWidth={brushBorder} rx={2} fill="none"/>
+            <Group left={brushBorder} top={brushBorder} strokeWidth={1.5} strokeLinejoin="round" strokeLinecap="round">
+              {visibility.sellQuantity && (<LinePath data={completeHistory} y={(d) => quantityBrushScale(d.sellQuantity ?? 0)} x={(d) => xBrushScale(d.time)} curve={curve} stroke={colors.sellQuantity} strokeDasharray="2"/>)}
+              {visibility.buyQuantity && (<LinePath data={completeHistory} y={(d) => quantityBrushScale(d.buyQuantity ?? 0)} x={(d) => xBrushScale(d.time)} curve={curve} stroke={colors.buyQuantity} strokeDasharray="2"/>)}
+
+              {visibility.sellPrice && (<LinePath data={completeHistory} y={(d) => priceBrushScale(d.sellPrice ?? 0)} x={(d) => xBrushScale(d.time)} defined={(d) => !!d.sellPrice} curve={curve} stroke={colors.sellPrice}/>)}
+              {visibility.buyPrice && (<LinePath data={completeHistory} y={(d) => priceBrushScale(d.buyPrice ?? 0)} x={(d) => xBrushScale(d.time)} defined={(d) => !!d.buyPrice} curve={curve} stroke={colors.buyPrice}/>)}
+            </Group>
+            <Group left={brushBorder / 2} top={brushBorder / 2}>
+              <Brush
+                xScale={xBrushScale}
+                yScale={priceBrushScale}
+                width={xMax - brushBorder}
+                height={brushHeight + brushBorder}
+                handleSize={8}
+                innerRef={brushRef}
+                resizeTriggerAreas={['left', 'right']}
+                brushDirection="horizontal"
+                initialBrushPosition={initialBrushPosition}
+                onChange={onBrushChange}
+                onClick={() => setData(completeHistory)}
+                selectedBoxStyle={{ fill: 'var(--color-focus)', fillOpacity: .15, stroke: 'var(--color-focus)', strokeWidth: 2, rx: 2 }}
+                useWindowMoveEvents
+                // renderBrushHandle={(props) => <BrushHandle {...props} />}
+              />
+            </Group>
+          </svg>
+        </div>
+
         <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} style={{ overflow: 'visible' }}>
           <Group left={dynamicMargin.left} top={margin.top}>
             <GridRows scale={priceScale} width={xMax} height={yMax} numTicks={6} stroke="var(--color-border-dark)" strokeDasharray="4 4"/>
@@ -216,14 +299,14 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
 
             <g strokeWidth={2} strokeLinejoin="round" strokeLinecap="round">
               {visibility.sellQuantity && visibility.buyQuantity && thresholdVisible && (
-                <Threshold id="quantity" data={history} x={x} y0={(d) => quantityScale(d.sellQuantity ?? 0)} y1={(d) => quantityScale(d.buyQuantity ?? 0)} clipAboveTo={0} clipBelowTo={yMax} curve={curve} aboveAreaProps={{ fill: colors.sellQuantity, fillOpacity: .08 }} belowAreaProps={{ fill: colors.buyQuantity, fillOpacity: .08 }}/>
+                <Threshold id="quantity" data={data} x={x} y0={(d) => quantityScale(d.sellQuantity ?? 0)} y1={(d) => quantityScale(d.buyQuantity ?? 0)} clipAboveTo={0} clipBelowTo={yMax} curve={curve} aboveAreaProps={{ fill: colors.sellQuantity, fillOpacity: .08 }} belowAreaProps={{ fill: colors.buyQuantity, fillOpacity: .08 }}/>
               )}
 
-              {visibility.sellQuantity && (<LinePath data={history} y={(d) => quantityScale(d.sellQuantity ?? 0)} x={x} curve={curve} stroke={colors.sellQuantity} strokeDasharray="4"/>)}
-              {visibility.buyQuantity && (<LinePath data={history} y={(d) => quantityScale(d.buyQuantity ?? 0)} x={x} curve={curve} stroke={colors.buyQuantity} strokeDasharray="4"/>)}
+              {visibility.sellQuantity && (<LinePath data={data} y={(d) => quantityScale(d.sellQuantity ?? 0)} x={x} curve={curve} stroke={colors.sellQuantity} strokeDasharray="4"/>)}
+              {visibility.buyQuantity && (<LinePath data={data} y={(d) => quantityScale(d.buyQuantity ?? 0)} x={x} curve={curve} stroke={colors.buyQuantity} strokeDasharray="4"/>)}
 
-              {visibility.sellPrice && (<LinePath data={history} y={(d) => priceScale(d.sellPrice ?? 0)} x={x} defined={(d) => !!d.sellPrice} curve={curve} stroke={colors.sellPrice}/>)}
-              {visibility.buyPrice && (<LinePath data={history} y={(d) => priceScale(d.buyPrice ?? 0)} x={x} defined={(d) => !!d.buyPrice} curve={curve} stroke={colors.buyPrice}/>)}
+              {visibility.sellPrice && (<LinePath data={data} y={(d) => priceScale(d.sellPrice ?? 0)} x={x} defined={(d) => !!d.sellPrice} curve={curve} stroke={colors.sellPrice}/>)}
+              {visibility.buyPrice && (<LinePath data={data} y={(d) => priceScale(d.buyPrice ?? 0)} x={x} defined={(d) => !!d.buyPrice} curve={curve} stroke={colors.buyPrice}/>)}
             </g>
           </Group>
 

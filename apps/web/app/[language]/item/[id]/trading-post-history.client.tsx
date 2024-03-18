@@ -7,7 +7,7 @@ import type { TradingPostHistory } from '@gw2treasures/database';
 import { AxisBottom, AxisLeft, AxisRight, type TickRendererProps } from '@visx/axis';
 import { curveLinear, curveMonotoneX } from '@visx/curve';
 import { localPoint } from '@visx/event';
-import { GridRows } from '@visx/grid';
+import { GridColumns, GridRows } from '@visx/grid';
 import { Group } from '@visx/group';
 import { ParentSize } from '@visx/responsive';
 import { scaleLinear, scaleTime } from '@visx/scale';
@@ -22,18 +22,18 @@ import { Checkbox } from '@gw2treasures/ui/components/Form/Checkbox';
 import { DropDown } from '@gw2treasures/ui/components/DropDown/DropDown';
 import { Button, LinkButton } from '@gw2treasures/ui/components/Form/Button';
 import { MenuList } from '@gw2treasures/ui/components/Layout/MenuList';
-import { Select } from '@gw2treasures/ui/components/Form/Select';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import type BaseBrush from '@visx/brush/lib/BaseBrush';
 import { Brush } from '@visx/brush';
-import type { Bounds } from '@visx/brush/lib/types';
+import type { Bounds, PartialBrushStartEnd } from '@visx/brush/lib/types';
+import { Icon } from '@gw2treasures/ui';
 
 export interface TradingPostHistoryClientProps {
   history: TradingPostHistory[]
 }
 
 export const TradingPostHistoryClient: FC<TradingPostHistoryClientProps> = (props) => {
-  return (<ParentSize ignoreDimensions={['height', 'top', 'left']} style={{ height: 'auto' }}>{({ width }) => <TradingPostHistoryClientInternal width={width} {...props}/>}</ParentSize>);
+  return (<ParentSize ignoreDimensions={['height', 'top', 'left']} style={{ height: 'auto' }}>{({ width }) => width > 80 && <TradingPostHistoryClientInternal width={width} {...props}/>}</ParentSize>);
 };
 
 export interface TradingPostHistoryClientInternalProps extends TradingPostHistoryClientProps {
@@ -60,11 +60,14 @@ const labels = {
 // size of chart
 const height = 420;
 const brushBorder = 2;
-const brushHeight = 40;
+const brushHeight = 48;
 const marginDefault = { top: 20, bottom: 40, left: 88, right: 88 };
 const marginMobile = { top: 20, bottom: 40, left: 0, right: 0 };
 
-type Range = '90' | '365' | 'full';
+const threeMonthsAgo = new Date();
+threeMonthsAgo.setDate(threeMonthsAgo.getDate() - 90);
+
+const datawars2DataBefore = new Date('2023-12-27');
 
 function downSample<T>(data: T[], points: number): T[] {
   // TODO: use some more advanced downsampling
@@ -77,7 +80,7 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
   const brushRef = useRef<BaseBrush>(null);
 
   // data of the selected range
-  const [data, setData] = useState(completeHistory);
+  const [data, setData] = useState(completeHistory.filter((d) => d.time > threeMonthsAgo));
 
   // options
   const [visibility, setVisibility] = useState({ sellPrice: true, buyPrice: true, sellQuantity: true, buyQuantity: true });
@@ -143,9 +146,9 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
 
   // calculate left/right margin depending on y-scales
   const dynamicMargin = useMemo(() => isMobile ? { left: 0, right: 0 } : {
-    left: priceScale.ticks(6).map((v) => estimateGoldTickLength(v) + 20).reduce((max, length) => Math.max(max, length), 0),
-    right: quantityScale.ticks(6).map((value) => quantityScale.tickFormat(6)(value).length * 9).reduce((max, length) => Math.max(max, length), 0),
-  }, [isMobile, priceScale, quantityScale]);
+    left: visibility.sellPrice || visibility.buyPrice ? priceScale.ticks(6).map((v) => estimateGoldTickLength(v) + 20).reduce((max, length) => Math.max(max, length), 0) : 0,
+    right: visibility.sellQuantity || visibility.buyQuantity ? quantityScale.ticks(6).map((value) => quantityScale.tickFormat(6)(value).length * 8 + 8).reduce((max, length) => Math.max(max, length), 0) : 0,
+  }, [isMobile, priceScale, quantityScale, visibility.buyPrice, visibility.buyQuantity, visibility.sellPrice, visibility.sellQuantity]);
 
   const xMax = width - dynamicMargin.left - dynamicMargin.right;
 
@@ -158,10 +161,10 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
 
   // x-scale for brush
   const xBrushScale = useMemo(() => scaleTime({
-    range: [0, xMax - brushBorder * 2],
+    range: [0, width - brushBorder * 2],
     round: true,
     domain: extent(completeHistory, ({ time }) => time) as [Date, Date],
-  }), [completeHistory, xMax]);
+  }), [completeHistory, width]);
 
   // helper functions
   const x = useCallback((d: TradingPostHistory) => xScale(d.time), [xScale]);
@@ -195,28 +198,77 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
     });
   };
 
-  // brush
-  const initialBrushPosition = useMemo(
-    () => ({
-      start: { x: xBrushScale(completeHistory.at(0)!.time) },
-      end: { x: xBrushScale(completeHistory.at(-1)!.time) },
-    }),
-    [completeHistory, xBrushScale],
-  );
+  // brush initial position
+  const initialBrushPosition: PartialBrushStartEnd = useMemo(() => ({
+    start: { x: xBrushScale(new Date()) },
+    end: { x: xBrushScale(threeMonthsAgo) }
+  }), [xBrushScale]);
 
-  const onBrushChange = useCallback((domain: Bounds | null) => {
-    if(!domain) {
+  // brush handler
+  const ignoreNextChange = useRef(false);
+  const handleBrushChange = useCallback((domain: Bounds | null) => {
+    if(!domain || ignoreNextChange.current) {
+      ignoreNextChange.current = false;
       return;
     }
 
     const { x0, x1 } = domain;
     const filteredData = completeHistory.filter((s) => {
       const x = s.time.getTime();
-      return x > x0 && x < x1;
+      return x >= x0 && x <= x1;
     });
     setData(filteredData);
   }, [completeHistory]);
 
+  // set range handler
+  const handleSetRange = useCallback((days: number | null) => {
+    if(completeHistory.length === 0) {
+      return;
+    }
+
+    if(days === null) {
+      setData(completeHistory);
+      brushRef.current!.reset();
+    } else {
+      // debugger;
+      const lastEntry = completeHistory.at(-1)!;
+      let startDate = new Date(data.at(-1) === lastEntry ? lastEntry.time : data.at(0)?.time ?? lastEntry.time);
+      let endDate = new Date(startDate);
+      endDate.setDate(startDate.getDate() + days);
+
+      if(endDate > lastEntry.time) {
+        endDate = new Date(lastEntry.time);
+        startDate = new Date(lastEntry.time);
+        startDate.setDate(startDate.getDate() - days);
+      }
+
+      const x0 = startDate.getTime();
+      const x1 = endDate.getTime();
+
+      const filteredData = completeHistory.filter((s) => {
+        const x = s.time.getTime();
+        return x >= x0 && x <= x1;
+      });
+
+      setData(filteredData);
+
+      brushRef.current!.updateBrush((prevBrush) => {
+        const newExtent = brushRef.current!.getExtent(
+          { x: xBrushScale(filteredData.at(0)!.time) },
+          { x: xBrushScale(filteredData.at(-1)!.time) }
+        );
+
+        ignoreNextChange.current = true;
+
+        return {
+          ...prevBrush,
+          start: { y: newExtent.y0, x: newExtent.x0 },
+          end: { y: newExtent.y1, x: newExtent.x1 },
+          extent: newExtent,
+        };
+      });
+    }
+  }, [completeHistory, data, xBrushScale]);
 
   // get latest data point (shown in legend)
   const current = completeHistory.at(-1)!;
@@ -252,10 +304,12 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
       </FlexRow>
 
       <div style={{ position: 'relative', overflow: 'hidden', margin: '32px -16px', padding: '0 16px' }}>
-        <div style={{ marginBottom: 32, marginLeft: dynamicMargin.left, marginRight: dynamicMargin.right, display: 'flex' }}>
-          <svg width={xMax} height={brushHeight + brushBorder * 2} viewBox={`0 0 ${xMax} ${brushHeight + brushBorder * 2}`} style={{ overflow: 'visible' }}>
-            <rect x={brushBorder / 2} y={brushBorder / 2} width={xMax - brushBorder} height={brushHeight + brushBorder} stroke="var(--color-border-dark)" strokeWidth={brushBorder} rx={2} fill="none"/>
+        <div style={{ marginBottom: 32 }}>
+          <svg width={width} height={brushHeight + brushBorder * 2} viewBox={`0 0 ${width} ${brushHeight + brushBorder * 2}`} style={{ overflow: 'visible', userSelect: 'none' }}>
+            <rect x={brushBorder / 2} y={brushBorder / 2} width={width - brushBorder} height={brushHeight + brushBorder} stroke="var(--color-border)" strokeWidth={brushBorder} rx={2} fill="none"/>
             <Group left={brushBorder} top={brushBorder} strokeWidth={1.5} strokeLinejoin="round" strokeLinecap="round">
+              <GridColumns scale={xBrushScale} width={width - brushBorder * 2} height={brushHeight} numTicks={10} stroke="var(--color-border)" strokeDasharray="4"/>
+
               {visibility.sellQuantity && (<LinePath data={completeHistory} y={(d) => quantityBrushScale(d.sellQuantity ?? 0)} x={(d) => xBrushScale(d.time)} curve={curve} stroke={colors.sellQuantity} strokeDasharray="2"/>)}
               {visibility.buyQuantity && (<LinePath data={completeHistory} y={(d) => quantityBrushScale(d.buyQuantity ?? 0)} x={(d) => xBrushScale(d.time)} curve={curve} stroke={colors.buyQuantity} strokeDasharray="2"/>)}
 
@@ -266,171 +320,188 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
               <Brush
                 xScale={xBrushScale}
                 yScale={priceBrushScale}
-                width={xMax - brushBorder}
+                width={width - brushBorder}
                 height={brushHeight + brushBorder}
                 handleSize={8}
                 innerRef={brushRef}
                 resizeTriggerAreas={['left', 'right']}
                 brushDirection="horizontal"
                 initialBrushPosition={initialBrushPosition}
-                onChange={onBrushChange}
+                onChange={handleBrushChange}
                 onClick={() => setData(completeHistory)}
-                selectedBoxStyle={{ fill: 'var(--color-focus)', fillOpacity: .15, stroke: 'var(--color-focus)', strokeWidth: 2, rx: 2 }}
-                useWindowMoveEvents
-                // renderBrushHandle={(props) => <BrushHandle {...props} />}
-              />
+                selectedBoxStyle={{ fill: 'var(--color-focus)', fillOpacity: .1, stroke: 'var(--color-focus)', strokeWidth: brushBorder, rx: 2 }}
+                useWindowMoveEvents/>
             </Group>
           </svg>
+          <FlexRow align="space-between">
+            <span>Showing <b style={{ fontFeatureSettings: '"tnum" 1' }}>{data.length > 0 ? Math.ceil((data.at(-1)!.time.getTime() - data.at(0)!.time.getTime()) / 1000 / 60 / 60 / 24) : 0} days</b> before <b style={{ fontFeatureSettings: '"tnum" 1' }}><FormatDate date={data.at(-1)?.time}/></b></span>
+            <div>
+              <FlexRow>
+                <Button iconOnly appearance="menu" onClick={() => handleSetRange(null)}>Full History</Button>
+                <Button iconOnly appearance="menu" onClick={() => handleSetRange(365)}>1 Year</Button>
+                <Button iconOnly appearance="menu" onClick={() => handleSetRange(90)}>3 Months</Button>
+                <Button iconOnly appearance="menu" onClick={() => handleSetRange(14)}>2 Weeks</Button>
+              </FlexRow>
+            </div>
+          </FlexRow>
         </div>
+        <div style={{ position: 'relative' }}>
+          <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} style={{ overflow: 'visible' }}>
+            <Group left={dynamicMargin.left} top={margin.top}>
+              {(visibility.sellPrice || visibility.buyPrice) ? (
+                <GridRows scale={priceScale} width={xMax} height={yMax} numTicks={6} stroke="var(--color-border-dark)" strokeDasharray="4 4"/>
+                ) : (visibility.sellQuantity || visibility.buyQuantity) && (
+                  <GridRows scale={quantityScale} width={xMax} height={yMax} numTicks={6} stroke="var(--color-border-dark)" strokeDasharray="4 4"/>
+              )}
+              {/* <GridColumns scale={xScale} width={xMax} height={yMax} numTicks={width >= 1000 ? 10 : 6} stroke="var(--color-border)"/> */}
 
-        <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} style={{ overflow: 'visible' }}>
-          <Group left={dynamicMargin.left} top={margin.top}>
-            <GridRows scale={priceScale} width={xMax} height={yMax} numTicks={6} stroke="var(--color-border-dark)" strokeDasharray="4 4"/>
-            {/* <GridColumns scale={xScale} width={xMax} height={yMax} numTicks={width >= 1000 ? 10 : 6} stroke="var(--color-border)"/> */}
-
-            {!isMobile && (
-              <>
-                <AxisLeft scale={priceScale} strokeWidth={0} tickComponent={renderGoldTick} tickFormat={(v) => v.toString()} numTicks={6}/>
-                <AxisRight scale={quantityScale} left={xMax} strokeWidth={0} tickLabelProps={{ fill: 'var(--color-text)', fontFamily: 'var(--font-wotfard)', fontSize: 12 }} numTicks={6}/>
-              </>
-            )}
-
-            <AxisBottom scale={xScale} top={yMax} stroke="var(--color-border)" strokeWidth={2} tickStroke="var(--color-border)" tickLabelProps={{ fill: 'var(--color-text)', fontFamily: 'var(--font-wotfard)', fontSize: 12 }} numTicks={width >= 1000 ? 10 : 6}/>
-
-            <g strokeWidth={2} strokeLinejoin="round" strokeLinecap="round">
-              {visibility.sellQuantity && visibility.buyQuantity && thresholdVisible && (
-                <Threshold id="quantity" data={data} x={x} y0={(d) => quantityScale(d.sellQuantity ?? 0)} y1={(d) => quantityScale(d.buyQuantity ?? 0)} clipAboveTo={0} clipBelowTo={yMax} curve={curve} aboveAreaProps={{ fill: colors.sellQuantity, fillOpacity: .08 }} belowAreaProps={{ fill: colors.buyQuantity, fillOpacity: .08 }}/>
+              {!isMobile && (
+                <>
+                  {(visibility.sellPrice || visibility.buyPrice) && (<AxisLeft scale={priceScale} strokeWidth={0} tickComponent={renderGoldTick} tickFormat={(v) => v.toString()} numTicks={6}/>)}
+                  {(visibility.sellQuantity || visibility.buyQuantity) && (<AxisRight scale={quantityScale} left={xMax} strokeWidth={0} tickLabelProps={{ fill: 'var(--color-text)', fontFamily: 'var(--font-wotfard)', fontSize: 12 }} numTicks={6}/>)}
+                </>
               )}
 
-              {visibility.sellQuantity && (<LinePath data={data} y={(d) => quantityScale(d.sellQuantity ?? 0)} x={x} curve={curve} stroke={colors.sellQuantity} strokeDasharray="4"/>)}
-              {visibility.buyQuantity && (<LinePath data={data} y={(d) => quantityScale(d.buyQuantity ?? 0)} x={x} curve={curve} stroke={colors.buyQuantity} strokeDasharray="4"/>)}
+              <AxisBottom scale={xScale} top={yMax} stroke="var(--color-border)" strokeWidth={2} tickStroke="var(--color-border)" tickLabelProps={{ fill: 'var(--color-text)', fontFamily: 'var(--font-wotfard)', fontSize: 12 }} numTicks={width >= 1000 ? 10 : 6}/>
 
-              {visibility.sellPrice && (<LinePath data={data} y={(d) => priceScale(d.sellPrice ?? 0)} x={x} defined={(d) => !!d.sellPrice} curve={curve} stroke={colors.sellPrice}/>)}
-              {visibility.buyPrice && (<LinePath data={data} y={(d) => priceScale(d.buyPrice ?? 0)} x={x} defined={(d) => !!d.buyPrice} curve={curve} stroke={colors.buyPrice}/>)}
-            </g>
-          </Group>
+              <g strokeWidth={2} strokeLinejoin="round" strokeLinecap="round">
+                {visibility.sellQuantity && visibility.buyQuantity && thresholdVisible && (
+                  <Threshold id="quantity" data={data} x={x} y0={(d) => quantityScale(d.sellQuantity ?? 0)} y1={(d) => quantityScale(d.buyQuantity ?? 0)} clipAboveTo={0} clipBelowTo={yMax} curve={curve} aboveAreaProps={{ fill: colors.sellQuantity, fillOpacity: .08 }} belowAreaProps={{ fill: colors.buyQuantity, fillOpacity: .08 }}/>
+                )}
+
+                {visibility.sellQuantity && (<LinePath data={data} y={(d) => quantityScale(d.sellQuantity ?? 0)} x={x} curve={curve} stroke={colors.sellQuantity} strokeDasharray="4"/>)}
+                {visibility.buyQuantity && (<LinePath data={data} y={(d) => quantityScale(d.buyQuantity ?? 0)} x={x} curve={curve} stroke={colors.buyQuantity} strokeDasharray="4"/>)}
+
+                {visibility.sellPrice && (<LinePath data={data} y={(d) => priceScale(d.sellPrice ?? 0)} x={x} defined={(d) => !!d.sellPrice} curve={curve} stroke={colors.sellPrice}/>)}
+                {visibility.buyPrice && (<LinePath data={data} y={(d) => priceScale(d.buyPrice ?? 0)} x={x} defined={(d) => !!d.buyPrice} curve={curve} stroke={colors.buyPrice}/>)}
+              </g>
+            </Group>
+
+            {tooltipOpen && tooltipData && (
+              <g>
+                <Line
+                  from={{ x: x(tooltipData) + dynamicMargin.left, y: margin.top }}
+                  to={{ x: x(tooltipData) + dynamicMargin.left, y: yMax + margin.top }}
+                  stroke="var(--color-border-dark)"
+                  strokeWidth={1}
+                  pointerEvents="none"
+                  strokeDasharray="4 2"/>
+                {visibility.sellQuantity && (
+                  <Circle
+                    cx={x(tooltipData) + dynamicMargin.left}
+                    cy={quantityScale(tooltipData.sellQuantity ?? 0) + margin.top}
+                    r={4}
+                    fill={colors.sellQuantity}
+                    stroke="var(--color-background)"
+                    strokeWidth={2}
+                    style={{ filter: 'drop-shadow(0 0 4px rgba(0,0,0,0.12))' }}
+                    pointerEvents="none"/>
+                )}
+                {visibility.buyQuantity && (
+                  <Circle
+                    cx={x(tooltipData) + dynamicMargin.left}
+                    cy={quantityScale(tooltipData.buyQuantity ?? 0) + margin.top}
+                    r={4}
+                    fill={colors.buyQuantity}
+                    stroke="var(--color-background)"
+                    strokeWidth={2}
+                    style={{ filter: 'drop-shadow(0 0 4px rgba(0,0,0,0.12))' }}
+                    pointerEvents="none"/>
+                )}
+                {visibility.sellPrice && tooltipData.sellPrice && (
+                  <Circle
+                    cx={x(tooltipData) + dynamicMargin.left}
+                    cy={priceScale(tooltipData.sellPrice ?? 0) + margin.top}
+                    r={4}
+                    fill={colors.sellPrice}
+                    stroke="var(--color-background)"
+                    strokeWidth={2}
+                    style={{ filter: 'drop-shadow(0 0 4px rgba(0,0,0,0.12))' }}
+                    pointerEvents="none"/>
+                )}
+                {visibility.buyPrice && tooltipData.buyPrice && (
+                  <Circle
+                    cx={x(tooltipData) + dynamicMargin.left}
+                    cy={priceScale(tooltipData.buyPrice ?? 0) + margin.top}
+                    r={4}
+                    fill={colors.buyPrice}
+                    stroke="var(--color-background)"
+                    strokeWidth={2}
+                    style={{ filter: 'drop-shadow(0 0 4px rgba(0,0,0,0.12))' }}
+                    pointerEvents="none"/>
+                )}
+              </g>
+            )}
+
+            <Bar
+              x={dynamicMargin.left}
+              y={margin.top}
+              width={xMax}
+              height={yMax}
+              fill="transparent"
+              onTouchStart={handleTooltip}
+              onTouchMove={handleTooltip}
+              onMouseMove={handleTooltip}
+              onMouseLeave={() => hideTooltip()}/>
+          </svg>
 
           {tooltipOpen && tooltipData && (
-            <g>
-              <Line
-                from={{ x: x(tooltipData) + dynamicMargin.left, y: margin.top }}
-                to={{ x: x(tooltipData) + dynamicMargin.left, y: yMax + margin.top }}
-                stroke="var(--color-border-dark)"
-                strokeWidth={1}
-                pointerEvents="none"
-                strokeDasharray="4 2"/>
-              {visibility.sellQuantity && (
-                <Circle
-                  cx={x(tooltipData) + dynamicMargin.left}
-                  cy={quantityScale(tooltipData.sellQuantity ?? 0) + margin.top}
-                  r={4}
-                  fill={colors.sellQuantity}
-                  stroke="var(--color-background)"
-                  strokeWidth={2}
-                  style={{ filter: 'drop-shadow(0 0 4px rgba(0,0,0,0.12))' }}
-                  pointerEvents="none"/>
-              )}
-              {visibility.buyQuantity && (
-                <Circle
-                  cx={x(tooltipData) + dynamicMargin.left}
-                  cy={quantityScale(tooltipData.buyQuantity ?? 0) + margin.top}
-                  r={4}
-                  fill={colors.buyQuantity}
-                  stroke="var(--color-background)"
-                  strokeWidth={2}
-                  style={{ filter: 'drop-shadow(0 0 4px rgba(0,0,0,0.12))' }}
-                  pointerEvents="none"/>
-              )}
-              {visibility.sellPrice && tooltipData.sellPrice && (
-                <Circle
-                  cx={x(tooltipData) + dynamicMargin.left}
-                  cy={priceScale(tooltipData.sellPrice ?? 0) + margin.top}
-                  r={4}
-                  fill={colors.sellPrice}
-                  stroke="var(--color-background)"
-                  strokeWidth={2}
-                  style={{ filter: 'drop-shadow(0 0 4px rgba(0,0,0,0.12))' }}
-                  pointerEvents="none"/>
-              )}
-              {visibility.buyPrice && tooltipData.buyPrice && (
-                <Circle
-                  cx={x(tooltipData) + dynamicMargin.left}
-                  cy={priceScale(tooltipData.buyPrice ?? 0) + margin.top}
-                  r={4}
-                  fill={colors.buyPrice}
-                  stroke="var(--color-background)"
-                  strokeWidth={2}
-                  style={{ filter: 'drop-shadow(0 0 4px rgba(0,0,0,0.12))' }}
-                  pointerEvents="none"/>
-              )}
-            </g>
-          )}
-
-          <Bar
-            x={dynamicMargin.left}
-            y={margin.top}
-            width={xMax}
-            height={yMax}
-            fill="transparent"
-            onTouchStart={handleTooltip}
-            onTouchMove={handleTooltip}
-            onMouseMove={handleTooltip}
-            onMouseLeave={() => hideTooltip()}/>
-        </svg>
-
-        {tooltipOpen && tooltipData && (
-          <>
-            <Tooltip
-              // set this to random so it correctly updates with parent bounds
-              key={Math.random()}
-              top={yMax + margin.top - 4}
-              left={(tooltipLeft ?? 0) + 8}
-              applyPositionStyle
-              className={tipStyles.tip}
-              style={{ textAlign: 'center', transform: 'translateX(-50%)', minWidth: 72 }}
-            >
-              <FormatDate date={tooltipData?.time}/>
-            </Tooltip>
-            {(visibility.sellPrice || visibility.buyPrice || visibility.sellQuantity || visibility.buyQuantity) && (
-              <TooltipWithBounds
+            <>
+              <Tooltip
                 // set this to random so it correctly updates with parent bounds
                 key={Math.random()}
-                top={tooltipTop}
-                left={(tooltipLeft ?? 0) + 16}
-                className={tipStyles.tip}
-                unstyled
+                top={yMax + margin.top - 4}
+                left={(tooltipLeft ?? 0) + 8}
                 applyPositionStyle
+                className={tipStyles.tip}
+                style={{ textAlign: 'center', transform: 'translateX(-50%)', minWidth: 72 }}
               >
-                <div className={styles.tooltip}>
-                  {visibility.sellPrice && (
-                    <div className={styles.tooltipLine} style={{ '--_color': colors.sellPrice }}>
-                      <span className={styles.tooltipLineLabel}>{labels.sellPrice}:</span>
-                      <span className={styles.tooltipLineValue}>{tooltipData.sellPrice ? (<Coins value={tooltipData?.sellPrice ?? 0}/>) : '-'}</span>
-                    </div>
-                  )}
-                  {visibility.buyPrice && (
-                    <div className={styles.tooltipLine} style={{ '--_color': colors.buyPrice }}>
-                      <span className={styles.tooltipLineLabel}>{labels.buyPrice}:</span>
-                      <span className={styles.tooltipLineValue}>{tooltipData.buyPrice ? (<Coins value={tooltipData.buyPrice}/>) : '-'}</span>
-                    </div>
-                  )}
-                  {visibility.sellQuantity && (
-                    <div className={styles.tooltipLine} style={{ '--_color': colors.sellQuantity }}>
-                      <span className={styles.tooltipLineLabel}>{labels.sellQuantity}:</span>
-                      <span className={styles.tooltipLineValue}><FormatNumber value={tooltipData?.sellQuantity ?? 0}/></span>
-                    </div>
-                  )}
-                  {visibility.buyQuantity && (
-                    <div className={styles.tooltipLine} style={{ '--_color': colors.buyQuantity }}>
-                      <span className={styles.tooltipLineLabel}>{labels.buyQuantity}:</span>
-                      <span className={styles.tooltipLineValue}><FormatNumber value={tooltipData?.buyQuantity ?? 0}/></span>
-                    </div>
-                  )}
-                </div>
-              </TooltipWithBounds>
-            )}
-          </>
-        )}
+                <FormatDate date={tooltipData?.time}/>
+              </Tooltip>
+              {(visibility.sellPrice || visibility.buyPrice || visibility.sellQuantity || visibility.buyQuantity) && (
+                <TooltipWithBounds
+                  // set this to random so it correctly updates with parent bounds
+                  key={Math.random()}
+                  top={tooltipTop}
+                  left={(tooltipLeft ?? 0) + 16}
+                  className={tipStyles.tip}
+                  unstyled
+                  applyPositionStyle
+                >
+                  <div className={styles.tooltip}>
+                    {visibility.sellPrice && (
+                      <div className={styles.tooltipLine} style={{ '--_color': colors.sellPrice }}>
+                        <span className={styles.tooltipLineLabel}>{labels.sellPrice}:</span>
+                        <span className={styles.tooltipLineValue}>{tooltipData.sellPrice ? (<Coins value={tooltipData?.sellPrice ?? 0}/>) : '-'}</span>
+                      </div>
+                    )}
+                    {visibility.buyPrice && (
+                      <div className={styles.tooltipLine} style={{ '--_color': colors.buyPrice }}>
+                        <span className={styles.tooltipLineLabel}>{labels.buyPrice}:</span>
+                        <span className={styles.tooltipLineValue}>{tooltipData.buyPrice ? (<Coins value={tooltipData.buyPrice}/>) : '-'}</span>
+                      </div>
+                    )}
+                    {visibility.sellQuantity && (
+                      <div className={styles.tooltipLine} style={{ '--_color': colors.sellQuantity }}>
+                        <span className={styles.tooltipLineLabel}>{labels.sellQuantity}:</span>
+                        <span className={styles.tooltipLineValue}><FormatNumber value={tooltipData?.sellQuantity ?? 0}/></span>
+                      </div>
+                    )}
+                    {visibility.buyQuantity && (
+                      <div className={styles.tooltipLine} style={{ '--_color': colors.buyQuantity }}>
+                        <span className={styles.tooltipLineLabel}>{labels.buyQuantity}:</span>
+                        <span className={styles.tooltipLineValue}><FormatNumber value={tooltipData?.buyQuantity ?? 0}/></span>
+                      </div>
+                    )}
+                    {tooltipData.time < datawars2DataBefore && (
+                      <span style={{ color: 'var(--color-text-muted)' }}>Historical data provided by datawars2.ie</span>
+                    )}
+                  </div>
+                </TooltipWithBounds>
+              )}
+            </>
+          )}
+        </div>
       </div>
 
     </>
@@ -482,10 +553,13 @@ const ChartToggle: FC<ChartToggleProps> = ({ label, children, checked, onChange,
     }
   }, []);
 
+  const handleToggle = useCallback(() => {
+    onChange(!checked);
+  }, [checked, onChange]);
 
   return (
     <label className={checked ? styles.toggle : styles.toggleUnchecked} htmlFor={id} tabIndex={0} onKeyDown={labelOnKeyDown}>
-      <input className={styles.toggleCheckbox} type="checkbox" checked={checked} id={id} onChange={() => onChange(!checked)} ref={inputRef}/>
+      <input className={styles.toggleCheckbox} type="checkbox" checked={checked} id={id} onChange={handleToggle} ref={inputRef}/>
       <svg className={styles.toggleBorder} viewBox="0 0 1 7" preserveAspectRatio="none"><path d="M0,0 L0,7" strokeWidth={4} stroke={checked ? color : 'var(--color-border-dark)'} strokeDasharray={dashed ? '1.2 0.8' : undefined}/></svg>
       <div className={styles.toggleLabel}>{label}</div>
       <div className={styles.toggleValue}>{children}</div>

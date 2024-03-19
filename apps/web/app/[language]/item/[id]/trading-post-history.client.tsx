@@ -28,6 +28,8 @@ import { Brush } from '@visx/brush';
 import type { Bounds, PartialBrushStartEnd } from '@visx/brush/lib/types';
 import { RectClipPath } from '@visx/clip-path';
 import type { AccessorForArrayItem } from '@visx/shape/lib/types';
+import { useLocalStorageState } from '@/lib/useLocalStorageState';
+import { CookieNotification } from '@/components/User/CookieNotification';
 
 export interface TradingPostHistoryClientProps {
   history: TradingPostHistory[]
@@ -135,10 +137,10 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
     updateData(() => setData(getDataInRange(completeHistory, range)));
   }, [completeHistory, range]);
 
-  // options
-  const [visibility, setVisibility] = useState({ sellPrice: true, buyPrice: true, sellQuantity: true, buyQuantity: true });
-  const [thresholdVisible, setThresholdVisible] = useState(true);
-  const [smoothCurve, setSmoothCurve] = useState(true);
+  // settings
+  const [visibility, setVisibility] = useLocalStorageState('chart.tp.visibility', { sellPrice: true, buyPrice: true, sellQuantity: true, buyQuantity: true });
+  const [thresholdVisible, setThresholdVisible] = useLocalStorageState('chart.tp.threshold', true);
+  const [smoothCurve, setSmoothCurve] = useLocalStorageState('chart.tp.smooth', true);
   const curve = smoothCurve ? curveMonotoneX : curveLinear;
 
   // calculate max values
@@ -172,14 +174,14 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
     range: [yMax, 0],
     round: true,
     domain: [0, Math.max(max.sellPrice, max.buyPrice)],
-    nice: true,
+    nice: 6,
   }), [max.buyPrice, max.sellPrice, yMax]);
 
   const quantityScale = useMemo(() => scaleLinear({
     range: [yMax, 0],
     round: true,
     domain: [0, Math.max(max.sellQuantity, max.buyQuantity)],
-    nice: true,
+    nice: 6,
   }), [max.buyQuantity, max.sellQuantity, yMax]);
 
   // y-scales for brush
@@ -307,7 +309,7 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
       const lastEntry = completeHistory.at(-1)!;
       const firstEntry = completeHistory.at(0)!;
 
-      let startDate = new Date(data.at(-1) === lastEntry ? lastEntry.time : data.at(0)?.time ?? lastEntry.time);
+      let startDate = new Date(data.at(-1) === lastEntry ? lastEntry.time : range[0]);
       let endDate = new Date(startDate);
       endDate.setDate(startDate.getDate() + days);
 
@@ -364,9 +366,10 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
         <div>
           <FlexRow wrap>
             <LinkButton appearance="menu" icon="diff" href={`/tradingpost/compare?ids=${completeHistory[0].itemId}`}>Compare</LinkButton>
-            <DropDown button={<Button icon="settings">Settings</Button>}>
+            <DropDown button={<Button icon="settings">Settings</Button>} preferredPlacement="right-start">
               <MenuList>
-                <Checkbox checked={thresholdVisible} onChange={setThresholdVisible}>Highlight Supply/Demand Difference</Checkbox>
+                <CookieNotification/>
+                <Checkbox checked={thresholdVisible} onChange={setThresholdVisible}>Highlight Supply/Demand</Checkbox>
                 <Checkbox checked={smoothCurve} onChange={setSmoothCurve}>Smooth Curve</Checkbox>
               </MenuList>
             </DropDown>

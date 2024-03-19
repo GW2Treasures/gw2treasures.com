@@ -123,7 +123,7 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
   const clipPathId = useId();
 
   // displayed range
-  const fullRange = useMemo(() => [completeHistory[0].time, completeHistory[completeHistory.length - 1].time], [completeHistory]);
+  const fullRange = useMemo<Range>(() => [completeHistory[0].time, completeHistory[completeHistory.length - 1].time], [completeHistory]);
   const [range, setRange] = useState(getInitialRangeFromData(completeHistory));
 
   // data of the selected range
@@ -394,7 +394,7 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
                 brushDirection="horizontal"
                 initialBrushPosition={initialBrushPosition}
                 onChange={handleBrushChange}
-                onClick={() => setData(completeHistory)}
+                onClick={() => setRange(fullRange)}
                 selectedBoxStyle={{ fill: 'var(--color-focus)', fillOpacity: .1, stroke: 'var(--color-focus)', strokeWidth: brushBorder, rx: 2 }}
                 useWindowMoveEvents/>
             </Group>
@@ -638,8 +638,8 @@ interface BrushChartLinesProps {
 
 const BrushChartLines: FC<BrushChartLinesProps> = ({ visibility, data, xBrush, curve, sellPriceBrush, buyPriceBrush, sellQuantityBrush, buyQuantityBrush }) => (
   <>
-    {visibility.sellQuantity && (<LinePath data={data} y={sellQuantityBrush} x={xBrush} curve={curve} stroke={colors.sellQuantity} strokeDasharray="2"/>)}
-    {visibility.buyQuantity && (<LinePath data={data} y={buyQuantityBrush} x={xBrush} curve={curve} stroke={colors.buyQuantity} strokeDasharray="2"/>)}
+    {visibility.sellQuantity && (<LinePath data={data} y={sellQuantityBrush} x={xBrush} curve={curve} stroke={colors.sellQuantity} strokeDasharray="2 4"/>)}
+    {visibility.buyQuantity && (<LinePath data={data} y={buyQuantityBrush} x={xBrush} curve={curve} stroke={colors.buyQuantity} strokeDasharray="2 4"/>)}
 
     {visibility.sellPrice && (<LinePath data={data} y={sellPriceBrush} x={xBrush} defined={isDefinedSellPrice} curve={curve} stroke={colors.sellPrice}/>)}
     {visibility.buyPrice && (<LinePath data={data} y={buyPriceBrush} x={xBrush} defined={isDefinedBuyPrice} curve={curve} stroke={colors.buyPrice}/>)}

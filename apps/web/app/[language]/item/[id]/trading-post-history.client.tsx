@@ -15,7 +15,7 @@ import { Bar, Circle, Line, LinePath } from '@visx/shape';
 import { Threshold } from '@visx/threshold';
 import { Tooltip, TooltipWithBounds, useTooltip } from '@visx/tooltip';
 import { bisector, extent } from 'd3-array';
-import { useMemo, type FC, type MouseEvent, type TouchEvent, useState, useId, type ReactNode, useRef, type KeyboardEventHandler, useCallback, startTransition } from 'react';
+import { useMemo, type FC, type MouseEvent, type TouchEvent, useState, useId, type ReactNode, useRef, type KeyboardEventHandler, useCallback, startTransition, useDeferredValue } from 'react';
 import tipStyles from '@gw2treasures/ui/components/Tip/Tip.module.css';
 import styles from './trading-post-history.module.css';
 import { Checkbox } from '@gw2treasures/ui/components/Form/Checkbox';
@@ -26,6 +26,7 @@ import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import type BaseBrush from '@visx/brush/lib/BaseBrush';
 import { Brush } from '@visx/brush';
 import type { Bounds, PartialBrushStartEnd } from '@visx/brush/lib/types';
+import { RectClipPath } from '@visx/clip-path';
 
 export interface TradingPostHistoryClientProps {
   history: TradingPostHistory[]
@@ -86,6 +87,9 @@ const isDefinedBuyPrice = (d: TradingPostHistory) => !!d.buyPrice;
 export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientInternalProps> = ({ history: completeHistory, width }) => {
   // reference to the brush element
   const brushRef = useRef<BaseBrush>(null);
+
+  // chart clip-path id
+  const clipPathId = useId();
 
   // data of the selected range
   const [data, setData] = useState(completeHistory.filter((d) => d.time > threeMonthsAgo));
@@ -218,10 +222,19 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
   };
 
   // brush initial position
-  const initialBrushPosition: PartialBrushStartEnd = useMemo(() => ({
-    start: { x: xBrushScale(new Date()) },
-    end: { x: xBrushScale(threeMonthsAgo) }
-  }), [xBrushScale]);
+  const initialBrushPosition: PartialBrushStartEnd | undefined = useMemo(() => {
+    const startIndex = bisectDate(completeHistory, threeMonthsAgo);
+
+    // if the last 3 months includes the complete history (or we don't have any historic data), don't show the initial brush
+    if(startIndex === 0 || completeHistory.length === 0) {
+      return undefined;
+    }
+
+    return {
+      start: { x: xBrushScale(completeHistory.at(startIndex)!.time) },
+      end: { x: xBrushScale(completeHistory.at(-1)!.time) }
+    };
+  }, [completeHistory, xBrushScale]);
 
   // brush handler
   const ignoreNextChange = useRef(false);
@@ -250,6 +263,8 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
       brushRef.current!.reset();
     } else {
       const lastEntry = completeHistory.at(-1)!;
+      const firstEntry = completeHistory.at(0)!;
+
       let startDate = new Date(data.at(-1) === lastEntry ? lastEntry.time : data.at(0)?.time ?? lastEntry.time);
       let endDate = new Date(startDate);
       endDate.setDate(startDate.getDate() + days);
@@ -258,6 +273,10 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
         endDate = new Date(lastEntry.time);
         startDate = new Date(lastEntry.time);
         startDate.setDate(startDate.getDate() - days);
+      }
+
+      if(startDate < firstEntry.time) {
+        startDate = new Date(firstEntry.time);
       }
 
       const x0 = startDate.getTime();
@@ -290,6 +309,8 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
 
   // get latest data point (shown in legend)
   const current = completeHistory.at(-1)!;
+
+  const displayedData = useDeferredValue(data);
 
   return (
     <>
@@ -376,16 +397,17 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
               {!isMobile && (visibility.sellQuantity || visibility.buyQuantity) && (<AxisRight scale={quantityScale} left={xMax} strokeWidth={0} tickLabelProps={tickLabelProps} numTicks={6}/>)}
               <AxisBottom scale={xScale} top={yMax} stroke="var(--color-border)" strokeWidth={2} tickStroke="var(--color-border)" tickLabelProps={tickLabelProps} numTicks={width >= 1000 ? 10 : 6}/>
 
-              <g strokeWidth={2} strokeLinejoin="round" strokeLinecap="round">
+              <RectClipPath id={clipPathId} x={0} y={0} width={xMax} height={yMax}/>
+              <g strokeWidth={2} strokeLinejoin="round" strokeLinecap="round" clipPath={`url(#${clipPathId})`}>
                 {visibility.sellQuantity && visibility.buyQuantity && thresholdVisible && (
-                  <Threshold id="quantity" data={data} x={x} y0={sellQuantity} y1={buyQuantity} clipAboveTo={0} clipBelowTo={yMax} curve={curve} aboveAreaProps={{ fill: colors.sellQuantity, fillOpacity: .08 }} belowAreaProps={{ fill: colors.buyQuantity, fillOpacity: .08 }}/>
+                  <Threshold id="quantity" data={displayedData} x={x} y0={sellQuantity} y1={buyQuantity} clipAboveTo={0} clipBelowTo={yMax} curve={curve} aboveAreaProps={{ fill: colors.sellQuantity, fillOpacity: .08 }} belowAreaProps={{ fill: colors.buyQuantity, fillOpacity: .08 }}/>
                 )}
 
-                {visibility.sellQuantity && (<LinePath data={data} y={sellQuantity} x={x} curve={curve} stroke={colors.sellQuantity} strokeDasharray="4"/>)}
-                {visibility.buyQuantity && (<LinePath data={data} y={buyQuantity} x={x} curve={curve} stroke={colors.buyQuantity} strokeDasharray="4"/>)}
+                {visibility.sellQuantity && (<LinePath data={displayedData} y={sellQuantity} x={x} curve={curve} stroke={colors.sellQuantity} strokeDasharray="4"/>)}
+                {visibility.buyQuantity && (<LinePath data={displayedData} y={buyQuantity} x={x} curve={curve} stroke={colors.buyQuantity} strokeDasharray="4"/>)}
 
-                {visibility.sellPrice && (<LinePath data={data} y={sellPrice} x={x} defined={isDefinedSellPrice} curve={curve} stroke={colors.sellPrice}/>)}
-                {visibility.buyPrice && (<LinePath data={data} y={buyPrice} x={x} defined={isDefinedBuyPrice} curve={curve} stroke={colors.buyPrice}/>)}
+                {visibility.sellPrice && (<LinePath data={displayedData} y={sellPrice} x={x} defined={isDefinedSellPrice} curve={curve} stroke={colors.sellPrice}/>)}
+                {visibility.buyPrice && (<LinePath data={displayedData} y={buyPrice} x={x} defined={isDefinedBuyPrice} curve={curve} stroke={colors.buyPrice}/>)}
               </g>
             </Group>
 
@@ -394,10 +416,9 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
                 <Line
                   from={{ x: x(tooltipData) + dynamicMargin.left, y: margin.top }}
                   to={{ x: x(tooltipData) + dynamicMargin.left, y: yMax + margin.top }}
-                  stroke="var(--color-border-dark)"
+                  stroke="var(--color-border)"
                   strokeWidth={1}
-                  pointerEvents="none"
-                  strokeDasharray="4 2"/>
+                  pointerEvents="none"/>
                 {visibility.sellQuantity && (
                   <Circle
                     cx={x(tooltipData) + dynamicMargin.left}
@@ -460,10 +481,8 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
           {tooltipOpen && tooltipData && (
             <>
               <Tooltip
-                // set this to random so it correctly updates with parent bounds
-                key={Math.random()}
                 top={yMax + margin.top - 4}
-                left={(tooltipLeft ?? 0) + 8}
+                left={(tooltipLeft ?? 0) - 8}
                 applyPositionStyle
                 className={tipStyles.tip}
                 style={{ textAlign: 'center', transform: 'translateX(-50%)', minWidth: 72 }}
@@ -475,7 +494,7 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
                   // set this to random so it correctly updates with parent bounds
                   key={Math.random()}
                   top={tooltipTop}
-                  left={(tooltipLeft ?? 0) + 16}
+                  left={tooltipLeft ?? 0}
                   className={tipStyles.tip}
                   unstyled
                   applyPositionStyle

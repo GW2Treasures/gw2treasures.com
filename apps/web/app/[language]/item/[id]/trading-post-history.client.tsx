@@ -109,8 +109,8 @@ function getInitialRangeFromData(data: TradingPostHistory[]): Range {
 }
 
 function getDataInRange(data: TradingPostHistory[], [start, end]: Range): TradingPostHistory[] {
-  const startIndex = Math.max(bisectDate(data, start) - 2, 0);
-  const endIndex = Math.min(bisectDate(data, end, startIndex) + 2, data.length);
+  const startIndex = Math.max(bisectDate(data, start) - 10, 0);
+  const endIndex = Math.min(bisectDate(data, end, startIndex) + 10, data.length);
 
   return data.slice(startIndex, endIndex);
 }
@@ -244,12 +244,13 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
   } = useTooltip<TradingPostHistory>();
 
   // tooltip event handler
-  const handleTooltip = (event: TouchEvent<SVGRectElement> | MouseEvent<SVGRectElement>) => {
+  const handleTooltip = useCallback((event: TouchEvent<SVGRectElement> | MouseEvent<SVGRectElement>) => {
     const { x, y } = localPoint(event) || { x: 0, y: 0 };
     const x0 = xScale.invert(x - dynamicMargin.left);
-    const index = bisectDate(data, x0, 1);
-    const d0 = data[index - 1];
-    const d1 = data[index];
+    const visibleData = data.filter(({ time }) => time >= range[0] && time <= range[1]);
+    const index = bisectDate(visibleData, x0, 1);
+    const d0 = visibleData[index - 1];
+    const d1 = visibleData[index];
     let d = d0;
     if (d1) {
       d = x0.valueOf() - d0.time.valueOf() > d1.time.valueOf() - x0.valueOf() ? d1 : d0;
@@ -260,7 +261,7 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
       tooltipLeft: x,
       tooltipTop: y,
     });
-  };
+  }, [data, dynamicMargin.left, range, showTooltip, xScale]);
 
   // brush initial position
   const initialBrushPosition: PartialBrushStartEnd | undefined = useMemo(() => {
@@ -400,7 +401,9 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
             </Group>
           </svg>
           <FlexRow align="space-between" wrap>
-            <span>Showing <b style={{ fontFeatureSettings: '"tnum" 1' }}>{data.length > 0 ? Math.ceil((range[1].getTime() - range[0].getTime()) / 1000 / 60 / 60 / 24) : 0} days</b> before <b style={{ fontFeatureSettings: '"tnum" 1' }}><FormatDate date={range[1]}/></b></span>
+            <span>
+              Showing <b style={{ fontFeatureSettings: '"tnum" 1' }}>{data.length > 0 ? Math.ceil((range[1].getTime() - range[0].getTime()) / 1000 / 60 / 60 / 24) : 0} days</b> before <b style={{ fontFeatureSettings: '"tnum" 1' }}><FormatDate date={range[1]}/></b>
+            </span>
             <div>
               <Button appearance="menu" onClick={() => handleSetRange(null)}>Full History</Button>
               <Button appearance="menu" onClick={() => handleSetRange(365)}>1 Year</Button>
@@ -426,15 +429,7 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
 
               <RectClipPath id={clipPathId} x={0} y={0} width={xMax} height={yMax}/>
               <Group strokeWidth={2} strokeLinejoin="round" strokeLinecap="round" clipPath={`url(#${clipPathId})`}>
-                {visibility.sellQuantity && visibility.buyQuantity && thresholdVisible && (
-                  <Threshold id="quantity" data={data} x={x} y0={sellQuantity} y1={buyQuantity} clipAboveTo={0} clipBelowTo={yMax} curve={curve} aboveAreaProps={aboveAreaProps} belowAreaProps={belowAreaProps}/>
-                )}
-
-                {visibility.sellQuantity && (<LinePath data={data} y={sellQuantity} x={x} curve={curve} stroke={colors.sellQuantity} strokeDasharray="4"/>)}
-                {visibility.buyQuantity && (<LinePath data={data} y={buyQuantity} x={x} curve={curve} stroke={colors.buyQuantity} strokeDasharray="4"/>)}
-
-                {visibility.sellPrice && (<LinePath data={data} y={sellPrice} x={x} defined={isDefinedSellPrice} curve={curve} stroke={colors.sellPrice}/>)}
-                {visibility.buyPrice && (<LinePath data={data} y={buyPrice} x={x} defined={isDefinedBuyPrice} curve={curve} stroke={colors.buyPrice}/>)}
+                <ChartLinesMemoized visibility={visibility} thresholdVisible={thresholdVisible} yMax={yMax} data={data} x={x} curve={curve} sellPrice={sellPrice} buyPrice={buyPrice} sellQuantity={sellQuantity} buyQuantity={buyQuantity}/>
               </Group>
             </Group>
 
@@ -509,7 +504,7 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
             <>
               <Tooltip
                 top={yMax + margin.top - 4}
-                left={(tooltipLeft ?? 0) - 8}
+                left={x(tooltipData) + dynamicMargin.left - 8}
                 applyPositionStyle
                 className={tipStyles.tip}
                 style={{ textAlign: 'center', transform: 'translateX(-50%)', minWidth: 72 }}
@@ -646,3 +641,31 @@ const BrushChartLines: FC<BrushChartLinesProps> = ({ visibility, data, xBrush, c
   </>
 );
 const BrushChartLinesMemoized = React.memo(BrushChartLines);
+
+interface ChartLinesProps {
+  visibility: { sellPrice: boolean, buyPrice: boolean, sellQuantity: boolean, buyQuantity: boolean },
+  thresholdVisible: boolean,
+  yMax: number,
+  data: TradingPostHistory[],
+  curve: typeof curveLinear,
+  x: AccessorForArrayItem<TradingPostHistory, number>,
+  sellPrice: AccessorForArrayItem<TradingPostHistory, number>,
+  buyPrice: AccessorForArrayItem<TradingPostHistory, number>,
+  sellQuantity: AccessorForArrayItem<TradingPostHistory, number>,
+  buyQuantity: AccessorForArrayItem<TradingPostHistory, number>,
+}
+
+const ChartLines: FC<ChartLinesProps> = ({ visibility, thresholdVisible, yMax, data, x, curve, sellPrice, buyPrice, sellQuantity, buyQuantity }) => (
+  <>
+    {visibility.sellQuantity && visibility.buyQuantity && thresholdVisible && (
+      <Threshold id="quantity" data={data} x={x} y0={sellQuantity} y1={buyQuantity} clipAboveTo={0} clipBelowTo={yMax} curve={curve} aboveAreaProps={aboveAreaProps} belowAreaProps={belowAreaProps}/>
+    )}
+
+    {visibility.sellQuantity && (<LinePath data={data} y={sellQuantity} x={x} curve={curve} stroke={colors.sellQuantity} strokeDasharray="4"/>)}
+    {visibility.buyQuantity && (<LinePath data={data} y={buyQuantity} x={x} curve={curve} stroke={colors.buyQuantity} strokeDasharray="4"/>)}
+
+    {visibility.sellPrice && (<LinePath data={data} y={sellPrice} x={x} defined={isDefinedSellPrice} curve={curve} stroke={colors.sellPrice}/>)}
+    {visibility.buyPrice && (<LinePath data={data} y={buyPrice} x={x} defined={isDefinedBuyPrice} curve={curve} stroke={colors.buyPrice}/>)}
+  </>
+);
+const ChartLinesMemoized = React.memo(ChartLines);

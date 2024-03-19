@@ -1,6 +1,6 @@
 'use client';
 
-import { useHydrated } from 'lib/useHydrated';
+import { useHydrated } from '@/lib/useHydrated';
 import { createContext, type FC, type ReactNode, useContext, useEffect, useMemo, useState } from 'react';
 import { useLanguage } from '../I18n/Context';
 
@@ -44,13 +44,13 @@ export interface FormatProviderProps {
 }
 
 export const FormatProvider: FC<FormatProviderProps> = ({ children }) => {
-  const currentLanguge = useLanguage();
+  const currentLanguage = useLanguage();
   const [region, setRegion] = useState<string>('browser');
   const [language, setLanguage] = useState<string>('auto');
 
   const hydrated = useHydrated();
 
-  // load locale from localstorage
+  // load locale from localStorage
   useEffect(() => {
     localStorage['gw2t.format.region'] && setRegion(localStorage['gw2t.format.region']);
     localStorage['gw2t.format.language'] && setLanguage(localStorage['gw2t.format.language']);
@@ -67,7 +67,7 @@ export const FormatProvider: FC<FormatProviderProps> = ({ children }) => {
   }, [hydrated, region, language]);
 
   // build locale with language and region and validate it
-  const customLocale = `${language === 'auto' ? currentLanguge : language}-${region === 'browser' ? defaultRegion : region}`;
+  const customLocale = `${language === 'auto' ? currentLanguage : language}-${region === 'browser' ? defaultRegion : region}`;
   const locale = Intl.DateTimeFormat.supportedLocalesOf([customLocale, defaultLocale])[0];
 
   // create context

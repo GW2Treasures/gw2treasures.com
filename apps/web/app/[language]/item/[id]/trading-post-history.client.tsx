@@ -27,6 +27,7 @@ import type BaseBrush from '@visx/brush/lib/BaseBrush';
 import { Brush } from '@visx/brush';
 import type { Bounds, PartialBrushStartEnd } from '@visx/brush/lib/types';
 import { RectClipPath } from '@visx/clip-path';
+import type { AccessorForArrayItem } from '@visx/shape/lib/types';
 
 export interface TradingPostHistoryClientProps {
   history: TradingPostHistory[]
@@ -286,10 +287,10 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
 
     const { x0, x1 } = domain;
 
-    updateData(() => setRange([
+    setRange([
       new Date(Math.max(x0, fullRange[0].getTime())),
       new Date(Math.min(x1, fullRange[1].getTime()))
-    ]));
+    ]);
   }, [fullRange]);
 
   // set range handler
@@ -379,11 +380,7 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
             <Group left={brushBorder} top={brushBorder} strokeWidth={1.5} strokeLinejoin="round" strokeLinecap="round">
               <GridColumns scale={xBrushScale} width={width - brushBorder * 2} height={brushHeight} numTicks={10} stroke="var(--color-border)" strokeDasharray="4"/>
 
-              {visibility.sellQuantity && (<LinePath data={completeHistory} y={sellQuantityBrush} x={xBrush} curve={curve} stroke={colors.sellQuantity} strokeDasharray="2"/>)}
-              {visibility.buyQuantity && (<LinePath data={completeHistory} y={buyQuantityBrush} x={xBrush} curve={curve} stroke={colors.buyQuantity} strokeDasharray="2"/>)}
-
-              {visibility.sellPrice && (<LinePath data={completeHistory} y={sellPriceBrush} x={xBrush} defined={isDefinedSellPrice} curve={curve} stroke={colors.sellPrice}/>)}
-              {visibility.buyPrice && (<LinePath data={completeHistory} y={buyPriceBrush} x={xBrush} defined={isDefinedBuyPrice} curve={curve} stroke={colors.buyPrice}/>)}
+              <BrushChartLinesMemoized visibility={visibility} data={completeHistory} xBrush={xBrush} curve={curve} sellPriceBrush={sellPriceBrush} buyPriceBrush={buyPriceBrush} sellQuantityBrush={sellQuantityBrush} buyQuantityBrush={buyQuantityBrush}/>
             </Group>
             <Group left={brushBorder / 2} top={brushBorder / 2}>
               <Brush
@@ -627,3 +624,25 @@ const ChartToggle: FC<ChartToggleProps> = ({ label, children, checked, onChange,
     </label>
   );
 };
+
+interface BrushChartLinesProps {
+  visibility: { sellPrice: boolean, buyPrice: boolean, sellQuantity: boolean, buyQuantity: boolean },
+  data: TradingPostHistory[],
+  curve: typeof curveLinear,
+  xBrush: AccessorForArrayItem<TradingPostHistory, number>,
+  sellPriceBrush: AccessorForArrayItem<TradingPostHistory, number>,
+  buyPriceBrush: AccessorForArrayItem<TradingPostHistory, number>,
+  sellQuantityBrush: AccessorForArrayItem<TradingPostHistory, number>,
+  buyQuantityBrush: AccessorForArrayItem<TradingPostHistory, number>,
+}
+
+const BrushChartLines: FC<BrushChartLinesProps> = ({ visibility, data, xBrush, curve, sellPriceBrush, buyPriceBrush, sellQuantityBrush, buyQuantityBrush }) => (
+  <>
+    {visibility.sellQuantity && (<LinePath data={data} y={sellQuantityBrush} x={xBrush} curve={curve} stroke={colors.sellQuantity} strokeDasharray="2"/>)}
+    {visibility.buyQuantity && (<LinePath data={data} y={buyQuantityBrush} x={xBrush} curve={curve} stroke={colors.buyQuantity} strokeDasharray="2"/>)}
+
+    {visibility.sellPrice && (<LinePath data={data} y={sellPriceBrush} x={xBrush} defined={isDefinedSellPrice} curve={curve} stroke={colors.sellPrice}/>)}
+    {visibility.buyPrice && (<LinePath data={data} y={buyPriceBrush} x={xBrush} defined={isDefinedBuyPrice} curve={curve} stroke={colors.buyPrice}/>)}
+  </>
+);
+const BrushChartLinesMemoized = React.memo(BrushChartLines);

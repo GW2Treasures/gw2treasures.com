@@ -15,7 +15,7 @@ import { Bar, Circle, Line, LinePath } from '@visx/shape';
 import { Threshold } from '@visx/threshold';
 import { Tooltip, TooltipWithBounds, useTooltip } from '@visx/tooltip';
 import { bisector, extent } from 'd3-array';
-import { useMemo, type FC, type MouseEvent, type TouchEvent, useState, useId, type ReactNode, useRef, type KeyboardEventHandler, useCallback, startTransition, useDeferredValue } from 'react';
+import React, { useMemo, type FC, type MouseEvent, type TouchEvent, useState, useId, type ReactNode, useRef, type KeyboardEventHandler, useCallback, useEffect, useTransition, useDeferredValue } from 'react';
 import tipStyles from '@gw2treasures/ui/components/Tip/Tip.module.css';
 import styles from './trading-post-history.module.css';
 import { Checkbox } from '@gw2treasures/ui/components/Form/Checkbox';
@@ -62,6 +62,14 @@ const tickLabelProps = {
   fontFamily: 'var(--font-wotfard)',
   fontSize: 12,
 };
+const aboveAreaProps = {
+  fill: colors.sellQuantity,
+  fillOpacity: .08
+};
+const belowAreaProps = {
+  fill: colors.buyQuantity,
+  fillOpacity: .08
+};
 
 // size of chart
 const height = 420;
@@ -84,6 +92,28 @@ function downSample<T>(data: T[], points: number): T[] {
 const isDefinedSellPrice = (d: TradingPostHistory) => !!d.sellPrice;
 const isDefinedBuyPrice = (d: TradingPostHistory) => !!d.buyPrice;
 
+type Range = [start: Date, end: Date];
+
+function getInitialRangeFromData(data: TradingPostHistory[]): Range {
+  if(data.length === 0) {
+    return [threeMonthsAgo, new Date()];
+  }
+
+  const startIndex = bisectDate(data, threeMonthsAgo);
+
+  return [
+    data[startIndex].time,
+    data[data.length - 1].time
+  ];
+}
+
+function getDataInRange(data: TradingPostHistory[], [start, end]: Range): TradingPostHistory[] {
+  const startIndex = Math.max(bisectDate(data, start) - 2, 0);
+  const endIndex = Math.min(bisectDate(data, end, startIndex) + 2, data.length);
+
+  return data.slice(startIndex, endIndex);
+}
+
 export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientInternalProps> = ({ history: completeHistory, width }) => {
   // reference to the brush element
   const brushRef = useRef<BaseBrush>(null);
@@ -91,8 +121,18 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
   // chart clip-path id
   const clipPathId = useId();
 
+  // displayed range
+  const fullRange = useMemo(() => [completeHistory[0].time, completeHistory[completeHistory.length - 1].time], [completeHistory]);
+  const [range, setRange] = useState(getInitialRangeFromData(completeHistory));
+
   // data of the selected range
-  const [data, setData] = useState(completeHistory.filter((d) => d.time > threeMonthsAgo));
+  const [data, setData] = useState(getDataInRange(completeHistory, range));
+  const [isUpdatingData, updateData] = useTransition();
+
+  // keep data in sync with range
+  useEffect(() => {
+    updateData(() => setData(getDataInRange(completeHistory, range)));
+  }, [completeHistory, range]);
 
   // options
   const [visibility, setVisibility] = useState({ sellPrice: true, buyPrice: true, sellQuantity: true, buyQuantity: true });
@@ -168,8 +208,8 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
   const xScale = useMemo(() => scaleTime({
     range: [0, xMax],
     round: true,
-    domain: extent(data, ({ time }) => time) as [Date, Date],
-  }), [data, xMax]);
+    domain: range,
+  }), [range, xMax]);
 
   // x-scale for brush
   const xBrushScale = useMemo(() => scaleTime({
@@ -245,12 +285,12 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
     }
 
     const { x0, x1 } = domain;
-    const filteredData = completeHistory.filter((s) => {
-      const x = s.time.getTime();
-      return x >= x0 && x <= x1;
-    });
-    startTransition(() => setData(filteredData));
-  }, [completeHistory]);
+
+    updateData(() => setRange([
+      new Date(Math.max(x0, fullRange[0].getTime())),
+      new Date(Math.min(x1, fullRange[1].getTime()))
+    ]));
+  }, [fullRange]);
 
   // set range handler
   const handleSetRange = useCallback((days: number | null) => {
@@ -259,7 +299,7 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
     }
 
     if(days === null) {
-      setData(completeHistory);
+      setRange([completeHistory[0].time, completeHistory[completeHistory.length - 1].time]);
       brushRef.current!.reset();
     } else {
       const lastEntry = completeHistory.at(-1)!;
@@ -279,20 +319,12 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
         startDate = new Date(firstEntry.time);
       }
 
-      const x0 = startDate.getTime();
-      const x1 = endDate.getTime();
-
-      const filteredData = completeHistory.filter((s) => {
-        const x = s.time.getTime();
-        return x >= x0 && x <= x1;
-      });
-
-      startTransition(() => setData(filteredData));
+      setRange([startDate, endDate]);
 
       brushRef.current!.updateBrush((prevBrush) => {
         const newExtent = brushRef.current!.getExtent(
-          { x: xBrushScale(filteredData.at(0)!.time) },
-          { x: xBrushScale(filteredData.at(-1)!.time) }
+          { x: xBrushScale(startDate) },
+          { x: xBrushScale(endDate) }
         );
 
         ignoreNextChange.current = true;
@@ -309,8 +341,6 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
 
   // get latest data point (shown in legend)
   const current = completeHistory.at(-1)!;
-
-  const displayedData = useDeferredValue(data);
 
   return (
     <>
@@ -373,7 +403,7 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
             </Group>
           </svg>
           <FlexRow align="space-between" wrap>
-            <span>Showing <b style={{ fontFeatureSettings: '"tnum" 1' }}>{data.length > 0 ? Math.ceil((data.at(-1)!.time.getTime() - data.at(0)!.time.getTime()) / 1000 / 60 / 60 / 24) : 0} days</b> before <b style={{ fontFeatureSettings: '"tnum" 1' }}><FormatDate date={data.at(-1)?.time}/></b></span>
+            <span>Showing <b style={{ fontFeatureSettings: '"tnum" 1' }}>{data.length > 0 ? Math.ceil((range[1].getTime() - range[0].getTime()) / 1000 / 60 / 60 / 24) : 0} days</b> before <b style={{ fontFeatureSettings: '"tnum" 1' }}><FormatDate date={range[1]}/></b></span>
             <div>
               <Button appearance="menu" onClick={() => handleSetRange(null)}>Full History</Button>
               <Button appearance="menu" onClick={() => handleSetRange(365)}>1 Year</Button>
@@ -393,22 +423,22 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
               )}
 
               {/* axis */}
-              {!isMobile && (visibility.sellPrice || visibility.buyPrice) && (<AxisLeft scale={priceScale} strokeWidth={0} tickComponent={renderGoldTick} tickFormat={(v) => v.toString()} numTicks={6}/>)}
+              {!isMobile && (visibility.sellPrice || visibility.buyPrice) && (<AxisLeft scale={priceScale} strokeWidth={0} tickComponent={renderGoldTick} tickFormat={String} numTicks={6}/>)}
               {!isMobile && (visibility.sellQuantity || visibility.buyQuantity) && (<AxisRight scale={quantityScale} left={xMax} strokeWidth={0} tickLabelProps={tickLabelProps} numTicks={6}/>)}
               <AxisBottom scale={xScale} top={yMax} stroke="var(--color-border)" strokeWidth={2} tickStroke="var(--color-border)" tickLabelProps={tickLabelProps} numTicks={width >= 1000 ? 10 : 6}/>
 
               <RectClipPath id={clipPathId} x={0} y={0} width={xMax} height={yMax}/>
-              <g strokeWidth={2} strokeLinejoin="round" strokeLinecap="round" clipPath={`url(#${clipPathId})`}>
+              <Group strokeWidth={2} strokeLinejoin="round" strokeLinecap="round" clipPath={`url(#${clipPathId})`}>
                 {visibility.sellQuantity && visibility.buyQuantity && thresholdVisible && (
-                  <Threshold id="quantity" data={displayedData} x={x} y0={sellQuantity} y1={buyQuantity} clipAboveTo={0} clipBelowTo={yMax} curve={curve} aboveAreaProps={{ fill: colors.sellQuantity, fillOpacity: .08 }} belowAreaProps={{ fill: colors.buyQuantity, fillOpacity: .08 }}/>
+                  <Threshold id="quantity" data={data} x={x} y0={sellQuantity} y1={buyQuantity} clipAboveTo={0} clipBelowTo={yMax} curve={curve} aboveAreaProps={aboveAreaProps} belowAreaProps={belowAreaProps}/>
                 )}
 
-                {visibility.sellQuantity && (<LinePath data={displayedData} y={sellQuantity} x={x} curve={curve} stroke={colors.sellQuantity} strokeDasharray="4"/>)}
-                {visibility.buyQuantity && (<LinePath data={displayedData} y={buyQuantity} x={x} curve={curve} stroke={colors.buyQuantity} strokeDasharray="4"/>)}
+                {visibility.sellQuantity && (<LinePath data={data} y={sellQuantity} x={x} curve={curve} stroke={colors.sellQuantity} strokeDasharray="4"/>)}
+                {visibility.buyQuantity && (<LinePath data={data} y={buyQuantity} x={x} curve={curve} stroke={colors.buyQuantity} strokeDasharray="4"/>)}
 
-                {visibility.sellPrice && (<LinePath data={displayedData} y={sellPrice} x={x} defined={isDefinedSellPrice} curve={curve} stroke={colors.sellPrice}/>)}
-                {visibility.buyPrice && (<LinePath data={displayedData} y={buyPrice} x={x} defined={isDefinedBuyPrice} curve={curve} stroke={colors.buyPrice}/>)}
-              </g>
+                {visibility.sellPrice && (<LinePath data={data} y={sellPrice} x={x} defined={isDefinedSellPrice} curve={curve} stroke={colors.sellPrice}/>)}
+                {visibility.buyPrice && (<LinePath data={data} y={buyPrice} x={x} defined={isDefinedBuyPrice} curve={curve} stroke={colors.buyPrice}/>)}
+              </Group>
             </Group>
 
             {tooltipOpen && tooltipData && (

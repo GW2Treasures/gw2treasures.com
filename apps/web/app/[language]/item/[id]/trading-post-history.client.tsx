@@ -290,10 +290,10 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
 
     const { x0, x1 } = domain;
 
-    setRange([
+    updateData(() => setRange([
       new Date(Math.max(x0, fullRange[0].getTime())),
       new Date(Math.min(x1, fullRange[1].getTime()))
-    ]);
+    ]));
   }, [fullRange]);
 
   // set range handler
@@ -341,7 +341,7 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
         };
       });
     }
-  }, [completeHistory, data, xBrushScale]);
+  }, [completeHistory, data, range, xBrushScale]);
 
   // get latest data point (shown in legend)
   const current = completeHistory.at(-1)!;

@@ -59,6 +59,6 @@
     "eslint": "8.57.0",
     "eslint-config-next": "14.1.4",
     "gw2-api-types": "0.0.8",
-    "typescript": "5.4.2"
+    "typescript": "5.4.3"
   }
 }

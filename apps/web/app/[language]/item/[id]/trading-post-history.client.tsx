@@ -15,7 +15,7 @@ import { Bar, Circle, Line, LinePath } from '@visx/shape';
 import { Threshold } from '@visx/threshold';
 import { Tooltip, TooltipWithBounds, useTooltip } from '@visx/tooltip';
 import { bisector, extent } from 'd3-array';
-import React, { useMemo, type FC, type MouseEvent, type TouchEvent, useState, useId, type ReactNode, useRef, type KeyboardEventHandler, useCallback, useEffect, useTransition, useDeferredValue } from 'react';
+import React, { useMemo, type FC, type MouseEvent, type TouchEvent, useState, useId, type ReactNode, useRef, type KeyboardEventHandler, useCallback, startTransition } from 'react';
 import tipStyles from '@gw2treasures/ui/components/Tip/Tip.module.css';
 import styles from './trading-post-history.module.css';
 import { Checkbox } from '@gw2treasures/ui/components/Form/Checkbox';
@@ -25,7 +25,7 @@ import { MenuList } from '@gw2treasures/ui/components/Layout/MenuList';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import type BaseBrush from '@visx/brush/lib/BaseBrush';
 import { Brush } from '@visx/brush';
-import type { Bounds, PartialBrushStartEnd } from '@visx/brush/lib/types';
+import type { Bounds, PartialBrushStartEnd, ResizeTriggerAreas } from '@visx/brush/lib/types';
 import { RectClipPath } from '@visx/clip-path';
 import type { AccessorForArrayItem } from '@visx/shape/lib/types';
 import { useLocalStorageState } from '@/lib/useLocalStorageState';
@@ -76,10 +76,13 @@ const belowAreaProps = {
 
 // size of chart
 const height = 420;
-const brushBorder = 2;
-const brushHeight = 48;
 const marginDefault = { top: 20, bottom: 40, left: 88, right: 88 };
 const marginMobile = { top: 20, bottom: 40, left: 0, right: 0 };
+
+const brushBorder = 2;
+const brushHeight = 48;
+const resizeTriggerAreas: ResizeTriggerAreas[] = ['left', 'right'];
+const brushStyle: React.SVGProps<SVGRectElement> = { fill: 'var(--color-focus)', fillOpacity: .1, stroke: 'var(--color-focus)', strokeWidth: brushBorder, rx: 2 };
 
 const threeMonthsAgo = new Date();
 threeMonthsAgo.setDate(threeMonthsAgo.getDate() - 90);
@@ -111,8 +114,8 @@ function getInitialRangeFromData(data: TradingPostHistory[]): Range {
 }
 
 function getDataInRange(data: TradingPostHistory[], [start, end]: Range): TradingPostHistory[] {
-  const startIndex = Math.max(bisectDate(data, start) - 10, 0);
-  const endIndex = Math.min(bisectDate(data, end, startIndex) + 10, data.length);
+  const startIndex = Math.max(bisectDate(data, start) - 2, 0);
+  const endIndex = Math.min(bisectDate(data, end, startIndex) + 2, data.length);
 
   return data.slice(startIndex, endIndex);
 }
@@ -129,13 +132,7 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
   const [range, setRange] = useState(getInitialRangeFromData(completeHistory));
 
   // data of the selected range
-  const [data, setData] = useState(getDataInRange(completeHistory, range));
-  const [isUpdatingData, updateData] = useTransition();
-
-  // keep data in sync with range
-  useEffect(() => {
-    updateData(() => setData(getDataInRange(completeHistory, range)));
-  }, [completeHistory, range]);
+  const data = useMemo(() => getDataInRange(completeHistory, range), [completeHistory, range]);
 
   // settings
   const [visibility, setVisibility] = useLocalStorageState('chart.tp.visibility', { sellPrice: true, buyPrice: true, sellQuantity: true, buyQuantity: true });
@@ -290,10 +287,14 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
 
     const { x0, x1 } = domain;
 
-    updateData(() => setRange([
+    startTransition(() => setRange([
       new Date(Math.max(x0, fullRange[0].getTime())),
       new Date(Math.min(x1, fullRange[1].getTime()))
     ]));
+  }, [fullRange]);
+
+  const handleBrushClick = useCallback(() => {
+    setRange(fullRange);
   }, [fullRange]);
 
   // set range handler
@@ -394,12 +395,12 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
                 height={brushHeight + brushBorder}
                 handleSize={8}
                 innerRef={brushRef}
-                resizeTriggerAreas={['left', 'right']}
+                resizeTriggerAreas={resizeTriggerAreas}
                 brushDirection="horizontal"
                 initialBrushPosition={initialBrushPosition}
                 onChange={handleBrushChange}
-                onClick={() => setRange(fullRange)}
-                selectedBoxStyle={{ fill: 'var(--color-focus)', fillOpacity: .1, stroke: 'var(--color-focus)', strokeWidth: brushBorder, rx: 2 }}
+                onClick={handleBrushClick}
+                selectedBoxStyle={brushStyle}
                 useWindowMoveEvents/>
             </Group>
           </svg>
@@ -427,8 +428,8 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
 
               {/* axis */}
               {!isMobile && (visibility.sellPrice || visibility.buyPrice) && (<AxisLeft scale={priceScale} strokeWidth={0} tickComponent={renderGoldTick} tickFormat={String} numTicks={6}/>)}
-              {!isMobile && (visibility.sellQuantity || visibility.buyQuantity) && (<AxisRight scale={quantityScale} left={xMax} strokeWidth={0} tickLabelProps={tickLabelProps} numTicks={6}/>)}
-              <AxisBottom scale={xScale} top={yMax} stroke="var(--color-border)" strokeWidth={2} tickStroke="var(--color-border)" tickLabelProps={tickLabelProps} numTicks={width >= 1000 ? 10 : 6}/>
+              {!isMobile && (visibility.sellQuantity || visibility.buyQuantity) && (<AxisRight scale={quantityScale} left={xMax} strokeWidth={0} tickLabelProps={tickLabelProps} tickComponent={renderTick} numTicks={6}/>)}
+              <AxisBottom scale={xScale} top={yMax} stroke="var(--color-border)" strokeWidth={2} tickStroke="var(--color-border)" tickLabelProps={tickLabelProps} tickComponent={renderTick} numTicks={width >= 1000 ? 10 : 6}/>
 
               <RectClipPath id={clipPathId} x={0} y={0} width={xMax} height={yMax}/>
               <Group strokeWidth={2} strokeLinejoin="round" strokeLinecap="round" clipPath={`url(#${clipPathId})`}>
@@ -574,6 +575,12 @@ function renderGoldTick(props: TickRendererProps) {
   );
 }
 
+function renderTick({ formattedValue, ...props }: TickRendererProps) {
+  return (
+    <text {...props}>{formattedValue}</text>
+  );
+}
+
 function estimateGoldTickLength(value: number) {
   const { gold, silver, copper } = coinsToGoldSilverCopper(value);
 
@@ -636,8 +643,8 @@ interface BrushChartLinesProps {
 
 const BrushChartLines: FC<BrushChartLinesProps> = ({ visibility, data, xBrush, curve, sellPriceBrush, buyPriceBrush, sellQuantityBrush, buyQuantityBrush }) => (
   <>
-    {visibility.sellQuantity && (<LinePath data={data} y={sellQuantityBrush} x={xBrush} curve={curve} stroke={colors.sellQuantity} strokeDasharray="2 4"/>)}
-    {visibility.buyQuantity && (<LinePath data={data} y={buyQuantityBrush} x={xBrush} curve={curve} stroke={colors.buyQuantity} strokeDasharray="2 4"/>)}
+    {visibility.sellQuantity && (<LinePath data={data} y={sellQuantityBrush} x={xBrush} curve={curve} stroke={colors.sellQuantity} strokeDasharray="1 4"/>)}
+    {visibility.buyQuantity && (<LinePath data={data} y={buyQuantityBrush} x={xBrush} curve={curve} stroke={colors.buyQuantity} strokeDasharray="1 4"/>)}
 
     {visibility.sellPrice && (<LinePath data={data} y={sellPriceBrush} x={xBrush} defined={isDefinedSellPrice} curve={curve} stroke={colors.sellPrice}/>)}
     {visibility.buyPrice && (<LinePath data={data} y={buyPriceBrush} x={xBrush} defined={isDefinedBuyPrice} curve={curve} stroke={colors.buyPrice}/>)}

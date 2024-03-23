@@ -137,7 +137,7 @@ export const Search: FC<SearchProps> = ({ translations }) => {
                     id={result.href}
                     target={isExternal ? '_blank' : undefined}
                     rel={isExternal ? 'noreferrer noopener' : undefined}
-                    ref={(node) => listRef.current[currentIndex] = node}
+                    ref={(node) => { listRef.current[currentIndex] = node; }}
                     {...getItemProps({
                       onClick: (e) => !e.defaultPrevented && setOpen(false)
                     })}

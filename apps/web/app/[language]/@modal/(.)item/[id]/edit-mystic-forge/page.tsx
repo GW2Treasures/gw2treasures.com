@@ -1,6 +1,8 @@
+import { Skeleton } from '@/components/Skeleton/Skeleton';
 import { Modal } from './modal';
 import { EditMysticForge } from 'app/[language]/item/[id]/edit-mystic-forge/EditMysticForge';
 import type { EditMysticForgePageProps } from 'app/[language]/item/[id]/edit-mystic-forge/page';
+import { Suspense } from 'react';
 
 
 export default function EditMysticForgePage({ params, searchParams }: EditMysticForgePageProps) {
@@ -8,7 +10,9 @@ export default function EditMysticForgePage({ params, searchParams }: EditMystic
 
   return (
     <Modal title={searchParams.recipe ? 'Edit Mystic Forge Recipe' : 'Add Mystic Forge Recipe'}>
-      <EditMysticForge outputItemId={outputItemId} recipeId={searchParams.recipe}/>
+      <Suspense fallback={<Skeleton/>}>
+        <EditMysticForge outputItemId={outputItemId} recipeId={searchParams.recipe}/>
+      </Suspense>
     </Modal>
   );
 };

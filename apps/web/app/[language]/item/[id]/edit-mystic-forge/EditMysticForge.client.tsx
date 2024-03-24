@@ -44,6 +44,7 @@ export const EditMysticForgeClient: FC<EditMysticForgeClientProps> = ({ outputIt
     setEditIngredient(undefined);
   }, [editIngredient, updateIngredient]);
 
+  // TODO: replace with `useActionState` and use isPending to disable button once `useActionState` is available in Next.js
   const [formState, submit] = useFormState(submitEditMysticForge, undefined);
 
   const handleSubmit = useCallback(() => {

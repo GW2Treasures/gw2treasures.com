@@ -4,6 +4,7 @@ import { Icon } from '../../icons';
 
 export interface TableProps {
   children: ReactNode;
+  width?: 'page' | 'auto';
 };
 
 export interface HeaderCellProps {
@@ -15,9 +16,9 @@ export interface HeaderCellProps {
   onSort?: () => void;
 }
 
-const Table: FC<TableProps> & { HeaderCell: FC<HeaderCellProps> } = ({ children }) => (
+const Table: FC<TableProps> & { HeaderCell: FC<HeaderCellProps> } = ({ children, width = 'page' }) => (
   <div className={styles.wrapper}>
-    <table className={styles.table}>
+    <table className={width === 'page' ? styles.table : styles.tableAuto}>
       {children}
     </table>
   </div>

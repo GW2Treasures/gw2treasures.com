@@ -13,6 +13,7 @@ import { AchievementPoints } from '@/components/Achievement/AchievementPoints';
 import { useSubscription } from '@/components/Gw2Api/Gw2AccountSubscriptionProvider';
 import { Scope } from '@gw2me/client';
 import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
+import { Table } from '@gw2treasures/ui/components/Table/Table';
 
 export interface TierTableProps {
   achievement: Gw2Api.Achievement;
@@ -29,17 +30,19 @@ export const TierTable: FC<TierTableProps> = ({ achievement }) => {
   const pointCap = isRepeatable ? Math.max(0, achievement.point_cap ?? 0) : totalPoints;
 
   return (
-    <table className={styles.tierTable}>
-      <tbody>
+    <Table width="auto">
+      <thead>
         <tr>
           <th>Objectives</th>
           {tiers.map((tier) => (
-            <td key={tier.count}><FormatNumber value={tier.count}/></td>
+            <th key={tier.count}><FormatNumber value={tier.count}/></th>
           ))}
-          <td align="right" className={styles.totalColumn}><b>Total</b></td>
+          <th align="right" className={styles.totalColumn}><b>Total</b></th>
         </tr>
+      </thead>
+      <tbody>
         <tr>
-          <th>Achievement Points</th>
+          <th><b>Achievement Points</b></th>
           {tiers.map((tier) => (
             <td key={tier.count}><AchievementPoints points={tier.points}/></td>
           ))}
@@ -49,7 +52,7 @@ export const TierTable: FC<TierTableProps> = ({ achievement }) => {
           <TierTableAccountRow key={account.id} achievement={achievement} account={account}/>
         ))}
       </tbody>
-    </table>
+    </Table>
   );
 };
 

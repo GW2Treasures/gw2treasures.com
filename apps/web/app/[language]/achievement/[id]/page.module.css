@@ -1,27 +1,4 @@
-.tierTable {
-  border-collapse: collapse;
-  margin: 8px 0;
-}
-
-.tierTable th, .tierTable td {
-  padding: 8px 16px;
-}
-
-.tierTable th {
-  padding: 8px 32px 8px 0;
-  font-weight: 500;
-  text-align: left;
-}
-
-.tierTable tr:not(:last-child) {
-  border-bottom: 1px solid var(--color-border);
-}
-
-.tierTable tr:nth-child(1) {
-  border-bottom-width: 3px;
-}
-
-.tierTable .totalColumn {
+table > thead > tr > th.totalColumn {
   padding-left: 32px;
 }
 

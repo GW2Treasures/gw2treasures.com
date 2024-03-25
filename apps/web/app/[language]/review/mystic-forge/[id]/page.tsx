@@ -98,7 +98,7 @@ export default async function ReviewMysticForgePage({ params: { id }, searchPara
             </tr>
           </thead>
           <tbody>
-            <tr>
+            <tr style={{ background: recipe && (recipe.outputCountMin !== outputCountMin || recipe.outputCountMax !== outputCountMax) ? '#ffc10722' : undefined }}>
               <th>Output</th>
               {recipe && (<td><OutputCountRange min={recipe.outputCountMin} max={recipe.outputCountMax}><ItemLink item={recipe.outputItem}/></OutputCountRange></td>)}
               <td><OutputCountRange min={outputCountMin} max={outputCountMax}><ItemLink item={item}/></OutputCountRange></td>

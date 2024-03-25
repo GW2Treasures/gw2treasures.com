@@ -25,6 +25,7 @@ import { CurrencyLink } from '@/components/Currency/CurrencyLink';
 import { Coins } from '@/components/Format/Coins';
 import { FormatNumber } from '@/components/Format/FormatNumber';
 import { CurrencyValue } from '@/components/Currency/CurrencyValue';
+import { DialogActions } from '@/components/Dialog/DialogActions';
 
 export interface EditContentsProps {
   appearance?: ButtonProps['appearance'];
@@ -195,11 +196,9 @@ export const EditContents: FC<EditContentsProps> = ({ itemId, contents, currency
             </Table>
             <SearchCurrencyDialog onSubmit={addCurrency} open={searchCurrencyDialogOpen}/>
 
-
-            <Headline id="submit">Submit</Headline>
-
-            <p>After you submit this form, your changes will be reviewed before they are applied.</p>
-            <Button onClick={handleSubmit}>Submit</Button>
+            <DialogActions description="Your changes will be reviewed before they are applied.">
+              <Button onClick={handleSubmit}>Submit</Button>
+            </DialogActions>
           </>
         )}
       </Dialog>

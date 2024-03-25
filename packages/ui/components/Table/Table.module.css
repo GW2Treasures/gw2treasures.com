@@ -5,6 +5,11 @@
   border: none;
 }
 
+.tableAuto {
+  composes: table;
+  width: auto;
+}
+
 .table > thead > tr > th {
   border-bottom: 3px solid var(--color-border);
   padding: 8px 16px;

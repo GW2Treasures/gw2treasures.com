@@ -26,7 +26,7 @@ export async function loadItems<Model extends QueryModel>(query: Signed<ItemTabl
 
   const mapToItemSelect = (select: object) => mapToItem ? { [mapToItem]: { select }} : select;
 
-  const idSelect = mapToItemSelect({ id: true });
+  const idSelect = model === 'mysticForgeRecipe' ? { id: true } : mapToItemSelect({ id: true });
 
   const columns = await Promise.all(options.columns.map(verify));
   const selects = [
@@ -35,11 +35,14 @@ export async function loadItems<Model extends QueryModel>(query: Signed<ItemTabl
   ];
   const select = deepmerge.all(selects);
 
-  const findManyArgs = { where, skip, take, select: select as TODO, orderBy: orderBy as TODO };
+  const defaultSort = defaultItemSort.map((order) => mapToItem ? { [mapToItem]: order } : order);
+
+  const findManyArgs = { where, skip, take, select: select as TODO, orderBy: orderBy as TODO ?? defaultSort };
 
   const items: TODO =
     model === 'content' ? await db.content.findMany(findManyArgs) :
-    model === 'item' ? await db.item.findMany({ ...findManyArgs, orderBy: findManyArgs.orderBy ?? defaultItemSort }) :
+    model === 'mysticForgeRecipe' ? await db.mysticForgeRecipe.findMany(findManyArgs as TODO) :
+    model === 'item' ? await db.item.findMany(findManyArgs as TODO) :
     undefined;
 
   const translationIds = Array.from(new Set(columns.flatMap((column) => isString(column)
@@ -59,7 +62,8 @@ export async function loadTotalItemCount<Model extends QueryModel>(query: Signed
   const { where, model = 'item' } = await verify(query);
 
   switch(model) {
-    case 'item': return db.item.count({ where });
+    case 'item': return db.item.count({ where } as TODO);
+    case 'mysticForgeRecipe': return db.mysticForgeRecipe.count({ where } as TODO);
     case 'content': return db.content.count({ where });
     default: throw new Error('Unsupported query model');
   }

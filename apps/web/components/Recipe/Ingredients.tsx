@@ -9,8 +9,8 @@ import { GuildUpgradeLink, type GuildUpgradeLinkProps } from '../GuildUpgrade/Gu
 interface IngredientsProps {
   recipe: {
     itemIngredients: With<Pick<IngredientItem, 'count'>, { Item: ItemLinkProps['item'] }>[],
-    currencyIngredients: With<Pick<IngredientCurrency, 'count'>, { Currency: CurrencyLinkProps['currency'] }>[]
-    guildUpgradeIngredients: With<Pick<IngredientGuildUpgrade, 'count'>, { GuildUpgrade: GuildUpgradeLinkProps['guildUpgrade'] }>[]
+    currencyIngredients?: With<Pick<IngredientCurrency, 'count'>, { Currency: CurrencyLinkProps['currency'] }>[]
+    guildUpgradeIngredients?: With<Pick<IngredientGuildUpgrade, 'count'>, { GuildUpgrade: GuildUpgradeLinkProps['guildUpgrade'] }>[]
   }
 };
 
@@ -23,13 +23,13 @@ export const Ingredients: FC<IngredientsProps> = ({ recipe }) => {
           <ItemLink item={ingredient.Item} icon={16}/>
         </Fragment>
       ))}
-      {recipe.currencyIngredients.map((ingredient) => (
+      {recipe.currencyIngredients?.map((ingredient) => (
         <Fragment key={ingredient.Currency.id}>
           <div className={styles.count}>{ingredient.count}&times;</div>
           <CurrencyLink currency={ingredient.Currency} icon={16}/>
         </Fragment>
       ))}
-      {recipe.guildUpgradeIngredients.map((ingredient) => (
+      {recipe.guildUpgradeIngredients?.map((ingredient) => (
         <Fragment key={ingredient.GuildUpgrade.id}>
           <div className={styles.count}>{ingredient.count}&times;</div>
           <GuildUpgradeLink guildUpgrade={ingredient.GuildUpgrade} icon={16}/>

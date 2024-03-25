@@ -76,7 +76,7 @@ export const RecipeTable: FC<RecipeTableProps> = ({ recipes }) => {
         </FlexRow>
       )}
       >
-        Used in crafting
+        Used in Crafting
       </Headline>
 
       <div style={{ '--ingredient-count-min-width': '3ch' }}>

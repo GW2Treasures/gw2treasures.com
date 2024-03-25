@@ -30,7 +30,7 @@ export const SearchItemDialog: FC<SearchItemDialogProps> = ({ onSubmit, open }) 
   return (
     <Dialog onClose={() => onSubmit(undefined)} title="Search Item" open={open}>
       <div style={{ display: 'flex', flexDirection: 'column', marginBottom: 16 }}>
-        <TextInput placeholder="Name / Chatlink / ID" value={searchValue} onChange={setSearchValue}/>
+        <TextInput placeholder="Name / Chatlink / ID" value={searchValue} onChange={setSearchValue} autoFocus/>
       </div>
 
       {search.loading ? (

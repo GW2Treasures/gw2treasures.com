@@ -23,8 +23,10 @@ export const getItem = cache((id: number, language: Language) => {
       contains: { include: { contentItem: { select: { ...linkProperties, vendorValue: true, level: true, type: true, subtype: true }}}},
       containsCurrency: { include: { currency: { select: linkPropertiesWithoutRarity }}},
       wizardsVaultListings: true,
+      mysticForgeIngredient: { include: { Recipe: { include: { itemIngredients: { include: { Item: { select: linkProperties }}}, outputItem: { select: linkProperties }}}}},
+      mysticForgeRecipeOutput: { include: { itemIngredients: { include: { Item: { select: linkProperties }}}}},
       _count: {
-        select: { ingredient: true, suffixIn: true, contains: true, containedIn: true }
+        select: { ingredient: true, suffixIn: true, contains: true, containedIn: true, mysticForgeIngredient: true }
       }
     }
   });

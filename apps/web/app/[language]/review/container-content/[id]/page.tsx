@@ -171,7 +171,7 @@ export default async function ReviewContainerContentPage({ params: { id }, searc
       <form>
         <input type="hidden" name="id" value={id}/>
         <FlexRow>
-          <LinkButton external href="/review/container-content" icon="chevron-right">Skip</LinkButton>
+          <LinkButton external href={`/review/container-content?skip=${review.id}`} icon="chevron-right">Skip</LinkButton>
           <Separator/>
           <Button type="submit" disabled={!canReview} formAction={approve} icon="checkmark">Approve</Button>
           <Button type="submit" disabled={!canReview} formAction={reject} icon="cancel">Reject</Button>

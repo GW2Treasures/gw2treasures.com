@@ -80,7 +80,7 @@ export const ItemTable = <ExtraColumnId extends string = never, Model extends Qu
     };
     setLoading(true);
     const currentRequestId = ++requestId.current;
-    loadItems(query, options).then(({ items, translations }) => {
+    loadItems(query, options, id).then(({ items, translations }) => {
       if(currentRequestId !== requestId.current) {
         return;
       }
@@ -90,11 +90,11 @@ export const ItemTable = <ExtraColumnId extends string = never, Model extends Qu
       setLoading(false);
       setRange({ length: items.length, offset: skip });
     });
-  }, [collapsed, columns, orderBy, page, query]);
+  }, [collapsed, columns, orderBy, page, query, id]);
 
   useEffect(() => {
-    loadTotalItemCount(query).then(setTotalItems);
-  }, [query]);
+    loadTotalItemCount(query, id).then(setTotalItems);
+  }, [query, id]);
 
   useEffect(() => updateHistoryState(id, { page }), [id, page]);
   useEffect(() => updateHistoryState(id, { orderBy }), [id, orderBy]);
@@ -133,7 +133,7 @@ export const ItemTable = <ExtraColumnId extends string = never, Model extends Qu
             : { item, translations };
 
             return (
-              <tr key={props.item.id}>
+              <tr key={item.id ?? props.item.id}>
                 {columns.map((column) => {
                   return (
                     <td key={column.id} align={column.align}>
@@ -171,16 +171,16 @@ export const ItemTable = <ExtraColumnId extends string = never, Model extends Qu
   );
 };
 
-function loadItems<Model extends QueryModel>(query: Signed<ItemTableQuery<Model>>, options: ItemTableLoadOptions<Model>): LoadItemsResult {
-  return fetch('/api/item/item-table', {
+function loadItems<Model extends QueryModel>(query: Signed<ItemTableQuery<Model>>, options: ItemTableLoadOptions<Model>, id: string): LoadItemsResult {
+  return fetch(`/api/item/item-table?${encodeURIComponent(id)}`, {
     method: 'POST',
     body: JSON.stringify({ query, options }),
     headers: { 'content-type': 'application/json' }
   }).then((r) => r.json());
 };
 
-function loadTotalItemCount<Model extends QueryModel>(query: Signed<ItemTableQuery<Model>>): Promise<number> {
-  return fetch('/api/item/item-table?count', {
+function loadTotalItemCount<Model extends QueryModel>(query: Signed<ItemTableQuery<Model>>, id: string): Promise<number> {
+  return fetch(`/api/item/item-table?${encodeURIComponent(id)}&count`, {
     method: 'POST',
     body: JSON.stringify({ query }),
     headers: { 'content-type': 'application/json' }

@@ -17,6 +17,7 @@ import { Gw2ApiProvider } from '@/components/Gw2Api/Gw2ApiProvider';
 import { UserProvider } from '@/components/User/UserProvider';
 import { DataTableContext } from '@gw2treasures/ui/components/Table/DataTableContext';
 import { Gw2AccountSubscriptionProvider } from '@/components/Gw2Api/Gw2AccountSubscriptionProvider';
+import type { ReactNode } from 'react';
 
 const bitter = Bitter({
   subsets: ['latin'],
@@ -34,9 +35,11 @@ const wotfard = localFont({
 
 export default function RootLayout({
   children,
+  modal,
   params,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
+  modal?: ReactNode;
   params: { language: Language; };
 }) {
   return (
@@ -54,6 +57,7 @@ export default function RootLayout({
                   <Gw2ApiProvider>
                     <Gw2AccountSubscriptionProvider>
                       <Layout>{children}</Layout>
+                      {modal}
                     </Gw2AccountSubscriptionProvider>
                   </Gw2ApiProvider>
                 </UserProvider>

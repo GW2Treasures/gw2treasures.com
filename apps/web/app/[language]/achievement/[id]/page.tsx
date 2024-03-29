@@ -7,7 +7,7 @@ import { localizedName } from '@/lib/localizedName';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { Json } from '@/components/Format/Json';
 import { Icon } from '@gw2treasures/ui';
-import { format } from 'gw2-tooltip-html';
+import { format, strip } from 'gw2-tooltip-html';
 import { notFound } from 'next/navigation';
 import styles from './page.module.css';
 import { Coins } from '@/components/Format/Coins';
@@ -35,6 +35,7 @@ import { cache } from '@/lib/cache';
 import { getAlternateUrls } from '@/lib/url';
 import { UnknownItem } from '@/components/Item/UnknownItem';
 import { getTranslate } from '@/lib/translate';
+import { getIconUrl } from '@/lib/getIconUrl';
 
 const MasteryColors: Record<MasteryRegion, CSS.Property.Color> = {
   'Tyria': '#FB8C00', //   core
@@ -278,15 +279,34 @@ export async function generateMetadata({ params }: AchievementPageProps): Promis
 
   const achievement = await db.achievement.findUnique({
     where: { id },
-    select: { name_de: true, name_en: true, name_es: true, name_fr: true }
+    select: {
+      name_de: params.language === 'de',
+      name_en: params.language === 'en',
+      name_es: params.language === 'es',
+      name_fr: params.language === 'fr',
+      icon: true,
+      current_de: params.language === 'de' ? { select: { data: true }} : false,
+      current_en: params.language === 'en' ? { select: { data: true }} : false,
+      current_es: params.language === 'es' ? { select: { data: true }} : false,
+      current_fr: params.language === 'fr' ? { select: { data: true }} : false,
+    }
   });
 
   if(!achievement) {
     notFound();
   }
 
+  const data: Gw2Api.Achievement = JSON.parse(achievement[`current_${params.language}`].data);
+
+  const description = strip(data.description) + '\n\n' + strip(format(data.requirement.replace('  ', ` ${data.tiers[data.tiers.length - 1].count} `)));
+
   return {
     title: localizedName(achievement, params.language),
-    alternates: getAlternateUrls(`/achievement/${id}`)
+    description,
+    openGraph: {
+      images: achievement.icon ? [{ url: getIconUrl(achievement.icon, 64), width: 64, height: 64, type: 'image/png' }] : []
+    },
+    twitter: { card: 'summary' },
+    alternates: getAlternateUrls(`/achievement/${id}`),
   };
 }

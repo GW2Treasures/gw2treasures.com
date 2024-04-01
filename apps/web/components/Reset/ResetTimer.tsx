@@ -7,9 +7,10 @@ import { isDefined } from '@gw2treasures/helper/is';
 
 type ResetType = 'daily' | 'weekly';
 type ResetModifier = 'next' | 'current' | 'last';
+export type Reset = `${ResetModifier}-${ResetType}`;
 
 export interface ResetTimerProps {
-  reset?: `${ResetModifier}-${ResetType}`
+  reset?: Reset
 }
 
 export const ResetTimer: FC<ResetTimerProps> = ({ reset = 'current-daily' }) => {
@@ -42,11 +43,11 @@ export const ResetTimer: FC<ResetTimerProps> = ({ reset = 'current-daily' }) => 
   );
 };
 
-export function getResetDate(reset: `${ResetModifier}-${ResetType}`) {
+export function getResetDate(reset: Reset, relativeTo = new Date()) {
   const [modifier, type] = reset.split('-') as [ResetModifier, ResetType];
   const modifierValue = getModifierValue(modifier);
 
-  const date = new Date();
+  const date = new Date(relativeTo);
 
   switch(type) {
     case 'daily':

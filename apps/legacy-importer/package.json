@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@gw2treasures/database": "*",
-    "@prisma/client": "5.12.0",
+    "@prisma/client": "5.12.1",
     "gw2-api-types": "0.0.8"
   },
   "devDependencies": {

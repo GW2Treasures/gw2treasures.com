@@ -1,6 +1,6 @@
 import { getLinkProperties } from '@/lib/linkProperties';
 import type { ApiSearchResponse } from 'app/[language]/api/search/route';
-import type { ReactElement, ReactNode } from 'react';
+import { Fragment, type ReactElement, type ReactNode } from 'react';
 import { localizedName } from '@/lib/localizedName';
 import { useJsonFetch, useStaleJsonResponse } from '@/lib/useFetch';
 import { useLanguage } from '../I18n/Context';
@@ -15,6 +15,7 @@ import type { TranslationSubset } from '@/lib/translate';
 import type { translations as itemTypeTranslations } from '../Item/ItemType.translations';
 import { ItemType } from '../Item/ItemType';
 import type { Rarity } from '@gw2treasures/database';
+import { strip } from 'gw2-tooltip-html';
 
 export interface SearchResults<Id extends string> {
   id: Id;
@@ -64,9 +65,9 @@ export function useSearchApiResults(searchValue: string, translations: Translati
     subtitle: (
       <>
         {(achievement.achievementCategory ? localizedName(achievement.achievementCategory, language) : 'Achievement')}
-        {achievement.points > 0 && (<> ▪ <AchievementPoints points={achievement.points}/></>)}
         {achievement.mastery && (<> ▪ <Icon icon="mastery"/> {achievement.mastery}</>)}
-        {achievement.rewardsTitleIds.length > 0 && (<> ▪ <Icon icon="title"/></>)}
+        {achievement.rewardsTitle.map((title) => (<Fragment key={title.id}> ▪ <Icon icon="title"/> {strip(localizedName(title, language))}</Fragment>))}
+        {achievement.points > 0 && (<> ▪ <AchievementPoints points={achievement.points}/></>)}
       </>
     ),
     render: (link) => <Tooltip content={<AchievementLinkTooltip achievement={getLinkProperties(achievement)}/>} key={link.key}>{link}</Tooltip>

@@ -67,9 +67,9 @@ export const searchAchievements = cache(async (terms: string[]) => {
 
   const [achievements, achievementCategories, achievementGroups] = await Promise.all([
     db.achievement.findMany({
-      where: terms.length > 0 ? { OR: nameQueries } : undefined,
+      where: terms.length > 0 ? { OR: [...nameQueries, { rewardsTitle: { some: { OR: nameQueries }}}] } : undefined,
       take: 5,
-      include: { icon: true, achievementCategory: true },
+      include: { icon: true, achievementCategory: true, rewardsTitle: true },
       orderBy: { views: 'desc' }
     }),
     db.achievementCategory.findMany({

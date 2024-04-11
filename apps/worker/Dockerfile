@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1.7
 
-ARG node_version=20.12.1-alpine
+ARG node_version=20.12.2-alpine
 
 
 FROM node:${node_version} AS source

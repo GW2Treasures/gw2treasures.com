@@ -37,7 +37,7 @@
     "@typescript-eslint/eslint-plugin": "7.6.0",
     "eslint": "8.57.0",
     "eslint-config-next": "14.1.4",
-    "typescript": "5.4.4"
+    "typescript": "5.4.5"
   },
   "peerDependencies": {
     "@gw2treasures/helper": "~0.0.4",

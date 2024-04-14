@@ -46,7 +46,7 @@ export const HorizontalOverflowContainer: FC<HorizontalOverflowContainerProps> =
   }, []);
 
   useEffect(() => {
-    if(!content.current) {
+    if(!content.current || (!canScrollLeft && !canScrollRight)) {
       return;
     }
 
@@ -59,7 +59,7 @@ export const HorizontalOverflowContainer: FC<HorizontalOverflowContainerProps> =
     element.addEventListener('scroll', handler, { passive: true });
 
     return () => element.removeEventListener('scroll', handler);
-  }, []);
+  }, [canScrollLeft, canScrollRight]);
 
   return (
     <div className={styles.container}>

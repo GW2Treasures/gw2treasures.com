@@ -12,6 +12,12 @@
   min-width: 4px;
   border-radius: 2px;
   pointer-events: none;
+  transition: width .3s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: fill .3s ease-out;
+}
+
+@keyframes fill {
+  from { opacity: 0; }
 }
 
 .content {

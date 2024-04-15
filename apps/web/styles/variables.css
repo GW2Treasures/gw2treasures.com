@@ -1,6 +1,9 @@
 :root {
   color-scheme: light;
 
+  --max-page-width: 1920px;
+  --max-page-width--padding: max(16px, (100vw - var(--max-page-width)) / 2 + 16px);
+
   --color-text: #000;
   --color-text-muted: #555;
 

@@ -39,6 +39,7 @@ export async function fetchAccounts(requiredScopes: Scope[]): Promise<FetchAccou
   try {
     response = await gw2me.api(access_token).accounts();
   } catch(e) {
+    console.error(e);
     return { error: ErrorCode.REAUTHORIZE };
   }
 
@@ -78,7 +79,10 @@ export async function fetchAccessTokens(accountIds: string[]): Promise<FetchAcce
   const subtokens = await Promise.all(accountIds.map(
     (accountId) => api.subtoken(accountId)
       .then(({ subtoken, expiresAt }) => [accountId, { accessToken: subtoken, expiresAt: new Date(expiresAt) }] as const)
-      .catch(() => undefined)
+      .catch((e) => {
+        console.error(e);
+        return undefined;
+      })
   ));
 
   const responseAsObject = Object.fromEntries(subtokens.filter(isDefined));

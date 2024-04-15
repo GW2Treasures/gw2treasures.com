@@ -6,6 +6,7 @@ const testCases: { date: Date, reset: Date, type: Reset }[] = [
   { date: new Date('2024-04-01T00:41:55.931Z'), type: 'next-daily', reset: new Date('2024-04-03T00:00:00.00Z') },
   { date: new Date('2024-04-01T00:41:55.931Z'), type: 'current-weekly', reset: new Date('2024-04-01T07:30:00.00Z') },
   { date: new Date('2024-04-01T07:41:55.931Z'), type: 'current-weekly', reset: new Date('2024-04-08T07:30:00.00Z') },
+  { date: new Date('2024-04-15T01:07:52.932Z'), type: 'current-weekly', reset: new Date('2024-04-15T07:30:00.00Z') },
   { date: new Date('2024-04-01T00:41:55.931Z'), type: 'last-weekly', reset: new Date('2024-03-25T07:30:00.00Z') },
   { date: new Date('2024-04-01T07:41:55.931Z'), type: 'last-weekly', reset: new Date('2024-04-01T07:30:00.00Z') },
   { date: new Date('2024-04-01T00:41:55.931Z'), type: 'next-weekly', reset: new Date('2024-04-08T07:30:00.00Z') },

@@ -55,7 +55,7 @@ export function getResetDate(reset: Reset, relativeTo = new Date()) {
       break;
     case 'weekly':
       date.setUTCHours(7, 30, 0, 0);
-      const daysAgo = date.getUTCDate() === 1 && relativeTo < date ? 7 : (date.getUTCDay() + 6) % 7;
+      const daysAgo = date.getUTCDay() === 1 && relativeTo < date ? 7 : (date.getUTCDay() + 6) % 7;
       date.setUTCDate(date.getUTCDate() - daysAgo + 7 * modifierValue);
   }
 

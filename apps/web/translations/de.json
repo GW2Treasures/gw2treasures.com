@@ -119,6 +119,7 @@
   "item.type.Gathering.Logging": "Holzfälleraxt",
   "item.type.Gathering.Lure": "Kunstköder",
   "item.type.Gathering.Mining": "Spitzhacke",
+  "item.type.Gathering.Fishing": "Angelrute",
   "item.type.Gizmo.ContainerKey": "Schlüssel",
   "item.type.Gizmo.Default": "Standard",
   "item.type.Gizmo.RentableContractNpc": "Mietbarer Vertrags-NSC",
@@ -188,6 +189,7 @@
   "item.type.short.Gathering.Logging": "Holzfälleraxt",
   "item.type.short.Gathering.Lure": "Kunstköder",
   "item.type.short.Gathering.Mining": "Spitzhacke",
+  "item.type.short.Gathering.Fishing": "Angelrute",
   "item.type.short.Gizmo.ContainerKey": "Verstärkung",
   "item.type.short.Gizmo.Default": "Verstärkung",
   "item.type.short.Gizmo.RentableContractNpc": "Verstärkung",
@@ -225,5 +227,6 @@
   "item.type.short.Weapon.Toy": "Spielzeug",
   "item.type.short.Weapon.ToyTwoHanded": "Spielzeug",
   "item.type.short.Weapon.Trident": "Dreizack",
-  "item.type.short.Weapon.Warhorn": "Kriegshorn"
+  "item.type.short.Weapon.Warhorn": "Kriegshorn",
+  "actions": "Aktionen"
 }

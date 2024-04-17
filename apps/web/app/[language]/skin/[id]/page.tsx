@@ -24,6 +24,10 @@ import { Json } from '@/components/Format/Json';
 import { pageView } from '@/lib/pageView';
 import { cache } from '@/lib/cache';
 import { getAlternateUrls } from '@/lib/url';
+import { ItemType } from '@/components/Item/ItemType';
+import { translateMany } from '@/lib/translate';
+import { translations as itemTypeTranslations } from '@/components/Item/ItemType.translations';
+import { Trans } from '@/components/I18n/Trans';
 
 const getSkin = cache(async (id: number, language: Language) => {
   const [skin, revision] = await Promise.all([
@@ -72,8 +76,8 @@ async function SkinPage ({ params: { language, id }}: SkinPageProps) {
       <TableOfContentAnchor id="tooltip">Tooltip</TableOfContentAnchor>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
         {data.description && (<p className={styles.description} dangerouslySetInnerHTML={{ __html: format(data.description) }}/>)}
-        <div><Rarity rarity={data.rarity}/></div>
-        <div>{data.details?.type}</div>
+        <div><Rarity rarity={data.rarity}><Trans id={`rarity.${data.rarity}`}/></Rarity></div>
+        <div><ItemType type={data.type} subtype={(data.details?.type ?? null) as any} translations={translateMany(itemTypeTranslations.short)}/></div>
         <div>{data.details?.weight_class}</div>
       </div>
 

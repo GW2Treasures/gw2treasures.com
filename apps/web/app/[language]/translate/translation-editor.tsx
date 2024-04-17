@@ -103,7 +103,7 @@ export const TranslationEditor: FC<TranslationEditorProps> = ({ dictionaries, le
         {edit && (
           <>
             <FlexRow>
-              <TextInput value={edit.value} onChange={(value) => setEdit({ ...edit, value })}/>
+              <TextInput value={edit.value} onChange={(value) => setEdit({ ...edit, value })} autoFocus/>
               <Button onClick={() => { setChanges({ ...changes, [edit.language]: { ...changes[edit.language], [edit.key]: edit.value === '' || edit.value === dictionaries[edit.language][edit.key] ? undefined : edit.value }}); setEdit(undefined); }}>Save</Button>
             </FlexRow>
             {suggestions.length > 0 && (

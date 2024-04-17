@@ -18,7 +18,7 @@ export interface ItemTableProps<ExtraColumnId extends string, Model extends Quer
 export const ItemTable = async <ExtraColumnId extends string = never, Model extends QueryModel = 'item'>({ query, extraColumns, ...props }: ItemTableProps<ExtraColumnId, Model>) => {
   const signedQuery = await sign(query);
   const availableColumns = await getColumns(extraColumns, query.mapToItem);
-  const translations = translateMany(['pagination.next', 'pagination.previous', 'chatlink.copy', 'itemTable.viewItem']);
+  const translations = translateMany(['pagination.next', 'pagination.previous', 'chatlink.copy', 'itemTable.viewItem', 'actions']);
 
   return (
     <ErrorBoundary fallback={<Notice type="error">Error loading items.</Notice>}>

@@ -49,7 +49,8 @@ a:where(:any-link:hover) {
   box-sizing: border-box;
 }
 
-.color-format--abilitytype {
+.color-format--abilitytype,
+.color-format--Task {
   color: #797900;
 }
 

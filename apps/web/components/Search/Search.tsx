@@ -10,6 +10,7 @@ import { Icon } from '@gw2treasures/ui';
 import type { TranslationSubset } from '@/lib/translate';
 import type { translations as itemTypeTranslations } from '../Item/ItemType.translations';
 import type { Rarity } from '@gw2treasures/database';
+import type { Weight } from '@/lib/types/weight';
 
 export interface SearchProps {
   translations: TranslationSubset<
@@ -24,6 +25,7 @@ export interface SearchProps {
    | 'search.results.pages'
    | typeof itemTypeTranslations.short[0]
    | `rarity.${Rarity}`
+   | `weight.${Weight}`
   >
 }
 

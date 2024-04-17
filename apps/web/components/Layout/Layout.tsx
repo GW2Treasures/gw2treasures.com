@@ -32,7 +32,8 @@ const Layout: FC<LayoutProps> = ({ children }) => {
     'search.results.builds',
     'search.results.pages',
     ...itemTypeTranslations.short,
-    ...Object.values(Rarity).map((rarity) => `rarity.${rarity}` as const)
+    ...Object.values(Rarity).map((rarity) => `rarity.${rarity}` as const),
+    'weight.Clothing', 'weight.Heavy', 'weight.Light', 'weight.Medium'
   ]);
 
   return (

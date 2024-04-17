@@ -6,7 +6,7 @@ export type SubType<T extends Type> =
   T extends 'Consumable' ? 'AppearanceChange' | 'Booze' | 'ContractNpc' | 'Currency' | 'Food' | 'Generic' | 'Halloween' | 'Immediate' | 'MountRandomUnlock' | 'RandomUnlock' | 'TeleportToFriend' | 'Transmutation' | 'Unlock' | 'UpgradeRemoval' | 'Utility':
   T extends 'Container' ? 'Default' | 'GiftBox' | 'Immediate' | 'OpenUI' :
   T extends 'CraftingMaterial' ? null :
-  T extends 'Gathering' ? 'Bait' | 'Foraging' | 'Logging' | 'Lure' | 'Mining' :
+  T extends 'Gathering' ? 'Bait' | 'Foraging' | 'Logging' | 'Lure' | 'Mining' | 'Fishing' :
   T extends 'Gizmo' ? 'ContainerKey' | 'Default' | 'RentableContractNpc' | 'UnlimitedConsumable':
   T extends 'JadeTechModule' ? null :
   T extends 'Key' ? null :

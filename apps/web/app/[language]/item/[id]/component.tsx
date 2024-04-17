@@ -17,7 +17,7 @@ import { ItemIngredientFor } from '@/components/Item/ItemIngredientFor';
 import { notFound } from 'next/navigation';
 import { Suspense, type FC } from 'react';
 import { SkeletonTable } from '@/components/Skeleton/SkeletonTable';
-import { getLinkProperties, linkPropertiesWithoutRarity } from '@/lib/linkProperties';
+import { getLinkProperties } from '@/lib/linkProperties';
 import { AchievementLink } from '@/components/Achievement/AchievementLink';
 import { Tooltip } from '@/components/Tooltip/Tooltip';
 import { ItemLinkTooltip } from '@/components/Item/ItemLinkTooltip';
@@ -41,15 +41,18 @@ import { pageView } from '@/lib/pageView';
 import { GuildUpgradeLink } from '@/components/GuildUpgrade/GuildUpgradeLink';
 import { TradingPostHistory } from './trading-post-history';
 import { parseIcon } from '@/lib/parseIcon';
-import { getTranslate } from '@/lib/translate';
+import { getTranslate, translateMany } from '@/lib/translate';
 import { ItemLink } from '@/components/Item/ItemLink';
 import { OutputCount } from '@/components/Item/OutputCount';
 import { AstralAcclaim } from '@/components/Format/AstralAcclaim';
 import { Breadcrumb, BreadcrumbItem } from '@/components/Breadcrumb/Breadcrumb';
-import { Trans } from '@/components/I18n/Trans';
 import { MysticForgeRecipeBox } from '@/components/Recipe/MysticForgeRecipeBox';
 import { MysticForgeRecipeTable } from '@/components/Recipe/MysticForgeRecipeTable';
 import { LinkButton } from '@gw2treasures/ui/components/Form/Button';
+import { ItemType } from '@/components/Item/ItemType';
+import { translations as itemTypeTranslations } from '@/components/Item/ItemType.translations';
+import { Trans } from '@/components/I18n/Trans';
+import type { Weight } from '@/lib/types/weight';
 
 export interface ItemPageComponentProps {
   language: Language;
@@ -120,10 +123,19 @@ export const ItemPageComponent: FC<ItemPageComponentProps> = async ({ language, 
       <ItemTooltip item={data} language={language} hideTitle/>
 
       {item.unlocksSkinIds.length > 0 && (
+        // TODO: replace with table
         <>
           <Headline id="skins">Unlocked Skins</Headline>
           <ItemList>
-            {item.unlocksSkin.map((skin) => <li key={skin.id}><SkinLink skin={skin}/> {skin.weight} {skin.subtype ?? skin.type}</li>)}
+            {item.unlocksSkin.map((skin) => (
+              <li key={skin.id}>
+                <SkinLink skin={skin}/>
+                <span>
+                  <ItemType type={skin.type as any} subtype={skin.subtype as any} translations={translateMany(itemTypeTranslations.short)}/>{' '}
+                  {skin.weight && <Trans id={`weight.${skin.weight as Weight}`}/>}
+                </span>
+              </li>
+            ))}
             {item.unlocksSkinIds.filter((id) => item.unlocksSkin.every((skin) => skin.id !== id)).map((id) => <li key={id}>Unknown skin ({id})</li>)}
           </ItemList>
         </>

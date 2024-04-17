@@ -127,6 +127,7 @@
   "item.type.Gathering.Logging": "Logging",
   "item.type.Gathering.Lure": "Lure",
   "item.type.Gathering.Mining": "Mining",
+  "item.type.Gathering.Fishing": "Fishing",
   "item.type.Gizmo.ContainerKey": "Key",
   "item.type.Gizmo.Default": "Default",
   "item.type.Gizmo.RentableContractNpc": "Rentable Contract NPC",
@@ -196,6 +197,7 @@
   "item.type.short.Gathering.Logging": "Logging",
   "item.type.short.Gathering.Lure": "Lure",
   "item.type.short.Gathering.Mining": "Mining",
+  "item.type.short.Gathering.Fishing": "Fishing",
   "item.type.short.Gizmo.ContainerKey": "Gizmo",
   "item.type.short.Gizmo.Default": "Gizmo",
   "item.type.short.Gizmo.RentableContractNpc": "Gizmo",
@@ -234,5 +236,9 @@
   "item.type.short.Weapon.ToyTwoHanded": "Toy",
   "item.type.short.Weapon.Trident": "Trident",
   "item.type.short.Weapon.Warhorn": "Warhorn",
+  "weight.Medium": "Medium",
+  "weight.Light": "Light",
+  "weight.Heavy": "Heavy",
+  "weight.Clothing": "Clothing",
   "actions": "Actions"
 }

@@ -41,7 +41,7 @@ export const LanguageDropdown: FC<LanguageDropdownProps> = ({ }) => {
   return (
     <>
       <DropDown hideTop={false} preferredPlacement="bottom" button={(
-        <Button appearance="menu">
+        <Button appearance="menu" aria-label={localeName}>
           <Icon icon="locale"/><span className={styles.responsive}> {localeName}</span>
         </Button>
       )}

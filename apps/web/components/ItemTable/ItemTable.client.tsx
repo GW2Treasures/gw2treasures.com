@@ -13,7 +13,7 @@ import { isEmptyObject } from '@gw2treasures/helper/is';
 import { MenuList } from '@gw2treasures/ui/components/Layout/MenuList';
 import { encode } from 'gw2e-chat-codes';
 import { CopyButton } from '@gw2treasures/ui/components/Form/Buttons/CopyButton';
-import { Pagination } from '../Pagination/Pagination';
+import { Pagination, type PaginationProps } from '../Pagination/Pagination';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { TableRowButton } from '@gw2treasures/ui/components/Table/TableRowButton';
 import { Skeleton } from '../Skeleton/Skeleton';
@@ -21,7 +21,7 @@ import { useItemTableContext } from './context';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import type { AvailableColumns, GlobalColumnId, ItemTableQuery, LoadItemsResult, QueryModel } from './types';
 import { getHistoryState, updateHistoryState } from './history-state';
-import type { TranslationId } from '@/lib/translate';
+import type { TranslationId, TranslationSubset } from '@/lib/translate';
 
 const LOADING = false;
 type LOADING = typeof LOADING;
@@ -31,13 +31,14 @@ export interface ItemTableProps<ExtraColumnId extends string, Model extends Quer
   defaultColumns?: (GlobalColumnId | ExtraColumnId)[];
   availableColumns: AvailableColumns<GlobalColumnId | ExtraColumnId>;
   collapsed?: boolean;
+  translations: PaginationProps['translations'] & TranslationSubset<'itemTable.viewItem' | 'chatlink.copy'>
 };
 
 const globalDefaultColumns: GlobalColumnId[] = [
   'item', 'level', 'rarity', 'type', 'vendorValue',
 ];
 
-export const ItemTable = <ExtraColumnId extends string = never, Model extends QueryModel = 'item'>({ query, defaultColumns = globalDefaultColumns, availableColumns, collapsed: initialCollapsed }: ItemTableProps<ExtraColumnId, Model>) => {
+export const ItemTable = <ExtraColumnId extends string = never, Model extends QueryModel = 'item'>({ query, defaultColumns = globalDefaultColumns, availableColumns, collapsed: initialCollapsed, translations }: ItemTableProps<ExtraColumnId, Model>) => {
   type ColumnId = ExtraColumnId | GlobalColumnId;
   const { setDefaultColumns, setAvailableColumns, selectedColumns, id, isGlobalContext } = useItemTableContext<ColumnId>();
 
@@ -49,7 +50,7 @@ export const ItemTable = <ExtraColumnId extends string = never, Model extends Qu
   const [loading, setLoading] = useState(true);
   const [orderBy, setOrderBy] = useState<{ column: ColumnId, order: 'asc' | 'desc'} | undefined>(getHistoryState<ColumnId>(id).orderBy);
   const [range, setRange] = useState<{ length: number, offset: number }>();
-  const [translations, setTranslations] = useState<Partial<Record<TranslationId, string>>>({});
+  const [dynamicTranslations, setDynamicTranslations] = useState<Partial<Record<TranslationId, string>>>({});
 
   const requestId = useRef(0);
 
@@ -80,12 +81,12 @@ export const ItemTable = <ExtraColumnId extends string = never, Model extends Qu
     };
     setLoading(true);
     const currentRequestId = ++requestId.current;
-    loadItems(query, options, id).then(({ items, translations }) => {
+    loadItems(query, options, id).then(({ items, translations: dynamicTranslations }) => {
       if(currentRequestId !== requestId.current) {
         return;
       }
       setItems(items);
-      setTranslations(translations);
+      setDynamicTranslations(dynamicTranslations);
       setLoadedColumns(columns.map(({ id }) => id));
       setLoading(false);
       setRange({ length: items.length, offset: skip });
@@ -129,8 +130,8 @@ export const ItemTable = <ExtraColumnId extends string = never, Model extends Qu
         <tbody>
           {items.map((item) => {
             const props = query.data.mapToItem && query.data.model !== undefined && query.data.model !== 'item'
-            ? { item: (item as any)[query.data.mapToItem], [query.data.model]: item, translations }
-            : { item, translations };
+            ? { item: (item as any)[query.data.mapToItem], [query.data.model]: item, translations: dynamicTranslations }
+            : { item, translations: dynamicTranslations };
 
             return (
               <tr key={item.id ?? props.item.id}>
@@ -146,8 +147,8 @@ export const ItemTable = <ExtraColumnId extends string = never, Model extends Qu
                 <td>
                   <DropDown button={<Button iconOnly appearance="menu"><Icon icon="more"/></Button>} preferredPlacement="right-start">
                     <MenuList>
-                      <LinkButton appearance="menu" icon="eye" href={`/item/${item.id}`}>View Item</LinkButton>
-                      <CopyButton appearance="menu" icon="chatlink" copy={encode('item', item.id) || ''}>Copy chatlink</CopyButton>
+                      <LinkButton appearance="menu" icon="eye" href={`/item/${item.id}`}>{translations['itemTable.viewItem']}</LinkButton>
+                      <CopyButton appearance="menu" icon="chatlink" copy={encode('item', item.id) || ''}>{translations['chatlink.copy']}</CopyButton>
                     </MenuList>
                   </DropDown>
                 </td>
@@ -164,7 +165,7 @@ export const ItemTable = <ExtraColumnId extends string = never, Model extends Qu
           <div>
             Showing <b>{range ? range.offset + 1 : 0}&ndash;{(range?.offset ?? 0) + (range?.length ?? 0)}</b> of <b>{totalItems}</b> items
           </div>
-          <Pagination disabled={loading} current={page} total={Math.ceil(totalItems / pageSize)} onPageChange={setPage}/>
+          <Pagination disabled={loading} current={page} total={Math.ceil(totalItems / pageSize)} onPageChange={setPage} translations={translations}/>
         </FlexRow>
       )}
     </>

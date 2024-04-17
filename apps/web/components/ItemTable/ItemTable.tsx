@@ -5,7 +5,7 @@ import { globalColumnDefinitions } from './columns';
 import { type Signed, sign } from './query';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
-import { getLanguage, getTranslate } from '@/lib/translate';
+import { getLanguage, getTranslate, translateMany } from '@/lib/translate';
 import type { AvailableColumn, AvailableColumns, ExtraColumn, GlobalColumnId, ItemTableQuery, OrderBy, QueryModel } from './types';
 
 export interface ItemTableProps<ExtraColumnId extends string, Model extends QueryModel> {
@@ -18,10 +18,11 @@ export interface ItemTableProps<ExtraColumnId extends string, Model extends Quer
 export const ItemTable = async <ExtraColumnId extends string = never, Model extends QueryModel = 'item'>({ query, extraColumns, ...props }: ItemTableProps<ExtraColumnId, Model>) => {
   const signedQuery = await sign(query);
   const availableColumns = await getColumns(extraColumns, query.mapToItem);
+  const translations = translateMany(['pagination.next', 'pagination.previous', 'chatlink.copy', 'itemTable.viewItem']);
 
   return (
     <ErrorBoundary fallback={<Notice type="error">Error loading items.</Notice>}>
-      <ClientComponent query={signedQuery} availableColumns={availableColumns} {...props}/>
+      <ClientComponent query={signedQuery} availableColumns={availableColumns} translations={translations} {...props}/>
     </ErrorBoundary>
   );
 };

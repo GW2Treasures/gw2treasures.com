@@ -46,6 +46,9 @@
   "itemTable.column.sellPrice": "Sell Price",
   "itemTable.column.sellQuantity": "Sell Listings",
   "itemTable.column.icon": "Icon",
+  "itemTable.viewItem": "View Item",
+  "pagination.next": "Next Page",
+  "pagination.previous": "Previous Page",
   "table.columns": "Columns",
   "table.columns.reset": "Reset columns",
   "search.placeholder": "Search",
@@ -59,6 +62,7 @@
   "search.results.pages": "Pages",
   "container.quantity": "Quantity",
   "container.chance": "Chance",
+  "chatlink.copy": "Copy Chatlink",
   "item.strength": "Strength",
   "item.defense": "Defense",
   "item.level": "Required Level",
@@ -229,5 +233,6 @@
   "item.type.short.Weapon.Toy": "Toy",
   "item.type.short.Weapon.ToyTwoHanded": "Toy",
   "item.type.short.Weapon.Trident": "Trident",
-  "item.type.short.Weapon.Warhorn": "Warhorn"
+  "item.type.short.Weapon.Warhorn": "Warhorn",
+  "actions": "Actions"
 }

@@ -39,13 +39,13 @@ const Layout: FC<LayoutProps> = ({ children }) => {
     <div>
       <div className={styles.layout}>
         <Menu navigation={<Navigation/>}>
-          <Link href="/" className={styles.title}>
+          <Link href="/" className={styles.title} aria-label="gw2treasures.com">
             <Icon icon="gw2t"/>
             <span>gw2treasures.com</span>
           </Link>
           <Search translations={searchTranslations}/>
           <div className={styles.right}>
-            <LinkButton appearance="menu" href="/review">
+            <LinkButton appearance="menu" href="/review" aria-label="Review">
               <Icon icon="review-queue"/><span className={styles.responsive}> Review<ReviewCountBadge/></span>
             </LinkButton>
             <LanguageDropdown/>

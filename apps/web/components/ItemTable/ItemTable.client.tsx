@@ -31,7 +31,7 @@ export interface ItemTableProps<ExtraColumnId extends string, Model extends Quer
   defaultColumns?: (GlobalColumnId | ExtraColumnId)[];
   availableColumns: AvailableColumns<GlobalColumnId | ExtraColumnId>;
   collapsed?: boolean;
-  translations: PaginationProps['translations'] & TranslationSubset<'itemTable.viewItem' | 'chatlink.copy'>
+  translations: PaginationProps['translations'] & TranslationSubset<'itemTable.viewItem' | 'chatlink.copy' | 'actions'>
 };
 
 const globalDefaultColumns: GlobalColumnId[] = [
@@ -145,7 +145,7 @@ export const ItemTable = <ExtraColumnId extends string = never, Model extends Qu
                   );
                 })}
                 <td>
-                  <DropDown button={<Button iconOnly appearance="menu"><Icon icon="more"/></Button>} preferredPlacement="right-start">
+                  <DropDown button={<Button iconOnly appearance="menu" aria-label={translations['actions']}><Icon icon="more"/></Button>} preferredPlacement="right-start">
                     <MenuList>
                       <LinkButton appearance="menu" icon="eye" href={`/item/${item.id}`}>{translations['itemTable.viewItem']}</LinkButton>
                       <CopyButton appearance="menu" icon="chatlink" copy={encode('item', item.id) || ''}>{translations['chatlink.copy']}</CopyButton>

@@ -51,6 +51,8 @@ import { MysticForgeRecipeTable } from '@/components/Recipe/MysticForgeRecipeTab
 import { LinkButton } from '@gw2treasures/ui/components/Form/Button';
 import { ItemType } from '@/components/Item/ItemType';
 import { translations as itemTypeTranslations } from '@/components/Item/ItemType.translations';
+import { Trans } from '@/components/I18n/Trans';
+import type { Gw2Api } from 'gw2-api-types';
 
 export interface ItemPageComponentProps {
   language: Language;
@@ -121,10 +123,19 @@ export const ItemPageComponent: FC<ItemPageComponentProps> = async ({ language, 
       <ItemTooltip item={data} language={language} hideTitle/>
 
       {item.unlocksSkinIds.length > 0 && (
+        // TODO: replace with table
         <>
           <Headline id="skins">Unlocked Skins</Headline>
           <ItemList>
-            {item.unlocksSkin.map((skin) => <li key={skin.id}><SkinLink skin={skin}/> {skin.weight} <ItemType type={skin.type as any} subtype={skin.subtype as any} translations={translateMany(itemTypeTranslations.short)}/></li>)}
+            {item.unlocksSkin.map((skin) => (
+              <li key={skin.id}>
+                <SkinLink skin={skin}/>
+                <span>
+                  <ItemType type={skin.type as any} subtype={skin.subtype as any} translations={translateMany(itemTypeTranslations.short)}/>{' '}
+                  {skin.weight && <Trans id={`weight.${skin.weight as NonNullable<NonNullable<Gw2Api.Skin['details']>['weight_class']>}`}/>}
+                </span>
+              </li>
+            ))}
             {item.unlocksSkinIds.filter((id) => item.unlocksSkin.every((skin) => skin.id !== id)).map((id) => <li key={id}>Unknown skin ({id})</li>)}
           </ItemList>
         </>

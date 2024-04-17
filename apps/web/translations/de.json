@@ -228,5 +228,9 @@
   "item.type.short.Weapon.ToyTwoHanded": "Spielzeug",
   "item.type.short.Weapon.Trident": "Dreizack",
   "item.type.short.Weapon.Warhorn": "Kriegshorn",
+  "weight.Medium": "Mittel",
+  "weight.Light": "Leicht",
+  "weight.Heavy": "Schwer",
+  "weight.Clothing": "Kleidungsset",
   "actions": "Aktionen"
 }

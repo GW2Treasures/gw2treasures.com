@@ -236,5 +236,9 @@
   "item.type.short.Weapon.ToyTwoHanded": "Toy",
   "item.type.short.Weapon.Trident": "Trident",
   "item.type.short.Weapon.Warhorn": "Warhorn",
+  "weight.Medium": "Medium",
+  "weight.Light": "Light",
+  "weight.Heavy": "Heavy",
+  "weight.Clothing": "Clothing",
   "actions": "Actions"
 }

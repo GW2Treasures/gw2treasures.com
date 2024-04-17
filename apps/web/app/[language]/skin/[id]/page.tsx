@@ -78,7 +78,7 @@ async function SkinPage ({ params: { language, id }}: SkinPageProps) {
         {data.description && (<p className={styles.description} dangerouslySetInnerHTML={{ __html: format(data.description) }}/>)}
         <div><Rarity rarity={data.rarity}><Trans id={`rarity.${data.rarity}`}/></Rarity></div>
         <div><ItemType type={data.type} subtype={(data.details?.type ?? null) as any} translations={translateMany(itemTypeTranslations.short)}/></div>
-        <div>{data.details?.weight_class}</div>
+        {data.details?.weight_class && <div><Trans id={`weight.${data.details.weight_class}`}/></div>}
       </div>
 
       {skin.achievementBits.length > 0 && (
@@ -118,7 +118,10 @@ async function SkinPage ({ params: { language, id }}: SkinPageProps) {
             {similar.map((skin) => (
               <li key={skin.id}>
                 <SkinLink skin={skin}/>
-                {skin.weight} {skin.subtype ?? skin.type}
+                <span>
+                  <ItemType type={skin.type as any} subtype={skin.subtype as any} translations={translateMany(itemTypeTranslations.short)}/>{' '}
+                  {skin.weight && <Trans id={`weight.${skin.weight as NonNullable<NonNullable<Gw2Api.Skin['details']>['weight_class']>}`}/>}
+                </span>
               </li>
             ))}
           </ItemList>

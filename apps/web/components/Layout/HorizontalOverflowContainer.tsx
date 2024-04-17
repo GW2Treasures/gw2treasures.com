@@ -63,11 +63,11 @@ export const HorizontalOverflowContainer: FC<HorizontalOverflowContainerProps> =
 
   return (
     <div className={styles.container}>
-      <button className={cx(styles.left, !canScrollLeft && styles.hidden)} tabIndex={-1} onClick={handleScrollLeft}><Icon icon="chevron-left"/></button>
+      <button className={cx(styles.left, !canScrollLeft && styles.hidden)} tabIndex={-1} onClick={handleScrollLeft} aria-hidden><Icon icon="chevron-left"/></button>
       <div className={styles.content} ref={content}>
         {children}
       </div>
-      <button className={cx(styles.right, !canScrollRight && styles.hidden)} tabIndex={-1} onClick={handleScrollRight}><Icon icon="chevron-right"/></button>
+      <button className={cx(styles.right, !canScrollRight && styles.hidden)} tabIndex={-1} onClick={handleScrollRight} aria-hidden><Icon icon="chevron-right"/></button>
     </div>
   );
 };

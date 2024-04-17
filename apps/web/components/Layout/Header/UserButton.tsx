@@ -6,6 +6,7 @@ import { Skeleton } from '@/components/Skeleton/Skeleton';
 import styles from '../Layout.module.css';
 import 'server-only';
 import { Trans } from '@/components/I18n/Trans';
+import { getTranslate } from '@/lib/translate';
 
 
 // exported suspended wrapper around the actual button
@@ -36,8 +37,10 @@ interface UserButtonButtonProps {
   user?: SessionUser | 'loading'
 }
 const UserButtonButton: FC<UserButtonButtonProps> = ({ user }) => {
+  const t = getTranslate();
+
   return (
-    <LinkButton appearance="menu" href={user ? '/profile' : '/login'}>
+    <LinkButton appearance="menu" href={user ? '/profile' : '/login'} aria-label={user === 'loading' ? undefined : user ? user.name : t('login')}>
       <Icon icon="user"/><span className={styles.responsive}> {user === 'loading' ? <Skeleton width={90}/> : user ? user.name : <Trans id="login"/>}</span>
     </LinkButton>
   );

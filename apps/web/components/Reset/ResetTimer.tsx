@@ -1,38 +1,38 @@
 'use client';
 
-import { useState, type FC, useEffect, useCallback, useMemo } from 'react';
+import { useState, type FC, useEffect } from 'react';
 import { useFormatContext } from '../Format/FormatContext';
 import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 import { isDefined } from '@gw2treasures/helper/is';
+import { useInterval } from '@/lib/useInterval';
 
 type ResetType = 'daily' | 'weekly';
 type ResetModifier = 'next' | 'current' | 'last';
 export type Reset = `${ResetModifier}-${ResetType}`;
 
 export interface ResetTimerProps {
-  reset?: Reset
+  reset?: Reset | Date
 }
 
 export const ResetTimer: FC<ResetTimerProps> = ({ reset = 'current-daily' }) => {
   const { localFormat } = useFormatContext();
-  const [remaining, setRemaining] = useState(0);
-  const date = useMemo(() => getResetDate(reset), [reset]);
-
-  const calculateRemaining = useCallback(() => {
-    setRemaining((date.valueOf() - new Date().valueOf()) / 1000);
-  }, [date]);
+  const [resetDate, setResetDate] = useState(() => reset instanceof Date ? reset : getResetDate(reset));
+  const [remaining, setRemaining] = useState(() => (resetDate.valueOf() - new Date().valueOf()) / 1000);
 
   useEffect(() => {
-    calculateRemaining();
+    if(remaining < 0 && typeof reset === 'string') {
+      setResetDate(getResetDate(reset));
+    }
+  }, [remaining, reset]);
 
-    const interval = setInterval(calculateRemaining, 1000);
-
-    return () => clearInterval(interval);
-  }, [calculateRemaining]);
+  useInterval(
+    () => setRemaining((resetDate.valueOf() - new Date().valueOf()) / 1000),
+    1000,
+  );
 
   return (
-    <Tip tip={localFormat.format(date)}>
-      <time dateTime={date.toISOString()} style={{ whiteSpace: 'nowrap', fontFeatureSettings: '"tnum"' }}>
+    <Tip tip={localFormat.format(resetDate)}>
+      <time dateTime={resetDate.toISOString()} style={{ whiteSpace: 'nowrap', fontFeatureSettings: '"tnum"' }} suppressHydrationWarning>
         {[remaining > 60 * 60 * 24 ? format(remaining / (60 * 60 * 24), 31) : undefined,
           format(remaining / (60 * 60), 24),
           format(remaining / 60, 60),

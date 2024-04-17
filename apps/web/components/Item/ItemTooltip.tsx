@@ -114,7 +114,7 @@ export async function createTooltip(item: Gw2Api.Item, language: Language): Prom
     unlocksColor: unlocksColor ? { id: unlocksColor.id, name: localizedName(unlocksColor, language), colors: { cloth: unlocksColor.cloth_rgb, leather: unlocksColor.leather_rgb, metal: unlocksColor.metal_rgb }} : undefined,
     rarity: { label: t(`rarity.${item.rarity}`), value: item.rarity },
     type: item.details?.type ? t(`item.type.short.${item.type}.${item.details.type}` as any) : t(`item.type.${item.type}`),
-    weightClass: item.details?.weight_class,
+    weightClass: item.details?.weight_class ? t(`weight.${item.details.weight_class}`) : undefined,
     level: item.level > 0 ? { label: t('item.level'), value: item.level } : undefined,
     description: item.description ? format(item.description) : undefined,
     flags: [

@@ -7,6 +7,7 @@ import { Button } from '@gw2treasures/ui/components/Form/Button';
 import { Icon as IconComponent } from '@gw2treasures/ui';
 import { DropDown } from '@gw2treasures/ui/components/DropDown/DropDown';
 import { MenuList } from '@gw2treasures/ui/components/Layout/MenuList';
+import { getTranslate } from '@/lib/translate';
 
 interface DetailLayoutProps {
   title: ReactNode;
@@ -21,6 +22,8 @@ interface DetailLayoutProps {
 };
 
 const DetailLayout: FC<DetailLayoutProps> = ({ title, icon, breadcrumb, children, infobox, className, iconType, actions, color }) => {
+  const t = getTranslate();
+
   return (
     <TableOfContentContext>
       <main className={[styles.main, className].filter(Boolean).join(' ')} style={color ? { '--hero-color': color } : undefined}>
@@ -31,7 +34,7 @@ const DetailLayout: FC<DetailLayoutProps> = ({ title, icon, breadcrumb, children
           {breadcrumb && <div className={styles.breadcrumb}>{breadcrumb}</div>}
           {actions && (
             <div className={styles.actions}>
-              <DropDown button={<Button iconOnly appearance="menu"><IconComponent icon="more"/></Button>}>
+              <DropDown button={<Button iconOnly appearance="menu" aria-label={t('actions')}><IconComponent icon="more"/></Button>}>
                 <MenuList>{actions}</MenuList>
               </DropDown>
             </div>

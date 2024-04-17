@@ -233,5 +233,6 @@
   "item.type.short.Weapon.Toy": "Toy",
   "item.type.short.Weapon.ToyTwoHanded": "Toy",
   "item.type.short.Weapon.Trident": "Trident",
-  "item.type.short.Weapon.Warhorn": "Warhorn"
+  "item.type.short.Weapon.Warhorn": "Warhorn",
+  "actions": "Actions"
 }

@@ -52,7 +52,7 @@ import { LinkButton } from '@gw2treasures/ui/components/Form/Button';
 import { ItemType } from '@/components/Item/ItemType';
 import { translations as itemTypeTranslations } from '@/components/Item/ItemType.translations';
 import { Trans } from '@/components/I18n/Trans';
-import type { Gw2Api } from 'gw2-api-types';
+import type { Weight } from '@/lib/types/weight';
 
 export interface ItemPageComponentProps {
   language: Language;
@@ -132,7 +132,7 @@ export const ItemPageComponent: FC<ItemPageComponentProps> = async ({ language, 
                 <SkinLink skin={skin}/>
                 <span>
                   <ItemType type={skin.type as any} subtype={skin.subtype as any} translations={translateMany(itemTypeTranslations.short)}/>{' '}
-                  {skin.weight && <Trans id={`weight.${skin.weight as NonNullable<NonNullable<Gw2Api.Skin['details']>['weight_class']>}`}/>}
+                  {skin.weight && <Trans id={`weight.${skin.weight as Weight}`}/>}
                 </span>
               </li>
             ))}

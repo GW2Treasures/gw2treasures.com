@@ -28,6 +28,7 @@ import { ItemType } from '@/components/Item/ItemType';
 import { translateMany } from '@/lib/translate';
 import { translations as itemTypeTranslations } from '@/components/Item/ItemType.translations';
 import { Trans } from '@/components/I18n/Trans';
+import type { Weight } from '@/lib/types/weight';
 
 const getSkin = cache(async (id: number, language: Language) => {
   const [skin, revision] = await Promise.all([
@@ -120,7 +121,7 @@ async function SkinPage ({ params: { language, id }}: SkinPageProps) {
                 <SkinLink skin={skin}/>
                 <span>
                   <ItemType type={skin.type as any} subtype={skin.subtype as any} translations={translateMany(itemTypeTranslations.short)}/>{' '}
-                  {skin.weight && <Trans id={`weight.${skin.weight as NonNullable<NonNullable<Gw2Api.Skin['details']>['weight_class']>}`}/>}
+                  {skin.weight && <Trans id={`weight.${skin.weight as Weight}`}/>}
                 </span>
               </li>
             ))}

@@ -1,6 +1,6 @@
 'use client';
 
-import { AstralAcclaim } from '@/components/Format/AstralAcclaim';
+import { ASTRAL_ACCLAIM_ID, AstralAcclaim } from '@/components/Format/AstralAcclaim';
 import { Skeleton } from '@/components/Skeleton/Skeleton';
 import { useUser } from '@/components/User/use-user';
 import { Icon, cx } from '@gw2treasures/ui';
@@ -26,7 +26,7 @@ export interface WizardVaultObjectivesProps {
   objectiveWaypoints: Record<number, number>,
 }
 
-const requiredScopes = [Scope.GW2_Account, Scope.GW2_Progression];
+const requiredScopes = [Scope.GW2_Account, Scope.GW2_Progression, Scope.GW2_Wallet];
 
 const loginUrl = `/login?returnTo=${encodeURIComponent('/wizards-vault')}&scopes=${encodeURIComponent(requiredScopes.join(','))}`;
 
@@ -59,10 +59,10 @@ export const WizardVaultObjectives: FC<WizardVaultObjectivesProps> = ({ objectiv
         <thead>
           <tr>
             <th>Account</th>
+            <th align="right">Astral Acclaim</th>
             <th align="right">Daily</th>
             <th align="right">Weekly</th>
             <th align="right">Special</th>
-            {/* <th>Astral Acclaim</th> */}
           </tr>
         </thead>
         <tbody>
@@ -76,12 +76,14 @@ export const WizardVaultObjectives: FC<WizardVaultObjectivesProps> = ({ objectiv
           ))}
           <tr className={styles.rowSection}>
             <td>Rewards</td>
+            <td align="right"/>
             <td align="right"><AstralAcclaim value={20}/></td>
             <td align="right"><AstralAcclaim value={450}/></td>
             <td align="right">-</td>
           </tr>
           <tr>
             <td>Reset</td>
+            <td align="right"/>
             <td align="right"><ResetTimer reset="current-daily"/></td>
             <td align="right"><ResetTimer reset="current-weekly"/></td>
             <td align="right">-</td>
@@ -106,12 +108,13 @@ interface AccountObjectivesProps {
 
 const AccountOverviewRow: FC<AccountObjectivesProps> = ({ account }) => {
   const wizardsVault = useSubscription('wizards-vault', account.id);
+  const wallet = useSubscription('wallet', account.id);
 
   if(wizardsVault.loading || wizardsVault.error) {
     return (
       <tr key={account.id}>
         <td>{account.name} {wizardsVault.loading && <Icon icon="loading"/>}</td>
-        <td colSpan={3} align="right">{!wizardsVault.loading && wizardsVault.error && <span style={{ color: 'red' }}>Error loading Wizard&apos;s Vault progress from Guild Wars 2 API</span>}</td>
+        <td colSpan={4} align="right">{!wizardsVault.loading && wizardsVault.error && <span style={{ color: 'red' }}>Error loading Wizard&apos;s Vault progress from Guild Wars 2 API</span>}</td>
       </tr>
     );
   }
@@ -119,10 +122,10 @@ const AccountOverviewRow: FC<AccountObjectivesProps> = ({ account }) => {
   return (
     <tr key={account.id}>
       <td>{account.name}</td>
+      <td align="right">{wallet.loading ? <Skeleton/> : wallet.error ? '?' : <AstralAcclaim value={wallet.data.find(({ id }) => id === ASTRAL_ACCLAIM_ID)?.value ?? 0}/>}</td>
       <td align="right">{wizardsVault.data.daily ? <>{wizardsVault.data.daily.meta_reward_claimed && <Tip tip="Reward claimed"><Icon icon="checkmark"/></Tip>} {wizardsVault.data.daily.meta_progress_current} / {wizardsVault.data.daily.meta_progress_complete}</> : <Tip tip="Account has not logged in since last reset."><span>0 / ?</span></Tip> }</td>
       <td align="right">{wizardsVault.data.weekly ? <>{wizardsVault.data.weekly.meta_reward_claimed && <Tip tip="Reward claimed"><Icon icon="checkmark"/></Tip>} {wizardsVault.data.weekly.meta_progress_current} / {wizardsVault.data.weekly.meta_progress_complete}</> : <Tip tip="Account has not logged in since last reset."><span>0 / ?</span></Tip> }</td>
       <td align="right">{wizardsVault.data.special ? <>{wizardsVault.data.special.objectives.filter(({ claimed }) => claimed).length} / {wizardsVault.data.special.objectives.length}</> : <Tip tip="Account has not logged in since last reset."><span>0 / ?</span></Tip>}</td>
-      {/* <td>{wizardsVault.data.acclaim}</td> */}
     </tr>
   );
 };

@@ -8,6 +8,7 @@ import { compareLocalizedName } from '@/lib/localizedName';
 import type { Language } from '@gw2treasures/database';
 import { ColumnSelect } from '@/components/Table/ColumnSelect';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
+import { AccountHeader, AccountWalletRow } from './account-data';
 
 const getCurrencies = cache(
   () => db.currency.findMany({
@@ -25,15 +26,18 @@ export default async function CurrencyPage({ params: { language }}: { params: { 
 
   return (
     <HeroLayout hero={<Headline id="currencies">Currencies</Headline>}>
-      <p>
-        <FlexRow align="right">
-          <ColumnSelect table={Currencies}/>
-        </FlexRow>
-      </p>
+      <FlexRow align="right">
+        <ColumnSelect table={Currencies}/>
+      </FlexRow>
+      <p/>
+
       <Currencies.Table>
         <Currencies.Column id="id" title="Id" align="right" small hidden>{({ id }) => id}</Currencies.Column>
         <Currencies.Column id="currency" title="Currency" sort={compareLocalizedName(language)}>{(currency) => <CurrencyLink currency={currency}/>}</Currencies.Column>
         <Currencies.Column id="order" title="Order" align="right" hidden>{({ order }) => order}</Currencies.Column>
+        <Currencies.DynamicColumns headers={<AccountHeader/>}>
+          {({ id }) => <AccountWalletRow currencyId={id}/>}
+        </Currencies.DynamicColumns>
       </Currencies.Table>
     </HeroLayout>
   );

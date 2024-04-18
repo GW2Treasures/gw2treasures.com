@@ -1,5 +1,6 @@
 .dialog {
   position: fixed;
+  z-index: 1;
   bottom: 32px;
   right: 32px;
   background: var(--color-background);

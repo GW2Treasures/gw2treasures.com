@@ -11,11 +11,12 @@ export interface Gw2AccountSubscriptionProviderProps {
   children: ReactNode
 }
 
-type SubscriptionType = 'achievements' | 'wizards-vault';
+type SubscriptionType = 'achievements' | 'wizards-vault' | 'wallet';
 
 type SubscriptionData<T extends SubscriptionType> =
   T extends 'achievements' ? Gw2ApiAccountProgression :
   T extends 'wizards-vault' ? AccountWizardsVaultData :
+  T extends 'wallet' ? AccountWallet :
   never
 
 type SubscriptionResponse<T extends SubscriptionType> = {
@@ -113,6 +114,48 @@ export const Gw2AccountSubscriptionProvider: FC<Gw2AccountSubscriptionProviderPr
 
       // add to cache
       setCache('achievements', accountId, { error: false, data });
+
+      return { accountId, error: false, data };
+    }));
+
+    const dataByAccount = new Map(data.map(({ accountId, ...data }) => [accountId, data]));
+
+    for(const subscription of subscriptions) {
+      subscription.callback(dataByAccount.get(subscription.accountId)!);
+    }
+  }, [activeSubscriptions, getAccountIds]));
+
+  useInterval(activeTypes.wallet, 60, useCallback(async () => {
+    // get all achievement subscriptions
+    const subscriptions = activeSubscriptions.filter(hasType('wallet'));
+
+    const accountIds = await getAccountIds(subscriptions);
+
+    // fetch achievement progress for each account
+    const data = await Promise.all(accountIds.map(async (accountId): Promise<SubscriptionResponse<'wallet'> & { accountId: string }> => {
+      // get token from cache
+      const accessToken = accessTokenCache.current[accountId];
+
+      // check if token is valid
+      if(!accessToken || accessToken.expiresAt < new Date()) {
+        setCache('wallet', accountId, { error: true });
+        return { accountId, error: true };
+      }
+
+      // call gw2 api
+      const response = await fetch(`https://api.guildwars2.com/v2/account/wallet?access_token=${accessToken.accessToken}`, { redirect: 'manual' });
+
+      // check if response is ok
+      if(!response.ok) {
+        setCache('wallet', accountId, { error: true });
+        return { accountId, error: true };
+      }
+
+      // get response content
+      const data: AccountWallet = await response.json();
+
+      // add to cache
+      setCache('wallet', accountId, { error: false, data });
 
       return { accountId, error: false, data };
     }));
@@ -250,6 +293,11 @@ type Gw2ApiAccountProgression = {
   bits?: number[],
   repeated?: number,
   unlocked?: boolean,
+}[];
+
+type AccountWallet = {
+  id: number,
+  value: number,
 }[];
 
 interface AccountWizardsVaultData {

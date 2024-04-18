@@ -26,13 +26,17 @@ export interface WizardVaultObjectivesProps {
   objectiveWaypoints: Record<number, number>,
 }
 
-const requiredScopes = [Scope.GW2_Account, Scope.GW2_Progression, Scope.GW2_Wallet];
+const requiredScopes = [Scope.GW2_Account, Scope.GW2_Progression];
+const optionalScopes = [Scope.GW2_Wallet];
 
-const loginUrl = `/login?returnTo=${encodeURIComponent('/wizards-vault')}&scopes=${encodeURIComponent(requiredScopes.join(','))}`;
+const loginUrl = `/login?returnTo=${encodeURIComponent('/wizards-vault')}&scopes=${encodeURIComponent([...requiredScopes, ...optionalScopes].join(','))}`;
 
 export const WizardVaultObjectives: FC<WizardVaultObjectivesProps> = ({ objectiveWaypoints }) => {
   const user = useUser();
   const accounts = useGw2Accounts(requiredScopes);
+
+  // optional scopes
+  useGw2Accounts(optionalScopes);
 
   return (
     <>

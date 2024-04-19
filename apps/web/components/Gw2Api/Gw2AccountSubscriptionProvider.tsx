@@ -126,12 +126,12 @@ export const Gw2AccountSubscriptionProvider: FC<Gw2AccountSubscriptionProviderPr
   }, [activeSubscriptions, getAccountIds]));
 
   useInterval(activeTypes.wallet, 60, useCallback(async () => {
-    // get all achievement subscriptions
+    // get all wallet subscriptions
     const subscriptions = activeSubscriptions.filter(hasType('wallet'));
 
     const accountIds = await getAccountIds(subscriptions);
 
-    // fetch achievement progress for each account
+    // fetch wallet for each account
     const data = await Promise.all(accountIds.map(async (accountId): Promise<SubscriptionResponse<'wallet'> & { accountId: string }> => {
       // get token from cache
       const accessToken = accessTokenCache.current[accountId];

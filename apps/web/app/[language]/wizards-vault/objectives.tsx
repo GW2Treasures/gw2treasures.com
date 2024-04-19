@@ -33,10 +33,7 @@ const loginUrl = `/login?returnTo=${encodeURIComponent('/wizards-vault')}&scopes
 
 export const WizardVaultObjectives: FC<WizardVaultObjectivesProps> = ({ objectiveWaypoints }) => {
   const user = useUser();
-  const accounts = useGw2Accounts(requiredScopes);
-
-  // optional scopes
-  useGw2Accounts(optionalScopes);
+  const accounts = useGw2Accounts(requiredScopes, optionalScopes);
 
   return (
     <>

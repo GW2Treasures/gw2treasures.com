@@ -27,7 +27,7 @@ export const Gw2ApiProvider: FC<Gw2ApiProviderProps> = ({ children }) => {
   const router = useRouter();
 
   // eslint-disable-next-line require-await
-  const getAccounts = useCallback(async (requiredScopes: Scope[]) => {
+  const getAccounts = useCallback(async (requiredScopes: Scope[], optionalScopes: Scope[] = []) => {
     // if the current user is not yet loaded or we SSR
     if(loadingUser || typeof window === 'undefined') {
       return [];
@@ -37,7 +37,7 @@ export const Gw2ApiProvider: FC<Gw2ApiProviderProps> = ({ children }) => {
     if(!user) {
       if(!dismissed) {
         setError(ErrorCode.NOT_LOGGED_IN);
-        setMissingScopes(requiredScopes);
+        setMissingScopes([...requiredScopes, ...optionalScopes]);
       }
 
       // no accounts :(
@@ -45,7 +45,8 @@ export const Gw2ApiProvider: FC<Gw2ApiProviderProps> = ({ children }) => {
     }
 
     // get previous (pending) request
-    const [requestedScopes, pendingPromise] = accounts.current ?? [[], undefined];
+    const [requestedScopes, pendingPromise] = accounts.current ?? [[] as Scope[], undefined];
+
 
     // if there was no previous request yet or we need more permissions
     if(!pendingPromise || !requiredScopes.every((required) => requestedScopes.includes(required))) {
@@ -58,11 +59,16 @@ export const Gw2ApiProvider: FC<Gw2ApiProviderProps> = ({ children }) => {
         if(response.error !== undefined) {
           setError(response.error);
           setGrantedScopes([]);
-          setMissingScopes(combinedScopes);
+          setMissingScopes([...combinedScopes, ...optionalScopes]);
           return [];
         }
 
         setGrantedScopes(response.scopes);
+
+        const missingOptionalScopes = optionalScopes.filter((scope) => !response.scopes.includes(scope));
+        if(missingOptionalScopes.length > 0) {
+          setMissingScopes(missingOptionalScopes);
+        }
 
         return response.accounts;
       });
@@ -71,6 +77,11 @@ export const Gw2ApiProvider: FC<Gw2ApiProviderProps> = ({ children }) => {
       accounts.current = [combinedScopes, promise];
 
       return promise;
+    }
+
+    const missingOptionalScopes = optionalScopes.filter((scope) => !requestedScopes.includes(scope));
+    if(missingOptionalScopes.length > 0) {
+      setMissingScopes((missingScopes) => Array.from(new Set([...missingScopes, ...missingOptionalScopes])));
     }
 
     return pendingPromise;
@@ -100,6 +111,7 @@ export const Gw2ApiProvider: FC<Gw2ApiProviderProps> = ({ children }) => {
   return (
     <Gw2ApiContext.Provider value={value}>
       {children}
+      {JSON.stringify({ missingScopes, grantedScopes })}
       {(error === ErrorCode.NOT_LOGGED_IN) && (
         <div className={styles.dialog}>
           Login to gw2treasures.com to access your Guild Wars 2 accounts.
@@ -111,7 +123,7 @@ export const Gw2ApiProvider: FC<Gw2ApiProviderProps> = ({ children }) => {
           </div>
         </div>
       )}
-      {(error === ErrorCode.REAUTHORIZE || error === ErrorCode.MISSING_PERMISSION) && (
+      {(error === ErrorCode.REAUTHORIZE || error === ErrorCode.MISSING_PERMISSION || missingScopes.some((scope) => !grantedScopes.includes(scope))) && (
         <form className={styles.dialog} action={reauthorize.bind(null, missingScopes, undefined)}>
           Authorize gw2treasures.com to access your Guild Wars 2 accounts.
           <div>

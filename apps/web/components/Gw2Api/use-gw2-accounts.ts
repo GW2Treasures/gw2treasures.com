@@ -11,7 +11,7 @@ type UseGw2AccountsResult =
 
 const loading = [] as Gw2Account[];
 
-export function useGw2Accounts(requiredScopes: Scope[]): UseGw2AccountsResult {
+export function useGw2Accounts(requiredScopes: Scope[], optionalScopes: Scope[] = []): UseGw2AccountsResult {
   const user = useUser();
   const [accounts, setAccounts] = useState<Gw2Account[]>(loading);
   const { getAccounts, scopes } = useContext(Gw2ApiContext);
@@ -26,8 +26,8 @@ export function useGw2Accounts(requiredScopes: Scope[]): UseGw2AccountsResult {
     const scopes = Array.from(new Set([Scope.GW2_Account, ...requiredScopes]));
 
     // get accounts
-    getAccounts(scopes).then(setAccounts);
-  }, [getAccounts, requiredScopes, user.loading]);
+    getAccounts(scopes, optionalScopes).then(setAccounts);
+  }, [getAccounts, optionalScopes, requiredScopes, user.loading]);
 
   return useMemo<UseGw2AccountsResult>(() => {
     if(accounts === loading) {

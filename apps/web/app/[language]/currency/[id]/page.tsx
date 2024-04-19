@@ -15,6 +15,8 @@ import { CurrencyIngredientFor } from '@/components/Currency/CurrencyIngredientF
 import { pageView } from '@/lib/pageView';
 import { cache } from '@/lib/cache';
 import { localizedName } from '@/lib/localizedName';
+import { getUser } from '@/lib/getUser';
+import { WalletTable } from './wallet-table';
 
 const getCurrency = cache(async (id: number, language: Language) => {
   if(isNaN(id)) {
@@ -55,9 +57,10 @@ interface CurrencyPageProps {
 
 export default async function CurrencyPage({ params: { id, language }}: CurrencyPageProps) {
   const currencyId = Number(id);
-  const [currency, { revision, data }] = await Promise.all([
+  const [currency, { revision, data }, user] = await Promise.all([
     getCurrency(currencyId, language),
     getRevision(currencyId, language),
+    getUser(),
     pageView('currency', currencyId),
   ]);
 
@@ -68,6 +71,13 @@ export default async function CurrencyPage({ params: { id, language }}: Currency
   return (
     <DetailLayout title={data.name} breadcrumb="Currency" icon={currency.icon}>
       <p>{data.description}</p>
+
+      {user && (
+        <>
+          <Headline id="wallet">Wallet</Headline>
+          <WalletTable currencyId={currency.id}/>
+        </>
+      )}
 
       {currency.containedIn.length > 0 && (
         <>

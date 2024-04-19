@@ -3,7 +3,7 @@ import type { ErrorCode, Gw2Account } from './types';
 import type { Scope } from '@gw2me/client';
 
 export interface Gw2ApiContext {
-  getAccounts(requiredScopes: Scope[]): Promise<Gw2Account[]>,
+  getAccounts(requiredScopes: Scope[], optionalScopes?: Scope[]): Promise<Gw2Account[]>,
   error: ErrorCode | undefined,
   scopes: Scope[],
 }

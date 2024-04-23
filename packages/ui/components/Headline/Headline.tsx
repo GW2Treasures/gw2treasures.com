@@ -1,5 +1,7 @@
-import React, { FC, ReactNode } from 'react';
-import { TableOfContentAnchor } from '../TableOfContent/TableOfContent';
+'use client';
+
+import type { FC, ReactNode } from 'react';
+import { useTableOfContentAnchor } from '../TableOfContent/TableOfContent';
 import styles from './Headline.module.css';
 
 export interface HeadlineProps {
@@ -10,13 +12,14 @@ export interface HeadlineProps {
 }
 
 export const Headline: FC<HeadlineProps> = ({ children, id, noToc = false, actions }) => {
+  const ref = useTableOfContentAnchor(id, { label: children, enabled: !noToc });
+
   return (
-    <header role="heading" className={styles.headline} aria-level={2}>
-      {!noToc && <TableOfContentAnchor id={id}>{children}</TableOfContentAnchor>}
+    <h2 className={styles.headline} ref={ref} id={id}>
       <span className={styles.content}>
         {children}
       </span>
       {actions && <div className={styles.actions}>{actions}</div>}
-    </header>
+    </h2>
   );
 };

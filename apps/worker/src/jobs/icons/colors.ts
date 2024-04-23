@@ -18,7 +18,7 @@ export const IconsColors: Job = {
 
           colors.push({ id, color: color.hex });
         } catch(e) {
-          console.error(`Could not get the average color if icon ${id} (${url}).`);
+          console.error(`Could not get the average color of icon ${id} (${url}).`);
           console.error(e);
         }
       }));

@@ -8,8 +8,8 @@ commonLabels:
 resources:
 - ../base
 - next
-- next-db
-- next-importer
+- database
+- legacy-importer
 
 images:
 - name: ghcr.io/gw2treasures/gw2treasures.com/web

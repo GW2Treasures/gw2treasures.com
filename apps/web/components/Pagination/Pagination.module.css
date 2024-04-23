@@ -1,0 +1,13 @@
+.container {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+.page {
+  display: inline-block;
+  min-width: 64px;
+  text-align: center;
+  margin: 0 8px;
+  font-feature-settings: "tnum" 1;
+}

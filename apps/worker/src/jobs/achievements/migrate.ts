@@ -20,7 +20,7 @@ export const AchievementsMigrate: Job = {
         select: { id: true }
       })).map(({ id }) => id);
 
-      queueJobForIds('achievements.migrate', idsToUpdate, 1);
+      queueJobForIds('achievements.migrate', idsToUpdate, { priority: 1 });
       return `Queued migration for ${idsToUpdate.length} achievements`;
     }
 

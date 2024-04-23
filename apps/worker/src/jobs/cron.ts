@@ -13,6 +13,8 @@ export async function registerCronJobs() {
   await registerJob('items.check', '*/5 * * * *');
   await registerJob('items.update', '*/3 * * * *');
   await registerJob('items.migrate', '*/6 * * * *');
+  await registerJob('items.containerContent', '47 11 * * *');
+  await registerJob('items.views', '57 * * * *');
 
   await registerJob('skills.check', '*/5 * * * *');
   await registerJob('skills.update', '*/3 * * * *');
@@ -30,15 +32,33 @@ export async function registerCronJobs() {
   await registerJob('achievements.categories', '*/10 * * * *');
   await registerJob('achievements.groups', '*/10 * * * *');
   await registerJob('achievements.unlocks', '7 * * * *');
+  await registerJob('achievements.views', '57 * * * *');
 
   await registerJob('recipes.check', '*/5 * * * *');
+  await registerJob('recipes.update', '*/3 * * * *');
   await registerJob('recipes.migrate', '*/6 * * * *');
+
+  await registerJob('currencies.check', '*/5 * * * *');
+  await registerJob('currencies.update', '*/30 * * * *');
+  await registerJob('currencies.migrate', '*/6 * * * *');
+
+  await registerJob('titles.check', '*/5 * * * *');
+  await registerJob('titles.update', '*/30 * * * *');
+  await registerJob('titles.migrate', '*/6 * * * *');
+
+  await registerJob('colors', '*/5 * * * *');
+  await registerJob('guild-upgrades', '*/5 * * * *');
+  await registerJob('wizardsvault.listings', '*/5 * * * *');
+  await registerJob('wizardsvault.objectives', '13 * * * *');
+  await registerJob('wizardsvault.purchase-limit', '47 * * * *');
+
+  await registerJob('tp', '* * * * *');
 
   await registerJob('gw2api-requests.cleanup', '33 3 * * *');
 
   await registerJob('icons.colors', '37 * * * *');
 
-  await registerJob('jobs.cleanup', '*/15 * * * *');
+  await registerJob('jobs.cleanup', '8 * * * *');
 }
 
 async function registerJob(name: JobName, cron: string, data: Prisma.InputJsonValue = {}) {

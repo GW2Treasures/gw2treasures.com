@@ -1,18 +1,25 @@
 import { getLinkProperties } from '@/lib/linkProperties';
-import { ApiSearchResponse } from 'app/api/search/route';
-import { ReactElement, ReactNode } from 'react';
-import { localizedName } from '../../lib/localizedName';
-import { useJsonFetch, useStaleJsonResponse } from '../../lib/useFetch';
+import type { ApiSearchResponse } from 'app/[language]/api/search/route';
+import { Fragment, type ReactElement, type ReactNode } from 'react';
+import { localizedName } from '@/lib/localizedName';
+import { useJsonFetch, useStaleJsonResponse } from '@/lib/useFetch';
 import { useLanguage } from '../I18n/Context';
 import { EntityIcon } from '../Entity/EntityIcon';
 import { ItemLinkTooltip } from '../Item/ItemLinkTooltip';
 import { Tooltip } from '../Tooltip/Tooltip';
 import { AchievementLinkTooltip } from '../Achievement/AchievementLinkTooltip';
-import { Icon, IconName } from '@gw2treasures/ui';
+import { Icon, type IconName } from '@gw2treasures/ui';
+import { AchievementPoints } from '../Achievement/AchievementPoints';
+import { SkillLinkTooltip } from '../Skill/SkillLinkTooltip';
+import type { TranslationSubset } from '@/lib/translate';
+import type { translations as itemTypeTranslations } from '../Item/ItemType.translations';
+import { ItemType } from '../Item/ItemType';
+import type { Rarity } from '@gw2treasures/database';
+import { strip } from 'gw2-tooltip-html';
+import type { Weight } from '@/lib/types/weight';
 
-export interface SearchResults {
-  id: string;
-  title: ReactNode;
+export interface SearchResults<Id extends string> {
+  id: Id;
   results: SearchResult[];
   loading: boolean;
 }
@@ -25,7 +32,7 @@ export interface SearchResult {
   render?: (link: ReactElement) => ReactNode;
 }
 
-export function useSearchApiResults(searchValue: string): SearchResults[] {
+export function useSearchApiResults(searchValue: string, translations: TranslationSubset<typeof itemTypeTranslations.short[0] | `rarity.${Rarity}` | `weight.${Weight}`>) {
   const fetchResponse = useJsonFetch<ApiSearchResponse>(`/api/search?q=${encodeURIComponent(searchValue)}`);
   const response = useStaleJsonResponse(fetchResponse);
   const language = useLanguage();
@@ -33,20 +40,21 @@ export function useSearchApiResults(searchValue: string): SearchResults[] {
   const items = response.loading ? [] : response.data.items.map<SearchResult>((item) => ({
     title: localizedName(item, language),
     icon: item.icon && <EntityIcon icon={item.icon} size={32}/>,
-    subtitle: <>{item.level > 0 && `${item.level} ▪ `} {item.rarity} {item.weight ?? ''} {(item.subtype !== 'Generic' ? item.subtype : '') || item.type}</>,
+    subtitle: <>{item.level > 0 && `${item.level} ▪ `} {translations[`rarity.${item.rarity}`]} ▪ <ItemType type={item.type as any} subtype={item.subtype as any} translations={translations}/> {item.weight && ' ▪ ' + translations[`weight.${item.weight as Weight}`]}</>,
     href: `/item/${item.id}`,
     render: (link) => <Tooltip content={<ItemLinkTooltip item={getLinkProperties(item)}/>} key={link.key}>{link}</Tooltip>
   }));
 
-  const skills = response.loading ? [] : response.data.skills.map((skill) => ({
+  const skills = response.loading ? [] : response.data.skills.map<SearchResult>((skill) => ({
     title: localizedName(skill, language),
     icon: skill.icon && <EntityIcon type="skill" icon={skill.icon} size={32}/>,
     href: `/skill/${skill.id}`,
+    render: (link) => <Tooltip content={<SkillLinkTooltip skill={getLinkProperties(skill)}/>} key={link.key}>{link}</Tooltip>
   }));
 
-  const skins = response.loading ? [] : response.data.skins.map((skin) => ({
+  const skins = response.loading ? [] : response.data.skins.map<SearchResult>((skin) => ({
     title: localizedName(skin, language),
-    subtitle: <>{skin.rarity} {skin.weight} {(skin.subtype !== 'Generic' ? skin.subtype : '') || skin.type}</>,
+    subtitle: <>{translations[`rarity.${skin.rarity}`]} ▪ <ItemType type={skin.type as any} subtype={skin.subtype as any} translations={translations}/>{skin.weight && ' ▪ ' + translations[`weight.${skin.weight as Weight}`]} </>,
     icon: skin.icon && <EntityIcon icon={skin.icon} size={32}/>,
     href: `/skin/${skin.id}`,
   }));
@@ -58,40 +66,43 @@ export function useSearchApiResults(searchValue: string): SearchResults[] {
     subtitle: (
       <>
         {(achievement.achievementCategory ? localizedName(achievement.achievementCategory, language) : 'Achievement')}
-        {achievement.points > 0 && (<> ▪ {achievement.points} <Icon icon="achievementPoints"/></>)}
         {achievement.mastery && (<> ▪ <Icon icon="mastery"/> {achievement.mastery}</>)}
+        {achievement.rewardsTitle.map((title) => (<Fragment key={title.id}> ▪ <Icon icon="title"/> {strip(localizedName(title, language))}</Fragment>))}
+        {achievement.points > 0 && (<> ▪ <AchievementPoints points={achievement.points}/></>)}
       </>
     ),
     render: (link) => <Tooltip content={<AchievementLinkTooltip achievement={getLinkProperties(achievement)}/>} key={link.key}>{link}</Tooltip>
   }));
 
-  const categories = response.loading ? [] : response.data.achievementCategories.map((category) => ({
+  const categories = response.loading ? [] : response.data.achievementCategories.map<SearchResult>((category) => ({
     title: localizedName(category, language),
     icon: category.icon && <EntityIcon icon={category.icon} size={32}/>,
     href: `/achievement/category/${category.id}`,
     subtitle: category.achievementGroup ? localizedName(category.achievementGroup, language) : 'Category',
   }));
 
-  const groups = response.loading ? [] : response.data.achievementGroups.map((group) => ({
+  const groups = response.loading ? [] : response.data.achievementGroups.map<SearchResult>((group) => ({
     title: localizedName(group, language),
     icon: <Icon icon="achievement"/>,
     href: `/achievement#${group.id}`,
   }));
 
-  const builds = response.loading ? [] : response.data.builds.map((build) => ({
+  const builds = response.loading ? [] : response.data.builds.map<SearchResult>((build) => ({
     title: `Build ${build.id}`,
     icon: <Icon icon="builds"/>,
     href: `/build/${build.id}`,
   }));
 
+  const results = <Id extends string>(id: Id, results: SearchResult[]): SearchResults<Id> => ({ id, results, loading: fetchResponse.loading });
+
   return [
-    { id: 'items', title: 'Items', results: items, loading: fetchResponse.loading },
-    { id: 'skills', title: 'Skills', results: skills, loading: fetchResponse.loading },
-    { id: 'skins', title: 'Skins', results: skins, loading: fetchResponse.loading },
-    { id: 'achievements', title: 'Achievements', results: achievements, loading: fetchResponse.loading },
-    { id: 'achievements.categories', title: 'Achievement Categories', results: categories, loading: fetchResponse.loading },
-    { id: 'achievements.groups', title: 'Achievement Groups', results: groups, loading: fetchResponse.loading },
-    { id: 'builds', title: 'Builds', results: builds, loading: fetchResponse.loading },
+    results('items', items),
+    results('skills', skills),
+    results('skins', skins),
+    results('achievements', achievements),
+    results('achievements.categories', categories),
+    results('achievements.groups', groups),
+    results('builds', builds),
   ];
 }
 
@@ -101,11 +112,16 @@ const pages: Page[] = [
   { href: '/status', title: 'Status', icon: 'status' },
   { href: '/status/jobs', title: 'Job Status', icon: 'jobs' },
   { href: '/status/api', title: 'API Status', icon: 'api-status' },
+  { href: '/status/database', title: 'Database Status', icon: 'columns' },
   { href: '/about', title: 'About', icon: 'info' },
+  { href: '/about/legal', title: 'Legal Notice', icon: 'info' },
+  { href: '/about/privacy', title: 'Privacy Policy', icon: 'info' },
+  { href: '/review', title: 'Review Queues', icon: 'review-queue' },
   { href: 'https://discord.gg/gvx6ZSE', title: 'Discord', icon: 'discord' },
 
   { href: '/item', title: 'Items', icon: 'item' },
   { href: '/achievement', title: 'Achievements', icon: 'achievement' },
+  { href: '/wizards-vault', title: 'Wizard\'s Vault', icon: 'wizards-vault' },
   { href: '/skin', title: 'Skins', icon: 'skin' },
   { href: '/profession', title: 'Professions', icon: 'profession' },
   { href: '/specialization', title: 'Specializations', icon: 'specialization' },
@@ -113,17 +129,26 @@ const pages: Page[] = [
   { href: '/mount', title: 'Mounts', icon: 'mount' },
   { href: '/wvw', title: 'Word vs. World (WvW)', icon: 'wvw' },
 
+  { href: '/dev', title: 'Developer', icon: 'developer' },
+  { href: '/dev/icons', title: 'Developer / Icons', icon: 'developer' },
+  { href: '/dev/api', title: 'Developer / API', icon: 'developer' },
+  { href: '/dev#applications', title: 'Developer / Your Applications', icon: 'developer' },
+
   { href: '/build', title: 'Builds', icon: 'builds' },
+  { href: '/currency', title: 'Currencies', icon: 'coins' },
+  { href: '/color', title: 'Colors', icon: 'color' },
 
   { href: '/item/random', title: 'Random Item', icon: 'shuffle' },
+  { href: '/item/empty-containers', title: 'Empty containers', icon: 'item' },
   { href: '/achievement/random', title: 'Random Achievement', icon: 'shuffle' },
+  { href: '/achievement/uncategorized', title: 'Uncategorized Achievements', icon: 'achievement' },
 ];
 
-export function usePageResults(searchValue: string): SearchResults {
+export function usePageResults(searchValue: string): SearchResults<'pages'> {
   const results = pages
     .filter(({ title }) => title.toLowerCase().includes(searchValue.toLowerCase()))
     .filter((_, index) => index < 5)
     .map(({ title, icon, href }) => ({ title, href, icon: <Icon icon={icon}/> }));
 
-  return { id: 'pages', title: 'Pages', results, loading: false };
+  return { id: 'pages', results, loading: false };
 }

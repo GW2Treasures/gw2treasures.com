@@ -20,10 +20,10 @@ export async function processAchievementGroups(buildId: number) {
         continue;
       }
 
-      const revision_de = await db.revision.create({ data: { data: achievementGroup.data_de, entity: 'AchievementGroup', language: 'de', buildId, description: 'Imported - No earlier history available' }});
-      const revision_en = await db.revision.create({ data: { data: achievementGroup.data_en, entity: 'AchievementGroup', language: 'en', buildId, description: 'Imported - No earlier history available' }});
-      const revision_es = await db.revision.create({ data: { data: achievementGroup.data_es, entity: 'AchievementGroup', language: 'es', buildId, description: 'Imported - No earlier history available' }});
-      const revision_fr = await db.revision.create({ data: { data: achievementGroup.data_fr, entity: 'AchievementGroup', language: 'fr', buildId, description: 'Imported - No earlier history available' }});
+      const revision_de = await db.revision.create({ data: { data: achievementGroup.data_de, entity: 'AchievementGroup', language: 'de', buildId, description: 'Imported - No earlier history available', schema: '' }});
+      const revision_en = await db.revision.create({ data: { data: achievementGroup.data_en, entity: 'AchievementGroup', language: 'en', buildId, description: 'Imported - No earlier history available', schema: '' }});
+      const revision_es = await db.revision.create({ data: { data: achievementGroup.data_es, entity: 'AchievementGroup', language: 'es', buildId, description: 'Imported - No earlier history available', schema: '' }});
+      const revision_fr = await db.revision.create({ data: { data: achievementGroup.data_fr, entity: 'AchievementGroup', language: 'fr', buildId, description: 'Imported - No earlier history available', schema: '' }});
 
       const data: Gw2Api.Achievement.Group = JSON.parse(achievementGroup.data_en);
 

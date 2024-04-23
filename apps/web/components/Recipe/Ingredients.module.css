@@ -3,9 +3,12 @@
   grid-template-columns: auto 1fr;
   align-items: center;
   align-self: flex-start;
+  line-height: 1;
 }
 
 .count {
   text-align: right;
+  font-feature-settings: "tnum" 1;
   margin-right: 8px;
+  min-width: var(--ingredient-count-min-width);
 }

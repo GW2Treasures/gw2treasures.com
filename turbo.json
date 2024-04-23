@@ -18,7 +18,11 @@
     },
     "publish-package": {
       "cache": false,
-      "dependsOn": ["build"]
+      "dependsOn": ["build", "@gw2treasures/publish-package#build"]
+    },
+    "e2e": {},
+    "test": {
+      "dependsOn": ["^build"]
     }
   }
 }

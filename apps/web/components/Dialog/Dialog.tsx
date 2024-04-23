@@ -1,7 +1,8 @@
 import { FloatingFocusManager, FloatingOverlay, FloatingPortal, useDismiss, useFloating, useInteractions, useRole, useTransitionStyles } from '@floating-ui/react';
 import { Icon } from '@gw2treasures/ui';
-import { FC, ReactNode, useId } from 'react';
+import { type FC, type ReactNode, useId } from 'react';
 import styles from './Dialog.module.css';
+import { TableOfContentContext } from '@gw2treasures/ui/components/TableOfContent/TableOfContent';
 
 export interface DialogProps {
   children: ReactNode
@@ -38,7 +39,9 @@ export const Dialog: FC<DialogProps> = ({ children, title, open = true, onClose 
               <button type="button" className={styles.close} onClick={onClose}><Icon icon="close"/></button>
             </div>
             <div className={styles.content}>
-              {children}
+              <TableOfContentContext>
+                {children}
+              </TableOfContentContext>
             </div>
           </div>
         </FloatingFocusManager>

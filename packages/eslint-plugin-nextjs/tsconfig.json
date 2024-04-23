@@ -1,0 +1,13 @@
+{
+  "extends": "@gw2treasures/tsconfig/base",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "declaration": false,
+
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+
+    "verbatimModuleSyntax": false
+  },
+  "include": ["./src"]
+}

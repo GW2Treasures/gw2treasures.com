@@ -1,11 +1,13 @@
 generator client {
   provider = "prisma-client-js"
-  previewFeatures = ["filteredRelationCount"]
+  binaryTargets = ["native", "linux-musl-arm64-openssl-3.0.x"]
+  previewFeatures = ["postgresqlExtensions", "views"]
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  extensions = [timescaledb]
 }
 
 model Item {
@@ -19,12 +21,21 @@ model Item {
   icon   Icon? @relation(fields: [iconId], references: [id])
   iconId Int?
 
-  rarity  String  @default("")
-  type    String  @default("")
-  subtype String?
-  weight  String?
-  value   Int     @default(0)
-  level   Int     @default(0)
+  rarity      Rarity
+  type        String  @default("")
+  subtype     String?
+  weight      String?
+  vendorValue Int?
+  level       Int      @default(0)
+
+  // tp
+  tpTradeable   Boolean @default(false)
+  tpWhitelisted Boolean @default(false)
+  buyQuantity   Int?
+  buyPrice      Int?
+  sellQuantity  Int?
+  sellPrice     Int?
+  tpCheckedAt   DateTime?
 
   // skins
   unlocksSkin    Skin[]
@@ -37,6 +48,10 @@ model Item {
   unlocksRecipe    Recipe[]         @relation(name: "unlocks_recipe")
   unlocksRecipeIds Int[]
 
+  // mystic forge recipes
+  mysticForgeRecipeOutput MysticForgeRecipe[]         @relation("mystic_forge_output")
+  mysticForgeIngredient   MysticForgeIngredientItem[] @relation("mystic_forge_ingredient")
+
   // achievements
   achievementRewards Achievement[] @relation(name: "rewards_item")
   achievementBits    Achievement[] @relation(name: "bits_item")
@@ -45,8 +60,31 @@ model Item {
   suffixItems   Item[] @relation(name: "suffix")
   suffixItemIds Int[]
   suffixIn      Item[] @relation(name: "suffix")
- 
+
+  contains    Content[] @relation("contains")
+  containedIn Content[] @relation("containedIn")
+
+  // currency
+  containsCurrency CurrencyContent[] @relation("containsCurrency")
+
+  // color
+  unlocksColor    Color[]  @relation("unlocks_color")
+  unlocksColorIds Int[]
+
+  // guild upgrades
+  unlocksGuildUpgrade    GuildUpgrade[]  @relation("unlocks_guild_upgrade")
+  unlocksGuildUpgradeIds Int[]
+
+  // wizardsvault
+  wizardsVaultListings WizardsVaultListing[] @relation("wizardsvault_listing")
+
+  // review queue
+  reviews Review[] @relation("itemReview")
+
+
   removedFromApi Boolean @default(false)
+
+  views Int @default(0)
 
   current_de Revision @relation("current_de", fields: [currentId_de], references: [id], onDelete: Cascade)
   currentId_de String @unique
@@ -70,6 +108,29 @@ model Item {
   version Int @default(0)
 }
 
+enum Rarity {
+  Junk
+  Basic
+  Fine
+  Masterwork
+  Rare
+  Exotic
+  Ascended
+  Legendary
+}
+
+model TradingPostHistory {
+  itemId Int
+  time   DateTime @default(now())
+
+  buyQuantity   Int?
+  buyPrice      Int?
+  sellQuantity  Int?
+  sellPrice     Int?
+  
+  @@unique([itemId,  time])
+}
+
 model Icon {
   id Int @id
   signature String
@@ -81,6 +142,40 @@ model Icon {
   skins Skin[]
   achievements Achievement[]
   achievementCategories AchievementCategory[]
+  currencies Currency[]
+  guildUpgrades GuildUpgrade[]
+}
+
+model Content {
+  containerItemId Int
+  contentItemId   Int
+
+  quantity Int
+  chance ContentChance
+
+  containerItem Item @relation("contains", fields: [containerItemId], references: [id])
+  contentItem   Item @relation("containedIn", fields: [contentItemId], references: [id])
+
+  @@id([containerItemId, contentItemId])
+}
+
+enum ContentChance {
+  Chance
+  Choice
+  Guaranteed
+}
+
+model CurrencyContent {
+  containerItemId Int
+  currencyId      Int
+
+  min Int
+  max Int
+
+  containerItem Item     @relation("containsCurrency", fields: [containerItemId], references: [id])
+  currency      Currency @relation("containedCurrency", fields: [currencyId], references: [id])
+
+  @@id([containerItemId, currencyId])
 }
 
 model ItemHistory {
@@ -149,7 +244,7 @@ model Skin {
   icon   Icon? @relation(fields: [iconId], references: [id])
   iconId Int?
 
-  rarity  String  @default("")
+  rarity  Rarity
   type    String  @default("")
   subtype String?
   weight  String?
@@ -215,11 +310,23 @@ model Recipe {
 
   unlockedByItems Item[] @relation(name: "unlocks_recipe")
 
-  outputItemId Int?
-  outputItem   Item? @relation(name: "recipe_output", fields: [outputItemId], references: [id])
+  outputItemId    Int?
+  outputItem      Item? @relation(name: "recipe_output", fields: [outputItemId], references: [id])
+  outputItemIdRaw Int?
 
-  itemIngredients IngredientItem[]
-    
+  outputGuildUpgradeId    Int?
+  outputGuildUpgrade      GuildUpgrade? @relation(name: "recipe_output", fields: [outputGuildUpgradeId], references: [id])
+  outputGuildUpgradeIdRaw Int?
+
+  itemIngredients   IngredientItem[]
+  itemIngredientIds Int[]
+
+  currencyIngredients   IngredientCurrency[]
+  currencyIngredientIds Int[]
+
+  guildUpgradeIngredients   IngredientGuildUpgrade[]
+  guildUpgradeIngredientIds Int[]
+
   removedFromApi Boolean @default(false)
   
   currentRevision   Revision @relation("current", fields: [currentRevisionId], references: [id], onDelete: Cascade)
@@ -247,6 +354,59 @@ model IngredientItem {
   @@id([recipeId, itemId])
 }
 
+model IngredientCurrency {
+  recipeId   Int
+  currencyId Int
+
+  count Int
+
+  Recipe   Recipe   @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  Currency Currency @relation(fields: [currencyId], references: [id], onDelete: Cascade)
+
+  @@id([recipeId, currencyId])
+}
+
+model IngredientGuildUpgrade {
+  recipeId   Int
+  guildUpgradeId Int
+
+  count Int
+
+  Recipe       Recipe       @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  GuildUpgrade GuildUpgrade @relation(fields: [guildUpgradeId], references: [id], onDelete: Cascade)
+
+  @@id([recipeId, guildUpgradeId])
+}
+
+model MysticForgeRecipe {
+  id String @id @default(uuid())
+
+  outputCountMin Int
+  outputCountMax Int
+
+  outputItemId    Int
+  outputItem      Item @relation("mystic_forge_output", fields: [outputItemId], references: [id])
+
+  itemIngredients MysticForgeIngredientItem[]
+
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  version Int @default(0)
+}
+
+model MysticForgeIngredientItem {
+  id String @id @default(uuid())
+
+  mysticForgeRecipeId String
+  itemId              Int
+
+  count Int
+
+  Recipe MysticForgeRecipe @relation(fields: [mysticForgeRecipeId], references: [id], onDelete: Cascade)
+  Item   Item              @relation("mystic_forge_ingredient", fields: [itemId], references: [id], onDelete: Cascade)
+}
+
 model Achievement {
   id Int @id
   
@@ -258,6 +418,8 @@ model Achievement {
   historic Boolean        @default(true)
   points   Int            @default(0)
   mastery  MasteryRegion?
+
+  flags String[]
 
   icon   Icon? @relation(fields: [iconId], references: [id])
   iconId Int?
@@ -281,9 +443,14 @@ model Achievement {
   rewardsItem    Item[] @relation(name: "rewards_item")
   rewardsItemIds Int[]
 
+  rewardsTitle    Title[] @relation(name: "rewards_title")
+  rewardsTitleIds Int[]
+
   unlocks Float?
 
   removedFromApi Boolean @default(false)
+  
+  views Int @default(0)
   
   current_de Revision @relation("current_de", fields: [currentId_de], references: [id], onDelete: Cascade)
   currentId_de String @unique
@@ -312,6 +479,8 @@ enum MasteryRegion {
   Desert
   Maguuma
   Tundra
+  Jade
+  Sky
   Unknown
 }
 
@@ -432,6 +601,7 @@ model Revision {
 
   entity String?
 
+  schema String
   data String
   description String?
   type RevisionType @default(Update)
@@ -444,6 +614,10 @@ model Revision {
   createdAt DateTime @default(now())
 
   @@index([language, type])
+
+  previousRevisionId String? @unique
+  previousRevision   Revision? @relation("previous", fields: [previousRevisionId], references: [id])
+  nextRevision       Revision? @relation("previous")
 
   // items
   currentItem_de Item? @relation("current_de")
@@ -486,10 +660,48 @@ model Revision {
   currentAchievementCategory_es AchievementCategory? @relation("current_es")
   currentAchievementCategory_fr AchievementCategory? @relation("current_fr")
   achievementCategoryHistory AchievementCategoryHistory[]
+  
+  // currencies
+  currentCurrency_de Currency? @relation("current_de")
+  currentCurrency_en Currency? @relation("current_en")
+  currentCurrency_es Currency? @relation("current_es")
+  currentCurrency_fr Currency? @relation("current_fr")
+  currencyHistory CurrencyHistory[]
+  
+  // titles
+  currentTitle_de Title? @relation("current_de")
+  currentTitle_en Title? @relation("current_en")
+  currentTitle_es Title? @relation("current_es")
+  currentTitle_fr Title? @relation("current_fr")
+  titleHistory TitleHistory[]
 
   // recipes
   currentRecipe Recipe? @relation("current")
   recipeHistory Recipe[]
+  
+  // colors
+  currentColor_de Color? @relation("current_de")
+  currentColor_en Color? @relation("current_en")
+  currentColor_es Color? @relation("current_es")
+  currentColor_fr Color? @relation("current_fr")
+  colorHistory ColorHistory[]
+  
+  // colors
+  currentGuildUpgrade_de GuildUpgrade? @relation("current_de")
+  currentGuildUpgrade_en GuildUpgrade? @relation("current_en")
+  currentGuildUpgrade_es GuildUpgrade? @relation("current_es")
+  currentGuildUpgrade_fr GuildUpgrade? @relation("current_fr")
+  guildUpgradeHistory GuildUpgradeHistory[]
+
+  // wizards vault
+  currentWizardsVaultListing WizardsVaultListing? @relation("current")
+  wizardsVaultListingHistory WizardsVaultListingHistory[]
+  
+  currentWizardsVaultObjective_de WizardsVaultObjective? @relation("current_de")
+  currentWizardsVaultObjective_en WizardsVaultObjective? @relation("current_en")
+  currentWizardsVaultObjective_es WizardsVaultObjective? @relation("current_es")
+  currentWizardsVaultObjective_fr WizardsVaultObjective? @relation("current_fr")
+  wizardsVaultObjectiveHistory WizardsVaultObjectiveHistory[]
 }
 
 enum RevisionType {
@@ -506,6 +718,295 @@ model Build {
   
   createdAt      DateTime   @default(now())
   updatedAt      DateTime   @updatedAt
+}
+
+model Currency {
+  id Int @id
+
+  name_de String
+  name_en String
+  name_es String
+  name_fr String
+
+  icon   Icon? @relation(fields: [iconId], references: [id])
+  iconId Int?
+
+  order Int
+
+  containedIn CurrencyContent[] @relation("containedCurrency")
+
+  ingredient IngredientCurrency[]
+
+  removedFromApi Boolean @default(false)
+  
+  current_de Revision @relation("current_de", fields: [currentId_de], references: [id], onDelete: Cascade)
+  currentId_de String @unique
+  
+  current_en Revision @relation("current_en", fields: [currentId_en], references: [id], onDelete: Cascade)
+  currentId_en String @unique
+  
+  current_es Revision @relation("current_es", fields: [currentId_es], references: [id], onDelete: Cascade)
+  currentId_es String @unique
+  
+  current_fr Revision @relation("current_fr", fields: [currentId_fr], references: [id], onDelete: Cascade)
+  currentId_fr String @unique
+
+  history CurrencyHistory[]
+  
+  lastCheckedAt  DateTime   @default(now())
+
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  version Int @default(0)
+}
+
+model CurrencyHistory {
+  currencyId Int
+  revisionId String
+
+  currency Currency @relation(fields: [currencyId], references: [id], onDelete: Cascade)
+  revision Revision @relation(fields: [revisionId], references: [id], onDelete: Cascade)
+
+  @@id([currencyId, revisionId])
+}
+
+model Title {
+  id Int @id
+
+  name_de String
+  name_en String
+  name_es String
+  name_fr String
+
+  achievements Achievement[] @relation(name: "rewards_title")
+
+  removedFromApi Boolean @default(false)
+  
+  current_de Revision @relation("current_de", fields: [currentId_de], references: [id], onDelete: Cascade)
+  currentId_de String @unique
+  
+  current_en Revision @relation("current_en", fields: [currentId_en], references: [id], onDelete: Cascade)
+  currentId_en String @unique
+  
+  current_es Revision @relation("current_es", fields: [currentId_es], references: [id], onDelete: Cascade)
+  currentId_es String @unique
+  
+  current_fr Revision @relation("current_fr", fields: [currentId_fr], references: [id], onDelete: Cascade)
+  currentId_fr String @unique
+
+  history TitleHistory[]
+  
+  lastCheckedAt  DateTime   @default(now())
+
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  version Int @default(0)
+}
+
+model TitleHistory {
+  titleId Int
+  revisionId String
+
+  title Title @relation(fields: [titleId], references: [id], onDelete: Cascade)
+  revision Revision @relation(fields: [revisionId], references: [id], onDelete: Cascade)
+
+  @@id([titleId, revisionId])
+}
+
+model Color {
+  id Int @id
+
+  name_de String
+  name_en String
+  name_es String
+  name_fr String
+
+  cloth_rgb   String @default("")
+  leather_rgb String @default("")
+  metal_rgb   String @default("")
+
+  unlockedByItems Item[] @relation("unlocks_color")
+
+  removedFromApi Boolean @default(false)
+  
+  current_de Revision @relation("current_de", fields: [currentId_de], references: [id], onDelete: Cascade)
+  currentId_de String @unique
+  
+  current_en Revision @relation("current_en", fields: [currentId_en], references: [id], onDelete: Cascade)
+  currentId_en String @unique
+  
+  current_es Revision @relation("current_es", fields: [currentId_es], references: [id], onDelete: Cascade)
+  currentId_es String @unique
+  
+  current_fr Revision @relation("current_fr", fields: [currentId_fr], references: [id], onDelete: Cascade)
+  currentId_fr String @unique
+
+  history ColorHistory[]
+  
+  lastCheckedAt  DateTime   @default(now())
+
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  version Int @default(0)
+}
+
+model ColorHistory {
+  colorId Int
+  revisionId String
+
+  color Color @relation(fields: [colorId], references: [id], onDelete: Cascade)
+  revision Revision @relation(fields: [revisionId], references: [id], onDelete: Cascade)
+
+  @@id([colorId, revisionId])
+}
+
+model GuildUpgrade {
+  id Int @id
+
+  name_de String
+  name_en String
+  name_es String
+  name_fr String
+
+  icon   Icon? @relation(fields: [iconId], references: [id])
+  iconId Int?
+
+  ingredient   IngredientGuildUpgrade[]
+  recipeOutput Recipe[] @relation(name: "recipe_output")
+  
+  unlockedByItems Item[] @relation("unlocks_guild_upgrade")
+
+  removedFromApi Boolean @default(false)
+  
+  current_de Revision @relation("current_de", fields: [currentId_de], references: [id], onDelete: Cascade)
+  currentId_de String @unique
+  
+  current_en Revision @relation("current_en", fields: [currentId_en], references: [id], onDelete: Cascade)
+  currentId_en String @unique
+  
+  current_es Revision @relation("current_es", fields: [currentId_es], references: [id], onDelete: Cascade)
+  currentId_es String @unique
+  
+  current_fr Revision @relation("current_fr", fields: [currentId_fr], references: [id], onDelete: Cascade)
+  currentId_fr String @unique
+
+  history GuildUpgradeHistory[]
+  
+  lastCheckedAt  DateTime   @default(now())
+
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  version Int @default(0)
+}
+
+model GuildUpgradeHistory {
+  guildUpgradeId Int
+  revisionId String
+
+  guildUpgrade GuildUpgrade @relation(fields: [guildUpgradeId], references: [id], onDelete: Cascade)
+  revision Revision @relation(fields: [revisionId], references: [id], onDelete: Cascade)
+
+  @@id([guildUpgradeId, revisionId])
+}
+
+model WizardsVaultListing {
+  id Int @id
+
+  itemId    Int?
+  item      Item? @relation("wizardsvault_listing", fields: [itemId], references: [id], onDelete: SetNull)
+  itemIdRaw Int
+
+  count Int
+  type  WizardsVaultListingType
+  cost  Int
+  limit Int?
+
+  removedFromApi Boolean @default(false)
+  
+  current Revision @relation("current", fields: [currentId], references: [id], onDelete: Cascade)
+  currentId String @unique
+
+  history WizardsVaultListingHistory[]
+  
+  lastCheckedAt  DateTime   @default(now())
+
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  version Int @default(0)
+}
+
+model WizardsVaultListingHistory {
+  wizardsVaultListingId Int
+  revisionId String
+
+  guildUpgrade WizardsVaultListing @relation(fields: [wizardsVaultListingId], references: [id], onDelete: Cascade)
+  revision     Revision @relation(fields: [revisionId], references: [id], onDelete: Cascade)
+
+  @@id([wizardsVaultListingId, revisionId])
+}
+
+enum WizardsVaultListingType {
+  Featured
+  Normal
+  Legacy
+}
+
+model WizardsVaultObjective {
+  id Int @id
+
+  name_de String
+  name_en String
+  name_es String
+  name_fr String
+
+  track   WizardsVaultTrack
+  acclaim Int
+
+  waypointId Int?
+
+  removedFromApi Boolean @default(false)
+  
+  current_de Revision @relation("current_de", fields: [currentId_de], references: [id], onDelete: Cascade)
+  currentId_de String @unique
+  
+  current_en Revision @relation("current_en", fields: [currentId_en], references: [id], onDelete: Cascade)
+  currentId_en String @unique
+  
+  current_es Revision @relation("current_es", fields: [currentId_es], references: [id], onDelete: Cascade)
+  currentId_es String @unique
+  
+  current_fr Revision @relation("current_fr", fields: [currentId_fr], references: [id], onDelete: Cascade)
+  currentId_fr String @unique
+
+  history WizardsVaultObjectiveHistory[]
+  
+  lastCheckedAt  DateTime   @default(now())
+
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  version Int @default(0)
+}
+
+model WizardsVaultObjectiveHistory {
+  wizardsVaultObjectiveId Int
+  revisionId String
+
+  guildUpgrade WizardsVaultObjective @relation(fields: [wizardsVaultObjectiveId], references: [id], onDelete: Cascade)
+  revision     Revision @relation(fields: [revisionId], references: [id], onDelete: Cascade)
+
+  @@id([wizardsVaultObjectiveId, revisionId])
+}
+
+enum WizardsVaultTrack {
+  PvE
+  PvP
+  WvW
 }
 
 model Job {
@@ -571,6 +1072,11 @@ model User {
 
   createdAt      DateTime   @default(now())
   updatedAt      DateTime   @updatedAt
+
+  reviewsRequested Review[] @relation("requester")
+  reviewsReviewed  Review[] @relation("reviewer")
+
+  applications Application[] @relation("application")
 }
 
 enum UserRole {
@@ -603,9 +1109,77 @@ model UserProvider {
   refreshToken          String?
   refreshTokenExpiresAt DateTime?
 
+  scope String[] @default([])
+
   userId String
   user   User   @relation("provider", fields: [userId], references: [id], onDelete: Cascade)
   
   createdAt      DateTime   @default(now())
   updatedAt      DateTime   @updatedAt
+}
+
+model Application {
+  id String @id @default(uuid())
+
+  name String
+
+  apiKey String @unique
+
+  owner   User @relation("application", fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId String
+
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+}
+
+model Review {
+  id String @id @default(uuid())
+
+  requesterId String?
+  requester   User?   @relation("requester", fields: [requesterId], references: [id], onDelete: SetNull)
+
+  reviewerId  String?
+  reviewer    User?   @relation("reviewer", fields: [reviewerId], references: [id], onDelete: SetNull)
+
+  queue ReviewQueue
+  changes Json
+  state ReviewState @default(Open)
+
+  relatedItemId Int?
+  relatedItem   Item? @relation("itemReview", fields: [relatedItemId], references: [id], onDelete: Cascade)
+
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  reviewedAt DateTime?
+}
+
+enum ReviewQueue {
+  ContainerContent
+  MysticForge
+}
+
+enum ReviewState {
+  Open
+  Approved
+  Rejected
+}
+
+model PageView {
+  time DateTime @default(now())
+
+  page   String
+  pageId Int @default(0)
+
+  @@unique([time, page, pageId])
+}
+
+view PageView_daily {
+  bucket DateTime @default(now())
+
+  page   String
+  pageId Int
+
+  count Int
+
+  @@unique([bucket, page, pageId])
 }

@@ -1,11 +1,11 @@
 import { Prisma } from '@gw2treasures/database';
 import { Gw2Api } from 'gw2-api-types';
 import { db } from '../../db';
-import { isTruthy } from '../helper/is';
+import { isDefined, isTruthy } from '@gw2treasures/helper/is';
 import { toId } from '../helper/toId';
-import { isDefined, LocalizedObject } from '../helper/types';
+import { LocalizedObject } from '../helper/types';
 
-export const CURRENT_VERSION = 8;
+export const CURRENT_VERSION = 11;
 
 /** @see Prisma.ItemUpdateInput */
 interface MigratedItem {
@@ -18,7 +18,7 @@ interface MigratedItem {
   type?: string
   subtype?: string | null
   weight?: string | null
-  value?: number
+  vendorValue?: number | null
   level?: number
   unlocksSkinIds?: number[]
   removedFromApi?: boolean
@@ -32,12 +32,20 @@ interface MigratedItem {
 
   unlocksRecipeIds?: number[]
   unlocksRecipe?: Prisma.RecipeUpdateManyWithoutUnlockedByItemsNestedInput
+
+  unlocksColorIds?: number[]
+  unlocksColor?: Prisma.ColorUpdateManyWithoutUnlockedByItemsNestedInput
+
+  unlocksGuildUpgradeIds?: number[]
+  unlocksGuildUpgrade?: Prisma.GuildUpgradeUpdateManyWithoutUnlockedByItemsNestedInput
 }
 
 export async function createMigrator() {
   const knownSkinIds = (await db.skin.findMany({ select: { id: true }})).map(toId);
   const knownItemIds = (await db.item.findMany({ select: { id: true }})).map(toId);
   const knownRecipeIds = (await db.recipe.findMany({ select: { id: true }})).map(toId);
+  const knownColorIds = (await db.color.findMany({ select: { id: true }})).map(toId);
+  const knownGuildUpgradeIds = (await db.guildUpgrade.findMany({ select: { id: true }})).map(toId);
 
   // eslint-disable-next-line require-await
   return async function migrate({ de, en, es, fr }: LocalizedObject<Gw2Api.Item>, currentVersion = -1) {
@@ -50,7 +58,6 @@ export async function createMigrator() {
       update.type = en.type;
       update.subtype = en.details?.type;
       update.weight = en.details?.weight_class;
-      update.value = Number(en.vendor_value);
       update.level = Number(en.level);
     }
 
@@ -90,6 +97,33 @@ export async function createMigrator() {
       }
     }
 
-    return update;
+    // Version 9: Add color unlocks
+    if(currentVersion < 9) {
+      const unlocksColors = en.type === 'Consumable' && en.details?.type === 'Unlock' && en.details?.unlock_type === 'Dye';
+      if(unlocksColors) {
+        const unlocksColorIds = [en.details?.color_id].filter(isTruthy);
+
+        update.unlocksColorIds = unlocksColorIds;
+        update.unlocksColor = { connect: unlocksColorIds.filter((id) => knownColorIds.includes(id)).map((id) => ({ id })) };
+      }
+    }
+
+    // Version 10: Add guild upgrade unlocks
+    if(currentVersion < 10) {
+      const unlocksGuildUpgrades = en.type === 'Consumable' && en.details?.type === 'Generic' && en.details?.guild_upgrade_id !== undefined;
+      if(unlocksGuildUpgrades) {
+        const unlocksGuildUpgradeIds = [en.details?.guild_upgrade_id].filter(isTruthy);
+
+        update.unlocksGuildUpgradeIds = unlocksGuildUpgradeIds;
+        update.unlocksGuildUpgrade = { connect: unlocksGuildUpgradeIds.filter((id) => knownGuildUpgradeIds.includes(id)).map((id) => ({ id })) };
+      }
+    }
+
+    // Version 11: Set vendorValue
+    if(currentVersion < 11) {
+      update.vendorValue = en.flags.includes('NoSell') ? null : Number(en.vendor_value);
+    }
+
+    return update satisfies Prisma.ItemUpdateInput;
   };
 }

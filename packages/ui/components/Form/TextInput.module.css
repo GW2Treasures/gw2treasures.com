@@ -7,6 +7,7 @@
   padding: 6px 16px;
   line-height: 20px;
   transition: border-color .3s ease;
+  flex: 1;
 }
 
 .input:focus {
@@ -20,4 +21,8 @@
 
 .input[readonly] {
   background: var(--color-background-light);
+}
+
+.input[type="number"] {
+  width: 128px;
 }

@@ -9,6 +9,8 @@ spec:
     spec:
       template:
         spec:
+          nodeSelector:
+            kubernetes.io/arch: amd64
           containers:
           - name: cron
             image: ghcr.io/gw2treasures/gw2treasures.com/legacy/web:latest

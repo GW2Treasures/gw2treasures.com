@@ -1,4 +1,4 @@
-import { isDefined } from './types';
+import { isDefined } from '@gw2treasures/helper/is';
 
 export function getIdsFromMap<K, V>(map: Map<K, V>, ids: K[]): V[] {
   return ids.map((id) => map.get(id)).filter(isDefined);

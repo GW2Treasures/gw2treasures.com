@@ -1,0 +1,46 @@
+{
+  "name": "@gw2treasures/helper",
+  "version": "0.0.4",
+  "description": "gw2treasures.com utility library",
+  "exports": {
+    "./is": {
+      "types": "./dist/is.d.ts",
+      "default": "./dist/is.js"
+    }
+  },
+  "scripts": {
+    "build": "npm run clean && if test $CI; then npm run build:ci; else npm run build:local; fi",
+    "build:local": "tsc --declarationMap",
+    "build:ci": "tsc",
+    "clean": "rm -rf dist/",
+    "lint": "eslint src",
+    "publish-package": "gw2treasures-publish-package"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GW2Treasures/gw2treasures.com.git"
+  },
+  "keywords": [
+    "gw2treasures",
+    "helper"
+  ],
+  "files": [
+    "dist/"
+  ],
+  "author": "darthmaim",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/GW2Treasures/gw2treasures.com/issues"
+  },
+  "homepage": "https://github.com/GW2Treasures/gw2treasures.com#readme",
+  "devDependencies": {
+    "@gw2treasures/tsconfig": "*",
+    "@typescript-eslint/eslint-plugin": "7.7.1",
+    "@typescript-eslint/parser": "7.7.1",
+    "eslint": "8.57.0",
+    "typescript": "5.4.5"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

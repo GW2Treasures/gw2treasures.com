@@ -1,10 +1,10 @@
 'use client';
 
 import { cx } from '@gw2treasures/ui';
-import { LocalizedEntity, localizedName } from '@/lib/localizedName';
-import { WithIcon } from '@/lib/with';
-import { Item, Language } from '@gw2treasures/database';
-import { FC } from 'react';
+import { type LocalizedEntity, localizedName } from '@/lib/localizedName';
+import type { WithIcon } from '@/lib/with';
+import type { Item, Language } from '@gw2treasures/database';
+import type { FC } from 'react';
 import { useLanguage } from '../I18n/Context';
 import { Skeleton } from '../Skeleton/Skeleton';
 import { EntityIcon } from '@/components/Entity/EntityIcon';
@@ -30,13 +30,16 @@ export const ItemLinkTooltip: FC<ItemLinkTooltipProps> = ({ item, language, revi
 
   return (
     <div className={rarityStyles[item.rarity]}>
-      <div className={cx(styles.title)}>
-        {item.icon && (<EntityIcon icon={item.icon} size={32}/>)}
-        {localizedName(item, language)}
-      </div>
-
       <ErrorBoundary fallback={<span>Error</span>}>
-        {tooltip.loading && <div className={styles.loading}><Skeleton/><br/><Skeleton width={120}/></div>}
+        {tooltip.loading && (
+          <>
+            <div className={cx(styles.title)}>
+              {item.icon && (<EntityIcon icon={item.icon} size={32}/>)}
+              {localizedName(item, language)}
+            </div>
+            <div className={styles.loading}><Skeleton/><br/><Skeleton width={120}/></div>
+          </>
+        )}
         {!tooltip.loading && <ClientItemTooltip tooltip={tooltip.data}/>}
       </ErrorBoundary>
     </div>

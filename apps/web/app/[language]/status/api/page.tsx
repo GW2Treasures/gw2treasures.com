@@ -3,13 +3,13 @@ import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { PageLayout } from '@/components/Layout/PageLayout';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { db } from '@/lib/prisma';
-import { ApiRequest } from '@gw2treasures/database';
+import type { ApiRequest } from '@gw2treasures/database';
 import { Fragment } from 'react';
 import styles from './page.module.css';
 import { ReloadCheckbox } from '@/components/Reload/ReloadCheckbox';
 import { PeriodSelect } from './period-select';
 import { availablePeriods } from './available-periods';
-import { Tip } from '@/components/Tip/Tip';
+import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 
 async function getData(hours: number) {
   const now = new Date();
@@ -62,7 +62,7 @@ export default async function StatusApiPage({ searchParams: { period }}: { searc
       </Headline>
 
       <p>
-        <FormatNumber value={total}/> requests and <FormatNumber value={errors}/> errors (<FormatNumber value={errors / total * 100}/>%) in the last {hours} hours.
+        <FormatNumber value={total}/> requests and <FormatNumber value={errors}/> errors (<FormatNumber value={errors / total * 100} unit="%"/>) in the last {hours} hours.
       </p>
 
       <Headline id="status-codes">Status Codes ({hours}h)</Headline>
@@ -93,14 +93,14 @@ export default async function StatusApiPage({ searchParams: { period }}: { searc
             <tr key={endpoint}>
               <th>{endpoint}</th>
               <td align="right">
-                <FormatNumber value={data.totalResponseTimeMs / data.requestCount / 1000}/>s
+                <FormatNumber value={Math.round(data.totalResponseTimeMs / data.requestCount)} unit="ms"/>
                 {createResponseTimeGraph(data.requests)}
               </td>
               <td align="right">
                 <FormatNumber value={data.requestCount}/>
                 {createRequestCountGraph(data.requests)}
               </td>
-              <td><FormatNumber value={data.errors}/> (<FormatNumber value={data.errors / data.requestCount * 100}/>%)</td>
+              <td><FormatNumber value={data.errors}/> (<FormatNumber value={data.errors / data.requestCount * 100} unit="%"/>)</td>
             </tr>
           ))}
         </tbody>

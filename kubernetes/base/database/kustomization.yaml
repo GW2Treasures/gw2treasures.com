@@ -1,0 +1,8 @@
+commonLabels:
+  app.kubernetes.io/component: database
+  app.kubernetes.io/name: database-pg16
+
+resources:
+- deployment.yaml
+- service.yaml
+- volume.yaml

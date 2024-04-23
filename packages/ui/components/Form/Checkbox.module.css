@@ -8,13 +8,19 @@
   flex-direction: row;
 }
 
-.wrapper:hover {
-  background-color: var(--color-background-light);
+.wrapper:not(.disabled):hover {
+  background-color: var(--color-background-light-transparent);
 }
 
 .wrapper:focus-visible {
   box-shadow: var(--shadow-focus);
   outline: none;
+}
+
+.disabled {
+  composes: wrapper;
+  cursor: not-allowed;
+  color: var(--color-text-muted);
 }
 
 .label {
@@ -68,4 +74,10 @@
   top: 8px;
   left: 4px;
   border-radius: 1px;
+}
+
+.disabled > .input:checked ~ .checkbox,
+.disabled > .input:indeterminate ~ .checkbox {
+  background-color: var(--color-text-muted);
+  border-color: var(--color-text-muted);
 }

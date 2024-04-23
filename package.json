@@ -3,18 +3,23 @@
   "private": true,
   "workspaces": [
     "apps/*",
-    "packages/*"
+    "packages/*",
+    "e2e"
   ],
   "scripts": {
-    "dev:web": "turbo run dev --filter=web",
+    "dev:web": "FORCE_COLOR=1 turbo run dev --filter=web",
     "dev:worker": "FORCE_COLOR=1 turbo run dev --filter=worker",
     "prisma:studio": "npm run prisma:studio -w @gw2treasures/database",
     "prisma:migrate-dev": "npm run prisma:migrate-dev -w @gw2treasures/database",
     "build": "turbo run build",
-    "lint": "turbo run lint",
-    "publish-package": "turbo run publish-package"
+    "build:icons": "turbo run build --filter=@gw2treasures/icons",
+    "lint": "turbo run lint -- -f gha",
+    "publish-package": "turbo run publish-package",
+    "e2e": "turbo run e2e",
+    "test": "turbo run test"
   },
   "devDependencies": {
-    "turbo": "^1.8.8"
+    "eslint-formatter-gha": "1.4.3",
+    "turbo": "1.13.2"
   }
 }

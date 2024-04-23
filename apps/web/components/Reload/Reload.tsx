@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { FC, useEffect, useTransition } from 'react';
+import { type FC, useEffect, useTransition } from 'react';
 
 export interface ReloadProps {
   intervalMs: number;

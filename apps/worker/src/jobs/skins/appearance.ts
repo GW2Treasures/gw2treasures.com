@@ -8,29 +8,39 @@ interface WikiAskResponse {
     results: Record<string, {
       printouts: {
         'Has game id': Array<number>
-        'Has appearance': { 0?: { fulltext: string }}
+        'Has appearance'?: { 0?: { fulltext: string }}
+        'Has set appearance'?: { 0?: { fulltext: string }}
       }
       fulltext: string
     }>,
   }
 }
 
+interface SkinsAppearanceProps {
+  offset?: number
+}
+
+const batchSize = 1500;
+
 export const SkinsAppearance: Job = {
-  run: async ({ offset = 0, set }: { offset?: number, set?: boolean }) => {
-    if(set === undefined) {
-      await db.job.createMany({
-        data: [
-          { type: 'skins.appearance', data: { offset: 0, set: false }},
-          { type: 'skins.appearance', data: { offset: 0, set: true }}
-        ]
-      });
+  run: async ({ offset = undefined }: SkinsAppearanceProps) => {
+    if(offset === undefined) {
+      const skins = await db.skin.aggregate({ _max: { id: true }});
+
+      for(let i = 0; i < (skins._max.id ?? 0) / batchSize; i++) {
+        const scheduledAt = new Date();
+        // space jobs by 2 minutes
+        scheduledAt.setMinutes(scheduledAt.getMinutes() + 2 * i);
+
+        await db.job.create({
+          data: { type: 'skins.appearance', data: { offset: i * batchSize + 1 } satisfies SkinsAppearanceProps, scheduledAt },
+        });
+      }
 
       return 'Queued follow up jobs';
     }
 
-    const query = set
-      ? `[[Has context::Skin]][[Has game id::+]][[Has skin set.Has appearance::+]]|?Has game id|?Has skin set.Has appearance|limit=5000|offset=${offset}`
-      : `[[Has context::Skin]][[Has game id::+]][[Has appearance::+]]|?Has game id|?Has appearance|limit=5000|offset=${offset}`;
+    const query = `[[Has context::Skin]][[Has game id::≥${offset}]][[Has game id::<<${offset + batchSize}]]|?Has game id|?Has appearance|?Has skin set.Has appearance=Has set appearance|limit=${batchSize}`;
     const url = `https://wiki.guildwars2.com/api.php?action=ask&query=${encodeURIComponent(query)}&format=json`;
 
     console.log('> Fetch images for skins from wiki');
@@ -44,14 +54,6 @@ export const SkinsAppearance: Job = {
       return r.json();
     }) as WikiAskResponse;
 
-    if(data['query-continue-offset']) {
-      if(data['query-continue-offset'] > offset) {
-        await db.job.create({ data: { type: 'skins.appearance', data: { set, offset: data['query-continue-offset'] }}});
-      } else {
-        console.warn('> Reached max offset');
-      }
-    }
-
     const results = Object.values(data.query.results);
     console.log(`> Update images for ${results.length} skins`);
 
@@ -60,22 +62,16 @@ export const SkinsAppearance: Job = {
     for(const result of results) {
       const ids = result.printouts['Has game id'];
 
-      const image = result.printouts['Has appearance'][0]?.fulltext;
+      const image = result.printouts['Has appearance']?.[0]?.fulltext ?? result.printouts['Has set appearance']?.[0]?.fulltext;
+      const isSkin = result.printouts['Has appearance']?.[0]?.fulltext === image;
 
       if(!image) {
         continue;
       }
 
       updates.push({
-        where: {
-          id: { in: ids },
-          AND: [
-            { OR: [{ wikiImage: { not: image }}, { wikiImage: null }] },
-            { OR: set ? [{ wikiImageType: 'Set' }, { wikiImageType: null }] : [] }
-          ]
-          ,
-        },
-        data: { wikiImage: image, wikiImageType: set ? 'Set' : 'Skin' }
+        where: { id: { in: ids }},
+        data: { wikiImage: image, wikiImageType: isSkin ? 'Skin' : 'Set' }
       });
     }
 
@@ -85,6 +81,6 @@ export const SkinsAppearance: Job = {
       )
     ).reduce((total, { count }) => count + total, 0);
 
-    return `Set image for ${updated} skins`;
+    return `Updated image for ${updated}/${results.length} skins (id ${offset}–${offset + batchSize - 1})`;
   }
 };

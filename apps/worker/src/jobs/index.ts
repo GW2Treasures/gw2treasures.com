@@ -7,19 +7,34 @@ import { AchievementsRediscovered } from './achievements/rediscovered';
 import { AchievementsRemoved } from './achievements/removed';
 import { AchievementsUnlocks } from './achievements/unlocks';
 import { AchievementsUpdate } from './achievements/update';
+import { AchievementsViews } from './achievements/views';
+import { ColorsJob } from './colors';
+import { CurrenciesCheck } from './currencies/check';
+import { CurrenciesMigrate } from './currencies/migrate';
+import { CurrenciesNew } from './currencies/new';
+import { CurrenciesRediscovered } from './currencies/rediscovered';
+import { CurrenciesRemoved } from './currencies/removed';
+import { CurrenciesUpdate } from './currencies/update';
+import { GuildUpgradesJob } from './guild-upgrades';
 import { Gw2ApiRequestsCleanup } from './gw2api-requests/cleanup';
 import { IconsColors } from './icons/colors';
 import { ItemsCheck } from './items/check';
+import { ItemsContainerContent } from './items/containerContent';
 import { ItemsMigrate } from './items/migrate';
 import { ItemsNew } from './items/new';
 import { ItemsRediscovered } from './items/rediscovered';
 import { ItemsRemoved } from './items/removed';
 import { ItemsUpdate } from './items/update';
+import { ItemsViews } from './items/views';
 import { Job } from './job';
 import { JobsCleanup } from './jobs/cleanup';
 import { RecipesCheck } from './recipes/check';
 import { RecipesMigrate } from './recipes/migrate';
 import { RecipesNew } from './recipes/new';
+import { RecipesRediscovered } from './recipes/rediscovered';
+import { RecipesRemoved } from './recipes/removed';
+import { RecipesUpdate } from './recipes/update';
+import { RevisionsPrevious } from './revisions/previous';
 import { SkillsCheck } from './skills/check';
 import { SkillsMigrate } from './skills/migrate';
 import { SkillsNew } from './skills/new';
@@ -34,6 +49,17 @@ import { SkinsRediscovered } from './skins/rediscovered';
 import { SkinsRemoved } from './skins/removed';
 import { SkinsUnlocks } from './skins/unlocks';
 import { SkinsUpdate } from './skins/update';
+import { TitlesCheck } from './titles/check';
+import { titlesMigrate } from './titles/migrate';
+import { TitlesNew } from './titles/new';
+import { TitlesRediscovered } from './titles/rediscovered';
+import { TitlesRemoved } from './titles/removed';
+import { TitlesUpdate } from './titles/update';
+import { TpJob } from './tp';
+import { TpImportJob } from './tp/import';
+import { WizardsVaultListingsJob } from './wizardsvault/listings';
+import { WizardsVaultObjectivesJob } from './wizardsvault/objectives';
+import { WizardsVaultPurchaseLimitJob } from './wizardsvault/purchase-limit';
 
 const jobsInternal = {
   'test': { run: () => undefined } as Job,
@@ -44,6 +70,8 @@ const jobsInternal = {
   'items.rediscovered': ItemsRediscovered,
   'items.update': ItemsUpdate,
   'items.migrate': ItemsMigrate,
+  'items.containerContent': ItemsContainerContent,
+  'items.views': ItemsViews,
 
   'skills.check': SkillsCheck,
   'skills.new': SkillsNew,
@@ -68,6 +96,7 @@ const jobsInternal = {
   'achievements.update': AchievementsUpdate,
   'achievements.migrate': AchievementsMigrate,
   'achievements.unlocks': AchievementsUnlocks,
+  'achievements.views': AchievementsViews,
 
   'achievements.categories': AchievementCategories,
   'achievements.groups': AchievementGroups,
@@ -75,6 +104,34 @@ const jobsInternal = {
   'recipes.check': RecipesCheck,
   'recipes.new': RecipesNew,
   'recipes.migrate': RecipesMigrate,
+  'recipes.rediscovered': RecipesRediscovered,
+  'recipes.removed': RecipesRemoved,
+  'recipes.update': RecipesUpdate,
+
+  'currencies.check': CurrenciesCheck,
+  'currencies.new': CurrenciesNew,
+  'currencies.removed': CurrenciesRemoved,
+  'currencies.rediscovered': CurrenciesRediscovered,
+  'currencies.update': CurrenciesUpdate,
+  'currencies.migrate': CurrenciesMigrate,
+
+  'titles.check': TitlesCheck,
+  'titles.new': TitlesNew,
+  'titles.removed': TitlesRemoved,
+  'titles.rediscovered': TitlesRediscovered,
+  'titles.update': TitlesUpdate,
+  'titles.migrate': titlesMigrate,
+
+  'colors': ColorsJob,
+  'guild-upgrades': GuildUpgradesJob,
+  'wizardsvault.listings': WizardsVaultListingsJob,
+  'wizardsvault.objectives': WizardsVaultObjectivesJob,
+  'wizardsvault.purchase-limit': WizardsVaultPurchaseLimitJob,
+
+  'tp': TpJob,
+  'tp.import': TpImportJob,
+
+  'revisions.previous': RevisionsPrevious,
 
   'gw2api-requests.cleanup': Gw2ApiRequestsCleanup,
 

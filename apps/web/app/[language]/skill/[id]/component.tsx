@@ -1,19 +1,26 @@
-import { FunctionComponent, ReactElement } from 'react';
 import Link from 'next/link';
-import { Language } from '@gw2treasures/database';
+import type { Language } from '@gw2treasures/database';
 import DetailLayout from '@/components/Layout/DetailLayout';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { TableOfContentAnchor } from '@gw2treasures/ui/components/TableOfContent/TableOfContent';
-import { Gw2Api } from 'gw2-api-types';
-import { Notice } from '@/components/Notice/Notice';
+import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { FormatDate } from '@/components/Format/FormatDate';
 import { Json } from '@/components/Format/Json';
 import { SkillTooltip } from '@/components/Skill/SkillTooltip';
 import { SkillInfobox } from '@/components/Skill/SkillInfobox';
-import { getSkill } from './getSkill';
-import { AsyncComponent } from '@/lib/asyncComponent';
+import { getRevision, getSkill } from './getSkill';
 import { RemovedFromApiNotice } from '@/components/Notice/RemovedFromApiNotice';
+import { Tooltip } from '@/components/Tooltip/Tooltip';
+import { SkillLinkTooltip } from '@/components/Skill/SkillLinkTooltip';
+import { getLinkProperties } from '@/lib/linkProperties';
+import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
+import { Icon } from '@gw2treasures/ui';
+import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
+import { pageView } from '@/lib/pageView';
+import { parseIcon } from '@/lib/parseIcon';
+import { notFound } from 'next/navigation';
+import type { FC } from 'react';
 
 export interface SkillPageComponentProps {
   language: Language;
@@ -21,11 +28,18 @@ export interface SkillPageComponentProps {
   revisionId?: string;
 }
 
-export const SkillPageComponent: AsyncComponent<SkillPageComponentProps> = async ({ language, skillId, revisionId }) => {
+export const SkillPageComponent: FC<SkillPageComponentProps> = async ({ language, skillId, revisionId }) => {
   const fixedRevision = revisionId !== undefined;
-  const { skill, revision } = await getSkill(skillId, language, revisionId);
 
-  const data: Gw2Api.Skill = JSON.parse(revision.data);
+  const [skill, { revision, data }] = await Promise.all([
+    getSkill(skillId, language),
+    getRevision(skillId, language, revisionId),
+    pageView('skill', skillId)
+  ]);
+
+  if(!skill || !revision || !data) {
+    notFound();
+  }
 
   const breadcrumb = [
     'Skill',
@@ -35,10 +49,12 @@ export const SkillPageComponent: AsyncComponent<SkillPageComponentProps> = async
     data.weapon_type !== 'None' && data.weapon_type,
   ].filter(Boolean).join(' › ');
 
+  const icon = parseIcon(data.icon);
+
   return (
     <DetailLayout
       title={data.name}
-      icon={skill.icon}
+      icon={icon?.id === skill.icon?.id ? skill.icon : (icon ? { ...icon, color: null } : null)}
       iconType="skill"
       breadcrumb={breadcrumb}
       infobox={<SkillInfobox skill={skill} data={data} language={language}/>}
@@ -54,22 +70,41 @@ export const SkillPageComponent: AsyncComponent<SkillPageComponentProps> = async
       )}
 
       <TableOfContentAnchor id="tooltip">Tooltip</TableOfContentAnchor>
-      <SkillTooltip data={data}/>
+      <SkillTooltip skill={data} language={language} hideTitle/>
 
       <Headline id="history">History</Headline>
 
       <Table>
         <thead>
-          <tr><th {...{ width: 1 }}>Build</th><th {...{ width: 1 }}>Language</th><th>Description</th><th {...{ width: 1 }}>Date</th><th>Actions</th></tr>
+          <tr>
+            <Table.HeaderCell small/>
+            <Table.HeaderCell small>Build</Table.HeaderCell>
+            <Table.HeaderCell>Description</Table.HeaderCell>
+            <Table.HeaderCell small>Date</Table.HeaderCell>
+            <Table.HeaderCell small>Actions</Table.HeaderCell>
+          </tr>
         </thead>
         <tbody>
           {skill.history.map((history) => (
             <tr key={history.revisionId}>
-              <td>{history.revisionId === revision.id ? <b>{history.revision.buildId || '-'}</b> : history.revision.buildId || '-'}</td>
-              <td>{history.revision.language}</td>
-              <td><Link href={`/skill/${skill.id}/${history.revisionId}`}>{history.revision.description}</Link></td>
-              <td><FormatDate date={history.revision.createdAt} relative data-superjson/></td>
-              <td>{revision.id !== history.revisionId && (<Link href={`/skill/diff/${history.revisionId}/${revision.id}`}>Compare</Link>)}</td>
+              <td style={{ paddingRight: 0 }}>{history.revisionId === revision.id && <Tip tip="Currently viewing"><Icon icon="eye"/></Tip>}</td>
+              <td>{history.revision.buildId !== 0 ? (<Link href={`/build/${history.revision.buildId}`}>{history.revision.buildId}</Link>) : '-'}</td>
+              <td>
+                <Tooltip content={<SkillLinkTooltip skill={getLinkProperties(skill)} language={language} revision={history.revisionId}/>}>
+                  <Link href={`/skill/${skill.id}/${history.revisionId}`}>
+                    {history.revision.description}
+                  </Link>
+                </Tooltip>
+              </td>
+              <td><FormatDate date={history.revision.createdAt} relative/></td>
+              <td>
+                {history.revisionId !== revision.id && (
+                  <FlexRow>
+                    <Link href={`/skill/${skill.id}/${history.revisionId}`}>View</Link> ·
+                    <Link href={`/skill/diff/${history.revisionId}/${revision.id}`}>Compare</Link>
+                  </FlexRow>
+                )}
+              </td>
             </tr>
           ))}
         </tbody>

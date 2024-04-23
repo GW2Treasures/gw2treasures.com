@@ -1,0 +1,9 @@
+kind: ConfigMap
+apiVersion: v1
+
+metadata:
+  name: database-pg16
+
+data:
+  user: gw2treasures
+  password: f51f6aa0-73a7-45de-a068-6867fec97dc2

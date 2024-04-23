@@ -1,7 +1,10 @@
 {
   "name": "@gw2treasures/ui",
-  "version": "0.0.5",
-  "repository": "GW2Treasures/gw2treasures.com",
+  "version": "0.1.5",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GW2Treasures/gw2treasures.com.git"
+  },
   "main": "index.ts",
   "types": "index.ts",
   "files": [
@@ -9,33 +12,42 @@
     "icons/",
     "lib/",
     "index.ts",
-    "svg-loader.js",
     "types.d.ts",
     "tsconfig.json",
     ".eslintrc.json"
   ],
   "scripts": {
     "lint": "eslint .",
-    "publish-package": "if test `npm view . version | sed -n 2p` != $npm_package_version; then npm publish --access public; else echo not changed; fi"
+    "publish-package": "gw2treasures-publish-package"
   },
+  "author": "darthmaim",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/GW2Treasures/gw2treasures.com/issues"
+  },
+  "homepage": "https://github.com/GW2Treasures/gw2treasures.com#readme",
   "dependencies": {
-    "@floating-ui/react": "^0.24.0",
-    "@floating-ui/react-dom": "^2.0.0",
-    "@svgr/webpack": "^7.0.0",
-    "client-only": "^0.0.1",
-    "server-only": "^0.0.1"
+    "@floating-ui/react": "0.26.12",
+    "@floating-ui/react-dom": "2.0.8",
+    "client-only": "0.0.1",
+    "server-only": "0.0.1"
   },
   "devDependencies": {
-    "@types/react": "18.2.5",
-    "@types/ua-parser-js": "^0.7.36",
-    "@typescript-eslint/eslint-plugin": "^5.42.0",
-    "eslint": "8.38.0",
-    "eslint-config-next": "13.4.0",
-    "typescript": "5.0.4"
+    "@types/react": "18.2.79",
+    "@typescript-eslint/eslint-plugin": "7.7.1",
+    "eslint": "8.57.0",
+    "eslint-config-next": "14.2.2",
+    "typescript": "5.4.5"
   },
   "peerDependencies": {
-    "next": "13.4.0",
+    "@gw2treasures/helper": "~0.0.4",
+    "@gw2treasures/icons": "~0.0.5",
+    "@gw2treasures/tsconfig": "~0.0.1",
+    "next": "^13.4.0 || ^14.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

@@ -4,16 +4,16 @@ import { ItemList } from '@/components/ItemList/ItemList';
 import { HeroLayout } from '@/components/Layout/HeroLayout';
 import { localizedName } from '@/lib/localizedName';
 import { Fragment } from 'react';
-import { Gw2Api } from 'gw2-api-types';
+import type { Gw2Api } from 'gw2-api-types';
 import { AchievementCategoryLink } from '@/components/Achievement/AchievementCategoryLink';
-import { Language } from '@gw2treasures/database';
-import { remember } from '@/lib/remember';
-import { ResetTimer } from './reset-timer';
+import type { Language } from '@gw2treasures/database';
 import { RemovedFromApiNotice } from '@/components/Notice/RemovedFromApiNotice';
+import Link from 'next/link';
+import { pageView } from '@/lib/pageView';
+import { cache } from '@/lib/cache';
+import { ResetTimer } from '@/components/Reset/ResetTimer';
 
-export const dynamic = 'force-dynamic';
-
-const getAchivementGroups = remember(60, async function getAchivementGroups(language: string) {
+const getAchivementGroups = cache(async (language: string) => {
   const groups = await db.achievementGroup.findMany({
     include: {
       achievementCategories: {
@@ -29,13 +29,14 @@ const getAchivementGroups = remember(60, async function getAchivementGroups(lang
   });
 
   return groups;
-});
+}, ['achievement-groups'], { revalidate: 60 });
 
 export default async function AchievementPage({ params: { language }}: { params: { language: Language }}) {
   const groups = await getAchivementGroups(language);
+  await pageView('achievement');
 
   return (
-    <HeroLayout hero={<Headline id="achievements" actions={<ResetTimer/>}>Achievements</Headline>} color="#663399" toc>
+    <HeroLayout hero={<Headline id="achievements" actions={<span>Reset: <ResetTimer/></span>}>Achievements</Headline>} color="#663399" toc>
       {groups.map((group) => {
         const data: Gw2Api.Achievement.Group = JSON.parse(group[`current_${language}`].data);
 
@@ -56,6 +57,10 @@ export default async function AchievementPage({ params: { language }}: { params:
           </Fragment>
         );
       })}
+
+      <Headline id="uncategorized">Uncategorized</Headline>
+      <p>Achievements that are currently not assigned to any category.</p>
+      <Link href="/achievement/uncategorized">Uncategorized Achievements</Link>
     </HeroLayout>
   );
 };

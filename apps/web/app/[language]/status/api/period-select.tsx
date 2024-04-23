@@ -2,7 +2,7 @@
 
 import { Select } from '@gw2treasures/ui/components/Form/Select';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { FC, useCallback } from 'react';
+import { type FC, useCallback } from 'react';
 import { availablePeriods } from './available-periods';
 
 export interface PeriodSelectProps {

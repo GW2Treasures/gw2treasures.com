@@ -5,8 +5,12 @@ body {
   font-family: var(--font-wotfard, ''), -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   line-height: 1;
+  -webkit-font-smoothing: antialiased;
   color: var(--color-text);
   background-color: var(--color-background);
+  -webkit-tap-highlight-color: transparent;
+  text-size-adjust: none;
+  scroll-padding: 64px 16px 16px;
 }
 
 b {
@@ -28,22 +32,38 @@ a {
 }
 
 a:where(:any-link) {
-  color: var(--color-focus);
+  color: var(--link-color, var(--color-focus));
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 2px;
+  text-decoration-color: transparent;
+  transition: text-decoration-color .3s ease;
 }
 
 a:where(:any-link:hover) {
-  text-decoration: underline;
-  text-decoration-thickness: 2px;
+  text-decoration-color: currentColor;
+  transition: text-decoration-color .15s ease;
 }
 
 * {
   box-sizing: border-box;
 }
 
-.color-format--abilitytype {
+.color-format--abilitytype,
+.color-format--Task {
   color: #797900;
 }
 
 .color-format--reminder {
   color: var(--color-text-muted);
+}
+
+.color-format--flavor {
+  color: #327d9b;
+}
+
+@media (prefers-color-scheme: dark) {
+  .color-format--flavor {
+    color: #3ab3c0;
+  }
 }

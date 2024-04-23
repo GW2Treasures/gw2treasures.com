@@ -5,31 +5,31 @@ import { ItemLink } from '@/components/Item/ItemLink';
 import { ItemList } from '@/components/ItemList/ItemList';
 import { HeroLayout } from '@/components/Layout/HeroLayout';
 import { SkeletonLink } from '@/components/Link/SkeletonLink';
-import { Search } from '@/components/Search/Search';
 import { Suspense } from 'react';
 import { Icon } from '@gw2treasures/ui';
 import { db } from '@/lib/prisma';
-import { remember } from '@/lib/remember';
 import styles from './page.module.css';
 import Link from 'next/link';
 import { FormatNumber } from '@/components/Format/FormatNumber';
 import { AchievementLink } from '@/components/Achievement/AchievementLink';
+import { pageView } from '@/lib/pageView';
+import { cache } from '@/lib/cache';
+import { getAlternateUrls } from '@/lib/url';
 
-export const dynamic = 'force-dynamic';
+async function HomePage() {
+  await pageView('/');
 
-function HomePage() {
   return (
     <HeroLayout hero={(
       <div className={styles.hero}>
         <div className={styles.heroContent}>
-          <div className={styles.heroTitle}><Icon icon="gw2treasures"/> gw2treasures.com</div>
-          <div className={styles.heroSubtitle}>The Guild Wars 2® Database</div>
+          <div className={styles.heroTitle}><Icon icon="gw2t"/> gw2treasures.com</div>
+          <div className={styles.heroSubtitle}><Trans id="subtitle"/></div>
         </div>
       </div>
     )}
     >
       <Suspense fallback={<div className={styles.statsRow}/>}>
-        {/* @ts-expect-error Server Component */}
         <DbStats/>
       </Suspense>
 
@@ -37,15 +37,13 @@ function HomePage() {
         <Trans id="items.new"/>
       </Headline>
       <Suspense fallback={<ListFallback size={24}/>}>
-        {/* @ts-expect-error Server Component */}
         <NewItems/>
       </Suspense>
 
       <Headline id="new-achievements">
-        New Achievements
+        <Trans id="achievements.new"/>
       </Headline>
       <Suspense fallback={<ListFallback size={24}/>}>
-        {/* @ts-expect-error Server Component */}
         <NewAchievements/>
       </Suspense>
     </HeroLayout>
@@ -63,35 +61,39 @@ function ListFallback({ size }: { size: number }) {
   );
 }
 
-const getNewItems = remember(15, function getNewItems() {
-  return db.item.findMany({ take: 24, include: { icon: true }, orderBy: { createdAt: 'desc' }});
-});
+const getNewItems = cache(
+  () => db.item.findMany({ take: 24, include: { icon: true }, orderBy: { createdAt: 'desc' }}),
+  ['home-items-new'],
+  { revalidate: 60 }
+);
 
 async function NewItems() {
   const items = await getNewItems();
 
   return (
     <ItemList>
-      {items.map((item) => <li key={item.id}><ItemLink item={item}/><FormatDate date={item.createdAt} relative data-superjson/></li>)}
+      {items.map((item) => <li key={item.id}><ItemLink item={item}/><FormatDate date={item.createdAt} relative/></li>)}
     </ItemList>
   );
 }
 
-const getNewAchievements = remember(15, function getNewItems() {
-  return db.achievement.findMany({ take: 24, include: { icon: true }, orderBy: { createdAt: 'desc' }});
-});
+const getNewAchievements = cache(
+  () => db.achievement.findMany({ take: 24, include: { icon: true }, orderBy: { createdAt: 'desc' }}),
+  ['home-achievements-new'],
+  { revalidate: 60 }
+);
 
 async function NewAchievements() {
   const achievements = await getNewAchievements();
 
   return (
     <ItemList>
-      {achievements.map((achievement) => <li key={achievement.id}><AchievementLink achievement={achievement}/><FormatDate date={achievement.createdAt} relative data-superjson/></li>)}
+      {achievements.map((achievement) => <li key={achievement.id}><AchievementLink achievement={achievement}/><FormatDate date={achievement.createdAt} relative/></li>)}
     </ItemList>
   );
 }
 
-const getDbStats = remember(15, async function getDbStats() {
+const getDbStats = cache(async() => {
   const [items, achievements, skills, skins] = await Promise.all([
     db.item.count(),
     db.achievement.count(),
@@ -100,23 +102,26 @@ const getDbStats = remember(15, async function getDbStats() {
   ]);
 
   return { items, achievements, skills, skins };
-});
+}, ['home-db-stats'], { revalidate: 60 });
 
 async function DbStats() {
   const counts = await getDbStats();
 
   return (
     <div className={styles.statsRow}>
-      <Link href="/item" className={styles.stat}><span className={styles.statCount}><FormatNumber value={counts.items}/></span> Items</Link>
-      <Link href="/skin" className={styles.stat}><span className={styles.statCount}><FormatNumber value={counts.skins}/></span> Skins</Link>
-      <Link href="/skill" className={styles.stat}><span className={styles.statCount}><FormatNumber value={counts.skills}/></span> Skills</Link>
-      <Link href="/achievement" className={styles.stat}><span className={styles.statCount}><FormatNumber value={counts.achievements}/></span> Achievements</Link>
+      <Link href="/item" className={styles.stat}><span className={styles.statCount}><FormatNumber value={counts.items}/></span> <Trans id="navigation.items"/></Link>
+      <Link href="/skin" className={styles.stat}><span className={styles.statCount}><FormatNumber value={counts.skins}/></span> <Trans id="navigation.skins"/></Link>
+      <Link href="/skill" className={styles.stat}><span className={styles.statCount}><FormatNumber value={counts.skills}/></span> <Trans id="navigation.skills"/></Link>
+      <Link href="/achievement" className={styles.stat}><span className={styles.statCount}><FormatNumber value={counts.achievements}/></span> <Trans id="navigation.achievements"/></Link>
     </div>
   );
 }
 
 export default HomePage;
 
-export const metadata = {
-  title: 'Home'
-};
+export function generateMetadata() {
+  return {
+    title: 'Home',
+    alternates: getAlternateUrls('/')
+  };
+}

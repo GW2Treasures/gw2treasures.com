@@ -1,0 +1,18 @@
+kind: Service
+apiVersion: v1
+
+metadata:
+  name: database-pg16
+
+spec:
+  ports:
+  - name: psql
+    port: 5432
+    protocol: TCP
+    targetPort: 5432
+  selector:
+    name: database-pg16
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}

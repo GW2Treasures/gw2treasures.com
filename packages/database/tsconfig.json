@@ -1,8 +1,10 @@
 {
-  "extends": "@tsconfig/node18/tsconfig.json",
+  "extends": "@gw2treasures/tsconfig/base",
   "compilerOptions": {
     "outDir": "./lib",
+
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
   },
   "include": ["./src"],
-  "exclude": ["node_modules"]
 }

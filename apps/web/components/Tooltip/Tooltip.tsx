@@ -1,7 +1,7 @@
 'use client';
 
-import { autoUpdate, ElementProps, flip, FloatingContext, FloatingPortal, offset, shift, useClick, useClientPoint, useDismiss, useFloating, useFocus, useHover, useInteractions, useMergeRefs, useRole, useTransitionStyles } from '@floating-ui/react';
-import { Children, cloneElement, FC, ReactElement, ReactNode, Ref, useMemo, useRef, useState } from 'react';
+import { autoUpdate, flip, FloatingPortal, offset, shift, useClick, useClientPoint, useDismiss, useFloating, useHover, useInteractions, useMergeRefs, useRole, useTransitionStyles } from '@floating-ui/react';
+import { Children, cloneElement, type FC, type ReactElement, type ReactNode, type Ref, useMemo, useRef, useState } from 'react';
 import styles from './Tooltip.module.css';
 
 export interface TooltipProps {
@@ -28,7 +28,7 @@ export const Tooltip: FC<TooltipProps> = ({ children, content }) => {
   // Merge all the interactions into prop getters
   const { getReferenceProps, getFloatingProps } = useInteractions([
     useClientPoint(context),
-    useHover(context, { move: true }),
+    useHover(context, { move: true, mouseOnly: true }),
     useClick(context, {
       ignoreMouse: true,
     }),
@@ -52,8 +52,8 @@ export const Tooltip: FC<TooltipProps> = ({ children, content }) => {
   return (
     <>
       {cloneElement(Children.only(children), { ...getReferenceProps(children.props), ref })}
-      <FloatingPortal>
-        {isMounted && (
+      {isMounted && (
+        <FloatingPortal>
           <div
             ref={refs.setFloating}
             className={styles.tooltip}
@@ -72,8 +72,8 @@ export const Tooltip: FC<TooltipProps> = ({ children, content }) => {
               top: middlewareData.arrow?.y ?? undefined
             }}/>
           </div>
-        )}
-      </FloatingPortal>
+        </FloatingPortal>
+      )}
     </>
   );
 };

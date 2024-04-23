@@ -1,4 +1,5 @@
 .headline {
+  font: inherit;
   margin: 32px 0 16px;
   display: flex;
   flex-wrap: wrap;
@@ -14,8 +15,9 @@
 
 .content {
   font-family: var(--font-bitter);
-  font-size: 18px;
+  font-size: 20px;
   line-height: 36px;
+  margin-right: 16px;
 
   flex: 1;
 }
@@ -24,4 +26,5 @@
   display: flex;
   gap: 8px;
   align-items: center;
+  flex-wrap: wrap;
 }

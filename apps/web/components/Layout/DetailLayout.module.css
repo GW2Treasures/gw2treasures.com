@@ -14,13 +14,14 @@
 
   border-bottom: 1px solid var(--color-border);
   background-color: var(--color-background-light);
+  /* background-color: color-mix(in srgb, var(--color-background), var(--hero-color, var(--color-rarity, #000)) 4.5%); */
   padding: 16px;
 
   display: grid;
   grid-template:
-    "icon        title     " 1fr
-    "icon        breadcrumb" min-content /
-     min-content 1fr;
+    "icon        title      actions" 1fr
+    "icon        breadcrumb actions" min-content /
+     min-content 1fr        min-content;
 }
 
 .headlineWithoutInfobox {
@@ -58,11 +59,19 @@
   font-size: 14px;
 }
 
+.actions {
+  grid-area: actions;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 .main::before {
   content: '';
   grid-area: padding;
   border-bottom: 1px solid var(--color-border);
   background-color: var(--color-background-light);
+  /* background-color: color-mix(in srgb, var(--color-background), var(--hero-color, var(--color-rarity, #000)) 4.5%); */
 }
 
 .infobox {

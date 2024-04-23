@@ -20,6 +20,11 @@ spec:
       labels:
         name: next
     spec:
+      tolerations:
+      - key: arch
+        operator: Equal
+        value: arm64
+        effect: NoSchedule
       containers:
       - name: next
         image: ghcr.io/gw2treasures/gw2treasures.com/web:latest
@@ -54,13 +59,19 @@ spec:
               name: next
               key: gw2me_client_secret
               optional: true
+        - name: SIGNING_KEY
+          valueFrom:
+            configMapKeyRef:
+              name: next
+              key: signing_key
+              optional: true
         ports:
         - containerPort: 3000
           protocol: TCP
         readinessProbe:
           httpGet:
             port: 3000
-            path: "/api/health"
+            path: "/_/health"
           initialDelaySeconds: 3
           timeoutSeconds: 1
           failureThreshold: 3
@@ -68,7 +79,7 @@ spec:
         livenessProbe:
           httpGet:
             port: 3000
-            path: "/api/health"
+            path: "/_/health"
           initialDelaySeconds: 30
           timeoutSeconds: 1
           failureThreshold: 6

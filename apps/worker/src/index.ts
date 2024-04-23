@@ -1,4 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import { config } from 'dotenv';
+config({ path: ['.env.local', '.env'] });
+
 import { registerCronJobs } from './jobs/cron';
 import { worker } from './worker';
 import { healthServer } from './health-server';
@@ -36,3 +39,16 @@ function shutdownHandler() {
 
 process.on('SIGTERM', shutdownHandler);
 process.on('SIGINT', shutdownHandler);
+
+process.on('uncaughtException', (error) => {
+  console.error('Uncaught Exception');
+  console.error(error);
+  process.exit(1);
+});
+
+process.on('unhandledRejection', (error, promise) => {
+  console.error('Unhandled Rejection');
+  console.error(promise);
+  console.error(error);
+  process.exit(1);
+});

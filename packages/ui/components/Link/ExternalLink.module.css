@@ -1,0 +1,24 @@
+.link:hover {
+  text-decoration-color: transparent;
+}
+
+.content {
+  white-space: normal;
+  text-decoration: underline 2px;
+  text-underline-offset: 2px;
+  text-decoration-color: transparent;
+  transition: text-decoration-color .3s ease;
+}
+
+.link:hover .content {
+  transition: text-decoration-color .15s ease;
+  text-decoration-color: currentColor;
+}
+
+.link:focus-visible {
+  outline-color: var(--color-focus);
+}
+
+.icon {
+  white-space: nowrap;
+}

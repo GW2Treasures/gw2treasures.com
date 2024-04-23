@@ -1,49 +1,47 @@
 import { cx } from '../../lib/classNames';
 import Link from 'next/link';
-import { forwardRef, ReactNode } from 'react';
+import { forwardRef, type ButtonHTMLAttributes, type HTMLAttributes, type MouseEventHandler, type ReactNode } from 'react';
 import styles from './Button.module.css';
-import { IconProp, Icon } from '../../icons';
+import { type IconProp, Icon, type IconColor } from '../../icons';
 
-export interface CommonButtonProps {
-  children: ReactNode;
+export interface CommonButtonProps extends Pick<HTMLAttributes<HTMLElement>, 'aria-label' | 'className'> {
+  children?: ReactNode;
   icon?: IconProp;
-  appearance?: 'primary' | 'secondary' | 'menu';
+  iconColor?: IconColor;
+  appearance?: 'primary' | 'secondary' | 'tertiary' | 'menu';
+  flex?: boolean;
+  intent?: 'delete';
   iconOnly?: boolean;
-  onClick?: () => void;
-  className?: string;
 }
 
-export interface ButtonProps extends CommonButtonProps {
+export interface ButtonProps extends CommonButtonProps, Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'disabled' | 'form' | 'name' | 'value' | 'formAction' | 'aria-label'> {
   type?: 'button' | 'submit'
-  disabled?: boolean;
-
-  form?: string;
-  name?: string;
-  value?: string;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
 };
 
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button({ children, icon, appearance = 'secondary', iconOnly, onClick, className, type = 'button', disabled, form, name, value }, ref) {
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button({ children, icon, iconColor, appearance = 'secondary', flex, intent, iconOnly, onClick, className, type = 'button', ...props }, ref) {
   return (
-    <button ref={ref} onClick={onClick} className={cx(styles[appearance], iconOnly && styles.iconOnly, className)} form={form} type={type} disabled={disabled} name={name} value={value}>
-      {icon && <Icon icon={icon}/>}
-      <span>{children}</span>
+    <button ref={ref} onClick={onClick} className={cx(styles[appearance], iconOnly && styles.iconOnly, flex && styles.flex, intent && styles[intent], className)} type={type} {...props}>
+      {icon && <Icon icon={icon} color={iconColor}/>}
+      {children && <span>{children}</span>}
     </button>
   );
 });
 
-export interface LinkButtonProps extends ButtonProps {
+export interface LinkButtonProps extends CommonButtonProps {
+  onClick?: MouseEventHandler<HTMLAnchorElement>;
   href: string;
   locale?: string | false;
   prefetch?: boolean;
   external?: boolean;
 }
 
-export const LinkButton = forwardRef<HTMLAnchorElement, LinkButtonProps & Pick<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'target' | 'rel'>>(function Button({ children, icon, appearance = 'secondary', iconOnly, onClick, className, href, locale, prefetch, external, ...props }, ref) {
+export const LinkButton = forwardRef<HTMLAnchorElement, LinkButtonProps & Pick<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'target' | 'rel'>>(function Button({ children, icon, iconColor, appearance = 'secondary', flex, intent, iconOnly, className, external, ...props }, ref) {
   const LinkElement = external ? 'a' : Link;
 
   return (
-    <LinkElement ref={ref} className={cx(styles[appearance], iconOnly && styles.iconOnly, className)} href={href} locale={locale} onClick={onClick} prefetch={prefetch} {...props}>
-      {icon && <Icon icon={icon}/>}
+    <LinkElement ref={ref} className={cx(styles[appearance], iconOnly && styles.iconOnly, flex && styles.flex, intent && styles[intent], className)} {...props}>
+      {icon && <Icon icon={icon} color={iconColor}/>}
       <span>{children}</span>
     </LinkElement>
   );

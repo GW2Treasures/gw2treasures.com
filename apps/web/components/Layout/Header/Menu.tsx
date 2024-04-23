@@ -1,7 +1,7 @@
 'use client';
 
 import { Icon } from '@gw2treasures/ui';
-import { FC, ReactNode, useEffect, useState } from 'react';
+import { type FC, type ReactNode, useEffect, useState } from 'react';
 import styles from '../Layout.module.css';
 
 export interface MenuProps {
@@ -30,7 +30,7 @@ export const Menu: FC<MenuProps> = ({ children, navigation }) => {
   return (
     <div className={styles.header}>
       <header className={scrolledDown ? styles.headerMainScrolled : styles.headerMain} suppressHydrationWarning>
-        <button className={styles.menuButton} onClick={() => setMenuOpen(!menuOpen)}>
+        <button className={styles.menuButton} onClick={() => setMenuOpen(!menuOpen)} tabIndex={-1} aria-label="Menu">
           <Icon icon="menu"/>
         </button>
         {children}

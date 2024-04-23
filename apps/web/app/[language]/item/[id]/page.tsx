@@ -1,8 +1,11 @@
-import { Language } from '@gw2treasures/database';
+import type { Language } from '@gw2treasures/database';
 import { ItemPageComponent } from './component';
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 import { getRevision } from './data';
 import { notFound } from 'next/navigation';
+import { getIconUrl } from '@/lib/getIconUrl';
+import { parseIcon } from '@/lib/parseIcon';
+import { getAlternateUrls } from '@/lib/url';
 
 export interface ItemPageProps {
   params: {
@@ -14,7 +17,6 @@ export interface ItemPageProps {
 export default function ItemPage({ params: { language, id }}: ItemPageProps) {
   const itemId = Number(id);
 
-  /* @ts-expect-error Server Component */
   return <ItemPageComponent language={language} itemId={itemId}/>;
 };
 
@@ -26,7 +28,14 @@ export async function generateMetadata({ params: { language, id }}: ItemPageProp
     notFound();
   }
 
+  const icon = parseIcon(data.icon);
+
   return {
-    title: data.name || id
+    title: data.name || id,
+    openGraph: {
+      images: icon ? [{ url: getIconUrl(icon, 64), width: 64, height: 64, type: 'image/png' }] : []
+    },
+    twitter: { card: 'summary' },
+    alternates: getAlternateUrls(`/item/${id}`)
   };
 };

@@ -17,13 +17,18 @@ spec:
       labels:
         name: db
     spec:
+      tolerations:
+      - key: arch
+        operator: Equal
+        value: arm64
+        effect: NoSchedule
       volumes:
       - name: db-data
         persistentVolumeClaim:
           claimName: db
       containers:
       - name: db
-        image: mariadb:latest
+        image: mariadb:11.2
         args:
         - --ignore_db_dirs=lost+found
         resources:
@@ -54,7 +59,7 @@ spec:
               - /bin/sh
               - -i
               - -c
-              - mysqladmin status -uroot -p$MYSQL_ROOT_PASSWORD
+              - mariadb-admin status -uroot -p$MYSQL_ROOT_PASSWORD
           initialDelaySeconds: 15
           timeoutSeconds: 2
           periodSeconds: 10
@@ -66,7 +71,7 @@ spec:
               - /bin/sh
               - -i
               - -c
-              - mysqladmin status -uroot -p$MYSQL_ROOT_PASSWORD
+              - mariadb-admin status -uroot -p$MYSQL_ROOT_PASSWORD
           initialDelaySeconds: 45
           timeoutSeconds: 2
           periodSeconds: 10

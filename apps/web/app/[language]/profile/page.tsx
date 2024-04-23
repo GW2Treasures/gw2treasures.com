@@ -5,9 +5,12 @@ import { HeroLayout } from '@/components/Layout/HeroLayout';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { getUser } from '@/lib/getUser';
 import { db } from '@/lib/prisma';
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
-import { cache } from 'react';
+import { Suspense, cache } from 'react';
+import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
+import { Accounts } from './accounts';
+import { Skeleton } from '@/components/Skeleton/Skeleton';
 
 const getUserData = cache(async () => {
   const session = await getUser();
@@ -18,7 +21,10 @@ const getUserData = cache(async () => {
 
   const user = await db.user.findUnique({
     where: { id: session.id },
-    include: { sessions: true, providers: true },
+    include: {
+      sessions: { orderBy: { lastUsed: 'desc' }},
+      providers: true
+    },
   });
 
   if(!user) {
@@ -36,7 +42,15 @@ export default async function ProfilePage() {
 
   return (
     <HeroLayout hero={<Headline id="profile">{user.name}</Headline>} toc>
-      <LinkButton external href="/logout">Logout</LinkButton>
+      <FlexRow>
+        <LinkButton external href="/logout">Logout</LinkButton>
+        {user.roles.includes('Admin') && <LinkButton href="/admin/users">Admin</LinkButton>}
+      </FlexRow>
+
+      <Headline id="accounts">Accounts</Headline>
+      <Suspense fallback={<Skeleton/>}>
+        <Accounts/>
+      </Suspense>
 
       <Headline id="sessions">Sessions</Headline>
       <Table>
@@ -51,8 +65,8 @@ export default async function ProfilePage() {
           {user.sessions.map((session) => (
             <tr key={session.id}>
               <td>{session.info}{session.id === sessionId && ' (Current Session)'}</td>
-              <td><FormatDate relative date={session.createdAt} data-superjson/></td>
-              <td><FormatDate relative date={session.lastUsed} data-superjson/></td>
+              <td><FormatDate relative date={session.createdAt}/></td>
+              <td><FormatDate relative date={session.lastUsed}/></td>
             </tr>
           ))}
         </tbody>

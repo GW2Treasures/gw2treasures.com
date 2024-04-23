@@ -29,7 +29,7 @@ services:
       replicas: 2
 
   database:
-    image: postgres:15-alpine
+    image: timescale/timescaledb:2.14.2-pg16
     restart: unless-stopped
     environment:
       - POSTGRES_USER=gw2treasures
@@ -37,7 +37,7 @@ services:
       - POSTGRES_DB=gw2treasures
       - PGDATA=/var/lib/postgresql/data/pgdata
     volumes:
-      - .docker/database:/var/lib/postgresql/data
+      - .docker/database-pg16:/var/lib/postgresql/data
     ports:
       - 54326:5432
 

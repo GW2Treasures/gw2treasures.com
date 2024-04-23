@@ -1,29 +1,41 @@
-import { Language } from '@gw2treasures/database';
+import type { Language } from '@gw2treasures/database';
 import DetailLayout from '@/components/Layout/DetailLayout';
-import { Skeleton } from '@/components/Skeleton/Skeleton';
 import { db } from '@/lib/prisma';
 import rarityClasses from '@/components/Layout/RarityColor.module.css';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { Rarity } from '@/components/Item/Rarity';
-import { Gw2Api } from 'gw2-api-types';
-import { ItemTable } from '@/components/Item/ItemTable';
+import type { Gw2Api } from 'gw2-api-types';
 import { notFound } from 'next/navigation';
 import { ItemList } from '@/components/ItemList/ItemList';
 import { SkinLink } from '@/components/Skin/SkinLink';
 import { SkinInfobox } from '@/components/Skin/SkinInfobox';
-import { remember } from '@/lib/remember';
 import { linkPropertiesWithoutRarity } from '@/lib/linkProperties';
 import { AchievementLink } from '@/components/Achievement/AchievementLink';
 import { TableOfContentAnchor } from '@gw2treasures/ui/components/TableOfContent/TableOfContent';
-import { ExternalLink } from '@/components/Link/ExternalLink';
+import { ExternalLink } from '@gw2treasures/ui/components/Link/ExternalLink';
+import { localizedName } from '@/lib/localizedName';
+import { ItemTable } from '@/components/ItemTable/ItemTable';
+import { ItemTableContext } from '@/components/ItemTable/ItemTableContext';
+import { ItemTableColumnsButton } from '@/components/ItemTable/ItemTableColumnsButton';
+import { format } from 'gw2-tooltip-html';
+import styles from './page.module.css';
+import type { Metadata } from 'next';
+import { Json } from '@/components/Format/Json';
+import { pageView } from '@/lib/pageView';
+import { cache } from '@/lib/cache';
+import { getAlternateUrls } from '@/lib/url';
+import { ItemType } from '@/components/Item/ItemType';
+import { translateMany } from '@/lib/translate';
+import { translations as itemTypeTranslations } from '@/components/Item/ItemType.translations';
+import { Trans } from '@/components/I18n/Trans';
+import type { Weight } from '@/lib/types/weight';
 
-const getSkin = remember(60, async function getSkin(id: number, language: Language) {
+const getSkin = cache(async (id: number, language: Language) => {
   const [skin, revision] = await Promise.all([
     db.skin.findUnique({
       where: { id },
       include: {
         icon: true,
-        unlockedByItems: { include: { icon: true }},
         achievementBits: { select: linkPropertiesWithoutRarity },
       }
     }),
@@ -37,22 +49,26 @@ const getSkin = remember(60, async function getSkin(id: number, language: Langua
   const similar = await db.skin.findMany({ where: { OR: [{ name_en: skin.name_en }, { iconId: skin.iconId }], id: { not: skin.id }}, include: { icon: true }});
 
   return { skin, revision, similar };
-});
+}, ['get-skin'], { revalidate: 60 });
 
-async function SkinPage ({ params: { language, id }}: { params: { language: Language, id: string }}) {
+interface SkinPageProps {
+  params: {
+    language: Language;
+    id: string;
+  }
+}
+
+async function SkinPage ({ params: { language, id }}: SkinPageProps) {
   const skinId: number = Number(id);
 
   const { skin, revision, similar } = await getSkin(skinId, language);
-
-  if(!skin) {
-    return <DetailLayout title={<Skeleton/>} breadcrumb={<Skeleton/>}><Skeleton/></DetailLayout>;
-  }
+  await pageView('skin', skinId);
 
   const data: Gw2Api.Skin = JSON.parse(revision.data);
 
   return (
     <DetailLayout
-      title={data.name}
+      title={data.name || localizedName(skin, language)}
       icon={skin.icon}
       className={rarityClasses[data.rarity]}
       breadcrumb={`Skin › ${skin.type}${skin.subtype ? ` › ${skin.subtype}` : ''}${skin.weight ? ` › ${skin.weight}` : ''}`}
@@ -60,9 +76,10 @@ async function SkinPage ({ params: { language, id }}: { params: { language: Lang
     >
       <TableOfContentAnchor id="tooltip">Tooltip</TableOfContentAnchor>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-        <div><Rarity rarity={data.rarity}/></div>
-        <div>{data.details?.type}</div>
-        <div>{data.details?.weight_class}</div>
+        {data.description && (<p className={styles.description} dangerouslySetInnerHTML={{ __html: format(data.description) }}/>)}
+        <div><Rarity rarity={data.rarity}><Trans id={`rarity.${data.rarity}`}/></Rarity></div>
+        <div><ItemType type={data.type} subtype={(data.details?.type ?? null) as any} translations={translateMany(itemTypeTranslations.short)}/></div>
+        {data.details?.weight_class && <div><Trans id={`weight.${data.details.weight_class}`}/></div>}
       </div>
 
       {skin.achievementBits.length > 0 && (
@@ -75,8 +92,10 @@ async function SkinPage ({ params: { language, id }}: { params: { language: Lang
         </>
       )}
 
-      <Headline id="items">Unlocked by</Headline>
-      <ItemTable items={skin.unlockedByItems}/>
+      <ItemTableContext id="unlocksSkin">
+        <Headline id="items" actions={<ItemTableColumnsButton/>}>Unlocked by</Headline>
+        <ItemTable query={{ where: { unlocksSkin: { some: { id: skinId }}}}} collapsed defaultColumns={['item', 'level', 'rarity', 'type', 'vendorValue', 'sellPrice']}/>
+      </ItemTableContext>
 
       {skin.wikiImage && (
         <>
@@ -100,14 +119,30 @@ async function SkinPage ({ params: { language, id }}: { params: { language: Lang
             {similar.map((skin) => (
               <li key={skin.id}>
                 <SkinLink skin={skin}/>
-                {skin.weight} {skin.subtype ?? skin.type}
+                <span>
+                  <ItemType type={skin.type as any} subtype={skin.subtype as any} translations={translateMany(itemTypeTranslations.short)}/>{' '}
+                  {skin.weight && <Trans id={`weight.${skin.weight as Weight}`}/>}
+                </span>
               </li>
             ))}
           </ItemList>
         </>
       )}
+
+      <Headline id="data">Data</Headline>
+      <Json data={data}/>
     </DetailLayout>
   );
 };
 
 export default SkinPage;
+
+export async function generateMetadata({ params: { language, id }}: SkinPageProps): Promise<Metadata> {
+  const skinId: number = Number(id);
+  const { skin } = await getSkin(skinId, language);
+
+  return {
+    title: localizedName(skin, language),
+    alternates: getAlternateUrls(`/skin/${id}`)
+  };
+};

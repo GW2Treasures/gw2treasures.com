@@ -82,6 +82,14 @@
   --icon-color: #b7000d;
 }
 
+.title:hover {
+  text-decoration: none;
+}
+
+.title:hover > span {
+  text-decoration: underline;
+}
+
 .loader {
   position: absolute;
   top: 2px;
@@ -110,12 +118,14 @@
   position: absolute;
   left: 0; right: 0;
   z-index: 9;
-  overflow-x: auto;
 }
 
 .headerNavVisible {
   composes: headerNav;
+}
 
+.headerNavVisible,
+.headerMainScrolled + .headerNav:has(:focus-visible) {
   position: fixed;
   border-bottom: 1px solid var(--color-border-transparent);
   animation: slideIn .1s ease-out;
@@ -154,7 +164,9 @@
 
 .footerLinks {
   display: flex;
-  gap: 32px;
+  flex-wrap: wrap;
+  gap: 16px;
+  color: var(--color-text-muted);
 }
 
 .disclaimer {
@@ -162,7 +174,7 @@
   padding: 16px 16px;
   border-top: 1px solid var(--color-border);
   color: var(--color-text-muted);
-  font-size: 17px;
+  font-size: 14px;
   line-height: 1.5;
 }
 
@@ -175,4 +187,8 @@
   .title > span { display: none; }
   .headerMain { gap: 16px; }
   .responsive { display: none; }
+}
+
+.emoji {
+  text-decoration: none !important;
 }

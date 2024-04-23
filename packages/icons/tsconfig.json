@@ -1,0 +1,14 @@
+{
+  "extends": "@gw2treasures/tsconfig/react",
+  "compilerOptions": {
+    "verbatimModuleSyntax": false
+  },
+  "include": [
+    "build.ts"
+  ],
+  "ts-node": {
+    "compilerOptions": {
+      "module": "CommonJS"
+    }
+  }
+}

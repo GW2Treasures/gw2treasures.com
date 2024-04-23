@@ -1,18 +1,16 @@
 import { notFound } from 'next/navigation';
 import { db } from '@/lib/prisma';
-import { Language } from '@gw2treasures/database';
+import type { Language } from '@gw2treasures/database';
 import { NextRequest, NextResponse } from 'next/server';
 import { createTooltip } from '@/components/Item/ItemTooltip';
-import { Gw2Api } from 'gw2-api-types';
-import { remember } from '@/lib/remember';
+import type { Gw2Api } from 'gw2-api-types';
+import { cache } from '@/lib/cache';
 
-export const dynamic = 'force-dynamic';
-
-const getItemRevision = remember(60, function getItemRevision(id: number, language: Language, revisionId?: string) {
+const getItemRevision = cache(function (id: number, language: Language, revisionId?: string) {
   return revisionId
     ? db.revision.findFirst({ where: { id: revisionId, entity: 'Item' }})
     : db.revision.findFirst({ where: { [`currentItem_${language}`]: { id }}});
-});
+}, ['item-tooltip'], { revalidate: 60 });
 
 export async function GET(request: NextRequest, { params: { language, id }}: { params: { language: Language, id: string }}) {
   const itemId = Number(id);
@@ -29,5 +27,7 @@ export async function GET(request: NextRequest, { params: { language, id }}: { p
   const data: Gw2Api.Item = JSON.parse(revision.data);
   const tooltip = await createTooltip(data, language);
 
-  return NextResponse.json(tooltip, { headers: { 'cache-control': 'public, max-age=3600' }});
+  return NextResponse.json(tooltip, {
+    headers: { 'cache-control': 'public, max-age=3600', 'Vary': 'Origin' }
+  });
 }

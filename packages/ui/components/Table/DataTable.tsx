@@ -1,97 +1,161 @@
-import { FC, Fragment, Key, memo, ReactNode, useCallback, useMemo, useState } from 'react';
-import { Table } from './Table';
-import styles from './Table.module.css';
+import { Table, type HeaderCellProps } from './Table';
+import { type FC, type Key, type ReactElement, type ReactNode } from 'react';
+import 'server-only';
+import { DataTableClient, DataTableClientCell, DataTableClientColumn, DataTableClientColumnSelection, DataTableClientRows } from './DataTable.client';
+import { isDefined } from '@gw2treasures/helper/is';
 
-export interface DataTableColumn<T> {
-  key: Key;
-  label: ReactNode;
-  value: (row: T) => ReactNode;
-  small?: boolean;
-  sort?: (a: T, b: T) => number;
-}
+export type DataTableRowFilterComponent = FC<{ children: ReactNode, index: number }>;
 
+// table
 export interface DataTableProps<T> {
-  rows: T[];
+  children: Array<ColumnReactElement<T> | DynamicColumnsReactElement<T>>,
+  rowFilter?: DataTableRowFilterComponent,
 }
 
-export function useDataTable<T>(columns: DataTableColumn<T>[], rowKey: (row: T) => Key, groups?: (row: T) => { value: string, label: ReactNode }): FC<DataTableProps<T>> {
-  return memo(useMemo(() =>
-    function DataTable({ rows }) {
-      const [sortBy, setSortBy] = useState<{column: DataTableColumn<T>, reverse: boolean}>();
+type ColumnReactElement<T> = ReactElement<DataTableColumnProps<T>, FC<DataTableColumnProps<T>>>;
+type DynamicColumnsReactElement<T> = ReactElement<DataTableDynamicColumnsProps<T>, FC<DataTableDynamicColumnsProps<T>>>;
 
-      const sortedRows = useMemo(() => (sortBy?.column?.sort !== undefined)
-        ? rows.slice().sort((a, b) => sortBy.reverse ? sortBy.column.sort!(a, b) : sortBy.column.sort!(b, a))
-        : rows,
-        [rows, sortBy]
+export interface DataTableColumnProps<T> extends Pick<HeaderCellProps, 'align' | 'small'> {
+  id: string,
+  title: ReactNode,
+  children: ((row: T, index: number) => ReactNode),
+  sort?: (a: T, b: T, aIndex: number, bIndex: number) => number,
+  sortBy?: ComparableProperties<T> | ((row: T) => Comparable),
+  hidden?: boolean,
+}
+
+export interface DataTableDynamicColumnsProps<T> {
+  children: (row: T, index: number) => ReactNode,
+  headers: ReactNode,
+}
+
+export interface DataTableColumnSelectionProps {
+  children: ReactNode;
+  reset: ReactNode;
+}
+
+export function createDataTable<T>(rows: T[], getRowKey: (row: T, index: number) => Key): {
+  Table: FC<DataTableProps<T>>,
+  Column: FC<DataTableColumnProps<T>>,
+  DynamicColumns: FC<DataTableDynamicColumnsProps<T>>,
+  ColumnSelection: FC<DataTableColumnSelectionProps>,
+} {
+  const datatableId = crypto.randomUUID();
+
+  const Column: FC<DataTableColumnProps<T>> = () => {
+    throw new Error('Only use DataTable.Column inside of DataTable.Table');
+  };
+  const DynamicColumns: FC<DataTableDynamicColumnsProps<T>> = () => {
+    throw new Error('Only use DataTable.DynamicColumns inside of DataTable.Table');
+  };
+
+  const ColumnSelection: FC<DataTableColumnSelectionProps> = ({ children, reset }) => {
+    return <DataTableClientColumnSelection id={datatableId} reset={reset}>{children}</DataTableClientColumnSelection>;
+  };
+
+  function isStaticColumn(child: ReactElement): child is ColumnReactElement<T> {
+    return child.type === Column;
+  }
+
+  return {
+    Table: function DataTable({ children, rowFilter }: DataTableProps<T>) {
+      const columns = children;
+
+      if(columns.some((child) => child.type !== Column && child.type !== DynamicColumns)) {
+        throw new Error('Column and DynamicColumns are the only allowed children of DataTable');
+      }
+
+      const rowsWithIndex = rows.map((row, index) => ({ row, index }));
+
+      const sortableColumns = Object.fromEntries(children
+        .filter(isStaticColumn)
+        .filter((column) => isDefined(column.props.sort) || isDefined(column.props.sortBy))
+        .map((column) => {
+          const columnOrder = rowsWithIndex
+            .toSorted((a, b) => {
+              const sort = column.props.sort ?? sortBy(column.props.sortBy!);
+
+              return sort(a.row, b.row, a.index, b.index);
+            })
+            .map(({ index }) => index);
+
+          return [column.props.id, columnOrder];
+        })
       );
-
-      const handleSort = useCallback((column: DataTableColumn<T>) => {
-        setSortBy((sortBy) => sortBy?.column !== column || !sortBy.reverse
-          ? { column, reverse: !sortBy?.reverse && sortBy?.column === column }
-          : undefined);
-      }, []);
-
-      let lastGroup: string | undefined = undefined;
 
       return (
-        <Table>
-          <thead>
-            <tr>
-              {columns.map((column) => (<ColumnHeader key={column.key} column={column} onSort={handleSort} sortBy={sortBy}/>))}
-            </tr>
-          </thead>
-          <tbody>
-            {sortedRows.map((row) => {
-              const group = groups && groups(row);
-              const showGroup = sortBy === undefined && group && group.value !== lastGroup;
+        <DataTableClient id={datatableId} columns={columns.filter(isStaticColumn).map((column) => ({ id: column.props.id, title: column.props.title, hidden: !!column.props.hidden }))}>
+          <Table>
+            <thead>
+              <tr>
+                {columns.map((column) => isStaticColumn(column) ? (
+                  <DataTableClientColumn id={column.props.id} key={column.props.id} sortable={!!column.props.sort || !!column.props.sortBy} align={column.props.align} small={column.props.small}>
+                    {column.props.title}
+                  </DataTableClientColumn>
+                ) : (
+                  column.props.headers
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              <DataTableClientRows sortableColumns={sortableColumns}>
+                {rows.map((row, index) => {
+                  const Row = rowFilter ?? 'tr';
 
-              if(showGroup) {
-                lastGroup = group.value;
-              }
-
-              return (
-                <Fragment key={rowKey(row)}>
-                  {showGroup && (
-                    <tr><th colSpan={columns.length} className={styles.group}>{group.label}</th></tr>
-                  )}
-                  <tr>
-                    {columns.map((column) => <td key={column.key} {...(column.small ? { width: 1 } : {})}>{column.value(row)}</td>)}
-                  </tr>
-                </Fragment>
-              );
-            })}
-          </tbody>
-        </Table>
+                  return (
+                    <Row key={getRowKey(row, index)} index={index}>
+                      {columns.map((column) => isStaticColumn(column) ? (
+                        <DataTableClientCell key={column.props.id} columnId={column.props.id} align={column.props.align}>
+                          {column.props.children(row, index)}
+                        </DataTableClientCell>
+                      ) : column.props.children(row, index))}
+                    </Row>
+                  );
+                })}
+              </DataTableClientRows>
+            </tbody>
+          </Table>
+        </DataTableClient>
       );
     },
-    [columns, rowKey, groups]
-  ));
+    Column,
+    DynamicColumns,
+    ColumnSelection,
+  };
 }
 
-interface ColumnHeaderProps {
-  column: DataTableColumn<any>;
-  onSort: (column: DataTableColumn<any>) => void;
-  sortBy: { column: DataTableColumn<any>, reverse: boolean } | undefined;
-};
+type Comparable = string | number | bigint | null | undefined | Date;
 
-const ColumnHeader: FC<ColumnHeaderProps> = ({ column, onSort, sortBy }) => {
-  const handleSort = useCallback(() => {
-    onSort(column);
-  }, [onSort, column]);
+export function compare<T extends Comparable>(a: T, b: T) {
+  if(a == null) {
+    if(b == null) {
+      return 0;
+    }
+    return -1;
+  }
+  if(b == null) {
+    return 1;
+  }
 
-  const isActiveSort = sortBy?.column === column;
+  if(typeof a === 'string' && typeof b === 'string') {
+    return a.localeCompare(b);
+  }
 
-  return (
-    <th {...(column.small ? { width: 1 } : {})} aria-sort={isActiveSort ? (sortBy.reverse ? 'descending' : 'ascending') : undefined}>
-      {column.sort ? (
-        <button className={isActiveSort ? (sortBy.reverse ? styles.sortDesc : styles.sortAsc) : styles.sort}
-          onClick={handleSort}
-        >
-          {column.label}
-        </button>
-      ) : (
-        column.label
-      )}
-    </th>
-  );
-};
+  if((typeof a === 'number' || typeof a === 'bigint') && (typeof b === 'number' || typeof b === 'bigint')) {
+    return a < b ? -1 : a > b ? 1 : 0;
+  }
+
+  if(a instanceof Date && b instanceof Date) {
+    return a.valueOf() - b.valueOf();
+  }
+
+  throw new Error(`Cant compare ${typeof a} and ${typeof b}`);
+}
+
+type ComparableProperties<T> = {[K in keyof T]: T[K] extends Comparable ? K : never}[keyof T];
+
+export function sortBy<T>(by: ComparableProperties<T> | ((x: T) => Comparable)): (a: T, b: T) => number {
+  return typeof by === 'function'
+    ? (a, b) => compare(by(a), by(b))
+    : (a, b) => compare((a as any)[by], (b as any)[by]);
+}

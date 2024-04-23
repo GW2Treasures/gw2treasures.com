@@ -6,7 +6,7 @@
 
   --color-background: #fff;
   --color-background-light: #f4f4f4;
-  --color-background-light-transparent: #00000006;
+  --color-background-light-transparent: #0000000b;
 
   --color-border: #eee;
   --color-border-dark: #ddd;
@@ -33,6 +33,14 @@
   --color-rarity-rare: rgb(var(--color-rarity-rare-rgb));
 
   --shadow: 0 0 2px rgba(0,0,0,0.12), 0 4px 8px rgba(0,0,0,0.14);
+
+  --color-diff-added: #8bc34a33;
+  --color-diff-added-light: #8bc34a22;
+
+  --color-diff-removed: #F4433633;
+  --color-diff-removed-light: #F4433622;
+
+  --color-error: #f44336;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -50,7 +58,7 @@
     --color-border-dark: #222428;
     --color-border-transparent: rgba(0 0 0 / .37);
 
-    --color-focus: #2196f3;
+    --color-focus: #3da9ff;
 
     --color-rarity-ascended-rgb: 255 0 107;
     --color-rarity-ascended: rgb(var(--color-rarity-ascended-rgb));

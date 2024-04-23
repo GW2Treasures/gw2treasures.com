@@ -3,6 +3,7 @@ import { db } from '../../db';
 import { Prisma } from '@gw2treasures/database';
 import { getCurrentBuild } from '../helper/getCurrentBuild';
 import { appendHistory } from '../helper/appendHistory';
+import { schema } from '../helper/schema';
 
 export const ItemsRemoved: Job = {
   run: async (removedIds: number[]) => {
@@ -25,6 +26,8 @@ export const ItemsRemoved: Job = {
       for(const language of ['de', 'en', 'es', 'fr'] as const) {
         const revision = await db.revision.create({
           data: {
+            schema,
+            previousRevisionId: item[`currentId_${language}`],
             data: item[`current_${language}`].data,
             description: 'Removed from API',
             type: 'Removed',

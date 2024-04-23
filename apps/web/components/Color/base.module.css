@@ -1,0 +1,13 @@
+.color {
+  --_border-color: rgba(0 0 0 / .2);
+
+  border: 1px solid var(--_border-color);
+}
+
+.dark {
+  --_border-color: transparent;
+}
+
+@media (prefers-color-scheme: dark) {
+  .dark { --_border-color: rgba(255 255 255 / .1); }
+}

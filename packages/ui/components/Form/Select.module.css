@@ -5,9 +5,20 @@
   background-color: var(--color-background);
   font: inherit;
   color: var(--color-text);
-  padding: 6px 24px 6px 8px;
+  padding: 6px 40px 6px 16px;
   line-height: 20px;
   transition: border-color .3s ease;
+  appearance: none;
+  background-image: url('./Select.light.svg');
+  background-size: 16px 16px;
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+}
+
+@media (prefers-color-scheme: dark) {
+  .select {
+    background-image: url('./Select.dark.svg');
+  }
 }
 
 .select:focus {

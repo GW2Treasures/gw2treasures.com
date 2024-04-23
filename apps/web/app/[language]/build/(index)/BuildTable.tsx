@@ -3,10 +3,10 @@
 import { useFormatContext } from '@/components/Format/FormatContext';
 import { FormatDate } from '@/components/Format/FormatDate';
 import { FormatNumber } from '@/components/Format/FormatNumber';
-import { DataTableColumn, useDataTable } from '@gw2treasures/ui/components/Table/DataTable';
-import { Build } from '@gw2treasures/database';
+import { type DataTableColumn, useDataTable } from '@gw2treasures/ui/components/Table/use-datatable';
+import type { Build } from '@gw2treasures/database';
 import Link from 'next/link';
-import { FC, useCallback, useMemo } from 'react';
+import { type FC, useCallback, useMemo } from 'react';
 
 
 type Update = { entity: string | null, buildId: number, _count: { _all: number }};
@@ -40,6 +40,7 @@ export const BuildTable: FC<BuildTableProps> = ({ rows }) => {
     [f]
   );
 
+  // TODO: replace with @gw2treasures/ui DataTable
   const BuildTable = useDataTable<BuildWithUpdates>(buildTableColumns, buildRowKey, group);
 
   return <BuildTable rows={rows}/>;

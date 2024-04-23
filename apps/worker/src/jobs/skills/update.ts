@@ -5,6 +5,8 @@ import { loadSkills } from '../helper/loadSkills';
 import { queueJobForIds } from '../helper/queueJobsForIds';
 import { createIcon } from '../helper/createIcon';
 import { localeExists } from '../helper/types';
+import { getUpdateCheckpoint } from '../helper/updateCheckpoints';
+import { schema } from '../helper/schema';
 
 export const SkillsUpdate: Job = {
   run: async (ids: number[] | Record<string, never>) => {
@@ -19,17 +21,20 @@ export const SkillsUpdate: Job = {
         return 'Waiting for pending follow up jobs';
       }
 
-      // add 15 minutes to timestamp to make sure api cache is updated
-      const checkDate = new Date(build.createdAt);
-      checkDate.setMinutes(checkDate.getMinutes() + 15);
+      // get checkpoint
+      const checkpoint = getUpdateCheckpoint(build.createdAt);
+
+      if(!checkpoint) {
+        return `Waiting for Build ${build.id} to be older`;
+      }
 
       const idsToUpdate = (await db.skill.findMany({
-        where: { lastCheckedAt: { lt: checkDate }, removedFromApi: false },
+        where: { lastCheckedAt: { lt: checkpoint }, removedFromApi: false },
         orderBy: { lastCheckedAt: 'asc' },
         select: { id: true }
       })).map(({ id }) => id);
 
-      await queueJobForIds('skills.update', idsToUpdate, 1);
+      await queueJobForIds('skills.update', idsToUpdate, { priority: 1 });
       return `Queued update for ${idsToUpdate.length} skills (Build ${build.id})`;
     }
 
@@ -53,10 +58,10 @@ export const SkillsUpdate: Job = {
     })).filter(localeExists);
 
     for(const { existing, de, en, es, fr } of skills) {
-      const revision_de = existing.current_de.data !== JSON.stringify(de) ? await db.revision.create({ data: { data: JSON.stringify(de), language: 'de', buildId, type: 'Update', entity: 'Skill', description: 'Updated in API' }}) : existing.current_de;
-      const revision_en = existing.current_en.data !== JSON.stringify(en) ? await db.revision.create({ data: { data: JSON.stringify(en), language: 'en', buildId, type: 'Update', entity: 'Skill', description: 'Updated in API' }}) : existing.current_en;
-      const revision_es = existing.current_es.data !== JSON.stringify(es) ? await db.revision.create({ data: { data: JSON.stringify(es), language: 'es', buildId, type: 'Update', entity: 'Skill', description: 'Updated in API' }}) : existing.current_es;
-      const revision_fr = existing.current_fr.data !== JSON.stringify(fr) ? await db.revision.create({ data: { data: JSON.stringify(fr), language: 'fr', buildId, type: 'Update', entity: 'Skill', description: 'Updated in API' }}) : existing.current_fr;
+      const revision_de = existing.current_de.data !== JSON.stringify(de) ? await db.revision.create({ data: { data: JSON.stringify(de), language: 'de', buildId, type: 'Update', entity: 'Skill', description: 'Updated in API', schema }}) : existing.current_de;
+      const revision_en = existing.current_en.data !== JSON.stringify(en) ? await db.revision.create({ data: { data: JSON.stringify(en), language: 'en', buildId, type: 'Update', entity: 'Skill', description: 'Updated in API', schema }}) : existing.current_en;
+      const revision_es = existing.current_es.data !== JSON.stringify(es) ? await db.revision.create({ data: { data: JSON.stringify(es), language: 'es', buildId, type: 'Update', entity: 'Skill', description: 'Updated in API', schema }}) : existing.current_es;
+      const revision_fr = existing.current_fr.data !== JSON.stringify(fr) ? await db.revision.create({ data: { data: JSON.stringify(fr), language: 'fr', buildId, type: 'Update', entity: 'Skill', description: 'Updated in API', schema }}) : existing.current_fr;
 
       const iconId = await createIcon(en.icon);
 

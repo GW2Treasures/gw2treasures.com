@@ -1,12 +1,15 @@
 {
   "$schema": "https://turbo.build/schema.json",
-	"extends": ["//"],
-	"pipeline": {
-		"build": {
-			"outputs": [".next/**", "!.next/cache/**"]
-		},
+  "extends": ["//"],
+  "pipeline": {
+    "build": {
+      "outputs": [".next/**", "!.next/cache/**"]
+    },
     "dev": {
       "dependsOn": ["^build", "@gw2treasures/database#prisma:migrate"]
+    },
+    "lint": {
+      "dependsOn": ["@gw2treasures/eslint-plugin-nextjs#build"]
     }
-	}
+  }
 }

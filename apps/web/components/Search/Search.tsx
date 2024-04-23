@@ -1,27 +1,40 @@
 'use client';
 
-import React, { FC, Fragment, ReactElement, useRef, useState } from 'react';
+import { type ChangeEventHandler, type FC, Fragment, type KeyboardEventHandler, type ReactElement, useCallback, useRef, useState } from 'react';
 import styles from './Search.module.css';
-import { useRouter } from 'next/navigation';
 import { usePageResults, useSearchApiResults } from './useSearchResults';
 import Link from 'next/link';
-import { useDebounce } from '../../lib/useDebounce';
-import { autoUpdate, offset, size, useClick, useDismiss, useFloating, useFocus, useInteractions, useListNavigation } from '@floating-ui/react';
+import { useDebounce } from '@/lib/useDebounce';
+import { autoUpdate, offset, shift, size, useDismiss, useFloating, useFocus, useInteractions, useListNavigation } from '@floating-ui/react';
 import { Icon } from '@gw2treasures/ui';
+import type { TranslationSubset } from '@/lib/translate';
+import type { translations as itemTypeTranslations } from '../Item/ItemType.translations';
+import type { Rarity } from '@gw2treasures/database';
+import type { Weight } from '@/lib/types/weight';
 
 export interface SearchProps {
-  // TODO: add props
+  translations: TranslationSubset<
+   | 'search.placeholder'
+   | 'search.results.items'
+   | 'search.results.skills'
+   | 'search.results.skins'
+   | 'search.results.achievements'
+   | 'search.results.achievements.categories'
+   | 'search.results.achievements.groups'
+   | 'search.results.builds'
+   | 'search.results.pages'
+   | typeof itemTypeTranslations.short[0]
+   | `rarity.${Rarity}`
+   | `weight.${Weight}`
+  >
 }
 
-export const Search: FC<SearchProps> = ({ }) => {
+export const Search: FC<SearchProps> = ({ translations }) => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('');
   const searchValue = useDebounce(value);
-  // const searchForm = useRef<HTMLFormElement>(null);
   const listRef = useRef<(HTMLAnchorElement | null)[]>([]);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
-
-  const router = useRouter();
 
   const { refs, context, x, y } = useFloating({
     open,
@@ -30,10 +43,11 @@ export const Search: FC<SearchProps> = ({ }) => {
     whileElementsMounted: autoUpdate,
     middleware: [
       offset(4),
+      shift({ padding: 16 }),
       size({
-        apply({ rects, availableHeight, elements }) {
+        apply({ rects, availableHeight, elements, availableWidth }) {
           Object.assign(elements.floating.style, {
-            width: `${rects.reference.width}px`,
+            width: `${Math.min(availableWidth, Math.max(360, rects.reference.width))}px`,
             maxHeight: `${availableHeight}px`
           });
         },
@@ -44,8 +58,7 @@ export const Search: FC<SearchProps> = ({ }) => {
 
   // Merge all the interactions into prop getters
   const { getReferenceProps, getFloatingProps, getItemProps } = useInteractions([
-    useFocus(context, { keyboardOnly: false }),
-    useClick(context, { toggle: false, keyboardHandlers: false }),
+    useFocus(context, { visibleOnly: false }),
     useDismiss(context),
     useListNavigation(context, {
       listRef,
@@ -58,7 +71,7 @@ export const Search: FC<SearchProps> = ({ }) => {
   ]);
 
   const searchResults = [
-    ...useSearchApiResults(searchValue),
+    ...useSearchApiResults(searchValue, translations),
     usePageResults(searchValue),
   ];
 
@@ -66,35 +79,56 @@ export const Search: FC<SearchProps> = ({ }) => {
 
   let index = 0;
 
+  const handleSearchChange: ChangeEventHandler<HTMLInputElement> = useCallback((e) => {
+    setValue(e.target.value);
+    setOpen(true);
+  }, []);
+
+  const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = useCallback((e) => {
+    if(e.key === 'Enter' && activeIndex !== null) {
+      const current = listRef.current[activeIndex];
+
+      if(current === null) {
+        return;
+      }
+
+      current.click();
+      e.preventDefault();
+    }
+  }, [activeIndex]);
+
   return (
     <form className={styles.search} ref={refs.setReference} {...getReferenceProps()}>
       <Icon icon="search"/>
       {/* <div className={styles.restriciton}>Item</div> */}
-      <input className={styles.searchInput} placeholder="Search (ALT + Q)" accessKey="q" value={value} onChange={(e) => { setValue(e.target.value); setOpen(true); }} onKeyDown={(e) => {
-        if(e.key === 'Enter' && activeIndex !== null) {
-          const current = listRef.current[activeIndex];
 
-          if(current === null) {
-            return;
-          }
+      <input
+        className={styles.searchInput}
+        placeholder={`${translations['search.placeholder']} (ALT + Q)`}
+        autoComplete="off"
+        spellCheck="false"
+        accessKey="q"
+        enterKeyHint="search"
+        value={value}
+        onChange={handleSearchChange}
+        onKeyDown={handleKeyDown}/>
 
-          current.click();
-          e.preventDefault();
-        }
-      }}/>
       {loading && (open || searchValue) && <div className={styles.loading}/>}
+
       {open && (
         <div className={styles.dropdown} ref={refs.setFloating} {...getFloatingProps()} style={{
           top: y ?? 0,
           left: x ?? 0,
         }}
         >
-          {searchResults.map(({ title, results, id }) => results.length > 0 && (
+          {searchResults.map(({ results, id }) => results.length > 0 && (
             <Fragment key={id}>
-              <div className={styles.category}>{title}</div>
+              <div className={styles.category}>{translations[`search.results.${id}`]}</div>
               {results.map((result) => {
                 const currentIndex = index++;
                 const render = result.render ?? ((link: ReactElement) => link);
+
+                const isExternal = result.href.startsWith('http');
 
                 return render(
                   <Link
@@ -103,8 +137,9 @@ export const Search: FC<SearchProps> = ({ }) => {
                     key={result.href}
                     className={activeIndex === currentIndex ? styles.resultActive : styles.result}
                     id={result.href}
-                    target={result.href.startsWith('http') ? '_blank' : undefined}
-                    ref={(node) => listRef.current[currentIndex] = node}
+                    target={isExternal ? '_blank' : undefined}
+                    rel={isExternal ? 'noreferrer noopener' : undefined}
+                    ref={(node) => { listRef.current[currentIndex] = node; }}
                     {...getItemProps({
                       onClick: (e) => !e.defaultPrevented && setOpen(false)
                     })}
@@ -118,7 +153,7 @@ export const Search: FC<SearchProps> = ({ }) => {
                         {result.subtitle}
                       </div>
                     )}
-                    {result.href.startsWith('http') && <span className={styles.external}><Icon icon="external"/></span>}
+                    {isExternal && <span className={styles.external}><Icon icon="external"/></span>}
                   </Link>
                 );
               })}

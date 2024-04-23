@@ -20,6 +20,11 @@ spec:
       labels:
         name: cache
     spec:
+      tolerations:
+      - key: arch
+        operator: Equal
+        value: arm64
+        effect: NoSchedule
       containers:
       - name: cache
         image: redis:alpine

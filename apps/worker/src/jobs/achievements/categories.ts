@@ -9,6 +9,7 @@ import { createIcon } from '../helper/createIcon';
 import { filterMapKeys, getIdsFromMap } from '../helper/getIdsFromMap';
 import { appendHistory } from '../helper/appendHistory';
 import { localeExists, LocalizedObject } from '../helper/types';
+import { schema } from '../helper/schema';
 
 export const AchievementCategories: Job = {
   run: async () => {
@@ -83,6 +84,7 @@ async function removedCategories(buildId: number, removedIds: number[]) {
     for(const language of ['de', 'en', 'es', 'fr'] as const) {
       const revision = await db.revision.create({
         data: {
+          schema,
           data: achievementCategory[`current_${language}`].data,
           description: 'Removed from API',
           type: 'Removed',
@@ -120,6 +122,7 @@ async function rediscoveredCategories(buildId: number, categories: { [key in Lan
     for(const language of ['de', 'en', 'es', 'fr'] as const) {
       const revision = await db.revision.create({
         data: {
+          schema,
           data: JSON.stringify(data[language]),
           description: 'Rediscovered in API',
           entity: 'AchievementCategory',
@@ -152,10 +155,10 @@ async function updatedCategories(buildId: number, apiCategories: Map<number, Loc
   let updated = 0;
 
   for(const { existing, de, en, es, fr } of categories) {
-    const revision_de = existing.current_de.data !== JSON.stringify(de) ? await db.revision.create({ data: { data: JSON.stringify(de), language: 'de', buildId, type: 'Update', entity: 'AchievementCategory', description: 'Updated in API' }}) : existing.current_de;
-    const revision_en = existing.current_en.data !== JSON.stringify(en) ? await db.revision.create({ data: { data: JSON.stringify(en), language: 'en', buildId, type: 'Update', entity: 'AchievementCategory', description: 'Updated in API' }}) : existing.current_en;
-    const revision_es = existing.current_es.data !== JSON.stringify(es) ? await db.revision.create({ data: { data: JSON.stringify(es), language: 'es', buildId, type: 'Update', entity: 'AchievementCategory', description: 'Updated in API' }}) : existing.current_es;
-    const revision_fr = existing.current_fr.data !== JSON.stringify(fr) ? await db.revision.create({ data: { data: JSON.stringify(fr), language: 'fr', buildId, type: 'Update', entity: 'AchievementCategory', description: 'Updated in API' }}) : existing.current_fr;
+    const revision_de = existing.current_de.data !== JSON.stringify(de) ? await db.revision.create({ data: { data: JSON.stringify(de), language: 'de', buildId, type: 'Update', entity: 'AchievementCategory', description: 'Updated in API', schema }}) : existing.current_de;
+    const revision_en = existing.current_en.data !== JSON.stringify(en) ? await db.revision.create({ data: { data: JSON.stringify(en), language: 'en', buildId, type: 'Update', entity: 'AchievementCategory', description: 'Updated in API', schema }}) : existing.current_en;
+    const revision_es = existing.current_es.data !== JSON.stringify(es) ? await db.revision.create({ data: { data: JSON.stringify(es), language: 'es', buildId, type: 'Update', entity: 'AchievementCategory', description: 'Updated in API', schema }}) : existing.current_es;
+    const revision_fr = existing.current_fr.data !== JSON.stringify(fr) ? await db.revision.create({ data: { data: JSON.stringify(fr), language: 'fr', buildId, type: 'Update', entity: 'AchievementCategory', description: 'Updated in API', schema }}) : existing.current_fr;
 
     await processAchievements(en.id, existing.iconId ?? undefined, en.achievements, en.tomorrow);
 

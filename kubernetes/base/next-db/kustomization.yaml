@@ -1,8 +1,0 @@
-commonLabels:
-  app.kubernetes.io/component: database
-  app.kubernetes.io/name: next-db
-
-resources:
-- deployment.yaml
-- service.yaml
-- volume.yaml

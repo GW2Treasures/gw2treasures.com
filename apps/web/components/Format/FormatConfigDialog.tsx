@@ -1,13 +1,16 @@
-import { FC, useMemo } from 'react';
+import { type FC, useMemo } from 'react';
 import { Dialog } from '../Dialog/Dialog';
 import { Label } from '@gw2treasures/ui/components/Form/Label';
 import { Select } from '@gw2treasures/ui/components/Form/Select';
 import { useLanguage } from '../I18n/Context';
-import { Separator } from '../Layout/Separator';
-import { MenuList } from '../MenuList/MenuList';
+import { MenuList } from '@gw2treasures/ui/components/Layout/MenuList';
 import { useFormatContext } from './FormatContext';
 import { FormatDate } from './FormatDate';
 import { FormatNumber } from './FormatNumber';
+import { Icon } from '@gw2treasures/ui';
+import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
+import styles from './FormatConfigDialog.module.css';
+import { useUser } from '../User/use-user';
 
 export interface FormatConfigDialogProps {
   open: boolean;
@@ -52,26 +55,35 @@ export const FormatConfigDialog: FC<FormatConfigDialogProps> = ({ open, onClose 
     return availableRegions.map((region) => ({ value: region, label: `${formatter.of(region)} (${region})` }));
   }, [currentLanguage]);
 
+  const { user } = useUser();
+
   return (
     <Dialog title="Formatting Settings" onClose={onClose} open={open}>
-      <div style={{ display: 'flex', gap: 16 }}>
-        <Label label="Language">
-          <Select options={[{ label: `Current language (${currentLanguage})`, value: 'auto' }, ...languages]} value={language} onChange={(language) => setLocale(language, region)}/>
-        </Label>
-        <div style={{ lineHeight: '38px', marginTop: 24 }}>-</div>
-        <Label label="Region">
-          <Select options={[{ label: `Browser Region (${defaultRegion})`, value: 'browser' }, ...regions]} value={region} onChange={(region) => setLocale(language, region)}/>
-        </Label>
+      <div className={styles.layout}>
+        {!user && (
+          <div className={styles.box}>
+            <FlexRow><Icon icon="cookie"/> Changing your settings will store cookies in your browser.</FlexRow>
+          </div>
+        )}
+        <div className={styles.inputs}>
+          <Label label="Language">
+            <Select options={[{ label: `Current language (${currentLanguage})`, value: 'auto' }, ...languages]} value={language} onChange={(language) => setLocale(language, region)}/>
+          </Label>
+          <div className={styles.dash}>-</div>
+          <Label label="Region">
+            <Select options={[{ label: `Browser Region (${defaultRegion})`, value: 'browser' }, ...regions]} value={region} onChange={(region) => setLocale(language, region)}/>
+          </Label>
+        </div>
+
+        <div className={styles.box}>
+          <MenuList>
+            <div style={{ padding: 8, display: 'flex', justifyContent: 'space-between' }}>Locale <span>{locale}</span></div>
+            <div style={{ padding: 8, display: 'flex', justifyContent: 'space-between' }}>Date <FormatDate date={new Date()}/></div>
+            <div style={{ padding: 8, display: 'flex', justifyContent: 'space-between' }}>Relative Date <FormatDate relative date={new Date()}/></div>
+            <div style={{ padding: 8, display: 'flex', justifyContent: 'space-between' }}>Number <span><FormatNumber value={1234567.89}/></span></div>
+          </MenuList>
+        </div>
       </div>
-
-      <Separator/>
-
-      <MenuList>
-        <div style={{ padding: 8, display: 'flex', justifyContent: 'space-between' }}>Locale <span>{locale}</span></div>
-        <div style={{ padding: 8, display: 'flex', justifyContent: 'space-between' }}>Date <FormatDate date={new Date()}/></div>
-        <div style={{ padding: 8, display: 'flex', justifyContent: 'space-between' }}>Relative Date <FormatDate relative date={new Date()}/></div>
-        <div style={{ padding: 8, display: 'flex', justifyContent: 'space-between' }}>Number <span><FormatNumber value={1234567.89}/></span></div>
-      </MenuList>
     </Dialog>
   );
 };

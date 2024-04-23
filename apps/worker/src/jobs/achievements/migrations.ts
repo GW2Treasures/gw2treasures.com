@@ -7,7 +7,7 @@ function toId<T>({ id }: { id: T }): T {
   return id;
 }
 
-export const CURRENT_VERSION = 5;
+export const CURRENT_VERSION = 7;
 
 /** @see Prisma.AchievementUpdateInput */
 interface MigratedAchievement {
@@ -15,14 +15,17 @@ interface MigratedAchievement {
 
   points?: number
   mastery?: MasteryRegion | null
+  flags?: string[]
 
   bitsItemIds?: number[]
   bitsSkinIds?: number[]
   rewardsItemIds?: number[]
+  rewardsTitleIds?: number[]
 
   bitsItem?: Prisma.ItemCreateNestedManyWithoutAchievementBitsInput
   bitsSkin?: Prisma.SkinCreateNestedManyWithoutAchievementBitsInput
   rewardsItem?: Prisma.ItemCreateNestedManyWithoutAchievementRewardsInput
+  rewardsTitle?: Prisma.TitleCreateNestedManyWithoutAchievementsInput
 
   prerequisitesIds?: number[]
   prerequisites?: Prisma.AchievementUpdateManyWithoutPrerequisiteForNestedInput
@@ -36,6 +39,7 @@ export async function createMigrator() {
   const achievementIds = (await db.achievement.findMany({ select: { id: true }})).map(toId);
   const itemIds = (await db.item.findMany({ select: { id: true }})).map(toId);
   const skinIds = (await db.skin.findMany({ select: { id: true }})).map(toId);
+  const titleIds = (await db.title.findMany({ select: { id: true }})).map(toId);
 
   // eslint-disable-next-line require-await, @typescript-eslint/no-unused-vars
   return async function migrate({ de, en, es, fr }: LocalizedObject<Gw2Api.Achievement>, currentVersion = -1) {
@@ -83,6 +87,17 @@ export async function createMigrator() {
 
         update.categoryDisplayFor = { connect: categories };
       }
+    }
+
+    if(currentVersion < 6) {
+      const titleRewards = en.rewards?.filter(({ type }) => type === 'Title').map(toId) ?? [];
+
+      update.rewardsTitleIds = titleRewards;
+      update.rewardsTitle = { connect: titleRewards.filter((id) => titleIds.includes(id)).map((id) => ({ id })) };
+    }
+
+    if(currentVersion < 7) {
+      update.flags = en.flags;
     }
 
     return update;

@@ -1,6 +1,0 @@
-commonLabels:
-  app.kubernetes.io/component: backend
-  app.kubernetes.io/name: next-importer
-
-resources:
-- configMap.yaml

@@ -13,10 +13,10 @@
 .c::after {
   content: '';
   display: inline-block;
-  width: .9em;
-  height: .9em;
+  width: .875em;
+  height: .875em;
   border-radius: 50%;
-  vertical-align: -2px;
+  vertical-align: -.1em;
   margin-left: 4px;
 }
 

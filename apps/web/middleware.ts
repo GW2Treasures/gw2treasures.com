@@ -1,56 +1,51 @@
 import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
-import { getUrlFromParts, getUrlPartsFromRequest } from './lib/urlParts';
-import { SessionCookieName } from './lib/auth/cookie';
+import { NextRequest } from 'next/server';
+import { healthMiddleware } from './middleware/health';
+import type { NextMiddleware } from './middleware/types';
+import { logMiddleware } from './middleware/log';
+import { realUrlMiddleware } from './middleware/real-url';
+import { subdomainMiddleware } from './middleware/subdomain';
+import { languageMiddleware } from './middleware/language';
+import { sessionMiddleware } from './middleware/session';
+import { apiKeyMiddleware } from './middleware/api-key';
+import { rewriteMiddleware } from './middleware/rewrite';
+import { corsMiddleware } from './middleware/cors';
+import { userAgentMiddleware } from './middleware/user-agent';
+import { dropSearchParamsMiddleware } from 'middleware/drop-search-params';
+import { contentSecurityPolicyMiddleware } from 'middleware/content-security-policy';
 
-const languages = ['de', 'en', 'es', 'fr'];
-const baseDomain = process.env.GW2T_NEXT_DOMAIN;
+export async function middleware(request: NextRequest) {
+  const middlewares: NextMiddleware[] = [
+    logMiddleware,
+    healthMiddleware,
+    corsMiddleware,
+    realUrlMiddleware,
+    dropSearchParamsMiddleware,
+    subdomainMiddleware,
+    contentSecurityPolicyMiddleware,
+    languageMiddleware,
+    userAgentMiddleware,
+    sessionMiddleware,
+    apiKeyMiddleware,
+    rewriteMiddleware,
+  ];
 
-export function middleware(request: NextRequest) {
-  const { domain, protocol, port, path } = getUrlPartsFromRequest(request);
-  const language = languages.find((lang) => domain === `${lang}.${baseDomain}`);
+  const data = {};
 
-  if(!language) {
-    const url = getUrlFromParts({ protocol, domain: `en.${baseDomain}`, port, path });
+  let index = 0;
+  const next = async (request: NextRequest) => {
+    if (index < middlewares.length) {
+      return await middlewares[index++](request, next, data);
+    }
 
-    console.log(`> Redirecting to ${url}`);
+    return NextResponse.next({ request });
+  };
 
-    return NextResponse.redirect(url);
-  }
+  const response = await next(request);
 
-  const url = request.nextUrl.clone();
-  url.pathname = `/${language}${url.pathname}`;
-
-  const headers = request.headers;
-  headers.append('x-gw2t-lang', language);
-
-  // get session
-  if(request.cookies.has(SessionCookieName)) {
-    const sessionId = request.cookies.get(SessionCookieName)!.value;
-
-    headers.append('x-gw2t-session', sessionId);
-  }
-
-  return NextResponse.rewrite(url, { headers: corsHeader(request), request: { headers }});
-}
-
-function corsHeader(request: NextRequest): {} | { 'Access-Control-Allow-Origin': string } {
-  const origin = request.headers.get('Origin');
-
-  if(!origin) {
-    return {};
-  }
-
-  const regex = new RegExp(`^https?://(${languages.join('|')})\.${baseDomain?.replace('.', '\.')}`);
-  const isAllowed = origin.match(regex);
-
-  if(isAllowed) {
-    return { 'Access-Control-Allow-Origin': origin };
-  }
-
-  throw new Error('CORS');
+  return response;
 }
 
 export const config = {
-  matcher: '/((?!api|_next/static|_next/image|favicon.ico).*)',
+  matcher: '/((?!_next/static|_next/image|favicon.ico|android-chrome-[^/]+.png|apple-touch-icon.png|browserconfig.xml|favicon-[^/]+.png|mstile-[^/]+.png|safari-pinned-tab.svg|maskable_icon_[^/]+.png).*)',
 };

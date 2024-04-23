@@ -1,27 +1,29 @@
 import 'server-only';
-import { Gw2Api } from 'gw2-api-types';
+import type { Gw2Api } from 'gw2-api-types';
 import { ClientItemTooltip } from './ItemTooltip.client';
-import { getTranslate } from '../I18n/getTranslate';
-import { Item, Language } from '@gw2treasures/database';
-import { AsyncComponent } from '@/lib/asyncComponent';
+import { getTranslate } from '@/lib/translate';
+import type { Item, Language, Rarity } from '@gw2treasures/database';
 import { format } from 'gw2-tooltip-html';
-import { isTruthy } from '@gw2treasures/ui';
+import { isTruthy } from '@gw2treasures/helper/is';
 import { getLinkProperties, linkProperties } from '@/lib/linkProperties';
-import { WithIcon } from '@/lib/with';
-import { LocalizedEntity } from '@/lib/localizedName';
+import type { WithIcon } from '@/lib/with';
+import { localizedName, type LocalizedEntity } from '@/lib/localizedName';
 import { db } from '@/lib/prisma';
 import { parseIcon } from '@/lib/parseIcon';
+import type { FC } from 'react';
+import type { SubType, TypeWithSubtype } from './ItemType.types';
 
 export interface ItemTooltipProps {
   item: Gw2Api.Item;
   language: Language;
+  hideTitle?: boolean;
 }
 
-export const ItemTooltip: AsyncComponent<ItemTooltipProps> = async ({ item, language }) => {
+export const ItemTooltip: FC<ItemTooltipProps> = async ({ item, language, hideTitle }) => {
   const tooltip = await createTooltip(item, language);
 
   return (
-    <ClientItemTooltip tooltip={tooltip}/>
+    <ClientItemTooltip tooltip={tooltip} hideTitle={hideTitle}/>
   );
 };
 
@@ -39,87 +41,127 @@ export async function createTooltip(item: Gw2Api.Item, language: Language): Prom
     };
   }
 
+  // get upgrades
   const upgradeIds = [item.details?.suffix_item_id, item.details?.secondary_suffix_item_id].map(Number).filter(isTruthy);
   const upgrades: ItemTooltip['upgrades'] = upgradeIds.length > 0
-    ? (await db.item.findMany({ where: { id: { in: upgradeIds }}, select: { ...linkProperties, [`current_${language}`]: { select: { data: true }}}})).map(mapItemToTooltip)
+    ? (await db.item.findMany({ where: { id: { in: upgradeIds }}, select: { ...linkProperties, [`current_${language}`]: { select: { data: true }}}})).map(mapItemToTooltip).map((item) => ({ item }))
     : [];
 
+  // get empty upgrades
   if(!item.flags.includes('NotUpgradeable') && ['Armor', 'Back', 'Weapon', 'Trinket'].includes(item.type)) {
     if(upgrades.length === 0) {
-      upgrades.push(null);
+      upgrades.push({ unused: t('item.upgrade.empty') });
     }
     if(
       item.type === 'Weapon'
       && (['Greatsword', 'Hammer', 'Longbow', 'Rifle', 'Shortbow', 'Staff'] as Array<string | undefined>).includes(item.details?.type)
       && upgrades.length === 1
     ) {
-      upgrades.push(null);
+      upgrades.push({ unused: t('item.upgrade.empty') });
     }
   }
 
+  // get infusion slots
   const infusionIds = item.details?.infusion_slots?.map(({ item_id }) => item_id).map(Number).filter(isTruthy);
-  const infusions = infusionIds?.length ? (await db.item.findMany({ where: { id: { in: infusionIds }}, select: { ...linkProperties, [`current_${language}`]: { select: { data: true }}}})).map(mapItemToTooltip) : [];
+  const infusionItems = infusionIds?.length ? (await db.item.findMany({ where: { id: { in: infusionIds }}, select: { ...linkProperties, [`current_${language}`]: { select: { data: true }}}})).map(mapItemToTooltip) : [];
+  const infusions = item.details?.infusion_slots?.map<ItemTooltipInfusion>((infusion) => {
+    const item = infusion.item_id && infusionItems.find(({ id }) => id === Number(infusion.item_id));
+    const isEnrichment = infusion.flags?.[0] === 'Enrichment';
+    const type = isEnrichment ? 'Enrichment' : 'Infusion';
+
+    if(item) {
+      return { type, item };
+    }
+
+    return {
+      type: isEnrichment ? 'Enrichment' : 'Infusion',
+      unused: infusion.item_id
+        ? (isEnrichment ? `Unknown Enrichment (${infusion.item_id})` : `Unknown Infusion (${infusion.item_id})`)
+        : (isEnrichment ? t('item.infusion.emptyEnrichment') : t('item.infusion.emptyInfusion'))
+    };
+  });
+
+  // get unlocked color
+  const unlocksColor = item.type === 'Consumable' && item.details?.type === 'Unlock' && item.details.unlock_type === 'Dye' && item.details.color_id
+    ? await db.color.findUnique({ where: { id: Number(item.details.color_id) }})
+    : undefined;
+
+  // get item icon
+  const icon = parseIcon(item.icon);
 
   return {
     language,
-    weaponStrength: item.type === 'Weapon' ? { label: 'Strength', min: item.details?.min_power ?? 0, max: item.details?.max_power ?? 0 } : undefined,
-    defense: item.type === 'Armor' ? { label: 'Defense', value: item.details?.defense ?? 0 } : undefined,
-    attributes: item.details?.infix_upgrade?.attributes && item.details.infix_upgrade.attributes.length > 0 ? item.details.infix_upgrade.attributes.map((({ attribute, modifier }) => ({ label: t(`attribute.${attribute}`), value: modifier }))) : undefined,
-    buff: (!item.details?.infix_upgrade?.attributes || item.details.infix_upgrade.attributes.length === 0) && item.details?.infix_upgrade?.buff?.description ? format(item.details.infix_upgrade.buff.description) : undefined,
-    consumable: item.type === 'Consumable' ? { name: item.details?.name, apply_count: item.details?.apply_count, duration_ms: item.details?.duration_ms, description: item.details?.description ? format(item.details.description) : undefined, icon: parseIcon(item.details?.icon) } : undefined,
+    name: item.name,
+    icon,
+    weaponStrength: item.type === 'Weapon'
+      ? { label: t('item.strength'), min: item.details?.min_power ?? 0, max: item.details?.max_power ?? 0 }
+      : undefined,
+    defense: item.type === 'Armor'
+      ? { label: t('item.defense'), value: item.details?.defense ?? 0 }
+      : undefined,
+    attributes: item.details?.infix_upgrade?.attributes && item.details.infix_upgrade.attributes.length > 0
+      ? item.details.infix_upgrade.attributes.map((({ attribute, modifier }) => ({ label: t(`attribute.${attribute}`), value: modifier })))
+      : undefined,
+    buff: (!item.details?.infix_upgrade?.attributes || item.details.infix_upgrade.attributes.length === 0) && item.details?.infix_upgrade?.buff?.description
+      ? format(item.details.infix_upgrade.buff.description)
+      : undefined,
+    consumable: (item.type === 'Consumable' || (item.type === 'Container' && item.details?.type === 'GiftBox')) && item.details
+      ? { label: t('item.consume'), name: item.details.name, apply_count: item.details.apply_count, duration_ms: item.details.duration_ms, description: formatMarkup(item.details.description), icon: parseIcon(item.details.icon) }
+      : undefined,
     bonuses: item.details?.bonuses?.map(format),
-    upgrades,
-    infusions: item.details?.infusion_slots?.map((infusion) => {
-      const item = infusion.item_id && infusions.find(({ id }) => id === Number(infusion.item_id));
-      const isEnrichment = infusion.flags?.[0] === 'Enrichment';
-
-      if(item) {
-        return {
-          type: isEnrichment ? 'Enrichment' : 'Infusion',
-          item,
-        };
-      }
-
-      return {
-        type: isEnrichment ? 'Enrichment' : 'Infusion',
-        unused: infusion.item_id
-          ? (isEnrichment ? `Unknown Enrichment (${infusion.item_id})` : `Unknown Infusion (${infusion.item_id})`)
-          : (isEnrichment ? 'Unused Enrichment Slot' : 'Unused Infusion Slot')
-      };
-    }),
+    upgrades: upgrades.length > 0 ? upgrades : undefined,
+    infusions,
+    unlocksColor: unlocksColor ? { id: unlocksColor.id, name: localizedName(unlocksColor, language), colors: { cloth: unlocksColor.cloth_rgb, leather: unlocksColor.leather_rgb, metal: unlocksColor.metal_rgb }} : undefined,
     rarity: { label: t(`rarity.${item.rarity}`), value: item.rarity },
-    type: item.details?.type,
-    weightClass: item.details?.weight_class,
-    level: item.level > 0 ? { label: 'Required Level', value: item.level } : undefined,
+    type: item.details?.type ? t(`item.type.short.${item.type}.${item.details.type}` as any) : t(`item.type.${item.type}`),
+    weightClass: item.details?.weight_class ? t(`weight.${item.details.weight_class}`) : undefined,
+    level: item.level > 0 ? { label: t('item.level'), value: item.level } : undefined,
     description: item.description ? format(item.description) : undefined,
     flags: [
-      item.details?.stat_choices && 'Double-click to select stats.',
-      item.flags.includes('Unique') && 'Unique',
-      item.flags.includes('AccountBound') && 'Account Bound on Acquire',
-      item.flags.includes('SoulbindOnAcquire') ? 'Soulbound on Acquire' :
-      item.flags.includes('SoulBindOnUse') && 'Soulbound on Use',
-      item.flags.includes('NoSalvage') && 'Not salvagable',
-      item.flags.includes('NoSell') && 'Not sellable'
+      item.details?.stat_choices && t('item.selectStats'),
+      item.flags.includes('Unique') && t('item.flag.Unique'),
+      item.flags.includes('AccountBound') && t('item.flag.AccountBound'),
+      item.flags.includes('SoulbindOnAcquire') ? t('item.flag.SoulbindOnAcquire') :
+      item.flags.includes('SoulBindOnUse') && t('item.flag.SoulBindOnUse'),
+      item.flags.includes('NoSalvage') && t('item.flag.NoSalvage'),
+      item.flags.includes('NoSell') && t('item.flag.NoSell'),
     ].filter(isTruthy),
-    value: !item.flags.includes('NoSell') ? item.vendor_value : undefined,
+    vendorValue: !item.flags.includes('NoSell') ? item.vendor_value : undefined,
   };
+}
+
+function formatMarkup(value: string | undefined) {
+  return value ? format(value) : undefined;
 }
 
 export type ItemWithAttributes = WithIcon<LocalizedEntity> & {
   id: number,
-  rarity: string,
+  rarity: Rarity,
   attributes?: { label: string, value: number }[],
   buff?: string,
   bonuses?: string[]
 }
 
+export type ItemTooltipInfusion = ({
+  type: 'Infusion' | 'Enrichment'
+} & ({
+  unused: string,
+  item?: never
+} | {
+  unused?: never,
+  item: ItemWithAttributes
+}))
+
 export interface ItemTooltip {
   language: Language,
+  name: string,
+  icon?: { id: number, signature: string },
   weaponStrength?: { label: string, min: number, max: number },
   defense?: { label: string, value: number },
   attributes?: { label: string, value: number }[],
   buff?: string,
   consumable?: {
+    label: string,
     duration_ms?: number,
     apply_count?: number,
     name?: string,
@@ -127,21 +169,14 @@ export interface ItemTooltip {
     icon?: { id: number, signature: string }
   },
   bonuses?: string[],
-  upgrades?: (ItemWithAttributes | null)[];
-  infusions?: ({
-    type: 'Infusion' | 'Enrichment'
-  } & ({
-    unused: string,
-    item?: undefined
-  } | {
-    unused?: undefined,
-    item: ItemWithAttributes
-  }))[],
+  upgrades?: ({ item: ItemWithAttributes, unused?: never }| { item?: never, unused: string })[];
+  infusions?: ItemTooltipInfusion[],
+  unlocksColor?: { id: number, name: string, colors: { cloth: string, leather: string, metal: string } }
   rarity: { label: string, value: Gw2Api.Item['rarity'] },
   type?: string,
   weightClass?: string,
   level?: { label: string, value: number },
   description?: string,
   flags: string[],
-  value?: number,
+  vendorValue?: number,
 }

@@ -1,7 +1,8 @@
 .link {
-  color: var(--color-focus);
+  color: var(--link-color, var(--color-focus));
   display: inline-flex;
   align-items: center;
+  justify-self: flex-start;
   text-decoration: none;
   gap: 8px;
   overflow: hidden;
@@ -14,10 +15,14 @@
   text-underline-offset: 2px;
   overflow: hidden;
   text-overflow: ellipsis;
-  line-height: 24px;
+  padding: 2px 0;
 }
 
 .link:hover .name {
   text-decoration-color: var(--color-rarity, currentColor);
-  border-bottom-color: var(--color-rarity, currentColor);
+  transition: text-decoration-color .15s ease;
+}
+
+.noRarity {
+  --color-rarity: initial;
 }

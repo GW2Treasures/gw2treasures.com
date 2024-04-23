@@ -1,7 +1,7 @@
 .statsRow {
   background-color: var(--color-background-light);
   padding: 32px 16px;
-  margin: -16px -16px 16px -16px;
+  margin: -16px -16px 32px -16px;
   display: flex;
   gap: 32px 64px;
   min-height: 100px;
@@ -42,6 +42,7 @@
   display: flex;
   flex-direction: column;
   color: #fff;
+  z-index: 1;
 }
 
 .heroTitle {

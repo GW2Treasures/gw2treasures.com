@@ -1,25 +1,16 @@
 import 'server-only';
 
-import { AsyncComponent } from '@/lib/asyncComponent';
-import { translate, TranslationId } from './getTranslate';
-import { FC } from 'react';
-import { headers } from 'next/headers';
-import { Language } from '@gw2treasures/database';
+import { translate, type TranslationId } from '@/lib/translate';
+import type { FC } from 'react';
+import type { Language } from '@gw2treasures/database';
 
 export interface TransProps {
   id: TranslationId;
+  language?: Language;
 }
 
-const baseDomain = process.env.GW2T_NEXT_DOMAIN;
-export const Trans: FC<TransProps> = ({ id }) => {
-  // @ts-expect-error Server Component
-  return <TransInternal id={id}/>;
-};
-
-const TransInternal: AsyncComponent<TransProps> = async ({ id }) => {
-  const language = headers().get('x-gw2t-lang') as Language;
-
-  const translation = await translate(language, id);
+export const Trans: FC<TransProps> = async ({ id, language }) => {
+  const translation = await translate(id, language);
 
   return <>{translation}</>;
 };

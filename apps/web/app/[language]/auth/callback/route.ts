@@ -1,22 +1,17 @@
-import { Language } from '@gw2treasures/database';
 import { redirect } from 'next/navigation';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, userAgent } from 'next/server';
 import { db } from '@/lib/prisma';
-import parseUserAgent from 'ua-parser-js';
-import { getUrlFromParts, getUrlPartsFromRequest } from '@/lib/urlParts';
 import { authCookie } from '@/lib/auth/cookie';
-import { getAccessToken } from '@gw2me/api';
-import { rest } from '@gw2me/api';
-
-const client_id = process.env.GW2ME_CLIENT_ID;
-const client_secret = process.env.GW2ME_CLIENT_SECRET;
+import { expiresAtFromExpiresIn } from '@/lib/expiresAtFromExpiresIn';
+import { getUser } from '@/lib/getUser';
+import { cookies } from 'next/headers';
+import { isRedirectError } from 'next/dist/client/components/redirect';
+import { isNotFoundError } from 'next/dist/client/components/not-found';
+import { gw2me } from '@/lib/gw2me';
+import { getCurrentUrl } from '@/lib/url';
+import { getReturnToUrlFromCookie } from '@/lib/login-url';
 
 export async function GET(request: NextRequest) {
-  if(!client_id || !client_secret) {
-    console.error('GW2ME_CLIENT_ID or GW2ME_CLIENT_SECRET not set');
-    redirect('/login?error');
-  }
-
   try {
     // get code from querystring
     const { searchParams } = new URL(request.url);
@@ -28,14 +23,10 @@ export async function GET(request: NextRequest) {
     }
 
     // build callback url
-    const parts = getUrlPartsFromRequest(request);
-    const redirect_uri = getUrlFromParts({
-      ...parts,
-      path: '/auth/callback'
-    });
+    const callbackUrl = new URL('/auth/callback', getCurrentUrl());
 
-    const token = await getAccessToken({ client_id, client_secret, code, redirect_uri });
-    const { user } = await rest.user({ access_token: token.access_token });
+    const token = await gw2me.getAccessToken({ code, redirect_uri: callbackUrl.toString() });
+    const { user } = await gw2me.api(token.access_token).user();
 
     // build provider key
     const provider = { provider: 'gw2.me', providerAccountId: user.id };
@@ -49,6 +40,7 @@ export async function GET(request: NextRequest) {
         accessToken: token.access_token,
         accessTokenExpiresAt: expiresAtFromExpiresIn(token.expires_in),
         refreshToken: token.refresh_token,
+        scope: token.scope.split(' '),
         user: { create: { name: user.name, email: user.email }}
       },
       update: {
@@ -56,30 +48,40 @@ export async function GET(request: NextRequest) {
         accessToken: token.access_token,
         accessTokenExpiresAt: expiresAtFromExpiresIn(token.expires_in),
         refreshToken: token.refresh_token,
+        scope: token.scope.split(' '),
       }
     });
 
+    // reuse existing session (when reauthorizing)
+    const existingSession = await getUser();
+    if(existingSession) {
+      if(existingSession.id === userId) {
+        // the existing session was for the same user and we can reuse it
+        redirect(getReturnToUrlFromCookie());
+      } else {
+        // just logged in with a different user - lets delete the old session
+        await db.userSession.delete({ where: { id: existingSession.sessionId }});
+      }
+    }
+
+    // we couldn't reuse an existing session (doesn't exist or different user), so we have to create a new one...
+
     // parse user-agent to set session name
-    const userAgentString = request.headers.get('user-agent');
-    const userAgent = userAgentString ? parseUserAgent(userAgentString) : undefined;
-    const sessionName = userAgent ? `${userAgent.browser.name} on ${userAgent.os.name}` : 'Session';
+    const ua = userAgent(request);
+    const sessionName = ua ? `${ua.browser.name} on ${ua.os.name}` : 'Session';
 
     // create a new session
     const session = await db.userSession.create({ data: { info: sessionName, userId }});
 
     // send response with session cookie
-    const profileUrl = getUrlFromParts({ ...parts, path: '/profile' });
-    const response = NextResponse.redirect(profileUrl);
-    response.cookies.set(authCookie(session.id, parts.protocol === 'https:'));
-    return response;
+    cookies().set(authCookie(session.id, callbackUrl.protocol === 'https:'));
+    redirect(getReturnToUrlFromCookie());
   } catch(error) {
+    if(isRedirectError(error) || isNotFoundError(error)) {
+      throw error;
+    }
+
     console.error(error);
     redirect('/login?error');
   }
-}
-
-function expiresAtFromExpiresIn(expiresInSeconds: number) {
-  const date = new Date();
-  date.setSeconds(date.getSeconds() + expiresInSeconds);
-  return date;
 }

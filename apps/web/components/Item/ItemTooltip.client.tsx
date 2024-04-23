@@ -1,16 +1,20 @@
-import { FC, Fragment } from 'react';
+import { type FC, Fragment, type ReactNode } from 'react';
 import { FormatNumber } from '../Format/FormatNumber';
 import { ItemTooltip } from './ItemTooltip';
 import { Rarity } from './Rarity';
 import { Coins } from '../Format/Coins';
-import { isTruthy } from '@gw2treasures/ui';
+import { isTruthy } from '@gw2treasures/helper/is';
 import styles from './ItemTooltip.module.css';
 import { ItemLink } from './ItemLink';
 import { Icon } from '@gw2treasures/ui';
 import { EntityIcon } from '@/components/Entity/EntityIcon';
+import { DyeColor } from '../Color/DyeColor';
+import { hexToRgb } from '../Color/hex-to-rgb';
+import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 
 export interface ClientItemTooltipProps {
   tooltip: ItemTooltip;
+  hideTitle?: boolean;
 };
 
 function renderAttributes(attributes: ItemTooltip['attributes']) {
@@ -72,7 +76,7 @@ function renderConsumable(consumable: ItemTooltip['consumable']) {
 
   return (
     <>
-      <div className={styles.row}>Double-click to consume.</div>
+      <div className={styles.row}>{consumable.label}</div>
       {(consumable.name || consumable.duration_ms || consumable.icon || consumable.apply_count || consumable.description) && (
         <div className={styles.consumable}>
           {consumable.icon && <EntityIcon icon={consumable.icon} size={32}/>}
@@ -93,24 +97,24 @@ function renderConsumable(consumable: ItemTooltip['consumable']) {
   );
 }
 
-export const ClientItemTooltip: FC<ClientItemTooltipProps> = ({ tooltip }) => {
-  const data = [
+export const ClientItemTooltip: FC<ClientItemTooltipProps> = ({ tooltip, hideTitle = false }) => {
+  const data: ReactNode[] = [
     tooltip.weaponStrength && (<>{tooltip.weaponStrength.label}: <FormatNumber value={tooltip.weaponStrength.min} className={styles.value}/> – <FormatNumber value={tooltip.weaponStrength.max} className={styles.value}/></>),
     tooltip.defense && <>{tooltip.defense.label}: <FormatNumber value={tooltip.defense.value} className={styles.value}/></>,
     renderAttributes(tooltip.attributes),
     tooltip.buff && (<p className={styles.buff} dangerouslySetInnerHTML={{ __html: tooltip.buff }}/>),
     renderConsumable(tooltip.consumable),
     renderBonuses(tooltip.bonuses),
-    tooltip.upgrades && tooltip.upgrades.map((upgrade, slot) => upgrade === null ? (
+    tooltip.upgrades && tooltip.upgrades.map((upgrade, slot) => !upgrade.item ? (
       // eslint-disable-next-line react/no-array-index-key
-      <div key={slot} className={styles.row}><Icon icon="upgrade-slot"/> Unused Upgrade Slot</div>
+      <div key={slot} className={styles.row}><Icon icon="upgrade-slot"/> {upgrade.unused}</div>
     ) : (
       // eslint-disable-next-line react/no-array-index-key
       <div key={slot} className={styles.row}>
-        <ItemLink item={upgrade} icon={16} language={tooltip.language}/>
-        {renderAttributes(upgrade.attributes)}
-        {upgrade.buff && (<p className={styles.buff} dangerouslySetInnerHTML={{ __html: upgrade.buff }}/>)}
-        {renderBonuses(upgrade.bonuses)}
+        <ItemLink item={upgrade.item} icon={16} language={tooltip.language}/>
+        {renderAttributes(upgrade.item.attributes)}
+        {upgrade.item.buff && (<p className={styles.buff} dangerouslySetInnerHTML={{ __html: upgrade.item.buff }}/>)}
+        {renderBonuses(upgrade.item.bonuses)}
       </div>
     )),
     tooltip.infusions && tooltip.infusions.map((infusion, slot) => (
@@ -129,7 +133,18 @@ export const ClientItemTooltip: FC<ClientItemTooltipProps> = ({ tooltip }) => {
         }
       </div>
     )),
-    // TODO: color
+    tooltip.unlocksColor && (
+      <div>
+        <div className={styles.consumableName}>
+          {tooltip.unlocksColor.name}
+        </div>
+        <div className={styles.unlocksColor}>
+          <Tip preferredPlacement="bottom" tip="Cloth"><DyeColor color={hexToRgb(tooltip.unlocksColor.colors.cloth)}/></Tip>
+          <Tip preferredPlacement="bottom" tip="Leather"><DyeColor color={hexToRgb(tooltip.unlocksColor.colors.leather)}/></Tip>
+          <Tip preferredPlacement="bottom" tip="Metal"><DyeColor color={hexToRgb(tooltip.unlocksColor.colors.metal)}/></Tip>
+        </div>
+      </div>
+    ),
     // TODO: skin
     <Rarity key="rarity" rarity={tooltip.rarity.value}>{tooltip.rarity.label}</Rarity>,
     tooltip.type,
@@ -138,11 +153,18 @@ export const ClientItemTooltip: FC<ClientItemTooltipProps> = ({ tooltip }) => {
     // TODO: restrictions
     tooltip.description && (<p className={styles.description} dangerouslySetInnerHTML={{ __html: tooltip.description }}/>),
     ...tooltip.flags,
-    tooltip.value && (<Coins value={tooltip.value}/>),
+    tooltip.vendorValue && (<Coins value={tooltip.vendorValue}/>),
   ];
 
   return (
     <div>
+      {!hideTitle && (
+        <div className={styles.title}>
+          {tooltip.icon && (<EntityIcon icon={tooltip.icon} size={32}/>)}
+          {tooltip.name}
+        </div>
+      )}
+
       {data.filter(isTruthy).map((content, index) => {
         // eslint-disable-next-line react/no-array-index-key
         return <div className={styles.row} key={index}>{content}</div>;

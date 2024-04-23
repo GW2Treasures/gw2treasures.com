@@ -22,10 +22,10 @@ export async function processSkins(buildId: number) {
 
       const data = JSON.parse(fixupDetails(skin.data_en));
 
-      const revision_de = await db.revision.create({ data: { data: fixupDetails(skin.data_de), entity: 'Skin', language: 'de', buildId, description: 'Imported - No earlier history available' }});
-      const revision_en = await db.revision.create({ data: { data: fixupDetails(skin.data_en), entity: 'Skin', language: 'en', buildId, description: 'Imported - No earlier history available' }});
-      const revision_es = await db.revision.create({ data: { data: fixupDetails(skin.data_es), entity: 'Skin', language: 'es', buildId, description: 'Imported - No earlier history available' }});
-      const revision_fr = await db.revision.create({ data: { data: fixupDetails(skin.data_fr), entity: 'Skin', language: 'fr', buildId, description: 'Imported - No earlier history available' }});
+      const revision_de = await db.revision.create({ data: { data: fixupDetails(skin.data_de), entity: 'Skin', language: 'de', buildId, description: 'Imported - No earlier history available', schema: '' }});
+      const revision_en = await db.revision.create({ data: { data: fixupDetails(skin.data_en), entity: 'Skin', language: 'en', buildId, description: 'Imported - No earlier history available', schema: '' }});
+      const revision_es = await db.revision.create({ data: { data: fixupDetails(skin.data_es), entity: 'Skin', language: 'es', buildId, description: 'Imported - No earlier history available', schema: '' }});
+      const revision_fr = await db.revision.create({ data: { data: fixupDetails(skin.data_fr), entity: 'Skin', language: 'fr', buildId, description: 'Imported - No earlier history available', schema: '' }});
 
       if(skin.file_id) {
         await db.icon.upsert({

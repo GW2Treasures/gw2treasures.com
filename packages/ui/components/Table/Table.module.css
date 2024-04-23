@@ -5,6 +5,11 @@
   border: none;
 }
 
+.tableAuto {
+  composes: table;
+  width: auto;
+}
+
 .table > thead > tr > th {
   border-bottom: 3px solid var(--color-border);
   padding: 8px 16px;
@@ -12,7 +17,7 @@
   text-align: left;
   background: var(--color-background);
   position: sticky;
-  top: 48px;
+  top: var(--table-sticky-top, 48px);
   z-index: 1;
   white-space: nowrap;
 }
@@ -21,6 +26,7 @@
 .table > tbody > tr > th {
   padding: 8px 16px;
   font-weight: normal;
+  line-height: 1.5;
   text-align: left;
   transition: background-color .1s ease;
 
@@ -45,7 +51,27 @@
   background-color: var(--color-background-light);
 }
 
-.sort {
+.table > tbody > tr[data-added] > td,
+.table > tbody > tr[data-added] > th {
+  background-color: var(--color-diff-added-light);
+}
+
+.table > tbody > tr[data-added]:hover > td,
+.table > tbody > tr[data-added]:hover > th {
+  background-color: var(--color-diff-added);
+}
+
+.table > tbody > tr[data-removed] > td,
+.table > tbody > tr[data-removed] > th {
+  background-color: var(--color-diff-removed-light);
+}
+
+.table > tbody > tr[data-removed]:hover > td,
+.table > tbody > tr[data-removed]:hover > th {
+  background-color: var(--color-diff-removed);
+}
+
+.button {
   /* remove button styles */
   font: inherit;
   margin: 0;
@@ -55,6 +81,35 @@
   background: none;
   cursor: pointer;
   color: inherit;
+}
+
+.sortButton {
+  composes: button;
+
+  display: block;
+  width: calc(100% + 32px);
+  margin: -8px -16px;
+  padding: 8px 16px;
+  text-align: inherit;
+  border-radius: 2px;
+}
+
+.sortIcon {
+  color: var(--color-text-muted);
+  margin-left: 8px;
+}
+
+.sortButton:hover .sortIcon {
+  color: var(--color-text);
+}
+
+.sortButton:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus);
+}
+
+.sort {
+  composes: button;
 
   /* make room for the arrows */
   min-height: 16px;
@@ -85,11 +140,11 @@
   composes: sort;
 }
 
-.sortAsc:after {
+.sortAsc:before {
   border-color: currentColor transparent
 }
 
-.sortDesc:before {
+.sortDesc:after {
   border-color: currentColor transparent
 }
 
@@ -101,7 +156,7 @@
 .wrapper {
   overflow: clip;
   width: calc(100% + 32px);
-  margin: 0 -16px;
+  margin: 0 -16px 16px;
   padding: 0 16px;
 }
 

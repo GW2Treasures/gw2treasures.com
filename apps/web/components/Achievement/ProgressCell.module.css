@@ -1,0 +1,26 @@
+.cell {
+  position: relative;
+}
+
+.cell::before {
+  content: '';
+  display: block;
+  position: absolute;
+  inset: 6px 8px 6px 0;
+  background-color: var(--color-diff-added);
+  width: calc(var(--progress) * (100% - 16px));
+  min-width: 4px;
+  border-radius: 2px;
+  pointer-events: none;
+  transition: width .3s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: fill .3s ease-out;
+}
+
+@keyframes fill {
+  from { opacity: 0; }
+}
+
+.content {
+  position: relative;
+  padding-right: 16px;
+}

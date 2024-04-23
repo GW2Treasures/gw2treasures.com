@@ -1,0 +1,8 @@
+kind: ConfigMap
+apiVersion: v1
+
+metadata:
+  name: legacy-importer
+
+data:
+  legacy_db: mysql://gw2treasures:3c09b766-101c-4500-9f25-33450753e88a@db:3306/gw2treasures

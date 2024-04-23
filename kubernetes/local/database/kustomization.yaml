@@ -1,0 +1,6 @@
+commonLabels:
+  app.kubernetes.io/component: database
+  app.kubernetes.io/name: database-pg16
+
+resources:
+- configMap.yaml

@@ -1,20 +1,20 @@
 import Link from 'next/link';
-import { Gw2Api } from 'gw2-api-types';
+import type { Gw2Api } from 'gw2-api-types';
 import { DiffLayout, DiffLayoutHeader, DiffLayoutRow } from '@/components/Layout/DiffLayout';
 import { EntityIcon } from '@/components/Entity/EntityIcon';
 import { parseIcon } from '@/lib/parseIcon';
 import { FormatDate } from '@/components/Format/FormatDate';
 import { Fact } from '@/components/Skill/SkillTooltip';
-import { Notice } from '@/components/Notice/Notice';
+import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import { format } from 'gw2-tooltip-html';
-import { Separator } from '@/components/Layout/Separator';
+import { Separator } from '@gw2treasures/ui/components/Layout/Separator';
 import { Json } from '@/components/Format/Json';
 import { notFound } from 'next/navigation';
 import { Fragment } from 'react';
 import { db } from '@/lib/prisma';
-import { remember } from '@/lib/remember';
+import { cache } from '@/lib/cache';
 
-const getRevisions = remember(60, async function getRevisions(idA: string, idB: string) {
+const getRevisions = cache(async (idA: string, idB: string) => {
   const [a, b] = await Promise.all([
     db?.revision.findUnique({ where: { id: idA }}),
     db?.revision.findUnique({ where: { id: idB }}),
@@ -25,7 +25,7 @@ const getRevisions = remember(60, async function getRevisions(idA: string, idB: 
   }
 
   return { a, b };
-});
+}, ['skill-revisions-compare']);
 
 async function SkillDiffPage({ params }: { params: { a: string, b: string }}) {
   const idA = params.a.toString();
@@ -51,8 +51,8 @@ async function SkillDiffPage({ params }: { params: { a: string, b: string }}) {
         dataA.name,
         dataB.name,
       ]} subtitle={[
-        <Fragment key="a"><FormatDate date={a.createdAt} data-superjson/> (<Link href={`/build/${a.buildId}`}>Build {a.buildId}</Link>) ▪ <Link href={`/skill/${dataA.id}/${a.id}`}>View revision</Link></Fragment>,
-        <Fragment key="b"><FormatDate date={b.createdAt} data-superjson/> (<Link href={`/build/${b.buildId}`}>Build {b.buildId}</Link>) ▪ <Link href={`/skill/${dataB.id}/${b.id}`}>View revision</Link></Fragment>,
+        <Fragment key="a"><FormatDate date={a.createdAt}/> (<Link href={`/build/${a.buildId}`}>Build {a.buildId}</Link>) ▪ <Link href={`/skill/${dataA.id}/${a.id}`}>View revision</Link></Fragment>,
+        <Fragment key="b"><FormatDate date={b.createdAt}/> (<Link href={`/build/${b.buildId}`}>Build {b.buildId}</Link>) ▪ <Link href={`/skill/${dataB.id}/${b.id}`}>View revision</Link></Fragment>,
       ]}/>
 
       {dataA.id !== dataB.id && (
@@ -83,7 +83,7 @@ async function SkillDiffPage({ params }: { params: { a: string, b: string }}) {
         return (<DiffLayoutRow key={index} left={left && <Fact fact={left}/>} right={right && <Fact fact={right}/>}/>);
       })}
       <DiffLayoutRow left={<Separator/>} right={<Separator/>}/>
-      <DiffLayoutRow left={<Json data={dataA}/>} right={<Json data={dataB}/>} changed/>
+      <DiffLayoutRow left={<Json data={dataA} borderless/>} right={<Json data={dataB} borderless/>} changed/>
     </DiffLayout>
   );
 };
@@ -147,3 +147,7 @@ function diffFacts<T>(left: T[] | undefined, right: T[] | undefined): { left?: T
 }
 
 export default SkillDiffPage;
+
+export const metadata = {
+  title: 'Compare Skills'
+};

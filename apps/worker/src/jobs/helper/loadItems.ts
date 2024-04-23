@@ -1,6 +1,6 @@
 import { Gw2Api } from 'gw2-api-types';
 import { fetchApi } from './fetchApi';
-import { groupEntitiesById } from './groupById';
+import { groupLocalizedEntitiesById } from './groupById';
 
 export async function loadItems(ids: number[]) {
   const start = new Date();
@@ -14,7 +14,7 @@ export async function loadItems(ids: number[]) {
 
   console.log(`Fetched ${ids.length} items in ${(new Date().valueOf() - start.valueOf()) / 1000}s`);
 
-  return groupEntitiesById(de, en, es, fr);
+  return groupLocalizedEntitiesById(de, en, es, fr);
 }
 
 function normalizeItem(item: Gw2Api.Item): Gw2Api.Item {
@@ -25,6 +25,10 @@ function normalizeItem(item: Gw2Api.Item): Gw2Api.Item {
   // stabilize random order of "upgrades_from"
   if(item.upgrades_from !== undefined) {
     item.upgrades_from = item.upgrades_from?.sort((a, b) => a.item_id - b.item_id);
+  }
+  // remove `"secondary_suffix_item_id": ""`
+  if(typeof item.details?.secondary_suffix_item_id === 'string' && item.details.secondary_suffix_item_id === '') {
+    delete item.details.secondary_suffix_item_id;
   }
 
   return item;

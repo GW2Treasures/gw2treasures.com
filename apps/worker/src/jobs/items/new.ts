@@ -25,6 +25,9 @@ export const ItemsNew: Job = {
       const achievementBit = await db.achievement.findMany({ where: { bitsItemIds: { has: id }}, select: { id: true }});
       const achievementReward = await db.achievement.findMany({ where: { rewardsItemIds: { has: id }}, select: { id: true }});
       const suffixIn = await db.item.findMany({ where: { suffixItemIds: { has: id }}, select: { id: true }});
+      const recipeOutput = await db.recipe.findMany({ where: { outputItemIdRaw: id }, select: { id: true }});
+      const wizardsVaultListing = await db.wizardsVaultListing.findMany({ where: { itemIdRaw: id }, select: { id: true }});
+      // TODO: recipe ingredients
 
       await db.item.create({
         data: {
@@ -44,10 +47,12 @@ export const ItemsNew: Job = {
           currentId_fr: revisions.fr.id,
           history: { createMany: { data: [{ revisionId: revisions.de.id }, { revisionId: revisions.en.id }, { revisionId: revisions.es.id }, { revisionId: revisions.fr.id }] }},
 
+          // connect to existing entities
           achievementBits: { connect: achievementBit },
           achievementRewards: { connect: achievementReward },
-
-          suffixIn: { connect: suffixIn }
+          suffixIn: { connect: suffixIn },
+          recipeOutput: { connect: recipeOutput },
+          wizardsVaultListings: { connect: wizardsVaultListing },
         }
       });
     }

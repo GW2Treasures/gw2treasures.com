@@ -20,10 +20,10 @@ export async function processAchievementCategories(buildId: number) {
         continue;
       }
 
-      const revision_de = await db.revision.create({ data: { data: fixupDetails(achievementCategory.data_de), entity: 'AchievementCategory', language: 'de', buildId, description: 'Imported - No earlier history available' }});
-      const revision_en = await db.revision.create({ data: { data: fixupDetails(achievementCategory.data_en), entity: 'AchievementCategory', language: 'en', buildId, description: 'Imported - No earlier history available' }});
-      const revision_es = await db.revision.create({ data: { data: fixupDetails(achievementCategory.data_es), entity: 'AchievementCategory', language: 'es', buildId, description: 'Imported - No earlier history available' }});
-      const revision_fr = await db.revision.create({ data: { data: fixupDetails(achievementCategory.data_fr), entity: 'AchievementCategory', language: 'fr', buildId, description: 'Imported - No earlier history available' }});
+      const revision_de = await db.revision.create({ data: { data: fixupDetails(achievementCategory.data_de), entity: 'AchievementCategory', language: 'de', buildId, description: 'Imported - No earlier history available', schema: '' }});
+      const revision_en = await db.revision.create({ data: { data: fixupDetails(achievementCategory.data_en), entity: 'AchievementCategory', language: 'en', buildId, description: 'Imported - No earlier history available', schema: '' }});
+      const revision_es = await db.revision.create({ data: { data: fixupDetails(achievementCategory.data_es), entity: 'AchievementCategory', language: 'es', buildId, description: 'Imported - No earlier history available', schema: '' }});
+      const revision_fr = await db.revision.create({ data: { data: fixupDetails(achievementCategory.data_fr), entity: 'AchievementCategory', language: 'fr', buildId, description: 'Imported - No earlier history available', schema: '' }});
 
       const data: Gw2Api.Achievement.Category = JSON.parse(achievementCategory.data_en);
 

@@ -3,16 +3,12 @@
   flex-direction: column;
   height: 100%;
   gap: 8px;
-}
-
-.output {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  justify-content: center;
+  align-items: flex-start;
 }
 
 .unlock {
   display: flex;
   flex-direction: column;
+  line-height: 1;
 }

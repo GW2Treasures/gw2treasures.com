@@ -1,17 +1,17 @@
 'use client';
 
-import { DropDown } from '@/components/DropDown/DropDown';
+import { DropDown } from '@gw2treasures/ui/components/DropDown/DropDown';
 import { Button } from '@gw2treasures/ui/components/Form/Button';
 import { Radiobutton } from '@gw2treasures/ui/components/Form/Radiobutton';
 import { FormatConfigDialog } from '@/components/Format/FormatConfigDialog';
-import { MenuList } from '@/components/MenuList/MenuList';
+import { MenuList } from '@gw2treasures/ui/components/Layout/MenuList';
 import { Icon } from '@gw2treasures/ui';
-import { FC, useCallback, useState } from 'react';
-import { Separator } from '../Separator';
+import { type FC, useCallback, useState } from 'react';
+import { Separator } from '@gw2treasures/ui/components/Layout/Separator';
 import styles from '../Layout.module.css';
 import { useRouter } from 'next/navigation';
 import { useLanguage } from '@/components/I18n/Context';
-import { Language } from '@gw2treasures/database';
+import type { Language } from '@gw2treasures/database';
 
 export interface LanguageDropdownProps {
   // TODO: add props
@@ -41,7 +41,7 @@ export const LanguageDropdown: FC<LanguageDropdownProps> = ({ }) => {
   return (
     <>
       <DropDown hideTop={false} preferredPlacement="bottom" button={(
-        <Button appearance="menu">
+        <Button appearance="menu" aria-label={localeName}>
           <Icon icon="locale"/><span className={styles.responsive}> {localeName}</span>
         </Button>
       )}

@@ -2,6 +2,8 @@
   display: flex;
   padding: 12px 16px;
   align-items: center;
+  text-decoration: none;
+  transition: background-color .3s ease;
 }
 
 .statusRow + .statusRow {
@@ -9,12 +11,18 @@
 }
 
 .statusRow:hover {
-  text-decoration: none;
   background-color: var(--color-background-light);
+  transition: background-color .15s ease;
+}
+
+.statusTitle {
+  text-decoration: 2px underline transparent;
+  transition: text-decoration-color .3s ease;
 }
 
 .statusRow:hover .statusTitle {
-  text-decoration: 2px underline;
+  text-decoration-color: currentColor;
+  transition: text-decoration-color .15s ease;
 }
 
 .statusDescription {
@@ -42,7 +50,7 @@
 
 .error {
   composes: status;
-  background-color: #ff0000;
+  background-color: var(--color-error);
 }
 
 .success {

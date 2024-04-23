@@ -125,7 +125,6 @@ jobs:
       with:
         version: v1.26
         github-token: ${{ secrets.GITHUB_TOKEN }}
-        k3d-args: --k3s-arg "--no-deploy=traefik@server:*"
     - name: Pull docker images
       run: |
         DOCKER_PREFIX=ghcr.io/${{ github.repository }}

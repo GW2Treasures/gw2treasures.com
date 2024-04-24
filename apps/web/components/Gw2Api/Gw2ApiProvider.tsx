@@ -111,7 +111,6 @@ export const Gw2ApiProvider: FC<Gw2ApiProviderProps> = ({ children }) => {
   return (
     <Gw2ApiContext.Provider value={value}>
       {children}
-      {JSON.stringify({ missingScopes, grantedScopes })}
       {(error === ErrorCode.NOT_LOGGED_IN) && (
         <div className={styles.dialog}>
           Login to gw2treasures.com to access your Guild Wars 2 accounts.

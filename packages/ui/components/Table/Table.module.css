@@ -163,6 +163,7 @@
 .wrapperOverflow {
   composes: wrapper;
   overflow-x: scroll;
+  will-change: scroll-position;
 }
 
 .wrapperOverflow > .table > thead > tr > th { position: static; }

@@ -14,14 +14,14 @@ export const TableWrapper: FC<TableWrapperProps> = ({ children }) => {
   const table = useRef<HTMLElement>(null);
 
   const checkOverflow = useCallback(() => {
-    console.log('check overflow');
     setIsOverflowing(() => wrapper.current ? wrapper.current.clientWidth < wrapper.current.scrollWidth : false);
   }, []);
 
   // check overflow on mount
   useLayoutEffect(checkOverflow, [checkOverflow]);
 
-  // use a resize observer to subscribe to size changes the inner table
+  // use a resize observer to subscribe to size changes the wrapper and inner table
+  useResizeObserver(wrapper, checkOverflow);
   useResizeObserver(table, checkOverflow);
 
   return (

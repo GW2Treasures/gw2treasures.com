@@ -1,32 +1,32 @@
 'use client';
 
-import { useCallback, useEffect, useLayoutEffect, useRef, useState, type FC, type ReactNode } from 'react';
+import { Children, cloneElement, useCallback, useLayoutEffect, useRef, useState, type FC, type ReactElement, type ReactNode } from 'react';
 import styles from './Table.module.css';
+import { useResizeObserver } from '../../lib/hooks/resize-observer';
 
 export interface TableWrapperProps {
-  children: ReactNode;
+  children: ReactElement;
 };
 
 export const TableWrapper: FC<TableWrapperProps> = ({ children }) => {
   const [isOverflowing, setIsOverflowing] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
+  const wrapper = useRef<HTMLDivElement>(null);
+  const table = useRef<HTMLElement>(null);
 
   const checkOverflow = useCallback(() => {
-    setIsOverflowing(() => ref.current ? ref.current.clientWidth < ref.current.scrollWidth : false);
+    console.log('check overflow');
+    setIsOverflowing(() => wrapper.current ? wrapper.current.clientWidth < wrapper.current.scrollWidth : false);
   }, []);
 
+  // check overflow on mount
   useLayoutEffect(checkOverflow, [checkOverflow]);
 
-  useEffect(() => {
-    // TODO: replace with resize observer
-    window.addEventListener('resize', checkOverflow, { passive: true });
-
-    return () => window.removeEventListener('resize', checkOverflow);
-  });
+  // use a resize observer to subscribe to size changes the inner table
+  useResizeObserver(table, checkOverflow);
 
   return (
-    <div className={isOverflowing ? styles.wrapperOverflow : styles.wrapper} ref={ref}>
-      {children}
+    <div className={isOverflowing ? styles.wrapperOverflow : styles.wrapper} ref={wrapper}>
+      {cloneElement(Children.only(children), { ref: table })}
     </div>
   );
 };

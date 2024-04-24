@@ -1,6 +1,7 @@
 import type { FC, ReactNode, ThHTMLAttributes } from 'react';
 import styles from './Table.module.css';
 import { Icon } from '../../icons';
+import { TableWrapper } from './TableWrapper';
 
 export interface TableProps {
   children: ReactNode;
@@ -17,11 +18,11 @@ export interface HeaderCellProps {
 }
 
 const Table: FC<TableProps> & { HeaderCell: FC<HeaderCellProps> } = ({ children, width = 'page' }) => (
-  <div className={styles.wrapper}>
+  <TableWrapper>
     <table className={width === 'page' ? styles.table : styles.tableAuto}>
       {children}
     </table>
-  </div>
+  </TableWrapper>
 );
 
 Table.HeaderCell = function HeaderCell({ children, small = false, align, sort, onSort }) {

@@ -160,10 +160,16 @@
   padding: 0 16px;
 }
 
+.wrapperOverflow {
+  composes: wrapper;
+  overflow-x: scroll;
+  will-change: scroll-position;
+}
+
+.wrapperOverflow > .table > thead > tr > th { position: static; }
+
 @media(max-width: 760px) {
-  .wrapper { overflow-x: auto; }
   .table { width: max-content; min-width: 100%; }
-  .table > thead > tr > th { position: static; }
 }
 
 .small {

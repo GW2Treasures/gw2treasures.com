@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState, type FC, type ReactNode } from 'react';
 import styles from './HorizontalOverflowContainer.module.css';
 import { Icon, cx } from '@gw2treasures/ui';
+import { useResizeObserver } from '@gw2treasures/ui/lib/hooks/resize-observer';
 
 export interface HorizontalOverflowContainerProps {
   children: ReactNode
@@ -27,23 +28,12 @@ export const HorizontalOverflowContainer: FC<HorizontalOverflowContainerProps> =
     }
   }, []);
 
-  useEffect(() => {
-    if(!content.current) {
-      return;
-    }
-
+  useResizeObserver(content, () => {
     const element = content.current;
 
-    const handler = () => {
-      setCanScrollLeft(element.scrollLeft > 0);
-      setCanScrollRight(element.scrollLeft < element.scrollWidth - element.offsetWidth);
-    };
-
-    const observer = new ResizeObserver(handler);
-    observer.observe(element);
-
-    return () => observer.disconnect();
-  }, []);
+    setCanScrollLeft(element ? element.scrollLeft > 0 : false);
+    setCanScrollRight(element ? element.scrollLeft < element.scrollWidth - element.offsetWidth : false);
+  });
 
   useEffect(() => {
     if(!content.current || (!canScrollLeft && !canScrollRight)) {

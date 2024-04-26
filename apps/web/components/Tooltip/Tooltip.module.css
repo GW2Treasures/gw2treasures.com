@@ -7,4 +7,5 @@
   z-index: 10;
   pointer-events: none;
   box-shadow: var(--shadow);
+  will-change: transform;
 }

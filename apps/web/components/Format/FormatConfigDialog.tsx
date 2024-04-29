@@ -1,5 +1,5 @@
 import { type FC, useMemo } from 'react';
-import { Dialog } from '../Dialog/Dialog';
+import { Dialog } from '@gw2treasures/ui/components/Dialog/Dialog';
 import { Label } from '@gw2treasures/ui/components/Form/Label';
 import { Select } from '@gw2treasures/ui/components/Form/Select';
 import { useLanguage } from '../I18n/Context';

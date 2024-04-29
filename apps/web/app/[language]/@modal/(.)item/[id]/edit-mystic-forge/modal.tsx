@@ -1,6 +1,6 @@
 'use client';
 
-import { Dialog } from '@/components/Dialog/Dialog';
+import { Dialog } from '@gw2treasures/ui/components/Dialog/Dialog';
 import { usePathname, useRouter } from 'next/navigation';
 import { useRef, type FC, type ReactNode } from 'react';
 

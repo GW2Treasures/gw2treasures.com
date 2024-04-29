@@ -1,8 +1,8 @@
 import { FloatingFocusManager, FloatingOverlay, FloatingPortal, useDismiss, useFloating, useInteractions, useRole, useTransitionStyles } from '@floating-ui/react';
-import { Icon } from '@gw2treasures/ui';
+import { Icon } from '../../icons';
 import { type FC, type ReactNode, useId } from 'react';
 import styles from './Dialog.module.css';
-import { TableOfContentContext } from '@gw2treasures/ui/components/TableOfContent/TableOfContent';
+import { TableOfContentContext } from '../TableOfContent/TableOfContent';
 
 export interface DialogProps {
   children: ReactNode

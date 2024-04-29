@@ -1,6 +1,6 @@
 'use client';
 
-import { Dialog } from '@/components/Dialog/Dialog';
+import { Dialog } from '@gw2treasures/ui/components/Dialog/Dialog';
 import { ItemLink } from '@/components/Item/ItemLink';
 import type { LocalizedEntity } from '@/lib/localizedName';
 import { toggleArray } from '@/lib/toggleArray';
@@ -25,7 +25,7 @@ import { CurrencyLink } from '@/components/Currency/CurrencyLink';
 import { Coins } from '@/components/Format/Coins';
 import { FormatNumber } from '@/components/Format/FormatNumber';
 import { CurrencyValue } from '@/components/Currency/CurrencyValue';
-import { DialogActions } from '@/components/Dialog/DialogActions';
+import { DialogActions } from '@gw2treasures/ui/components/Dialog/DialogActions';
 
 export interface EditContentsProps {
   appearance?: ButtonProps['appearance'];

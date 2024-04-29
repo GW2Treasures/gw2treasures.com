@@ -4,7 +4,7 @@ import type { LocalizedEntity } from '@/lib/localizedName';
 import type { WithIcon } from '@/lib/with';
 import type { Item } from '@gw2treasures/database';
 import { type FC, useState } from 'react';
-import { Dialog } from '../Dialog/Dialog';
+import { Dialog } from '@gw2treasures/ui/components/Dialog/Dialog';
 import { TextInput } from '@gw2treasures/ui/components/Form/TextInput';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { useDebounce } from '@/lib/useDebounce';

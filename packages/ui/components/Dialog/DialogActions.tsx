@@ -1,4 +1,4 @@
-import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
+import { FlexRow } from '../Layout/FlexRow';
 import type { FC, ReactNode } from 'react';
 import styles from './Dialog.module.css';
 

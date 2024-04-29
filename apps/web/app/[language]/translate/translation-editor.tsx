@@ -1,6 +1,6 @@
 'use client';
 
-import { Dialog } from '@/components/Dialog/Dialog';
+import { Dialog } from '@gw2treasures/ui/components/Dialog/Dialog';
 import { Code } from '@/components/Layout/Code';
 import type { TranslationId } from '@/lib/translate';
 import { Language } from '@gw2treasures/database';

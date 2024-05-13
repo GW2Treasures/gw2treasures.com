@@ -17,8 +17,14 @@ export type FetchAccountSuccessResponse = {
 };
 
 export interface Gw2Account {
-  id: string,
+  id: string;
   name: string;
+  verified?: boolean;
+  displayName?: string | null;
+}
+
+export interface Gw2AccountWithHidden extends Gw2Account {
+  hidden: boolean;
 }
 
 export type FetchAccountResponse = ErrorResponse | FetchAccountSuccessResponse;

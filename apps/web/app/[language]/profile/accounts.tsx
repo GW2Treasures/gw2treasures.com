@@ -16,7 +16,7 @@ export const Accounts: FC<AccountsProps> = async ({}) => {
         <form action={reauthorize.bind(null, [], undefined)}>
           <p>Authorize gw2treasures.com to view your progress.</p>
           <FlexRow>
-            <SubmitButton type="submit" icon="gw2me-outline">Authorize</SubmitButton>
+            <SubmitButton icon="gw2me-outline">Authorize</SubmitButton>
           </FlexRow>
         </form>
       ) : (
@@ -29,7 +29,7 @@ export const Accounts: FC<AccountsProps> = async ({}) => {
           </List>
 
           <FlexRow>
-            <SubmitButton type="submit" icon="gw2me-outline">Manage Accounts</SubmitButton>
+            <SubmitButton icon="gw2me-outline">Manage Accounts</SubmitButton>
           </FlexRow>
         </form>
       )}

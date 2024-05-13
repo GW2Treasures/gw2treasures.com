@@ -59,7 +59,7 @@ export const DropDown: FC<DropDown> = ({ children, button, preferredPlacement = 
 
   return (
     <>
-      {cloneElement(Children.only(button), { ref: refs.setReference, ...getReferenceProps(button.props) })}
+      {cloneElement(Children.only(button), { ref: refs.setReference, ...getReferenceProps({ ...button.props, onClick: (e) => e.preventDefault() }) })}
       {isMounted && (
         <FloatingPortal>
           <div

@@ -7,6 +7,13 @@ import styles from '../Layout.module.css';
 import 'server-only';
 import { Trans } from '@/components/I18n/Trans';
 import { getTranslate } from '@/lib/translate';
+import { DropDown } from '@gw2treasures/ui/components/DropDown/DropDown';
+import { MenuList } from '@gw2treasures/ui/components/Layout/MenuList';
+import { Separator } from '@gw2treasures/ui/components/Layout/Separator';
+import { SubmitButton } from '@gw2treasures/ui/components/Form/Buttons/SubmitButton';
+import { reauthorize } from '@/components/Gw2Api/reauthorize';
+import { useGw2Accounts } from '@/components/Gw2Api/use-gw2-accounts';
+import { UserButtonAccounts } from './UserButtonAccounts';
 
 
 // exported suspended wrapper around the actual button
@@ -39,9 +46,34 @@ interface UserButtonButtonProps {
 const UserButtonButton: FC<UserButtonButtonProps> = ({ user }) => {
   const t = getTranslate();
 
-  return (
-    <LinkButton appearance="menu" href={user ? '/profile' : '/login'} aria-label={user === 'loading' ? undefined : user ? user.name : t('login')}>
-      <Icon icon="user"/><span className={styles.responsive}> {user === 'loading' ? <Skeleton width={90}/> : user ? user.name : <Trans id="login"/>}</span>
+  if(!user) {
+    return (
+      <LinkButton appearance="menu" href="/login" aria-label={t('login')}>
+        <Icon icon="user"/><span className={styles.responsive}> <Trans id="login"/></span>
+      </LinkButton>
+    );
+  }
+
+  const button = (
+    <LinkButton appearance="menu" href="/profile" aria-label={user === 'loading' ? undefined : user.name}>
+      <Icon icon="user"/><span className={styles.responsive}> {user === 'loading' ? <Skeleton width={90}/> : user.name}</span>
     </LinkButton>
+  );
+
+  return (
+    <DropDown hideTop={false} button={button} preferredPlacement="bottom">
+      <MenuList>
+        <LinkButton appearance="menu" href="/profile" icon="user">Profile</LinkButton>
+        {user !== 'loading' && user.roles.includes('Admin') && (
+          <LinkButton icon="developer" appearance="menu" href="/admin/users">Admin</LinkButton>
+        )}
+        <LinkButton appearance="menu" href="/logout" icon="logout">Logout</LinkButton>
+        <Separator/>
+        <form action={reauthorize.bind(null, [], 'consent')}>
+          <SubmitButton icon="gw2me-outline" appearance="menu">Manage Accounts</SubmitButton>
+        </form>
+        <UserButtonAccounts/>
+      </MenuList>
+    </DropDown>
   );
 };

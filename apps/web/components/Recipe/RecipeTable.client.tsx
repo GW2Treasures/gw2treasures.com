@@ -10,6 +10,7 @@ import { Button } from '@gw2treasures/ui/components/Form/Button';
 import { MenuList } from '@gw2treasures/ui/components/Layout/MenuList';
 import { Checkbox } from '@gw2treasures/ui/components/Form/Checkbox';
 import { Separator } from '@gw2treasures/ui/components/Layout/Separator';
+import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 
 const allDisciplines: Discipline[] = [ 'Armorsmith', 'Artificer', 'Chef', 'Huntsman', 'Jeweler', 'Leatherworker', 'Scribe', 'Tailor', 'Weaponsmith' ];
 
@@ -90,8 +91,10 @@ export const RecipeTableDisciplineFilter: FC<RecipeTableDisciplineFilterProps> =
         <Separator/>
         {allDisciplines.map((discipline) => (
           <Checkbox key={discipline} checked={disciplines.includes(discipline)} onChange={() => setDisciplines(toggleArray(disciplines, discipline))}>
-            <DisciplineIcon discipline={discipline}/> {discipline}
-            <span style={{ marginLeft: 'auto', paddingLeft: 16, opacity: !recipeIndexByDiscipline[discipline] ? 0.5 : 1 }}>{recipeIndexByDiscipline[discipline]?.length ?? 0}</span>
+            <FlexRow align="space-between">
+              <span><DisciplineIcon discipline={discipline}/> {discipline}</span>
+              <span style={{ paddingLeft: 8, color: !recipeIndexByDiscipline[discipline] ? 'var(--color-text-muted)' : undefined }}>{recipeIndexByDiscipline[discipline]?.length ?? 0}</span>
+            </FlexRow>
           </Checkbox>
         ))}
       </MenuList>

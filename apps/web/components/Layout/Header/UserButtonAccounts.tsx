@@ -6,6 +6,8 @@ import { Skeleton } from '@/components/Skeleton/Skeleton';
 import { Checkbox } from '@gw2treasures/ui/components/Form/Checkbox';
 import { Scope } from '@gw2me/client';
 import { Gw2ApiContext, type GetAccountsOptions } from '@/components/Gw2Api/Gw2ApiContext';
+import { Icon } from '@gw2treasures/ui';
+import { Button } from '@gw2treasures/ui/components/Form/Button';
 
 interface UserButtonAccountsProps {
   // TODO: define props
@@ -20,7 +22,7 @@ export const UserButtonAccounts: FC<UserButtonAccountsProps> = ({ }) => {
   const { setHidden } = useContext(Gw2ApiContext);
 
   if(accounts.loading) {
-    return (<div style={{ padding: '8px 16px' }}><Skeleton/></div>);
+    return (<Button appearance="menu" disabled icon="loading">Loading accounts…</Button>);
   } else if(accounts.error) {
     return (<div style={{ padding: '8px 16px', color: 'var(--color-error)' }}>Error loading accounts</div>);
   }

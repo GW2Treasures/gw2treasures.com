@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 import type { Gw2Account } from './types';
 
 interface Gw2AccountNameProps {

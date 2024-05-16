@@ -4,7 +4,9 @@ export function useInterval(callback: () => void, durationMs: number) {
   const ref = useRef(callback);
 
   // update ref to callback
-  useEffect(() => ref.current = callback, [callback]);
+  useEffect(() => {
+    ref.current = callback;
+  }, [callback]);
 
   useEffect(() => {
     // call callback once at start

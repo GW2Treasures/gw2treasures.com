@@ -42,7 +42,8 @@ type Cache = {
 
 type SubscriptionContext<T extends SubscriptionType> = (type: T, accountId: string, callback: SubscriptionCallback<T>) => CancelSubscription;
 
-const context = createContext<SubscriptionContext<SubscriptionType>>(() => () => {});
+const subscriptionContext = createContext<SubscriptionContext<SubscriptionType>>(() => () => {});
+const hasActiveSubscriptionContext = createContext(false);
 
 function hasType<T extends SubscriptionType>(type: T) {
   return (subscription: ActiveSubscription<SubscriptionType>): subscription is ActiveSubscription<T> => subscription.type === type;
@@ -219,14 +220,16 @@ export const Gw2AccountSubscriptionProvider: FC<Gw2AccountSubscriptionProviderPr
   }, []);
 
   return (
-    <context.Provider value={subscribe}>
-      {children}
-    </context.Provider>
+    <subscriptionContext.Provider value={subscribe}>
+      <hasActiveSubscriptionContext.Provider value={activeSubscriptions.length > 0}>
+        {children}
+      </hasActiveSubscriptionContext.Provider>
+    </subscriptionContext.Provider>
   );
 };
 
 export function useSubscribe<T extends SubscriptionType>(type: T, accountId: string, callback: SubscriptionCallback<T>) {
-  const subscribe = useContext(context);
+  const subscribe = useContext(subscriptionContext);
 
   useEffect(
     () => subscribe(type, accountId, callback),
@@ -242,6 +245,10 @@ export function useSubscription<T extends SubscriptionType>(type: T, accountId: 
   useSubscribe(type, accountId, setData);
 
   return data === undefined ? { loading: true } : { loading: false, ...data };
+}
+
+export function usePageHasActiveSubscriptions() {
+  return useContext(hasActiveSubscriptionContext);
 }
 
 function useInterval(active: boolean = false, seconds: number, callback: () => void) {

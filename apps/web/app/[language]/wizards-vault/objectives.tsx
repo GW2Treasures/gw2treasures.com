@@ -61,10 +61,10 @@ export const WizardVaultObjectives: FC<WizardVaultObjectivesProps> = ({ objectiv
         <thead>
           <tr>
             <th>Account</th>
-            <th align="right">Astral Acclaim</th>
             <th align="right">Daily</th>
             <th align="right">Weekly</th>
             <th align="right">Special</th>
+            <th align="right">Astral Acclaim</th>
           </tr>
         </thead>
         <tbody>
@@ -78,17 +78,17 @@ export const WizardVaultObjectives: FC<WizardVaultObjectivesProps> = ({ objectiv
           ))}
           <tr className={styles.rowSection}>
             <td>Rewards</td>
-            <td align="right"/>
             <td align="right"><AstralAcclaim value={20}/></td>
             <td align="right"><AstralAcclaim value={450}/></td>
             <td align="right">-</td>
+            <td align="right"/>
           </tr>
           <tr>
             <td>Reset</td>
-            <td align="right"/>
             <td align="right"><ResetTimer reset="current-daily"/></td>
             <td align="right"><ResetTimer reset="current-weekly"/></td>
             <td align="right">-</td>
+            <td align="right"/>
           </tr>
         </tbody>
       </Table>
@@ -124,10 +124,10 @@ const AccountOverviewRow: FC<AccountObjectivesProps> = ({ account }) => {
   return (
     <tr key={account.id}>
       <td><Gw2AccountName account={account}/></td>
-      <td align="right">{wallet.loading ? <Skeleton/> : wallet.error ? '?' : <AstralAcclaim value={wallet.data.find(({ id }) => id === ASTRAL_ACCLAIM_ID)?.value ?? 0}/>}</td>
       <td align="right">{wizardsVault.data.daily ? <>{wizardsVault.data.daily.meta_reward_claimed && <Tip tip="Reward claimed"><Icon icon="checkmark"/></Tip>} {wizardsVault.data.daily.meta_progress_current} / {wizardsVault.data.daily.meta_progress_complete}</> : <Tip tip="Account has not logged in since last reset."><span>0 / ?</span></Tip> }</td>
       <td align="right">{wizardsVault.data.weekly ? <>{wizardsVault.data.weekly.meta_reward_claimed && <Tip tip="Reward claimed"><Icon icon="checkmark"/></Tip>} {wizardsVault.data.weekly.meta_progress_current} / {wizardsVault.data.weekly.meta_progress_complete}</> : <Tip tip="Account has not logged in since last reset."><span>0 / ?</span></Tip> }</td>
       <td align="right">{wizardsVault.data.special ? <>{wizardsVault.data.special.objectives.filter(({ claimed }) => claimed).length} / {wizardsVault.data.special.objectives.length}</> : <Tip tip="Account has not logged in since last reset."><span>0 / ?</span></Tip>}</td>
+      <td align="right">{wallet.loading ? <Skeleton/> : wallet.error ? '?' : <AstralAcclaim value={wallet.data.find(({ id }) => id === ASTRAL_ACCLAIM_ID)?.value ?? 0}/>}</td>
     </tr>
   );
 };

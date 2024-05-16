@@ -21,6 +21,7 @@ import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { SubmitButton } from '@gw2treasures/ui/components/Form/Buttons/SubmitButton';
 import { reauthorize } from '@/components/Gw2Api/reauthorize';
 import { Waypoint } from '@/components/Waypoint/Waypoint';
+import { Gw2AccountName } from '@/components/Gw2Api/Gw2AccountName';
 
 export interface WizardVaultObjectivesProps {
   objectiveWaypoints: Record<number, number>,
@@ -94,7 +95,7 @@ export const WizardVaultObjectives: FC<WizardVaultObjectivesProps> = ({ objectiv
 
       {!accounts.loading && !accounts.error && accounts.accounts.map((account) => (
         <Fragment key={account.id}>
-          <Headline id={account.id}>{account.name}</Headline>
+          <Headline id={account.id}><Gw2AccountName account={account} long/></Headline>
           <AccountObjectiveDetails account={account} objectiveWaypoints={objectiveWaypoints}/>
         </Fragment>
       ))}
@@ -114,7 +115,7 @@ const AccountOverviewRow: FC<AccountObjectivesProps> = ({ account }) => {
   if(wizardsVault.loading || wizardsVault.error) {
     return (
       <tr key={account.id}>
-        <td>{account.name} {wizardsVault.loading && <Icon icon="loading"/>}</td>
+        <td><Gw2AccountName account={account}/> {wizardsVault.loading && <Icon icon="loading"/>}</td>
         <td colSpan={4} align="right">{!wizardsVault.loading && wizardsVault.error && <span style={{ color: 'red' }}>Error loading Wizard&apos;s Vault progress from Guild Wars 2 API</span>}</td>
       </tr>
     );
@@ -122,7 +123,7 @@ const AccountOverviewRow: FC<AccountObjectivesProps> = ({ account }) => {
 
   return (
     <tr key={account.id}>
-      <td>{account.name}</td>
+      <td><Gw2AccountName account={account}/></td>
       <td align="right">{wallet.loading ? <Skeleton/> : wallet.error ? '?' : <AstralAcclaim value={wallet.data.find(({ id }) => id === ASTRAL_ACCLAIM_ID)?.value ?? 0}/>}</td>
       <td align="right">{wizardsVault.data.daily ? <>{wizardsVault.data.daily.meta_reward_claimed && <Tip tip="Reward claimed"><Icon icon="checkmark"/></Tip>} {wizardsVault.data.daily.meta_progress_current} / {wizardsVault.data.daily.meta_progress_complete}</> : <Tip tip="Account has not logged in since last reset."><span>0 / ?</span></Tip> }</td>
       <td align="right">{wizardsVault.data.weekly ? <>{wizardsVault.data.weekly.meta_reward_claimed && <Tip tip="Reward claimed"><Icon icon="checkmark"/></Tip>} {wizardsVault.data.weekly.meta_progress_current} / {wizardsVault.data.weekly.meta_progress_complete}</> : <Tip tip="Account has not logged in since last reset."><span>0 / ?</span></Tip> }</td>

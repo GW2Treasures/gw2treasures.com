@@ -14,6 +14,7 @@ import { useSubscription } from '@/components/Gw2Api/Gw2AccountSubscriptionProvi
 import { Scope } from '@gw2me/client';
 import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
+import { Gw2AccountName } from '@/components/Gw2Api/Gw2AccountName';
 
 export interface TierTableProps {
   achievement: Gw2Api.Achievement;
@@ -88,7 +89,7 @@ const TierTableAccountRow: FC<TierTableAccountRowProps> = ({ achievement, accoun
 
   return (
     <tr>
-      <th>{account.name}</th>
+      <th><Gw2AccountName account={account}/></th>
       {achievements.loading ? (
         <td colSpan={tiers.length + 1}><Skeleton/></td>
       ) : achievements.error ? (

@@ -42,6 +42,7 @@
     "client-only": "0.0.1",
     "d3-array": "3.2.4",
     "deepmerge": "4.3.1",
+    "eslint-plugin-react-compiler": "0.0.0-experimental-c8b3f72-20240517",
     "gw2-tooltip-html": "0.1.0",
     "gw2e-chat-codes": "1.4.2",
     "hast-util-to-jsx-runtime": "2.3.0",

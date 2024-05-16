@@ -67,7 +67,7 @@ const UserButtonButton: FC<UserButtonButtonProps> = ({ user }) => {
         {user !== 'loading' && user.roles.includes('Admin') && (
           <LinkButton icon="developer" appearance="menu" href="/admin/users">Admin</LinkButton>
         )}
-        <LinkButton appearance="menu" prefetch={false} href="/logout" icon="logout">Logout</LinkButton>
+        <LinkButton appearance="menu" external href="/logout" icon="logout">Logout</LinkButton>
         <Separator/>
         <form action={reauthorize.bind(null, [], 'consent')}>
           <SubmitButton icon="gw2me-outline" appearance="menu">Manage Accounts</SubmitButton>

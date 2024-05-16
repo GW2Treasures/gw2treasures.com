@@ -9,6 +9,7 @@ import { useSubscription } from '../Gw2Api/Gw2AccountSubscriptionProvider';
 import { Scope } from '@gw2me/client';
 import type { Achievement } from '@gw2treasures/database';
 import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
+import { Gw2AccountName } from '../Gw2Api/Gw2AccountName';
 
 const requiredScopes = [Scope.GW2_Progression];
 
@@ -27,7 +28,7 @@ export const AccountAchievementProgressHeader: FC<HeaderProps> = ({ }) => {
   const accounts = useGw2Accounts(requiredScopes);
 
   return !accounts.loading && !accounts.error && accounts.accounts.map((account) => (
-    <th key={account.name}>{account.name}</th>
+    <th key={account.id}><Gw2AccountName account={account}/></th>
   ));
 };
 

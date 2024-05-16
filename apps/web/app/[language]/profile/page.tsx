@@ -43,7 +43,7 @@ export default async function ProfilePage() {
   return (
     <HeroLayout hero={<Headline id="profile">{user.name}</Headline>} toc>
       <FlexRow>
-        <LinkButton external href="/logout">Logout</LinkButton>
+        <LinkButton external href="/logout" icon="logout">Logout</LinkButton>
         {user.roles.includes('Admin') && <LinkButton href="/admin/users">Admin</LinkButton>}
       </FlexRow>
 

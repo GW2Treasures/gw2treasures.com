@@ -8,6 +8,7 @@ import { useGw2Accounts } from '@/components/Gw2Api/use-gw2-accounts';
 import { Skeleton } from '@/components/Skeleton/Skeleton';
 import { Scope } from '@gw2me/client';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
+import { Gw2AccountName } from '@/components/Gw2Api/Gw2AccountName';
 
 interface WalletTableProps {
   currencyId: number;
@@ -57,7 +58,7 @@ export const WalletTableAccountRow: FC<WalletTableAccountRowProps> = ({ currency
 
   return (
     <tr>
-      <td>{account.name}</td>
+      <td><Gw2AccountName account={account}/></td>
       <td align="right">
         {wallet.loading ? (
           <Skeleton/>

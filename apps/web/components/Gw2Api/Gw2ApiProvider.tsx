@@ -1,7 +1,7 @@
 'use client';
 
-import { type FC, type ReactNode, useCallback, useMemo, useRef, useState, type MouseEventHandler } from 'react';
-import { Gw2ApiContext } from './Gw2ApiContext';
+import { type FC, type ReactNode, useCallback, useMemo, useRef, useState, type MouseEventHandler, useEffect } from 'react';
+import { Gw2ApiContext, type GetAccountsOptions } from './Gw2ApiContext';
 import { fetchAccounts } from './fetch-accounts-action';
 import { ErrorCode, type Gw2Account } from './types';
 import styles from './Gw2ApiProvider.module.css';
@@ -12,22 +12,26 @@ import { useUser } from '../User/use-user';
 import { SubmitButton } from '@gw2treasures/ui/components/Form/Buttons/SubmitButton';
 import type { Scope } from '@gw2me/client';
 import { useRouter } from 'next/navigation';
+import { useLocalStorageState } from '@/lib/useLocalStorageState';
 
 export interface Gw2ApiProviderProps {
   children: ReactNode;
 }
 
+const initialGrantedScopes: Scope[] = [];
+
 export const Gw2ApiProvider: FC<Gw2ApiProviderProps> = ({ children }) => {
   const accounts = useRef<[requestedScopes: Scope[], Promise<Gw2Account[]>]>();
   const [error, setError] = useState<ErrorCode>();
-  const [grantedScopes, setGrantedScopes] = useState<Scope[]>([]);
+  const [grantedScopes, setGrantedScopes] = useState<Scope[]>(initialGrantedScopes);
   const [missingScopes, setMissingScopes] = useState<Scope[]>([]);
   const [dismissed, setDismissed] = useState(false);
   const { user, loading: loadingUser } = useUser();
   const router = useRouter();
+  const [hiddenAccounts, setHiddenAccounts] = useLocalStorageState<string[]>('accounts.hidden', []);
 
   // eslint-disable-next-line require-await
-  const getAccounts = useCallback(async (requiredScopes: Scope[], optionalScopes: Scope[] = []) => {
+  const getAccounts = useCallback(async (requiredScopes: Scope[], optionalScopes: Scope[] = [], { includeHidden = false }: GetAccountsOptions = {}) => {
     // if the current user is not yet loaded or we SSR
     if(loadingUser || typeof window === 'undefined') {
       return [];
@@ -47,6 +51,9 @@ export const Gw2ApiProvider: FC<Gw2ApiProviderProps> = ({ children }) => {
     // get previous (pending) request
     const [requestedScopes, pendingPromise] = accounts.current ?? [[] as Scope[], undefined];
 
+    const filterHiddenAccounts = (accounts: Gw2Account[]) => accounts
+      .map((account) => ({ ...account, hidden: hiddenAccounts.includes(account.id) }))
+      .filter((account) => !account.hidden || includeHidden);
 
     // if there was no previous request yet or we need more permissions
     if(!pendingPromise || !requiredScopes.every((required) => requestedScopes.includes(required))) {
@@ -76,7 +83,7 @@ export const Gw2ApiProvider: FC<Gw2ApiProviderProps> = ({ children }) => {
       // store request so subsequent calls return the same promise
       accounts.current = [combinedScopes, promise];
 
-      return promise;
+      return promise.then(filterHiddenAccounts);
     }
 
     const missingOptionalScopes = optionalScopes.filter((scope) => !requestedScopes.includes(scope));
@@ -84,8 +91,8 @@ export const Gw2ApiProvider: FC<Gw2ApiProviderProps> = ({ children }) => {
       setMissingScopes((missingScopes) => Array.from(new Set([...missingScopes, ...missingOptionalScopes])));
     }
 
-    return pendingPromise;
-  }, [dismissed, loadingUser, user]);
+    return pendingPromise.then(filterHiddenAccounts);
+  }, [dismissed, hiddenAccounts, loadingUser, user]);
 
   const handleDismiss = useCallback(() => {
     setError(undefined);
@@ -105,8 +112,12 @@ export const Gw2ApiProvider: FC<Gw2ApiProviderProps> = ({ children }) => {
   // const scopes = useStablePrimitiveArray(grantedScopes);
   const scopes = grantedScopes;
 
+  const setHidden = useCallback((id: string, hidden: boolean) => {
+    setHiddenAccounts((hiddenAccounts) => hidden ? [...hiddenAccounts, id] : hiddenAccounts.filter((accountId) => accountId !== id));
+  }, [setHiddenAccounts]);
+
   // make sure the context value only changes if getAccounts or error changes
-  const value = useMemo(() => ({ getAccounts, error, scopes }), [getAccounts, scopes, error]);
+  const value = useMemo(() => ({ getAccounts, setHidden, error, scopes }), [getAccounts, setHidden, scopes, error]);
 
   return (
     <Gw2ApiContext.Provider value={value}>
@@ -122,7 +133,7 @@ export const Gw2ApiProvider: FC<Gw2ApiProviderProps> = ({ children }) => {
           </div>
         </div>
       )}
-      {(error === ErrorCode.REAUTHORIZE || error === ErrorCode.MISSING_PERMISSION || missingScopes.some((scope) => !grantedScopes.includes(scope))) && (
+      {(error === ErrorCode.REAUTHORIZE || error === ErrorCode.MISSING_PERMISSION || (missingScopes.some((scope) => !grantedScopes.includes(scope)) && !dismissed && grantedScopes !== initialGrantedScopes)) && (
         <form className={styles.dialog} action={reauthorize.bind(null, missingScopes, undefined)}>
           Authorize gw2treasures.com to access your Guild Wars 2 accounts.
           <div>

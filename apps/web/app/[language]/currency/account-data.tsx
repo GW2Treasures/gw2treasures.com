@@ -6,8 +6,8 @@ import { useGw2Accounts } from '@/components/Gw2Api/use-gw2-accounts';
 import { Scope } from '@gw2me/client';
 import { useSubscription } from '@/components/Gw2Api/Gw2AccountSubscriptionProvider';
 import { Skeleton } from '@/components/Skeleton/Skeleton';
-import { FormatNumber } from '@/components/Format/FormatNumber';
 import { CurrencyValue } from '@/components/Currency/CurrencyValue';
+import { Gw2AccountName } from '@/components/Gw2Api/Gw2AccountName';
 
 const requiredScopes = [Scope.GW2_Wallet];
 
@@ -15,7 +15,7 @@ export const AccountHeader: FC<HeaderProps> = ({ }) => {
   const accounts = useGw2Accounts(requiredScopes);
 
   return !accounts.loading && !accounts.error && accounts.accounts.map((account) => (
-    <th align="right" key={account.name}>{account.name}</th>
+    <th align="right" key={account.id}><Gw2AccountName account={account}/></th>
   ));
 };
 

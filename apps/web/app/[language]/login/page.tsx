@@ -86,7 +86,7 @@ function getScopesFromString(scopeString?: string) {
   const validScopes: string[] = Object.values(Scope);
 
   // default scopes that are always requested
-  const scopes = new Set([Scope.Identify, Scope.Email]);
+  const scopes = new Set([Scope.Identify]);
 
   // parse scopes
   const parsedScopes = scopeString?.split(',') ?? [];

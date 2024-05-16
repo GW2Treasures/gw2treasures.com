@@ -46,8 +46,8 @@ export const WizardVaultObjectives: FC<WizardVaultObjectivesProps> = ({ objectiv
         <Notice>
           <Link href={loginUrl}>Login</Link> to see your personal Wizard&apos;s Vault objectives and progress.
         </Notice>
-      ) : !accounts.loading && !accounts.error && accounts.accounts.length === 0 && (
-        <form action={reauthorize.bind(null, requiredScopes, undefined)}>
+      ) : !accounts.loading && !accounts.error && requiredScopes.some((scope) => !accounts.scopes.includes(scope)) && (
+        <form action={reauthorize.bind(null, [...requiredScopes, ...optionalScopes], undefined)}>
           <Notice>
             <FlexRow wrap>
               Authorize gw2treasures.com to see your personal Wizard&apos;s Vault objectives and progress.

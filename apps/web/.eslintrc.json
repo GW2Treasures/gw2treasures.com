@@ -1,6 +1,6 @@
 {
   "extends": "next/core-web-vitals",
-  "plugins": ["@typescript-eslint", "@gw2treasures/nextjs"],
+  "plugins": ["@typescript-eslint", "@gw2treasures/nextjs", "eslint-plugin-react-compiler"],
 
   "rules": {
     // `"foo"` → `'foo'`
@@ -110,7 +110,10 @@
     "require-await": "warn",
 
     // require dependencies to be in package.json
-    "import/no-extraneous-dependencies": "error"
+    "import/no-extraneous-dependencies": "error",
+
+    // react-compiler
+    "react-compiler/react-compiler": "error"
   },
   "overrides": [
     {

@@ -83,37 +83,35 @@ export const Gw2AccountSubscriptionProvider: FC<Gw2AccountSubscriptionProviderPr
     return accountIds;
   }, []);
 
-  useInterval(activeTypes.achievements, 60, useCallback(async () => {
-    // get all achievement subscriptions
-    const subscriptions = activeSubscriptions.filter(hasType('achievements'));
+  const fetchData = async <T extends SubscriptionType>(type: T, callback: (accessToken: string) => Promise<SubscriptionData<T>>) => {
+    // get all subscriptions for the type
+    const subscriptions = activeSubscriptions.filter(hasType(type));
 
     const accountIds = await getAccountIds(subscriptions);
 
-    // fetch achievement progress for each account
-    const data = await Promise.all(accountIds.map(async (accountId): Promise<SubscriptionResponse<'achievements'> & { accountId: string }> => {
+    // fetch data for each account
+    const data: (SubscriptionResponse<T> & { accountId: string })[] = await Promise.all(accountIds.map(async (accountId) => {
       // get token from cache
       const accessToken = accessTokenCache.current[accountId];
 
       // check if token is valid
-      if(!accessToken || accessToken.expiresAt < new Date()) {
-        setCache('achievements', accountId, { error: true });
+      if (!accessToken || accessToken.expiresAt < new Date()) {
+        setCache(type, accountId, { error: true });
         return { accountId, error: true };
       }
 
-      // call gw2 api
-      const response = await fetch(`https://api.guildwars2.com/v2/account/achievements?access_token=${accessToken.accessToken}`, { redirect: 'manual' });
-
-      // check if response is ok
-      if(!response.ok) {
-        setCache('achievements', accountId, { error: true });
+      // call specific API based on the provided fetchFunction
+      let data;
+      try {
+        data = await callback(accessToken.accessToken);
+      } catch(e) {
+        console.error(e);
+        setCache(type, accountId, { error: true });
         return { accountId, error: true };
       }
-
-      // get response content
-      const data: Gw2ApiAccountProgression = await response.json();
 
       // add to cache
-      setCache('achievements', accountId, { error: false, data });
+      setCache(type, accountId, { error: false, data });
 
       return { accountId, error: false, data };
     }));
@@ -123,82 +121,11 @@ export const Gw2AccountSubscriptionProvider: FC<Gw2AccountSubscriptionProviderPr
     for(const subscription of subscriptions) {
       subscription.callback(dataByAccount.get(subscription.accountId)!);
     }
-  }, [activeSubscriptions, getAccountIds]));
+  };
 
-  useInterval(activeTypes.wallet, 60, useCallback(async () => {
-    // get all wallet subscriptions
-    const subscriptions = activeSubscriptions.filter(hasType('wallet'));
-
-    const accountIds = await getAccountIds(subscriptions);
-
-    // fetch wallet for each account
-    const data = await Promise.all(accountIds.map(async (accountId): Promise<SubscriptionResponse<'wallet'> & { accountId: string }> => {
-      // get token from cache
-      const accessToken = accessTokenCache.current[accountId];
-
-      // check if token is valid
-      if(!accessToken || accessToken.expiresAt < new Date()) {
-        setCache('wallet', accountId, { error: true });
-        return { accountId, error: true };
-      }
-
-      // call gw2 api
-      const response = await fetch(`https://api.guildwars2.com/v2/account/wallet?access_token=${accessToken.accessToken}`, { redirect: 'manual' });
-
-      // check if response is ok
-      if(!response.ok) {
-        setCache('wallet', accountId, { error: true });
-        return { accountId, error: true };
-      }
-
-      // get response content
-      const data: AccountWallet = await response.json();
-
-      // add to cache
-      setCache('wallet', accountId, { error: false, data });
-
-      return { accountId, error: false, data };
-    }));
-
-    const dataByAccount = new Map(data.map(({ accountId, ...data }) => [accountId, data]));
-
-    for(const subscription of subscriptions) {
-      subscription.callback(dataByAccount.get(subscription.accountId)!);
-    }
-  }, [activeSubscriptions, getAccountIds]));
-
-  useInterval(activeTypes['wizards-vault'], 60, useCallback(async () => {
-    // get all achievement subscriptions
-    const subscriptions = activeSubscriptions.filter(hasType('wizards-vault'));
-
-    const accountIds = await getAccountIds(subscriptions);
-
-    // fetch achievement progress for each account
-    const data = await Promise.all(accountIds.map(async (accountId): Promise<SubscriptionResponse<'wizards-vault'> & { accountId: string }> => {
-      // get token from cache
-      const accessToken = accessTokenCache.current[accountId];
-
-      // check if token is valid
-      if(!accessToken || accessToken.expiresAt < new Date()) {
-        setCache('wizards-vault', accountId, { error: true });
-        return { accountId, error: true };
-      }
-
-      // call gw2 api
-      const data = await loadAccountsWizardsVault(accessToken.accessToken, 'en');
-
-      // add to cache
-      setCache('wizards-vault', accountId, { error: false, data });
-
-      return { accountId, error: false, data };
-    }));
-
-    const dataByAccount = new Map(data.map(({ accountId, ...data }) => [accountId, data]));
-
-    for(const subscription of subscriptions) {
-      subscription.callback(dataByAccount.get(subscription.accountId)!);
-    }
-  }, [activeSubscriptions, getAccountIds]));
+  useInterval(activeTypes.achievements, 60, fetchData.bind(null, 'achievements', achievementFetch));
+  useInterval(activeTypes.wallet, 60, fetchData.bind(null, 'wallet', walletFetch));
+  useInterval(activeTypes['wizards-vault'], 10, fetchData.bind(null, 'wizards-vault', wizardsVaultFetch));
 
   const subscribe = useCallback(<T extends SubscriptionType>(type: T, accountId: string, callback: SubscriptionCallback<T>): CancelSubscription => {
     const subscription = { type, accountId, callback };
@@ -285,6 +212,19 @@ function useRefTo<T>(to: T): MutableRefObject<T> {
   return ref;
 }
 
+const fetchJson = async <T extends unknown = unknown>(url: string): Promise<T> => {
+  const response = await fetch(url, { redirect: 'manual', cache: 'no-cache' });
+  if(!response.ok) {
+    throw new Error('Bad response');
+  }
+
+  return response.json();
+};
+
+const achievementFetch = (accessToken: string) => fetchJson(`https://api.guildwars2.com/v2/account/achievements?access_token=${accessToken}`) as Promise<Gw2ApiAccountProgression>;
+const walletFetch = (accessToken: string) => fetchJson(`https://api.guildwars2.com/v2/account/wallet?access_token=${accessToken}`) as Promise<AccountWallet>;
+const wizardsVaultFetch = (accessToken: string) => loadAccountsWizardsVault(accessToken, 'en');
+
 type Gw2ApiAccountProgression = {
   id: number,
   current: number,
@@ -328,16 +268,16 @@ interface WizardsProgress {
 }
 
 async function loadAccountsWizardsVault(subtoken: string, lang: Language): Promise<AccountWizardsVaultData> {
-  const account: AccountWizardsVaultData['account'] = await fetch(`https://api.guildwars2.com/v2/account?v=2019-02-21T00:00:00.000Z&access_token=${subtoken}`, { cache: 'no-cache' }).then((r) => r.json());
+  const account = await fetchJson<AccountWizardsVaultData['account']>(`https://api.guildwars2.com/v2/account?v=2019-02-21T00:00:00.000Z&access_token=${subtoken}`);
 
   const lastModified = new Date(account.last_modified);
   const lastModifiedToday = lastModified > getResetDate('last-daily');
   const lastModifiedThisWeek = lastModified > getResetDate('last-weekly');
 
   const [daily, weekly, special, acclaim] = await Promise.all([
-    lastModifiedToday ? fetch(`https://api.guildwars2.com/v2/account/wizardsvault/daily?v=2019-02-21T00:00:00.000Z&lang=${lang}&access_token=${subtoken}`, { cache: 'no-cache' }).then((r) => r.ok ? r.json() : undefined) as Promise<WizardsProgress | undefined> : undefined,
-    lastModifiedThisWeek ? fetch(`https://api.guildwars2.com/v2/account/wizardsvault/weekly?v=2019-02-21T00:00:00.000Z&lang=${lang}&access_token=${subtoken}`, { cache: 'no-cache' }).then((r) => r.ok ? r.json() : undefined) as Promise<WizardsProgress | undefined> : undefined,
-    fetch(`https://api.guildwars2.com/v2/account/wizardsvault/special?v=2019-02-21T00:00:00.000Z&lang=${lang}&access_token=${subtoken}`, { cache: 'no-cache' }).then((r) => r.ok ? r.json() : undefined) as Promise<WizardsProgress | undefined>,
+    lastModifiedToday ? fetchJson<WizardsProgress>(`https://api.guildwars2.com/v2/account/wizardsvault/daily?v=2019-02-21T00:00:00.000Z&lang=${lang}&access_token=${subtoken}`) : undefined,
+    lastModifiedThisWeek ? fetchJson<WizardsProgress>(`https://api.guildwars2.com/v2/account/wizardsvault/weekly?v=2019-02-21T00:00:00.000Z&lang=${lang}&access_token=${subtoken}`) : undefined,
+    fetchJson<WizardsProgress>(`https://api.guildwars2.com/v2/account/wizardsvault/special?v=2019-02-21T00:00:00.000Z&lang=${lang}&access_token=${subtoken}`),
     // TODO: needs wallet permission
     // fetch(`https://api.guildwars2.com/v2/account/wallet?v=2019-02-21T00:00:00.000Z&access_token=${subtoken}`).then((r) => r.json()).then((wallet) => wallet.find((currency: any) => currency.id === 63)?.value) as Promise<number>,
     0

@@ -1,24 +1,8 @@
 #!/usr/bin/env ts-node
-
 import { mkdir, readFile, readdir, writeFile } from 'fs/promises';
 import { rimraf } from 'rimraf';
-import { transform, Config } from '@svgr/core';
 import { join } from 'path';
-
-const svgrConfig: Config = {
-  ref: true,
-  plugins: ['@svgr/plugin-jsx'],
-  jsx: {
-    babelConfig: {
-      plugins: [
-        ['@babel/plugin-transform-react-jsx', { runtime: 'automatic' }]
-      ]
-    }
-  },
-  template: (variables, { tpl }) => {
-    return tpl`(${variables.props}) => (${variables.jsx})`;
-  }
-};
+import svgo from 'svgo';
 
 async function build() {
   // 1. clean
@@ -40,35 +24,34 @@ async function build() {
   for(const file of iconFiles) {
     const componentName = file.split('.')[0];
 
-    const content = await readFile(join('icons', file), { encoding: 'utf-8' });
+    const input = await readFile(join('icons', file), { encoding: 'utf-8' });
+    let output = svgo.optimize(input, {
+      plugins: [
+        'preset-default',
+        'removeDimensions',
+        'removeXMLNS'
+      ],
+    }).data;
+    output = output.replace(/^<svg/, `<symbol id="${componentName}"`);
+    output = output.replace(/<\/svg>/, '</symbol>');
 
-    const jsCode = await transform(content, svgrConfig, { componentName, filePath: file });
-
-    icons[componentName] = jsCode.replace(`var _reactJsxRuntime = require("react/jsx-runtime");
-`, '').replace(/;$/, '');
-
-    //await writeFile(join('dist', componentName + '.jsx'), jsCode);
+    icons[componentName] = output;
   }
 
-  const output = `import React from 'react';
-import _reactJsxRuntime from 'react/jsx-runtime';
+  const js = `export const icons=[${Object.keys(icons).map((name) => `'${name}'`).join(',')}]`;
+  await writeFile(join('dist', 'index.js'), js);
 
-export const icons = {\n${Object.entries(icons)
-  .map(([key, value]) => `  '${key}': React.forwardRef(${value})`)
-  .join(',\n')
-}\n};`
+  await writeFile(join('dist', 'sprite.svg'), '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><defs>\n' + Object.values(icons).join('\n') + '\n</defs></svg>');
 
-  writeFile(join('dist', 'index.js'), output);
 
   console.log('Build types file...');
   const index = `
-export type IconName = ${iconFiles.map((name) => `'${name.split('.')[0]}'`).join('|')};
+export type IconName = ${Object.keys(icons).map((name) => `'${name}'`).join('|')};
 export type IconProp = IconName | JSX.Element;
-export const icons: Record<IconName, FunctionComponent<SVGProps<SVGSVGElement>>>;
+export const icons: IconName[];
 `;
 
   await writeFile(join('dist', 'index.d.ts'), index);
-
 }
 
 build();

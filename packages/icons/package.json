@@ -1,12 +1,18 @@
 {
   "name": "@gw2treasures/icons",
-  "version": "0.0.19",
+  "version": "0.1.0",
   "description": "Icons for gw2treasures.com",
-  "main": "dist/index.js",
-  "types": "dist/index.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./sprite.svg": {
+      "default": "./dist/sprite.svg"
+    }
+  },
   "files": [
-    "dist/",
-    "styles.css"
+    "dist/"
   ],
   "scripts": {
     "build": "ts-node build",
@@ -27,12 +33,10 @@
   },
   "homepage": "https://github.com/GW2Treasures/gw2treasures.com#readme",
   "devDependencies": {
-    "@babel/plugin-transform-react-jsx": "7.23.4",
     "@gw2treasures/tsconfig": "*",
-    "@svgr/core": "8.1.0",
-    "@svgr/plugin-jsx": "8.1.0",
     "@types/node": "20.12.12",
     "rimraf": "5.0.5",
+    "svgo": "3.3.2",
     "ts-node": "10.9.2"
   },
   "peerDependencies": {

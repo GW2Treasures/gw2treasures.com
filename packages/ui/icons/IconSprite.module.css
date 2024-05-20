@@ -1,17 +1,17 @@
-.gw2treasures-icons__loading__path {
-  animation: gw2treasures-icons__loading_rotate 1s ease-in-out infinite;
+.loading {
+  animation: rotate 1s ease-in-out infinite;
   will-change: transform;
   transform-origin: center center;
 }
 
 @media (prefers-reduced-motion) {
-  .gw2treasures-icons__loading__path {
+  .loading {
     animation-timing-function: linear;
     animation-duration: 3s;
   }
 }
 
-@keyframes gw2treasures-icons__loading_rotate {
+@keyframes rotate {
   0% { transform: rotate(0); }
   100% { transform: rotate(1turn); }
 }

@@ -22,7 +22,7 @@ export const getItem = cache((id: number, language: Language) => {
       achievementRewards: { select: linkPropertiesWithoutRarity, orderBy: { id: 'asc' }},
       contains: { include: { contentItem: { select: { ...linkProperties, vendorValue: true, level: true, type: true, subtype: true }}}},
       containsCurrency: { include: { currency: { select: linkPropertiesWithoutRarity }}},
-      wizardsVaultListings: true,
+      wizardsVaultListings: { where: { removedFromApi: false }},
       mysticForgeIngredient: { include: { Recipe: { include: { itemIngredients: { include: { Item: { select: linkProperties }}}, outputItem: { select: linkProperties }}}}},
       mysticForgeRecipeOutput: { include: { itemIngredients: { include: { Item: { select: linkProperties }}}}},
       _count: {

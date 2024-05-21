@@ -1,10 +1,11 @@
 import { ItemTable } from '@/components/ItemTable/ItemTable';
 import { ItemTableColumnsButton } from '@/components/ItemTable/ItemTableColumnsButton';
 import { ItemTableContext } from '@/components/ItemTable/ItemTableContext';
+import { db } from '@/lib/prisma';
 import type { Item } from '@gw2treasures/database';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 
-export function SimilarItems({ item }: { item: Item }) {
+export async function SimilarItems({ item }: { item: Item }) {
   const query = {
     where: {
       id: { not: item.id },
@@ -26,6 +27,12 @@ export function SimilarItems({ item }: { item: Item }) {
       ]
     }
   };
+
+  const count = await db.item.count(query);
+
+  if(count === 0) {
+    return null;
+  }
 
   return (
     <ItemTableContext id="similarItems">

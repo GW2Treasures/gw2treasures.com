@@ -15,8 +15,15 @@ import { LinkButton } from '@gw2treasures/ui/components/Form/Button';
 
 export default async function WizardsVaultPage() {
   const [listings, objectiveWaypoints] = await Promise.all([
-    db.wizardsVaultListing.findMany({ include: { item: { select: linkProperties }}, orderBy: { type: 'asc' }}),
-    db.wizardsVaultObjective.findMany({ where: { waypointId: { not: null }}, select: { id: true, waypointId: true }}).then((waypoints) => waypoints.reduce<Record<number, number>>((map, objective) => ({ ...map, [objective.id]: objective.waypointId! }), {})),
+    db.wizardsVaultListing.findMany({
+      where: { removedFromApi: false },
+      include: { item: { select: linkProperties }},
+      orderBy: { type: 'asc' }
+    }),
+    db.wizardsVaultObjective.findMany({
+      where: { waypointId: { not: null }},
+      select: { id: true, waypointId: true }
+    }).then((waypoints) => waypoints.reduce<Record<number, number>>((map, objective) => ({ ...map, [objective.id]: objective.waypointId! }), {})),
     pageView('wizards-vault')
   ]);
 

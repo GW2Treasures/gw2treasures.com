@@ -13,9 +13,9 @@ import { ParentSize } from '@visx/responsive';
 import { scaleLinear, scaleTime } from '@visx/scale';
 import { Bar, Circle, Line, LinePath } from '@visx/shape';
 import { Threshold } from '@visx/threshold';
-import { Tooltip, TooltipWithBounds, useTooltip } from '@visx/tooltip';
+import { Tooltip, TooltipWithBounds as TooltipWithBoundsReact18, useTooltip } from '@visx/tooltip';
 import { bisector, extent } from 'd3-array';
-import React, { useMemo, type FC, type MouseEvent, type TouchEvent, useState, useId, type ReactNode, useRef, type KeyboardEventHandler, useCallback, startTransition } from 'react';
+import React, { useMemo, type FC, type MouseEvent, type TouchEvent, useState, useId, type ReactNode, useRef, type KeyboardEventHandler, useCallback, startTransition, type ComponentClass } from 'react';
 import tipStyles from '@gw2treasures/ui/components/Tip/Tip.module.css';
 import styles from './trading-post-history.module.css';
 import { Checkbox } from '@gw2treasures/ui/components/Form/Checkbox';
@@ -30,6 +30,10 @@ import { RectClipPath } from '@visx/clip-path';
 import type { AccessorForArrayItem } from '@visx/shape/lib/types';
 import { useLocalStorageState } from '@/lib/useLocalStorageState';
 import { CookieNotification } from '@/components/User/CookieNotification';
+import type { TooltipWithBoundsProps } from '@visx/tooltip/lib/tooltips/TooltipWithBounds';
+
+// override types of TooltipWithBounds for react@19 compatibility
+const TooltipWithBounds = TooltipWithBoundsReact18 as unknown as ComponentClass<TooltipWithBoundsProps>;
 
 export interface TradingPostHistoryClientProps {
   history: TradingPostHistory[]

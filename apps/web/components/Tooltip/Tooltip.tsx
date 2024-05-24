@@ -1,11 +1,11 @@
 'use client';
 
 import { autoUpdate, flip, FloatingPortal, offset, shift, useClick, useClientPoint, useDismiss, useFloating, useHover, useInteractions, useMergeRefs, useRole, useTransitionStyles } from '@floating-ui/react';
-import { Children, cloneElement, type FC, type ReactElement, type ReactNode, type Ref, useMemo, useRef, useState } from 'react';
+import { Children, cloneElement, type FC, type ReactElement, type ReactNode, type Ref, useMemo, useRef, useState, type HTMLProps } from 'react';
 import styles from './Tooltip.module.css';
 
 export interface TooltipProps {
-  children: ReactElement & { ref?: Ref<unknown> };
+  children: ReactElement<HTMLProps<HTMLElement>>;
   content: ReactNode;
 };
 
@@ -47,7 +47,7 @@ export const Tooltip: FC<TooltipProps> = ({ children, content }) => {
 
   const { styles: transitionStyles, isMounted } = useTransitionStyles(context);
 
-  const ref = useMergeRefs(children.ref ? [refs.setReference, children.ref] : [refs.setReference]);
+  const ref = useMergeRefs(children.props.ref ? [refs.setReference, children.props.ref] : [refs.setReference]);
 
   return (
     <>

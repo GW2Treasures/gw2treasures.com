@@ -1,11 +1,11 @@
 'use client';
 
-import { Children, cloneElement, useCallback, useLayoutEffect, useRef, useState, type FC, type ReactElement, type ReactNode } from 'react';
+import { Children, cloneElement, useCallback, useLayoutEffect, useRef, useState, type FC, type HTMLProps, type ReactElement, type ReactNode } from 'react';
 import styles from './Table.module.css';
 import { useResizeObserver } from '../../lib/hooks/resize-observer';
 
 export interface TableWrapperProps {
-  children: ReactElement;
+  children: ReactElement<HTMLProps<HTMLElement>>;
 };
 
 export const TableWrapper: FC<TableWrapperProps> = ({ children }) => {

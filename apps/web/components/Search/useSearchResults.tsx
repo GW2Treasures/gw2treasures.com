@@ -1,6 +1,6 @@
 import { getLinkProperties } from '@/lib/linkProperties';
 import type { ApiSearchResponse } from 'app/[language]/api/search/route';
-import { Fragment, type ReactElement, type ReactNode } from 'react';
+import { Fragment, type HTMLProps, type ReactElement, type ReactNode } from 'react';
 import { localizedName } from '@/lib/localizedName';
 import { useJsonFetch, useStaleJsonResponse } from '@/lib/useFetch';
 import { useLanguage } from '../I18n/Context';
@@ -29,7 +29,7 @@ export interface SearchResult {
   title: ReactNode;
   icon: ReactNode;
   subtitle?: ReactNode;
-  render?: (link: ReactElement) => ReactNode;
+  render?: (link: ReactElement<HTMLProps<HTMLElement>>) => ReactNode;
 }
 
 export function useSearchApiResults(searchValue: string, translations: TranslationSubset<typeof itemTypeTranslations.short[0] | `rarity.${Rarity}` | `weight.${Weight}`>) {

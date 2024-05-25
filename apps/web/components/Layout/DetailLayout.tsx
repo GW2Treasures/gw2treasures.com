@@ -29,7 +29,7 @@ const DetailLayout: FC<DetailLayoutProps> = ({ title, icon, breadcrumb, children
       <main className={[styles.main, className].filter(Boolean).join(' ')} style={color ? { '--hero-color': color } : undefined}>
         <div className={infobox ? styles.headline : styles.headlineWithoutInfobox}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          {icon && typeof icon === 'object' && (isValidElement<any>(icon) ? cloneElement(icon, { className: styles.icon }) : <EntityIcon icon={icon} size={48} className={styles.icon} type={iconType}/>)}
+          {icon && typeof icon === 'object' && (isValidElement<any>(icon) ? cloneElement<any>(icon, { className: styles.icon }) : <EntityIcon icon={icon} size={48} className={styles.icon} type={iconType}/>)}
           <h1 className={styles.title}>{title}</h1>
           {breadcrumb && <div className={styles.breadcrumb}>{breadcrumb}</div>}
           {actions && (

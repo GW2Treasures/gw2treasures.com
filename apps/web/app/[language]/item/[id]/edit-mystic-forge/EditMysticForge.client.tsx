@@ -9,8 +9,7 @@ import type { MysticForgeRecipe, Rarity } from '@gw2treasures/database';
 import { Button } from '@gw2treasures/ui/components/Form/Button';
 import { NumberInput } from '@gw2treasures/ui/components/Form/NumberInput';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
-import { useState, type FC, useCallback } from 'react';
-import { useFormState } from 'react-dom';
+import { useState, type FC, useCallback, useActionState } from 'react';
 import { submitEditMysticForge } from './action';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 
@@ -44,8 +43,7 @@ export const EditMysticForgeClient: FC<EditMysticForgeClientProps> = ({ outputIt
     setEditIngredient(undefined);
   }, [editIngredient, updateIngredient]);
 
-  // TODO: replace with `useActionState` and use isPending to disable button once `useActionState` is available in Next.js
-  const [formState, submit] = useFormState(submitEditMysticForge, undefined);
+  const [formState, submit, isPending] = useActionState(submitEditMysticForge, undefined);
 
   const handleSubmit = useCallback(() => {
     submit({
@@ -107,7 +105,7 @@ export const EditMysticForgeClient: FC<EditMysticForgeClientProps> = ({ outputIt
         </tbody>
       </Table>
       <DialogActions description="Your changes will be reviewed before they are applied.">
-        <Button onClick={handleSubmit}>Submit</Button>
+        <Button onClick={handleSubmit} disabled={isPending}>Submit</Button>
       </DialogActions>
     </>
   );

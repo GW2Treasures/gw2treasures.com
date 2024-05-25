@@ -177,7 +177,7 @@ function useInterval(active: boolean = false, seconds: number, callback: () => v
   const visibility = useVisibilityState();
   const visibilityRef = useRefTo(visibility);
 
-  const interval = useRef<ReturnType<typeof setInterval>>();
+  const interval = useRef<ReturnType<typeof setInterval>>(undefined);
 
   // start interval
   useEffect(() => {

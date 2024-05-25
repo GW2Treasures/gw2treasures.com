@@ -1,12 +1,12 @@
 'use client';
 
 import { arrow, autoUpdate, flip, hide, offset, type Placement, shift, type Side, size, useClick, useDismiss, useFloating, useFocus, useInteractions, useTransitionStyles, FloatingPortal } from '@floating-ui/react';
-import { Children, cloneElement, type FC, type ReactElement, type ReactNode, useRef, useState } from 'react';
+import { Children, cloneElement, type FC, type ReactElement, type ReactNode, useRef, useState, type Ref, type HTMLProps } from 'react';
 import styles from './DropDown.module.css';
 import { isTruthy } from '@gw2treasures/helper/is';
 
 export interface DropDown {
-  button: ReactElement;
+  button: ReactElement<HTMLProps<HTMLElement>>;
   children: ReactNode;
   preferredPlacement?: Placement;
   hideTop?: boolean;

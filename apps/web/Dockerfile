@@ -20,7 +20,7 @@ COPY --link .gitignore .gitignore
 COPY --link --from=source /source/out/json/ .
 COPY --link --from=source /source/out/package-lock.json package-lock.json
 
-RUN npm ci --include=dev
+RUN npm ci --include=dev --include=optional
 
 # Build application on BUILDPLATFORM for speed
 FROM --platform=$BUILDPLATFORM node:${node_version} AS builder
@@ -29,6 +29,8 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 ENV NEXT_TELEMETRY_DISABLED 1
 ENV CI true
+
+RUN npm install --os=linux --libc=musl --cpu=x64 sharp
 
 # copy dependencies and source
 COPY --link --from=dependencies /app .

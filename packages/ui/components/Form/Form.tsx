@@ -1,7 +1,6 @@
 'use client';
 
-import { type FC, type ReactNode, useCallback } from 'react';
-import { useFormState } from 'react-dom';
+import { type FC, type ReactNode, useCallback, useActionState } from 'react';
 import { Notice } from '../Notice/Notice';
 
 export interface FormState {
@@ -17,7 +16,7 @@ export interface FormProps<State> {
 }
 
 export const Form: FC<FormProps<FormState>> = ({ action, initialState, children, id }) => {
-  const [state, formAction] = useFormState(action, initialState ?? {});
+  const [state, formAction] = useActionState(action, initialState ?? {});
 
   const showNotice = useCallback((notice: HTMLElement | null) => {
     notice?.scrollIntoView({ block: 'nearest' });

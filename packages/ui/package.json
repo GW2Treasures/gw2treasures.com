@@ -33,19 +33,20 @@
     "server-only": "0.0.1"
   },
   "devDependencies": {
-    "@types/react": "18.3.3",
+    "@types/react": "npm:types-react@19.0.0-rc.0",
+    "@types/react-dom": "npm:types-react-dom@19.0.0-rc.0",
     "@typescript-eslint/eslint-plugin": "7.10.0",
     "eslint": "8.57.0",
-    "eslint-config-next": "14.2.3",
+    "eslint-config-next": "15.0.0-rc.0",
     "typescript": "5.4.5"
   },
   "peerDependencies": {
     "@gw2treasures/helper": "~0.0.4",
     "@gw2treasures/icons": "~0.1.0",
     "@gw2treasures/tsconfig": "~0.0.1",
-    "next": "^13.4.0 || ^14.0.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "next": "^13.4.0 || ^14.0.0 || 15.0.0-rc.0",
+    "react": "^18.2.0 || 19.0.0-rc-f994737d14-20240522",
+    "react-dom": "^18.2.0 || 19.0.0-rc-f994737d14-20240522"
   },
   "publishConfig": {
     "access": "public"

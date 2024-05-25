@@ -2,7 +2,8 @@ import type { CSSProperties, FC, ReactNode } from 'react';
 import styles from './HeroLayout.module.css';
 import { PageLayout } from './PageLayout';
 import { preload } from 'react-dom';
-import heroMask from './hero-mask.jpg';
+
+const heroMask = new URL('./hero-mask.jpg', import.meta.url).toString();
 
 export interface HeroLayoutProps {
   children: ReactNode;
@@ -14,7 +15,7 @@ export interface HeroLayoutProps {
 
 export const HeroLayout: FC<HeroLayoutProps> = ({ children, hero, color, toc, skipPreload }) => {
   if(!skipPreload) {
-    preload(heroMask.src, { as: 'image' });
+    preload(heroMask, { as: 'image' });
   }
 
   return (

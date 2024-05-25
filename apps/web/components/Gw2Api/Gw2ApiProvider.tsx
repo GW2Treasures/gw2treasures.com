@@ -21,7 +21,7 @@ export interface Gw2ApiProviderProps {
 const initialGrantedScopes: Scope[] = [];
 
 export const Gw2ApiProvider: FC<Gw2ApiProviderProps> = ({ children }) => {
-  const accounts = useRef<[requestedScopes: Scope[], Promise<Gw2Account[]>]>();
+  const accounts = useRef<[requestedScopes: Scope[], Promise<Gw2Account[]>]>(undefined);
   const [error, setError] = useState<ErrorCode>();
   const [grantedScopes, setGrantedScopes] = useState<Scope[]>(initialGrantedScopes);
   const [missingScopes, setMissingScopes] = useState<Scope[]>([]);

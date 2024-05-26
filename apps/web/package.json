@@ -25,7 +25,7 @@
     "@testing-library/react": "15.0.7",
     "@types/jest": "29.5.12",
     "@visx/axis": "3.10.1",
-    "@visx/brush": "3.6.1",
+    "@visx/brush": "3.10.4",
     "@visx/clip-path": "3.3.0",
     "@visx/curve": "3.3.0",
     "@visx/event": "3.3.0",

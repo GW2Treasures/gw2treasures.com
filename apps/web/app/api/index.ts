@@ -1,5 +1,5 @@
 import { headers } from 'next/headers';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse, unstable_after } from 'next/server';
 import { db } from '@/lib/prisma';
 import type { Language } from '@gw2treasures/database';
 import { getLanguage } from '@/lib/translate';
@@ -25,6 +25,7 @@ export interface CallbackResult<T = any> {
 export type PublicApiResponse<T = any> = CallbackResult<T> | PublicApiErrorResponse
 
 export function publicApi<DynamicRouteSegments extends string = never, ResponseType = any>(
+  endpoint: string,
   callback: (request: CallbackParams<DynamicRouteSegments>) => PublicApiResponse<ResponseType> | Promise<PublicApiResponse<ResponseType>>,
   { maxAge = 60 }: { maxAge?: number } = {}
 ): (
@@ -51,6 +52,14 @@ export function publicApi<DynamicRouteSegments extends string = never, ResponseT
         );
       }
 
+      // log request to database
+      await db.applicationApiRequest.create({
+        data: {
+          applicationId: application.id,
+          endpoint,
+        }
+      });
+
       const language = getLanguage();
 
       const searchParams = request.nextUrl.searchParams;
@@ -61,7 +70,6 @@ export function publicApi<DynamicRouteSegments extends string = never, ResponseT
 
       // TODO: add global cache here instead of caching inside the callback?
       const response = await callback({ params, searchParams: searchParamsAsObject, language });
-
 
       if(isPublicApiErrorResponse(response)) {
         return NextResponse.json(response, {

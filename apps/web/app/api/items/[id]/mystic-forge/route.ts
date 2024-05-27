@@ -42,6 +42,7 @@ const getMysticForgeRecipes = cache(async (id: number): Promise<PublicApiRespons
 }, ['api/items/:id/mystic-forge'], { revalidate: maxAge });
 
 export const GET = publicApi<'id'>(
+  '/items/:id/mystic-forge',
   ({ params: { id }}) => {
     const itemId = Number(id);
 

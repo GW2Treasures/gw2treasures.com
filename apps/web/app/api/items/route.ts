@@ -17,6 +17,7 @@ const getData = cache(async ({ rarity, type, subtype, weight }) => {
 }, ['api/items'], { revalidate: maxAge });
 
 export const GET = publicApi(
+  '/items',
   ({ searchParams: { rarity, type, subtype, weight }}) => getData({ rarity, type, subtype, weight }),
   { maxAge }
 );

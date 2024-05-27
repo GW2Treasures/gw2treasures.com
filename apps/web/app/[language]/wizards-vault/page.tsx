@@ -31,6 +31,12 @@ export default async function WizardsVaultPage() {
 
   return (
     <HeroLayout hero={<Headline id="wizards-vault">Wizard&apos;s Vault</Headline>} color="#ff9800" toc>
+      <Notice type="warning">
+        <b>Official API Issues</b><br/>
+        Since the release of <b>Secrets of the Obscure: The Midnight King</b> on May 21st the official API is not returning any current rewards and is very flaky for personal objectives.
+        Sorry for inconvenience, but there is nothing gw2treasures.com can do until the official API gets fixed by ArenaNet.
+      </Notice>
+
       <Headline id="objectives" actions={<LinkButton icon="chevron-right" href="/wizards-vault/objectives" appearance="tertiary">All Objectives</LinkButton>}>Objectives</Headline>
       <ErrorBoundary fallback={<Notice type="error">Unknown error</Notice>}>
         <WizardVaultObjectives objectiveWaypoints={objectiveWaypoints}/>

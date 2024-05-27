@@ -31,6 +31,7 @@ const getData = cache(async (id: number, language: Language): Promise<PublicApiR
 }, ['api/achievements/:id/data'], { revalidate: maxAge });
 
 export const GET = publicApi<'id'>(
+  '/achievements/:id/data',
   ({ language, params: { id }}) => {
     const achievementId = Number(id);
 

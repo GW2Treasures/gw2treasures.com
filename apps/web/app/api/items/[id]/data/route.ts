@@ -31,6 +31,7 @@ const getData = cache(async (id: number, language: Language): Promise<PublicApiR
 }, ['api/items/:id/data'], { revalidate: maxAge });
 
 export const GET = publicApi<'id'>(
+  '/items/:id/data',
   ({ language, params: { id }}) => {
     const itemId = Number(id);
 

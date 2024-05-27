@@ -1,44 +1,51 @@
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { PageLayout } from '@/components/Layout/PageLayout';
-import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { cache } from 'react';
 import { db } from '@/lib/prisma';
 import { FormatDate } from '@/components/Format/FormatDate';
 import { Code } from '@/components/Layout/Code';
+import { FormatNumber } from '@/components/Format/FormatNumber';
+import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
+import { ColumnSelect } from '@/components/Table/ColumnSelect';
 
 const getApplications = cache(() => {
+  const lastDay = new Date();
+  lastDay.setHours(lastDay.getHours() - 24);
+
   return db.application.findMany({
-    include: { owner: { select: { name: true }}}
+    include: {
+      owner: { select: { name: true }},
+      _count: { select: { requests: { where: { time: { gte: lastDay }}}}}
+    },
+    orderBy: { createdAt: 'asc' }
   });
 });
 
 export default async function AdminUserPage() {
   const apps = await getApplications();
+  const Apps = createDataTable(apps, ({ id }) => id);
 
   return (
     <PageLayout>
-      <Headline id="apps">Applications ({apps.length})</Headline>
+      <Headline id="apps" actions={<ColumnSelect table={Apps}/>}>Applications ({apps.length})</Headline>
 
-      <Table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Owner</th>
-            <th>API key</th>
-            <th>Created At</th>
-          </tr>
-        </thead>
-        <tbody>
-          {apps.map((app) => (
-            <tr key={app.id}>
-              <td>{app.name}</td>
-              <td>{app.owner.name}</td>
-              <td><Code inline>{app.apiKey}</Code></td>
-              <td><FormatDate date={app.createdAt}/></td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
+      <Apps.Table>
+        <Apps.Column id="name" title="Name" sortBy="name">
+          {({ name }) => name}
+        </Apps.Column>
+        <Apps.Column id="owner" title="Owner" sortBy={({ owner }) => owner.name}>
+          {({ owner }) => owner.name}
+        </Apps.Column>
+        <Apps.Column id="apiKey" title="API key">
+          {({ apiKey }) => <Code inline>{apiKey}</Code>}
+        </Apps.Column>
+        <Apps.Column id="requests" align="right" title="Requests (24h)" sortBy={({ _count }) => _count.requests}>
+          {({ _count }) => <FormatNumber value={_count.requests}/>}
+        </Apps.Column>
+        <Apps.Column id="createdAt" align="right" title="Created At" sortBy="createdAt">
+          {({ createdAt }) => <FormatDate date={createdAt}/>}
+        </Apps.Column>
+      </Apps.Table>
     </PageLayout>
   );
 }

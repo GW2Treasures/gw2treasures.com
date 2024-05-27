@@ -16,6 +16,7 @@ const getData = cache(async () => {
 }, ['api/achievements'], { revalidate: maxAge });
 
 export const GET = publicApi(
+  '/achievements',
   getData,
   { maxAge }
 );

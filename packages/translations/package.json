@@ -1,0 +1,51 @@
+{
+  "name": "@gw2treasures/translations",
+  "private": true,
+  "version": "0.0.1",
+  "description": "gw2treasures.com translations",
+  "exports": {
+    "./Trans": {
+      "types": "./dist/Trans.types.d.ts",
+      "browser": "./dist/Trans.client.js",
+      "default": "./dist/Trans.server.js"
+    }
+  },
+  "scripts": {
+    "build": "npm run clean && if test $CI; then npm run build:ci; else npm run build:local; fi",
+    "build:local": "tsc --declarationMap",
+    "build:ci": "tsc",
+    "clean": "rm -rf dist/",
+    "lint": "eslint src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GW2Treasures/gw2treasures.com.git"
+  },
+  "keywords": [
+    "gw2treasures",
+    "translations"
+  ],
+  "files": [
+    "dist/"
+  ],
+  "author": "darthmaim",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/GW2Treasures/gw2treasures.com/issues"
+  },
+  "homepage": "https://github.com/GW2Treasures/gw2treasures.com#readme",
+  "devDependencies": {
+    "@gw2treasures/tsconfig": "*",
+    "@types/react": "npm:types-react@19.0.0-rc.0",
+    "@types/react-dom": "npm:types-react-dom@19.0.0-rc.0",
+    "@typescript-eslint/eslint-plugin": "7.10.0",
+    "@typescript-eslint/parser": "7.10.0",
+    "eslint": "8.57.0",
+    "eslint-config-next": "15.0.0-rc.0",
+    "typescript": "5.4.5"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0 || 19.0.0-rc-f994737d14-20240522",
+    "react-dom": "^18.2.0 || 19.0.0-rc-f994737d14-20240522"
+  }
+}

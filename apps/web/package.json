@@ -20,6 +20,7 @@
     "@gw2treasures/eslint-plugin-nextjs": "*",
     "@gw2treasures/helper": "*",
     "@gw2treasures/icons": "*",
+    "@gw2treasures/translations": "*",
     "@gw2treasures/ui": "*",
     "@testing-library/jest-dom": "6.4.5",
     "@testing-library/react": "15.0.7",

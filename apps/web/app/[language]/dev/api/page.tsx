@@ -67,7 +67,7 @@ export default function DeveloperIconsPage() {
 
       <Headline id="/achievements/:id/data">GET <Code inline>/achievements/:id/data</Code></Headline>
       <p>Get data of an achievement (same format as returned by the official Guild Wars 2 API).</p>
-      <p>The HTTP response will contain a <Code inline>X-Created-At</Code> header with an ISO 8601 timestamp of when the item was first discovered.</p>
+      <p>The HTTP response will contain a <Code inline>X-Created-At</Code> header with an ISO 8601 timestamp of when the achievement was first discovered.</p>
 
       <Table>
         <thead>
@@ -132,6 +132,9 @@ export default function DeveloperIconsPage() {
           </tr>
         </tbody>
       </Table>
+
+      <Headline id="/items/:id/mystic-forge">GET <Code inline>/items/:id/mystic-forge</Code></Headline>
+      <p>Returns all the mystic forge recipes that can be used to craft the item.</p>
 
     </HeroLayout>
   );

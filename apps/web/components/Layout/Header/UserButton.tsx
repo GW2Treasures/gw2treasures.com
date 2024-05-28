@@ -12,18 +12,20 @@ import { MenuList } from '@gw2treasures/ui/components/Layout/MenuList';
 import { Separator } from '@gw2treasures/ui/components/Layout/Separator';
 import { SubmitButton } from '@gw2treasures/ui/components/Form/Buttons/SubmitButton';
 import { reauthorize } from '@/components/Gw2Api/reauthorize';
-import { useGw2Accounts } from '@/components/Gw2Api/use-gw2-accounts';
 import { UserButtonAccounts } from './UserButtonAccounts';
+import type { Language } from '@gw2treasures/database';
 
 
 // exported suspended wrapper around the actual button
 
-export interface UserButtonProps {}
+export interface UserButtonProps {
+  language: Language;
+}
 
-export const UserButton: FC<UserButtonProps> = () => {
+export const UserButton: FC<UserButtonProps> = ({ language }) => {
   return (
-    <Suspense fallback={<UserButtonButton user="loading"/>}>
-      <UserButtonLoader/>
+    <Suspense fallback={<UserButtonButton language={language} user="loading"/>}>
+      <UserButtonLoader language={language}/>
     </Suspense>
   );
 };
@@ -31,10 +33,10 @@ export const UserButton: FC<UserButtonProps> = () => {
 
 // internal component to load the user
 
-const UserButtonLoader: FC<UserButtonProps> = async ({}) => {
+const UserButtonLoader: FC<UserButtonProps> = async ({ language }) => {
   const user = await getUser();
 
-  return <UserButtonButton user={user}/>;
+  return <UserButtonButton user={user} language={language}/>;
 };
 
 
@@ -42,14 +44,15 @@ const UserButtonLoader: FC<UserButtonProps> = async ({}) => {
 
 interface UserButtonButtonProps {
   user?: SessionUser | 'loading'
+  language: Language;
 }
-const UserButtonButton: FC<UserButtonButtonProps> = ({ user }) => {
-  const t = getTranslate();
+const UserButtonButton: FC<UserButtonButtonProps> = ({ user, language }) => {
+  const t = getTranslate(language);
 
   if(!user) {
     return (
       <LinkButton appearance="menu" href="/login" aria-label={t('login')}>
-        <Icon icon="user"/><span className={styles.responsive}> <Trans id="login"/></span>
+        <Icon icon="user"/><span className={styles.responsive}> <Trans id="login" language={language}/></span>
       </LinkButton>
     );
   }

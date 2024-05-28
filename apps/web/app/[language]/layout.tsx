@@ -54,7 +54,7 @@ export default function RootLayout({
                 <UserProvider>
                   <Gw2ApiProvider>
                     <Gw2AccountSubscriptionProvider>
-                      <Layout>{children}</Layout>
+                      <Layout language={params.language}>{children}</Layout>
                       {modal}
                     </Gw2AccountSubscriptionProvider>
                   </Gw2ApiProvider>

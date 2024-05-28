@@ -12,14 +12,15 @@ import { getTranslate, translateMany } from '@/lib/translate';
 import { ReviewCountBadge } from './Header/ReviewCountBadge';
 import { UserButton } from './Header/UserButton';
 import { translations as itemTypeTranslations } from '../Item/ItemType.translations';
-import { Rarity } from '@gw2treasures/database';
+import { Language, Rarity } from '@gw2treasures/database';
 
 interface LayoutProps {
   children: ReactNode;
+  language: Language;
 };
 
-const Layout: FC<LayoutProps> = ({ children }) => {
-  const t = getTranslate();
+const Layout: FC<LayoutProps> = ({ children, language }) => {
+  const t = getTranslate(language);
 
   const searchTranslations = translateMany([
     'search.placeholder',
@@ -34,12 +35,12 @@ const Layout: FC<LayoutProps> = ({ children }) => {
     ...itemTypeTranslations.short,
     ...Object.values(Rarity).map((rarity) => `rarity.${rarity}` as const),
     'weight.Clothing', 'weight.Heavy', 'weight.Light', 'weight.Medium'
-  ]);
+  ], language);
 
   return (
     <div>
       <div className={styles.layout}>
-        <Menu navigation={<Navigation/>}>
+        <Menu navigation={<Navigation language={language}/>}>
           <Link href="/" className={styles.title} aria-label="gw2treasures.com">
             <Icon icon="gw2t"/>
             <span>gw2treasures.com</span>
@@ -50,7 +51,7 @@ const Layout: FC<LayoutProps> = ({ children }) => {
               <Icon icon="review-queue"/><span className={styles.responsive}> Review<ReviewCountBadge/></span>
             </LinkButton>
             <LanguageDropdown/>
-            <UserButton/>
+            <UserButton language={language}/>
           </div>
         </Menu>
         <hr className={styles.headerShadow}/>

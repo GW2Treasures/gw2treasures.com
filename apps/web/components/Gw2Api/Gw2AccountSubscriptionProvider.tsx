@@ -106,7 +106,16 @@ export const Gw2AccountSubscriptionProvider: FC<Gw2AccountSubscriptionProviderPr
         data = await callback(accessToken.accessToken);
       } catch(e) {
         console.error(e);
+
+        // if we have a cached entry lets return this, stale data is better then no data
+        const cacheEntry = cache.current[type]?.[accountId];
+        if(cacheEntry !== undefined) {
+          return { accountId, ...cacheEntry };
+        }
+
+        // add error to cache
         setCache(type, accountId, { error: true });
+
         return { accountId, error: true };
       }
 
@@ -124,8 +133,8 @@ export const Gw2AccountSubscriptionProvider: FC<Gw2AccountSubscriptionProviderPr
   };
 
   useInterval(activeTypes.achievements, 60, fetchData.bind(null, 'achievements', achievementFetch));
-  useInterval(activeTypes.wallet, 60, fetchData.bind(null, 'wallet', walletFetch));
-  useInterval(activeTypes['wizards-vault'], 10, fetchData.bind(null, 'wizards-vault', wizardsVaultFetch));
+  useInterval(activeTypes.wallet, 5, fetchData.bind(null, 'wallet', walletFetch));
+  useInterval(activeTypes['wizards-vault'], 60, fetchData.bind(null, 'wizards-vault', wizardsVaultFetch));
 
   const subscribe = useCallback(<T extends SubscriptionType>(type: T, accountId: string, callback: SubscriptionCallback<T>): CancelSubscription => {
     const subscription = { type, accountId, callback };

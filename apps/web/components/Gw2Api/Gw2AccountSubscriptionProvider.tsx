@@ -11,12 +11,13 @@ export interface Gw2AccountSubscriptionProviderProps {
   children: ReactNode
 }
 
-type SubscriptionType = 'achievements' | 'wizards-vault' | 'wallet';
+type SubscriptionType = 'achievements' | 'skins' | 'wallet' | 'wizards-vault';
 
 type SubscriptionData<T extends SubscriptionType> =
   T extends 'achievements' ? Gw2ApiAccountProgression :
-  T extends 'wizards-vault' ? AccountWizardsVaultData :
+  T extends 'skins' ? number[] :
   T extends 'wallet' ? AccountWallet :
+  T extends 'wizards-vault' ? AccountWizardsVaultData :
   never
 
 type SubscriptionResponse<T extends SubscriptionType> = {
@@ -133,6 +134,7 @@ export const Gw2AccountSubscriptionProvider: FC<Gw2AccountSubscriptionProviderPr
   };
 
   useInterval(activeTypes.achievements, 60, fetchData.bind(null, 'achievements', achievementFetch));
+  useInterval(activeTypes.skins, 60, fetchData.bind(null, 'skins', skinsFetch));
   useInterval(activeTypes.wallet, 60, fetchData.bind(null, 'wallet', walletFetch));
   useInterval(activeTypes['wizards-vault'], 60, fetchData.bind(null, 'wizards-vault', wizardsVaultFetch));
 
@@ -231,6 +233,7 @@ const fetchJson = async <T extends unknown = unknown>(url: string): Promise<T> =
 };
 
 const achievementFetch = (accessToken: string) => fetchJson(`https://api.guildwars2.com/v2/account/achievements?access_token=${accessToken}`) as Promise<Gw2ApiAccountProgression>;
+const skinsFetch = (accessToken: string) => fetchJson(`https://api.guildwars2.com/v2/account/skins?access_token=${accessToken}`) as Promise<number[]>;
 const walletFetch = (accessToken: string) => fetchJson(`https://api.guildwars2.com/v2/account/wallet?access_token=${accessToken}`) as Promise<AccountWallet>;
 const wizardsVaultFetch = (accessToken: string) => loadAccountsWizardsVault(accessToken, 'en');
 

@@ -29,6 +29,7 @@ import { translateMany } from '@/lib/translate';
 import { translations as itemTypeTranslations } from '@/components/Item/ItemType.translations';
 import { Trans } from '@/components/I18n/Trans';
 import type { Weight } from '@/lib/types/weight';
+import { Wardrobe } from './wardrobe';
 
 const getSkin = cache(async (id: number, language: Language) => {
   const [skin, revision] = await Promise.all([
@@ -81,6 +82,8 @@ async function SkinPage ({ params: { language, id }}: SkinPageProps) {
         <div><ItemType type={data.type} subtype={(data.details?.type ?? null) as any} translations={translateMany(itemTypeTranslations.short)}/></div>
         {data.details?.weight_class && <div><Trans id={`weight.${data.details.weight_class}`}/></div>}
       </div>
+
+      <Wardrobe skinId={skin.id}/>
 
       {skin.achievementBits.length > 0 && (
         <>

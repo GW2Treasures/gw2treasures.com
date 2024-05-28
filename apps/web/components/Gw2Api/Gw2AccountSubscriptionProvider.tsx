@@ -133,7 +133,7 @@ export const Gw2AccountSubscriptionProvider: FC<Gw2AccountSubscriptionProviderPr
   };
 
   useInterval(activeTypes.achievements, 60, fetchData.bind(null, 'achievements', achievementFetch));
-  useInterval(activeTypes.wallet, 5, fetchData.bind(null, 'wallet', walletFetch));
+  useInterval(activeTypes.wallet, 60, fetchData.bind(null, 'wallet', walletFetch));
   useInterval(activeTypes['wizards-vault'], 60, fetchData.bind(null, 'wizards-vault', wizardsVaultFetch));
 
   const subscribe = useCallback(<T extends SubscriptionType>(type: T, accountId: string, callback: SubscriptionCallback<T>): CancelSubscription => {

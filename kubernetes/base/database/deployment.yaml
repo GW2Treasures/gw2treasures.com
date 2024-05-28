@@ -28,7 +28,7 @@ spec:
           claimName: database-pg16
       containers:
       - name: database-pg16
-        image: timescale/timescaledb:2.15.0-pg16
+        image: timescale/timescaledb:2.15.1-pg16
         args:
         - "postgres"
         - "-c"

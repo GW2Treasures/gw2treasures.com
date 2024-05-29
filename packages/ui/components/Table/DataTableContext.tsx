@@ -21,7 +21,7 @@ export interface DataTableContextProps {
   children: ReactNode;
 }
 
-export type AvailableColumn = { id: string, title: ReactNode, hidden: boolean };
+export type AvailableColumn = { id: string, title: ReactNode, hidden: boolean, fixed: boolean };
 
 export const DataTableContext: FC<DataTableContextProps> = ({ children }) => {
   const [availableColumns, setAvailableColumnsInternal] = useState<Record<string, AvailableColumn[]>>({});

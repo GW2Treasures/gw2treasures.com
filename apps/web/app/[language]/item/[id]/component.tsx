@@ -10,7 +10,6 @@ import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { FormatDate } from '@/components/Format/FormatDate';
 import { ItemList } from '@/components/ItemList/ItemList';
 import { ItemInfobox } from '@/components/Item/ItemInfobox';
-import { SkinLink } from '@/components/Skin/SkinLink';
 import { Json } from '@/components/Format/Json';
 import { RecipeBox } from '@/components/Recipe/RecipeBox';
 import { ItemIngredientFor } from '@/components/Item/ItemIngredientFor';
@@ -41,7 +40,7 @@ import { pageView } from '@/lib/pageView';
 import { GuildUpgradeLink } from '@/components/GuildUpgrade/GuildUpgradeLink';
 import { TradingPostHistory } from './trading-post-history';
 import { parseIcon } from '@/lib/parseIcon';
-import { getTranslate, translateMany } from '@/lib/translate';
+import { getTranslate } from '@/lib/translate';
 import { ItemLink } from '@/components/Item/ItemLink';
 import { OutputCount } from '@/components/Item/OutputCount';
 import { AstralAcclaim } from '@/components/Format/AstralAcclaim';
@@ -49,10 +48,7 @@ import { Breadcrumb, BreadcrumbItem } from '@/components/Breadcrumb/Breadcrumb';
 import { MysticForgeRecipeBox } from '@/components/Recipe/MysticForgeRecipeBox';
 import { MysticForgeRecipeTable } from '@/components/Recipe/MysticForgeRecipeTable';
 import { LinkButton } from '@gw2treasures/ui/components/Form/Button';
-import { ItemType } from '@/components/Item/ItemType';
-import { translations as itemTypeTranslations } from '@/components/Item/ItemType.translations';
-import { Trans } from '@/components/I18n/Trans';
-import type { Weight } from '@/lib/types/weight';
+import { SkinTable } from '@/components/Skin/SkinTable';
 
 export interface ItemPageComponentProps {
   language: Language;
@@ -84,6 +80,9 @@ export const ItemPageComponent: FC<ItemPageComponentProps> = async ({ language, 
 
   const showContents = item.type === 'Container' || item._count.contains > 0 || item.containsCurrency.length > 0;
   const canHaveContents = item.type === 'Container' || item.type === 'Consumable';
+
+  const hasSkinUnlocks = item.unlocksSkinIds.length > 0;
+  const unknownSkinIds = item.unlocksSkinIds.filter((id) => item.unlocksSkin.every((skin) => skin.id !== id));
 
   const compareByName = compareLocalizedName(language);
 
@@ -122,22 +121,15 @@ export const ItemPageComponent: FC<ItemPageComponentProps> = async ({ language, 
       <TableOfContentAnchor id="tooltip">Tooltip</TableOfContentAnchor>
       <ItemTooltip item={data} language={language} hideTitle/>
 
-      {item.unlocksSkinIds.length > 0 && (
-        // TODO: replace with table
+      {hasSkinUnlocks && (
         <>
-          <Headline id="skins">Unlocked Skins</Headline>
-          <ItemList>
-            {item.unlocksSkin.map((skin) => (
-              <li key={skin.id}>
-                <SkinLink skin={skin}/>
-                <span>
-                  <ItemType type={skin.type as any} subtype={skin.subtype as any} translations={translateMany(itemTypeTranslations.short)}/>{' '}
-                  {skin.weight && <Trans id={`weight.${skin.weight as Weight}`}/>}
-                </span>
-              </li>
-            ))}
-            {item.unlocksSkinIds.filter((id) => item.unlocksSkin.every((skin) => skin.id !== id)).map((id) => <li key={id}>Unknown skin ({id})</li>)}
-          </ItemList>
+          <SkinTable skins={item.unlocksSkin} headline="Unlocked Skins" headlineId="skins"/>
+
+          {unknownSkinIds.length > 0 && (
+            <ItemList>
+              {unknownSkinIds.map((id) => <li key={id}>Unknown skin ({id})</li>)}
+            </ItemList>
+          )}
         </>
       )}
 

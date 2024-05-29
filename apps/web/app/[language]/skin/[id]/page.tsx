@@ -7,7 +7,6 @@ import { Rarity } from '@/components/Item/Rarity';
 import type { Gw2Api } from 'gw2-api-types';
 import { notFound } from 'next/navigation';
 import { ItemList } from '@/components/ItemList/ItemList';
-import { SkinLink } from '@/components/Skin/SkinLink';
 import { SkinInfobox } from '@/components/Skin/SkinInfobox';
 import { linkPropertiesWithoutRarity } from '@/lib/linkProperties';
 import { AchievementLink } from '@/components/Achievement/AchievementLink';
@@ -28,7 +27,8 @@ import { ItemType } from '@/components/Item/ItemType';
 import { translateMany } from '@/lib/translate';
 import { translations as itemTypeTranslations } from '@/components/Item/ItemType.translations';
 import { Trans } from '@/components/I18n/Trans';
-import type { Weight } from '@/lib/types/weight';
+import { Wardrobe } from './wardrobe';
+import { SkinTable } from '@/components/Skin/SkinTable';
 
 const getSkin = cache(async (id: number, language: Language) => {
   const [skin, revision] = await Promise.all([
@@ -82,6 +82,8 @@ async function SkinPage ({ params: { language, id }}: SkinPageProps) {
         {data.details?.weight_class && <div><Trans id={`weight.${data.details.weight_class}`}/></div>}
       </div>
 
+      <Wardrobe skinId={skin.id}/>
+
       {skin.achievementBits.length > 0 && (
         <>
           <Headline id="achievements">Achievements</Headline>
@@ -113,20 +115,7 @@ async function SkinPage ({ params: { language, id }}: SkinPageProps) {
       )}
 
       {similar.length > 0 && (
-        <>
-          <Headline id="similar">Similar Skins</Headline>
-          <ItemList>
-            {similar.map((skin) => (
-              <li key={skin.id}>
-                <SkinLink skin={skin}/>
-                <span>
-                  <ItemType type={skin.type as any} subtype={skin.subtype as any} translations={translateMany(itemTypeTranslations.short)}/>{' '}
-                  {skin.weight && <Trans id={`weight.${skin.weight as Weight}`}/>}
-                </span>
-              </li>
-            ))}
-          </ItemList>
-        </>
+        <SkinTable headline="Similar Skins" headlineId="similar" skins={similar}/>
       )}
 
       <Headline id="data">Data</Headline>

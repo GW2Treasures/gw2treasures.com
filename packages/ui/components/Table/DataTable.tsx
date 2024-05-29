@@ -1,5 +1,5 @@
 import { Table, type HeaderCellProps } from './Table';
-import { type FC, type Key, type ReactElement, type ReactNode } from 'react';
+import { Fragment, type FC, type Key, type ReactElement, type ReactNode } from 'react';
 import 'server-only';
 import { DataTableClient, DataTableClientCell, DataTableClientColumn, DataTableClientColumnSelection, DataTableClientRows } from './DataTable.client';
 import { isDefined } from '@gw2treasures/helper/is';
@@ -22,6 +22,7 @@ export interface DataTableColumnProps<T> extends Pick<HeaderCellProps, 'align' |
   sort?: (a: T, b: T, aIndex: number, bIndex: number) => number,
   sortBy?: ComparableProperties<T> | ((row: T) => Comparable),
   hidden?: boolean,
+  fixed?: boolean,
 }
 
 export interface DataTableDynamicColumnsProps<T> {
@@ -84,7 +85,7 @@ export function createDataTable<T>(rows: T[], getRowKey: (row: T, index: number)
       );
 
       return (
-        <DataTableClient id={datatableId} columns={columns.filter(isStaticColumn).map((column) => ({ id: column.props.id, title: column.props.title, hidden: !!column.props.hidden }))}>
+        <DataTableClient id={datatableId} columns={columns.filter(isStaticColumn).map((column) => ({ id: column.props.id, title: column.props.title, hidden: !!column.props.hidden, fixed: !!column.props.fixed }))}>
           <Table>
             <thead>
               <tr>
@@ -93,7 +94,7 @@ export function createDataTable<T>(rows: T[], getRowKey: (row: T, index: number)
                     {column.props.title}
                   </DataTableClientColumn>
                 ) : (
-                  column.props.headers
+                  <Fragment key={column.key}>{column.props.headers}</Fragment>
                 ))}
               </tr>
             </thead>
@@ -108,7 +109,11 @@ export function createDataTable<T>(rows: T[], getRowKey: (row: T, index: number)
                         <DataTableClientCell key={column.props.id} columnId={column.props.id} align={column.props.align}>
                           {column.props.children(row, index)}
                         </DataTableClientCell>
-                      ) : column.props.children(row, index))}
+                      ) : (
+                        <Fragment key={column.key}>
+                          {column.props.children(row, index)}
+                        </Fragment>
+                      ))}
                     </Row>
                   );
                 })}

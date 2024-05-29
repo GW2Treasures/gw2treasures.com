@@ -22,6 +22,7 @@ export interface DataTableColumnProps<T> extends Pick<HeaderCellProps, 'align' |
   sort?: (a: T, b: T, aIndex: number, bIndex: number) => number,
   sortBy?: ComparableProperties<T> | ((row: T) => Comparable),
   hidden?: boolean,
+  fixed?: boolean,
 }
 
 export interface DataTableDynamicColumnsProps<T> {
@@ -84,7 +85,7 @@ export function createDataTable<T>(rows: T[], getRowKey: (row: T, index: number)
       );
 
       return (
-        <DataTableClient id={datatableId} columns={columns.filter(isStaticColumn).map((column) => ({ id: column.props.id, title: column.props.title, hidden: !!column.props.hidden }))}>
+        <DataTableClient id={datatableId} columns={columns.filter(isStaticColumn).map((column) => ({ id: column.props.id, title: column.props.title, hidden: !!column.props.hidden, fixed: !!column.props.fixed }))}>
           <Table>
             <thead>
               <tr>

@@ -104,7 +104,7 @@ export const RecipeTable: FC<RecipeTableProps> = ({ recipes }) => {
             {({ disciplines }) => <span className={recipeBoxStyles.disciplines}>{disciplines.map((discipline) => <DisciplineIcon discipline={discipline as Discipline} key={discipline}/>)}</span>}
           </Recipes.Column>
           <Recipes.Column id="ingredients" title="Ingredients">{(recipe) => <Ingredients recipe={recipe}/>}</Recipes.Column>
-          <Recipes.Column id="actions" title="" small>
+          <Recipes.Column id="actions" title="" small fixed>
             {({ id, outputItemId }) => (<RecipeDropdown id={id} outputItemId={outputItemId}/>)}
           </Recipes.Column>
         </Recipes.Table>

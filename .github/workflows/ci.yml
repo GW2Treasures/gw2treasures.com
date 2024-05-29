@@ -41,11 +41,12 @@ jobs:
       run: npm run build
 
   build-docker:
-    name: Build / Docker / ${{ matrix.target }}
+    name: Build / Docker / ${{ matrix.target }} (${{ matrix.platform }})
     runs-on: ubuntu-latest
     strategy:
       matrix:
         target: [ web, worker, legacy-importer, database-migration, e2e ]
+        platform: [ amd64, arm64 ]
     steps:
     - uses: actions/checkout@v4
     - name: Set up QEMU
@@ -63,7 +64,7 @@ jobs:
         IMAGE_ID=ghcr.io/${{ github.repository }}/${{ matrix.target }}
         # Change all uppercase to lowercase
         IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
-        VERSION=ci-run-${{ github.run_id }}
+        VERSION=ci-run-${{ github.run_id }}-${{ matrix.platform }}
         echo "IMAGE_NAME=$IMAGE_ID:$VERSION" >> $GITHUB_ENV
     - name: Build the Docker image
       uses: docker/bake-action@v4.5.0
@@ -76,13 +77,16 @@ jobs:
         set: |
           ${{ matrix.target }}.output=type=image,push=true
           ${{ matrix.target }}.tags=${{ env.IMAGE_NAME }}
-          *.platform=linux/amd64,linux/arm64
+          *.platform=linux/${{ matrix.platform }}
           *.cache-from=type=gha,scope=build-${{ matrix.target }}
           *.cache-to=type=gha,scope=build-${{ matrix.target }},mode=max
 
   test-compose:
-    name: Test / docker compose
+    name: Test / docker compose (${{ matrix.platform }})
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        platform: [ amd64 ]
     needs: build-docker
     steps:
     - name: Add hosts
@@ -92,7 +96,7 @@ jobs:
       run: |
         DOCKER_PREFIX=ghcr.io/${{ github.repository }}
         DOCKER_PREFIX=$(echo $DOCKER_PREFIX | tr '[A-Z]' '[a-z]')
-        VERSION=ci-run-${{ github.run_id }}
+        VERSION=ci-run-${{ github.run_id }}-${{ matrix.platform }}
         docker pull $DOCKER_PREFIX/web:$VERSION
         docker pull $DOCKER_PREFIX/worker:$VERSION
         docker pull $DOCKER_PREFIX/legacy-importer:$VERSION
@@ -114,8 +118,11 @@ jobs:
       run: docker compose down
 
   test-kubernetes:
-    name: Test / kubernetes
+    name: Test / kubernetes (${{ matrix.platform }})
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        platform: [ amd64 ]
     needs: build-docker
     steps:
     - uses: actions/checkout@v4
@@ -127,7 +134,7 @@ jobs:
       run: |
         DOCKER_PREFIX=ghcr.io/${{ github.repository }}
         DOCKER_PREFIX=$(echo $DOCKER_PREFIX | tr '[A-Z]' '[a-z]')
-        VERSION=ci-run-${{ github.run_id }}
+        VERSION=ci-run-${{ github.run_id }}-${{ matrix.platform }}
         docker pull $DOCKER_PREFIX/web:$VERSION
         docker pull $DOCKER_PREFIX/worker:$VERSION
         docker pull $DOCKER_PREFIX/legacy-importer:$VERSION
@@ -148,8 +155,11 @@ jobs:
       if: failure() || runner.debug == '1'
 
   test-e2e:
-    name: Test / e2e
+    name: Test / e2e (${{ matrix.platform }})
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        platform: [ amd64 ]
     needs: build-docker
     steps:
     - uses: actions/checkout@v4
@@ -157,7 +167,7 @@ jobs:
       run: |
         DOCKER_PREFIX=ghcr.io/${{ github.repository }}
         DOCKER_PREFIX=$(echo $DOCKER_PREFIX | tr '[A-Z]' '[a-z]')
-        VERSION=ci-run-${{ github.run_id }}
+        VERSION=ci-run-${{ github.run_id }}-${{ matrix.platform }}
         docker pull $DOCKER_PREFIX/web:$VERSION
         docker pull $DOCKER_PREFIX/worker:$VERSION
         docker pull $DOCKER_PREFIX/legacy-importer:$VERSION
@@ -279,7 +289,11 @@ jobs:
         CI_TAG=ci-run-${{ github.run_id }}
         echo IMAGE_ID=$IMAGE_ID
         echo VERSION=$VERSION
-        docker buildx imagetools create $IMAGE_ID:$CI_TAG --tag $IMAGE_ID:$VERSION
+        docker buildx imagetools create \
+          --tag $IMAGE_ID:$VERSION \
+          $IMAGE_ID:$CI_TAG-amd64 \
+          $IMAGE_ID:$CI_TAG-arm64
+        docker buildx imagetools inspect $IMAGE_ID:$VERSION
 
   publish-npm:
     name: Publish / npm / ${{ matrix.target }}

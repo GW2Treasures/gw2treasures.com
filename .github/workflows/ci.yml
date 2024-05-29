@@ -40,152 +40,14 @@ jobs:
     - name: Run Build
       run: npm run build
 
-  build-docker:
-    name: Build / Docker / ${{ matrix.target }} (${{ matrix.platform }})
-    runs-on: ubuntu-latest
+  docker:
+    name: Docker (${{ matrix.platform }})
     strategy:
       matrix:
-        target: [ web, worker, legacy-importer, database-migration, e2e ]
         platform: [ amd64, arm64 ]
-    steps:
-    - uses: actions/checkout@v4
-    - name: Set up QEMU
-      uses: docker/setup-qemu-action@v3
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
-    - name: Login to GitHub Container Registry
-      uses: docker/login-action@v3
-      with:
-        registry: ghcr.io
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-    - name: Generate image name
-      run: |
-        IMAGE_ID=ghcr.io/${{ github.repository }}/${{ matrix.target }}
-        # Change all uppercase to lowercase
-        IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
-        VERSION=ci-run-${{ github.run_id }}-${{ matrix.platform }}
-        echo "IMAGE_NAME=$IMAGE_ID:$VERSION" >> $GITHUB_ENV
-    - name: Build the Docker image
-      uses: docker/bake-action@v4.5.0
-      with:
-        files: |
-          ./docker-compose.yml
-          ./docker-compose.importer.yml
-          ./docker-compose.e2e.yml
-        targets: ${{ matrix.target }}
-        set: |
-          ${{ matrix.target }}.output=type=image,push=true
-          ${{ matrix.target }}.tags=${{ env.IMAGE_NAME }}
-          *.platform=linux/${{ matrix.platform }}
-          *.cache-from=type=gha,scope=build-${{ matrix.target }}
-          *.cache-to=type=gha,scope=build-${{ matrix.target }},mode=max
-
-  test-compose:
-    name: Test / docker compose (${{ matrix.platform }})
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        platform: [ amd64 ]
-    needs: build-docker
-    steps:
-    - name: Add hosts
-      run: sudo echo "127.0.0.1 en.gw2treasures.localhost" | sudo tee -a /etc/hosts
-    - uses: actions/checkout@v4
-    - name: Pull docker images
-      run: |
-        DOCKER_PREFIX=ghcr.io/${{ github.repository }}
-        DOCKER_PREFIX=$(echo $DOCKER_PREFIX | tr '[A-Z]' '[a-z]')
-        VERSION=ci-run-${{ github.run_id }}-${{ matrix.platform }}
-        docker pull $DOCKER_PREFIX/web:$VERSION
-        docker pull $DOCKER_PREFIX/worker:$VERSION
-        docker pull $DOCKER_PREFIX/legacy-importer:$VERSION
-        docker pull $DOCKER_PREFIX/database-migration:$VERSION
-        docker tag $DOCKER_PREFIX/web:$VERSION gw2treasures/web
-        docker tag $DOCKER_PREFIX/worker:$VERSION gw2treasures/worker
-        docker tag $DOCKER_PREFIX/legacy-importer:$VERSION gw2treasures/legacy-importer
-        docker tag $DOCKER_PREFIX/database-migration:$VERSION gw2treasures/database-migration
-    - name: Start docker compose
-      run: docker compose up -d
-    - name: Wait 30s
-      run: sleep 30
-    - run: docker compose ps -a
-    - run: docker compose logs
-    - name: Verify docker containers are running
-      run: docker inspect --format "{{.ID}} {{.Name}} {{.State.Status}} {{.RestartCount}}" $(docker compose ps -aq) | node .github/actions/docker-compose-status.js
-    - run: curl --fail-with-body http://en.gw2treasures.localhost:3000/
-    - name: Stop docker compose
-      run: docker compose down
-
-  test-kubernetes:
-    name: Test / kubernetes (${{ matrix.platform }})
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        platform: [ amd64 ]
-    needs: build-docker
-    steps:
-    - uses: actions/checkout@v4
-    - uses: nolar/setup-k3d-k3s@v1
-      with:
-        version: v1.26
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-    - name: Pull docker images
-      run: |
-        DOCKER_PREFIX=ghcr.io/${{ github.repository }}
-        DOCKER_PREFIX=$(echo $DOCKER_PREFIX | tr '[A-Z]' '[a-z]')
-        VERSION=ci-run-${{ github.run_id }}-${{ matrix.platform }}
-        docker pull $DOCKER_PREFIX/web:$VERSION
-        docker pull $DOCKER_PREFIX/worker:$VERSION
-        docker pull $DOCKER_PREFIX/legacy-importer:$VERSION
-        docker pull $DOCKER_PREFIX/database-migration:$VERSION
-        docker tag $DOCKER_PREFIX/web:$VERSION gw2treasures/web
-        docker tag $DOCKER_PREFIX/worker:$VERSION gw2treasures/worker
-        docker tag $DOCKER_PREFIX/legacy-importer:$VERSION gw2treasures/legacy-importer
-        docker tag $DOCKER_PREFIX/database-migration:$VERSION gw2treasures/database-migration
-    - name: Import images into k3d
-      run: k3d image import gw2treasures/web gw2treasures/worker gw2treasures/legacy-importer gw2treasures/database-migration
-    - run: kubectl apply -k kubernetes/local
-    - run: kubectl rollout status deployment database-pg16 next worker -n gw2treasures --timeout=180s
-    - run: kubectl get deployment -n gw2treasures
-      if: success() || failure()
-    - run: kubectl get job -n gw2treasures
-      if: success() || failure()
-    - run: kubectl logs -l app.kubernetes.io/part-of=gw2treasures -n gw2treasures --all-containers --ignore-errors
-      if: failure() || runner.debug == '1'
-
-  test-e2e:
-    name: Test / e2e (${{ matrix.platform }})
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        platform: [ amd64 ]
-    needs: build-docker
-    steps:
-    - uses: actions/checkout@v4
-    - name: Pull docker images
-      run: |
-        DOCKER_PREFIX=ghcr.io/${{ github.repository }}
-        DOCKER_PREFIX=$(echo $DOCKER_PREFIX | tr '[A-Z]' '[a-z]')
-        VERSION=ci-run-${{ github.run_id }}-${{ matrix.platform }}
-        docker pull $DOCKER_PREFIX/web:$VERSION
-        docker pull $DOCKER_PREFIX/worker:$VERSION
-        docker pull $DOCKER_PREFIX/legacy-importer:$VERSION
-        docker pull $DOCKER_PREFIX/database-migration:$VERSION
-        docker pull $DOCKER_PREFIX/e2e:$VERSION
-        docker tag $DOCKER_PREFIX/web:$VERSION gw2treasures/web
-        docker tag $DOCKER_PREFIX/worker:$VERSION gw2treasures/worker
-        docker tag $DOCKER_PREFIX/legacy-importer:$VERSION gw2treasures/legacy-importer
-        docker tag $DOCKER_PREFIX/database-migration:$VERSION gw2treasures/database-migration
-        docker tag $DOCKER_PREFIX/e2e:$VERSION gw2treasures/e2e
-    - name: Start docker compose
-      run: docker compose -f docker-compose.yml -f docker-compose.e2e.yml up -d web database database-migration
-    - name: Wait for containers to be up
-      run: sleep 30
-    - name: Run e2e tests
-      run: docker compose -f docker-compose.yml -f docker-compose.e2e.yml up e2e --no-log-prefix --exit-code-from e2e
-    - name: Stop docker compose
-      run: docker compose down
+    uses: ./.github/workflows/docker-build-and-test.yml
+    with:
+      platform: ${{ matrix.platform }}
 
   test-unit:
     name: Test / Unit
@@ -249,7 +111,7 @@ jobs:
 
   success:
     name: Success
-    needs: [test-compose, test-kubernetes, test-e2e, test-unit, build-node, lint, renovate]
+    needs: [docker, test-unit, build-node, lint, renovate]
     runs-on: ubuntu-latest
     if: always()
     steps:

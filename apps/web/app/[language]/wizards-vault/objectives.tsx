@@ -22,6 +22,7 @@ import { SubmitButton } from '@gw2treasures/ui/components/Form/Buttons/SubmitBut
 import { reauthorize } from '@/components/Gw2Api/reauthorize';
 import { Waypoint } from '@/components/Waypoint/Waypoint';
 import { Gw2AccountName } from '@/components/Gw2Api/Gw2AccountName';
+import { Gw2AccountAuthorizationNotice } from '@/components/Gw2Api/Gw2AccountAuthorizationNotice';
 
 export interface WizardVaultObjectivesProps {
   objectiveWaypoints: Record<number, number>,
@@ -46,15 +47,10 @@ export const WizardVaultObjectives: FC<WizardVaultObjectivesProps> = ({ objectiv
         <Notice>
           <Link href={loginUrl}>Login</Link> to see your personal Wizard&apos;s Vault objectives and progress.
         </Notice>
-      ) : !accounts.loading && !accounts.error && requiredScopes.some((scope) => !accounts.scopes.includes(scope)) && (
-        <form action={reauthorize.bind(null, [...requiredScopes, ...optionalScopes], undefined)}>
-          <Notice>
-            <FlexRow wrap>
-              Authorize gw2treasures.com to see your personal Wizard&apos;s Vault objectives and progress.
-              <SubmitButton type="submit" icon="gw2me-outline" appearance="tertiary">Authorize</SubmitButton>
-            </FlexRow>
-          </Notice>
-        </form>
+      ) : !accounts.loading && !accounts.error && (
+        <Gw2AccountAuthorizationNotice scopes={accounts.scopes} requiredScopes={requiredScopes} optionalScopes={optionalScopes}>
+          Authorize gw2treasures.com to see your personal Wizard&apos;s Vault objectives and progress.
+        </Gw2AccountAuthorizationNotice>
       )}
 
       <Table>

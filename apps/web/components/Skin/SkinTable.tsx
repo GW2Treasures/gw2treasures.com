@@ -14,6 +14,12 @@ import type { LocalizedEntity } from '@/lib/localizedName';
 import { Gw2AccountBodyCells, Gw2AccountHeaderCells } from '../Gw2Api/Gw2AccountTableCells';
 import { SkinAccountUnlockCell, requiredScopes } from './SkinAccountUnlockCell';
 import { FormatNumber } from '../Format/FormatNumber';
+import { DropDown } from '@gw2treasures/ui/components/DropDown/DropDown';
+import { Button, LinkButton } from '@gw2treasures/ui/components/Form/Button';
+import { Icon } from '@gw2treasures/ui';
+import { MenuList } from '@gw2treasures/ui/components/Layout/MenuList';
+import { CopyButton } from '@gw2treasures/ui/components/Form/Buttons/CopyButton';
+import { encode } from 'gw2e-chat-codes';
 
 export interface SkinTableProps {
   skins: WithIcon<Pick<Skin, 'id' | 'rarity' | 'weight' | 'type' | 'subtype' | 'unlocks' | keyof LocalizedEntity>>[]
@@ -44,6 +50,16 @@ export const SkinTable: FC<SkinTableProps> = ({ skins, headline, headlineId }) =
             </Gw2AccountBodyCells>
           )}
         </Skins.DynamicColumns>
+        <Skins.Column id="actions" title="" small fixed>
+          {({ id }) => (
+            <DropDown button={<Button iconOnly appearance="menu"><Icon icon="more"/></Button>} preferredPlacement="right-start">
+              <MenuList>
+                <LinkButton appearance="menu" icon="eye" href={`/skin/${id}`}>View Skin</LinkButton>
+                <CopyButton appearance="menu" icon="chatlink" copy={encode('skin', id) || ''}><Trans id="chatlink.copy"/></CopyButton>
+              </MenuList>
+            </DropDown>
+          )}
+        </Skins.Column>
       </Skins.Table>
     </>
   );

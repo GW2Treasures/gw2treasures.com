@@ -62,7 +62,7 @@ export const Gw2AccountSubscriptionProvider: FC<Gw2AccountSubscriptionProviderPr
   const accessTokenCache = useRef<Record<string, { accessToken: string, expiresAt: Date } | undefined>>({});
 
   const setCache = <T extends SubscriptionType>(type: T, accountId: string, response: SubscriptionResponse<T> | undefined) => {
-    cache.current = { ...cache.current, [type]: { ...cache.current.achievements, [accountId]: response }};
+    cache.current = { ...cache.current, [type]: { ...cache.current[type], [accountId]: response }};
   };
 
   const getAccountIds = useCallback(async (subscriptions: ActiveSubscription<SubscriptionType>[]) => {

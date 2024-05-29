@@ -32,11 +32,11 @@ export const SkinTable: FC<SkinTableProps> = ({ skins, headline, headlineId }) =
       )}
 
       <Skins.Table>
-        <Skins.Column id="id" title={<Trans id="itemTable.column.id"/>} align="right" small hidden>{({ id }) => id}</Skins.Column>
+        <Skins.Column id="id" title={<Trans id="itemTable.column.id"/>} align="right" small hidden sortBy="id">{({ id }) => id}</Skins.Column>
         <Skins.Column id="skin" title="Skin">{(skin) => <SkinLink skin={skin}/>}</Skins.Column>
-        <Skins.Column id="type" title={<Trans id="itemTable.column.type"/>}>{(skin) => <ItemType display="long" type={skin.type as any} subtype={skin.subtype as any} translations={translateMany(itemTypeTranslations.long)}/>}</Skins.Column>
-        <Skins.Column id="weight" title="Weight" hidden={!anySkinHasWeight}>{({ weight }) => weight ? <Trans id={`weight.${weight as Weight}`}/> : <span style={{ color: 'var(--color-text-muted)' }}>-</span>}</Skins.Column>
-        <Skins.Column id="unlocks" title="Unlocks" hidden align="right">{({ unlocks }) => <FormatNumber value={unlocks !== null ? Math.round(unlocks * 1000) / 10 : null} unit="%"/>}</Skins.Column>
+        <Skins.Column id="type" title={<Trans id="itemTable.column.type"/>} sortBy="type">{(skin) => <ItemType display="long" type={skin.type as any} subtype={skin.subtype as any} translations={translateMany(itemTypeTranslations.long)}/>}</Skins.Column>
+        <Skins.Column id="weight" title="Weight" hidden={!anySkinHasWeight} sortBy="weight">{({ weight }) => weight ? <Trans id={`weight.${weight as Weight}`}/> : <span style={{ color: 'var(--color-text-muted)' }}>-</span>}</Skins.Column>
+        <Skins.Column id="unlocks" title="Unlocks" hidden align="right" sortBy="unlocks">{({ unlocks }) => <FormatNumber value={unlocks !== null ? Math.round(unlocks * 1000) / 10 : null} unit="%"/>}</Skins.Column>
         <Skins.DynamicColumns headers={<Gw2AccountHeaderCells requiredScopes={requiredScopes}/>}>
           {({ id }) => (
             <Gw2AccountBodyCells requiredScopes={requiredScopes}>

@@ -11,6 +11,8 @@ import { translations as itemTypeTranslations } from '@/components/Item/ItemType
 import { translateMany } from '@/lib/translate';
 import type { Weight } from '@/lib/types/weight';
 import type { LocalizedEntity } from '@/lib/localizedName';
+import { Gw2AccountBodyCells, Gw2AccountHeaderCells } from '../Gw2Api/Gw2AccountTableCells';
+import { SkinAccountUnlockCell, requiredScopes } from './SkinAccountUnlockCell';
 
 export interface SkinTableProps {
   skins: WithIcon<Pick<Skin, 'id' | 'rarity' | 'weight' | 'type' | 'subtype' | keyof LocalizedEntity>>[]
@@ -33,6 +35,13 @@ export const SkinTable: FC<SkinTableProps> = ({ skins, headline, headlineId }) =
         <Skins.Column id="skin" title="Skin">{(skin) => <SkinLink skin={skin}/>}</Skins.Column>
         <Skins.Column id="type" title={<Trans id="itemTable.column.type"/>}>{(skin) => <ItemType display="long" type={skin.type as any} subtype={skin.subtype as any} translations={translateMany(itemTypeTranslations.long)}/>}</Skins.Column>
         <Skins.Column id="weight" title="Weight" hidden={!anySkinHasWeight}>{({ weight }) => weight ? <Trans id={`weight.${weight as Weight}`}/> : <span style={{ color: 'var(--color-text-muted)' }}>-</span>}</Skins.Column>
+        <Skins.DynamicColumns headers={<Gw2AccountHeaderCells requiredScopes={requiredScopes}/>}>
+          {({ id }) => (
+            <Gw2AccountBodyCells requiredScopes={requiredScopes}>
+              <SkinAccountUnlockCell skinId={id} accountId={undefined as never}/>
+            </Gw2AccountBodyCells>
+          )}
+        </Skins.DynamicColumns>
       </Skins.Table>
     </>
   );

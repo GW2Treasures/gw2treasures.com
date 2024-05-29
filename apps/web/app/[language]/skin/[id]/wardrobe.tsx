@@ -1,14 +1,10 @@
 'use client';
 
-import { ProgressCell } from '@/components/Achievement/ProgressCell';
 import { Gw2AccountName } from '@/components/Gw2Api/Gw2AccountName';
-import { useSubscription } from '@/components/Gw2Api/Gw2AccountSubscriptionProvider';
 import { Gw2Accounts } from '@/components/Gw2Api/Gw2Accounts';
-import type { Gw2Account } from '@/components/Gw2Api/types';
-import { Skeleton } from '@/components/Skeleton/Skeleton';
+import { SkinAccountUnlockCell } from '@/components/Skin/SkinAccountUnlockCell';
 import { useUser } from '@/components/User/use-user';
 import { Scope } from '@gw2me/client';
-import { Icon } from '@gw2treasures/ui';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
 import type { FC } from 'react';
@@ -42,7 +38,7 @@ export const Wardrobe: FC<WardrobeProps> = ({ skinId }) => {
               {accounts.map((account) => (
                 <tr key={account.id}>
                   <th><Gw2AccountName account={account}/></th>
-                  <AccountCell account={account} skinId={skinId}/>
+                  <SkinAccountUnlockCell accountId={account.id} skinId={skinId}/>
                 </tr>
               ))}
             </tbody>
@@ -50,30 +46,5 @@ export const Wardrobe: FC<WardrobeProps> = ({ skinId }) => {
         )}
       </Gw2Accounts>
     </>
-  );
-};
-
-interface AccountCellProps {
-  account: Gw2Account;
-  skinId: number;
-};
-
-export const AccountCell: FC<AccountCellProps> = ({ account, skinId }) => {
-  const unlockedSkins = useSubscription('skins', account.id);
-
-  if(unlockedSkins.loading) {
-    return (<td><Skeleton/></td>);
-  }
-
-  if(unlockedSkins.error) {
-    return (<td style={{ color: 'var(--color-error)' }}>Error loading skin unlocks from Guild Wars 2 API</td>);
-  }
-
-  const unlocked = unlockedSkins.data.includes(skinId);
-
-  return (
-    <ProgressCell progress={unlocked ? 1 : 0}>
-      <Icon icon={unlocked ? 'checkmark' : 'cancel'}/>
-    </ProgressCell>
   );
 };

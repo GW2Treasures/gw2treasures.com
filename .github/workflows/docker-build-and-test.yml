@@ -75,25 +75,9 @@ jobs:
     - name: Add hosts
       run: sudo echo "127.0.0.1 en.gw2treasures.localhost" | sudo tee -a /etc/hosts
     - uses: actions/checkout@v4
-    - name: Download digests
-      uses: actions/download-artifact@v4
+    - uses: ./.github/actions/pull-images
       with:
-        path: /tmp/digests
-        pattern: docker-digests-${{ inputs.platform }}-*
-        merge-multiple: true
-    - name: Pull docker images
-      run: |
-        DOCKER_PREFIX=ghcr.io/${{ github.repository }}
-        DOCKER_PREFIX=$(echo $DOCKER_PREFIX | tr '[A-Z]' '[a-z]')
-        for TARGET in web worker legacy-importer database-migration
-        do
-          echo "Pulling $TARGET image"
-          digests=(/tmp/digests/"$TARGET"/*)
-          digest=$(basename $digests)
-          echo "Digest: ${digest}"
-          docker pull "$DOCKER_PREFIX/$TARGET@sha256:${digest}"
-          docker tag "$DOCKER_PREFIX/$TARGET@sha256:${digest}" gw2treasures/$TARGET
-        done
+        platform: ${{ inputs.platform }}
     - name: Start docker compose
       run: docker compose up -d
     - name: Wait 30s
@@ -117,25 +101,9 @@ jobs:
       with:
         version: v1.26
         github-token: ${{ secrets.GITHUB_TOKEN }}
-    - name: Download digests
-      uses: actions/download-artifact@v4
+    - uses: ./.github/actions/pull-images
       with:
-        path: /tmp/digests
-        pattern: docker-digests-${{ inputs.platform }}-*
-        merge-multiple: true
-    - name: Pull docker images
-      run: |
-        DOCKER_PREFIX=ghcr.io/${{ github.repository }}
-        DOCKER_PREFIX=$(echo $DOCKER_PREFIX | tr '[A-Z]' '[a-z]')
-        for TARGET in web worker legacy-importer database-migration
-        do
-          echo "Pulling $TARGET image"
-          digests=(/tmp/digests/"$TARGET"/*)
-          digest=$(basename $digests)
-          echo "Digest: ${digest}"
-          docker pull "$DOCKER_PREFIX/$TARGET@sha256:${digest}"
-          docker tag "$DOCKER_PREFIX/$TARGET@sha256:${digest}" gw2treasures/$TARGET
-        done
+        platform: ${{ inputs.platform }}
     - name: Import images into k3d
       run: k3d image import gw2treasures/web gw2treasures/worker gw2treasures/legacy-importer gw2treasures/database-migration
     - run: kubectl apply -k kubernetes/local
@@ -154,25 +122,9 @@ jobs:
     needs: build
     steps:
     - uses: actions/checkout@v4
-    - name: Download digests
-      uses: actions/download-artifact@v4
+    - uses: ./.github/actions/pull-images
       with:
-        path: /tmp/digests
-        pattern: docker-digests-${{ inputs.platform }}-*
-        merge-multiple: true
-    - name: Pull docker images
-      run: |
-        DOCKER_PREFIX=ghcr.io/${{ github.repository }}
-        DOCKER_PREFIX=$(echo $DOCKER_PREFIX | tr '[A-Z]' '[a-z]')
-        for TARGET in web worker legacy-importer database-migration
-        do
-          echo "Pulling $TARGET image"
-          digests=(/tmp/digests/"$TARGET"/*)
-          digest=$(basename $digests)
-          echo "Digest: ${digest}"
-          docker pull "$DOCKER_PREFIX/$TARGET@sha256:${digest}"
-          docker tag "$DOCKER_PREFIX/$TARGET@sha256:${digest}" gw2treasures/$TARGET
-        done
+        platform: ${{ inputs.platform }}
     - name: Start docker compose
       run: docker compose -f docker-compose.yml -f docker-compose.e2e.yml up -d web database database-migration
     - name: Wait for containers to be up

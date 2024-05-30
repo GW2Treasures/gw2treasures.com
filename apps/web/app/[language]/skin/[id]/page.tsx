@@ -29,6 +29,7 @@ import { translations as itemTypeTranslations } from '@/components/Item/ItemType
 import { Trans } from '@/components/I18n/Trans';
 import { Wardrobe } from './wardrobe';
 import { SkinTable } from '@/components/Skin/SkinTable';
+import { SkinTooltip } from '@/components/Skin/SkinTooltip';
 
 const getSkin = cache(async (id: number, language: Language) => {
   const [skin, revision] = await Promise.all([
@@ -75,12 +76,7 @@ async function SkinPage ({ params: { language, id }}: SkinPageProps) {
       infobox={<SkinInfobox skin={skin} data={data} language={language}/>}
     >
       <TableOfContentAnchor id="tooltip">Tooltip</TableOfContentAnchor>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-        {data.description && (<p className={styles.description} dangerouslySetInnerHTML={{ __html: format(data.description) }}/>)}
-        <div><Rarity rarity={data.rarity}><Trans id={`rarity.${data.rarity}`}/></Rarity></div>
-        <div><ItemType type={data.type} subtype={(data.details?.type ?? null) as any} translations={translateMany(itemTypeTranslations.short)}/></div>
-        {data.details?.weight_class && <div><Trans id={`weight.${data.details.weight_class}`}/></div>}
-      </div>
+      <SkinTooltip skin={data} language={language} hideTitle/>
 
       <Wardrobe skinId={skin.id}/>
 

@@ -18,7 +18,7 @@ export const SkinLink: FC<SkinLinkProps> = ({ skin, icon = 32, language }) => {
   const entity = getLinkProperties(skin);
 
   return (
-    <Tooltip content={<SkinLinkTooltip item={entity} language={language}/>}>
+    <Tooltip content={<SkinLinkTooltip skin={entity} language={language}/>}>
       <EntityLink href={`/skin/${skin.id}`} entity={skin} icon={icon} language={language}/>
     </Tooltip>
   );

@@ -123,6 +123,7 @@ jobs:
   publish-docker:
     name: Publish / Docker / ${{ matrix.target }}
     runs-on: ubuntu-latest
+    if: github.event != 'merge_group'
     needs: [success]
     strategy:
       matrix:
@@ -178,6 +179,7 @@ jobs:
   publish-npm:
     name: Publish / npm / ${{ matrix.target }}
     runs-on: ubuntu-latest
+    if: github.event != 'merge_group'
     needs: [success]
     permissions:
       contents: read

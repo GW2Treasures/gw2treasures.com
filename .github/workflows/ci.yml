@@ -153,7 +153,6 @@ jobs:
         images: ${{ env.IMAGE_ID }}
         flavor: |
           latest=false
-          prefix=temp-,onlatest=true
         tags: |
           # set latest tag for default branch
           type=raw,value=latest,enable={{is_default_branch}}

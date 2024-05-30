@@ -138,6 +138,13 @@ jobs:
         IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
         echo "IMAGE_ID=$IMAGE_ID" >> "$GITHUB_ENV"
 
+    - name: Download digests
+      uses: actions/download-artifact@v4
+      with:
+        path: /tmp/digests
+        pattern: docker-digests-*
+        merge-multiple: true
+
     - name: Docker meta
       id: meta
       uses: docker/metadata-action@v5
@@ -163,8 +170,7 @@ jobs:
       run: |
         docker buildx imagetools create \
           $(jq -cr '.tags | map("-t " + .) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON") \
-          $IMAGE_ID:ci-run-${{ github.run_id }}-amd64 \
-          $IMAGE_ID:ci-run-${{ github.run_id }}-arm64
+          $(find /tmp/digests/${{ matrix.target }} -type f -printf '${{ env.IMAGE_ID }}@sha256:%f ')
 
     - name: Inspect image
       run: docker buildx imagetools inspect $(jq -cr '.tags[0]' <<< "$DOCKER_METADATA_OUTPUT_JSON")

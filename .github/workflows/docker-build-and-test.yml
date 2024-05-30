@@ -30,22 +30,41 @@ jobs:
         IMAGE_ID=ghcr.io/${{ github.repository }}/${{ matrix.target }}
         # Change all uppercase to lowercase
         IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
-        VERSION=ci-run-${{ github.run_id }}-${{ inputs.platform }}
-        echo "IMAGE_NAME=$IMAGE_ID:$VERSION" >> $GITHUB_ENV
+        echo "IMAGE_ID=$IMAGE_ID" >> "$GITHUB_ENV"
+    - name: Docker meta
+      id: meta
+      uses: docker/metadata-action@v5
+      with:
+        images: ${{ env.IMAGE_ID }}
+        bake-target: ${{ matrix.target }}
     - name: Build the Docker image
+      id: build
       uses: docker/bake-action@v4.5.0
       with:
         files: |
           ./docker-compose.yml
           ./docker-compose.importer.yml
           ./docker-compose.e2e.yml
+          ${{ steps.meta.outputs.bake-file-labels }}
         targets: ${{ matrix.target }}
         set: |
-          ${{ matrix.target }}.output=type=image,push=true
-          ${{ matrix.target }}.tags=${{ env.IMAGE_NAME }}
+          ${{ matrix.target }}.output=type=image,push-by-digest=true,name-canonical=true,push=true
+          ${{ matrix.target }}.tags=${{ env.IMAGE_ID }}
           *.platform=linux/${{ inputs.platform }}
           *.cache-from=type=gha,scope=build-${{ matrix.target }}
           *.cache-to=type=gha,scope=build-${{ matrix.target }},mode=max
+    - name: Export digest
+      run: |
+        mkdir -p /tmp/digests/${{ matrix.target }}
+        digest=$(jq -cr '."${{ matrix.target }}"."containerimage.digest"' <<< '${{ steps.build.outputs.metadata }}')
+        touch "/tmp/digests/${{ matrix.target }}/${digest#sha256:}"
+    - name: Upload digest
+      uses: actions/upload-artifact@v4
+      with:
+        name: docker-digests-${{ inputs.platform }}-${{ matrix.target }}
+        path: /tmp/digests/*
+        if-no-files-found: error
+        retention-days: 1
 
   test-compose:
     name: 'Test: docker compose'
@@ -56,19 +75,25 @@ jobs:
     - name: Add hosts
       run: sudo echo "127.0.0.1 en.gw2treasures.localhost" | sudo tee -a /etc/hosts
     - uses: actions/checkout@v4
+    - name: Download digests
+      uses: actions/download-artifact@v4
+      with:
+        path: /tmp/digests
+        pattern: docker-digests-${{ inputs.platform }}-*
+        merge-multiple: true
     - name: Pull docker images
       run: |
         DOCKER_PREFIX=ghcr.io/${{ github.repository }}
         DOCKER_PREFIX=$(echo $DOCKER_PREFIX | tr '[A-Z]' '[a-z]')
-        VERSION=ci-run-${{ github.run_id }}-${{ inputs.platform }}
-        docker pull $DOCKER_PREFIX/web:$VERSION
-        docker pull $DOCKER_PREFIX/worker:$VERSION
-        docker pull $DOCKER_PREFIX/legacy-importer:$VERSION
-        docker pull $DOCKER_PREFIX/database-migration:$VERSION
-        docker tag $DOCKER_PREFIX/web:$VERSION gw2treasures/web
-        docker tag $DOCKER_PREFIX/worker:$VERSION gw2treasures/worker
-        docker tag $DOCKER_PREFIX/legacy-importer:$VERSION gw2treasures/legacy-importer
-        docker tag $DOCKER_PREFIX/database-migration:$VERSION gw2treasures/database-migration
+        for TARGET in web worker legacy-importer database-migration
+        do
+          echo "Pulling $TARGET image"
+          digests=(/tmp/digests/"$TARGET"/*)
+          digest=$(basename $digests)
+          echo "Digest: ${digest}"
+          docker pull "$DOCKER_PREFIX/$TARGET@sha256:${digest}"
+          docker tag "$DOCKER_PREFIX/$TARGET@sha256:${digest}" gw2treasures/$TARGET
+        done
     - name: Start docker compose
       run: docker compose up -d
     - name: Wait 30s
@@ -92,19 +117,25 @@ jobs:
       with:
         version: v1.26
         github-token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Download digests
+      uses: actions/download-artifact@v4
+      with:
+        path: /tmp/digests
+        pattern: docker-digests-${{ inputs.platform }}-*
+        merge-multiple: true
     - name: Pull docker images
       run: |
         DOCKER_PREFIX=ghcr.io/${{ github.repository }}
         DOCKER_PREFIX=$(echo $DOCKER_PREFIX | tr '[A-Z]' '[a-z]')
-        VERSION=ci-run-${{ github.run_id }}-${{ inputs.platform }}
-        docker pull $DOCKER_PREFIX/web:$VERSION
-        docker pull $DOCKER_PREFIX/worker:$VERSION
-        docker pull $DOCKER_PREFIX/legacy-importer:$VERSION
-        docker pull $DOCKER_PREFIX/database-migration:$VERSION
-        docker tag $DOCKER_PREFIX/web:$VERSION gw2treasures/web
-        docker tag $DOCKER_PREFIX/worker:$VERSION gw2treasures/worker
-        docker tag $DOCKER_PREFIX/legacy-importer:$VERSION gw2treasures/legacy-importer
-        docker tag $DOCKER_PREFIX/database-migration:$VERSION gw2treasures/database-migration
+        for TARGET in web worker legacy-importer database-migration
+        do
+          echo "Pulling $TARGET image"
+          digests=(/tmp/digests/"$TARGET"/*)
+          digest=$(basename $digests)
+          echo "Digest: ${digest}"
+          docker pull "$DOCKER_PREFIX/$TARGET@sha256:${digest}"
+          docker tag "$DOCKER_PREFIX/$TARGET@sha256:${digest}" gw2treasures/$TARGET
+        done
     - name: Import images into k3d
       run: k3d image import gw2treasures/web gw2treasures/worker gw2treasures/legacy-importer gw2treasures/database-migration
     - run: kubectl apply -k kubernetes/local
@@ -123,21 +154,25 @@ jobs:
     needs: build
     steps:
     - uses: actions/checkout@v4
+    - name: Download digests
+      uses: actions/download-artifact@v4
+      with:
+        path: /tmp/digests
+        pattern: docker-digests-${{ inputs.platform }}-*
+        merge-multiple: true
     - name: Pull docker images
       run: |
         DOCKER_PREFIX=ghcr.io/${{ github.repository }}
         DOCKER_PREFIX=$(echo $DOCKER_PREFIX | tr '[A-Z]' '[a-z]')
-        VERSION=ci-run-${{ github.run_id }}-${{ inputs.platform }}
-        docker pull $DOCKER_PREFIX/web:$VERSION
-        docker pull $DOCKER_PREFIX/worker:$VERSION
-        docker pull $DOCKER_PREFIX/legacy-importer:$VERSION
-        docker pull $DOCKER_PREFIX/database-migration:$VERSION
-        docker pull $DOCKER_PREFIX/e2e:$VERSION
-        docker tag $DOCKER_PREFIX/web:$VERSION gw2treasures/web
-        docker tag $DOCKER_PREFIX/worker:$VERSION gw2treasures/worker
-        docker tag $DOCKER_PREFIX/legacy-importer:$VERSION gw2treasures/legacy-importer
-        docker tag $DOCKER_PREFIX/database-migration:$VERSION gw2treasures/database-migration
-        docker tag $DOCKER_PREFIX/e2e:$VERSION gw2treasures/e2e
+        for TARGET in web worker legacy-importer database-migration
+        do
+          echo "Pulling $TARGET image"
+          digests=(/tmp/digests/"$TARGET"/*)
+          digest=$(basename $digests)
+          echo "Digest: ${digest}"
+          docker pull "$DOCKER_PREFIX/$TARGET@sha256:${digest}"
+          docker tag "$DOCKER_PREFIX/$TARGET@sha256:${digest}" gw2treasures/$TARGET
+        done
     - name: Start docker compose
       run: docker compose -f docker-compose.yml -f docker-compose.e2e.yml up -d web database database-migration
     - name: Wait for containers to be up

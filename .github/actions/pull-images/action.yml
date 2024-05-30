@@ -1,0 +1,30 @@
+name: Pull Docker Images
+description: Composite task to pull docker images
+
+inputs:
+  platform:
+    description: The platform (amd64/arm64)
+    required: true
+
+runs:
+  using: composite
+  steps:
+  - name: Download digests
+    uses: actions/download-artifact@v4
+    with:
+      path: /tmp/digests
+      pattern: docker-digests-${{ inputs.platform }}-*
+      merge-multiple: true
+  - name: Pull docker images
+    shell: bash
+    run: |
+      DOCKER_PREFIX=ghcr.io/${{ github.repository }}
+      DOCKER_PREFIX=$(echo $DOCKER_PREFIX | tr '[A-Z]' '[a-z]')
+      for TARGET in web worker legacy-importer database-migration e2e
+      do
+        digests=(/tmp/digests/"$TARGET"/*)
+        digest=$(basename $digests)
+        echo "Pulling $TARGET (sha256:$digest) image"
+        docker pull "$DOCKER_PREFIX/$TARGET@sha256:${digest}"
+        docker tag "$DOCKER_PREFIX/$TARGET@sha256:${digest}" gw2treasures/$TARGET
+      done

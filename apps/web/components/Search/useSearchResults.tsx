@@ -17,6 +17,7 @@ import { ItemType } from '../Item/ItemType';
 import type { Rarity } from '@gw2treasures/database';
 import { strip } from 'gw2-tooltip-html';
 import type { Weight } from '@/lib/types/weight';
+import { SkinLinkTooltip } from '../Skin/SkinLinkTooltip';
 
 export interface SearchResults<Id extends string> {
   id: Id;
@@ -57,6 +58,7 @@ export function useSearchApiResults(searchValue: string, translations: Translati
     subtitle: <>{translations[`rarity.${skin.rarity}`]} ▪ <ItemType type={skin.type as any} subtype={skin.subtype as any} translations={translations}/>{skin.weight && ' ▪ ' + translations[`weight.${skin.weight as Weight}`]} </>,
     icon: skin.icon && <EntityIcon icon={skin.icon} size={32}/>,
     href: `/skin/${skin.id}`,
+    render: (link) => <Tooltip content={<SkinLinkTooltip skin={getLinkProperties(skin)}/>} key={link.key}>{link}</Tooltip>
   }));
 
   const achievements = response.loading ? [] : response.data.achievements.map<SearchResult>((achievement) => ({

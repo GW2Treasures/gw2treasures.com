@@ -1,12 +1,7 @@
+import { AchievementsJob } from './achievements/achievements';
 import { AchievementCategories } from './achievements/categories';
-import { AchievementsCheck } from './achievements/check';
 import { AchievementGroups } from './achievements/groups';
-import { AchievementsMigrate } from './achievements/migrate';
-import { AchievementsNew } from './achievements/new';
-import { AchievementsRediscovered } from './achievements/rediscovered';
-import { AchievementsRemoved } from './achievements/removed';
 import { AchievementsUnlocks } from './achievements/unlocks';
-import { AchievementsUpdate } from './achievements/update';
 import { AchievementsViews } from './achievements/views';
 import { ColorsJob } from './colors';
 import { CurrenciesCheck } from './currencies/check';
@@ -89,12 +84,7 @@ const jobsInternal = {
   'skins.unlocks': SkinsUnlocks,
   'skins.appearance': SkinsAppearance,
 
-  'achievements.check': AchievementsCheck,
-  'achievements.new': AchievementsNew,
-  'achievements.removed': AchievementsRemoved,
-  'achievements.rediscovered': AchievementsRediscovered,
-  'achievements.update': AchievementsUpdate,
-  'achievements.migrate': AchievementsMigrate,
+  'achievements': AchievementsJob,
   'achievements.unlocks': AchievementsUnlocks,
   'achievements.views': AchievementsViews,
 

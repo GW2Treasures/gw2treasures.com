@@ -1,28 +1,22 @@
-import { getUser } from '@/lib/getUser';
 import { LinkButton } from '@gw2treasures/ui/components/Form/Button';
-import { notFound, redirect } from 'next/navigation';
 import type { ReactNode } from 'react';
+import { ensureUserIsAdmin } from './admin';
 
 interface AdminLayoutProps {
   children: ReactNode;
 }
 
 export default async function AdminLayout({ children }: AdminLayoutProps) {
-  const user = await getUser();
-
-  if(!user || !user.roles.includes('Admin')) {
-    notFound();
-  }
+  await ensureUserIsAdmin();
 
   return (
     <div>
-      <div style={{ borderBottom: '1px solid var(--color-border)', padding: '8px 16px' }}>
-        <b>Admin:</b>
-        <LinkButton appearance="menu" href="/admin/users">Users</LinkButton>
-        <LinkButton appearance="menu" href="/admin/reviews">Reviews</LinkButton>
-        <LinkButton appearance="menu" href="/admin/apps">Apps</LinkButton>
-        <LinkButton appearance="menu" href="/admin/views">Page Views</LinkButton>
-        <LinkButton appearance="menu" href="/admin/jobs">Jobs</LinkButton>
+      <div style={{ borderBottom: '1px solid var(--color-border)', padding: '8px 0', backgroundColor: 'var(--color-background-light)' }}>
+        <LinkButton appearance="menu" href="/admin/users" icon="user">Users</LinkButton>
+        <LinkButton appearance="menu" href="/admin/reviews" icon="review-queue">Reviews</LinkButton>
+        <LinkButton appearance="menu" href="/admin/apps" icon="apps">Apps</LinkButton>
+        <LinkButton appearance="menu" href="/admin/views" icon="eye">Page Views</LinkButton>
+        <LinkButton appearance="menu" href="/admin/jobs" icon="jobs">Jobs</LinkButton>
       </div>
       {children}
     </div>

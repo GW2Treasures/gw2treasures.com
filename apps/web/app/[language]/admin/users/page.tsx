@@ -5,6 +5,7 @@ import { db } from '@/lib/prisma';
 import { FormatDate } from '@/components/Format/FormatDate';
 import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
 import { Icon } from '@gw2treasures/ui';
+import { ensureUserIsAdmin } from '../admin';
 
 const getUsers = cache(() => {
   return db.user.findMany({
@@ -14,8 +15,9 @@ const getUsers = cache(() => {
 });
 
 export default async function AdminUserPage() {
-  const users = await getUsers();
+  await ensureUserIsAdmin();
 
+  const users = await getUsers();
   const Users = createDataTable(users, (user) => user.id);
 
   return (

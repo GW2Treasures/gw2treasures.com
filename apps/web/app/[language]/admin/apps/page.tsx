@@ -7,6 +7,7 @@ import { Code } from '@/components/Layout/Code';
 import { FormatNumber } from '@/components/Format/FormatNumber';
 import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
 import { ColumnSelect } from '@/components/Table/ColumnSelect';
+import { ensureUserIsAdmin } from '../admin';
 
 const getApplications = cache(() => {
   const lastDay = new Date();
@@ -22,6 +23,7 @@ const getApplications = cache(() => {
 });
 
 export default async function AdminUserPage() {
+  await ensureUserIsAdmin();
   const apps = await getApplications();
   const Apps = createDataTable(apps, ({ id }) => id);
 

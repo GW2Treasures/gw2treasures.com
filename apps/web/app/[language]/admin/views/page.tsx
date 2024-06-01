@@ -11,6 +11,7 @@ import { Line, LinePath } from '@visx/shape';
 import { curveBasis, curveLinear, curveMonotoneX, curveNatural } from '@visx/curve';
 import { GridRows } from '@visx/grid';
 import { AxisBottom, AxisLeft } from '@visx/axis';
+import { ensureUserIsAdmin } from '../admin';
 
 const getViews = cache(async function getViews() {
   const sevenDaysAgo = new Date();
@@ -44,6 +45,7 @@ const getViews = cache(async function getViews() {
 });
 
 export default async function AdminUserPage() {
+  await ensureUserIsAdmin();
   const { views, mostViewed } = await getViews();
 
   const margin = { top: 20, bottom: 40, left: 60, right: 0 };

@@ -6,6 +6,7 @@ import { FormatDate } from '@/components/Format/FormatDate';
 import Link from 'next/link';
 import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
 import { getReviewUrlKeyFromQueue } from '@/lib/review-url';
+import { ensureUserIsAdmin } from '../admin';
 
 const getReviews = cache(() => {
   return db.review.findMany({
@@ -19,6 +20,7 @@ const getReviews = cache(() => {
 });
 
 export default async function AdminUserPage() {
+  await ensureUserIsAdmin();
   const reviews = await getReviews();
 
   const Reviews = createDataTable(reviews, (review) => review.id);

@@ -8,8 +8,11 @@ import type { Prisma } from '@gw2treasures/database';
 import { getUser } from '@/lib/getUser';
 import { Form, type FormState } from '@gw2treasures/ui/components/Form/Form';
 import { SubmitButton } from '@gw2treasures/ui/components/Form/Buttons/SubmitButton';
+import { ensureUserIsAdmin } from '../admin';
 
-export default function AdminQueueJobPage() {
+export default async function AdminQueueJobPage() {
+  await ensureUserIsAdmin();
+
   return (
     <PageLayout>
       <Headline id="apps">Queue Job</Headline>

@@ -184,7 +184,7 @@ async function AchievementPage({ params: { id, language }}: AchievementPageProps
           <Bits.Column id="index" title="Index" small align="right" hidden>{(_, index) => index}</Bits.Column>
           <Bits.Column id="type" title="Type" small hidden>{({ type }) => type}</Bits.Column>
           <Bits.Column id="objective" title="Objective">
-            {(bit) => {
+            {(bit, index) => {
               switch(bit.type) {
                 case 'Item':
                   const item = achievement.bitsItem.find(({ id }) => id === bit.id);
@@ -193,7 +193,7 @@ async function AchievementPage({ params: { id, language }}: AchievementPageProps
                   const skin = achievement.bitsSkin.find(({ id }) => id === bit.id);
                   return skin ? (<SkinLink skin={skin}/>) : `Unknown skin ${bit.id}`;
                 case 'Text':
-                  return bit.text;
+                  return bit.text || `Objective #${index + 1}`;
                 case 'Minipet':
                   return `Minipet ${bit.id}`;
               }

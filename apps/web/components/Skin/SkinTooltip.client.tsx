@@ -25,7 +25,7 @@ export const ClientSkinTooltip: FC<ClientSkinTooltipProps> = ({ tooltip, hideTit
       )}
       <div><Rarity rarity={tooltip.rarity.value}>{tooltip.rarity.label}</Rarity></div>
       <div>{tooltip.type}</div>
-      <div>{tooltip.weight}</div>
+      {tooltip.weight && (<div>{tooltip.weight}</div>)}
     </div>
   );
 };

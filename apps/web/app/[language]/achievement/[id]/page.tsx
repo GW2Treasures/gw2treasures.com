@@ -168,53 +168,57 @@ async function AchievementPage({ params: { id, language }}: AchievementPageProps
         </>
       )}
 
-      <Headline id="objectives" actions={(
-        <FlexRow>
-          {Bits && <ColumnSelect table={Bits}/>}
-          {CategoryAchievements && <ColumnSelect table={CategoryAchievements}/>}
-        </FlexRow>
-      )}
-      >
-        Objectives
-      </Headline>
-      <p dangerouslySetInnerHTML={{ __html: format(data.requirement.replace('  ', ` ${data.tiers[data.tiers.length - 1].count} `)) }}/>
+      {(data.requirement || (data.bits && data.bits.length > 0) || categoryAchievements.length > 0) && (
+        <>
+          <Headline id="objectives" actions={(
+            <FlexRow>
+              {Bits && <ColumnSelect table={Bits}/>}
+              {CategoryAchievements && <ColumnSelect table={CategoryAchievements}/>}
+            </FlexRow>
+          )}
+          >
+            Objectives
+          </Headline>
+          <p dangerouslySetInnerHTML={{ __html: format(data.requirement.replace('  ', ` ${data.tiers[data.tiers.length - 1].count} `)) }}/>
 
-      {Bits && (
-        <Bits.Table>
-          <Bits.Column id="index" title="Index" small align="right" hidden>{(_, index) => index}</Bits.Column>
-          <Bits.Column id="type" title="Type" small hidden>{({ type }) => type}</Bits.Column>
-          <Bits.Column id="objective" title="Objective">
-            {(bit, index) => {
-              switch(bit.type) {
-                case 'Item':
-                  const item = achievement.bitsItem.find(({ id }) => id === bit.id);
-                  return item ? (<ItemLink item={item}/>) : <UnknownItem id={bit.id}/>;
-                case 'Skin':
-                  const skin = achievement.bitsSkin.find(({ id }) => id === bit.id);
-                  return skin ? (<SkinLink skin={skin}/>) : `Unknown skin ${bit.id}`;
-                case 'Text':
-                  return bit.text || `Objective #${index + 1}`;
-                case 'Minipet':
-                  return `Minipet ${bit.id}`;
-              }
-            }}
-          </Bits.Column>
-          <Bits.DynamicColumns headers={<AccountAchievementProgressHeader/>}>
-            {(_, index) => <AccountAchievementProgressRow achievement={achievement} bitId={index}/>}
-          </Bits.DynamicColumns>
-        </Bits.Table>
-      )}
+          {Bits && (
+            <Bits.Table>
+              <Bits.Column id="index" title="Index" small align="right" hidden>{(_, index) => index}</Bits.Column>
+              <Bits.Column id="type" title="Type" small hidden>{({ type }) => type}</Bits.Column>
+              <Bits.Column id="objective" title="Objective">
+                {(bit, index) => {
+                  switch(bit.type) {
+                    case 'Item':
+                      const item = achievement.bitsItem.find(({ id }) => id === bit.id);
+                      return item ? (<ItemLink item={item}/>) : <UnknownItem id={bit.id}/>;
+                    case 'Skin':
+                      const skin = achievement.bitsSkin.find(({ id }) => id === bit.id);
+                      return skin ? (<SkinLink skin={skin}/>) : `Unknown skin ${bit.id}`;
+                    case 'Text':
+                      return bit.text || `Objective #${index + 1}`;
+                    case 'Minipet':
+                      return `Minipet ${bit.id}`;
+                  }
+                }}
+              </Bits.Column>
+              <Bits.DynamicColumns headers={<AccountAchievementProgressHeader/>}>
+                {(_, index) => <AccountAchievementProgressRow achievement={achievement} bitId={index}/>}
+              </Bits.DynamicColumns>
+            </Bits.Table>
+          )}
 
-      {CategoryAchievements && (
-        <CategoryAchievements.Table>
-          <CategoryAchievements.Column id="id" title="ID" small align="right" hidden sortBy="id">{({ id }) => id}</CategoryAchievements.Column>
-          <CategoryAchievements.Column id="achievement" title="Achievement">{(achievement) => <AchievementLink achievement={achievement}/>}</CategoryAchievements.Column>
-          <CategoryAchievements.Column id="points" title="AP" align="right" hidden sortBy="points">{({ points }) => <AchievementPoints points={points}/>}</CategoryAchievements.Column>
-          <CategoryAchievements.Column id="unlocks" title="Unlocks" align="right" hidden sortBy="unlocks">{({ unlocks }) => unlocks && <FormatNumber value={Math.round(unlocks * 1000) / 10} unit="%"/>}</CategoryAchievements.Column>
-          <CategoryAchievements.DynamicColumns headers={<AccountAchievementProgressHeader/>}>
-            {(achievement) => <AccountAchievementProgressRow achievement={achievement}/>}
-          </CategoryAchievements.DynamicColumns>
-        </CategoryAchievements.Table>
+          {CategoryAchievements && (
+            <CategoryAchievements.Table>
+              <CategoryAchievements.Column id="id" title="ID" small align="right" hidden sortBy="id">{({ id }) => id}</CategoryAchievements.Column>
+              <CategoryAchievements.Column id="achievement" title="Achievement">{(achievement) => <AchievementLink achievement={achievement}/>}</CategoryAchievements.Column>
+              <CategoryAchievements.Column id="points" title="AP" align="right" hidden sortBy="points">{({ points }) => <AchievementPoints points={points}/>}</CategoryAchievements.Column>
+              <CategoryAchievements.Column id="unlocks" title="Unlocks" align="right" hidden sortBy="unlocks">{({ unlocks }) => unlocks && <FormatNumber value={Math.round(unlocks * 1000) / 10} unit="%"/>}</CategoryAchievements.Column>
+              <CategoryAchievements.DynamicColumns headers={<AccountAchievementProgressHeader/>}>
+                {(achievement) => <AccountAchievementProgressRow achievement={achievement}/>}
+              </CategoryAchievements.DynamicColumns>
+            </CategoryAchievements.Table>
+          )}
+        </>
       )}
 
       <Headline id="tiers">Tiers</Headline>

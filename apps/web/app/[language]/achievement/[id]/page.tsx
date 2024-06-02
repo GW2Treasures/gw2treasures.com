@@ -179,7 +179,7 @@ async function AchievementPage({ params: { id, language }}: AchievementPageProps
           >
             Objectives
           </Headline>
-          <p dangerouslySetInnerHTML={{ __html: format(data.requirement.replace('  ', ` ${data.tiers[data.tiers.length - 1].count} `)) }}/>
+          <p dangerouslySetInnerHTML={{ __html: format(data.requirement.replace(/( |^)\/?( |$)/g, `$1${data.tiers[data.tiers.length - 1].count}$2`)) }}/>
 
           {Bits && (
             <Bits.Table>

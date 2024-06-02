@@ -89,7 +89,15 @@ const getAchievement = cache(async (id: number, language: Language) => {
 
   const categoryAchievements = data.flags.includes('CategoryDisplay')
     ? await db.achievement.findMany({
-        where: { achievementCategoryId: achievement.achievementCategoryId, id: { not: achievement.id }, historic: false, NOT: { flags: { hasSome: notPartOfCategoryDisplayFlags }}},
+        where: {
+          achievementCategoryId: achievement.achievementCategoryId,
+          id: { not: achievement.id },
+          historic: false,
+          NOT: { flags: { hasSome: notPartOfCategoryDisplayFlags }}
+        },
+        include: {
+          icon: true,
+        }
       })
     : [];
 

@@ -1,9 +1,9 @@
 # syntax=docker/dockerfile:1.7
 
 ARG node_version=20.14.0-alpine
-# renovate: datasource=npm depName=prisma
+# renovate: datasource=npm packageName=prisma
 ARG prisma_version=5.14.0
-# renovate: datasource=npm depName=sharp
+# renovate: datasource=npm packageName=sharp
 ARG sharp_version=0.33.4
 
 FROM --platform=$BUILDPLATFORM node:${node_version} AS source

@@ -57,7 +57,7 @@
     "server-only": "0.0.1",
     "sharp": "0.33.4",
     "ts-node": "10.9.2",
-    "tslib": "2.6.2"
+    "tslib": "2.6.3"
   },
   "devDependencies": {
     "@gw2treasures/tsconfig": "*",

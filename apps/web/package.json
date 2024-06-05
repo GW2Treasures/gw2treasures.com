@@ -46,7 +46,7 @@
     "gw2-tooltip-html": "0.1.0",
     "gw2e-chat-codes": "1.4.2",
     "hast-util-to-jsx-runtime": "2.3.0",
-    "isbot": "5.1.8",
+    "isbot": "5.1.9",
     "jest": "29.7.0",
     "jest-environment-jsdom": "29.7.0",
     "negotiator": "0.6.3",

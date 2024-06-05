@@ -33,10 +33,10 @@ jobs:
     - name: Cache turbo
       uses: actions/cache@v4
       with:
-        path: ./node_modules/.cache/turbo
-        key: turbo-cache-build-${{ runner.os }}-${{ github.sha }}
+        path: ./.turbo/cache
+        key: turbo2-cache-build-${{ runner.os }}-${{ github.sha }}
         restore-keys: |
-          turbo-cache-build-${{ runner.os }}-
+          turbo2-cache-build-${{ runner.os }}-
     - name: Run Build
       run: npm run build
 
@@ -67,10 +67,10 @@ jobs:
     - name: Cache turbo
       uses: actions/cache@v4
       with:
-        path: ./node_modules/.cache/turbo
-        key: turbo-cache-test-${{ runner.os }}-${{ github.sha }}
+        path: ./.turbo/cache
+        key: turbo2-cache-test-${{ runner.os }}-${{ github.sha }}
         restore-keys: |
-          turbo-cache-test-${{ runner.os }}-
+          turbo2-cache-test-${{ runner.os }}-
     - name: Run Test
       run: npm run test
 
@@ -92,10 +92,10 @@ jobs:
     - name: Cache turbo
       uses: actions/cache@v4
       with:
-        path: ./node_modules/.cache/turbo
-        key: turbo-cache-lint-${{ runner.os }}-${{ github.sha }}
+        path: ./.turbo/cache
+        key: turbo2-cache-lint-${{ runner.os }}-${{ github.sha }}
         restore-keys: |
-          turbo-cache-lint-${{ runner.os }}-
+          turbo2-cache-lint-${{ runner.os }}-
     - name: Run Lint
       run: npm run lint
 
@@ -201,7 +201,7 @@ jobs:
     - name: Install dependencies
       run: npm ci
     - name: Run Publish
-      run: npm run publish-package -- --filter=${{ matrix.target }}
+      run: npm run publish-package -- --filter=@gw2treasures/${{ matrix.target }}
       id: publish
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

@@ -1,15 +1,25 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "extends": ["//"],
-  "pipeline": {
+  "extends": [
+    "//"
+  ],
+  "tasks": {
     "build": {
-      "outputs": [".next/**", "!.next/cache/**"]
+      "outputs": [
+        ".next/**",
+        "!.next/cache/**"
+      ]
     },
     "dev": {
-      "dependsOn": ["^build", "@gw2treasures/database#prisma:migrate"]
+      "dependsOn": [
+        "^build",
+        "@gw2treasures/database#prisma:migrate"
+      ]
     },
     "lint": {
-      "dependsOn": ["@gw2treasures/eslint-plugin-nextjs#build"]
+      "dependsOn": [
+        "@gw2treasures/eslint-plugin-nextjs#build"
+      ]
     }
   }
 }

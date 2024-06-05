@@ -1,9 +1,20 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "extends": ["//"],
-  "pipeline": {
+  "extends": [
+    "//"
+  ],
+  "tasks": {
     "e2e": {
-      "outputs": ["playwright-report", "test-results"]
+      "outputs": [
+        "playwright-report",
+        "test-results"
+      ],
+      "env": [
+        "BASE_URL"
+      ],
+      "passThroughEnv": [
+        "PLAYWRIGHT_BROWSERS_PATH"
+      ]
     }
   }
 }

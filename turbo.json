@@ -1,8 +1,11 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "pipeline": {
+  "tasks": {
     "build": {
-      "dependsOn": ["^build", "prisma:generate"]
+      "dependsOn": [
+        "^build",
+        "prisma:generate"
+      ]
     },
     "lint": {},
     "prisma:generate": {
@@ -14,15 +17,26 @@
     "dev": {
       "cache": false,
       "persistent": true,
-      "dependsOn": ["^build"]
+      "dependsOn": [
+        "^build"
+      ]
     },
     "publish-package": {
       "cache": false,
-      "dependsOn": ["build", "@gw2treasures/publish-package#build"]
+      "dependsOn": [
+        "build",
+        "@gw2treasures/publish-package#build"
+      ],
+      "env": [
+        "GITHUB_EVENT_NAME",
+        "GITHUB_OUTPUT"
+      ]
     },
     "e2e": {},
     "test": {
-      "dependsOn": ["^build"]
+      "dependsOn": [
+        "^build"
+      ]
     }
   }
 }

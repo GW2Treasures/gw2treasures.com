@@ -8,6 +8,12 @@
       "outputs": [
         "playwright-report",
         "test-results"
+      ],
+      "env": [
+        "BASE_URL"
+      ],
+      "passThroughEnv": [
+        "PLAYWRIGHT_BROWSERS_PATH"
       ]
     }
   }

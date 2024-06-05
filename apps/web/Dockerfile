@@ -13,7 +13,7 @@ WORKDIR /source
 COPY --link package*.json ./
 RUN npm ci --workspaces=false
 COPY --link . .
-RUN npx turbo prune --scope=web --docker
+RUN npx turbo prune web --docker
 
 # Install dependencies (on TARGETPLATFORM)
 FROM --platform=$TARGETPLATFORM node:${node_version} AS dependencies

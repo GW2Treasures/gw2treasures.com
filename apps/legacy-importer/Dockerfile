@@ -9,7 +9,7 @@ WORKDIR /source
 COPY --link package*.json ./
 RUN npm ci --workspaces=false
 COPY --link . .
-RUN npx turbo prune --scope=legacy-importer --docker
+RUN npx turbo prune legacy-importer --docker
 
 # Rebuild the source code only when needed
 FROM node:${node_version} AS builder

@@ -11,7 +11,7 @@ WORKDIR /source
 COPY --link package*.json ./
 RUN npm ci --workspaces=false
 COPY --link . .
-RUN npx turbo prune --scope=worker --docker
+RUN npx turbo prune worker --docker
 
 # Rebuild the source code only when needed
 FROM node:${node_version} AS builder

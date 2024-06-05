@@ -9,7 +9,7 @@ WORKDIR /source
 COPY --link package*.json ./
 RUN npm ci --workspaces=false
 COPY --link . .
-RUN npx turbo prune --scope=e2e --docker
+RUN npx turbo prune e2e --docker
 
 # Rebuild the source code only when needed
 FROM mcr.microsoft.com/playwright:v1.44.1-jammy AS tester

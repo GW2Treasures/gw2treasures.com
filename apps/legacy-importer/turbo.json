@@ -1,12 +1,18 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "extends": ["//"],
-  "pipeline": {
+  "extends": [
+    "//"
+  ],
+  "tasks": {
     "build": {
-      "outputs": ["lib/**"]
+      "outputs": [
+        "lib/**"
+      ]
     },
     "prisma:generate": {
-      "dependsOn": ["@gw2treasures/database#prisma:generate"]
+      "dependsOn": [
+        "@gw2treasures/database#prisma:generate"
+      ]
     }
   }
 }

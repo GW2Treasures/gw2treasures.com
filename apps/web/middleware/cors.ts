@@ -6,12 +6,20 @@ const languages = Object.values(Language);
 const baseDomain = process.env.GW2T_NEXT_DOMAIN;
 const regex = new RegExp(`^https?://(${languages.join('|')})\.${baseDomain?.replace('.', '\.')}`);
 
-export const corsMiddleware: NextMiddleware = async (request, next) => {
+export const corsMiddleware: NextMiddleware = async (request, next, data) => {
+  // skip this middleware for API
+  if(data.subdomain === 'api') {
+    return next(request);
+  }
+
   const origin = request.headers.get('Origin');
 
+  // allow the request if the origin is not set (no CORS request)
+  // or if it matches the baseDomain
   const isAllowed = !origin || origin.match(regex);
 
   if(!isAllowed) {
+    console.error('Blocked CORS request.');
     return new NextResponse('', { status: 400 });
   }
 

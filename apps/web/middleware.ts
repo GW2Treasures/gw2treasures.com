@@ -18,10 +18,10 @@ export async function middleware(request: NextRequest) {
   const middlewares: NextMiddleware[] = [
     logMiddleware,
     healthMiddleware,
-    corsMiddleware,
     realUrlMiddleware,
     dropSearchParamsMiddleware,
     subdomainMiddleware,
+    corsMiddleware,
     contentSecurityPolicyMiddleware,
     languageMiddleware,
     userAgentMiddleware,

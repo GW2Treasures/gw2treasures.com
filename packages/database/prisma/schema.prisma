@@ -1125,6 +1125,8 @@ model Application {
 
   apiKey String @unique
 
+  origins String[]
+
   owner   User @relation("application", fields: [ownerId], references: [id], onDelete: Cascade)
   ownerId String
 

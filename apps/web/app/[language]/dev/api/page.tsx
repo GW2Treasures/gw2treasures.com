@@ -6,6 +6,7 @@ import { getCurrentUrl } from '@/lib/url';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
 import Link from 'next/link';
+import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 
 const exampleCodeFetchWithAuthorizationHeader =
 `fetch('https://api.gw2treasures.com/items', {
@@ -21,15 +22,29 @@ export default function DeveloperIconsPage() {
 
   return (
     <HeroLayout hero={<Headline id="api">API</Headline>} color="#2c8566" toc>
-      <p>gw2treasures.com provides a public API. The API contains data not available in the official Guild Wars 2 API, for example deleted or community contributed content.</p>
-      <p>The API is available at <ExternalLink target="_blank" href={apiUrl.toString()}><Code inline>{apiUrl.toString()}</Code></ExternalLink>.</p>
+      <p>
+        gw2treasures.com provides a public API. The API contains data not available in the official Guild Wars 2 API,
+        for example deleted or community contributed content.
+      </p>
+      <p>
+        The API is available at <ExternalLink target="_blank" href={apiUrl.toString()}><Code inline>{apiUrl.toString()}</Code></ExternalLink>.
+      </p>
 
       <Headline id="authorization">API Key</Headline>
-      <p>All requests to the gw2treasures.com API require an API key. This API key is used for per application rate limiting and versioning. Some endpoints may require approval before an application can use them in the future.</p>
-
-      <p>You can <Link href="/dev/app/create">create</Link> as many applications as you want. After creating a new application you can access its API key. You can view all your applications on the <Link href="/dev#applications">Developer page</Link>.</p>
-
-      <p>The API key can be passed as header (<Code inline>Authorization: Bearer &lt;api-key&gt;</Code>) or as <Code inline>apiKey</Code> query parameter.</p>
+      <p>
+        All requests to the gw2treasures.com API require an API key. This API key is used for per application rate limiting
+        and versioning. Some endpoints may require approval before an application can use them in the future.
+      </p>
+      <p>
+        First you have to <Link href="/dev/app/create">register your application</Link> to access the API key.
+        You can view all your applications on the <Link href="/dev#applications">Developer page</Link>.
+      </p>
+      <p>
+        The API key can be passed as header (<Code inline>Authorization: Bearer &lt;api-key&gt;</Code>) or as <Code inline>apiKey</Code> query parameter.
+        Note that using the <Code inline>Authorization</Code> header to make a request from a browser will issue an
+        additional <ExternalLink href="https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request">CORS preflight</ExternalLink> request,
+        so you should prefer the query parameter when making client-side requests.
+      </p>
 
       <Code><Highlight language="javascript" code={exampleCodeFetchWithAuthorizationHeader}/></Code>
 
@@ -116,6 +131,7 @@ export default function DeveloperIconsPage() {
 
       <Headline id="/items/:id/data">GET <Code inline>/items/:id/data</Code></Headline>
       <p>Get data of an item (same format as returned by the official Guild Wars 2 API).</p>
+      <Notice>Data for some older items will be returned in the format used by the <ExternalLink href="https://wiki.guildwars2.com/wiki/API:1/item_details">/v1/item_details</ExternalLink> API.</Notice>
       <p>The HTTP response will contain a <Code inline>X-Created-At</Code> header with an ISO 8601 timestamp of when the item was first discovered.</p>
 
       <Table>

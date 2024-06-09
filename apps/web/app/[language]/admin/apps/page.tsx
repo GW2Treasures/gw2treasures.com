@@ -8,6 +8,7 @@ import { FormatNumber } from '@/components/Format/FormatNumber';
 import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
 import { ColumnSelect } from '@/components/Table/ColumnSelect';
 import { ensureUserIsAdmin } from '../admin';
+import { List } from '@gw2treasures/ui/components/Layout/List';
 
 const getApplications = cache(() => {
   const lastDay = new Date();
@@ -40,6 +41,9 @@ export default async function AdminUserPage() {
         </Apps.Column>
         <Apps.Column id="apiKey" title="API key">
           {({ apiKey }) => <Code inline>{apiKey}</Code>}
+        </Apps.Column>
+        <Apps.Column id="origins" title="Origins" sortBy={({ origins }) => origins.length} hidden>
+          {({ origins }) => <List>{origins.map((origin) => <li key={origin}>{origin}</li>)}</List>}
         </Apps.Column>
         <Apps.Column id="requests" align="right" title="Requests (24h)" sortBy={({ _count }) => _count.requests}>
           {({ _count }) => <FormatNumber value={_count.requests}/>}

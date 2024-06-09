@@ -62,7 +62,7 @@ export default async function DevAppPage({ params: { id }}: DevAppPageProps) {
       <Headline id="api-key">API Key</Headline>
       <p>
         Use this API key to access the <Link href="/dev/api">gw2treasures.com API</Link>.
-        It is okay to include this API key in native or mobile apps or client-side web applications.
+        It is okay to include this API key in native/mobile apps or client-side web applications.
       </p>
 
       <Label label="API Key">
@@ -73,7 +73,7 @@ export default async function DevAppPage({ params: { id }}: DevAppPageProps) {
       <Headline id="origins">Origins</Headline>
       <p>
         To access the gw2treasures.com API directly from a web browser, you&apos;ll need to register
-        the <ExternalLink href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Origin">origins</ExternalLink> your
+        the <ExternalLink href="https://developer.mozilla.org/en-US/docs/Glossary/Origin">origins</ExternalLink> your
         application uses. This is not required if you are making requests from a server-side environment
         without <ExternalLink href="https://developer.mozilla.org/en-US/docs/Glossary/CORS">CORS</ExternalLink> restrictions.
       </p>

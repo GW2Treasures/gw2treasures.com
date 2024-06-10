@@ -96,7 +96,7 @@ export type ItemFilters = {
   level?: number,
 }
 
-export const searchItems = cache((terms: string[], chatCodes: ChatCode[], filter?: ItemFilters) => {
+export const searchItems = cache(async (terms: string[], chatCodes: ChatCode[], filter?: ItemFilters) => {
   const nameQueries = nameQuery(terms);
 
   const itemChatCodes = chatCodes.filter(isChatCodeWithType('item'));
@@ -107,24 +107,49 @@ export const searchItems = cache((terms: string[], chatCodes: ChatCode[], filter
 
   const numberTerms = terms.map(toNumber).filter(isTruthy);
 
-  const where = [
+  const chatCodeWhere = [
+    { id: { in: itemIdsInChatCodes }},
+    { recipeOutput: { some: { id: { in: recipeIdsInChatCodes }}}},
+    { unlocksRecipeIds: { hasSome: recipeIdsInChatCodes }},
+  ];
+
+  const joinedTerms = terms.join(' ');
+  const exactWhere = [
     filter,
-    terms.length + chatCodes.length > 0 ? {
+    {
       OR: [
-        ...nameQueries,
-        { id: { in: [...itemIdsInChatCodes, ...numberTerms] }},
-        { recipeOutput: { some: { id: { in: recipeIdsInChatCodes }}}},
-        { unlocksRecipeIds: { hasSome: recipeIdsInChatCodes }},
+        { name_de: { equals: joinedTerms, mode: 'insensitive' as const }},
+        { name_en: { equals: joinedTerms, mode: 'insensitive' as const }},
+        { name_es: { equals: joinedTerms, mode: 'insensitive' as const }},
+        { name_fr: { equals: joinedTerms, mode: 'insensitive' as const }},
+        { id: { in: numberTerms }},
+        ...chatCodeWhere,
       ]
-    } : undefined
+    }
   ].filter(isDefined);
 
-  return db.item.findMany({
-    where: { AND: where },
-    take: 5,
+  const containsTermsWhere = [
+    filter,
+    terms.length > 0 ? { OR: nameQueries } : undefined
+  ].filter(isDefined);
+
+  // get exact name matches first (only search if we are actually filtering for something)
+  const exactNameMatches = terms.length + chatCodes.length > 0 ? await db.item.findMany({
+    where: { AND: exactWhere },
+    take: 50,
     include: { icon: true },
     orderBy: { views: 'desc' }
-  });
+  }) : [];
+
+  // if we have less then 5 exact matches, we fill the remainder with items that just contain the search terms
+  const termMatches = exactNameMatches.length < 5 ? await db.item.findMany({
+    where: { AND: containsTermsWhere },
+    take: 5 - exactNameMatches.length,
+    include: { icon: true },
+    orderBy: { views: 'desc' }
+  }) : [];
+
+  return [...exactNameMatches, ...termMatches];
 }, ['search', 'search-items'], { revalidate: 60 });
 
 export const searchSkills = cache((terms: string[], chatCodes: ChatCode[]) => {

@@ -17,13 +17,13 @@ import { getAlternateUrls } from '@/lib/url';
 import type { Language } from '@gw2treasures/database';
 import { PageView } from '@/components/PageView/PageView';
 
-function HomePage() {
+function HomePage({ params: { language }}: { params: { language: Language }}) {
   return (
     <HeroLayout hero={(
       <div className={styles.hero}>
         <div className={styles.heroContent}>
           <div className={styles.heroTitle}><Icon icon="gw2t"/> gw2treasures.com</div>
-          <div className={styles.heroSubtitle}><Trans id="subtitle"/></div>
+          <div className={styles.heroSubtitle}><Trans language={language} id="subtitle"/></div>
         </div>
       </div>
     )}
@@ -34,14 +34,14 @@ function HomePage() {
       </Suspense>
 
       <Headline id="new-items">
-        <Trans id="items.new"/>
+        <Trans language={language} id="items.new"/>
       </Headline>
       <Suspense fallback={<ListFallback size={24}/>}>
         <NewItems/>
       </Suspense>
 
       <Headline id="new-achievements">
-        <Trans id="achievements.new"/>
+        <Trans language={language} id="achievements.new"/>
       </Headline>
       <Suspense fallback={<ListFallback size={24}/>}>
         <NewAchievements/>

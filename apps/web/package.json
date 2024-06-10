@@ -36,7 +36,7 @@
     "@visx/shape": "3.5.0",
     "@visx/threshold": "3.5.0",
     "@visx/tooltip": "3.3.0",
-    "@wooorm/starry-night": "3.3.0",
+    "@wooorm/starry-night": "3.4.0",
     "babel-plugin-react-compiler": "0.0.0-experimental-938cd9a-20240601",
     "chalk": "5.3.0",
     "client-only": "0.0.1",

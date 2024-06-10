@@ -5,7 +5,6 @@ const nextConfig = {
   experimental: {
     outputFileTracingRoot: path.join(__dirname, '../../'),
     reactCompiler: true,
-    ppr: 'incremental'
   },
   redirects: () => [{ source: '/wizardsvault', destination: '/wizards-vault', permanent: true }],
   transpilePackages: ['@gw2treasures/ui'],

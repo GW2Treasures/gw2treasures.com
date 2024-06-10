@@ -15,6 +15,7 @@ import { AchievementLink } from '@/components/Achievement/AchievementLink';
 import { pageView } from '@/lib/pageView';
 import { cache } from '@/lib/cache';
 import { getAlternateUrls } from '@/lib/url';
+import type { Language } from '@gw2treasures/database';
 
 async function HomePage() {
   await pageView('/');
@@ -119,9 +120,9 @@ async function DbStats() {
 
 export default HomePage;
 
-export function generateMetadata() {
+export function generateMetadata({ params }: { params: { language: Language }}) {
   return {
     title: 'Home',
-    alternates: getAlternateUrls('/')
+    alternates: getAlternateUrls('/', params.language)
   };
 }

@@ -12,14 +12,12 @@ import styles from './page.module.css';
 import Link from 'next/link';
 import { FormatNumber } from '@/components/Format/FormatNumber';
 import { AchievementLink } from '@/components/Achievement/AchievementLink';
-import { pageView } from '@/lib/pageView';
 import { cache } from '@/lib/cache';
 import { getAlternateUrls } from '@/lib/url';
 import type { Language } from '@gw2treasures/database';
+import { PageView } from '@/components/PageView/PageView';
 
-async function HomePage() {
-  await pageView('/');
-
+function HomePage() {
   return (
     <HeroLayout hero={(
       <div className={styles.hero}>
@@ -30,6 +28,7 @@ async function HomePage() {
       </div>
     )}
     >
+      <PageView page="/"/>
       <Suspense fallback={<div className={styles.statsRow}/>}>
         <DbStats/>
       </Suspense>

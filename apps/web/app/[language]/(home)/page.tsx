@@ -125,3 +125,5 @@ export function generateMetadata({ params }: { params: { language: Language }}) 
     alternates: getAlternateUrls('/', params.language)
   };
 }
+
+export const experimental_ppr = true;

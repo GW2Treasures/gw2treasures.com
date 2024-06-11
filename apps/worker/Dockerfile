@@ -1,4 +1,4 @@
-# syntax=docker/dockerfile:1.7
+# syntax=docker/dockerfile:1.8
 
 ARG node_version=20.14.0-alpine
 # renovate: datasource=npm packageName=sharp

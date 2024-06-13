@@ -1,7 +1,7 @@
 'use client';
 
-import { arrow, autoUpdate, flip, hide, offset, type Placement, shift, type Side, size, useClick, useDismiss, useFloating, useFocus, useInteractions, useTransitionStyles, FloatingPortal, FloatingFocusManager, FloatingArrow } from '@floating-ui/react';
-import { Children, cloneElement, type FC, type ReactElement, type ReactNode, useRef, useState, type Ref, type HTMLProps } from 'react';
+import { arrow, autoUpdate, flip, hide, offset, type Placement, shift, size, useClick, useDismiss, useFloating, useFocus, useInteractions, useTransitionStyles, FloatingPortal, FloatingFocusManager, FloatingArrow } from '@floating-ui/react';
+import { Children, cloneElement, type FC, type ReactElement, type ReactNode, useRef, useState, type HTMLProps } from 'react';
 import styles from './DropDown.module.css';
 import { isTruthy } from '@gw2treasures/helper/is';
 
@@ -17,7 +17,7 @@ export const DropDown: FC<DropDown> = ({ children, button, preferredPlacement = 
   const arrowRef = useRef<SVGSVGElement>(null);
   const padding = { top: 48 + 8, bottom: 8, left: 8, right: 8 };
 
-  const { x, y, strategy, context, middlewareData, placement, refs } = useFloating({
+  const { context, middlewareData, refs, floatingStyles } = useFloating({
     open,
     onOpenChange: setOpen,
     placement: preferredPlacement,
@@ -43,20 +43,6 @@ export const DropDown: FC<DropDown> = ({ children, button, preferredPlacement = 
 
   const { styles: transitionStyles, isMounted } = useTransitionStyles(context);
 
-  const staticSide = {
-    top: 'bottom' as Side,
-    right: 'left' as Side,
-    bottom: 'top' as Side,
-    left: 'right' as Side,
-  }[placement.split('-')[0]] ?? 'top';
-
-  const sideIndex = {
-    bottom: 2,
-    right: 1,
-    top: 0,
-    left: 3,
-  };
-
   return (
     <>
       {cloneElement(Children.only(button), { ref: refs.setReference, ...getReferenceProps({ ...button.props, onClick: (e) => e.preventDefault() }) })}
@@ -67,10 +53,7 @@ export const DropDown: FC<DropDown> = ({ children, button, preferredPlacement = 
             className={styles.dropdown}
             style={{
               ...transitionStyles,
-              position: strategy,
-              top: y ?? 0,
-              left: x ?? 0,
-              width: 'max-content',
+              ...floatingStyles,
               visibility: middlewareData.hide?.referenceHidden ? 'hidden' : 'visible',
             }}
             {...getFloatingProps()}

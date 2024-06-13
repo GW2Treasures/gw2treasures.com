@@ -11,9 +11,8 @@ export interface TooltipProps {
 
 export const Tooltip: FC<TooltipProps> = ({ children, content }) => {
   const [open, setOpen] = useState(false);
-  const arrowRef = useRef<HTMLDivElement>(null);
 
-  const { x, y, refs, strategy, context, middlewareData } = useFloating({
+  const { refs, context, floatingStyles } = useFloating({
     open,
     onOpenChange: setOpen,
     placement: 'bottom-start',
@@ -57,20 +56,10 @@ export const Tooltip: FC<TooltipProps> = ({ children, content }) => {
           <div
             ref={refs.setFloating}
             className={styles.tooltip}
-            style={{
-              ...transitionStyles,
-              position: strategy,
-              top: y ?? 0,
-              left: x ?? 0,
-              width: 'max-content',
-            }}
+            style={{ ...transitionStyles, ...floatingStyles }}
             {...getFloatingProps()}
           >
             <div>{content}</div>
-            <div className={styles.arrow} ref={arrowRef} style={{
-              left: middlewareData.arrow?.x ?? undefined,
-              top: middlewareData.arrow?.y ?? undefined
-            }}/>
           </div>
         </FloatingPortal>
       )}

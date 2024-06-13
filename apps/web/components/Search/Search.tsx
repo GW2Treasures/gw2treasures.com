@@ -32,7 +32,7 @@ export interface SearchProps {
 export const Search: FC<SearchProps> = ({ translations }) => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('');
-  const searchValue = useDebounce(value);
+  const searchValue = useDebounce(value, 300);
   const listRef = useRef<(HTMLAnchorElement | null)[]>([]);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 

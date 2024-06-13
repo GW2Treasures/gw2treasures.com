@@ -31,6 +31,7 @@ import type { AccessorForArrayItem } from '@visx/shape/lib/types';
 import { useLocalStorageState } from '@/lib/useLocalStorageState';
 import { CookieNotification } from '@/components/User/CookieNotification';
 import type { TooltipWithBoundsProps } from '@visx/tooltip/lib/tooltips/TooltipWithBounds';
+import { useFormatContext } from '@/components/Format/FormatContext';
 
 // override types of TooltipWithBounds for react@19 compatibility
 const TooltipWithBounds = TooltipWithBoundsReact18 as unknown as ComponentClass<TooltipWithBoundsProps>;
@@ -351,6 +352,8 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
   // get latest data point (shown in legend)
   const current = completeHistory.at(-1)!;
 
+  const { numberFormat } = useFormatContext();
+
   return (
     <>
       <FlexRow wrap align="space-between">
@@ -410,7 +413,7 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
           </svg>
           <FlexRow align="space-between" wrap>
             <span>
-              Showing <b style={{ fontFeatureSettings: '"tnum" 1' }}>{data.length > 0 ? Math.ceil((range[1].getTime() - range[0].getTime()) / 1000 / 60 / 60 / 24) : 0} days</b> before <b style={{ fontFeatureSettings: '"tnum" 1' }}><FormatDate date={range[1]}/></b>
+              Showing <b style={{ fontFeatureSettings: '"tnum" 1' }}><FormatNumber value={data.length > 0 ? Math.ceil((range[1].getTime() - range[0].getTime()) / 1000 / 60 / 60 / 24) : 0}/> days</b> before <b style={{ fontFeatureSettings: '"tnum" 1' }}><FormatDate date={range[1]}/></b>
             </span>
             <div>
               <Button appearance="menu" onClick={() => handleSetRange(null)}>Full History</Button>
@@ -432,7 +435,7 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
 
               {/* axis */}
               {!isMobile && (visibility.sellPrice || visibility.buyPrice) && (<AxisLeft scale={priceScale} strokeWidth={0} tickComponent={renderGoldTick} tickFormat={String} numTicks={6}/>)}
-              {!isMobile && (visibility.sellQuantity || visibility.buyQuantity) && (<AxisRight scale={quantityScale} left={xMax} strokeWidth={0} tickLabelProps={tickLabelProps} tickComponent={renderTick} numTicks={6}/>)}
+              {!isMobile && (visibility.sellQuantity || visibility.buyQuantity) && (<AxisRight scale={quantityScale} left={xMax} strokeWidth={0} tickLabelProps={tickLabelProps} tickFormat={(v) => numberFormat.format(v.valueOf())} tickComponent={renderTick} numTicks={6}/>)}
               <AxisBottom scale={xScale} top={yMax} stroke="var(--color-border)" strokeWidth={2} tickStroke="var(--color-border)" tickLabelProps={tickLabelProps} tickComponent={renderTick} numTicks={width >= 1000 ? 10 : 6}/>
 
               <RectClipPath id={clipPathId} x={0} y={0} width={xMax} height={yMax}/>

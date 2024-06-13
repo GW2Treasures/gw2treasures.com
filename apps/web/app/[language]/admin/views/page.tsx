@@ -3,19 +3,24 @@ import { PageLayout } from '@/components/Layout/PageLayout';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { cache } from 'react';
 import { db } from '@/lib/prisma';
-import { DataList } from '@/components/Infobox/DataList';
 import { scaleLinear, scaleTime } from '@visx/scale';
 import { extent, max } from 'd3-array';
 import { Group } from '@visx/group';
 import { Line, LinePath } from '@visx/shape';
-import { curveBasis, curveLinear, curveMonotoneX, curveNatural } from '@visx/curve';
+import { curveMonotoneX } from '@visx/curve';
 import { GridRows } from '@visx/grid';
 import { AxisBottom, AxisLeft } from '@visx/axis';
 import { ensureUserIsAdmin } from '../admin';
+import { LinkButton } from '@gw2treasures/ui/components/Form/Button';
 
-const getViews = cache(async function getViews() {
-  const sevenDaysAgo = new Date();
-  sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+type Interval = 'hour' | 'day';
+type Days = '7' | '30';
+
+const getViews = cache(async function getViews(interval: Interval, days: Days) {
+  const daysAgo = new Date();
+  daysAgo.setDate(daysAgo.getDate() - Number(days));
+
+  const intervalSize = interval === 'hour' ? '1 hour' : '1 day';
 
   const [views, mostViewed] = await Promise.all([
     // db.pageView_daily.groupBy({
@@ -26,16 +31,16 @@ const getViews = cache(async function getViews() {
     // }),
     db.$queryRaw<{ bucket: Date, count: number }[]>`
       SELECT
-        time_bucket_gapfill(INTERVAL '1 hour', time) AS bucket,
+        time_bucket_gapfill(${intervalSize}::INTERVAL, time) AS bucket,
         COUNT(*)::int AS count
       FROM "PageView"
-      WHERE time >= ${sevenDaysAgo} AND time <= NOW()
+      WHERE time >= ${daysAgo} AND time <= NOW()
       GROUP BY bucket
       ORDER BY bucket`,
     db.pageView_daily.groupBy({
       by: ['page', 'pageId'],
       _sum: { count: true },
-      where: { bucket: { gte: sevenDaysAgo }},
+      where: { bucket: { gte: daysAgo }},
       orderBy: { _sum: { count: 'desc' }},
       take: 25,
     }),
@@ -44,9 +49,13 @@ const getViews = cache(async function getViews() {
   return { views, mostViewed };
 });
 
-export default async function AdminUserPage() {
+export default async function AdminUserPage({ searchParams: { interval, days }}: { searchParams: { interval: Interval, days: Days } }) {
   await ensureUserIsAdmin();
-  const { views, mostViewed } = await getViews();
+
+  interval = ['hour', 'day'].includes(interval) ? interval : 'hour';
+  days = ['7', '30'].includes(days) ? days : '7';
+
+  const { views, mostViewed } = await getViews(interval, days);
 
   const margin = { top: 20, bottom: 40, left: 60, right: 0 };
   const width = 1200;
@@ -69,8 +78,12 @@ export default async function AdminUserPage() {
 
   return (
     <PageLayout>
-      <Headline id="reviews">Page Views (last 7 days)</Headline>
-
+      <Headline id="reviews" actions={[
+        days === '30' ? <LinkButton href={`?interval=${interval}&days=7`}>1 Week</LinkButton> : <LinkButton href={`?interval=${interval}&days=30`}>1 Month</LinkButton>,
+        interval === 'hour' ? <LinkButton href={`?interval=day&days=${days}`}>daily</LinkButton> : <LinkButton href={`?interval=hour&days=${days}`}>hourly</LinkButton>,
+      ]}>
+        Page Views (last {days} days)
+      </Headline>
       <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} style={{ overflow: 'visible' }}>
         <Group left={margin.left} top={margin.top}>
           <GridRows scale={viewScale} width={xMax} height={yMax} numTicks={6} stroke="var(--color-border)"/>

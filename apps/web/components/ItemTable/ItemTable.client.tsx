@@ -22,6 +22,7 @@ import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import type { AvailableColumns, GlobalColumnId, ItemTableQuery, LoadItemsResult, QueryModel } from './types';
 import { getHistoryState, updateHistoryState } from './history-state';
 import type { TranslationId, TranslationSubset } from '@/lib/translate';
+import { FormatNumber } from '../Format/FormatNumber';
 
 const LOADING = false;
 type LOADING = typeof LOADING;
@@ -156,14 +157,14 @@ export const ItemTable = <ExtraColumnId extends string = never, Model extends Qu
             );
           })}
           {collapsed && totalItems > collapsedSize && (
-            <TableRowButton key="show-more" onClick={() => setCollapsed(false)}><Icon icon="chevron-down"/> Show {totalItems - collapsedSize} more</TableRowButton>
+            <TableRowButton key="show-more" onClick={() => setCollapsed(false)}><Icon icon="chevron-down"/> Show <FormatNumber value={totalItems - collapsedSize}/> more</TableRowButton>
           )}
         </tbody>
       </Table>
       {!collapsed && (
         <FlexRow align="space-between">
           <div>
-            Showing <b>{range ? range.offset + 1 : 0}&ndash;{(range?.offset ?? 0) + (range?.length ?? 0)}</b> of <b>{totalItems}</b> items
+            Showing <b><FormatNumber value={range ? range.offset + 1 : 0}/>&ndash;<FormatNumber value={(range?.offset ?? 0) + (range?.length ?? 0)}/></b> of <b><FormatNumber value={totalItems}/></b> items
           </div>
           <Pagination disabled={loading} current={page} total={Math.ceil(totalItems / pageSize)} onPageChange={setPage} translations={translations}/>
         </FlexRow>

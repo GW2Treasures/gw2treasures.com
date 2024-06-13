@@ -3,6 +3,7 @@
 import { type FC, type ReactNode, useCallback, useState } from 'react';
 import { Button } from '@gw2treasures/ui/components/Form/Button';
 import styles from './ShowMore.module.css';
+import { FormatNumber } from '../Format/FormatNumber';
 
 export interface ShowMoreProps {
   children: ReactNode[];
@@ -20,7 +21,7 @@ export const ShowMore: FC<ShowMoreProps> = ({ children, initialSize = 3 }) => {
     <>
       {expanded || children.length <= initialSize ? children : [
         ...children.slice(0, initialSize),
-        <Button key="show-more" icon="chevron-down" appearance="menu" onClick={handleClick} className={styles.button}>Show {children.length - initialSize} more</Button>
+        <Button key="show-more" icon="chevron-down" appearance="menu" onClick={handleClick} className={styles.button}>Show <FormatNumber value={children.length - initialSize}/> more</Button>
       ]}
     </>
   );

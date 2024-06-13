@@ -9,7 +9,7 @@ export const userAgentMiddleware: NextMiddleware = (request, next) => {
   const isBot = isbot(ua);
 
   // check if request is a prefetch request
-  const isPrefetch = request.headers.get('Next-Router-Prefetch') === '1';
+  const isPrefetch = request.headers.get('Next-Router-Prefetch') === '1' || request.headers.get('X-Next-Router-Prefetch') === '1';
 
   // build flags array (bot, prefetch)
   const flags = [isBot && 'Bot', isPrefetch && 'Prefetch'].filter(Boolean);

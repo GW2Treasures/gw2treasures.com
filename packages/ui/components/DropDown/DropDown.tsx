@@ -1,6 +1,6 @@
 'use client';
 
-import { arrow, autoUpdate, flip, hide, offset, type Placement, shift, type Side, size, useClick, useDismiss, useFloating, useFocus, useInteractions, useTransitionStyles, FloatingPortal } from '@floating-ui/react';
+import { arrow, autoUpdate, flip, hide, offset, type Placement, shift, type Side, size, useClick, useDismiss, useFloating, useFocus, useInteractions, useTransitionStyles, FloatingPortal, FloatingFocusManager } from '@floating-ui/react';
 import { Children, cloneElement, type FC, type ReactElement, type ReactNode, useRef, useState, type Ref, type HTMLProps } from 'react';
 import styles from './DropDown.module.css';
 import { isTruthy } from '@gw2treasures/helper/is';
@@ -75,15 +75,17 @@ export const DropDown: FC<DropDown> = ({ children, button, preferredPlacement = 
             }}
             {...getFloatingProps()}
           >
-            <div className={styles.content}>
-              {children}
-            </div>
-            <div className={styles.arrow} ref={arrowRef} style={{
-              left: middlewareData.arrow?.x ?? undefined,
-              top: middlewareData.arrow?.y ?? undefined,
-              '--arrow-side': sideIndex[staticSide],
-              ...{ [staticSide]: 'calc(var(--arrow-size) * -0.5)' }
-            }}/>
+            <FloatingFocusManager context={context} modal={false}>
+              <div className={styles.content}>
+                {children}
+              </div>
+              <div className={styles.arrow} ref={arrowRef} style={{
+                left: middlewareData.arrow?.x ?? undefined,
+                top: middlewareData.arrow?.y ?? undefined,
+                '--arrow-side': sideIndex[staticSide],
+                ...{ [staticSide]: 'calc(var(--arrow-size) * -0.5)' }
+              }}/>
+            </FloatingFocusManager>
           </div>
         </FloatingPortal>
       )}

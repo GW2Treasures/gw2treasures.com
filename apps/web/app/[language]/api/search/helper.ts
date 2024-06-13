@@ -143,7 +143,7 @@ export const searchItems = cache(async (terms: string[], chatCodes: ChatCode[], 
 
   // if we have less then 5 exact matches, we fill the remainder with items that just contain the search terms
   const termMatches = exactNameMatches.length < 5 ? await db.item.findMany({
-    where: { AND: containsTermsWhere },
+    where: { AND: [...containsTermsWhere, { id: { notIn: exactNameMatches.map(({ id }) => id) }}] },
     take: 5 - exactNameMatches.length,
     include: { icon: true },
     orderBy: { views: 'desc' }

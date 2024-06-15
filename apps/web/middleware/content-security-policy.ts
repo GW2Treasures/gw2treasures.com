@@ -1,3 +1,4 @@
+import { existsSync, fstat, readFileSync } from 'fs';
 import type { NextMiddleware } from './types';
 import { Language } from '@gw2treasures/database';
 
@@ -24,10 +25,13 @@ export const contentSecurityPolicyMiddleware: NextMiddleware = async (request, n
     .filter((language) => language !== subdomain)
     .map((language) => `${language}.${baseDomain}${portSuffix}`);
 
+  // get resource hashes for static pages
+  const hashes = await getStaticHashes(`/${subdomain}${request.nextUrl.pathname}`);
+
   // construct CSP header
   const cspHeader = `
     default-src 'self';
-    script-src 'self' 'nonce-${nonce}' 'strict-dynamic' ${process.env.NODE_ENV !== 'production' ? '\'unsafe-eval\'' : ''};
+    script-src 'self' 'nonce-${nonce}' ${hashes.map((hash) => `'${hash}'`).join(' ')} 'strict-dynamic' ${process.env.NODE_ENV !== 'production' ? '\'unsafe-eval\'' : ''};
     style-src 'self' 'unsafe-inline';
     img-src 'self' icons-gw2.darthmaim-cdn.com render.guildwars2.com wiki.guildwars2.com;
     connect-src 'self' ${alternateLanguageDomains.join(' ')} api.guildwars2.com;
@@ -38,8 +42,6 @@ export const contentSecurityPolicyMiddleware: NextMiddleware = async (request, n
     frame-ancestors 'none';
     block-all-mixed-content;
     upgrade-insecure-requests;
-    report-uri https://gw2treasures.report-uri.com/r/d/csp/enforce;
-    report-to default;
   `.replace(/\s{2,}/g, ' ');
 
   // set x-nonce and CSP for internal request
@@ -51,7 +53,22 @@ export const contentSecurityPolicyMiddleware: NextMiddleware = async (request, n
 
   // set outgoing CSP and Reporting headers
   response.headers.set('Content-Security-Policy', cspHeader);
-  response.headers.set('Reporting-Endpoints', 'default="https://gw2treasures.report-uri.com/a/d/g"');
+  // response.headers.set('Reporting-Endpoints', 'default="https://gw2treasures.report-uri.com/a/d/g"');
 
   return response;
 };
+
+async function getStaticHashes(pathname: string) {
+  try {
+    const response = await fetch('http://localhost:3000/internal/csp');
+    const json: { routeRegex: string, scripts: string[] }[] = await response.json();
+
+    const matching = json.find(({ routeRegex }) => RegExp(routeRegex).test(pathname));
+
+    return matching?.scripts ?? [];
+  } catch(e) {
+    console.error(e);
+  }
+
+  return [];
+}

@@ -15,6 +15,11 @@ import { dropSearchParamsMiddleware } from 'middleware/drop-search-params';
 import { contentSecurityPolicyMiddleware } from 'middleware/content-security-policy';
 
 export async function middleware(request: NextRequest) {
+  if(request.nextUrl.pathname === '/internal/csp') {
+    console.log('GET /internal/csp');
+    return NextResponse.next({ request });
+  }
+
   const middlewares: NextMiddleware[] = [
     logMiddleware,
     healthMiddleware,

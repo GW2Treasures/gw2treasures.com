@@ -19,7 +19,7 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
     - name: Build the Docker image
-      uses: docker/bake-action@v5.0.1
+      uses: docker/bake-action@v5.0.2
       with:
         workdir: legacy
         files: docker-compose.yml

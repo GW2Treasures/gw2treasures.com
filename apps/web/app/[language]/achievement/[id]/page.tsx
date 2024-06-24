@@ -179,7 +179,9 @@ async function AchievementPage({ params: { id, language }}: AchievementPageProps
           >
             Objectives
           </Headline>
-          <p dangerouslySetInnerHTML={{ __html: format(data.requirement.replace(/( |^)\/?( |$)/g, `$1${data.tiers[data.tiers.length - 1].count}$2`)) }}/>
+          {data.requirement && (
+            <p dangerouslySetInnerHTML={{ __html: format(data.requirement.replace(/( |^)\/?( |$)/g, `$1${data.tiers[data.tiers.length - 1].count}$2`)) }}/>
+          )}
 
           {Bits && (
             <Bits.Table>
@@ -310,7 +312,10 @@ export async function generateMetadata({ params }: AchievementPageProps): Promis
 
   const data: Gw2Api.Achievement = JSON.parse(achievement[`current_${params.language}`].data);
 
-  const description = strip(data.description) + '\n\n' + strip(format(data.requirement.replace('  ', ` ${data.tiers[data.tiers.length - 1].count} `)));
+  const description = [
+    strip(data.description),
+    data.requirement && strip(data.requirement.replace(/( |^)\/?( |$)/g, `$1${data.tiers[data.tiers.length - 1].count}$2`))
+  ].filter(Boolean).join('\n\n');
 
   return {
     title: localizedName(achievement, params.language),

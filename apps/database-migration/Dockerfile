@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1.8
 
-ARG node_version=20.14.0-alpine
+ARG node_version=20.15.0-alpine
 # renovate: datasource=npm packageName=prisma
 ARG prisma_version=5.15.1
 

@@ -28,7 +28,7 @@
   "homepage": "https://github.com/GW2Treasures/gw2treasures.com#readme",
   "dependencies": {
     "@floating-ui/react": "0.26.17",
-    "@floating-ui/react-dom": "2.1.0",
+    "@floating-ui/react-dom": "2.1.1",
     "client-only": "0.0.1",
     "server-only": "0.0.1"
   },

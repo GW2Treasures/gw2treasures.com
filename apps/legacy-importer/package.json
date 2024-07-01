@@ -19,6 +19,6 @@
     "@typescript-eslint/parser": "7.14.1",
     "eslint": "8.57.0",
     "prisma": "5.16.1",
-    "typescript": "5.5.2"
+    "typescript": "5.5.3"
   }
 }

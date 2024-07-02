@@ -30,7 +30,7 @@ services:
       replicas: 2
 
   database:
-    image: timescale/timescaledb:2.15.2-pg16
+    image: timescale/timescaledb:2.15.3-pg16
     restart: unless-stopped
     environment:
       - POSTGRES_USER=gw2treasures

@@ -62,7 +62,7 @@
   "devDependencies": {
     "@gw2treasures/tsconfig": "*",
     "@types/negotiator": "0.6.3",
-    "@types/node": "20.14.9",
+    "@types/node": "20.14.10",
     "@types/react": "npm:types-react@19.0.0-rc.0",
     "@typescript-eslint/eslint-plugin": "7.15.0",
     "eslint": "8.57.0",

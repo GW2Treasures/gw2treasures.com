@@ -1189,6 +1189,8 @@ view PageView_daily {
 }
 
 model ApplicationApiRequest {
+  requestId String
+
   time DateTime @default(now())
 
   application   Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
@@ -1196,5 +1198,5 @@ model ApplicationApiRequest {
 
   endpoint String
 
-  @@unique([time, applicationId, endpoint])
+  @@unique([requestId, time, applicationId, endpoint])
 }

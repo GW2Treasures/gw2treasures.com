@@ -35,26 +35,35 @@ export function publicApi<DynamicRouteSegments extends string = never, ResponseT
 {
   return async (request, { params }) => {
     try {
+      // get request id
+      const requestId = headers().get('x-request-id');
+
+      if(!requestId) {
+        throw new Error('Missing x-request-id header');
+      }
+
       // verify api key
       const apiKey = headers().get('x-gw2t-apikey');
       if(!apiKey) {
         return NextResponse.json(
           { error: 401, text: 'Missing API key' },
-          { status: 401 }
+          { status: 401, headers: { 'Access-Control-Allow-Origin': '*' }}
         );
       }
+
       const application = await db.application.findUnique({ where: { apiKey }});
 
       if(!application) {
         return NextResponse.json(
           { error: 401, text: 'Invalid API key' },
-          { status: 401 }
+          { status: 401, headers: { 'Access-Control-Allow-Origin': '*' }}
         );
       }
 
       // log request to database
       await db.applicationApiRequest.create({
         data: {
+          requestId,
           applicationId: application.id,
           endpoint,
         }
@@ -94,7 +103,10 @@ export function publicApi<DynamicRouteSegments extends string = never, ResponseT
         }
       });
     } catch {
-      return NextResponse.json<PublicApiErrorResponse>({ error: 500, text: 'Internal Server Error' }, { status: 500 });
+      return NextResponse.json<PublicApiErrorResponse>(
+        { error: 500, text: 'Internal Server Error' },
+        { status: 500, headers: { 'Access-Control-Allow-Origin': '*' }}
+      );
     }
   };
 }

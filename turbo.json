@@ -30,7 +30,9 @@
       ],
       "env": [
         "GITHUB_EVENT_NAME",
-        "GITHUB_OUTPUT"
+        "GITHUB_OUTPUT",
+        "NODE_AUTH_TOKEN",
+        "NPM_CONFIG_PROVENANCE"
       ]
     },
     "e2e": {},

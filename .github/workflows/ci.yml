@@ -207,7 +207,7 @@ jobs:
     - name: Install dependencies
       run: npm ci
     - name: Run Publish
-      run: npm run publish-package -- --filter=@gw2treasures/${{ matrix.target }}
+      run: npm run publish-package -- --filter=@gw2treasures/${{ matrix.target }} --env-mode=loose
       id: publish
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

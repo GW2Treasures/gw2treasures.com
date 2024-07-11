@@ -11,6 +11,12 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
+env:
+  # renovate: datasource=npm packageName=npm
+  NPM_VERSION: 10.8.1
+  # renovate: datasource=npm packageName=renovate
+  RENOVATE_VERSION: 37.180.1
+
 jobs:
   build-node:
     name: Build / Node ${{ matrix.node }}
@@ -26,7 +32,7 @@ jobs:
         cache: npm
     - name: Install latest npm
       run: |
-        npm install --global npm@latest
+        npm install --global npm@${{ env.NPM_VERSION }}
         npm -v
     - name: Install dependencies
       run: npm ci
@@ -60,7 +66,7 @@ jobs:
         cache: npm
     - name: Install latest npm
       run: |
-        npm install --global npm@latest
+        npm install --global npm@${{ env.NPM_VERSION }}
         npm -v
     - name: Install dependencies
       run: npm ci
@@ -85,7 +91,7 @@ jobs:
         cache: npm
     - name: Install latest npm
       run: |
-        npm install --global npm@latest
+        npm install --global npm@${{ env.NPM_VERSION }}
         npm -v
     - name: Install dependencies
       run: npm ci
@@ -105,7 +111,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Install renovate
-      run: npm i -g renovate@37.180.1
+      run: npm i -g renovate@${{ env.RENOVATE_VERSION }}
     - name: Validate config
       run: renovate-config-validator --strict
 
@@ -196,7 +202,7 @@ jobs:
         registry-url: 'https://registry.npmjs.org'
     - name: Install latest npm
       run: |
-        npm install --global npm@latest
+        npm install --global npm@${{ env.NPM_VERSION }}
         npm -v
     - name: Install dependencies
       run: npm ci

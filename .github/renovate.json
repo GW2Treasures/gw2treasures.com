@@ -27,7 +27,7 @@
       "description": "Update version variables in Github Actions workflows",
       "fileMatch": ["^\\.github/(workflows|actions)/.+\\.ya?ml$"],
       "matchStrings": [
-        "# renovate: datasource=(?<datasource>[a-z-]+?)(?: depName=(?<depName>.+?))? packageName=(?<packageName>.+?)(?: versioning=(?<versioning>[a-z-]+?))?\\s+.+?_VERSION=(?<currentValue>.+?)\\s"
+        "# renovate: datasource=(?<datasource>[a-z-]+?)(?: depName=(?<depName>.+?))? packageName=(?<packageName>.+?)(?: versioning=(?<versioning>[a-z-]+?))?\\s+.+?_VERSION: (?<currentValue>.+?)\\s"
       ]
     }
   ]

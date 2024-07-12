@@ -1,11 +1,14 @@
 legacy
+kubernetes
 node_modules
 npm-debug.log
 out
 .docker
 .git
+.github
 .next
 .DS_Store
 .idea
+.vscode
 .turbo
 .env.local

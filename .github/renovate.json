@@ -11,6 +11,10 @@
       "matchManagers": ["npm", "dockerfile"],
       "matchPackageNames": ["mcr.microsoft.com/playwright", "@playwright/test"],
       "groupName": "playwright"
+    }, {
+      "matchManagers": ["npm"],
+      "matchPackageNames": ["renovate"],
+      "extends": ["schedule:weekly"]
     }
   ],
   "customManagers": [

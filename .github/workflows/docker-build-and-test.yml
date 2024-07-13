@@ -51,8 +51,8 @@ jobs:
           ${{ matrix.target }}.output=type=image,push-by-digest=true,name-canonical=true,push=true
           ${{ matrix.target }}.tags=${{ env.IMAGE_ID }}
           *.platform=linux/${{ inputs.platform }}
-          *.cache-from=type=gha,scope=build-${{ matrix.target }}
-          *.cache-to=type=gha,scope=build-${{ matrix.target }},mode=max
+          *.cache-from=type=gha,scope=build-${{ inputs.platform }}-${{ matrix.target }}
+          *.cache-to=type=gha,scope=build-${{ inputs.platform }}-${{ matrix.target }},mode=max
     - name: Export digest
       run: |
         mkdir -p /tmp/digests/${{ matrix.target }}

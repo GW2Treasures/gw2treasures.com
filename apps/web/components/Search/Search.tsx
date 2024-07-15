@@ -1,6 +1,6 @@
 'use client';
 
-import { type ChangeEventHandler, type FC, Fragment, type KeyboardEventHandler, type ReactElement, useCallback, useRef, useState } from 'react';
+import { type ChangeEventHandler, type FC, Fragment, type KeyboardEventHandler, type ReactElement, useCallback, useEffect, useRef, useState } from 'react';
 import styles from './Search.module.css';
 import { usePageResults, useSearchApiResults } from './useSearchResults';
 import Link from 'next/link';
@@ -33,6 +33,7 @@ export const Search: FC<SearchProps> = ({ translations }) => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('');
   const searchValue = useDebounce(value, 300);
+  const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<(HTMLAnchorElement | null)[]>([]);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
@@ -97,21 +98,43 @@ export const Search: FC<SearchProps> = ({ translations }) => {
     }
   }, [activeIndex]);
 
+  // global shortcut
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if(e.target instanceof HTMLElement && (e.target.isContentEditable || e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) {
+        return;
+      }
+
+      if(e.key === 's' || e.key === '/' || e.code === 'Slash') {
+        e.preventDefault();
+        e.stopPropagation();
+
+        inputRef.current?.focus();
+        inputRef.current?.select();
+      }
+    };
+
+    window.addEventListener('keypress', handler);
+    return () => window.removeEventListener('keypress', handler);
+  }, []);
+
   return (
     <form className={styles.search} ref={refs.setReference} {...getReferenceProps()}>
       <Icon icon="search"/>
       {/* <div className={styles.restriciton}>Item</div> */}
 
       <input
+        ref={inputRef}
         className={styles.searchInput}
-        placeholder={`${translations['search.placeholder']} (ALT + Q)`}
+        placeholder={translations['search.placeholder']}
         autoComplete="off"
         spellCheck="false"
-        accessKey="q"
         enterKeyHint="search"
         value={value}
         onChange={handleSearchChange}
         onKeyDown={handleKeyDown}/>
+
+      {!loading && !open && (<div className={styles.shortcut}><kbd>/</kbd> or <kbd>s</kbd></div>)}
 
       {loading && (open || searchValue) && <div className={styles.loading}/>}
 

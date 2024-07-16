@@ -14,7 +14,7 @@
     }, {
       "matchManagers": ["npm"],
       "matchPackageNames": ["renovate"],
-      "extends": ["schedule:weekly"]
+      "schedule": ["0 4 * * 1"]
     }
   ],
   "customManagers": [

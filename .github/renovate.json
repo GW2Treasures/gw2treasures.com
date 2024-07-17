@@ -12,7 +12,7 @@
       "matchPackageNames": ["mcr.microsoft.com/playwright", "@playwright/test"],
       "groupName": "playwright"
     }, {
-      "matchManagers": ["npm"],
+      "matchDatasources": ["npm"],
       "matchPackageNames": ["renovate"],
       "extends": ["schedule:weekly"]
     }

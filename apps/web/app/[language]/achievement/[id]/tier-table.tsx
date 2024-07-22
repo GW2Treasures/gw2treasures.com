@@ -98,9 +98,9 @@ const TierTableAccountRow: FC<TierTableAccountRowProps> = ({ achievement, accoun
         <>
           {tiers.map((tier, index) => {
             const previousTier = index === 0 ? { points: 0, count: 0 } : tiers[index - 1];
-            const isDone = progress && (progress.done || progress.current >= tier.count);
-            const isCurrent = progress && !isDone && progress.current >= previousTier.count;
-            const percentage = isDone ? 1 : isCurrent ? ((progress.current - previousTier.count) / (tier.count - previousTier.count)) : 0;
+            const isDone = progress && (progress.done || (progress.current ?? 0) >= tier.count);
+            const isCurrent = progress && !isDone && (progress.current ?? 0) >= previousTier.count;
+            const percentage = isDone ? 1 : isCurrent ? (((progress.current ?? 0) - previousTier.count) / (tier.count - previousTier.count)) : 0;
 
             return (
               <ProgressCell key={tier.count} progress={percentage}>

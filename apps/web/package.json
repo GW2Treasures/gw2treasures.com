@@ -15,6 +15,8 @@
     "@floating-ui/react": "0.26.20",
     "@floating-ui/react-dom": "2.1.1",
     "@formatjs/intl-localematcher": "0.5.4",
+    "@gw2api/fetch": "0.1.0",
+    "@gw2api/types": "0.0.8",
     "@gw2me/client": "0.2.5",
     "@gw2treasures/database": "*",
     "@gw2treasures/eslint-plugin-nextjs": "*",

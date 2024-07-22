@@ -1,22 +1,21 @@
 'use client';
 
-import type { Gw2Api } from 'gw2-api-types';
 import { type FC, useEffect, useState } from 'react';
 import { Coins } from '../Format/Coins';
 import { FormatNumber } from '../Format/FormatNumber';
+import { fetchGw2Api } from '@gw2api/fetch';
 import styles from './TradingPost.module.css';
+import type { Price } from '@gw2api/types/data/commerce';
 
 export interface TradingPostProps {
   itemId: number;
 }
 
 export const TradingPost: FC<TradingPostProps> = ({ itemId }) => {
-  const [tpData, setTpData] = useState<Gw2Api.Commerce.Price>();
+  const [tpData, setTpData] = useState<Price>();
 
   useEffect(() => {
-    fetch(`https://api.guildwars2.com/v2/commerce/prices/${itemId}`).then((r) => r.json()).then((prices) => {
-      setTpData(prices);
-    });
+    fetchGw2Api(`/v2/commerce/prices/${itemId}`, {}).then(setTpData);
   }, [itemId]);
 
   return (

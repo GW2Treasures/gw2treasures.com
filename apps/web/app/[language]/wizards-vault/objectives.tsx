@@ -17,9 +17,6 @@ import { Scope } from '@gw2me/client';
 import { useSubscription } from '@/components/Gw2Api/Gw2AccountSubscriptionProvider';
 import { useGw2Accounts } from '@/components/Gw2Api/use-gw2-accounts';
 import type { Gw2Account } from '@/components/Gw2Api/types';
-import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
-import { SubmitButton } from '@gw2treasures/ui/components/Form/Buttons/SubmitButton';
-import { reauthorize } from '@/components/Gw2Api/reauthorize';
 import { Waypoint } from '@/components/Waypoint/Waypoint';
 import { Gw2AccountName } from '@/components/Gw2Api/Gw2AccountName';
 import { Gw2AccountAuthorizationNotice } from '@/components/Gw2Api/Gw2AccountAuthorizationNotice';
@@ -194,20 +191,3 @@ const AccountObjectiveDetails: FC<AccountObjectivesProps> = ({ account, objectiv
     </>
   );
 };
-
-interface WizardsProgress {
-  meta_progress_current: number,
-  meta_progress_complete: number,
-  meta_reward_item_id: number,
-  meta_reward_astral: number,
-  meta_reward_claimed: number,
-  objectives: {
-    id: number,
-    title: string,
-    track: string,
-    acclaim: number,
-    progress_current: number,
-    progress_complete: number,
-    claimed: boolean,
-  }[]
-}

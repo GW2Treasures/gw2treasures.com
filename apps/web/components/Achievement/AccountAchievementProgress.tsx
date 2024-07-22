@@ -79,8 +79,8 @@ export const AccountAchievementProgressCell: FC<AccountAchievementProgressCellPr
   }
 
   return (
-    <ProgressCell progress={progress.done ? 1 : progress.current / progress.max}>
-      {progress.done ? <Icon icon="checkmark"/> : `${progress.current} / ${progress.max}`}
+    <ProgressCell progress={progress.done ? 1 : (progress.current ?? 0) / (progress.max ?? 1)}>
+      {progress.done ? <Icon icon="checkmark"/> : `${(progress.current ?? 0)} / ${(progress.max ?? 1)}`}
       {progress.repeated && ` (↻ ${progress.repeated})`}
     </ProgressCell>
   );

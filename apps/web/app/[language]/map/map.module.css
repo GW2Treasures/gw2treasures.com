@@ -1,0 +1,24 @@
+.wrapper {
+  /* make sure the map does not bleed outside of the wrapper, since it has a really high zIndex inside and is drawn over the fixed header for example */
+  contain: layout;
+}
+
+.map {
+  width: 100%;
+  height: 100%;
+  background-color: #05232d;
+  outline: none;
+}
+
+.wip {
+  position: absolute;
+  top: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  color: #fff;
+  font-family: var(--font-bitter);
+  font-size: 24px;
+  text-shadow: 0 0 8px #000;
+  opacity: .8;
+}

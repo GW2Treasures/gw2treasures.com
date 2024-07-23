@@ -23,7 +23,7 @@
     "@gw2treasures/helper": "*",
     "@gw2treasures/icons": "*",
     "@gw2treasures/ui": "*",
-    "@testing-library/jest-dom": "6.4.7",
+    "@testing-library/jest-dom": "6.4.8",
     "@testing-library/react": "16.0.0",
     "@types/jest": "29.5.12",
     "@visx/axis": "3.10.1",

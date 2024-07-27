@@ -11,7 +11,7 @@ export const WizardsVaultPurchaseLimitJob: Job = {
       throw new Error('GW2 API key not set.');
     }
 
-    const apiListings = await fetchApi<{ id: number, purchase_limit?: number }[]>(`/v2/account/wizardsvault/listings?access_token=${apiKey}`);
+    const apiListings = await fetchApi('/v2/account/wizardsvault/listings', { accessToken: apiKey });
     const dbListings = await db.wizardsVaultListing.findMany({ where: { removedFromApi: false }});
 
     const listingsById = groupEntitiesById(dbListings);

@@ -13,7 +13,7 @@ export const SkinsCheck: Job = {
     }
 
     // get skin ids from the API
-    const ids = await fetchApi<number[]>('/v2/skins');
+    const ids = await fetchApi('/v2/skins');
 
     // get known ids from the DB
     const knownIds = await db.skin.findMany({ select: { id: true }}).then((skins) => skins.map(({ id }) => id));

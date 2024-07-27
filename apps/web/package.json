@@ -16,7 +16,6 @@
     "@floating-ui/react-dom": "2.1.1",
     "@formatjs/intl-localematcher": "0.5.4",
     "@gw2api/fetch": "0.4.0",
-    "@gw2api/types": "0.0.16",
     "@gw2me/client": "0.2.5",
     "@gw2treasures/database": "*",
     "@gw2treasures/eslint-plugin-nextjs": "*",
@@ -62,6 +61,7 @@
     "tslib": "2.6.3"
   },
   "devDependencies": {
+    "@gw2api/types": "0.0.17",
     "@gw2treasures/tsconfig": "*",
     "@types/negotiator": "0.6.3",
     "@types/node": "20.14.13",

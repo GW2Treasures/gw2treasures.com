@@ -14,7 +14,7 @@ export const CurrenciesCheck: Job = {
     }
 
     // get ids from the API
-    const ids = await fetchApi<number[]>('/v2/currencies');
+    const ids = await fetchApi('/v2/currencies');
 
     // get known ids from the DB
     const knownIds = (await db.currency.findMany({ select: { id: true }})).map(toId);

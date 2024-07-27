@@ -13,7 +13,7 @@ export const RecipesCheck: Job = {
     }
 
     // get recipe ids from the API
-    const ids = await fetchApi<number[]>('/v2/recipes');
+    const ids = await fetchApi('/v2/recipes');
 
     // get known ids from the DB
     const knownIds = await db.recipe.findMany({ select: { id: true }}).then((recipes) => recipes.map(({ id }) => id));

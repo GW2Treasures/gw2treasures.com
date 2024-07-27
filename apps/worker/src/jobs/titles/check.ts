@@ -14,7 +14,7 @@ export const TitlesCheck: Job = {
     }
 
     // get ids from the API
-    const ids = await fetchApi<number[]>('/v2/titles');
+    const ids = await fetchApi('/v2/titles');
 
     // get known ids from the DB
     const knownIds = (await db.title.findMany({ select: { id: true }})).map(toId);

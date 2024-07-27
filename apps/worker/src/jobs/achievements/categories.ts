@@ -1,7 +1,6 @@
 import { Job } from '../job';
 import { db } from '../../db';
 import { loadAchievementCategories } from '../helper/loadAchievements';
-import { Gw2Api } from 'gw2-api-types';
 import { Language, Prisma } from '@gw2treasures/database';
 import { createRevisions } from '../helper/revision';
 import { getCurrentBuild } from '../helper/getCurrentBuild';
@@ -9,7 +8,8 @@ import { createIcon } from '../helper/createIcon';
 import { filterMapKeys, getIdsFromMap } from '../helper/getIdsFromMap';
 import { appendHistory } from '../helper/appendHistory';
 import { localeExists, LocalizedObject } from '../helper/types';
-import { schema } from '../helper/schema';
+import { schema, SchemaVersion } from '../helper/schema';
+import { AchievementCategory } from '@gw2api/types/data/achievement-category';
 
 export const AchievementCategories: Job = {
   run: async () => {
@@ -40,7 +40,7 @@ export const AchievementCategories: Job = {
   }
 };
 
-async function newCategories(buildId: number, categories: { [key in Language]: Gw2Api.Achievement.Category }[]) {
+async function newCategories(buildId: number, categories: { [key in Language]: AchievementCategory<SchemaVersion> }[]) {
   for(const { de, en, es, fr } of categories) {
     const revisions = await createRevisions({ de, en, es, fr }, { buildId, type: 'Added', entity: 'AchievementCategory', description: 'Added to API' });
     const iconId = await createIcon(en.icon);
@@ -102,7 +102,7 @@ async function removedCategories(buildId: number, removedIds: number[]) {
   }
 }
 
-async function rediscoveredCategories(buildId: number, categories: { [key in Language]: Gw2Api.Achievement.Category }[]) {
+async function rediscoveredCategories(buildId: number, categories: { [key in Language]: AchievementCategory<SchemaVersion> }[]) {
   for(const data of categories) {
     const iconId = await createIcon(data.en.icon);
 
@@ -141,7 +141,7 @@ async function rediscoveredCategories(buildId: number, categories: { [key in Lan
   }
 }
 
-async function updatedCategories(buildId: number, apiCategories: Map<number, LocalizedObject<Gw2Api.Achievement.Category>>) {
+async function updatedCategories(buildId: number, apiCategories: Map<number, LocalizedObject<AchievementCategory<SchemaVersion>>>) {
   const categoriesToUpdate = await db.achievementCategory.findMany({
     where: { id: { in: Array.from(apiCategories.keys()) }},
     include: { current_de: true, current_en: true, current_es: true, current_fr: true }
@@ -192,7 +192,7 @@ async function updatedCategories(buildId: number, apiCategories: Map<number, Loc
   return updated;
 }
 
-async function processAchievements(id: number, iconId: number | undefined, achievements: Gw2Api.Achievement.Category['achievements'], tomorrow: Gw2Api.Achievement.Category['tomorrow']) {
+async function processAchievements(id: number, iconId: number | undefined, achievements: AchievementCategory<SchemaVersion>['achievements'], tomorrow: AchievementCategory<SchemaVersion>['tomorrow']) {
   const achievementIds = [...achievements, ...(tomorrow ?? [])].map(({ id }) => id);
 
   await Promise.all([

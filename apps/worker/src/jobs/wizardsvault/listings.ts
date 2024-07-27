@@ -16,7 +16,7 @@ export const WizardsVaultListingsJob: Job = {
     if(isEmptyObject(data)) {
       return createSubJobs(
         'wizardsvault.listings',
-        () => fetchApi<number[]>('/v2/wizardsvault/listings'),
+        () => fetchApi('/v2/wizardsvault/listings'),
         db.wizardsVaultListing.findMany,
         CURRENT_VERSION
       );

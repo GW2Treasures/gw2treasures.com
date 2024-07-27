@@ -6,6 +6,7 @@ import { isEmptyObject } from '@gw2treasures/helper/is';
 import { type ProcessEntitiesData, createSubJobs, processLocalizedEntities, Changes } from '../helper/process-entities';
 import { createIcon } from '../helper/createIcon';
 import { toId } from '../helper/toId';
+import { AchievementReward } from '@gw2api/types/data/achievement';
 
 interface AchievementsJobProps extends ProcessEntitiesData<number> {}
 
@@ -25,7 +26,7 @@ export const AchievementsJob: Job = {
     if(isEmptyObject(data)) {
       return createSubJobs(
         'achievements',
-        () => fetchApi<number[]>('/v2/achievements'),
+        () => fetchApi('/v2/achievements'),
         db.achievement.findMany,
         CURRENT_VERSION
       );
@@ -48,7 +49,8 @@ export const AchievementsJob: Job = {
         const points = achievements.en.tiers.reduce((total, tier) => total + tier.points, 0);
 
         // get mastery
-        const mastery = achievements.en.rewards?.find(({ type }) => type === 'Mastery')?.region;
+        const isMastery = (reward: AchievementReward): reward is AchievementReward.Mastery => reward.type === 'Mastery';
+        const mastery = achievements.en.rewards?.find(isMastery)?.region;
 
         // get achievement flags
         const flags = achievements.en.flags;
@@ -147,7 +149,7 @@ export const AchievementsJob: Job = {
   }
 };
 
-function getIdsByType<T extends string>(elements?: { id: number, type: T }[]): Partial<Record<T, number[]>> {
+function getIdsByType<T extends string>(elements?: { id?: number, type: T }[]): Partial<Record<T, number[]>> {
   if(!elements) {
     return {};
   }
@@ -155,7 +157,9 @@ function getIdsByType<T extends string>(elements?: { id: number, type: T }[]): P
   const map: Partial<Record<T, number[]>> = {};
 
   for(const element of elements) {
-    map[element.type] = [...(map[element.type] ?? []), element.id];
+    if(element.id) {
+      map[element.type] = [...(map[element.type] ?? []), element.id];
+    }
   }
 
   return map;

@@ -6,7 +6,7 @@ import { localizedName } from '@/lib/localizedName';
 import { Fragment } from 'react';
 import type { Gw2Api } from 'gw2-api-types';
 import { AchievementCategoryLink } from '@/components/Achievement/AchievementCategoryLink';
-import type { Language } from '@gw2treasures/database';
+import type { AchievementCategory, Language } from '@gw2treasures/database';
 import { RemovedFromApiNotice } from '@/components/Notice/RemovedFromApiNotice';
 import Link from 'next/link';
 import { pageView } from '@/lib/pageView';
@@ -39,6 +39,10 @@ export default async function AchievementPage({ params: { language }}: { params:
     <HeroLayout hero={<Headline id="achievements" actions={<span>Reset: <ResetTimer/></span>}>Achievements</Headline>} color="#663399" toc>
       {groups.map((group) => {
         const data: Gw2Api.Achievement.Group = JSON.parse(group[`current_${language}`].data);
+        const [active, historic] = group.achievementCategories.reduce<[typeof group.achievementCategories, typeof group.achievementCategories]>(
+          ([a, h], category) => category.removedFromApi ? [a, [...h, category]] : [[...a, category], h],
+          [[], []]
+        );
 
         return (
           <Fragment key={group.id}>
@@ -47,13 +51,27 @@ export default async function AchievementPage({ params: { language }}: { params:
               <RemovedFromApiNotice type="achievement group"/>
             )}
             <p>{data.description}</p>
-            <ItemList>
-              {group.achievementCategories.map((category) => (
-                <li key={category.id}>
-                  <AchievementCategoryLink achievementCategory={category}/>
-                </li>
-              ))}
-            </ItemList>
+            {active.length > 0 && (
+              <ItemList>
+                {active.map((category) => (
+                  <li key={category.id}>
+                    <AchievementCategoryLink achievementCategory={category}/>
+                  </li>
+                ))}
+              </ItemList>
+            )}
+            {historic.length > 0 && (
+              <>
+                {!group.removedFromApi && (<p>The following achievement categories are currently not available in the Guild Wars 2 API.</p>)}
+                <ItemList>
+                  {historic.map((category) => (
+                    <li key={category.id}>
+                      <AchievementCategoryLink achievementCategory={category}/>
+                    </li>
+                  ))}
+                </ItemList>
+              </>
+            )}
           </Fragment>
         );
       })}

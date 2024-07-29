@@ -95,10 +95,10 @@ async function AchievementCategoryPage({ params: { language, id }}: AchievementC
         <CurrentAchievements.Column id="points" align="right" title="AP" sortBy="points">
           {({ points }) => <AchievementPoints points={points}/>}
         </CurrentAchievements.Column>
-        <CurrentAchievements.Column id="mastery" title={<><Icon icon="mastery"/> Mastery</>} sortBy="mastery">
+        <CurrentAchievements.Column id="mastery" title={<MasteryColumnHeader/>} sortBy="mastery">
           {({ mastery }) => mastery}
         </CurrentAchievements.Column>
-        <CurrentAchievements.Column id="title" title={<><Icon icon="title"/> Title</>} sortBy={({ rewardsTitle }) => rewardsTitle.length}>
+        <CurrentAchievements.Column id="title" title={<TitleColumnHeader/>} sortBy={({ rewardsTitle }) => rewardsTitle.length}>
           {({ rewardsTitle }) => rewardsTitle.map((title) => <span key={title.id} dangerouslySetInnerHTML={{ __html: format(localizedName(title, language)) }}/>)}
         </CurrentAchievements.Column>
         <CurrentAchievements.Column id="items" title="Items" sortBy={({ rewardsItem }) => rewardsItem.length}>
@@ -151,3 +151,6 @@ export async function generateMetadata({ params }: AchievementCategoryPageProps)
     title: localizedName(achievementCategory, params.language)
   };
 }
+
+const MasteryColumnHeader = () => (<><Icon icon="mastery"/> Mastery</>);
+const TitleColumnHeader = () => (<><Icon icon="title"/> Title</>);

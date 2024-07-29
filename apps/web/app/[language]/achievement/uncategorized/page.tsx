@@ -45,10 +45,10 @@ async function AchievementUncategorizedPage({ params: { language }}: { params: {
         <UncategorizedAchievements.Column id="points" align="right" title="AP" sortBy="points">
           {({ points }) => <AchievementPoints points={points}/>}
         </UncategorizedAchievements.Column>
-        <UncategorizedAchievements.Column id="mastery" title={<><Icon icon="mastery"/> Mastery</>} sortBy="mastery">
+        <UncategorizedAchievements.Column id="mastery" title={<MasteryColumnHeader/>} sortBy="mastery">
           {({ mastery }) => mastery}
         </UncategorizedAchievements.Column>
-        <UncategorizedAchievements.Column id="title" title={<><Icon icon="title"/> Title</>} sortBy={({ rewardsTitle }) => rewardsTitle.length}>
+        <UncategorizedAchievements.Column id="title" title={<TitleColumnHeader/>} sortBy={({ rewardsTitle }) => rewardsTitle.length}>
           {({ rewardsTitle }) => rewardsTitle.map((title) => <span key={title.id} dangerouslySetInnerHTML={{ __html: format(localizedName(title, language)) }}/>)}
         </UncategorizedAchievements.Column>
         <UncategorizedAchievements.Column id="items" title="Items" sortBy={({ rewardsItem }) => rewardsItem.length}>
@@ -73,3 +73,6 @@ export default AchievementUncategorizedPage;
 export const metadata = {
   title: 'Uncategorized Achievements'
 };
+
+const MasteryColumnHeader = () => (<><Icon icon="mastery"/> Mastery</>);
+const TitleColumnHeader = () => (<><Icon icon="title"/> Title</>);

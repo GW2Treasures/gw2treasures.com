@@ -49,6 +49,7 @@ import { MysticForgeRecipeBox } from '@/components/Recipe/MysticForgeRecipeBox';
 import { MysticForgeRecipeTable } from '@/components/Recipe/MysticForgeRecipeTable';
 import { LinkButton } from '@gw2treasures/ui/components/Form/Button';
 import { SkinTable } from '@/components/Skin/SkinTable';
+import { ItemInventoryTable } from '@/components/Item/ItemInventoryTable';
 
 export interface ItemPageComponentProps {
   language: Language;
@@ -120,6 +121,8 @@ export const ItemPageComponent: FC<ItemPageComponentProps> = async ({ language, 
 
       <TableOfContentAnchor id="tooltip">Tooltip</TableOfContentAnchor>
       <ItemTooltip item={data} language={language} hideTitle/>
+
+      <ItemInventoryTable itemId={itemId}/>
 
       {hasSkinUnlocks && (
         <>

@@ -17,7 +17,7 @@ export const GuildUpgradesJob: Job = {
     if(isEmptyObject(data)) {
       return createSubJobs(
         'guild-upgrades',
-        () => fetchApi<number[]>('/v2/guild/upgrades'),
+        () => fetchApi('/v2/guild/upgrades'),
         db.guildUpgrade.findMany,
         CURRENT_VERSION
       );

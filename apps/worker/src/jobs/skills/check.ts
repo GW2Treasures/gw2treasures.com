@@ -13,7 +13,7 @@ export const SkillsCheck: Job = {
     }
 
     // get skill ids from the API
-    const ids = await fetchApi<number[]>('/v2/skills');
+    const ids = await fetchApi('/v2/skills');
 
     // get known ids from the DB
     const knownIds = await db.skill.findMany({ select: { id: true }}).then((skills) => skills.map(({ id }) => id));

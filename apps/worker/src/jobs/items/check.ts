@@ -15,7 +15,7 @@ export const ItemsCheck: Job = {
     }
 
     // get item ids from the API
-    const ids = await fetchApi<number[]>('/v2/items');
+    const ids = await fetchApi('/v2/items');
 
     // get known ids from the DB
     const knownIds = await db.item.findMany({ select: { id: true }}).then((items) => items.map(({ id }) => id));

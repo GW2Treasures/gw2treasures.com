@@ -6,10 +6,10 @@ export async function loadItems(ids: number[]) {
   const start = new Date();
 
   const [de, en, es, fr] = await Promise.all([
-    fetchApi<Gw2Api.Item[]>(`/v2/items?lang=de&ids=${ids.join(',')}`).then(normalizeItems),
-    fetchApi<Gw2Api.Item[]>(`/v2/items?lang=en&ids=${ids.join(',')}`).then(normalizeItems),
-    fetchApi<Gw2Api.Item[]>(`/v2/items?lang=es&ids=${ids.join(',')}`).then(normalizeItems),
-    fetchApi<Gw2Api.Item[]>(`/v2/items?lang=fr&ids=${ids.join(',')}`).then(normalizeItems),
+    fetchApi(`/v2/items?ids=${ids.join(',')}`, { language: 'de' }).then(normalizeItems),
+    fetchApi(`/v2/items?ids=${ids.join(',')}`, { language: 'en' }).then(normalizeItems),
+    fetchApi(`/v2/items?ids=${ids.join(',')}`, { language: 'es' }).then(normalizeItems),
+    fetchApi(`/v2/items?ids=${ids.join(',')}`, { language: 'fr' }).then(normalizeItems),
   ]);
 
   console.log(`Fetched ${ids.length} items in ${(new Date().valueOf() - start.valueOf()) / 1000}s`);

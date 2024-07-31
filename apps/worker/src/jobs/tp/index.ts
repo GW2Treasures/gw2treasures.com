@@ -2,13 +2,12 @@ import { db } from '../../db';
 import { fetchApi } from '../helper/fetchApi';
 import { Job } from '../job';
 import { toId } from '../helper/toId';
-import { Gw2Api } from 'gw2-api-types';
 import { Prisma, PrismaPromise } from '@gw2treasures/database';
 
 export const TpJob: Job = {
   async run() {
     // get item ids that are available on the trading post
-    const priceIds = await fetchApi<number[]>('/v2/commerce/prices');
+    const priceIds = await fetchApi('/v2/commerce/prices');
 
     // get the 200 (max page_size for /v2/commerce/prices) items that were least recently updated and are included in the prices endpoint
     // TODO: handle when items are removed from the commerce APIs
@@ -19,7 +18,7 @@ export const TpJob: Job = {
     });
 
     // load prices for the 200 items from the API
-    const prices = await fetchApi<Gw2Api.Commerce.Price[]>(`/v2/commerce/prices?ids=${itemIds.map(toId).join(',')}`);
+    const prices = await fetchApi(`/v2/commerce/prices?ids=${itemIds.map(toId).join(',')}`);
 
     const tpCheckedAt = new Date();
     const updates: PrismaPromise<unknown>[] = [];

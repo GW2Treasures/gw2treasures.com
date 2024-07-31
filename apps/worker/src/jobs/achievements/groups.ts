@@ -1,7 +1,6 @@
 import { Job } from '../job';
 import { db } from '../../db';
 import { loadAchievementGroups } from '../helper/loadAchievements';
-import { Gw2Api } from 'gw2-api-types';
 import { Language, Prisma } from '@gw2treasures/database';
 import { createRevisions } from '../helper/revision';
 import { getCurrentBuild } from '../helper/getCurrentBuild';
@@ -9,6 +8,7 @@ import { filterMapKeys, getIdsFromMap } from '../helper/getIdsFromMap';
 import { appendHistory } from '../helper/appendHistory';
 import { localeExists, LocalizedObject } from '../helper/types';
 import { schema } from '../helper/schema';
+import { AchievementGroup } from '@gw2api/types/data/achievement-group';
 
 export const AchievementGroups: Job = {
   run: async () => {
@@ -39,7 +39,7 @@ export const AchievementGroups: Job = {
   }
 };
 
-async function newGroups(buildId: number, groups: { [key in Language]: Gw2Api.Achievement.Group }[]) {
+async function newGroups(buildId: number, groups: { [key in Language]: AchievementGroup }[]) {
   for(const { de, en, es, fr } of groups) {
     const revisions = await createRevisions({ de, en, es, fr }, { buildId, type: 'Added', entity: 'AchievementGroup', description: 'Added to API' });
 
@@ -102,7 +102,7 @@ async function removedGroups(buildId: number, removedIds: string[]) {
   }
 }
 
-async function rediscoveredGroups(buildId: number, groups: { [key in Language]: Gw2Api.Achievement.Group }[]) {
+async function rediscoveredGroups(buildId: number, groups: { [key in Language]: AchievementGroup }[]) {
   for(const data of groups) {
     const update: Prisma.AchievementGroupUpdateArgs['data'] = {
       removedFromApi: false,
@@ -141,7 +141,7 @@ async function rediscoveredGroups(buildId: number, groups: { [key in Language]: 
   }
 }
 
-async function updatedGroups(buildId: number, apiGroups: Map<string, LocalizedObject<Gw2Api.Achievement.Group>>) {
+async function updatedGroups(buildId: number, apiGroups: Map<string, LocalizedObject<AchievementGroup>>) {
   const groupsToUpdate = await db.achievementGroup.findMany({
     where: { id: { in: Array.from(apiGroups.keys()) }},
     include: { current_de: true, current_en: true, current_es: true, current_fr: true }

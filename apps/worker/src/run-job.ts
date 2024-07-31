@@ -17,7 +17,7 @@ export async function runJob(job: Job) {
     return;
   }
 
-  console.log(`Running ${chalk.blue(job.type)} ${chalk.gray(`(${job.id}) (${(process.memoryUsage().heapTotal / 1024 / 1024).toFixed(2)} MB)`)}`);
+  console.log(`Running ${chalk.blue.bold(job.type)} ${chalk.gray(`(${job.id}) (${(process.memoryUsage().heapTotal / 1024 / 1024).toFixed(2)} MB)`)}`);
 
   try {
     // get runner
@@ -45,8 +45,10 @@ export async function runJob(job: Job) {
 
     // print out output and runtime
     console.log(`${chalk.green('>')} ${output ?? 'Done.'} ${chalk.gray(`(${runtime} ms)`)}`);
+    console.log('');
   } catch(error) {
     console.error(chalk.red('>'), error);
+    console.log('');
 
     // set job as errored in db
     await db.job.update({

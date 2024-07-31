@@ -14,7 +14,7 @@ export const ColorsJob: Job = {
     if(isEmptyObject(data)) {
       return createSubJobs(
         'colors',
-        () => fetchApi<number[]>('/v2/colors'),
+        () => fetchApi('/v2/colors'),
         db.color.findMany,
         CURRENT_VERSION
       );

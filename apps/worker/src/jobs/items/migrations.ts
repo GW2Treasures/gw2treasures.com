@@ -1,9 +1,10 @@
 import { Prisma } from '@gw2treasures/database';
-import { Gw2Api } from 'gw2-api-types';
 import { db } from '../../db';
 import { isDefined, isTruthy } from '@gw2treasures/helper/is';
 import { toId } from '../helper/toId';
 import { LocalizedObject } from '../helper/types';
+import { Item } from '@gw2api/types/data/item';
+import { SchemaVersion } from '../helper/schema';
 
 export const CURRENT_VERSION = 11;
 
@@ -48,7 +49,7 @@ export async function createMigrator() {
   const knownGuildUpgradeIds = (await db.guildUpgrade.findMany({ select: { id: true }})).map(toId);
 
   // eslint-disable-next-line require-await
-  return async function migrate({ de, en, es, fr }: LocalizedObject<Gw2Api.Item>, currentVersion = -1) {
+  return async function migrate({ de, en, es, fr }: LocalizedObject<Item<SchemaVersion>>, currentVersion = -1) {
     const update: MigratedItem = {
       version: CURRENT_VERSION
     };

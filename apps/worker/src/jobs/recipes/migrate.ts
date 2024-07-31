@@ -1,8 +1,9 @@
 import { Job } from '../job';
 import { db } from '../../db';
 import { queueJobForIds } from '../helper/queueJobsForIds';
-import { Gw2Api } from 'gw2-api-types';
 import { createMigrator, CURRENT_VERSION } from './migrations';
+import { SchemaVersion } from '../helper/schema';
+import { Recipe } from '@gw2api/types/data/recipe';
 
 export const RecipesMigrate: Job = {
   run: async (ids: number[] | Record<string, never>) => {
@@ -36,7 +37,7 @@ export const RecipesMigrate: Job = {
     const migrate = await createMigrator();
 
     for(const recipe of recipesToMigrate) {
-      const data: Gw2Api.Recipe = JSON.parse(recipe.currentRevision.data);
+      const data: Recipe<SchemaVersion> = JSON.parse(recipe.currentRevision.data);
       const update = await migrate(data, recipe.version);
 
       try {

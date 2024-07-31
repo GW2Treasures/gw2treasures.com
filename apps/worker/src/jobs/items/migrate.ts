@@ -1,8 +1,9 @@
 import { Job } from '../job';
 import { db } from '../../db';
 import { queueJobForIds } from '../helper/queueJobsForIds';
-import { Gw2Api } from 'gw2-api-types';
 import { createMigrator, CURRENT_VERSION } from './migrations';
+import { Item } from '@gw2api/types/data/item';
+import { SchemaVersion } from '../helper/schema';
 
 export { CURRENT_VERSION };
 
@@ -38,10 +39,10 @@ export const ItemsMigrate: Job = {
     const migrate = await createMigrator();
 
     for(const item of itemsToMigrate) {
-      const de: Gw2Api.Item = JSON.parse(item.current_de.data);
-      const en: Gw2Api.Item = JSON.parse(item.current_en.data);
-      const es: Gw2Api.Item = JSON.parse(item.current_es.data);
-      const fr: Gw2Api.Item = JSON.parse(item.current_fr.data);
+      const de: Item<SchemaVersion> = JSON.parse(item.current_de.data);
+      const en: Item<SchemaVersion> = JSON.parse(item.current_en.data);
+      const es: Item<SchemaVersion> = JSON.parse(item.current_es.data);
+      const fr: Item<SchemaVersion> = JSON.parse(item.current_fr.data);
 
       const data = await migrate({ de, en, es, fr }, item.version);
 

@@ -1,4 +1,4 @@
-import { Gw2Api } from 'gw2-api-types';
+import { Title } from '@gw2api/types/data/title';
 import { LocalizedObject } from '../helper/types';
 
 export const CURRENT_VERSION = 0;
@@ -17,7 +17,7 @@ interface MigratedTitle {
 // eslint-disable-next-line require-await
 export async function createMigrator() {
   // eslint-disable-next-line require-await, @typescript-eslint/no-unused-vars
-  return async function migrate({ de, en, es, fr }: LocalizedObject<Gw2Api.Title>, currentVersion = -1) {
+  return async function migrate({ de, en, es, fr }: LocalizedObject<Title>, currentVersion = -1) {
     const update: MigratedTitle = {
       version: CURRENT_VERSION
     };

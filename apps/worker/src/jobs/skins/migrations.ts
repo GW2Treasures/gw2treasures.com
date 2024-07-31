@@ -1,4 +1,4 @@
-import { Gw2Api } from 'gw2-api-types';
+import { Skin } from '@gw2api/types/data/skin';
 import { LocalizedObject } from '../helper/types';
 import { encode } from 'gw2e-chat-codes';
 
@@ -17,7 +17,7 @@ interface MigratedSkin {
 // eslint-disable-next-line require-await
 export async function createMigrator() {
   // eslint-disable-next-line require-await
-  return async function migrate({ de, en, es, fr }: LocalizedObject<Gw2Api.Skin>, currentVersion = -1) {
+  return async function migrate({ de, en, es, fr }: LocalizedObject<Skin>, currentVersion = -1) {
     const update: MigratedSkin = {
       version: CURRENT_VERSION
     };

@@ -1,9 +1,9 @@
 import { Job } from '../job';
 import { db } from '../../db';
 import { queueJobForIds } from '../helper/queueJobsForIds';
-import { Gw2Api } from 'gw2-api-types';
 import { createMigrator, CURRENT_VERSION } from './migrations';
 import { toId } from '../helper/toId';
+import { Title } from '@gw2api/types/data/title';
 
 export const titlesMigrate: Job = {
   run: async (ids: number[] | Record<string, never>) => {
@@ -37,10 +37,10 @@ export const titlesMigrate: Job = {
     const migrate = await createMigrator();
 
     for(const title of titlesToMigrate) {
-      const de: Gw2Api.Title = JSON.parse(title.current_de.data);
-      const en: Gw2Api.Title = JSON.parse(title.current_en.data);
-      const es: Gw2Api.Title = JSON.parse(title.current_es.data);
-      const fr: Gw2Api.Title = JSON.parse(title.current_fr.data);
+      const de: Title = JSON.parse(title.current_de.data);
+      const en: Title = JSON.parse(title.current_en.data);
+      const es: Title = JSON.parse(title.current_es.data);
+      const fr: Title = JSON.parse(title.current_fr.data);
 
       const data = await migrate({ de, en, es, fr }, title.version);
 

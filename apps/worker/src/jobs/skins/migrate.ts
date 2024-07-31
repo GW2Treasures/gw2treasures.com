@@ -2,7 +2,7 @@ import { Job } from '../job';
 import { db } from '../../db';
 import { queueJobForIds } from '../helper/queueJobsForIds';
 import { createMigrator, CURRENT_VERSION } from './migrations';
-import { Gw2Api } from 'gw2-api-types';
+import { Skin } from '@gw2api/types/data/skin';
 
 export const SkinsMigrate: Job = {
   run: async (ids: number[] | Record<string, never>) => {
@@ -36,10 +36,10 @@ export const SkinsMigrate: Job = {
     const migrate = await createMigrator();
 
     for(const skin of skinsToMigrate) {
-      const de: Gw2Api.Skin = JSON.parse(skin.current_de.data);
-      const en: Gw2Api.Skin = JSON.parse(skin.current_en.data);
-      const es: Gw2Api.Skin = JSON.parse(skin.current_es.data);
-      const fr: Gw2Api.Skin = JSON.parse(skin.current_fr.data);
+      const de: Skin = JSON.parse(skin.current_de.data);
+      const en: Skin = JSON.parse(skin.current_en.data);
+      const es: Skin = JSON.parse(skin.current_es.data);
+      const fr: Skin = JSON.parse(skin.current_fr.data);
 
       const data = await migrate({ de, en, es, fr }, skin.version);
 

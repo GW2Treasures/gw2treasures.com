@@ -1,8 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Prisma } from '@gw2treasures/database';
-import { Gw2Api } from 'gw2-api-types';
 import { toId } from '../helper/toId';
 import { db } from '../../db';
+import { Recipe } from '@gw2api/types/data/recipe';
+import { SchemaVersion } from '../helper/schema';
 
 export const CURRENT_VERSION = 6;
 
@@ -34,7 +35,7 @@ export async function createMigrator() {
   const knownGuildUpgradeIds = (await db.guildUpgrade.findMany({ select: { id: true }})).map(toId);
 
   // eslint-disable-next-line require-await
-  return async function migrate(recipe: Gw2Api.Recipe, currentVersion = -1) {
+  return async function migrate(recipe: Recipe<SchemaVersion>, currentVersion = -1) {
     const update: MigratedRecipe = {
       version: CURRENT_VERSION
     };

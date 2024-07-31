@@ -5,8 +5,9 @@ import { loadGuildUpgrades } from '../helper/loadGuildUpgrades';
 import { isEmptyObject } from '@gw2treasures/helper/is';
 import { type ProcessEntitiesData, createSubJobs, processLocalizedEntities, Changes } from '../helper/process-entities';
 import { Prisma } from '@gw2treasures/database';
-import { Gw2Api } from 'gw2-api-types';
 import { createIcon } from '../helper/createIcon';
+import { Recipe } from '@gw2api/types/data/recipe';
+import { SchemaVersion } from '../helper/schema';
 
 interface GuildUpgradesJobProps extends ProcessEntitiesData<number> {}
 
@@ -67,7 +68,7 @@ async function getGuildUpgradeIngredient(guildUpgradeId: number) {
   const recipes = await db.recipe.findMany({ where: { guildUpgradeIngredientIds: { has: guildUpgradeId }}, select: { id: true, currentRevision: true }});
 
   return recipes.map((recipe) => {
-    const data: Gw2Api.Recipe = JSON.parse(recipe.currentRevision.data);
+    const data: Recipe<SchemaVersion> = JSON.parse(recipe.currentRevision.data);
     const count = data.ingredients.find((ingredient) => ingredient.id === guildUpgradeId && ingredient.type === 'GuildUpgrade')?.count ?? 1;
 
     return { recipeId: recipe.id, count };

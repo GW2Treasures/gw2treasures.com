@@ -1,6 +1,7 @@
-import { Gw2Api } from 'gw2-api-types';
+import { Item } from '@gw2api/types/data/item';
 import { fetchApi } from './fetchApi';
 import { groupLocalizedEntitiesById } from './groupById';
+import { SchemaVersion } from './schema';
 
 export async function loadItems(ids: number[]) {
   const start = new Date();
@@ -17,7 +18,7 @@ export async function loadItems(ids: number[]) {
   return groupLocalizedEntitiesById(de, en, es, fr);
 }
 
-function normalizeItem(item: Gw2Api.Item): Gw2Api.Item {
+function normalizeItem(item: Item<SchemaVersion>): Item<SchemaVersion> {
   // stabilize random order of "upgrades_into"
   if(item.upgrades_into !== undefined) {
     item.upgrades_into = item.upgrades_into?.sort((a, b) => a.item_id - b.item_id);
@@ -34,6 +35,6 @@ function normalizeItem(item: Gw2Api.Item): Gw2Api.Item {
   return item;
 }
 
-function normalizeItems(items: Gw2Api.Item[]) {
+function normalizeItems(items: Item<SchemaVersion>[]) {
   return items.map(normalizeItem);
 }

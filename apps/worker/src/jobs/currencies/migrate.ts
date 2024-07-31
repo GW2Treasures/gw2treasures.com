@@ -1,9 +1,9 @@
 import { Job } from '../job';
 import { db } from '../../db';
 import { queueJobForIds } from '../helper/queueJobsForIds';
-import { Gw2Api } from 'gw2-api-types';
 import { createMigrator, CURRENT_VERSION } from './migrations';
 import { toId } from '../helper/toId';
+import { Currency } from '@gw2api/types/data/currency';
 
 export const CurrenciesMigrate: Job = {
   run: async (ids: number[] | Record<string, never>) => {
@@ -37,10 +37,10 @@ export const CurrenciesMigrate: Job = {
     const migrate = await createMigrator();
 
     for(const currency of currenciesToMigrate) {
-      const de: Gw2Api.Currency = JSON.parse(currency.current_de.data);
-      const en: Gw2Api.Currency = JSON.parse(currency.current_en.data);
-      const es: Gw2Api.Currency = JSON.parse(currency.current_es.data);
-      const fr: Gw2Api.Currency = JSON.parse(currency.current_fr.data);
+      const de: Currency = JSON.parse(currency.current_de.data);
+      const en: Currency = JSON.parse(currency.current_en.data);
+      const es: Currency = JSON.parse(currency.current_es.data);
+      const fr: Currency = JSON.parse(currency.current_fr.data);
 
       const data = await migrate({ de, en, es, fr }, currency.version);
 

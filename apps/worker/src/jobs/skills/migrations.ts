@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Prisma } from '@gw2treasures/database';
-import { Gw2Api } from 'gw2-api-types';
 import { LocalizedObject } from '../helper/types';
+import { Skill } from '@gw2api/types/data/skill';
 
 export const CURRENT_VERSION = 2;
 
@@ -18,7 +18,7 @@ interface MigratedSkill {
 // eslint-disable-next-line require-await
 export async function createMigrator() {
   // eslint-disable-next-line require-await
-  return async function migrate({ de, en, es, fr }: LocalizedObject<Gw2Api.Skill>, currentVersion = -1) {
+  return async function migrate({ de, en, es, fr }: LocalizedObject<Skill>, currentVersion = -1) {
     const update: MigratedSkill = {
       version: CURRENT_VERSION
     };

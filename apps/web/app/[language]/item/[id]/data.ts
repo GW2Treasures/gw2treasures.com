@@ -1,4 +1,4 @@
-import type { Item, Language } from '@gw2treasures/database';
+import type { Language } from '@gw2treasures/database';
 import { db } from '@/lib/prisma';
 import { linkProperties, linkPropertiesWithoutRarity } from '@/lib/linkProperties';
 import type { Gw2Api } from 'gw2-api-types';

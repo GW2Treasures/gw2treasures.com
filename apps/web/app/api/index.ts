@@ -1,5 +1,5 @@
 import { headers } from 'next/headers';
-import { NextRequest, NextResponse, unstable_after } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/prisma';
 import type { Language } from '@gw2treasures/database';
 import { getLanguage } from '@/lib/translate';
@@ -15,16 +15,16 @@ export interface CallbackParams<DynamicRouteSegments extends string = never> {
   language: Language
 }
 
-export interface CallbackResult<T = any> {
+export interface CallbackResult<T = unknown> {
   status?: number,
   header?: Record<string, string>
   json?: T,
   stringAsJson?: string
 }
 
-export type PublicApiResponse<T = any> = CallbackResult<T> | PublicApiErrorResponse
+export type PublicApiResponse<T = unknown> = CallbackResult<T> | PublicApiErrorResponse
 
-export function publicApi<DynamicRouteSegments extends string = never, ResponseType = any>(
+export function publicApi<DynamicRouteSegments extends string = never, ResponseType = unknown>(
   endpoint: string,
   callback: (request: CallbackParams<DynamicRouteSegments>) => PublicApiResponse<ResponseType> | Promise<PublicApiResponse<ResponseType>>,
   { maxAge = 60 }: { maxAge?: number } = {}

@@ -17,8 +17,6 @@ interface Sitemap {
 
 export const pageSize = 20_000;
 
-const baseDomain = process.env.GW2T_NEXT_DOMAIN!;
-
 export const sitemaps: Record<string, Sitemap> = {
   'items': {
     getCount() {

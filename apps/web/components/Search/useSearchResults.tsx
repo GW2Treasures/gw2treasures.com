@@ -12,12 +12,13 @@ import { Icon, type IconName } from '@gw2treasures/ui';
 import { AchievementPoints } from '../Achievement/AchievementPoints';
 import { SkillLinkTooltip } from '../Skill/SkillLinkTooltip';
 import type { TranslationSubset } from '@/lib/translate';
-import type { translations as itemTypeTranslations } from '../Item/ItemType.translations';
+import type { translations as itemTypeTranslations, TypeTranslation } from '../Item/ItemType.translations';
 import { ItemType } from '../Item/ItemType';
 import type { Rarity } from '@gw2treasures/database';
 import { strip } from 'gw2-tooltip-html';
 import type { Weight } from '@/lib/types/weight';
 import { SkinLinkTooltip } from '../Skin/SkinLinkTooltip';
+import type { SubType, Type } from '../Item/ItemType.types';
 
 export interface SearchResults<Id extends string> {
   id: Id;
@@ -41,7 +42,7 @@ export function useSearchApiResults(searchValue: string, translations: Translati
   const items = response.loading ? [] : response.data.items.map<SearchResult>((item) => ({
     title: localizedName(item, language),
     icon: item.icon && <EntityIcon icon={item.icon} size={32}/>,
-    subtitle: <>{item.level > 0 && `${item.level} ▪ `} {translations[`rarity.${item.rarity}`]} ▪ <ItemType type={item.type as any} subtype={item.subtype as any} translations={translations}/> {item.weight && ' ▪ ' + translations[`weight.${item.weight as Weight}`]}</>,
+    subtitle: <>{item.level > 0 && `${item.level} ▪ `} {translations[`rarity.${item.rarity}`]} ▪ <ItemType type={item.type as Type} subtype={item.subtype as SubType<Type>} translations={translations as unknown as Record<TypeTranslation<Type, SubType<Type>>, string>}/> {item.weight && ' ▪ ' + translations[`weight.${item.weight as Weight}`]}</>,
     href: `/item/${item.id}`,
     render: (link) => <Tooltip content={<ItemLinkTooltip item={getLinkProperties(item)}/>} key={link.key}>{link}</Tooltip>
   }));
@@ -55,7 +56,7 @@ export function useSearchApiResults(searchValue: string, translations: Translati
 
   const skins = response.loading ? [] : response.data.skins.map<SearchResult>((skin) => ({
     title: localizedName(skin, language),
-    subtitle: <>{translations[`rarity.${skin.rarity}`]} ▪ <ItemType type={skin.type as any} subtype={skin.subtype as any} translations={translations}/>{skin.weight && ' ▪ ' + translations[`weight.${skin.weight as Weight}`]} </>,
+    subtitle: <>{translations[`rarity.${skin.rarity}`]} ▪ <ItemType type={skin.type as Type} subtype={skin.subtype as SubType<Type>} translations={translations as unknown as Record<TypeTranslation<Type, SubType<Type>>, string>}/>{skin.weight && ' ▪ ' + translations[`weight.${skin.weight as Weight}`]} </>,
     icon: skin.icon && <EntityIcon icon={skin.icon} size={32}/>,
     href: `/skin/${skin.id}`,
     render: (link) => <Tooltip content={<SkinLinkTooltip skin={getLinkProperties(skin)}/>} key={link.key}>{link}</Tooltip>

@@ -3,7 +3,7 @@
 import { getUser } from '@/lib/getUser';
 import { type CanSubmitResponse, type EditContentOrder, EditContentSubmitError } from './types';
 import { db } from '@/lib/prisma';
-import { ContentChance, ReviewState } from '@gw2treasures/database';
+import { ContentChance, Prisma, ReviewState } from '@gw2treasures/database';
 import { revalidateTag } from 'next/cache';
 
 // eslint-disable-next-line require-await
@@ -65,7 +65,7 @@ export async function submitToReview({ itemId, removedItems, addedItems, removed
   await db.review.create({
     data: {
       state: ReviewState.Open,
-      changes: { removedItems, addedItems, removedCurrencies, addedCurrencies } as any,
+      changes: { removedItems, addedItems, removedCurrencies, addedCurrencies } as unknown as Prisma.InputJsonValue,
       queue: 'ContainerContent',
       requesterId: preConditions.userId,
       relatedItemId: itemId,

@@ -1,6 +1,5 @@
 'use client';
 
-import { Json } from '@/components/Format/Json';
 import { useDebounce } from '@/lib/useDebounce';
 import { useJsonFetch } from '@/lib/useFetch';
 import type { WithIcon } from '@/lib/with';

@@ -1,6 +1,6 @@
 'use client';
 
-import { type FC, type ReactNode, useCallback, useMemo, useRef, useState, type MouseEventHandler, useEffect } from 'react';
+import { type FC, type ReactNode, useCallback, useMemo, useRef, useState, type MouseEventHandler } from 'react';
 import { Gw2ApiContext, type GetAccountsOptions } from './Gw2ApiContext';
 import { fetchAccounts } from './fetch-accounts-action';
 import { ErrorCode, type Gw2Account } from './types';

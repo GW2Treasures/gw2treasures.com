@@ -30,7 +30,7 @@ const HighlightAsync: FC<HighlightProps> = async ({ code, language }) => {
   }
 
   const tree = starryNight.highlight(code, scope);
-  // @ts-expect-error
+  // @ts-expect-error `jsx` and `jsxs` from react/jsx-runtime have bad types and are not compatible with hast-util-to-jsx-runtime
   const reactNode = toJsxRuntime(tree, { Fragment, jsx, jsxs });
 
   return reactNode;

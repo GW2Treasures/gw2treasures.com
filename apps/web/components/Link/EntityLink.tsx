@@ -9,7 +9,7 @@ import type { EntityIconType } from '../Entity/EntityIcon';
 
 interface CustomEntityLinkProps {
   href: string;
-  entity: WithIcon<LocalizedEntity> & { rarity?: Rarity };
+  entity: WithIcon<LocalizedEntity> & ({ id: unknown, rarity: Rarity } | { id: unknown });
   icon?: IconSize | 'none' | ReactElement;
   iconType?: EntityIconType;
   language?: Language;

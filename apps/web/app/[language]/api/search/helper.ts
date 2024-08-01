@@ -7,10 +7,9 @@ import { cache } from '@/lib/cache';
 type ChatCode = Exclude<ReturnType<typeof decode>, false>;
 type ChatCodeOfType<Type> = Type extends Exclude<ChatCode['type'], 'item' | 'objective' | 'build'> ? { type: Type, id: number } : Extract<ChatCode, { type: Type }>
 
-function isChatCodeWithType<T extends ChatCode['type']>(expectedType: T): (chatCode: ChatCode) => chatCode is ChatCodeOfType<T> {
-  // @ts-ignore
-  return (chatCode) => chatCode.type === expectedType;
-}
+const isChatCodeWithType = <T extends ChatCode['type']>(expectedType: T) =>
+  (chatCode: ChatCode): chatCode is ChatCodeOfType<T> =>
+    chatCode.type === expectedType;
 
 export function splitSearchTerms(query: string): string[] {
   const terms = Array.from(query.matchAll(/"(?:\\\\.|[^\\\\"])+"|\S+/g)).map((term) => {

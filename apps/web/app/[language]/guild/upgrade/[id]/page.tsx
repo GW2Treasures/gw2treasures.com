@@ -18,7 +18,7 @@ import { RecipeBox } from '@/components/Recipe/RecipeBox';
 import { pageView } from '@/lib/pageView';
 import { cache } from '@/lib/cache';
 
-const getGuildUpgrade = cache(async (id: number, language: Language) => {
+const getGuildUpgrade = cache(async (id: number) => {
   if(isNaN(id)) {
     notFound();
   }
@@ -60,7 +60,7 @@ interface GuildUpgradePageProps {
 export default async function GuildUpgradePage({ params: { id, language }}: GuildUpgradePageProps) {
   const guildUpgradeId = Number(id);
   const [guildUpgrade, { revision, data }] = await Promise.all([
-    getGuildUpgrade(guildUpgradeId, language),
+    getGuildUpgrade(guildUpgradeId),
     getRevision(guildUpgradeId, language),
     pageView('guild/upgrade', guildUpgradeId),
   ]);
@@ -115,7 +115,7 @@ export default async function GuildUpgradePage({ params: { id, language }}: Guil
 
 export async function generateMetadata({ params: { language, id }}: GuildUpgradePageProps): Promise<Metadata> {
   const skinId: number = Number(id);
-  const guildUpgrade = await getGuildUpgrade(skinId, language);
+  const guildUpgrade = await getGuildUpgrade(skinId);
 
   if(!guildUpgrade) {
     notFound();

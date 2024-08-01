@@ -1,7 +1,7 @@
 'use client';
 
 import { type FC, type ReactNode, useEffect, useMemo, useState } from 'react';
-import { context } from './context';
+import { context, type Context } from './context';
 import type { AvailableColumns, GlobalColumnId } from './types';
 
 interface ItemTableContextProps {
@@ -10,10 +10,10 @@ interface ItemTableContextProps {
   global?: boolean;
 }
 
-const emptyAvailableColumns = {} as AvailableColumns<any>;
+const emptyAvailableColumns = {} as AvailableColumns<string>;
 
 export const ItemTableContext: FC<ItemTableContextProps> = ({ children, id, global: isGlobalContext = false }) => {
-  const [availableColumns, setAvailableColumns] = useState<AvailableColumns<any>>(emptyAvailableColumns);
+  const [availableColumns, setAvailableColumns] = useState<AvailableColumns<string>>(emptyAvailableColumns);
   const [defaultColumns, setDefaultColumns] = useState<GlobalColumnId[]>([]);
   const [selectedColumns, setSelectedColumns] = useState<GlobalColumnId[]>();
 
@@ -34,7 +34,9 @@ export const ItemTableContext: FC<ItemTableContextProps> = ({ children, id, glob
       if(Array.isArray(columns) && columns.every((column) => column in availableColumns)) {
         setSelectedColumns(columns);
       }
-    } catch {}
+    } catch {
+      // localStorage probably did not contain the value we were looking for, but thats okay
+    }
   }, [availableColumns, localStorageKey]);
 
   // store selected columns in localStorage
@@ -59,6 +61,6 @@ export const ItemTableContext: FC<ItemTableContextProps> = ({ children, id, glob
   }), [availableColumns, defaultColumns, selectedColumns, id, isGlobalContext]);
 
   return (
-    <context.Provider value={value}>{children}</context.Provider>
+    <context.Provider value={value as Context<string>}>{children}</context.Provider>
   );
 };

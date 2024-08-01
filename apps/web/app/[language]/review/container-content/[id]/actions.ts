@@ -61,7 +61,7 @@ export async function approve(data: FormData) {
 
 
 export async function reject(data: FormData) {
-  const { id, user, review } = await getUserAndReview(data);
+  const { id, user } = await getUserAndReview(data);
 
   await db.review.update({
     where: { id },

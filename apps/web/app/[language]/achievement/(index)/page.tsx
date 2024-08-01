@@ -6,7 +6,7 @@ import { localizedName } from '@/lib/localizedName';
 import { Fragment } from 'react';
 import type { Gw2Api } from 'gw2-api-types';
 import { AchievementCategoryLink } from '@/components/Achievement/AchievementCategoryLink';
-import type { AchievementCategory, Language } from '@gw2treasures/database';
+import type { Language } from '@gw2treasures/database';
 import { RemovedFromApiNotice } from '@/components/Notice/RemovedFromApiNotice';
 import Link from 'next/link';
 import { pageView } from '@/lib/pageView';

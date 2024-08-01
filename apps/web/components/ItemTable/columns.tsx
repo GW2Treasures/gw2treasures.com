@@ -11,9 +11,9 @@ import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 import { Icon } from '@gw2treasures/ui';
 import { FormatDate } from '../Format/FormatDate';
 import type { TranslationId } from '@/lib/translate';
-import type { Gw2Api } from 'gw2-api-types';
-import { translations } from '../Item/ItemType.translations';
+import { translations, type TypeTranslation } from '../Item/ItemType.translations';
 import { ItemType } from '../Item/ItemType';
+import type { SubType, Type } from '../Item/ItemType.types';
 
 // typehelper
 function createColumn<Select extends Prisma.ItemSelect, Translations extends TranslationId>(column: ItemTableColumn<Select, Translations>) {
@@ -126,7 +126,7 @@ export const globalColumnDefinitions = {
 };
 
 type ColumnDefinition<Id extends GlobalColumnId> = (typeof globalColumnDefinitions)[Id];
-type AvailableTranslations<Id extends GlobalColumnId> = ColumnDefinition<Id> extends ItemTableColumn<any, infer Translations> ? Translations : never;
+type AvailableTranslations<Id extends GlobalColumnId> = ColumnDefinition<Id> extends ItemTableColumn<Prisma.ItemSelect, infer Translations> ? Translations : never;
 
 type Renderer = {
   [Id in GlobalColumnId]: (item: Result<ColumnDefinition<Id>['select'] & { id: true }>, translations: Record<AvailableTranslations<Id>, string>) => ReactNode;
@@ -144,7 +144,7 @@ export const globalColumnRenderer: Renderer = {
   name_fr: (item) => item.name_fr,
   level: (item) => item.level,
   rarity: (item, t) => <Rarity rarity={item.rarity}>{t[`rarity.${item.rarity}`]}</Rarity>,
-  type: (item, t) => <ItemType type={item.type as any} subtype={item.subtype as any} translations={t} display="long"/>,
+  type: (item, t) => <ItemType type={item.type as Type} subtype={item.subtype as SubType<Type>} translations={t as Record<TypeTranslation<Type, SubType<Type>>, string>} display="long"/>,
   vendorValue: (item, t) => item.vendorValue === null ? empty(t['item.flag.NoSell']) : <Coins value={item.vendorValue}/>,
   buyPrice: (item) => !item.tpTradeable ? empty() : renderPriceWithOptionalWarning(item.tpCheckedAt, item.buyPrice),
   buyQuantity: (item) => !item.tpTradeable ? empty() : <FormatNumber value={item.buyQuantity ?? 0}/>,

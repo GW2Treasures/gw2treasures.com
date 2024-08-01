@@ -20,7 +20,7 @@ export const ReviewCountBadge: FC<ReviewCountBadgeProps> = () => {
   );
 };
 
-const ReviewCountBadgeInternal: FC<ReviewCountBadgeProps> = async ({}) => {
+const ReviewCountBadgeInternal: FC<ReviewCountBadgeProps> = async () => {
   const openReviews = await getOpenReviews();
 
   return openReviews > 0

@@ -1,9 +1,8 @@
 import { db } from '@/lib/prisma';
 import { ItemGuesserGame } from './game';
-import type { Language } from '@gw2treasures/database';
 import { notFound } from 'next/navigation';
 
-export default async function ItemGuesserPage({ params: { language }}: { params: { language: Language }}) {
+export default async function ItemGuesserPage() {
   const count = await db.item.count({ where: { removedFromApi: false }});
   const item = await db.item.findFirst({
     take: 1,

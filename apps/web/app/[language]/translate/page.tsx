@@ -1,5 +1,4 @@
 import { PageLayout } from '@/components/Layout/PageLayout';
-import { type TranslationId } from '@/lib/translate';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { TranslationEditor } from './translation-editor';
 
@@ -14,7 +13,6 @@ import esLegacy from '../../../translations/legacy/es.json';
 import frLegacy from '../../../translations/legacy/fr.json';
 import { ExternalLink } from '@gw2treasures/ui/components/Link/ExternalLink';
 import { Code } from '@/components/Layout/Code';
-import type { Metadata } from 'next';
 import { List } from '@gw2treasures/ui/components/Layout/List';
 import Link from 'next/link';
 
@@ -22,8 +20,6 @@ const dictionaries = { de, en, es, fr };
 const legacyDictionaries = { de: deLegacy, en: enLegacy, es: esLegacy, fr: frLegacy };
 
 export default function TranslatePage() {
-  const keys = Object.keys(dictionaries.en) as TranslationId[];
-
   return (
     <PageLayout>
       <Headline id="translations">Translations</Headline>

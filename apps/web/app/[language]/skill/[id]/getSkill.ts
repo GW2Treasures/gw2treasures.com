@@ -4,7 +4,7 @@ import { db } from '@/lib/prisma';
 import { cache } from '@/lib/cache';
 import type { Gw2Api } from 'gw2-api-types';
 
-export const getSkill = cache(async (id: number, language: Language, revisionId?: string) => {
+export const getSkill = cache(async (id: number, language: Language) => {
   const skill = await db.skill.findUnique({
     where: { id },
     include: {

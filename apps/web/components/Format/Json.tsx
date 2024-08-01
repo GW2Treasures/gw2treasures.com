@@ -10,13 +10,13 @@ export interface JsonProps {
 
 const comma = <span style={{ color: '#aaa' }}>, </span>;
 
-function renderJson([key, value]: [string, any], index: number, array: any[]) {
+function renderJson([key, value]: [string, unknown], index: number, array: unknown[]) {
   return (
     <div key={key} style={{ marginLeft: 16 }}>&quot;{key}&quot;: {renderValue(value, index, array)}</div>
   );
 }
 
-function renderValue(value: any, index: number, array: any[]) {
+function renderValue(value: unknown, index: number, array: unknown[]) {
   const maybeComma = index < array.length - 1 && comma;
 
   switch(typeof value) {

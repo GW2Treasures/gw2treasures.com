@@ -19,7 +19,7 @@ interface BuildPageProps {
   params: { language: Language, id: string }
 }
 
-function timed<Args extends any[], Out>(callback: (...args: Args) => Promise<Out>): (...args: Args) => Promise<Out> {
+function timed<Args extends unknown[], Out>(callback: (...args: Args) => Promise<Out>): (...args: Args) => Promise<Out> {
   const timedFunction = async (...args: Args): Promise<Out> => {
     const start = new Date();
     const result = await callback(...args);

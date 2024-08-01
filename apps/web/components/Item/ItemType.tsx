@@ -10,10 +10,10 @@ export interface ItemTypeProps<T extends Type, S extends SubType<T>> {
 
 export function ItemType<T extends Type, S extends SubType<T>>({ type, subtype, translations, display = 'short' }: ItemTypeProps<T, S>) {
   if(display === 'short') {
-    return hasSubtype(type, subtype) ? (translations as any)[`item.type.short.${type}.${subtype}`] : (translations as any)[`item.type.${type}`];
+    return hasSubtype(type, subtype) ? translations[`item.type.short.${type}.${subtype}` as keyof typeof translations] : translations[`item.type.${type}` as keyof typeof translations];
   }
 
-  return hasSubtype(type, subtype) ? `${(translations as any)[`item.type.${type}`]} (${(translations as any)[`item.type.${type}.${subtype}`]})` : (translations as any)[`item.type.${type}`];
+  return hasSubtype(type, subtype) ? `${translations[`item.type.${type}` as keyof typeof translations]} (${translations[`item.type.${type}.${subtype}` as keyof typeof translations]})` : translations[`item.type.${type}` as keyof typeof translations];
 }
 
 function hasSubtype<T extends Type>(type: T | Type, subtype: SubType<T>): type is TypeWithSubtype {

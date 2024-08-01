@@ -19,7 +19,7 @@ interface SkillInfoboxProps {
   skill: Skill;
   data: Gw2Api.Skill;
   language: Language;
-};
+}
 
 export const SkillInfobox: FC<SkillInfoboxProps> = ({ skill, data, language }) => {
   const chatlink = encode('skill', skill.id);

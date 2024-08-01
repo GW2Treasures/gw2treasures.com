@@ -4,7 +4,7 @@ import { FormatNumber } from './FormatNumber';
 
 interface CoinsProps {
   value: number;
-};
+}
 
 export const Coins: FC<CoinsProps> = ({ value }) => {
   const { gold, silver, copper } = coinsToGoldSilverCopper(value);

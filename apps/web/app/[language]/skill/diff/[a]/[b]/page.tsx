@@ -86,7 +86,7 @@ async function SkillDiffPage({ params }: { params: { a: string, b: string }}) {
       <DiffLayoutRow left={<Json data={dataA} borderless/>} right={<Json data={dataB} borderless/>} changed/>
     </DiffLayout>
   );
-};
+}
 
 function diffFacts<T>(left: T[] | undefined, right: T[] | undefined): { left?: T, right?: T }[] {
   if(left === undefined) {

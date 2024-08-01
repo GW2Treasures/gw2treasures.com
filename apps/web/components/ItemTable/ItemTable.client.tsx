@@ -33,7 +33,7 @@ export interface ItemTableProps<ExtraColumnId extends string, Model extends Quer
   availableColumns: AvailableColumns<GlobalColumnId | ExtraColumnId>;
   collapsed?: boolean;
   translations: PaginationProps['translations'] & TranslationSubset<'itemTable.viewItem' | 'chatlink.copy' | 'actions'>
-};
+}
 
 const globalDefaultColumns: GlobalColumnId[] = [
   'item', 'level', 'rarity', 'type', 'vendorValue',
@@ -179,7 +179,7 @@ function loadItems<Model extends QueryModel>(query: Signed<ItemTableQuery<Model>
     body: JSON.stringify({ query, options }),
     headers: { 'content-type': 'application/json' }
   }).then((r) => r.json());
-};
+}
 
 function loadTotalItemCount<Model extends QueryModel>(query: Signed<ItemTableQuery<Model>>, id: string): Promise<number> {
   return fetch(`/api/item/item-table?${encodeURIComponent(id)}&count`, {
@@ -187,4 +187,4 @@ function loadTotalItemCount<Model extends QueryModel>(query: Signed<ItemTableQue
     body: JSON.stringify({ query }),
     headers: { 'content-type': 'application/json' }
   }).then((r) => r.json());
-};
+}

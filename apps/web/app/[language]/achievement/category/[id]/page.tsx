@@ -131,7 +131,7 @@ async function AchievementCategoryPage({ params: { language, id }}: AchievementC
 
     </DetailLayout>
   );
-};
+}
 
 export default AchievementCategoryPage;
 

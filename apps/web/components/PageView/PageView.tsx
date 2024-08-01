@@ -4,7 +4,7 @@ import 'server-only';
 
 interface PageViewProps {
   page: string;
-};
+}
 
 // run this in a suspense, so this does not block rendering
 export const PageView: FC<PageViewProps> = (props) => {

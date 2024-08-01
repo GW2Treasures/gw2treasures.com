@@ -17,7 +17,7 @@ export interface CommonButtonProps extends Pick<HTMLAttributes<HTMLElement>, 'ar
 export interface ButtonProps extends CommonButtonProps, Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'disabled' | 'form' | 'name' | 'value' | 'formAction' | 'aria-label'> {
   type?: 'button' | 'submit'
   onClick?: MouseEventHandler<HTMLButtonElement>;
-};
+}
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button({ children, icon, iconColor, appearance = 'secondary', flex, intent, iconOnly, onClick, className, type = 'button', ...props }, ref) {
   return (

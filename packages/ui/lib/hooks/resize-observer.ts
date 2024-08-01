@@ -44,7 +44,7 @@ function getResizeObserver() {
 
     globalResizeObserver = {
       subscribe(target, callback) {
-        let index = subscriptions.length;
+        const index = subscriptions.length;
         subscriptions.push({ target, callback });
         observer.observe(target);
         return () => {

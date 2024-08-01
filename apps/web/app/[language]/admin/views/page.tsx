@@ -81,7 +81,8 @@ export default async function AdminUserPage({ searchParams: { interval, days }}:
       <Headline id="reviews" actions={[
         days === '30' ? <LinkButton href={`?interval=${interval}&days=7`}>1 Week</LinkButton> : <LinkButton href={`?interval=${interval}&days=30`}>1 Month</LinkButton>,
         interval === 'hour' ? <LinkButton href={`?interval=day&days=${days}`}>daily</LinkButton> : <LinkButton href={`?interval=hour&days=${days}`}>hourly</LinkButton>,
-      ]}>
+      ]}
+      >
         Page Views (last {days} days)
       </Headline>
       <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} style={{ overflow: 'visible' }}>

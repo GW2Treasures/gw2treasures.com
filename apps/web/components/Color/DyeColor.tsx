@@ -6,7 +6,7 @@ import { isDark } from './is-dark';
 
 interface DyeColorProps {
   color: RGB,
-};
+}
 
 export const DyeColor: FC<DyeColorProps> = ({ color }) => {
   return (

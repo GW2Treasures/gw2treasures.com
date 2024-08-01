@@ -5,7 +5,7 @@ import { SetUserContext, UserContext } from './context';
 
 interface UserProviderProps {
   children: ReactNode;
-};
+}
 
 export const UserProvider: FC<UserProviderProps> = ({ children }) => {
   const [user, setUser] = useState<UserContext>({ user: undefined, loading: true });

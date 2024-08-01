@@ -8,7 +8,7 @@ interface DataListProps {
     value: ReactNode,
     key: string
   } | false | undefined)[]
-};
+}
 
 export const DataList: FC<DataListProps> = ({ data }) => {
   return (

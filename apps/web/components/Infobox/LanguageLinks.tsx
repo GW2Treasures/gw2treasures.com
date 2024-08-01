@@ -5,7 +5,7 @@ import styles from './LanguageLinks.module.css';
 interface LanguageLinksProps {
   link: ReactElement<{ language: string }>;
   language: Language;
-};
+}
 
 export const LanguageLinks: FC<LanguageLinksProps> = ({ link, language }) => {
 

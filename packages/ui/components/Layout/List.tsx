@@ -5,7 +5,7 @@ interface ListProps {
   children: ReactNode;
 
   numbered?: boolean;
-};
+}
 
 export const List: FC<ListProps> = ({ children, numbered = false }) => {
   const Tag = numbered ? 'ol' : 'ul';

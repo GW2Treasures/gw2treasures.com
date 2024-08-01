@@ -601,7 +601,7 @@ function estimateGoldTickLength(value: number) {
     // additional margin if all are set
     (copper && silver && gold ? 6 : 0)
     );
-};
+}
 
 interface ChartToggleProps {
   label: ReactNode;

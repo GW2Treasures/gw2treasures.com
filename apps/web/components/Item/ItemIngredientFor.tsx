@@ -29,7 +29,7 @@ const getIngredientFor = cache(async (itemId: number) => {
 
 interface ItemIngredientForProps {
   itemId: number;
-};
+}
 
 export const ItemIngredientFor: FC<ItemIngredientForProps> = async ({ itemId }) => {
   const recipes = await getIngredientFor(itemId);

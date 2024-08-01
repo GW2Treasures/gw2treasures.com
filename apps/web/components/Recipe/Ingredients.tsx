@@ -12,7 +12,7 @@ interface IngredientsProps {
     currencyIngredients?: With<Pick<IngredientCurrency, 'count'>, { Currency: CurrencyLinkProps['currency'] }>[]
     guildUpgradeIngredients?: With<Pick<IngredientGuildUpgrade, 'count'>, { GuildUpgrade: GuildUpgradeLinkProps['guildUpgrade'] }>[]
   }
-};
+}
 
 export const Ingredients: FC<IngredientsProps> = ({ recipe }) => {
   return (

@@ -18,7 +18,7 @@ interface SkinInfoboxProps {
   skin: Skin;
   data: Gw2Api.Skin;
   language: Language;
-};
+}
 
 export const SkinInfobox: FC<SkinInfoboxProps> = ({ skin, language }) => {
   const chatlink = encode('skin', skin.id);

@@ -9,7 +9,7 @@ interface FormatNumberProps {
   value: number | undefined | null;
   className?: string;
   unit?: string;
-};
+}
 
 const format = new Intl.NumberFormat(undefined, { useGrouping: true });
 

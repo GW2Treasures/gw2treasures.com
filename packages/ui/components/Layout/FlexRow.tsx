@@ -6,7 +6,7 @@ interface FlexRowProps {
   align?: 'left' | 'right' | 'center' | 'space-between';
   wrap?: boolean;
   children: ReactNode;
-};
+}
 
 export const FlexRow: FC<FlexRowProps> = ({ children, align = 'left', wrap }) => {
 

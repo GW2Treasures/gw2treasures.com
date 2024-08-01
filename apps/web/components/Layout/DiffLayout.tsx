@@ -4,7 +4,7 @@ import styles from './DiffLayout.module.css';
 
 export interface DiffLayoutProps {
   children: ReactNode;
-};
+}
 
 export const DiffLayout: FC<DiffLayoutProps> = ({ children }) => {
   return (
@@ -18,7 +18,7 @@ interface DiffLayoutHeaderProps {
   icons: [ a: ReactElement | undefined, b: ReactElement | undefined ],
   title: [ a: ReactNode, b: ReactNode ],
   subtitle: [ a: ReactNode, b: ReactNode ],
-};
+}
 
 export const DiffLayoutHeader: FC<DiffLayoutHeaderProps> = ({ icons, title, subtitle }) => {
   return (
@@ -42,7 +42,7 @@ interface DiffLayoutRowProps {
   left: ReactNode;
   right: ReactNode;
   changed?: boolean;
-};
+}
 
 export const DiffLayoutRow: FC<DiffLayoutRowProps> = ({ left, right, changed = false }) => {
   return (

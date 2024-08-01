@@ -81,7 +81,7 @@ export default async function AchievementPage({ params: { language }}: { params:
       <Link href="/achievement/uncategorized">Uncategorized Achievements</Link>
     </HeroLayout>
   );
-};
+}
 
 export const metadata = {
   title: 'Achievements'

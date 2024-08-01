@@ -28,7 +28,7 @@ export interface RecipeTableProps {
     outputItem: ItemLinkProps['item'] | null;
     unlockedByItems: ItemLinkProps['item'][]
   }>[]
-};
+}
 
 export const RecipeTable: FC<RecipeTableProps> = ({ recipes }) => {
   const language = getLanguage();

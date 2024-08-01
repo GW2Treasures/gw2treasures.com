@@ -12,7 +12,7 @@ export function cache<Args extends unknown[], Return>(cb: (...args: Args) => Pro
   );
 
   return async (...args: Args) => JSON.parse(await cached(...args), deserialize);
-};
+}
 
 function serialize(this: any, key: string, value: any) {
   if(typeof value === 'bigint') {

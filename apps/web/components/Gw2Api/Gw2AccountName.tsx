@@ -5,7 +5,7 @@ import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 interface Gw2AccountNameProps {
   account: Gw2Account;
   long?: boolean;
-};
+}
 
 export const Gw2AccountName: FC<Gw2AccountNameProps> = ({ account, long }) => {
   // if the account does not have a displayName, always just return the name

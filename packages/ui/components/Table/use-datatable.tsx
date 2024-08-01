@@ -73,7 +73,7 @@ interface ColumnHeaderProps {
   column: DataTableColumn<any>;
   onSort: (column: DataTableColumn<any>) => void;
   sortBy: { column: DataTableColumn<any>, reverse: boolean } | undefined;
-};
+}
 
 const ColumnHeader: FC<ColumnHeaderProps> = ({ column, onSort, sortBy }) => {
   const handleSort = useCallback(() => {

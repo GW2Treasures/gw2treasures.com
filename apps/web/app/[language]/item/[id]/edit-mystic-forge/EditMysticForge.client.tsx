@@ -1,6 +1,6 @@
 'use client';
 
-import { DialogActions } from '@gw2treasures/ui/components/Dialog/DialogActions';;
+import { DialogActions } from '@gw2treasures/ui/components/Dialog/DialogActions';
 import { ItemLink } from '@/components/Item/ItemLink';
 import { SearchItemDialog, type SearchItemDialogSubmitHandler } from '@/components/Item/SearchItemDialog';
 import type { LocalizedEntity } from '@/lib/localizedName';

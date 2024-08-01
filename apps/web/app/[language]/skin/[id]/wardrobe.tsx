@@ -11,7 +11,7 @@ import type { FC } from 'react';
 
 interface WardrobeProps {
   skinId: number;
-};
+}
 
 const requiredScopes = [Scope.GW2_Account, Scope.GW2_Unlocks];
 

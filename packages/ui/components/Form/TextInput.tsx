@@ -11,7 +11,7 @@ export interface TextInputProps {
   readOnly?: boolean;
   autoFocus?: boolean;
   autoComplete?: HTMLInputAutoCompleteAttribute;
-};
+}
 
 export const TextInput: FC<TextInputProps> = ({ type = 'text', onChange, ...props }) => {
   const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {

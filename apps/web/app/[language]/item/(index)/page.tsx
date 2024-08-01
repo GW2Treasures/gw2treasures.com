@@ -43,7 +43,7 @@ export default async function ItemPage({ params: { language }}: { params: { lang
       </ItemList>
     </HeroLayout>
   );
-};
+}
 
 export const metadata = {
   title: 'Items'

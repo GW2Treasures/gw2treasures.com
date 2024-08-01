@@ -8,7 +8,7 @@ export interface TipProps {
   children: ReactElement<HTMLProps<HTMLElement>>;
   tip: ReactNode;
   preferredPlacement?: Placement;
-};
+}
 
 export const Tip: FC<TipProps> = ({ children, tip, preferredPlacement = 'top' }) => {
   const [open, setOpen] = useState(false);

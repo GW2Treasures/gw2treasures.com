@@ -35,4 +35,4 @@ export async function verify<T>(signed: Signed<T>): Promise<T> {
 
 export function createItemTableQuery(query: ItemTableQuery) {
   return sign(query);
-};
+}

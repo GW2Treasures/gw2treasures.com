@@ -66,7 +66,7 @@ async function AchievementUncategorizedPage({ params: { language }}: { params: {
       </UncategorizedAchievements.Table>
     </PageLayout>
   );
-};
+}
 
 export default AchievementUncategorizedPage;
 

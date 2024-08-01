@@ -8,7 +8,7 @@ interface SkeletonTableProps {
   columns: ReactNode[];
   rows?: number;
   icons?: boolean;
-};
+}
 
 export const SkeletonTable: FC<SkeletonTableProps> = ({ columns, rows = 3, icons = false }) => {
   return (

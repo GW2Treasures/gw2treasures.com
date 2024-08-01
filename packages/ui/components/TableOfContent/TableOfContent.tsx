@@ -76,7 +76,7 @@ export const useTableOfContentAnchor = (id: string, { label, enabled = true }: {
   return setElement;
 };
 
-interface TableOfContentProps {};
+interface TableOfContentProps {}
 
 export const TableOfContent: FC<TableOfContentProps> = ({ }) => {
   const { anchors } = useContext(Context);

@@ -15,7 +15,7 @@ export interface SubmitEditMysticForgeRequest {
     itemId: number | undefined,
     count: number | undefined,
   } | undefined)[]
-};
+}
 
 export interface SubmitEditMysticForgeOrder extends SubmitEditMysticForgeRequest {
   recipeId?: string,
@@ -26,7 +26,7 @@ export interface SubmitEditMysticForgeOrder extends SubmitEditMysticForgeRequest
     itemId: number,
     count: number,
   }[]
-};
+}
 
 export async function submitEditMysticForge(_: unknown, data: SubmitEditMysticForgeRequest): Promise<{ error: string, success?: never } | { error?: never, success: true }> {
   const user = await getUser();

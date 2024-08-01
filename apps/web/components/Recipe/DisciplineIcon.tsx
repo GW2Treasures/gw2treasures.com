@@ -6,7 +6,7 @@ export type Discipline = 'Armorsmith' | 'Artificer' | 'Chef' | 'Huntsman' | 'Jew
 
 export interface DisciplineIconProps {
   discipline: Discipline;
-};
+}
 
 const DisciplieIcons: Record<Discipline, { icon: IconName, color: CSSProperties['--icon-color'] }> = {
   'Armorsmith': { icon: 'armorsmith', color: '#607d8b' },

@@ -10,7 +10,7 @@ export interface DropDown {
   children: ReactNode;
   preferredPlacement?: Placement;
   hideTop?: boolean;
-};
+}
 
 export const DropDown: FC<DropDown> = ({ children, button, preferredPlacement = 'bottom-end', hideTop = true }) => {
   const [open, setOpen] = useState(false);

@@ -11,7 +11,7 @@ export interface PaginationProps {
   onPageChange: (page: number) => void;
   disabled?: boolean;
   translations: TranslationSubset<'pagination.next' | 'pagination.previous'>
-};
+}
 
 export const Pagination: FC<PaginationProps> = ({ current, total, onPageChange, disabled, translations }) => {
   const handlePrev = useCallback<MouseEventHandler<HTMLButtonElement>>((e) => {

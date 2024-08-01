@@ -16,7 +16,7 @@ interface MysticForgeRecipeBoxProps {
     itemIngredients: With<MysticForgeIngredientItem, { Item: WithIcon<Pick<Item, 'id' | 'rarity' | keyof LocalizedEntity>> }>[]
   },
   outputItem: WithIcon<Pick<Item, 'id' | 'rarity' | keyof LocalizedEntity>>,
-};
+}
 
 export const MysticForgeRecipeBox: FC<MysticForgeRecipeBoxProps> = ({ recipe, outputItem }) => {
   return (

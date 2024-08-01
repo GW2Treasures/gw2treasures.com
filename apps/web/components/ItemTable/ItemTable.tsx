@@ -13,7 +13,7 @@ export interface ItemTableProps<ExtraColumnId extends string, Model extends Quer
   defaultColumns?: (ExtraColumnId | GlobalColumnId)[];
   collapsed?: boolean;
   extraColumns?: ExtraColumn<ExtraColumnId, Model, any>[]
-};
+}
 
 export const ItemTable = async <ExtraColumnId extends string = never, Model extends QueryModel = 'item'>({ query, extraColumns, ...props }: ItemTableProps<ExtraColumnId, Model>) => {
   const signedQuery = await sign(query);

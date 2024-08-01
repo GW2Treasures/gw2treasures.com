@@ -10,7 +10,7 @@ export interface NumberInputProps {
   readOnly?: boolean;
   min?: number;
   max?: number;
-};
+}
 
 export const NumberInput: FC<NumberInputProps> = ({ value, defaultValue, onChange, placeholder, name, readOnly, min, max }) => {
   const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {

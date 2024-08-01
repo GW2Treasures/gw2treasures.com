@@ -68,7 +68,10 @@
     "@stylistic/no-extra-semi": ["warn"],
 
     // disallows async functions not using await
-    "require-await": "warn"
+    "require-await": "warn",
+
+    // require dependencies to be in package.json
+    "import/no-extraneous-dependencies": "error"
   },
 
   "overrides": [

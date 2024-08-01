@@ -1,5 +1,4 @@
-import { NextResponse } from 'next/server';
-import { NextRequest } from 'next/server';
+import { NextResponse, NextRequest } from 'next/server';
 import { healthMiddleware } from './middleware/health';
 import type { NextMiddleware } from './middleware/types';
 import { logMiddleware } from './middleware/log';
@@ -11,8 +10,8 @@ import { apiKeyMiddleware } from './middleware/api-key';
 import { rewriteMiddleware } from './middleware/rewrite';
 import { corsMiddleware } from './middleware/cors';
 import { userAgentMiddleware } from './middleware/user-agent';
-import { dropSearchParamsMiddleware } from 'middleware/drop-search-params';
-import { contentSecurityPolicyMiddleware } from 'middleware/content-security-policy';
+import { dropSearchParamsMiddleware } from './middleware/drop-search-params';
+import { contentSecurityPolicyMiddleware } from './middleware/content-security-policy';
 
 export async function middleware(request: NextRequest) {
   const middlewares: NextMiddleware[] = [

@@ -73,7 +73,10 @@
     "require-await": "warn",
 
     // require dependencies to be in package.json
-    "import/no-extraneous-dependencies": "error"
+    "import/no-extraneous-dependencies": "error",
+
+    // disable import/no-unresolved, ts is already handling this
+    "import/no-unresolved": "off"
   },
 
   "overrides": [

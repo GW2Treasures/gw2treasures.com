@@ -30,7 +30,7 @@ type TestDbEntity = {
   current_fr: Revision,
   removedFromApi: boolean,
   version: number,
-}
+};
 
 const revisionBase: Revision = { buildId: 1, schema: 'test', createdAt: new Date(), data: JSON.stringify({ id: 1 }), description: 'Test', entity: 'test', id: 'test-revision', language: 'en', type: 'Import', previousRevisionId: null };
 

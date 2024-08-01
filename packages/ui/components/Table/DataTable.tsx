@@ -157,7 +157,7 @@ export function compare<T extends Comparable>(a: T, b: T) {
   throw new Error(`Cant compare ${typeof a} and ${typeof b}`);
 }
 
-type ComparableProperties<T> = {[K in keyof T]: T[K] extends Comparable ? K : never}[keyof T];
+type ComparableProperties<T> = { [K in keyof T]: T[K] extends Comparable ? K : never }[keyof T];
 
 export function sortBy<T>(by: ComparableProperties<T> | ((x: T) => Comparable)): (a: T, b: T) => number {
   return typeof by === 'function'

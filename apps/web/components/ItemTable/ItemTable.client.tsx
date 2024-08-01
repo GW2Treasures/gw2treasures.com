@@ -49,7 +49,7 @@ export const ItemTable = <ExtraColumnId extends string = never, Model extends Qu
   const [collapsed, setCollapsed] = useState(initialCollapsed && isEmptyObject(getHistoryState(id)));
   const [loadedColumns, setLoadedColumns] = useState<ColumnId[]>([]);
   const [loading, setLoading] = useState(true);
-  const [orderBy, setOrderBy] = useState<{ column: ColumnId, order: 'asc' | 'desc'} | undefined>(getHistoryState<ColumnId>(id).orderBy);
+  const [orderBy, setOrderBy] = useState<{ column: ColumnId, order: 'asc' | 'desc' } | undefined>(getHistoryState<ColumnId>(id).orderBy);
   const [range, setRange] = useState<{ length: number, offset: number }>();
   const [dynamicTranslations, setDynamicTranslations] = useState<Partial<Record<TranslationId, string>>>({});
 

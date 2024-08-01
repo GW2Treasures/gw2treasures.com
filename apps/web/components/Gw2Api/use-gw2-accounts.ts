@@ -7,7 +7,7 @@ import { useUser } from '../User/use-user';
 type UseGw2AccountsResult =
   | { loading: true }
   | { loading: false, error: true }
-  | { loading: false, error: false, accounts: Gw2AccountWithHidden[], scopes: Scope[] }
+  | { loading: false, error: false, accounts: Gw2AccountWithHidden[], scopes: Scope[] };
 
 const loading: Gw2AccountWithHidden[] = [];
 const defaultOptionalScopes: Scope[] = [];

@@ -9,7 +9,7 @@ import { headers } from 'next/headers';
 
 export type TranslationId = keyof typeof en;
 
-export type TranslationSubset<T extends TranslationId> = Record<T, string>
+export type TranslationSubset<T extends TranslationId> = Record<T, string>;
 
 const dictionaryDe: Record<TranslationId, string> = { ...en, ...de };
 const dictionaryEs: Record<TranslationId, string> = { ...en, ...es };

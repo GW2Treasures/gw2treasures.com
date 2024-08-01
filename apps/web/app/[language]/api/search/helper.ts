@@ -5,7 +5,7 @@ import { isDefined, isTruthy } from '@gw2treasures/helper/is';
 import { cache } from '@/lib/cache';
 
 type ChatCode = Exclude<ReturnType<typeof decode>, false>;
-type ChatCodeOfType<Type> = Type extends Exclude<ChatCode['type'], 'item' | 'objective' | 'build'> ? { type: Type, id: number } : Extract<ChatCode, { type: Type }>
+type ChatCodeOfType<Type> = Type extends Exclude<ChatCode['type'], 'item' | 'objective' | 'build'> ? { type: Type, id: number } : Extract<ChatCode, { type: Type }>;
 
 const isChatCodeWithType = <T extends ChatCode['type']>(expectedType: T) =>
   (chatCode: ChatCode): chatCode is ChatCodeOfType<T> =>
@@ -47,7 +47,7 @@ type LocalizedNameInput = {
   name_en?: Prisma.StringFilter | string;
   name_es?: Prisma.StringFilter | string;
   name_fr?: Prisma.StringFilter | string;
-}
+};
 
 function nameQuery(terms: string[]): LocalizedNameInput[] {
   if(terms.length === 0) {
@@ -93,7 +93,7 @@ export type ItemFilters = {
   weight?: string | null,
   vendorValue?: number | null,
   level?: number,
-}
+};
 
 export const searchItems = cache(async (terms: string[], chatCodes: ChatCode[], filter?: ItemFilters) => {
   const nameQueries = nameQuery(terms);

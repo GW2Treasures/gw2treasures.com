@@ -20,14 +20,14 @@ type SubscriptionData<T extends SubscriptionType> =
   T extends 'skins' ? number[] :
   T extends 'wallet' ? AccountWallet[] :
   T extends 'wizards-vault' ? Awaited<ReturnType<typeof loadAccountsWizardsVault>> :
-  never
+  never;
 
 type SubscriptionResponse<T extends SubscriptionType> = {
   error: false,
   data: SubscriptionData<T>
 } | {
   error: true
-}
+};
 
 type SubscriptionCallback<T extends SubscriptionType> = (response: SubscriptionResponse<T>) => void;
 
@@ -35,13 +35,13 @@ type ActiveSubscription<T extends SubscriptionType> = {
   type: T,
   accountId: string,
   callback: SubscriptionCallback<T>
-}
+};
 
 type CancelSubscription = () => void;
 
 type Cache = {
   [T in SubscriptionType]?: Record<string, SubscriptionResponse<T>>
-}
+};
 
 type SubscriptionContext<T extends SubscriptionType> = (type: T, accountId: string, callback: SubscriptionCallback<T>) => CancelSubscription;
 

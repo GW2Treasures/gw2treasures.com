@@ -18,7 +18,7 @@ type FindManyArgs = {
     lastCheckedAt?: { lt: Date },
     version?: { lt: number },
   }
-}
+};
 
 export async function createSubJobs(
   jobName: JobName,
@@ -108,7 +108,7 @@ type DbEntityBase<Id extends string | number> = {
   current: Revision,
   removedFromApi: boolean,
   version: number,
-}
+};
 
 type DbLocalizedEntityBase<Id extends string | number> = {
   id: Id,
@@ -118,25 +118,25 @@ type DbLocalizedEntityBase<Id extends string | number> = {
   current_fr: Revision,
   removedFromApi: boolean,
   version: number,
-}
+};
 
 type CreateInput<Id, HistoryId, ExtraData> = {
   data: InputData<Id, HistoryId> & ExtraData,
-}
+};
 
 type CreateInputLocalized<Id, HistoryId, ExtraData> = {
   data: InputDataLocalized<Id, HistoryId> & ExtraData,
-}
+};
 
 type UpdateInput<Id, HistoryId, ExtraData> = {
   where: { id: Id },
   data: Partial<InputData<Id, HistoryId> & ExtraData> | { lastCheckedAt: Date },
-}
+};
 
 type UpdateInputLocalized<Id, HistoryId, ExtraData> = {
   where: { id: Id },
   data: Partial<InputDataLocalized<Id, HistoryId> & ExtraData> | { lastCheckedAt: Date },
-}
+};
 
 export type InputData<Id, HistoryId> = {
   id: Id,

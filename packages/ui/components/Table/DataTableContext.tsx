@@ -8,7 +8,7 @@ type DataTableGlobalContext = {
 
   availableColumns: Record<string, AvailableColumn[] | undefined>,
   setAvailableColumns: (id: string, columns: AvailableColumn[]) => void,
-}
+};
 
 export const DataTableGlobalContext = createContext<DataTableGlobalContext>({
   columns: {},

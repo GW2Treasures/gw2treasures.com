@@ -17,7 +17,7 @@ export type QueryModel = keyof ColumnModelTypes;
 export type Result<Select extends Prisma.ItemSelect> =
   Awaited<ReturnType<typeof db.item.findFirstOrThrow<{ select: Select }>>>;
 
-export type OrderBy<T = Prisma.ItemOrderByWithRelationInput> = T | T[]
+export type OrderBy<T = Prisma.ItemOrderByWithRelationInput> = T | T[];
 
 export interface ItemTableColumn<Select extends Prisma.ItemSelect, Translations extends TranslationId> {
   id: GlobalColumnId,
@@ -33,7 +33,7 @@ export type ColumnModelTypes = {
   'item': { select: Prisma.ItemSelect, orderBy: Prisma.ItemOrderByWithRelationInput, where: Prisma.ItemWhereInput, map: undefined },
   'content': { select: Prisma.ContentSelect, orderBy: Prisma.ContentOrderByWithRelationInput, where: Prisma.ContentWhereInput, map: 'containerItem' | 'contentItem' },
   'mysticForgeRecipe': { select: Prisma.MysticForgeRecipeSelect, orderBy: Prisma.MysticForgeRecipeOrderByWithRelationInput, where: Prisma.MysticForgeRecipeWhereInput, map: 'outputItem' }
-}
+};
 
 export interface ExtraColumn<Id extends string, Model extends QueryModel, Select extends ColumnModelTypes[Model]['select']> {
   id: Id,
@@ -55,9 +55,9 @@ export type AvailableColumn<ColumnId extends string, Model extends QueryModel = 
   align?: 'right',
   small?: boolean,
   component?: FC<{ item: Result<Select & { id: true }> }>
-}
+};
 
-export type AvailableColumns<ColumnId extends string> = Record<ColumnId, AvailableColumn<ColumnId>>
+export type AvailableColumns<ColumnId extends string> = Record<ColumnId, AvailableColumn<ColumnId>>;
 
 export type LoadItemsResult = Promise<{
   items: { id: number }[],

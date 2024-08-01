@@ -14,7 +14,7 @@ export function useFetch(url: string, callback: (response: Response) => void) {
   }, [url, callback]);
 }
 
-type UseJsonFetchResult<T> = { loading: true } | { loading: false, data: T }
+type UseJsonFetchResult<T> = { loading: true } | { loading: false, data: T };
 
 export function useJsonFetch<T = unknown>(url: string): UseJsonFetchResult<T> {
   const [data, setData] = useState<UseJsonFetchResult<T>>({ loading: true });

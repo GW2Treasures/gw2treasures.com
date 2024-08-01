@@ -22,7 +22,7 @@ export interface CallbackResult<T = unknown> {
   stringAsJson?: string
 }
 
-export type PublicApiResponse<T = unknown> = CallbackResult<T> | PublicApiErrorResponse
+export type PublicApiResponse<T = unknown> = CallbackResult<T> | PublicApiErrorResponse;
 
 export function publicApi<DynamicRouteSegments extends string = never, ResponseType = unknown>(
   endpoint: string,

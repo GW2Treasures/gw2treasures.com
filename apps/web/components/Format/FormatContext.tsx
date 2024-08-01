@@ -52,8 +52,12 @@ export const FormatProvider: FC<FormatProviderProps> = ({ children }) => {
 
   // load locale from localStorage
   useEffect(() => {
-    localStorage['gw2t.format.region'] && setRegion(localStorage['gw2t.format.region']);
-    localStorage['gw2t.format.language'] && setLanguage(localStorage['gw2t.format.language']);
+    if(localStorage['gw2t.format.region']) {
+      setRegion(localStorage['gw2t.format.region']);
+    }
+    if(localStorage['gw2t.format.language']) {
+      setLanguage(localStorage['gw2t.format.language']);
+    }
   }, []);
 
   // save locale to localStorage if it changes after hydration

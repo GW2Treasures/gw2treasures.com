@@ -65,9 +65,7 @@ export const RecipeRowFilter: DataTableRowFilterComponent = ({ children, index }
 };
 
 
-export interface RecipeTableSearchProps {}
-
-export const RecipeTableSearch: FC<RecipeTableSearchProps> = () => {
+export const RecipeTableSearch: FC = () => {
   const { search, setSearch } = useContext(context);
 
   return <TextInput value={search} onChange={setSearch} type="search" placeholder="Search…"/>;

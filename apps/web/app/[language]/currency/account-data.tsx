@@ -1,7 +1,6 @@
 'use client';
 
 import type { FC } from 'react';
-import type { HeaderProps } from '@/components/Achievement/AccountAchievementProgress';
 import { useGw2Accounts } from '@/components/Gw2Api/use-gw2-accounts';
 import { Scope } from '@gw2me/client';
 import { useSubscription } from '@/components/Gw2Api/Gw2AccountSubscriptionProvider';
@@ -11,7 +10,7 @@ import { Gw2AccountName } from '@/components/Gw2Api/Gw2AccountName';
 
 const requiredScopes = [Scope.GW2_Wallet];
 
-export const AccountHeader: FC<HeaderProps> = () => {
+export const AccountHeader: FC = () => {
   const accounts = useGw2Accounts(requiredScopes);
 
   return !accounts.loading && !accounts.error && accounts.accounts.map((account) => (

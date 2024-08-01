@@ -13,7 +13,6 @@ import { Gw2AccountName } from '../Gw2Api/Gw2AccountName';
 
 const requiredScopes = [Scope.GW2_Progression];
 
-export interface HeaderProps {}
 export interface RowProps {
   achievement: Achievement;
   bitId?: number;
@@ -24,7 +23,7 @@ export interface AccountAchievementProgressCellProps {
   accountId: string;
 }
 
-export const AccountAchievementProgressHeader: FC<HeaderProps> = () => {
+export const AccountAchievementProgressHeader: FC = () => {
   const accounts = useGw2Accounts(requiredScopes);
 
   return !accounts.loading && !accounts.error && accounts.accounts.map((account) => (

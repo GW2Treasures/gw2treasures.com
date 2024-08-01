@@ -10,9 +10,7 @@ const getOpenReviews = cache(
   { revalidate: 600, tags: ['open-reviews'] }
 );
 
-export interface ReviewCountBadgeProps {}
-
-export const ReviewCountBadge: FC<ReviewCountBadgeProps> = () => {
+export const ReviewCountBadge: FC = () => {
   return (
     <Suspense>
       <ReviewCountBadgeInternal/>
@@ -20,7 +18,7 @@ export const ReviewCountBadge: FC<ReviewCountBadgeProps> = () => {
   );
 };
 
-const ReviewCountBadgeInternal: FC<ReviewCountBadgeProps> = async () => {
+const ReviewCountBadgeInternal: FC = async () => {
   const openReviews = await getOpenReviews();
 
   return openReviews > 0

@@ -12,7 +12,7 @@ import { localizedUrl } from '@/lib/localizedUrl';
 import { cx } from '@gw2treasures/ui';
 import { EntityIconMissing } from '../Entity/EntityIconMissing';
 
-export const EntityLinkInternal = forwardRef<HTMLAnchorElement, EntityLinkProps>(function EntityLinkInternal({ href, entity, icon = 32, language, iconType, ...props }, ref) {
+export const EntityLinkInternal = forwardRef<HTMLAnchorElement, EntityLinkProps>(function EntityLinkInternal({ href, entity, icon = 32, language, iconType, ...props }: EntityLinkProps, ref) {
   const defaultLanguage = useLanguage();
 
   if(language && defaultLanguage !== language) {

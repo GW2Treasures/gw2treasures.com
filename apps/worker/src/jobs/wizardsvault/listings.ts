@@ -7,10 +7,8 @@ import { Prisma } from '@gw2treasures/database';
 import { loadWizardsVaultListings } from '../helper/loadWizardsVaultListings';
 import { toId } from '../helper/toId';
 
-interface WizardsVaultListingsJobProps extends ProcessEntitiesData<number> {}
-
 export const WizardsVaultListingsJob: Job = {
-  async run(data: WizardsVaultListingsJobProps | Record<string, never>) {
+  async run(data: ProcessEntitiesData<number> | Record<string, never>) {
     const CURRENT_VERSION = 1;
 
     if(isEmptyObject(data)) {

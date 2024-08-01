@@ -6,7 +6,9 @@ export function useLocalStorageState<S = undefined>(key: string, initial: S | ((
   const hydrated = useHydrated();
 
   useEffect(() => {
-    localStorage[`gw2t.${key}`] && setState(JSON.parse(localStorage[`gw2t.${key}`]));
+    if(localStorage[`gw2t.${key}`]) {
+      setState(JSON.parse(localStorage[`gw2t.${key}`]));
+    }
   }, [key]);
 
   useEffect(() => {

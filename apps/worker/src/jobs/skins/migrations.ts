@@ -27,10 +27,10 @@ export async function createMigrator() {
       const chatLink = encode('skin', en.id);
 
       if(chatLink !== false) {
-        en.name?.trim() === '' && (update.name_en = chatLink);
-        de.name?.trim() === '' && (update.name_de = chatLink);
-        es.name?.trim() === '' && (update.name_es = chatLink);
-        fr.name?.trim() === '' && (update.name_fr = chatLink);
+        if(en.name?.trim() === '') { update.name_en = chatLink; }
+        if(de.name?.trim() === '') { update.name_de = chatLink; }
+        if(es.name?.trim() === '') { update.name_es = chatLink; }
+        if(fr.name?.trim() === '') { update.name_fr = chatLink; }
       }
     }
 

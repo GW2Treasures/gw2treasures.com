@@ -13,10 +13,6 @@ import { useRouter } from 'next/navigation';
 import { useLanguage } from '@/components/I18n/Context';
 import type { Language } from '@gw2treasures/database';
 
-export interface LanguageDropdownProps {
-  // TODO: add props
-}
-
 const languages = {
   en: 'English',
   de: 'Deutsch',
@@ -24,7 +20,7 @@ const languages = {
   fr: 'Français',
 };
 
-export const LanguageDropdown: FC<LanguageDropdownProps> = () => {
+export const LanguageDropdown: FC = () => {
   const { push } = useRouter();
 
   const [formatDialogOpen, setFormatDialogOpen] = useState(false);

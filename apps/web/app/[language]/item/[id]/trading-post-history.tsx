@@ -45,9 +45,7 @@ export const TradingPostHistoryAsync: FC<TradingPostHistoryProps> = async ({ ite
   );
 };
 
-export interface TradingPostHistoryLoadingProps { }
-
-export const TradingPostHistoryLoading: FC<TradingPostHistoryLoadingProps> = () => {
+export const TradingPostHistoryLoading: FC = () => {
   return (
     <div style={{ padding: 64, textAlign: 'center', background: 'var(--color-background-light)', borderRadius: 2, color: 'var(--color-text-muted)' }}>
       <Icon icon="loading"/> Loading Trading Post History

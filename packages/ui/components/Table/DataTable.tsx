@@ -3,6 +3,7 @@ import { Fragment, type FC, type Key, type ReactElement, type ReactNode } from '
 import 'server-only';
 import { DataTableClient, DataTableClientCell, DataTableClientColumn, DataTableClientColumnSelection, DataTableClientRows } from './DataTable.client';
 import { isDefined } from '@gw2treasures/helper/is';
+import type { Comparable, ComparableProperties } from './comparable-properties';
 
 export type DataTableRowFilterComponentProps = { children: ReactNode, index: number };
 export type DataTableRowFilterComponent = FC<DataTableRowFilterComponentProps>;
@@ -130,8 +131,6 @@ export function createDataTable<T>(rows: T[], getRowKey: (row: T, index: number)
   };
 }
 
-type Comparable = string | number | bigint | null | undefined | Date;
-
 export function compare<T extends Comparable>(a: T, b: T) {
   if(a == null) {
     if(b == null) {
@@ -157,8 +156,6 @@ export function compare<T extends Comparable>(a: T, b: T) {
 
   throw new Error(`Cant compare ${typeof a} and ${typeof b}`);
 }
-
-type ComparableProperties<T> = { [K in keyof T]: T[K] extends Comparable ? K : never }[keyof T];
 
 export function sortBy<T>(by: ComparableProperties<T> | ((x: T) => Comparable)): (a: T, b: T) => number {
   return typeof by === 'function'

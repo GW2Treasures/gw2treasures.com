@@ -6,11 +6,9 @@ import { type ProcessEntitiesData, createSubJobs, processLocalizedEntities } fro
 import { Prisma } from '@gw2treasures/database';
 import { loadWizardsVaultObjectives } from '../helper/loadWizardsVaultObjectives';
 
-interface WizardsVaultObjectivesJobProps extends ProcessEntitiesData<number> {}
-
 export const WizardsVaultObjectivesJob: Job = {
   // eslint-disable-next-line require-await
-  async run(data: WizardsVaultObjectivesJobProps | Record<string, never>) {
+  async run(data: ProcessEntitiesData<number> | Record<string, never>) {
     const CURRENT_VERSION = 1;
 
     if(isEmptyObject(data)) {

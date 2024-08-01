@@ -1,12 +1,12 @@
 {
-  "name": "@gw2treasures/eslint-plugin-nextjs",
+  "name": "@gw2treasures/eslint-config",
   "version": "0.0.1",
-  "description": "ESLint plugin with custom rules for Next.js",
-  "main": "dist/index.js",
+  "description": "ESLint config for gw2treasures",
+  "exports": {
+    ".": "./configs/index.json",
+    "./react": "./configs/react.json"
+  },
   "scripts": {
-    "build": "npm run clean && tsc",
-    "lint": "eslint src",
-    "clean": "rm -rf dist/",
     "publish-package": "gw2treasures-publish-package"
   },
   "repository": {
@@ -16,12 +16,10 @@
   "keywords": [
     "gw2treasures",
     "eslint",
-    "eslint-plugin",
-    "nextjs",
-    "metadata"
+    "eslint-config"
   ],
   "files": [
-    "dist/"
+    "index.js"
   ],
   "author": "darthmaim",
   "license": "MIT",
@@ -29,18 +27,10 @@
     "url": "https://github.com/GW2Treasures/gw2treasures.com/issues"
   },
   "homepage": "https://github.com/GW2Treasures/gw2treasures.com#readme",
-  "dependencies": {
-    "@typescript-eslint/utils": "7.18.0"
-  },
-  "devDependencies": {
-    "@gw2treasures/eslint-config": "*",
-    "@typescript-eslint/parser": "7.18.0",
-    "eslint": "8.57.0",
-    "tsup": "8.2.3",
-    "typescript": "5.5.4"
-  },
   "peerDependencies": {
-    "eslint": "^8.56.0"
+    "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "eslint": "^8.57.0",
+    "eslint-plugin-react": "^7.34.3"
   },
   "publishConfig": {
     "access": "public"

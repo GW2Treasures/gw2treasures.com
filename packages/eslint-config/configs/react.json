@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json.schemastore.org/eslintrc",
+
+  "extends": [
+    "plugin:react/recommended",
+    "@gw2treasures/eslint-config"
+  ],
+
+  "rules": {
+    // `<C foo='bar'>` → `<C foo="bar">`
+    "jsx-quotes": ["warn", "prefer-double"],
+
+    // `< C / >` → `<C/>`
+    "react/jsx-tag-spacing": ["warn", {
+      "closingSlash": "never",
+      "beforeSelfClosing": "never",
+      "afterOpening": "never",
+      "beforeClosing": "never"
+    }],
+
+    // `<C prop={'test'}/>` → `<C prop="test"/>`
+    "react/jsx-curly-brace-presence": ["warn", "never"],
+
+    // add parens around jsx
+    "react/jsx-wrap-multilines": ["warn", {
+      "declaration": "parens-new-line",
+      "assignment": "parens-new-line",
+      "return": "parens-new-line",
+      "arrow": "parens-new-line",
+      "condition": "parens-new-line",
+      "logical": "parens-new-line",
+      "prop": "parens-new-line"
+    }],
+
+    // multiline closing bracket location
+    "react/jsx-closing-bracket-location": ["warn", {
+      "nonEmpty": "line-aligned",
+      "selfClosing": "after-props"
+    }],
+
+    // indent jsx with 2 spaces
+    "react/jsx-indent": ["warn", 2, { "checkAttributes": true, "indentLogicalExpressions": true }],
+
+    // indent props with 2 spaces
+    "react/jsx-indent-props": ["warn", 2],
+
+    // disallows using the array index as key
+    "react/no-array-index-key": "warn",
+
+    // `<Foo></Foo>` → `<Foo/>`
+    "react/self-closing-comp": "warn",
+
+    // `<Foo bar={true}>` → `<Foo bar/>`
+    "react/jsx-boolean-value": "warn",
+
+    // align the closing JSX tag with the opening tag
+    "react/jsx-closing-tag-location": "warn",
+
+    // `<React.Fragment>` → `<>`
+    "react/jsx-fragments": "warn",
+
+    // require key
+    "react/jsx-key": ["warn", { "checkFragmentShorthand": true }],
+
+    // prevent multiple spaces in jsx
+    "react/jsx-props-no-multi-spaces": "warn",
+
+    // `<Foo bar={ baz }>` → `<Foo bar={baz}/>`
+    "react/jsx-curly-spacing": "warn",
+
+    // require dependencies to be in package.json
+    "import/no-extraneous-dependencies": "error",
+
+    // disable next rules
+    "@next/next/no-html-link-for-pages": "off"
+  },
+
+  "overrides": [
+    {
+      "files": ["**/*.ts", "**/*.tsx"],
+      "rules": {
+        "@typescript-eslint/type-annotation-spacing": "warn",
+
+        "@typescript-eslint/naming-convention": ["warn", {
+          "selector": "default", "format": null
+        },{
+          "selector": "typeLike", "format": ["PascalCase"]
+        }]
+      }
+    }
+  ]
+}

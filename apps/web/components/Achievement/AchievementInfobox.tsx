@@ -16,7 +16,7 @@ interface AchievementInfoboxProps {
   achievement: Achievement;
   data: Gw2Api.Achievement;
   language: Language;
-};
+}
 
 export const AchievementInfobox: FC<AchievementInfoboxProps> = ({ achievement, language }) => {
 

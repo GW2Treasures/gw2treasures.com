@@ -18,7 +18,7 @@ export default function SkillPage({ params: { language, id }}: SkillPageProps) {
   const skillId: number = Number(id);
 
   return <SkillPageComponent language={language} skillId={skillId}/>;
-};
+}
 
 export async function generateMetadata({ params: { language, id }}: SkillPageProps): Promise<Metadata> {
   const skillId = Number(id);
@@ -38,5 +38,5 @@ export async function generateMetadata({ params: { language, id }}: SkillPagePro
     twitter: { card: 'summary' },
     alternates: getAlternateUrls(`/skill/${id}`)
   };
-};
+}
 

@@ -40,7 +40,7 @@ const ChartInternal: FC<ChartProps & { width: number, height: number }> = ({ dat
   const yMax = height - margin.top - margin.bottom;
 
   // const historyByItem = data.reduce<Record<number, TradingPostHistory[]>>((map, entry) => ({ ...map, [entry.itemId]: [...(map[entry.itemId] ?? []), entry] }), {});
-  let historyByItem: Record<number, TradingPostHistory[]> = {};
+  const historyByItem: Record<number, TradingPostHistory[]> = {};
   let maxPrice: number = 0;
 
   for(const entry of data) {

@@ -9,7 +9,7 @@ import { encode } from 'gw2e-chat-codes';
 interface RecipeDropdownProps {
   id: number;
   outputItemId?: number | null;
-};
+}
 
 export const RecipeDropdown: FC<RecipeDropdownProps> = ({ id, outputItemId }) => {
 

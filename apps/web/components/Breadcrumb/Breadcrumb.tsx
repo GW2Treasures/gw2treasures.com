@@ -34,7 +34,7 @@ interface BreadcrumbItemProps {
   name: string,
   href?: string,
   children?: ReactNode,
-};
+}
 
 export const BreadcrumbItem: FC<BreadcrumbItemProps> = ({ name, href, children }) => {
   return children ?? (href ? <Link href={href}>{name}</Link> : name);

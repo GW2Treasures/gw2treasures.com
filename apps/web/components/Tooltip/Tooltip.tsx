@@ -7,7 +7,7 @@ import styles from './Tooltip.module.css';
 export interface TooltipProps {
   children: ReactElement<HTMLProps<HTMLElement>>;
   content: ReactNode;
-};
+}
 
 export const Tooltip: FC<TooltipProps> = ({ children, content }) => {
   const [open, setOpen] = useState(false);

@@ -124,4 +124,4 @@ export async function generateMetadata({ params: { language, id }}: GuildUpgrade
   return {
     title: localizedName(guildUpgrade, language)
   };
-};
+}

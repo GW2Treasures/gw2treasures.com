@@ -11,7 +11,7 @@ import { Button } from '@gw2treasures/ui/components/Form/Button';
 
 interface UserButtonAccountsProps {
   // TODO: define props
-};
+}
 
 const requiredScopes: Scope[] = [];
 const optionalScopes: Scope[] = [Scope.Accounts_DisplayName];

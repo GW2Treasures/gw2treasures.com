@@ -28,7 +28,7 @@ const getIngredientForCurrency = cache(async (currencyId: number) => {
 
 interface CurrencyIngredientForProps {
   currencyId: number;
-};
+}
 
 export const CurrencyIngredientFor: FC<CurrencyIngredientForProps> = async ({ currencyId }) => {
   const recipes = await getIngredientForCurrency(currencyId);

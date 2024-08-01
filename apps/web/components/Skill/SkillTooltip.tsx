@@ -120,8 +120,8 @@ function renderText(fact: FactProps['fact']) {
 
     default: return text;
   }
-};
+}
 
 function renderMarkup(text: string | undefined) {
   return text && (<span dangerouslySetInnerHTML={{ __html: format(text) }}/>);
-};
+}

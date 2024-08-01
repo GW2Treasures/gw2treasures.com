@@ -13,9 +13,9 @@
     "gw2-api-types": "0.0.8"
   },
   "devDependencies": {
+    "@gw2treasures/eslint-config": "*",
     "@gw2treasures/tsconfig": "*",
     "@types/node": "20.14.13",
-    "@typescript-eslint/eslint-plugin": "7.18.0",
     "@typescript-eslint/parser": "7.18.0",
     "eslint": "8.57.0",
     "prisma": "5.17.0",

@@ -59,7 +59,7 @@ export function generateMetadata(): Metadata {
     title: 'Login',
     alternates: getAlternateUrls('/login'),
   };
-};
+}
 
 // eslint-disable-next-line require-await
 async function redirectToGw2Me(returnTo?: string, additionalScopes?: string) {

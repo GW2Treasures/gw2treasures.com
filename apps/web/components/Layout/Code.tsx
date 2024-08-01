@@ -7,7 +7,7 @@ interface CodeProps {
   children: ReactNode;
   borderless?: boolean;
   inline?: boolean;
-};
+}
 
 const font = Source_Code_Pro({
   subsets: ['latin'],

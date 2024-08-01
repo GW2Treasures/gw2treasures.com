@@ -284,7 +284,7 @@ async function AchievementPage({ params: { id, language }}: AchievementPageProps
       <Json data={data}/>
     </DetailLayout>
   );
-};
+}
 
 export default AchievementPage;
 

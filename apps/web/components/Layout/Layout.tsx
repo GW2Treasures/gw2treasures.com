@@ -17,7 +17,7 @@ import { Language, Rarity } from '@gw2treasures/database';
 interface LayoutProps {
   children: ReactNode;
   language: Language;
-};
+}
 
 const Layout: FC<LayoutProps> = ({ children, language }) => {
   const t = getTranslate(language);

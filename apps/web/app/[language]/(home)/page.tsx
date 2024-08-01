@@ -48,7 +48,7 @@ function HomePage({ params: { language }}: { params: { language: Language }}) {
       </Suspense>
     </HeroLayout>
   );
-};
+}
 
 function ListFallback({ size }: { size: number }) {
   return (

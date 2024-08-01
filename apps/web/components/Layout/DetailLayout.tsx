@@ -19,7 +19,7 @@ interface DetailLayoutProps {
   className?: string;
   actions?: ReactNode[];
   color?: CSSProperties['--hero-color'];
-};
+}
 
 const DetailLayout: FC<DetailLayoutProps> = ({ title, icon, breadcrumb, children, infobox, className, iconType, actions, color }) => {
   const t = getTranslate();

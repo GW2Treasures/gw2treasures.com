@@ -10,7 +10,7 @@ import type { FC } from 'react';
 export interface SkinAccountUnlockCellProps {
   accountId: string;
   skinId: number;
-};
+}
 
 export const requiredScopes = [Scope.GW2_Account, Scope.GW2_Unlocks];
 

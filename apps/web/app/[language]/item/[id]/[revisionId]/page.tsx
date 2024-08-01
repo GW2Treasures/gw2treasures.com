@@ -16,7 +16,7 @@ export default function ItemPage({ params: { language, id, revisionId }}: ItemRe
   const itemId = Number(id);
 
   return <ItemPageComponent language={language} itemId={itemId} revisionId={revisionId}/>;
-};
+}
 
 export async function generateMetadata({ params: { language, id, revisionId }}: ItemRevisionPageProps): Promise<Metadata> {
   const itemId = Number(id);
@@ -30,4 +30,4 @@ export async function generateMetadata({ params: { language, id, revisionId }}: 
     title: `${data.name || id} @ ${revisionId}`,
     robots: { index: false }
   };
-};
+}

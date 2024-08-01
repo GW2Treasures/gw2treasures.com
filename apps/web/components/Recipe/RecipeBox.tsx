@@ -23,7 +23,7 @@ interface RecipeBoxProps {
     unlockedByItems?: WithIcon<Pick<Item, 'id' | 'rarity' | keyof LocalizedEntity>>[]
   },
   outputItem: WithIcon<Pick<Item, 'id' | 'rarity' | keyof LocalizedEntity>> | null,
-};
+}
 
 export const RecipeBox: FC<RecipeBoxProps> = ({ recipe, outputItem }) => {
   return (

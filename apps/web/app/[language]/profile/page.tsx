@@ -81,4 +81,4 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: user.name,
   };
-};
+}

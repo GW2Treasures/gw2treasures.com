@@ -8,7 +8,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint .",
     "test": "jest"
   },
   "dependencies": {
@@ -62,11 +62,11 @@
   },
   "devDependencies": {
     "@gw2api/types": "0.0.18",
+    "@gw2treasures/eslint-config": "*",
     "@gw2treasures/tsconfig": "*",
     "@types/negotiator": "0.6.3",
     "@types/node": "20.14.13",
     "@types/react": "npm:types-react@19.0.0-rc.0",
-    "@typescript-eslint/eslint-plugin": "7.18.0",
     "eslint": "8.57.0",
     "eslint-config-next": "15.0.0-rc.0",
     "gw2-api-types": "0.0.8",

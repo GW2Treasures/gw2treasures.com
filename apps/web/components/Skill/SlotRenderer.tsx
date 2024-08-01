@@ -4,7 +4,7 @@ import styles from './SlotRenderer.module.css';
 
 interface SlotRendererProps {
   data: Gw2Api.Skill;
-};
+}
 
 export const SlotRenderer: FC<SlotRendererProps> = ({ data }) => {
   const slots = getSlotLayout(data);

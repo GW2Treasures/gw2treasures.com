@@ -84,7 +84,7 @@ async function JobPage() {
       </Table>
     </PageLayout>
   );
-};
+}
 
 export default JobPage;
 

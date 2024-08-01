@@ -15,7 +15,7 @@ export default function EditMysticForgePage({ params, searchParams }: EditMystic
       </Suspense>
     </Modal>
   );
-};
+}
 
 export const metadata = {
   title: 'Edit Mystic Forge'

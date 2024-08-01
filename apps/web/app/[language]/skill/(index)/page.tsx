@@ -41,7 +41,7 @@ export default async function SkillPage({ params: { language }}: { params: { lan
       </ItemList>
     </HeroLayout>
   );
-};
+}
 
 export const metadata = {
   title: 'Skills'

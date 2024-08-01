@@ -98,7 +98,7 @@ async function BuildDetail({ params: { id, language }}: BuildPageProps) {
 
     </DetailLayout>
   );
-};
+}
 
 const Fallback: FC<{ headline: string, id: string }> = ({ headline, id }) => {
   return (
@@ -154,4 +154,4 @@ export function generateMetadata({ params: { id }}: BuildPageProps): Metadata {
   return {
     title: `Build ${id}`,
   };
-};
+}

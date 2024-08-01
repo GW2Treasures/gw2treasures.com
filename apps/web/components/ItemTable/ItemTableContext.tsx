@@ -8,7 +8,7 @@ interface ItemTableContextProps {
   children: ReactNode;
   id: string;
   global?: boolean;
-};
+}
 
 const emptyAvailableColumns = {} as AvailableColumns<any>;
 

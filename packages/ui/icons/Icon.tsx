@@ -7,7 +7,7 @@ export interface IconProps {
   icon: IconProp,
   color?: IconColor,
   className?: string,
-};
+}
 
 export const Icon: FunctionComponent<IconProps> = forwardRef(function Icon({ icon, color, className }, ref) {
   const c = getIcon(icon);

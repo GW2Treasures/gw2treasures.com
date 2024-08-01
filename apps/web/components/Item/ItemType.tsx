@@ -14,7 +14,7 @@ export function ItemType<T extends Type, S extends SubType<T>>({ type, subtype, 
   }
 
   return hasSubtype(type, subtype) ? `${(translations as any)[`item.type.${type}`]} (${(translations as any)[`item.type.${type}.${subtype}`]})` : (translations as any)[`item.type.${type}`];
-};
+}
 
 function hasSubtype<T extends Type>(type: T | Type, subtype: SubType<T>): type is TypeWithSubtype {
   return subtype !== null;

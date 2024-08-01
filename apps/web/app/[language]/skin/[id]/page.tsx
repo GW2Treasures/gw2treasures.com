@@ -118,7 +118,7 @@ async function SkinPage ({ params: { language, id }}: SkinPageProps) {
       <Json data={data}/>
     </DetailLayout>
   );
-};
+}
 
 export default SkinPage;
 
@@ -130,4 +130,4 @@ export async function generateMetadata({ params: { language, id }}: SkinPageProp
     title: localizedName(skin, language),
     alternates: getAlternateUrls(`/skin/${id}`)
   };
-};
+}

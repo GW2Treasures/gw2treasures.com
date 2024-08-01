@@ -16,7 +16,7 @@ export default function SkillPage({ params: { language, id, revisionId }}: Skill
   const skillId: number = Number(id);
 
   return <SkillPageComponent language={language} skillId={skillId} revisionId={revisionId}/>;
-};
+}
 
 export async function generateMetadata({ params: { language, id, revisionId }}: SkillRevisionPageProps): Promise<Metadata> {
   const skillId = Number(id);
@@ -30,4 +30,4 @@ export async function generateMetadata({ params: { language, id, revisionId }}: 
     title: `${data.name || id} @ ${revisionId}`,
     robots: { index: false }
   };
-};
+}

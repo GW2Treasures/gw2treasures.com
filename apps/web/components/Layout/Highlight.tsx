@@ -8,7 +8,7 @@ import '@wooorm/starry-night/style/both';
 interface HighlightProps {
   code: string;
   language: string;
-};
+}
 
 export const Highlight: FC<HighlightProps> = ({ code, language }) => {
   return (

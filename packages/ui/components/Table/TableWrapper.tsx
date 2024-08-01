@@ -6,7 +6,7 @@ import { useResizeObserver } from '../../lib/hooks/resize-observer';
 
 export interface TableWrapperProps {
   children: ReactElement<HTMLProps<HTMLElement>>;
-};
+}
 
 export const TableWrapper: FC<TableWrapperProps> = ({ children }) => {
   const [isOverflowing, setIsOverflowing] = useState(false);

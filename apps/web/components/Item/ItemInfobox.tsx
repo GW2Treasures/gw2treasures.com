@@ -17,7 +17,7 @@ interface ItemInfoboxProps {
   item: Item;
   data: Gw2Api.Item;
   language: Language;
-};
+}
 
 function isTpTradeable(data: Gw2Api.Item) {
   const flags = ['AccountBound', 'SoulbindOnAcquire', 'MonsterOnly'];

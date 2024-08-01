@@ -6,7 +6,7 @@ import { TableWrapper } from './TableWrapper';
 export interface TableProps {
   children: ReactNode;
   width?: 'page' | 'auto';
-};
+}
 
 export interface HeaderCellProps {
   children?: ReactNode;

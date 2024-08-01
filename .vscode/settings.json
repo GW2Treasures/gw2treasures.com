@@ -1,5 +1,8 @@
 {
   "typescript.tsdk": "node_modules/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true,
-  "css.lint.validProperties": ["composes"]
+  "css.lint.validProperties": ["composes"],
+  "files.associations": {
+    "**/packages/eslint-config/configs/*.json": "jsonc"
+  }
 }

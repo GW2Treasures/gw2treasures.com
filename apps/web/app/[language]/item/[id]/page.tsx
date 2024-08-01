@@ -18,7 +18,7 @@ export default function ItemPage({ params: { language, id }}: ItemPageProps) {
   const itemId = Number(id);
 
   return <ItemPageComponent language={language} itemId={itemId}/>;
-};
+}
 
 export async function generateMetadata({ params: { language, id }}: ItemPageProps): Promise<Metadata> {
   const itemId = Number(id);
@@ -38,4 +38,4 @@ export async function generateMetadata({ params: { language, id }}: ItemPageProp
     twitter: { card: 'summary' },
     alternates: getAlternateUrls(`/item/${id}`)
   };
-};
+}

@@ -4,7 +4,7 @@ import { AchievementPoints } from './AchievementPoints';
 
 export interface ClientAchievementTooltipProps {
   tooltip: AchievementTooltip;
-};
+}
 
 export const ClientAchievementTooltip: FC<ClientAchievementTooltipProps> = ({ tooltip }) => {
 

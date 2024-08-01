@@ -5,7 +5,7 @@ import styles from './PageLayout.module.css';
 interface PageLayoutProps {
   children: ReactNode;
   toc?: boolean;
-};
+}
 
 export const PageLayout: FC<PageLayoutProps> = ({ children, toc = false }) => {
 

@@ -15,7 +15,7 @@ import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 export interface ClientItemTooltipProps {
   tooltip: ItemTooltip;
   hideTitle?: boolean;
-};
+}
 
 function renderAttributes(attributes: ItemTooltip['attributes']) {
   if(!attributes) {
@@ -67,7 +67,7 @@ function formatDuration(ms: number) {
   return (
     <><FormatNumber value={value}/>{unit}</>
   );
-};
+}
 
 function renderConsumable(consumable: ItemTooltip['consumable']) {
   if(!consumable) {

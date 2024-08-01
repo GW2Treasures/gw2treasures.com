@@ -18,11 +18,12 @@ export const Breadcrumb: FC<BreadcrumbProps> = ({ children }) => {
         __html: JSON.stringify({
           '@context': 'https://schema.org',
           '@type': 'BreadcrumbList',
-          'itemListElement': children.filter(isTruthy).map(({ props }, index) => ({
+          'itemListElement': children.filter(isTruthy).map(({ props: { name, href }}, index) => ({
             '@type': 'ListItem',
             'position': index + 1,
-            'name': props.name,
-            'item': props.href ? absoluteUrl(props.href) : undefined
+            // eslint-disable-next-line object-shorthand
+            'name': name,
+            'item': href ? absoluteUrl(href) : undefined
           }))
         })
       }}/>

@@ -4,7 +4,8 @@ import 'server-only';
 import { DataTableClient, DataTableClientCell, DataTableClientColumn, DataTableClientColumnSelection, DataTableClientRows } from './DataTable.client';
 import { isDefined } from '@gw2treasures/helper/is';
 
-export type DataTableRowFilterComponent = FC<{ children: ReactNode, index: number }>;
+export type DataTableRowFilterComponentProps = { children: ReactNode, index: number };
+export type DataTableRowFilterComponent = FC<DataTableRowFilterComponentProps>;
 
 // table
 export interface DataTableProps<T> {

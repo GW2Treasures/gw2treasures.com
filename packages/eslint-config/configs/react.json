@@ -3,6 +3,7 @@
 
   "extends": [
     "plugin:react/recommended",
+    "plugin:react/jsx-runtime",
     "@gw2treasures/eslint-config"
   ],
 
@@ -70,20 +71,5 @@
 
     // disable next rules
     "@next/next/no-html-link-for-pages": "off"
-  },
-
-  "overrides": [
-    {
-      "files": ["**/*.ts", "**/*.tsx"],
-      "rules": {
-        "@typescript-eslint/type-annotation-spacing": "warn",
-
-        "@typescript-eslint/naming-convention": ["warn", {
-          "selector": "default", "format": null
-        },{
-          "selector": "typeLike", "format": ["PascalCase"]
-        }]
-      }
-    }
-  ]
+  }
 }

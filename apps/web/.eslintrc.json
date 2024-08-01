@@ -1,7 +1,10 @@
 {
   "root": true,
 
-  "extends": ["@gw2treasures/eslint-config/react", "next/core-web-vitals"],
+  "extends": [
+    "next/core-web-vitals",
+    "@gw2treasures/eslint-config/react"
+  ],
 
   "plugins": ["@gw2treasures/nextjs", "eslint-plugin-react-compiler"],
 

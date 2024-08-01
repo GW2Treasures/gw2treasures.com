@@ -11,7 +11,8 @@
 
   "parserOptions": {
     "ecmaVersion": "latest",
-    "sourceType": "module"
+    "sourceType": "module",
+    "project": true
   },
 
   "parser": "@typescript-eslint/parser",
@@ -76,21 +77,16 @@
     "import/no-extraneous-dependencies": "error",
 
     // disable import/no-unresolved, ts is already handling this
-    "import/no-unresolved": "off"
-  },
+    "import/no-unresolved": "off",
 
-  "overrides": [
-    {
-      "files": ["**/*.ts", "**/*.tsx"],
-      "rules": {
-        "@typescript-eslint/type-annotation-spacing": "warn",
+    // `const foo:Bar` → `const foo: Bar`
+    "@stylistic/type-annotation-spacing": "warn",
 
-        "@typescript-eslint/naming-convention": ["warn", {
-          "selector": "default", "format": null
-        },{
-          "selector": "typeLike", "format": ["PascalCase"]
-        }]
-      }
-    }
-  ]
+    // `class foo_bar` → `class FooBar`
+    "@typescript-eslint/naming-convention": [
+      "warn",
+      { "selector": "default", "format": null },
+      { "selector": "typeLike", "format": ["PascalCase"] }
+    ]
+  }
 }

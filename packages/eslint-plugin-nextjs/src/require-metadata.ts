@@ -59,8 +59,7 @@ export const requireMetadata = ESLintUtils.RuleCreator.withoutDocs({
   },
   meta: {
     docs: {
-      description: 'Pages should define metadata with title',
-      recommended: 'recommended'
+      description: 'Pages should define metadata with title'
     },
     messages: {
       'require-metadata': 'Export `metadata` or `generateMetadata`',

@@ -1,7 +1,7 @@
 'use client';
 
 import { TextInput } from '@gw2treasures/ui/components/Form/TextInput';
-import type { DataTableRowFilterComponent } from '@gw2treasures/ui/components/Table/DataTable';
+import type { DataTableRowFilterComponent, DataTableRowFilterComponentProps } from '@gw2treasures/ui/components/Table/DataTable';
 import { createContext, useState, type FC, type ReactNode, useContext } from 'react';
 import { useLanguage } from '../I18n/Context';
 import { DisciplineIcon, type Discipline } from './DisciplineIcon';
@@ -57,7 +57,7 @@ export const RecipeTableProvider: FC<RecipeTableProviderProps> = ({ children, re
   );
 };
 
-export const RecipeRowFilter: DataTableRowFilterComponent = ({ children, index }) => {
+export const RecipeRowFilter: DataTableRowFilterComponent = ({ children, index }: DataTableRowFilterComponentProps) => {
   const { filteredRows } = useContext(context);
   const isVisible = filteredRows === undefined || filteredRows.includes(index);
 

@@ -9,7 +9,7 @@ import { ItemLink } from '../Item/ItemLink';
 
 export interface MysticForgeRecipeIngredientsColumnProps {
   mysticForgeRecipe: {
-    itemIngredients: (MysticForgeIngredientItem & { Item: LocalizedEntity & { id: number, rarity: Rarity } })[]
+    itemIngredients: (MysticForgeIngredientItem & { Item: LocalizedEntity & { id: number, rarity: Rarity }})[]
   }
 }
 
@@ -18,7 +18,7 @@ export const MysticForgeRecipeIngredientsColumn: FC<MysticForgeRecipeIngredients
 };
 
 export interface MysticForgeRecipeOutputColumnProps {
-  mysticForgeRecipe: Pick<MysticForgeRecipe, 'outputCountMin' | 'outputCountMax'> & { outputItem: LocalizedEntity & { id: number, rarity: Rarity } }
+  mysticForgeRecipe: Pick<MysticForgeRecipe, 'outputCountMin' | 'outputCountMax'> & { outputItem: LocalizedEntity & { id: number, rarity: Rarity }}
 }
 
 export const MysticForgeRecipeOutputColumn: FC<MysticForgeRecipeOutputColumnProps> = ({ mysticForgeRecipe }) => {

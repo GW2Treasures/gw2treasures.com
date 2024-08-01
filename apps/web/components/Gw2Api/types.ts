@@ -8,7 +8,7 @@ export enum ErrorCode {
 
 export type ErrorResponse = {
   error: ErrorCode
-}
+};
 
 export type FetchAccountSuccessResponse = {
   error: undefined;
@@ -33,9 +33,9 @@ export type FetchAccountResponse = ErrorResponse | FetchAccountSuccessResponse;
 export type FetchAccessTokenResponse = ErrorResponse | {
   error: undefined,
   accessTokens: Record<string, AccessToken>,
-}
+};
 
 export type AccessToken = {
   accessToken: string,
   expiresAt: Date,
-}
+};

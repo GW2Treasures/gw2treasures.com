@@ -1,13 +1,13 @@
 export type Type = 'Armor' | 'Back' | 'Bag' | 'Consumable' | 'Container' | 'CraftingMaterial' | 'Gathering' | 'Gizmo' | 'JadeTechModule' | 'Key' | 'MiniPet' | 'PowerCore' | 'Relic' | 'Tool' | 'Trait' | 'Trinket' | 'Trophy' | 'UpgradeComponent' | 'Weapon';
 export type SubType<T extends Type> =
-  T extends 'Armor' ? 'Boots' | 'Coat' | 'Gloves' | 'Helm' | 'HelmAquatic' | 'Leggings' | 'Shoulders':
+  T extends 'Armor' ? 'Boots' | 'Coat' | 'Gloves' | 'Helm' | 'HelmAquatic' | 'Leggings' | 'Shoulders' :
   T extends 'Back' ? null :
   T extends 'Bag' ? null :
-  T extends 'Consumable' ? 'AppearanceChange' | 'Booze' | 'ContractNpc' | 'Currency' | 'Food' | 'Generic' | 'Halloween' | 'Immediate' | 'MountRandomUnlock' | 'RandomUnlock' | 'TeleportToFriend' | 'Transmutation' | 'Unlock' | 'UpgradeRemoval' | 'Utility':
+  T extends 'Consumable' ? 'AppearanceChange' | 'Booze' | 'ContractNpc' | 'Currency' | 'Food' | 'Generic' | 'Halloween' | 'Immediate' | 'MountRandomUnlock' | 'RandomUnlock' | 'TeleportToFriend' | 'Transmutation' | 'Unlock' | 'UpgradeRemoval' | 'Utility' :
   T extends 'Container' ? 'Default' | 'GiftBox' | 'Immediate' | 'OpenUI' :
   T extends 'CraftingMaterial' ? null :
   T extends 'Gathering' ? 'Bait' | 'Foraging' | 'Logging' | 'Lure' | 'Mining' | 'Fishing' :
-  T extends 'Gizmo' ? 'ContainerKey' | 'Default' | 'RentableContractNpc' | 'UnlimitedConsumable':
+  T extends 'Gizmo' ? 'ContainerKey' | 'Default' | 'RentableContractNpc' | 'UnlimitedConsumable' :
   T extends 'JadeTechModule' ? null :
   T extends 'Key' ? null :
   T extends 'MiniPet' ? null :
@@ -22,4 +22,4 @@ export type SubType<T extends Type> =
   never;
 
 export type TypeWithSubtype = 'Armor' | 'Consumable' | 'Container' | 'Gathering' | 'Gizmo' | 'Tool' | 'Trinket' | 'UpgradeComponent' | 'Weapon';
-export type TypeWithoutSubtype = Exclude<Type, TypeWithSubtype>
+export type TypeWithoutSubtype = Exclude<Type, TypeWithSubtype>;

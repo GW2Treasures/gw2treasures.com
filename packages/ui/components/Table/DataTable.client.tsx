@@ -11,7 +11,7 @@ import { useState, type FC, type ReactNode, createContext, useCallback, useConte
 
 type DataTableContext = { id: string, sortBy: string | undefined, sortOrder: 'asc' | 'desc', visibleColumns: string[] };
 const defaultDataTableContext: DataTableContext = { id: '', sortBy: undefined, sortOrder: 'asc', visibleColumns: [] };
-const DataTableContext = createContext<{ state: DataTableContext, setState: (state: Partial<DataTableContext>) => void}>({ state: defaultDataTableContext, setState: () => {} });
+const DataTableContext = createContext<{ state: DataTableContext, setState: (state: Partial<DataTableContext>) => void }>({ state: defaultDataTableContext, setState: () => {} });
 DataTableContext.displayName = 'DataTableContext';
 
 export interface DataTableClientProps {

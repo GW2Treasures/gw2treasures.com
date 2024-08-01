@@ -10,7 +10,7 @@ type RequiredKeys<T> = { [K in keyof T]-?: object extends Pick<T, K> ? never : K
 
 type Args<Url extends string> = RequiredKeys<OptionsByEndpoint<Url>> extends never
   ? [url: Url, options?: OptionsByEndpoint<Url>]
-  : [url: Url, options: OptionsByEndpoint<Url>]
+  : [url: Url, options: OptionsByEndpoint<Url>];
 
 export async function fetchApi<Url extends KnownEndpoint | NonNullable<string>>(
   ...[url, options]: Args<Url>

@@ -153,7 +153,7 @@ export type ItemWithAttributes = WithIcon<LocalizedEntity> & {
   attributes?: { label: string, value: number }[],
   buff?: string,
   bonuses?: string[]
-}
+};
 
 export type ItemTooltipInfusion = ({
   type: 'Infusion' | 'Enrichment'
@@ -163,7 +163,7 @@ export type ItemTooltipInfusion = ({
 } | {
   unused?: never,
   item: ItemWithAttributes
-}))
+}));
 
 export interface ItemTooltip {
   language: Language,
@@ -182,9 +182,9 @@ export interface ItemTooltip {
     icon?: { id: number, signature: string }
   },
   bonuses?: string[],
-  upgrades?: ({ item: ItemWithAttributes, unused?: never }| { item?: never, unused: string })[];
+  upgrades?: ({ item: ItemWithAttributes, unused?: never } | { item?: never, unused: string })[];
   infusions?: ItemTooltipInfusion[],
-  unlocksColor?: { id: number, name: string, colors: { cloth: string, leather: string, metal: string } }
+  unlocksColor?: { id: number, name: string, colors: { cloth: string, leather: string, metal: string }}
   rarity: { label: string, value: Gw2Api.Item['rarity'] },
   type?: string,
   weightClass?: string,

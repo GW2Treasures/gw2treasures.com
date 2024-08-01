@@ -3,7 +3,7 @@ import type { GlobalColumnId } from './types';
 
 export interface ItemTableHistoryState<ColumnId> {
   page?: number;
-  orderBy?: { column: ColumnId, order: 'asc' | 'desc'}
+  orderBy?: { column: ColumnId, order: 'asc' | 'desc' }
 }
 
 export function getState() {

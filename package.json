@@ -13,7 +13,7 @@
     "prisma:migrate-dev": "npm run prisma:migrate-dev -w @gw2treasures/database",
     "build": "turbo run build",
     "build:icons": "turbo run build --filter=@gw2treasures/icons",
-    "lint": "turbo run lint -- -f gha",
+    "lint": "turbo run lint --continue -- -f gha",
     "publish-package": "turbo run publish-package",
     "e2e": "turbo run e2e",
     "test": "turbo run test"

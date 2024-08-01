@@ -1,7 +1,9 @@
 {
   "$schema": "https://json.schemastore.org/eslintrc",
 
-  "plugins": ["@typescript-eslint"],
+  "plugins": [
+    "@stylistic"
+  ],
 
   "env": {
     "es6": true
@@ -21,49 +23,49 @@
 
   "rules": {
     // `"foo"` → `'foo'`
-    "@typescript-eslint/quotes": ["warn", "single"],
+    "@stylistic/quotes": ["warn", "single"],
 
     // `a => a` → `(a) => a`
-    "arrow-parens": "warn",
+    "@stylistic/arrow-parens": "warn",
 
     // `(a)=>a` → `(a) => a`
-    "arrow-spacing": "warn",
+    "@stylistic/arrow-spacing": "warn",
 
     // `foo( bar )` → `foo(bar)`
-    "space-in-parens": "warn",
+    "@stylistic/space-in-parens": "warn",
 
     // disallows multipe spaces
-    "no-multi-spaces": "warn",
+    "@stylistic/no-multi-spaces": "warn",
 
     // disallow multiple empty lines
-    "no-multiple-empty-lines": "warn",
+    "@stylistic/no-multiple-empty-lines": "warn",
 
     // only 1 property per line for objects (enforced only for > 3 properties or multiline values)
-    "object-curly-newline": ["warn", { "multiline": true, "consistent": true }],
+    "@stylistic/object-curly-newline": ["warn", { "multiline": true, "consistent": true }],
 
     // `{foo: bar}` → `{ foo: bar }`
-    "object-curly-spacing": ["warn", "always", { "objectsInObjects": false }],
+    "@stylistic/object-curly-spacing": ["warn", "always", { "objectsInObjects": false }],
 
     // `{ foo:bar }` → `{ foo: bar }`
-    "key-spacing": "warn",
+    "@stylistic/key-spacing": "warn",
 
     // `{ x: x }` → `{ x }`
     "object-shorthand": "warn",
 
     // allows (but does not require) dangling commas in multiline
-    "comma-dangle": ["warn", "only-multiline"],
+    "@stylistic/comma-dangle": ["warn", "only-multiline"],
 
     // `foo(bar,baz)` → `foo(bar, baz)`
-    "comma-spacing": "warn",
+    "@stylistic/comma-spacing": "warn",
 
     // `1+1` → `1 + 1`
-    "space-infix-ops": "warn",
+    "@stylistic/space-infix-ops": "warn",
 
     // require semicolon
-    "semi": "warn",
+    "@stylistic/semi": "warn",
 
     // no unnecessary semicolon
-    "no-extra-semi": "warn",
+    "@stylistic/no-extra-semi": ["warn"],
 
     // disallows async functions not using await
     "require-await": "warn"

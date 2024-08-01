@@ -5,18 +5,6 @@
 
   "plugins": ["@gw2treasures/nextjs", "eslint-plugin-react-compiler"],
 
-  "rules": {
-    "@typescript-eslint/ban-ts-comment": "off",
-    "@typescript-eslint/no-explicit-any": "off",
-    "@typescript-eslint/no-unused-vars": "off",
-    "@typescript-eslint/no-var-requires": "off",
-    "no-case-declarations": "off",
-    "no-empty": "off",
-    "no-empty-pattern": "off",
-    "no-irregular-whitespace": "off",
-    "no-useless-escape": "off"
-  },
-
   "overrides": [
     {
       "files": ["**/page.tsx"],

@@ -5,7 +5,7 @@ interface SeparatorProps {
   // TODO: define props
 }
 
-export const Separator: FC<SeparatorProps> = ({ }) => {
+export const Separator: FC<SeparatorProps> = () => {
   return (
     <hr className={styles.separator}/>
   );

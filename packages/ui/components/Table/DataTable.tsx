@@ -162,5 +162,5 @@ type ComparableProperties<T> = {[K in keyof T]: T[K] extends Comparable ? K : ne
 export function sortBy<T>(by: ComparableProperties<T> | ((x: T) => Comparable)): (a: T, b: T) => number {
   return typeof by === 'function'
     ? (a, b) => compare(by(a), by(b))
-    : (a, b) => compare((a as any)[by], (b as any)[by]);
+    : (a, b) => compare(a[by] as Comparable, b[by] as Comparable);
 }

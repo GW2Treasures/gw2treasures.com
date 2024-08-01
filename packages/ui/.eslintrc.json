@@ -1,5 +1,10 @@
 {
   "root": true,
 
-  "extends": ["@gw2treasures/eslint-config/react", "next/core-web-vitals"]
+  "extends": ["@gw2treasures/eslint-config/react", "next/core-web-vitals"],
+
+  "rules": {
+    // this is not actually a next project, so there is no pages directory
+    "@next/next/no-html-link-for-pages": "off"
+  }
 }

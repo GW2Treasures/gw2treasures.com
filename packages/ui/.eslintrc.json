@@ -1,11 +1,5 @@
 {
   "root": true,
 
-  "extends": ["@gw2treasures/eslint-config/react", "next/core-web-vitals"],
-
-  "rules": {
-    "@typescript-eslint/no-explicit-any": "off",
-    "@typescript-eslint/no-unused-vars": "off",
-    "no-empty-pattern": "off"
-  }
+  "extends": ["@gw2treasures/eslint-config/react", "next/core-web-vitals"]
 }

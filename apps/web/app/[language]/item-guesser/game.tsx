@@ -43,13 +43,13 @@ export const ItemGuesserGame: FC<ItemGuesserGameProps> = ({ challengeItem }) => 
 
   const query = useMemo(() => {
     const query = new URLSearchParams();
-    guessed.icon && query.set('iconId', JSON.stringify(challengeItem.iconId));
-    guessed.rarity && query.set('rarity', challengeItem.rarity);
-    guessed.type && query.set('type', challengeItem.type);
-    guessed.subtype && query.set('subtype', JSON.stringify(challengeItem.subtype));
-    guessed.weight && query.set('weight', JSON.stringify(challengeItem.weight));
-    guessed.vendorValue && query.set('vendorValue', JSON.stringify(challengeItem.vendorValue));
-    guessed.level && query.set('level', JSON.stringify(challengeItem.level));
+    if(guessed.icon) { query.set('iconId', JSON.stringify(challengeItem.iconId)); }
+    if(guessed.rarity) { query.set('rarity', challengeItem.rarity); }
+    if(guessed.type) { query.set('type', challengeItem.type); }
+    if(guessed.subtype) { query.set('subtype', JSON.stringify(challengeItem.subtype)); }
+    if(guessed.weight) { query.set('weight', JSON.stringify(challengeItem.weight)); }
+    if(guessed.vendorValue) { query.set('vendorValue', JSON.stringify(challengeItem.vendorValue)); }
+    if(guessed.level) { query.set('level', JSON.stringify(challengeItem.level)); }
 
     return query;
   }, [guessed, challengeItem]);

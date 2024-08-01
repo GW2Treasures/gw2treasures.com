@@ -9,10 +9,8 @@ import { createIcon } from '../helper/createIcon';
 import { Recipe } from '@gw2api/types/data/recipe';
 import { SchemaVersion } from '../helper/schema';
 
-interface GuildUpgradesJobProps extends ProcessEntitiesData<number> {}
-
 export const GuildUpgradesJob: Job = {
-  run(data: GuildUpgradesJobProps | Record<string, never>) {
+  run(data: ProcessEntitiesData<number> | Record<string, never>) {
     const CURRENT_VERSION = 1;
 
     if(isEmptyObject(data)) {

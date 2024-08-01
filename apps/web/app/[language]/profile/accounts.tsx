@@ -5,9 +5,7 @@ import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { List } from '@gw2treasures/ui/components/Layout/List';
 import type { FC } from 'react';
 
-export interface AccountsProps { }
-
-export const Accounts: FC<AccountsProps> = async () => {
+export const Accounts: FC = async () => {
   const accounts = await fetchAccounts([]);
 
   return (

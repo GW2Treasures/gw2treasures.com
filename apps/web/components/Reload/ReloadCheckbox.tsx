@@ -4,9 +4,7 @@ import { forwardRef, useState } from 'react';
 import { Reload, type ReloadProps } from './Reload';
 import { Checkbox } from '@gw2treasures/ui/components/Form/Checkbox';
 
-export interface ReloadCheckboxProps extends ReloadProps {}
-
-export const ReloadCheckbox = forwardRef<HTMLLabelElement, ReloadCheckboxProps>(({ ...reloadProps }, ref) => {
+export const ReloadCheckbox = forwardRef<HTMLLabelElement, ReloadProps>(({ ...reloadProps }, ref) => {
   const [autoRefresh, setAutoRefresh] = useState(false);
 
   return (

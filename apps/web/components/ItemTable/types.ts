@@ -1,6 +1,6 @@
 import { Prisma } from '@gw2treasures/database';
 import type { FC } from 'react';
-import { db } from '@/lib/prisma';
+import type { db } from '@/lib/prisma';
 import type { Signed } from './query';
 import type { TranslationId } from '@/lib/translate';
 

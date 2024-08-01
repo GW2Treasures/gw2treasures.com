@@ -18,7 +18,7 @@ interface CustomEntityLinkProps {
 
 export type EntityLinkProps = Omit<AnchorHTMLAttributes<HTMLAnchorElement>, keyof CustomEntityLinkProps> & CustomEntityLinkProps;
 
-export const EntityLink = forwardRef<HTMLAnchorElement, EntityLinkProps>(function EntityLink({ entity, ...props }, ref) {
+export const EntityLink = forwardRef<HTMLAnchorElement, EntityLinkProps>(function EntityLink({ entity, ...props }: EntityLinkProps, ref) {
   const cleanEntity = getLinkProperties(entity);
 
   return (

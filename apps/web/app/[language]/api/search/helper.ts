@@ -1,6 +1,6 @@
 import { db } from '@/lib/prisma';
 import type { Prisma, Rarity } from '@gw2treasures/database';
-import { decode } from 'gw2e-chat-codes';
+import type { decode } from 'gw2e-chat-codes';
 import { isDefined, isTruthy } from '@gw2treasures/helper/is';
 import { cache } from '@/lib/cache';
 

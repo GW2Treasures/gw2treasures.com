@@ -7,15 +7,11 @@ import { Scope } from '@gw2me/client';
 import { Gw2ApiContext, type GetAccountsOptions } from '@/components/Gw2Api/Gw2ApiContext';
 import { Button } from '@gw2treasures/ui/components/Form/Button';
 
-interface UserButtonAccountsProps {
-  // TODO: define props
-}
-
 const requiredScopes: Scope[] = [];
 const optionalScopes: Scope[] = [Scope.Accounts_DisplayName];
 const options: GetAccountsOptions = { includeHidden: true };
 
-export const UserButtonAccounts: FC<UserButtonAccountsProps> = () => {
+export const UserButtonAccounts: FC = () => {
   const accounts = useGw2Accounts(requiredScopes, optionalScopes, options);
   const { setHidden } = useContext(Gw2ApiContext);
 

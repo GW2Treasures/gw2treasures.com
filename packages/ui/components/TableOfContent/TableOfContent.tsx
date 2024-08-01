@@ -76,9 +76,7 @@ export const useTableOfContentAnchor = (id: string, { label, enabled = true }: {
   return setElement;
 };
 
-interface TableOfContentProps {}
-
-export const TableOfContent: FC<TableOfContentProps> = () => {
+export const TableOfContent: FC = () => {
   const { anchors } = useContext(Context);
   const [activeId, setActiveId] = useState<string>();
   const shouldIgnoreScroll = useRef(false);

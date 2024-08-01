@@ -72,10 +72,10 @@ export async function createMigrator() {
 
     // Version 5: Update name for empty items
     if(currentVersion < 5) {
-      en.name?.trim() === '' && (update.name_en = en.chat_link);
-      de.name?.trim() === '' && (update.name_de = en.chat_link);
-      es.name?.trim() === '' && (update.name_es = en.chat_link);
-      fr.name?.trim() === '' && (update.name_fr = en.chat_link);
+      if(en.name?.trim() === '') { update.name_en = en.chat_link; }
+      if(de.name?.trim() === '') { update.name_de = en.chat_link; }
+      if(es.name?.trim() === '') { update.name_es = en.chat_link; }
+      if(fr.name?.trim() === '') { update.name_fr = en.chat_link; }
     }
 
     // Version 6: Add suffix items

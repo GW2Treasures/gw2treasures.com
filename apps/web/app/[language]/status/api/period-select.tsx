@@ -5,11 +5,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { type FC, useCallback } from 'react';
 import { availablePeriods } from './available-periods';
 
-export interface PeriodSelectProps {
-  // TODO: add props
-}
-
-export const PeriodSelect: FC<PeriodSelectProps> = () => {
+export const PeriodSelect: FC = () => {
   const value = useSearchParams().get('period') ?? '24h';
   const pathname = usePathname();
   const { replace } = useRouter();

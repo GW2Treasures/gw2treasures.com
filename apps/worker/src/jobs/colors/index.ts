@@ -5,10 +5,8 @@ import { loadColors } from '../helper/loadColors';
 import { isEmptyObject } from '@gw2treasures/helper/is';
 import { type ProcessEntitiesData, createSubJobs, processLocalizedEntities, Changes } from '../helper/process-entities';
 
-interface ColorsJobProps extends ProcessEntitiesData<number> {}
-
 export const ColorsJob: Job = {
-  run(data: ColorsJobProps | Record<string, never>) {
+  run(data: ProcessEntitiesData<number> | Record<string, never>) {
     const CURRENT_VERSION = 3;
 
     if(isEmptyObject(data)) {

@@ -8,8 +8,6 @@ import { createIcon } from '../helper/createIcon';
 import { toId } from '../helper/toId';
 import { AchievementReward } from '@gw2api/types/data/achievement';
 
-interface AchievementsJobProps extends ProcessEntitiesData<number> {}
-
 const CURRENT_VERSION = 7;
 // Migration history
 // 1: added points
@@ -21,7 +19,7 @@ const CURRENT_VERSION = 7;
 // 7: added flags
 
 export const AchievementsJob: Job = {
-  async run(data: AchievementsJobProps | Record<string, never>) {
+  async run(data: ProcessEntitiesData<number> | Record<string, never>) {
 
     if(isEmptyObject(data)) {
       return createSubJobs(

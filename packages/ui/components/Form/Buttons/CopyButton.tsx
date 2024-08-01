@@ -17,7 +17,7 @@ export const CopyButton: FC<CopyButtonProps> = forwardRef<HTMLButtonElement, Cop
       timeout = window.setTimeout(() => setCopied(false), 500);
     }
 
-    () => {
+    return () => {
       if(timeout) {
         clearTimeout(timeout);
       }

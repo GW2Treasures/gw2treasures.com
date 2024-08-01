@@ -2,9 +2,7 @@ import type { FC } from 'react';
 import { useUser } from './use-user';
 import { Icon } from '@gw2treasures/ui';
 
-export interface CookieNotificationProps { }
-
-export const CookieNotification: FC<CookieNotificationProps> = () => {
+export const CookieNotification: FC = () => {
   const { user } = useUser();
 
   if(user) {

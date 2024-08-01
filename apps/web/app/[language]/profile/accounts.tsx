@@ -7,7 +7,7 @@ import type { FC } from 'react';
 
 export interface AccountsProps { }
 
-export const Accounts: FC<AccountsProps> = async ({}) => {
+export const Accounts: FC<AccountsProps> = async () => {
   const accounts = await fetchAccounts([]);
 
   return (

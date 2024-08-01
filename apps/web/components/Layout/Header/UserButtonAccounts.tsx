@@ -2,11 +2,9 @@
 
 import { useContext, type FC } from 'react';
 import { useGw2Accounts } from '../../Gw2Api/use-gw2-accounts';
-import { Skeleton } from '@/components/Skeleton/Skeleton';
 import { Checkbox } from '@gw2treasures/ui/components/Form/Checkbox';
 import { Scope } from '@gw2me/client';
 import { Gw2ApiContext, type GetAccountsOptions } from '@/components/Gw2Api/Gw2ApiContext';
-import { Icon } from '@gw2treasures/ui';
 import { Button } from '@gw2treasures/ui/components/Form/Button';
 
 interface UserButtonAccountsProps {
@@ -17,7 +15,7 @@ const requiredScopes: Scope[] = [];
 const optionalScopes: Scope[] = [Scope.Accounts_DisplayName];
 const options: GetAccountsOptions = { includeHidden: true };
 
-export const UserButtonAccounts: FC<UserButtonAccountsProps> = ({ }) => {
+export const UserButtonAccounts: FC<UserButtonAccountsProps> = () => {
   const accounts = useGw2Accounts(requiredScopes, optionalScopes, options);
   const { setHidden } = useContext(Gw2ApiContext);
 

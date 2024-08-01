@@ -5,6 +5,7 @@ import { db } from '@/lib/prisma';
 import { Prisma } from '@gw2treasures/database';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
+import type { ReactNode } from 'react';
 
 const getDbStats = cache(() => {
   const hypertables = ['TradingPostHistory', 'PageView', 'ApplicationApiRequest'];
@@ -64,7 +65,7 @@ export const metadata = {
   title: 'Database Status'
 };
 
-function formatSize(size: bigint | null): string {
+function formatSize(size: bigint | null): ReactNode {
   if(size === null) {
     return '?';
   }
@@ -76,5 +77,5 @@ function formatSize(size: bigint | null): string {
     units.shift();
   }
 
-  return size.toString() + ' ' + units[0];
+  return <FormatNumber value={size} unit={units[0]}/>;
 }

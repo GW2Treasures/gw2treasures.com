@@ -49,7 +49,7 @@ async function getData(hours: number) {
 export default async function StatusApiPage({ searchParams: { period }}: { searchParams: { period?: string }}) {
   const hours = availablePeriods.find(({ value }) => value === period)?.hours ?? 24;
 
-  const { endpoints, errors, total, statusCodes, apiRequests } = await getData(hours);
+  const { endpoints, errors, total, statusCodes } = await getData(hours);
 
   return (
     <PageLayout>

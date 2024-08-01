@@ -183,7 +183,7 @@ export default async function ReviewContainerContentPage({ params: { id }, searc
 
 
 export async function generateMetadata({ params: { id, language }}: ReviewContainerContentPageProps) {
-  const { item, review } = await getReview(id);
+  const { item } = await getReview(id);
 
   return {
     title: `Review Container Content: ${localizedName(item, language)}`

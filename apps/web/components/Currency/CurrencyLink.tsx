@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import type { Currency, Item, Language } from '@gw2treasures/database';
+import type { Currency, Language } from '@gw2treasures/database';
 import type { IconSize } from '@/lib/getIconUrl';
 import { EntityLink } from '../Link/EntityLink';
 import type { WithIcon } from '@/lib/with';

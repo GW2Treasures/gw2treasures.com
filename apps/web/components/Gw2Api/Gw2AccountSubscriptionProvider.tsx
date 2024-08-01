@@ -3,7 +3,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import type { FC, MutableRefObject, ReactNode } from 'react';
 import { fetchAccessTokens } from './fetch-accounts-action';
-import type { Language } from '@gw2treasures/database';
 import { getResetDate } from '../Reset/ResetTimer';
 import { useVisibilityState } from '@/lib/useVisibilityState';
 import { fetchGw2Api } from '@gw2api/fetch';
@@ -229,9 +228,9 @@ function useRefTo<T>(to: T): MutableRefObject<T> {
 const achievementFetch = (accessToken: string) => fetchGw2Api('/v2/account/achievements', { accessToken, cache: 'no-cache' });
 const skinsFetch = (accessToken: string) => fetchGw2Api('/v2/account/skins', { accessToken, cache: 'no-cache' });
 const walletFetch = (accessToken: string) => fetchGw2Api('/v2/account/wallet', { accessToken, cache: 'no-cache' });
-const wizardsVaultFetch = (accessToken: string) => loadAccountsWizardsVault(accessToken, 'en');
+const wizardsVaultFetch = (accessToken: string) => loadAccountsWizardsVault(accessToken);
 
-async function loadAccountsWizardsVault(accessToken: string, lang: Language) {
+async function loadAccountsWizardsVault(accessToken: string) {
   const account = await fetchGw2Api('/v2/account', { accessToken, schema: '2019-02-21T00:00:00.000Z', cache: 'no-cache' });
 
   const lastModified = new Date(account.last_modified);

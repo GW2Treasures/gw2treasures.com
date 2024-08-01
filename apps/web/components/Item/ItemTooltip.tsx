@@ -1,8 +1,8 @@
 import 'server-only';
 import type { Gw2Api } from 'gw2-api-types';
 import { ClientItemTooltip } from './ItemTooltip.client';
-import { getTranslate } from '@/lib/translate';
-import type { Item, Language, Rarity } from '@gw2treasures/database';
+import { getTranslate, type TranslationId } from '@/lib/translate';
+import type { Item, Language, Rarity, Revision } from '@gw2treasures/database';
 import { format } from 'gw2-tooltip-html';
 import { isTruthy } from '@gw2treasures/helper/is';
 import { getLinkProperties, linkProperties } from '@/lib/linkProperties';
@@ -11,7 +11,6 @@ import { localizedName, type LocalizedEntity } from '@/lib/localizedName';
 import { db } from '@/lib/prisma';
 import { parseIcon } from '@/lib/parseIcon';
 import type { FC } from 'react';
-import type { SubType, TypeWithSubtype } from './ItemType.types';
 
 export interface ItemTooltipProps {
   item: Gw2Api.Item;
@@ -30,8 +29,16 @@ export const ItemTooltip: FC<ItemTooltipProps> = async ({ item, language, hideTi
 export async function createTooltip(item: Gw2Api.Item, language: Language): Promise<ItemTooltip> {
   const t = await getTranslate(language);
 
-  function mapItemToTooltip(upgrade: Pick<WithIcon<Item>, keyof typeof linkProperties>): ItemWithAttributes {
-    const data: Gw2Api.Item = JSON.parse((upgrade as any)[`current_${language}`].data);
+  type CurrentRevision = { [key in `current_${typeof language}`]: Revision };
+  const selectCurrentRevision = {
+    current_de: language === 'de' ? { select: { data: true }} : undefined,
+    current_en: language === 'de' ? { select: { data: true }} : undefined,
+    current_es: language === 'de' ? { select: { data: true }} : undefined,
+    current_fr: language === 'de' ? { select: { data: true }} : undefined,
+  };
+
+  function mapItemToTooltip(upgrade: Pick<WithIcon<Item>, keyof typeof linkProperties> & CurrentRevision): ItemWithAttributes {
+    const data: Gw2Api.Item = JSON.parse(upgrade[`current_${language}`].data);
 
     return {
       ...getLinkProperties(upgrade),
@@ -44,7 +51,10 @@ export async function createTooltip(item: Gw2Api.Item, language: Language): Prom
   // get upgrades
   const upgradeIds = [item.details?.suffix_item_id, item.details?.secondary_suffix_item_id].map(Number).filter(isTruthy);
   const upgrades: ItemTooltip['upgrades'] = upgradeIds.length > 0
-    ? (await db.item.findMany({ where: { id: { in: upgradeIds }}, select: { ...linkProperties, [`current_${language}`]: { select: { data: true }}}})).map(mapItemToTooltip).map((item) => ({ item }))
+    ? (await db.item.findMany({
+        where: { id: { in: upgradeIds }},
+        select: { ...linkProperties, ...selectCurrentRevision }
+      })).map(mapItemToTooltip).map((item) => ({ item }))
     : [];
 
   // get empty upgrades
@@ -63,7 +73,10 @@ export async function createTooltip(item: Gw2Api.Item, language: Language): Prom
 
   // get infusion slots
   const infusionIds = item.details?.infusion_slots?.map(({ item_id }) => item_id).map(Number).filter(isTruthy);
-  const infusionItems = infusionIds?.length ? (await db.item.findMany({ where: { id: { in: infusionIds }}, select: { ...linkProperties, [`current_${language}`]: { select: { data: true }}}})).map(mapItemToTooltip) : [];
+  const infusionItems = infusionIds?.length ? (await db.item.findMany({
+    where: { id: { in: infusionIds }},
+    select: { ...linkProperties, ...selectCurrentRevision }
+  })).map(mapItemToTooltip) : [];
   const infusions = item.details?.infusion_slots?.map<ItemTooltipInfusion>((infusion) => {
     const item = infusion.item_id && infusionItems.find(({ id }) => id === Number(infusion.item_id));
     const isEnrichment = infusion.flags?.[0] === 'Enrichment';
@@ -113,7 +126,7 @@ export async function createTooltip(item: Gw2Api.Item, language: Language): Prom
     infusions,
     unlocksColor: unlocksColor ? { id: unlocksColor.id, name: localizedName(unlocksColor, language), colors: { cloth: unlocksColor.cloth_rgb, leather: unlocksColor.leather_rgb, metal: unlocksColor.metal_rgb }} : undefined,
     rarity: { label: t(`rarity.${item.rarity}`), value: item.rarity },
-    type: item.details?.type ? t(`item.type.short.${item.type}.${item.details.type}` as any) : t(`item.type.${item.type}`),
+    type: item.details?.type ? t(`item.type.short.${item.type}.${item.details.type}` as TranslationId) : t(`item.type.${item.type}`),
     weightClass: item.details?.weight_class ? t(`weight.${item.details.weight_class}`) : undefined,
     level: item.level > 0 ? { label: t('item.level'), value: item.level } : undefined,
     description: item.description ? format(item.description) : undefined,

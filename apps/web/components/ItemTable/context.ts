@@ -14,8 +14,8 @@ export interface Context<ColumnId extends string> {
   isGlobalContext: boolean;
 }
 
-export const context = createContext<Context<any>>(undefined!);
+export const context = createContext<Context<string>>(undefined!);
 
 export function useItemTableContext<ColumnId extends string>(): Context<ColumnId> {
-  return useContext(context);
+  return useContext(context) as unknown as Context<ColumnId>;
 }

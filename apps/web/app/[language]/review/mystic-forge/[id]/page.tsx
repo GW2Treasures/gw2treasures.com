@@ -53,7 +53,7 @@ interface ReviewContainerContentPageProps {
   };
 }
 
-export default async function ReviewMysticForgePage({ params: { id }, searchParams }: ReviewContainerContentPageProps) {
+export default async function ReviewMysticForgePage({ params: { id }}: ReviewContainerContentPageProps) {
   const { item, review } = await getReview(id);
   const { recipeId, outputCountMin, outputCountMax, ingredients } = review.changes as unknown as SubmitEditMysticForgeOrder;
 
@@ -133,7 +133,7 @@ export default async function ReviewMysticForgePage({ params: { id }, searchPara
 
 
 export async function generateMetadata({ params: { id, language }}: ReviewContainerContentPageProps) {
-  const { item, review } = await getReview(id);
+  const { item } = await getReview(id);
 
   return {
     title: `Review Mystic Forge Recipe: ${localizedName(item, language)}`

@@ -94,11 +94,11 @@ threeMonthsAgo.setDate(threeMonthsAgo.getDate() - 90);
 
 const datawars2DataBefore = new Date('2023-12-27');
 
-function downSample<T>(data: T[], points: number): T[] {
-  // TODO: use some more advanced downsampling
-  const bucketSize = Math.ceil(data.length / points);
-  return data.filter((_, i) => i % bucketSize === 0);
-}
+// function downSample<T>(data: T[], points: number): T[] {
+//   // TODO: use some more advanced downsampling
+//   const bucketSize = Math.ceil(data.length / points);
+//   return data.filter((_, i) => i % bucketSize === 0);
+// }
 
 const isDefinedSellPrice = (d: TradingPostHistory) => !!d.sellPrice;
 const isDefinedBuyPrice = (d: TradingPostHistory) => !!d.buyPrice;

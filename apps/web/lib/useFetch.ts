@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 
-export function useFetch(url: string, callback: (response: Response) => any) {
-  const [_, setError] = useState();
+export function useFetch(url: string, callback: (response: Response) => void) {
+  const [, setError] = useState();
 
   useEffect(() => {
     const controller = new AbortController();

@@ -24,7 +24,7 @@ export const EntityLinkInternal = forwardRef<HTMLAnchorElement, EntityLinkProps>
       suppressHydrationWarning
       href={href}
       locale={language}
-      className={cx(styles.link, entity.rarity ? rarityClasses[entity.rarity] : styles.noRarity)}
+      className={cx(styles.link, 'rarity' in entity ? rarityClasses[entity.rarity] : styles.noRarity)}
       hrefLang={language}
       ref={ref}
       key={href}

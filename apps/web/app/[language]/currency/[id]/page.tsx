@@ -18,7 +18,7 @@ import { localizedName } from '@/lib/localizedName';
 import { getUser } from '@/lib/getUser';
 import { WalletTable } from './wallet-table';
 
-const getCurrency = cache(async (id: number, language: Language) => {
+const getCurrency = cache(async (id: number) => {
   if(isNaN(id)) {
     notFound();
   }
@@ -58,7 +58,7 @@ interface CurrencyPageProps {
 export default async function CurrencyPage({ params: { id, language }}: CurrencyPageProps) {
   const currencyId = Number(id);
   const [currency, { revision, data }, user] = await Promise.all([
-    getCurrency(currencyId, language),
+    getCurrency(currencyId),
     getRevision(currencyId, language),
     getUser(),
     pageView('currency', currencyId),
@@ -121,7 +121,7 @@ export default async function CurrencyPage({ params: { id, language }}: Currency
 
 export async function generateMetadata({ params: { id, language }}: CurrencyPageProps) {
   const currencyId = Number(id);
-  const currency = await getCurrency(currencyId, language);
+  const currency = await getCurrency(currencyId);
 
   if(!currency) {
     return notFound();

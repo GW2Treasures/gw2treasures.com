@@ -24,7 +24,7 @@ export interface AccountAchievementProgressCellProps {
   accountId: string;
 }
 
-export const AccountAchievementProgressHeader: FC<HeaderProps> = ({ }) => {
+export const AccountAchievementProgressHeader: FC<HeaderProps> = () => {
   const accounts = useGw2Accounts(requiredScopes);
 
   return !accounts.loading && !accounts.error && accounts.accounts.map((account) => (

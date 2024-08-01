@@ -6,7 +6,7 @@ export function cache<Args extends unknown[], Return>(cb: (...args: Args) => Pro
   tags?: string[];
 }): (...args: Args) => Promise<Return> {
   const cached = nextCache(
-    async (...args: any) => JSON.stringify(await cb(...args), serialize),
+    async (...args: Args) => JSON.stringify(await cb(...args), serialize),
     [...keyParts, cb.toString()],
     options
   );
@@ -14,7 +14,7 @@ export function cache<Args extends unknown[], Return>(cb: (...args: Args) => Pro
   return async (...args: Args) => JSON.parse(await cached(...args), deserialize);
 }
 
-function serialize(this: any, key: string, value: any) {
+function serialize<T>(this: T, key: keyof T, value: unknown) {
   if(typeof value === 'bigint') {
     return '$n' + value.toString();
   }
@@ -37,7 +37,7 @@ function serialize(this: any, key: string, value: any) {
   return value;
 }
 
-function deserialize(key: string, value: any) {
+function deserialize(key: string, value: unknown) {
   if(typeof value === 'string' && value[0] === '$') {
     switch(value[1]) {
       case '$': return value.substring(1);

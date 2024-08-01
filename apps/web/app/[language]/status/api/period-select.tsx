@@ -9,7 +9,7 @@ export interface PeriodSelectProps {
   // TODO: add props
 }
 
-export const PeriodSelect: FC<PeriodSelectProps> = ({ }) => {
+export const PeriodSelect: FC<PeriodSelectProps> = () => {
   const value = useSearchParams().get('period') ?? '24h';
   const pathname = usePathname();
   const { replace } = useRouter();

@@ -5,8 +5,10 @@ import { useFormatContext } from './FormatContext';
 import styles from './Format.module.css';
 import { cx } from '@gw2treasures/ui';
 
+const NARROW_NO_BREAK_SPACE = '\u{202F}';
+
 interface FormatNumberProps {
-  value: number | undefined | null;
+  value: number | bigint | undefined | null;
   className?: string;
   unit?: string;
 }
@@ -17,9 +19,9 @@ export const FormatNumber: FC<FormatNumberProps> = ({ value, className, unit }) 
   const { numberFormat } = useFormatContext();
 
   return (
-    <data className={cx(styles.format, className)} value={value ?? undefined} suppressHydrationWarning>
+    <data className={cx(styles.format, className)} value={value?.toString() ?? undefined} suppressHydrationWarning>
       {value != null ? numberFormat.format(value) : '?'}
-      {unit && ` ${unit}`}
+      {unit && `${NARROW_NO_BREAK_SPACE}${unit}`}
     </data>
   );
 };

@@ -1,4 +1,4 @@
-import type { FC, ReactNode } from 'react';
+import type { FC } from 'react';
 import { FormatNumber } from './FormatNumber';
 import { Icon } from '@gw2treasures/ui';
 

@@ -1,7 +1,7 @@
 'use client';
 
 import type { Scope } from '@gw2me/client';
-import { cloneElement, type FC, type ReactElement, type ReactNode } from 'react';
+import { cloneElement, type FC, type ReactElement } from 'react';
 import { useGw2Accounts } from './use-gw2-accounts';
 import { Gw2AccountName } from './Gw2AccountName';
 

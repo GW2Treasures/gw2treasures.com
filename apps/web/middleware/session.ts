@@ -1,7 +1,7 @@
 import type { NextMiddleware } from './types';
 import { SessionCookieName } from '@/lib/auth/cookie';
 
-export const sessionMiddleware: NextMiddleware = (request, next, data) => {
+export const sessionMiddleware: NextMiddleware = (request, next) => {
   // set user session based on cookie
   const cookie = request.cookies.get(SessionCookieName);
 

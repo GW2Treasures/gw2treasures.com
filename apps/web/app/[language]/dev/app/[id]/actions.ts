@@ -6,7 +6,7 @@ import { getLoginUrlWithReturnTo } from '@/lib/login-url';
 import { type FormState } from '@gw2treasures/ui/components/Form/Form';
 import { revalidatePath } from 'next/cache';
 
-export async function deleteApplication(id: string, data: FormData) {
+export async function deleteApplication(id: string) {
   const user = await getUser();
 
   if(!user) {

@@ -24,7 +24,7 @@ const languages = {
   fr: 'Français',
 };
 
-export const LanguageDropdown: FC<LanguageDropdownProps> = ({ }) => {
+export const LanguageDropdown: FC<LanguageDropdownProps> = () => {
   const { push } = useRouter();
 
   const [formatDialogOpen, setFormatDialogOpen] = useState(false);

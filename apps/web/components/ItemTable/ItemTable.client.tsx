@@ -131,6 +131,7 @@ export const ItemTable = <ExtraColumnId extends string = never, Model extends Qu
         <tbody>
           {items.map((item) => {
             const props = query.data.mapToItem && query.data.model !== undefined && query.data.model !== 'item'
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             ? { item: (item as any)[query.data.mapToItem], [query.data.model]: item, translations: dynamicTranslations }
             : { item, translations: dynamicTranslations };
 

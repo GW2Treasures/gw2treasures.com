@@ -40,7 +40,7 @@ import { pageView } from '@/lib/pageView';
 import { GuildUpgradeLink } from '@/components/GuildUpgrade/GuildUpgradeLink';
 import { TradingPostHistory } from './trading-post-history';
 import { parseIcon } from '@/lib/parseIcon';
-import { getTranslate } from '@/lib/translate';
+import { getTranslate, type TranslationId } from '@/lib/translate';
 import { ItemLink } from '@/components/Item/ItemLink';
 import { OutputCount } from '@/components/Item/OutputCount';
 import { AstralAcclaim } from '@/components/Format/AstralAcclaim';
@@ -99,7 +99,7 @@ export const ItemPageComponent: FC<ItemPageComponentProps> = async ({ language, 
         <Breadcrumb>
           <BreadcrumbItem name={t('navigation.items')} href="/item"/>
           <BreadcrumbItem name={t(`item.type.${data.type}`)}/>
-          {data.details?.type && <BreadcrumbItem name={t(`item.type.${data.type}.${data.details.type}` as any)}/>}
+          {data.details?.type && <BreadcrumbItem name={t(`item.type.${data.type}.${data.details.type}` as TranslationId)}/>}
         </Breadcrumb>
       )}
       infobox={<ItemInfobox item={item} data={data} language={language}/>}

@@ -44,7 +44,7 @@ export async function createTooltip(skill: Gw2Api.Skill, language: Language): Pr
   };
 }
 
-type ArrayType<T> = T extends Array<any> ? T[0] : never;
+type ArrayType<T> = T extends Array<unknown> ? T[0] : never;
 
 export interface FactProps {
   fact: ArrayType<Gw2Api.Skill['facts']> | ArrayType<Gw2Api.Skill['traited_facts']>
@@ -87,7 +87,7 @@ function renderText(fact: FactProps['fact']) {
       }
       return (<span>{fact.target}: +{fact.value}</span>);
     case 'Buff':
-    case 'PrefixedBuff':
+    case 'PrefixedBuff': {
       const status = fact.status || fact.prefix?.status;
       const description = renderMarkup(fact.description || (fact.prefix && fact.prefix.description));
       return (
@@ -97,6 +97,7 @@ function renderText(fact: FactProps['fact']) {
           {description && <span>: <div className={styles.factDescription}>{description}</div></span>}
         </span>
       );
+    }
     // case 'BuffConversion':
     //   return (<span>Gain {fact.target} based on a percentage of {fact.source}: {fact.percent}%</span>);
     case 'ComboField':

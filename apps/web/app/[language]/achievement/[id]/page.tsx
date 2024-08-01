@@ -20,7 +20,6 @@ import { AchievementInfobox } from '@/components/Achievement/AchievementInfobox'
 import type * as CSS from 'csstype';
 import { RemovedFromApiNotice } from '@/components/Notice/RemovedFromApiNotice';
 import { Breadcrumb, BreadcrumbItem } from '@/components/Breadcrumb/Breadcrumb';
-import Link from 'next/link';
 import { AchievementCategoryLink } from '@/components/Achievement/AchievementCategoryLink';
 import type { Metadata } from 'next';
 import { AccountAchievementProgressHeader, AccountAchievementProgressRow } from '@/components/Achievement/AccountAchievementProgress';
@@ -190,12 +189,14 @@ async function AchievementPage({ params: { id, language }}: AchievementPageProps
               <Bits.Column id="objective" title="Objective">
                 {(bit, index) => {
                   switch(bit.type) {
-                    case 'Item':
+                    case 'Item': {
                       const item = achievement.bitsItem.find(({ id }) => id === bit.id);
                       return item ? (<ItemLink item={item}/>) : <UnknownItem id={bit.id}/>;
-                    case 'Skin':
+                    }
+                    case 'Skin': {
                       const skin = achievement.bitsSkin.find(({ id }) => id === bit.id);
                       return skin ? (<SkinLink skin={skin}/>) : `Unknown skin ${bit.id}`;
+                    }
                     case 'Text':
                       return bit.text || `Objective #${index + 1}`;
                     case 'Minipet':
@@ -243,7 +244,7 @@ async function AchievementPage({ params: { id, language }}: AchievementPageProps
                       </FlexRow>
                     </li>
                   );
-                case 'Title':
+                case 'Title': {
                   const title = achievement.rewardsTitle.find(({ id }) => id === reward.id);
                   return (
                     <li key={reward.id}>
@@ -255,7 +256,8 @@ async function AchievementPage({ params: { id, language }}: AchievementPageProps
                       </FlexRow>
                     </li>
                   );
-                case 'Item':
+                }
+                case 'Item': {
                   const item = achievement.rewardsItem.find(({ id }) => id === reward.id);
                   return (
                     <li key={reward.id}>
@@ -263,6 +265,7 @@ async function AchievementPage({ params: { id, language }}: AchievementPageProps
                       {reward.count && reward.count > 1 && (<span>&times;{reward.count}</span>)}
                     </li>
                   );
+                }
               }
             })}
           </ItemList>

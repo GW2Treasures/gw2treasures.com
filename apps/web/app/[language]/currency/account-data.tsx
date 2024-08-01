@@ -11,7 +11,7 @@ import { Gw2AccountName } from '@/components/Gw2Api/Gw2AccountName';
 
 const requiredScopes = [Scope.GW2_Wallet];
 
-export const AccountHeader: FC<HeaderProps> = ({ }) => {
+export const AccountHeader: FC<HeaderProps> = () => {
   const accounts = useGw2Accounts(requiredScopes);
 
   return !accounts.loading && !accounts.error && accounts.accounts.map((account) => (

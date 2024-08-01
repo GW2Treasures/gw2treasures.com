@@ -27,10 +27,12 @@
     "url": "https://github.com/GW2Treasures/gw2treasures.com/issues"
   },
   "homepage": "https://github.com/GW2Treasures/gw2treasures.com#readme",
+  "dependencies": {
+    "@typescript-eslint/eslint-plugin": "7.18.0",
+    "eslint-plugin-react": "7.34.3"
+  },
   "peerDependencies": {
-    "@typescript-eslint/eslint-plugin": "^7.18.0",
-    "eslint": "^8.57.0",
-    "eslint-plugin-react": "^7.34.3"
+    "eslint": "^8.57.0"
   },
   "publishConfig": {
     "access": "public"

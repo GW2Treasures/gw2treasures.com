@@ -3,14 +3,14 @@ declare module '*.module.css' {
   export default classes;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type * as CSS from 'csstype';
 
 declare module 'csstype' {
-
   interface Properties {
     // add known custom properties
     '--icon-size'?: `${string}px`;
-    '--icon-color'?: Property.Color,
+    '--icon-color'?: CSS.Property.Color,
 
     // allow all custom properties
     [index: `--${string}`]: string | number;

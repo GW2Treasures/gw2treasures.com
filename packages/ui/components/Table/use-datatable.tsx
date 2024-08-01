@@ -69,10 +69,11 @@ export function useDataTable<T>(columns: DataTableColumn<T>[], rowKey: (row: T) 
   ));
 }
 
-interface ColumnHeaderProps {
-  column: DataTableColumn<any>;
-  onSort: (column: DataTableColumn<any>) => void;
-  sortBy: { column: DataTableColumn<any>, reverse: boolean } | undefined;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+interface ColumnHeaderProps<T = any> {
+  column: DataTableColumn<T>;
+  onSort: (column: DataTableColumn<T>) => void;
+  sortBy: { column: DataTableColumn<T>, reverse: boolean } | undefined;
 }
 
 const ColumnHeader: FC<ColumnHeaderProps> = ({ column, onSort, sortBy }) => {

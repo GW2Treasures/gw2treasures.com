@@ -69,10 +69,9 @@ export interface DataTableClientColumnProps extends Pick<HeaderCellProps, 'align
   id: string;
   children: ReactNode;
   sortable: boolean;
-  hidden?: boolean;
 }
 
-export const DataTableClientColumn: FC<DataTableClientColumnProps> = ({ id, children, sortable, hidden = false, ...props }) => {
+export const DataTableClientColumn: FC<DataTableClientColumnProps> = ({ id, children, sortable, ...props }) => {
   const { state: { sortBy, sortOrder, visibleColumns }, setState } = useContext(DataTableContext);
   const isVisible = visibleColumns.includes(id);
 

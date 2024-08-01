@@ -1,6 +1,6 @@
 'use client';
 
-import { Children, cloneElement, useCallback, useLayoutEffect, useRef, useState, type FC, type HTMLProps, type ReactElement, type ReactNode } from 'react';
+import { Children, cloneElement, useCallback, useLayoutEffect, useRef, useState, type FC, type HTMLProps, type ReactElement } from 'react';
 import styles from './Table.module.css';
 import { useResizeObserver } from '../../lib/hooks/resize-observer';
 

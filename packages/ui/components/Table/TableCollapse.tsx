@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, ReactElement, ReactNode, useState } from 'react';
+import { type FC, type ReactNode, useState } from 'react';
 import { Icon } from '../../icons';
 import { TableRowButton } from './TableRowButton';
 
@@ -19,5 +19,5 @@ export const TableCollapse: FC<TableCollapseProps> = ({ children, limit = 5 }) =
   return [
     ...children.slice(0, 5),
     <TableRowButton key="expand" onClick={() => setExpanded(true)}><Icon icon="chevron-down"/> Show {children.length - limit} more</TableRowButton>
-  ] as any as ReactElement;
+  ];
 };

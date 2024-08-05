@@ -2,9 +2,7 @@
 
 import { Gw2AccountName } from '@/components/Gw2Api/Gw2AccountName';
 import { Gw2Accounts } from '@/components/Gw2Api/Gw2Accounts';
-import { useUser } from '@/components/User/use-user';
 import { Scope } from '@gw2me/client';
-import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
 import type { FC } from 'react';
 import type { Gw2Account } from '../Gw2Api/types';
@@ -17,35 +15,40 @@ interface WardrobeProps {
   itemId: number;
 }
 
-const requiredScopes = [Scope.GW2_Account, Scope.GW2_Characters, Scope.GW2_Inventories];
+const requiredScopes = [
+  // always required
+  Scope.GW2_Account,
+
+  // get all the characters
+  Scope.GW2_Characters,
+
+  // get inventories
+  Scope.GW2_Inventories,
+
+  // legendary armory
+  Scope.GW2_Unlocks
+];
 
 export const ItemInventoryTable: FC<WardrobeProps> = ({ itemId }) => {
-  const user = useUser();
-
-  if(!user.loading && !user.user) {
-    return null;
-  }
-
   return (
-    <>
-      <Headline id="inventories">Inventories</Headline>
-      <Gw2Accounts requiredScopes={requiredScopes} authorizationMessage="Authorize gw2treasures.com to see your account and characters inventories.">
-        {(accounts) => (
-          <Table>
-            <thead>
-              <tr>
-                <Table.HeaderCell>Account</Table.HeaderCell>
-                <Table.HeaderCell>Location</Table.HeaderCell>
-                <Table.HeaderCell align="right">Count</Table.HeaderCell>
-              </tr>
-            </thead>
-            <tbody>
-              {accounts.map((account) => (<ItemInventoryAccountRows key={account.id} itemId={itemId} account={account}/>))}
-            </tbody>
-          </Table>
-        )}
-      </Gw2Accounts>
-    </>
+    <Gw2Accounts requiredScopes={requiredScopes} authorizationMessage="Authorize gw2treasures.com to see your account and characters inventories.">
+      {(accounts) => (
+        <Table>
+          <thead>
+            <tr>
+              <Table.HeaderCell>Account</Table.HeaderCell>
+              <Table.HeaderCell>Location</Table.HeaderCell>
+              <Table.HeaderCell align="right">Count</Table.HeaderCell>
+            </tr>
+          </thead>
+          <tbody>
+            {accounts.map((account) => (
+              <ItemInventoryAccountRows key={account.id} itemId={itemId} account={account}/>
+            ))}
+          </tbody>
+        </Table>
+      )}
+    </Gw2Accounts>
   );
 };
 

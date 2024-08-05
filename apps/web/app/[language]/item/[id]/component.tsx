@@ -122,6 +122,7 @@ export const ItemPageComponent: FC<ItemPageComponentProps> = async ({ language, 
       <TableOfContentAnchor id="tooltip">Tooltip</TableOfContentAnchor>
       <ItemTooltip item={data} language={language} hideTitle/>
 
+      <Headline id="inventory">Inventories</Headline>
       <ItemInventoryTable itemId={itemId}/>
 
       {hasSkinUnlocks && (

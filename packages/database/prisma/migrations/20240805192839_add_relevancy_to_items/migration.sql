@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Item" ADD COLUMN     "relevancy" DOUBLE PRECISION NOT NULL DEFAULT 0;

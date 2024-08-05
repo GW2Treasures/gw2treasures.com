@@ -11,3 +11,31 @@
 .loading {
   line-height: 1.5;
 }
+
+.accountInventories:empty {
+  display: none;
+}
+
+.accountInventories {
+  border-top: 2px solid var(--color-border);
+  list-style: none;
+  margin: 16px 0 0 0;
+  padding: 12px 0 0 0;
+}
+
+.accountInventories > li {
+  display: flex;
+  justify-content: space-between;
+}
+.accountInventories > li + li {
+  margin-top: 8px;
+}
+
+.accountName {
+  color: var(--color-text-muted);
+  margin-right: 16px;
+}
+
+.itemCount {
+  font-feature-settings: "tnum";
+}

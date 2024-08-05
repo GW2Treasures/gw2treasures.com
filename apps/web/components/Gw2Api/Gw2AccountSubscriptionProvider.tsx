@@ -13,13 +13,14 @@ export interface Gw2AccountSubscriptionProviderProps {
   children: ReactNode
 }
 
-type SubscriptionType = 'achievements' | 'skins' | 'wallet' | 'wizards-vault';
+type SubscriptionType = 'achievements' | 'skins' | 'wallet' | 'wizards-vault' | 'inventories';
 
 type SubscriptionData<T extends SubscriptionType> =
   T extends 'achievements' ? AccountAchievement[] :
   T extends 'skins' ? number[] :
   T extends 'wallet' ? AccountWallet[] :
   T extends 'wizards-vault' ? Awaited<ReturnType<typeof loadAccountsWizardsVault>> :
+  T extends 'inventories' ? Awaited<ReturnType<typeof loadInventories>> :
   never;
 
 type SubscriptionResponse<T extends SubscriptionType> = {
@@ -139,6 +140,7 @@ export const Gw2AccountSubscriptionProvider: FC<Gw2AccountSubscriptionProviderPr
   useInterval(activeTypes.skins, 60, fetchData.bind(null, 'skins', skinsFetch));
   useInterval(activeTypes.wallet, 60, fetchData.bind(null, 'wallet', walletFetch));
   useInterval(activeTypes['wizards-vault'], 60, fetchData.bind(null, 'wizards-vault', wizardsVaultFetch));
+  useInterval(activeTypes.inventories, 60, fetchData.bind(null, 'inventories', inventoriesFetch));
 
   const subscribe = useCallback(<T extends SubscriptionType>(type: T, accountId: string, callback: SubscriptionCallback<T>): CancelSubscription => {
     const subscription = { type, accountId, callback };
@@ -229,6 +231,7 @@ const achievementFetch = (accessToken: string) => fetchGw2Api('/v2/account/achie
 const skinsFetch = (accessToken: string) => fetchGw2Api('/v2/account/skins', { accessToken, cache: 'no-cache' });
 const walletFetch = (accessToken: string) => fetchGw2Api('/v2/account/wallet', { accessToken, cache: 'no-cache' });
 const wizardsVaultFetch = (accessToken: string) => loadAccountsWizardsVault(accessToken);
+const inventoriesFetch = (accessToken: string) => loadInventories(accessToken);
 
 async function loadAccountsWizardsVault(accessToken: string) {
   const account = await fetchGw2Api('/v2/account', { accessToken, schema: '2019-02-21T00:00:00.000Z', cache: 'no-cache' });
@@ -248,5 +251,19 @@ async function loadAccountsWizardsVault(accessToken: string) {
     lastModifiedToday,
     lastModifiedThisWeek,
     daily, weekly, special
+  };
+}
+
+async function loadInventories(accessToken: string) {
+  const [bank, materials, sharedInventory, armory, characters] = await Promise.all([
+    fetchGw2Api('/v2/account/bank', { accessToken }),
+    fetchGw2Api('/v2/account/materials', { accessToken }),
+    fetchGw2Api('/v2/account/inventory', { accessToken }),
+    fetchGw2Api('/v2/account/legendaryarmory', { accessToken }),
+    fetchGw2Api('/v2/characters?ids=all', { accessToken, schema: '2022-03-23T19:00:00.000Z' }),
+  ]);
+
+  return {
+    bank, materials, sharedInventory, armory, characters
   };
 }

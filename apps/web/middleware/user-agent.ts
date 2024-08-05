@@ -21,6 +21,7 @@ export const userAgentMiddleware: NextMiddleware = (request, next) => {
 
   // append header if UA is a bot
   request.headers.append('x-gw2t-is-bot', isBot ? '1' : '0');
+  request.headers.append('x-gw2t-is-prefetch', isPrefetch ? '1' : '0');
 
   return next(request);
 };

@@ -77,7 +77,7 @@ const ItemLinkTooltipInventoryAccount: FC<{ account: Gw2Account, itemId: number 
   return (
     <li>
       <span className={styles.accountName}><Gw2AccountName account={account}/></span>
-      <FormatNumber value={inventory.count}/>
+      <FormatNumber className={styles.itemCount} value={inventory.count}/>
     </li>
   );
 };

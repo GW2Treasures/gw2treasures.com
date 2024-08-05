@@ -35,3 +35,7 @@
   color: var(--color-text-muted);
   margin-right: 16px;
 }
+
+.itemCount {
+  font-feature-settings: "tnum";
+}

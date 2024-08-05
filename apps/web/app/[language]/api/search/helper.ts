@@ -137,7 +137,7 @@ export const searchItems = cache(async (terms: string[], chatCodes: ChatCode[], 
     where: { AND: exactWhere },
     take: 50,
     include: { icon: true },
-    orderBy: { views: 'desc' }
+    orderBy: { relevancy: 'desc' }
   }) : [];
 
   // if we have less then 5 exact matches, we fill the remainder with items that just contain the search terms
@@ -145,7 +145,7 @@ export const searchItems = cache(async (terms: string[], chatCodes: ChatCode[], 
     where: { AND: [...containsTermsWhere, { id: { notIn: exactNameMatches.map(({ id }) => id) }}] },
     take: 5 - exactNameMatches.length,
     include: { icon: true },
-    orderBy: { views: 'desc' }
+    orderBy: { relevancy: 'desc' }
   }) : [];
 
   return [...exactNameMatches, ...termMatches];

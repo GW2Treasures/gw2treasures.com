@@ -81,11 +81,14 @@ model Item {
   // review queue
   reviews Review[] @relation("itemReview")
 
-
+  // flag if the item is no longer available in the API
   removedFromApi Boolean @default(false)
 
-  views Int @default(0)
+  // item views (last 7 days) and relevancy score
+  views     Int   @default(0)
+  relevancy Float @default(0)
 
+  // history
   current_de Revision @relation("current_de", fields: [currentId_de], references: [id], onDelete: Cascade)
   currentId_de String @unique
   
@@ -100,11 +103,14 @@ model Item {
 
   history ItemHistory[]
   
+  // last time checked for updates
   lastCheckedAt  DateTime   @default(now())
 
+  // common timestamps
   createdAt      DateTime   @default(now())
   updatedAt      DateTime   @updatedAt
 
+  // migration version
   version Int @default(0)
 }
 

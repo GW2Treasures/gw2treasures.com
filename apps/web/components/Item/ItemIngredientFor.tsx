@@ -21,7 +21,7 @@ const getIngredientFor = cache(async (itemId: number) => {
       guildUpgradeIngredients: { select: { count: true, GuildUpgrade: { select: linkPropertiesWithoutRarity }}},
       unlockedByItems: { select: linkProperties }
     },
-    orderBy: { outputItem: { views: 'desc' }}
+    orderBy: { outputItem: { relevancy: 'desc' }}
   });
 
   return recipes;

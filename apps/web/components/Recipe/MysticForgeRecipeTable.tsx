@@ -19,7 +19,7 @@ export const MysticForgeRecipeTable: FC<MysticForgeRecipeTableProps> = ({ ingred
   //     outputItem: { select: linkProperties },
   //     itemIngredients: { include: { Item: { select: linkProperties }}}
   //   },
-  //   orderBy: { outputItem: { views: 'desc' }}
+  //   orderBy: { outputItem: { relevancy: 'desc' }}
   // });
 
   // const Recipes = createDataTable(mfRecipes, ({ id }) => id);

@@ -17,7 +17,7 @@ export interface ItemTableLoadOptions<Model extends QueryModel> {
   orderBy?: Signed<OrderBy<ColumnModelTypes[Model]['orderBy']>>;
 }
 
-const defaultItemSort = [{ views: 'desc' }, { id: 'asc' }];
+const defaultItemSort = [{ relevancy: 'desc' }, { id: 'asc' }];
 
 export async function loadItems<Model extends QueryModel>(query: Signed<ItemTableQuery<Model>>, options: ItemTableLoadOptions<Model>): LoadItemsResult {
   const { where, mapToItem, model = 'item' } = await verify(query);

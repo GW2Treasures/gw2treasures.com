@@ -20,7 +20,7 @@ type SubscriptionData<T extends SubscriptionType> =
   T extends 'skins' ? number[] :
   T extends 'wallet' ? AccountWallet[] :
   T extends 'wizards-vault' ? Awaited<ReturnType<typeof loadAccountsWizardsVault>> :
-  T extends 'inventories'? Awaited<ReturnType<typeof loadInventories>> :
+  T extends 'inventories' ? Awaited<ReturnType<typeof loadInventories>> :
   never;
 
 type SubscriptionResponse<T extends SubscriptionType> = {

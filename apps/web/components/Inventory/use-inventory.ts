@@ -91,6 +91,26 @@ export function useInventoryItem(accountId: string, itemId: number): UseInventor
   };
 }
 
+export type UseInventoryItemTotalResult =
+  | { loading: true }
+  | { loading: false; error: true }
+  | { loading: false; error: false; count: number };
+
+export function useInventoryItemTotal(accountId: string, itemId: number): UseInventoryItemTotalResult {
+  // get all locations of this item...
+  const inventory = useInventoryItem(accountId, itemId);
+
+  // ...make sure everything is loaded...
+  if(inventory.loading || inventory.error) {
+    return inventory;
+  }
+
+  // ...and merge them into the total count
+  const total = inventory.locations.reduce(sumItemCount, 0);
+
+  return { loading: false, error: false, count: total };
+}
+
 function isItemIdFilter(itemId: number) {
   return <T extends { id: number }>(item: T | null | undefined): item is T => item?.id === itemId;
 }
@@ -99,7 +119,7 @@ function isEquipmentItem(item: unknown): item is CharacterEquipmentEntry<'2019-1
   return typeof item === 'object' && item != null && 'tabs' in item;
 }
 
-function sumItemCount(total: number, { count }: { id: number; count?: number }) {
+function sumItemCount(total: number, { count }: { count?: number }) {
   return total + (count ?? 1);
 }
 

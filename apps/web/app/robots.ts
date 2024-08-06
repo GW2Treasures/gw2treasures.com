@@ -13,7 +13,7 @@ export default function robots(): MetadataRoute.Robots {
       ],
       crawlDelay: 5,
     }, {
-      userAgent: ['barkrowler', 'AhrefsBot', 'ImagesiftBot', 'SemrushBot', 'ClaudeBot', 'SemrushBot'],
+      userAgent: ['barkrowler', 'AhrefsBot', 'ImagesiftBot', 'SemrushBot', 'ClaudeBot', 'SemrushBot', 'AwarioSmartBot', 'AwarioRssBot'],
       crawlDelay: 60,
     }],
     sitemap: sitemapUrl.toString(),

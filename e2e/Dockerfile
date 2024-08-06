@@ -12,7 +12,7 @@ COPY --link . .
 RUN npx turbo prune e2e --docker
 
 # Rebuild the source code only when needed
-FROM mcr.microsoft.com/playwright:v1.45.3-jammy AS tester
+FROM mcr.microsoft.com/playwright:v1.46.0-jammy AS tester
 WORKDIR /app
 
 ENV CI=1

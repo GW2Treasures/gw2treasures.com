@@ -1,13 +1,12 @@
 generator client {
   provider = "prisma-client-js"
   binaryTargets = ["native", "linux-musl-arm64-openssl-3.0.x"]
-  previewFeatures = ["postgresqlExtensions", "views"]
+  previewFeatures = ["views"]
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  extensions = [timescaledb]
 }
 
 model Item {
@@ -1179,6 +1178,8 @@ model PageView {
 
   page   String
   pageId Int @default(0)
+
+  asn Int?
 
   @@unique([time, page, pageId])
 }

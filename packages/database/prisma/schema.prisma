@@ -111,6 +111,9 @@ model Item {
 
   // migration version
   version Int @default(0)
+
+  @@index([createdAt])
+  @@index([name_de(ops: raw("gin_trgm_ops")), name_en(ops: raw("gin_trgm_ops")), name_es(ops: raw("gin_trgm_ops")), name_fr(ops: raw("gin_trgm_ops"))], type: Gin)
 }
 
 enum Rarity {
@@ -226,6 +229,10 @@ model Skill {
   updatedAt      DateTime   @updatedAt
 
   version Int @default(0)
+
+
+  @@index([createdAt])
+  @@index([name_de(ops: raw("gin_trgm_ops")), name_en(ops: raw("gin_trgm_ops")), name_es(ops: raw("gin_trgm_ops")), name_fr(ops: raw("gin_trgm_ops"))], type: Gin)
 }
 
 model SkillHistory {
@@ -284,6 +291,10 @@ model Skin {
   updatedAt      DateTime   @updatedAt
 
   version Int @default(0)
+
+  
+  @@index([createdAt])
+  @@index([name_de(ops: raw("gin_trgm_ops")), name_en(ops: raw("gin_trgm_ops")), name_es(ops: raw("gin_trgm_ops")), name_fr(ops: raw("gin_trgm_ops"))], type: Gin)
 }
 
 enum WikiImageType {
@@ -477,6 +488,9 @@ model Achievement {
   updatedAt      DateTime   @updatedAt
 
   version Int @default(0)
+
+  @@index([createdAt])
+  @@index([name_de(ops: raw("gin_trgm_ops")), name_en(ops: raw("gin_trgm_ops")), name_es(ops: raw("gin_trgm_ops")), name_fr(ops: raw("gin_trgm_ops"))], type: Gin)
 }
 
 enum MasteryRegion {

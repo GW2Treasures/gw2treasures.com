@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "@gw2treasures/eslint-config": "*",
-    "@types/react": "npm:types-react@19.0.0-rc.0",
+    "@types/react": "npm:types-react@19.0.0-rc.1",
     "@types/react-dom": "npm:types-react-dom@19.0.0-rc.0",
     "eslint": "8.57.0",
     "eslint-config-next": "15.0.0-rc.0",

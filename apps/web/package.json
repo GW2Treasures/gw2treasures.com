@@ -12,7 +12,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@floating-ui/react": "0.26.20",
+    "@floating-ui/react": "0.26.21",
     "@floating-ui/react-dom": "2.1.1",
     "@formatjs/intl-localematcher": "0.5.4",
     "@gw2api/fetch": "0.4.0",

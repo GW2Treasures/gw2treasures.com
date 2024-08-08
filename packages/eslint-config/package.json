@@ -28,7 +28,7 @@
   },
   "homepage": "https://github.com/GW2Treasures/gw2treasures.com#readme",
   "dependencies": {
-    "@stylistic/eslint-plugin": "2.6.1",
+    "@stylistic/eslint-plugin": "2.6.2",
     "@typescript-eslint/eslint-plugin": "8.0.1",
     "@typescript-eslint/parser": "8.0.1",
     "eslint-import-resolver-typescript": "3.6.1",

@@ -26,25 +26,20 @@ RUN npm ci --include=dev
 COPY --link --from=source /source/out/full/ .
 
 # build source
-RUN npm run build -- --filter=legacy-importer...
-RUN npm prune --production --workspaces --include-workspace-root
+RUN npm run build -- --filter=legacy-importer... \
+  && npm prune --production --workspaces --include-workspace-root
 
 # Production image, COPY --link all the files and run next
 FROM node:${node_version} AS runner
 WORKDIR /app
 
-ENV NODE_ENV production
-ENV NEXT_TELEMETRY_DISABLED 1
+ENV NODE_ENV=production
 
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 worker
+RUN addgroup --system --gid 1001 nodejs \
+  && adduser --system --uid 1001 worker
 
 COPY --link --from=builder --chown=1001:1001 /app .
 
 USER worker
-
-EXPOSE 3000
-
-ENV PORT 3000
 
 CMD [ "node", "apps/legacy-importer/lib/index.js" ]

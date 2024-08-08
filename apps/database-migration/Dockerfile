@@ -7,11 +7,10 @@ ARG prisma_version=5.17.0
 FROM node:${node_version} AS source
 WORKDIR /app
 
-ENV NODE_ENV production
-ENV NEXT_TELEMETRY_DISABLED 1
+ENV NODE_ENV=production
 
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 worker
+RUN addgroup --system --gid 1001 nodejs \
+  && adduser --system --uid 1001 worker
 
 ARG prisma_version
 RUN npm i -g prisma@${prisma_version}
@@ -19,9 +18,5 @@ RUN npm i -g prisma@${prisma_version}
 COPY --link --chown=1001:1001 packages/database/prisma ./prisma
 
 USER worker
-
-EXPOSE 3000
-
-ENV PORT 3000
 
 CMD [ "prisma", "migrate", "deploy" ]

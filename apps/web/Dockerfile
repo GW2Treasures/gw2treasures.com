@@ -33,8 +33,8 @@ ARG TARGETPLATFORM
 ARG sharp_version
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
-ENV NEXT_TELEMETRY_DISABLED 1
-ENV CI true
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV CI=true
 
 RUN npm install --os=linux --libc=musl --cpu=x64 sharp@${sharp_version}
 
@@ -50,11 +50,11 @@ ARG prisma_version
 RUN apk add --no-cache bind-tools
 WORKDIR /app
 
-ENV NODE_ENV production
-ENV NEXT_TELEMETRY_DISABLED 1
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
 
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
+RUN addgroup --system --gid 1001 nodejs \
+  && adduser --system --uid 1001 nextjs
 
 # TODO: is this even needed?
 RUN npm i -g prisma@${prisma_version}
@@ -76,8 +76,8 @@ RUN chmod +x ./docker-entrypoint.sh
 
 USER nextjs
 
-ENV HOSTNAME 0.0.0.0
-ENV PORT 3000
+ENV HOSTNAME=0.0.0.0
+ENV PORT=3000
 
 EXPOSE 3000
 

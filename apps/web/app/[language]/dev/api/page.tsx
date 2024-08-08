@@ -131,7 +131,7 @@ export default function DeveloperIconsPage() {
             <td>Filter the item weight. Only returns items with type Armor. Examples: Light, Medium, Heavy</td>
           </tr>
           <tr>
-            <th><Code inline>mystic-forge</Code></th>
+            <th style={{ whiteSpace: 'nowrap' }}><Code inline>mystic-forge</Code></th>
             <td>Only include items that have a mystic forge recipe.</td>
           </tr>
         </tbody>

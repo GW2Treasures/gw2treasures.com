@@ -17,7 +17,7 @@ RUN npx turbo prune worker --docker
 FROM node:${node_version} AS builder
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
-ENV CI true
+ENV CI=true
 
 COPY --link --from=source /source/out/json/ .
 COPY --link --from=source /source/out/package-lock.json package-lock.json
@@ -35,7 +35,7 @@ RUN npx turbo run build --filter=worker...
 FROM node:${node_version} AS runner
 ARG sharp_version
 WORKDIR /app
-ENV NODE_ENV production
+ENV NODE_ENV=production
 
 RUN apk add --no-cache bind-tools \
   && addgroup --system --gid 1001 nodejs \
@@ -48,6 +48,6 @@ USER worker
 
 EXPOSE 3000
 
-ENV PORT 3000
+ENV PORT=3000
 
 CMD [ "node", "index.js" ]

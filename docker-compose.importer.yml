@@ -1,5 +1,3 @@
-version: '3'
-
 services:
   legacy-importer:
     image: gw2treasures/legacy-importer

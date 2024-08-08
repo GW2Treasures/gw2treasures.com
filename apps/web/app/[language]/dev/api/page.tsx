@@ -74,6 +74,10 @@ export default function DeveloperIconsPage() {
             <th><Link href="#/items/:id/data"><Code inline>/items/:id/data</Code></Link></th>
             <td>Get data of an item (same format as returned by the official Guild Wars 2 API)</td>
           </tr>
+          <tr>
+            <th><Link href="#/items/:id/mystic-forge"><Code inline>/items/:id/mystic-forge</Code></Link></th>
+            <td>Returns all the mystic forge recipes that can be used to craft the item.</td>
+          </tr>
         </tbody>
       </Table>
 
@@ -125,6 +129,10 @@ export default function DeveloperIconsPage() {
           <tr>
             <th><Code inline>weight</Code></th>
             <td>Filter the item weight. Only returns items with type Armor. Examples: Light, Medium, Heavy</td>
+          </tr>
+          <tr>
+            <th><Code inline>mystic-forge</Code></th>
+            <td>Only include items that have a mystic forge recipe.</td>
           </tr>
         </tbody>
       </Table>

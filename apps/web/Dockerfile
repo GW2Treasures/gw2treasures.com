@@ -16,7 +16,7 @@ COPY --link . .
 RUN npx turbo prune web --docker
 
 # Install dependencies (on TARGETPLATFORM)
-FROM --platform=$TARGETPLATFORM node:${node_version} AS dependencies
+FROM node:${node_version} AS dependencies
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
@@ -45,7 +45,7 @@ COPY --link --from=source /source/out/full/ .
 RUN npm run build -- --filter=web...
 
 # Production image, COPY --link all the files and run next
-FROM --platform=$TARGETPLATFORM node:${node_version} AS runner
+FROM node:${node_version} AS runner
 ARG prisma_version
 RUN apk add --no-cache bind-tools
 WORKDIR /app

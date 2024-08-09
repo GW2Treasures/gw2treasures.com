@@ -65,7 +65,7 @@
     "@gw2treasures/eslint-config": "*",
     "@gw2treasures/tsconfig": "*",
     "@types/negotiator": "0.6.3",
-    "@types/node": "20.14.14",
+    "@types/node": "20.14.15",
     "@types/react": "npm:types-react@19.0.0-rc.0",
     "eslint": "8.57.0",
     "eslint-config-next": "15.0.0-rc.0",

@@ -2,8 +2,8 @@
   display: grid;
   grid-template:
     "menu" 96px
-    "notification" min-content
     "menuShadow" min-content
+    "notification" min-content
     "main" auto
     "footer" min-content /
     100%;

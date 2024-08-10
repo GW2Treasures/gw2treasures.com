@@ -18,13 +18,14 @@ import type { FC } from 'react';
 import { cache } from '@/lib/cache';
 import { Gw2AccountBodyCells, Gw2AccountHeaderCells } from '@/components/Gw2Api/Gw2AccountTableCells';
 import { AccountHomeCatCell, AccountHomeNodeCell, requiredScopes } from './page.client';
+import { globalColumnRenderer as itemTableColumn } from '@/components/ItemTable/columns';
 
 
 const getItems = cache(
   async (ids: number[]) => {
     const items = await db.item.findMany({
       where: { id: { in: ids }},
-      select: linkProperties
+      select: { ...linkProperties, tpTradeable: true, buyPrice: true, buyQuantity: true, sellPrice: true, sellQuantity: true }
     });
 
     return Object.fromEntries(groupById(items).entries());
@@ -41,8 +42,14 @@ export default async function HomesteadPage() {
   // get items from db that unlock some node
   const unlockItems = await getItems(nodeUnlockItemIds);
 
+  // add the item to each node
+  const nodes = homeNodes.map((node) => ({
+    ...node,
+    item: unlockItems[node.unlock_items[0]]
+  }));
+
   // create data-tables
-  const HomeNode = createDataTable(homeNodes, ({ id }) => id);
+  const HomeNode = createDataTable(nodes, ({ id }) => id);
   const HomeCats = createDataTable(homeCats, ({ id }) => id);
 
   return (
@@ -50,7 +57,11 @@ export default async function HomesteadPage() {
       <Headline id="nodes" actions={<ColumnSelect table={HomeNode}/>}>Nodes</Headline>
       <HomeNode.Table>
         <HomeNode.Column id="id" title="Id" small hidden>{({ id }) => id}</HomeNode.Column>
-        <HomeNode.Column id="node" title="Node" sortBy="name">{({ unlock_items: [id], name }) => unlockItems[id] ? <ItemLink item={unlockItems[id]}/> : name}</HomeNode.Column>
+        <HomeNode.Column id="node" title="Node" sortBy="name">{({ item, name }) => item ? <ItemLink item={item}/> : name}</HomeNode.Column>
+        <HomeNode.Column id="buyPrice" title="Buy Price" sortBy={({ item }) => item.buyPrice} align="right">{({ item }) => itemTableColumn.buyPrice(item)}</HomeNode.Column>
+        <HomeNode.Column id="buyQuantity" title="Buy Quantity" sortBy={({ item }) => item.buyQuantity} align="right" hidden>{({ item }) => itemTableColumn.buyQuantity(item)}</HomeNode.Column>
+        <HomeNode.Column id="sellPrice" title="Sell Price" sortBy={({ item }) => item.sellPrice} align="right" hidden>{({ item }) => itemTableColumn.sellPrice(item)}</HomeNode.Column>
+        <HomeNode.Column id="sellQuantity" title="Buy Quantity" sortBy={({ item }) => item.sellQuantity} align="right" hidden>{({ item }) => itemTableColumn.sellQuantity(item)}</HomeNode.Column>
         <HomeNode.DynamicColumns headers={<Gw2AccountHeaderCells requiredScopes={requiredScopes} small/>}>
           {({ id }) => <Gw2AccountBodyCells requiredScopes={requiredScopes}><AccountHomeNodeCell nodeId={id} accountId={undefined as never}/></Gw2AccountBodyCells>}
         </HomeNode.DynamicColumns>

@@ -61,7 +61,7 @@
     "tslib": "2.6.3"
   },
   "devDependencies": {
-    "@gw2api/types": "0.0.18",
+    "@gw2api/types": "0.0.19",
     "@gw2treasures/eslint-config": "*",
     "@gw2treasures/tsconfig": "*",
     "@types/negotiator": "0.6.3",

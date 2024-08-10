@@ -4,16 +4,20 @@ import type { Scope } from '@gw2me/client';
 import { cloneElement, type FC, type ReactElement } from 'react';
 import { useGw2Accounts } from './use-gw2-accounts';
 import { Gw2AccountName } from './Gw2AccountName';
+import { Table } from '@gw2treasures/ui/components/Table/Table';
 
 export interface Gw2AccountHeaderCellsProps {
-  requiredScopes: Scope[]
+  requiredScopes: Scope[],
+  small?: boolean;
 }
 
-export const Gw2AccountHeaderCells: FC<Gw2AccountHeaderCellsProps> = ({ requiredScopes }) => {
+export const Gw2AccountHeaderCells: FC<Gw2AccountHeaderCellsProps> = ({ requiredScopes, small }) => {
   const accounts = useGw2Accounts(requiredScopes);
 
   return !accounts.loading && !accounts.error && accounts.accounts.map((account) => (
-    <th key={account.id}><Gw2AccountName account={account}/></th>
+    <Table.HeaderCell key={account.id} small={small}>
+      <Gw2AccountName account={account}/>
+    </Table.HeaderCell>
   ));
 };
 

@@ -1,11 +1,11 @@
 {
   "name": "@gw2treasures/helper",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "gw2treasures.com utility library",
   "exports": {
-    "./is": {
-      "types": "./dist/is.d.ts",
-      "default": "./dist/is.js"
+    "./*": {
+      "types": "./dist/*.d.ts",
+      "default": "./dist/*.js"
     }
   },
   "scripts": {

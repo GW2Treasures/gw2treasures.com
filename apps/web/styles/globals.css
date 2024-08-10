@@ -13,7 +13,7 @@ body {
   scroll-padding: 64px 16px 16px;
 }
 
-b {
+b, strong {
   font-weight: 500;
 }
 

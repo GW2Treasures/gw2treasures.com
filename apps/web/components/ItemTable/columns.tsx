@@ -16,7 +16,7 @@ import { ItemType } from '../Item/ItemType';
 import type { SubType, Type } from '../Item/ItemType.types';
 
 // typehelper
-function createColumn<Select extends Prisma.ItemSelect, Translations extends TranslationId>(column: ItemTableColumn<Select, Translations>) {
+function createColumn<Select extends Prisma.ItemSelect, Translations extends TranslationId = never>(column: ItemTableColumn<Select, Translations>) {
   return column;
 }
 export function extraColumn<Model extends QueryModel>(column: ExtraColumn<string, Model, ColumnModelTypes[Model]['select']>) {

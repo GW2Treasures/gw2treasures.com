@@ -53,7 +53,7 @@ const Layout: FC<LayoutProps> = ({ children, language }) => {
             <UserButton language={language}/>
           </div>
         </Menu>
-        <aside data-nosnippet="true" style={{ gridArea: 'notification', padding: 16, lineHeight: 1.5, background: '#03a9f422', marginTop: -1, marginBottom: 1 }}>
+        <aside data-nosnippet="true" style={{ gridArea: 'notification', padding: 16, lineHeight: 1.5, background: '#03a9f422', marginTop: -1 }}>
           <b>The official Guild Wars 2 API will be disabled</b> starting <FormatDate date={new Date('2024-08-16T17:00:00.000Z')}/> until
           after the launch of <b style={{ whiteSpace: 'nowrap' }}>Guild Wars 2: Janthir Wilds.</b><br/>
           New items, achievements, skills, and others will only be available after the API has been re-enabled.<br/>

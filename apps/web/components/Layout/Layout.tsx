@@ -13,6 +13,7 @@ import { ReviewCountBadge } from './Header/ReviewCountBadge';
 import { UserButton } from './Header/UserButton';
 import { translations as itemTypeTranslations } from '../Item/ItemType.translations';
 import { Language, Rarity } from '@gw2treasures/database';
+import { FormatDate } from '../Format/FormatDate';
 
 interface LayoutProps {
   children: ReactNode;
@@ -52,6 +53,12 @@ const Layout: FC<LayoutProps> = ({ children, language }) => {
             <UserButton language={language}/>
           </div>
         </Menu>
+        <aside data-nosnippet="true" style={{ gridArea: 'notification', padding: 16, lineHeight: 1.5, borderBlock: '1px solid #b7000d', background: '#b7000d22' }}>
+          <b>The official Guild Wars 2 API will be disabled</b> starting <FormatDate date={new Date('2024-08-16T17:00:00.000Z')}/> until
+          after the launch of <b style={{ whiteSpace: 'nowrap' }}>Guild Wars 2: Janthir Wilds.</b><br/>
+          New items, achievements, skills, and others will only be available after the API has been re-enabled.<br/>
+          It will not be possible to access your account info (like inventories, achievements, ...) during this time.
+        </aside>
         <hr className={styles.headerShadow}/>
         {children}
         <footer className={styles.footer}>

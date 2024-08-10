@@ -2,6 +2,7 @@
   display: grid;
   grid-template:
     "menu" 96px
+    "notification" auto
     "menuShadow" min-content
     "main" auto
     "footer" min-content /

@@ -1,4 +1,4 @@
-const regex = /\/(?<signature>[^/]*)\/(?<id>[^/]*)\.png$/;
+const regex = /^https:\/\/render\.guildwars2\.com\/file\/(?<signature>[^/]*)\/(?<id>[^/]*)\.png$/;
 
 export function parseIcon(url: string | undefined): { id: number, signature: string } | undefined {
   if(typeof url !== 'string') {

@@ -19,6 +19,7 @@ import { cache } from '@/lib/cache';
 import { Gw2AccountBodyCells, Gw2AccountHeaderCells } from '@/components/Gw2Api/Gw2AccountTableCells';
 import { AccountHomeCatCell, AccountHomeNodeCell, requiredScopes } from './page.client';
 import { globalColumnRenderer as itemTableColumn } from '@/components/ItemTable/columns';
+import { PageView } from '@/components/PageView/PageView';
 
 
 const getItems = cache(
@@ -79,6 +80,8 @@ export default async function HomesteadPage() {
 
       <Headline id="decorations">Decorations</Headline>
       <Notice>Decorations will be available soon after the launch of Guild Wars 2: Janthir Wilds.</Notice>
+
+      <PageView page="homestead"/>
     </HeroLayout>
   );
 }

@@ -32,7 +32,7 @@ export const ItemInfobox: FC<ItemInfoboxProps> = ({ item, data, language }) => {
     <div>
       <LanguageLinks language={language} link={<ItemLink icon="none" item={item}/>}/>
 
-      <Headline id="tp" noToc>Trading Post</Headline>
+      <Headline id="infobox-tp" noToc>Trading Post</Headline>
       {isTradeable ? (
         <TradingPost itemId={item.id}/>
       ) : (

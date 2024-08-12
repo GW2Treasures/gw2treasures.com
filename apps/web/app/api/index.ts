@@ -11,7 +11,7 @@ export interface PublicApiErrorResponse {
 
 export interface CallbackParams<DynamicRouteSegments extends string = never> {
   params: Record<DynamicRouteSegments, string>;
-  searchParams: Record<string, string>;
+  searchParams: Record<string, string | undefined>;
   language: Language
 }
 
@@ -102,7 +102,9 @@ export function publicApi<DynamicRouteSegments extends string = never, ResponseT
           'Vary': 'Authorization',
         }
       });
-    } catch {
+    } catch(error) {
+      console.error(error);
+
       return NextResponse.json<PublicApiErrorResponse>(
         { error: 500, text: 'Internal Server Error' },
         { status: 500, headers: { 'Access-Control-Allow-Origin': '*' }}

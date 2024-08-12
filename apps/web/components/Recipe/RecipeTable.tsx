@@ -1,4 +1,4 @@
-import type { IngredientCurrency, IngredientGuildUpgrade, IngredientItem, Recipe, Revision } from '@gw2treasures/database';
+import type { IngredientCurrency, IngredientGuildUpgrade, IngredientItem, Recipe } from '@gw2treasures/database';
 import { type FC } from 'react';
 import { localizedName } from '@/lib/localizedName';
 import type { With } from '@/lib/with';
@@ -21,7 +21,6 @@ import { RecipeDropdown } from './RecipeDropdown';
 
 export interface RecipeTableProps {
   recipes: With<Pick<Recipe, 'id' | 'rating' | 'disciplines' | 'outputCount' | 'outputItemId'>, {
-    currentRevision: Pick<Revision, 'data'>,
     itemIngredients: With<Pick<IngredientItem, 'count'>, { Item: ItemLinkProps['item'] }>[]
     currencyIngredients: With<Pick<IngredientCurrency, 'count'>, { Currency: CurrencyLinkProps['currency'] }>[]
     guildUpgradeIngredients: With<Pick<IngredientGuildUpgrade, 'count'>, { GuildUpgrade: GuildUpgradeLinkProps['guildUpgrade'] }>[]

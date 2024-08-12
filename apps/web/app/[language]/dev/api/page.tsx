@@ -78,6 +78,14 @@ export default function DeveloperIconsPage() {
             <th><Link href="#/items/:id/mystic-forge"><Code inline>/items/:id/mystic-forge</Code></Link></th>
             <td>Returns all the mystic forge recipes that can be used to craft the item.</td>
           </tr>
+          <tr>
+            <th><Link href="#/items/bulk/data"><Code inline>/items/bulk/data</Code></Link></th>
+            <td>Get data of multiple items (same format as returned by the official Guild Wars 2 API)</td>
+          </tr>
+          <tr>
+            <th><Link href="#/items/bulk/tp-prices"><Code inline>/items/bulk/tp-prices</Code></Link></th>
+            <td>Get TP prices of multiple items (same format as returned by the official Guild Wars 2 API)</td>
+          </tr>
         </tbody>
       </Table>
 
@@ -152,7 +160,7 @@ export default function DeveloperIconsPage() {
         <tbody>
           <tr>
             <th><Code inline>lang</Code></th>
-            <td>The language of the item (<Code inline>de</Code> / <Code inline>en</Code> / <Code inline>es</Code> / <Code inline>fr</Code>)</td>
+            <td>The language of the item (<Code inline>de</Code>/<Code inline>en</Code>/<Code inline>es</Code>/<Code inline>fr</Code>)</td>
           </tr>
         </tbody>
       </Table>
@@ -160,6 +168,46 @@ export default function DeveloperIconsPage() {
       <Headline id="/items/:id/mystic-forge">GET <Code inline>/items/:id/mystic-forge</Code></Headline>
       <p>Returns all the mystic forge recipes that can be used to craft the item.</p>
 
+      <Headline id="/items/bulk/data">GET <Code inline>/items/bulk/data</Code></Headline>
+      <p>Get data of multiple items (same format as returned by the official Guild Wars 2 API).</p>
+      <Notice>Data for some older items will be returned in the format used by the <ExternalLink href="https://wiki.guildwars2.com/wiki/API:1/item_details">/v1/item_details</ExternalLink> API.</Notice>
+
+      <Table>
+        <thead>
+          <tr>
+            <Table.HeaderCell small>Parameter</Table.HeaderCell>
+            <Table.HeaderCell>Description</Table.HeaderCell>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th><Code inline>ids</Code></th>
+            <td>Comma-separated list of item ids</td>
+          </tr>
+          <tr>
+            <th><Code inline>lang</Code></th>
+            <td>The language of the item (<Code inline>de</Code>/<Code inline>en</Code>/<Code inline>es</Code>/<Code inline>fr</Code>)</td>
+          </tr>
+        </tbody>
+      </Table>
+
+      <Headline id="/items/bulk/tp-prices">GET <Code inline>/items/bulk/tp-prices</Code></Headline>
+      <p>Get the TP prices of multiple items (same format as returned by the official Guild Wars 2 API).</p>
+
+      <Table>
+        <thead>
+          <tr>
+            <Table.HeaderCell small>Parameter</Table.HeaderCell>
+            <Table.HeaderCell>Description</Table.HeaderCell>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th><Code inline>ids</Code></th>
+            <td>Comma-separated list of item ids</td>
+          </tr>
+        </tbody>
+      </Table>
     </HeroLayout>
   );
 }

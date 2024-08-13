@@ -31,7 +31,13 @@ export const GET = publicApi(
       return { error: 400, text: 'Missing `ids` query parameter' };
     }
 
-    const itemIds = ids.split(',').map((id) => {
+    const rawIds = ids.split(',');
+
+    if(rawIds.length > 1000) {
+      return { error: 400, text: 'Only 1000 ids allowed' };
+    }
+
+    const itemIds = rawIds.map((id) => {
       const numericId = Number(id);
       return (isNaN(numericId) || numericId <= 0 || numericId > maxItemId || numericId.toString() !== id) ? undefined : numericId;
     }).filter(isDefined);

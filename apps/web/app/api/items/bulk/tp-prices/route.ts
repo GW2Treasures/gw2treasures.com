@@ -8,10 +8,9 @@ const maxAge = 60 * 60;
 
 const getData = cache(async (ids: number[]): Promise<PublicApiResponse> => {
   const items = await db.item.findMany({
-    where: { id: { in: ids }},
+    where: { id: { in: ids }, tpTradeable: true },
     select: {
       id: true,
-      tpTradeable: true,
       tpWhitelisted: true,
       buyPrice: true,
       buyQuantity: true,
@@ -21,17 +20,15 @@ const getData = cache(async (ids: number[]): Promise<PublicApiResponse> => {
     }
   });
 
-  const tradeableItems = items.filter(({ tpTradeable }) => tpTradeable);
-
   return {
-    json: tradeableItems.map(({ id, tpWhitelisted: whitelisted, buyPrice, buyQuantity, sellPrice, sellQuantity, tpCheckedAt }) => ({
+    json: items.map(({ id, tpWhitelisted: whitelisted, buyPrice, buyQuantity, sellPrice, sellQuantity, tpCheckedAt }) => ({
       id,
       whitelisted,
       buys: { quantity: buyQuantity, unit_price: buyPrice },
       sells: { quantity: sellQuantity, unit_price: sellPrice },
       ['_gw2treasures']: { updatedAt: tpCheckedAt }
     })),
-    status: tradeableItems.length === 0 ? 404 : tradeableItems.length < ids.length ? 206 : 200
+    status: items.length === 0 ? 404 : items.length < ids.length ? 206 : 200
   };
 }, ['api/items/bulk/tp-prices'], { revalidate: maxAge });
 
@@ -42,7 +39,13 @@ export const GET = publicApi(
       return { error: 400, text: 'Missing `ids` query parameter' };
     }
 
-    const itemIds = ids.split(',').map((id) => {
+    const rawIds = ids.split(',');
+
+    if(rawIds.length > 1000) {
+      return { error: 400, text: 'Only 1000 ids allowed' };
+    }
+
+    const itemIds = rawIds.map((id) => {
       const numericId = Number(id);
       return (isNaN(numericId) || numericId <= 0 || numericId > maxItemId || numericId.toString() !== id) ? undefined : numericId;
     }).filter(isDefined);

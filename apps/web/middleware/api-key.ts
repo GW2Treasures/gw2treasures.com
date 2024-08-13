@@ -34,5 +34,11 @@ function getApiKeyFromRequest(request: NextRequest): string | undefined {
     return apiKey ?? undefined;
   }
 
+  if(request.nextUrl.searchParams.has('access_token')) {
+    const accessToken = request.nextUrl.searchParams.get('access_token');
+
+    return accessToken ?? undefined;
+  }
+
   return undefined;
 }

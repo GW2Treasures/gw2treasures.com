@@ -182,7 +182,7 @@ export default function DeveloperIconsPage() {
         <tbody>
           <tr>
             <th><Code inline>ids</Code></th>
-            <td>Comma-separated list of item ids</td>
+            <td>Comma-separated list of item ids (max 1000)</td>
           </tr>
           <tr>
             <th><Code inline>lang</Code></th>
@@ -204,7 +204,7 @@ export default function DeveloperIconsPage() {
         <tbody>
           <tr>
             <th><Code inline>ids</Code></th>
-            <td>Comma-separated list of item ids</td>
+            <td>Comma-separated list of item ids (max 1000)</td>
           </tr>
         </tbody>
       </Table>

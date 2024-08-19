@@ -8,7 +8,7 @@ const prismaClientSingleton = () => {
 
   // if datasourceUrl does not have connection_limit, set it to 8 to handle more parallel connections
   if(!datasourceUrl.searchParams.has('connection_limit')) {
-    datasourceUrl.searchParams.set('connection_limit', '8');
+    datasourceUrl.searchParams.set('connection_limit', '16');
   }
 
   return new PrismaClient({

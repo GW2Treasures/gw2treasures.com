@@ -32,7 +32,7 @@ spec:
         args:
         - "postgres"
         - "-c"
-        - "max_connections=50"
+        - "max_connections=80"
         resources:
           requests:
             memory: "1536Mi"

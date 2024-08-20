@@ -142,7 +142,7 @@ const Chart: FC = async () => {
           {byEndpoint.map(([endpoint, values], index) => (
             <tr key={endpoint}>
               <th><span style={{ backgroundColor: colorPalette[index % colorPalette.length], width: 8, height: 8, borderRadius: 8, display: 'inline-block' }}/> {endpoint}</th>
-              <td>{values.filter(({ count }) => count > 0).length}</td>
+              <td>{values.reduce((total, { count }) => total + count, 0)}</td>
             </tr>
           ))}
         </tbody>

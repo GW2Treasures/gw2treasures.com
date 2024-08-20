@@ -57,7 +57,7 @@
     "react-dom": "19.0.0-rc-f994737d14-20240522",
     "react-error-boundary": "4.0.13",
     "server-only": "0.0.1",
-    "sharp": "0.33.4",
+    "sharp": "0.33.5",
     "ts-node": "10.9.2",
     "tslib": "2.6.3"
   },

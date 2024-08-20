@@ -12,7 +12,7 @@ import { List } from '@gw2treasures/ui/components/Layout/List';
 import { scaleLinear, scaleTime } from '@visx/scale';
 import { extent, groups, max } from 'd3-array';
 import { Group } from '@visx/group';
-import { Line, LinePath } from '@visx/shape';
+import { LinePath } from '@visx/shape';
 import { curveMonotoneX } from '@visx/curve';
 import { GridRows } from '@visx/grid';
 import { AxisBottom, AxisLeft } from '@visx/axis';
@@ -109,6 +109,7 @@ const Chart: FC = async () => {
   const requestScale = scaleLinear({
     range: [yMax, 0],
     round: true,
+    nice: true,
     domain: [0, max(requests, ({ count }) => count) ?? 0],
   });
 
@@ -124,10 +125,9 @@ const Chart: FC = async () => {
     <FlexRow>
       <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} style={{ overflow: 'visible' }}>
         <Group left={margin.left} top={margin.top}>
-          <GridRows scale={requestScale} width={xMax} height={yMax} numTicks={6} stroke="var(--color-border)"/>
-          <AxisLeft scale={requestScale} stroke="var(--color-border-dark)" tickStroke="var(--color-border-dark)" numTicks={6} tickLabelProps={{ fill: 'var(--color-text)', fontFamily: 'var(--font-wotfard)', fontSize: 12 }}/>
-          <AxisBottom scale={timeScale} top={yMax} stroke="var(--color-border-dark)" tickStroke="var(--color-border-dark)" tickLabelProps={{ fill: 'var(--color-text)', fontFamily: 'var(--font-wotfard)', fontSize: 12 }} numTicks={7}/>
-          <Line from={{ x: xMax, y: 0 }} to={{ x: xMax, y: yMax }} stroke="var(--color-border)"/>
+          <GridRows scale={requestScale} width={xMax} height={yMax} numTicks={6} stroke="var(--color-border-dark)" strokeDasharray="4 4"/>
+          <AxisLeft scale={requestScale} strokeWidth={0} numTicks={6} tickLabelProps={{ fill: 'var(--color-text)', fontFamily: 'var(--font-wotfard)', fontSize: 12 }}/>
+          <AxisBottom scale={timeScale} top={yMax} stroke="var(--color-border)" strokeWidth={2} tickStroke="var(--color-border)" tickLabelProps={{ fill: 'var(--color-text)', fontFamily: 'var(--font-wotfard)', fontSize: 12 }} numTicks={7}/>
 
           {byEndpoint.map(([endpoint, values], index) => (
             <LinePath key={endpoint} data={values} y={(d) => requestScale(d.count ?? 0)} x={(d) => timeScale(d.bucket)} curve={curveMonotoneX} stroke={colorPalette[index % colorPalette.length]} strokeWidth={2} strokeLinejoin="round" strokeLinecap="round"/>

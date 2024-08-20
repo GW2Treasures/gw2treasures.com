@@ -6,7 +6,7 @@ import { db } from '@/lib/prisma';
 import { scaleLinear, scaleTime } from '@visx/scale';
 import { extent, max } from 'd3-array';
 import { Group } from '@visx/group';
-import { Line, LinePath } from '@visx/shape';
+import { LinePath } from '@visx/shape';
 import { curveMonotoneX } from '@visx/curve';
 import { GridRows } from '@visx/grid';
 import { AxisBottom, AxisLeft } from '@visx/axis';
@@ -67,6 +67,7 @@ export default async function AdminUserPage({ searchParams: { interval, days }}:
   const viewScale = scaleLinear({
     range: [yMax, 0],
     round: true,
+    nice: true,
     domain: [0, max(views, ({ count }) => count) ?? 0],
   });
 
@@ -87,10 +88,9 @@ export default async function AdminUserPage({ searchParams: { interval, days }}:
       </Headline>
       <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} style={{ overflow: 'visible' }}>
         <Group left={margin.left} top={margin.top}>
-          <GridRows scale={viewScale} width={xMax} height={yMax} numTicks={6} stroke="var(--color-border)"/>
-          <AxisLeft scale={viewScale} stroke="var(--color-border-dark)" tickStroke="var(--color-border-dark)" numTicks={6} tickLabelProps={{ fill: 'var(--color-text)', fontFamily: 'var(--font-wotfard)', fontSize: 12 }}/>
-          <AxisBottom scale={timeScale} top={yMax} stroke="var(--color-border-dark)" tickStroke="var(--color-border-dark)" tickLabelProps={{ fill: 'var(--color-text)', fontFamily: 'var(--font-wotfard)', fontSize: 12 }} numTicks={7}/>
-          <Line from={{ x: xMax, y: 0 }} to={{ x: xMax, y: yMax }} stroke="var(--color-border)"/>
+          <GridRows scale={viewScale} width={xMax} height={yMax} numTicks={6} stroke="var(--color-border-dark)" strokeDasharray="4 4"/>
+          <AxisLeft scale={viewScale} strokeWidth={0} numTicks={6} tickLabelProps={{ fill: 'var(--color-text)', fontFamily: 'var(--font-wotfard)', fontSize: 12 }}/>
+          <AxisBottom scale={timeScale} top={yMax} stroke="var(--color-border)" strokeWidth={2} tickStroke="var(--color-border)" tickLabelProps={{ fill: 'var(--color-text)', fontFamily: 'var(--font-wotfard)', fontSize: 12 }} numTicks={7}/>
 
           <LinePath data={views} y={(d) => viewScale(d.count ?? 0)} x={(d) => timeScale(d.bucket)} curve={curveMonotoneX} stroke="var(--color-focus)" strokeWidth={2} strokeLinejoin="round" strokeLinecap="round"/>
         </Group>

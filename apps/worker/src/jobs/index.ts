@@ -56,6 +56,7 @@ import { TpImportJob } from './tp/import';
 import { WizardsVaultListingsJob } from './wizardsvault/listings';
 import { WizardsVaultObjectivesJob } from './wizardsvault/objectives';
 import { WizardsVaultPurchaseLimitJob } from './wizardsvault/purchase-limit';
+import { HomesteadDecorationsJob } from './homestead/decorations';
 
 const jobsInternal = {
   'test': { run: () => undefined } as Job,
@@ -116,6 +117,8 @@ const jobsInternal = {
 
   'colors': ColorsJob,
   'guild-upgrades': GuildUpgradesJob,
+  'homestead.decorations': HomesteadDecorationsJob,
+
   'wizardsvault.listings': WizardsVaultListingsJob,
   'wizardsvault.objectives': WizardsVaultObjectivesJob,
   'wizardsvault.purchase-limit': WizardsVaultPurchaseLimitJob,

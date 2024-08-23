@@ -4,7 +4,6 @@ import { HeroLayout } from '@/components/Layout/HeroLayout';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import homeNodes from '@gw2efficiency/game-data/home/nodes';
 import homeCats from '@gw2efficiency/game-data/home/cats';
-import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
 import { linkProperties } from '@/lib/linkProperties';
 import { db } from '@/lib/prisma';
@@ -20,6 +19,8 @@ import { Gw2AccountBodyCells, Gw2AccountHeaderCells } from '@/components/Gw2Api/
 import { AccountHomeCatCell, AccountHomeNodeCell, requiredScopes } from './page.client';
 import { globalColumnRenderer as itemTableColumn } from '@/components/ItemTable/columns';
 import { PageView } from '@/components/PageView/PageView';
+import type { Language } from '@gw2treasures/database';
+import { EntityIconMissing } from '@/components/Entity/EntityIconMissing';
 
 
 const getItems = cache(
@@ -33,7 +34,14 @@ const getItems = cache(
   }, ['homestead-items'], { revalidate: 60 * 5 }
 );
 
-export default async function HomesteadPage() {
+const getDecorations = cache(
+  () => db.homesteadDecoration.findMany({
+    include: { icon: true }
+  }),
+  ['homestead-decorations'], { revalidate: 60 }
+);
+
+export default async function HomesteadPage({ params: { language }}: { params: { language: Language }}) {
   // get item ids that unlock some node
   const nodeUnlockItemIds = homeNodes.reduce<number[]>(
     (ids, node) => [...ids, ...node.unlock_items],
@@ -41,7 +49,10 @@ export default async function HomesteadPage() {
   );
 
   // get items from db that unlock some node
-  const unlockItems = await getItems(nodeUnlockItemIds);
+  const [unlockItems, decorations] = await Promise.all([
+    getItems(nodeUnlockItemIds),
+    getDecorations(),
+  ]);
 
   // add the item to each node
   const nodes = homeNodes.map((node) => ({
@@ -52,6 +63,7 @@ export default async function HomesteadPage() {
   // create data-tables
   const HomeNode = createDataTable(nodes, ({ id }) => id);
   const HomeCats = createDataTable(homeCats, ({ id }) => id);
+  const Decorations = createDataTable(decorations, ({ id }) => id);
 
   return (
     <HeroLayout color="#397aa1" hero={<Headline id="homestead"><Trans id="navigation.homestead"/></Headline>} toc>
@@ -78,8 +90,15 @@ export default async function HomesteadPage() {
         </HomeCats.DynamicColumns>
       </HomeCats.Table>
 
-      <Headline id="decorations">Decorations</Headline>
-      <Notice>Decorations will be available soon after the launch of Guild Wars 2: Janthir Wilds.</Notice>
+      <Headline id="decorations" actions={<ColumnSelect table={Decorations}/>}>Decorations</Headline>
+      <Decorations.Table>
+        <Decorations.Column id="id" title="Id" align="right" small hidden>{({ id }) => id}</Decorations.Column>
+        <Decorations.Column id="name" title="Decoration" sortBy={(decoration) => decoration[`name_${language}`]}>
+          {({ icon, ...decoration }) => (
+            <FlexRow>{icon ? <EntityIcon icon={icon} size={32}/> : <EntityIconMissing size={32}/>} {decoration[`name_${language}`]}</FlexRow>
+          )}
+        </Decorations.Column>
+      </Decorations.Table>
 
       <PageView page="homestead"/>
     </HeroLayout>

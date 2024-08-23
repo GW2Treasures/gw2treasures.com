@@ -58,6 +58,7 @@ const Layout: FC<LayoutProps> = ({ children, language }) => {
           after the launch of <b style={{ whiteSpace: 'nowrap' }}>Guild Wars 2: Janthir Wilds.</b><br/>
           New items, achievements, skills, and others will only be available after the API has been re-enabled.<br/>
           It will not be possible to access your account info (like inventories, achievements, ...) during this time.
+          Ignore this banner!
         </aside>
         <hr className={styles.headerShadow}/>
         {children}

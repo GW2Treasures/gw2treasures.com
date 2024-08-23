@@ -35,6 +35,7 @@ import { getAlternateUrls } from '@/lib/url';
 import { UnknownItem } from '@/components/Item/UnknownItem';
 import { getTranslate } from '@/lib/translate';
 import { getIconUrl } from '@/lib/getIconUrl';
+import type { AchievementFlags } from '@gw2api/types/data/achievement';
 
 const MasteryColors: Record<MasteryRegion, CSS.Property.Color> = {
   'Tyria': '#FB8C00', //   core
@@ -46,7 +47,7 @@ const MasteryColors: Record<MasteryRegion, CSS.Property.Color> = {
   'Unknown': 'currentColor',
 };
 
-const notPartOfCategoryDisplayFlags = ['Repeatable', 'RequiresUnlock', 'Hidden', 'Weekly', 'IgnoreNearlyComplete'];
+const notPartOfCategoryDisplayFlags: AchievementFlags[] = ['Repeatable', 'RequiresUnlock', 'Hidden', 'Daily', 'Weekly', 'IgnoreNearlyComplete'];
 
 export interface AchievementPageProps {
   params: {
@@ -145,7 +146,7 @@ async function AchievementPage({ params: { id, language }}: AchievementPageProps
         </>
       )}
 
-      {achievement.id !== achievement.achievementCategory?.categoryDisplayId && achievement.achievementCategory?.categoryDisplay && !data.flags.some((flag) => notPartOfCategoryDisplayFlags.includes(flag)) && (
+      {achievement.id !== achievement.achievementCategory?.categoryDisplayId && achievement.achievementCategory?.categoryDisplay && !data.flags.some((flag) => notPartOfCategoryDisplayFlags.includes(flag as AchievementFlags)) && (
         <>
           <Headline id="unlock">Part of</Headline>
           <AchievementLink achievement={achievement.achievementCategory.categoryDisplay}/>

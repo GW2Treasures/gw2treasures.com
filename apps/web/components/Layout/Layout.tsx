@@ -13,7 +13,6 @@ import { ReviewCountBadge } from './Header/ReviewCountBadge';
 import { UserButton } from './Header/UserButton';
 import { translations as itemTypeTranslations } from '../Item/ItemType.translations';
 import { Language, Rarity } from '@gw2treasures/database';
-import { FormatDate } from '../Format/FormatDate';
 
 interface LayoutProps {
   children: ReactNode;

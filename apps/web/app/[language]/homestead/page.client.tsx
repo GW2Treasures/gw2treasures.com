@@ -6,6 +6,7 @@ import { useSubscription } from '@/components/Gw2Api/Gw2AccountSubscriptionProvi
 import { Skeleton } from '@/components/Skeleton/Skeleton';
 import { ProgressCell } from '@/components/Achievement/ProgressCell';
 import { Icon } from '@gw2treasures/ui';
+import { FormatNumber } from '@/components/Format/FormatNumber';
 
 export const requiredScopes = [Scope.GW2_Progression, Scope.GW2_Unlocks];
 
@@ -42,5 +43,24 @@ export const AccountHomeCatCell: FC<{ catId: number; accountId: string; }> = ({ 
     <ProgressCell progress={isUnlocked ? 1 : 0}>
       {isUnlocked && <Icon icon="checkmark"/>}
     </ProgressCell>
+  );
+};
+
+
+export const AccountHomesteadDecorationCell: FC<{ decorationId: number; accountId: string; }> = ({ decorationId, accountId }) => {
+  const decorations = useSubscription('homestead.decorations', accountId);
+
+  if (decorations.loading) {
+    return (<td><Skeleton/></td>);
+  } else if (decorations.error) {
+    return (<td/>);
+  }
+
+  const decoration = decorations.data.find(({ id }) => id === decorationId);
+
+  return decoration ? (
+    <td align="right"><FormatNumber value={decoration?.count}/></td>
+  ) : (
+    <td/>
   );
 };

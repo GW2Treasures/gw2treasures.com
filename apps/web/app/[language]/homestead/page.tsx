@@ -16,7 +16,7 @@ import { groupById } from '@gw2treasures/helper/group-by';
 import type { FC } from 'react';
 import { cache } from '@/lib/cache';
 import { Gw2AccountBodyCells, Gw2AccountHeaderCells } from '@/components/Gw2Api/Gw2AccountTableCells';
-import { AccountHomeCatCell, AccountHomeNodeCell, requiredScopes } from './page.client';
+import { AccountHomeCatCell, AccountHomeNodeCell, AccountHomesteadDecorationCell, requiredScopes } from './page.client';
 import { globalColumnRenderer as itemTableColumn } from '@/components/ItemTable/columns';
 import { PageView } from '@/components/PageView/PageView';
 import type { Language } from '@gw2treasures/database';
@@ -98,6 +98,9 @@ export default async function HomesteadPage({ params: { language }}: { params: {
             <FlexRow>{icon ? <EntityIcon icon={icon} size={32}/> : <EntityIconMissing size={32}/>} {decoration[`name_${language}`]}</FlexRow>
           )}
         </Decorations.Column>
+        <Decorations.DynamicColumns headers={<Gw2AccountHeaderCells requiredScopes={requiredScopes} small/>}>
+          {({ id }) => <Gw2AccountBodyCells requiredScopes={requiredScopes}><AccountHomesteadDecorationCell decorationId={id} accountId={undefined as never}/></Gw2AccountBodyCells>}
+        </Decorations.DynamicColumns>
       </Decorations.Table>
 
       <PageView page="homestead"/>

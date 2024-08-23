@@ -8,12 +8,13 @@ import { useVisibilityState } from '@/lib/useVisibilityState';
 import { fetchGw2Api } from '@gw2api/fetch';
 import type { AccountAchievement } from '@gw2api/types/data/account-achievements';
 import type { AccountWallet } from '@gw2api/types/data/account-wallet';
+import type { AccountHomesteadDecoration } from '@gw2api/types/data/account-homestead';
 
 export interface Gw2AccountSubscriptionProviderProps {
   children: ReactNode
 }
 
-type SubscriptionType = 'achievements' | 'skins' | 'wallet' | 'wizards-vault' | 'inventories' | 'home.nodes' | 'home.cats';
+type SubscriptionType = 'achievements' | 'skins' | 'wallet' | 'wizards-vault' | 'inventories' | 'home.nodes' | 'home.cats' | 'homestead.decorations';
 
 type SubscriptionData<T extends SubscriptionType> =
   T extends 'achievements' ? AccountAchievement[] :
@@ -23,6 +24,7 @@ type SubscriptionData<T extends SubscriptionType> =
   T extends 'inventories' ? Awaited<ReturnType<typeof loadInventories>> :
   T extends 'home.nodes' ? string[] :
   T extends 'home.cats' ? number[] :
+  T extends 'homestead.decorations' ? AccountHomesteadDecoration[] :
   never;
 
 type SubscriptionResponse<T extends SubscriptionType> = {
@@ -145,6 +147,7 @@ export const Gw2AccountSubscriptionProvider: FC<Gw2AccountSubscriptionProviderPr
   useInterval(activeTypes.inventories, 60, fetchData.bind(null, 'inventories', inventoriesFetch));
   useInterval(activeTypes['home.cats'], 60, fetchData.bind(null, 'home.cats', homeCatsFetch));
   useInterval(activeTypes['home.nodes'], 60, fetchData.bind(null, 'home.nodes', homeNodesFetch));
+  useInterval(activeTypes['homestead.decorations'], 60, fetchData.bind(null, 'homestead.decorations', homesteadDecorationsFetch));
 
   const subscribe = useCallback(<T extends SubscriptionType>(type: T, accountId: string, callback: SubscriptionCallback<T>): CancelSubscription => {
     const subscription = { type, accountId, callback };
@@ -238,6 +241,7 @@ const wizardsVaultFetch = (accessToken: string) => loadAccountsWizardsVault(acce
 const inventoriesFetch = (accessToken: string) => loadInventories(accessToken);
 const homeCatsFetch = (accessToken: string) => fetchGw2Api('/v2/account/home/cats', { accessToken, cache: 'no-cache', schema: '2022-03-23T19:00:00.000Z' });
 const homeNodesFetch = (accessToken: string) => fetchGw2Api('/v2/account/home/nodes', { accessToken, cache: 'no-cache' });
+const homesteadDecorationsFetch = (accessToken: string) => fetchGw2Api('/v2/account/homestead/decorations', { accessToken, cache: 'no-cache' });
 
 async function loadAccountsWizardsVault(accessToken: string) {
   const account = await fetchGw2Api('/v2/account', { accessToken, schema: '2019-02-21T00:00:00.000Z', cache: 'no-cache' });

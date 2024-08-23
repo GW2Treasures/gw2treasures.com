@@ -12,7 +12,7 @@ type Args<Url extends string> = RequiredKeys<OptionsByEndpoint<Url>> extends nev
   ? [url: Url, options?: OptionsByEndpoint<Url>]
   : [url: Url, options: OptionsByEndpoint<Url>];
 
-export async function fetchApi<Url extends KnownEndpoint | NonNullable<string>>(
+export async function fetchApi<Url extends KnownEndpoint | (string & {})>(
   ...[url, options]: Args<Url>
 ): Promise<EndpointType<Url, SchemaVersion>> {
   const startTime = performance.now();

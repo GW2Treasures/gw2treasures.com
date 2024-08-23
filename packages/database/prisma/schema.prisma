@@ -152,6 +152,7 @@ model Icon {
   achievementCategories AchievementCategory[]
   currencies Currency[]
   guildUpgrades GuildUpgrade[]
+  homesteadDecorations HomesteadDecoration[]
 }
 
 model Content {
@@ -721,6 +722,13 @@ model Revision {
   currentWizardsVaultObjective_es WizardsVaultObjective? @relation("current_es")
   currentWizardsVaultObjective_fr WizardsVaultObjective? @relation("current_fr")
   wizardsVaultObjectiveHistory WizardsVaultObjectiveHistory[]
+
+  // homestead decorations
+  currentHomesteadDecoration_de HomesteadDecoration? @relation("current_de")
+  currentHomesteadDecoration_en HomesteadDecoration? @relation("current_en")
+  currentHomesteadDecoration_es HomesteadDecoration? @relation("current_es")
+  currentHomesteadDecoration_fr HomesteadDecoration? @relation("current_fr")
+  homesteadDecorationHistory HomesteadDecorationHistory[]
 }
 
 enum RevisionType {
@@ -1026,6 +1034,52 @@ enum WizardsVaultTrack {
   PvE
   PvP
   WvW
+}
+
+model HomesteadDecoration {
+  id Int @id
+
+  name_de String
+  name_en String
+  name_es String
+  name_fr String
+
+  icon   Icon? @relation(fields: [iconId], references: [id])
+  iconId Int?
+
+
+  removedFromApi Boolean @default(false)
+  
+  current_de Revision @relation("current_de", fields: [currentId_de], references: [id], onDelete: Cascade)
+  currentId_de String @unique
+  
+  current_en Revision @relation("current_en", fields: [currentId_en], references: [id], onDelete: Cascade)
+  currentId_en String @unique
+  
+  current_es Revision @relation("current_es", fields: [currentId_es], references: [id], onDelete: Cascade)
+  currentId_es String @unique
+  
+  current_fr Revision @relation("current_fr", fields: [currentId_fr], references: [id], onDelete: Cascade)
+  currentId_fr String @unique
+
+  history HomesteadDecorationHistory[]
+  
+  lastCheckedAt  DateTime   @default(now())
+
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  version Int @default(0)
+}
+
+model HomesteadDecorationHistory {
+  homesteadDecorationId Int
+  revisionId String
+
+  homesteadDecoration HomesteadDecoration @relation(fields: [homesteadDecorationId], references: [id], onDelete: Cascade)
+  revision Revision @relation(fields: [revisionId], references: [id], onDelete: Cascade)
+
+  @@id([homesteadDecorationId, revisionId])
 }
 
 model Job {

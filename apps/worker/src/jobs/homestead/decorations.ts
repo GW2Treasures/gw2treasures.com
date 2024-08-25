@@ -5,10 +5,11 @@ import { loadHomesteadDecorations } from '../helper/loadHomesteadDecorations';
 import { isEmptyObject } from '@gw2treasures/helper/is';
 import { type ProcessEntitiesData, createSubJobs, processLocalizedEntities } from '../helper/process-entities';
 import { createIcon } from '../helper/createIcon';
+import { toId } from '../helper/toId';
 
 export const HomesteadDecorationsJob: Job = {
-  run(data: ProcessEntitiesData<number> | Record<string, never>) {
-    const CURRENT_VERSION = 3;
+  async run(data: ProcessEntitiesData<number> | Record<string, never>) {
+    const CURRENT_VERSION = 4;
 
     if(isEmptyObject(data)) {
       return createSubJobs(
@@ -19,18 +20,25 @@ export const HomesteadDecorationsJob: Job = {
       );
     }
 
+    const knownCategoryIds = (await db.homesteadDecorationCategory.findMany({ select: { id: true }})).map(toId);
+
     return processLocalizedEntities(
       data,
-      'Color',
+      'HomesteadDecoration',
       (homesteadDecorationId, revisionId) => ({ homesteadDecorationId_revisionId: { revisionId, homesteadDecorationId }}),
-      async (decorations) => {
-        const iconId = await createIcon(decorations.en.icon);
+      async (decoration) => {
+        const iconId = await createIcon(decoration.en.icon);
 
         return {
-          name_de: decorations.de.name,
-          name_en: decorations.en.name,
-          name_es: decorations.es.name,
-          name_fr: decorations.fr.name,
+          name_de: decoration.de.name,
+          name_en: decoration.en.name,
+          name_es: decoration.es.name,
+          name_fr: decoration.fr.name,
+
+          maxCount: decoration.en.max_count,
+
+          categoryIds: decoration.en.categories,
+          categories: { connect: decoration.en.categories.filter((id) => knownCategoryIds.includes(id)).map((id) => ({ id })) },
 
           iconId,
         };

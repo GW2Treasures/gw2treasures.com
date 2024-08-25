@@ -6,6 +6,7 @@
   border-radius: 2px;
   gap: 10px;
   flex-direction: row;
+  user-select: none;
 }
 
 .wrapper:not(.disabled):hover {

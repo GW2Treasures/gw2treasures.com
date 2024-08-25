@@ -100,7 +100,9 @@ export default async function HomesteadPage({ params: { language }}: { params: {
 
   return (
     <HeroLayout color="#397aa1" hero={<Headline id="homestead"><Trans id="navigation.homestead"/></Headline>} toc>
-      <Headline id="nodes" actions={<ColumnSelect table={HomeNode}/>}>Nodes</Headline>
+      <Headline id="nodes" actions={<ColumnSelect table={HomeNode}/>}><Trans id="homestead.nodes"/></Headline>
+      <p><Trans id="homestead.nodes.description"/></p>
+
       <HomeNode.Table>
         <HomeNode.Column id="id" title="Id" small hidden>{({ id }) => id}</HomeNode.Column>
         <HomeNode.Column id="node" title="Node" sortBy="name">{({ item, name }) => item ? <ItemLink item={item}/> : name}</HomeNode.Column>
@@ -113,7 +115,10 @@ export default async function HomesteadPage({ params: { language }}: { params: {
         </HomeNode.DynamicColumns>
       </HomeNode.Table>
 
-      <Headline id="cats" actions={<ColumnSelect table={HomeCats}/>}>Cats</Headline>
+
+      <Headline id="cats" actions={<ColumnSelect table={HomeCats}/>}><Trans id="homestead.cats"/></Headline>
+      <p><Trans id="homestead.cats.description"/></p>
+
       <HomeCats.Table>
         <HomeCats.Column id="id" title="Id" align="right" small hidden>{({ id }) => id}</HomeCats.Column>
         <HomeCats.Column id="name" title="Cat" sortBy="name">{({ name, icon }) => <FlexRow><MaybeRenderIcon src={icon}/> {name}</FlexRow>}</HomeCats.Column>
@@ -124,7 +129,8 @@ export default async function HomesteadPage({ params: { language }}: { params: {
       </HomeCats.Table>
 
       <DecorationTableProvider categories={decorationFilterDings}>
-        <Headline id="decorations" actions={[<DecorationTableFilter key="filter" totalCount={decorations.length}/>, <ColumnSelect key="columns" table={Decorations}/>]}>Decorations</Headline>
+        <Headline id="decorations" actions={[<DecorationTableFilter key="filter" totalCount={decorations.length}/>, <ColumnSelect key="columns" table={Decorations}/>]}><Trans id="homestead.decorations"/></Headline>
+        <p><Trans id="homestead.decorations.description"/></p>
 
         <Decorations.Table rowFilter={DecorationRowFilter}>
           <Decorations.Column id="id" title="Id" align="right" small hidden>{({ id }) => id}</Decorations.Column>
@@ -143,7 +149,8 @@ export default async function HomesteadPage({ params: { language }}: { params: {
         </Decorations.Table>
       </DecorationTableProvider>
 
-      <Headline id="glyphs">Glyphs</Headline>
+      <Headline id="glyphs"><Trans id="homestead.glyphs"/></Headline>
+      <p><Trans id="homestead.glyphs.description"/></p>
       <Glyphs.Table>
         <Glyphs.Column id="name" title="Glyph" sortBy={({ item }) => item ? localizedName(item, language) : ''}>{({ item, itemIdRaw }) => item ? <ItemLink item={item}/> : <UnknownItem id={itemIdRaw}/>}</Glyphs.Column>
         <Glyphs.DynamicColumns headers={<Gw2AccountHeaderCells requiredScopes={requiredScopes} small colSpan={3}/>}>

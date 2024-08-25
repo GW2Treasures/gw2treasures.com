@@ -29,6 +29,7 @@
   "navigation.mounts": "Reittiere",
   "navigation.wvw": "Welt gegen Welt",
   "navigation.wizardsVault": "Gewölbe des Zauberers",
+  "navigation.homestead": "Heimstatt",
   "itemTable.column.item": "Gegenstand",
   "itemTable.column.level": "Stufe",
   "itemTable.column.rarity": "Seltenheit",
@@ -232,5 +233,16 @@
   "weight.Light": "Leicht",
   "weight.Heavy": "Schwer",
   "weight.Clothing": "Kleidungsset",
-  "actions": "Aktionen"
+  "actions": "Aktionen",
+  "homestead.nodes": "Sammelknoten",
+  "homestead.nodes.description": "Sammelknoten können für die Heimstatt und Heimatinstanz freigeschaltet werden. Diese können einmal am Tag gesammelt werden.",
+  "homestead.cats": "Katzen",
+  "homestead.cats.description": "Diese Katzen können für die Heimstatt und die Heimatinstanz freigeschaltet werden.",
+  "homestead.decorations": "Dekorationen",
+  "homestead.decorations.description": "Diese Dekorationen können für die Heimstatt freigeschaltet werden.",
+  "homestead.glyphs": "Glyphen",
+  "homestead.glyphs.description": "Diese Glyphen können in den Sammelboxen in der Heimstatt ausgerüstet werden.",
+  "homestead.glyphs.slot.harvesting": "Pflanze",
+  "homestead.glyphs.slot.logging": "Holz",
+  "homestead.glyphs.slot.mining": "Erzader"
 }

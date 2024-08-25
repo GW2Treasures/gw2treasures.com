@@ -27,6 +27,7 @@ export const ItemsNew: Job = {
       const suffixIn = await db.item.findMany({ where: { suffixItemIds: { has: id }}, select: { id: true }});
       const recipeOutput = await db.recipe.findMany({ where: { outputItemIdRaw: id }, select: { id: true }});
       const wizardsVaultListing = await db.wizardsVaultListing.findMany({ where: { itemIdRaw: id }, select: { id: true }});
+      const homesteadGlyphs = await db.homesteadGlyph.findMany({ where: { itemIdRaw: id }, select: { id: true }});
       // TODO: recipe ingredients
 
       await db.item.create({
@@ -53,6 +54,7 @@ export const ItemsNew: Job = {
           suffixIn: { connect: suffixIn },
           recipeOutput: { connect: recipeOutput },
           wizardsVaultListings: { connect: wizardsVaultListing },
+          homesteadGlyphs: { connect: homesteadGlyphs },
         }
       });
     }

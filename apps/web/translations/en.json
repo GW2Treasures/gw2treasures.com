@@ -241,5 +241,8 @@
   "weight.Light": "Light",
   "weight.Heavy": "Heavy",
   "weight.Clothing": "Clothing",
-  "actions": "Actions"
+  "actions": "Actions",
+  "homestead.glyphs.slot.harvesting": "Harvesting",
+  "homestead.glyphs.slot.logging": "Logging",
+  "homestead.glyphs.slot.mining": "Mining"
 }

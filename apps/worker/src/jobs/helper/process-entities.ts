@@ -10,20 +10,20 @@ import { createRevision as createRevisionInDb } from './revision-create';
 import { getUpdateCheckpoint } from './updateCheckpoints';
 import { schema } from './schema';
 
-type FindManyArgs = {
+type FindManyArgs<Id extends string | number> = {
   select: { id: true },
   where: {
     removedFromApi?: false,
-    id?: { notIn: number[] },
+    id?: { notIn: Id[] },
     lastCheckedAt?: { lt: Date },
     version?: { lt: number },
   }
 };
 
-export async function createSubJobs(
+export async function createSubJobs<Id extends string | number>(
   jobName: JobName,
-  getIdsFromApi: () => Promise<number[]>,
-  findMany: (args: FindManyArgs) => Promise<{ id: number }[]>,
+  getIdsFromApi: () => Promise<Id[]>,
+  findMany: (args: FindManyArgs<Id>) => Promise<{ id: Id }[]>,
   currentVersion: number,
 ) {
   const queuedJobs = await db.job.count({ where: { type: jobName, state: { in: ['Queued', 'Running'] }, cron: null }});

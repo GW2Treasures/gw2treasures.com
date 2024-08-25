@@ -14,6 +14,8 @@ import { MenuList } from '@gw2treasures/ui/components/Layout/MenuList';
 import { Checkbox } from '@gw2treasures/ui/components/Form/Checkbox';
 import { Separator } from '@gw2treasures/ui/components/Layout/Separator';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
+import { HomesteadGlyphSlot } from '@gw2treasures/database';
+import type { TranslationSubset } from '@/lib/translate';
 
 export const requiredScopes = [Scope.GW2_Progression, Scope.GW2_Unlocks];
 
@@ -70,6 +72,30 @@ export const AccountHomesteadDecorationCell: FC<{ decorationId: number; accountI
   ) : (
     <td/>
   );
+};
+
+type GlyphSlotTranslations = TranslationSubset<'homestead.glyphs.slot.harvesting' | 'homestead.glyphs.slot.logging' | 'homestead.glyphs.slot.mining'>;
+
+export const AccountHomesteadGlyphsCell: FC<{ glyphIdPrefix: string; accountId: string; slotTranslations: GlyphSlotTranslations }> = ({ glyphIdPrefix, accountId, slotTranslations }) => {
+  const glyphs = useSubscription('homestead.glyphs', accountId);
+
+  if (glyphs.loading) {
+    return (<td colSpan={3}><Skeleton/></td>);
+  } else if (glyphs.error) {
+    return (<td colSpan={3}/>);
+  }
+
+  return Object.values(HomesteadGlyphSlot).map((slot) => {
+    const isActive = glyphs.data.includes(`${glyphIdPrefix}_${slot}`);
+
+    return (
+      <ProgressCell key={slot} progress={isActive ? 1 : 0} small>
+        <span style={{ color: !isActive ? 'var(--color-text-muted)' : undefined }}>
+          {slotTranslations[`homestead.glyphs.slot.${slot}`]}
+        </span>
+      </ProgressCell>
+    );
+  });
 };
 
 interface DecorationTableContext {

@@ -58,6 +58,7 @@ import { WizardsVaultObjectivesJob } from './wizardsvault/objectives';
 import { WizardsVaultPurchaseLimitJob } from './wizardsvault/purchase-limit';
 import { HomesteadDecorationsJob } from './homestead/decorations';
 import { HomesteadDecorationCategoriesJob } from './homestead/decoration-categories';
+import { HomesteadGlyphsJob } from './homestead/glyphs';
 
 const jobsInternal = {
   'test': { run: () => undefined } as Job,
@@ -120,6 +121,7 @@ const jobsInternal = {
   'guild-upgrades': GuildUpgradesJob,
   'homestead.decorations': HomesteadDecorationsJob,
   'homestead.decorations.categories': HomesteadDecorationCategoriesJob,
+  'homestead.glyphs': HomesteadGlyphsJob,
 
   'wizardsvault.listings': WizardsVaultListingsJob,
   'wizardsvault.objectives': WizardsVaultObjectivesJob,

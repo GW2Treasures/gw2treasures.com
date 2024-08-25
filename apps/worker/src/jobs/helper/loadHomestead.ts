@@ -1,3 +1,4 @@
+import { groupById } from '@gw2treasures/helper/group-by';
 import { fetchApi } from './fetchApi';
 import { groupLocalizedEntitiesById } from './groupById';
 
@@ -32,3 +33,13 @@ export async function loadHomesteadDecorationCategories(ids: number[]) {
   return groupLocalizedEntitiesById(de, en, es, fr);
 }
 
+
+export async function loadHomesteadGlyphs(ids: string[]) {
+  const start = new Date();
+
+  const glyphs = await fetchApi(`/v2/homestead/glyphs?ids=${ids.join(',')}`);
+
+  console.log(`Fetched ${ids.length} homestead decoration categories in ${(new Date().valueOf() - start.valueOf()) / 1000}s`);
+
+  return groupById(glyphs);
+}

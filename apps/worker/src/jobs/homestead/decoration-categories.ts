@@ -1,7 +1,7 @@
 import { db } from '../../db';
 import { fetchApi } from '../helper/fetchApi';
 import { Job } from '../job';
-import { loadHomesteadDecorationCategories } from '../helper/loadHomesteadDecorations';
+import { loadHomesteadDecorationCategories } from '../helper/loadHomestead';
 import { isEmptyObject } from '@gw2treasures/helper/is';
 import { Changes, type ProcessEntitiesData, createSubJobs, processLocalizedEntities } from '../helper/process-entities';
 import { Prisma } from '@gw2treasures/database';

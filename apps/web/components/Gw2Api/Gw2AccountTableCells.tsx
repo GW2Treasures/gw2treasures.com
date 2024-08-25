@@ -9,13 +9,14 @@ import { Table } from '@gw2treasures/ui/components/Table/Table';
 export interface Gw2AccountHeaderCellsProps {
   requiredScopes: Scope[],
   small?: boolean;
+  colSpan?: number;
 }
 
-export const Gw2AccountHeaderCells: FC<Gw2AccountHeaderCellsProps> = ({ requiredScopes, small }) => {
+export const Gw2AccountHeaderCells: FC<Gw2AccountHeaderCellsProps> = ({ requiredScopes, small, colSpan }) => {
   const accounts = useGw2Accounts(requiredScopes);
 
   return !accounts.loading && !accounts.error && accounts.accounts.map((account) => (
-    <Table.HeaderCell key={account.id} small={small}>
+    <Table.HeaderCell key={account.id} small={small} colSpan={colSpan}>
       <Gw2AccountName account={account}/>
     </Table.HeaderCell>
   ));

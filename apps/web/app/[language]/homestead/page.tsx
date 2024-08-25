@@ -16,13 +16,15 @@ import { groupById } from '@gw2treasures/helper/group-by';
 import type { FC } from 'react';
 import { cache } from '@/lib/cache';
 import { Gw2AccountBodyCells, Gw2AccountHeaderCells } from '@/components/Gw2Api/Gw2AccountTableCells';
-import { AccountHomeCatCell, AccountHomeNodeCell, AccountHomesteadDecorationCell, DecorationRowFilter, DecorationTableFilter, DecorationTableProvider, requiredScopes } from './page.client';
+import { AccountHomeCatCell, AccountHomeNodeCell, AccountHomesteadDecorationCell, AccountHomesteadGlyphsCell, DecorationRowFilter, DecorationTableFilter, DecorationTableProvider, requiredScopes } from './page.client';
 import { globalColumnRenderer as itemTableColumn } from '@/components/ItemTable/columns';
 import { PageView } from '@/components/PageView/PageView';
 import type { Language } from '@gw2treasures/database';
 import { EntityIconMissing } from '@/components/Entity/EntityIconMissing';
 import { FormatNumber } from '@/components/Format/FormatNumber';
 import { localizedName } from '@/lib/localizedName';
+import { UnknownItem } from '@/components/Item/UnknownItem';
+import { translateMany } from '@/lib/translate';
 
 
 const getItems = cache(
@@ -48,7 +50,15 @@ const getDecorations = cache(
 
 const getDecorationCategories = cache(
   () => db.homesteadDecorationCategory.findMany(),
-  ['homestead-decorations'], { revalidate: 60 }
+  ['homestead-decoration-categories'], { revalidate: 60 }
+);
+
+const getGlyphs = cache(
+  () => db.homesteadGlyph.findMany({
+    include: { item: { select: linkProperties }},
+    distinct: ['itemIdRaw']
+  }),
+  ['homestead-glyphs'], { revalidate: 60 }
 );
 
 export default async function HomesteadPage({ params: { language }}: { params: { language: Language }}) {
@@ -59,10 +69,11 @@ export default async function HomesteadPage({ params: { language }}: { params: {
   );
 
   // get items from db that unlock some node
-  const [unlockItems, decorations, decorationCategories] = await Promise.all([
+  const [unlockItems, decorations, decorationCategories, glyphs] = await Promise.all([
     getItems(nodeUnlockItemIds),
     getDecorations(),
     getDecorationCategories(),
+    getGlyphs(),
   ]);
 
   // add the item to each node
@@ -75,6 +86,7 @@ export default async function HomesteadPage({ params: { language }}: { params: {
   const HomeNode = createDataTable(nodes, ({ id }) => id);
   const HomeCats = createDataTable(homeCats, ({ id }) => id);
   const Decorations = createDataTable(decorations, ({ id }) => id);
+  const Glyphs = createDataTable(glyphs, ({ id }) => id);
 
   const decorationFilterDings = decorationCategories.map((category) => ({
     id: category.id,
@@ -83,6 +95,8 @@ export default async function HomesteadPage({ params: { language }}: { params: {
       .filter(([ categoryIds ]) => categoryIds.includes(category.id))
       .map(([, index]) => index)
   }));
+
+  const glyphSlotTranslations = translateMany(['homestead.glyphs.slot.harvesting', 'homestead.glyphs.slot.logging', 'homestead.glyphs.slot.mining']);
 
   return (
     <HeroLayout color="#397aa1" hero={<Headline id="homestead"><Trans id="navigation.homestead"/></Headline>} toc>
@@ -128,6 +142,14 @@ export default async function HomesteadPage({ params: { language }}: { params: {
           </Decorations.DynamicColumns>
         </Decorations.Table>
       </DecorationTableProvider>
+
+      <Headline id="glyphs">Glyphs</Headline>
+      <Glyphs.Table>
+        <Glyphs.Column id="name" title="Glyph" sortBy={({ item }) => item ? localizedName(item, language) : ''}>{({ item, itemIdRaw }) => item ? <ItemLink item={item}/> : <UnknownItem id={itemIdRaw}/>}</Glyphs.Column>
+        <Glyphs.DynamicColumns headers={<Gw2AccountHeaderCells requiredScopes={requiredScopes} small colSpan={3}/>}>
+          {({ id }) => <Gw2AccountBodyCells requiredScopes={requiredScopes}><AccountHomesteadGlyphsCell glyphIdPrefix={id.split('_')[0]} accountId={undefined as never} slotTranslations={glyphSlotTranslations}/></Gw2AccountBodyCells>}
+        </Glyphs.DynamicColumns>
+      </Glyphs.Table>
 
       <PageView page="homestead"/>
     </HeroLayout>

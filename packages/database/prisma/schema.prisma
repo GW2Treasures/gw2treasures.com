@@ -77,6 +77,9 @@ model Item {
   // wizardsvault
   wizardsVaultListings WizardsVaultListing[] @relation("wizardsvault_listing")
 
+  // homestead glyph
+  homesteadGlyphs HomesteadGlyph[] @relation("homestead_glyph")
+
   // review queue
   reviews Review[] @relation("itemReview")
 
@@ -736,6 +739,10 @@ model Revision {
   currentHomesteadDecorationCategory_es HomesteadDecorationCategory? @relation("current_es")
   currentHomesteadDecorationCategory_fr HomesteadDecorationCategory? @relation("current_fr")
   homesteadDecorationCategoryHistory HomesteadDecorationCategoryHistory[]
+  
+  // homestead glyphs
+  currentHomesteadGlyph HomesteadGlyph? @relation("current")
+  homesteadGlyphHistory HomesteadGlyphHistory[]
 }
 
 enum RevisionType {
@@ -1135,6 +1142,46 @@ model HomesteadDecorationCategoryHistory {
   revision Revision @relation(fields: [revisionId], references: [id], onDelete: Cascade)
 
   @@id([homesteadDecorationCategoryId, revisionId])
+}
+
+model HomesteadGlyph {
+  id String @id
+
+  slot HomesteadGlyphSlot
+
+  itemId    Int?
+  item      Item? @relation("homestead_glyph", fields: [itemId], references: [id], onDelete: SetNull)
+  itemIdRaw Int
+
+  removedFromApi Boolean @default(false)
+  
+  current Revision @relation("current", fields: [currentId], references: [id], onDelete: Cascade)
+  currentId String @unique
+
+  history HomesteadGlyphHistory[]
+  
+  lastCheckedAt  DateTime   @default(now())
+
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  version Int @default(0)
+}
+
+model HomesteadGlyphHistory {
+  homesteadGlyphId String
+  revisionId String
+
+  homesteadGlyph HomesteadGlyph @relation(fields: [homesteadGlyphId], references: [id], onDelete: Cascade)
+  revision Revision @relation(fields: [revisionId], references: [id], onDelete: Cascade)
+
+  @@id([homesteadGlyphId, revisionId])
+}
+
+enum HomesteadGlyphSlot {
+  harvesting
+  logging
+  mining
 }
 
 model Job {

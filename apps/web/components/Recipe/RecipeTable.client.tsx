@@ -83,8 +83,10 @@ export const RecipeTableDisciplineFilter: FC<RecipeTableDisciplineFilterProps> =
     <DropDown button={<Button icon={disciplines.length === allDisciplines.length ? 'filter' : 'filter-active'}>Filter</Button>} preferredPlacement="bottom">
       <MenuList>
         <Checkbox checked={disciplines.length > 0} indeterminate={disciplines.length < allDisciplines.length && disciplines.length > 0} onChange={() => setDisciplines(disciplines.length > 0 ? [] : allDisciplines)}>
-          All
-          <span style={{ marginLeft: 'auto', paddingLeft: 16 }}>{count}</span>
+          <FlexRow align="space-between">
+            All
+            <span style={{ paddingLeft: 8 }}>{count}</span>
+          </FlexRow>
         </Checkbox>
         <Separator/>
         {allDisciplines.map((discipline) => (

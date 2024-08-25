@@ -173,8 +173,10 @@ export const DecorationTableFilter: FC<DecorationTableFilterProps> = ({ totalCou
     <DropDown button={<Button icon={categoryMap.size === categoryIds.length ? 'filter' : 'filter-active'}>Filter</Button>} preferredPlacement="right-start">
       <MenuList>
         <Checkbox checked={categoryIds.length > 0} indeterminate={categoryIds.length < categoryMap.size && categoryIds.length > 0} onChange={() => setCategoryIds(categoryIds.length > 0 ? [] : Array.from(categoryMap.keys()))}>
-          All
-          <span style={{ marginLeft: 'auto', paddingLeft: 16 }}>{count}</span>
+          <FlexRow align="space-between">
+            All
+            <span style={{ paddingLeft: 8 }}>{count}</span>
+          </FlexRow>
         </Checkbox>
         <Separator/>
         {Array.from(categoryMap.entries()).map(([categoryId, category]) => (

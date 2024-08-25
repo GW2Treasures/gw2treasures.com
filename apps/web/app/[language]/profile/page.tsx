@@ -11,6 +11,8 @@ import { Suspense, cache } from 'react';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { Accounts } from './accounts';
 import { Skeleton } from '@/components/Skeleton/Skeleton';
+import { revalidatePath } from 'next/cache';
+import { SubmitButton } from '@gw2treasures/ui/components/Form/Buttons/SubmitButton';
 
 const getUserData = cache(async () => {
   const session = await getUser();
@@ -52,7 +54,7 @@ export default async function ProfilePage() {
         <Accounts/>
       </Suspense>
 
-      <Headline id="sessions">Sessions</Headline>
+      <Headline id="sessions" actions={<form action={revokeAllSessions}><SubmitButton icon="delete">Revoke all</SubmitButton></form>}>Sessions</Headline>
       <Table>
         <thead>
           <tr>
@@ -81,4 +83,21 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: user.name,
   };
+}
+
+
+async function revokeAllSessions() {
+  'use server';
+
+  const session = await getUser();
+
+  if(!session) {
+    return;
+  }
+
+  await db.userSession.deleteMany({
+    where: { id: { not: session.sessionId }, userId: session.id }
+  });
+
+  revalidatePath('/profile');
 }

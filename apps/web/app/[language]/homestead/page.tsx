@@ -21,6 +21,8 @@ import { globalColumnRenderer as itemTableColumn } from '@/components/ItemTable/
 import { PageView } from '@/components/PageView/PageView';
 import type { Language } from '@gw2treasures/database';
 import { EntityIconMissing } from '@/components/Entity/EntityIconMissing';
+import { FormatNumber } from '@/components/Format/FormatNumber';
+import { localizedName } from '@/lib/localizedName';
 
 
 const getItems = cache(
@@ -36,7 +38,10 @@ const getItems = cache(
 
 const getDecorations = cache(
   () => db.homesteadDecoration.findMany({
-    include: { icon: true }
+    include: {
+      icon: true,
+      categories: true,
+    }
   }),
   ['homestead-decorations'], { revalidate: 60 }
 );
@@ -98,6 +103,10 @@ export default async function HomesteadPage({ params: { language }}: { params: {
             <FlexRow>{icon ? <EntityIcon icon={icon} size={32}/> : <EntityIconMissing size={32}/>} {decoration[`name_${language}`]}</FlexRow>
           )}
         </Decorations.Column>
+        <Decorations.Column id="categories" title="Categories">
+          {({ categories }) => categories.map((category) => localizedName(category, language)).join(', ')}
+        </Decorations.Column>
+        <Decorations.Column id="maxCount" title="Max Count" sortBy="maxCount" align="right">{({ maxCount }) => <FormatNumber value={maxCount}/>}</Decorations.Column>
         <Decorations.DynamicColumns headers={<Gw2AccountHeaderCells requiredScopes={requiredScopes} small/>}>
           {({ id }) => <Gw2AccountBodyCells requiredScopes={requiredScopes}><AccountHomesteadDecorationCell decorationId={id} accountId={undefined as never}/></Gw2AccountBodyCells>}
         </Decorations.DynamicColumns>

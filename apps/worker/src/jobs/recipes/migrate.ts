@@ -27,7 +27,7 @@ export const RecipesMigrate: Job = {
 
     const recipesToMigrate = await db.recipe.findMany({
       where: { id: { in: ids }},
-      include: { currentRevision: true },
+      include: { current: true },
     });
 
     if(recipesToMigrate.length === 0) {
@@ -37,7 +37,7 @@ export const RecipesMigrate: Job = {
     const migrate = await createMigrator();
 
     for(const recipe of recipesToMigrate) {
-      const data: Recipe<SchemaVersion> = JSON.parse(recipe.currentRevision.data);
+      const data: Recipe<SchemaVersion> = JSON.parse(recipe.current.data);
       const update = await migrate(data, recipe.version);
 
       try {

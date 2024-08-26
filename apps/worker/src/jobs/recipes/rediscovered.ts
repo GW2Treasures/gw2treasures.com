@@ -5,6 +5,7 @@ import { getCurrentBuild } from '../helper/getCurrentBuild';
 import { createMigrator } from './migrations';
 import { loadRecipes } from '../helper/loadRecipes';
 import { schema } from '../helper/schema';
+import { appendHistory } from '../helper/appendHistory';
 
 export const RecipesRediscovered: Job = {
   run: async (rediscoveredIds: number[]) => {
@@ -60,9 +61,10 @@ export const RecipesRediscovered: Job = {
         ...migratedData,
 
         lastCheckedAt: new Date(),
-        history: { connect: { id: revision.id }},
-        currentRevisionId: revision.id,
+        currentId: revision.id,
       };
+
+      update.history = appendHistory(update, revision.id);
 
       await db.recipe.update({ where: { id: recipe.id }, data: update });
     }

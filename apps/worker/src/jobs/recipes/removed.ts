@@ -3,6 +3,7 @@ import { db } from '../../db';
 import { Prisma } from '@gw2treasures/database';
 import { getCurrentBuild } from '../helper/getCurrentBuild';
 import { schema } from '../helper/schema';
+import { appendHistory } from '../helper/appendHistory';
 
 export const RecipesRemoved: Job = {
   run: async (removedIds: number[]) => {
@@ -12,7 +13,7 @@ export const RecipesRemoved: Job = {
     for(const removedId of removedIds) {
       const recipe = await db.recipe.findUnique({
         where: { id: removedId },
-        include: { currentRevision: true }
+        include: { current: true }
       });
 
       if(!recipe) {
@@ -22,7 +23,7 @@ export const RecipesRemoved: Job = {
       const revision = await db.revision.create({
         data: {
           schema,
-          data: recipe.currentRevision.data,
+          data: recipe.current.data,
           description: 'Removed from API',
           type: 'Removed',
           entity: 'Recipe',
@@ -33,9 +34,10 @@ export const RecipesRemoved: Job = {
 
       const update: Prisma.RecipeUpdateArgs['data'] = {
         removedFromApi: true,
-        currentRevisionId: revision.id,
-        history: { connect: { id: revision.id }}
+        currentId: revision.id,
       };
+
+      update.history = appendHistory(update, revision.id);
 
       await db.recipe.update({ where: { id: removedId }, data: update });
     }

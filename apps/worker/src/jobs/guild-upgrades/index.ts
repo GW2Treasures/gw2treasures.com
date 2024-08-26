@@ -63,10 +63,10 @@ export const GuildUpgradesJob: Job = {
 };
 
 async function getGuildUpgradeIngredient(guildUpgradeId: number) {
-  const recipes = await db.recipe.findMany({ where: { guildUpgradeIngredientIds: { has: guildUpgradeId }}, select: { id: true, currentRevision: true }});
+  const recipes = await db.recipe.findMany({ where: { guildUpgradeIngredientIds: { has: guildUpgradeId }}, select: { id: true, current: true }});
 
   return recipes.map((recipe) => {
-    const data: Recipe<SchemaVersion> = JSON.parse(recipe.currentRevision.data);
+    const data: Recipe<SchemaVersion> = JSON.parse(recipe.current.data);
     const count = data.ingredients.find((ingredient) => ingredient.id === guildUpgradeId && ingredient.type === 'GuildUpgrade')?.count ?? 1;
 
     return { recipeId: recipe.id, count };

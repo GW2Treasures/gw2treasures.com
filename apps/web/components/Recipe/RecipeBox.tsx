@@ -1,11 +1,11 @@
 import type { LocalizedEntity } from '@/lib/localizedName';
-import type { Currency, GuildUpgrade, IngredientCurrency, IngredientGuildUpgrade, IngredientItem, Item, Recipe } from '@gw2treasures/database';
+import type { Item, Recipe } from '@gw2treasures/database';
 import type { FC } from 'react';
 import { Icon } from '@gw2treasures/ui';
-import type { With, WithIcon } from '@/lib/with';
+import type { WithIcon } from '@/lib/with';
 import { ItemLink } from '../Item/ItemLink';
 import { type Discipline, DisciplineIcon } from './DisciplineIcon';
-import { Ingredients } from './Ingredients';
+import { Ingredients, type Ingredient } from './Ingredients';
 import styles from './RecipeBox.module.css';
 import { ShowMore } from '../ShowMore/ShowMore';
 import { ResetTimer } from '../Reset/ResetTimer';
@@ -16,9 +16,7 @@ import { UnknownItem } from '../Item/UnknownItem';
 
 interface RecipeBoxProps {
   recipe: Recipe & {
-    itemIngredients: With<IngredientItem, { Item: WithIcon<Pick<Item, 'id' | 'rarity' | keyof LocalizedEntity>> }>[]
-    currencyIngredients: With<IngredientCurrency, { Currency: WithIcon<Pick<Currency, 'id' | keyof LocalizedEntity>> }>[]
-    guildUpgradeIngredients: With<IngredientGuildUpgrade, { GuildUpgrade: WithIcon<Pick<GuildUpgrade, 'id' | keyof LocalizedEntity>> }>[]
+    ingredients: Ingredient[],
     unlockedByItems?: WithIcon<Pick<Item, 'id' | 'rarity' | keyof LocalizedEntity>>[]
   },
   outputItem: WithIcon<Pick<Item, 'id' | 'rarity' | keyof LocalizedEntity>> | null,

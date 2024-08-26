@@ -1,4 +1,5 @@
 import { fetchApi } from './fetchApi';
+import { groupEntitiesById } from './groupById';
 
 export async function loadRecipes(ids: number[]) {
   const start = new Date();
@@ -7,6 +8,6 @@ export async function loadRecipes(ids: number[]) {
 
   console.log(`Fetched ${ids.length} recipes in ${(new Date().valueOf() - start.valueOf()) / 1000}s`);
 
-  return recipes;
+  return groupEntitiesById(recipes);
 }
 

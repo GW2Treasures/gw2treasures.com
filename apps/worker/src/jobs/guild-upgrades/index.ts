@@ -6,8 +6,6 @@ import { isEmptyObject } from '@gw2treasures/helper/is';
 import { type ProcessEntitiesData, createSubJobs, processLocalizedEntities, Changes } from '../helper/process-entities';
 import { Prisma } from '@gw2treasures/database';
 import { createIcon } from '../helper/createIcon';
-import { Recipe } from '@gw2api/types/data/recipe';
-import { SchemaVersion } from '../helper/schema';
 
 export const GuildUpgradesJob: Job = {
   run(data: ProcessEntitiesData<number> | Record<string, never>) {
@@ -27,8 +25,8 @@ export const GuildUpgradesJob: Job = {
       'GuildUpgrade',
       (guildUpgradeId, revisionId) => ({ guildUpgradeId_revisionId: { revisionId, guildUpgradeId }}),
       async (guildUpgrade, version, changes) => {
-        const ingredientRecipeIds = changes === Changes.New
-          ? await getGuildUpgradeIngredient(guildUpgrade.en.id)
+        const ingredients = changes === Changes.New
+          ? await db.recipeIngredient.findMany({ where: { type: 'GuildUpgrade', ingredientId: guildUpgrade.en.id }, select: { recipeId: true }})
           : [];
 
         const recipeOutput = changes === Changes.New
@@ -48,7 +46,7 @@ export const GuildUpgradesJob: Job = {
           name_fr: guildUpgrade.fr.name,
           iconId,
 
-          ingredient: { createMany: { data: ingredientRecipeIds }},
+          ingredient: { connect: ingredients.map(({ recipeId }) => ({ recipeId_type_ingredientId: { recipeId, type: 'GuildUpgrade', ingredientId: guildUpgrade.en.id }})) },
           recipeOutput: { connect: recipeOutput },
           unlockedByItems: { connect: itemUnlocks },
         } satisfies Prisma.GuildUpgradeUncheckedUpdateInput;
@@ -61,14 +59,3 @@ export const GuildUpgradesJob: Job = {
     );
   }
 };
-
-async function getGuildUpgradeIngredient(guildUpgradeId: number) {
-  const recipes = await db.recipe.findMany({ where: { guildUpgradeIngredientIds: { has: guildUpgradeId }}, select: { id: true, current: true }});
-
-  return recipes.map((recipe) => {
-    const data: Recipe<SchemaVersion> = JSON.parse(recipe.current.data);
-    const count = data.ingredients.find((ingredient) => ingredient.id === guildUpgradeId && ingredient.type === 'GuildUpgrade')?.count ?? 1;
-
-    return { recipeId: recipe.id, count };
-  });
-}

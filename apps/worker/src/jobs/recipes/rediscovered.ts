@@ -19,7 +19,7 @@ export const RecipesRediscovered: Job = {
     const recipes = await loadRecipes(rediscoveredIds);
     const migrate = await createMigrator();
 
-    for(const data of recipes) {
+    for(const [, data] of recipes) {
       const recipe = await db.recipe.findUnique({ where: { id: data.id }});
 
       if(!recipe) {

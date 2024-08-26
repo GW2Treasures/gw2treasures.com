@@ -5,7 +5,7 @@ import { createMigrator } from './migrations';
 import { loadRecipes } from '../helper/loadRecipes';
 import { schema } from '../helper/schema';
 import { Prisma } from '@gw2treasures/database';
-import { appendHistory } from '../helper/appendHistory';
+import { appendHistory, enumerableToArray } from '../helper/appendHistory';
 
 export const RecipesNew: Job = {
   run: async (newIds: number[]) => {
@@ -17,7 +17,7 @@ export const RecipesNew: Job = {
 
     const migrate = await createMigrator();
 
-    for(const recipe of recipes) {
+    for(const [, recipe] of recipes) {
       const revision = await db.revision.create({ data: { data: JSON.stringify(recipe), language: 'en', buildId, type: 'Added', entity: 'Recipe', description: 'Added to API', schema }});
 
       // load output item
@@ -30,8 +30,15 @@ export const RecipesNew: Job = {
 
       const data = await migrate(recipe);
 
-      // delete deleteMany if it exists, because prisma doesn't allow deleteMany on create queries
-      delete data.itemIngredients?.deleteMany;
+      // delete `deleteMany` if it exists, because prisma doesn't allow deleteMany on create queries
+      // also rename `upsert` to `connectOrCreate`
+      if(data.ingredients) {
+        if(data.ingredients.upsert) {
+          data.ingredients.create = enumerableToArray(data.ingredients.upsert).map(({ create }) => create);
+        }
+        delete data.ingredients.deleteMany;
+        delete data.ingredients.upsert;
+      }
 
       const update: Prisma.RecipeCreateArgs['data'] = {
         id: recipe.id,
@@ -56,6 +63,6 @@ export const RecipesNew: Job = {
       });
     }
 
-    return `Added ${recipes.length} recipes`;
+    return `Added ${recipes.size} recipes`;
   }
 };

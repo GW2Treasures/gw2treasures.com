@@ -1,7 +1,7 @@
 'use client';
 
 import type { FC } from 'react';
-import { Ingredients } from './Ingredients';
+import { MysticForgeIngredients } from './MysticForgeIngredients';
 import { OutputCountRange } from '../Item/OutputCountRange';
 import type { MysticForgeIngredientItem, MysticForgeRecipe, Rarity } from '@gw2treasures/database';
 import type { LocalizedEntity } from '@/lib/localizedName';
@@ -14,7 +14,7 @@ export interface MysticForgeRecipeIngredientsColumnProps {
 }
 
 export const MysticForgeRecipeIngredientsColumn: FC<MysticForgeRecipeIngredientsColumnProps> = ({ mysticForgeRecipe }) => {
-  return <Ingredients recipe={mysticForgeRecipe}/>;
+  return <MysticForgeIngredients recipe={mysticForgeRecipe}/>;
 };
 
 export interface MysticForgeRecipeOutputColumnProps {

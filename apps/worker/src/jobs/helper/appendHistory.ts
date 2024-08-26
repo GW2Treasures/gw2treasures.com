@@ -7,6 +7,6 @@ export function appendHistory<T extends { history?: { createMany?: { data: Prism
   };
 }
 
-function enumerableToArray<T>(enumerable: Prisma.Enumerable<T> = []): T[] {
+export function enumerableToArray<T>(enumerable: Prisma.Enumerable<T> = []): T[] {
   return Array.isArray(enumerable) ? enumerable : [enumerable];
 }

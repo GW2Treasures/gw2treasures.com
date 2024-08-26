@@ -4,7 +4,7 @@ import type { FC } from 'react';
 import type { With, WithIcon } from '@/lib/with';
 import { ItemLink } from '../Item/ItemLink';
 import styles from './RecipeBox.module.css';
-import { Ingredients } from './Ingredients';
+import { MysticForgeIngredients } from './MysticForgeIngredients';
 import { OutputCountRange } from '../Item/OutputCountRange';
 import { Icon } from '@gw2treasures/ui';
 import { DropDown } from '@gw2treasures/ui/components/DropDown/DropDown';
@@ -38,7 +38,7 @@ export const MysticForgeRecipeBox: FC<MysticForgeRecipeBoxProps> = ({ recipe, ou
         </span>
       </div>
       <div className={styles.ingredients}>
-        <Ingredients recipe={recipe}/>
+        <MysticForgeIngredients recipe={recipe}/>
       </div>
     </div>
   );

@@ -22,7 +22,7 @@ export const CurrenciesNew: Job = {
 
       const iconId = await createIcon(en.icon);
 
-      // TODO: add ingredients
+      const ingredients = await db.recipeIngredient.findMany({ where: { type: 'Currency', ingredientId: en.id }, select: { recipeId: true }});
 
       await db.currency.create({
         data: {
@@ -33,6 +33,8 @@ export const CurrenciesNew: Job = {
           name_fr: fr.name,
           order: en.order,
           iconId,
+
+          ingredient: { connect: ingredients.map(({ recipeId }) => ({ recipeId_type_ingredientId: { recipeId, type: 'Currency', ingredientId: en.id }})) },
 
           ...data,
 

@@ -1,0 +1,23 @@
+.textarea {
+  border: 2px solid var(--color-border-dark);
+  border-radius: 2px;
+  background-color: var(--color-background);
+  font: inherit;
+  color: var(--color-text);
+  padding: 8px 16px;
+  line-height: 20px;
+  transition: border-color .3s ease;
+  resize: vertical;
+  width: 100%;
+  min-height: 100px;
+  line-height: 1.5;
+}
+
+.textarea:focus {
+  border-color: var(--color-focus);
+  outline: none;
+}
+
+.textarea[readonly] {
+  background: var(--color-background-light);
+}

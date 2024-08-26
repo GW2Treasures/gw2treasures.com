@@ -6,8 +6,7 @@ import type { TranslationId } from '@/lib/translate';
 import { Language } from '@gw2treasures/database';
 import { isTruthy } from '@gw2treasures/helper/is';
 import { Button } from '@gw2treasures/ui/components/Form/Button';
-import { TextInput } from '@gw2treasures/ui/components/Form/TextInput';
-import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
+import { Textarea } from '@gw2treasures/ui/components/Form/Textarea';
 import { MenuList } from '@gw2treasures/ui/components/Layout/MenuList';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { useState, type FC, useCallback, useMemo } from 'react';
@@ -101,22 +100,20 @@ export const TranslationEditor: FC<TranslationEditorProps> = ({ dictionaries, le
       </Table>
       <Dialog open={!!edit} title={`Edit "${edit?.key}" (${edit?.language})`} onClose={() => setEdit(undefined)}>
         {edit && (
-          <>
-            <FlexRow>
-              <TextInput value={edit.value} onChange={(value) => setEdit({ ...edit, value })} autoFocus/>
-              <Button onClick={() => { setChanges({ ...changes, [edit.language]: { ...changes[edit.language], [edit.key]: edit.value === '' || edit.value === dictionaries[edit.language][edit.key] ? undefined : edit.value }}); setEdit(undefined); }}>Save</Button>
-            </FlexRow>
+          <MenuList>
+            <Textarea value={edit.value} onChange={(value) => setEdit({ ...edit, value })} autoFocus/>
+            <div style={{ marginTop: 8, display: 'flex' }}>
+              <Button onClick={() => { setChanges({ ...changes, [edit.language]: { ...changes[edit.language], [edit.key]: edit.value === '' || edit.value === dictionaries[edit.language][edit.key] ? undefined : edit.value }}); setEdit(undefined); }} flex>Save</Button>
+            </div>
             {suggestions.length > 0 && (
               <>
                 <div style={{ fontWeight: 500, marginBlock: 16 }}>Suggestions</div>
-                <MenuList>
-                  {suggestions.map((suggestion) => (
-                    <Button key={suggestion} appearance="menu" onClick={() => setEdit({ ...edit, value: suggestion })}>{suggestion}</Button>
-                  ))}
-                </MenuList>
+                {suggestions.map((suggestion) => (
+                  <Button key={suggestion} appearance="menu" onClick={() => setEdit({ ...edit, value: suggestion })}>{suggestion}</Button>
+                ))}
               </>
             )}
-          </>
+          </MenuList>
         )}
       </Dialog>
     </>
@@ -137,9 +134,11 @@ export const TranslationButton: FC<TranslationButtonProps> = ({ language, id, di
 
   return (
     <Button appearance="menu" iconOnly onClick={() => onEdit({ language, key: id, value: changes[language][id] ?? dictionaries[language][id] ?? '' })}>
-      <span style={isFallback ? { color: 'var(--color-text-muted)', fontStyle: 'italic' } : isChanged ? { color: 'var(--color-focus)', fontWeight: 500 } : undefined}>
-        {changes[language][id] ?? dictionaries[language][id] ?? dictionaries.en[id]}
-      </span>
+      <div style={{ maxWidth: 'calc((100vw - 700px) / 4)', minWidth: 200, overflow: 'hidden', textOverflow: 'ellipsis' }}>
+        <span style={isFallback ? { color: 'var(--color-text-muted)', fontStyle: 'italic' } : isChanged ? { color: 'var(--color-focus)', fontWeight: 500 } : undefined}>
+          {changes[language][id] ?? dictionaries[language][id] ?? dictionaries.en[id]}
+        </span>
+      </div>
     </Button>
   );
 };

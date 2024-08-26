@@ -42,7 +42,7 @@ export default function TranslatePage() {
         <li>
           Submit your changes.
           <List>
-            <li>If you now how to use GitHub, you can create a Pull Request with your changes (<ExternalLink href="https://github.com/GW2Treasures/gw2treasures.com/tree/main/apps/web/translations">GitHub translations directory</ExternalLink>).</li>
+            <li>If you know how to use GitHub, you can create a Pull Request with your changes (<ExternalLink href="https://github.com/GW2Treasures/gw2treasures.com/tree/main/apps/web/translations">GitHub translations directory</ExternalLink>).</li>
             <li>Otherwise send the file with your changes on <ExternalLink href="https://discord.gg/gvx6ZSE">Discord</ExternalLink> (channel <Code inline>#gw2treasures</Code>) or in an email to <a href="mailto:support@gw2treasures.com">support@gw2treasures.com</a>.</li>
           </List>
         </li>

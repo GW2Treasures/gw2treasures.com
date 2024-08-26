@@ -7,19 +7,18 @@ import type { FC } from 'react';
 
 const getIngredientForCurrency = cache(async (currencyId: number) => {
   const recipes = await db.recipe.findMany({
-    where: { currencyIngredients: { some: { currencyId }}},
+    where: { ingredients: { some: { currencyId }}},
     select: {
       id: true,
       rating: true,
       disciplines: true,
       outputCount: true,
       outputItemId: true,
+      outputItemIdRaw: true,
       ingredientCount: true,
       current: { select: { data: true }},
       outputItem: { select: linkProperties },
-      itemIngredients: { select: { count: true, Item: { select: linkProperties }}},
-      currencyIngredients: { select: { count: true, Currency: { select: linkPropertiesWithoutRarity }}},
-      guildUpgradeIngredients: { select: { count: true, GuildUpgrade: { select: linkPropertiesWithoutRarity }}},
+      ingredients: { include: { item: { select: linkProperties }, currency: { select: linkPropertiesWithoutRarity }, guildUpgrade: { select: linkPropertiesWithoutRarity }}},
       unlockedByItems: { select: linkProperties }
     }
   });

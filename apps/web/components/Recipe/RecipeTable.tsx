@@ -1,4 +1,4 @@
-import type { IngredientCurrency, IngredientGuildUpgrade, IngredientItem, Recipe } from '@gw2treasures/database';
+import type { Recipe } from '@gw2treasures/database';
 import { type FC } from 'react';
 import { localizedName } from '@/lib/localizedName';
 import type { With } from '@/lib/with';
@@ -6,26 +6,23 @@ import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { ItemLink, type ItemLinkProps } from '../Item/ItemLink';
 import { ShowMore } from '../ShowMore/ShowMore';
 import { type Discipline, DisciplineIcon } from './DisciplineIcon';
-import { Ingredients } from './Ingredients';
+import { Ingredients, type Ingredient } from './Ingredients';
 import recipeBoxStyles from './RecipeBox.module.css';
 import styles from './RecipeTable.module.css';
 import { OutputCount } from '../Item/OutputCount';
-import type { CurrencyLinkProps } from '../Currency/CurrencyLink';
 import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
 import { RecipeRowFilter, RecipeTableDisciplineFilter, RecipeTableProvider, RecipeTableSearch } from './RecipeTable.client';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { getLanguage } from '@/lib/translate';
 import { ColumnSelect } from '../Table/ColumnSelect';
-import type { GuildUpgradeLinkProps } from '../GuildUpgrade/GuildUpgradeLink';
 import { RecipeDropdown } from './RecipeDropdown';
+import { UnknownItem } from '../Item/UnknownItem';
 
 export interface RecipeTableProps {
-  recipes: With<Pick<Recipe, 'id' | 'rating' | 'disciplines' | 'outputCount' | 'outputItemId'>, {
-    itemIngredients: With<Pick<IngredientItem, 'count'>, { Item: ItemLinkProps['item'] }>[]
-    currencyIngredients: With<Pick<IngredientCurrency, 'count'>, { Currency: CurrencyLinkProps['currency'] }>[]
-    guildUpgradeIngredients: With<Pick<IngredientGuildUpgrade, 'count'>, { GuildUpgrade: GuildUpgradeLinkProps['guildUpgrade'] }>[]
+  recipes: With<Pick<Recipe, 'id' | 'rating' | 'disciplines' | 'outputCount' | 'outputItemId' | 'outputItemIdRaw'>, {
+    ingredients: Ingredient[];
     outputItem: ItemLinkProps['item'] | null;
-    unlockedByItems: ItemLinkProps['item'][]
+    unlockedByItems: ItemLinkProps['item'][];
   }>[]
 }
 
@@ -49,12 +46,18 @@ export const RecipeTable: FC<RecipeTableProps> = ({ recipes }) => {
       strings.push(localizedName(recipe.outputItem, language));
     }
 
-    for(const ingredient of recipe.itemIngredients) {
-      strings.push(localizedName(ingredient.Item, language));
+    for(const ingredient of recipe.ingredients) {
+      if(ingredient.item) {
+        strings.push(localizedName(ingredient.item, language));
+      }
+      if(ingredient.currency) {
+        strings.push(localizedName(ingredient.currency, language));
+      }
+      if(ingredient.guildUpgrade) {
+        strings.push(localizedName(ingredient.guildUpgrade, language));
+      }
     }
-    for(const ingredient of recipe.currencyIngredients) {
-      strings.push(localizedName(ingredient.Currency, language));
-    }
+
     for(const unlock of recipe.unlockedByItems) {
       strings.push(localizedName(unlock, language));
     }
@@ -81,12 +84,12 @@ export const RecipeTable: FC<RecipeTableProps> = ({ recipes }) => {
       <div style={{ '--ingredient-count-min-width': '3ch' }}>
         <Recipes.Table rowFilter={RecipeRowFilter}>
           <Recipes.Column id="id" title="ID" align="right" small sortBy="id" hidden>{({ id }) => id}</Recipes.Column>
-          <Recipes.Column id="outputId" title="Item ID" align="right" small sortBy="outputItemId" hidden>{({ outputItemId }) => outputItemId}</Recipes.Column>
+          <Recipes.Column id="outputId" title="Item ID" align="right" small sortBy="outputItemIdRaw" hidden>{({ outputItemIdRaw }) => outputItemIdRaw}</Recipes.Column>
           <Recipes.Column id="output" title="Output">
             {(recipe) => (
               <div className={styles.outputColumn}>
                 <OutputCount count={recipe.outputCount}>
-                  {recipe.outputItem ? (<ItemLink item={recipe.outputItem}/>) : 'Unknown'}
+                  {recipe.outputItem ? (<ItemLink item={recipe.outputItem}/>) : recipe.outputItemIdRaw ? <UnknownItem id={recipe.outputItemIdRaw}/> : 'Unknown'}
                 </OutputCount>
                 {!!recipe.unlockedByItems?.length && (
                   <div className={styles.unlock}>

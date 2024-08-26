@@ -5,7 +5,7 @@ import { db } from '../../db';
 import { Recipe } from '@gw2api/types/data/recipe';
 import { SchemaVersion } from '../helper/schema';
 
-export const CURRENT_VERSION = 7;
+export const CURRENT_VERSION = 8;
 
 /** @see Prisma.RecipeUpdateInput  */
 interface MigratedRecipe {
@@ -16,14 +16,7 @@ interface MigratedRecipe {
   outputItemIdRaw?: number;
   outputItemId?: number;
 
-  itemIngredientIds?: number[];
-  itemIngredients?: Prisma.IngredientItemUpdateManyWithoutRecipeNestedInput
-
-  currencyIngredientIds?: number[];
-  currencyIngredients?: Prisma.IngredientCurrencyUpdateManyWithoutRecipeNestedInput
-
-  guildUpgradeIngredientIds?: number[];
-  guildUpgradeIngredients?: Prisma.IngredientGuildUpgradeUpdateManyWithoutRecipeNestedInput
+  ingredients?: Prisma.RecipeIngredientUpdateManyWithoutRecipeNestedInput
 
   outputGuildUpgradeIdRaw?: number;
   outputGuildUpgradeId?: number;
@@ -50,57 +43,10 @@ export async function createMigrator() {
     // Version 2: Add raw item ids in case recipe gets added to db first
     // Version 3: Fix non item ids being added
     if(currentVersion < 3) {
-      const itemIngredients = recipe.ingredients.filter(({ type }) => type === 'Item');
-
       update.outputItemIdRaw = recipe.output_item_id;
-      update.itemIngredientIds = itemIngredients.map(toId);
 
       // update relations if they were missed in the past
       update.outputItemId = knownItemIds.includes(recipe.output_item_id) ? recipe.output_item_id : undefined;
-      update.itemIngredients = {
-        connectOrCreate: itemIngredients.filter(({ id }) => knownItemIds.includes(id)).map((ingredient) => ({
-          where: { recipeId_itemId: { itemId: ingredient.id, recipeId: recipe.id }},
-          create: {
-            itemId: ingredient.id,
-            count: ingredient.count
-          }
-        })),
-        deleteMany: { recipeId: recipe.id, itemId: { notIn: itemIngredients.map(toId) }}
-      };
-    }
-
-    // Version 4: Add currencies
-    if(currentVersion < 4) {
-      const currencyIngredients = recipe.ingredients.filter(({ type }) => type === 'Currency');
-
-      update.currencyIngredientIds = currencyIngredients.map(toId);
-
-      update.currencyIngredients = {
-        connectOrCreate: currencyIngredients.filter(({ id }) => knownCurrencyIds.includes(id)).map((ingredient) => ({
-          where: { recipeId_currencyId: { currencyId: ingredient.id, recipeId: recipe.id }},
-          create: {
-            currencyId: ingredient.id,
-            count: ingredient.count
-          }
-        })),
-      };
-    }
-
-    // Version 5: Add guild upgrades ingredients
-    if(currentVersion < 5) {
-      const guildUpgradeIngredients = recipe.ingredients.filter(({ type }) => type === 'GuildUpgrade');
-
-      update.guildUpgradeIngredientIds = guildUpgradeIngredients.map(toId);
-
-      update.guildUpgradeIngredients = {
-        connectOrCreate: guildUpgradeIngredients.filter(({ id }) => knownGuildUpgradeIds.includes(id)).map((ingredient) => ({
-          where: { recipeId_guildUpgradeId: { guildUpgradeId: ingredient.id, recipeId: recipe.id }},
-          create: {
-            guildUpgradeId: ingredient.id,
-            count: ingredient.count
-          }
-        })),
-      };
     }
 
     // Version 6: Add output guild upgrade
@@ -112,6 +58,33 @@ export async function createMigrator() {
     // Version 7: Add ingredient count
     if(currentVersion < 7) {
       update.ingredientCount = recipe.ingredients.length;
+    }
+
+    // Version 8:
+    if(currentVersion < 8) {
+      update.ingredients = {
+        upsert: recipe.ingredients.map((ingredient) => ({
+          where: { recipeId_type_ingredientId: { recipeId: recipe.id, type: ingredient.type, ingredientId: ingredient.id }},
+          create: {
+            type: ingredient.type,
+            ingredientId: ingredient.id,
+            count: ingredient.count,
+            itemId: ingredient.type === 'Item' && knownItemIds.includes(ingredient.id) ? ingredient.id : null,
+            currencyId: ingredient.type === 'Currency' && knownCurrencyIds.includes(ingredient.id) ? ingredient.id : null,
+            guildUpgradeId: ingredient.type === 'GuildUpgrade' && knownGuildUpgradeIds.includes(ingredient.id) ? ingredient.id : null,
+          },
+          update: {
+            count: ingredient.count,
+            itemId: ingredient.type === 'Item' && knownItemIds.includes(ingredient.id) ? ingredient.id : null,
+            currencyId: ingredient.type === 'Currency' && knownCurrencyIds.includes(ingredient.id) ? ingredient.id : null,
+            guildUpgradeId: ingredient.type === 'GuildUpgrade' && knownGuildUpgradeIds.includes(ingredient.id) ? ingredient.id : null,
+          }
+        })),
+        deleteMany: {
+          recipeId: recipe.id,
+          NOT: recipe.ingredients.map((ingredient) => ({ type: ingredient.type, ingredientId: ingredient.id }))
+        }
+      };
     }
 
     return update satisfies Prisma.RecipeUpdateInput;

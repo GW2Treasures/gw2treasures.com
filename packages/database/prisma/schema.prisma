@@ -41,10 +41,10 @@ model Item {
   unlocksSkinIds Int[]
 
   // recipes
-  recipeOutput     Recipe[]         @relation(name: "recipe_output")
-  ingredient       IngredientItem[]
+  recipeOutput     Recipe[] @relation(name: "recipe_output")
+  ingredient       RecipeIngredient[]
 
-  unlocksRecipe    Recipe[]         @relation(name: "unlocks_recipe")
+  unlocksRecipe    Recipe[] @relation(name: "unlocks_recipe")
   unlocksRecipeIds Int[]
 
   // mystic forge recipes
@@ -338,14 +338,7 @@ model Recipe {
   outputGuildUpgrade      GuildUpgrade? @relation(name: "recipe_output", fields: [outputGuildUpgradeId], references: [id])
   outputGuildUpgradeIdRaw Int?
 
-  itemIngredients   IngredientItem[]
-  itemIngredientIds Int[]
-
-  currencyIngredients   IngredientCurrency[]
-  currencyIngredientIds Int[]
-
-  guildUpgradeIngredients   IngredientGuildUpgrade[]
-  guildUpgradeIngredientIds Int[]
+  ingredients RecipeIngredient[]
 
   ingredientCount Int?
 
@@ -374,40 +367,31 @@ model RecipeHistory {
   @@id([recipeId, revisionId])
 }
 
-model IngredientItem {
-  recipeId Int
-  itemId   Int
+model RecipeIngredient {
+  recipeId     Int
+  ingredientId Int
+  type         RecipeIngredientType
 
   count Int
 
-  Recipe Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
-  Item   Item   @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  recipe Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
 
-  @@id([recipeId, itemId])
+  item   Item? @relation(fields: [itemId], references: [id], onDelete: SetNull)
+  itemId Int?
+  
+  currency   Currency? @relation(fields: [currencyId], references: [id], onDelete: SetNull)
+  currencyId Int?
+
+  guildUpgrade   GuildUpgrade? @relation(fields: [guildUpgradeId], references: [id], onDelete: SetNull)
+  guildUpgradeId Int?
+
+  @@id([recipeId, type, ingredientId])
 }
 
-model IngredientCurrency {
-  recipeId   Int
-  currencyId Int
-
-  count Int
-
-  Recipe   Recipe   @relation(fields: [recipeId], references: [id], onDelete: Cascade)
-  Currency Currency @relation(fields: [currencyId], references: [id], onDelete: Cascade)
-
-  @@id([recipeId, currencyId])
-}
-
-model IngredientGuildUpgrade {
-  recipeId   Int
-  guildUpgradeId Int
-
-  count Int
-
-  Recipe       Recipe       @relation(fields: [recipeId], references: [id], onDelete: Cascade)
-  GuildUpgrade GuildUpgrade @relation(fields: [guildUpgradeId], references: [id], onDelete: Cascade)
-
-  @@id([recipeId, guildUpgradeId])
+enum RecipeIngredientType {
+  Item
+  Currency
+  GuildUpgrade
 }
 
 model MysticForgeRecipe {
@@ -788,7 +772,7 @@ model Currency {
 
   containedIn CurrencyContent[] @relation("containedCurrency")
 
-  ingredient IngredientCurrency[]
+  ingredient RecipeIngredient[]
 
   removedFromApi Boolean @default(false)
   
@@ -927,7 +911,7 @@ model GuildUpgrade {
   icon   Icon? @relation(fields: [iconId], references: [id])
   iconId Int?
 
-  ingredient   IngredientGuildUpgrade[]
+  ingredient   RecipeIngredient[]
   recipeOutput Recipe[] @relation(name: "recipe_output")
   
   unlockedByItems Item[] @relation("unlocks_guild_upgrade")

@@ -52,7 +52,7 @@ export const RecipesUpdate: Job = {
 
     const recipes = recipesToUpdate.map((existing) => ({
       existing,
-      updated: apiRecipes.find(({ id }) => id === existing.id)!
+      updated: apiRecipes.get(existing.id)!
     })).filter(({ updated }) => updated !== undefined);
 
     const migrate = await createMigrator();

@@ -14,6 +14,7 @@ const getIngredientFor = cache(async (itemId: number) => {
       disciplines: true,
       outputCount: true,
       outputItemId: true,
+      ingredientCount: true,
       outputItem: { select: linkProperties },
       itemIngredients: { select: { count: true, Item: { select: linkProperties }}},
       currencyIngredients: { select: { count: true, Currency: { select: linkPropertiesWithoutRarity }}},

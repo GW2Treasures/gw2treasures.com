@@ -5,7 +5,7 @@ import { db } from '../../db';
 import { Recipe } from '@gw2api/types/data/recipe';
 import { SchemaVersion } from '../helper/schema';
 
-export const CURRENT_VERSION = 6;
+export const CURRENT_VERSION = 7;
 
 /** @see Prisma.RecipeUpdateInput  */
 interface MigratedRecipe {
@@ -27,6 +27,8 @@ interface MigratedRecipe {
 
   outputGuildUpgradeIdRaw?: number;
   outputGuildUpgradeId?: number;
+
+  ingredientCount?: number;
 }
 
 export async function createMigrator() {
@@ -105,6 +107,11 @@ export async function createMigrator() {
     if(currentVersion < 6) {
       update.outputGuildUpgradeIdRaw = recipe.output_upgrade_id;
       update.outputGuildUpgradeId = recipe.output_upgrade_id && knownGuildUpgradeIds.includes(recipe.output_upgrade_id) ? recipe.output_upgrade_id : undefined;
+    }
+
+    // Version 7: Add ingredient count
+    if(currentVersion < 7) {
+      update.ingredientCount = recipe.ingredients.length;
     }
 
     return update satisfies Prisma.RecipeUpdateInput;

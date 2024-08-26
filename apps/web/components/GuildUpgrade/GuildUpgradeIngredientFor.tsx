@@ -14,6 +14,7 @@ const getIngredientForGuildUpgrade = cache(async (guildUpgradeId: number) => {
       disciplines: true,
       outputCount: true,
       outputItemId: true,
+      ingredientCount: true,
       currentRevision: { select: { data: true }},
       outputItem: { select: linkProperties },
       itemIngredients: { select: { count: true, Item: { select: linkProperties }}},

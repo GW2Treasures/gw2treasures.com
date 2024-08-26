@@ -17,7 +17,6 @@ import { notFound } from 'next/navigation';
 import { Suspense, type FC } from 'react';
 import { SkeletonTable } from '@/components/Skeleton/SkeletonTable';
 import { getLinkProperties } from '@/lib/linkProperties';
-import { AchievementLink } from '@/components/Achievement/AchievementLink';
 import { Tooltip } from '@/components/Tooltip/Tooltip';
 import { ItemLinkTooltip } from '@/components/Item/ItemLinkTooltip';
 import { Icon } from '@gw2treasures/ui';
@@ -29,7 +28,6 @@ import { getItem, getRevision } from './data';
 import { EditContents } from './_edit-content/EditContents';
 import { CurrencyLink } from '@/components/Currency/CurrencyLink';
 import { CurrencyValue } from '@/components/Currency/CurrencyValue';
-import { compareLocalizedName } from '@/lib/localizedName';
 import { ItemTable } from '@/components/ItemTable/ItemTable';
 import { ItemTableContext } from '@/components/ItemTable/ItemTableContext';
 import { ItemTableColumnsButton } from '@/components/ItemTable/ItemTableColumnsButton';
@@ -50,6 +48,8 @@ import { MysticForgeRecipeTable } from '@/components/Recipe/MysticForgeRecipeTab
 import { LinkButton } from '@gw2treasures/ui/components/Form/Button';
 import { SkinTable } from '@/components/Skin/SkinTable';
 import { ItemInventoryTable } from '@/components/Item/ItemInventoryTable';
+import { AchievementTable } from '@/components/Achievement/AchievementTable';
+import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 
 export interface ItemPageComponentProps {
   language: Language;
@@ -84,8 +84,6 @@ export const ItemPageComponent: FC<ItemPageComponentProps> = async ({ language, 
 
   const hasSkinUnlocks = item.unlocksSkinIds.length > 0;
   const unknownSkinIds = item.unlocksSkinIds.filter((id) => item.unlocksSkin.every((skin) => skin.id !== id));
-
-  const compareByName = compareLocalizedName(language);
 
   const icon = parseIcon(data.icon);
 
@@ -156,30 +154,51 @@ export const ItemPageComponent: FC<ItemPageComponentProps> = async ({ language, 
       {(item.achievementBits.length > 0 || item.achievementRewards.length > 0 || skinAchievementBits.length > 0) && (<Headline id="achievements">Achievements</Headline>)}
 
       {item.achievementBits.length > 0 && (
-        <>
-          <p>Required to complete the following achievements:</p>
-          <ItemList>
-            {item.achievementBits.sort(compareByName).map((achievement) => <li key={achievement.id}><AchievementLink achievement={achievement}/></li>)}
-          </ItemList>
-        </>
+        <AchievementTable language={language} achievements={item.achievementBits}>
+          {(table, columnSelect) => (
+            <>
+              <FlexRow align="space-between" wrap>
+                <div><p>Required to complete these achievements:</p></div>
+                {columnSelect}
+              </FlexRow>
+              <div style={{ marginTop: 16 }}>
+                {table}
+              </div>
+            </>
+          )}
+        </AchievementTable>
       )}
 
       {item.achievementRewards.length > 0 && (
-        <>
-          <p>Rewarded for completing the following achievements:</p>
-          <ItemList>
-            {item.achievementRewards.sort(compareByName).map((achievement) => <li key={achievement.id}><AchievementLink achievement={achievement}/></li>)}
-          </ItemList>
-        </>
+        <AchievementTable language={language} achievements={item.achievementRewards}>
+          {(table, columnSelect) => (
+            <>
+              <FlexRow align="space-between" wrap>
+                <div><p>Rewarded for completing these achievements:</p></div>
+                {columnSelect}
+              </FlexRow>
+              <div style={{ marginTop: 16 }}>
+                {table}
+              </div>
+            </>
+          )}
+        </AchievementTable>
       )}
 
       {skinAchievementBits.length > 0 && (
-        <>
-          <p>The skin unlocked by this item is required to complete the following achievements:</p>
-          <ItemList>
-            {skinAchievementBits.sort(compareByName).map((achievement) => <li key={achievement.id}><AchievementLink achievement={achievement}/></li>)}
-          </ItemList>
-        </>
+        <AchievementTable language={language} achievements={skinAchievementBits}>
+          {(table, columnSelect) => (
+            <>
+              <FlexRow align="space-between" wrap>
+                <div><p>The skin unlocked by this item is required to complete these achievements:</p></div>
+                {columnSelect}
+              </FlexRow>
+              <div style={{ marginTop: 16 }}>
+                {table}
+              </div>
+            </>
+          )}
+        </AchievementTable>
       )}
 
       {item.unlocksRecipe && item.unlocksRecipe.length > 0 && (

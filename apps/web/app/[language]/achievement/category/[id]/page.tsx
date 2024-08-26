@@ -13,13 +13,10 @@ import { Icon } from '@gw2treasures/ui';
 import { RemovedFromApiNotice } from '@/components/Notice/RemovedFromApiNotice';
 import type { Metadata } from 'next';
 import { linkProperties } from '@/lib/linkProperties';
-import { ItemLink } from '@/components/Item/ItemLink';
-import { AccountAchievementProgressHeader, AccountAchievementProgressRow } from '@/components/Achievement/AccountAchievementProgress';
-import { AchievementPoints } from '@/components/Achievement/AchievementPoints';
-import { format } from 'gw2-tooltip-html';
-import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
-import { ColumnSelect } from '@/components/Table/ColumnSelect';
 import { cache } from '@/lib/cache';
+import { AchievementTable } from '@/components/Achievement/AchievementTable';
+import { Breadcrumb, BreadcrumbItem } from '@/components/Breadcrumb/Breadcrumb';
+import { getTranslate } from '@/lib/translate';
 
 export interface AchievementCategoryPageProps {
   params: {
@@ -67,14 +64,19 @@ async function AchievementCategoryPage({ params: { language, id }}: AchievementC
     [[], []]
   );
 
-  const CurrentAchievements = createDataTable(currentAchievements, ({ id }) => id);
+  const t = getTranslate(language);
 
   return (
     <DetailLayout
       color={achievementCategory.icon?.color ?? undefined}
       title={data.name}
       icon={achievementCategory.icon}
-      breadcrumb={`Achievements › ${achievementCategory.achievementGroup ? localizedName(achievementCategory.achievementGroup, language) : 'Unknown Group'}`}
+      breadcrumb={(
+        <Breadcrumb>
+          <BreadcrumbItem href="/achievement" name={t('navigation.achievements')}/>
+          {achievementCategory?.achievementGroup ? <BreadcrumbItem href={`/achievement#${achievementCategory.achievementGroup.id}`} name={localizedName(achievementCategory.achievementGroup, language)}/> : <BreadcrumbItem name="Unknown Group"/>}
+        </Breadcrumb>
+      )}
     >
       {achievementCategory.removedFromApi && (
         <RemovedFromApiNotice type="achievement category"/>
@@ -84,36 +86,12 @@ async function AchievementCategoryPage({ params: { language, id }}: AchievementC
         <p>{data.description}</p>
       )}
 
-      <Headline id="achievements" actions={<ColumnSelect table={CurrentAchievements}/>}>Achievements</Headline>
-      <CurrentAchievements.Table>
-        <CurrentAchievements.Column id="id" title="ID" sortBy="id" hidden small align="right">
-          {({ id }) => id}
-        </CurrentAchievements.Column>
-        <CurrentAchievements.Column id="achievement" title="Achievement" sortBy={`name_${language}`}>
-          {(achievement) => <AchievementLink achievement={achievement}/>}
-        </CurrentAchievements.Column>
-        <CurrentAchievements.Column id="points" align="right" title="AP" sortBy="points">
-          {({ points }) => <AchievementPoints points={points}/>}
-        </CurrentAchievements.Column>
-        <CurrentAchievements.Column id="mastery" title={<MasteryColumnHeader/>} sortBy="mastery">
-          {({ mastery }) => mastery}
-        </CurrentAchievements.Column>
-        <CurrentAchievements.Column id="title" title={<TitleColumnHeader/>} sortBy={({ rewardsTitle }) => rewardsTitle.length}>
-          {({ rewardsTitle }) => rewardsTitle.map((title) => <span key={title.id} dangerouslySetInnerHTML={{ __html: format(localizedName(title, language)) }}/>)}
-        </CurrentAchievements.Column>
-        <CurrentAchievements.Column id="items" title="Items" sortBy={({ rewardsItem }) => rewardsItem.length}>
-          {({ rewardsItem }) => rewardsItem.length > 0 && (
-            <ItemList singleColumn>
-              {rewardsItem.map((item) => (
-                <li key={item.id}><ItemLink item={item} icon={32}/></li>
-              ))}
-            </ItemList>
-          )}
-        </CurrentAchievements.Column>
-        <CurrentAchievements.DynamicColumns headers={<AccountAchievementProgressHeader/>}>
-          {(achievement) => <AccountAchievementProgressRow achievement={achievement}/>}
-        </CurrentAchievements.DynamicColumns>
-      </CurrentAchievements.Table>
+      <AchievementTable
+        language={language}
+        achievements={currentAchievements}
+        includeRewardsColumns
+        headline="Achievements"
+        headlineId="achievements"/>
 
       {historicAchievements.length > 0 && (
         <>
@@ -152,5 +130,3 @@ export async function generateMetadata({ params }: AchievementCategoryPageProps)
   };
 }
 
-const MasteryColumnHeader = () => (<><Icon icon="mastery"/> Mastery</>);
-const TitleColumnHeader = () => (<><Icon icon="title"/> Title</>);

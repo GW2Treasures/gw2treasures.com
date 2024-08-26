@@ -9,7 +9,7 @@ import { useSubscription } from '../Gw2Api/Gw2AccountSubscriptionProvider';
 import { Scope } from '@gw2me/client';
 import type { Achievement } from '@gw2treasures/database';
 import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
-import { Gw2AccountName } from '../Gw2Api/Gw2AccountName';
+import { Gw2AccountHeaderCells } from '../Gw2Api/Gw2AccountTableCells';
 
 const requiredScopes = [Scope.GW2_Progression];
 
@@ -23,13 +23,7 @@ export interface AccountAchievementProgressCellProps {
   accountId: string;
 }
 
-export const AccountAchievementProgressHeader: FC = () => {
-  const accounts = useGw2Accounts(requiredScopes);
-
-  return !accounts.loading && !accounts.error && accounts.accounts.map((account) => (
-    <th key={account.id}><Gw2AccountName account={account}/></th>
-  ));
-};
+export const AccountAchievementProgressHeader: FC = () => <Gw2AccountHeaderCells requiredScopes={requiredScopes} small/>;
 
 export const AccountAchievementProgressRow: FC<RowProps> = ({ achievement, bitId }) => {
   const accounts = useGw2Accounts(requiredScopes);

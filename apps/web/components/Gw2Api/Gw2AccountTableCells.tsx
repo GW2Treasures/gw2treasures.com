@@ -17,7 +17,9 @@ export const Gw2AccountHeaderCells: FC<Gw2AccountHeaderCellsProps> = ({ required
 
   return !accounts.loading && !accounts.error && accounts.accounts.map((account) => (
     <Table.HeaderCell key={account.id} small={small} colSpan={colSpan}>
-      <Gw2AccountName account={account}/>
+      <div style={{ minWidth: 120 }}>
+        <Gw2AccountName account={account}/>
+      </div>
     </Table.HeaderCell>
   ));
 };

@@ -5,10 +5,8 @@ import rarityClasses from '@/components/Layout/RarityColor.module.css';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import type { Gw2Api } from 'gw2-api-types';
 import { notFound } from 'next/navigation';
-import { ItemList } from '@/components/ItemList/ItemList';
 import { SkinInfobox } from '@/components/Skin/SkinInfobox';
-import { linkPropertiesWithoutRarity } from '@/lib/linkProperties';
-import { AchievementLink } from '@/components/Achievement/AchievementLink';
+import { linkProperties } from '@/lib/linkProperties';
 import { TableOfContentAnchor } from '@gw2treasures/ui/components/TableOfContent/TableOfContent';
 import { ExternalLink } from '@gw2treasures/ui/components/Link/ExternalLink';
 import { localizedName } from '@/lib/localizedName';
@@ -23,6 +21,7 @@ import { getAlternateUrls } from '@/lib/url';
 import { Wardrobe } from './wardrobe';
 import { SkinTable } from '@/components/Skin/SkinTable';
 import { SkinTooltip } from '@/components/Skin/SkinTooltip';
+import { AchievementTable } from '@/components/Achievement/AchievementTable';
 
 const getSkin = cache(async (id: number, language: Language) => {
   const [skin, revision] = await Promise.all([
@@ -30,7 +29,7 @@ const getSkin = cache(async (id: number, language: Language) => {
       where: { id },
       include: {
         icon: true,
-        achievementBits: { select: linkPropertiesWithoutRarity },
+        achievementBits: { include: { icon: true, rewardsItem: { select: linkProperties }, rewardsTitle: { select: { id: true, name_de: true, name_en: true, name_es: true, name_fr: true }}}},
       }
     }),
     db.revision.findFirst({ where: { [`currentSkin_${language}`]: { id }}}),
@@ -74,13 +73,18 @@ async function SkinPage ({ params: { language, id }}: SkinPageProps) {
       <Wardrobe skinId={skin.id}/>
 
       {skin.achievementBits.length > 0 && (
-        <>
-          <Headline id="achievements">Achievements</Headline>
-          <p>Required to complete the following achievements:</p>
-          <ItemList>
-            {skin.achievementBits.map((achievement) => <li key={achievement.id}><AchievementLink achievement={achievement}/></li>)}
-          </ItemList>
-        </>
+        <AchievementTable language={language} achievements={skin.achievementBits}>
+          {(table, columnSelect) => (
+            <>
+              <Headline id="achievements" actions={columnSelect}>Achievements</Headline>
+              <p>Required to complete these achievements:</p>
+
+              <div style={{ marginTop: 16 }}>
+                {table}
+              </div>
+            </>
+          )}
+        </AchievementTable>
       )}
 
       <ItemTableContext id="unlocksSkin">

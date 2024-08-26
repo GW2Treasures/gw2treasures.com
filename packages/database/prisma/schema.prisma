@@ -347,6 +347,8 @@ model Recipe {
   guildUpgradeIngredients   IngredientGuildUpgrade[]
   guildUpgradeIngredientIds Int[]
 
+  ingredientCount Int?
+
   removedFromApi Boolean @default(false)
   
   currentRevision   Revision @relation("current", fields: [currentRevisionId], references: [id], onDelete: Cascade)

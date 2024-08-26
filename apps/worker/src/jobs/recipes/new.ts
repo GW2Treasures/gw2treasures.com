@@ -4,6 +4,8 @@ import { getCurrentBuild } from '../helper/getCurrentBuild';
 import { createMigrator } from './migrations';
 import { loadRecipes } from '../helper/loadRecipes';
 import { schema } from '../helper/schema';
+import { Prisma } from '@gw2treasures/database';
+import { appendHistory } from '../helper/appendHistory';
 
 export const RecipesNew: Job = {
   run: async (newIds: number[]) => {
@@ -31,23 +33,26 @@ export const RecipesNew: Job = {
       // delete deleteMany if it exists, because prisma doesn't allow deleteMany on create queries
       delete data.itemIngredients?.deleteMany;
 
+      const update: Prisma.RecipeCreateArgs['data'] = {
+        id: recipe.id,
+        type: recipe.type,
+        rating: recipe.min_rating,
+        disciplines: recipe.disciplines,
+        outputCount: recipe.output_item_count,
+        outputItemId: outputItem?.id,
+        timeToCraftMs: recipe.time_to_craft_ms,
+
+        ...data,
+
+        currentId: revision.id,
+
+        unlockedByItems: { connect: unlockedByItemIds }
+      };
+
+      update.history = appendHistory(update, revision.id);
+
       await db.recipe.create({
-        data: {
-          id: recipe.id,
-          type: recipe.type,
-          rating: recipe.min_rating,
-          disciplines: recipe.disciplines,
-          outputCount: recipe.output_item_count,
-          outputItemId: outputItem?.id,
-          timeToCraftMs: recipe.time_to_craft_ms,
-
-          ...data,
-
-          currentRevisionId: revision.id,
-          history: { connect: { id: revision.id }},
-
-          unlockedByItems: { connect: unlockedByItemIds }
-        }
+        data: update
       });
     }
 

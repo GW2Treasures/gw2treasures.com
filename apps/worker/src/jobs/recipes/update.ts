@@ -6,6 +6,8 @@ import { createMigrator } from './migrations';
 import { loadRecipes } from '../helper/loadRecipes';
 import { toId } from '../helper/toId';
 import { schema } from '../helper/schema';
+import { Prisma } from '@gw2treasures/database';
+import { appendHistory } from '../helper/appendHistory';
 
 export const RecipesUpdate: Job = {
   run: async (ids: number[] | Record<string, never>) => {
@@ -37,7 +39,7 @@ export const RecipesUpdate: Job = {
     const recipesToUpdate = await db.recipe.findMany({
       where: { id: { in: ids }},
       orderBy: { lastCheckedAt: 'asc' },
-      include: { currentRevision: true },
+      include: { current: true },
       take: 200,
     });
 
@@ -58,7 +60,7 @@ export const RecipesUpdate: Job = {
     let updatedRecipes = 0;
 
     for(const { existing, updated } of recipes) {
-      const changed = existing.currentRevision.data !== JSON.stringify(updated);
+      const changed = existing.current.data !== JSON.stringify(updated);
 
       if(!changed) {
         // nothing changed
@@ -66,7 +68,7 @@ export const RecipesUpdate: Job = {
         continue;
       }
 
-      const revision = changed ? await db.revision.create({ data: { data: JSON.stringify(updated), language: 'en', buildId, type: 'Update', entity: 'Recipe', description: 'Updated in API', schema }}) : existing.currentRevision;
+      const revision = changed ? await db.revision.create({ data: { data: JSON.stringify(updated), language: 'en', buildId, type: 'Update', entity: 'Recipe', description: 'Updated in API', schema }}) : existing.current;
 
       // load output item
       const outputItem = await db.item.findUnique({
@@ -77,25 +79,28 @@ export const RecipesUpdate: Job = {
       const unlockedByItemIds = await db.item.findMany({ where: { unlocksRecipeIds: { has: existing.id }}, select: { id: true }});
       const migratedData = await migrate(updated);
 
+      const update: Prisma.RecipeUpdateArgs['data'] = {
+        removedFromApi: false,
+        type: updated.type,
+        rating: updated.min_rating,
+        disciplines: updated.disciplines,
+        outputCount: updated.output_item_count,
+        outputItemId: outputItem?.id,
+        timeToCraftMs: updated.time_to_craft_ms,
+
+        unlockedByItems: { set: unlockedByItemIds },
+
+        ...migratedData,
+
+        lastCheckedAt: new Date(),
+        currentId: revision.id,
+      };
+
+      update.history = appendHistory(update, revision.id);
+
       await db.recipe.update({
         where: { id: existing.id },
-        data: {
-          removedFromApi: false,
-          type: updated.type,
-          rating: updated.min_rating,
-          disciplines: updated.disciplines,
-          outputCount: updated.output_item_count,
-          outputItemId: outputItem?.id,
-          timeToCraftMs: updated.time_to_craft_ms,
-
-          unlockedByItems: { set: unlockedByItemIds },
-
-          ...migratedData,
-
-          lastCheckedAt: new Date(),
-          history: { connect: { id: revision.id }},
-          currentRevisionId: revision.id,
-        }
+        data: update
       });
 
       updatedRecipes++;

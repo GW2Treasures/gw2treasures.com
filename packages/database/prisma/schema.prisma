@@ -351,10 +351,10 @@ model Recipe {
 
   removedFromApi Boolean @default(false)
   
-  currentRevision   Revision @relation("current", fields: [currentRevisionId], references: [id], onDelete: Cascade)
-  currentRevisionId String @unique
+  current   Revision @relation("current", fields: [currentId], references: [id], onDelete: Cascade)
+  currentId String @unique
 
-  history Revision[]
+  history RecipeHistory[]
 
   lastCheckedAt  DateTime   @default(now())
 
@@ -362,6 +362,16 @@ model Recipe {
   updatedAt      DateTime   @updatedAt
 
   version Int @default(0)
+}
+
+model RecipeHistory {
+  recipeId Int
+  revisionId String
+
+  recipe Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  revision Revision @relation(fields: [revisionId], references: [id], onDelete: Cascade)
+
+  @@id([recipeId, revisionId])
 }
 
 model IngredientItem {
@@ -702,7 +712,7 @@ model Revision {
 
   // recipes
   currentRecipe Recipe? @relation("current")
-  recipeHistory Recipe[]
+  recipeHistory RecipeHistory[]
   
   // colors
   currentColor_de Color? @relation("current_de")

@@ -1,6 +1,5 @@
 'use client';
 
-import type { Gw2Api } from 'gw2-api-types';
 import type { FC } from 'react';
 import styles from './page.module.css';
 import { FormatNumber } from '@/components/Format/FormatNumber';
@@ -15,9 +14,10 @@ import { Scope } from '@gw2me/client';
 import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { Gw2AccountName } from '@/components/Gw2Api/Gw2AccountName';
+import type { Achievement } from '@gw2api/types/data/achievement';
 
 export interface TierTableProps {
-  achievement: Gw2Api.Achievement;
+  achievement: Achievement;
 }
 
 const requiredScopes = [Scope.GW2_Progression];
@@ -59,7 +59,7 @@ export const TierTable: FC<TierTableProps> = ({ achievement }) => {
 
 
 interface TierTableAccountRowProps {
-  achievement: Gw2Api.Achievement;
+  achievement: Achievement;
   account: Gw2Account;
 }
 

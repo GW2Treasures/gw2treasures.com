@@ -244,5 +244,12 @@
   "homestead.glyphs.description": "Diese Glyphen können in den Sammelboxen in der Heimstatt ausgerüstet werden.",
   "homestead.glyphs.slot.harvesting": "Pflanze",
   "homestead.glyphs.slot.logging": "Holz",
-  "homestead.glyphs.slot.mining": "Erzader"
+  "homestead.glyphs.slot.mining": "Erzader",
+  "mastery.Tyria": "Zentraltyria",
+  "mastery.Maguuma": "Heart of Thorns",
+  "mastery.Desert": "Path of Fire",
+  "mastery.Tundra": "Die Eisbrut-Saga",
+  "mastery.Jade": "End of Dragons",
+  "mastery.Sky": "Secrets of the Obscure",
+  "mastery.Unknown": "Janthir Wilds"
 }

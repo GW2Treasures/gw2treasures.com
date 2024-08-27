@@ -12,6 +12,7 @@ export type DataTableRowFilterComponent = FC<DataTableRowFilterComponentProps>;
 export interface DataTableProps<T> {
   children: Array<ColumnReactElement<T> | DynamicColumnsReactElement<T>>,
   rowFilter?: DataTableRowFilterComponent,
+  collapsed?: boolean | number,
 }
 
 type ColumnReactElement<T> = ReactElement<DataTableColumnProps<T>, FC<DataTableColumnProps<T>>>;
@@ -61,7 +62,7 @@ export function createDataTable<T>(rows: T[], getRowKey: (row: T, index: number)
   }
 
   return {
-    Table: function DataTable({ children, rowFilter }: DataTableProps<T>) {
+    Table: function DataTable({ children, rowFilter, collapsed = false }: DataTableProps<T>) {
       const columns = children;
 
       if(columns.some((child) => child.type !== Column && child.type !== DynamicColumns)) {
@@ -101,7 +102,7 @@ export function createDataTable<T>(rows: T[], getRowKey: (row: T, index: number)
               </tr>
             </thead>
             <tbody>
-              <DataTableClientRows sortableColumns={sortableColumns}>
+              <DataTableClientRows sortableColumns={sortableColumns} collapsed={collapsed}>
                 {rows.map((row, index) => {
                   const Row = rowFilter ?? 'tr';
 

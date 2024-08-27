@@ -8,9 +8,10 @@ import { Separator } from '../Layout/Separator';
 import { DataTableGlobalContext, type AvailableColumn } from './DataTableContext';
 import { Table, type HeaderCellProps } from './Table';
 import { useState, type FC, type ReactNode, createContext, useCallback, useContext, useEffect, useMemo, type ThHTMLAttributes } from 'react';
+import { TableCollapse } from './TableCollapse';
 
-type DataTableContext = { id: string, sortBy: string | undefined, sortOrder: 'asc' | 'desc', visibleColumns: string[] };
-const defaultDataTableContext: DataTableContext = { id: '', sortBy: undefined, sortOrder: 'asc', visibleColumns: [] };
+type DataTableContext = { id: string, sortBy: string | undefined, sortOrder: 'asc' | 'desc', visibleColumns: string[], interacted: boolean };
+const defaultDataTableContext: DataTableContext = { id: '', sortBy: undefined, sortOrder: 'asc', visibleColumns: [], interacted: false };
 const DataTableContext = createContext<{ state: DataTableContext, setState: (state: Partial<DataTableContext>) => void }>({ state: defaultDataTableContext, setState: () => {} });
 DataTableContext.displayName = 'DataTableContext';
 
@@ -26,15 +27,15 @@ export const DataTableClient: FC<DataTableClientProps> = ({ children, id, column
   const { setAvailableColumns } = useContext(DataTableGlobalContext);
 
   const setState = useCallback((update: Partial<DataTableContext>) => {
-    setStateInternal((currentState) => ({ ...currentState, ...update }));
+    setStateInternal((currentState) => ({ ...currentState, interacted: true, ...update }));
   }, []);
 
   useEffect(() => setAvailableColumns(id, columns), [setAvailableColumns, id, columns]);
   useEffect(() => {
     if(columns === currentAvailableColumns) {
-      setStateInternal((state) => ({ ...state, visibleColumns: currentColumns }));
+      setState({ visibleColumns: currentColumns, interacted: false });
     }
-  }, [currentColumns, columns, currentAvailableColumns]);
+  }, [currentColumns, columns, currentAvailableColumns, setState]);
 
   return (
     <DataTableContext.Provider value={{ state, setState }}>
@@ -47,21 +48,21 @@ export const DataTableClient: FC<DataTableClientProps> = ({ children, id, column
 export interface DataTableClientRowsProps {
   children: ReactNode[];
   sortableColumns: Record<string, number[]>
+  collapsed: boolean | number;
 }
 
-export const DataTableClientRows: FC<DataTableClientRowsProps> = ({ children, sortableColumns }) => {
-  const { sortBy, sortOrder } = useContext(DataTableContext).state;
+export const DataTableClientRows: FC<DataTableClientRowsProps> = ({ children, sortableColumns, collapsed }) => {
+  const { sortBy, sortOrder, interacted } = useContext(DataTableContext).state;
 
-  if(sortBy && sortableColumns[sortBy]) {
-    const sortedChildren = sortableColumns[sortBy].map((index) => children[index]);
+  const rows = sortBy && sortableColumns[sortBy]
+    ? sortOrder === 'desc'
+      ? sortableColumns[sortBy].map((index) => children.at(index)).toReversed()
+      : sortableColumns[sortBy].map((index) => children.at(index))
+    : children;
 
-    if(sortOrder === 'desc') {
-      return sortedChildren.reverse();
-    }
-    return sortedChildren;
-  }
-
-  return children;
+  return collapsed && !interacted
+    ? (<TableCollapse limit={collapsed === true ? undefined : collapsed}>{rows}</TableCollapse>)
+    : rows;
 };
 
 

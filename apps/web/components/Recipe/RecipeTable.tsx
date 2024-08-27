@@ -82,7 +82,7 @@ export const RecipeTable: FC<RecipeTableProps> = ({ recipes }) => {
       </Headline>
 
       <div style={{ '--ingredient-count-min-width': '3ch' }}>
-        <Recipes.Table rowFilter={RecipeRowFilter}>
+        <Recipes.Table rowFilter={RecipeRowFilter} collapsed={10}>
           <Recipes.Column id="id" title="ID" align="right" small sortBy="id" hidden>{({ id }) => id}</Recipes.Column>
           <Recipes.Column id="outputId" title="Item ID" align="right" small sortBy="outputItemIdRaw" hidden>{({ outputItemIdRaw }) => outputItemIdRaw}</Recipes.Column>
           <Recipes.Column id="output" title="Output">

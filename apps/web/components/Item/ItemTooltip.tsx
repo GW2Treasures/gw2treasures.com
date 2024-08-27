@@ -11,6 +11,7 @@ import { localizedName, type LocalizedEntity } from '@/lib/localizedName';
 import { db } from '@/lib/prisma';
 import { parseIcon } from '@/lib/parseIcon';
 import type { FC } from 'react';
+import { encode } from 'gw2e-chat-codes';
 
 export interface ItemTooltipProps {
   item: Gw2Api.Item;
@@ -104,7 +105,7 @@ export async function createTooltip(item: Gw2Api.Item, language: Language): Prom
 
   return {
     language,
-    name: item.name,
+    name: item.name || encode('item', item.id) || '???',
     icon,
     weaponStrength: item.type === 'Weapon'
       ? { label: t('item.strength'), min: item.details?.min_power ?? 0, max: item.details?.max_power ?? 0 }

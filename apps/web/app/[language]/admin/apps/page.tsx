@@ -136,13 +136,13 @@ const Chart: FC = async () => {
       </svg>
       <Table width="auto">
         <thead>
-          <tr><th>Endpoint</th><th>Count</th></tr>
+          <tr><th>Endpoint</th><th align="right">Count</th></tr>
         </thead>
         <tbody>
           {byEndpoint.map(([endpoint, values], index) => (
             <tr key={endpoint}>
               <th><span style={{ backgroundColor: colorPalette[index % colorPalette.length], width: 8, height: 8, borderRadius: 8, display: 'inline-block' }}/> {endpoint}</th>
-              <td><FormatNumber value={values.reduce((total, { count }) => total + count, 0)}/></td>
+              <td align="right"><FormatNumber value={values.reduce((total, { count }) => total + count, 0)}/></td>
             </tr>
           ))}
         </tbody>

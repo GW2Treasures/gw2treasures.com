@@ -1,5 +1,5 @@
 /* eslint-disable react/no-array-index-key */
-import type { Language, MasteryRegion } from '@gw2treasures/database';
+import type { Language } from '@gw2treasures/database';
 import DetailLayout from '@/components/Layout/DetailLayout';
 import { db } from '@/lib/prisma';
 import type { Gw2Api } from 'gw2-api-types';
@@ -17,7 +17,6 @@ import { ItemLink } from '@/components/Item/ItemLink';
 import { SkinLink } from '@/components/Skin/SkinLink';
 import { AchievementLink } from '@/components/Achievement/AchievementLink';
 import { AchievementInfobox } from '@/components/Achievement/AchievementInfobox';
-import type * as CSS from 'csstype';
 import { RemovedFromApiNotice } from '@/components/Notice/RemovedFromApiNotice';
 import { Breadcrumb, BreadcrumbItem } from '@/components/Breadcrumb/Breadcrumb';
 import { AchievementCategoryLink } from '@/components/Achievement/AchievementCategoryLink';
@@ -33,19 +32,11 @@ import { getAlternateUrls } from '@/lib/url';
 import { UnknownItem } from '@/components/Item/UnknownItem';
 import { getTranslate } from '@/lib/translate';
 import { getIconUrl } from '@/lib/getIconUrl';
-import type { AchievementFlags } from '@gw2api/types/data/achievement';
+import type { Achievement, AchievementFlags } from '@gw2api/types/data/achievement';
 import { AchievementTable } from '@/components/Achievement/AchievementTable';
 import type { ReactNode } from 'react';
+import { Mastery, MasteryColors } from '@/components/Achievement/Mastery';
 
-const MasteryColors: Record<MasteryRegion, CSS.Property.Color> = {
-  'Tyria': '#FB8C00', //   core
-  'Maguuma': '#43A047', // HoT
-  'Desert': '#D81B60', //  PoF
-  'Tundra': '#00ACC1', //  Icebrood
-  'Jade': '#1E88E5', //    EoD
-  'Sky': '#F3D71F', //     SotO
-  'Unknown': 'currentColor',
-};
 
 const notPartOfCategoryDisplayFlags: AchievementFlags[] = ['Repeatable', 'RequiresUnlock', 'Hidden', 'Daily', 'Weekly', 'IgnoreNearlyComplete'];
 
@@ -112,7 +103,7 @@ async function AchievementPage({ params: { id, language }}: AchievementPageProps
   const { achievement, revision, categoryAchievements } = await getAchievement(achievementId, language);
   await pageView('achievement', achievementId);
 
-  const data: Gw2Api.Achievement = JSON.parse(revision.data);
+  const data: Achievement = JSON.parse(revision.data);
 
   const Bits = data.bits && data.bits.length > 0 && !data.flags.includes('CategoryDisplay') ? createDataTable(data.bits, (_, index) => index) : undefined;
   const hasCategoryAchievements = data.flags.includes('CategoryDisplay') && categoryAchievements.length > 0;
@@ -239,7 +230,7 @@ async function AchievementPage({ params: { id, language }}: AchievementPageProps
                     <li key={reward.id}>
                       <FlexRow>
                         <span className={styles.listIcon} style={reward.region ? { '--icon-color': MasteryColors[reward.region], backgroundColor: `${MasteryColors[reward.region]}22` } : undefined}><Icon icon="mastery"/></span>
-                        {reward.region} Mastery
+                        <Mastery mastery={reward.region}/>
                       </FlexRow>
                     </li>
                   );

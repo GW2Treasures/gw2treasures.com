@@ -252,5 +252,12 @@
   "homestead.glyphs.description": "These glyphs can be slotted in the collection boxes in your homestead.",
   "homestead.glyphs.slot.harvesting": "Harvesting",
   "homestead.glyphs.slot.logging": "Logging",
-  "homestead.glyphs.slot.mining": "Mining"
+  "homestead.glyphs.slot.mining": "Mining",
+  "mastery.Tyria": "Central Tyria",
+  "mastery.Maguuma": "Heart of Thorns",
+  "mastery.Desert": "Path of Fire",
+  "mastery.Tundra": "The Icebrood Saga",
+  "mastery.Jade": "End of Dragons",
+  "mastery.Sky": "Secrets of the Obscure",
+  "mastery.Unknown": "Janthir Wilds"
 }

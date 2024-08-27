@@ -18,6 +18,7 @@ import { AchievementFlags, displayedFlags } from './AchievementFlags';
 import { DropDown } from '@gw2treasures/ui/components/DropDown/DropDown';
 import { Button, LinkButton } from '@gw2treasures/ui/components/Form/Button';
 import { MenuList } from '@gw2treasures/ui/components/Layout/MenuList';
+import { Mastery } from './Mastery';
 
 export interface AchievementTableProps {
   language: Language;
@@ -54,7 +55,7 @@ export const AchievementTable: FC<AchievementTableProps> = ({ language, achievem
         {({ flags }) => <AchievementFlags flags={flags}/>}
       </Achievements.Column>
       <Achievements.Column id="mastery" title={<MasteryColumnHeader/>} sortBy="mastery" hidden={!includeRewardsColumns}>
-        {({ mastery }) => mastery}
+        {({ mastery }) => mastery && <Mastery mastery={mastery}/>}
       </Achievements.Column>
       <Achievements.Column id="title" title={<TitleColumnHeader/>} sortBy={({ rewardsTitle }) => rewardsTitle.length} hidden={!includeRewardsColumns}>
         {({ rewardsTitle }) => rewardsTitle.map((title) => <span key={title.id} dangerouslySetInnerHTML={{ __html: format(localizedName(title, language)) }}/>)}

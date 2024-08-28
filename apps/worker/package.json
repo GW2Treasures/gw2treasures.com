@@ -27,7 +27,7 @@
     "@gw2treasures/eslint-config": "*",
     "@gw2treasures/tsconfig": "*",
     "@types/jest": "29.5.12",
-    "@types/node": "20.16.1",
+    "@types/node": "20.16.2",
     "@typescript-eslint/parser": "8.3.0",
     "@vercel/ncc": "0.38.1",
     "eslint": "8.57.0",

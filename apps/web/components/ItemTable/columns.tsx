@@ -136,6 +136,12 @@ export const globalColumnDefinitions = {
     align: 'right',
     orderBy: [{ sellQuantity: 'asc' }, { sellQuantity: 'desc' }]
   }),
+  createdAt: createColumn({
+    id: 'createdAt',
+    order: 160,
+    select: { createdAt: true },
+    orderBy: [{ createdAt: 'asc' }, { createdAt: 'desc' }]
+  }),
 };
 
 type ColumnDefinition<Id extends GlobalColumnId> = (typeof globalColumnDefinitions)[Id];
@@ -165,6 +171,7 @@ export const globalColumnRenderer: Renderer = {
   sellPrice: (item) => !item.tpTradeable ? empty() : renderPriceWithOptionalWarning(item.tpCheckedAt, item.sellPrice),
   sellPriceTrend: (item) => !item.tpTradeable ? empty() : <PriceTrend history={item.tpHistory} price="sellPrice"/>,
   sellQuantity: (item) => !item.tpTradeable ? empty() : <FormatNumber value={item.sellQuantity ?? 0}/>,
+  createdAt: (item) => <FormatDate date={new Date(item.createdAt)}/>,
 };
 
 export function renderPriceWithOptionalWarning(date: Date | string | null, price: number | null): ReactNode {

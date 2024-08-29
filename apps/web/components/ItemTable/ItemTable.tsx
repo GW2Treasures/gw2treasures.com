@@ -59,6 +59,7 @@ async function getColumns<T extends string>(extraColumns: ExtraColumn<T, keyof C
       const title = column.title;
       const select = await sign(column.select);
       const component = column.component;
+      const componentProps = column.componentProps;
       const orderBy = column.orderBy
         ? await Promise.all(column.orderBy.map(sign)) as [asc: Signed<OrderBy>, desc: Signed<OrderBy>]
         : undefined;
@@ -66,7 +67,7 @@ async function getColumns<T extends string>(extraColumns: ExtraColumn<T, keyof C
       const small = column.small;
       const order = column.order;
 
-      return [id, { id, title, select, orderBy, align, small, component, order }] as unknown as [GlobalColumnId | T, AvailableColumn<GlobalColumnId | T, keyof ColumnModelTypes, object> & { order?: number }];
+      return [id, { id, title, select, orderBy, align, small, component, componentProps, order }] as unknown as [GlobalColumnId | T, AvailableColumn<GlobalColumnId | T, keyof ColumnModelTypes, object> & { order?: number }];
     }) ?? []
   ]);
 

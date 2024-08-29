@@ -4,7 +4,7 @@ import type { db } from '@/lib/prisma';
 import type { Signed } from './query';
 import type { TranslationId } from '@/lib/translate';
 
-export type GlobalColumnId = 'id' | 'item' | 'icon' | 'name_de' | 'name_en' | 'name_es' | 'name_fr' | 'level' | 'rarity' | 'type' | 'vendorValue' | 'buyPrice' | 'buyPriceTrend' | 'buyQuantity' | 'sellPrice' | 'sellPriceTrend' | 'sellQuantity';
+export type GlobalColumnId = 'id' | 'item' | 'icon' | 'name_de' | 'name_en' | 'name_es' | 'name_fr' | 'level' | 'rarity' | 'type' | 'vendorValue' | 'buyPrice' | 'buyPriceTrend' | 'buyQuantity' | 'sellPrice' | 'sellPriceTrend' | 'sellQuantity' | 'createdAt';
 
 export interface ItemTableQuery<Model extends QueryModel = 'item'> {
   model?: Model;
@@ -43,6 +43,7 @@ export interface ExtraColumn<Id extends string, Model extends QueryModel, Select
   title: string;
   order?: number,
   component: FC<{ item: Result<Select & { id: true }> }>
+  componentProps?: Record<string, unknown>
   align?: 'right',
   small?: boolean,
   orderBy?: [asc: OrderBy<ColumnModelTypes[Model]['orderBy']>, desc: OrderBy<ColumnModelTypes[Model]['orderBy']>]
@@ -57,6 +58,7 @@ export type AvailableColumn<ColumnId extends string, Model extends QueryModel = 
   align?: 'right',
   small?: boolean,
   component?: FC<{ item: Result<Select & { id: true }> }>
+  componentProps?: Record<string, unknown>
 };
 
 export type AvailableColumns<ColumnId extends string> = Record<ColumnId, AvailableColumn<ColumnId>>;

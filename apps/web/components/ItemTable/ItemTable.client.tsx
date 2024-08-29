@@ -141,7 +141,7 @@ export const ItemTable = <ExtraColumnId extends string = never, Model extends Qu
                   return (
                     <td key={column.id} align={column.align}>
                       {loadedColumns.includes(column.id) ? (
-                        column.component ? createElement(column.component, properties) : globalColumnRenderer[column.id as GlobalColumnId](properties.item, properties.translations as Record<TranslationId, string>)
+                        column.component ? createElement(column.component, { ...properties, ...column.componentProps }) : globalColumnRenderer[column.id as GlobalColumnId](properties.item, properties.translations as Record<TranslationId, string>)
                       ) : <Skeleton width={48}/>}
                     </td>
                   );

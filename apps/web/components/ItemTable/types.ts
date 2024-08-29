@@ -41,6 +41,7 @@ export interface ExtraColumn<Id extends string, Model extends QueryModel, Select
   title: string;
   order?: number,
   component: FC<{ item: Result<Select & { id: true }> }>
+  componentProps?: Record<string, unknown>
   align?: 'right',
   small?: boolean,
   orderBy?: [asc: OrderBy<ColumnModelTypes[Model]['orderBy']>, desc: OrderBy<ColumnModelTypes[Model]['orderBy']>]
@@ -55,6 +56,7 @@ export type AvailableColumn<ColumnId extends string, Model extends QueryModel = 
   align?: 'right',
   small?: boolean,
   component?: FC<{ item: Result<Select & { id: true }> }>
+  componentProps?: Record<string, unknown>
 };
 
 export type AvailableColumns<ColumnId extends string> = Record<ColumnId, AvailableColumn<ColumnId>>;

@@ -28,7 +28,10 @@ export const getItem = cache((id: number, language: Language) => {
       _count: {
         select: { ingredient: true, suffixIn: true, contains: true, containedIn: true, mysticForgeIngredient: true }
       }
-    }
+    },
+
+    // this query is too big when done with joins,
+    relationLoadStrategy: 'query',
   });
 }, ['item'], { revalidate: 60 });
 

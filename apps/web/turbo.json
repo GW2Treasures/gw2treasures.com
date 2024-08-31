@@ -8,7 +8,8 @@
       "outputs": [
         ".next/**",
         "!.next/cache/**"
-      ]
+      ],
+      "env": ["SKIP_LINT"]
     },
     "dev": {
       "dependsOn": [

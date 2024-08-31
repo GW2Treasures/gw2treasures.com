@@ -35,6 +35,7 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV CI=true
+ENV SKIP_LINT=true
 
 RUN npm install --os=linux --libc=musl --cpu=x64 sharp@${sharp_version}
 

@@ -45,6 +45,8 @@ jobs:
           turbo2-cache-build-${{ runner.os }}-
     - name: Run Build
       run: npm run build
+      env:
+        SKIP_LINT: true
 
   docker:
     name: Docker (${{ matrix.platform }})

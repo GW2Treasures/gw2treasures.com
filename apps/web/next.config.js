@@ -8,6 +8,9 @@ const nextConfig = {
     outputFileTracingRoot: path.join(__dirname, '../../'),
     reactCompiler: true,
   },
+  eslint: {
+    ignoreDuringBuilds: !!process.env.SKIP_LINT
+  },
   redirects: () => [{ source: '/wizardsvault', destination: '/wizards-vault', permanent: true }],
   transpilePackages: ['@gw2treasures/ui'],
   output: 'standalone',

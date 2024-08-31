@@ -166,6 +166,10 @@ jobs:
           type=raw,value=latest,enable={{is_default_branch}}
           type=ref,event=tag
           type=ref,event=pr
+        annotations: |
+          org.opencontainers.image.description=${{ matrix.target }} image for gw2treasures.com
+      env:
+        DOCKER_METADATA_ANNOTATIONS_LEVELS: index
 
     - name: Login to GitHub Container Registry
       uses: docker/login-action@v3
@@ -176,9 +180,12 @@ jobs:
 
     - name: Merge and push image
       run: |
-        docker buildx imagetools create \
-          $(jq -cr '.tags | map("-t " + .) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON") \
-          $(find /tmp/digests/${{ matrix.target }} -type f -printf '${{ env.IMAGE_ID }}@sha256:%f ')
+        ARGS=$(jq -cr '(.tags | map("--tag " + (. | @sh))) + (.annotations | map("--annotation " + (. | @sh))) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON")
+        SOURCES=$(find /tmp/digests/${{ matrix.target }} -type f -printf '${{ env.IMAGE_ID }}@sha256:%f ')
+        echo "$ARGS"
+        echo "$SOURCES"
+
+        eval "docker buildx imagetools create $ARGS $SOURCES"
 
     - name: Inspect image
       run: docker buildx imagetools inspect $(jq -cr '.tags[0]' <<< "$DOCKER_METADATA_OUTPUT_JSON")

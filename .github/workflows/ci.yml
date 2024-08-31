@@ -133,6 +133,10 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name != 'merge_group'
     needs: [success]
+    permissions:
+      id-token: write
+      attestations: write
+      packages: write
     strategy:
       matrix:
         target: [ web, worker, legacy-importer, database-migration ]
@@ -179,6 +183,7 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Merge and push image
+      id: image
       run: |
         ARGS=$(jq -cr '(.tags | map("--tag " + (. | @sh))) + (.annotations | map("--annotation " + (. | @sh))) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON")
         SOURCES=$(find /tmp/digests/${{ matrix.target }} -type f -printf '${{ env.IMAGE_ID }}@sha256:%f ')
@@ -186,6 +191,14 @@ jobs:
         echo "$SOURCES"
 
         eval "docker buildx imagetools create $ARGS $SOURCES"
+
+        echo "digest=$(docker buildx imagetools inspect --format '{{json .Manifest}}' ghcr.io/gw2treasures/gw2treasures.com/web:pr-1526 | jq -cr '.digest')" >> "$GITHUB_OUTPUT"
+
+    - name: Attest
+      uses: actions/attest-build-provenance@v1.4.2
+      with:
+        subject-name: ${{ env.IMAGE_ID }}
+        subject-digest: ${{ steps.image.outputs.digest }}
 
     - name: Inspect image
       run: docker buildx imagetools inspect $(jq -cr '.tags[0]' <<< "$DOCKER_METADATA_OUTPUT_JSON")

@@ -75,10 +75,12 @@
   color: var(--color-text-muted);
 }
 
-.restriciton {
+.tag {
   padding: 4px 8px;
   background-color: var(--color-background);
   border-radius: 2px;
+  border: 1px solid var(--color-border);
+  margin-right: 2px;
 }
 
 .dropdown {
@@ -96,6 +98,8 @@
   overflow-y: auto;
   scrollbar-width: thin;
   overscroll-behavior: contain;
+  display: flex;
+  flex-direction: column;
 }
 
 .category {
@@ -104,6 +108,14 @@
 }
 
 .result {
+  border: none;
+  background-color: transparent;
+  text-align: left;
+  font: inherit;
+  line-height: 1;
+  cursor: pointer;
+  width: 100%;
+
   padding: 8px 16px;
   border-radius: 2px;
   color: var(--color-text);
@@ -121,6 +133,11 @@
 
   background-color: var(--color-background-light);
   text-decoration: none;
+}
+
+.icon {
+  grid-area: icon;
+  margin: auto 0;
 }
 
 .title {

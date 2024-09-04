@@ -74,6 +74,10 @@ export const FormatProvider: FC<FormatProviderProps> = ({ children }) => {
   const customLocale = `${language === 'auto' ? currentLanguage : language}-${region === 'browser' ? defaultRegion : region}`;
   const locale = Intl.DateTimeFormat.supportedLocalesOf([customLocale, defaultLocale])[0];
 
+  useEffect(() => {
+    document.documentElement.lang = locale;
+  }, [locale]);
+
   // create context
   const context: FormatContextProps = useMemo(() => ({
     language, region, locale, setLocale: (language, region) => { setLanguage(language); setRegion(region); }, defaultLocale, defaultRegion,

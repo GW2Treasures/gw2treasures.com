@@ -14,6 +14,7 @@ import { getAlternateUrls } from '@/lib/url';
 import type { Language } from '@gw2treasures/database';
 import { FormatNumber } from '@/components/Format/FormatNumber';
 import { getTranslate } from '@/lib/translate';
+import { PageView } from '@/components/PageView/PageView';
 
 
 interface FractalsPageProps {
@@ -50,9 +51,9 @@ export default function FractalsPage({ searchParams: { tier: rawTier, date: rawD
 
   return (
     <HeroLayout hero={<Headline id="fractals"><Trans id="fractals"/></Headline>}>
-      <div style={{ marginTop: -16, marginBottom: 16, marginInline: -16, padding: 16, background: 'var(--color-background-light)' }}>
+      <div style={{ marginTop: -16, marginBottom: 16, marginInline: -16, padding: 16, background: 'var(--color-background-light)', display: 'flex', gap: 16, alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap' }}>
         <FlexRow>
-          <strong><Trans id="fractals.daily"/>:</strong>
+          <Trans id="fractals.daily"/>:
           <div>
             <LinkButton appearance={tier === '4' ? 'tertiary' : 'menu'} href={getCanonicalUrl('4', date)}>T4</LinkButton>
             <LinkButton appearance={tier === '3' ? 'tertiary' : 'menu'} href={getCanonicalUrl('3', date)}>T3</LinkButton>
@@ -60,11 +61,11 @@ export default function FractalsPage({ searchParams: { tier: rawTier, date: rawD
             <LinkButton appearance={tier === '1' ? 'tertiary' : 'menu'} href={getCanonicalUrl('1', date)}>T1</LinkButton>
             <LinkButton appearance={tier === 'all' ? 'tertiary' : 'menu'} href={getCanonicalUrl('all', date)}><Trans id="fractals.tier.all"/></LinkButton>
           </div>
-          <label style={{ marginLeft: 'auto', display: 'flex', gap: 16, alignItems: 'center' }}>
-            <Trans id="fractals.date"/>
-            <DateSelector date={parsedDate} tier={tier}/>
-          </label>
         </FlexRow>
+        <label style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
+          <Trans id="fractals.date"/>:
+          <DateSelector date={parsedDate} tier={tier}/>
+        </label>
       </div>
       <Fractals.Table>
         <Fractals.Column id="tier" title={t('fractals.tier')} sortBy="level" small>{({ tier }) => `T${tier}`}</Fractals.Column>
@@ -74,6 +75,8 @@ export default function FractalsPage({ searchParams: { tier: rawTier, date: rawD
         <Fractals.Column id="instabilities" title={t('fractals.instabilities')}>{({ level }) => <Instabilities level={level} dayOfYearIndex={dayOfYearIndex}/>}</Fractals.Column>
         <Fractals.Column id="ar" title={t('fractals.agony')} align="right" sortBy="ar" small>{({ ar }) => <FormatNumber value={ar}/>}</Fractals.Column>
       </Fractals.Table>
+
+      <PageView page="fractal"/>
     </HeroLayout>
   );
 }

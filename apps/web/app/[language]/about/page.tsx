@@ -3,6 +3,7 @@ import { HeroLayout } from '@/components/Layout/HeroLayout';
 import { ExternalLink } from '@gw2treasures/ui/components/Link/ExternalLink';
 import { TableOfContentAnchor } from '@gw2treasures/ui/components/TableOfContent/TableOfContent';
 import { Code } from '@/components/Layout/Code';
+import { Table } from '@gw2treasures/ui/components/Table/Table';
 
 export default function AboutPage() {
   return (
@@ -19,6 +20,18 @@ export default function AboutPage() {
       <Headline id="contact">Contact</Headline>
       <p>Join the discord <ExternalLink href="https://discord.gg/gvx6ZSE" target="_blank">Discord</ExternalLink> (channel <Code inline>#gw2treasures</Code>) or send an email to <a href="mailto:support@gw2treasures.com">support@gw2treasures.com</a>.</p>
       <p>Feature Requests and Bug Reports can also be submitted <ExternalLink href="https://github.com/GW2Treasures/gw2treasures.com/issues">on GitHub</ExternalLink>.</p>
+
+      <Headline id="data">Additional Data</Headline>
+      <p>In addition to the official Guild Wars 2 API some data is used from external sources:</p>
+      <Table width="auto">
+        <thead><tr><th>Data</th><th>Source</th></tr></thead>
+        <tbody>
+          <tr><th>Additional Item and Skin data</th><th><ExternalLink href="https://wiki.guildwars2.com/wiki/Main_Page">Guild Wars 2 Wiki</ExternalLink></th></tr>
+          <tr><th>Unlock statistics</th><th><ExternalLink href="https://gw2efficiency.com">gw2efficiency.com</ExternalLink></th></tr>
+          <tr><th>Additional data</th><th><ExternalLink href="https://github.com/gw2efficiency/game-data">github.com/gw2efficiency/game-data</ExternalLink></th></tr>
+          <tr><th>Fractal instabilities</th><th><ExternalLink href="https://github.com/Invisi/gw2-fotm-instabilities">github.com/Invisi/gw2-fotm-instabilities</ExternalLink></th></tr>
+        </tbody>
+      </Table>
     </HeroLayout>
   );
 }

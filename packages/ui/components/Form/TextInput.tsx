@@ -2,7 +2,7 @@ import { type ChangeEvent, type FC, useCallback, type HTMLInputAutoCompleteAttri
 import styles from './TextInput.module.css';
 
 export interface TextInputProps {
-  type?: 'text' | 'password' | 'search'
+  type?: 'text' | 'password' | 'search' | 'date'
   value?: string;
   defaultValue?: string;
   onChange?: (value: string) => void;

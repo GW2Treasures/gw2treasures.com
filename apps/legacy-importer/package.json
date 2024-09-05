@@ -15,7 +15,7 @@
   "devDependencies": {
     "@gw2treasures/eslint-config": "*",
     "@gw2treasures/tsconfig": "*",
-    "@types/node": "20.16.4",
+    "@types/node": "20.16.5",
     "eslint": "8.57.0",
     "prisma": "5.19.1",
     "typescript": "5.5.4"

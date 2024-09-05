@@ -132,6 +132,7 @@ const pages: Page[] = [
   { href: '/skill', title: 'Skills', icon: 'skill' },
   // { href: '/mount', title: 'Mounts', icon: 'mount' },
   // { href: '/wvw', title: 'Word vs. World (WvW)', icon: 'wvw' },
+  { href: '/fractals', title: 'Fractals', icon: 'fractal' },
 
   { href: '/dev', title: 'Developer', icon: 'developer' },
   { href: '/dev/icons', title: 'Developer / Icons', icon: 'developer' },

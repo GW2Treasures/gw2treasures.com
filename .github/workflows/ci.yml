@@ -17,20 +17,28 @@ env:
   # renovate: datasource=npm packageName=renovate
   RENOVATE_VERSION: 38.59.3
 
+  # renovate: datasource=node-version allowedVersions=18
+  NODE_18_VERSION: 18.20.4
+  # renovate: datasource=node-version allowedVersions=20
+  NODE_20_VERSION: 20.17.0
+  # renovate: datasource=node-version allowedVersions=22
+  NODE_22_VERSION: 22.6.0
+
+
 jobs:
   build-node:
     name: Build / Node ${{ matrix.node }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: [ 18.20.4, 20.17.0, 22.6.0 ]
+        node: [ 18, 20, 22 ]
     steps:
     - uses: actions/checkout@v4
       with:
         submodules: true
     - uses: actions/setup-node@v4
       with:
-        node-version: ${{ matrix.node }}
+        node-version: ${{ env[format('NODE_{0}_VERSION', matrix.node)] }}
         cache: npm
     - name: Install latest npm
       run: |

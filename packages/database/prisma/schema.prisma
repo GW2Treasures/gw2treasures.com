@@ -1233,8 +1233,10 @@ model ApiRequest {
 model User {
   id String @id @default(uuid())
 
-  name  String  @unique
-  email String? @unique
+  name String  @unique
+
+  email         String?
+  emailVerified Boolean @default(false)
 
   roles UserRole[] @default([])
 

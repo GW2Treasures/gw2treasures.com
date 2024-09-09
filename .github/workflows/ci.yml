@@ -17,11 +17,11 @@ env:
   # renovate: datasource=npm packageName=renovate
   RENOVATE_VERSION: 38.59.3
 
-  # renovate: datasource=node-version packageName=node allowedVersions=18
+  # renovate: datasource=node-version packageName=node versioning=same-major
   NODE_18_VERSION: 18.20.4
-  # renovate: datasource=node-version packageName=node allowedVersions=20
+  # renovate: datasource=node-version packageName=node versioning=same-major
   NODE_20_VERSION: 20.17.0
-  # renovate: datasource=node-version packageName=node allowedVersions=22
+  # renovate: datasource=node-version packageName=node versioning=same-major
   NODE_22_VERSION: 22.6.0
 
 

@@ -15,6 +15,14 @@
       "matchDatasources": ["npm"],
       "matchPackageNames": ["renovate"],
       "extends": ["schedule:weekly"]
+    }, {
+      "description": "Don't update major node versions in workflows",
+      "matchFileNames": ["^\\.github/(workflows|actions)/.+\\.ya?ml$"],
+      "matchManagers": ["custom.regex"],
+      "matchDatasources": ["node-version"],
+      "matchPackageNames": ["node"],
+      "matchUpdateTypes": ["major"],
+      "enabled": false
     }
   ],
   "customManagers": [

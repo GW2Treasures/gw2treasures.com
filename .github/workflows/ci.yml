@@ -18,7 +18,7 @@ env:
   RENOVATE_VERSION: 38.59.3
 
   # renovate: datasource=node-version packageName=node
-  NODE_18_VERSION: 18.20.4
+  NODE_18_VERSION: 20.17.0
   # renovate: datasource=node-version packageName=node
   NODE_20_VERSION: 20.17.0
   # renovate: datasource=node-version packageName=node

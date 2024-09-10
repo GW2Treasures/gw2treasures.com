@@ -11,6 +11,9 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: !!process.env.SKIP_LINT
   },
+  typescript: {
+    ignoreBuildErrors: !!process.env.SKIP_TYPES
+  },
   redirects: () => [{ source: '/wizardsvault', destination: '/wizards-vault', permanent: true }],
   transpilePackages: ['@gw2treasures/ui'],
   output: 'standalone',

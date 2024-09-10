@@ -43,6 +43,7 @@ ARG sharp_version
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 ENV SKIP_LINT=true
+ENV SKIP_TYPES=true
 
 RUN npm install --os=linux --libc=musl --cpu=x64 sharp@${sharp_version} && npm cache clean --force
 

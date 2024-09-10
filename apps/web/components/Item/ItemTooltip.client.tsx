@@ -6,11 +6,12 @@ import { Coins } from '../Format/Coins';
 import { isTruthy } from '@gw2treasures/helper/is';
 import styles from './ItemTooltip.module.css';
 import { ItemLink } from './ItemLink';
-import { Icon } from '@gw2treasures/ui';
+import { cx, Icon } from '@gw2treasures/ui';
 import { EntityIcon } from '@/components/Entity/EntityIcon';
 import { DyeColor } from '../Color/DyeColor';
 import { hexToRgb } from '../Color/hex-to-rgb';
 import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
+import rarityStyles from '../Layout/RarityColor.module.css';
 
 export interface ClientItemTooltipProps {
   tooltip: ItemTooltip;
@@ -159,7 +160,7 @@ export const ClientItemTooltip: FC<ClientItemTooltipProps> = ({ tooltip, hideTit
   return (
     <div>
       {!hideTitle && (
-        <div className={styles.title}>
+        <div className={cx(rarityStyles[tooltip.rarity.value], styles.title)}>
           {tooltip.icon && (<EntityIcon icon={tooltip.icon} size={32}/>)}
           {tooltip.name}
         </div>

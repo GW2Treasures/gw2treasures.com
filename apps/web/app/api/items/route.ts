@@ -4,11 +4,12 @@ import { cache } from '@/lib/cache';
 
 const maxAge = 60;
 
-const getData = cache(async ({ rarity, type, subtype, weight, mysticForge }) => {
+const getData = cache(async ({ rarity, type, subtype, weight, tpTradeable, mysticForge, containerContents }) => {
   const items = await db.item.findMany({
     where: {
-      rarity, type, subtype, weight,
-      mysticForgeRecipeOutput: mysticForge ? { some: {}} : undefined
+      rarity, type, subtype, weight, tpTradeable,
+      mysticForgeRecipeOutput: mysticForge ? { some: {}} : undefined,
+      OR: containerContents ? [{ contains: { some: {}}}, { containsCurrency: { some: {}}}] : undefined
     },
     select: { id: true },
     orderBy: { id: 'asc' },
@@ -21,6 +22,7 @@ const getData = cache(async ({ rarity, type, subtype, weight, mysticForge }) => 
 
 export const GET = publicApi(
   '/items',
-  ({ searchParams: { rarity, type, subtype, weight, 'mystic-forge': mysticForge }}) => getData({ rarity, type, subtype, weight, mysticForge }),
+  ({ searchParams: { rarity, type, subtype, weight, 'tp-tradeable': tpTradeable, 'mystic-forge': mysticForge, 'container-contents': containerContents }}) =>
+    getData({ rarity, type, subtype, weight, tpTradeable, mysticForge, containerContents }),
   { maxAge }
 );

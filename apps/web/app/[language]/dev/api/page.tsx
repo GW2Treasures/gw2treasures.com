@@ -15,6 +15,15 @@ const exampleCodeFetchWithAuthorizationHeader =
   }
 })`;
 
+const containerContentsSchema =
+`Array<{
+  id: number,
+  contents: Array<
+    | { type: 'Item', id: number, quantity: number, chance: 'Chance' | 'Choice' | 'Guaranteed' }
+    | { type: 'Currency', id: number, min: number, max: number }
+  >
+}>`;
+
 export default function DeveloperIconsPage() {
   const apiUrl = getCurrentUrl();
   apiUrl.hostname = `api.${process.env.GW2T_NEXT_DOMAIN}`;
@@ -81,6 +90,10 @@ export default function DeveloperIconsPage() {
           <tr>
             <th><Link href="#/items/bulk/data"><Code inline>/items/bulk/data</Code></Link></th>
             <td>Get data of multiple items (same format as returned by the official Guild Wars 2 API)</td>
+          </tr>
+          <tr>
+            <th><Link href="#/items/bulk/container-contents"><Code inline>/items/bulk/container-contents</Code></Link></th>
+            <td>Get the contents of container</td>
           </tr>
           <tr>
             <th><Link href="#/items/bulk/tp-prices"><Code inline>/items/bulk/tp-prices</Code></Link></th>
@@ -190,6 +203,30 @@ export default function DeveloperIconsPage() {
           </tr>
         </tbody>
       </Table>
+
+      <Headline id="/items/bulk/container-contents">GET <Code inline>/items/bulk/container-contents</Code></Headline>
+      <p>Get the contents of container.</p>
+
+      <Table>
+        <thead>
+          <tr>
+            <Table.HeaderCell small>Parameter</Table.HeaderCell>
+            <Table.HeaderCell>Description</Table.HeaderCell>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th><Code inline>ids</Code></th>
+            <td>Comma-separated list of item ids (max 1000)</td>
+          </tr>
+        </tbody>
+      </Table>
+
+      <p>The data returned by this endpoint follows this typescript schema:</p>
+
+      <Code>
+        <Highlight language="ts" code={containerContentsSchema}/>
+      </Code>
 
       <Headline id="/items/bulk/tp-prices">GET <Code inline>/items/bulk/tp-prices</Code></Headline>
       <p>Get the TP prices of multiple items (same format as returned by the official Guild Wars 2 API).</p>

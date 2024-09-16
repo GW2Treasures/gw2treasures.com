@@ -11,6 +11,9 @@ import Link from 'next/link';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { Form, type FormState } from '@gw2treasures/ui/components/Form/Form';
 import { getLoginUrlWithReturnTo } from '@/lib/login-url';
+import { cache } from 'react';
+import { reauthorize } from '@/components/Gw2Api/reauthorize';
+import { Scope } from '@gw2me/client';
 
 async function createApplication(_: FormState, data: FormData): Promise<FormState> {
   'use server';
@@ -21,10 +24,14 @@ async function createApplication(_: FormState, data: FormData): Promise<FormStat
     return { error: 'Invalid name.' };
   }
 
-  const user = await getUser();
+  const { user, email } = await getUserAndEmail();
 
   if(!user) {
     return { error: 'Not logged in.' };
+  }
+
+  if(!email?.email || !email.emailVerified) {
+    return { error: 'Verified email required.' };
   }
 
   const application = await db.application.create({
@@ -38,21 +45,33 @@ async function createApplication(_: FormState, data: FormData): Promise<FormStat
   redirect(`/dev/app/${application.id}`);
 }
 
-export default async function DevAppCreatePage() {
+const getUserAndEmail = cache(async function getUserAndEmail() {
   const user = await getUser();
+  const email = user ? await db.user.findUnique({ where: { id: user.id }, select: { email: true, emailVerified: true }}) : undefined;
+
+  return { user, email };
+});
+
+export default async function DevAppCreatePage() {
+  const { user, email } = await getUserAndEmail();
 
   return (
     <PageLayout>
       <Headline id="create">Create Application</Headline>
       {!user && (
-        <Notice type="warning">You need to <Link href={getLoginUrlWithReturnTo()}>Login</Link> to create applications.</Notice>
+        <Notice type="warning">You need to <Link href={getLoginUrlWithReturnTo([Scope.Email])}>Login</Link> to create applications.</Notice>
+      )}
+      {user && !email?.emailVerified && (
+        <form action={reauthorize.bind(null, [Scope.Email], 'consent')}>
+          <Notice type="warning">You need to add a verified email address on gw2.me and authorize gw2treasures.com in order to create applications. <SubmitButton icon="gw2me-outline">Authorize</SubmitButton></Notice>
+        </form>
       )}
 
       <p>
         You can create applications to access gw2treasures.com APIs.
       </p>
 
-      {user && (
+      {user && email?.emailVerified && (
         <Form action={createApplication}>
           <Label label="Name">
             <TextInput name="name"/>

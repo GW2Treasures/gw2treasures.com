@@ -1,10 +1,18 @@
 import { cookies } from 'next/headers';
 import { getCurrentUrl } from './url';
+import type { Scope } from '@gw2me/client';
 
-export function getLoginUrlWithReturnTo() {
+export function getLoginUrlWithReturnTo(scopes?: Scope[]) {
   const url = getCurrentUrl();
 
-  return `/login?returnTo=${encodeURIComponent(url.pathname + url.search)}`;
+  const parameters = new URLSearchParams();
+  parameters.append('returnTo', url.pathname);
+
+  if(scopes) {
+    parameters.append('scopes', scopes.join(','));
+  }
+
+  return `/login?${parameters.toString()}`;
 }
 
 export function getReturnToUrlFromCookie(): string {

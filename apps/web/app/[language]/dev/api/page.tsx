@@ -152,8 +152,16 @@ export default function DeveloperIconsPage() {
             <td>Filter the item weight. Only returns items with type Armor. Examples: Light, Medium, Heavy</td>
           </tr>
           <tr>
+            <th style={{ whiteSpace: 'nowrap' }}><Code inline>tp-tradeable</Code></th>
+            <td>Only include items that are tradeable on the trading post and can be resolved against <Link href="#/items/bulk/tp-prices"><Code inline>/items/bulk/tp-prices</Code></Link>.</td>
+          </tr>
+          <tr>
+            <th style={{ whiteSpace: 'nowrap' }}><Code inline>container-contents</Code></th>
+            <td>Only include items that have container contents and can be resolved against <Link href="#/items/bulk/container-contents"><Code inline>/items/bulk/container-contents</Code></Link>.</td>
+          </tr>
+          <tr>
             <th style={{ whiteSpace: 'nowrap' }}><Code inline>mystic-forge</Code></th>
-            <td>Only include items that have a mystic forge recipe.</td>
+            <td>Only include items that have a mystic forge recipe and can be resolved against <Link href="#/items/:id/mystic-forge"><Code inline>/items/:id/mystic-forge</Code></Link>.</td>
           </tr>
         </tbody>
       </Table>

@@ -3,13 +3,6 @@ import { PageLayout } from '@/components/Layout/PageLayout';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { cache } from 'react';
 import { db } from '@/lib/prisma';
-import { scaleLinear, scaleTime } from '@visx/scale';
-import { extent, max } from 'd3-array';
-import { Group } from '@visx/group';
-import { LinePath } from '@visx/shape';
-import { curveMonotoneX } from '@visx/curve';
-import { GridRows } from '@visx/grid';
-import { AxisBottom, AxisLeft } from '@visx/axis';
 import { ensureUserIsAdmin } from '../admin';
 import { LinkButton } from '@gw2treasures/ui/components/Form/Button';
 import { Chart } from '@/components/Chart/Chart';
@@ -67,7 +60,7 @@ export default async function AdminUserPage({ searchParams: { interval, days }}:
       >
         Page Views (last {days} days)
       </Headline>
-      <Chart lines={[['views', views]]}/>
+      <Chart lines={[['Page Views', views]]}/>
 
       <Headline id="most-viewed">Most Viewed</Headline>
 

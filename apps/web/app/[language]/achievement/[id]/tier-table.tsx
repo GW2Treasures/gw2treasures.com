@@ -104,7 +104,7 @@ const TierTableAccountRow: FC<TierTableAccountRowProps> = ({ achievement, accoun
 
             return (
               <ProgressCell key={tier.count} progress={percentage}>
-                {isDone ? <Icon icon="checkmark"/> : isCurrent ? `${progress.current} / ${tier.count}` : null}
+                {isDone ? <Icon icon="checkmark"/> : isCurrent ? <><FormatNumber value={progress.current}/> / <FormatNumber value={tier.count}/></> : null}
               </ProgressCell>
             );
           })}

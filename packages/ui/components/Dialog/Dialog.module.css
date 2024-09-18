@@ -47,15 +47,15 @@
 }
 
 .close {
-  margin: 0 0 0 auto;
+  composes: reset from '../../reset.module.css';
+
+  margin-left: auto;
   width: 32px;
   height: 32px;
   padding: 8px;
   background: var(--color-background);
   color: var(--color-text);
-  border: none;
   border-radius: 2px;
-  font: inherit;
   cursor: pointer;
   transition: background-color .3s ease;
   line-height: 1;

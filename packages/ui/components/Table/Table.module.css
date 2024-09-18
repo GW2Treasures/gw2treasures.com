@@ -73,10 +73,8 @@
 
 .button {
   /* remove button styles */
-  font: inherit;
-  margin: 0;
-  padding: 0;
-  border: none;
+  composes: reset from '../../reset.module.css';
+
   border-radius: 0;
   background: none;
   cursor: pointer;

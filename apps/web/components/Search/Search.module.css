@@ -58,11 +58,10 @@
 }
 
 .searchInput {
-  border: 0;
+  composes: reset from '@gw2treasures/ui/reset.module.css';
+
   flex: 1;
-  margin: 0;
   padding: 8px;
-  font: inherit;
   background-color: transparent;
   color: var(--color-text);
   width: 100%;

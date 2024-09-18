@@ -1,8 +1,7 @@
 .button {
-  border: none;
-  margin: 0;
+  composes: reset from '../../reset.module.css';
+
   padding: 8px 16px;
-  font: inherit;
   line-height: 20px;
   transition: box-shadow .3s ease, background-color .1s ease;
   border-radius: 2px;

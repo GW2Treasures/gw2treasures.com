@@ -84,16 +84,6 @@ const ColumnHeader: FC<ColumnHeaderProps> = ({ column, onSort, sortBy }) => {
   const isActiveSort = sortBy?.column === column;
 
   return (
-    <th {...(column.small ? { width: 1 } : {})} aria-sort={isActiveSort ? (sortBy.reverse ? 'descending' : 'ascending') : undefined}>
-      {column.sort ? (
-        <button className={isActiveSort ? (sortBy.reverse ? styles.sortDesc : styles.sortAsc) : styles.sort}
-          onClick={handleSort}
-        >
-          {column.label}
-        </button>
-      ) : (
-        column.label
-      )}
-    </th>
+    <Table.HeaderCell onSort={handleSort} small={column.small} sort={isActiveSort ? (sortBy.reverse ? 'asc' : 'desc') : !!column.sort}>{column.label}</Table.HeaderCell>
   );
 };

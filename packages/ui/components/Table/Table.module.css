@@ -73,10 +73,8 @@
 
 .button {
   /* remove button styles */
-  font: inherit;
-  margin: 0;
-  padding: 0;
-  border: none;
+  composes: reset from '../../reset.module.css';
+
   border-radius: 0;
   background: none;
   cursor: pointer;
@@ -106,46 +104,6 @@
 .sortButton:focus-visible {
   outline: none;
   box-shadow: var(--shadow-focus);
-}
-
-.sort {
-  composes: button;
-
-  /* make room for the arrows */
-  min-height: 16px;
-  padding-right: 16px;
-  position: relative;
-}
-
-.sort:after, .sort:before {
-  content: '';
-  display: block;
-  position: absolute;
-  right: 0;
-  border-style: solid;
-  border-color: var(--color-text-muted) transparent;
-}
-
-.sort:before {
-  bottom: calc(50% + 1px);
-  border-width: 0 4px 6px 4px;
-}
-
-.sort:after {
-  top: calc(50% + 1px);
-  border-width: 6px 4px 0 4px;
-}
-
-.sortAsc, .sortDesc {
-  composes: sort;
-}
-
-.sortAsc:before {
-  border-color: currentColor transparent
-}
-
-.sortDesc:after {
-  border-color: currentColor transparent
 }
 
 .group {

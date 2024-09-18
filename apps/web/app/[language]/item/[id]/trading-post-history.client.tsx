@@ -32,6 +32,7 @@ import { useLocalStorageState } from '@/lib/useLocalStorageState';
 import { CookieNotification } from '@/components/User/CookieNotification';
 import type { TooltipWithBoundsProps } from '@visx/tooltip/lib/tooltips/TooltipWithBounds';
 import { useFormatContext } from '@/components/Format/FormatContext';
+import { Switch } from '@gw2treasures/ui/components/Form/Switch';
 
 // override types of TooltipWithBounds for react@19 compatibility
 const TooltipWithBounds = TooltipWithBoundsReact18 as unknown as ComponentClass<TooltipWithBoundsProps>;
@@ -135,6 +136,7 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
   // displayed range
   const fullRange = useMemo<Range>(() => [completeHistory[0].time, completeHistory[completeHistory.length - 1].time], [completeHistory]);
   const [range, setRange] = useState(getInitialRangeFromData(completeHistory));
+  const [predefinedRange, setPredefinedRange] = useState<number | null | undefined>(90);
 
   // data of the selected range
   const data = useMemo(() => getDataInRange(completeHistory, range), [completeHistory, range]);
@@ -292,14 +294,18 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
 
     const { x0, x1 } = domain;
 
-    startTransition(() => setRange([
-      new Date(Math.max(x0, fullRange[0].getTime())),
-      new Date(Math.min(x1, fullRange[1].getTime()))
-    ]));
+    startTransition(() => {
+      setRange([
+        new Date(Math.max(x0, fullRange[0].getTime())),
+        new Date(Math.min(x1, fullRange[1].getTime()))
+      ]);
+      setPredefinedRange(undefined);
+    });
   }, [fullRange]);
 
   const handleBrushClick = useCallback(() => {
     setRange(fullRange);
+    setPredefinedRange(null);
   }, [fullRange]);
 
   // set range handler
@@ -307,6 +313,8 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
     if(completeHistory.length === 0) {
       return;
     }
+
+    setPredefinedRange(days);
 
     if(days === null) {
       setRange([completeHistory[0].time, completeHistory[completeHistory.length - 1].time]);
@@ -415,12 +423,12 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
             <span>
               Showing <b style={{ fontFeatureSettings: '"tnum" 1' }}><FormatNumber value={data.length > 0 ? Math.ceil((range[1].getTime() - range[0].getTime()) / 1000 / 60 / 60 / 24) : 0}/> days</b> before <b style={{ fontFeatureSettings: '"tnum" 1' }}><FormatDate date={range[1]}/></b>
             </span>
-            <div>
-              <Button appearance="menu" onClick={() => handleSetRange(null)}>Full History</Button>
-              <Button appearance="menu" onClick={() => handleSetRange(365)}>1 Year</Button>
-              <Button appearance="menu" onClick={() => handleSetRange(90)}>3 Months</Button>
-              <Button appearance="menu" onClick={() => handleSetRange(14)}>2 Weeks</Button>
-            </div>
+            <Switch>
+              <Switch.Control active={predefinedRange === null} clickAction={() => handleSetRange(null)}>Full History</Switch.Control>
+              <Switch.Control active={predefinedRange === 365} clickAction={() => handleSetRange(365)}>1 Year</Switch.Control>
+              <Switch.Control active={predefinedRange === 90} clickAction={() => handleSetRange(90)}>3 Months</Switch.Control>
+              <Switch.Control active={predefinedRange === 14} clickAction={() => handleSetRange(14)}>2 Weeks</Switch.Control>
+            </Switch>
           </FlexRow>
         </div>
         <div style={{ position: 'relative' }}>

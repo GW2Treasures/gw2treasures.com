@@ -1,0 +1,13 @@
+/* use :where to force specificity 0 because Next.js messes up import order of css modules somehow... */
+:where(.reset) {
+  outline: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  box-sizing: border-box;
+  font: inherit;
+  font-size: 100%;
+  vertical-align: baseline;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}

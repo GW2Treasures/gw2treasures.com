@@ -4,8 +4,8 @@ import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { cache } from 'react';
 import { db } from '@/lib/prisma';
 import { ensureUserIsAdmin } from '../admin';
-import { LinkButton } from '@gw2treasures/ui/components/Form/Button';
 import { Chart } from '@/components/Chart/Chart';
+import { Switch } from '@gw2treasures/ui/components/Form/Switch';
 
 type Interval = 'hour' | 'day';
 type Days = '7' | '30';
@@ -54,8 +54,14 @@ export default async function AdminUserPage({ searchParams: { interval, days }}:
   return (
     <PageLayout>
       <Headline id="reviews" actions={[
-        days === '30' ? <LinkButton href={`?interval=${interval}&days=7`}>1 Week</LinkButton> : <LinkButton href={`?interval=${interval}&days=30`}>1 Month</LinkButton>,
-        interval === 'hour' ? <LinkButton href={`?interval=day&days=${days}`}>daily</LinkButton> : <LinkButton href={`?interval=hour&days=${days}`}>hourly</LinkButton>,
+        <Switch key="days">
+          <Switch.Control type="link" href={`?interval=${interval}&days=7`} active={days === '7'}>1 Week</Switch.Control>
+          <Switch.Control type="link" href={`?interval=${interval}&days=30`} active={days === '30'}>1 Month</Switch.Control>
+        </Switch>,
+        <Switch key="interval">
+          <Switch.Control type="link" href={`?interval=hour&days=${days}`} active={interval === 'hour'}>hourly</Switch.Control>
+          <Switch.Control type="link" href={`?interval=day&days=${days}`} active={interval === 'day'}>daily</Switch.Control>
+        </Switch>
       ]}
       >
         Page Views (last {days} days)

@@ -1,8 +1,9 @@
 .textarea {
+  composes: reset from '../../reset.module.css';
+
   border: 2px solid var(--color-border-dark);
   border-radius: 2px;
   background-color: var(--color-background);
-  font: inherit;
   color: var(--color-text);
   padding: 8px 16px;
   line-height: 20px;

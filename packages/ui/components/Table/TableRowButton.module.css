@@ -1,11 +1,11 @@
 .button {
+  composes: reset from '../../reset.module.css';
+
   background: none;
   display: block;
   margin: -8px -16px;
   padding: 16px 16px;
   width: calc(100% + 32px);
-  border: none;
-  font: inherit;
   cursor: pointer;
   color: inherit;
   transition: all .3s ease;

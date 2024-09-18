@@ -8,13 +8,13 @@ import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 import { getCanonicalUrl, getDateOrFallback, getDayOfYearIndex, getInstabilities, getTierOrFallback, type TierFilter } from './helper';
 import { isTruthy } from '@gw2treasures/helper/is';
-import { LinkButton } from '@gw2treasures/ui/components/Form/Button';
 import { DateSelector } from './date-selector';
 import { getAlternateUrls } from '@/lib/url';
 import type { Language } from '@gw2treasures/database';
 import { FormatNumber } from '@/components/Format/FormatNumber';
 import { getTranslate } from '@/lib/translate';
 import { PageView } from '@/components/PageView/PageView';
+import { Switch } from '@gw2treasures/ui/components/Form/Switch';
 
 
 interface FractalsPageProps {
@@ -52,16 +52,16 @@ export default function FractalsPage({ searchParams: { tier: rawTier, date: rawD
   return (
     <HeroLayout hero={<Headline id="fractals"><Trans id="fractals"/></Headline>}>
       <div style={{ marginTop: -16, marginBottom: 16, marginInline: -16, padding: 16, background: 'var(--color-background-light)', display: 'flex', gap: 16, alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap' }}>
-        <FlexRow>
+        <label style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
           <Trans id="fractals.daily"/>:
-          <div>
-            <LinkButton appearance={tier === '4' ? 'tertiary' : 'menu'} href={getCanonicalUrl('4', date)}>T4</LinkButton>
-            <LinkButton appearance={tier === '3' ? 'tertiary' : 'menu'} href={getCanonicalUrl('3', date)}>T3</LinkButton>
-            <LinkButton appearance={tier === '2' ? 'tertiary' : 'menu'} href={getCanonicalUrl('2', date)}>T2</LinkButton>
-            <LinkButton appearance={tier === '1' ? 'tertiary' : 'menu'} href={getCanonicalUrl('1', date)}>T1</LinkButton>
-            <LinkButton appearance={tier === 'all' ? 'tertiary' : 'menu'} href={getCanonicalUrl('all', date)}><Trans id="fractals.tier.all"/></LinkButton>
-          </div>
-        </FlexRow>
+          <Switch>
+            <Switch.Control type="link" active={tier === '4'} href={getCanonicalUrl('4', date)}>T4</Switch.Control>
+            <Switch.Control type="link" active={tier === '3'} href={getCanonicalUrl('3', date)}>T3</Switch.Control>
+            <Switch.Control type="link" active={tier === '2'} href={getCanonicalUrl('2', date)}>T2</Switch.Control>
+            <Switch.Control type="link" active={tier === '1'} href={getCanonicalUrl('1', date)}>T1</Switch.Control>
+            <Switch.Control type="link" active={tier === 'all'} href={getCanonicalUrl('all', date)}><Trans id="fractals.tier.all"/></Switch.Control>
+          </Switch>
+        </label>
         <label style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
           <Trans id="fractals.date"/>:
           <DateSelector date={parsedDate} tier={tier}/>

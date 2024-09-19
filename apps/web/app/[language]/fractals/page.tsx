@@ -51,7 +51,7 @@ export default function FractalsPage({ searchParams: { tier: rawTier, date: rawD
 
   return (
     <HeroLayout hero={<Headline id="fractals"><Trans id="fractals"/></Headline>}>
-      <div style={{ marginTop: -16, marginBottom: 16, marginInline: -16, padding: 16, background: 'var(--color-background-light)', display: 'flex', gap: 16, alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap' }}>
+      <div style={{ marginTop: -16, marginBottom: 16, marginInline: -16, padding: 16, background: 'var(--color-background-light)', borderBottom: '1px solid var(--color-border)', display: 'flex', gap: 16, alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap' }}>
         <label style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
           <Trans id="fractals.daily"/>:
           <Switch>

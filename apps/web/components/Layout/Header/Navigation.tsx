@@ -16,7 +16,7 @@ const Navigation: FC<NavigationProps> = ({ language }) => {
         <li className={styles.item}><LinkButton appearance="menu" href="/item" icon="item"><Trans language={language} id="navigation.items"/></LinkButton></li>
         <li className={styles.item}><LinkButton appearance="menu" href="/achievement" icon="achievement"><Trans language={language} id="navigation.achievements"/></LinkButton></li>
         <li className={styles.item}><LinkButton appearance="menu" href="/wizards-vault" icon="wizards-vault"><Trans language={language} id="navigation.wizardsVault"/></LinkButton></li>
-        <li className={styles.item}><LinkButton appearance="menu" href="/homestead" icon="homestead"><Trans language={language} id="navigation.homestead"/></LinkButton></li>
+        <li className={styles.item}><LinkButton appearance="menu" href="/homestead/nodes" icon="homestead"><Trans language={language} id="navigation.homestead"/></LinkButton></li>
         <li className={styles.item}><LinkButton appearance="menu" href="/skin" icon="skin"><Trans language={language} id="navigation.skins"/></LinkButton></li>
         {/* <li className={styles.item}><LinkButton appearance="menu" href="/profession" icon="profession"><Trans language={language} id="navigation.professions"/></LinkButton></li> */}
         {/* <li className={styles.item}><LinkButton appearance="menu" href="/specialization" icon="specialization"><Trans language={language} id="navigation.specializations"/></LinkButton></li> */}

@@ -6,10 +6,11 @@ import { Icon, cx } from '@gw2treasures/ui';
 import { useResizeObserver } from '@gw2treasures/ui/lib/hooks/resize-observer';
 
 export interface HorizontalOverflowContainerProps {
-  children: ReactNode
+  children: ReactNode;
+  inverted?: boolean;
 }
 
-export const HorizontalOverflowContainer: FC<HorizontalOverflowContainerProps> = ({ children }) => {
+export const HorizontalOverflowContainer: FC<HorizontalOverflowContainerProps> = ({ children, inverted = false }) => {
   const content = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
@@ -32,7 +33,7 @@ export const HorizontalOverflowContainer: FC<HorizontalOverflowContainerProps> =
     const element = content.current;
 
     setCanScrollLeft(element ? element.scrollLeft > 0 : false);
-    setCanScrollRight(element ? element.scrollLeft < element.scrollWidth - element.offsetWidth : false);
+    setCanScrollRight(element ? element.scrollLeft < element.scrollWidth - element.offsetWidth - .5 : false);
   });
 
   useEffect(() => {
@@ -44,7 +45,7 @@ export const HorizontalOverflowContainer: FC<HorizontalOverflowContainerProps> =
 
     const handler = () => {
       setCanScrollLeft(element.scrollLeft > 0);
-      setCanScrollRight(element.scrollLeft < element.scrollWidth - element.offsetWidth);
+      setCanScrollRight(element.scrollLeft < element.scrollWidth - element.offsetWidth - .5);
     };
     element.addEventListener('scroll', handler, { passive: true });
 
@@ -52,7 +53,7 @@ export const HorizontalOverflowContainer: FC<HorizontalOverflowContainerProps> =
   }, [canScrollLeft, canScrollRight]);
 
   return (
-    <div className={styles.container}>
+    <div className={inverted ? styles.containerInverted : styles.container}>
       <button className={cx(styles.left, !canScrollLeft && styles.hidden)} tabIndex={-1} onClick={handleScrollLeft} aria-hidden><Icon icon="chevron-left"/></button>
       <div className={styles.content} ref={content}>
         {children}

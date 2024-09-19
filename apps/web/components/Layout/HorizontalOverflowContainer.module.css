@@ -1,9 +1,11 @@
 .container {
   position: relative;
   overflow: hidden;
-  background-color: var(--color-background);
 }
 
+.containerInverted {
+  composes: container;
+}
 
 .content {
   overflow-x: auto;
@@ -14,7 +16,6 @@
 .content::-webkit-scrollbar {
   display: none;
 }
-
 
 .button {
   --_color: var(--color-background);
@@ -33,6 +34,13 @@
 
 .button:not(.hidden):hover {
   --_color: var(--color-background-light);
+}
+
+.containerInverted > .button {
+  --_color: var(--color-background-light);
+}
+.containerInverted > .button:not(.hidden):hover {
+  --_color: var(--color-background);
 }
 
 .hidden:hover {

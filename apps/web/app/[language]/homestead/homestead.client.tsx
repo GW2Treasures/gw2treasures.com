@@ -170,7 +170,7 @@ export const DecorationTableFilter: FC<DecorationTableFilterProps> = ({ totalCou
 
 
   return (
-    <DropDown button={<Button icon={categoryMap.size === categoryIds.length ? 'filter' : 'filter-active'}>Filter</Button>} preferredPlacement="right-start">
+    <DropDown button={<Button icon={categoryMap.size === categoryIds.length ? 'filter' : 'filter-active'}>Filter</Button>} preferredPlacement="bottom">
       <MenuList>
         <Checkbox checked={categoryIds.length > 0} indeterminate={categoryIds.length < categoryMap.size && categoryIds.length > 0} onChange={() => setCategoryIds(categoryIds.length > 0 ? [] : Array.from(categoryMap.keys()))}>
           <FlexRow align="space-between">

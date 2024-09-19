@@ -14,7 +14,10 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: !!process.env.SKIP_TYPES
   },
-  redirects: () => [{ source: '/wizardsvault', destination: '/wizards-vault', permanent: true }],
+  redirects: () => [
+    { source: '/wizardsvault', destination: '/wizards-vault', permanent: true },
+    { source: '/homestead', destination: '/homestead/nodes', permanent: true },
+  ],
   transpilePackages: ['@gw2treasures/ui'],
   output: 'standalone',
 };

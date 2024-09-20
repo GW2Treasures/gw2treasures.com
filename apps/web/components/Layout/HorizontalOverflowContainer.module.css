@@ -11,6 +11,7 @@
 
 .content {
   overflow-x: auto;
+  scroll-padding: 0 128px;
 
   scrollbar-width: none;
   -ms-overflow-style: none;

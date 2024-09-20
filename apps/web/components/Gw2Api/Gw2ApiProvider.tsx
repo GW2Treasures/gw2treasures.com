@@ -124,7 +124,7 @@ export const Gw2ApiProvider: FC<Gw2ApiProviderProps> = ({ children }) => {
       {children}
       {(error === ErrorCode.NOT_LOGGED_IN) && (
         <div className={styles.dialog}>
-          Login to gw2treasures.com to access your Guild Wars 2 accounts.
+          <p>Login to gw2treasures.com to access your Guild Wars 2 accounts.</p>
           <div>
             <FlexRow>
               <Button onClick={handleDismiss}>Later</Button>
@@ -135,7 +135,7 @@ export const Gw2ApiProvider: FC<Gw2ApiProviderProps> = ({ children }) => {
       )}
       {(error === ErrorCode.REAUTHORIZE || error === ErrorCode.MISSING_PERMISSION || (missingScopes.some((scope) => !grantedScopes.includes(scope)) && !dismissed && grantedScopes !== initialGrantedScopes)) && (
         <form className={styles.dialog} action={reauthorize.bind(null, missingScopes, undefined)}>
-          Authorize gw2treasures.com to access your Guild Wars 2 accounts.
+          <p>Authorize gw2treasures.com to access your Guild Wars 2 accounts.</p>
           <div>
             <FlexRow>
               <Button onClick={handleDismiss}>Later</Button>

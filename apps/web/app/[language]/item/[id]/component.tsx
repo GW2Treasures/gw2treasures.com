@@ -49,7 +49,7 @@ import { LinkButton } from '@gw2treasures/ui/components/Form/Button';
 import { SkinTable } from '@/components/Skin/SkinTable';
 import { ItemInventoryTable } from '@/components/Item/ItemInventoryTable';
 import { AchievementTable } from '@/components/Achievement/AchievementTable';
-import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
+import { Description } from '@/components/Layout/Description';
 
 export interface ItemPageComponentProps {
   language: Language;
@@ -157,13 +157,10 @@ export const ItemPageComponent: FC<ItemPageComponentProps> = async ({ language, 
         <AchievementTable language={language} achievements={item.achievementBits}>
           {(table, columnSelect) => (
             <>
-              <FlexRow align="space-between" wrap>
-                <div><p>Required to complete these achievements:</p></div>
-                {columnSelect}
-              </FlexRow>
-              <div style={{ marginTop: 16 }}>
-                {table}
-              </div>
+              <Description actions={columnSelect}>
+                Required to complete these achievements:
+              </Description>
+              {table}
             </>
           )}
         </AchievementTable>
@@ -173,13 +170,10 @@ export const ItemPageComponent: FC<ItemPageComponentProps> = async ({ language, 
         <AchievementTable language={language} achievements={item.achievementRewards}>
           {(table, columnSelect) => (
             <>
-              <FlexRow align="space-between" wrap>
-                <div><p>Rewarded for completing these achievements:</p></div>
-                {columnSelect}
-              </FlexRow>
-              <div style={{ marginTop: 16 }}>
-                {table}
-              </div>
+              <Description actions={columnSelect}>
+                Rewarded for completing these achievements:
+              </Description>
+              {table}
             </>
           )}
         </AchievementTable>
@@ -189,13 +183,10 @@ export const ItemPageComponent: FC<ItemPageComponentProps> = async ({ language, 
         <AchievementTable language={language} achievements={skinAchievementBits}>
           {(table, columnSelect) => (
             <>
-              <FlexRow align="space-between" wrap>
-                <div><p>The skin unlocked by this item is required to complete these achievements:</p></div>
-                {columnSelect}
-              </FlexRow>
-              <div style={{ marginTop: 16 }}>
-                {table}
-              </div>
+              <Description actions={columnSelect}>
+                The skin unlocked by this item is required to complete these achievements:
+              </Description>
+              {table}
             </>
           )}
         </AchievementTable>

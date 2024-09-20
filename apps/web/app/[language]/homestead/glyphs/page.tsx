@@ -13,14 +13,39 @@ import { UnknownItem } from '@/components/Item/UnknownItem';
 import { translateMany } from '@/lib/translate';
 import { ColumnSelect } from '@/components/Table/ColumnSelect';
 import { Description } from '@/components/Layout/Description';
+import { isTruthy } from '@gw2treasures/helper/is';
+import { globalColumnRenderer as itemTableColumn } from '@/components/ItemTable/columns';
 
-const getGlyphs = cache(
-  () => db.homesteadGlyph.findMany({
+const getGlyphs = cache(async () => {
+  const glyphs = await db.homesteadGlyph.findMany({
     include: { item: { select: linkProperties }},
     distinct: ['itemIdRaw']
-  }),
-  ['homestead-glyphs'], { revalidate: 60 }
-);
+  });
+
+  const unusedGlyphNames = glyphs.map(({ item }) => item && `${item.name_en} (Unused)`).filter(isTruthy);
+
+  // try to find the "(Unused)" variant of the glyph
+  const unusedGlyphs = await db.item.findMany({
+    select: {
+      ...linkProperties,
+      tpTradeable: true, tpCheckedAt: true,
+      buyPrice: true, buyQuantity: true,
+      sellPrice: true, sellQuantity: true
+    },
+    where: { name_en: { in: unusedGlyphNames }}
+  });
+
+  return glyphs.map((glyph) => {
+    if(!glyph.item) {
+      return { ...glyph, unusedGlyph: undefined };
+    }
+
+    const unusedGlyphName = `${glyph.item.name_en} (Unused)`;
+    const unusedGlyph = unusedGlyphs.find(({ name_en }) => name_en === unusedGlyphName);
+
+    return { ...glyph, unusedGlyph };
+  });
+}, ['homestead-glyphs'], { revalidate: 60 });
 
 export default async function HomesteadGlyphsPage({ params: { language }}: { params: { language: Language }}) {
   const glyphs = await getGlyphs();
@@ -41,6 +66,10 @@ export default async function HomesteadGlyphsPage({ params: { language }}: { par
 
       <Glyphs.Table>
         <Glyphs.Column id="name" title="Glyph" sortBy={({ item }) => item ? localizedName(item, language) : ''}>{({ item, itemIdRaw }) => item ? <ItemLink item={item}/> : <UnknownItem id={itemIdRaw}/>}</Glyphs.Column>
+        <Glyphs.Column id="buyPrice" title="Buy Price" sortBy={({ unusedGlyph }) => unusedGlyph?.buyPrice} align="right">{({ unusedGlyph }) => unusedGlyph && itemTableColumn.buyPrice(unusedGlyph, {})}</Glyphs.Column>
+        <Glyphs.Column id="buyQuantity" title="Buy Quantity" sortBy={({ unusedGlyph }) => unusedGlyph?.buyQuantity} align="right" hidden>{({ unusedGlyph }) => unusedGlyph && itemTableColumn.buyQuantity(unusedGlyph, {})}</Glyphs.Column>
+        <Glyphs.Column id="sellPrice" title="Sell Price" sortBy={({ unusedGlyph }) => unusedGlyph?.sellPrice} align="right" hidden>{({ unusedGlyph }) => unusedGlyph && itemTableColumn.sellPrice(unusedGlyph, {})}</Glyphs.Column>
+        <Glyphs.Column id="sellQuantity" title="Buy Quantity" sortBy={({ unusedGlyph }) => unusedGlyph?.sellQuantity} align="right" hidden>{({ unusedGlyph }) => unusedGlyph && itemTableColumn.sellQuantity(unusedGlyph, {})}</Glyphs.Column>
         <Glyphs.DynamicColumns headers={<Gw2AccountHeaderCells requiredScopes={requiredScopes} small colSpan={3}/>}>
           {({ id }) => <Gw2AccountBodyCells requiredScopes={requiredScopes}><AccountHomesteadGlyphsCell glyphIdPrefix={id.split('_')[0]} accountId={undefined as never} slotTranslations={glyphSlotTranslations}/></Gw2AccountBodyCells>}
         </Glyphs.DynamicColumns>

@@ -18,7 +18,12 @@ const getItems = cache(
   async (ids: number[]) => {
     const items = await db.item.findMany({
       where: { id: { in: ids }},
-      select: { ...linkProperties, tpTradeable: true, tpCheckedAt: true, buyPrice: true, buyQuantity: true, sellPrice: true, sellQuantity: true }
+      select: {
+        ...linkProperties,
+        tpTradeable: true, tpCheckedAt: true,
+        buyPrice: true, buyQuantity: true,
+        sellPrice: true, sellQuantity: true
+      }
     });
 
     return Object.fromEntries(groupById(items).entries());

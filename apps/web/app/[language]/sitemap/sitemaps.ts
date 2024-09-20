@@ -130,7 +130,10 @@ export const sitemaps: Record<string, Sitemap> = {
         '/item/empty-containers',
         '/achievement/uncategorized',
         '/wizards-vault',
-        '/homestead',
+        '/homestead/nodes',
+        '/homestead/cats',
+        '/homestead/decorations',
+        '/homestead/glyphs',
         '/fractals',
       ].map((page) => getEntryForUrl(page));
     }

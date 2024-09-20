@@ -21,7 +21,7 @@ RUN npx turbo prune e2e --docker
 
 
 # final image
-FROM mcr.microsoft.com/playwright:v1.47.1-jammy AS tester
+FROM mcr.microsoft.com/playwright:v1.47.2-jammy AS tester
 WORKDIR /app
 
 ENV CI=true

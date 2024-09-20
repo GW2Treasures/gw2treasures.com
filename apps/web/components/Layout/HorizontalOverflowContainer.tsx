@@ -33,7 +33,7 @@ export const HorizontalOverflowContainer: FC<HorizontalOverflowContainerProps> =
     const element = content.current;
 
     setCanScrollLeft(element ? element.scrollLeft > 0 : false);
-    setCanScrollRight(element ? element.scrollLeft < element.scrollWidth - element.offsetWidth - .5 : false);
+    setCanScrollRight(element ? Math.ceil(element.scrollLeft) < element.scrollWidth - element.offsetWidth : false);
   });
 
   useEffect(() => {
@@ -45,7 +45,7 @@ export const HorizontalOverflowContainer: FC<HorizontalOverflowContainerProps> =
 
     const handler = () => {
       setCanScrollLeft(element.scrollLeft > 0);
-      setCanScrollRight(element.scrollLeft < element.scrollWidth - element.offsetWidth - .5);
+      setCanScrollRight(Math.ceil(element.scrollLeft) < element.scrollWidth - element.offsetWidth);
     };
     element.addEventListener('scroll', handler, { passive: true });
 

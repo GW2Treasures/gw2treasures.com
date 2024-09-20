@@ -16,6 +16,10 @@
   animation: slide-in .3s ease-out;
 }
 
+.dialog > p {
+  margin: 0;
+}
+
 @media (max-width: 799px) {
   .dialog {
     bottom: 0;

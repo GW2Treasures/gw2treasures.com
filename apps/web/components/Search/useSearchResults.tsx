@@ -125,7 +125,6 @@ const pages: Page[] = [
   { href: '/item', title: 'Items', icon: 'item' },
   { href: '/achievement', title: 'Achievements', icon: 'achievement' },
   { href: '/wizards-vault', title: 'Wizard\'s Vault', icon: 'wizards-vault' },
-  { href: '/homestead', title: 'Homestead', icon: 'homestead' },
   { href: '/skin', title: 'Skins', icon: 'skin' },
   // { href: '/profession', title: 'Professions', icon: 'profession' },
   // { href: '/specialization', title: 'Specializations', icon: 'specialization' },
@@ -133,6 +132,11 @@ const pages: Page[] = [
   // { href: '/mount', title: 'Mounts', icon: 'mount' },
   // { href: '/wvw', title: 'Word vs. World (WvW)', icon: 'wvw' },
   { href: '/fractals', title: 'Fractals', icon: 'fractal' },
+
+  { href: '/homestead/nodes', title: 'Homestead Nodes', icon: 'homestead' },
+  { href: '/homestead/cats', title: 'Homestead Cats', icon: 'homestead' },
+  { href: '/homestead/decorations', title: 'Homestead Decorations', icon: 'homestead' },
+  { href: '/homestead/glyphs', title: 'Homestead Glyphs', icon: 'homestead' },
 
   { href: '/dev', title: 'Developer', icon: 'developer' },
   { href: '/dev/icons', title: 'Developer / Icons', icon: 'developer' },

@@ -140,6 +140,14 @@ const RefinedDataTable: FC<{ table: HomesteadRefinedMatsDataTable }> = ({
     </table.Column>
     <table.Column
       id="buyPrice"
+      title="Amount Produced"
+      sortBy={({ costs }) => costs[DEFAULT_EFFICIENCY].produced}
+      align="right"
+    >
+      {({ costs }) => costs[DEFAULT_EFFICIENCY].produced}
+    </table.Column>
+    <table.Column
+      id="buyPrice"
       title="Buy Price"
       sortBy={({ item, costs }) => getCostPerUnit(item.buyPrice, costs[DEFAULT_EFFICIENCY])}
       align="right"

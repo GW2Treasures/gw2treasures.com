@@ -22,6 +22,7 @@ import { Wardrobe } from './wardrobe';
 import { SkinTable } from '@/components/Skin/SkinTable';
 import { SkinTooltip } from '@/components/Skin/SkinTooltip';
 import { AchievementTable } from '@/components/Achievement/AchievementTable';
+import type { PageProps } from '@/lib/next';
 
 const getSkin = cache(async (id: number, language: Language) => {
   const [skin, revision] = await Promise.all([
@@ -44,12 +45,7 @@ const getSkin = cache(async (id: number, language: Language) => {
   return { skin, revision, similar };
 }, ['get-skin'], { revalidate: 60 });
 
-interface SkinPageProps {
-  params: {
-    language: Language;
-    id: string;
-  }
-}
+type SkinPageProps = PageProps<{ id: string }>;
 
 async function SkinPage ({ params: { language, id }}: SkinPageProps) {
   const skinId: number = Number(id);

@@ -1,16 +1,10 @@
-import type { Language } from '@gw2treasures/database';
 import { SkillPageComponent } from '../component';
 import type { Metadata } from 'next';
 import { getRevision } from '../getSkill';
 import { notFound } from 'next/navigation';
+import type { PageProps } from '@/lib/next';
 
-interface SkillRevisionPageProps {
-  params: {
-    language: Language;
-    id: string;
-    revisionId: string;
-  }
-}
+type SkillRevisionPageProps = PageProps<{ id: string, revisionId: string }>;
 
 export default function SkillPage({ params: { language, id, revisionId }}: SkillRevisionPageProps) {
   const skillId: number = Number(id);

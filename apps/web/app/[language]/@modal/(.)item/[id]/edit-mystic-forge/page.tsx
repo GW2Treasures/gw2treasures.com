@@ -11,7 +11,7 @@ export default function EditMysticForgePage({ params, searchParams }: EditMystic
   return (
     <Modal title={searchParams.recipe ? 'Edit Mystic Forge Recipe' : 'Add Mystic Forge Recipe'}>
       <Suspense fallback={<Skeleton/>}>
-        <EditMysticForge outputItemId={outputItemId} recipeId={searchParams.recipe}/>
+        <EditMysticForge outputItemId={outputItemId} recipeId={Array.isArray(searchParams.recipe) ? searchParams.recipe[0] : searchParams.recipe}/>
       </Suspense>
     </Modal>
   );

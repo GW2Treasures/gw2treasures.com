@@ -10,6 +10,7 @@ import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { unstable_cache } from 'next/cache';
 import { DyeColor } from '@/components/Color/DyeColor';
 import { hexToRgb } from '@/components/Color/hex-to-rgb';
+import type { PageProps } from '@/lib/next';
 
 const getColors = unstable_cache((language: Language) => {
   return db.color.findMany({
@@ -28,7 +29,7 @@ const getColors = unstable_cache((language: Language) => {
   });
 }, ['get-colors']);
 
-export default async function ColorPage({ params }: { params: { language: Language }}) {
+export default async function ColorPage({ params }: PageProps) {
   const colors = await getColors(params.language);
 
   return (

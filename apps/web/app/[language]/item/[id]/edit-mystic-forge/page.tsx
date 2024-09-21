@@ -1,17 +1,9 @@
 import { PageLayout } from '@/components/Layout/PageLayout';
 import { EditMysticForge } from './EditMysticForge';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
-import type { Language } from '@gw2treasures/database';
+import type { PageProps } from '@/lib/next';
 
-export interface EditMysticForgePageProps {
-  params: {
-    lang: Language,
-    id: string,
-  },
-  searchParams: {
-    recipe?: string,
-  }
-}
+export type EditMysticForgePageProps = PageProps<{ id: string }>;
 
 export default function EditMysticForgePage({ params, searchParams }: EditMysticForgePageProps) {
   const outputItemId = Number(params.id);
@@ -19,7 +11,7 @@ export default function EditMysticForgePage({ params, searchParams }: EditMystic
   return (
     <PageLayout>
       <Headline id="mf">{searchParams.recipe ? 'Edit Mystic Forge Recipe' : 'Add Mystic Forge Recipe'}</Headline>
-      <EditMysticForge outputItemId={outputItemId} recipeId={searchParams.recipe}/>
+      <EditMysticForge outputItemId={outputItemId} recipeId={Array.isArray(searchParams.recipe) ? searchParams.recipe[0] : searchParams.recipe}/>
     </PageLayout>
   );
 }

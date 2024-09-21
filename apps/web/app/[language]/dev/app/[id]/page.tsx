@@ -14,6 +14,7 @@ import Link from 'next/link';
 import { ExternalLink } from '@gw2treasures/ui/components/Link/ExternalLink';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { deleteApplication, saveApplication, updateOrigins } from './actions';
+import type { PageProps } from '@/lib/next';
 
 async function getApplication(id: string) {
   const user = await getUser();
@@ -33,11 +34,7 @@ async function getApplication(id: string) {
   return application;
 }
 
-interface DevAppPageProps {
-  params: {
-    id: string;
-  };
-}
+type DevAppPageProps = PageProps<{ id: string }>;
 
 export default async function DevAppPage({ params: { id }}: DevAppPageProps) {
   const application = await getApplication(id);

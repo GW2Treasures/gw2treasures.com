@@ -1,4 +1,3 @@
-import type { Language } from '@gw2treasures/database';
 import { db } from '@/lib/prisma';
 import { ItemList } from '@/components/ItemList/ItemList';
 import { AchievementLink } from '@/components/Achievement/AchievementLink';
@@ -14,6 +13,7 @@ import { AccountAchievementProgressHeader, AccountAchievementProgressRow } from 
 import { PageLayout } from '@/components/Layout/PageLayout';
 import { ColumnSelect } from '@/components/Table/ColumnSelect';
 import { cache } from '@/lib/cache';
+import type { PageProps } from '@/lib/next';
 
 const getUncategorizedAchievements = cache(async () => {
   const achievements = await db.achievement.findMany({
@@ -24,7 +24,7 @@ const getUncategorizedAchievements = cache(async () => {
   return { achievements };
 }, ['uncategorized-achievements'], { revalidate: 60 });
 
-async function AchievementUncategorizedPage({ params: { language }}: { params: { language: Language }}) {
+async function AchievementUncategorizedPage({ params: { language }}: PageProps) {
   const { achievements } = await getUncategorizedAchievements();
 
   const UncategorizedAchievements = createDataTable(achievements, ({ id }) => id);

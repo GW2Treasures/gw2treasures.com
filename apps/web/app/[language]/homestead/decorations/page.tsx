@@ -9,11 +9,11 @@ import { cache } from '@/lib/cache';
 import { Gw2AccountBodyCells, Gw2AccountHeaderCells } from '@/components/Gw2Api/Gw2AccountTableCells';
 import { AccountHomesteadDecorationCell, DecorationRowFilter, DecorationTableFilter, DecorationTableProvider, requiredScopes } from '../homestead.client';
 import { PageView } from '@/components/PageView/PageView';
-import type { Language } from '@gw2treasures/database';
 import { EntityIconMissing } from '@/components/Entity/EntityIconMissing';
 import { FormatNumber } from '@/components/Format/FormatNumber';
 import { localizedName } from '@/lib/localizedName';
 import { Description } from '@/components/Layout/Description';
+import type { PageProps } from '@/lib/next';
 
 const getDecorations = cache(
   () => db.homesteadDecoration.findMany({
@@ -30,7 +30,7 @@ const getDecorationCategories = cache(
   ['homestead-decoration-categories'], { revalidate: 60 }
 );
 
-export default async function HomesteadDecorationsPage({ params: { language }}: { params: { language: Language }}) {
+export default async function HomesteadDecorationsPage({ params: { language }}: PageProps) {
   const [decorations, decorationCategories] = await Promise.all([
     getDecorations(),
     getDecorationCategories(),

@@ -14,13 +14,14 @@ It's best to to open an issue first to discuss the changes you want to make. You
 
 These are the steps that are required to work on any of the gw2treasures.com components.
 
-1. Install dependencies by running `npm i` in the root directory. This will install dependencies for all apps and packages.
-2. Start the database in docker using `docker compose up -d database`.
-3. (Optional) To get data into the database, it is best to run workers with `docker compose up -d worker` in the background.
+1. You need Node.js 20+ and docker installed.
+2. Install dependencies by running `npm i` in the root directory. This will install dependencies for all apps and packages.
+3. Start the database in docker using `docker compose up -d database`.
+4. (Optional) To get data into the database, it is best to run workers with `docker compose up -d worker` in the background.
 
 ### Web
 
-The website uses nextjs and the code is found in [apps/web](apps/web/).
+The website uses Next.js and the code is found in [apps/web](apps/web/) and [packages/ui](packages/ui/).
 
 1. Run `npm run dev:web`
 2. Visit http://gw2treasures.localhost:3000/
@@ -28,12 +29,17 @@ The website uses nextjs and the code is found in [apps/web](apps/web/).
 
 ### Worker
 
-The workers powering all background tasks of gw2treasures.com are located in [apps/worker](apps/worker/). If you have workers running in docker, it is best to stop them first (`docker compose stop worker`), because they will not contain your changes.
+The workers powering all background tasks of gw2treasures.com are located in [apps/worker](apps/worker/). You can see the currently queued jobs on the /status/jobs page when running the frontend.
 
-1. Make your changes
-2. Start the worker with `npm run dev:worker`
+#### Making changes
 
-You can rebuild your docker workers with `docker compose up --build -d worker
+If you have workers running in docker, it is best to stop them first (`docker compose stop worker`), because they will not contain your changes.
+
+1. Make your changes.
+2. Start the worker with `npm run dev:worker`.
+
+You can rebuild and restart your docker workers with `docker compose up --build -d worker`.
+
 
 ### Database Access
 

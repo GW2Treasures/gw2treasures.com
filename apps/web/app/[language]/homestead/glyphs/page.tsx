@@ -7,7 +7,6 @@ import { cache } from '@/lib/cache';
 import { Gw2AccountBodyCells, Gw2AccountHeaderCells } from '@/components/Gw2Api/Gw2AccountTableCells';
 import { AccountHomesteadGlyphsCell, requiredScopes } from '../homestead.client';
 import { PageView } from '@/components/PageView/PageView';
-import type { Language } from '@gw2treasures/database';
 import { localizedName } from '@/lib/localizedName';
 import { UnknownItem } from '@/components/Item/UnknownItem';
 import { translateMany } from '@/lib/translate';
@@ -15,6 +14,7 @@ import { ColumnSelect } from '@/components/Table/ColumnSelect';
 import { Description } from '@/components/Layout/Description';
 import { isTruthy } from '@gw2treasures/helper/is';
 import { globalColumnRenderer as itemTableColumn } from '@/components/ItemTable/columns';
+import type { PageProps } from '@/lib/next';
 
 const getGlyphs = cache(async () => {
   const glyphs = await db.homesteadGlyph.findMany({
@@ -47,7 +47,7 @@ const getGlyphs = cache(async () => {
   });
 }, ['homestead-glyphs'], { revalidate: 60 });
 
-export default async function HomesteadGlyphsPage({ params: { language }}: { params: { language: Language }}) {
+export default async function HomesteadGlyphsPage({ params: { language }}: PageProps) {
   const glyphs = await getGlyphs();
 
   const Glyphs = createDataTable(glyphs, ({ id }) => id);

@@ -1,4 +1,3 @@
-import type { Language } from '@gw2treasures/database';
 import { SkillPageComponent } from './component';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
@@ -6,13 +5,9 @@ import { parseIcon } from '@/lib/parseIcon';
 import { getIconUrl } from '@/lib/getIconUrl';
 import { getRevision } from './getSkill';
 import { getAlternateUrls } from '@/lib/url';
+import type { PageProps } from '@/lib/next';
 
-export interface SkillPageProps {
-  params: {
-    language: Language;
-    id: string;
-  }
-}
+export type SkillPageProps = PageProps<{ id: string }>;
 
 export default function SkillPage({ params: { language, id }}: SkillPageProps) {
   const skillId: number = Number(id);

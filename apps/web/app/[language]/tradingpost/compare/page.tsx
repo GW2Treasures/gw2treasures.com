@@ -10,9 +10,14 @@ import { Chart } from './chart.client';
 import { colorPalette } from './colors';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
+import type { PageProps } from '@/lib/next';
 
-export default async function TradingpostChartsPage({ searchParams }: { searchParams: { ids?: string }}) {
-  const itemIds = searchParams.ids?.split(',').map(Number).filter((id) => !isNaN(id) && id > 0 && Number.isInteger(id)).slice(0, 50) ?? [];
+export default async function TradingpostChartsPage({ searchParams: { ids = [] }}: PageProps) {
+  const itemIds = (Array.isArray(ids) ? ids : [ids])
+    .flatMap((rawIds) => rawIds.split(','))
+    .map(Number)
+    .filter((id) => !isNaN(id) && id > 0 && Number.isInteger(id))
+    .slice(0, 50);
 
   const date = new Date();
   date.setDate(date.getDate() - 90);

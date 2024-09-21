@@ -18,8 +18,8 @@ import { CurrencyValue } from '@/components/Currency/CurrencyValue';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { Separator } from '@gw2treasures/ui/components/Layout/Separator';
 import { localizedName } from '@/lib/localizedName';
-import type { Language } from '@gw2treasures/database';
 import { getLoginUrlWithReturnTo } from '@/lib/login-url';
+import type { PageProps } from '@/lib/next';
 
 const getReview = async function getReview(id: string) {
   const review = await db.review.findUnique({
@@ -44,15 +44,7 @@ const getReview = async function getReview(id: string) {
   return { review, item: review.relatedItem };
 };
 
-interface ReviewContainerContentPageProps {
-  params: {
-    id: string;
-    language: Language;
-  };
-  searchParams: {
-    error?: '';
-  };
-}
+type ReviewContainerContentPageProps = PageProps<{ id: string }>;
 
 export default async function ReviewContainerContentPage({ params: { id }, searchParams }: ReviewContainerContentPageProps) {
   const { item, review } = await getReview(id);

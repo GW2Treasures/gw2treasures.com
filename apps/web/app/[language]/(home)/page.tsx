@@ -14,10 +14,12 @@ import { FormatNumber } from '@/components/Format/FormatNumber';
 import { AchievementLink } from '@/components/Achievement/AchievementLink';
 import { cache } from '@/lib/cache';
 import { getAlternateUrls } from '@/lib/url';
-import type { Language } from '@gw2treasures/database';
 import { PageView } from '@/components/PageView/PageView';
+import type { PageProps } from '@/lib/next';
 
-function HomePage({ params: { language }}: { params: { language: Language }}) {
+function HomePage({ params: { language }, searchParams }: PageProps) {
+  console.log(searchParams);
+
   return (
     <HeroLayout hero={(
       <div className={styles.hero}>
@@ -119,7 +121,7 @@ async function DbStats() {
 
 export default HomePage;
 
-export function generateMetadata({ params }: { params: { language: Language }}) {
+export function generateMetadata({ params }: PageProps) {
   return {
     title: 'Home',
     alternates: getAlternateUrls('/', params.language)

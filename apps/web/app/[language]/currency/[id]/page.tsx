@@ -17,6 +17,7 @@ import { cache } from '@/lib/cache';
 import { localizedName } from '@/lib/localizedName';
 import { getUser } from '@/lib/getUser';
 import { WalletTable } from './wallet-table';
+import type { PageProps } from '@/lib/next';
 
 const getCurrency = cache(async (id: number) => {
   if(isNaN(id)) {
@@ -48,12 +49,7 @@ const getRevision = cache(async (id: number, language: Language, revisionId?: st
   };
 }, ['currency-revision'], { revalidate: 60 });
 
-interface CurrencyPageProps {
-  params: {
-    id: string;
-    language: Language;
-  };
-}
+type CurrencyPageProps = PageProps<{ id: string }>;
 
 export default async function CurrencyPage({ params: { id, language }}: CurrencyPageProps) {
   const currencyId = Number(id);

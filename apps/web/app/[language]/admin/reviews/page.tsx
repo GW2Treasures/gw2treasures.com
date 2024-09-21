@@ -19,7 +19,7 @@ const getReviews = cache(() => {
   });
 });
 
-export default async function AdminUserPage() {
+export default async function AdminReviewsPage() {
   await ensureUserIsAdmin();
   const reviews = await getReviews();
 

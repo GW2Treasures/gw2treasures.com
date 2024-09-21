@@ -17,6 +17,7 @@ import { RecipeBoxWrapper } from '@/components/Recipe/RecipeBoxWrapper';
 import { RecipeBox } from '@/components/Recipe/RecipeBox';
 import { pageView } from '@/lib/pageView';
 import { cache } from '@/lib/cache';
+import type { PageProps } from '@/lib/next';
 
 const getGuildUpgrade = cache(async (id: number) => {
   if(isNaN(id)) {
@@ -50,12 +51,7 @@ const getRevision = cache(async (id: number, language: Language, revisionId?: st
 }, ['guild-upgrade-revision'], { revalidate: 60 });
 
 
-interface GuildUpgradePageProps {
-  params: {
-    id: string;
-    language: Language;
-  };
-}
+type GuildUpgradePageProps = PageProps<{ id: string }>;
 
 export default async function GuildUpgradePage({ params: { id, language }}: GuildUpgradePageProps) {
   const guildUpgradeId = Number(id);

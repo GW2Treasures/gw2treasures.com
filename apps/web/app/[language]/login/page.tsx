@@ -11,21 +11,15 @@ import { HeroLayout } from '@/components/Layout/HeroLayout';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { Trans } from '@/components/I18n/Trans';
 import { SubmitButton } from '@gw2treasures/ui/components/Form/Buttons/SubmitButton';
+import type { PageProps } from '@/lib/next';
 
-interface LoginPageProps {
-  searchParams: {
-    logout?: '',
-    error?: '',
-    returnTo?: string,
-    scopes?: string,
-  }
-}
-
-export default async function LoginPage({ searchParams }: LoginPageProps) {
+export default async function LoginPage({ searchParams }: PageProps) {
   const user = await getUser();
+  const returnTo = Array.isArray(searchParams.returnTo) ? searchParams.returnTo[0] : searchParams.returnTo;
+  const scopes = Array.isArray(searchParams.scopes) ? searchParams.scopes.join(',') : searchParams.scopes;
 
   if(user) {
-    redirect(getReturnToUrl(searchParams.returnTo));
+    redirect(getReturnToUrl(returnTo));
   }
 
   return (
@@ -42,7 +36,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
         Login to contribute to gw2treasures.com and to view your progression, inventory, and more.
       </p>
 
-      <form action={redirectToGw2Me.bind(null, searchParams.returnTo, searchParams.scopes)}>
+      <form action={redirectToGw2Me.bind(null, returnTo, scopes)}>
         <SubmitButton icon="gw2me" iconColor="#b7000d" type="submit">Login with gw2.me</SubmitButton>
       </form>
 

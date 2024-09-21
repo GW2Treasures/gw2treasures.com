@@ -2,6 +2,7 @@ import { db } from '@/lib/prisma';
 import type { Language } from '@gw2treasures/database';
 import { BuildTable } from './BuildTable';
 import { cache } from '@/lib/cache';
+import type { PageProps } from '@/lib/next';
 
 const getBuilds = cache(async (language: Language) => {
   const builds = await db.build.findMany({
@@ -18,7 +19,7 @@ const getBuilds = cache(async (language: Language) => {
   return { builds, updates };
 }, ['builds'], { revalidate: 600 });
 
-export default async function BuildPage({ params: { language }}: { params: { language: Language }}) {
+export default async function BuildPage({ params: { language }}: PageProps) {
   const { builds, updates } = await getBuilds(language);
 
   const buildsWithUpdates = builds.map((build) => ({

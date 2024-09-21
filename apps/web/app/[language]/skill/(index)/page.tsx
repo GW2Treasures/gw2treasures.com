@@ -7,6 +7,7 @@ import { linkPropertiesWithoutRarity } from '@/lib/linkProperties';
 import { SkillLink } from '@/components/Skill/SkillLink';
 import { FormatDate } from '@/components/Format/FormatDate';
 import { cache } from '@/lib/cache';
+import type { PageProps } from '@/lib/next';
 
 const getSkills = cache(async (language: Language) => {
   const [recentlyAdded, recentlyUpdated] = await Promise.all([
@@ -26,7 +27,7 @@ const getSkills = cache(async (language: Language) => {
   return { recentlyAdded, recentlyUpdated };
 }, ['skills'], { revalidate: 60 });
 
-export default async function SkillPage({ params: { language }}: { params: { language: Language }}) {
+export default async function SkillPage({ params: { language }}: PageProps) {
   const { recentlyAdded, recentlyUpdated } = await getSkills(language);
 
   return (

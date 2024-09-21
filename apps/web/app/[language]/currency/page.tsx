@@ -5,10 +5,10 @@ import { CurrencyLink } from '@/components/Currency/CurrencyLink';
 import { cache } from '@/lib/cache';
 import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
 import { compareLocalizedName } from '@/lib/localizedName';
-import type { Language } from '@gw2treasures/database';
 import { ColumnSelect } from '@/components/Table/ColumnSelect';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { AccountHeader, AccountWalletRow } from './account-data';
+import type { PageProps } from '@/lib/next';
 
 const getCurrencies = cache(
   () => db.currency.findMany({
@@ -19,7 +19,7 @@ const getCurrencies = cache(
   { revalidate: 60 }
 );
 
-export default async function CurrencyPage({ params: { language }}: { params: { language: Language }}) {
+export default async function CurrencyPage({ params: { language }}: PageProps) {
   const currencies = await getCurrencies();
 
   const Currencies = createDataTable(currencies, ({ id }) => id);

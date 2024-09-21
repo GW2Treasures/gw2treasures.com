@@ -36,16 +36,12 @@ import type { Achievement, AchievementFlags } from '@gw2api/types/data/achieveme
 import { AchievementTable } from '@/components/Achievement/AchievementTable';
 import type { ReactNode } from 'react';
 import { Mastery, MasteryColors } from '@/components/Achievement/Mastery';
+import type { PageProps } from '@/lib/next';
 
 
 const notPartOfCategoryDisplayFlags: AchievementFlags[] = ['Repeatable', 'RequiresUnlock', 'Hidden', 'Daily', 'Weekly', 'IgnoreNearlyComplete'];
 
-export interface AchievementPageProps {
-  params: {
-    language: Language;
-    id: string;
-  }
-}
+export type AchievementPageProps = PageProps<{ id: string }>;
 
 const getAchievement = cache(async (id: number, language: Language) => {
   const [achievement, revision] = await Promise.all([

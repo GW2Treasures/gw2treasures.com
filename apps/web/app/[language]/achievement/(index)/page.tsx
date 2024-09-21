@@ -6,14 +6,14 @@ import { localizedName } from '@/lib/localizedName';
 import { Fragment } from 'react';
 import type { Gw2Api } from 'gw2-api-types';
 import { AchievementCategoryLink } from '@/components/Achievement/AchievementCategoryLink';
-import type { Language } from '@gw2treasures/database';
 import { RemovedFromApiNotice } from '@/components/Notice/RemovedFromApiNotice';
 import Link from 'next/link';
 import { pageView } from '@/lib/pageView';
 import { cache } from '@/lib/cache';
 import { ResetTimer } from '@/components/Reset/ResetTimer';
+import type { PageProps } from '@/lib/next';
 
-const getAchivementGroups = cache(async (language: string) => {
+const getAchievementGroups = cache(async (language: string) => {
   const groups = await db.achievementGroup.findMany({
     include: {
       achievementCategories: {
@@ -31,8 +31,8 @@ const getAchivementGroups = cache(async (language: string) => {
   return groups;
 }, ['achievement-groups'], { revalidate: 60 });
 
-export default async function AchievementPage({ params: { language }}: { params: { language: Language }}) {
-  const groups = await getAchivementGroups(language);
+export default async function AchievementPage({ params: { language }}: PageProps) {
+  const groups = await getAchievementGroups(language);
   await pageView('achievement');
 
   return (

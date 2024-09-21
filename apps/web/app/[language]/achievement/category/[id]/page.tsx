@@ -17,13 +17,9 @@ import { cache } from '@/lib/cache';
 import { AchievementTable } from '@/components/Achievement/AchievementTable';
 import { Breadcrumb, BreadcrumbItem } from '@/components/Breadcrumb/Breadcrumb';
 import { getTranslate } from '@/lib/translate';
+import type { PageProps } from '@/lib/next';
 
-export interface AchievementCategoryPageProps {
-  params: {
-    language: Language;
-    id: string;
-  }
-}
+export type AchievementCategoryPageProps = PageProps<{ id: string }>;
 
 const getAchievementCategory = cache(async (id: number, language: Language) => {
   const [achievementCategory, revision] = await Promise.all([

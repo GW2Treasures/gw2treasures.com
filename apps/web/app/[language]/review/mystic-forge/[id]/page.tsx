@@ -13,12 +13,12 @@ import Link from 'next/link';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { Separator } from '@gw2treasures/ui/components/Layout/Separator';
 import { localizedName } from '@/lib/localizedName';
-import type { Language } from '@gw2treasures/database';
 import { Form } from '@gw2treasures/ui/components/Form/Form';
 import type { SubmitEditMysticForgeOrder } from 'app/[language]/item/[id]/edit-mystic-forge/action';
 import { OutputCountRange } from '@/components/Item/OutputCountRange';
 import { OutputCount } from '@/components/Item/OutputCount';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
+import type { PageProps } from '@/lib/next';
 
 const getReview = async function getReview(id: string) {
   const review = await db.review.findUnique({
@@ -43,15 +43,7 @@ const getReview = async function getReview(id: string) {
   return { review, item: review.relatedItem };
 };
 
-interface ReviewContainerContentPageProps {
-  params: {
-    id: string;
-    language: Language;
-  };
-  searchParams: {
-    error?: '';
-  };
-}
+type ReviewContainerContentPageProps = PageProps<{ id: string }>;
 
 export default async function ReviewMysticForgePage({ params: { id }}: ReviewContainerContentPageProps) {
   const { item, review } = await getReview(id);

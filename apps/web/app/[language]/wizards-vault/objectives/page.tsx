@@ -4,8 +4,8 @@ import { ColumnSelect } from '@/components/Table/ColumnSelect';
 import { Waypoint } from '@/components/Waypoint/Waypoint';
 import { cache } from '@/lib/cache';
 import { compareLocalizedName, localizedName } from '@/lib/localizedName';
+import type { PageProps } from '@/lib/next';
 import { db } from '@/lib/prisma';
-import type { Language } from '@gw2treasures/database';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
@@ -15,13 +15,7 @@ const getObjectives = cache(() => {
   return db.wizardsVaultObjective.findMany();
 }, ['wizards-vault-objectives'], { revalidate: 60 * 60 });
 
-interface WizardsVaultObjectivesPageProps {
-  params: {
-    language: Language
-  }
-}
-
-export default async function WizardsVaultObjectivesPage({ params: { language }}: WizardsVaultObjectivesPageProps) {
+export default async function WizardsVaultObjectivesPage({ params: { language }}: PageProps) {
   const objectives = await getObjectives();
 
   const Objectives = createDataTable(objectives, ({ id }) => id);

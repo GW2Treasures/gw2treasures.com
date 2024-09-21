@@ -14,10 +14,9 @@ import { linkProperties } from '@/lib/linkProperties';
 import type { Metadata } from 'next';
 import { pageView } from '@/lib/pageView';
 import { cache } from '@/lib/cache';
+import type { PageProps } from '@/lib/next';
 
-interface BuildPageProps {
-  params: { language: Language, id: string }
-}
+type BuildPageProps = PageProps<{ id: string }>;
 
 function timed<Args extends unknown[], Out>(callback: (...args: Args) => Promise<Out>): (...args: Args) => Promise<Out> {
   const timedFunction = async (...args: Args): Promise<Out> => {

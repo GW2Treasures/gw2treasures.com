@@ -6,31 +6,23 @@ import data from './fractals.json';
 import { Trans } from '@/components/I18n/Trans';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
-import { getCanonicalUrl, getDateOrFallback, getDayOfYearIndex, getInstabilities, getTierOrFallback, type TierFilter } from './helper';
+import { getCanonicalUrl, getDateOrFallback, getDayOfYearIndex, getInstabilities, getTierOrFallback } from './helper';
 import { isTruthy } from '@gw2treasures/helper/is';
 import { DateSelector } from './date-selector';
 import { getAlternateUrls } from '@/lib/url';
-import type { Language } from '@gw2treasures/database';
 import { FormatNumber } from '@/components/Format/FormatNumber';
 import { getTranslate } from '@/lib/translate';
 import { PageView } from '@/components/PageView/PageView';
 import { Switch } from '@gw2treasures/ui/components/Form/Switch';
+import type { PageProps } from '@/lib/next';
 
 
-interface FractalsPageProps {
-  params: { language: Language },
-  searchParams: {
-    tier?: TierFilter,
-    date?: string
-  }
-}
-
-export default function FractalsPage({ searchParams: { tier: rawTier, date: rawDate }}: FractalsPageProps) {
+export default function FractalsPage({ searchParams: { tier: rawTier, date: rawDate }}: PageProps) {
   const { fractals, daily, recommended } = data;
 
-  const date = getDateOrFallback(rawDate);
+  const date = getDateOrFallback(Array.isArray(rawDate) ? rawDate[0] : rawDate);
   const parsedDate = new Date(date);
-  const tier = getTierOrFallback(rawTier);
+  const tier = getTierOrFallback(Array.isArray(rawTier) ? rawTier[0] : rawTier);
 
   const dayOfYearIndex = getDayOfYearIndex(parsedDate);
   const currentDaily = dayOfYearIndex % 15;
@@ -81,12 +73,12 @@ export default function FractalsPage({ searchParams: { tier: rawTier, date: rawD
   );
 }
 
-export function generateMetadata({ searchParams: { tier, date }, params: { language }}: FractalsPageProps) {
+export function generateMetadata({ searchParams: { tier, date }, params: { language }}: PageProps) {
   const t = getTranslate(language);
 
   return {
     title: t('fractals'),
-    alternates: getAlternateUrls(getCanonicalUrl(tier, date), language),
+    alternates: getAlternateUrls(getCanonicalUrl(getTierOrFallback(Array.isArray(tier) ? tier[0] : tier), Array.isArray(date) ? date[0] : date), language),
   };
 }
 

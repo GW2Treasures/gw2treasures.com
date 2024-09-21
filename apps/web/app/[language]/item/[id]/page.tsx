@@ -1,4 +1,3 @@
-import type { Language } from '@gw2treasures/database';
 import { ItemPageComponent } from './component';
 import type { Metadata } from 'next';
 import { getRevision } from './data';
@@ -6,13 +5,9 @@ import { notFound } from 'next/navigation';
 import { getIconUrl } from '@/lib/getIconUrl';
 import { parseIcon } from '@/lib/parseIcon';
 import { getAlternateUrls } from '@/lib/url';
+import type { PageProps } from '@/lib/next';
 
-export interface ItemPageProps {
-  params: {
-    language: Language;
-    id: string;
-  }
-}
+export type ItemPageProps = PageProps<{ id: string }>;
 
 export default function ItemPage({ params: { language, id }}: ItemPageProps) {
   const itemId = Number(id);

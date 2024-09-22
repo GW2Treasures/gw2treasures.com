@@ -47,11 +47,11 @@ export default function FractalsPage({ searchParams: { tier: rawTier, date: rawD
         <label style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
           <Trans id="fractals.daily"/>:
           <Switch>
-            <Switch.Control type="link" active={tier === '4'} href={getCanonicalUrl('4', date)}>T4</Switch.Control>
-            <Switch.Control type="link" active={tier === '3'} href={getCanonicalUrl('3', date)}>T3</Switch.Control>
-            <Switch.Control type="link" active={tier === '2'} href={getCanonicalUrl('2', date)}>T2</Switch.Control>
-            <Switch.Control type="link" active={tier === '1'} href={getCanonicalUrl('1', date)}>T1</Switch.Control>
-            <Switch.Control type="link" active={tier === 'all'} href={getCanonicalUrl('all', date)}><Trans id="fractals.tier.all"/></Switch.Control>
+            <Switch.Control type="link" replace active={tier === '4'} href={getCanonicalUrl('4', date)}>T4</Switch.Control>
+            <Switch.Control type="link" replace active={tier === '3'} href={getCanonicalUrl('3', date)}>T3</Switch.Control>
+            <Switch.Control type="link" replace active={tier === '2'} href={getCanonicalUrl('2', date)}>T2</Switch.Control>
+            <Switch.Control type="link" replace active={tier === '1'} href={getCanonicalUrl('1', date)}>T1</Switch.Control>
+            <Switch.Control type="link" replace active={tier === 'all'} href={getCanonicalUrl('all', date)}><Trans id="fractals.tier.all"/></Switch.Control>
           </Switch>
         </label>
         <label style={{ display: 'flex', gap: 16, alignItems: 'center' }}>

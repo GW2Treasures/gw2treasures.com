@@ -56,12 +56,12 @@ export default async function AdminUserPage({ searchParams }: PageProps) {
     <PageLayout>
       <Headline id="reviews" actions={[
         <Switch key="days">
-          <Switch.Control type="link" href={`?interval=${interval}&days=7`} active={days === '7'}>1 Week</Switch.Control>
-          <Switch.Control type="link" href={`?interval=${interval}&days=30`} active={days === '30'}>1 Month</Switch.Control>
+          <Switch.Control type="link" replace href={`?interval=${interval}&days=7`} active={days === '7'}>1 Week</Switch.Control>
+          <Switch.Control type="link" replace href={`?interval=${interval}&days=30`} active={days === '30'}>1 Month</Switch.Control>
         </Switch>,
         <Switch key="interval">
-          <Switch.Control type="link" href={`?interval=hour&days=${days}`} active={interval === 'hour'}>hourly</Switch.Control>
-          <Switch.Control type="link" href={`?interval=day&days=${days}`} active={interval === 'day'}>daily</Switch.Control>
+          <Switch.Control type="link" replace href={`?interval=hour&days=${days}`} active={interval === 'hour'}>hourly</Switch.Control>
+          <Switch.Control type="link" replace href={`?interval=day&days=${days}`} active={interval === 'day'}>daily</Switch.Control>
         </Switch>
       ]}
       >

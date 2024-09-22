@@ -13,16 +13,17 @@ const standardRate = (base: number): RefinedCosts => [
   },
   {
     produced: 1,
-    required: base / 2,
+    // Portobello mushroom is the only with an odd base: 13 -> 6 -> 3
+    required: Math.floor(base / 2),
   },
   base >= 4
     ? {
         produced: 1,
-        required: base,
+        required: Math.floor(base / 4),
       }
     : {
         produced: 2,
-        required: base / 2,
+        required: Math.floor(base / 2),
       },
 ];
 
@@ -98,7 +99,11 @@ export const fiber: RefinedSources = {
   82866: standardRate(4),
   12341: standardRate(32),
   12254: standardRate(2),
-  12135: standardRate(8),
+  12135: [
+    { produced: 1, required: 8 },
+    { produced: 1, required: 8 },
+    { produced: 1, required: 4 },
+  ],
   12134: standardRate(4),
   12512: standardRate(28),
   12509: standardRate(2),

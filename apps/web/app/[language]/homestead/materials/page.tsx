@@ -139,7 +139,7 @@ const RefinedDataTable: FC<{ table: HomesteadRefinedMatsDataTable }> = ({
       {({ item }) => <ItemLink item={item}/>}
     </table.Column>
     <table.Column
-      id="buyPrice"
+      id="amountProduced"
       title="Amount Produced"
       sortBy={({ costs }) => costs[DEFAULT_EFFICIENCY].produced}
       align="right"
@@ -172,4 +172,4 @@ const RefinedDataTable: FC<{ table: HomesteadRefinedMatsDataTable }> = ({
   </table.Table>
 );
 
-const getCostPerUnit = (price: number | null, rate: ConversionRate) => price == null ? null : price * rate.required / rate.produced;
+const getCostPerUnit = (price: number | null, rate: ConversionRate) => price == null ? null : Math.round(price * rate.required / rate.produced);

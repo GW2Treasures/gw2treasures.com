@@ -25,7 +25,6 @@ import {
   wood,
   WOOD_ID,
   type ConversionRate,
-  type RefinedCosts,
   type RefinedSources,
 } from './data';
 import { Switch } from '@gw2treasures/ui/components/Form/Switch';
@@ -148,6 +147,15 @@ const RefinedDataTable: FC<{ table: HomesteadRefinedMatsDataTable }> = ({
     </table.Column>
     <table.Column id="source" title="Source">
       {({ item }) => <ItemLink item={item}/>}
+    </table.Column>
+    <table.Column
+      id="amountRequired"
+      title="Amount Required"
+      sortBy={({ rate }) => rate.required}
+      align="right"
+      hidden
+    >
+      {({ rate }) => rate.required}
     </table.Column>
     <table.Column
       id="amountProduced"

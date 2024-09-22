@@ -28,6 +28,8 @@ import {
   type RefinedCosts,
   type RefinedSources,
 } from './data';
+import { Switch } from '@gw2treasures/ui/components/Form/Switch';
+import type { PageProps } from '@/lib/next';
 
 const getItems = cache(
   async (ids: number[]) => {
@@ -48,7 +50,7 @@ const getItems = cache(
   { revalidate: 60 * 5 }
 );
 
-export default async function RefinedMaterialsPage() {
+export default async function RefinedMaterialsPage({ searchParams: { efficiency: rawEfficiency }}: PageProps) {
   const allIds = [
     ...Object.keys(wood),
     ...Object.keys(metal),
@@ -60,6 +62,7 @@ export default async function RefinedMaterialsPage() {
 
   // get items from db that unlock some node
   const items = await getItems(allIds);
+  const efficiency = Math.max(1, Math.min(3, Number(rawEfficiency) || 3));
 
   const getRefinedData = (source: RefinedSources, id: number) => {
     return {
@@ -67,7 +70,7 @@ export default async function RefinedMaterialsPage() {
       sources: Object.entries(source).map(([sourceId, costs]) => ({
         id: sourceId,
         item: items[sourceId],
-        costs,
+        rate: costs[efficiency - 1],
       })).filter((v) => v.item),
     };
   };
@@ -90,6 +93,15 @@ export default async function RefinedMaterialsPage() {
       <Description>
         <Trans id="homestead.materials.help"/>
       </Description>
+
+      <label style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
+        <Trans id="homestead.materials.efficiency"/>:
+        <Switch>
+          <Switch.Control type="link" replace active={efficiency === 1} href="/homestead/materials?efficiency=1">1</Switch.Control>
+          <Switch.Control type="link" replace active={efficiency === 2} href="/homestead/materials?efficiency=2">2</Switch.Control>
+          <Switch.Control type="link" replace active={efficiency === 3} href="/homestead/materials">3</Switch.Control>
+        </Switch>
+      </label>
 
       <Headline id="refinedMetal" actions={<ColumnSelect table={MetalTable}/>}>
         <ItemLink item={metalData.item}/>
@@ -118,7 +130,7 @@ export const metadata = {
 type RefinedDataSource = {
   id: string;
   item: Awaited<ReturnType<typeof getItems>>[string];
-  costs: RefinedCosts;
+  rate: ConversionRate;
 };
 type HomesteadRefinedMatsDataTable = {
   Table: FC<DataTableProps<RefinedDataSource>>;
@@ -127,7 +139,6 @@ type HomesteadRefinedMatsDataTable = {
   ColumnSelection: FC<DataTableColumnSelectionProps>;
 };
 
-const DEFAULT_EFFICIENCY = 2;
 const RefinedDataTable: FC<{ table: HomesteadRefinedMatsDataTable }> = ({
   table,
 }) => (
@@ -141,32 +152,32 @@ const RefinedDataTable: FC<{ table: HomesteadRefinedMatsDataTable }> = ({
     <table.Column
       id="amountProduced"
       title="Amount Produced"
-      sortBy={({ costs }) => costs[DEFAULT_EFFICIENCY].produced}
+      sortBy={({ rate }) => rate.produced}
       align="right"
     >
-      {({ costs }) => costs[DEFAULT_EFFICIENCY].produced}
+      {({ rate }) => rate.produced}
     </table.Column>
     <table.Column
       id="buyPrice"
       title="Buy Price"
-      sortBy={({ item, costs }) => getCostPerUnit(item.buyPrice, costs[DEFAULT_EFFICIENCY])}
+      sortBy={({ item, rate }) => getCostPerUnit(item.buyPrice, rate)}
       align="right"
     >
-      {({ item, costs }) => itemTableColumn.buyPrice({
+      {({ item, rate }) => itemTableColumn.buyPrice({
         ...item,
-        buyPrice: getCostPerUnit(item.buyPrice, costs[DEFAULT_EFFICIENCY])
+        buyPrice: getCostPerUnit(item.buyPrice, rate)
       }, {})}
     </table.Column>
     <table.Column
       id="sellPrice"
       title="Sell Price"
-      sortBy={({ item, costs }) => getCostPerUnit(item.sellPrice, costs[DEFAULT_EFFICIENCY])}
+      sortBy={({ item, rate }) => getCostPerUnit(item.sellPrice, rate)}
       align="right"
       hidden
     >
-      {({ item, costs }) => itemTableColumn.sellPrice({
+      {({ item, rate }) => itemTableColumn.sellPrice({
         ...item,
-        sellPrice: getCostPerUnit(item.sellPrice, costs[DEFAULT_EFFICIENCY])
+        sellPrice: getCostPerUnit(item.sellPrice, rate)
       }, {})}
     </table.Column>
   </table.Table>

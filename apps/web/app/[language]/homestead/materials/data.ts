@@ -86,7 +86,11 @@ export const fiber: RefinedSources = {
   73096: standardRate(4),
   12332: standardRate(40),
   12508: standardRate(28),
-  12142: standardRate(4),
+  12142: [
+    { produced: 1, required: 4 },
+    { produced: 1, required: 1 },
+    { produced: 2, required: 1 },
+  ],
   12147: standardRate(4),
   12535: standardRate(4),
   73504: standardRate(24),

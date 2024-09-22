@@ -11,8 +11,8 @@ export default function HomesteadLayout({ children }: { children: ReactNode }) {
         { segment: 'nodes', label: <Trans id="homestead.nodes"/> },
         { segment: 'cats', label: <Trans id="homestead.cats"/> },
         { segment: 'decorations', label: <Trans id="homestead.decorations"/> },
+        { segment: 'materials', label: <Trans id="homestead.materials"/> },
         { segment: 'glyphs', label: <Trans id="homestead.glyphs"/> },
-        { segment: 'refinedMaterials', label: <Trans id="homestead.refinedMaterials"/> },
       ]}/>
       <div>
         {children}

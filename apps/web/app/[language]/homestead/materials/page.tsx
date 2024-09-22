@@ -85,10 +85,10 @@ export default async function RefinedMaterialsPage() {
   return (
     <>
       <Description>
-        <Trans id="homestead.refinedMaterials.description"/>
+        <Trans id="homestead.materials.description"/>
       </Description>
       <Description>
-        <Trans id="homestead.refinedMaterials.help"/>
+        <Trans id="homestead.materials.help"/>
       </Description>
 
       <Headline id="refinedMetal" actions={<ColumnSelect table={MetalTable}/>}>

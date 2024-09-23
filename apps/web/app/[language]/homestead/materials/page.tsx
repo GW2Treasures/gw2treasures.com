@@ -9,13 +9,7 @@ import { linkProperties } from '@/lib/linkProperties';
 import { db } from '@/lib/prisma';
 import { groupById } from '@gw2treasures/helper/group-by';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
-import {
-  createDataTable,
-  type DataTableColumnProps,
-  type DataTableColumnSelectionProps,
-  type DataTableDynamicColumnsProps,
-  type DataTableProps,
-} from '@gw2treasures/ui/components/Table/DataTable';
+import { createDataTable, type DataTable } from '@gw2treasures/ui/components/Table/DataTable';
 import type { FC } from 'react';
 import {
   fiber,
@@ -29,6 +23,7 @@ import {
 } from './data';
 import { Switch } from '@gw2treasures/ui/components/Form/Switch';
 import type { PageProps } from '@/lib/next';
+import { UnknownItem } from '@/components/Item/UnknownItem';
 
 const getItems = cache(
   async (ids: number[]) => {
@@ -50,37 +45,39 @@ const getItems = cache(
 );
 
 export default async function RefinedMaterialsPage({ searchParams: { efficiency: rawEfficiency }}: PageProps) {
-  const allIds = [
+  // get items from db
+  const allItemIds = [
     ...Object.keys(wood),
     ...Object.keys(metal),
     ...Object.keys(fiber),
     FIBER_ID,
     WOOD_ID,
     METAL_ID,
-  ].map((v) => Number(v));
+  ].map(Number);
+  const items = await getItems(allItemIds);
 
-  // get items from db that unlock some node
-  const items = await getItems(allIds);
+  // parse efficiency query param
   const efficiency = Math.max(1, Math.min(3, Number(rawEfficiency) || 3));
 
-  const getRefinedData = (source: RefinedSources, id: number) => {
+  // map sources to item from db
+  const getRefinedData = (source: RefinedSources, outputItemId: number) => {
     return {
-      item: items[id],
-      sources: Object.entries(source).map(([sourceId, costs]) => ({
-        id: sourceId,
+      output: items[outputItemId],
+      sources: Object.entries(source).map<RefinedDataSource>(([sourceId, costs]) => ({
+        id: Number(sourceId),
         item: items[sourceId],
         rate: costs[efficiency - 1],
-      })).filter((v) => v.item),
+      })),
     };
   };
 
-  // add the item to each node
+  // create data tables
   const metalData = getRefinedData(metal, METAL_ID);
   const MetalTable = createDataTable(metalData.sources, ({ id }) => id);
-  
+
   const woodData = getRefinedData(wood, WOOD_ID);
   const WoodTable = createDataTable(woodData.sources, ({ id }) => id);
-  
+
   const fiberData = getRefinedData(fiber, FIBER_ID);
   const FiberTable = createDataTable(fiberData.sources, ({ id }) => id);
 
@@ -103,17 +100,17 @@ export default async function RefinedMaterialsPage({ searchParams: { efficiency:
       </label>
 
       <Headline id="refinedMetal" actions={<ColumnSelect table={MetalTable}/>}>
-        <ItemLink item={metalData.item}/>
+        <ItemLink item={metalData.output}/>
       </Headline>
       <RefinedDataTable table={MetalTable}/>
 
       <Headline id="refinedWood" actions={<ColumnSelect table={WoodTable}/>}>
-        <ItemLink item={woodData.item}/>
+        <ItemLink item={woodData.output}/>
       </Headline>
       <RefinedDataTable table={WoodTable}/>
 
       <Headline id="refinedWood" actions={<ColumnSelect table={FiberTable}/>}>
-        <ItemLink item={fiberData.item}/>
+        <ItemLink item={fiberData.output}/>
       </Headline>
       <RefinedDataTable table={FiberTable}/>
 
@@ -127,18 +124,12 @@ export const metadata = {
 };
 
 type RefinedDataSource = {
-  id: string;
-  item: Awaited<ReturnType<typeof getItems>>[string];
+  id: number;
+  item?: Awaited<ReturnType<typeof getItems>>[string];
   rate: ConversionRate;
 };
-type HomesteadRefinedMatsDataTable = {
-  Table: FC<DataTableProps<RefinedDataSource>>;
-  Column: FC<DataTableColumnProps<RefinedDataSource>>;
-  DynamicColumns: FC<DataTableDynamicColumnsProps<RefinedDataSource>>;
-  ColumnSelection: FC<DataTableColumnSelectionProps>;
-};
 
-const RefinedDataTable: FC<{ table: HomesteadRefinedMatsDataTable }> = ({
+const RefinedDataTable: FC<{ table: DataTable<RefinedDataSource> }> = ({
   table,
 }) => (
   <table.Table>
@@ -146,7 +137,7 @@ const RefinedDataTable: FC<{ table: HomesteadRefinedMatsDataTable }> = ({
       {({ id }) => id}
     </table.Column>
     <table.Column id="source" title="Source">
-      {({ item }) => <ItemLink item={item}/>}
+      {({ item, id }) => item ? <ItemLink item={item}/> : <UnknownItem id={id}/>}
     </table.Column>
     <table.Column
       id="amountRequired"
@@ -168,10 +159,10 @@ const RefinedDataTable: FC<{ table: HomesteadRefinedMatsDataTable }> = ({
     <table.Column
       id="buyPrice"
       title="Buy Price"
-      sortBy={({ item, rate }) => getCostPerUnit(item.buyPrice, rate)}
+      sortBy={({ item, rate }) => getCostPerUnit(item?.buyPrice, rate)}
       align="right"
     >
-      {({ item, rate }) => itemTableColumn.buyPrice({
+      {({ item, rate }) => item && itemTableColumn.buyPrice({
         ...item,
         buyPrice: getCostPerUnit(item.buyPrice, rate)
       }, {})}
@@ -179,11 +170,11 @@ const RefinedDataTable: FC<{ table: HomesteadRefinedMatsDataTable }> = ({
     <table.Column
       id="sellPrice"
       title="Sell Price"
-      sortBy={({ item, rate }) => getCostPerUnit(item.sellPrice, rate)}
+      sortBy={({ item, rate }) => getCostPerUnit(item?.sellPrice, rate)}
       align="right"
       hidden
     >
-      {({ item, rate }) => itemTableColumn.sellPrice({
+      {({ item, rate }) => item && itemTableColumn.sellPrice({
         ...item,
         sellPrice: getCostPerUnit(item.sellPrice, rate)
       }, {})}
@@ -191,4 +182,6 @@ const RefinedDataTable: FC<{ table: HomesteadRefinedMatsDataTable }> = ({
   </table.Table>
 );
 
-const getCostPerUnit = (price: number | null, rate: ConversionRate) => price == null ? null : Math.round(price * rate.required / rate.produced);
+const getCostPerUnit = (price: number | null | undefined, rate: ConversionRate) => price != null
+  ? Math.round(price * rate.required / rate.produced)
+  : null;

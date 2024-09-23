@@ -38,12 +38,14 @@ export interface DataTableColumnSelectionProps {
   reset: ReactNode;
 }
 
-export function createDataTable<T>(rows: T[], getRowKey: (row: T, index: number) => Key): {
+export type DataTable<T> = {
   Table: FC<DataTableProps<T>>,
   Column: FC<DataTableColumnProps<T>>,
   DynamicColumns: FC<DataTableDynamicColumnsProps<T>>,
   ColumnSelection: FC<DataTableColumnSelectionProps>,
-} {
+};
+
+export function createDataTable<T>(rows: T[], getRowKey: (row: T, index: number) => Key): DataTable<T> {
   const datatableId = crypto.randomUUID();
 
   const Column: FC<DataTableColumnProps<T>> = () => {

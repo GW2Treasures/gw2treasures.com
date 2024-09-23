@@ -1,35 +1,26 @@
 export interface ConversionRate {
-  // Amount produced
   produced: number;
-  // Amount required
   required: number;
 }
 
-export type RefinedCosts = [ConversionRate, ConversionRate, ConversionRate];
-const standardRate = (base: number): RefinedCosts => [
-  {
-    produced: 1,
-    required: base,
-  },
-  {
-    produced: 1,
-    // Portobello mushroom is the only with an odd base: 13 -> 6 -> 3
-    required: Math.floor(base / 2),
-  },
-  base >= 4
-    ? {
-        produced: 1,
-        required: Math.floor(base / 4),
-      }
-    : {
-        produced: 2,
-        required: Math.floor(base / 2),
-      },
+export type RefinedCosts = [
+  /** Conversion rate with no efficiency upgrades purchased  */
+  base: ConversionRate,
+  /** Conversion rate with 1 efficiency upgrade */
+  efficiency1: ConversionRate,
+  /** Conversion rate with 2 efficiency upgrades*/
+  efficiency2: ConversionRate
 ];
 
-export type RefinedSources = {
-  [id: number]: RefinedCosts;
-};
+const standardRate = (base: number): RefinedCosts => [
+  { produced: 1, required: base },
+  { produced: 1, required: Math.floor(base / 2) },
+  base >= 4
+    ? { produced: 1, required: Math.floor(base / 4) }
+    : { produced: 2, required: Math.floor(base / 2) },
+];
+
+export type RefinedSources = Record<number, RefinedCosts>;
 
 export const WOOD_ID = 103049;
 export const wood: RefinedSources = {
@@ -49,19 +40,11 @@ export const metal: RefinedSources = {
   19701: standardRate(2),
   19703: standardRate(20),
   19698: standardRate(8),
+  // Iron Ore
   19699: [
-    {
-      produced: 2,
-      required: 4,
-    },
-    {
-      produced: 2,
-      required: 2,
-    },
-    {
-      produced: 1,
-      required: 1,
-    },
+    { produced: 2, required: 4 },
+    { produced: 2, required: 2 },
+    { produced: 1, required: 1 },
   ],
 };
 
@@ -86,6 +69,7 @@ export const fiber: RefinedSources = {
   73096: standardRate(4),
   12332: standardRate(40),
   12508: standardRate(28),
+  // Onion
   12142: [
     { produced: 1, required: 4 },
     { produced: 1, required: 1 },
@@ -103,6 +87,7 @@ export const fiber: RefinedSources = {
   82866: standardRate(4),
   12341: standardRate(32),
   12254: standardRate(2),
+  // Potato
   12135: [
     { produced: 1, required: 8 },
     { produced: 1, required: 8 },

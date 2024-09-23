@@ -27,6 +27,8 @@ import { UnknownItem } from '@/components/Item/UnknownItem';
 import type { Metadata } from 'next';
 import { getAlternateUrls } from '@/lib/url';
 import { translate } from '@/lib/translate';
+import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
+import { getSearchParamAsNumber } from '@/lib/searchParams';
 
 const getItems = cache(
   async (ids: number[]) => {
@@ -60,7 +62,9 @@ export default async function RefinedMaterialsPage({ searchParams: { efficiency:
   const items = await getItems(allItemIds);
 
   // parse efficiency query param
-  const efficiency = Math.max(1, Math.min(3, Number(rawEfficiency) || 3));
+  const rawEfficiencyNumber = getSearchParamAsNumber(rawEfficiency, 2);
+  // make sure only valid values are allowed (checking with Math.min/max still allows to pass decimals like 1.5)
+  const efficiency = [0, 1, 2].includes(rawEfficiencyNumber) ? rawEfficiencyNumber : 2;
 
   // map sources to item from db
   const getRefinedData = (source: RefinedSources, outputItemId: number) => {
@@ -69,7 +73,7 @@ export default async function RefinedMaterialsPage({ searchParams: { efficiency:
       sources: Object.entries(source).map<RefinedDataSource>(([sourceId, costs]) => ({
         id: Number(sourceId),
         item: items[sourceId],
-        rate: costs[efficiency - 1],
+        rate: costs[efficiency],
       })),
     };
   };
@@ -93,14 +97,14 @@ export default async function RefinedMaterialsPage({ searchParams: { efficiency:
         <Trans id="homestead.materials.help"/>
       </Description>
 
-      <label style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
-        <Trans id="homestead.materials.efficiency"/>:
+      <FlexRow>
+        <Trans id="homestead.materials.efficiency"/>
         <Switch>
+          <Switch.Control type="link" replace active={efficiency === 0} href="/homestead/materials?efficiency=0">0</Switch.Control>
           <Switch.Control type="link" replace active={efficiency === 1} href="/homestead/materials?efficiency=1">1</Switch.Control>
-          <Switch.Control type="link" replace active={efficiency === 2} href="/homestead/materials?efficiency=2">2</Switch.Control>
-          <Switch.Control type="link" replace active={efficiency === 3} href="/homestead/materials">3</Switch.Control>
+          <Switch.Control type="link" replace active={efficiency === 2} href="/homestead/materials">2</Switch.Control>
         </Switch>
-      </label>
+      </FlexRow>
 
       <Headline id="refinedMetal" actions={<ColumnSelect table={MetalTable}/>}>
         <ItemLink item={metalData.output}/>

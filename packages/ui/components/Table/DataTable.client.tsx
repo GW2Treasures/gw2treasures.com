@@ -16,13 +16,21 @@ const DataTableContext = createContext<{ state: DataTableContext, setState: (sta
 DataTableContext.displayName = 'DataTableContext';
 
 export interface DataTableClientProps {
-  children: ReactNode;
-  id: string;
-  columns: AvailableColumn[]
+  children: ReactNode,
+  id: string,
+  columns: AvailableColumn[],
+  initialSortBy?: string,
+  initialSortOrder?: 'asc' | 'desc',
 }
 
-export const DataTableClient: FC<DataTableClientProps> = ({ children, id, columns }) => {
-  const [state, setStateInternal] = useState({ ...defaultDataTableContext, id, visibleColumns: columns.filter((column) => !column.hidden).map(({ id }) => id) });
+export const DataTableClient: FC<DataTableClientProps> = ({ children, id, columns, initialSortBy, initialSortOrder = 'asc' }) => {
+  const [state, setStateInternal] = useState<DataTableContext>({
+    ...defaultDataTableContext,
+    id,
+    visibleColumns: columns.filter((column) => !column.hidden).map(({ id }) => id),
+    sortBy: initialSortBy,
+    sortOrder: initialSortOrder
+  });
   const { currentColumns, currentAvailableColumns } = useCurrentColumns(id);
   const { setAvailableColumns } = useContext(DataTableGlobalContext);
 

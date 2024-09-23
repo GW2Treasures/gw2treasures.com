@@ -134,7 +134,7 @@ const RefinedMaterial: FC<RefinedMaterialProps> = ({ id, material, sources }) =>
       <Headline id={id} actions={<ColumnSelect table={Sources}/>}>
         <ItemLink item={material}/>
       </Headline>
-      <Sources.Table>
+      <Sources.Table initialSortBy="buyPrice">
         <Sources.Column id="id" title="Id" small hidden>
           {({ id }) => id}
         </Sources.Column>

@@ -30,6 +30,7 @@ import { translate } from '@/lib/translate';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { getSearchParamAsNumber } from '@/lib/searchParams';
 import { OutputCount } from '@/components/Item/OutputCount';
+import { FormatNumber } from '@/components/Format/FormatNumber';
 
 const getItems = cache(
   async (ids: number[]) => {
@@ -37,10 +38,9 @@ const getItems = cache(
       where: { id: { in: ids }},
       select: {
         ...linkProperties,
-        tpTradeable: true,
-        tpCheckedAt: true,
-        buyPrice: true,
-        sellPrice: true,
+        tpTradeable: true, tpCheckedAt: true,
+        buyPrice: true, buyQuantity: true,
+        sellPrice: true, sellQuantity: true
       },
     });
 
@@ -134,7 +134,7 @@ const RefinedMaterial: FC<RefinedMaterialProps> = ({ id, material, sources }) =>
       <Headline id={id} actions={<ColumnSelect table={Sources}/>}>
         <ItemLink item={material}/>
       </Headline>
-      <Sources.Table initialSortBy="buyPrice">
+      <Sources.Table initialSortBy="totalBuyPrice">
         <Sources.Column id="id" title="Id" small hidden>
           {({ id }) => id}
         </Sources.Column>
@@ -145,16 +145,26 @@ const RefinedMaterial: FC<RefinedMaterialProps> = ({ id, material, sources }) =>
             </OutputCount>
           )}
         </Sources.Column>
-        <Sources.Column
-          id="amountProduced"
-          title="Amount Produced"
-          sortBy={({ rate }) => rate.produced}
-          align="right"
-        >
+        <Sources.Column id="amountProduced" title="Amount Produced" sortBy={({ rate }) => rate.produced} align="right">
           {({ rate }) => rate.produced}
         </Sources.Column>
+        <Sources.Column id="rate" title="Rate" sortBy={({ rate }) => rate.required / rate.produced} align="right" hidden>
+          {({ rate }) => <FormatNumber value={rate.required / rate.produced}/>}
+        </Sources.Column>
+        <Sources.Column id="buyPrice" title="Buy Price" sortBy={({ item }) => item?.buyPrice} align="right" hidden>
+          {({ item }) => item && itemTableColumn.buyPrice(item, {})}
+        </Sources.Column>
+        <Sources.Column id="buyQuantity" title="Buy Quantity" sortBy={({ item }) => item?.buyQuantity} align="right" hidden>
+          {({ item }) => item && itemTableColumn.buyQuantity(item, {})}
+        </Sources.Column>
+        <Sources.Column id="sellPrice" title="Sell Price" sortBy={({ item }) => item?.sellPrice} align="right" hidden>
+          {({ item }) => item && itemTableColumn.sellPrice(item, {})}
+        </Sources.Column>
+        <Sources.Column id="sellQuantity" title="Buy Quantity" sortBy={({ item }) => item?.sellQuantity} align="right" hidden>
+          {({ item }) => item && itemTableColumn.sellQuantity(item, {})}
+        </Sources.Column>
         <Sources.Column
-          id="buyPrice"
+          id="totalBuyPrice"
           title="Total Buy Price"
           sortBy={({ item, rate }) => getCostPerUnit(item?.buyPrice, rate)}
           align="right"
@@ -165,7 +175,7 @@ const RefinedMaterial: FC<RefinedMaterialProps> = ({ id, material, sources }) =>
           }, {})}
         </Sources.Column>
         <Sources.Column
-          id="sellPrice"
+          id="totalSellPrice"
           title="Total Sell Price"
           sortBy={({ item, rate }) => getCostPerUnit(item?.sellPrice, rate)}
           align="right"

@@ -11,6 +11,10 @@ import { Gw2AccountBodyCells, Gw2AccountHeaderCells } from '@/components/Gw2Api/
 import { AccountHomeCatCell, requiredScopes } from '../homestead.client';
 import { PageView } from '@/components/PageView/PageView';
 import { Description } from '@/components/Layout/Description';
+import { translate } from '@/lib/translate';
+import type { PageProps } from '@/lib/next';
+import type { Metadata } from 'next';
+import { getAlternateUrls } from '@/lib/url';
 
 export default function HomesteadCatsPage() {
   const HomeCats = createDataTable(homeCats, ({ id }) => id);
@@ -35,9 +39,12 @@ export default function HomesteadCatsPage() {
   );
 }
 
-export const metadata = {
-  title: 'Homestead Cats'
-};
+export function generateMetadata({ params }: PageProps): Metadata {
+  return {
+    title: translate('homestead.cats', params.language),
+    alternates: getAlternateUrls('/homestead/cats')
+  };
+}
 
 const MaybeRenderIcon: FC<{ src: string }> = ({ src }) => {
   const icon = parseIcon(src);

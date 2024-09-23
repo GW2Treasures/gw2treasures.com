@@ -12,7 +12,10 @@ import { AccountHomeNodeCell, requiredScopes } from '../homestead.client';
 import { globalColumnRenderer as itemTableColumn } from '@/components/ItemTable/columns';
 import { PageView } from '@/components/PageView/PageView';
 import { Description } from '@/components/Layout/Description';
-
+import { translate } from '@/lib/translate';
+import type { PageProps } from '@/lib/next';
+import type { Metadata } from 'next';
+import { getAlternateUrls } from '@/lib/url';
 
 const getItems = cache(
   async (ids: number[]) => {
@@ -72,6 +75,9 @@ export default async function HomesteadNodesPage() {
   );
 }
 
-export const metadata = {
-  title: 'Homestead Nodes'
-};
+export function generateMetadata({ params }: PageProps): Metadata {
+  return {
+    title: translate('homestead.nodes', params.language),
+    alternates: getAlternateUrls('/homestead/nodes')
+  };
+}

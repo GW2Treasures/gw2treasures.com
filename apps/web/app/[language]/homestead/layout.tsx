@@ -1,7 +1,10 @@
 import { Trans } from '@/components/I18n/Trans';
 import { HeroLayout } from '@/components/Layout/HeroLayout';
 import { NavBar } from '@/components/Layout/NavBar';
+import type { PageProps } from '@/lib/next';
+import { translate } from '@/lib/translate';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
+import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 
 export default function HomesteadLayout({ children }: { children: ReactNode }) {
@@ -19,4 +22,13 @@ export default function HomesteadLayout({ children }: { children: ReactNode }) {
       </div>
     </HeroLayout>
   );
+}
+
+export function generateMetadata({ params }: PageProps): Metadata {
+  return {
+    title: {
+      template: `${translate('navigation.homestead', params.language)}: %s`,
+      default: ''
+    }
+  };
 }

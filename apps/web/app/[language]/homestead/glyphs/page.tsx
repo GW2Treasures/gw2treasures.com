@@ -9,12 +9,14 @@ import { AccountHomesteadGlyphsCell, requiredScopes } from '../homestead.client'
 import { PageView } from '@/components/PageView/PageView';
 import { localizedName } from '@/lib/localizedName';
 import { UnknownItem } from '@/components/Item/UnknownItem';
-import { translateMany } from '@/lib/translate';
+import { translateMany, translate } from '@/lib/translate';
 import { ColumnSelect } from '@/components/Table/ColumnSelect';
 import { Description } from '@/components/Layout/Description';
 import { isTruthy } from '@gw2treasures/helper/is';
 import { globalColumnRenderer as itemTableColumn } from '@/components/ItemTable/columns';
 import type { PageProps } from '@/lib/next';
+import type { Metadata } from 'next';
+import { getAlternateUrls } from '@/lib/url';
 
 const getGlyphs = cache(async () => {
   const glyphs = await db.homesteadGlyph.findMany({
@@ -80,6 +82,9 @@ export default async function HomesteadGlyphsPage({ params: { language }}: PageP
   );
 }
 
-export const metadata = {
-  title: 'Homestead Glyphs'
-};
+export function generateMetadata({ params }: PageProps): Metadata {
+  return {
+    title: translate('homestead.glyphs', params.language),
+    alternates: getAlternateUrls('/homestead/glyphs')
+  };
+}

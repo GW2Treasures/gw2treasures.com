@@ -24,6 +24,9 @@ import {
 import { Switch } from '@gw2treasures/ui/components/Form/Switch';
 import type { PageProps } from '@/lib/next';
 import { UnknownItem } from '@/components/Item/UnknownItem';
+import type { Metadata } from 'next';
+import { getAlternateUrls } from '@/lib/url';
+import { translate } from '@/lib/translate';
 
 const getItems = cache(
   async (ids: number[]) => {
@@ -119,9 +122,13 @@ export default async function RefinedMaterialsPage({ searchParams: { efficiency:
   );
 }
 
-export const metadata = {
-  title: 'Homestead Refined Materials',
-};
+export function generateMetadata({ params }: PageProps): Metadata {
+  return {
+    title: translate('homestead.materials', params.language),
+    // make sure the efficiency query parameter is not part of the canonical URL, so only the default gets indexed by search engines
+    alternates: getAlternateUrls('/homestead/materials')
+  };
+}
 
 type RefinedDataSource = {
   id: number;

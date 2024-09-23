@@ -29,6 +29,7 @@ import { getAlternateUrls } from '@/lib/url';
 import { translate } from '@/lib/translate';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { getSearchParamAsNumber } from '@/lib/searchParams';
+import { OutputCount } from '@/components/Item/OutputCount';
 
 const getItems = cache(
   async (ids: number[]) => {
@@ -138,16 +139,11 @@ const RefinedMaterial: FC<RefinedMaterialProps> = ({ id, material, sources }) =>
           {({ id }) => id}
         </Sources.Column>
         <Sources.Column id="source" title="Source">
-          {({ item, id }) => item ? <ItemLink item={item}/> : <UnknownItem id={id}/>}
-        </Sources.Column>
-        <Sources.Column
-          id="amountRequired"
-          title="Amount Required"
-          sortBy={({ rate }) => rate.required}
-          align="right"
-          hidden
-        >
-          {({ rate }) => rate.required}
+          {({ item, id, rate }) => (
+            <OutputCount count={rate.required}>
+              {item ? <ItemLink item={item}/> : <UnknownItem id={id}/>}
+            </OutputCount>
+          )}
         </Sources.Column>
         <Sources.Column
           id="amountProduced"
@@ -159,7 +155,7 @@ const RefinedMaterial: FC<RefinedMaterialProps> = ({ id, material, sources }) =>
         </Sources.Column>
         <Sources.Column
           id="buyPrice"
-          title="Buy Price"
+          title="Total Buy Price"
           sortBy={({ item, rate }) => getCostPerUnit(item?.buyPrice, rate)}
           align="right"
         >
@@ -170,10 +166,9 @@ const RefinedMaterial: FC<RefinedMaterialProps> = ({ id, material, sources }) =>
         </Sources.Column>
         <Sources.Column
           id="sellPrice"
-          title="Sell Price"
+          title="Total Sell Price"
           sortBy={({ item, rate }) => getCostPerUnit(item?.sellPrice, rate)}
           align="right"
-          hidden
         >
           {({ item, rate }) => item && itemTableColumn.sellPrice({
             ...item,

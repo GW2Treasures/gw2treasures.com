@@ -9,7 +9,7 @@ import { linkProperties } from '@/lib/linkProperties';
 import { db } from '@/lib/prisma';
 import { groupById } from '@gw2treasures/helper/group-by';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
-import { createDataTable, type DataTable } from '@gw2treasures/ui/components/Table/DataTable';
+import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
 import type { FC } from 'react';
 import {
   fiber,
@@ -67,26 +67,16 @@ export default async function RefinedMaterialsPage({ searchParams: { efficiency:
   const efficiency = [0, 1, 2].includes(rawEfficiencyNumber) ? rawEfficiencyNumber : 2;
 
   // map sources to item from db
-  const getRefinedData = (source: RefinedSources, outputItemId: number) => {
+  const getRefinedData = (source: RefinedSources, outputItemId: number): Omit<RefinedMaterialProps, 'id'> => {
     return {
-      output: items[outputItemId],
-      sources: Object.entries(source).map<RefinedDataSource>(([sourceId, costs]) => ({
+      material: items[outputItemId],
+      sources: Object.entries(source).map(([sourceId, costs]) => ({
         id: Number(sourceId),
         item: items[sourceId],
         rate: costs[efficiency],
       })),
     };
   };
-
-  // create data tables
-  const metalData = getRefinedData(metal, METAL_ID);
-  const MetalTable = createDataTable(metalData.sources, ({ id }) => id);
-
-  const woodData = getRefinedData(wood, WOOD_ID);
-  const WoodTable = createDataTable(woodData.sources, ({ id }) => id);
-
-  const fiberData = getRefinedData(fiber, FIBER_ID);
-  const FiberTable = createDataTable(fiberData.sources, ({ id }) => id);
 
   return (
     <>
@@ -106,20 +96,9 @@ export default async function RefinedMaterialsPage({ searchParams: { efficiency:
         </Switch>
       </FlexRow>
 
-      <Headline id="refinedMetal" actions={<ColumnSelect table={MetalTable}/>}>
-        <ItemLink item={metalData.output}/>
-      </Headline>
-      <RefinedDataTable table={MetalTable}/>
-
-      <Headline id="refinedWood" actions={<ColumnSelect table={WoodTable}/>}>
-        <ItemLink item={woodData.output}/>
-      </Headline>
-      <RefinedDataTable table={WoodTable}/>
-
-      <Headline id="refinedWood" actions={<ColumnSelect table={FiberTable}/>}>
-        <ItemLink item={fiberData.output}/>
-      </Headline>
-      <RefinedDataTable table={FiberTable}/>
+      <RefinedMaterial id="metal" {...getRefinedData(metal, METAL_ID)}/>
+      <RefinedMaterial id="wood" {...getRefinedData(wood, WOOD_ID)}/>
+      <RefinedMaterial id="fiber" {...getRefinedData(fiber, FIBER_ID)}/>
 
       <PageView page="homestead/refinedMaterials"/>
     </>
@@ -134,64 +113,77 @@ export function generateMetadata({ params }: PageProps): Metadata {
   };
 }
 
-type RefinedDataSource = {
-  id: number;
-  item?: Awaited<ReturnType<typeof getItems>>[string];
-  rate: ConversionRate;
-};
+type DbItem = Awaited<ReturnType<typeof getItems>>[string];
 
-const RefinedDataTable: FC<{ table: DataTable<RefinedDataSource> }> = ({
-  table,
-}) => (
-  <table.Table>
-    <table.Column id="id" title="Id" small hidden>
-      {({ id }) => id}
-    </table.Column>
-    <table.Column id="source" title="Source">
-      {({ item, id }) => item ? <ItemLink item={item}/> : <UnknownItem id={id}/>}
-    </table.Column>
-    <table.Column
-      id="amountRequired"
-      title="Amount Required"
-      sortBy={({ rate }) => rate.required}
-      align="right"
-      hidden
-    >
-      {({ rate }) => rate.required}
-    </table.Column>
-    <table.Column
-      id="amountProduced"
-      title="Amount Produced"
-      sortBy={({ rate }) => rate.produced}
-      align="right"
-    >
-      {({ rate }) => rate.produced}
-    </table.Column>
-    <table.Column
-      id="buyPrice"
-      title="Buy Price"
-      sortBy={({ item, rate }) => getCostPerUnit(item?.buyPrice, rate)}
-      align="right"
-    >
-      {({ item, rate }) => item && itemTableColumn.buyPrice({
-        ...item,
-        buyPrice: getCostPerUnit(item.buyPrice, rate)
-      }, {})}
-    </table.Column>
-    <table.Column
-      id="sellPrice"
-      title="Sell Price"
-      sortBy={({ item, rate }) => getCostPerUnit(item?.sellPrice, rate)}
-      align="right"
-      hidden
-    >
-      {({ item, rate }) => item && itemTableColumn.sellPrice({
-        ...item,
-        sellPrice: getCostPerUnit(item.sellPrice, rate)
-      }, {})}
-    </table.Column>
-  </table.Table>
-);
+interface RefinedMaterialProps {
+  id: string,
+  material: DbItem,
+  sources: {
+    id: number,
+    item?: DbItem,
+    rate: ConversionRate
+  }[]
+}
+
+const RefinedMaterial: FC<RefinedMaterialProps> = ({ id, material, sources }) => {
+  const Sources = createDataTable(sources, ({ id }) => id);
+
+  return (
+    <>
+      <Headline id={id} actions={<ColumnSelect table={Sources}/>}>
+        <ItemLink item={material}/>
+      </Headline>
+      <Sources.Table>
+        <Sources.Column id="id" title="Id" small hidden>
+          {({ id }) => id}
+        </Sources.Column>
+        <Sources.Column id="source" title="Source">
+          {({ item, id }) => item ? <ItemLink item={item}/> : <UnknownItem id={id}/>}
+        </Sources.Column>
+        <Sources.Column
+          id="amountRequired"
+          title="Amount Required"
+          sortBy={({ rate }) => rate.required}
+          align="right"
+          hidden
+        >
+          {({ rate }) => rate.required}
+        </Sources.Column>
+        <Sources.Column
+          id="amountProduced"
+          title="Amount Produced"
+          sortBy={({ rate }) => rate.produced}
+          align="right"
+        >
+          {({ rate }) => rate.produced}
+        </Sources.Column>
+        <Sources.Column
+          id="buyPrice"
+          title="Buy Price"
+          sortBy={({ item, rate }) => getCostPerUnit(item?.buyPrice, rate)}
+          align="right"
+        >
+          {({ item, rate }) => item && itemTableColumn.buyPrice({
+            ...item,
+            buyPrice: getCostPerUnit(item.buyPrice, rate)
+          }, {})}
+        </Sources.Column>
+        <Sources.Column
+          id="sellPrice"
+          title="Sell Price"
+          sortBy={({ item, rate }) => getCostPerUnit(item?.sellPrice, rate)}
+          align="right"
+          hidden
+        >
+          {({ item, rate }) => item && itemTableColumn.sellPrice({
+            ...item,
+            sellPrice: getCostPerUnit(item.sellPrice, rate)
+          }, {})}
+        </Sources.Column>
+      </Sources.Table>
+    </>
+  );
+};
 
 const getCostPerUnit = (price: number | null | undefined, rate: ConversionRate) => price != null
   ? Math.round(price * rate.required / rate.produced)

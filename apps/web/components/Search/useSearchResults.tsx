@@ -136,6 +136,7 @@ const pages: Page[] = [
   { href: '/homestead/nodes', title: 'Homestead Nodes', icon: 'homestead' },
   { href: '/homestead/cats', title: 'Homestead Cats', icon: 'homestead' },
   { href: '/homestead/decorations', title: 'Homestead Decorations', icon: 'homestead' },
+  { href: '/homestead/materials', title: 'Homestead Refined Materials', icon: 'homestead' },
   { href: '/homestead/glyphs', title: 'Homestead Glyphs', icon: 'homestead' },
 
   { href: '/dev', title: 'Developer', icon: 'developer' },

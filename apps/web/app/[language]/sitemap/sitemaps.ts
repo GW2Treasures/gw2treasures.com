@@ -133,6 +133,7 @@ export const sitemaps: Record<string, Sitemap> = {
         '/homestead/nodes',
         '/homestead/cats',
         '/homestead/decorations',
+        '/homestead/materials',
         '/homestead/glyphs',
         '/fractals',
       ].map((page) => getEntryForUrl(page));

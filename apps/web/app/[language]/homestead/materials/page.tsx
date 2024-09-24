@@ -11,16 +11,7 @@ import { groupById } from '@gw2treasures/helper/group-by';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
 import type { FC } from 'react';
-import {
-  fiber,
-  FIBER_ID,
-  metal,
-  METAL_ID,
-  wood,
-  WOOD_ID,
-  type ConversionRate,
-  type RefinedSources,
-} from './data';
+import { data, materials, type ConversionRate, type Efficiency, type Material } from './data';
 import { Switch } from '@gw2treasures/ui/components/Form/Switch';
 import type { PageProps } from '@/lib/next';
 import { UnknownItem } from '@/components/Item/UnknownItem';
@@ -28,7 +19,7 @@ import type { Metadata } from 'next';
 import { getAlternateUrls } from '@/lib/url';
 import { translate } from '@/lib/translate';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
-import { getSearchParamAsNumber } from '@/lib/searchParams';
+import { getSearchParamAsNumber, type SearchParams } from '@/lib/searchParams';
 import { OutputCount } from '@/components/Item/OutputCount';
 import { FormatNumber } from '@/components/Format/FormatNumber';
 import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
@@ -53,31 +44,31 @@ const getItems = cache(
   { revalidate: 60 * 5 }
 );
 
-export default async function RefinedMaterialsPage({ searchParams: { efficiency: rawEfficiency }}: PageProps) {
+type Efficiencies = Record<Material, Efficiency>;
+
+export default async function RefinedMaterialsPage({ searchParams }: PageProps) {
   // get items from db
   const allItemIds = [
-    ...Object.keys(wood),
-    ...Object.keys(metal),
-    ...Object.keys(fiber),
-    FIBER_ID,
-    WOOD_ID,
-    METAL_ID,
+    ...Object.keys(data.wood.sources),
+    ...Object.keys(data.metal.sources),
+    ...Object.keys(data.fiber.sources),
+    data.wood.itemId,
+    data.metal.itemId,
+    data.fiber.itemId,
   ].map(Number);
   const items = await getItems(allItemIds);
 
-  // parse efficiency query param
-  const rawEfficiencyNumber = getSearchParamAsNumber(rawEfficiency, 2);
-  // make sure only valid values are allowed (checking with Math.min/max still allows to pass decimals like 1.5)
-  const efficiency = [0, 1, 2].includes(rawEfficiencyNumber) ? rawEfficiencyNumber : 2;
+  const efficiencies = getEfficiencies(searchParams);
 
   // map sources to item from db
-  const getRefinedData = (source: RefinedSources, outputItemId: number): Omit<RefinedMaterialProps, 'id'> => {
+  const getRefinedMaterialProps = (id: Material): RefinedMaterialProps => {
     return {
-      material: items[outputItemId],
-      sources: Object.entries(source).map(([sourceId, costs]) => ({
+      id, efficiencies,
+      material: items[data[id].itemId],
+      sources: Object.entries(data[id].sources).map(([sourceId, costs]) => ({
         id: Number(sourceId),
         item: items[sourceId],
-        rate: costs[efficiency],
+        rate: costs[efficiencies[id]],
       })),
     };
   };
@@ -91,18 +82,9 @@ export default async function RefinedMaterialsPage({ searchParams: { efficiency:
         <Trans id="homestead.materials.help"/>
       </Description>
 
-      <FlexRow>
-        <Trans id="homestead.materials.efficiency"/>
-        <Switch>
-          <Switch.Control type="link" replace active={efficiency === 0} href="/homestead/materials?efficiency=0">0</Switch.Control>
-          <Switch.Control type="link" replace active={efficiency === 1} href="/homestead/materials?efficiency=1">1</Switch.Control>
-          <Switch.Control type="link" replace active={efficiency === 2} href="/homestead/materials">2</Switch.Control>
-        </Switch>
-      </FlexRow>
-
-      <RefinedMaterial id="metal" {...getRefinedData(metal, METAL_ID)}/>
-      <RefinedMaterial id="wood" {...getRefinedData(wood, WOOD_ID)}/>
-      <RefinedMaterial id="fiber" {...getRefinedData(fiber, FIBER_ID)}/>
+      <RefinedMaterial {...getRefinedMaterialProps('metal')}/>
+      <RefinedMaterial {...getRefinedMaterialProps('wood')}/>
+      <RefinedMaterial {...getRefinedMaterialProps('fiber')}/>
 
       <PageView page="homestead/refinedMaterials"/>
     </>
@@ -120,7 +102,8 @@ export function generateMetadata({ params }: PageProps): Metadata {
 type DbItem = Awaited<ReturnType<typeof getItems>>[string];
 
 interface RefinedMaterialProps {
-  id: string,
+  id: Material,
+  efficiencies: Efficiencies,
   material: DbItem,
   sources: {
     id: number,
@@ -129,12 +112,12 @@ interface RefinedMaterialProps {
   }[]
 }
 
-const RefinedMaterial: FC<RefinedMaterialProps> = ({ id, material, sources }) => {
+const RefinedMaterial: FC<RefinedMaterialProps> = ({ id, material, efficiencies, sources }) => {
   const Sources = createDataTable(sources, ({ id }) => id);
 
   return (
     <>
-      <Headline id={id} actions={<ColumnSelect table={Sources}/>}>
+      <Headline id={id} actions={[<EfficiencySwitch key="efficiency" id={id} efficiencies={efficiencies}/>, <ColumnSelect key="columns" table={Sources}/>]}>
         <ItemLink item={material}/>
       </Headline>
       <Sources.Table initialSortBy="totalBuyPrice">
@@ -208,3 +191,46 @@ const RefinedMaterial: FC<RefinedMaterialProps> = ({ id, material, sources }) =>
 const getCostPerUnit = (price: number | null | undefined, rate: ConversionRate) => price != null
   ? Math.round(price * rate.required / rate.produced)
   : null;
+
+
+interface EfficiencySwitchProps {
+  id: Material,
+  efficiencies: Efficiencies;
+}
+
+const EfficiencySwitch: FC<EfficiencySwitchProps> = ({ id, efficiencies }) => (
+  <FlexRow>
+    <Trans id="homestead.materials.efficiency"/>
+    <Switch>
+      <Switch.Control type="link" replace scroll={false} active={efficiencies[id] === 0} href={buildUrl({ ...efficiencies, [id]: 0 })}>0</Switch.Control>
+      <Switch.Control type="link" replace scroll={false} active={efficiencies[id] === 1} href={buildUrl({ ...efficiencies, [id]: 1 })}>1</Switch.Control>
+      <Switch.Control type="link" replace scroll={false} active={efficiencies[id] === 2} href={buildUrl({ ...efficiencies, [id]: 2 })}>2</Switch.Control>
+    </Switch>
+  </FlexRow>
+);
+
+function buildUrl(efficiencies: Efficiencies) {
+  const params = new URLSearchParams();
+  for(const material of materials) {
+    if((efficiencies[material] ?? 2) !== 2) {
+      params.set(material, efficiencies[material].toString());
+    }
+  }
+
+  return params.size > 0
+    ? `/homestead/materials?${params.toString()}`
+    : '/homestead/materials';
+}
+
+function getEfficiencies(searchParams: SearchParams) {
+  const efficiencies: Efficiencies = { metal: 2, wood: 2, fiber: 2 };
+
+  for(const material of materials) {
+    const rawValue = getSearchParamAsNumber(searchParams[material], 2);
+    if([0, 1, 2].includes(rawValue)) {
+      efficiencies[material] = rawValue as Efficiency;
+    }
+  }
+
+  return efficiencies;
+}

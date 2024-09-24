@@ -16,9 +16,9 @@ export type SwitchControlProps = {
   icon?: IconProp;
   tip?: ReactNode;
 } & (
-  | { type?: 'button', href?: never, replace?: never, clickAction: () => void, name?: string, value?: string }
-  | { type: 'link', href: string, replace?: boolean, name?: never, value?: never }
-  | { type: 'radio', href?: never, replace?: never, name: string, value: string }
+  | { type?: 'button', href?: never, replace?: never, scroll?: never, clickAction: () => void, name?: string, value?: string }
+  | { type: 'link', href: string, replace?: boolean, scroll?: boolean, name?: never, value?: never }
+  | { type: 'radio', href?: never, replace?: never, scroll?: never, name: string, value: string }
 );
 
 export const Switch: FC<SwitchProps> & { Control: FC<SwitchControlProps> } = ({ children }) => {
@@ -29,11 +29,11 @@ export const Switch: FC<SwitchProps> & { Control: FC<SwitchControlProps> } = ({ 
   );
 };
 
-Switch.Control = ({ children, active, type = 'button', href, clickAction, name, value, icon, tip, replace }) => {
+Switch.Control = ({ children, active, type = 'button', href, clickAction, name, value, icon, tip, replace, scroll }) => {
   const Element = type === 'link' ? Link : type === 'radio' ? 'label' : 'button';
 
   const element = (
-    <Element href={href!} replace={replace} onClick={clickAction} className={active && type !== 'radio' ? styles.controlActive : styles.control} name={type === 'button' ? name : undefined} value={type === 'button' ? value : undefined}>
+    <Element href={href!} replace={replace} scroll={scroll} onClick={clickAction} className={active && type !== 'radio' ? styles.controlActive : styles.control} name={type === 'button' ? name : undefined} value={type === 'button' ? value : undefined}>
       {type === 'radio' && <input type="radio" name={name} value={value} className={styles.radio} defaultChecked={active}/>}
       {icon && (<Icon icon={icon} className={styles.icon}/>)}
       {children && (<span>{children}</span>)}

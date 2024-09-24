@@ -31,6 +31,9 @@ import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { getSearchParamAsNumber } from '@/lib/searchParams';
 import { OutputCount } from '@/components/Item/OutputCount';
 import { FormatNumber } from '@/components/Format/FormatNumber';
+import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
+import { Coins } from '@/components/Format/Coins';
+import { Fraction } from '@/components/Format/Fraction';
 
 const getItems = cache(
   async (ids: number[]) => {
@@ -160,30 +163,42 @@ const RefinedMaterial: FC<RefinedMaterialProps> = ({ id, material, sources }) =>
         <Sources.Column id="sellPrice" title="Sell Price" sortBy={({ item }) => item?.sellPrice} align="right" hidden>
           {({ item }) => item && itemTableColumn.sellPrice(item, {})}
         </Sources.Column>
-        <Sources.Column id="sellQuantity" title="Buy Quantity" sortBy={({ item }) => item?.sellQuantity} align="right" hidden>
+        <Sources.Column id="sellQuantity" title="Sell Quantity" sortBy={({ item }) => item?.sellQuantity} align="right" hidden>
           {({ item }) => item && itemTableColumn.sellQuantity(item, {})}
         </Sources.Column>
         <Sources.Column
           id="totalBuyPrice"
-          title="Total Buy Price"
+          title="Buy Price / Material"
           sortBy={({ item, rate }) => getCostPerUnit(item?.buyPrice, rate)}
           align="right"
         >
-          {({ item, rate }) => item && itemTableColumn.buyPrice({
-            ...item,
-            buyPrice: getCostPerUnit(item.buyPrice, rate)
-          }, {})}
+          {({ item, rate }) => item && item.buyPrice && (
+            <Tip tip={<><Fraction numerator="Required" denominator="Produced"/> &times; Price = <Fraction numerator={rate.required} denominator={rate.produced}/> &times; (<Coins value={item.buyPrice}/>)</>} preferredPlacement="top-end">
+              <span>
+                {itemTableColumn.buyPrice({
+                  ...item,
+                  buyPrice: getCostPerUnit(item.buyPrice, rate)
+                }, {})}
+              </span>
+            </Tip>
+          )}
         </Sources.Column>
         <Sources.Column
           id="totalSellPrice"
-          title="Total Sell Price"
+          title="Sell Price / Material"
           sortBy={({ item, rate }) => getCostPerUnit(item?.sellPrice, rate)}
           align="right"
         >
-          {({ item, rate }) => item && itemTableColumn.sellPrice({
-            ...item,
-            sellPrice: getCostPerUnit(item.sellPrice, rate)
-          }, {})}
+          {({ item, rate }) => item && item.sellPrice && (
+            <Tip tip={<><Fraction numerator="Required" denominator="Produced"/> &times; Price = <Fraction numerator={rate.required} denominator={rate.produced}/> &times; (<Coins value={item.sellPrice}/>)</>} preferredPlacement="top-end">
+              <span>
+                {itemTableColumn.sellPrice({
+                  ...item,
+                  sellPrice: getCostPerUnit(item.sellPrice, rate)
+                }, {})}
+              </span>
+            </Tip>
+          )}
         </Sources.Column>
       </Sources.Table>
     </>

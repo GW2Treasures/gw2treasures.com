@@ -25,6 +25,7 @@ import { FormatNumber } from '@/components/Format/FormatNumber';
 import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 import { Coins } from '@/components/Format/Coins';
 import { Fraction } from '@/components/Format/Fraction';
+import { ResetTimer } from '@/components/Reset/ResetTimer';
 
 const getItems = cache(
   async (ids: number[]) => {
@@ -75,11 +76,8 @@ export default async function RefinedMaterialsPage({ searchParams }: PageProps) 
 
   return (
     <>
-      <Description>
+      <Description actions={<>Reset: <ResetTimer reset="current-weekly"/></>}>
         <Trans id="homestead.materials.description"/>
-      </Description>
-      <Description>
-        <Trans id="homestead.materials.help"/>
       </Description>
 
       <RefinedMaterial {...getRefinedMaterialProps('metal')}/>

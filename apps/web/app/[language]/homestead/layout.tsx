@@ -1,3 +1,4 @@
+import { Badge } from '@/components/Badge/Badge';
 import { Trans } from '@/components/I18n/Trans';
 import { HeroLayout } from '@/components/Layout/HeroLayout';
 import { NavBar } from '@/components/Layout/NavBar';
@@ -14,7 +15,7 @@ export default function HomesteadLayout({ children }: { children: ReactNode }) {
         { segment: 'nodes', label: <Trans id="homestead.nodes"/> },
         { segment: 'cats', label: <Trans id="homestead.cats"/> },
         { segment: 'decorations', label: <Trans id="homestead.decorations"/> },
-        { segment: 'materials', label: <Trans id="homestead.materials"/> },
+        { segment: 'materials', label: <><Trans id="homestead.materials"/><Badge>New</Badge></> },
         { segment: 'glyphs', label: <Trans id="homestead.glyphs"/> },
       ]}/>
       <div>

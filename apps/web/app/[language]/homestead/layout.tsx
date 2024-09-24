@@ -2,13 +2,12 @@ import { Badge } from '@/components/Badge/Badge';
 import { Trans } from '@/components/I18n/Trans';
 import { HeroLayout } from '@/components/Layout/HeroLayout';
 import { NavBar } from '@/components/Layout/NavBar';
-import type { PageProps } from '@/lib/next';
+import type { LayoutProps } from '@/lib/next';
 import { translate } from '@/lib/translate';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import type { Metadata } from 'next';
-import type { ReactNode } from 'react';
 
-export default function HomesteadLayout({ children }: { children: ReactNode }) {
+export default function HomesteadLayout({ children }: LayoutProps) {
   return (
     <HeroLayout color="#397aa1" hero={<Headline id="homestead"><Trans id="navigation.homestead"/></Headline>}>
       <NavBar base="/homestead/" items={[
@@ -25,7 +24,7 @@ export default function HomesteadLayout({ children }: { children: ReactNode }) {
   );
 }
 
-export function generateMetadata({ params }: PageProps): Metadata {
+export function generateMetadata({ params }: LayoutProps): Metadata {
   return {
     title: {
       template: `${translate('navigation.homestead', params.language)}: %s`,

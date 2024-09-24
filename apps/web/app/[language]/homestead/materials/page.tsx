@@ -119,37 +119,37 @@ const RefinedMaterial: FC<RefinedMaterialProps> = ({ id, material, efficiencies,
         <ItemLink item={material}/>
       </Headline>
       <Sources.Table initialSortBy="totalBuyPrice">
-        <Sources.Column id="id" title="Id" small hidden>
+        <Sources.Column id="id" title={<Trans id="itemTable.column.id"/>} align="right" small hidden sortBy="id">
           {({ id }) => id}
         </Sources.Column>
-        <Sources.Column id="source" title="Source">
+        <Sources.Column id="source" title={<Trans id="itemTable.column.item"/>}>
           {({ item, id, rate }) => (
             <OutputCount count={rate.required}>
               {item ? <ItemLink item={item}/> : <UnknownItem id={id}/>}
             </OutputCount>
           )}
         </Sources.Column>
-        <Sources.Column id="amountProduced" title="Amount Produced" sortBy={({ rate }) => rate.produced} align="right">
+        <Sources.Column id="amountProduced" title={<Trans id="homestead.materials.column.amountProduced"/>} sortBy={({ rate }) => rate.produced} align="right">
           {({ rate }) => rate.produced}
         </Sources.Column>
-        <Sources.Column id="rate" title="Rate" sortBy={({ rate }) => rate.required / rate.produced} align="right" hidden>
+        <Sources.Column id="rate" title={<Trans id="homestead.materials.column.rate"/>} sortBy={({ rate }) => rate.required / rate.produced} align="right" hidden>
           {({ rate }) => <FormatNumber value={rate.required / rate.produced}/>}
         </Sources.Column>
-        <Sources.Column id="buyPrice" title="Buy Price" sortBy={({ item }) => item?.buyPrice} align="right" hidden>
+        <Sources.Column id="buyPrice" title={<Trans id="itemTable.column.buyPrice"/>} sortBy={({ item }) => item?.buyPrice} align="right" hidden>
           {({ item }) => item && itemTableColumn.buyPrice(item, {})}
         </Sources.Column>
-        <Sources.Column id="buyQuantity" title="Buy Quantity" sortBy={({ item }) => item?.buyQuantity} align="right" hidden>
+        <Sources.Column id="buyQuantity" title={<Trans id="itemTable.column.buyQuantity"/>} sortBy={({ item }) => item?.buyQuantity} align="right" hidden>
           {({ item }) => item && itemTableColumn.buyQuantity(item, {})}
         </Sources.Column>
-        <Sources.Column id="sellPrice" title="Sell Price" sortBy={({ item }) => item?.sellPrice} align="right" hidden>
+        <Sources.Column id="sellPrice" title={<Trans id="itemTable.column.sellPrice"/>} sortBy={({ item }) => item?.sellPrice} align="right" hidden>
           {({ item }) => item && itemTableColumn.sellPrice(item, {})}
         </Sources.Column>
-        <Sources.Column id="sellQuantity" title="Sell Quantity" sortBy={({ item }) => item?.sellQuantity} align="right" hidden>
+        <Sources.Column id="sellQuantity" title={<Trans id="itemTable.column.sellQuantity"/>} sortBy={({ item }) => item?.sellQuantity} align="right" hidden>
           {({ item }) => item && itemTableColumn.sellQuantity(item, {})}
         </Sources.Column>
         <Sources.Column
           id="totalBuyPrice"
-          title="Buy Price / Material"
+          title={<Trans id="homestead.materials.column.buyPricePer"/>}
           sortBy={({ item, rate }) => getCostPerUnit(item?.buyPrice, rate)}
           align="right"
         >
@@ -166,7 +166,7 @@ const RefinedMaterial: FC<RefinedMaterialProps> = ({ id, material, efficiencies,
         </Sources.Column>
         <Sources.Column
           id="totalSellPrice"
-          title="Sell Price / Material"
+          title={<Trans id="homestead.materials.column.sellPricePer"/>}
           sortBy={({ item, rate }) => getCostPerUnit(item?.sellPrice, rate)}
           align="right"
         >

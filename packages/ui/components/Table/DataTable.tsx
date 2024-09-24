@@ -13,6 +13,8 @@ export interface DataTableProps<T> {
   children: Array<ColumnReactElement<T> | DynamicColumnsReactElement<T>>,
   rowFilter?: DataTableRowFilterComponent,
   collapsed?: boolean | number,
+  initialSortBy?: string,
+  initialSortOrder?: 'asc' | 'desc',
 }
 
 type ColumnReactElement<T> = ReactElement<DataTableColumnProps<T>, FC<DataTableColumnProps<T>>>;
@@ -38,12 +40,14 @@ export interface DataTableColumnSelectionProps {
   reset: ReactNode;
 }
 
-export function createDataTable<T>(rows: T[], getRowKey: (row: T, index: number) => Key): {
+export type DataTable<T> = {
   Table: FC<DataTableProps<T>>,
   Column: FC<DataTableColumnProps<T>>,
   DynamicColumns: FC<DataTableDynamicColumnsProps<T>>,
   ColumnSelection: FC<DataTableColumnSelectionProps>,
-} {
+};
+
+export function createDataTable<T>(rows: T[], getRowKey: (row: T, index: number) => Key): DataTable<T> {
   const datatableId = crypto.randomUUID();
 
   const Column: FC<DataTableColumnProps<T>> = () => {
@@ -62,7 +66,7 @@ export function createDataTable<T>(rows: T[], getRowKey: (row: T, index: number)
   }
 
   return {
-    Table: function DataTable({ children, rowFilter, collapsed = false }: DataTableProps<T>) {
+    Table: function DataTable({ children, rowFilter, collapsed = false, ...props }: DataTableProps<T>) {
       const columns = children;
 
       if(columns.some((child) => child.type !== Column && child.type !== DynamicColumns)) {
@@ -88,7 +92,7 @@ export function createDataTable<T>(rows: T[], getRowKey: (row: T, index: number)
       );
 
       return (
-        <DataTableClient id={datatableId} columns={columns.filter(isStaticColumn).map((column) => ({ id: column.props.id, title: column.props.title, hidden: !!column.props.hidden, fixed: !!column.props.fixed }))}>
+        <DataTableClient id={datatableId} columns={columns.filter(isStaticColumn).map((column) => ({ id: column.props.id, title: column.props.title, hidden: !!column.props.hidden, fixed: !!column.props.fixed }))} {...props}>
           <Table>
             <thead>
               <tr>

@@ -31,3 +31,7 @@
 .wrap {
   flex-wrap: wrap;
 }
+
+.inline {
+  display: inline-flex;
+}

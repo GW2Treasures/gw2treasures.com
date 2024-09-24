@@ -14,6 +14,9 @@ import { FormatNumber } from '@/components/Format/FormatNumber';
 import { localizedName } from '@/lib/localizedName';
 import { Description } from '@/components/Layout/Description';
 import type { PageProps } from '@/lib/next';
+import { translate } from '@/lib/translate';
+import type { Metadata } from 'next';
+import { getAlternateUrls } from '@/lib/url';
 
 const getDecorations = cache(
   () => db.homesteadDecoration.findMany({
@@ -75,6 +78,10 @@ export default async function HomesteadDecorationsPage({ params: { language }}: 
   );
 }
 
-export const metadata = {
-  title: 'Homestead Decorations'
-};
+export function generateMetadata({ params }: PageProps): Metadata {
+  return {
+    title: translate('homestead.decorations', params.language),
+    description: translate('homestead.decorations.description', params.language),
+    alternates: getAlternateUrls('/homestead/decorations')
+  };
+}

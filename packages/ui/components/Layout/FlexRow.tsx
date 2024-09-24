@@ -5,13 +5,14 @@ import { cx } from '../../lib';
 interface FlexRowProps {
   align?: 'left' | 'right' | 'center' | 'space-between';
   wrap?: boolean;
+  inline?: boolean;
   children: ReactNode;
 }
 
-export const FlexRow: FC<FlexRowProps> = ({ children, align = 'left', wrap }) => {
+export const FlexRow: FC<FlexRowProps> = ({ children, align = 'left', wrap, inline }) => {
 
   return (
-    <div className={cx(styles[align], wrap && styles.wrap)}>
+    <div className={cx(styles[align], wrap && styles.wrap, inline && styles.inline)}>
       {children}
     </div>
   );

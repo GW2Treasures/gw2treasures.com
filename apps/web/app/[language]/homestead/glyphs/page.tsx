@@ -85,6 +85,7 @@ export default async function HomesteadGlyphsPage({ params: { language }}: PageP
 export function generateMetadata({ params }: PageProps): Metadata {
   return {
     title: translate('homestead.glyphs', params.language),
+    description: translate('homestead.glyphs.description', params.language),
     alternates: getAlternateUrls('/homestead/glyphs')
   };
 }

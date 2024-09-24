@@ -92,6 +92,7 @@ export default async function RefinedMaterialsPage({ searchParams }: PageProps) 
 export function generateMetadata({ params }: PageProps): Metadata {
   return {
     title: translate('homestead.materials', params.language),
+    description: translate('homestead.materials.description', params.language),
     // make sure the efficiency query parameter is not part of the canonical URL, so only the default gets indexed by search engines
     alternates: getAlternateUrls('/homestead/materials')
   };

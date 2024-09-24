@@ -78,6 +78,7 @@ export default async function HomesteadNodesPage() {
 export function generateMetadata({ params }: PageProps): Metadata {
   return {
     title: translate('homestead.nodes', params.language),
+    description: translate('homestead.nodes.description', params.language),
     alternates: getAlternateUrls('/homestead/nodes')
   };
 }

@@ -81,6 +81,7 @@ export default async function HomesteadDecorationsPage({ params: { language }}: 
 export function generateMetadata({ params }: PageProps): Metadata {
   return {
     title: translate('homestead.decorations', params.language),
+    description: translate('homestead.decorations.description', params.language),
     alternates: getAlternateUrls('/homestead/decorations')
   };
 }

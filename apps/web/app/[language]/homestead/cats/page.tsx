@@ -42,6 +42,7 @@ export default function HomesteadCatsPage() {
 export function generateMetadata({ params }: PageProps): Metadata {
   return {
     title: translate('homestead.cats', params.language),
+    description: translate('homestead.cats.description', params.language),
     alternates: getAlternateUrls('/homestead/cats')
   };
 }

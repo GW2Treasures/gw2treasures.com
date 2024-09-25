@@ -15,12 +15,16 @@ import { translate } from '@/lib/translate';
 import type { PageProps } from '@/lib/next';
 import type { Metadata } from 'next';
 import { getAlternateUrls } from '@/lib/url';
+import { Gw2Accounts } from '@/components/Gw2Api/Gw2Accounts';
+import { Scope } from '@gw2me/client';
 
 export default function HomesteadCatsPage() {
   const HomeCats = createDataTable(homeCats, ({ id }) => id);
 
   return (
     <>
+      <Gw2Accounts requiredScopes={[Scope.GW2_Progression, Scope.GW2_Unlocks]} authorizationMessage="Authorize gw2treasures.com to view your homestead progression." loading={null}/>
+
       <Description actions={<ColumnSelect table={HomeCats}/>}>
         <Trans id="homestead.cats.description"/>
       </Description>

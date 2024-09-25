@@ -14,9 +14,9 @@ export const Gw2AccountLoginNotice: FC<Gw2AccountLoginNoticeProps> = ({ children
   const loginUrl = `/login?returnTo=${encodeURIComponent(location.pathname + location.search)}&scopes=${encodeURIComponent([...requiredScopes, ...optionalScopes].join(','))}`;
 
   return (
-    <Notice>
+    <Notice index={false}>
       <FlexRow wrap>
-        {children ?? 'gw2treasures.com requires additional authorizations to display this page.'}
+        {children ?? 'You need to login to view this page.'}
         <LinkButton href={loginUrl} icon="user" appearance="tertiary">Login</LinkButton>
       </FlexRow>
     </Notice>

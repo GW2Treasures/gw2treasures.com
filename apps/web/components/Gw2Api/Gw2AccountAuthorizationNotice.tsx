@@ -21,7 +21,7 @@ export const Gw2AccountAuthorizationNotice: FC<Gw2AccountAuthorizationNoticeProp
 
   return (
     <form action={reauthorize.bind(null, [...requiredScopes, ...optionalScopes], undefined)}>
-      <Notice>
+      <Notice index={false}>
         <FlexRow wrap>
           {children ?? 'gw2treasures.com requires additional authorizations to display this page.'}
           <SubmitButton type="submit" icon="gw2me-outline" appearance="tertiary">Authorize</SubmitButton>

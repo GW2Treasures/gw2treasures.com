@@ -1,3 +1,5 @@
+'use client';
+
 import type { FC, ReactElement, ReactNode } from 'react';
 import type { Gw2Account } from './types';
 import type { Scope } from '@gw2me/client';
@@ -9,7 +11,7 @@ import { useUser } from '../User/use-user';
 import { Gw2AccountLoginNotice } from './Gw2AccountLoginNotice';
 
 export interface Gw2AccountsProps {
-  children: (accounts: Gw2Account[], scopes: Scope[]) => ReactElement;
+  children?: (accounts: Gw2Account[], scopes: Scope[]) => ReactElement;
   requiredScopes: Scope[];
   optionalScopes?: Scope[];
   options?: GetAccountsOptions;
@@ -47,5 +49,5 @@ export const Gw2Accounts: FC<Gw2AccountsProps> = ({ children, requiredScopes, op
     );
   }
 
-  return children(accounts.accounts, accounts.scopes);
+  return children?.(accounts.accounts, accounts.scopes);
 };

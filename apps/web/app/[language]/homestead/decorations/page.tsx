@@ -17,6 +17,8 @@ import type { PageProps } from '@/lib/next';
 import { translate } from '@/lib/translate';
 import type { Metadata } from 'next';
 import { getAlternateUrls } from '@/lib/url';
+import { Gw2Accounts } from '@/components/Gw2Api/Gw2Accounts';
+import { Scope } from '@gw2me/client';
 
 const getDecorations = cache(
   () => db.homesteadDecoration.findMany({
@@ -52,6 +54,8 @@ export default async function HomesteadDecorationsPage({ params: { language }}: 
   return (
     <>
       <DecorationTableProvider categories={decorationFilterDings}>
+        <Gw2Accounts requiredScopes={[Scope.GW2_Progression, Scope.GW2_Unlocks]} authorizationMessage="Authorize gw2treasures.com to view your homestead progression." loading={null}/>
+
         <Description actions={[<DecorationTableFilter key="filter" totalCount={decorations.length}/>, <ColumnSelect key="columns" table={Decorations}/>]}>
           <Trans id="homestead.decorations.description"/>
         </Description>

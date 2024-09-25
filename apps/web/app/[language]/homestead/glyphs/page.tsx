@@ -17,6 +17,8 @@ import { globalColumnRenderer as itemTableColumn } from '@/components/ItemTable/
 import type { PageProps } from '@/lib/next';
 import type { Metadata } from 'next';
 import { getAlternateUrls } from '@/lib/url';
+import { Gw2Accounts } from '@/components/Gw2Api/Gw2Accounts';
+import { Scope } from '@gw2me/client';
 
 const getGlyphs = cache(async () => {
   const glyphs = await db.homesteadGlyph.findMany({
@@ -62,6 +64,8 @@ export default async function HomesteadGlyphsPage({ params: { language }}: PageP
 
   return (
     <>
+      <Gw2Accounts requiredScopes={[Scope.GW2_Progression, Scope.GW2_Unlocks]} authorizationMessage="Authorize gw2treasures.com to view your homestead progression." loading={null}/>
+
       <Description actions={<ColumnSelect table={Glyphs}/>}>
         <Trans id="homestead.glyphs.description"/>
       </Description>

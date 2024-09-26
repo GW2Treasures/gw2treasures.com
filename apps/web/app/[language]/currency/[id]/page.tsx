@@ -18,6 +18,7 @@ import { localizedName } from '@/lib/localizedName';
 import { getUser } from '@/lib/getUser';
 import { WalletTable } from './wallet-table';
 import type { PageProps } from '@/lib/next';
+import { format } from 'gw2-tooltip-html';
 
 const getCurrency = cache(async (id: number) => {
   if(isNaN(id)) {
@@ -66,7 +67,7 @@ export default async function CurrencyPage({ params: { id, language }}: Currency
 
   return (
     <DetailLayout title={data.name} breadcrumb="Currency" icon={currency.icon}>
-      <p>{data.description}</p>
+      <p dangerouslySetInnerHTML={{ __html: format(data.description) }}/>
 
       {user && (
         <>

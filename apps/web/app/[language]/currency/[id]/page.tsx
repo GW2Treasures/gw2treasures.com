@@ -54,10 +54,9 @@ type CurrencyPageProps = PageProps<{ id: string }>;
 
 export default async function CurrencyPage({ params: { id, language }}: CurrencyPageProps) {
   const currencyId = Number(id);
-  const [currency, { revision, data }, user] = await Promise.all([
+  const [currency, { revision, data }] = await Promise.all([
     getCurrency(currencyId),
     getRevision(currencyId, language),
-    getUser(),
     pageView('currency', currencyId),
   ]);
 
@@ -69,12 +68,8 @@ export default async function CurrencyPage({ params: { id, language }}: Currency
     <DetailLayout title={data.name} breadcrumb="Currency" icon={currency.icon}>
       <p dangerouslySetInnerHTML={{ __html: format(data.description) }}/>
 
-      {user && (
-        <>
-          <Headline id="wallet">Wallet</Headline>
-          <WalletTable currencyId={currency.id}/>
-        </>
-      )}
+      <Headline id="wallet">Wallet</Headline>
+      <WalletTable currencyId={currency.id}/>
 
       {currency.containedIn.length > 0 && (
         <>

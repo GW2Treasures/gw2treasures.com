@@ -15,9 +15,9 @@ import { CurrencyIngredientFor } from '@/components/Currency/CurrencyIngredientF
 import { pageView } from '@/lib/pageView';
 import { cache } from '@/lib/cache';
 import { localizedName } from '@/lib/localizedName';
-import { getUser } from '@/lib/getUser';
 import { WalletTable } from './wallet-table';
 import type { PageProps } from '@/lib/next';
+import { format } from 'gw2-tooltip-html';
 
 const getCurrency = cache(async (id: number) => {
   if(isNaN(id)) {
@@ -53,10 +53,9 @@ type CurrencyPageProps = PageProps<{ id: string }>;
 
 export default async function CurrencyPage({ params: { id, language }}: CurrencyPageProps) {
   const currencyId = Number(id);
-  const [currency, { revision, data }, user] = await Promise.all([
+  const [currency, { revision, data }] = await Promise.all([
     getCurrency(currencyId),
     getRevision(currencyId, language),
-    getUser(),
     pageView('currency', currencyId),
   ]);
 
@@ -66,14 +65,10 @@ export default async function CurrencyPage({ params: { id, language }}: Currency
 
   return (
     <DetailLayout title={data.name} breadcrumb="Currency" icon={currency.icon}>
-      <p>{data.description}</p>
+      <p dangerouslySetInnerHTML={{ __html: format(data.description) }}/>
 
-      {user && (
-        <>
-          <Headline id="wallet">Wallet</Headline>
-          <WalletTable currencyId={currency.id}/>
-        </>
-      )}
+      <Headline id="wallet">Wallet</Headline>
+      <WalletTable currencyId={currency.id}/>
 
       {currency.containedIn.length > 0 && (
         <>

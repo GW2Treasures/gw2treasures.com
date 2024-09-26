@@ -50,20 +50,25 @@ a:where(:any-link:hover) {
 }
 
 .color-format--abilitytype,
+.color-format--Abilitytype,
+.color-format--task,
 .color-format--Task {
   color: #797900;
 }
 
-.color-format--reminder {
+.color-format--reminder,
+.color-format--Reminder {
   color: var(--color-text-muted);
 }
 
-.color-format--flavor {
+.color-format--flavor,
+.color-format--Flavor {
   color: #327d9b;
 }
 
 @media (prefers-color-scheme: dark) {
-  .color-format--flavor {
+  .color-format--flavor,
+  .color-format--Flavor {
     color: #3ab3c0;
   }
 }

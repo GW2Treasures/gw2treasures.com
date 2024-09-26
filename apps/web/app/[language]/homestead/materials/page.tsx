@@ -84,7 +84,7 @@ export default async function RefinedMaterialsPage({ searchParams }: PageProps) 
       <RefinedMaterial {...getRefinedMaterialProps('wood')}/>
       <RefinedMaterial {...getRefinedMaterialProps('fiber')}/>
 
-      <PageView page="homestead/refinedMaterials"/>
+      <PageView page="homestead/materials"/>
     </>
   );
 }

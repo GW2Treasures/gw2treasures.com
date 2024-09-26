@@ -15,7 +15,6 @@ import { CurrencyIngredientFor } from '@/components/Currency/CurrencyIngredientF
 import { pageView } from '@/lib/pageView';
 import { cache } from '@/lib/cache';
 import { localizedName } from '@/lib/localizedName';
-import { getUser } from '@/lib/getUser';
 import { WalletTable } from './wallet-table';
 import type { PageProps } from '@/lib/next';
 import { format } from 'gw2-tooltip-html';

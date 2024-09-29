@@ -33,9 +33,9 @@ export async function createTooltip(item: Gw2Api.Item, language: Language): Prom
   type CurrentRevision = { [key in `current_${typeof language}`]: Revision };
   const selectCurrentRevision = {
     current_de: language === 'de' ? { select: { data: true }} : undefined,
-    current_en: language === 'de' ? { select: { data: true }} : undefined,
-    current_es: language === 'de' ? { select: { data: true }} : undefined,
-    current_fr: language === 'de' ? { select: { data: true }} : undefined,
+    current_en: language === 'en' ? { select: { data: true }} : undefined,
+    current_es: language === 'es' ? { select: { data: true }} : undefined,
+    current_fr: language === 'fr' ? { select: { data: true }} : undefined,
   };
 
   function mapItemToTooltip(upgrade: Pick<WithIcon<Item>, keyof typeof linkProperties> & CurrentRevision): ItemWithAttributes {

@@ -48,6 +48,7 @@ export async function registerCronJobs() {
   await registerJob('colors', '*/5 * * * *');
   await registerJob('guild-upgrades', '*/5 * * * *');
   await registerJob('minis', '*/5 * * * *');
+  await registerJob('minis.unlocks', '7 * * * *');
 
   await registerJob('homestead.decorations', '*/5 * * * *');
   await registerJob('homestead.decorations.categories', '*/10 * * * *');

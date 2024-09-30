@@ -13,9 +13,10 @@ import { DropDown } from '@gw2treasures/ui/components/DropDown/DropDown';
 import { Button, LinkButton } from '@gw2treasures/ui/components/Form/Button';
 import { Icon } from '@gw2treasures/ui';
 import { MenuList } from '@gw2treasures/ui/components/Layout/MenuList';
+import { FormatNumber } from '../Format/FormatNumber';
 
 export interface MiniTableProps {
-  minis: WithIcon<Pick<Mini, 'id' | keyof LocalizedEntity>>[]
+  minis: WithIcon<Pick<Mini, 'id' | 'unlocks' | keyof LocalizedEntity>>[]
   headline?: ReactNode;
   headlineId?: string;
 }
@@ -32,7 +33,7 @@ export const MiniTable: FC<MiniTableProps> = ({ minis, headline, headlineId }) =
       <Minis.Table>
         <Minis.Column id="id" title={<Trans id="itemTable.column.id"/>} align="right" small hidden sortBy="id">{({ id }) => id}</Minis.Column>
         <Minis.Column id="mini" title="Mini">{(mini) => <MiniLink mini={mini}/>}</Minis.Column>
-        {/* <Minis.Column id="unlocks" title="Unlocks" hidden align="right" sortBy="unlocks">{({ unlocks }) => <FormatNumber value={unlocks !== null ? Math.round(unlocks * 1000) / 10 : null} unit="%"/>}</Minis.Column> */}
+        <Minis.Column id="unlocks" title="Unlocks" hidden align="right" sortBy="unlocks">{({ unlocks }) => <FormatNumber value={unlocks !== null ? Math.round(unlocks * 1000) / 10 : null} unit="%"/>}</Minis.Column>
         <Minis.DynamicColumns headers={<Gw2AccountHeaderCells requiredScopes={requiredScopes} small/>}>
           {({ id }) => (
             <Gw2AccountBodyCells requiredScopes={requiredScopes}>

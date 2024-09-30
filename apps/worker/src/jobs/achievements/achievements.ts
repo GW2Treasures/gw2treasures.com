@@ -8,7 +8,7 @@ import { createIcon } from '../helper/createIcon';
 import { toId } from '../helper/toId';
 import { AchievementReward } from '@gw2api/types/data/achievement';
 
-const CURRENT_VERSION = 7;
+const CURRENT_VERSION = 8;
 // Migration history
 // 1: added points
 // 2: added mastery
@@ -17,6 +17,7 @@ const CURRENT_VERSION = 7;
 // 5: added categoryDisplay
 // 6: added title rewards
 // 7: added flags
+// 8: added mini bits
 
 export const AchievementsJob: Job = {
   async run(data: ProcessEntitiesData<number> | Record<string, never>) {
@@ -33,6 +34,7 @@ export const AchievementsJob: Job = {
     // load all ids of known items, skins and titles
     const itemIds = (await db.item.findMany({ select: { id: true }})).map(toId);
     const skinIds = (await db.skin.findMany({ select: { id: true }})).map(toId);
+    const miniIds = (await db.mini.findMany({ select: { id: true }})).map(toId);
     const titleIds = (await db.title.findMany({ select: { id: true }})).map(toId);
 
     return processLocalizedEntities(
@@ -79,6 +81,7 @@ export const AchievementsJob: Job = {
         const bitsIdsByType = getIdsByType(achievements.en.bits);
         const bitsItemIds = bitsIdsByType['Item'] ?? [];
         const bitsSkinIds = bitsIdsByType['Skin'] ?? [];
+        const bitsMiniIds = bitsIdsByType['Minipet'] ?? [];
 
         // get bit items
         const bitsItem = version < 3
@@ -88,6 +91,11 @@ export const AchievementsJob: Job = {
         // get bit skins
         const bitsSkin = version < 3
           ? { connect: bitsSkinIds.filter((id) => skinIds.includes(id)).map((id) => ({ id })) }
+          : undefined;
+
+        // get mini skins
+        const bitsMini = version < 8
+          ? { connect: bitsMiniIds.filter((id) => miniIds.includes(id)).map((id) => ({ id })) }
           : undefined;
 
         // get rewards ids
@@ -130,6 +138,9 @@ export const AchievementsJob: Job = {
 
           bitsSkinIds,
           bitsSkin,
+
+          bitsMiniIds,
+          bitsMini,
 
           rewardsItemIds,
           rewardsItem,

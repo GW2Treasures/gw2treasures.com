@@ -6,7 +6,7 @@ import { LocalizedObject } from '../helper/types';
 import { Item } from '@gw2api/types/data/item';
 import { SchemaVersion } from '../helper/schema';
 
-export const CURRENT_VERSION = 11;
+export const CURRENT_VERSION = 12;
 
 /** @see Prisma.ItemUpdateInput */
 interface MigratedItem {
@@ -37,6 +37,9 @@ interface MigratedItem {
   unlocksColorIds?: number[]
   unlocksColor?: Prisma.ColorUpdateManyWithoutUnlockedByItemsNestedInput
 
+  unlocksMiniIds?: number[]
+  unlocksMinis?: Prisma.MiniUpdateManyWithoutUnlockedByItemsNestedInput
+
   unlocksGuildUpgradeIds?: number[]
   unlocksGuildUpgrade?: Prisma.GuildUpgradeUpdateManyWithoutUnlockedByItemsNestedInput
 }
@@ -47,6 +50,7 @@ export async function createMigrator() {
   const knownRecipeIds = (await db.recipe.findMany({ select: { id: true }})).map(toId);
   const knownColorIds = (await db.color.findMany({ select: { id: true }})).map(toId);
   const knownGuildUpgradeIds = (await db.guildUpgrade.findMany({ select: { id: true }})).map(toId);
+  const knownMiniIds = (await db.mini.findMany({ select: { id: true }})).map(toId);
 
   // eslint-disable-next-line require-await
   return async function migrate({ de, en, es, fr }: LocalizedObject<Item<SchemaVersion>>, currentVersion = -1) {
@@ -123,6 +127,18 @@ export async function createMigrator() {
     // Version 11: Set vendorValue
     if(currentVersion < 11) {
       update.vendorValue = en.flags.includes('NoSell') ? null : Number(en.vendor_value);
+    }
+
+    // Version 12: Unlocks mini
+    if(currentVersion < 12) {
+      const unlocksMini = en.type === 'MiniPet' && en.details?.minipet_id !== undefined;
+
+      if(unlocksMini) {
+        const unlocksMiniIds = [en.details?.minipet_id].filter(isTruthy);
+
+        update.unlocksMiniIds = unlocksMiniIds;
+        update.unlocksMinis = { connect: unlocksMiniIds.filter((id) => knownMiniIds.includes(id)).map((id) => ({ id })) };
+      }
     }
 
     return update satisfies Prisma.ItemUpdateInput;

@@ -14,11 +14,12 @@ export interface Gw2AccountSubscriptionProviderProps {
   children: ReactNode
 }
 
-type SubscriptionType = 'achievements' | 'skins' | 'wallet' | 'wizards-vault' | 'inventories' | 'home.nodes' | 'home.cats' | 'homestead.decorations' | 'homestead.glyphs';
+type SubscriptionType = 'achievements' | 'skins' | 'minis' | 'wallet' | 'wizards-vault' | 'inventories' | 'home.nodes' | 'home.cats' | 'homestead.decorations' | 'homestead.glyphs';
 
 type SubscriptionData<T extends SubscriptionType> =
   T extends 'achievements' ? AccountAchievement[] :
   T extends 'skins' ? number[] :
+  T extends 'minis' ? number[] :
   T extends 'wallet' ? AccountWallet[] :
   T extends 'wizards-vault' ? Awaited<ReturnType<typeof loadAccountsWizardsVault>> :
   T extends 'inventories' ? Awaited<ReturnType<typeof loadInventories>> :
@@ -143,6 +144,7 @@ export const Gw2AccountSubscriptionProvider: FC<Gw2AccountSubscriptionProviderPr
 
   useInterval(activeTypes.achievements, 60, fetchData.bind(null, 'achievements', achievementFetch));
   useInterval(activeTypes.skins, 60, fetchData.bind(null, 'skins', skinsFetch));
+  useInterval(activeTypes.minis, 60, fetchData.bind(null, 'minis', minisFetch));
   useInterval(activeTypes.wallet, 60, fetchData.bind(null, 'wallet', walletFetch));
   useInterval(activeTypes['wizards-vault'], 60, fetchData.bind(null, 'wizards-vault', wizardsVaultFetch));
   useInterval(activeTypes.inventories, 60, fetchData.bind(null, 'inventories', inventoriesFetch));
@@ -238,6 +240,7 @@ function useRefTo<T>(to: T): MutableRefObject<T> {
 
 const achievementFetch = (accessToken: string) => fetchGw2Api('/v2/account/achievements', { accessToken, cache: 'no-cache' });
 const skinsFetch = (accessToken: string) => fetchGw2Api('/v2/account/skins', { accessToken, cache: 'no-cache' });
+const minisFetch = (accessToken: string) => fetchGw2Api('/v2/account/minis', { accessToken, cache: 'no-cache' });
 const walletFetch = (accessToken: string) => fetchGw2Api('/v2/account/wallet', { accessToken, cache: 'no-cache' });
 const wizardsVaultFetch = (accessToken: string) => loadAccountsWizardsVault(accessToken);
 const inventoriesFetch = (accessToken: string) => loadInventories(accessToken);

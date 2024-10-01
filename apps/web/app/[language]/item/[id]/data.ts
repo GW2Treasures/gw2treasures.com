@@ -15,6 +15,7 @@ export const getItem = cache((id: number, language: Language) => {
       },
       icon: true,
       unlocksSkin: { select: { ...linkProperties, weight: true, type: true, subtype: true, unlocks: true, achievementBits: { include: { icon: true, rewardsItem: { select: linkProperties }, rewardsTitle: { select: { id: true, name_de: true, name_en: true, name_es: true, name_fr: true }}}}}},
+      unlocksMinis: { select: { ...linkPropertiesWithoutRarity, unlocks: true, achievementBits: { include: { icon: true, rewardsItem: { select: linkProperties }, rewardsTitle: { select: { id: true, name_de: true, name_en: true, name_es: true, name_fr: true }}}}}},
       unlocksGuildUpgrade: { select: linkPropertiesWithoutRarity },
       recipeOutput: { include: { ingredients: { include: { item: { select: linkProperties }, currency: { select: linkPropertiesWithoutRarity }, guildUpgrade: { select: linkPropertiesWithoutRarity }}}, unlockedByItems: { select: linkProperties }}},
       unlocksRecipe: { include: { ingredients: { include: { item: { select: linkProperties }, currency: { select: linkPropertiesWithoutRarity }, guildUpgrade: { select: linkPropertiesWithoutRarity }}}, unlockedByItems: { select: linkProperties }, outputItem: { select: linkProperties }}},

@@ -59,6 +59,8 @@ import { WizardsVaultPurchaseLimitJob } from './wizardsvault/purchase-limit';
 import { HomesteadDecorationsJob } from './homestead/decorations';
 import { HomesteadDecorationCategoriesJob } from './homestead/decoration-categories';
 import { HomesteadGlyphsJob } from './homestead/glyphs';
+import { MinisJob } from './minis';
+import { MinisUnlocks } from './minis/unlocks';
 
 const jobsInternal = {
   'test': { run: () => undefined } as Job,
@@ -119,6 +121,9 @@ const jobsInternal = {
 
   'colors': ColorsJob,
   'guild-upgrades': GuildUpgradesJob,
+  'minis': MinisJob,
+  'minis.unlocks': MinisUnlocks,
+
   'homestead.decorations': HomesteadDecorationsJob,
   'homestead.decorations.categories': HomesteadDecorationCategoriesJob,
   'homestead.glyphs': HomesteadGlyphsJob,

@@ -15,6 +15,7 @@ import { ItemList } from '@/components/ItemList/ItemList';
 import { linkProperties, linkPropertiesWithoutRarity } from '@/lib/linkProperties';
 import { ItemLink } from '@/components/Item/ItemLink';
 import { SkinLink } from '@/components/Skin/SkinLink';
+import { MiniLink } from '@/components/Mini/MiniLink';
 import { AchievementLink } from '@/components/Achievement/AchievementLink';
 import { AchievementInfobox } from '@/components/Achievement/AchievementInfobox';
 import { RemovedFromApiNotice } from '@/components/Notice/RemovedFromApiNotice';
@@ -61,6 +62,7 @@ const getAchievement = cache(async (id: number, language: Language) => {
         prerequisites: { select: linkPropertiesWithoutRarity },
         bitsItem: { select: linkProperties },
         bitsSkin: { select: linkProperties },
+        bitsMini: { select: linkPropertiesWithoutRarity },
         rewardsItem: { select: linkProperties },
         rewardsTitle: { select: { id: true, name_de: true, name_en: true, name_es: true, name_fr: true }}
       }
@@ -191,10 +193,12 @@ async function AchievementPage({ params: { id, language }}: AchievementPageProps
                           const skin = achievement.bitsSkin.find(({ id }) => id === bit.id);
                           return skin ? (<SkinLink skin={skin}/>) : `Unknown skin ${bit.id}`;
                         }
+                        case 'Minipet': {
+                          const mini = achievement.bitsMini.find(({ id }) => id === bit.id);
+                          return mini ? (<MiniLink mini={mini}/>) : `Unknown minipet ${bit.id}`;
+                        }
                         case 'Text':
                           return bit.text || `Objective #${index + 1}`;
-                        case 'Minipet':
-                          return `Minipet ${bit.id}`;
                       }
                     }}
                   </Bits.Column>

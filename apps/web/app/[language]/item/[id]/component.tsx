@@ -50,6 +50,7 @@ import { SkinTable } from '@/components/Skin/SkinTable';
 import { ItemInventoryTable } from '@/components/Item/ItemInventoryTable';
 import { AchievementTable } from '@/components/Achievement/AchievementTable';
 import { Description } from '@/components/Layout/Description';
+import { MiniTable } from '@/components/Mini/MiniTable';
 
 export interface ItemPageComponentProps {
   language: Language;
@@ -70,7 +71,7 @@ export const ItemPageComponent: FC<ItemPageComponentProps> = async ({ language, 
     pageView('item', itemId)
   ]);
 
-  // 404 if item doesnt exist
+  // 404 if item doesn't exist
   if(!item || !revision || !data) {
     notFound();
   }
@@ -78,12 +79,16 @@ export const ItemPageComponent: FC<ItemPageComponentProps> = async ({ language, 
   const fixedRevision = revisionId !== undefined;
 
   const skinAchievementBits = item.unlocksSkin.flatMap((skin) => skin.achievementBits);
+  const miniAchievementBits = item.unlocksMinis.flatMap((mini) => mini.achievementBits);
 
   const showContents = item.type === 'Container' || item._count.contains > 0 || item.containsCurrency.length > 0;
   const canHaveContents = item.type === 'Container' || item.type === 'Consumable';
 
   const hasSkinUnlocks = item.unlocksSkinIds.length > 0;
   const unknownSkinIds = item.unlocksSkinIds.filter((id) => item.unlocksSkin.every((skin) => skin.id !== id));
+
+  const hasMiniUnlocks = item.unlocksMiniIds.length > 0;
+  const unknownMiniIds = item.unlocksMiniIds.filter((id) => item.unlocksMinis.every((mini) => mini.id !== id));
 
   const icon = parseIcon(data.icon);
 
@@ -135,6 +140,18 @@ export const ItemPageComponent: FC<ItemPageComponentProps> = async ({ language, 
         </>
       )}
 
+      {hasMiniUnlocks && (
+        <>
+          <MiniTable minis={item.unlocksMinis} headline="Unlocked Minis" headlineId="skins"/>
+
+          {unknownMiniIds.length > 0 && (
+            <ItemList>
+              {unknownMiniIds.map((id) => <li key={id}>Unknown skin ({id})</li>)}
+            </ItemList>
+          )}
+        </>
+      )}
+
       {item.unlocksGuildUpgrade.length > 0 && (
         <>
           <Headline id="guild-upgrades">Unlocked Guild Upgrades</Headline>
@@ -151,7 +168,7 @@ export const ItemPageComponent: FC<ItemPageComponentProps> = async ({ language, 
         </ItemTableContext>
       )}
 
-      {(item.achievementBits.length > 0 || item.achievementRewards.length > 0 || skinAchievementBits.length > 0) && (<Headline id="achievements">Achievements</Headline>)}
+      {(item.achievementBits.length > 0 || item.achievementRewards.length > 0 || skinAchievementBits.length > 0 || miniAchievementBits.length > 0) && (<Headline id="achievements">Achievements</Headline>)}
 
       {item.achievementBits.length > 0 && (
         <AchievementTable language={language} achievements={item.achievementBits}>
@@ -185,6 +202,19 @@ export const ItemPageComponent: FC<ItemPageComponentProps> = async ({ language, 
             <>
               <Description actions={columnSelect}>
                 The skin unlocked by this item is required to complete these achievements:
+              </Description>
+              {table}
+            </>
+          )}
+        </AchievementTable>
+      )}
+
+      {miniAchievementBits.length > 0 && (
+        <AchievementTable language={language} achievements={miniAchievementBits}>
+          {(table, columnSelect) => (
+            <>
+              <Description actions={columnSelect}>
+                The mini unlocked by this item is required to complete these achievements:
               </Description>
               {table}
             </>

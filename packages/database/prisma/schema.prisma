@@ -80,6 +80,10 @@ model Item {
   // homestead glyph
   homesteadGlyphs HomesteadGlyph[] @relation("homestead_glyph")
 
+  // minis
+  unlocksMinis   Mini[] @relation("unlock")
+  unlocksMiniIds Int[] 
+
   // review queue
   reviews Review[] @relation("itemReview")
 
@@ -156,6 +160,7 @@ model Icon {
   currencies Currency[]
   guildUpgrades GuildUpgrade[]
   homesteadDecorations HomesteadDecoration[]
+  minis Mini[]
 }
 
 model Content {
@@ -456,6 +461,9 @@ model Achievement {
   bitsSkin    Skin[] @relation(name: "bits_skin")
   bitsSkinIds Int[]
 
+  bitsMini    Mini[] @relation(name: "bits_mini")
+  bitsMiniIds Int[]
+
   rewardsItem    Item[] @relation(name: "rewards_item")
   rewardsItemIds Int[]
 
@@ -739,6 +747,13 @@ model Revision {
   // homestead glyphs
   currentHomesteadGlyph HomesteadGlyph? @relation("current")
   homesteadGlyphHistory HomesteadGlyphHistory[]
+
+  //minis
+  currentMini_de Mini? @relation("current_de")
+  currentMini_en Mini? @relation("current_en")
+  currentMini_es Mini? @relation("current_es")
+  currentMini_fr Mini? @relation("current_fr")
+  miniHistory MiniHistory[]
 }
 
 enum RevisionType {
@@ -1178,6 +1193,56 @@ enum HomesteadGlyphSlot {
   harvesting
   logging
   mining
+}
+
+model Mini {
+  id Int @id
+
+  name_de String
+  name_en String
+  name_es String
+  name_fr String
+
+  icon   Icon? @relation(fields: [iconId], references: [id])
+  iconId Int?
+
+  unlockedByItems Item[]        @relation("unlock")
+  achievementBits Achievement[] @relation(name: "bits_mini")
+
+  unlocks Float?
+  
+  removedFromApi Boolean @default(false)
+  
+  current_de Revision @relation("current_de", fields: [currentId_de], references: [id], onDelete: Cascade)
+  currentId_de String @unique
+  
+  current_en Revision @relation("current_en", fields: [currentId_en], references: [id], onDelete: Cascade)
+  currentId_en String @unique
+  
+  current_es Revision @relation("current_es", fields: [currentId_es], references: [id], onDelete: Cascade)
+  currentId_es String @unique
+  
+  current_fr Revision @relation("current_fr", fields: [currentId_fr], references: [id], onDelete: Cascade)
+  currentId_fr String @unique
+
+  history MiniHistory[]
+  
+  lastCheckedAt  DateTime   @default(now())
+
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  version Int @default(0)
+}
+
+model MiniHistory {
+  miniId Int
+  revisionId String
+
+  mini Mini @relation(fields: [miniId], references: [id], onDelete: Cascade)
+  revision Revision @relation(fields: [revisionId], references: [id], onDelete: Cascade)
+
+  @@id([miniId, revisionId])
 }
 
 model Job {

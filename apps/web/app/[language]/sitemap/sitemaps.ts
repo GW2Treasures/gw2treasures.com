@@ -109,6 +109,17 @@ export const sitemaps: Record<string, Sitemap> = {
       return skins.map((skin) => getEntryForUrl(`/skin/${skin.id}`, { lastmod: skin.updatedAt }));
     }
   },
+  'minis': {
+    getCount() {
+      return db.mini.count();
+    },
+
+    async getEntries(skip, take) {
+      const minis = await db.mini.findMany({ skip, take, select: { id: true, updatedAt: true }});
+
+      return minis.map((mini) => getEntryForUrl(`/minis/${mini.id}`, { lastmod: mini.updatedAt }));
+    }
+  },
   'static': {
     getCount() {
       // always returning 1 is okay because 1 page will always be enough for all static pages

@@ -33,7 +33,7 @@
     "@typescript-eslint/parser": "8.8.0",
     "eslint-import-resolver-typescript": "3.6.3",
     "eslint-plugin-import": "2.30.0",
-    "eslint-plugin-react": "7.37.0"
+    "eslint-plugin-react": "7.37.1"
   },
   "peerDependencies": {
     "eslint": "^8.57.0"

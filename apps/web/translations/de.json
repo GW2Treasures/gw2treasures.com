@@ -253,6 +253,8 @@
   "homestead.materials.column.rate": "Rate",
   "homestead.materials.column.buyPricePer": "Kaufpreis / Material",
   "homestead.materials.column.sellPricePer": "Verkaufspreis / Material",
+  "homestead.materials.column.buyPricePer.description": "Der berechnete Kaufpreis pro veredeltem Material",
+  "homestead.materials.column.sellPricePer.description": "Der berechnete Verkaufspreis pro veredeltem Material",
   "mastery.Tyria": "Zentraltyria",
   "mastery.Maguuma": "Heart of Thorns",
   "mastery.Desert": "Path of Fire",

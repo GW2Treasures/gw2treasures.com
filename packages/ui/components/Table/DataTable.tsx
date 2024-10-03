@@ -92,7 +92,7 @@ export function createDataTable<T>(rows: T[], getRowKey: (row: T, index: number)
       );
 
       return (
-        <DataTableClient id={datatableId} columns={columns.filter(isStaticColumn).map((column) => ({ id: column.props.id, title: column.props.title, hidden: !!column.props.hidden, fixed: !!column.props.fixed }))} {...props}>
+        <DataTableClient id={datatableId} columns={columns.filter(isStaticColumn).map((column) => ({ id: column.props.id, title: <>{column.props.title}</>, hidden: !!column.props.hidden, fixed: !!column.props.fixed }))} {...props}>
           <Table>
             <thead>
               <tr>

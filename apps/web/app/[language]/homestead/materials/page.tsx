@@ -119,7 +119,7 @@ const RefinedMaterial: FC<RefinedMaterialProps> = ({ id, material, efficiencies,
       <Headline id={id} actions={[<EfficiencySwitch key="efficiency" id={id} efficiencies={efficiencies}/>, <ColumnSelect key="columns" table={Sources}/>]}>
         <ItemLink item={material}/>
       </Headline>
-      <Sources.Table initialSortBy="totalBuyPrice">
+      <Sources.Table initialSortBy="buyPricePer" initialSortOrder="asc">
         <Sources.Column id="id" title={<Trans id="itemTable.column.id"/>} align="right" small hidden sortBy="id">
           {({ id }) => id}
         </Sources.Column>
@@ -149,8 +149,8 @@ const RefinedMaterial: FC<RefinedMaterialProps> = ({ id, material, efficiencies,
           {({ item }) => item && itemTableColumn.sellQuantity(item, {})}
         </Sources.Column>
         <Sources.Column
-          id="totalBuyPrice"
-          title={<Trans id="homestead.materials.column.buyPricePer"/>}
+          id="buyPricePer"
+          title={<Tip tip={<Trans id="homestead.materials.column.buyPricePer.description"/>}><Trans id="homestead.materials.column.buyPricePer"/></Tip>}
           sortBy={({ item, rate }) => getCostPerUnit(item?.buyPrice, rate)}
           align="right"
         >
@@ -166,8 +166,8 @@ const RefinedMaterial: FC<RefinedMaterialProps> = ({ id, material, efficiencies,
           )}
         </Sources.Column>
         <Sources.Column
-          id="totalSellPrice"
-          title={<Trans id="homestead.materials.column.sellPricePer"/>}
+          id="sellPricePer"
+          title={<Tip tip={<Trans id="homestead.materials.column.sellPricePer.description"/>}><Trans id="homestead.materials.column.sellPricePer"/></Tip>}
           sortBy={({ item, rate }) => getCostPerUnit(item?.sellPrice, rate)}
           align="right"
         >

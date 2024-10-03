@@ -13,7 +13,7 @@ concurrency:
 
 env:
   # renovate: datasource=npm packageName=npm
-  NPM_VERSION: 10.8.3
+  NPM_VERSION: 10.9.0
   # renovate: datasource=npm packageName=renovate
   RENOVATE_VERSION: 38.103.1
 

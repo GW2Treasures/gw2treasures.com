@@ -1,11 +1,11 @@
 'use client';
 
 import { arrow, autoUpdate, flip, FloatingPortal, offset, type Placement, shift, useDismiss, useFloating, useFocus, useHover, useInteractions, useRole, useTransitionStyles, FloatingArrow } from '@floating-ui/react';
-import { Children, cloneElement, type FC, type ReactElement, type ReactNode, useRef, useState, type HTMLProps } from 'react';
+import { cloneElement, type FC, type ReactNode, useRef, useState, isValidElement } from 'react';
 import styles from './Tip.module.css';
 
 export interface TipProps {
-  children: ReactElement<HTMLProps<HTMLElement>>;
+  children: ReactNode;
   tip: ReactNode;
   preferredPlacement?: Placement;
 }
@@ -37,9 +37,15 @@ export const Tip: FC<TipProps> = ({ children, tip, preferredPlacement = 'top' })
 
   const { styles: transitionStyles, isMounted } = useTransitionStyles(context);
 
+  // if the children is not a react element (for example a simple string, an array, lazy component),
+  // we need to wrap it in a span to get DOM events.
+  const child = !isValidElement(children)
+    ? <span>{children}</span>
+    : children;
+
   return (
     <>
-      {cloneElement(Children.only(children), { ref: refs.setReference, ...getReferenceProps(children.props) })}
+      {cloneElement(child, { ref: refs.setReference, ...getReferenceProps(child.props) })}
       {isMounted && (
         <FloatingPortal>
           <div

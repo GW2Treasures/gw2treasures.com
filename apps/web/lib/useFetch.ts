@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 export function useFetch(url: string, callback: (response: Response) => void) {
   const [, setError] = useState();
@@ -33,6 +33,37 @@ export function useJsonFetch<T = unknown>(url: string): UseJsonFetchResult<T> {
   }, [url]);
 
   return data;
+}
+
+export function createAbortableFetch(url: string) {
+  const abortController = new AbortController();
+
+  const promise = fetch(url, { signal: abortController.signal }).then((response) => {
+    if(response.ok) {
+      return response.json();
+    }
+
+    throw new Error(`Request failed: ${url}`);
+  }).catch((error) => {
+    if(error.name !== 'AbortError') {
+      throw error;
+    }
+  });
+
+  return { promise, abort: () => { abortController.abort(); } };
+}
+
+export function useJsonFetchPromise<T = unknown>(url: string): Promise<T> {
+  const abortRef = useRef<() => void>(null);
+
+  return useMemo(() => {
+    abortRef.current?.();
+
+    const { abort, promise } = createAbortableFetch(url);
+    abortRef.current = abort;
+
+    return promise;
+  }, [url]);
 }
 
 export function useStaleJsonResponse<T = unknown>(response: UseJsonFetchResult<T>): UseJsonFetchResult<T> {

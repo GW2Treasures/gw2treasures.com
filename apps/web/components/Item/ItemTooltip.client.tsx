@@ -1,4 +1,4 @@
-import { type FC, Fragment, type ReactNode } from 'react';
+import { type FC, Fragment, type ReactNode, use } from 'react';
 import { FormatNumber } from '../Format/FormatNumber';
 import { ItemTooltip } from './ItemTooltip';
 import { Rarity } from './Rarity';
@@ -14,7 +14,7 @@ import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 import rarityStyles from '../Layout/RarityColor.module.css';
 
 export interface ClientItemTooltipProps {
-  tooltip: ItemTooltip;
+  tooltip: ItemTooltip | Promise<ItemTooltip>;
   hideTitle?: boolean;
 }
 
@@ -99,6 +99,8 @@ function renderConsumable(consumable: ItemTooltip['consumable']) {
 }
 
 export const ClientItemTooltip: FC<ClientItemTooltipProps> = ({ tooltip, hideTitle = false }) => {
+  tooltip = 'then' in tooltip ? use(tooltip) : tooltip;
+
   const data: ReactNode[] = [
     tooltip.weaponStrength && (<>{tooltip.weaponStrength.label}: <FormatNumber value={tooltip.weaponStrength.min} className={styles.value}/> – <FormatNumber value={tooltip.weaponStrength.max} className={styles.value}/></>),
     tooltip.defense && <>{tooltip.defense.label}: <FormatNumber value={tooltip.defense.value} className={styles.value}/></>,

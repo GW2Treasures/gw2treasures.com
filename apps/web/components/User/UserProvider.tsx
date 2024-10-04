@@ -1,5 +1,5 @@
-import { Suspense, type FC, type ReactNode } from 'react';
-import { UserProvider as UserProviderClient, UserSetter } from './UserProvider.client';
+import { type FC, type ReactNode } from 'react';
+import { UserProvider as UserProviderClient } from './UserProvider.client';
 import { getUser } from '@/lib/getUser';
 
 interface UserProviderProps {
@@ -9,15 +9,8 @@ interface UserProviderProps {
 /** Load user (async suspended) and provide it to a global context to be consumed with `useUser()` */
 export const UserProvider: FC<UserProviderProps> = ({ children }) => {
   return (
-    <UserProviderClient>
-      <Suspense><UserLoader/></Suspense>
+    <UserProviderClient user={getUser()}>
       {children}
     </UserProviderClient>
   );
-};
-
-const UserLoader: FC = async () => {
-  const user = await getUser();
-
-  return <UserSetter context={{ user, loading: false }}/>;
 };

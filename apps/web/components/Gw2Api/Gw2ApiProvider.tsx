@@ -8,7 +8,7 @@ import styles from './Gw2ApiProvider.module.css';
 import { Button, LinkButton } from '@gw2treasures/ui/components/Form/Button';
 import { reauthorize } from './reauthorize';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
-import { useUser } from '../User/use-user';
+import { useUserPromise } from '../User/use-user';
 import { SubmitButton } from '@gw2treasures/ui/components/Form/Buttons/SubmitButton';
 import type { Scope } from '@gw2me/client';
 import { useRouter } from 'next/navigation';
@@ -26,16 +26,19 @@ export const Gw2ApiProvider: FC<Gw2ApiProviderProps> = ({ children }) => {
   const [grantedScopes, setGrantedScopes] = useState<Scope[]>(initialGrantedScopes);
   const [missingScopes, setMissingScopes] = useState<Scope[]>([]);
   const [dismissed, setDismissed] = useState(false);
-  const { user, loading: loadingUser } = useUser();
+  const userPromise = useUserPromise();
   const router = useRouter();
   const [hiddenAccounts, setHiddenAccounts] = useLocalStorageState<string[]>('accounts.hidden', []);
 
   // eslint-disable-next-line require-await
   const getAccounts = useCallback(async (requiredScopes: Scope[], optionalScopes: Scope[] = [], { includeHidden = false }: GetAccountsOptions = {}) => {
-    // if the current user is not yet loaded or we SSR
-    if(loadingUser || typeof window === 'undefined') {
+    // always return [] during SSR
+    if(typeof window === 'undefined') {
       return [];
     }
+
+    // wait for user to be loaded
+    const user = await userPromise;
 
     // if the user is not logged in and hasn't dismissed the toast yet show error
     if(!user) {
@@ -92,7 +95,7 @@ export const Gw2ApiProvider: FC<Gw2ApiProviderProps> = ({ children }) => {
     }
 
     return pendingPromise.then(filterHiddenAccounts);
-  }, [dismissed, hiddenAccounts, loadingUser, user]);
+  }, [dismissed, hiddenAccounts, userPromise]);
 
   const handleDismiss = useCallback(() => {
     setError(undefined);

@@ -18,7 +18,7 @@ const requiredScopes = [Scope.GW2_Account, Scope.GW2_Unlocks];
 export const Wardrobe: FC<WardrobeProps> = ({ skinId }) => {
   const user = useUser();
 
-  if(!user.loading && !user.user) {
+  if(!user) {
     return null;
   }
 

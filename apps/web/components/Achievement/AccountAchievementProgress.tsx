@@ -3,13 +3,12 @@
 import type { FC } from 'react';
 import { Skeleton } from '../Skeleton/Skeleton';
 import { Icon } from '@gw2treasures/ui';
-import { useGw2Accounts } from '../Gw2Api/use-gw2-accounts';
 import { ProgressCell } from './ProgressCell';
 import { useSubscription } from '../Gw2Api/Gw2AccountSubscriptionProvider';
 import { Scope } from '@gw2me/client';
 import type { Achievement } from '@gw2treasures/database';
 import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
-import { Gw2AccountHeaderCells } from '../Gw2Api/Gw2AccountTableCells';
+import { Gw2AccountBodyCells, Gw2AccountHeaderCells } from '../Gw2Api/Gw2AccountTableCells';
 import { FormatNumber } from '../Format/FormatNumber';
 
 const requiredScopes = [Scope.GW2_Progression];
@@ -26,13 +25,11 @@ export interface AccountAchievementProgressCellProps {
 
 export const AccountAchievementProgressHeader: FC = () => <Gw2AccountHeaderCells requiredScopes={requiredScopes} small/>;
 
-export const AccountAchievementProgressRow: FC<RowProps> = ({ achievement, bitId }) => {
-  const accounts = useGw2Accounts(requiredScopes);
-
-  return !accounts.loading && !accounts.error && accounts.accounts.map((account) => (
-    <AccountAchievementProgressCell key={account.id} achievement={achievement} bitId={bitId} accountId={account.id}/>
-  ));
-};
+export const AccountAchievementProgressRow: FC<RowProps> = ({ achievement, bitId }) => (
+  <Gw2AccountBodyCells requiredScopes={requiredScopes}>
+    <AccountAchievementProgressCell achievement={achievement} bitId={bitId} accountId={undefined as never}/>
+  </Gw2AccountBodyCells>
+);
 
 export const AccountAchievementProgressCell: FC<AccountAchievementProgressCellProps> = ({ achievement, accountId, bitId }) => {
   const achievements = useSubscription('achievements', accountId);

@@ -5,6 +5,8 @@ import { cloneElement, type FC, type ReactElement } from 'react';
 import { useGw2Accounts } from './use-gw2-accounts';
 import { Gw2AccountName } from './Gw2AccountName';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
+import { Skeleton } from '../Skeleton/Skeleton';
+import { withSuspense } from '@/lib/with-suspense';
 
 export interface Gw2AccountHeaderCellsProps {
   requiredScopes: Scope[],
@@ -12,7 +14,7 @@ export interface Gw2AccountHeaderCellsProps {
   colSpan?: number;
 }
 
-export const Gw2AccountHeaderCells: FC<Gw2AccountHeaderCellsProps> = ({ requiredScopes, small, colSpan }) => {
+export const Gw2AccountHeaderCells: FC<Gw2AccountHeaderCellsProps> = withSuspense(({ requiredScopes, small, colSpan }) => {
   const accounts = useGw2Accounts(requiredScopes);
 
   return !accounts.loading && !accounts.error && accounts.accounts.map((account) => (
@@ -22,17 +24,17 @@ export const Gw2AccountHeaderCells: FC<Gw2AccountHeaderCellsProps> = ({ required
       </div>
     </Table.HeaderCell>
   ));
-};
+}, <Table.HeaderCell><Skeleton/></Table.HeaderCell>);
 
 export interface Gw2AccountBodyCells {
   requiredScopes: Scope[],
   children: ReactElement<{ accountId: string }>
 }
 
-export const Gw2AccountBodyCells: FC<Gw2AccountBodyCells> = ({ children, requiredScopes }) => {
+export const Gw2AccountBodyCells: FC<Gw2AccountBodyCells> = withSuspense(({ children, requiredScopes }) => {
   const accounts = useGw2Accounts(requiredScopes);
 
   return !accounts.loading && !accounts.error && accounts.accounts.map((account) => (
     cloneElement(children, { accountId: account.id, key: account.id })
   ));
-};
+}, <td>Loading...</td>);

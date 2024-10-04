@@ -1,30 +1,18 @@
 'use client';
 
-import { useState, type FC, type ReactNode, use, useEffect } from 'react';
-import { SetUserContext, UserContext } from './context';
+import { type FC, type ReactNode } from 'react';
+import { UserContext } from './context';
+import type { SessionUser } from '@/lib/getUser';
 
 interface UserProviderProps {
-  children: ReactNode;
+  children: ReactNode,
+  user: Promise<SessionUser | undefined>
 }
 
-export const UserProvider: FC<UserProviderProps> = ({ children }) => {
-  const [user, setUser] = useState<UserContext>({ user: undefined, loading: true });
-
+export const UserProvider: FC<UserProviderProps> = ({ children, user }) => {
   return (
     <UserContext.Provider value={user}>
-      <SetUserContext.Provider value={setUser}>
-        {children}
-      </SetUserContext.Provider>
+      {children}
     </UserContext.Provider>
   );
-};
-
-export const UserSetter: FC<{ context: UserContext }> = ({ context }) => {
-  const setContext = use(SetUserContext);
-
-  useEffect(() => {
-    setContext(context);
-  }, [context, setContext]);
-
-  return null;
 };

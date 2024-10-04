@@ -150,5 +150,6 @@ function diffFacts<T>(left: T[] | undefined, right: T[] | undefined): { left?: T
 export default SkillDiffPage;
 
 export const metadata = {
-  title: 'Compare Skills'
+  title: 'Compare Skills',
+  robots: { index: false }
 };

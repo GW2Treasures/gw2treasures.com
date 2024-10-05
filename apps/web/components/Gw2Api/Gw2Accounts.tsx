@@ -1,6 +1,6 @@
 'use client';
 
-import type { FC, ReactElement, ReactNode } from 'react';
+import { Suspense, type FC, type ReactElement, type ReactNode } from 'react';
 import type { Gw2Account } from './types';
 import type { Scope } from '@gw2me/client';
 import { useGw2Accounts } from './use-gw2-accounts';
@@ -19,15 +19,23 @@ export interface Gw2AccountsProps {
   authorizationMessage?: ReactNode;
 }
 
-export const Gw2Accounts: FC<Gw2AccountsProps> = ({ children, requiredScopes, optionalScopes = [], options, loading, authorizationMessage }) => {
+export const Gw2Accounts: FC<Gw2AccountsProps> = ({ loading, ...props }) => {
+  return (
+    <Suspense fallback={loading !== undefined ? loading : <Skeleton/>}>
+      <Gw2AccountsInternal loading={loading} {...props}/>
+    </Suspense>
+  );
+};
+
+const Gw2AccountsInternal: FC<Gw2AccountsProps> = ({ children, requiredScopes, optionalScopes = [], options, loading, authorizationMessage }) => {
   const user = useUser();
   const accounts = useGw2Accounts(requiredScopes, optionalScopes, options);
 
-  if(user.loading || accounts.loading) {
+  if(accounts.loading) {
     return loading !== undefined ? loading : (<Skeleton/>);
   }
 
-  if(!user.user) {
+  if(!user) {
     return (
       <Gw2AccountLoginNotice requiredScopes={requiredScopes} optionalScopes={optionalScopes}>
         {authorizationMessage}

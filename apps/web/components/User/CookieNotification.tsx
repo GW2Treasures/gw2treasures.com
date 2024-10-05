@@ -1,9 +1,9 @@
-import type { FC } from 'react';
 import { useUser } from './use-user';
 import { Icon } from '@gw2treasures/ui';
+import { withSuspense } from '@/lib/with-suspense';
 
-export const CookieNotification: FC = () => {
-  const { user } = useUser();
+export const CookieNotification = withSuspense(() => {
+  const user = useUser();
 
   if(user) {
     return;
@@ -15,4 +15,4 @@ export const CookieNotification: FC = () => {
       Changing settings will store cookies in your browser
     </div>
   );
-};
+});

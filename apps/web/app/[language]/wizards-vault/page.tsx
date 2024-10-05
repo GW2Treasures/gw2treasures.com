@@ -12,6 +12,8 @@ import { AstralAcclaim } from '@/components/Format/AstralAcclaim';
 import { pageView } from '@/lib/pageView';
 import { UnknownItem } from '@/components/Item/UnknownItem';
 import { LinkButton } from '@gw2treasures/ui/components/Form/Button';
+import { Suspense } from 'react';
+import { Skeleton } from '@/components/Skeleton/Skeleton';
 
 export default async function WizardsVaultPage() {
   const [listings, objectiveWaypoints] = await Promise.all([
@@ -33,7 +35,9 @@ export default async function WizardsVaultPage() {
     <HeroLayout hero={<Headline id="wizards-vault">Wizard&apos;s Vault</Headline>} color="#ff9800" toc>
       <Headline id="objectives" actions={<LinkButton icon="chevron-right" href="/wizards-vault/objectives" appearance="tertiary">All Objectives</LinkButton>}>Objectives</Headline>
       <ErrorBoundary fallback={<Notice type="error">Unknown error</Notice>}>
-        <WizardVaultObjectives objectiveWaypoints={objectiveWaypoints}/>
+        <Suspense fallback={<Skeleton/>}>
+          <WizardVaultObjectives objectiveWaypoints={objectiveWaypoints}/>
+        </Suspense>
       </ErrorBoundary>
 
       <Headline id="rewards">Rewards</Headline>

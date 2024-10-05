@@ -1,5 +1,5 @@
 import { Table, type HeaderCellProps } from './Table';
-import { Fragment, type FC, type Key, type ReactElement, type ReactNode } from 'react';
+import { Fragment, Suspense, type FC, type Key, type ReactElement, type ReactNode } from 'react';
 import 'server-only';
 import { DataTableClient, DataTableClientCell, DataTableClientColumn, DataTableClientColumnSelection, DataTableClientRows } from './DataTable.client';
 import { isDefined } from '@gw2treasures/helper/is';
@@ -101,7 +101,7 @@ export function createDataTable<T>(rows: T[], getRowKey: (row: T, index: number)
                     {column.props.title}
                   </DataTableClientColumn>
                 ) : (
-                  <Fragment key={column.key}>{column.props.headers}</Fragment>
+                  <Suspense key={column.key}>{column.props.headers}</Suspense>
                 ))}
               </tr>
             </thead>
@@ -117,9 +117,9 @@ export function createDataTable<T>(rows: T[], getRowKey: (row: T, index: number)
                           {column.props.children(row, index)}
                         </DataTableClientCell>
                       ) : (
-                        <Fragment key={column.key}>
+                        <Suspense key={column.key}>
                           {column.props.children(row, index)}
-                        </Fragment>
+                        </Suspense>
                       ))}
                     </Row>
                   );

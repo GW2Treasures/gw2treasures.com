@@ -40,7 +40,7 @@ export const WizardVaultObjectives: FC<WizardVaultObjectivesProps> = ({ objectiv
         <Notice type="error">Error loading your accounts from the Guild Wars 2 API.</Notice>
       )}
 
-      {!user.loading && !user.user ? (
+      {!user ? (
         <Notice>
           <Link href={loginUrl}>Login</Link> to see your personal Wizard&apos;s Vault objectives and progress.
         </Notice>
@@ -61,7 +61,7 @@ export const WizardVaultObjectives: FC<WizardVaultObjectivesProps> = ({ objectiv
           </tr>
         </thead>
         <tbody>
-          {user.user && accounts.loading && (
+          {user && accounts.loading && (
             <tr>
               <td>Loading accounts <Icon icon="loading"/></td>
             </tr>

@@ -4,7 +4,7 @@ import { cx } from '@gw2treasures/ui';
 import { type LocalizedEntity, localizedName } from '@/lib/localizedName';
 import type { WithIcon } from '@/lib/with';
 import type { Item, Language } from '@gw2treasures/database';
-import type { FC } from 'react';
+import { Suspense, type FC } from 'react';
 import { useLanguage } from '../I18n/Context';
 import { Skeleton } from '../Skeleton/Skeleton';
 import { EntityIcon } from '@/components/Entity/EntityIcon';
@@ -12,7 +12,6 @@ import styles from './ItemLinkTooltip.module.css';
 import rarityStyles from '../Layout/RarityColor.module.css';
 import type { ItemTooltip } from './ItemTooltip';
 import { ErrorBoundary } from 'react-error-boundary';
-import { useJsonFetch } from '@/lib/useFetch';
 import { ClientItemTooltip } from './ItemTooltip.client';
 import { localizedUrl } from '@/lib/localizedUrl';
 import { useGw2Accounts } from '../Gw2Api/use-gw2-accounts';
@@ -21,6 +20,7 @@ import { useInventoryItemTotal } from '../Inventory/use-inventory';
 import type { Gw2Account } from '../Gw2Api/types';
 import { Gw2AccountName } from '../Gw2Api/Gw2AccountName';
 import { FormatNumber } from '../Format/FormatNumber';
+import { useJsonFetchPromise } from '@/lib/useFetch';
 
 export interface ItemLinkTooltipProps {
   item: WithIcon<Pick<Item, 'id' | 'rarity' | keyof LocalizedEntity>>
@@ -32,24 +32,37 @@ export const ItemLinkTooltip: FC<ItemLinkTooltipProps> = ({ item, language, revi
   const defaultLanguage = useLanguage();
   language ??= defaultLanguage;
 
-  const tooltip = useJsonFetch<ItemTooltip>(localizedUrl(`/item/${item.id}/tooltip${revision ? `?revision=${revision}` : ''}`, language));
+  const tooltip = useJsonFetchPromise<ItemTooltip>(localizedUrl(`/item/${item.id}/tooltip${revision ? `?revision=${revision}` : ''}`, language));
 
   return (
     <div className={rarityStyles[item.rarity]}>
-      <ErrorBoundary fallback={<span>Error</span>}>
-        {tooltip.loading && (
-          <>
-            <div className={cx(styles.title)}>
-              {item.icon && (<EntityIcon icon={item.icon} size={32}/>)}
-              {localizedName(item, language)}
-            </div>
-            <div className={styles.loading}><Skeleton/><br/><Skeleton width={120}/></div>
-          </>
-        )}
-        {!tooltip.loading && <ClientItemTooltip tooltip={tooltip.data}/>}
-        <ItemLinkTooltipInventories itemId={item.id}/>
+      <ErrorBoundary fallback={<ItemLinkTooltipFallback item={item} language={language} error/>}>
+        <Suspense fallback={<ItemLinkTooltipFallback item={item} language={language}/>}>
+          <ClientItemTooltip tooltip={tooltip}/>
+        </Suspense>
       </ErrorBoundary>
+      <Suspense>
+        <ItemLinkTooltipInventories itemId={item.id}/>
+      </Suspense>
     </div>
+  );
+};
+
+type ItemLinkTooltipInternalProps = ItemLinkTooltipProps & { language: Language, error?: boolean };
+
+const ItemLinkTooltipFallback: FC<ItemLinkTooltipInternalProps> = ({ item, language, error }) => {
+  return (
+    <>
+      <div className={cx(styles.title)}>
+        {item.icon && (<EntityIcon icon={item.icon} size={32}/>)}
+        {localizedName(item, language)}
+      </div>
+      {error ? (
+        <div style={{ color: 'var(--color-error)' }}>Error loading tooltip</div>
+      ) : (
+        <div className={styles.loading}><Skeleton/><br/><Skeleton width={120}/></div>
+      )}
+    </>
   );
 };
 

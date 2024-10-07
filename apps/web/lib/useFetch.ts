@@ -44,10 +44,6 @@ export function createAbortableFetch(url: string) {
     }
 
     throw new Error(`Request failed: ${url}`);
-  }).catch((error) => {
-    if(error.name !== 'AbortError') {
-      throw error;
-    }
   });
 
   return { promise, abort: () => { abortController.abort(); } };

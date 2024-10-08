@@ -33,7 +33,7 @@
   "devDependencies": {
     "@gw2treasures/eslint-config": "*",
     "@gw2treasures/tsconfig": "*",
-    "@types/node": "20.16.10",
+    "@types/node": "20.16.11",
     "eslint": "8.57.1",
     "typescript": "5.6.2"
   },

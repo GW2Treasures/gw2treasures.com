@@ -2,7 +2,7 @@ kind: Service
 apiVersion: v1
 
 metadata:
-  name: database-pg16
+  name: database-pg17
 
 spec:
   ports:
@@ -11,7 +11,7 @@ spec:
     protocol: TCP
     targetPort: 5432
   selector:
-    name: database-pg16
+    name: database-pg17
   sessionAffinity: None
   type: ClusterIP
 status:

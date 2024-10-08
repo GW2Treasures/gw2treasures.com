@@ -2,7 +2,7 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 
 metadata:
-  name: database-pg16
+  name: database-pg17
 
 spec:
   accessModes:

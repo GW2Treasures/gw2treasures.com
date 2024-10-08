@@ -2,7 +2,7 @@ kind: ConfigMap
 apiVersion: v1
 
 metadata:
-  name: database-pg16
+  name: database-pg17
 
 data:
   user: gw2treasures

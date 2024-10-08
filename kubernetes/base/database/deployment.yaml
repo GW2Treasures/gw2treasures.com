@@ -2,20 +2,20 @@ apiVersion: apps/v1
 kind: Deployment
 
 metadata:
-  name: database-pg16
+  name: database-pg17
 
 spec:
   replicas: 1
   revisionHistoryLimit: 1
   selector:
     matchLabels:
-      name: database-pg16
+      name: database-pg17
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        name: database-pg16
+        name: database-pg17
     spec:
       tolerations:
       - key: arch
@@ -23,16 +23,16 @@ spec:
         value: arm64
         effect: NoSchedule
       volumes:
-      - name: database-pg16-data
+      - name: database-pg17-data
         persistentVolumeClaim:
-          claimName: database-pg16
+          claimName: database-pg17
       # increase shared memory (/dev/shm) (see https://stackoverflow.com/questions/46085748/define-size-for-dev-shm-on-container-engine/46434614#46434614)
       - name: dshm
         emptyDir:
           medium: Memory
       containers:
-      - name: database-pg16
-        image: timescale/timescaledb:2.16.1-pg16
+      - name: database-pg17
+        image: timescale/timescaledb:2.17.0-pg17
         args:
         - "postgres"
         - "-c"
@@ -48,12 +48,12 @@ spec:
         - name: POSTGRES_USER
           valueFrom:
             configMapKeyRef:
-              name: database-pg16
+              name: database-pg17
               key: user
         - name: POSTGRES_PASSWORD
           valueFrom:
             configMapKeyRef:
-              name: database-pg16
+              name: database-pg17
               key: password
         - name: POSTGRES_DB
           value: gw2treasures
@@ -85,7 +85,7 @@ spec:
           successThreshold: 1
           failureThreshold: 3
         volumeMounts:
-        - name: database-pg16-data
+        - name: database-pg17-data
           mountPath: /var/lib/postgresql/data
         - name: dshm
           mountPath: /dev/shm

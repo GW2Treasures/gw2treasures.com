@@ -107,7 +107,7 @@ These instructions only work for migrating from the preceeding database version.
 4. Run `docker compose exec database-old bash -c 'pg_dumpall -p 5432 -U gw2treasures | PGPASSWORD=$POSTGRES_PASSWORD psql -U gw2treasures -h database'` to migrate the data to the new database.
 5. Stop the old database `docker compose -f docker-compose.yml -f docker-compose.database-migration.yml down database-old`.
 6. Verify everything works.
-7. Delete the old volume `rm -r .docker/database`.
+7. Delete the old volume `rm -r .docker/database-pg16`.
 
 ## License
 **gw2treasures.com** is licensed under the [MIT License](LICENSE).

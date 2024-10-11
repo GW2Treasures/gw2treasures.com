@@ -1,10 +1,11 @@
 'use client';
 
 import { Icon } from '../../icons';
-import { type KeyboardEventHandler, type ReactNode, forwardRef, useCallback, useEffect, useId, useRef } from 'react';
+import { type FC, type KeyboardEventHandler, type ReactNode, useCallback, useEffect, useId, useRef } from 'react';
 import styles from './Checkbox.module.css';
+import type { RefProp } from '../../lib/react';
 
-export interface CheckboxProps {
+export interface CheckboxProps extends RefProp<HTMLLabelElement> {
   checked?: boolean;
   defaultChecked?: boolean;
   formValue?: string;
@@ -15,7 +16,7 @@ export interface CheckboxProps {
   disabled?: boolean;
 }
 
-export const Checkbox = forwardRef<HTMLLabelElement, CheckboxProps>(({ checked, defaultChecked, formValue, indeterminate = false, onChange, name, disabled, children }, ref) => {
+export const Checkbox: FC<CheckboxProps> = ({ ref, checked, defaultChecked, formValue, indeterminate = false, onChange, name, disabled, children }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const id = useId();
 
@@ -41,6 +42,4 @@ export const Checkbox = forwardRef<HTMLLabelElement, CheckboxProps>(({ checked, 
       </div>
     </label>
   );
-});
-
-Checkbox.displayName = 'Checkbox';
+};

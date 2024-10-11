@@ -1,13 +1,14 @@
 'use client';
 
-import { forwardRef } from 'react';
+import type { FC } from 'react';
 import { useFormatContext } from './FormatContext';
 import styles from './Format.module.css';
 import { cx } from '@gw2treasures/ui';
+import type { RefProp } from '@gw2treasures/ui/lib/react';
 
 const NARROW_NO_BREAK_SPACE = '\u{202F}';
 
-interface FormatNumberProps {
+interface FormatNumberProps extends RefProp<HTMLDataElement> {
   value: number | bigint | undefined | null;
   className?: string;
   unit?: string;
@@ -15,7 +16,7 @@ interface FormatNumberProps {
 
 const format = new Intl.NumberFormat(undefined, { useGrouping: true });
 
-export const FormatNumber = forwardRef<HTMLDataElement, FormatNumberProps>(({ value, className, unit }: FormatNumberProps, ref) => {
+export const FormatNumber: FC<FormatNumberProps> = ({ ref, value, className, unit }) => {
   const { numberFormat } = useFormatContext();
 
   return (
@@ -24,9 +25,7 @@ export const FormatNumber = forwardRef<HTMLDataElement, FormatNumberProps>(({ va
       {unit && `${NARROW_NO_BREAK_SPACE}${unit}`}
     </data>
   );
-});
-
-FormatNumber.displayName = 'FormatNumber';
+};
 
 export function formatNumber(value: number): string {
   return format.format(value);

@@ -1,7 +1,7 @@
 'use client';
 
 import NextLink from 'next/link';
-import { forwardRef } from 'react';
+import type { FC } from 'react';
 import { EntityIcon } from '../Entity/EntityIcon';
 import styles from './EntityLink.module.css';
 import rarityClasses from '../Layout/RarityColor.module.css';
@@ -12,7 +12,7 @@ import { localizedUrl } from '@/lib/localizedUrl';
 import { cx } from '@gw2treasures/ui';
 import { EntityIconMissing } from '../Entity/EntityIconMissing';
 
-export const EntityLinkInternal = forwardRef<HTMLAnchorElement, EntityLinkProps>(function EntityLinkInternal({ href, entity, icon = 32, language, iconType, ...props }: EntityLinkProps, ref) {
+export const EntityLinkInternal: FC<EntityLinkProps> = ({ ref, href, entity, icon = 32, language, iconType, ...props }) => {
   const defaultLanguage = useLanguage();
 
   if(language && defaultLanguage !== language) {
@@ -36,4 +36,4 @@ export const EntityLinkInternal = forwardRef<HTMLAnchorElement, EntityLinkProps>
       </>
     </NextLink>
   );
-});
+};

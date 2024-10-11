@@ -1,9 +1,9 @@
-import { forwardRef, type SVGAttributes } from 'react';
+import { type FC, type SVGAttributes } from 'react';
 import type { IconName } from '@gw2treasures/icons';
-import reactDOM from 'react-dom';
 import styles from './IconSprite.module.css';
+import type { RefProp } from '../lib/react';
 
-export interface IconSpriteProps extends SVGAttributes<SVGSVGElement> {
+export interface IconSpriteProps extends SVGAttributes<SVGSVGElement>, RefProp<SVGSVGElement> {
   icon: IconName,
 }
 
@@ -11,16 +11,13 @@ export interface IconSpriteProps extends SVGAttributes<SVGSVGElement> {
 // and is not compatible with just webpack used outside of Next.js (i.e. gw2.me extensions)
 const sprite = new URL('@gw2treasures/icons/sprite.svg', import.meta.url).toString();
 
-export const IconSprite = forwardRef<SVGSVGElement, IconSpriteProps>(function IconSprite({ icon, ...props }, ref) {
-  // preload in react@canary (has preload), react@18 has no preload
-  // TODO: remove once using react@beta or react@19
-  if('preload' in reactDOM && typeof reactDOM.preload === 'function') {
-    reactDOM.preload(sprite, { as: 'image' });
-  }
+export const IconSprite: FC<IconSpriteProps> = ({ ref, icon, ...props }) => {
+  // TODO: preloading sprites is not possible in browsers yet (see https://github.com/whatwg/fetch/issues/1012)
+  // reactDOM.preload(sprite, { as: 'image' });
 
   return (
     <svg ref={ref} viewBox="0 0 16 16" {...props}>
       <use href={`${sprite}#${icon}`} className={styles[icon]}/>
     </svg>
   );
-});
+};

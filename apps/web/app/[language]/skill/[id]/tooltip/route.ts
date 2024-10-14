@@ -12,7 +12,17 @@ const getSkillRevision = cache((id: number, language: Language, revisionId?: str
     : db.revision.findFirst({ where: { [`currentSkill_${language}`]: { id }}});
 }, ['revision-skill'], { revalidate: 60 });
 
-export async function GET(request: NextRequest, { params: { language, id }}: { params: { language: Language, id: string }}) {
+export async function GET(
+  request: NextRequest,
+  props: { params: Promise<{ language: Language, id: string }>}
+) {
+  const params = await props.params;
+
+  const {
+    language,
+    id
+  } = params;
+
   const itemId = Number(id);
 
   const { searchParams } = new URL(request.url);

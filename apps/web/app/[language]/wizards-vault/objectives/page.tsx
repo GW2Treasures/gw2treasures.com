@@ -15,7 +15,13 @@ const getObjectives = cache(() => {
   return db.wizardsVaultObjective.findMany();
 }, ['wizards-vault-objectives'], { revalidate: 60 * 60 });
 
-export default async function WizardsVaultObjectivesPage({ params: { language }}: PageProps) {
+export default async function WizardsVaultObjectivesPage(props: PageProps) {
+  const params = await props.params;
+
+  const {
+    language
+  } = params;
+
   const objectives = await getObjectives();
 
   const Objectives = createDataTable(objectives, ({ id }) => id);

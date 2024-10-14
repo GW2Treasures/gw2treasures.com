@@ -12,7 +12,17 @@ const getItemRevision = cache(function (id: number, language: Language, revision
     : db.revision.findFirst({ where: { [`currentItem_${language}`]: { id }}});
 }, ['item-tooltip'], { revalidate: 60 });
 
-export async function GET(request: NextRequest, { params: { language, id }}: { params: { language: Language, id: string }}) {
+export async function GET(
+  request: NextRequest,
+  props: { params: Promise<{ language: Language, id: string }>}
+) {
+  const params = await props.params;
+
+  const {
+    language,
+    id
+  } = params;
+
   const itemId = Number(id);
 
   const { searchParams } = new URL(request.url);

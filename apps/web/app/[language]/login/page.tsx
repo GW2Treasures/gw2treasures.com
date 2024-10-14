@@ -13,7 +13,8 @@ import { Trans } from '@/components/I18n/Trans';
 import { SubmitButton } from '@gw2treasures/ui/components/Form/Buttons/SubmitButton';
 import type { PageProps } from '@/lib/next';
 
-export default async function LoginPage({ searchParams }: PageProps) {
+export default async function LoginPage(props: PageProps) {
+  const searchParams = await props.searchParams;
   const user = await getUser();
   const returnTo = Array.isArray(searchParams.returnTo) ? searchParams.returnTo[0] : searchParams.returnTo;
   const scopes = Array.isArray(searchParams.scopes) ? searchParams.scopes.join(',') : searchParams.scopes;

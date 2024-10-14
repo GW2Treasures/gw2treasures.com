@@ -41,7 +41,14 @@ const getAchievementCategory = cache(async (id: number, language: Language) => {
   return { achievementCategory, revision };
 }, ['achievement-category'], { revalidate: 60 });
 
-async function AchievementCategoryPage({ params: { language, id }}: AchievementCategoryPageProps) {
+async function AchievementCategoryPage(props: AchievementCategoryPageProps) {
+  const params = await props.params;
+
+  const {
+    language,
+    id
+  } = params;
+
   const achievementCategoryId = Number(id);
 
   if(isNaN(achievementCategoryId)) {
@@ -109,7 +116,8 @@ async function AchievementCategoryPage({ params: { language, id }}: AchievementC
 
 export default AchievementCategoryPage;
 
-export async function generateMetadata({ params }: AchievementCategoryPageProps): Promise<Metadata> {
+export async function generateMetadata(props: AchievementCategoryPageProps): Promise<Metadata> {
+  const params = await props.params;
   const id = Number(params.id);
 
   const achievementCategory = await db.achievementCategory.findUnique({

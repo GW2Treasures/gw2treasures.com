@@ -75,7 +75,7 @@ export async function GET(request: NextRequest) {
     const session = await db.userSession.create({ data: { info: sessionName, userId }});
 
     // send response with session cookie
-    cookies().set(authCookie(session.id, callbackUrl.protocol === 'https:'));
+    (await cookies()).set(authCookie(session.id, callbackUrl.protocol === 'https:'));
     redirect(getReturnToUrlFromCookie());
   } catch(error) {
     if(isRedirectError(error) || isNotFoundError(error)) {

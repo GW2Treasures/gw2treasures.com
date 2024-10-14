@@ -36,14 +36,14 @@ export function publicApi<DynamicRouteSegments extends string = never, ResponseT
   return async (request, { params }) => {
     try {
       // get request id
-      const requestId = headers().get('x-request-id');
+      const requestId = (await headers()).get('x-request-id');
 
       if(!requestId) {
         throw new Error('Missing x-request-id header');
       }
 
       // verify api key
-      const apiKey = headers().get('x-gw2t-apikey');
+      const apiKey = (await headers()).get('x-gw2t-apikey');
       if(!apiKey) {
         return NextResponse.json(
           { error: 401, text: 'Missing API key' },

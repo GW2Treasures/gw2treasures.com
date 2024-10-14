@@ -51,7 +51,13 @@ const getGlyphs = cache(async () => {
   });
 }, ['homestead-glyphs'], { revalidate: 60 });
 
-export default async function HomesteadGlyphsPage({ params: { language }}: PageProps) {
+export default async function HomesteadGlyphsPage(props: PageProps) {
+  const params = await props.params;
+
+  const {
+    language
+  } = params;
+
   const glyphs = await getGlyphs();
 
   const Glyphs = createDataTable(glyphs, ({ id }) => id);
@@ -86,7 +92,8 @@ export default async function HomesteadGlyphsPage({ params: { language }}: PageP
   );
 }
 
-export function generateMetadata({ params }: PageProps): Metadata {
+export async function generateMetadata(props: PageProps): Promise<Metadata> {
+  const params = await props.params;
   return {
     title: translate('homestead.glyphs', params.language),
     description: translate('homestead.glyphs.description', params.language),

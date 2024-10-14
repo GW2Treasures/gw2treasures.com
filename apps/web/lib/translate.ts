@@ -5,7 +5,7 @@ import de from '../translations/de.json';
 import en from '../translations/en.json';
 import es from '../translations/es.json';
 import fr from '../translations/fr.json';
-import { headers } from 'next/headers';
+import { headers, type UnsafeUnwrappedHeaders } from 'next/headers';
 
 export type TranslationId = keyof typeof en;
 
@@ -47,7 +47,7 @@ export function translateMany<T extends TranslationId>(ids: T[], language?: Lang
 }
 
 export function getLanguage() {
-  const language = headers().get('x-gw2t-lang') as Language;
+  const language = (headers() as unknown as UnsafeUnwrappedHeaders).get('x-gw2t-lang') as Language;
 
   return language;
 }

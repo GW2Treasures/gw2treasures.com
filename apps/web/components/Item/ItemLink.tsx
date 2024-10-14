@@ -1,3 +1,5 @@
+'use client';
+
 import type { FC } from 'react';
 import type { Item, Language } from '@gw2treasures/database';
 import type { IconSize } from '@/lib/getIconUrl';

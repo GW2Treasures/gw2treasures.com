@@ -12,7 +12,17 @@ const getAchievementRevision = cache((id: number, language: Language, revisionId
     : db.revision.findFirst({ where: { [`currentAchievement_${language}`]: { id }}});
 }, ['achievement-revision'], { revalidate: 60 });
 
-export async function GET(request: NextRequest, { params: { language, id }}: { params: { language: Language, id: string }}) {
+export async function GET(
+  request: NextRequest,
+  props: { params: Promise<{ language: Language, id: string }>}
+) {
+  const params = await props.params;
+
+  const {
+    language,
+    id
+  } = params;
+
   const achievementId = Number(id);
 
   const { searchParams } = new URL(request.url);

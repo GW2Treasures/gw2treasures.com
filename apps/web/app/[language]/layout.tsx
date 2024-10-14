@@ -31,15 +31,20 @@ const wotfard = localFont({
   variable: '--font-wotfard',
 });
 
-export default function RootLayout({
-  children,
-  modal,
-  params,
-}: {
-  children: ReactNode;
-  modal?: ReactNode;
-  params: { language: Language; };
-}) {
+export default async function RootLayout(
+  props: {
+    children: ReactNode;
+    modal?: ReactNode;
+    params: Promise<{ language: Language; }>;
+  }
+) {
+  const params = await props.params;
+
+  const {
+    children,
+    modal
+  } = props;
+
   return (
     <html lang={params.language} className={cx(bitter.variable, wotfard.variable)}>
       <head>

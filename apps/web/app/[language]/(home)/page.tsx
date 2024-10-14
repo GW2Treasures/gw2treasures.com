@@ -17,7 +17,13 @@ import { getAlternateUrls } from '@/lib/url';
 import { PageView } from '@/components/PageView/PageView';
 import type { PageProps } from '@/lib/next';
 
-function HomePage({ params: { language }}: PageProps) {
+async function HomePage(props: PageProps) {
+  const params = await props.params;
+
+  const {
+    language
+  } = params;
+
   return (
     <HeroLayout hero={(
       <div className={styles.hero}>

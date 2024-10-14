@@ -9,13 +9,27 @@ import type { PageProps } from '@/lib/next';
 
 export type ItemPageProps = PageProps<{ id: string }>;
 
-export default function ItemPage({ params: { language, id }}: ItemPageProps) {
+export default async function ItemPage(props: ItemPageProps) {
+  const params = await props.params;
+
+  const {
+    language,
+    id
+  } = params;
+
   const itemId = Number(id);
 
   return <ItemPageComponent language={language} itemId={itemId}/>;
 }
 
-export async function generateMetadata({ params: { language, id }}: ItemPageProps): Promise<Metadata> {
+export async function generateMetadata(props: ItemPageProps): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    language,
+    id
+  } = params;
+
   const itemId = Number(id);
   const { data } = await getRevision(itemId, language);
 

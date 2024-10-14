@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { HeroLayout } from '@/components/Layout/HeroLayout';
 
 export default function NotFound() {
-  const language = getLanguage();
+  const language = 'en';
   const legacy = `https://${language}.legacy.gw2treasures.com/`;
 
   return (

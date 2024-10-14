@@ -12,7 +12,17 @@ const getSkinRevision = cache((id: number, language: Language, revisionId?: stri
     : db.revision.findFirst({ where: { [`currentSkin_${language}`]: { id }}});
 }, ['skin-revision'], { revalidate: 60 });
 
-export async function GET(request: NextRequest, { params: { language, id }}: { params: { language: Language, id: string }}) {
+export async function GET(
+  request: NextRequest,
+  props: { params: Promise<{ language: Language, id: string }>}
+) {
+  const params = await props.params;
+
+  const {
+    language,
+    id
+  } = params;
+
   const skinId = Number(id);
 
   const { searchParams } = new URL(request.url);

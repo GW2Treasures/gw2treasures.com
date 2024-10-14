@@ -5,7 +5,9 @@ import type { PageProps } from '@/lib/next';
 
 export type EditMysticForgePageProps = PageProps<{ id: string }>;
 
-export default function EditMysticForgePage({ params, searchParams }: EditMysticForgePageProps) {
+export default async function EditMysticForgePage(props: EditMysticForgePageProps) {
+  const searchParams = await props.searchParams;
+  const params = await props.params;
   const outputItemId = Number(params.id);
 
   return (

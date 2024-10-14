@@ -19,7 +19,13 @@ const getBuilds = cache(async (language: Language) => {
   return { builds, updates };
 }, ['builds'], { revalidate: 600 });
 
-export default async function BuildPage({ params: { language }}: PageProps) {
+export default async function BuildPage(props: PageProps) {
+  const params = await props.params;
+
+  const {
+    language
+  } = params;
+
   const { builds, updates } = await getBuilds(language);
 
   const buildsWithUpdates = builds.map((build) => ({

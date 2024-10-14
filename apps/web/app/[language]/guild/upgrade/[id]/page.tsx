@@ -53,7 +53,14 @@ const getRevision = cache(async (id: number, language: Language, revisionId?: st
 
 type GuildUpgradePageProps = PageProps<{ id: string }>;
 
-export default async function GuildUpgradePage({ params: { id, language }}: GuildUpgradePageProps) {
+export default async function GuildUpgradePage(props: GuildUpgradePageProps) {
+  const params = await props.params;
+
+  const {
+    id,
+    language
+  } = params;
+
   const guildUpgradeId = Number(id);
   const [guildUpgrade, { revision, data }] = await Promise.all([
     getGuildUpgrade(guildUpgradeId),
@@ -109,7 +116,14 @@ export default async function GuildUpgradePage({ params: { id, language }}: Guil
   );
 }
 
-export async function generateMetadata({ params: { language, id }}: GuildUpgradePageProps): Promise<Metadata> {
+export async function generateMetadata(props: GuildUpgradePageProps): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    language,
+    id
+  } = params;
+
   const skinId: number = Number(id);
   const guildUpgrade = await getGuildUpgrade(skinId);
 

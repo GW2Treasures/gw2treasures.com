@@ -43,7 +43,8 @@ export default function HomesteadCatsPage() {
   );
 }
 
-export function generateMetadata({ params }: PageProps): Metadata {
+export async function generateMetadata(props: PageProps): Promise<Metadata> {
+  const params = await props.params;
   return {
     title: translate('homestead.cats', params.language),
     description: translate('homestead.cats.description', params.language),

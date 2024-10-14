@@ -51,7 +51,14 @@ const getRevision = cache(async (id: number, language: Language, revisionId?: st
 
 type CurrencyPageProps = PageProps<{ id: string }>;
 
-export default async function CurrencyPage({ params: { id, language }}: CurrencyPageProps) {
+export default async function CurrencyPage(props: CurrencyPageProps) {
+  const params = await props.params;
+
+  const {
+    id,
+    language
+  } = params;
+
   const currencyId = Number(id);
   const [currency, { revision, data }] = await Promise.all([
     getCurrency(currencyId),
@@ -110,7 +117,14 @@ export default async function CurrencyPage({ params: { id, language }}: Currency
   );
 }
 
-export async function generateMetadata({ params: { id, language }}: CurrencyPageProps) {
+export async function generateMetadata(props: CurrencyPageProps) {
+  const params = await props.params;
+
+  const {
+    id,
+    language
+  } = params;
+
   const currencyId = Number(id);
   const currency = await getCurrency(currencyId);
 

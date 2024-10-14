@@ -19,7 +19,13 @@ const getCurrencies = cache(
   { revalidate: 60 }
 );
 
-export default async function CurrencyPage({ params: { language }}: PageProps) {
+export default async function CurrencyPage(props: PageProps) {
+  const params = await props.params;
+
+  const {
+    language
+  } = params;
+
   const currencies = await getCurrencies();
 
   const Currencies = createDataTable(currencies, ({ id }) => id);

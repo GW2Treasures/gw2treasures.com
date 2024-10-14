@@ -46,7 +46,14 @@ const getReview = async function getReview(id: string) {
 
 type ReviewContainerContentPageProps = PageProps<{ id: string }>;
 
-export default async function ReviewContainerContentPage({ params: { id }, searchParams }: ReviewContainerContentPageProps) {
+export default async function ReviewContainerContentPage(props: ReviewContainerContentPageProps) {
+  const searchParams = await props.searchParams;
+  const params = await props.params;
+
+  const {
+    id
+  } = params;
+
   const { item, review } = await getReview(id);
   const { removedItems, addedItems, removedCurrencies = [], addedCurrencies = [] } = review.changes as unknown as EditContentOrder;
 
@@ -174,7 +181,14 @@ export default async function ReviewContainerContentPage({ params: { id }, searc
 }
 
 
-export async function generateMetadata({ params: { id, language }}: ReviewContainerContentPageProps) {
+export async function generateMetadata(props: ReviewContainerContentPageProps) {
+  const params = await props.params;
+
+  const {
+    id,
+    language
+  } = params;
+
   const { item } = await getReview(id);
 
   return {

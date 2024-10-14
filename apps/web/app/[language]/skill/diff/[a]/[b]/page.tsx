@@ -28,7 +28,8 @@ const getRevisions = cache(async (idA: string, idB: string) => {
   return { a, b };
 }, ['skill-revisions-compare']);
 
-async function SkillDiffPage({ params }: PageProps<{ a: string, b: string }>) {
+async function SkillDiffPage(props: PageProps<{ a: string, b: string }>) {
+  const params = await props.params;
   const idA = params.a.toString();
   const idB = params.b.toString();
 

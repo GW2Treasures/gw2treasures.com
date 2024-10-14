@@ -1,11 +1,11 @@
 'use client';
 
 import { autoUpdate, flip, FloatingPortal, offset, shift, useClick, useClientPoint, useDismiss, useFloating, useHover, useInteractions, useMergeRefs, useRole, useTransitionStyles } from '@floating-ui/react';
-import { Children, cloneElement, type FC, type ReactElement, type ReactNode, useMemo, useState, type HTMLProps } from 'react';
+import { Children, cloneElement, type FC, type ReactElement, type ReactNode, useMemo, useState, type HTMLProps, isValidElement } from 'react';
 import styles from './Tooltip.module.css';
 
 export interface TooltipProps {
-  children: ReactElement<HTMLProps<HTMLElement>>;
+  children: ReactElement<HTMLProps<Element>>;
   content: ReactNode;
 }
 
@@ -46,11 +46,13 @@ export const Tooltip: FC<TooltipProps> = ({ children, content }) => {
 
   const { styles: transitionStyles, isMounted } = useTransitionStyles(context);
 
-  const ref = useMergeRefs(children.props.ref ? [refs.setReference, children.props.ref] : [refs.setReference]);
+  const ref = useMergeRefs(children.props?.ref ? [refs.setReference, children.props?.ref] : [refs.setReference]);
+
+  const child = isValidElement(children) ? children : <span data-gw2t-tooltip-wrapper="">{children}</span>;
 
   return (
     <>
-      {cloneElement(Children.only(children), { ...getReferenceProps(children.props), ref })}
+      {cloneElement(child, { ...getReferenceProps(child.props), ref, 'data-gw2t-tooltip': '' })}
       {isMounted && (
         <FloatingPortal>
           <div

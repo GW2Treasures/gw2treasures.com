@@ -95,7 +95,14 @@ const getAchievement = cache(async (id: number, language: Language) => {
   return { achievement, revision, categoryAchievements };
 }, ['achievement'], { revalidate: 60 });
 
-async function AchievementPage({ params: { id, language }}: AchievementPageProps) {
+async function AchievementPage(props: AchievementPageProps) {
+  const params = await props.params;
+
+  const {
+    id,
+    language
+  } = params;
+
   const achievementId: number = Number(id);
 
   const { achievement, revision, categoryAchievements } = await getAchievement(achievementId, language);
@@ -111,7 +118,7 @@ async function AchievementPage({ params: { id, language }}: AchievementPageProps
   const t = getTranslate(language);
 
   return (
-    <DetailLayout
+    (<DetailLayout
       color={achievement.icon?.color ?? undefined}
       title={data.name}
       icon={achievement.icon}
@@ -127,25 +134,21 @@ async function AchievementPage({ params: { id, language }}: AchievementPageProps
       {achievement.removedFromApi && (
         <RemovedFromApiNotice type="achievement"/>
       )}
-
       {data.description && (
         <p dangerouslySetInnerHTML={{ __html: format(data.description) }}/>
       )}
-
       {data.flags.includes('RequiresUnlock') && (
         <>
           <Headline id="unlock">Unlock</Headline>
           <p>{data.locked_text || 'You have to unlock this achievement.'}</p>
         </>
       )}
-
       {achievement.id !== achievement.achievementCategory?.categoryDisplayId && achievement.achievementCategory?.categoryDisplay && !data.flags.some((flag) => notPartOfCategoryDisplayFlags.includes(flag as AchievementFlags)) && (
         <>
           <Headline id="unlock">Part of</Headline>
           <AchievementLink achievement={achievement.achievementCategory.categoryDisplay}/>
         </>
       )}
-
       {data.prerequisites && data.prerequisites?.length > 0 && (
         <>
           <Headline id="prerequisites">Prerequisites</Headline>
@@ -160,7 +163,6 @@ async function AchievementPage({ params: { id, language }}: AchievementPageProps
           </ItemList>
         </>
       )}
-
       {(data.requirement || (data.bits && data.bits.length > 0) || categoryAchievements.length > 0) && (
         <OptionalCategoryAchievementTable achievements={categoryAchievements} language={language}>
           {(categoryAchievementTable, columnSelect) => (
@@ -213,10 +215,8 @@ async function AchievementPage({ params: { id, language }}: AchievementPageProps
           )}
         </OptionalCategoryAchievementTable>
       )}
-
       <Headline id="tiers">Tiers</Headline>
       <TierTable achievement={data}/>
-
       {data.rewards && (
         <>
           <Headline id="rewards">Rewards</Headline>
@@ -261,7 +261,6 @@ async function AchievementPage({ params: { id, language }}: AchievementPageProps
           </ItemList>
         </>
       )}
-
       {achievement.prerequisiteFor.length > 0 && (
         <>
           <Headline id="prerequisiteFor">Prerequisite For</Headline>
@@ -272,16 +271,16 @@ async function AchievementPage({ params: { id, language }}: AchievementPageProps
           </ItemList>
         </>
       )}
-
       <Headline id="data">Data</Headline>
       <Json data={data}/>
-    </DetailLayout>
+    </DetailLayout>)
   );
 }
 
 export default AchievementPage;
 
-export async function generateMetadata({ params }: AchievementPageProps): Promise<Metadata> {
+export async function generateMetadata(props: AchievementPageProps): Promise<Metadata> {
+  const params = await props.params;
   const id = Number(params.id);
 
   const achievement = await db.achievement.findUnique({

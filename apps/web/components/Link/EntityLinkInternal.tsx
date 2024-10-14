@@ -1,19 +1,19 @@
 'use client';
 
 import NextLink from 'next/link';
-import type { FC } from 'react';
+import { use, type FC } from 'react';
 import { EntityIcon } from '../Entity/EntityIcon';
 import styles from './EntityLink.module.css';
 import rarityClasses from '../Layout/RarityColor.module.css';
 import type { EntityLinkProps } from './EntityLink';
 import { localizedName } from '@/lib/localizedName';
-import { useLanguage } from '../I18n/Context';
+import { I18nContext } from '../I18n/Context';
 import { localizedUrl } from '@/lib/localizedUrl';
 import { cx } from '@gw2treasures/ui';
 import { EntityIconMissing } from '../Entity/EntityIconMissing';
 
 export const EntityLinkInternal: FC<EntityLinkProps> = ({ ref, href, entity, icon = 32, language, iconType, ...props }) => {
-  const defaultLanguage = useLanguage();
+  const { language: defaultLanguage } = use(I18nContext);
 
   if(language && defaultLanguage !== language) {
     href = localizedUrl(href, language);

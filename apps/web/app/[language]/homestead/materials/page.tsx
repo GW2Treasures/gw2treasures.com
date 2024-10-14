@@ -47,7 +47,8 @@ const getItems = cache(
 
 type Efficiencies = Record<Material, Efficiency>;
 
-export default async function RefinedMaterialsPage({ searchParams }: PageProps) {
+export default async function RefinedMaterialsPage(props: PageProps) {
+  const searchParams = await props.searchParams;
   // get items from db
   const allItemIds = [
     ...Object.keys(data.wood.sources),
@@ -89,7 +90,8 @@ export default async function RefinedMaterialsPage({ searchParams }: PageProps) 
   );
 }
 
-export function generateMetadata({ params }: PageProps): Metadata {
+export async function generateMetadata(props: PageProps): Promise<Metadata> {
+  const params = await props.params;
   return {
     title: translate('homestead.materials', params.language),
     description: translate('homestead.materials.description', params.language),

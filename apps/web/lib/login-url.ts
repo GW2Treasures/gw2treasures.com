@@ -1,4 +1,4 @@
-import { cookies } from 'next/headers';
+import { cookies, type UnsafeUnwrappedCookies } from 'next/headers';
 import { getCurrentUrl } from './url';
 import type { Scope } from '@gw2me/client';
 
@@ -16,8 +16,8 @@ export function getLoginUrlWithReturnTo(scopes?: Scope[]) {
 }
 
 export function getReturnToUrlFromCookie(): string {
-  const cookie = cookies().get('RETURN_TO');
-  cookies().delete('RETURN_TO');
+  const cookie = (cookies() as unknown as UnsafeUnwrappedCookies).get('RETURN_TO');
+  (cookies() as unknown as UnsafeUnwrappedCookies).delete('RETURN_TO');
 
   return getReturnToUrl(cookie?.value);
 }
@@ -40,7 +40,7 @@ export function setReturnToUrlCookie(returnTo?: string) {
 
   const currentUrl = getCurrentUrl();
 
-  cookies().set('RETURN_TO', returnTo, {
+  (cookies() as unknown as UnsafeUnwrappedCookies).set('RETURN_TO', returnTo, {
     secure: currentUrl.protocol === 'https:',
     domain: currentUrl.hostname,
     path: '/auth/callback',

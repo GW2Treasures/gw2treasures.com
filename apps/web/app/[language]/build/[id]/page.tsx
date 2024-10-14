@@ -74,7 +74,14 @@ const getUpdatedSkills = cache(timed(function getUpdatedSkills(buildId: number, 
   });
 }), ['build-updated-skills'], { revalidate: 600 });
 
-async function BuildDetail({ params: { id, language }}: BuildPageProps) {
+async function BuildDetail(props: BuildPageProps) {
+  const params = await props.params;
+
+  const {
+    id,
+    language
+  } = params;
+
   const buildId: number = Number(id);
 
   const itemsPromise = getUpdatedItems(buildId, language);
@@ -149,7 +156,13 @@ const UpdatedSkills: FC<{ skillsPromise: ReturnType<typeof getUpdatedSkills> }> 
 
 export default BuildDetail;
 
-export function generateMetadata({ params: { id }}: BuildPageProps): Metadata {
+export async function generateMetadata(props: BuildPageProps): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    id
+  } = params;
+
   return {
     title: `Build ${id}`,
   };

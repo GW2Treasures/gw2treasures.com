@@ -2,7 +2,14 @@ import { NextRequest } from 'next/server';
 import { pageSize, sitemaps } from '../../sitemaps';
 import { notFound } from 'next/navigation';
 
-export async function GET(_: NextRequest, { params: { type, page }}: { params: { type: string, page: string }}) {
+export async function GET(_: NextRequest, props: { params: Promise<{ type: string, page: string }>}) {
+  const params = await props.params;
+
+  const {
+    type,
+    page
+  } = params;
+
   if(!(type in sitemaps)) {
     notFound();
   }

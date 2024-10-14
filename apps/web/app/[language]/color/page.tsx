@@ -29,7 +29,8 @@ const getColors = unstable_cache((language: Language) => {
   });
 }, ['get-colors']);
 
-export default async function ColorPage({ params }: PageProps) {
+export default async function ColorPage(props: PageProps) {
+  const params = await props.params;
   const colors = await getColors(params.language);
 
   return (

@@ -44,7 +44,8 @@ const getViews = cache(async function getViews(interval: Interval, days: Days) {
   return { views, mostViewed };
 });
 
-export default async function AdminUserPage({ searchParams }: PageProps) {
+export default async function AdminUserPage(props: PageProps) {
+  const searchParams = await props.searchParams;
   await ensureUserIsAdmin();
 
   const interval = (['hour', 'day']).includes(searchParams.interval as string) ? searchParams.interval as 'hour' | 'day' : 'hour';

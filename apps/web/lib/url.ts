@@ -1,10 +1,10 @@
 import { getLanguage } from '@/lib/translate';
 import { Language } from '@gw2treasures/database';
 import type { Metadata } from 'next';
-import { headers } from 'next/headers';
+import { headers, type UnsafeUnwrappedHeaders } from 'next/headers';
 
 export function getCurrentUrl() {
-  return new URL(headers().get('x-gw2t-real-url')!);
+  return new URL((headers() as unknown as UnsafeUnwrappedHeaders).get('x-gw2t-real-url')!);
 }
 
 /**

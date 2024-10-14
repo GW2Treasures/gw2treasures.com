@@ -45,7 +45,13 @@ const getReview = async function getReview(id: string) {
 
 type ReviewContainerContentPageProps = PageProps<{ id: string }>;
 
-export default async function ReviewMysticForgePage({ params: { id }}: ReviewContainerContentPageProps) {
+export default async function ReviewMysticForgePage(props: ReviewContainerContentPageProps) {
+  const params = await props.params;
+
+  const {
+    id
+  } = params;
+
   const { item, review } = await getReview(id);
   const { recipeId, outputCountMin, outputCountMax, ingredients } = review.changes as unknown as SubmitEditMysticForgeOrder;
 
@@ -69,7 +75,7 @@ export default async function ReviewMysticForgePage({ params: { id }}: ReviewCon
   const canReview = user && review.state === 'Open' && (review.requesterId !== user.id || user.roles.includes('Admin'));
 
   return (
-    <HeroLayout hero={<Headline id="queue">Review Mystic Forge</Headline>} color="#3f51b5">
+    (<HeroLayout hero={<Headline id="queue">Review Mystic Forge</Headline>} color="#3f51b5">
       {review.state !== 'Open' && (
         <Notice icon="review-queue">This change was already {review.state === 'Approved' ? 'approved' : 'rejected'} by <b>{review.reviewer?.name ?? 'Unknown User'}</b> on <FormatDate date={review.reviewedAt}/></Notice>
       )}
@@ -97,11 +103,11 @@ export default async function ReviewMysticForgePage({ params: { id }}: ReviewCon
             </tr>
             {ingredients.map((ingredient, index) => (
               // eslint-disable-next-line react/no-array-index-key
-              <tr key={index} style={{ background: recipe && (recipe.itemIngredients[index].itemId !== ingredient.itemId || recipe.itemIngredients[index].count !== ingredient.count) ? '#ffc10722' : undefined }}>
+              (<tr key={index} style={{ background: recipe && (recipe.itemIngredients[index].itemId !== ingredient.itemId || recipe.itemIngredients[index].count !== ingredient.count) ? '#ffc10722' : undefined }}>
                 <th>Ingredient {index + 1}</th>
                 {recipe && (<td><OutputCount count={recipe.itemIngredients[index].count}><ItemLink item={recipe.itemIngredients[index].Item}/></OutputCount></td>)}
                 <th><OutputCount count={ingredient.count}><ItemLink item={ingredientItems.find(({ id }) => ingredient.itemId === id)!}/></OutputCount></th>
-              </tr>
+              </tr>)
             ))}
           </tbody>
         </Table>
@@ -119,12 +125,19 @@ export default async function ReviewMysticForgePage({ params: { id }}: ReviewCon
           <Button type="submit" disabled={!canReview} name="action" value="reject" icon="cancel">Reject</Button>
         </FlexRow>
       </Form>
-    </HeroLayout>
+    </HeroLayout>)
   );
 }
 
 
-export async function generateMetadata({ params: { id, language }}: ReviewContainerContentPageProps) {
+export async function generateMetadata(props: ReviewContainerContentPageProps) {
+  const params = await props.params;
+
+  const {
+    id,
+    language
+  } = params;
+
   const { item } = await getReview(id);
 
   return {

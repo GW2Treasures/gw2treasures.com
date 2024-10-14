@@ -5,9 +5,9 @@ const path = require('path');
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
-    outputFileTracingRoot: path.join(__dirname, '../../'),
     reactCompiler: true,
   },
+  outputFileTracingRoot: path.join(__dirname, '../../'),
   eslint: {
     ignoreDuringBuilds: !!process.env.SKIP_LINT
   },

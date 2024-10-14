@@ -12,6 +12,6 @@ export async function GET(request: NextRequest) {
     await db.userSession.deleteMany({ where: { id: sessionId }});
   }
 
-  cookies().delete(authCookie('', getCurrentUrl().protocol === 'https:'));
+  (await cookies()).delete(authCookie('', getCurrentUrl().protocol === 'https:'));
   return redirect('/login?logout');
 }

@@ -47,7 +47,13 @@ async function getData(hours: number) {
   return { total: apiRequests.length, errors, endpoints, statusCodes, apiRequests };
 }
 
-export default async function StatusApiPage({ searchParams: { period }}: PageProps) {
+export default async function StatusApiPage(props: PageProps) {
+  const searchParams = await props.searchParams;
+
+  const {
+    period
+  } = searchParams;
+
   const hours = availablePeriods.find(({ value }) => value === period)?.hours ?? 24;
 
   const { endpoints, errors, total, statusCodes } = await getData(hours);
@@ -135,15 +141,15 @@ function createRequestCountGraph(requests: ApiRequest[]) {
   }, {} as { min?: number, max?: number, total?: number });
 
   return (
-    <svg height={16} width={128} className={styles.graph} data-max={max} data-avg={(total ?? 0) / buckets.length}>
+    (<svg height={16} width={128} className={styles.graph} data-max={max} data-avg={(total ?? 0) / buckets.length}>
       {buckets.map(([success, error], index) => (
         // eslint-disable-next-line react/no-array-index-key
-        <Fragment key={index}>
+        (<Fragment key={index}>
           <rect x={index * 4} width={2} y={16 - Math.ceil((success / (max ?? 1)) * 16)} height={Math.ceil((success / (max ?? 1)) * 16)} data-value={success} fill="#009f2c"/>
           <rect x={index * 4} width={2} y={16 - Math.ceil((success / (max ?? 1)) * 16) - Math.ceil((error / (max ?? 1)) * 16)} height={Math.ceil((error / (max ?? 1)) * 16)} data-value={success} fill="#ff0000"/>
-        </Fragment>
+        </Fragment>)
       ))}
-    </svg>
+    </svg>)
   );
 }
 

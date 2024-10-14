@@ -24,7 +24,8 @@ export default function HomesteadLayout({ children }: LayoutProps) {
   );
 }
 
-export function generateMetadata({ params }: LayoutProps): Metadata {
+export async function generateMetadata(props: LayoutProps): Promise<Metadata> {
+  const params = await props.params;
   return {
     title: {
       template: `${translate('navigation.homestead', params.language)}: %s`,

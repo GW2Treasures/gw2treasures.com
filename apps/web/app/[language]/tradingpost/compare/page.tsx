@@ -12,7 +12,13 @@ import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import type { PageProps } from '@/lib/next';
 
-export default async function TradingpostChartsPage({ searchParams: { ids = [] }}: PageProps) {
+export default async function TradingpostChartsPage(props: PageProps) {
+  const searchParams = await props.searchParams;
+
+  const {
+    ids = []
+  } = searchParams;
+
   const itemIds = (Array.isArray(ids) ? ids : [ids])
     .flatMap((rawIds) => rawIds.split(','))
     .map(Number)

@@ -6,11 +6,11 @@ import type { ReactNode } from 'react';
 type Params = Record<string, string | string[] | undefined>;
 
 export interface PageProps<P extends Params = {}> {
-  params: P & { language: Language },
+  params: Promise<P & { language: Language }>,
   searchParams: SearchParams,
 }
 
 export interface LayoutProps<P extends Params = {}> {
-  params: P & { language: Language },
+  params: Promise<P & { language: Language }>,
   children: ReactNode,
 }

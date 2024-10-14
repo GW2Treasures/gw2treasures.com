@@ -45,7 +45,8 @@ const getReview = async function getReview(id: string) {
 
 type ReviewContainerContentPageProps = PageProps<{ id: string }>;
 
-export default async function ReviewMysticForgePage({ params: { id }}: ReviewContainerContentPageProps) {
+export default async function ReviewMysticForgePage({ params }: ReviewContainerContentPageProps) {
+  const { id } = await params;
   const { item, review } = await getReview(id);
   const { recipeId, outputCountMin, outputCountMax, ingredients } = review.changes as unknown as SubmitEditMysticForgeOrder;
 
@@ -124,7 +125,8 @@ export default async function ReviewMysticForgePage({ params: { id }}: ReviewCon
 }
 
 
-export async function generateMetadata({ params: { id, language }}: ReviewContainerContentPageProps) {
+export async function generateMetadata({ params }: ReviewContainerContentPageProps) {
+  const { language, id } = await params;
   const { item } = await getReview(id);
 
   return {

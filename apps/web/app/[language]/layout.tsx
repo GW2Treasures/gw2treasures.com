@@ -9,13 +9,13 @@ import { Bitter } from 'next/font/google';
 import localFont from 'next/font/local';
 import { cx } from '@gw2treasures/ui';
 import { I18nProvider } from '@/components/I18n/I18nProvider';
-import type { Language } from '@gw2treasures/database';
 import { ItemTableContext } from '@/components/ItemTable/ItemTableContext';
 import { Gw2ApiProvider } from '@/components/Gw2Api/Gw2ApiProvider';
 import { UserProvider } from '@/components/User/UserProvider';
 import { DataTableContext } from '@gw2treasures/ui/components/Table/DataTableContext';
 import { Gw2AccountSubscriptionProvider } from '@/components/Gw2Api/Gw2AccountSubscriptionProvider';
 import type { ReactNode } from 'react';
+import type { LayoutProps } from '@/lib/next';
 
 const bitter = Bitter({
   subsets: ['latin'],
@@ -31,30 +31,24 @@ const wotfard = localFont({
   variable: '--font-wotfard',
 });
 
-export default function RootLayout({
-  children,
-  modal,
-  params,
-}: {
-  children: ReactNode;
-  modal?: ReactNode;
-  params: { language: Language; };
-}) {
+export default async function RootLayout({ children, modal, params }: LayoutProps & { modal?: ReactNode }) {
+  const { language } = await params;
+
   return (
-    <html lang={params.language} className={cx(bitter.variable, wotfard.variable)}>
+    <html lang={language} className={cx(bitter.variable, wotfard.variable)}>
       <head>
         <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#b7000d"/>
         <meta httpEquiv="origin-trial" content="AjYEGXQiv6Eh2jKsaJ42xEdyFjlIDI61UGOalti/W3vhl/QeG+cG4lMCAJwG78ffAB+12o6iKL8kSfAtUmaMVAkAAAByeyJvcmlnaW4iOiJodHRwczovL2d3MnRyZWFzdXJlcy5jb206NDQzIiwiZmVhdHVyZSI6IldlYkFwcFNjb3BlRXh0ZW5zaW9ucyIsImV4cGlyeSI6MTcxOTM1OTk5OSwiaXNTdWJkb21haW4iOnRydWV9"/>
       </head>
       <body>
-        <I18nProvider language={params.language}>
+        <I18nProvider language={language}>
           <FormatProvider>
             <ItemTableContext global id="global">
               <DataTableContext>
                 <UserProvider>
                   <Gw2ApiProvider>
                     <Gw2AccountSubscriptionProvider>
-                      <Layout language={params.language}>{children}</Layout>
+                      <Layout language={language}>{children}</Layout>
                       {modal}
                     </Gw2AccountSubscriptionProvider>
                   </Gw2ApiProvider>

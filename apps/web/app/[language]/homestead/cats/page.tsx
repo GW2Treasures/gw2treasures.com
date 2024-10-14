@@ -43,11 +43,13 @@ export default function HomesteadCatsPage() {
   );
 }
 
-export function generateMetadata({ params }: PageProps): Metadata {
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { language } = await params;
+
   return {
-    title: translate('homestead.cats', params.language),
-    description: translate('homestead.cats.description', params.language),
-    alternates: getAlternateUrls('/homestead/cats')
+    title: translate('homestead.cats', language),
+    description: translate('homestead.cats.description', language),
+    alternates: getAlternateUrls('/homestead/cats', language)
   };
 }
 

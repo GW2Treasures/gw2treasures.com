@@ -73,7 +73,8 @@ export default function FractalsPage({ searchParams: { tier: rawTier, date: rawD
   );
 }
 
-export function generateMetadata({ searchParams: { tier, date }, params: { language }}: PageProps) {
+export async function generateMetadata({ searchParams: { tier, date }, params }: PageProps) {
+  const { language } = await params;
   const t = getTranslate(language);
 
   return {

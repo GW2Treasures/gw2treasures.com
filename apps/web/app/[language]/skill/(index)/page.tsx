@@ -27,7 +27,8 @@ const getSkills = cache(async (language: Language) => {
   return { recentlyAdded, recentlyUpdated };
 }, ['skills'], { revalidate: 60 });
 
-export default async function SkillPage({ params: { language }}: PageProps) {
+export default async function SkillPage({ params }: PageProps) {
+  const { language } = await params;
   const { recentlyAdded, recentlyUpdated } = await getSkills(language);
 
   return (

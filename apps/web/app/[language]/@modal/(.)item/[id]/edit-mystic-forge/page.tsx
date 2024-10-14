@@ -5,8 +5,9 @@ import type { EditMysticForgePageProps } from 'app/[language]/item/[id]/edit-mys
 import { Suspense } from 'react';
 
 
-export default function EditMysticForgePage({ params, searchParams }: EditMysticForgePageProps) {
-  const outputItemId = Number(params.id);
+export default async function EditMysticForgePage({ params, searchParams }: EditMysticForgePageProps) {
+  const { id } = await params;
+  const outputItemId = Number(id);
 
   return (
     <Modal title={searchParams.recipe ? 'Edit Mystic Forge Recipe' : 'Add Mystic Forge Recipe'}>

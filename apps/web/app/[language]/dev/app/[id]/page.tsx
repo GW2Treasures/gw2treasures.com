@@ -36,7 +36,8 @@ async function getApplication(id: string) {
 
 type DevAppPageProps = PageProps<{ id: string }>;
 
-export default async function DevAppPage({ params: { id }}: DevAppPageProps) {
+export default async function DevAppPage({ params }: DevAppPageProps) {
+  const { id } = await params;
   const application = await getApplication(id);
 
   return (
@@ -101,7 +102,8 @@ export default async function DevAppPage({ params: { id }}: DevAppPageProps) {
 }
 
 
-export async function generateMetadata({ params: { id }}: DevAppPageProps) {
+export async function generateMetadata({ params }: DevAppPageProps) {
+  const { id } = await params;
   const application = getApplication(id);
 
   if(!application) {

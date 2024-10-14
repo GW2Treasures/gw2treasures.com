@@ -47,7 +47,9 @@ const getSkin = cache(async (id: number, language: Language) => {
 
 type SkinPageProps = PageProps<{ id: string }>;
 
-async function SkinPage ({ params: { language, id }}: SkinPageProps) {
+async function SkinPage ({ params }: SkinPageProps) {
+  const { language, id } = await params;
+
   const skinId: number = Number(id);
 
   const { skin, revision, similar } = await getSkin(skinId, language);
@@ -115,7 +117,9 @@ async function SkinPage ({ params: { language, id }}: SkinPageProps) {
 
 export default SkinPage;
 
-export async function generateMetadata({ params: { language, id }}: SkinPageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: SkinPageProps): Promise<Metadata> {
+  const { language, id } = await params;
+
   const skinId: number = Number(id);
   const { skin } = await getSkin(skinId, language);
 

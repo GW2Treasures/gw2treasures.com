@@ -30,7 +30,8 @@ const getColors = unstable_cache((language: Language) => {
 }, ['get-colors']);
 
 export default async function ColorPage({ params }: PageProps) {
-  const colors = await getColors(params.language);
+  const { language } = await params;
+  const colors = await getColors(language);
 
   return (
     <HeroLayout hero={<Headline id="colors">Colors</Headline>} color="#f9a825">
@@ -50,7 +51,7 @@ export default async function ColorPage({ params }: PageProps) {
             return (
               <tr key={color.id}>
                 <td align="right">{color.id}</td>
-                <td>{localizedName(color, params.language)}</td>
+                <td>{localizedName(color, language)}</td>
                 <td>
                   <ItemList singleColumn>
                     {color.unlockedByItems.map((item) => (

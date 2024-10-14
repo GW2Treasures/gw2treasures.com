@@ -24,7 +24,8 @@ const getUncategorizedAchievements = cache(async () => {
   return { achievements };
 }, ['uncategorized-achievements'], { revalidate: 60 });
 
-async function AchievementUncategorizedPage({ params: { language }}: PageProps) {
+async function AchievementUncategorizedPage({ params }: PageProps) {
+  const { language } = await params;
   const { achievements } = await getUncategorizedAchievements();
 
   const UncategorizedAchievements = createDataTable(achievements, ({ id }) => id);

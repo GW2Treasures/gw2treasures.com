@@ -28,7 +28,8 @@ const getItems = cache(async (language: Language) => {
   return { recentlyAdded, recentlyUpdated };
 }, ['items'], { revalidate: 60 });
 
-export default async function ItemPage({ params: { language }}: PageProps) {
+export default async function ItemPage({ params }: PageProps) {
+  const { language } = await params;
   const { recentlyAdded, recentlyUpdated } = await getItems(language);
   pageView('item');
 

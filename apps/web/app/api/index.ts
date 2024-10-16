@@ -30,7 +30,7 @@ export function publicApi<DynamicRouteSegments extends string = never, ResponseT
   { maxAge = 60 }: { maxAge?: number } = {}
 ): (
   request: NextRequest,
-  context: { params: Record<DynamicRouteSegments, string> }
+  context: { params: Promise<Record<DynamicRouteSegments, string>> }
 ) => Promise<NextResponse<ResponseType | PublicApiErrorResponse>>
 {
   return async (request, { params }) => {
@@ -80,7 +80,7 @@ export function publicApi<DynamicRouteSegments extends string = never, ResponseT
       const searchParamsAsObject = Object.fromEntries(searchParams);
 
       // TODO: add global cache here instead of caching inside the callback?
-      const response = await callback({ params, searchParams: searchParamsAsObject, language });
+      const response = await callback({ params: await params, searchParams: searchParamsAsObject, language });
 
       if(isPublicApiErrorResponse(response)) {
         return NextResponse.json(response, {

@@ -1,9 +1,10 @@
-import { NextRequest } from 'next/server';
 import { pageSize, sitemaps } from '../../sitemaps';
 import { notFound } from 'next/navigation';
-import type { Language } from '@gw2treasures/database';
+import type { RouteHandler } from '@/lib/next';
 
-export async function GET(_: NextRequest, { params: { language, type, page }}: { params: { language: Language, type: string, page: string }}) {
+export const GET: RouteHandler<{ type: string, page: string }> = async (_, { params }) => {
+  const { language, type, page } = await params;
+
   if(!(type in sitemaps)) {
     notFound();
   }
@@ -33,4 +34,4 @@ export async function GET(_: NextRequest, { params: { language, type, page }}: {
       'content-type': 'application/xml; charset=utf8'
     }
   });
-}
+};

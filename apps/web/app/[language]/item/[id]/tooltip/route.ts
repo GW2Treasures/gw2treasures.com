@@ -1,10 +1,11 @@
 import { notFound } from 'next/navigation';
 import { db } from '@/lib/prisma';
 import type { Language } from '@gw2treasures/database';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { createTooltip } from '@/components/Item/ItemTooltip';
 import type { Gw2Api } from 'gw2-api-types';
 import { cache } from '@/lib/cache';
+import type { RouteHandler } from '@/lib/next';
 
 const getItemRevision = cache(function (id: number, language: Language, revisionId?: string) {
   return revisionId
@@ -12,7 +13,8 @@ const getItemRevision = cache(function (id: number, language: Language, revision
     : db.revision.findFirst({ where: { [`currentItem_${language}`]: { id }}});
 }, ['item-tooltip'], { revalidate: 60 });
 
-export async function GET(request: NextRequest, { params: { language, id }}: { params: { language: Language, id: string }}) {
+export const GET: RouteHandler<{ id: string }> = async (request, { params }) => {
+  const { language, id } = await params;
   const itemId = Number(id);
 
   const { searchParams } = new URL(request.url);
@@ -30,4 +32,4 @@ export async function GET(request: NextRequest, { params: { language, id }}: { p
   return NextResponse.json(tooltip, {
     headers: { 'cache-control': 'public, max-age=3600', 'Vary': 'Origin' }
   });
-}
+};

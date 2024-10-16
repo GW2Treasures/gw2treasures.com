@@ -58,7 +58,7 @@ export async function GET(request: NextRequest) {
     if(existingSession) {
       if(existingSession.id === userId) {
         // the existing session was for the same user and we can reuse it
-        redirect(getReturnToUrlFromCookie());
+        redirect(await getReturnToUrlFromCookie());
       } else {
         // just logged in with a different user - lets delete the old session
         await db.userSession.delete({ where: { id: existingSession.sessionId }});
@@ -75,8 +75,8 @@ export async function GET(request: NextRequest) {
     const session = await db.userSession.create({ data: { info: sessionName, userId }});
 
     // send response with session cookie
-    cookies().set(authCookie(session.id, callbackUrl.protocol === 'https:'));
-    redirect(getReturnToUrlFromCookie());
+    (await cookies()).set(authCookie(session.id));
+    redirect(await getReturnToUrlFromCookie());
   } catch(error) {
     if(isRedirectError(error) || isNotFoundError(error)) {
       throw error;

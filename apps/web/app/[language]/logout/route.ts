@@ -1,7 +1,6 @@
 import { NextRequest } from 'next/server';
 import { db } from '@/lib/prisma';
 import { SessionCookieName, authCookie } from '@/lib/auth/cookie';
-import { getCurrentUrl } from '@/lib/url';
 import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
 
@@ -12,7 +11,6 @@ export async function GET(request: NextRequest) {
     await db.userSession.deleteMany({ where: { id: sessionId }});
   }
 
-  const currentUrl = await getCurrentUrl();
-  cookies().delete(authCookie('', currentUrl.protocol === 'https:'));
+  (await cookies()).delete(authCookie(''));
   return redirect('/login?logout');
 }

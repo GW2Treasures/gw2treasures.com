@@ -4,7 +4,7 @@ const baseDomain = process.env.GW2T_NEXT_DOMAIN;
 
 export const SessionCookieName = 'gw2t-session';
 
-export function authCookie(value: string, secure: boolean): ResponseCookie {
+export function authCookie(value: string): ResponseCookie {
   return {
     name: SessionCookieName,
     value,
@@ -14,7 +14,6 @@ export function authCookie(value: string, secure: boolean): ResponseCookie {
     httpOnly: true,
     priority: 'high',
     path: '/',
-    // TODO: always true
-    secure,
+    secure: true,
   };
 }

@@ -1,8 +1,9 @@
 import { NextRequest } from 'next/server';
 import { pageSize, sitemaps } from '../../sitemaps';
 import { notFound } from 'next/navigation';
+import type { Language } from '@gw2treasures/database';
 
-export async function GET(_: NextRequest, { params: { type, page }}: { params: { type: string, page: string }}) {
+export async function GET(_: NextRequest, { params: { language, type, page }}: { params: { language: Language, type: string, page: string }}) {
   if(!(type in sitemaps)) {
     notFound();
   }
@@ -13,7 +14,7 @@ export async function GET(_: NextRequest, { params: { type, page }}: { params: {
     notFound();
   }
 
-  const entries = await sitemaps[type].getEntries(pageSize * currentPage, pageSize);
+  const entries = await sitemaps[type].getEntries(language, pageSize * currentPage, pageSize);
 
   const sitemapXml = entries
     .map((entry) => {

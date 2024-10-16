@@ -49,10 +49,12 @@ export default async function LoginPage({ searchParams }: PageProps) {
   );
 }
 
-export function generateMetadata(): Metadata {
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { language } = await params;
+
   return {
     title: 'Login',
-    alternates: getAlternateUrls('/login'),
+    alternates: getAlternateUrls('/login', language),
   };
 }
 

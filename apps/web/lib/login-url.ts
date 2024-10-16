@@ -15,9 +15,11 @@ export async function getLoginUrlWithReturnTo(scopes?: Scope[]) {
   return `/login?${parameters.toString()}`;
 }
 
-export function getReturnToUrlFromCookie(): string {
-  const cookie = cookies().get('RETURN_TO');
-  cookies().delete('RETURN_TO');
+export async function getReturnToUrlFromCookie(): Promise<string> {
+  const cookieStore = await cookies();
+
+  const cookie = cookieStore.get('RETURN_TO');
+  cookieStore.delete('RETURN_TO');
 
   return getReturnToUrl(cookie?.value);
 }
@@ -40,8 +42,8 @@ export async function setReturnToUrlCookie(returnTo?: string) {
 
   const currentUrl = await getCurrentUrl();
 
-  cookies().set('RETURN_TO', returnTo, {
-    secure: currentUrl.protocol === 'https:',
+  (await cookies()).set('RETURN_TO', returnTo, {
+    secure: true,
     domain: currentUrl.hostname,
     path: '/auth/callback',
     httpOnly: true,

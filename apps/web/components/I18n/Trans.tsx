@@ -1,6 +1,6 @@
 import 'server-only';
 
-import { translate, type TranslationId } from '@/lib/translate';
+import { getLanguage, translate, type TranslationId } from '@/lib/translate';
 import type { FC } from 'react';
 import type { Language } from '@gw2treasures/database';
 
@@ -10,7 +10,8 @@ export interface TransProps {
 }
 
 export const Trans: FC<TransProps> = async ({ id, language }) => {
-  const translation = await translate(id, language);
+  language ??= await getLanguage();
+  const translation = translate(id, language);
 
   return <>{translation}</>;
 };

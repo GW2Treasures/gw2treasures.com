@@ -5,7 +5,7 @@ import { NextResponse } from 'next/server';
 const baseDomain = process.env.GW2T_NEXT_DOMAIN!;
 
 export async function GET() {
-  const language = getLanguage();
+  const language = await getLanguage();
 
   const documentation = await getCurrentUrl();
   documentation.hostname = baseDomain;

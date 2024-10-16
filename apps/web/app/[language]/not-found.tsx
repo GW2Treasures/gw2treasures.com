@@ -3,8 +3,8 @@ import { getLanguage } from '@/lib/translate';
 import Link from 'next/link';
 import { HeroLayout } from '@/components/Layout/HeroLayout';
 
-export default function NotFound() {
-  const language = getLanguage();
+export default async function NotFound() {
+  const language = await getLanguage();
   const legacy = `https://${language}.legacy.gw2treasures.com/`;
 
   return (

@@ -5,7 +5,6 @@ const path = require('path');
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
-    outputFileTracingRoot: path.join(__dirname, '../../'),
     reactCompiler: true,
   },
   eslint: {
@@ -18,6 +17,7 @@ const nextConfig = {
     { source: '/wizardsvault', destination: '/wizards-vault', permanent: true },
     { source: '/homestead', destination: '/homestead/nodes', permanent: true },
   ],
+  outputFileTracingRoot: path.join(__dirname, '../../'),
   transpilePackages: ['@gw2treasures/ui'],
   output: 'standalone',
 };

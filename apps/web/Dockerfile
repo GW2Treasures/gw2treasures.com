@@ -63,7 +63,6 @@ WORKDIR /app
 RUN addgroup --system --gid 1001 nodejs \
   && adduser --system --uid 1001 nextjs
 
-COPY --link --from=builder /app/apps/web/next.config.js .
 COPY --link --from=builder /app/apps/web/package.json .
 
 # Automatically leverage output traces to reduce image size

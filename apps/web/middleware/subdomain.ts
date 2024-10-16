@@ -23,5 +23,9 @@ export const subdomainMiddleware: NextMiddleware = (request, next, data) => {
   const subdomain = validSubdomains.find((subdomain) => url.hostname === `${subdomain}.${baseDomain}`);
   data.subdomain = subdomain;
 
+  if(!subdomain) {
+    console.error('Unknown domain', url.hostname);
+  }
+
   return next(request);
 };

@@ -1,9 +1,7 @@
-// next.js does not support next.config.js as module, so we can't use import
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const path = require('path');
+import type { NextConfig } from 'next';
+import path from 'path';
 
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+const nextConfig: NextConfig = {
   experimental: {
     reactCompiler: true,
   },
@@ -13,13 +11,13 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: !!process.env.SKIP_TYPES
   },
-  redirects: () => [
+  redirects: () => Promise.resolve([
     { source: '/wizardsvault', destination: '/wizards-vault', permanent: true },
     { source: '/homestead', destination: '/homestead/nodes', permanent: true },
-  ],
+  ]),
   outputFileTracingRoot: path.join(__dirname, '../../'),
   transpilePackages: ['@gw2treasures/ui'],
   output: 'standalone',
 };
 
-module.exports = nextConfig;
+export default nextConfig;

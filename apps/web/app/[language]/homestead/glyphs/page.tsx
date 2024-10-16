@@ -61,7 +61,7 @@ export default async function HomesteadGlyphsPage({ params }: PageProps) {
     'homestead.glyphs.slot.harvesting',
     'homestead.glyphs.slot.logging',
     'homestead.glyphs.slot.mining'
-  ]);
+  ], language);
 
   return (
     <>

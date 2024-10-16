@@ -24,9 +24,7 @@ const getDictionary = (language: Language): Record<TranslationId, string> => {
   }
 };
 
-export function getTranslate(language?: Language) {
-  language ??= getLanguage();
-
+export function getTranslate(language: Language) {
   const messages = getDictionary(language);
 
   return (id: TranslationId) => {
@@ -34,20 +32,20 @@ export function getTranslate(language?: Language) {
   };
 }
 
-export function translate(id: TranslationId, language?: Language) {
+export function translate(id: TranslationId, language: Language) {
   const translate = getTranslate(language);
 
   return translate(id);
 }
 
-export function translateMany<T extends TranslationId>(ids: T[], language?: Language): TranslationSubset<T> {
+export function translateMany<T extends TranslationId>(ids: T[], language: Language): TranslationSubset<T> {
   const translate = getTranslate(language);
 
   return Object.fromEntries(ids.map((id) => [id, translate(id)])) as TranslationSubset<T>;
 }
 
-export function getLanguage() {
-  const language = headers().get('x-gw2t-lang') as Language;
+export async function getLanguage() {
+  const language = (await headers()).get('x-gw2t-lang') as Language;
 
   return language;
 }

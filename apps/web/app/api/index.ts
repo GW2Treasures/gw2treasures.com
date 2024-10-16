@@ -71,7 +71,7 @@ export function publicApi<DynamicRouteSegments extends string = never, ResponseT
         }
       });
 
-      const language = getLanguage();
+      const language = await getLanguage();
 
       const searchParams = request.nextUrl.searchParams;
       searchParams.delete('apiKey');

@@ -8,7 +8,7 @@ import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { ColumnSelect } from '../Table/ColumnSelect';
 import { ItemType } from '../Item/ItemType';
 import { translations as itemTypeTranslations, type TypeTranslation } from '@/components/Item/ItemType.translations';
-import { translateMany } from '@/lib/translate';
+import { getLanguage, translateMany } from '@/lib/translate';
 import type { Weight } from '@/lib/types/weight';
 import type { LocalizedEntity } from '@/lib/localizedName';
 import { Gw2AccountBodyCells, Gw2AccountHeaderCells } from '../Gw2Api/Gw2AccountTableCells';
@@ -28,7 +28,8 @@ export interface SkinTableProps {
   headlineId?: string;
 }
 
-export const SkinTable: FC<SkinTableProps> = ({ skins, headline, headlineId }) => {
+export const SkinTable: FC<SkinTableProps> = async ({ skins, headline, headlineId }) => {
+  const language = await getLanguage();
   const Skins = createDataTable(skins, ({ id }) => id);
   const anySkinHasWeight = skins.some(({ weight }) => weight !== null);
 
@@ -41,7 +42,7 @@ export const SkinTable: FC<SkinTableProps> = ({ skins, headline, headlineId }) =
       <Skins.Table>
         <Skins.Column id="id" title={<Trans id="itemTable.column.id"/>} align="right" small hidden sortBy="id">{({ id }) => id}</Skins.Column>
         <Skins.Column id="skin" title="Skin">{(skin) => <SkinLink skin={skin}/>}</Skins.Column>
-        <Skins.Column id="type" title={<Trans id="itemTable.column.type"/>} sortBy="type">{(skin) => <ItemType display="long" type={skin.type as Type} subtype={skin.subtype as SubType<Type>} translations={translateMany(itemTypeTranslations.long) as unknown as Record<TypeTranslation<Type, SubType<Type>>, string>}/>}</Skins.Column>
+        <Skins.Column id="type" title={<Trans id="itemTable.column.type"/>} sortBy="type">{(skin) => <ItemType display="long" type={skin.type as Type} subtype={skin.subtype as SubType<Type>} translations={translateMany(itemTypeTranslations.long, language) as unknown as Record<TypeTranslation<Type, SubType<Type>>, string>}/>}</Skins.Column>
         <Skins.Column id="weight" title="Weight" hidden={!anySkinHasWeight} sortBy="weight">{({ weight }) => weight ? <Trans id={`weight.${weight as Weight}`}/> : <span style={{ color: 'var(--color-text-muted)' }}>-</span>}</Skins.Column>
         <Skins.Column id="unlocks" title="Unlocks" hidden align="right" sortBy="unlocks">{({ unlocks }) => <FormatNumber value={unlocks !== null ? Math.round(unlocks * 1000) / 10 : null} unit="%"/>}</Skins.Column>
         <Skins.DynamicColumns headers={<Gw2AccountHeaderCells requiredScopes={requiredScopes} small/>}>

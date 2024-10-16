@@ -26,8 +26,8 @@ export interface RecipeTableProps {
   }>[]
 }
 
-export const RecipeTable: FC<RecipeTableProps> = ({ recipes }) => {
-  const language = getLanguage();
+export const RecipeTable: FC<RecipeTableProps> = async ({ recipes }) => {
+  const language = await getLanguage();
 
   const Recipes = createDataTable(recipes, (recipe) => recipe.id);
 

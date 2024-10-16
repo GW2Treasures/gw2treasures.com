@@ -15,9 +15,11 @@ import { getTranslate } from '@/lib/translate';
 import { PageView } from '@/components/PageView/PageView';
 import { Switch } from '@gw2treasures/ui/components/Form/Switch';
 import type { PageProps } from '@/lib/next';
+import type { Language } from '@gw2treasures/database';
 
 
-export default async function FractalsPage({ searchParams }: PageProps) {
+export default async function FractalsPage({ params, searchParams }: PageProps) {
+  const { language } = await params;
   const { tier: rawTier, date: rawDate } = await searchParams;
   const { fractals, daily, recommended } = data;
 
@@ -40,7 +42,7 @@ export default async function FractalsPage({ searchParams }: PageProps) {
 
   const Fractals = createDataTable(foo, ({ level }) => level);
 
-  const t = getTranslate();
+  const t = getTranslate(language);
 
   return (
     <HeroLayout hero={<Headline id="fractals"><Trans id="fractals"/></Headline>}>
@@ -65,7 +67,7 @@ export default async function FractalsPage({ searchParams }: PageProps) {
         <Fractals.Column id="level" title={t('fractals.level')} align="right" sortBy="level" small>{({ level }) => <FormatNumber value={level}/>}</Fractals.Column>
         <Fractals.Column id="name" title={t('fractal')} sortBy="type">{({ type }) => <Trans id={`fractal.${type as 'lonely_tower'}`}/>}</Fractals.Column>
         <Fractals.Column id="daily" title={t('fractals.daily')} sortBy={({ isDaily, isRecommended }) => isDaily ? 1 : isRecommended ? 2 : 3}>{({ isDaily, isRecommended }) => [isDaily && t('fractals.daily'), isRecommended && t('fractals.recommended')].filter(isTruthy).join(', ')}</Fractals.Column>
-        <Fractals.Column id="instabilities" title={t('fractals.instabilities')}>{({ level }) => <Instabilities level={level} dayOfYearIndex={dayOfYearIndex}/>}</Fractals.Column>
+        <Fractals.Column id="instabilities" title={t('fractals.instabilities')}>{({ level }) => <Instabilities level={level} dayOfYearIndex={dayOfYearIndex} language={language}/>}</Fractals.Column>
         <Fractals.Column id="ar" title={t('fractals.agony')} align="right" sortBy="ar" small>{({ ar }) => <FormatNumber value={ar}/>}</Fractals.Column>
       </Fractals.Table>
 
@@ -85,9 +87,9 @@ export async function generateMetadata({ searchParams, params }: PageProps) {
   };
 }
 
-const Instabilities = ({ level, dayOfYearIndex }: { level: number, dayOfYearIndex: number }) => {
+const Instabilities = ({ level, dayOfYearIndex, language }: { level: number, dayOfYearIndex: number, language: Language }) => {
   const { instabilities } = data;
-  const t = getTranslate();
+  const t = getTranslate(language);
 
   if(level > 75) {
     return (

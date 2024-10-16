@@ -3,8 +3,8 @@ import { Language } from '@gw2treasures/database';
 import type { Metadata } from 'next';
 import { headers } from 'next/headers';
 
-export function getCurrentUrl() {
-  return new URL(headers().get('x-gw2t-real-url')!);
+export async function getCurrentUrl() {
+  return new URL((await headers()).get('x-gw2t-real-url')!);
 }
 
 /**
@@ -36,8 +36,8 @@ export function getUrlFromRequest(request: Request) {
   return url;
 }
 
-export function absoluteUrl(href: string) {
-  return new URL(href, getCurrentUrl());
+export async function absoluteUrl(href: string) {
+  return new URL(href, await getCurrentUrl());
 }
 
 const allLanguages = ['x-default', ...Object.values(Language)] as const;

@@ -16,7 +16,9 @@ interface MiniInfoboxProps {
   language: Language;
 }
 
-export const MiniInfobox: FC<MiniInfoboxProps> = ({ mini, language }) => {
+export const MiniInfobox: FC<MiniInfoboxProps> = async ({ mini, language }) => {
+  const currentUrl = await getCurrentUrl();
+
   return (
     <div>
       <LanguageLinks language={language} link={<MiniLink icon="none" mini={mini}/>}/>
@@ -32,7 +34,7 @@ export const MiniInfobox: FC<MiniInfoboxProps> = ({ mini, language }) => {
       <FlexRow wrap>
         <LinkButton appearance="tertiary" flex icon="external" external href={`https://api.guildwars2.com/v2/minis/${mini.id}?v=latest&lang=${language}`} target="api">API</LinkButton>
         <LinkButton appearance="tertiary" flex icon="external" external href={`https://wiki.guildwars2.com/index.php?title=Special%3ASearch&search=${encodeURIComponent(localizedName(mini, language))}&go=Go`} target="wiki">Wiki</LinkButton>
-        <ShareButton appearance="tertiary" flex data={{ title: localizedName(mini, language), url: getCurrentUrl().toString() }}/>
+        <ShareButton appearance="tertiary" flex data={{ title: localizedName(mini, language), url: currentUrl.toString() }}/>
       </FlexRow>
     </div>
   );

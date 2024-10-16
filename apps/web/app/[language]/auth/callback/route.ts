@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
     }
 
     // build callback url
-    const callbackUrl = new URL('/auth/callback', getCurrentUrl());
+    const callbackUrl = new URL('/auth/callback', await getCurrentUrl());
 
     const token = await gw2me.getAccessToken({ code, redirect_uri: callbackUrl.toString() });
     const { user } = await gw2me.api(token.access_token).user();

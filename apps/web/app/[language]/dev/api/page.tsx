@@ -24,8 +24,8 @@ const containerContentsSchema =
   >
 }>`;
 
-export default function DeveloperIconsPage() {
-  const apiUrl = getCurrentUrl();
+export default async function DeveloperIconsPage() {
+  const apiUrl = await getCurrentUrl();
   apiUrl.hostname = `api.${process.env.GW2T_NEXT_DOMAIN}`;
   apiUrl.pathname = '/';
 

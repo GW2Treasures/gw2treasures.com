@@ -8,7 +8,7 @@ export async function GET(_: NextRequest, { params: { type }}: { params: { type:
     notFound();
   }
 
-  const url = getCurrentUrl();
+  const url = await getCurrentUrl();
   url.pathname = '/sitemap';
 
   const sitemapXml = await getSitemapsForType(url.toString())(type);

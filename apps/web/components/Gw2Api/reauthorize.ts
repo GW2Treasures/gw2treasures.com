@@ -10,7 +10,7 @@ import 'server-only';
 export async function reauthorize(requiredScopes: Scope[], prompt?: AuthorizationUrlParams['prompt']) {
 
   // build redirect url
-  const currentUrl = getCurrentUrl();
+  const currentUrl = await getCurrentUrl();
   const redirect_uri = new URL('/auth/callback', currentUrl).toString();
 
   // get scopes
@@ -20,7 +20,7 @@ export async function reauthorize(requiredScopes: Scope[], prompt?: Authorizatio
   const url = gw2me.getAuthorizationUrl({ redirect_uri, scopes, prompt, include_granted_scopes: true });
 
   // add cookie for return
-  setReturnToUrlCookie(currentUrl.pathname);
+  await setReturnToUrlCookie(currentUrl.pathname);
 
   // redirect to gw2.me
   redirect(url);

@@ -60,7 +60,7 @@ async function redirectToGw2Me(returnTo?: string, additionalScopes?: string) {
   'use server';
 
   // build redirect url
-  const redirect_uri = new URL('/auth/callback', getCurrentUrl()).toString();
+  const redirect_uri = new URL('/auth/callback', await getCurrentUrl()).toString();
 
   // get scopes to request from gw2.me
   const scopes = getScopesFromString(additionalScopes);
@@ -69,7 +69,7 @@ async function redirectToGw2Me(returnTo?: string, additionalScopes?: string) {
   const url = gw2me.getAuthorizationUrl({ redirect_uri, scopes, include_granted_scopes: true });
 
   // set cookie with url to return to after auth
-  setReturnToUrlCookie(returnTo);
+  await setReturnToUrlCookie(returnTo);
 
   // redirect to gw2.me
   redirect(url);

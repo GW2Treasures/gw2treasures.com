@@ -20,8 +20,9 @@ interface SkinInfoboxProps {
   language: Language;
 }
 
-export const SkinInfobox: FC<SkinInfoboxProps> = ({ skin, language }) => {
+export const SkinInfobox: FC<SkinInfoboxProps> = async ({ skin, language }) => {
   const chatlink = encode('skin', skin.id);
+  const currentUrl = await getCurrentUrl();
 
   return (
     <div>
@@ -38,7 +39,7 @@ export const SkinInfobox: FC<SkinInfoboxProps> = ({ skin, language }) => {
       <FlexRow wrap>
         <LinkButton appearance="tertiary" flex icon="external" external href={`https://api.guildwars2.com/v2/skins/${skin.id}?v=latest&lang=${language}`} target="api">API</LinkButton>
         <LinkButton appearance="tertiary" flex icon="external" external href={`https://wiki.guildwars2.com/index.php?title=Special%3ASearch&search=${encodeURIComponent(chatlink)}&go=Go`} target="wiki">Wiki</LinkButton>
-        <ShareButton appearance="tertiary" flex data={{ title: localizedName(skin, language), url: getCurrentUrl().toString() }}/>
+        <ShareButton appearance="tertiary" flex data={{ title: localizedName(skin, language), url: currentUrl.toString() }}/>
       </FlexRow>
       {chatlink && <Chatlink chatlink={chatlink}/>}
     </div>

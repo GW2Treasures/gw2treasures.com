@@ -20,7 +20,7 @@ async function getApplication(id: string) {
   const user = await getUser();
 
   if(!user) {
-    redirect(getLoginUrlWithReturnTo());
+    redirect(await getLoginUrlWithReturnTo());
   }
 
   const application = await db.application.findUnique({

@@ -14,6 +14,7 @@ export function authCookie(value: string, secure: boolean): ResponseCookie {
     httpOnly: true,
     priority: 'high',
     path: '/',
+    // TODO: always true
     secure,
   };
 }

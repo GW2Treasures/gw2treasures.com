@@ -12,6 +12,7 @@
     "**/*.ts",
     "**/*.tsx",
     "**/*.js",
+    "**/.well-known/**/*.ts",
     ".next/types/**/*.ts"
   ],
 }

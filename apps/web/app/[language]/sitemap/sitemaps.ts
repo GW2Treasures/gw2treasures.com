@@ -1,5 +1,6 @@
 import { db } from '@/lib/prisma';
 import { getAlternateUrls } from '@/lib/url';
+import type { Language } from '@gw2treasures/database';
 
 interface SitemapEntry {
   url: string | URL;
@@ -12,7 +13,7 @@ interface SitemapEntry {
 
 interface Sitemap {
   getCount(): number | Promise<number>
-  getEntries(skip: number, take: number): SitemapEntry[] | Promise<SitemapEntry[]>
+  getEntries(language: Language, skip: number, take: number): SitemapEntry[] | Promise<SitemapEntry[]>
 }
 
 export const pageSize = 20_000;
@@ -23,10 +24,11 @@ export const sitemaps: Record<string, Sitemap> = {
       return db.item.count();
     },
 
-    async getEntries(skip, take) {
+    async getEntries(language, skip, take) {
       const items = await db.item.findMany({ skip, take, select: { id: true, updatedAt: true }});
 
       return items.map((item) => getEntryForUrl(
+        language,
         `/item/${item.id}`,
         { lastmod: item.updatedAt }
       ));
@@ -38,10 +40,11 @@ export const sitemaps: Record<string, Sitemap> = {
       return db.skill.count();
     },
 
-    async getEntries(skip, take) {
+    async getEntries(language, skip, take) {
       const skills = await db.skill.findMany({ skip, take, select: { id: true, updatedAt: true }});
 
       return skills.map((skill) => getEntryForUrl(
+        language,
         `/skill/${skill.id}`,
         { lastmod: skill.updatedAt }
       ));
@@ -53,10 +56,11 @@ export const sitemaps: Record<string, Sitemap> = {
       return db.achievement.count();
     },
 
-    async getEntries(skip, take) {
+    async getEntries(language, skip, take) {
       const achievements = await db.achievement.findMany({ skip, take, select: { id: true, updatedAt: true }});
 
       return achievements.map((achievement) => getEntryForUrl(
+        language,
         `/achievement/${achievement.id}`,
         { lastmod: achievement.updatedAt }
       ));
@@ -67,10 +71,11 @@ export const sitemaps: Record<string, Sitemap> = {
       return db.achievementCategory.count();
     },
 
-    async getEntries(skip, take) {
+    async getEntries(language, skip, take) {
       const achievementCategories = await db.achievementCategory.findMany({ skip, take, select: { id: true, updatedAt: true }});
 
       return achievementCategories.map((category) => getEntryForUrl(
+        language,
         `/achievement/category/${category.id}`,
         { lastmod: category.updatedAt }
       ));
@@ -81,10 +86,10 @@ export const sitemaps: Record<string, Sitemap> = {
       return db.build.count();
     },
 
-    async getEntries(skip, take) {
+    async getEntries(language, skip, take) {
       const builds = await db.build.findMany({ skip, take, select: { id: true, updatedAt: true }});
 
-      return builds.map((build) => getEntryForUrl(`/build/${build.id}`, { lastmod: build.updatedAt }));
+      return builds.map((build) => getEntryForUrl(language, `/build/${build.id}`, { lastmod: build.updatedAt }));
     }
   },
   'currencies': {
@@ -92,10 +97,10 @@ export const sitemaps: Record<string, Sitemap> = {
       return db.currency.count();
     },
 
-    async getEntries(skip, take) {
+    async getEntries(language, skip, take) {
       const currencies = await db.currency.findMany({ skip, take, select: { id: true, updatedAt: true }});
 
-      return currencies.map((currency) => getEntryForUrl(`/currency/${currency.id}`, { lastmod: currency.updatedAt }));
+      return currencies.map((currency) => getEntryForUrl(language, `/currency/${currency.id}`, { lastmod: currency.updatedAt }));
     }
   },
   'skins': {
@@ -103,10 +108,10 @@ export const sitemaps: Record<string, Sitemap> = {
       return db.skin.count();
     },
 
-    async getEntries(skip, take) {
+    async getEntries(language, skip, take) {
       const skins = await db.skin.findMany({ skip, take, select: { id: true, updatedAt: true }});
 
-      return skins.map((skin) => getEntryForUrl(`/skin/${skin.id}`, { lastmod: skin.updatedAt }));
+      return skins.map((skin) => getEntryForUrl(language, `/skin/${skin.id}`, { lastmod: skin.updatedAt }));
     }
   },
   'minis': {
@@ -114,10 +119,10 @@ export const sitemaps: Record<string, Sitemap> = {
       return db.mini.count();
     },
 
-    async getEntries(skip, take) {
+    async getEntries(language, skip, take) {
       const minis = await db.mini.findMany({ skip, take, select: { id: true, updatedAt: true }});
 
-      return minis.map((mini) => getEntryForUrl(`/minis/${mini.id}`, { lastmod: mini.updatedAt }));
+      return minis.map((mini) => getEntryForUrl(language, `/minis/${mini.id}`, { lastmod: mini.updatedAt }));
     }
   },
   'static': {
@@ -126,7 +131,7 @@ export const sitemaps: Record<string, Sitemap> = {
       return 1;
     },
 
-    getEntries() {
+    getEntries(language) {
       return [
         '/',
         '/about',
@@ -147,13 +152,13 @@ export const sitemaps: Record<string, Sitemap> = {
         '/homestead/materials',
         '/homestead/glyphs',
         '/fractals',
-      ].map((page) => getEntryForUrl(page));
+      ].map((page) => getEntryForUrl(language, page));
     }
   }
 };
 
-function getEntryForUrl(pathname: string, additionalProps: Omit<SitemapEntry, 'url' | 'alternates'> = {}): SitemapEntry {
-  const alternates = getAlternateUrls(pathname);
+function getEntryForUrl(currentLanguage: Language, pathname: string, additionalProps: Omit<SitemapEntry, 'url' | 'alternates'> = {}): SitemapEntry {
+  const alternates = getAlternateUrls(pathname, currentLanguage);
 
   return {
     url: alternates.canonical,

@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: SkillPageProps): Promise<Meta
       images: icon ? [{ url: getIconUrl(icon, 64), width: 64, height: 64, type: 'image/png' }] : []
     },
     twitter: { card: 'summary' },
-    alternates: getAlternateUrls(`/skill/${id}`)
+    alternates: getAlternateUrls(`/skill/${id}`, language)
   };
 }
 

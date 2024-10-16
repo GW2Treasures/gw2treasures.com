@@ -96,6 +96,6 @@ export async function generateMetadata({ params }: MiniPageProps): Promise<Metad
 
   return {
     title: localizedName(mini, language),
-    alternates: getAlternateUrls(`/minis/${id}`)
+    alternates: getAlternateUrls(`/minis/${id}`, language)
   };
 }

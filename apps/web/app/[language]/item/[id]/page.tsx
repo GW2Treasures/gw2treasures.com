@@ -33,6 +33,6 @@ export async function generateMetadata({ params }: ItemPageProps): Promise<Metad
       images: icon ? [{ url: getIconUrl(icon, 64), width: 64, height: 64, type: 'image/png' }] : []
     },
     twitter: { card: 'summary' },
-    alternates: getAlternateUrls(`/item/${id}`)
+    alternates: getAlternateUrls(`/item/${id}`, language)
   };
 }

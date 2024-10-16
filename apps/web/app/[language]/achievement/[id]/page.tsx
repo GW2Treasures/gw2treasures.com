@@ -319,6 +319,6 @@ export async function generateMetadata({ params }: AchievementPageProps): Promis
       images: achievement.icon ? [{ url: getIconUrl(achievement.icon, 64), width: 64, height: 64, type: 'image/png' }] : []
     },
     twitter: { card: 'summary' },
-    alternates: getAlternateUrls(`/achievement/${id}`),
+    alternates: getAlternateUrls(`/achievement/${id}`, language),
   };
 }

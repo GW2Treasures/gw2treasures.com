@@ -1,4 +1,3 @@
-import { getLanguage } from '@/lib/translate';
 import { Language } from '@gw2treasures/database';
 import type { Metadata } from 'next';
 import { headers } from 'next/headers';
@@ -42,10 +41,7 @@ export function absoluteUrl(href: string) {
 
 const allLanguages = ['x-default', ...Object.values(Language)] as const;
 
-export function getAlternateUrls(path: string, currentLanguage?: Language) {
-  // TODO: require `currentLanguage` to be passed in the future
-  currentLanguage ??= getLanguage();
-
+export function getAlternateUrls(path: string, currentLanguage: Language) {
   // build canonical url
   const canonical = new URL(path, getBaseUrl(currentLanguage));
 

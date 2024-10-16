@@ -125,6 +125,6 @@ export async function generateMetadata({ params }: SkinPageProps): Promise<Metad
 
   return {
     title: localizedName(skin, language),
-    alternates: getAlternateUrls(`/skin/${id}`)
+    alternates: getAlternateUrls(`/skin/${id}`, language)
   };
 }

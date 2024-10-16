@@ -7,7 +7,7 @@ type Params = Record<string, string | string[] | undefined>;
 
 export interface PageProps<P extends Params = {}> {
   params: Promise<P & { language: Language }>,
-  searchParams: SearchParams,
+  searchParams: Promise<SearchParams>,
 }
 
 export interface LayoutProps<P extends Params = {}> {

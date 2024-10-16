@@ -59,7 +59,7 @@ export default async function RefinedMaterialsPage({ searchParams }: PageProps) 
   ].map(Number);
   const items = await getItems(allItemIds);
 
-  const efficiencies = getEfficiencies(searchParams);
+  const efficiencies = getEfficiencies(await searchParams);
 
   // map sources to item from db
   const getRefinedMaterialProps = (id: Material): RefinedMaterialProps => {

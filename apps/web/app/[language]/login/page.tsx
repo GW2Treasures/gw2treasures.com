@@ -14,9 +14,10 @@ import { SubmitButton } from '@gw2treasures/ui/components/Form/Buttons/SubmitBut
 import type { PageProps } from '@/lib/next';
 
 export default async function LoginPage({ searchParams }: PageProps) {
+  const { returnTo: returnToParam, scopes: scopesParam, error, logout } = await searchParams;
   const user = await getUser();
-  const returnTo = Array.isArray(searchParams.returnTo) ? searchParams.returnTo[0] : searchParams.returnTo;
-  const scopes = Array.isArray(searchParams.scopes) ? searchParams.scopes.join(',') : searchParams.scopes;
+  const returnTo = Array.isArray(returnToParam) ? returnToParam[0] : returnToParam;
+  const scopes = Array.isArray(scopesParam) ? scopesParam.join(',') : scopesParam;
 
   if(user) {
     redirect(getReturnToUrl(returnTo));
@@ -24,11 +25,11 @@ export default async function LoginPage({ searchParams }: PageProps) {
 
   return (
     <HeroLayout hero={<Headline id="login"><Trans id="login"/></Headline>}>
-      {searchParams.error !== undefined && (
+      {error !== undefined && (
         <Notice type="error">Unknown error</Notice>
       )}
 
-      {searchParams.logout !== undefined && (
+      {logout !== undefined && (
         <Notice>Logout successful</Notice>
       )}
 

@@ -47,7 +47,8 @@ async function getData(hours: number) {
   return { total: apiRequests.length, errors, endpoints, statusCodes, apiRequests };
 }
 
-export default async function StatusApiPage({ searchParams: { period }}: PageProps) {
+export default async function StatusApiPage({ searchParams }: PageProps) {
+  const { period } = await searchParams;
   const hours = availablePeriods.find(({ value }) => value === period)?.hours ?? 24;
 
   const { endpoints, errors, total, statusCodes } = await getData(hours);

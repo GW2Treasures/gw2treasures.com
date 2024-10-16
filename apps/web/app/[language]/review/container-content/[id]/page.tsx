@@ -48,6 +48,7 @@ type ReviewContainerContentPageProps = PageProps<{ id: string }>;
 
 export default async function ReviewContainerContentPage({ params, searchParams }: ReviewContainerContentPageProps) {
   const { id } = await params;
+  const { error } = await searchParams;
   const { item, review } = await getReview(id);
   const { removedItems, addedItems, removedCurrencies = [], addedCurrencies = [] } = review.changes as unknown as EditContentOrder;
 
@@ -57,7 +58,7 @@ export default async function ReviewContainerContentPage({ params, searchParams 
 
   return (
     <HeroLayout hero={<Headline id="queue">Review Container Content</Headline>} color="#3f51b5">
-      {searchParams.error !== undefined && (
+      {error !== undefined && (
         <Notice type="error" icon="review-queue">Your changes could not be saved.</Notice>
       )}
 

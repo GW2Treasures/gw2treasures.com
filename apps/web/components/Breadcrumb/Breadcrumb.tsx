@@ -8,7 +8,7 @@ export interface BreadcrumbProps {
   children: (ReactElement<BreadcrumbItemProps, typeof BreadcrumbItem> | Falsy)[]
 }
 
-export const Breadcrumb: FC<BreadcrumbProps> = ({ children }) => {
+export const Breadcrumb: FC<BreadcrumbProps> = async ({ children }) => {
   return (
     <ol className={styles.crumbs}>
       {Children.map(children, (child) => isTruthy(child) && (
@@ -18,13 +18,13 @@ export const Breadcrumb: FC<BreadcrumbProps> = ({ children }) => {
         __html: JSON.stringify({
           '@context': 'https://schema.org',
           '@type': 'BreadcrumbList',
-          'itemListElement': children.filter(isTruthy).map(({ props: { name, href }}, index) => ({
+          'itemListElement': await Promise.all(children.filter(isTruthy).map(async ({ props: { name, href }}, index) => ({
             '@type': 'ListItem',
             'position': index + 1,
             // eslint-disable-next-line object-shorthand
             'name': name,
-            'item': href ? absoluteUrl(href) : undefined
-          }))
+            'item': href ? await absoluteUrl(href) : undefined
+          })))
         })
       }}/>
     </ol>

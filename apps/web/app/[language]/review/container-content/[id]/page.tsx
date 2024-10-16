@@ -159,7 +159,7 @@ export default async function ReviewContainerContentPage({ params, searchParams 
       <Headline id="actions">Actions</Headline>
 
       {!user && (
-        <Notice>You need to <Link href={getLoginUrlWithReturnTo()}>Login</Link> to review this change.</Notice>
+        <Notice>You need to <Link href={await getLoginUrlWithReturnTo()}>Login</Link> to review this change.</Notice>
       )}
 
       <form>

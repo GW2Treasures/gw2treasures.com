@@ -18,7 +18,8 @@ interface AchievementInfoboxProps {
   language: Language;
 }
 
-export const AchievementInfobox: FC<AchievementInfoboxProps> = ({ achievement, language }) => {
+export const AchievementInfobox: FC<AchievementInfoboxProps> = async ({ achievement, language }) => {
+  const currentUrl = await getCurrentUrl();
 
   return (
     <div>
@@ -36,7 +37,7 @@ export const AchievementInfobox: FC<AchievementInfoboxProps> = ({ achievement, l
       <FlexRow wrap>
         <LinkButton appearance="tertiary" flex icon="external" external href={`https://api.guildwars2.com/v2/achievements/${achievement.id}?v=latest&lang=${language}`} target="api">API</LinkButton>
         <LinkButton appearance="tertiary" flex icon="external" external href={`https://wiki.guildwars2.com/index.php?title=Special%3ASearch&search=${encodeURIComponent(localizedName(achievement, 'en'))}&go=Go`} target="wiki">Wiki</LinkButton>
-        <ShareButton appearance="tertiary" flex data={{ title: localizedName(achievement, language), url: getCurrentUrl().toString() }}/>
+        <ShareButton appearance="tertiary" flex data={{ title: localizedName(achievement, language), url: currentUrl.toString() }}/>
       </FlexRow>
     </div>
   );

@@ -2,8 +2,8 @@ import { cookies } from 'next/headers';
 import { getCurrentUrl } from './url';
 import type { Scope } from '@gw2me/client';
 
-export function getLoginUrlWithReturnTo(scopes?: Scope[]) {
-  const url = getCurrentUrl();
+export async function getLoginUrlWithReturnTo(scopes?: Scope[]) {
+  const url = await getCurrentUrl();
 
   const parameters = new URLSearchParams();
   parameters.append('returnTo', url.pathname);
@@ -33,12 +33,12 @@ export function getReturnToUrl(returnTo?: string) {
   return '/profile';
 }
 
-export function setReturnToUrlCookie(returnTo?: string) {
+export async function setReturnToUrlCookie(returnTo?: string) {
   if(!returnTo) {
     return;
   }
 
-  const currentUrl = getCurrentUrl();
+  const currentUrl = await getCurrentUrl();
 
   cookies().set('RETURN_TO', returnTo, {
     secure: currentUrl.protocol === 'https:',

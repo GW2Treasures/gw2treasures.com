@@ -21,8 +21,9 @@ interface SkillInfoboxProps {
   language: Language;
 }
 
-export const SkillInfobox: FC<SkillInfoboxProps> = ({ skill, data, language }) => {
+export const SkillInfobox: FC<SkillInfoboxProps> = async ({ skill, data, language }) => {
   const chatlink = encode('skill', skill.id);
+  const currentUrl = await getCurrentUrl();
 
   return (
     <div>
@@ -42,7 +43,7 @@ export const SkillInfobox: FC<SkillInfoboxProps> = ({ skill, data, language }) =
       <FlexRow wrap>
         <LinkButton appearance="tertiary" flex icon="external" external href={`https://api.guildwars2.com/v2/skills/${skill.id}?v=latest&lang=${language}`} target="api">API</LinkButton>
         <LinkButton appearance="tertiary" flex icon="external" external href={`https://wiki.guildwars2.com/index.php?title=Special%3ASearch&search=${encodeURIComponent(chatlink)}&go=Go`} target="wiki">Wiki</LinkButton>
-        <ShareButton appearance="tertiary" flex data={{ title: localizedName(skill, language), url: getCurrentUrl().toString() }}/>
+        <ShareButton appearance="tertiary" flex data={{ title: localizedName(skill, language), url: currentUrl.toString() }}/>
       </FlexRow>
 
       {chatlink && (<Chatlink chatlink={chatlink}/>)}

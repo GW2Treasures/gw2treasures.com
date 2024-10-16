@@ -24,9 +24,10 @@ function isTpTradeable(data: Gw2Api.Item) {
   return data.flags.every((flag) => !flags.includes(flag));
 }
 
-export const ItemInfobox: FC<ItemInfoboxProps> = ({ item, data, language }) => {
+export const ItemInfobox: FC<ItemInfoboxProps> = async ({ item, data, language }) => {
   const isTradeable = isTpTradeable(data);
   const chatlink = encode('item', item.id);
+  const currentUrl = await getCurrentUrl();
 
   return (
     <div>
@@ -44,7 +45,7 @@ export const ItemInfobox: FC<ItemInfoboxProps> = ({ item, data, language }) => {
       <FlexRow wrap>
         <LinkButton appearance="tertiary" flex icon="external" external href={`https://api.guildwars2.com/v2/items/${item.id}?v=latest&lang=${language}`} target="api">API</LinkButton>
         <LinkButton appearance="tertiary" flex icon="external" external href={`https://wiki.guildwars2.com/index.php?title=Special%3ASearch&search=${encodeURIComponent(chatlink)}&go=Go`} target="wiki">Wiki</LinkButton>
-        <ShareButton appearance="tertiary" flex data={{ title: localizedName(item, language), url: getCurrentUrl().toString() }}/>
+        <ShareButton appearance="tertiary" flex data={{ title: localizedName(item, language), url: currentUrl.toString() }}/>
       </FlexRow>
 
       {chatlink && (<Chatlink chatlink={chatlink}/>)}

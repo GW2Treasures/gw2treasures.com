@@ -59,7 +59,7 @@ export default async function DevAppCreatePage() {
     <PageLayout>
       <Headline id="create">Create Application</Headline>
       {!user && (
-        <Notice type="warning">You need to <Link href={getLoginUrlWithReturnTo([Scope.Email])}>Login</Link> to create applications.</Notice>
+        <Notice type="warning">You need to <Link href={await getLoginUrlWithReturnTo([Scope.Email])}>Login</Link> to create applications.</Notice>
       )}
       {user && !email?.emailVerified && (
         <form action={reauthorize.bind(null, [Scope.Email], 'consent')}>

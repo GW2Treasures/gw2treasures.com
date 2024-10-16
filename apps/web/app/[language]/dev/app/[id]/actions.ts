@@ -10,7 +10,7 @@ export async function deleteApplication(id: string) {
   const user = await getUser();
 
   if(!user) {
-    redirect(getLoginUrlWithReturnTo());
+    redirect(await getLoginUrlWithReturnTo());
   }
 
   await db.application.deleteMany({ where: { id, ownerId: user.id }});
@@ -22,7 +22,7 @@ export async function saveApplication(id: string, prev: FormState, data: FormDat
   const user = await getUser();
 
   if(!user) {
-    redirect(getLoginUrlWithReturnTo());
+    redirect(await getLoginUrlWithReturnTo());
   }
 
   const name = data.get('name');
@@ -44,7 +44,7 @@ export async function updateOrigins(id: string, prev: FormState, data: FormData)
   const user = await getUser();
 
   if(!user) {
-    redirect(getLoginUrlWithReturnTo());
+    redirect(await getLoginUrlWithReturnTo());
   }
 
   const application = await db.application.findUnique({ where: { id }, select: { origins: true }});

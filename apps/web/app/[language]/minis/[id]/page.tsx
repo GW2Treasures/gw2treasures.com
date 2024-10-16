@@ -41,7 +41,8 @@ const getMini = cache(async (id: number, language: Language) => {
 
 type MiniPageProps = PageProps<{ id: string }>;
 
-async function MiniPage ({ params: { language, id }}: MiniPageProps) {
+async function MiniPage ({ params }: MiniPageProps) {
+  const { language, id } = await params;
   const miniId: number = Number(id);
 
   const { mini, revision } = await getMini(miniId, language);
@@ -88,7 +89,8 @@ async function MiniPage ({ params: { language, id }}: MiniPageProps) {
 
 export default MiniPage;
 
-export async function generateMetadata({ params: { language, id }}: MiniPageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: MiniPageProps): Promise<Metadata> {
+  const { language, id } = await params;
   const miniId: number = Number(id);
   const { mini } = await getMini(miniId, language);
 

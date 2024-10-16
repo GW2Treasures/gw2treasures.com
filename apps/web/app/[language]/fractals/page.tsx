@@ -17,7 +17,8 @@ import { Switch } from '@gw2treasures/ui/components/Form/Switch';
 import type { PageProps } from '@/lib/next';
 
 
-export default function FractalsPage({ searchParams: { tier: rawTier, date: rawDate }}: PageProps) {
+export default async function FractalsPage({ searchParams }: PageProps) {
+  const { tier: rawTier, date: rawDate } = await searchParams;
   const { fractals, daily, recommended } = data;
 
   const date = getDateOrFallback(Array.isArray(rawDate) ? rawDate[0] : rawDate);
@@ -73,7 +74,9 @@ export default function FractalsPage({ searchParams: { tier: rawTier, date: rawD
   );
 }
 
-export function generateMetadata({ searchParams: { tier, date }, params: { language }}: PageProps) {
+export async function generateMetadata({ searchParams, params }: PageProps) {
+  const { language } = await params;
+  const { tier, date } = await searchParams;
   const t = getTranslate(language);
 
   return {

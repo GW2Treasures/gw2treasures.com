@@ -46,9 +46,10 @@ const getViews = cache(async function getViews(interval: Interval, days: Days) {
 
 export default async function AdminUserPage({ searchParams }: PageProps) {
   await ensureUserIsAdmin();
+  const { interval: intervalParam, days: daysParam } = await searchParams;
 
-  const interval = (['hour', 'day']).includes(searchParams.interval as string) ? searchParams.interval as 'hour' | 'day' : 'hour';
-  const days = (['7', '30']).includes(searchParams.days as string) ? searchParams.days as '7' | '30' : '7';
+  const interval = (['hour', 'day']).includes(intervalParam as string) ? intervalParam as 'hour' | 'day' : 'hour';
+  const days = (['7', '30']).includes(daysParam as string) ? daysParam as '7' | '30' : '7';
 
   const { views, mostViewed } = await getViews(interval, days);
 

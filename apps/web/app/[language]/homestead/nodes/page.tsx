@@ -79,10 +79,12 @@ export default async function HomesteadNodesPage() {
   );
 }
 
-export function generateMetadata({ params }: PageProps): Metadata {
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { language } = await params;
+
   return {
-    title: translate('homestead.nodes', params.language),
-    description: translate('homestead.nodes.description', params.language),
-    alternates: getAlternateUrls('/homestead/nodes')
+    title: translate('homestead.nodes', language),
+    description: translate('homestead.nodes.description', language),
+    alternates: getAlternateUrls('/homestead/nodes', language)
   };
 }

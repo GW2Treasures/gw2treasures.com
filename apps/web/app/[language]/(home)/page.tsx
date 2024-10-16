@@ -17,7 +17,9 @@ import { getAlternateUrls } from '@/lib/url';
 import { PageView } from '@/components/PageView/PageView';
 import type { PageProps } from '@/lib/next';
 
-function HomePage({ params: { language }}: PageProps) {
+async function HomePage({ params }: PageProps) {
+  const { language } = await params;
+
   return (
     <HeroLayout hero={(
       <div className={styles.hero}>
@@ -119,9 +121,11 @@ async function DbStats() {
 
 export default HomePage;
 
-export function generateMetadata({ params }: PageProps) {
+export async function generateMetadata({ params }: PageProps) {
+  const { language } = await params;
+
   return {
     title: 'Home',
-    alternates: getAlternateUrls('/', params.language)
+    alternates: getAlternateUrls('/', language)
   };
 }

@@ -9,13 +9,15 @@ import type { PageProps } from '@/lib/next';
 
 export type SkillPageProps = PageProps<{ id: string }>;
 
-export default function SkillPage({ params: { language, id }}: SkillPageProps) {
+export default async function SkillPage({ params }: SkillPageProps) {
+  const { language, id } = await params;
   const skillId: number = Number(id);
 
   return <SkillPageComponent language={language} skillId={skillId}/>;
 }
 
-export async function generateMetadata({ params: { language, id }}: SkillPageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: SkillPageProps): Promise<Metadata> {
+  const { language, id } = await params;
   const skillId = Number(id);
   const { data } = await getRevision(skillId, language);
 

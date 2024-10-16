@@ -95,7 +95,8 @@ const getAchievement = cache(async (id: number, language: Language) => {
   return { achievement, revision, categoryAchievements };
 }, ['achievement'], { revalidate: 60 });
 
-async function AchievementPage({ params: { id, language }}: AchievementPageProps) {
+async function AchievementPage({ params }: AchievementPageProps) {
+  const { language, id } = await params;
   const achievementId: number = Number(id);
 
   const { achievement, revision, categoryAchievements } = await getAchievement(achievementId, language);
@@ -282,20 +283,21 @@ async function AchievementPage({ params: { id, language }}: AchievementPageProps
 export default AchievementPage;
 
 export async function generateMetadata({ params }: AchievementPageProps): Promise<Metadata> {
-  const id = Number(params.id);
+  const { language, id: idParam } = await params;
+  const id = Number(idParam);
 
   const achievement = await db.achievement.findUnique({
     where: { id },
     select: {
-      name_de: params.language === 'de',
-      name_en: params.language === 'en',
-      name_es: params.language === 'es',
-      name_fr: params.language === 'fr',
+      name_de: language === 'de',
+      name_en: language === 'en',
+      name_es: language === 'es',
+      name_fr: language === 'fr',
       icon: true,
-      current_de: params.language === 'de' ? { select: { data: true }} : false,
-      current_en: params.language === 'en' ? { select: { data: true }} : false,
-      current_es: params.language === 'es' ? { select: { data: true }} : false,
-      current_fr: params.language === 'fr' ? { select: { data: true }} : false,
+      current_de: language === 'de' ? { select: { data: true }} : false,
+      current_en: language === 'en' ? { select: { data: true }} : false,
+      current_es: language === 'es' ? { select: { data: true }} : false,
+      current_fr: language === 'fr' ? { select: { data: true }} : false,
     }
   });
 
@@ -303,7 +305,7 @@ export async function generateMetadata({ params }: AchievementPageProps): Promis
     notFound();
   }
 
-  const data: Gw2Api.Achievement = JSON.parse(achievement[`current_${params.language}`].data);
+  const data: Gw2Api.Achievement = JSON.parse(achievement[`current_${language}`].data);
 
   const description = [
     strip(data.description),
@@ -311,7 +313,7 @@ export async function generateMetadata({ params }: AchievementPageProps): Promis
   ].filter(Boolean).join('\n\n');
 
   return {
-    title: localizedName(achievement, params.language),
+    title: localizedName(achievement, language),
     description,
     openGraph: {
       images: achievement.icon ? [{ url: getIconUrl(achievement.icon, 64), width: 64, height: 64, type: 'image/png' }] : []

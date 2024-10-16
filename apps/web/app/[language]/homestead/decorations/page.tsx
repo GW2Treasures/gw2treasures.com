@@ -35,7 +35,8 @@ const getDecorationCategories = cache(
   ['homestead-decoration-categories'], { revalidate: 60 }
 );
 
-export default async function HomesteadDecorationsPage({ params: { language }}: PageProps) {
+export default async function HomesteadDecorationsPage({ params }: PageProps) {
+  const { language } = await params;
   const [decorations, decorationCategories] = await Promise.all([
     getDecorations(),
     getDecorationCategories(),
@@ -82,10 +83,12 @@ export default async function HomesteadDecorationsPage({ params: { language }}: 
   );
 }
 
-export function generateMetadata({ params }: PageProps): Metadata {
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { language } = await params;
+
   return {
-    title: translate('homestead.decorations', params.language),
-    description: translate('homestead.decorations.description', params.language),
-    alternates: getAlternateUrls('/homestead/decorations')
+    title: translate('homestead.decorations', language),
+    description: translate('homestead.decorations.description', language),
+    alternates: getAlternateUrls('/homestead/decorations', language)
   };
 }

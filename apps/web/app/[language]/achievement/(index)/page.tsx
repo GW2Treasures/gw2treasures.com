@@ -31,7 +31,8 @@ const getAchievementGroups = cache(async (language: string) => {
   return groups;
 }, ['achievement-groups'], { revalidate: 60 });
 
-export default async function AchievementPage({ params: { language }}: PageProps) {
+export default async function AchievementPage({ params }: PageProps) {
+  const { language } = await params;
   const groups = await getAchievementGroups(language);
   await pageView('achievement');
 

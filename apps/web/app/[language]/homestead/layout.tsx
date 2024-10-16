@@ -24,10 +24,12 @@ export default function HomesteadLayout({ children }: LayoutProps) {
   );
 }
 
-export function generateMetadata({ params }: LayoutProps): Metadata {
+export async function generateMetadata({ params }: LayoutProps): Promise<Metadata> {
+  const { language } = await params;
+
   return {
     title: {
-      template: `${translate('navigation.homestead', params.language)}: %s`,
+      template: `${translate('navigation.homestead', language)}: %s`,
       default: ''
     }
   };

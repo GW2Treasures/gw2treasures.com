@@ -47,7 +47,7 @@
     "next": "15.0.0-rc.1",
     "react": "19.0.0-rc-cd22717c-20241013",
     "react-dom": "19.0.0-rc-cd22717c-20241013",
-    "react-error-boundary": "4.1.0",
+    "react-error-boundary": "4.1.1",
     "server-only": "0.0.1",
     "sharp": "0.33.5"
   },

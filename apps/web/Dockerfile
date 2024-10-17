@@ -2,7 +2,7 @@
 
 ARG node_version=20.18.0-alpine
 # renovate: datasource=npm packageName=prisma
-ARG prisma_version=5.21.0
+ARG prisma_version=5.21.1
 # renovate: datasource=npm packageName=sharp
 ARG sharp_version=0.33.5
 

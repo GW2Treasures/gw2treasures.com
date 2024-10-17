@@ -42,7 +42,7 @@ export const requireMetadata = ESLintUtils.RuleCreator.withoutDocs({
       },
 
       ExportSpecifier(node) {
-        if(isExported(node) && node.exported.name === 'metadata') {
+        if(isExported(node) && node.exported.type === TSESTree.AST_NODE_TYPES.Identifier && node.exported.name === 'metadata') {
           hasMetadataExport = true;
         }
       },

@@ -144,7 +144,7 @@ jobs:
   publish-docker:
     name: Publish / Docker / ${{ matrix.target }}
     runs-on: ubuntu-latest
-    if: github.event_name != 'merge_group'
+    if: github.event_name != 'merge_group' && !github.event.pull_request.head.repo.fork
     needs: [success]
     permissions:
       id-token: write
@@ -164,11 +164,11 @@ jobs:
         IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
         echo "IMAGE_ID=$IMAGE_ID" >> "$GITHUB_ENV"
 
-    - name: Download digests
+    - name: Download image digests
       uses: actions/download-artifact@v4
       with:
-        path: /tmp/digests
-        pattern: docker-digests-*
+        path: /tmp/images
+        pattern: docker-digest-${{ matrix.target }}-*
         merge-multiple: true
 
     - name: Docker meta
@@ -199,7 +199,7 @@ jobs:
       id: image
       run: |
         ARGS=$(jq -cr '(.tags | map("--tag " + (. | @sh))) + (.annotations | map("--annotation " + (. | @sh))) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON")
-        SOURCES=$(find /tmp/digests/${{ matrix.target }} -type f -printf '${{ env.IMAGE_ID }}@sha256:%f ')
+        SOURCES=$(printf "${{ env.IMAGE_ID }}@%s" $(cat /tmp/images/image-*.sha256))
         echo "$ARGS"
         echo "$SOURCES"
 

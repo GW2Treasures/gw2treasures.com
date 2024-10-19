@@ -27,7 +27,7 @@
 }
 
 .headerMain {
-  padding: 0 16px;
+  padding: 0 var(--max-page-width--padding);
   display: flex;
   gap: 32px;
   align-items: center;
@@ -115,6 +115,8 @@
 .headerNav {
   margin-top: 48px;
 
+  padding: 0 calc((100vw - var(--max-page-width)) / 2);
+
   position: absolute;
   left: 0; right: 0;
   z-index: 9;
@@ -154,7 +156,7 @@
 
 .footer {
   grid-area: footer;
-  padding: 32px 16px;
+  padding: 32px var(--max-page-width--padding);
   border-top: 1px solid var(--color-border);
   display: flex;
   justify-content: space-between;
@@ -171,7 +173,7 @@
 
 .disclaimer {
   width: 100%;
-  padding: 16px 16px;
+  padding: 16px var(--max-page-width--padding);
   border-top: 1px solid var(--color-border);
   color: var(--color-text-muted);
   font-size: 14px;

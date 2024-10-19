@@ -1,5 +1,5 @@
 .page {
-  padding: 0 16px;
+  padding: 0 var(--max-page-width--padding);
   display: flex;
   gap: 16px;
 }

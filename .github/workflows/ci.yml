@@ -14,7 +14,7 @@ env:
   # renovate: datasource=npm packageName=npm
   NPM_VERSION: 10.9.0
   # renovate: datasource=npm packageName=renovate
-  RENOVATE_VERSION: 38.121.0
+  RENOVATE_VERSION: 38.128.7
 
   # renovate: datasource=node-version packageName=node
   NODE_18_VERSION: 18.20.4

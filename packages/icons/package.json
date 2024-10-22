@@ -41,8 +41,8 @@
     "tslib": "2.8.0"
   },
   "peerDependencies": {
-    "react": "^18.2.0 || 19.0.0-rc-cd22717c-20241013",
-    "react-dom": "^18.2.0 || 19.0.0-rc-cd22717c-20241013"
+    "react": "^18.2.0 || 19.0.0-rc-65a56d0e-20241020",
+    "react-dom": "^18.2.0 || 19.0.0-rc-65a56d0e-20241020"
   },
   "publishConfig": {
     "access": "public"

@@ -2,7 +2,7 @@
 
 import { TextInput } from '@gw2treasures/ui/components/Form/TextInput';
 import type { DataTableRowFilterComponent, DataTableRowFilterComponentProps } from '@gw2treasures/ui/components/Table/DataTable';
-import { createContext, useState, type FC, type ReactNode, useContext } from 'react';
+import { createContext, useState, type FC, type ReactNode, useContext, useEffect } from 'react';
 import { useLanguage } from '../I18n/Context';
 import { DisciplineIcon, type Discipline } from './DisciplineIcon';
 import { DropDown } from '@gw2treasures/ui/components/DropDown/DropDown';
@@ -79,6 +79,29 @@ export interface RecipeTableDisciplineFilterProps {
 export const RecipeTableDisciplineFilter: FC<RecipeTableDisciplineFilterProps> = ({ totalCount: count }) => {
   const { disciplines, setDisciplines, recipeIndexByDiscipline } = useContext(context);
 
+  const [isShiftPressed, setIsShiftPressed] = useState(false);
+
+  useEffect(() => {
+    const keyDown = (e: KeyboardEvent) => {
+      if(e.key === 'Shift') {
+        setIsShiftPressed(true);
+      }
+    };
+    const keyUp = (e: KeyboardEvent) => {
+      if(e.key === 'Shift') {
+        setIsShiftPressed(false);
+      }
+    };
+
+    window.addEventListener('keydown', keyDown, { passive: true });
+    window.addEventListener('keyup', keyUp, { passive: true });
+
+    return () => {
+      window.removeEventListener('keydown', keyDown);
+      window.removeEventListener('keyup', keyUp);
+    };
+  }, []);
+
   return (
     <DropDown button={<Button icon={disciplines.length === allDisciplines.length ? 'filter' : 'filter-active'}>Filter</Button>} preferredPlacement="bottom">
       <MenuList>
@@ -90,13 +113,15 @@ export const RecipeTableDisciplineFilter: FC<RecipeTableDisciplineFilterProps> =
         </Checkbox>
         <Separator/>
         {allDisciplines.map((discipline) => (
-          <Checkbox key={discipline} checked={disciplines.includes(discipline)} onChange={() => setDisciplines(toggleArray(disciplines, discipline))}>
+          <Checkbox key={discipline} checked={disciplines.includes(discipline)} onChange={() => isShiftPressed ? setDisciplines([discipline]) : setDisciplines(toggleArray(disciplines, discipline))}>
             <FlexRow align="space-between">
               <span><DisciplineIcon discipline={discipline}/> {discipline}</span>
               <span style={{ paddingLeft: 8, color: !recipeIndexByDiscipline[discipline] ? 'var(--color-text-muted)' : undefined }}>{recipeIndexByDiscipline[discipline]?.length ?? 0}</span>
             </FlexRow>
           </Checkbox>
         ))}
+        <Separator/>
+        <span style={{ padding: '8px 16px', color: 'var(--color-text-muted)' }}>Tip: Hold <kbd style={{ border: '1px solid var(--color-border-dark)', borderRadius: 2, padding: '1px 3px' }}>Shift</kbd> to select a single discipline</span>
       </MenuList>
     </DropDown>
   );

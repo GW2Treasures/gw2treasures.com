@@ -1,6 +1,6 @@
 {
   "name": "@gw2treasures/eslint-config",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "ESLint config for gw2treasures",
   "exports": {
     ".": "./configs/index.json",

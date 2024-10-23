@@ -1,6 +1,6 @@
 {
   "name": "@gw2treasures/eslint-plugin-nextjs",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "ESLint plugin with custom rules for Next.js",
   "main": "dist/index.js",
   "scripts": {

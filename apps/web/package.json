@@ -59,7 +59,7 @@
     "@testing-library/jest-dom": "6.6.2",
     "@testing-library/react": "16.0.1",
     "@types/d3-array": "3.2.1",
-    "@types/jest": "29.5.13",
+    "@types/jest": "29.5.14",
     "@types/negotiator": "0.6.3",
     "@types/node": "20.16.14",
     "@types/react": "npm:types-react@19.0.0-rc.1",

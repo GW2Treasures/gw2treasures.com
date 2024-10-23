@@ -152,3 +152,5 @@ jobs:
     if: github.event_name != 'merge_group'
     needs: [success]
     uses: ./.github/workflows/publish-npm.yml
+    secrets:
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

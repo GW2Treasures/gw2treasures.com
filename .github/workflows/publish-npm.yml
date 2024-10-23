@@ -1,6 +1,9 @@
 name: Publish (npm)
 on:
   workflow_call:
+    secrets:
+      NPM_TOKEN:
+        required: true
 
 jobs:
   publish:

@@ -275,4 +275,4 @@ jobs:
         edit-mode: replace
         body: |
           **Publish / npm / ${{ matrix.target }}**
-          Merging this PR will publish the npm package `${{ steps.publish.outputs.publish }}`
+          Merging this PR will publish the npm package `${{ steps.publish.outputs.package }}@${{ steps.publish.outputs.version }}` as `${{ steps.publish.outputs.tag }}`.

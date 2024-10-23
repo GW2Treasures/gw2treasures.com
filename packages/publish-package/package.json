@@ -1,6 +1,6 @@
 {
   "name": "@gw2treasures/publish-package",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "gw2treasures.com publish package script",
   "bin": {
     "gw2treasures-publish-package": "dist/index.js"

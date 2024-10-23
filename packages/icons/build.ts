@@ -45,7 +45,8 @@ async function build() {
 
 
   console.log('Build types file...');
-  const index = `
+  const index = `import { JSX } from 'react';
+
 export type IconName = ${Object.keys(icons).map((name) => `'${name}'`).join('|')};
 export type IconProp = IconName | JSX.Element;
 export const icons: IconName[];

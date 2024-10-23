@@ -4,27 +4,37 @@ description: Composite task to pull docker images
 inputs:
   platform:
     description: The platform (amd64/arm64)
-    required: true
+    required: false
+    default: '*'
+  target:
+    description: The target image to use (web/...)
+    required: false
+    default: '*'
+
+outputs:
+  digests:
+    description: Digests of the loaded images
+    value: ${{ steps.digests.outputs.digests }}
 
 runs:
   using: composite
   steps:
-  - name: Download digests
+  - name: Download images
     uses: actions/download-artifact@v4
     with:
-      path: /tmp/digests
-      pattern: docker-digests-${{ inputs.platform }}-*
+      path: /tmp/images
+      pattern: docker-image-${{ inputs.target }}-${{ inputs.platform }}
       merge-multiple: true
-  - name: Pull docker images
+  - name: Load images
+    shell: bash
+    run: ls /tmp/images/image-*.tar | xargs -L1 docker image load --input
+  - name: Docker images
+    shell: bash
+    run: docker images --digests
+  - name: Output digests
+    id: digests
     shell: bash
     run: |
-      DOCKER_PREFIX=ghcr.io/${{ github.repository }}
-      DOCKER_PREFIX=$(echo $DOCKER_PREFIX | tr '[A-Z]' '[a-z]')
-      for TARGET in web worker legacy-importer database-migration e2e
-      do
-        digests=(/tmp/digests/"$TARGET"/*)
-        digest=$(basename $digests)
-        echo "Pulling $TARGET (sha256:$digest) image"
-        docker pull "$DOCKER_PREFIX/$TARGET@sha256:${digest}"
-        docker tag "$DOCKER_PREFIX/$TARGET@sha256:${digest}" gw2treasures/$TARGET
-      done
+      DIGESTS=$(echo $(cat /tmp/images/image-*.sha256))
+      echo "digests=$DIGESTS"
+      echo "digests=$DIGESTS" >> $GITHUB_OUTPUT

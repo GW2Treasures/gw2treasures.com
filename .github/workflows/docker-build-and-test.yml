@@ -37,7 +37,7 @@ jobs:
       id: meta
       uses: docker/metadata-action@v5
       with:
-        images: ${{ env.IMAGE_ID }}
+        images: gw2treasures/${{ matrix.target }}
         bake-target: ${{ matrix.target }}
     - name: Build the Docker image
       id: build
@@ -50,21 +50,28 @@ jobs:
           ${{ steps.meta.outputs.bake-file-labels }}
         targets: ${{ matrix.target }}
         set: |
-          ${{ matrix.target }}.output=type=image,push-by-digest=true,name-canonical=true,push=true
+          ${{ !github.event.pull_request.head.repo.fork && format('{0}.output=type=image,push-by-digest=true,name-canonical=true,push=true', matrix.target) }}
+          ${{ matrix.target }}.output=type=docker,dest=/tmp/image-${{ matrix.target }}-${{ inputs.platform }}.tar,name=gw2treasures/${{ matrix.target }}
           ${{ matrix.target }}.tags=${{ env.IMAGE_ID }}
           *.platform=linux/${{ inputs.platform }}
           *.cache-from=type=gha,scope=build-${{ inputs.platform }}-${{ matrix.target }}
           *.cache-to=type=gha,scope=build-${{ inputs.platform }}-${{ matrix.target }},mode=max
     - name: Export digest
       run: |
-        mkdir -p /tmp/digests/${{ matrix.target }}
         digest=$(jq -cr '."${{ matrix.target }}"."containerimage.digest"' <<< '${{ steps.build.outputs.metadata }}')
-        touch "/tmp/digests/${{ matrix.target }}/${digest#sha256:}"
-    - name: Upload digest
+        echo "${digest}" > "/tmp/image-${{ matrix.target }}-${{ inputs.platform }}.sha256"
+    - name: Upload images
       uses: actions/upload-artifact@v4
       with:
-        name: docker-digests-${{ inputs.platform }}-${{ matrix.target }}
-        path: /tmp/digests/*
+        name: docker-image-${{ matrix.target }}-${{ inputs.platform }}
+        path: /tmp/image-${{ matrix.target }}-${{ inputs.platform }}.*
+        if-no-files-found: error
+        retention-days: 1
+    - name: Upload digests
+      uses: actions/upload-artifact@v4
+      with:
+        name: docker-digest-${{ matrix.target }}-${{ inputs.platform }}
+        path: /tmp/image-${{ matrix.target }}-${{ inputs.platform }}.sha256
         if-no-files-found: error
         retention-days: 1
 
@@ -81,7 +88,7 @@ jobs:
       with:
         platform: ${{ inputs.platform }}
     - name: Start docker compose
-      run: docker compose up -d
+      run: docker compose up -d --no-build
     - name: Wait 30s
       run: sleep 30
     - run: docker compose ps -a
@@ -128,7 +135,7 @@ jobs:
       with:
         platform: ${{ inputs.platform }}
     - name: Start docker compose
-      run: docker compose -f docker-compose.yml -f docker-compose.e2e.yml up -d web database database-migration
+      run: docker compose -f docker-compose.yml -f docker-compose.e2e.yml up -d --no-build web database database-migration
     - name: Wait for containers to be up
       run: sleep 30
     - name: Run e2e tests

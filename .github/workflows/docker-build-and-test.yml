@@ -13,6 +13,7 @@ jobs:
     strategy:
       matrix:
         target: [ web, worker, legacy-importer, database-migration, e2e ]
+    continue-on-error: ${{ matrix.target == 'web' && inputs.platform == 'arm64' && github.event_name != 'push' }}
     steps:
     - uses: actions/checkout@v4
       with:

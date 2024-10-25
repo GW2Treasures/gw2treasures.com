@@ -61,7 +61,7 @@
     "@types/d3-array": "3.2.1",
     "@types/jest": "29.5.14",
     "@types/negotiator": "0.6.3",
-    "@types/node": "20.17.0",
+    "@types/node": "20.17.1",
     "@types/react": "npm:types-react@19.0.0-rc.1",
     "@types/react-dom": "npm:types-react-dom@19.0.0-rc.1",
     "babel-plugin-react-compiler": "0.0.0-experimental-605e95c-20241015",

@@ -34,6 +34,7 @@ export const SkinsRediscovered: Job = {
         name_es: data.es.name,
         name_fr: data.fr.name,
         iconId,
+        version: 0,
         lastCheckedAt: new Date(),
         history: { createMany: { data: [] }}
       };

@@ -14,34 +14,10 @@ env:
   # renovate: datasource=npm packageName=npm
   NPM_VERSION: 10.9.0
 
-  # renovate: datasource=node-version packageName=node
-  NODE_18_VERSION: 18.20.4
-  # renovate: datasource=node-version packageName=node
-  NODE_20_VERSION: 20.18.0
-  # renovate: datasource=node-version packageName=node
-  NODE_22_VERSION: 22.10.0
-
-
 jobs:
-  build-node:
-    name: Build / Node ${{ matrix.node }}
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node: [ 18, 20, 22 ]
-    steps:
-    - uses: actions/checkout@v4
-      with:
-        submodules: true
-    - name: Setup Node.js env
-      uses: ./.github/actions/setup-node-env
-      with:
-        node-version: ${{ env[format('NODE_{0}_VERSION', matrix.node)] }}
-        cache-key: build
-    - name: Run Build
-      run: npm run build
-      env:
-        SKIP_LINT: true
+  build:
+    name: Build
+    uses: ./.github/workflows/build-node.yml
 
   docker:
     name: Docker (${{ matrix.platform }})
@@ -52,33 +28,13 @@ jobs:
     with:
       platform: ${{ matrix.platform }}
 
-  test-unit:
-    name: Test / Unit
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4
-      with:
-        submodules: true
-    - name: Setup Node.js env
-      uses: ./.github/actions/setup-node-env
-      with:
-        cache-key: test
-    - name: Run Test
-      run: npm run test
+  test:
+    name: Test
+    uses: ./.github/workflows/test.yml
 
   lint:
     name: Lint
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4
-      with:
-        submodules: true
-    - name: Setup Node.js env
-      uses: ./.github/actions/setup-node-env
-      with:
-        cache-key: lint
-    - name: Run Lint
-      run: npm run lint
+    uses: ./.github/workflows/lint.yml
 
   renovate:
     name: Renovate
@@ -86,7 +42,7 @@ jobs:
 
   success:
     name: Success
-    needs: [docker, test-unit, build-node, lint, renovate]
+    needs: [build, docker, test, lint, renovate]
     runs-on: ubuntu-latest
     if: always()
     steps:

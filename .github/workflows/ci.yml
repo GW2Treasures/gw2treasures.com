@@ -13,8 +13,6 @@ concurrency:
 env:
   # renovate: datasource=npm packageName=npm
   NPM_VERSION: 10.9.0
-  # renovate: datasource=npm packageName=renovate
-  RENOVATE_VERSION: 38.133.1
 
   # renovate: datasource=node-version packageName=node
   NODE_18_VERSION: 18.20.4
@@ -83,14 +81,8 @@ jobs:
       run: npm run lint
 
   renovate:
-    name: Validate renovate config
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4
-    - name: Install renovate
-      run: npm i -g renovate@${{ env.RENOVATE_VERSION }}
-    - name: Validate config
-      run: renovate-config-validator --strict
+    name: Renovate
+    uses: ./.github/workflows/renovate-validate-config.yml
 
   success:
     name: Success

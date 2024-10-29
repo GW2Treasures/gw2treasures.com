@@ -35,23 +35,11 @@ jobs:
     - uses: actions/checkout@v4
       with:
         submodules: true
-    - uses: actions/setup-node@v4
+    - name: Setup Node.js env
+      uses: ./.github/actions/setup-node-env
       with:
         node-version: ${{ env[format('NODE_{0}_VERSION', matrix.node)] }}
-        cache: npm
-    - name: Install latest npm
-      run: |
-        npm install --global npm@${{ env.NPM_VERSION }}
-        npm -v
-    - name: Install dependencies
-      run: npm ci
-    - name: Cache turbo
-      uses: actions/cache@v4
-      with:
-        path: ./.turbo/cache
-        key: turbo2-cache-build-${{ runner.os }}-${{ github.sha }}
-        restore-keys: |
-          turbo2-cache-build-${{ runner.os }}-
+        cache-key: build
     - name: Run Build
       run: npm run build
       env:
@@ -73,23 +61,10 @@ jobs:
     - uses: actions/checkout@v4
       with:
         submodules: true
-    - uses: actions/setup-node@v4
+    - name: Setup Node.js env
+      uses: ./.github/actions/setup-node-env
       with:
-        node-version: 20
-        cache: npm
-    - name: Install latest npm
-      run: |
-        npm install --global npm@${{ env.NPM_VERSION }}
-        npm -v
-    - name: Install dependencies
-      run: npm ci
-    - name: Cache turbo
-      uses: actions/cache@v4
-      with:
-        path: ./.turbo/cache
-        key: turbo2-cache-test-${{ runner.os }}-${{ github.sha }}
-        restore-keys: |
-          turbo2-cache-test-${{ runner.os }}-
+        cache-key: test
     - name: Run Test
       run: npm run test
 
@@ -100,23 +75,10 @@ jobs:
     - uses: actions/checkout@v4
       with:
         submodules: true
-    - uses: actions/setup-node@v4
+    - name: Setup Node.js env
+      uses: ./.github/actions/setup-node-env
       with:
-        node-version: 20
-        cache: npm
-    - name: Install latest npm
-      run: |
-        npm install --global npm@${{ env.NPM_VERSION }}
-        npm -v
-    - name: Install dependencies
-      run: npm ci
-    - name: Cache turbo
-      uses: actions/cache@v4
-      with:
-        path: ./.turbo/cache
-        key: turbo2-cache-lint-${{ runner.os }}-${{ github.sha }}
-        restore-keys: |
-          turbo2-cache-lint-${{ runner.os }}-
+        cache-key: lint
     - name: Run Lint
       run: npm run lint
 

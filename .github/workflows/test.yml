@@ -1,0 +1,22 @@
+name: Test
+on:
+  workflow_call:
+
+env:
+  # renovate: datasource=npm packageName=npm
+  NPM_VERSION: 10.9.0
+
+jobs:
+  unit:
+    name: Unit
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: true
+    - name: Setup Node.js env
+      uses: ./.github/actions/setup-node-env
+      with:
+        cache-key: test
+    - name: Run Test
+      run: npm run test

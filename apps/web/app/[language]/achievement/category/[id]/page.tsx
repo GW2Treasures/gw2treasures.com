@@ -2,8 +2,6 @@ import type { Language } from '@gw2treasures/database';
 import DetailLayout from '@/components/Layout/DetailLayout';
 import { db } from '@/lib/prisma';
 import type { Gw2Api } from 'gw2-api-types';
-import { ItemList } from '@/components/ItemList/ItemList';
-import { AchievementLink } from '@/components/Achievement/AchievementLink';
 import { compareLocalizedName, localizedName } from '@/lib/localizedName';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { Json } from '@/components/Format/Json';
@@ -91,14 +89,13 @@ async function AchievementCategoryPage({ params }: AchievementCategoryPageProps)
         headlineId="achievements"/>
 
       {historicAchievements.length > 0 && (
-        <>
-          <Headline id="historic">Historic <Tip tip={<p>Historic achievements have either been removed from the game or are part of a rotation.</p>}><Icon icon="info"/></Tip></Headline>
-          <ItemList>
-            {historicAchievements.map((achievement) => (
-              <li key={achievement.id}><AchievementLink achievement={achievement}/></li>
-            ))}
-          </ItemList>
-        </>
+        <AchievementTable
+          language={language}
+          achievements={historicAchievements}
+          includeRewardsColumns
+          collapsed
+          headline={<>Historic <Tip tip="Historic achievements have either been removed from the game or are part of a rotation."><Icon icon="info"/></Tip></>}
+          headlineId="historic"/>
       )}
 
       <Headline id="data">Data</Headline>

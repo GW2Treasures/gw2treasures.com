@@ -30,10 +30,11 @@ export interface AchievementTableProps {
   headlineId?: string;
   sort?: boolean;
   includeRewardsColumns?: boolean;
+  collapsed?: boolean;
   children?: (table: ReactNode, columnSelect: ReactNode) => ReactNode
 }
 
-export const AchievementTable: FC<AchievementTableProps> = ({ language, achievements, headline, headlineId, sort = true, includeRewardsColumns, children }) => {
+export const AchievementTable: FC<AchievementTableProps> = ({ language, achievements, headline, headlineId, sort = true, includeRewardsColumns, collapsed, children }) => {
   // sort achievements first by "moveToTop", then alphabetically
   const sortedAchievements = sort
     ? achievements.toSorted((a, b) => a.flags.includes('MoveToTop') ? -1 : b.flags.includes('MoveToTop') ? 1 : compareLocalizedName(language)(a, b))
@@ -44,7 +45,7 @@ export const AchievementTable: FC<AchievementTableProps> = ({ language, achievem
   const Achievements = createDataTable(sortedAchievements, ({ id }) => id);
 
   const table = (
-    <Achievements.Table>
+    <Achievements.Table collapsed={collapsed}>
       <Achievements.Column id="id" title="ID" sortBy="id" hidden small align="right">
         {({ id }) => id}
       </Achievements.Column>

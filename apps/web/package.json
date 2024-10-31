@@ -52,7 +52,7 @@
     "sharp": "0.33.5"
   },
   "devDependencies": {
-    "@gw2api/types": "0.0.21",
+    "@gw2api/types": "0.0.22",
     "@gw2treasures/eslint-config": "*",
     "@gw2treasures/eslint-plugin-nextjs": "*",
     "@gw2treasures/tsconfig": "*",

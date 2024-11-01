@@ -271,15 +271,16 @@ async function loadAccountsWizardsVault(accessToken: string) {
 }
 
 async function loadInventories(accessToken: string) {
-  const [bank, materials, sharedInventory, armory, characters] = await Promise.all([
+  const [bank, materials, sharedInventory, armory, characters, delivery] = await Promise.all([
     fetchGw2Api('/v2/account/bank', { accessToken }),
     fetchGw2Api('/v2/account/materials', { accessToken }),
     fetchGw2Api('/v2/account/inventory', { accessToken }),
     fetchGw2Api('/v2/account/legendaryarmory', { accessToken }),
     fetchGw2Api('/v2/characters?ids=all', { accessToken, schema: '2022-03-23T19:00:00.000Z' }),
+    fetchGw2Api('/v2/commerce/delivery', { accessToken }),
   ]);
 
   return {
-    bank, materials, sharedInventory, armory, characters
+    bank, materials, sharedInventory, armory, characters, delivery
   };
 }

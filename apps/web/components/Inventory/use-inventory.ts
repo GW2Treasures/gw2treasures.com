@@ -8,6 +8,7 @@ export enum UseInventoryItemAccountLocation {
   Materials = 1,
   SharedInventory = 2,
   LegendaryArmory = 3,
+  Delivery = 4,
 }
 
 export enum UseInventoryItemCharacterLocation {
@@ -36,7 +37,7 @@ export function useInventoryItem(accountId: string, itemId: number): UseInventor
   }
 
   // get all the different locations for items
-  const { bank, materials, armory, sharedInventory, characters } = inventories.data;
+  const { bank, materials, armory, sharedInventory, characters, delivery } = inventories.data;
 
   // create a filter that filters the inventories by item id
   const isItemId = isItemIdFilter(itemId);
@@ -46,6 +47,7 @@ export function useInventoryItem(accountId: string, itemId: number): UseInventor
   const inMaterials = materials.flatMap(mapItemWithUpgradesToItems).filter(isItemId).reduce(sumItemCount, 0);
   const inSharedInventory = sharedInventory.flatMap(mapItemWithUpgradesToItems).filter(isItemId).reduce(sumItemCount, 0);
   const inLegendaryArmory = armory.filter(isItemId).reduce(sumItemCount, 0);
+  const inDelivery = delivery.items.filter(isItemId).reduce(sumItemCount, 0);
 
   // get item counts in each characters
   const inCharacters: UseInventoryItemResultLocation[] = characters.flatMap((character) => {
@@ -81,6 +83,7 @@ export function useInventoryItem(accountId: string, itemId: number): UseInventor
     { count: inMaterials, location: UseInventoryItemAccountLocation.Materials },
     { count: inSharedInventory, location: UseInventoryItemAccountLocation.SharedInventory },
     { count: inLegendaryArmory, location: UseInventoryItemAccountLocation.LegendaryArmory },
+    { count: inDelivery, location: UseInventoryItemAccountLocation.Delivery },
     ...inCharacters,
   ].filter(hasNonEmptyCount);
 

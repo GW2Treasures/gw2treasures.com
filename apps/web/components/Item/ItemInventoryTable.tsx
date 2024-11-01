@@ -26,7 +26,10 @@ const requiredScopes = [
   Scope.GW2_Inventories,
 
   // legendary armory
-  Scope.GW2_Unlocks
+  Scope.GW2_Unlocks,
+
+  // delivered items waiting for pickup
+  Scope.GW2_Tradingpost,
 ];
 
 export const ItemInventoryTable: FC<WardrobeProps> = ({ itemId }) => {
@@ -113,6 +116,8 @@ const ItemInventoryLocation: FC<ItemInventoryLocationProps> = ({ location }) => 
       return 'Shared Inventory';
     case UseInventoryItemAccountLocation.LegendaryArmory:
       return 'Legendary Armory';
+    case UseInventoryItemAccountLocation.Delivery:
+      return 'Trading Post (Delivery Box)';
 
     case UseInventoryItemCharacterLocation.Inventory:
       return <><Icon icon="user"/> {location.character} (Inventory)</>;

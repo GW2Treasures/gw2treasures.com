@@ -25,6 +25,7 @@ export async function createSubJobs<Id extends string | number>(
   getIdsFromApi: () => Promise<Id[]>,
   findMany: (args: FindManyArgs<Id>) => Promise<{ id: Id }[]>,
   currentVersion: number,
+  batchSize: number = 200,
 ) {
   const queuedJobs = await db.job.count({ where: { type: jobName, state: { in: ['Queued', 'Running'] }, cron: null }});
 
@@ -67,7 +68,7 @@ export async function createSubJobs<Id extends string | number>(
   let idCount = 0;
 
   // create new/rediscover/update jobs
-  for(const ids of batch([...newOrRediscoveredIds, ...knownIdsLastUpdatedOnOldBuild, ...idsToBeMigrated], 200)) {
+  for(const ids of batch([...newOrRediscoveredIds, ...knownIdsLastUpdatedOnOldBuild, ...idsToBeMigrated], batchSize)) {
     await db.job.create({ data: { type: jobName, data: { ids }}});
     jobCount++;
     idCount += ids.length;

@@ -16,7 +16,10 @@ export const WizardsVaultObjectivesJob: Job = {
         'wizardsvault.objectives',
         () => fetchApi('/v2/wizardsvault/objectives'),
         db.wizardsVaultObjective.findMany,
-        CURRENT_VERSION
+        CURRENT_VERSION,
+        // use small batches, because the requests often fail because of the wrong language
+        // this way at least some will succeed
+        20
       );
     }
 

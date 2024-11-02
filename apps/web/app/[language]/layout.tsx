@@ -75,6 +75,12 @@ export const metadata = {
     title: 'gw2treasures.com',
     statusBarStyle: 'default',
   },
+  openGraph: {
+    siteName: 'gw2treasures.com',
+  },
+  twitter: {
+    site: '@gw2treasures',
+  },
   formatDetection: { address: false, date: false, email: false, telephone: false, url: false },
   icons: {
     apple: { url: '/apple-touch-icon.png', sizes: '180x180' },

@@ -16,7 +16,7 @@
     "@floating-ui/react-dom": "2.1.2",
     "@formatjs/intl-localematcher": "0.5.7",
     "@gw2api/fetch": "0.4.1",
-    "@gw2efficiency/game-data": "0.1.51",
+    "@gw2efficiency/game-data": "0.1.52",
     "@gw2me/client": "0.2.7",
     "@gw2treasures/database": "*",
     "@gw2treasures/helper": "*",

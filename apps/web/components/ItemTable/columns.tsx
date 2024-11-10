@@ -153,8 +153,8 @@ export const globalColumnRenderer: Renderer = {
 };
 
 function renderPriceWithOptionalWarning(date: Date | string | null, price: number | null): ReactNode {
-  if(price === null) {
-    return '-';
+  if(!price) {
+    return empty();
   }
 
   const lastCheckedAt = date ? new Date(date) : undefined;

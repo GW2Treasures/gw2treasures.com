@@ -1,48 +1,50 @@
 # syntax=docker/dockerfile:1.11
 
 ARG node_version=22.11.0-alpine
+# renovate: datasource=npm packageName=turbo
+ARG turbo_version=2.2.3
 # renovate: datasource=npm packageName=sharp
 ARG sharp_version=0.33.5
 
 
 # common base for all stages
 FROM node:${node_version} AS base
-ENV NODE_ENV=production
 ENV CI=true
+# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
+RUN apk add --no-cache libc6-compat
 
 
 # create pruned source files
 FROM base AS source
-# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
-RUN apk add --no-cache libc6-compat
+ARG turbo_version
 WORKDIR /source
-COPY --link package*.json ./
-RUN npm ci --workspaces=false && npm cache clean --force
+COPY --link package.json pnpm-*.yaml ./
+RUN corepack enable && corepack install
 COPY --link . .
-RUN npx turbo prune worker --docker
+RUN pnpx turbo@${turbo_version} prune worker --docker
 
 
 # Rebuild the source code only when needed
 FROM base AS builder
-RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
 # add package.json and lockfile
 COPY --link --from=source /source/out/json/ .
 
 # install dev dependencies
-RUN npm ci --include=dev && npm cache clean --force
+RUN corepack enable && pnpm install --frozen-lockfile
 
 # add source
 COPY --link --from=source /source/out/full/ .
 
 # build source
-RUN npx turbo run build --filter=worker
+RUN pnpm run build --filter=worker
 
 
 # Production image, COPY --link all the files and run next
 FROM base AS runner
 ARG sharp_version
+ENV NODE_ENV=production
 WORKDIR /app
 
 RUN apk add --no-cache bind-tools \

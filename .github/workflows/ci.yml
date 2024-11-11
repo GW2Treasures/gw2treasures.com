@@ -10,9 +10,6 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
-env:
-  # renovate: datasource=npm packageName=npm
-  NPM_VERSION: 10.9.0
 
 jobs:
   build:

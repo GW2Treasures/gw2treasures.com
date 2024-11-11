@@ -5,9 +5,6 @@ on:
       NPM_TOKEN:
         required: true
 
-env:
-  # renovate: datasource=npm packageName=npm
-  NPM_VERSION: 10.9.0
 
 jobs:
   publish:
@@ -29,7 +26,7 @@ jobs:
         # or else the bin is not correctly linked
         cache-key: false
     - name: Run Publish
-      run: npm run publish-package -- --filter=@gw2treasures/${{ matrix.target }} --env-mode=loose
+      run: pnpm run publish-package --filter=@gw2treasures/${{ matrix.target }} --env-mode=loose
       id: publish
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

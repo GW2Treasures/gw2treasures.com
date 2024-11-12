@@ -72,7 +72,7 @@ COPY --link --from=builder --chown=1001:1001 /app/apps/web/.next/static ./apps/w
 COPY --link --from=builder --chown=1001:1001 /app/apps/web/public ./apps/web/public
 
 # workaround for https://github.com/wooorm/starry-night/issues/9
-COPY --link --from=builder --chown=1001:1001 /app/node_modules/vscode-oniguruma/release/onig.wasm /app/node_modules/vscode-oniguruma/release/onig.wasm
+COPY --link --from=builder --chown=1001:1001 /app/packages/onig/dist/onig.wasm /app/packages/onig/dist/onig.wasm
 
 ENV HOSTNAME=0.0.0.0
 ENV PORT=3000

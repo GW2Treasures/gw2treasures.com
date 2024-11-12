@@ -7,7 +7,7 @@
     "dev": "node dist/index.js",
     "lint": "eslint src",
     "ncc": "ncc build src/index.ts --out dist --target es2023 --external sharp",
-    "postncc": "mv dist/client/* dist/ && rm -r dist/client",
+    "postncc": "rm -rf dist/worker && cp ../../packages/database/.prisma/libquery_engine-* ../../packages/database/.prisma/schema.prisma dist",
     "clean": "rm -rf dist",
     "types": "tsc",
     "test": "jest"

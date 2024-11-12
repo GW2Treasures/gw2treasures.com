@@ -7,8 +7,6 @@ env:
   NPM_VERSION: 10.9.0
 
   # renovate: datasource=node-version packageName=node
-  NODE_18_VERSION: 18.20.4
-  # renovate: datasource=node-version packageName=node
   NODE_20_VERSION: 20.18.0
   # renovate: datasource=node-version packageName=node
   NODE_22_VERSION: 22.11.0
@@ -19,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: [ 18, 20, 22 ]
+        node: [ 20, 22 ]
     steps:
     - uses: actions/checkout@v4
       with:

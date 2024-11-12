@@ -1,0 +1,15 @@
+{
+  "name": "@gw2treasures/onig",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "import": "./index.mjs"
+  },
+  "scripts": {
+    "build": "node build.mjs"
+  },
+  "devDependencies": {
+    "vscode-oniguruma": "2.0.1"
+  }
+}

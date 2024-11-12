@@ -4,6 +4,7 @@ import { Fragment, jsx, jsxs } from 'react/jsx-runtime';
 import { createStarryNight, common } from '@wooorm/starry-night';
 import { toJsxRuntime } from 'hast-util-to-jsx-runtime';
 import '@wooorm/starry-night/style/both';
+import { url } from '@gw2treasures/onig';
 
 interface HighlightProps {
   code: string;
@@ -18,7 +19,9 @@ export const Highlight: FC<HighlightProps> = ({ code, language }) => {
   );
 };
 
-const starryNightPromise = createStarryNight(common);
+const starryNightPromise = createStarryNight(common, {
+  getOnigurumaUrlFs: () => url,
+});
 
 const HighlightAsync: FC<HighlightProps> = async ({ code, language }) => {
   const starryNight = await starryNightPromise;

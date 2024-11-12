@@ -59,12 +59,12 @@ async function run() {
   }
 
   if(githubEventName !== 'push') {
-    execSync('npm publish --dry-run', { stdio: 'inherit' });
+    execSync('pnpm publish --dry-run --no-git-checks', { stdio: 'inherit' });
 
     return;
   }
 
-  execSync('npm publish', { stdio: 'inherit' });
+  execSync('pnpm publish', { stdio: 'inherit' });
 }
 
 run();

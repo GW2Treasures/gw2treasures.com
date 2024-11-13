@@ -23,6 +23,7 @@
     "@gw2treasures/icons": "*",
     "@gw2treasures/onig": "*",
     "@gw2treasures/ui": "*",
+    "@prisma/nextjs-monorepo-workaround-plugin": "5.22.0",
     "@visx/axis": "3.12.0",
     "@visx/brush": "3.12.0",
     "@visx/clip-path": "3.12.0",

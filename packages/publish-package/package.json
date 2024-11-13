@@ -3,11 +3,11 @@
   "version": "0.0.2",
   "description": "gw2treasures.com publish package script",
   "bin": {
-    "gw2treasures-publish-package": "dist/index.js"
+    "gw2treasures-publish-package": "bin/index.js"
   },
   "type": "module",
   "scripts": {
-    "build": "npm run clean && tsc && chmod +x dist/index.js && npm install",
+    "build": "npm run clean && tsc && chmod +x dist/index.js",
     "clean": "rm -rf dist/",
     "lint": "eslint src",
     "dev": "npm run build && GITHUB_EVENT_NAME=pull_request node dist/index.js",
@@ -22,7 +22,8 @@
     "publish-package"
   ],
   "files": [
-    "dist/"
+    "dist/",
+    "bin/"
   ],
   "author": "darthmaim",
   "license": "MIT",

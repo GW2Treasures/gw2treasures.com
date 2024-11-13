@@ -1,5 +1,9 @@
 {
   "root": true,
 
-  "extends": ["@gw2treasures/eslint-config"]
+  "extends": ["@gw2treasures/eslint-config"],
+
+  "ignorePatterns": [
+    "bin/"
+  ]
 }

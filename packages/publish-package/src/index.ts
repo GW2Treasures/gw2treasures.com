@@ -1,11 +1,12 @@
 import fs from 'node:fs';
 import { execSync } from 'node:child_process';
+import path from 'node:path';
 
 async function run() {
-  // get local package version
-  const packageJsonPath = process.env.npm_package_json;
+  const packageJsonPath = path.join(process.cwd(), 'package.json');
 
-  if(!packageJsonPath) {
+  // get local package version
+  if(!fs.existsSync(packageJsonPath)) {
     console.error('Could not find package.json');
     process.exit(1);
   }
@@ -25,8 +26,7 @@ async function run() {
   const githubOutput = process.env.GITHUB_OUTPUT;
 
   if(!githubEventName) {
-    console.error('Could not read github.event_name');
-    process.exit(1);
+    console.warn('Could not read github.event_name, this is a dry-run');
   }
 
   if(!githubOutput) {
@@ -35,6 +35,10 @@ async function run() {
 
   // get latest remote version
   const remote: 'Not Found' | { version: string } = await fetch(`https://registry.npmjs.org/${packageName}/${packageTag}`).then((r) => r.json());
+
+  console.log(`Package: ${packageName}`);
+  console.log(`Local version: ${packageVersion}`);
+  console.log(`Remote version: ${remote === 'Not Found' ? '-' : remote.version}`);
 
   if(remote === 'Not Found') {
     console.log(`::notice::Publishing new package ${packageName}@${packageVersion} as ${packageTag}`);
@@ -55,12 +59,12 @@ async function run() {
   }
 
   if(githubEventName !== 'push') {
-    execSync('npm publish --dry-run');
+    execSync('npm publish --dry-run', { stdio: 'inherit' });
 
     return;
   }
 
-  execSync('npm publish');
+  execSync('npm publish', { stdio: 'inherit' });
 }
 
 run();

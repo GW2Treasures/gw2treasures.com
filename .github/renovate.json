@@ -10,6 +10,7 @@
   "kubernetes": {
     "fileMatch": ["kubernetes/.+\\.yaml$"]
   },
+  "postUpdateOptions": ["pnpmDedupe"],
   "packageRules": [
     {
       "matchManagers": ["npm", "dockerfile"],

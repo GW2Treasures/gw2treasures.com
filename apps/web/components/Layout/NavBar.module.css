@@ -1,5 +1,4 @@
 .bar {
-  margin: -16px -16px 16px;
   background: var(--color-background-light);
   box-shadow: inset 0 -1px 0 0 var(--color-border);
 }

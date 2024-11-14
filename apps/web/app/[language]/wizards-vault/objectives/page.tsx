@@ -1,4 +1,5 @@
 import { AstralAcclaim } from '@/components/Format/AstralAcclaim';
+import { Description } from '@/components/Layout/Description';
 import { PageLayout } from '@/components/Layout/PageLayout';
 import { ColumnSelect } from '@/components/Table/ColumnSelect';
 import { Waypoint } from '@/components/Waypoint/Waypoint';
@@ -6,7 +7,6 @@ import { cache } from '@/lib/cache';
 import { compareLocalizedName, localizedName } from '@/lib/localizedName';
 import type { PageProps } from '@/lib/next';
 import { db } from '@/lib/prisma';
-import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
 import Link from 'next/link';
@@ -23,9 +23,9 @@ export default async function WizardsVaultObjectivesPage({ params }: PageProps) 
 
   return (
     <PageLayout>
-      <Headline id="objectives" actions={<ColumnSelect table={Objectives}/>}>Wizard&apos;s Vault Objectives</Headline>
-
-      <p>This page lists all possible Wizard&apos;s Vault objectives. Go to <Link href="/wizards-vault">Wizard&apos;s Vault</Link> to see your current personal objectives.</p>
+      <Description actions={<ColumnSelect table={Objectives}/>}>
+        This page lists all possible Wizard&apos;s Vault objectives. Go to <Link href="/wizards-vault">Wizard&apos;s Vault</Link> to see your current personal objectives.
+      </Description>
 
       <Objectives.Table>
         <Objectives.Column id="id" sortBy="id" title="ID" align="right" hidden>{({ id }) => id}</Objectives.Column>

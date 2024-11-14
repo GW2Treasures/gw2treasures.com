@@ -8,17 +8,21 @@ import type { Metadata } from 'next';
 
 export default function HomesteadLayout({ children }: LayoutProps) {
   return (
-    <HeroLayout color="#397aa1" hero={<Headline id="homestead"><Trans id="navigation.homestead"/></Headline>}>
-      <NavBar base="/homestead/" items={[
-        { segment: 'nodes', label: <Trans id="homestead.nodes"/> },
-        { segment: 'cats', label: <Trans id="homestead.cats"/> },
-        { segment: 'decorations', label: <Trans id="homestead.decorations"/> },
-        { segment: 'materials', label: <><Trans id="homestead.materials"/></> },
-        { segment: 'glyphs', label: <Trans id="homestead.glyphs"/> },
-      ]}/>
-      <div>
+    <HeroLayout color="#397aa1"
+      hero={<Headline id="homestead"><Trans id="navigation.homestead"/></Headline>}
+      navBar={(
+        <NavBar base="/homestead/" items={[
+          { segment: 'nodes', label: <Trans id="homestead.nodes"/> },
+          { segment: 'cats', label: <Trans id="homestead.cats"/> },
+          { segment: 'decorations', label: <Trans id="homestead.decorations"/> },
+          { segment: 'materials', label: <><Trans id="homestead.materials"/></> },
+          { segment: 'glyphs', label: <Trans id="homestead.glyphs"/> },
+        ]}/>
+      )}
+    >
+      <>
         {children}
-      </div>
+      </>
     </HeroLayout>
   );
 }

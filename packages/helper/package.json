@@ -9,7 +9,7 @@
     }
   },
   "scripts": {
-    "build": "npm run clean && if test $CI; then npm run build:ci; else npm run build:local; fi",
+    "build": "pnpm run clean && if test $CI; then pnpm run build:ci; else pnpm run build:local; fi",
     "build:local": "tsc --declarationMap",
     "build:ci": "tsc",
     "clean": "rm -rf dist/",
@@ -34,8 +34,8 @@
   },
   "homepage": "https://github.com/GW2Treasures/gw2treasures.com#readme",
   "devDependencies": {
-    "@gw2treasures/eslint-config": "*",
-    "@gw2treasures/tsconfig": "*",
+    "@gw2treasures/eslint-config": "workspace:*",
+    "@gw2treasures/tsconfig": "workspace:*",
     "eslint": "8.57.1",
     "typescript": "5.6.3"
   },

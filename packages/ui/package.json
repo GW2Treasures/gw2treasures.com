@@ -34,7 +34,7 @@
     "server-only": "0.0.1"
   },
   "devDependencies": {
-    "@gw2treasures/eslint-config": "*",
+    "@gw2treasures/eslint-config": "workspace:*",
     "@types/react": "npm:types-react@19.0.0-rc.1",
     "@types/react-dom": "npm:types-react-dom@19.0.0-rc.1",
     "csstype": "3.1.3",
@@ -43,9 +43,9 @@
     "typescript": "5.6.3"
   },
   "peerDependencies": {
-    "@gw2treasures/helper": "~0.0.5",
-    "@gw2treasures/icons": "~0.1.2",
-    "@gw2treasures/tsconfig": "~0.0.1",
+    "@gw2treasures/helper": "workspace:~0.0.5",
+    "@gw2treasures/icons": "workspace:~0.1.2",
+    "@gw2treasures/tsconfig": "workspace:~0.0.1",
     "next": "^15.0.0",
     "react": "^19.0.0-rc",
     "react-dom": "^19.0.0-rc"

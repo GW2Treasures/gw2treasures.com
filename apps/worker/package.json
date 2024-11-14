@@ -2,8 +2,8 @@
   "name": "worker",
   "scripts": {
     "prisma": "prisma generate",
-    "prebuild": "npm run clean && npm run types",
-    "build": "npm run ncc",
+    "prebuild": "pnpm run clean && pnpm run types",
+    "build": "pnpm run ncc",
     "dev": "node dist/index.js",
     "lint": "eslint src",
     "ncc": "ncc build src/index.ts --out dist --target es2023 --external sharp",
@@ -14,8 +14,8 @@
   },
   "dependencies": {
     "@gw2api/fetch": "0.4.1",
-    "@gw2treasures/database": "*",
-    "@gw2treasures/helper": "*",
+    "@gw2treasures/database": "workspace:*",
+    "@gw2treasures/helper": "workspace:*",
     "chalk": "5.3.0",
     "cron-parser": "4.9.0",
     "dotenv": "16.4.5",
@@ -25,8 +25,8 @@
   },
   "devDependencies": {
     "@gw2api/types": "0.0.22",
-    "@gw2treasures/eslint-config": "*",
-    "@gw2treasures/tsconfig": "*",
+    "@gw2treasures/eslint-config": "workspace:*",
+    "@gw2treasures/tsconfig": "workspace:*",
     "@types/jest": "29.5.14",
     "@types/node": "22.9.0",
     "@typescript-eslint/parser": "8.13.0",

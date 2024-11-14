@@ -2,9 +2,6 @@ name: Lint
 on:
   workflow_call:
 
-env:
-  # renovate: datasource=npm packageName=npm
-  NPM_VERSION: 10.9.0
 
 jobs:
   eslint:
@@ -19,4 +16,4 @@ jobs:
       with:
         cache-key: lint
     - name: Run Lint
-      run: npm run lint
+      run: pnpm run lint

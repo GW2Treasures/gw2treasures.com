@@ -3,18 +3,18 @@
   "scripts": {
     "prisma:generate": "prisma generate --schema=prisma/legacy.prisma",
     "build": "tsc",
-    "predev": "npm run build",
+    "predev": "pnpm run build",
     "dev": ". ./.env && node lib/index.js",
     "lint": "eslint src"
   },
   "dependencies": {
-    "@gw2treasures/database": "*",
+    "@gw2treasures/database": "workspace:*",
     "@prisma/client": "5.22.0",
     "gw2-api-types": "0.0.8"
   },
   "devDependencies": {
-    "@gw2treasures/eslint-config": "*",
-    "@gw2treasures/tsconfig": "*",
+    "@gw2treasures/eslint-config": "workspace:*",
+    "@gw2treasures/tsconfig": "workspace:*",
     "@types/node": "22.9.0",
     "eslint": "8.57.1",
     "prisma": "5.22.0",

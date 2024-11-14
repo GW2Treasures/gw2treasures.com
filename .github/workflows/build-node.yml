@@ -3,9 +3,6 @@ on:
   workflow_call:
 
 env:
-  # renovate: datasource=npm packageName=npm
-  NPM_VERSION: 10.9.0
-
   # renovate: datasource=node-version packageName=node
   NODE_20_VERSION: 20.18.0
   # renovate: datasource=node-version packageName=node
@@ -28,6 +25,6 @@ jobs:
         node-version: ${{ env[format('NODE_{0}_VERSION', matrix.node)] }}
         cache-key: build
     - name: Run Build
-      run: npm run build
+      run: pnpm run build
       env:
         SKIP_LINT: true

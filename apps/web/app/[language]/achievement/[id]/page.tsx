@@ -199,7 +199,9 @@ async function AchievementPage({ params }: AchievementPageProps) {
                           return mini ? (<MiniLink mini={mini}/>) : `Unknown minipet ${bit.id}`;
                         }
                         case 'Text':
-                          return bit.text || `Objective #${index + 1}`;
+                          return bit.text || `Unknown Objective #${index + 1}`;
+                        default:
+                          return `Unknown Objective #${index + 1}`;
                       }
                     }}
                   </Bits.Column>

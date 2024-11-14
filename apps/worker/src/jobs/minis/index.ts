@@ -8,7 +8,7 @@ import { toId } from '../helper/toId';
 import { createIcon } from '../helper/createIcon';
 import { Prisma } from '@gw2treasures/database';
 
-const CURRENT_VERSION = 1;
+const CURRENT_VERSION = 2;
 
 export const MinisJob: Job = {
   async run(data: ProcessEntitiesData<number> | Record<string, never>) {
@@ -39,10 +39,11 @@ export const MinisJob: Job = {
 
         const itemId = brokenItem?.id ?? mini.en.item_id;
 
-        // get achievements that require this minipet as bit
-        const achievementBit = changes === Changes.New
+        // get achievements that require this (new) minipet as bit
+        // this did not work correctly for version 1, so it also also run as part of version 1 migrations
+        const achievementBit = changes === Changes.New || version === 1
           ? await db.achievement.findMany({
-            where: { bitsItemIds: { has: mini.en.id }},
+            where: { bitsMiniIds: { has: mini.en.id }},
             select: { id: true }
           }) : [];
 

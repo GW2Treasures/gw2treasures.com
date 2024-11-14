@@ -14,8 +14,8 @@ It's best to to open an issue first to discuss the changes you want to make. You
 
 These are the steps that are required to work on any of the gw2treasures.com components.
 
-1. You need Node.js 20+ and docker installed.
-2. Install dependencies by running `npm i` in the root directory. This will install dependencies for all apps and packages.
+1. You need Node.js 20+, docker and pnpm (`corepack enable`) installed.
+2. Install dependencies by running `pnpm i` in the root directory. This will install dependencies for all apps and packages.
 3. Start the database in docker using `docker compose up -d database`.
 4. (Optional) To get data into the database, it is best to run workers with `docker compose up -d worker` in the background.
 
@@ -23,7 +23,7 @@ These are the steps that are required to work on any of the gw2treasures.com com
 
 The website uses Next.js and the code is found in [apps/web](apps/web/) and [packages/ui](packages/ui/).
 
-1. Run `npm run dev:web`
+1. Run `pnpm run dev:web`
 2. Visit http://gw2treasures.localhost:3000/
 3. Make your changes
 
@@ -36,21 +36,21 @@ The workers powering all background tasks of gw2treasures.com are located in [ap
 If you have workers running in docker, it is best to stop them first (`docker compose stop worker`), because they will not contain your changes.
 
 1. Make your changes.
-2. Start the worker with `npm run dev:worker`.
+2. Start the worker with `pnpm run dev:worker`.
 
 You can rebuild and restart your docker workers with `docker compose up --build -d worker`.
 
 
 ### Database Access
 
-You can run `npm run prisma:studio` to open prisma studio to access the local development database.
+You can run `pnpm run prisma:studio` to open prisma studio to access the local development database.
 
 ### Database Migrations
 
 If you need to make changes to the database schema, follow these steps:
 
 1. Make your changes in [schema.prisma](packages/database/prisma/schema.prisma)
-2. Run `npm run prisma:migrate-dev <name>`. `<name>` should be the migration name in camelCase (for example addItemTable).
+2. Run `pnpm run prisma:migrate-dev <name>`. `<name>` should be the migration name in camelCase (for example addItemTable).
 3. Now you can restart the components you need. The migration gets applied automatically.
 
 ### Import legacy database
@@ -83,7 +83,7 @@ The e2e tests are located in [e2e](e2e/).
 
 #### Running local against dev server
 
-First make sure you are running the dev server (`npm run dev:web`). You can run the tests with `npm run e2e`. Follow the onscreen instructions to install all required dependencies.
+First make sure you are running the dev server (`pnpm run dev:web`). You can run the tests with `pnpm run e2e`. Follow the onscreen instructions to install all required dependencies.
 
 #### Running in docker
 

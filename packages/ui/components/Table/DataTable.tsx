@@ -2,7 +2,7 @@ import { Table, type HeaderCellProps } from './Table';
 import { Fragment, Suspense, type FC, type Key, type ReactElement, type ReactNode } from 'react';
 import 'server-only';
 import { DataTableClient, DataTableClientCell, DataTableClientColumn, DataTableClientColumnSelection, DataTableClientRows } from './DataTable.client';
-import { isDefined } from '@gw2treasures/helper/is';
+import { isDefined, isTruthy } from '@gw2treasures/helper/is';
 import type { Comparable, ComparableProperties } from './comparable-properties';
 
 export type DataTableRowFilterComponentProps = { children: ReactNode, index: number };
@@ -10,7 +10,7 @@ export type DataTableRowFilterComponent = FC<DataTableRowFilterComponentProps>;
 
 // table
 export interface DataTableProps<T> {
-  children: Array<ColumnReactElement<T> | DynamicColumnsReactElement<T>>,
+  children: Array<ColumnReactElement<T> | DynamicColumnsReactElement<T> | false>,
   rowFilter?: DataTableRowFilterComponent,
   collapsed?: boolean | number,
   initialSortBy?: string,
@@ -67,7 +67,7 @@ export function createDataTable<T>(rows: T[], getRowKey: (row: T, index: number)
 
   return {
     Table: function DataTable({ children, rowFilter, collapsed = false, ...props }: DataTableProps<T>) {
-      const columns = children;
+      const columns = children.filter(isTruthy);
 
       if(columns.some((child) => child.type !== Column && child.type !== DynamicColumns)) {
         throw new Error('Column and DynamicColumns are the only allowed children of DataTable');
@@ -75,7 +75,7 @@ export function createDataTable<T>(rows: T[], getRowKey: (row: T, index: number)
 
       const rowsWithIndex = rows.map((row, index) => ({ row, index }));
 
-      const sortableColumns = Object.fromEntries(children
+      const sortableColumns = Object.fromEntries(columns
         .filter(isStaticColumn)
         .filter((column) => isDefined(column.props.sort) || isDefined(column.props.sortBy))
         .map((column) => {

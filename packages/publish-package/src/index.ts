@@ -39,6 +39,7 @@ async function run() {
   console.log(`Package: ${packageName}`);
   console.log(`Local version: ${packageVersion}`);
   console.log(`Remote version: ${remote === 'Not Found' ? '-' : remote.version}`);
+  console.log();
 
   if(remote === 'Not Found') {
     console.log(`::notice::Publishing new package ${packageName}@${packageVersion} as ${packageTag}`);
@@ -59,12 +60,12 @@ async function run() {
   }
 
   if(githubEventName !== 'push') {
-    execSync('pnpm publish --dry-run --no-git-checks', { stdio: 'inherit' });
+    execSync(`pnpm publish --dry-run --no-git-checks --tag ${packageTag}`, { stdio: 'inherit' });
 
     return;
   }
 
-  execSync('pnpm publish', { stdio: 'inherit' });
+  execSync(`pnpm publish --tag ${packageTag}`, { stdio: 'inherit' });
 }
 
 run();

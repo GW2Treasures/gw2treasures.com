@@ -8,7 +8,7 @@ import { HorizontalOverflowContainer } from '@/components/Layout/HorizontalOverf
 import { Composite, CompositeItem } from '@floating-ui/react';
 
 interface NavBarProps {
-  items: { label: ReactNode, segment: string }[]
+  items: { label: ReactNode, segment: string, href?: string }[]
   base?: '/' | `/${string}/`;
 }
 
@@ -21,7 +21,7 @@ export const NavBar: FC<NavBarProps> = ({ items, base = '/' }) => {
         <Composite render={<ul className={styles.list}/>}>
           {items.map((item) => (
             <li key={item.segment} className={segment === item.segment ? styles.active : styles.button}>
-              <CompositeItem render={<LinkButton href={base + item.segment} appearance="menu" className={styles.link}/>}>
+              <CompositeItem render={<LinkButton href={item.href ?? (base + item.segment)} appearance="menu" className={styles.link}/>}>
                 {item.label}
               </CompositeItem>
             </li>

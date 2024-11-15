@@ -53,6 +53,7 @@ import { TitlesRemoved } from './titles/removed';
 import { TitlesUpdate } from './titles/update';
 import { TpJob } from './tp';
 import { TpImportJob } from './tp/import';
+import { WizardsVaultSeasonJob } from './wizardsvault/season';
 import { WizardsVaultListingsJob } from './wizardsvault/listings';
 import { WizardsVaultObjectivesJob } from './wizardsvault/objectives';
 import { WizardsVaultPurchaseLimitJob } from './wizardsvault/purchase-limit';
@@ -128,6 +129,7 @@ const jobsInternal = {
   'homestead.decorations.categories': HomesteadDecorationCategoriesJob,
   'homestead.glyphs': HomesteadGlyphsJob,
 
+  'wizardsvault.season': WizardsVaultSeasonJob,
   'wizardsvault.listings': WizardsVaultListingsJob,
   'wizardsvault.objectives': WizardsVaultObjectivesJob,
   'wizardsvault.purchase-limit': WizardsVaultPurchaseLimitJob,

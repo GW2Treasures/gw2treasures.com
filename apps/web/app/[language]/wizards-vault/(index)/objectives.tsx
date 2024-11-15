@@ -22,6 +22,7 @@ import { Gw2AccountName } from '@/components/Gw2Api/Gw2AccountName';
 import { Gw2AccountAuthorizationNotice } from '@/components/Gw2Api/Gw2AccountAuthorizationNotice';
 
 export interface WizardVaultObjectivesProps {
+  seasonEnd?: Date,
   objectiveWaypoints: Record<number, number>,
 }
 
@@ -30,7 +31,7 @@ const optionalScopes = [Scope.GW2_Wallet];
 
 const loginUrl = `/login?returnTo=${encodeURIComponent('/wizards-vault')}&scopes=${encodeURIComponent([...requiredScopes, ...optionalScopes].join(','))}`;
 
-export const WizardVaultObjectives: FC<WizardVaultObjectivesProps> = ({ objectiveWaypoints }) => {
+export const WizardVaultObjectives: FC<WizardVaultObjectivesProps> = ({ seasonEnd, objectiveWaypoints }) => {
   const user = useUser();
   const accounts = useGw2Accounts(requiredScopes, optionalScopes);
 
@@ -80,7 +81,7 @@ export const WizardVaultObjectives: FC<WizardVaultObjectivesProps> = ({ objectiv
             <td>Reset</td>
             <td align="right"><ResetTimer reset="current-daily"/></td>
             <td align="right"><ResetTimer reset="current-weekly"/></td>
-            <td align="right">-</td>
+            <td align="right">{seasonEnd ? <ResetTimer reset={seasonEnd}/> : '-'}</td>
             <td align="right"/>
           </tr>
         </tbody>

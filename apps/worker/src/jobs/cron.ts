@@ -53,6 +53,7 @@ export async function registerCronJobs() {
   await registerJob('homestead.decorations', '*/5 * * * *');
   await registerJob('homestead.decorations.categories', '*/10 * * * *');
   await registerJob('homestead.glyphs', '*/10 * * * *');
+  await registerJob('wizardsvault.season', '*/10 * * * *');
   await registerJob('wizardsvault.listings', '*/5 * * * *');
   await registerJob('wizardsvault.objectives', '13 * * * *');
   await registerJob('wizardsvault.purchase-limit', '47 * * * *');

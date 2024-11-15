@@ -730,6 +730,12 @@ model Revision {
   currentWizardsVaultObjective_es WizardsVaultObjective? @relation("current_es")
   currentWizardsVaultObjective_fr WizardsVaultObjective? @relation("current_fr")
   wizardsVaultObjectiveHistory WizardsVaultObjectiveHistory[]
+  
+  currentWizardsVaultSeason_de WizardsVaultSeason? @relation("current_de")
+  currentWizardsVaultSeason_en WizardsVaultSeason? @relation("current_en")
+  currentWizardsVaultSeason_es WizardsVaultSeason? @relation("current_es")
+  currentWizardsVaultSeason_fr WizardsVaultSeason? @relation("current_fr")
+  wizardsVaultSeasonHistory WizardsVaultSeasonHistory[]
 
   // homestead decorations
   currentHomesteadDecoration_de HomesteadDecoration? @relation("current_de")
@@ -964,6 +970,49 @@ model GuildUpgradeHistory {
   revision Revision @relation(fields: [revisionId], references: [id], onDelete: Cascade)
 
   @@id([guildUpgradeId, revisionId])
+}
+
+model WizardsVaultSeason {
+  id String @id @default(uuid())
+
+  name_de String
+  name_en String
+  name_es String
+  name_fr String
+
+  start DateTime @unique
+  end   DateTime
+  
+  current_de Revision @relation("current_de", fields: [currentId_de], references: [id], onDelete: Cascade)
+  currentId_de String @unique
+  
+  current_en Revision @relation("current_en", fields: [currentId_en], references: [id], onDelete: Cascade)
+  currentId_en String @unique
+  
+  current_es Revision @relation("current_es", fields: [currentId_es], references: [id], onDelete: Cascade)
+  currentId_es String @unique
+  
+  current_fr Revision @relation("current_fr", fields: [currentId_fr], references: [id], onDelete: Cascade)
+  currentId_fr String @unique
+
+  history WizardsVaultSeasonHistory[]
+  
+  lastCheckedAt  DateTime   @default(now())
+
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  version Int @default(0)
+}
+
+model WizardsVaultSeasonHistory {
+  wizardsVaultSeasonId String
+  revisionId String
+
+  wizardsVaultSeason WizardsVaultSeason @relation(fields: [wizardsVaultSeasonId], references: [id], onDelete: Cascade)
+  revision Revision @relation(fields: [revisionId], references: [id], onDelete: Cascade)
+
+  @@id([wizardsVaultSeasonId, revisionId])
 }
 
 model WizardsVaultListing {

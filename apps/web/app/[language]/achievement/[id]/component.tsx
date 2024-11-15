@@ -238,7 +238,7 @@ export async function AchievementPageComponent({ language, achievementId, revisi
       )}
 
       <Headline id="tiers">Tiers</Headline>
-      <TierTable achievement={data}/>
+      <TierTable achievement={data} showAccounts={!fixedRevision}/>
 
       {data.rewards && (
         <>

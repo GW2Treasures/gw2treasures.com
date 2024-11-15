@@ -18,12 +18,12 @@ import type { Achievement } from '@gw2api/types/data/achievement';
 
 export interface TierTableProps {
   achievement: Achievement;
+  showAccounts?: boolean;
 }
 
 const requiredScopes = [Scope.GW2_Progression];
 
-export const TierTable: FC<TierTableProps> = ({ achievement }) => {
-  const accounts = useGw2Accounts(requiredScopes);
+export const TierTable: FC<TierTableProps> = ({ achievement, showAccounts = true }) => {
   const { tiers, flags } = achievement;
 
   const isRepeatable = flags.includes('Repeatable');
@@ -49,14 +49,19 @@ export const TierTable: FC<TierTableProps> = ({ achievement }) => {
           ))}
           <td align="right" className={styles.totalColumn}><b><AchievementPoints points={pointCap}/></b></td>
         </tr>
-        {!accounts.loading && !accounts.error && accounts.accounts.map((account) => (
-          <TierTableAccountRow key={account.id} achievement={achievement} account={account}/>
-        ))}
+        {showAccounts && (<TierTableAccountRows achievement={achievement}/>)}
       </tbody>
     </Table>
   );
 };
 
+const TierTableAccountRows: FC<TierTableProps> = ({ achievement }) => {
+  const accounts = useGw2Accounts(requiredScopes);
+
+  return !accounts.loading && !accounts.error && accounts.accounts.map((account) => (
+    <TierTableAccountRow key={account.id} achievement={achievement} account={account}/>
+  ));
+};
 
 interface TierTableAccountRowProps {
   achievement: Achievement;

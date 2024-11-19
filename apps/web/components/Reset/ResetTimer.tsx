@@ -33,8 +33,8 @@ export const ResetTimer: FC<ResetTimerProps> = ({ reset = 'current-daily' }) => 
   return (
     <Tip tip={localFormat.format(resetDate)}>
       <time dateTime={resetDate.toISOString()} style={{ whiteSpace: 'nowrap', fontFeatureSettings: '"tnum"' }} suppressHydrationWarning>
-        {[remaining > 60 * 60 * 24 ? format(remaining / (60 * 60 * 24), 31) : undefined,
-          format(remaining / (60 * 60), 24),
+        {remaining > 60 * 60 * 24 ? `${Math.floor(remaining / (60 * 60 * 24))}d ` : ''}
+        {[format(remaining / (60 * 60), 24),
           format(remaining / 60, 60),
           format(remaining, 60)
         ].filter(isDefined).join(':')}

@@ -6,7 +6,7 @@ import { HorizontalOverflowContainer } from '../HorizontalOverflowContainer';
 import type { Language } from '@gw2treasures/database';
 import { Composite, CompositeItem } from '@gw2treasures/ui/components/Focus/Composite';
 import type { IconProp } from '@gw2treasures/ui';
-import { Badge } from '@/components/Badge/Badge';
+import { WizardsVaultNewSeasonBadge } from './WizardsVaultNewSeasonBadge';
 
 interface NavigationProps {
   language: Language;
@@ -18,7 +18,7 @@ const Navigation: FC<NavigationProps> = ({ language }) => {
       <Composite render={<ul className={styles.navigation}/>}>
         <NavigationItem href="/item" icon="item"><Trans language={language} id="navigation.items"/></NavigationItem>
         <NavigationItem href="/achievement" icon="achievement"><Trans language={language} id="navigation.achievements"/></NavigationItem>
-        <NavigationItem href="/wizards-vault" icon="wizards-vault"><Trans language={language} id="navigation.wizardsVault"/><Badge color="var(--color-rarity-exotic)">New Season</Badge></NavigationItem>
+        <NavigationItem href="/wizards-vault" icon="wizards-vault"><Trans language={language} id="navigation.wizardsVault"/><WizardsVaultNewSeasonBadge/></NavigationItem>
         <NavigationItem href="/homestead/nodes" icon="homestead"><Trans language={language} id="navigation.homestead"/></NavigationItem>
         <NavigationItem href="/skin" icon="skin"><Trans language={language} id="navigation.skins"/></NavigationItem>
         {/* <NavigationItem href="/profession" icon="profession"><Trans language={language} id="navigation.professions"/></NavigationItem> */}

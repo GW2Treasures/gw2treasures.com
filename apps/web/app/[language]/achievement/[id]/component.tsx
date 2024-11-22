@@ -116,8 +116,8 @@ export async function AchievementPageComponent({ language, achievementId, revisi
 
   const fixedRevision = revisionId !== undefined;
 
-  const Bits = data.bits && data.bits.length > 0 && !data.flags.includes('CategoryDisplay') ? createDataTable(data.bits, (_, index) => index) : undefined;
-  const hasCategoryAchievements = data.flags.includes('CategoryDisplay') && categoryAchievements.length > 0;
+  const hasCategoryAchievements = data.flags.includes('CategoryDisplay') && data.type !== 'ItemSet' && categoryAchievements.length > 0;
+  const Bits = data.bits && data.bits.length > 0 && !hasCategoryAchievements ? createDataTable(data.bits, (_, index) => index) : undefined;
   const OptionalCategoryAchievementTable = hasCategoryAchievements ? AchievementTable : ({ children }: { children: (t: ReactNode, c: ReactNode) => ReactNode }) => children(null, null);
   // const CategoryAchievements = hasCategoryAchievements ? createDataTable(categoryAchievements, (achievement) => achievement.id) : undefined;
 

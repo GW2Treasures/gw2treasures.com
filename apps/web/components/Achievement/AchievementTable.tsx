@@ -19,6 +19,7 @@ import { DropDown } from '@gw2treasures/ui/components/DropDown/DropDown';
 import { Button, LinkButton } from '@gw2treasures/ui/components/Form/Button';
 import { MenuList } from '@gw2treasures/ui/components/Layout/MenuList';
 import { Mastery } from './Mastery';
+import { FormatDate } from '../Format/FormatDate';
 
 export interface AchievementTableProps {
   language: Language;
@@ -75,6 +76,9 @@ export const AchievementTable: FC<AchievementTableProps> = ({ language, achievem
       </Achievements.Column>
       <Achievements.Column id="points" align="right" title="AP" small sortBy="points">
         {({ points }) => <AchievementPoints points={points}/>}
+      </Achievements.Column>
+      <Achievements.Column id="createdAt" title="Discovered At" hidden sortBy="createdAt">
+        {({ createdAt }) => <FormatDate date={createdAt}/>}
       </Achievements.Column>
       <Achievements.DynamicColumns headers={<AccountAchievementProgressHeader/>}>
         {(achievement) => <AccountAchievementProgressRow achievement={achievement}/>}

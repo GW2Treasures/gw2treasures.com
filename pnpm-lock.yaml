@@ -77,8 +77,8 @@ importers:
         specifier: 0.1.52
         version: 0.1.52
       '@gw2me/client':
-        specifier: 0.3.0
-        version: 0.3.0
+        specifier: 0.4.0
+        version: 0.4.0
       '@gw2treasures/database':
         specifier: workspace:*
         version: link:../../packages/database
@@ -928,8 +928,8 @@ packages:
   '@gw2efficiency/game-data@0.1.52':
     resolution: {integrity: sha512-BTVJRLPS7kMLF1jW5+fLwB6aDvVnt1O5P9ohqoi0nzKO1AfGFb3nu3P4wVZq56ONrQMhCQrkoefrz9YmxIDGIw==}
 
-  '@gw2me/client@0.3.0':
-    resolution: {integrity: sha512-eAwXTf9hnkSD0a8Ck2sv7zAg4eEistXf/EzyXZZgG3gtpqF7Bsa5jkeNtej32cJvEP+x63N5vJBcpZwO/3qayw==}
+  '@gw2me/client@0.4.0':
+    resolution: {integrity: sha512-ifIDLZdRz2PypECj+tDGdG9VKZSRX/yuLv1zkbBoMIPSyaNvT1UsjXGdaTtDeRhZwAc2ejD1rI7cb1LCZsdvPA==}
 
   '@humanwhocodes/config-array@0.13.0':
     resolution: {integrity: sha512-DZLEEqFWQFiyK6h5YIeynKx7JlvCYWL0cImfSRXZ9l4Sg2efkFGTuFf6vzXjK1cq6IYkU+Eg/JizXw+TD2vRNw==}
@@ -4795,7 +4795,7 @@ snapshots:
 
   '@gw2efficiency/game-data@0.1.52': {}
 
-  '@gw2me/client@0.3.0': {}
+  '@gw2me/client@0.4.0': {}
 
   '@humanwhocodes/config-array@0.13.0':
     dependencies:

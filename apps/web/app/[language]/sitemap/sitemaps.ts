@@ -146,12 +146,15 @@ export const sitemaps: Record<string, Sitemap> = {
         '/item/empty-containers',
         '/achievement/uncategorized',
         '/wizards-vault',
+        '/wizards-vault/objectives',
+        '/wizards-vault/rewards',
         '/homestead/nodes',
         '/homestead/cats',
         '/homestead/decorations',
         '/homestead/materials',
         '/homestead/glyphs',
         '/fractals',
+        '/event/evon-gnashblades-birthday',
       ].map((page) => getEntryForUrl(language, page));
     }
   }

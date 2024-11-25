@@ -2,7 +2,7 @@
 
 ARG node_version=22.11.0-alpine
 # renovate: datasource=npm packageName=turbo
-ARG turbo_version=2.3.1
+ARG turbo_version=2.3.2
 
 
 # common base for all stages

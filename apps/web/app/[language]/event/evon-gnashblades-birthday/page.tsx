@@ -16,6 +16,7 @@ import { Icon } from '@gw2treasures/ui';
 import { ExternalLink } from '@gw2treasures/ui/components/Link/ExternalLink';
 import type { Metadata } from 'next';
 import ogImage from './2b4a3gw2-gnashblade-bday-bash-1920x1080-2-590x332.jpg';
+import { getCurrentUrl } from '@/lib/url';
 
 const endsAt = new Date('2024-12-02T17:00:00.000Z');
 
@@ -102,12 +103,14 @@ export default async function EventPage() {
   );
 }
 
-export const metadata: Metadata = {
-  title: 'Evon Gnashblade’s “Birthday” celebration',
-  description: 'From November 25 to December 2, the Black Lion Vaults will open with exclusive offerings and a chance to trade materials for a few limited-time surprises. ' +
-    'There will also be new vendors, new displays, and a whole new look to the Vaults, so get ready to head over to Lion’s Arch next week.',
-  openGraph: {
-    images: [{ url: ogImage.src, width: ogImage.width, height: ogImage.height }],
-  },
-  twitter: { card: 'summary_large_image' }
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: 'Evon Gnashblade’s “Birthday” celebration',
+    description: 'From November 25 to December 2, the Black Lion Vaults will open with exclusive offerings and a chance to trade materials for a few limited-time surprises. ' +
+      'There will also be new vendors, new displays, and a whole new look to the Vaults, so get ready to head over to Lion’s Arch next week.',
+    openGraph: {
+      images: [{ url: new URL(ogImage.src, await getCurrentUrl()), width: ogImage.width, height: ogImage.height }],
+    },
+    twitter: { card: 'summary_large_image' }
+  };
+}

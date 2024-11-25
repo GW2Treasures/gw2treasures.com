@@ -62,7 +62,7 @@ export default async function EventPage() {
         <Exchange.Column title="Item" id="item">{({ itemId }) => <ItemLink item={items[itemId]}/>}</Exchange.Column>
         <Exchange.Column title="Material" id="material">
           {({ materialId, quantity }) => (
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, whiteSpace: 'nowrap' }}>
               <span>
                 <span style={{ fontFeatureSettings: '"tnum"', minWidth: '3ch', display: 'inline-block', textAlign: 'right' }}>{quantity}</span>
                 {' × '}

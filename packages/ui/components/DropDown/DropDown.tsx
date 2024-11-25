@@ -1,6 +1,6 @@
 'use client';
 
-import { arrow, autoUpdate, flip, hide, offset, type Placement, shift, size, useClick, useDismiss, useFloating, useFocus, useInteractions, useTransitionStyles, FloatingPortal, FloatingFocusManager, FloatingArrow } from '@floating-ui/react';
+import { arrow, autoUpdate, flip, hide, offset, type Placement, shift, size, useClick, useDismiss, useFloating, useFocus, useInteractions, useTransitionStyles, FloatingPortal, FloatingFocusManager, FloatingArrow, useHover, useMergeRefs } from '@floating-ui/react';
 import { Children, cloneElement, type FC, type ReactElement, type ReactNode, useRef, useState, type HTMLProps } from 'react';
 import styles from './DropDown.module.css';
 import { isTruthy } from '@gw2treasures/helper/is';
@@ -10,9 +10,10 @@ export interface DropDown {
   children: ReactNode;
   preferredPlacement?: Placement;
   hideTop?: boolean;
+  hover?: boolean;
 }
 
-export const DropDown: FC<DropDown> = ({ children, button, preferredPlacement = 'bottom-end', hideTop = true }) => {
+export const DropDown: FC<DropDown> = ({ children, button, preferredPlacement = 'bottom-end', hideTop = true, hover = false }) => {
   const [open, setOpen] = useState(false);
   const arrowRef = useRef<SVGSVGElement>(null);
   const padding = { top: 48 + 8, bottom: 8, left: 8, right: 8 };
@@ -39,13 +40,16 @@ export const DropDown: FC<DropDown> = ({ children, button, preferredPlacement = 
     useFocus(context),
     useDismiss(context),
     useClick(context),
+    useHover(context, { enabled: hover })
   ]);
 
   const { styles: transitionStyles, isMounted } = useTransitionStyles(context);
 
+  const buttonRef = useMergeRefs(button.props.ref ? [refs.setReference, button.props.ref] : [refs.setReference]);
+
   return (
     <>
-      {cloneElement(Children.only(button), { ref: refs.setReference, ...getReferenceProps({ ...button.props, onClick: (e) => e.preventDefault() }) })}
+      {cloneElement(Children.only(button), { ref: buttonRef, ...getReferenceProps({ ...button.props, onClick: (e) => e.preventDefault() }) })}
       {isMounted && (
         <FloatingPortal>
           <div

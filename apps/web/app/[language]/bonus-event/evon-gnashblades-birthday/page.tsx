@@ -112,12 +112,12 @@ export default async function EventPage({ params }: PageProps) {
         <Exchange.Column title="Purchase Limit" id="limit" align="right">{({ purchaseLimit }) => <FormatNumber value={purchaseLimit}/>}</Exchange.Column>
       </Exchange.Table>
 
-      <Headline id="wizards-vault">Wizard's Vault</Headline>
-      <p>Go to <Link href="/wizards-vault">Wizard's Vault</Link> to view all your active Wizard's Vault objectives.</p>
+      <Headline id="wizards-vault">Wizard&apos;s Vault</Headline>
+      <p>Go to <Link href="/wizards-vault">Wizard&apos;s Vault</Link> to view all your active Wizard&apos;s Vault objectives.</p>
 
       <WizardsVaultObjective objective={objective} language={language}/>
 
-      <PageView page="/event/evon-gnashblades-birthday"/>
+      <PageView page="bonus-event/evon-gnashblades-birthday"/>
     </HeroLayout>
   );
 }

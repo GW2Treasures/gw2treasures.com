@@ -17,6 +17,7 @@ export interface Gw2AccountsProps {
   options?: GetAccountsOptions;
   loading?: ReactNode;
   authorizationMessage?: ReactNode;
+  loginMessage?: ReactNode;
 }
 
 export const Gw2Accounts: FC<Gw2AccountsProps> = ({ loading, ...props }) => {
@@ -27,7 +28,7 @@ export const Gw2Accounts: FC<Gw2AccountsProps> = ({ loading, ...props }) => {
   );
 };
 
-const Gw2AccountsInternal: FC<Gw2AccountsProps> = ({ children, requiredScopes, optionalScopes = [], options, loading, authorizationMessage }) => {
+const Gw2AccountsInternal: FC<Gw2AccountsProps> = ({ children, requiredScopes, optionalScopes = [], options, loading, authorizationMessage, loginMessage }) => {
   const user = useUser();
   const accounts = useGw2Accounts(requiredScopes, optionalScopes, options);
 
@@ -38,7 +39,7 @@ const Gw2AccountsInternal: FC<Gw2AccountsProps> = ({ children, requiredScopes, o
   if(!user) {
     return (
       <Gw2AccountLoginNotice requiredScopes={requiredScopes} optionalScopes={optionalScopes}>
-        {authorizationMessage}
+        {loginMessage ?? authorizationMessage}
       </Gw2AccountLoginNotice>
     );
   }
@@ -52,7 +53,7 @@ const Gw2AccountsInternal: FC<Gw2AccountsProps> = ({ children, requiredScopes, o
   if(requiredScopes.some((scope) => !accounts.scopes.includes(scope))) {
     return (
       <Gw2AccountAuthorizationNotice scopes={accounts.scopes} requiredScopes={requiredScopes} optionalScopes={optionalScopes}>
-        {authorizationMessage}
+        {authorizationMessage ?? loginMessage}
       </Gw2AccountAuthorizationNotice>
     );
   }

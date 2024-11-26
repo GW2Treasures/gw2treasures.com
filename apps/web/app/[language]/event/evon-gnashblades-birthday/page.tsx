@@ -17,6 +17,10 @@ import { ExternalLink } from '@gw2treasures/ui/components/Link/ExternalLink';
 import type { Metadata } from 'next';
 import ogImage from './2b4a3gw2-gnashblade-bday-bash-1920x1080-2-590x332.jpg';
 import { getCurrentUrl } from '@/lib/url';
+import { WizardsVaultObjective } from '@/components/WizardsVault/WizardsVaultObjective';
+import type { PageProps } from '@/lib/next';
+import { PageView } from '@/components/PageView/PageView';
+import Link from 'next/link';
 
 const endsAt = new Date('2024-12-02T17:00:00.000Z');
 
@@ -43,10 +47,19 @@ const loadItems = cache(async function loadItems() {
   });
 
   return Object.fromEntries(groupById(items).entries());
-}, ['evon-gnashblades-birthday']);
+}, ['evon-gnashblades-birthday'], { revalidate: 60 * 60 });
 
-export default async function EventPage() {
-  const items = await loadItems();
+const loadObjective = cache(async function loadObjective() {
+  const objective = await db.wizardsVaultObjective.findUnique({
+    where: { id: 290 }
+  });
+
+  return objective!;
+}, ['evon-gnashblades-birthday-objective'], { revalidate: 60 * 60 * 24 });
+
+export default async function EventPage({ params }: PageProps) {
+  const { language } = await params;
+  const [items, objective] = await Promise.all([loadItems(), loadObjective()]);
   const Exchange = createDataTable(data, (_, index) => index);
 
   return (
@@ -99,6 +112,12 @@ export default async function EventPage() {
         <Exchange.Column title="Purchase Limit" id="limit" align="right">{({ purchaseLimit }) => <FormatNumber value={purchaseLimit}/>}</Exchange.Column>
       </Exchange.Table>
 
+      <Headline id="wizards-vault">Wizard's Vault</Headline>
+      <p>Go to <Link href="/wizards-vault">Wizard's Vault</Link> to view all your active Wizard's Vault objectives.</p>
+
+      <WizardsVaultObjective objective={objective} language={language}/>
+
+      <PageView page="/event/evon-gnashblades-birthday"/>
     </HeroLayout>
   );
 }

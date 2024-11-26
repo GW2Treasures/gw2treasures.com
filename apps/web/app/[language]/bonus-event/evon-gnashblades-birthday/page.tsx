@@ -71,6 +71,8 @@ export default async function EventPage({ params }: PageProps) {
       </Description>
 
       <Headline id="materials" actions={<ColumnSelect table={Exchange}/>}>Material Exchange</Headline>
+      <p>Head to the <b>Black Lion &quot;Birthday&quot; Manager</b> at The Vaults in Lion&apos;s Arch to exchange materials for items. Each purchase has an account limit.</p>
+
       <Exchange.Table>
         <Exchange.Column title="Item" id="item">{({ itemId }) => <ItemLink item={items[itemId]}/>}</Exchange.Column>
         <Exchange.Column title="Material" id="material">

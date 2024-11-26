@@ -157,7 +157,7 @@ export const TableOfContent: FC = () => {
   }, [ignoreScroll]);
 
   return (
-    <ol className={styles.toc}>
+    <ol className={styles.toc} data-nosnippet>
       <li className={styles.jumpItem}>
         <a className={styles.link} href="#toc" tabIndex={1} onClick={handleJumpToToc}>
           Jump to Table Of Content

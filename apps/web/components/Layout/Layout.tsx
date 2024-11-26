@@ -54,7 +54,7 @@ const Layout: FC<LayoutProps> = ({ children, language }) => {
         </Menu>
         <hr className={styles.headerShadow}/>
         {children}
-        <footer className={styles.footer}>
+        <footer className={styles.footer} data-nosnippet>
           <span><b>gw2treasures.com</b> by darthmaim &copy; {new Date().getFullYear()}</span>
           <div className={styles.footerLinks}>
             <Link href="/about">About</Link> /

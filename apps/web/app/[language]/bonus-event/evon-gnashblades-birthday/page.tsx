@@ -129,6 +129,7 @@ export async function generateMetadata(): Promise<Metadata> {
     title: 'Evon Gnashblade’s “Birthday” celebration',
     description: 'From November 25 to December 2, the Black Lion Vaults will open with exclusive offerings and a chance to trade materials for a few limited-time surprises. ' +
       'There will also be new vendors, new displays, and a whole new look to the Vaults, so get ready to head over to Lion’s Arch next week.',
+    keywords: ['evon', 'gnashblade', 'birthday', 'material', 'festival', 'event', 'bonus', 'special', 'wizards vault'],
     openGraph: {
       images: [{ url: new URL(ogImage.src, await getCurrentUrl()), width: ogImage.width, height: ogImage.height }],
     },

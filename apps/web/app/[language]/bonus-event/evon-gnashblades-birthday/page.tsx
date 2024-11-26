@@ -15,7 +15,7 @@ import { Trans } from '@/components/I18n/Trans';
 import { Icon } from '@gw2treasures/ui';
 import { ExternalLink } from '@gw2treasures/ui/components/Link/ExternalLink';
 import type { Metadata } from 'next';
-import ogImage from './2b4a3gw2-gnashblade-bday-bash-1920x1080-2-590x332.jpg';
+import ogImage from './og.png';
 import { getCurrentUrl } from '@/lib/url';
 import { WizardsVaultObjective } from '@/components/WizardsVault/WizardsVaultObjective';
 import type { PageProps } from '@/lib/next';

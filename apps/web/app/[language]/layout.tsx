@@ -68,6 +68,12 @@ export const metadata = {
     default: ''
   },
   description: 'Guild Wars 2 Database and tool collection',
+  keywords: [
+    'guild wars 2', 'gw2', 'arenanet', 'anet', 'database', 'tool',
+    'tradingpost', 'tp', 'history', 'buy', 'sell', 'black lion', 'bltc',
+    'item', 'achievement', 'wizards vault', 'homestead', 'skin', 'skill', 'fractal', 'strike', 'raid', 'event', 'festival',
+    'api', 'account', 'inventory', 'progress', 'recipe', 'crafting', 'mystic forge', 'material', 'wallet'
+  ],
   manifest: '/site.webmanifest',
   applicationName: 'gw2treasures.com',
   appleWebApp: {

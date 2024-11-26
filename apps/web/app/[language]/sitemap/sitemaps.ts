@@ -154,7 +154,7 @@ export const sitemaps: Record<string, Sitemap> = {
         '/homestead/materials',
         '/homestead/glyphs',
         '/fractals',
-        '/event/evon-gnashblades-birthday',
+        '/bonus-event/evon-gnashblades-birthday',
       ].map((page) => getEntryForUrl(language, page));
     }
   }

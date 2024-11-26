@@ -34,6 +34,7 @@ const nextConfig: NextConfig = {
   redirects: () => Promise.resolve([
     { source: '/wizardsvault', destination: '/wizards-vault', permanent: true },
     { source: '/homestead', destination: '/homestead/nodes', permanent: true },
+    { source: '/event/evon-gnashblades-birthday', destination: '/bonus-event/evon-gnashblades-birthday', permanent: true },
   ]),
 };
 

@@ -4,7 +4,7 @@ import type { db } from '@/lib/prisma';
 import type { Signed } from './query';
 import type { TranslationId } from '@/lib/translate';
 
-export type GlobalColumnId = 'id' | 'item' | 'icon' | 'name_de' | 'name_en' | 'name_es' | 'name_fr' | 'level' | 'rarity' | 'type' | 'vendorValue' | 'buyPrice' | 'buyQuantity' | 'sellPrice' | 'sellQuantity';
+export type GlobalColumnId = 'id' | 'item' | 'icon' | 'name_de' | 'name_en' | 'name_es' | 'name_fr' | 'level' | 'rarity' | 'type' | 'vendorValue' | 'buyPrice' | 'buyPriceTrend' | 'buyQuantity' | 'sellPrice' | 'sellPriceTrend' | 'sellQuantity';
 
 export interface ItemTableQuery<Model extends QueryModel = 'item'> {
   model?: Model;

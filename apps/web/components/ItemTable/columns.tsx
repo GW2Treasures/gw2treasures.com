@@ -14,6 +14,7 @@ import type { TranslationId } from '@/lib/translate';
 import { translations, type TypeTranslation } from '../Item/ItemType.translations';
 import { ItemType } from '../Item/ItemType';
 import type { SubType, Type } from '../Item/ItemType.types';
+import { PriceTrend } from '../Item/PriceTrend';
 
 // typehelper
 function createColumn<Select extends Prisma.ItemSelect, Translations extends TranslationId = never>(column: ItemTableColumn<Select, Translations>) {
@@ -102,6 +103,12 @@ export const globalColumnDefinitions = {
     align: 'right',
     orderBy: [{ buyPrice: 'asc' }, { buyPrice: 'desc' }]
   }),
+  buyPriceTrend: createColumn({
+    id: 'buyPriceTrend',
+    order: 125,
+    select: { tpHistory: true, tpTradeable: true },
+    align: 'right',
+  }),
   buyQuantity: createColumn({
     id: 'buyQuantity',
     order: 130,
@@ -115,6 +122,12 @@ export const globalColumnDefinitions = {
     select: { sellPrice: true, tpCheckedAt: true, tpTradeable: true },
     align: 'right',
     orderBy: [{ sellPrice: { sort: 'asc', nulls: 'first' }}, { sellPrice: { sort: 'desc', nulls: 'last' }}]
+  }),
+  sellPriceTrend: createColumn({
+    id: 'sellPriceTrend',
+    order: 145,
+    select: { tpHistory: true, tpTradeable: true },
+    align: 'right',
   }),
   sellQuantity: createColumn({
     id: 'sellQuantity',
@@ -147,8 +160,10 @@ export const globalColumnRenderer: Renderer = {
   type: (item, t) => <ItemType type={item.type as Type} subtype={item.subtype as SubType<Type>} translations={t as Record<TypeTranslation<Type, SubType<Type>>, string>} display="long"/>,
   vendorValue: (item, t) => item.vendorValue === null ? empty(t['item.flag.NoSell']) : <Coins value={item.vendorValue}/>,
   buyPrice: (item) => !item.tpTradeable ? empty() : renderPriceWithOptionalWarning(item.tpCheckedAt, item.buyPrice),
+  buyPriceTrend: (item) => !item.tpTradeable ? empty() : <PriceTrend history={item.tpHistory} price="buyPrice"/>,
   buyQuantity: (item) => !item.tpTradeable ? empty() : <FormatNumber value={item.buyQuantity ?? 0}/>,
   sellPrice: (item) => !item.tpTradeable ? empty() : renderPriceWithOptionalWarning(item.tpCheckedAt, item.sellPrice),
+  sellPriceTrend: (item) => !item.tpTradeable ? empty() : <PriceTrend history={item.tpHistory} price="sellPrice"/>,
   sellQuantity: (item) => !item.tpTradeable ? empty() : <FormatNumber value={item.sellQuantity ?? 0}/>,
 };
 

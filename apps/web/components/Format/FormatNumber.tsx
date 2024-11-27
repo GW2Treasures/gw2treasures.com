@@ -1,6 +1,6 @@
 'use client';
 
-import type { FC, ReactNode } from 'react';
+import { useMemo, type FC, type ReactNode } from 'react';
 import { useFormatContext } from './FormatContext';
 import styles from './Format.module.css';
 import { cx } from '@gw2treasures/ui';
@@ -12,16 +12,25 @@ interface FormatNumberProps extends RefProp<HTMLDataElement> {
   value: number | bigint | undefined | null;
   className?: string;
   unit?: ReactNode;
+  options?: Intl.NumberFormatOptions
 }
 
 const format = new Intl.NumberFormat(undefined, { useGrouping: true });
 
-export const FormatNumber: FC<FormatNumberProps> = ({ ref, value, className, unit }) => {
-  const { numberFormat } = useFormatContext();
+export const FormatNumber: FC<FormatNumberProps> = ({ ref, value, className, unit, options }) => {
+  const { numberFormat, locale } = useFormatContext();
+
+  const customFormat = useMemo(() => {
+    if(!options) {
+      return numberFormat;
+    }
+
+    return new Intl.NumberFormat(locale, { ...numberFormat.resolvedOptions(), ...options });
+  }, [numberFormat, locale, options]);
 
   return (
     <data ref={ref} className={cx(styles.format, className)} value={value?.toString() ?? undefined} suppressHydrationWarning>
-      {value != null ? numberFormat.format(value) : '?'}
+      {value != null ? customFormat.format(value) : '?'}
       {unit && <>{NARROW_NO_BREAK_SPACE}{unit}</>}
     </data>
   );

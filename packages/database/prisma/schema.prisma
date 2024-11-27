@@ -36,6 +36,7 @@ model Item {
   sellQuantity  Int?
   sellPrice     Int?
   tpCheckedAt   DateTime?
+  tpHistory     TradingPostHistory_Trend[]
 
   // skins
   unlocksSkin    Skin[]
@@ -143,6 +144,20 @@ model TradingPostHistory {
   buyPrice      Int?
   sellQuantity  Int?
   sellPrice     Int?
+  
+  @@unique([itemId,  time])
+}
+
+view TradingPostHistory_Trend {
+  itemId Int
+  time   DateTime @default(now())
+
+  buyQuantity   Int?
+  buyPrice      Int?
+  sellQuantity  Int?
+  sellPrice     Int?
+
+  item Item @relation(fields: [itemId], references: [id])
   
   @@unique([itemId,  time])
 }

@@ -18,6 +18,7 @@ export interface PriceTrendProps {
 const percentageFormat: Intl.NumberFormatOptions = {
   minimumFractionDigits: 1,
   maximumFractionDigits: 1,
+  signDisplay: 'exceptZero',
   style: 'percent'
 };
 

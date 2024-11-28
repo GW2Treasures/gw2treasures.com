@@ -34,7 +34,8 @@ const getGlyphs = cache(async () => {
       ...linkProperties,
       tpTradeable: true, tpCheckedAt: true,
       buyPrice: true, buyQuantity: true,
-      sellPrice: true, sellQuantity: true
+      sellPrice: true, sellQuantity: true,
+      tpHistory: true,
     },
     where: { name_en: { in: unusedGlyphNames }}
   });
@@ -72,11 +73,14 @@ export default async function HomesteadGlyphsPage({ params }: PageProps) {
       </Description>
 
       <Glyphs.Table>
+        <Glyphs.Column id="id" title={<Trans id="itemTable.column.id"/>} sortBy="itemIdRaw" small hidden align="right">{({ itemIdRaw }) => itemIdRaw}</Glyphs.Column>
         <Glyphs.Column id="name" title="Glyph" sortBy={({ item }) => item ? localizedName(item, language) : ''}>{({ item, itemIdRaw }) => item ? <ItemLink item={item}/> : <UnknownItem id={itemIdRaw}/>}</Glyphs.Column>
-        <Glyphs.Column id="buyPrice" title="Buy Price" sortBy={({ unusedGlyph }) => unusedGlyph?.buyPrice} align="right">{({ unusedGlyph }) => unusedGlyph && itemTableColumn.buyPrice(unusedGlyph, {})}</Glyphs.Column>
-        <Glyphs.Column id="buyQuantity" title="Buy Quantity" sortBy={({ unusedGlyph }) => unusedGlyph?.buyQuantity} align="right" hidden>{({ unusedGlyph }) => unusedGlyph && itemTableColumn.buyQuantity(unusedGlyph, {})}</Glyphs.Column>
-        <Glyphs.Column id="sellPrice" title="Sell Price" sortBy={({ unusedGlyph }) => unusedGlyph?.sellPrice} align="right" hidden>{({ unusedGlyph }) => unusedGlyph && itemTableColumn.sellPrice(unusedGlyph, {})}</Glyphs.Column>
-        <Glyphs.Column id="sellQuantity" title="Buy Quantity" sortBy={({ unusedGlyph }) => unusedGlyph?.sellQuantity} align="right" hidden>{({ unusedGlyph }) => unusedGlyph && itemTableColumn.sellQuantity(unusedGlyph, {})}</Glyphs.Column>
+        <Glyphs.Column id="buyPrice" title={<Trans id="itemTable.column.buyPrice"/>} sortBy={({ unusedGlyph }) => unusedGlyph?.buyPrice} align="right">{({ unusedGlyph }) => unusedGlyph && itemTableColumn.buyPrice(unusedGlyph, {})}</Glyphs.Column>
+        <Glyphs.Column id="buyPriceTrend" title={<Trans id="itemTable.column.buyPriceTrend"/>} align="right">{({ unusedGlyph }) => unusedGlyph && itemTableColumn.buyPriceTrend(unusedGlyph, {})}</Glyphs.Column>
+        <Glyphs.Column id="buyQuantity" title={<Trans id="itemTable.column.buyQuantity"/>} sortBy={({ unusedGlyph }) => unusedGlyph?.buyQuantity} align="right" hidden>{({ unusedGlyph }) => unusedGlyph && itemTableColumn.buyQuantity(unusedGlyph, {})}</Glyphs.Column>
+        <Glyphs.Column id="sellPrice" title={<Trans id="itemTable.column.sellPrice"/>} sortBy={({ unusedGlyph }) => unusedGlyph?.sellPrice} align="right" hidden>{({ unusedGlyph }) => unusedGlyph && itemTableColumn.sellPrice(unusedGlyph, {})}</Glyphs.Column>
+        <Glyphs.Column id="sellPriceTrend" title={<Trans id="itemTable.column.sellPriceTrend"/>} align="right" hidden>{({ unusedGlyph }) => unusedGlyph && itemTableColumn.sellPriceTrend(unusedGlyph, {})}</Glyphs.Column>
+        <Glyphs.Column id="sellQuantity" title={<Trans id="itemTable.column.sellQuantity"/>} sortBy={({ unusedGlyph }) => unusedGlyph?.sellQuantity} align="right" hidden>{({ unusedGlyph }) => unusedGlyph && itemTableColumn.sellQuantity(unusedGlyph, {})}</Glyphs.Column>
         <Glyphs.DynamicColumns headers={<Gw2AccountHeaderCells requiredScopes={requiredScopes} small colSpan={3}/>}>
           {({ id }) => <Gw2AccountBodyCells requiredScopes={requiredScopes}><AccountHomesteadGlyphsCell glyphIdPrefix={id.split('_')[0]} accountId={undefined as never} slotTranslations={glyphSlotTranslations}/></Gw2AccountBodyCells>}
         </Glyphs.DynamicColumns>

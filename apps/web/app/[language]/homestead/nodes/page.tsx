@@ -27,7 +27,8 @@ const getItems = cache(
         ...linkProperties,
         tpTradeable: true, tpCheckedAt: true,
         buyPrice: true, buyQuantity: true,
-        sellPrice: true, sellQuantity: true
+        sellPrice: true, sellQuantity: true,
+        tpHistory: true,
       }
     });
 
@@ -63,12 +64,14 @@ export default async function HomesteadNodesPage() {
       </Description>
 
       <HomeNode.Table>
-        <HomeNode.Column id="id" title="Id" small hidden>{({ id }) => id}</HomeNode.Column>
+        <HomeNode.Column id="id" title={<Trans id="itemTable.column.id"/>} sortBy="id" small hidden>{({ id }) => id}</HomeNode.Column>
         <HomeNode.Column id="node" title="Node" sortBy="name">{({ item, name }) => item ? <ItemLink item={item}/> : name}</HomeNode.Column>
-        <HomeNode.Column id="buyPrice" title="Buy Price" sortBy={({ item }) => item.buyPrice} align="right">{({ item }) => itemTableColumn.buyPrice(item, {})}</HomeNode.Column>
-        <HomeNode.Column id="buyQuantity" title="Buy Quantity" sortBy={({ item }) => item.buyQuantity} align="right" hidden>{({ item }) => itemTableColumn.buyQuantity(item, {})}</HomeNode.Column>
-        <HomeNode.Column id="sellPrice" title="Sell Price" sortBy={({ item }) => item.sellPrice} align="right" hidden>{({ item }) => itemTableColumn.sellPrice(item, {})}</HomeNode.Column>
-        <HomeNode.Column id="sellQuantity" title="Sell Quantity" sortBy={({ item }) => item.sellQuantity} align="right" hidden>{({ item }) => itemTableColumn.sellQuantity(item, {})}</HomeNode.Column>
+        <HomeNode.Column id="buyPrice" title={<Trans id="itemTable.column.buyPrice"/>} sortBy={({ item }) => item.buyPrice} align="right">{({ item }) => itemTableColumn.buyPrice(item, {})}</HomeNode.Column>
+        <HomeNode.Column id="buyPriceTrend" title={<Trans id="itemTable.column.buyPriceTrend"/>} align="right">{({ item }) => itemTableColumn.buyPriceTrend(item, {})}</HomeNode.Column>
+        <HomeNode.Column id="buyQuantity" title={<Trans id="itemTable.column.buyQuantity"/>} sortBy={({ item }) => item.buyQuantity} align="right" hidden>{({ item }) => itemTableColumn.buyQuantity(item, {})}</HomeNode.Column>
+        <HomeNode.Column id="sellPrice" title={<Trans id="itemTable.column.sellPrice"/>} sortBy={({ item }) => item.sellPrice} align="right" hidden>{({ item }) => itemTableColumn.sellPrice(item, {})}</HomeNode.Column>
+        <HomeNode.Column id="sellPriceTrend" title={<Trans id="itemTable.column.sellPriceTrend"/>} align="right" hidden>{({ item }) => itemTableColumn.sellPriceTrend(item, {})}</HomeNode.Column>
+        <HomeNode.Column id="sellQuantity" title={<Trans id="itemTable.column.sellQuantity"/>} sortBy={({ item }) => item.sellQuantity} align="right" hidden>{({ item }) => itemTableColumn.sellQuantity(item, {})}</HomeNode.Column>
         <HomeNode.DynamicColumns headers={<Gw2AccountHeaderCells requiredScopes={requiredScopes} small/>}>
           {({ id }) => <Gw2AccountBodyCells requiredScopes={requiredScopes}><AccountHomeNodeCell nodeId={id} accountId={undefined as never}/></Gw2AccountBodyCells>}
         </HomeNode.DynamicColumns>

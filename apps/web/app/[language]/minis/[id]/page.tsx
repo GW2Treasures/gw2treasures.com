@@ -78,7 +78,7 @@ async function MiniPage ({ params }: MiniPageProps) {
 
       <ItemTableContext id="unlocksMini">
         <Headline id="items" actions={<ItemTableColumnsButton/>}>Unlocked by</Headline>
-        <ItemTable query={{ where: { unlocksMinis: { some: { id: miniId }}}}} collapsed defaultColumns={['item', 'level', 'rarity', 'type', 'vendorValue', 'sellPrice']}/>
+        <ItemTable query={{ where: { unlocksMinis: { some: { id: miniId }}}}} collapsed defaultColumns={['item', 'rarity', 'buyPrice', 'buyPriceTrend']}/>
       </ItemTableContext>
 
       <Headline id="data">Data</Headline>

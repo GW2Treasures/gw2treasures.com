@@ -30,7 +30,7 @@ export default function HomesteadCatsPage() {
       </Description>
 
       <HomeCats.Table>
-        <HomeCats.Column id="id" title="Id" align="right" small hidden>{({ id }) => id}</HomeCats.Column>
+        <HomeCats.Column id="id" title="Id" sortBy="id" align="right" small hidden>{({ id }) => id}</HomeCats.Column>
         <HomeCats.Column id="name" title="Cat" sortBy="name">{({ name, icon }) => <FlexRow><MaybeRenderIcon src={icon}/> {name}</FlexRow>}</HomeCats.Column>
         <HomeCats.Column id="desc" title="Description" sortBy="description">{({ description }) => <CatDescription description={description}/>}</HomeCats.Column>
         <HomeCats.DynamicColumns headers={<Gw2AccountHeaderCells requiredScopes={requiredScopes} small/>}>

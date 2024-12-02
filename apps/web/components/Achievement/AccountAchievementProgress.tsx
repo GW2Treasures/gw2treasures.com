@@ -10,6 +10,7 @@ import type { Achievement } from '@gw2treasures/database';
 import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 import { Gw2AccountBodyCells, Gw2AccountHeaderCells } from '../Gw2Api/Gw2AccountTableCells';
 import { FormatNumber } from '../Format/FormatNumber';
+import type { AchievementFlags } from '@gw2api/types/data/achievement';
 
 const requiredScopes = [Scope.GW2_Progression];
 
@@ -22,6 +23,8 @@ export interface AccountAchievementProgressCellProps {
   bitId?: number;
   accountId: string;
 }
+
+const dailyFlags: AchievementFlags[] = ['Daily', 'Weekly', 'Monthly'];
 
 export const AccountAchievementProgressHeader: FC = () => <Gw2AccountHeaderCells requiredScopes={requiredScopes} small/>;
 
@@ -60,6 +63,12 @@ export const AccountAchievementProgressCell: FC<AccountAchievementProgressCellPr
   }
 
   if(!progress) {
+    const isDaily = dailyFlags.some((flag) => achievement.flags.includes(flag));
+
+    if(isDaily) {
+      return (<td><Tip tip="The GW2 API does not report progress on daily achievements"><Icon icon="info"/></Tip></td>);
+    }
+
     return (<td/>);
   }
 

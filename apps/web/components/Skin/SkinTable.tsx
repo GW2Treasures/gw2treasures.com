@@ -26,43 +26,51 @@ export interface SkinTableProps {
   skins: WithIcon<Pick<Skin, 'id' | 'rarity' | 'weight' | 'type' | 'subtype' | 'unlocks' | keyof LocalizedEntity>>[]
   headline?: ReactNode;
   headlineId?: string;
+  children?: (table: ReactNode, columnSelect: ReactNode) => ReactNode
 }
 
-export const SkinTable: FC<SkinTableProps> = async ({ skins, headline, headlineId }) => {
+export const SkinTable: FC<SkinTableProps> = async ({ skins, headline, headlineId, children }) => {
   const language = await getLanguage();
   const Skins = createDataTable(skins, ({ id }) => id);
   const anySkinHasWeight = skins.some(({ weight }) => weight !== null);
 
+  const table = (
+    <Skins.Table>
+      <Skins.Column id="id" title={<Trans id="itemTable.column.id"/>} align="right" small hidden sortBy="id">{({ id }) => id}</Skins.Column>
+      <Skins.Column id="skin" title="Skin">{(skin) => <SkinLink skin={skin}/>}</Skins.Column>
+      <Skins.Column id="type" title={<Trans id="itemTable.column.type"/>} sortBy="type">{(skin) => <ItemType display="long" type={skin.type as Type} subtype={skin.subtype as SubType<Type>} translations={translateMany(itemTypeTranslations.long, language) as unknown as Record<TypeTranslation<Type, SubType<Type>>, string>}/>}</Skins.Column>
+      <Skins.Column id="weight" title="Weight" hidden={!anySkinHasWeight} sortBy="weight">{({ weight }) => weight ? <Trans id={`weight.${weight as Weight}`}/> : <span style={{ color: 'var(--color-text-muted)' }}>-</span>}</Skins.Column>
+      <Skins.Column id="unlocks" title="Unlocks" hidden align="right" sortBy="unlocks">{({ unlocks }) => <FormatNumber value={unlocks !== null ? Math.round(unlocks * 1000) / 10 : null} unit="%"/>}</Skins.Column>
+      <Skins.DynamicColumns headers={<Gw2AccountHeaderCells requiredScopes={requiredScopes} small/>}>
+        {({ id }) => (
+          <Gw2AccountBodyCells requiredScopes={requiredScopes}>
+            <SkinAccountUnlockCell skinId={id} accountId={undefined as never}/>
+          </Gw2AccountBodyCells>
+        )}
+      </Skins.DynamicColumns>
+      <Skins.Column id="actions" title="" small fixed>
+        {({ id }) => (
+          <DropDown button={<Button iconOnly appearance="menu"><Icon icon="more"/></Button>} preferredPlacement="right-start">
+            <MenuList>
+              <LinkButton appearance="menu" icon="eye" href={`/skin/${id}`}>View Skin</LinkButton>
+              <CopyButton appearance="menu" icon="chatlink" copy={encode('skin', id) || ''}><Trans id="chatlink.copy"/></CopyButton>
+            </MenuList>
+          </DropDown>
+        )}
+      </Skins.Column>
+    </Skins.Table>
+  );
+
+  const columnSelect = (<ColumnSelect table={Skins}/>);
+
+  if(children) {
+    return children(table, columnSelect);
+  }
+
   return (
     <>
-      {headline && headlineId && (
-        <Headline id={headlineId} actions={<ColumnSelect table={Skins}/>}>{headline}</Headline>
-      )}
-
-      <Skins.Table>
-        <Skins.Column id="id" title={<Trans id="itemTable.column.id"/>} align="right" small hidden sortBy="id">{({ id }) => id}</Skins.Column>
-        <Skins.Column id="skin" title="Skin">{(skin) => <SkinLink skin={skin}/>}</Skins.Column>
-        <Skins.Column id="type" title={<Trans id="itemTable.column.type"/>} sortBy="type">{(skin) => <ItemType display="long" type={skin.type as Type} subtype={skin.subtype as SubType<Type>} translations={translateMany(itemTypeTranslations.long, language) as unknown as Record<TypeTranslation<Type, SubType<Type>>, string>}/>}</Skins.Column>
-        <Skins.Column id="weight" title="Weight" hidden={!anySkinHasWeight} sortBy="weight">{({ weight }) => weight ? <Trans id={`weight.${weight as Weight}`}/> : <span style={{ color: 'var(--color-text-muted)' }}>-</span>}</Skins.Column>
-        <Skins.Column id="unlocks" title="Unlocks" hidden align="right" sortBy="unlocks">{({ unlocks }) => <FormatNumber value={unlocks !== null ? Math.round(unlocks * 1000) / 10 : null} unit="%"/>}</Skins.Column>
-        <Skins.DynamicColumns headers={<Gw2AccountHeaderCells requiredScopes={requiredScopes} small/>}>
-          {({ id }) => (
-            <Gw2AccountBodyCells requiredScopes={requiredScopes}>
-              <SkinAccountUnlockCell skinId={id} accountId={undefined as never}/>
-            </Gw2AccountBodyCells>
-          )}
-        </Skins.DynamicColumns>
-        <Skins.Column id="actions" title="" small fixed>
-          {({ id }) => (
-            <DropDown button={<Button iconOnly appearance="menu"><Icon icon="more"/></Button>} preferredPlacement="right-start">
-              <MenuList>
-                <LinkButton appearance="menu" icon="eye" href={`/skin/${id}`}>View Skin</LinkButton>
-                <CopyButton appearance="menu" icon="chatlink" copy={encode('skin', id) || ''}><Trans id="chatlink.copy"/></CopyButton>
-              </MenuList>
-            </DropDown>
-          )}
-        </Skins.Column>
-      </Skins.Table>
+      {headline && headlineId && (<Headline id={headlineId} actions={columnSelect}>{headline}</Headline>)}
+      {table}
     </>
   );
 };

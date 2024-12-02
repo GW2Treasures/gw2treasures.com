@@ -305,5 +305,17 @@
   "fractal.uncategorized": "Uncategorized",
   "fractal.underground_facility": "Underground Facility",
   "fractal.urban_battleground": "Urban Battleground",
-  "fractal.volcanic": "Volcanic"
+  "fractal.volcanic": "Volcanic",
+  "festival.wintersday": "Wintersday",
+  "festival.wintersday.description": "Bells are ringing, snowballs are flying, and Toymaster Tixx’s fantastic golem-shaped airship is hovering over Divinity’s Reach—the traditional Tyrian celebration of Wintersday is here again!",
+  "festival.wintersday.achievements.description": "These achievements are only available during wintersday.",
+  "festival.wintersday.achievements.authorize": "You need to authorize gw2treasures.com to be able to see your accounts achievement progress.",
+  "festival.wintersday.achievements.login": "You need to login to be able to see your accounts achievement progress.",
+  "festival.wintersday.skins.description": "These skins are only available during wintersday.",
+  "festival.wintersday.skins.authorize": "You need to authorize gw2treasures.com to be able to see your accounts wardrobe unlocks.",
+  "festival.wintersday.skins.login": "You need to login to be able to see your accounts wardrobe unlocks.",
+  "festival.wintersday.minis": "Minis",
+  "festival.wintersday.minis.description": "These minis are only available during wintersday.",
+  "festival.wintersday.minis.authorize": "You need to authorize gw2treasures.com to be able to see your accounts mini unlocks.",
+  "festival.wintersday.minis.login": "You need to login to be able to see your accounts mini unlocks."
 }

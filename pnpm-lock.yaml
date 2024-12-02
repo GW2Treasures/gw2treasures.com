@@ -34,8 +34,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/database
       '@prisma/client':
-        specifier: 5.22.0
-        version: 5.22.0(prisma@5.22.0)
+        specifier: 6.0.1
+        version: 6.0.1(prisma@6.0.1)
       gw2-api-types:
         specifier: 0.0.8
         version: 0.0.8
@@ -53,8 +53,8 @@ importers:
         specifier: 8.57.1
         version: 8.57.1
       prisma:
-        specifier: 5.22.0
-        version: 5.22.0
+        specifier: 6.0.1
+        version: 6.0.1
       typescript:
         specifier: 5.7.2
         version: 5.7.2
@@ -95,8 +95,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/ui
       '@prisma/nextjs-monorepo-workaround-plugin':
-        specifier: 5.22.0
-        version: 5.22.0
+        specifier: 6.0.1
+        version: 6.0.1
       '@visx/axis':
         specifier: 3.12.0
         version: 3.12.0(react@19.0.0-rc-66855b96-20241106)
@@ -328,15 +328,15 @@ importers:
   packages/database:
     dependencies:
       '@prisma/client':
-        specifier: 5.22.0
-        version: 5.22.0(prisma@5.22.0)
+        specifier: 6.0.1
+        version: 6.0.1(prisma@6.0.1)
     devDependencies:
       '@gw2treasures/tsconfig':
         specifier: workspace:*
         version: link:../tsconfig
       prisma:
-        specifier: 5.22.0
-        version: 5.22.0
+        specifier: 6.0.1
+        version: 6.0.1
       typescript:
         specifier: 5.7.2
         version: 5.7.2
@@ -1234,32 +1234,32 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
-  '@prisma/client@5.22.0':
-    resolution: {integrity: sha512-M0SVXfyHnQREBKxCgyo7sffrKttwE6R8PMq330MIUF0pTwjUhLbW84pFDlf06B27XyCR++VtjugEnIHdr07SVA==}
-    engines: {node: '>=16.13'}
+  '@prisma/client@6.0.1':
+    resolution: {integrity: sha512-60w7kL6bUxz7M6Gs/V+OWMhwy94FshpngVmOY05TmGD0Lhk+Ac0ZgtjlL6Wll9TD4G03t4Sq1wZekNVy+Xdlbg==}
+    engines: {node: '>=18.18'}
     peerDependencies:
       prisma: '*'
     peerDependenciesMeta:
       prisma:
         optional: true
 
-  '@prisma/debug@5.22.0':
-    resolution: {integrity: sha512-AUt44v3YJeggO2ZU5BkXI7M4hu9BF2zzH2iF2V5pyXT/lRTyWiElZ7It+bRH1EshoMRxHgpYg4VB6rCM+mG5jQ==}
+  '@prisma/debug@6.0.1':
+    resolution: {integrity: sha512-jQylgSOf7ibTVxqBacnAlVGvek6fQxJIYCQOeX2KexsfypNzXjJQSS2o5s+Mjj2Np93iSOQUaw6TvPj8syhG4w==}
 
-  '@prisma/engines-version@5.22.0-44.605197351a3c8bdd595af2d2a9bc3025bca48ea2':
-    resolution: {integrity: sha512-2PTmxFR2yHW/eB3uqWtcgRcgAbG1rwG9ZriSvQw+nnb7c4uCr3RAcGMb6/zfE88SKlC1Nj2ziUvc96Z379mHgQ==}
+  '@prisma/engines-version@5.23.0-27.5dbef10bdbfb579e07d35cc85fb1518d357cb99e':
+    resolution: {integrity: sha512-JmIds0Q2/vsOmnuTJYxY4LE+sajqjYKhLtdOT6y4imojqv5d/aeVEfbBGC74t8Be1uSp0OP8lxIj2OqoKbLsfQ==}
 
-  '@prisma/engines@5.22.0':
-    resolution: {integrity: sha512-UNjfslWhAt06kVL3CjkuYpHAWSO6L4kDCVPegV6itt7nD1kSJavd3vhgAEhjglLJJKEdJ7oIqDJ+yHk6qO8gPA==}
+  '@prisma/engines@6.0.1':
+    resolution: {integrity: sha512-4hxzI+YQIR2uuDyVsDooFZGu5AtixbvM2psp+iayDZ4hRrAHo/YwgA17N23UWq7G6gRu18NvuNMb48qjP3DPQw==}
 
-  '@prisma/fetch-engine@5.22.0':
-    resolution: {integrity: sha512-bkrD/Mc2fSvkQBV5EpoFcZ87AvOgDxbG99488a5cexp5Ccny+UM6MAe/UFkUC0wLYD9+9befNOqGiIJhhq+HbA==}
+  '@prisma/fetch-engine@6.0.1':
+    resolution: {integrity: sha512-T36bWFVGeGYYSyYOj9d+O9G3sBC+pAyMC+jc45iSL63/Haq1GrYjQPgPMxrEj9m739taXrupoysRedQ+VyvM/Q==}
 
-  '@prisma/get-platform@5.22.0':
-    resolution: {integrity: sha512-pHhpQdr1UPFpt+zFfnPazhulaZYCUqeIcPpJViYoq9R+D/yw4fjE+CtnsnKzPYm0ddUbeXUzjGVGIRVgPDCk4Q==}
+  '@prisma/get-platform@6.0.1':
+    resolution: {integrity: sha512-zspC9vlxAqx4E6epMPMLLBMED2VD8axDe8sPnquZ8GOsn6tiacWK0oxrGK4UAHYzYUVuMVUApJbdXB2dFpLhvg==}
 
-  '@prisma/nextjs-monorepo-workaround-plugin@5.22.0':
-    resolution: {integrity: sha512-wuKp7FqhETHP2MJJu5y//ac83/EpDpoupcjlmp/Ijv3fnG576EIxY4SU4j24xXPIBOTuApkCk4RkgonkeAOXuQ==}
+  '@prisma/nextjs-monorepo-workaround-plugin@6.0.1':
+    resolution: {integrity: sha512-7GCiwVbIyF2mO0qL0e0BMHc1wQJEuXg61EcRXt6rWtFtxQEXQc2Hl839WQ89jrNmsEPYH9UCFyJ9hP5AhbA+9w==}
 
   '@rollup/rollup-android-arm-eabi@4.24.0':
     resolution: {integrity: sha512-Q6HJd7Y6xdB48x8ZNVDOqsbh2uByBhgK8PiQgPhwkIw/HC/YX5Ghq2mQY5sRMZWHb3VsFkWooUVOZHKr7DmDIA==}
@@ -3651,9 +3651,9 @@ packages:
     resolution: {integrity: sha512-Pdlw/oPxN+aXdmM9R00JVC9WVFoCLTKJvDVLgmJ+qAffBMxsV85l/Lu7sNx4zSzPyoL2euImuEwHhOXdEgNFZQ==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
 
-  prisma@5.22.0:
-    resolution: {integrity: sha512-vtpjW3XuYCSnMsNVBjLMNkTj6OZbudcPPTPYHqX0CJfpcdWciI1dM8uHETwmDxxiqEwCIE6WvXucWUetJgfu/A==}
-    engines: {node: '>=16.13'}
+  prisma@6.0.1:
+    resolution: {integrity: sha512-CaMNFHkf+DDq8zq3X/JJsQ4Koy7dyWwwtOKibkT/Am9j/tDxcfbg7+lB1Dzhx18G/+RQCMgjPYB61bhRqteNBQ==}
+    engines: {node: '>=18.18'}
     hasBin: true
 
   prompts@2.4.2:
@@ -5151,32 +5151,32 @@ snapshots:
     dependencies:
       playwright: 1.49.0
 
-  '@prisma/client@5.22.0(prisma@5.22.0)':
+  '@prisma/client@6.0.1(prisma@6.0.1)':
     optionalDependencies:
-      prisma: 5.22.0
+      prisma: 6.0.1
 
-  '@prisma/debug@5.22.0': {}
+  '@prisma/debug@6.0.1': {}
 
-  '@prisma/engines-version@5.22.0-44.605197351a3c8bdd595af2d2a9bc3025bca48ea2': {}
+  '@prisma/engines-version@5.23.0-27.5dbef10bdbfb579e07d35cc85fb1518d357cb99e': {}
 
-  '@prisma/engines@5.22.0':
+  '@prisma/engines@6.0.1':
     dependencies:
-      '@prisma/debug': 5.22.0
-      '@prisma/engines-version': 5.22.0-44.605197351a3c8bdd595af2d2a9bc3025bca48ea2
-      '@prisma/fetch-engine': 5.22.0
-      '@prisma/get-platform': 5.22.0
+      '@prisma/debug': 6.0.1
+      '@prisma/engines-version': 5.23.0-27.5dbef10bdbfb579e07d35cc85fb1518d357cb99e
+      '@prisma/fetch-engine': 6.0.1
+      '@prisma/get-platform': 6.0.1
 
-  '@prisma/fetch-engine@5.22.0':
+  '@prisma/fetch-engine@6.0.1':
     dependencies:
-      '@prisma/debug': 5.22.0
-      '@prisma/engines-version': 5.22.0-44.605197351a3c8bdd595af2d2a9bc3025bca48ea2
-      '@prisma/get-platform': 5.22.0
+      '@prisma/debug': 6.0.1
+      '@prisma/engines-version': 5.23.0-27.5dbef10bdbfb579e07d35cc85fb1518d357cb99e
+      '@prisma/get-platform': 6.0.1
 
-  '@prisma/get-platform@5.22.0':
+  '@prisma/get-platform@6.0.1':
     dependencies:
-      '@prisma/debug': 5.22.0
+      '@prisma/debug': 6.0.1
 
-  '@prisma/nextjs-monorepo-workaround-plugin@5.22.0': {}
+  '@prisma/nextjs-monorepo-workaround-plugin@6.0.1': {}
 
   '@rollup/rollup-android-arm-eabi@4.24.0':
     optional: true
@@ -8193,9 +8193,9 @@ snapshots:
       ansi-styles: 5.2.0
       react-is: 18.3.1
 
-  prisma@5.22.0:
+  prisma@6.0.1:
     dependencies:
-      '@prisma/engines': 5.22.0
+      '@prisma/engines': 6.0.1
     optionalDependencies:
       fsevents: 2.3.3
 

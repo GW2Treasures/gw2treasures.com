@@ -31,6 +31,7 @@ const getSkin = cache(async (id: number, language: Language) => {
       include: {
         icon: true,
         achievementBits: { include: { icon: true, rewardsItem: { select: linkProperties }, rewardsTitle: { select: { id: true, name_de: true, name_en: true, name_es: true, name_fr: true }}}},
+        set: { include: { skins: { where: { id: { not: id }}, include: { icon: true }}}}
       }
     }),
     db.revision.findFirst({ where: { [`currentSkin_${language}`]: { id }}}),
@@ -40,7 +41,14 @@ const getSkin = cache(async (id: number, language: Language) => {
     notFound();
   }
 
-  const similar = await db.skin.findMany({ where: { OR: [{ name_en: skin.name_en }, { iconId: skin.iconId }], id: { not: skin.id }}, include: { icon: true }});
+  const similar = await db.skin.findMany({
+    where: {
+      OR: [{ name_en: skin.name_en }, { iconId: skin.iconId }],
+      id: { not: skin.id },
+      setId: { not: skin.setId }
+    },
+    include: { icon: true }
+  });
 
   return { skin, revision, similar };
 }, ['get-skin'], { revalidate: 60 });
@@ -103,6 +111,10 @@ async function SkinPage ({ params }: SkinPageProps) {
             <br/>Source: Guild Wars 2 Wiki
           </ExternalLink>
         </>
+      )}
+
+      {skin.set && skin.set.skins.length > 0 && (
+        <SkinTable headline="Set" headlineId="set" skins={skin.set.skins}/>
       )}
 
       {similar.length > 0 && (

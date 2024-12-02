@@ -294,6 +294,9 @@ model Skin {
   wikiImage String?
   wikiImageType WikiImageType?
 
+  set   SkinSet? @relation(fields: [setId], references: [id], onDelete: SetNull)
+  setId String?
+
   removedFromApi Boolean @default(false)
   
   current_de Revision @relation("current_de", fields: [currentId_de], references: [id], onDelete: Cascade)
@@ -325,6 +328,17 @@ model Skin {
 enum WikiImageType {
   Skin
   Set
+}
+
+model SkinSet {
+  id String @id @default(uuid())
+
+  name_en String @unique
+
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  skins Skin[]
 }
 
 model SkinHistory {

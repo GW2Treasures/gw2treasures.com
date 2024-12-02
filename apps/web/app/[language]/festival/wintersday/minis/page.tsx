@@ -42,7 +42,6 @@ const miniIds = [
 ];
 
 const loadData = cache(async function loadData() {
-  // const items = db.item.findMany({ where: { id: { in: itemIds }}})
   const [minis] = await Promise.all([
     db.mini.findMany({
       where: { id: { in: miniIds }},
@@ -71,5 +70,5 @@ export default async function WintersdayAchievementsPage() {
 }
 
 export const metadata: Metadata = {
-  title: 'Achievements'
+  title: 'Minis'
 };

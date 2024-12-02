@@ -34,7 +34,6 @@ const achievementCategoryIds = [
 const dailyFlags: AchievementFlags[] = ['Daily', 'Weekly', 'Monthly'];
 
 const loadData = cache(async function loadData() {
-  // const items = db.item.findMany({ where: { id: { in: itemIds }}})
   const [allAchievements] = await Promise.all([
     db.achievement.findMany({
       where: {

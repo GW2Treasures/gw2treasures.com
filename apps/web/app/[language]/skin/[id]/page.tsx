@@ -45,7 +45,7 @@ const getSkin = cache(async (id: number, language: Language) => {
     where: {
       OR: [{ name_en: skin.name_en }, { iconId: skin.iconId }],
       id: { not: skin.id },
-      setId: { not: skin.setId }
+      setId: skin.setId !== null ? { not: skin.setId } : undefined
     },
     include: { icon: true }
   });

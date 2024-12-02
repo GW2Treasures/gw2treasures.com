@@ -7,6 +7,7 @@ import { cache } from '@/lib/cache';
 import { db } from '@/lib/prisma';
 import type { Metadata } from 'next';
 import { requiredScopes } from '../helper';
+import { pageView } from '@/lib/pageView';
 
 const skinIds = [
   // weapons
@@ -80,6 +81,7 @@ const loadData = cache(async function loadData() {
 
 export default async function WintersdayAchievementsPage() {
   const { skins, sets } = await loadData();
+  await pageView('festival/wintersday/skins');
 
   return (
     <PageLayout>

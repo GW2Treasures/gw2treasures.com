@@ -3,6 +3,7 @@ import { ItemTable } from '@/components/ItemTable/ItemTable';
 import { ItemTableColumnsButton } from '@/components/ItemTable/ItemTableColumnsButton';
 import { ItemTableContext } from '@/components/ItemTable/ItemTableContext';
 import { PageLayout } from '@/components/Layout/PageLayout';
+import { pageView } from '@/lib/pageView';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import type { Metadata } from 'next';
 
@@ -12,7 +13,9 @@ const itemIds = [
   77604,
 ];
 
-export default function WintersdayPage() {
+export default async function WintersdayPage() {
+  await pageView('festival/wintersday');
+
   return (
     <PageLayout>
       <ItemTableContext id="wintersday">

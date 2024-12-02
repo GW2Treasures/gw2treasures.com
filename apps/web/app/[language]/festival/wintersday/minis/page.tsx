@@ -7,6 +7,7 @@ import { cache } from '@/lib/cache';
 import { db } from '@/lib/prisma';
 import type { Metadata } from 'next';
 import { requiredScopes } from '../helper';
+import { pageView } from '@/lib/pageView';
 
 const miniIds = [
   115, // Mini Princess Doll
@@ -57,6 +58,7 @@ const loadData = cache(async function loadData() {
 
 export default async function WintersdayAchievementsPage() {
   const { minis } = await loadData();
+  await pageView('festival/wintersday/minis');
 
   return (
     <PageLayout>

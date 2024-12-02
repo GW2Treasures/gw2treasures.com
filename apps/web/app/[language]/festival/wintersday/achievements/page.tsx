@@ -12,6 +12,7 @@ import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import type { Metadata } from 'next';
 import { requiredScopes } from '../helper';
+import { pageView } from '@/lib/pageView';
 
 const achievementIds = [
   5005,
@@ -60,6 +61,7 @@ const loadData = cache(async function loadData() {
 export default async function WintersdayAchievementsPage({ params }: PageProps) {
   const { language } = await params;
   const { achievements, dailyAchievements } = await loadData();
+  await pageView('festival/wintersday/achievements');
 
   return (
     <PageLayout>

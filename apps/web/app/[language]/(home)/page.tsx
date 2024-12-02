@@ -17,21 +17,18 @@ import { getAlternateUrls } from '@/lib/url';
 import { PageView } from '@/components/PageView/PageView';
 import type { PageProps } from '@/lib/next';
 import { EvonGnashbladesBirthdayLink } from '../bonus-event/evon-gnashblades-birthday/EvonGnashbladesBirthdayLink';
-import { Snow } from './snow';
 
 async function HomePage({ params }: PageProps) {
   const { language } = await params;
 
   return (
-    <HeroLayout color="#7993a9" hero={(
-      <Snow>
-        <div className={styles.hero}>
-          <div className={styles.heroContent}>
-            <div className={styles.heroTitle}><Icon icon="gw2t"/> gw2treasures.com</div>
-            <div className={styles.heroSubtitle}><Trans language={language} id="subtitle"/></div>
-          </div>
+    <HeroLayout hero={(
+      <div className={styles.hero}>
+        <div className={styles.heroContent}>
+          <div className={styles.heroTitle}><Icon icon="gw2t"/> gw2treasures.com</div>
+          <div className={styles.heroSubtitle}><Trans language={language} id="subtitle"/></div>
         </div>
-      </Snow>
+      </div>
     )}
     >
       <PageView page="/"/>

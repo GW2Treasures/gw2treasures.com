@@ -6,7 +6,7 @@ import type { LayoutProps } from '@/lib/next';
 import { getTranslate } from '@/lib/translate';
 import { getCurrentUrl } from '@/lib/url';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
-import { Snow } from 'app/[language]/(home)/snow';
+import { Snow } from 'app/[language]/festival/wintersday/snow';
 import type { Metadata } from 'next';
 import ogImage from './og.png';
 

@@ -3,10 +3,12 @@ import { HeroLayout } from '@/components/Layout/HeroLayout';
 import { NavBar } from '@/components/Layout/NavBar';
 import { ResetTimer } from '@/components/Reset/ResetTimer';
 import type { LayoutProps } from '@/lib/next';
-import { translate } from '@/lib/translate';
+import { getTranslate } from '@/lib/translate';
+import { getCurrentUrl } from '@/lib/url';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { Snow } from 'app/[language]/(home)/snow';
 import type { Metadata } from 'next';
+import ogImage from './og.png';
 
 const endsAt = new Date('2025-01-02T17:00:00.000Z');
 
@@ -29,11 +31,18 @@ export default function WintersdayLayout({ children }: LayoutProps) {
 
 export async function generateMetadata({ params }: LayoutProps): Promise<Metadata> {
   const { language } = await params;
+  const t = getTranslate(language);
 
   return {
     title: {
-      template: `${translate('festival.wintersday', language)}: %s · gw2treasures.com`,
+      template: `${t('festival.wintersday')}: %s · gw2treasures.com`,
       default: ''
-    }
+    },
+    description: t('festival.wintersday.description'),
+    keywords: ['wintersday', 'gw2', 'guild wars 2', 'festival', 'tixx', 'Bell Choir', 'snowball', 'toypocalypse', 'winter', 'wonderland', 'lair', 'snowmen', 'gift', 'present', 'orphan'],
+    openGraph: {
+      images: [{ url: new URL(ogImage.src, await getCurrentUrl()), width: ogImage.width, height: ogImage.height }],
+    },
+    twitter: { card: 'summary_large_image' }
   };
 }

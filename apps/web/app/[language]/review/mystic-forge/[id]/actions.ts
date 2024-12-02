@@ -3,12 +3,10 @@
 import { getUser } from '@/lib/getUser';
 import { db } from '@/lib/prisma';
 import { ReviewState } from '@gw2treasures/database';
-import { redirect } from 'next/navigation';
+import { redirect, unstable_rethrow as rethrow } from 'next/navigation';
 import { getRandomReviewId } from '../../random';
 import { revalidateTag } from 'next/cache';
 import type { FormState } from '@gw2treasures/ui/components/Form/Form';
-import { isRedirectError } from 'next/dist/client/components/redirect';
-import { isNotFoundError } from 'next/dist/client/components/not-found';
 import type { SubmitEditMysticForgeOrder } from 'app/[language]/item/[id]/edit-mystic-forge/action';
 
 class ReviewError extends Error {}
@@ -27,10 +25,7 @@ export async function submit(id: string, _: FormState, formData: FormData): Prom
       await approve(id);
     }
   } catch (e) {
-    // rethrow Next.js redirect/notFound errors
-    if(isRedirectError(e) || isNotFoundError(e)) {
-      throw e;
-    }
+    rethrow(e);
 
     if(e instanceof ReviewError) {
       return { error: e.message };

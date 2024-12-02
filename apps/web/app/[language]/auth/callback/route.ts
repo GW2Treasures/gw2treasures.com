@@ -1,12 +1,10 @@
-import { redirect } from 'next/navigation';
+import { redirect, unstable_rethrow as rethrow } from 'next/navigation';
 import { NextRequest, userAgent } from 'next/server';
 import { db } from '@/lib/prisma';
 import { authCookie } from '@/lib/auth/cookie';
 import { expiresAtFromExpiresIn } from '@/lib/expiresAtFromExpiresIn';
 import { getUser } from '@/lib/getUser';
 import { cookies } from 'next/headers';
-import { isRedirectError } from 'next/dist/client/components/redirect';
-import { isNotFoundError } from 'next/dist/client/components/not-found';
 import { gw2me } from '@/lib/gw2me';
 import { getCurrentUrl } from '@/lib/url';
 import { getReturnToUrlFromCookie } from '@/lib/login-url';
@@ -78,9 +76,7 @@ export async function GET(request: NextRequest) {
     (await cookies()).set(authCookie(session.id));
     redirect(await getReturnToUrlFromCookie());
   } catch(error) {
-    if(isRedirectError(error) || isNotFoundError(error)) {
-      throw error;
-    }
+    rethrow(error);
 
     console.error(error);
     redirect('/login?error');

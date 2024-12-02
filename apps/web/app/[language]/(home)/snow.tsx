@@ -17,7 +17,7 @@ export const Snow: FC<SnowProps> = ({ children }) => {
     import(/* webpackChunkName: "snow" */'let-it-go').then(({ LetItGo }) => {
       snow = new LetItGo({
         root: ref.current!,
-        style: {},
+        style: { pointerEvents: 'none' },
         radiusRange: [1, 2],
         alphaRange: [.5, .8],
         number: 128,

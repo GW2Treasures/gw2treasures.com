@@ -305,5 +305,9 @@
   "fractal.uncategorized": "Uncategorized",
   "fractal.underground_facility": "Underground Facility",
   "fractal.urban_battleground": "Urban Battleground",
-  "fractal.volcanic": "Volcanic"
+  "fractal.volcanic": "Volcanic",
+  "festival.wintersday": "Wintersday",
+  "festival.wintersday.description": "TODO",
+  "festival.wintersday.achievements.description": "These achievements are only available during wintersday.",
+  "festival.wintersday.minis": "Minis"
 }

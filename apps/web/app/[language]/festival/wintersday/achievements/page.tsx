@@ -1,9 +1,7 @@
 import { AchievementTable } from '@/components/Achievement/AchievementTable';
 import { Trans } from '@/components/I18n/Trans';
-import { ItemTable } from '@/components/ItemTable/ItemTable';
-import { ItemTableColumnsButton } from '@/components/ItemTable/ItemTableColumnsButton';
-import { ItemTableContext } from '@/components/ItemTable/ItemTableContext';
-import { HeroLayout } from '@/components/Layout/HeroLayout';
+import { Description } from '@/components/Layout/Description';
+import { PageLayout } from '@/components/Layout/PageLayout';
 import { cache } from '@/lib/cache';
 import { linkProperties } from '@/lib/linkProperties';
 import type { PageProps } from '@/lib/next';
@@ -11,14 +9,7 @@ import { db } from '@/lib/prisma';
 import type { AchievementFlags } from '@gw2api/types/data/achievement';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
-import { Snow } from 'app/[language]/(home)/snow';
 import type { Metadata } from 'next';
-
-const itemIds = [
-  86601,
-  86627,
-  77604,
-];
 
 const achievementIds = [
   5005,
@@ -65,23 +56,20 @@ const loadData = cache(async function loadData() {
   return { ...groupedAchievements };
 }, ['wintersday'], { revalidate: 60 * 60 });
 
-export default async function Wintersday({ params }: PageProps) {
+export default async function WintersdayAchievementsPage({ params }: PageProps) {
   const { language } = await params;
   const { achievements, dailyAchievements } = await loadData();
 
   return (
-    <HeroLayout color="#7993a9" hero={(
-      <Snow>
-        <Headline id="wintersday">Wintersday</Headline>
-      </Snow>
-    )}
-    >
-      <ItemTableContext id="wintersday">
-        <Headline actions={<ItemTableColumnsButton/>} id="items"><Trans id="navigation.items"/></Headline>
-        <ItemTable query={{ where: { id: { in: itemIds }}}} defaultColumns={['item', 'rarity', 'type', 'buyPrice', 'buyPriceTrend', 'sellPrice', 'sellPriceTrend']}/>
-      </ItemTableContext>
-
-      <AchievementTable achievements={achievements} language={language} includeRewardsColumns headline={<Trans id="navigation.achievements"/>} headlineId="achievements"/>
+    <PageLayout>
+      <AchievementTable achievements={achievements} language={language} includeRewardsColumns>
+        {(table, ColumnSelect) => (
+          <>
+            <Description actions={ColumnSelect}><Trans id="festival.wintersday.achievements.description"/></Description>
+            {table}
+          </>
+        )}
+      </AchievementTable>
 
       <AchievementTable achievements={dailyAchievements} language={language}>
         {(table, columnSelect) => (
@@ -92,10 +80,10 @@ export default async function Wintersday({ params }: PageProps) {
           </>
         )}
       </AchievementTable>
-    </HeroLayout>
+    </PageLayout>
   );
 }
 
 export const metadata: Metadata = {
-  title: 'Wintersday'
+  title: 'Achievements'
 };

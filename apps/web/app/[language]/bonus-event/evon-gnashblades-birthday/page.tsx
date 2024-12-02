@@ -21,6 +21,7 @@ import { WizardsVaultObjective } from '@/components/WizardsVault/WizardsVaultObj
 import type { PageProps } from '@/lib/next';
 import { PageView } from '@/components/PageView/PageView';
 import Link from 'next/link';
+import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 
 const endsAt = new Date('2024-12-02T17:00:00.000Z');
 
@@ -63,9 +64,13 @@ export default async function EventPage({ params }: PageProps) {
   const [items, objective] = await Promise.all([loadItems(), loadObjective()]);
   const Exchange = createDataTable(data, (_, index) => index);
 
+  const isOver = endsAt < new Date();
+
   return (
     <HeroLayout color="#dacaa1" hero={<Headline id="birthday">Evon Gnashblade’s “Birthday” celebration</Headline>}>
-      <Description actions={<>Time remaining: <ResetTimer reset={endsAt}/></>}>
+      {isOver && <Notice>This bonus event is currently not active.</Notice>}
+
+      <Description actions={!isOver && <>Time remaining: <ResetTimer reset={endsAt}/></>}>
         From November 25 to December 2, the Black Lion Vaults will open with exclusive offerings and a chance to trade materials for a few limited-time surprises.
         There will also be new vendors, new displays, and a whole new look to the Vaults, so get ready to head over to Lion’s Arch next week.<br/>
         <ExternalLink href="https://www.guildwars2.com/en/news/celebrate-evon-gnashblades-birthday-with-great-savings-and-improvements-to-the-vaults/">Read more on guildwars2.com</ExternalLink>

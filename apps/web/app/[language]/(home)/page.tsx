@@ -16,7 +16,6 @@ import { cache } from '@/lib/cache';
 import { getAlternateUrls } from '@/lib/url';
 import { PageView } from '@/components/PageView/PageView';
 import type { PageProps } from '@/lib/next';
-import { EvonGnashbladesBirthdayLink } from '../bonus-event/evon-gnashblades-birthday/EvonGnashbladesBirthdayLink';
 
 async function HomePage({ params }: PageProps) {
   const { language } = await params;
@@ -35,8 +34,6 @@ async function HomePage({ params }: PageProps) {
       <Suspense fallback={<div className={styles.statsRow}/>}>
         <DbStats/>
       </Suspense>
-
-      <EvonGnashbladesBirthdayLink/>
 
       <Headline id="new-items">
         <Trans language={language} id="items.new"/>

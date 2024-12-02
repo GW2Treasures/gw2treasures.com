@@ -1,3 +1,4 @@
+import { Gw2Accounts } from '@/components/Gw2Api/Gw2Accounts';
 import { Trans } from '@/components/I18n/Trans';
 import { Description } from '@/components/Layout/Description';
 import { PageLayout } from '@/components/Layout/PageLayout';
@@ -5,6 +6,7 @@ import { MiniTable } from '@/components/Mini/MiniTable';
 import { cache } from '@/lib/cache';
 import { db } from '@/lib/prisma';
 import type { Metadata } from 'next';
+import { requiredScopes } from '../helper';
 
 const miniIds = [
   115, // Mini Princess Doll
@@ -52,11 +54,14 @@ const loadData = cache(async function loadData() {
   return { minis };
 }, ['wintersday-minis'], { revalidate: 60 * 60 });
 
+
 export default async function WintersdayAchievementsPage() {
   const { minis } = await loadData();
 
   return (
     <PageLayout>
+      <Gw2Accounts requiredScopes={requiredScopes} loading={null} loginMessage={<Trans id="festival.wintersday.minis.login"/>} authorizationMessage={<Trans id="festival.wintersday.minis.authorize"/>}/>
+
       <MiniTable minis={minis}>
         {(table, ColumnSelect) => (
           <>

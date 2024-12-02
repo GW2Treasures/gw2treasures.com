@@ -1,4 +1,5 @@
 import { AchievementTable } from '@/components/Achievement/AchievementTable';
+import { Gw2Accounts } from '@/components/Gw2Api/Gw2Accounts';
 import { Trans } from '@/components/I18n/Trans';
 import { Description } from '@/components/Layout/Description';
 import { PageLayout } from '@/components/Layout/PageLayout';
@@ -10,6 +11,7 @@ import type { AchievementFlags } from '@gw2api/types/data/achievement';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import type { Metadata } from 'next';
+import { requiredScopes } from '../helper';
 
 const achievementIds = [
   5005,
@@ -61,6 +63,8 @@ export default async function WintersdayAchievementsPage({ params }: PageProps) 
 
   return (
     <PageLayout>
+      <Gw2Accounts requiredScopes={requiredScopes} loading={null} loginMessage={<Trans id="festival.wintersday.achievements.login"/>} authorizationMessage={<Trans id="festival.wintersday.achievements.authorize"/>}/>
+
       <AchievementTable achievements={achievements} language={language} includeRewardsColumns>
         {(table, ColumnSelect) => (
           <>

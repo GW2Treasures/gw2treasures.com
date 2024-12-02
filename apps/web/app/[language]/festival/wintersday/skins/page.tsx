@@ -1,3 +1,4 @@
+import { Gw2Accounts } from '@/components/Gw2Api/Gw2Accounts';
 import { Trans } from '@/components/I18n/Trans';
 import { Description } from '@/components/Layout/Description';
 import { PageLayout } from '@/components/Layout/PageLayout';
@@ -5,6 +6,7 @@ import { SkinTable } from '@/components/Skin/SkinTable';
 import { cache } from '@/lib/cache';
 import { db } from '@/lib/prisma';
 import type { Metadata } from 'next';
+import { requiredScopes } from '../helper';
 
 const skinIds = [
   // weapons
@@ -81,6 +83,8 @@ export default async function WintersdayAchievementsPage() {
 
   return (
     <PageLayout>
+      <Gw2Accounts requiredScopes={requiredScopes} loading={null} loginMessage={<Trans id="festival.wintersday.skins.login"/>} authorizationMessage={<Trans id="festival.wintersday.skins.authorize"/>}/>
+
       <SkinTable skins={skins}>
         {(table, ColumnSelect) => (
           <>

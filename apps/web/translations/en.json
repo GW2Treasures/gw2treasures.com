@@ -309,5 +309,6 @@
   "festival.wintersday": "Wintersday",
   "festival.wintersday.description": "TODO",
   "festival.wintersday.achievements.description": "These achievements are only available during wintersday.",
-  "festival.wintersday.minis": "Minis"
+  "festival.wintersday.minis": "Minis",
+  "festival.wintersday.minis.description": "These minis are only available during wintersday."
 }

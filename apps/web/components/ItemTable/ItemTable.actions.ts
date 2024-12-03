@@ -20,7 +20,7 @@ export interface ItemTableLoadOptions<Model extends QueryModel> {
 const defaultItemSort = [{ relevancy: 'desc' }, { id: 'asc' }];
 
 export async function loadItems<Model extends QueryModel>(query: Signed<ItemTableQuery<Model>>, options: ItemTableLoadOptions<Model>): LoadItemsResult {
-  const { where, mapToItem, model = 'item' } = await verify(query);
+  const { where, mapToItem, model = 'item', orderBy: defaultOrderBy } = await verify(query);
   const orderBy = options.orderBy ? await verify(options.orderBy) : undefined;
   const { skip, take } = options;
 
@@ -37,7 +37,7 @@ export async function loadItems<Model extends QueryModel>(query: Signed<ItemTabl
 
   const defaultSort = defaultItemSort.map((order) => mapToItem ? { [mapToItem]: order } : order);
 
-  const findManyArgs = { where, skip, take, select: select as TODO, orderBy: orderBy as TODO ?? defaultSort };
+  const findManyArgs = { where, skip, take, select: select as TODO, orderBy: orderBy as TODO ?? defaultOrderBy ?? defaultSort };
 
   const items: TODO =
     model === 'content' ? await db.content.findMany(findManyArgs) :

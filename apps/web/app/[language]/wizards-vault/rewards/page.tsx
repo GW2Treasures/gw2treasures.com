@@ -14,7 +14,7 @@ export default async function WizardsVaultPage() {
     <PageLayout>
       <ItemTableContext id="wizardsVaultListing">
         <ItemTableColumnsButton/>
-        <ItemTable query={{ model: 'wizardsVaultListing', mapToItem: 'item', where: { removedFromApi: false }}}
+        <ItemTable query={{ model: 'wizardsVaultListing', mapToItem: 'item', where: { removedFromApi: false }, orderBy: [{ type: 'asc' }, { item: { relevancy: 'desc' }}, { itemId: 'asc' }] }}
           pageSize={100}
           extraColumns={[
             extraColumn<'wizardsVaultListing'>({ id: 'listingType', select: { type: true }, title: 'Listing Type', component: WizardsVaultTypeColumn as TODO, order: 200, orderBy: [{ type: 'asc' }, { type: 'desc' }] }),

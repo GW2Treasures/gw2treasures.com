@@ -9,7 +9,8 @@ export type GlobalColumnId = 'id' | 'item' | 'icon' | 'name_de' | 'name_en' | 'n
 export interface ItemTableQuery<Model extends QueryModel = 'item'> {
   model?: Model;
   where: ColumnModelTypes[Model]['where'];
-  mapToItem?: ColumnModelTypes[Model]['map']
+  mapToItem?: ColumnModelTypes[Model]['map'];
+  orderBy?: OrderBy<ColumnModelTypes[Model]['orderBy']>;
 }
 
 export type QueryModel = keyof ColumnModelTypes;

@@ -92,7 +92,7 @@ export const ItemTable = <ExtraColumnId extends string = never, Model extends Qu
       setLoading(false);
       setRange({ length: items.length, offset: skip });
     });
-  }, [collapsed, columns, orderBy, page, query, id]);
+  }, [collapsed, columns, orderBy, page, query, id, pageSize]);
 
   useEffect(() => {
     loadTotalItemCount(query, id).then(setTotalItems);

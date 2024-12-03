@@ -42,6 +42,7 @@ export async function loadItems<Model extends QueryModel>(query: Signed<ItemTabl
   const items: TODO =
     model === 'content' ? await db.content.findMany(findManyArgs) :
     model === 'mysticForgeRecipe' ? await db.mysticForgeRecipe.findMany(findManyArgs as TODO) :
+    model === 'wizardsVaultListing' ? await db.wizardsVaultListing.findMany(findManyArgs as TODO) :
     model === 'item' ? await db.item.findMany(findManyArgs as TODO) :
     undefined;
 
@@ -65,6 +66,7 @@ export async function loadTotalItemCount<Model extends QueryModel>(query: Signed
     case 'item': return db.item.count({ where } as TODO);
     case 'mysticForgeRecipe': return db.mysticForgeRecipe.count({ where } as TODO);
     case 'content': return db.content.count({ where });
+    case 'wizardsVaultListing': return db.wizardsVaultListing.count({ where } as TODO);
     default: throw new Error('Unsupported query model');
   }
 }

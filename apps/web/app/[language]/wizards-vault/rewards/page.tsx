@@ -1,32 +1,27 @@
-import { ItemLink } from '@/components/Item/ItemLink';
-import { OutputCount } from '@/components/Item/OutputCount';
-import { linkProperties } from '@/lib/linkProperties';
-import { db } from '@/lib/prisma';
-import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
-import { AstralAcclaim } from '@/components/Format/AstralAcclaim';
 import { pageView } from '@/lib/pageView';
-import { UnknownItem } from '@/components/Item/UnknownItem';
 import { PageLayout } from '@/components/Layout/PageLayout';
+import { ItemTable } from '@/components/ItemTable/ItemTable';
+import { extraColumn } from '@/components/ItemTable/columns';
+import { WizardsVaultCostColumn, WizardsVaultLimitColumn, WizardsVaultTypeColumn } from './columns';
+import { ItemTableContext } from '@/components/ItemTable/ItemTableContext';
+import { ItemTableColumnsButton } from '@/components/ItemTable/ItemTableColumnsButton';
+import type { TODO } from '@/lib/todo';
 
 export default async function WizardsVaultPage() {
-  const listings = await db.wizardsVaultListing.findMany({
-    where: { removedFromApi: false },
-    include: { item: { select: linkProperties }},
-    orderBy: { type: 'asc' }
-  });
-
   await pageView('wizards-vault/rewards');
-
-  const Listings = createDataTable(listings, ({ id }) => id);
 
   return (
     <PageLayout>
-      <Listings.Table>
-        <Listings.Column id="item" title="Item">{({ item, itemIdRaw, count }) => <OutputCount count={count}>{item ? <ItemLink item={item}/> : <UnknownItem id={itemIdRaw}/>}</OutputCount>}</Listings.Column>
-        <Listings.Column id="type" title="Type" sortBy="type">{({ type }) => type}</Listings.Column>
-        <Listings.Column id="limit" title="Purchase Limit" sortBy="limit" align="right">{({ limit }) => limit}</Listings.Column>
-        <Listings.Column id="cost" title="Cost" align="right" sortBy="cost">{({ cost }) => <AstralAcclaim value={cost}/>}</Listings.Column>
-      </Listings.Table>
+      <ItemTableContext id="wizardsVaultListing">
+        <ItemTableColumnsButton/>
+        <ItemTable query={{ model: 'wizardsVaultListing', mapToItem: 'item', where: { removedFromApi: false }}}
+          extraColumns={[
+            extraColumn<'wizardsVaultListing'>({ id: 'listingType', select: { type: true }, title: 'Listing Type', component: WizardsVaultTypeColumn as TODO, order: 200, orderBy: [{ type: 'asc' }, { type: 'desc' }] }),
+            extraColumn<'wizardsVaultListing'>({ id: 'purchaseLimit', select: { limit: true }, title: 'Purchase Limit', component: WizardsVaultLimitColumn as TODO, order: 201, orderBy: [{ limit: 'asc' }, { limit: 'desc' }], small: true, align: 'right' }),
+            extraColumn<'wizardsVaultListing'>({ id: 'astralAcclaim', select: { cost: true }, title: 'Astral Acclaim', component: WizardsVaultCostColumn as TODO, order: 202, orderBy: [{ cost: 'asc' }, { cost: 'desc' }], small: true, align: 'right' }),
+          ]}
+          defaultColumns={['item', 'rarity', 'type', 'listingType', 'purchaseLimit', 'astralAcclaim']}/>
+      </ItemTableContext>
     </PageLayout>
   );
 }

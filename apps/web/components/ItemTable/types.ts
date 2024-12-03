@@ -33,6 +33,7 @@ export type ColumnModelTypes = {
   'item': { select: Prisma.ItemSelect, orderBy: Prisma.ItemOrderByWithRelationInput, where: Prisma.ItemWhereInput, map: undefined },
   'content': { select: Prisma.ContentSelect, orderBy: Prisma.ContentOrderByWithRelationInput, where: Prisma.ContentWhereInput, map: 'containerItem' | 'contentItem' },
   'mysticForgeRecipe': { select: Prisma.MysticForgeRecipeSelect, orderBy: Prisma.MysticForgeRecipeOrderByWithRelationInput, where: Prisma.MysticForgeRecipeWhereInput, map: 'outputItem' }
+  'wizardsVaultListing': { select: Prisma.WizardsVaultListingSelect, orderBy: Prisma.WizardsVaultListingOrderByWithRelationInput, where: Prisma.WizardsVaultListingWhereInput, map: 'item' }
 };
 
 export interface ExtraColumn<Id extends string, Model extends QueryModel, Select extends ColumnModelTypes[Model]['select']> {

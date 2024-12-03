@@ -32,6 +32,7 @@ export interface ItemTableProps<ExtraColumnId extends string, Model extends Quer
   defaultColumns?: (GlobalColumnId | ExtraColumnId)[];
   availableColumns: AvailableColumns<GlobalColumnId | ExtraColumnId>;
   collapsed?: boolean;
+  pageSize?: number;
   translations: PaginationProps['translations'] & TranslationSubset<'itemTable.viewItem' | 'chatlink.copy' | 'actions'>
 }
 
@@ -39,7 +40,7 @@ const globalDefaultColumns: GlobalColumnId[] = [
   'item', 'level', 'rarity', 'type', 'vendorValue',
 ];
 
-export const ItemTable = <ExtraColumnId extends string = never, Model extends QueryModel = 'item'>({ query, defaultColumns = globalDefaultColumns, availableColumns, collapsed: initialCollapsed, translations }: ItemTableProps<ExtraColumnId, Model>) => {
+export const ItemTable = <ExtraColumnId extends string = never, Model extends QueryModel = 'item'>({ query, defaultColumns = globalDefaultColumns, availableColumns, collapsed: initialCollapsed, translations, pageSize = 10 }: ItemTableProps<ExtraColumnId, Model>) => {
   type ColumnId = ExtraColumnId | GlobalColumnId;
   const { setDefaultColumns, setAvailableColumns, selectedColumns, id, isGlobalContext } = useItemTableContext<ColumnId>();
 
@@ -55,7 +56,6 @@ export const ItemTable = <ExtraColumnId extends string = never, Model extends Qu
 
   const requestId = useRef(0);
 
-  const pageSize = 10;
   const collapsedSize = 5;
 
   useEffect(() => {

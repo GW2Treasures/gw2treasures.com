@@ -12,7 +12,8 @@ export interface ItemTableProps<ExtraColumnId extends string, Model extends Quer
   query: ItemTableQuery<Model>;
   defaultColumns?: (ExtraColumnId | GlobalColumnId)[];
   collapsed?: boolean;
-  extraColumns?: ExtraColumn<ExtraColumnId, Model, object>[]
+  extraColumns?: ExtraColumn<ExtraColumnId, Model, object>[],
+  pageSize?: number;
 }
 
 export const ItemTable = async <ExtraColumnId extends string = never, Model extends QueryModel = 'item'>({ query, extraColumns, ...props }: ItemTableProps<ExtraColumnId, Model>) => {

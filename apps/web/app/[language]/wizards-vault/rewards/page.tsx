@@ -15,6 +15,7 @@ export default async function WizardsVaultPage() {
       <ItemTableContext id="wizardsVaultListing">
         <ItemTableColumnsButton/>
         <ItemTable query={{ model: 'wizardsVaultListing', mapToItem: 'item', where: { removedFromApi: false }}}
+          pageSize={100}
           extraColumns={[
             extraColumn<'wizardsVaultListing'>({ id: 'listingType', select: { type: true }, title: 'Listing Type', component: WizardsVaultTypeColumn as TODO, order: 200, orderBy: [{ type: 'asc' }, { type: 'desc' }] }),
             extraColumn<'wizardsVaultListing'>({ id: 'purchaseLimit', select: { limit: true }, title: 'Purchase Limit', component: WizardsVaultLimitColumn as TODO, order: 201, orderBy: [{ limit: 'asc' }, { limit: 'desc' }], small: true, align: 'right' }),

@@ -1,11 +1,12 @@
-import { pageView } from '@/lib/pageView';
-import { PageLayout } from '@/components/Layout/PageLayout';
 import { ItemTable } from '@/components/ItemTable/ItemTable';
-import { extraColumn } from '@/components/ItemTable/columns';
-import { WizardsVaultCostColumn, WizardsVaultLimitColumn, WizardsVaultTypeColumn } from './columns';
-import { ItemTableContext } from '@/components/ItemTable/ItemTableContext';
 import { ItemTableColumnsButton } from '@/components/ItemTable/ItemTableColumnsButton';
+import { ItemTableContext } from '@/components/ItemTable/ItemTableContext';
+import { extraColumn } from '@/components/ItemTable/columns';
+import { Description } from '@/components/Layout/Description';
+import { PageLayout } from '@/components/Layout/PageLayout';
+import { pageView } from '@/lib/pageView';
 import type { TODO } from '@/lib/todo';
+import { WizardsVaultCostColumn, WizardsVaultLimitColumn, WizardsVaultTypeColumn } from './columns';
 
 export default async function WizardsVaultPage() {
   await pageView('wizards-vault/rewards');
@@ -13,7 +14,9 @@ export default async function WizardsVaultPage() {
   return (
     <PageLayout>
       <ItemTableContext id="wizardsVaultListing">
-        <ItemTableColumnsButton/>
+        <Description actions={<ItemTableColumnsButton/>}>
+          These items are currently available in the Wizard&apos;s Vault.
+        </Description>
         <ItemTable query={{ model: 'wizardsVaultListing', mapToItem: 'item', where: { removedFromApi: false }, orderBy: [{ type: 'asc' }, { item: { relevancy: 'desc' }}, { itemId: 'asc' }] }}
           pageSize={100}
           extraColumns={[

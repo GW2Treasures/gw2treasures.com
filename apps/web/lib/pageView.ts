@@ -1,6 +1,7 @@
 import { cache } from 'react';
 import { db } from './prisma';
 import { headers } from 'next/headers';
+import { unstable_after as after } from 'next/server';
 
 export const pageView = cache(async function pageView(page: string, pageId?: number) {
   const header = await headers();
@@ -14,8 +15,7 @@ export const pageView = cache(async function pageView(page: string, pageId?: num
   const asn = parseInt(header.get('x-asn')!) || null;
 
   try {
-    // TODO: run in after()
-    await db.pageView.create({ data: { page, pageId, asn }});
+    after(() => db.pageView.create({ data: { page, pageId, asn }}));
   } catch {
     // we can ignore this error, page views are not critical
   }

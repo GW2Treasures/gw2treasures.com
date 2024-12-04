@@ -11,6 +11,7 @@ const nextConfig: NextConfig = {
   // enable experimental features
   experimental: {
     reactCompiler: true,
+    after: true,
   },
 
   // disable eslint/typescript during some CI jobs, as there are separate jobs for it

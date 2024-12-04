@@ -155,6 +155,9 @@ export const sitemaps: Record<string, Sitemap> = {
         '/homestead/glyphs',
         '/fractals',
         '/festival/wintersday',
+        '/festival/wintersday/achievements',
+        '/festival/wintersday/skins',
+        '/festival/wintersday/minis',
         '/bonus-event/evon-gnashblades-birthday',
       ].map((page) => getEntryForUrl(language, page));
     }

@@ -35,7 +35,7 @@ const getGlyphs = cache(async () => {
       tpTradeable: true, tpCheckedAt: true,
       buyPrice: true, buyQuantity: true,
       sellPrice: true, sellQuantity: true,
-      tpHistory: true,
+      tpHistory: { orderBy: { time: 'asc' }}
     },
     where: { name_en: { in: unusedGlyphNames }}
   });

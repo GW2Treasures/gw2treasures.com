@@ -106,7 +106,7 @@ export const globalColumnDefinitions = {
   buyPriceTrend: createColumn({
     id: 'buyPriceTrend',
     order: 125,
-    select: { tpHistory: true, tpTradeable: true },
+    select: { tpHistory: { orderBy: { time: 'asc' }}, tpTradeable: true },
     align: 'right',
   }),
   buyQuantity: createColumn({
@@ -126,7 +126,7 @@ export const globalColumnDefinitions = {
   sellPriceTrend: createColumn({
     id: 'sellPriceTrend',
     order: 145,
-    select: { tpHistory: true, tpTradeable: true },
+    select: { tpHistory: { orderBy: { time: 'asc' }}, tpTradeable: true },
     align: 'right',
   }),
   sellQuantity: createColumn({

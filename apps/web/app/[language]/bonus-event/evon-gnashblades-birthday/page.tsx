@@ -44,7 +44,7 @@ const loadItems = cache(async function loadItems() {
       tpTradeable: true, tpCheckedAt: true,
       buyPrice: true, buyQuantity: true,
       sellPrice: true, sellQuantity: true,
-      tpHistory: true,
+      tpHistory: { orderBy: { time: 'asc' }}
     },
   });
 

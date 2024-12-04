@@ -16,7 +16,8 @@ export const pageView = cache(async function pageView(page: string, pageId?: num
 
   try {
     after(() => db.pageView.create({ data: { page, pageId, asn }}));
-  } catch {
+  } catch(e) {
     // we can ignore this error, page views are not critical
+    console.log(e);
   }
 });

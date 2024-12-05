@@ -23,12 +23,12 @@ export const displayedFlags: FlagOrString[] = [
 export const AchievementFlags: FC<AchievementFlagsProps> = ({ flags }) => {
   const icons = flags.map((flag) => {
     switch(flag) {
-      case 'Hidden': return <Tip tip="Hidden"><Icon icon="eye"/></Tip>;
-      case 'Daily': return <Tip tip="Daily"><Icon icon="revision"/></Tip>;
-      case 'Weekly': return <Tip tip="Weekly"><Icon icon="revision"/></Tip>;
-      case 'Monthly': return <Tip tip="Monthly"><Icon icon="revision"/></Tip>;
-      case 'Repeatable': return <Tip tip="Repeatable"><Icon icon="reload"/></Tip>;
-      case 'RequiresUnlock': return <Tip tip="Requires Unlock"><Icon icon="lock"/></Tip>;
+      case 'Hidden': return <Tip key={flag} tip="Hidden"><Icon icon="eye"/></Tip>;
+      case 'Daily': return <Tip key={flag} tip="Daily"><Icon icon="revision"/></Tip>;
+      case 'Weekly': return <Tip key={flag} tip="Weekly"><Icon icon="revision"/></Tip>;
+      case 'Monthly': return <Tip key={flag} tip="Monthly"><Icon icon="revision"/></Tip>;
+      case 'Repeatable': return <Tip key={flag} tip="Repeatable"><Icon icon="reload"/></Tip>;
+      case 'RequiresUnlock': return <Tip key={flag} tip="Requires Unlock"><Icon icon="lock"/></Tip>;
       default: return null;
     }
   }).filter(isDefined);

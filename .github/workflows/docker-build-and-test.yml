@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     name: 'Build: ${{ matrix.target }}'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy:
       matrix:
         target: [ web, worker, legacy-importer, database-migration, e2e ]
@@ -74,7 +74,7 @@ jobs:
 
   test-compose:
     name: 'Test: docker compose'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     if: inputs.platform == 'amd64'
     needs: build
     steps:
@@ -98,7 +98,7 @@ jobs:
 
   test-kubernetes:
     name: 'Test: kubernetes'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     if: inputs.platform == 'amd64'
     needs: build
     steps:
@@ -123,7 +123,7 @@ jobs:
 
   test-e2e:
     name: 'Test: e2e'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     if: inputs.platform == 'amd64'
     needs: build
     steps:

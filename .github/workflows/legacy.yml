@@ -10,7 +10,7 @@ on:
 jobs:
   build:
     name: Build ${{ matrix.target }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy:
       matrix:
         target: [ web, reverse-proxy, assets, storage, wvw-crawler ]
@@ -35,7 +35,7 @@ jobs:
         registry: ghcr.io
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
-    - name: Push image  
+    - name: Push image
       if: github.event_name == 'push'
       run: |
         IMAGE_ID=ghcr.io/${{ github.repository }}/legacy/${{ matrix.target }}

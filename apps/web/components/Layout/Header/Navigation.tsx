@@ -1,4 +1,4 @@
-import type { FC, ReactNode } from 'react';
+import type { CSSProperties, FC, ReactNode } from 'react';
 import { LinkButton } from '@gw2treasures/ui/components/Form/Button';
 import { Trans } from '../../I18n/Trans';
 import styles from './Navigation.module.css';
@@ -16,6 +16,7 @@ const Navigation: FC<NavigationProps> = ({ language }) => {
   return (
     <HorizontalOverflowContainer>
       <Composite render={<ul className={styles.navigation}/>}>
+        <NavigationItem href="/festival/wintersday" icon="gift" style={{ color: 'light-dark(#00838f, #80deea)' }}><Trans id="festival.wintersday"/></NavigationItem>
         <NavigationItem href="/item" icon="item"><Trans language={language} id="navigation.items"/></NavigationItem>
         <NavigationItem href="/achievement" icon="achievement"><Trans language={language} id="navigation.achievements"/></NavigationItem>
         <NavigationItem href="/wizards-vault" icon="wizards-vault"><Trans language={language} id="navigation.wizardsVault"/><WizardsVaultNewSeasonBadge/></NavigationItem>
@@ -38,6 +39,7 @@ interface NavigationItemProps {
   children: ReactNode;
   href: string;
   icon: IconProp;
+  style?: CSSProperties;
 }
 
 export const NavigationItem: FC<NavigationItemProps> = (props) => {

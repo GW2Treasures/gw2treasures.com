@@ -1,32 +1,35 @@
 import nextJsPlugin from '@gw2treasures/eslint-plugin-nextjs';
+import reactConfig from '@gw2treasures/eslint-config/react';
 import reactCompiler from 'eslint-plugin-react-compiler';
-import js from '@eslint/js';
+import reactHooks from 'eslint-plugin-react-hooks';
 import tseslint from 'typescript-eslint';
-import { FlatCompat } from '@eslint/eslintrc';
-
-const compat = new FlatCompat({
-  baseDirectory: import.meta.url,
-  recommendedConfig: js.configs.recommended,
-  allConfig: js.configs.all
-});
+import { flatConfig as nextConfig } from '@next/eslint-plugin-next';
 
 export default tseslint.config(
+  // ignore all files in .next
   { ignores: ['.next'] },
-  ...compat.extends('next/core-web-vitals', '@gw2treasures/eslint-config/react'),
+
+  // extends next core-web-vitals
+  nextConfig.coreWebVitals,
+
+  // extends react configs
+  ...reactConfig,
+
+  // extends react-hooks
+  reactHooks.configs['recommended-latest'],
+
+  // enable enable react-compiler plugin (no flat preset yet)
   {
-    plugins: {
-      '@gw2treasures/nextjs': nextJsPlugin,
-      'react-compiler': reactCompiler,
-    },
+    plugins: { 'react-compiler': reactCompiler },
+    rules: reactCompiler.configs.recommended.rules
   },
+  
+  // enable @gw2treasures/nextjs plugin for page.tsx files (no flat preset yet)
   {
     files: ['**/page.tsx'],
+    plugins: { '@gw2treasures/nextjs': nextJsPlugin },
     rules: {
       '@gw2treasures/nextjs/require-metadata': 'warn',
     },
-  }, {
-    files: ['eslint.config.mjs'],
-    // eslint-disable-next-line import/no-named-as-default-member
-    extends: [tseslint.configs.disableTypeChecked],
-  }
+  },
 );

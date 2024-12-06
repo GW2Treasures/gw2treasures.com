@@ -88,5 +88,10 @@
       { "selector": "default", "format": null },
       { "selector": "typeLike", "format": ["PascalCase"] }
     ]
-  }
+  },
+
+  "overrides": [{
+    "files": ["**/eslint.config.mjs"],
+    "extends": "plugin:@typescript-eslint/disable-type-checked"
+  }]
 }

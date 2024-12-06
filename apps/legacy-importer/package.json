@@ -13,6 +13,8 @@
     "gw2-api-types": "0.0.8"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "3.2.0",
+    "@eslint/js": "9.16.0",
     "@gw2treasures/eslint-config": "workspace:*",
     "@gw2treasures/tsconfig": "workspace:*",
     "@types/node": "22.10.1",

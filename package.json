@@ -27,7 +27,7 @@
   },
   "pnpm": {
     "overrides": {
-      "next": "15.0.3",
+      "next": "15.0.4",
       "react": "19.0.0-rc-66855b96-20241106",
       "react-dom": "19.0.0-rc-66855b96-20241106",
       "@types/react": "npm:types-react@19.0.0-rc.1",

@@ -69,7 +69,7 @@
     "@types/react-dom": "19.0.1",
     "babel-plugin-react-compiler": "19.0.0-beta-df7b47d-20241124",
     "csstype": "3.1.3",
-    "eslint": "8.57.1",
+    "eslint": "9.16.0",
     "eslint-config-next": "15.0.4",
     "eslint-plugin-react-compiler": "19.0.0-beta-df7b47d-20241124",
     "gw2-api-types": "0.0.8",

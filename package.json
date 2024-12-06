@@ -27,11 +27,10 @@
   },
   "pnpm": {
     "overrides": {
-      "next": "15.0.3",
-      "react": "19.0.0-rc-66855b96-20241106",
-      "react-dom": "19.0.0-rc-66855b96-20241106",
-      "@types/react": "npm:types-react@19.0.0-rc.1",
-      "@types/react-dom": "npm:types-react-dom@19.0.0-rc.1"
+      "react": "19.0.0",
+      "react-dom": "19.0.0",
+      "@types/react": "19.0.0",
+      "@types/react-dom": "19.0.0"
     }
   },
   "packageManager": "pnpm@9.14.4"

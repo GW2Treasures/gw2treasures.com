@@ -30,7 +30,6 @@ export const Gw2ApiProvider: FC<Gw2ApiProviderProps> = ({ children }) => {
   const router = useRouter();
   const [hiddenAccounts, setHiddenAccounts] = useLocalStorageState<string[]>('accounts.hidden', []);
 
-  // eslint-disable-next-line require-await
   const getAccounts = useCallback(async (requiredScopes: Scope[], optionalScopes: Scope[] = [], { includeHidden = false }: GetAccountsOptions = {}) => {
     // always return [] during SSR
     if(typeof window === 'undefined') {

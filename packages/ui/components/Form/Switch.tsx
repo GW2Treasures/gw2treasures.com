@@ -21,7 +21,7 @@ export type SwitchControlProps = {
   | { type: 'radio', href?: never, replace?: never, scroll?: never, name: string, value: string }
 );
 
-export const Switch: FC<SwitchProps> & { Control: FC<SwitchControlProps> } = ({ children }) => {
+export const Switch: FC<SwitchProps> & { Control: FC<SwitchControlProps> } = ({ children }: SwitchProps) => {
   return (
     <Composite className={styles.wrapper}>
       {children}
@@ -29,7 +29,7 @@ export const Switch: FC<SwitchProps> & { Control: FC<SwitchControlProps> } = ({ 
   );
 };
 
-Switch.Control = ({ children, active, type = 'button', href, clickAction, name, value, icon, tip, replace, scroll }) => {
+Switch.Control = ({ children, active, type = 'button', href, clickAction, name, value, icon, tip, replace, scroll }: SwitchControlProps) => {
   const Element = type === 'link' ? Link : type === 'radio' ? 'label' : 'button';
 
   const element = (

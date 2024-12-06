@@ -18,7 +18,7 @@ export interface HeaderCellProps {
   onSort?: () => void;
 }
 
-const Table: FC<TableProps> & { HeaderCell: FC<HeaderCellProps> } = ({ children, width = 'page' }) => (
+const Table: FC<TableProps> & { HeaderCell: FC<HeaderCellProps> } = ({ children, width = 'page' }: TableProps) => (
   <TableWrapper>
     <table className={width === 'page' ? styles.table : styles.tableAuto}>
       {children}
@@ -26,7 +26,7 @@ const Table: FC<TableProps> & { HeaderCell: FC<HeaderCellProps> } = ({ children,
   </TableWrapper>
 );
 
-Table.HeaderCell = function HeaderCell({ children, small = false, align, colSpan, sort, onSort }) {
+Table.HeaderCell = function HeaderCell({ children, small = false, align, colSpan, sort, onSort }: HeaderCellProps) {
   return (
     <th className={small ? styles.small : undefined} align={align} colSpan={colSpan} aria-sort={sort === 'asc' ? 'ascending' : sort === 'desc' ? 'descending' : undefined}>
       {sort ? (

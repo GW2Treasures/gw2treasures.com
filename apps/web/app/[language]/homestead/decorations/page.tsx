@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import { Trans } from '@/components/I18n/Trans';
 import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
 import { db } from '@/lib/prisma';

@@ -6,7 +6,6 @@ import { db } from '@/lib/prisma';
 import { ContentChance, Prisma, ReviewState } from '@gw2treasures/database';
 import { revalidateTag } from 'next/cache';
 
-// eslint-disable-next-line require-await
 export async function submitToReview({ itemId, removedItems, addedItems, removedCurrencies, addedCurrencies }: { itemId: number } & EditContentOrder): Promise<EditContentSubmitError | true> {
   if(removedItems.length === 0 && addedItems.length === 0 && removedCurrencies.length === 0 && addedCurrencies.length === 0) {
     console.log('No changes');

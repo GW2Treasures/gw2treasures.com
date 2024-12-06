@@ -1,5 +1,5 @@
 import { Table, type HeaderCellProps } from './Table';
-import { Fragment, Suspense, type FC, type Key, type ReactElement, type ReactNode } from 'react';
+import { Suspense, type FC, type Key, type ReactElement, type ReactNode } from 'react';
 import 'server-only';
 import { DataTableClient, DataTableClientCell, DataTableClientColumn, DataTableClientColumnSelection, DataTableClientRows } from './DataTable.client';
 import { isDefined, isTruthy } from '@gw2treasures/helper/is';

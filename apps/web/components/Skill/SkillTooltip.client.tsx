@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import type { FC } from 'react';
 import styles from './SkillTooltip.module.css';
 import { Separator } from '@gw2treasures/ui/components/Layout/Separator';

@@ -58,7 +58,6 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-// eslint-disable-next-line require-await
 async function redirectToGw2Me(returnTo?: string, additionalScopes?: string) {
   'use server';
 

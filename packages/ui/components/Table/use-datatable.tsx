@@ -17,7 +17,7 @@ export interface DataTableProps<T> {
 /** @deprecated Use DataTable instead */
 export function useDataTable<T>(columns: DataTableColumn<T>[], rowKey: (row: T) => Key, groups?: (row: T) => { value: string, label: ReactNode }): FC<DataTableProps<T>> {
   return memo(useMemo(() =>
-    function DataTable({ rows }) {
+    function DataTable({ rows }: DataTableProps<T>) {
       const [sortBy, setSortBy] = useState<{ column: DataTableColumn<T>, reverse: boolean }>();
 
       const sortedRows = useMemo(() => (sortBy?.column?.sort !== undefined)

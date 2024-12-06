@@ -21,7 +21,6 @@ interface MigratedSkin {
 
 // eslint-disable-next-line require-await
 export async function createMigrator() {
-  // eslint-disable-next-line require-await
   return async function migrate({ de, en, es, fr }: LocalizedObject<Skin>, currentVersion = -1) {
     const update: MigratedSkin = {
       version: CURRENT_VERSION

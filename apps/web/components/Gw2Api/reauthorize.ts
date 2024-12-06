@@ -6,7 +6,6 @@ import { Scope, type AuthorizationUrlParams } from '@gw2me/client';
 import { redirect } from 'next/navigation';
 import 'server-only';
 
-// eslint-disable-next-line require-await
 export async function reauthorize(requiredScopes: Scope[], prompt?: AuthorizationUrlParams['prompt']) {
 
   // build redirect url

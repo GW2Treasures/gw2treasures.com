@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Prisma } from '@gw2treasures/database';
 import { toId } from '../helper/toId';
 import { db } from '../../db';

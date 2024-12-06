@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Prisma } from '@gw2treasures/database';
 import { LocalizedObject } from '../helper/types';
 import { Skill } from '@gw2api/types/data/skill';

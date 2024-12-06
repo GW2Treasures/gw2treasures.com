@@ -1,4 +1,3 @@
-/* eslint-disable react/no-array-index-key */
 import type { Language } from '@gw2treasures/database';
 import DetailLayout from '@/components/Layout/DetailLayout';
 import { db } from '@/lib/prisma';

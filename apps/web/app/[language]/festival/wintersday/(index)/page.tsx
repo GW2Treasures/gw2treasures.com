@@ -28,5 +28,5 @@ export default async function WintersdayPage() {
 }
 
 export const metadata: Metadata = {
-  title: 'Wintersday'
+  title: { absolute: 'Wintersday · gw2treasures.com' }
 };

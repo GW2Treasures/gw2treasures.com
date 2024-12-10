@@ -39,7 +39,7 @@ export const ItemInventoryTable: FC<WardrobeProps> = ({ itemId }) => {
         <Table>
           <thead>
             <tr>
-              <Table.HeaderCell>Account</Table.HeaderCell>
+              <Table.HeaderCell small>Account</Table.HeaderCell>
               <Table.HeaderCell>Location</Table.HeaderCell>
               <Table.HeaderCell align="right">Count</Table.HeaderCell>
             </tr>

@@ -21,7 +21,7 @@ RUN pnpx turbo@${turbo_version} prune e2e --docker
 
 
 # final image
-FROM mcr.microsoft.com/playwright:v1.49.0-jammy AS tester
+FROM mcr.microsoft.com/playwright:v1.49.1-jammy AS tester
 WORKDIR /app
 
 ENV CI=true

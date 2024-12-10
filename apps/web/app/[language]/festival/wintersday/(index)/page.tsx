@@ -48,6 +48,8 @@ export default async function WintersdayPage() {
         <ItemTable query={{ where: { id: { in: itemIds }}}} defaultColumns={['item', 'rarity', 'type', 'buyPrice', 'buyPriceTrend', 'sellPrice', 'sellPriceTrend']}/>
       </ItemTableContext>
 
+      <div style={{ marginTop: 32 }}/>
+
       <Gw2Accounts requiredScopes={requiredScopes} loading={null} loginMessage={<Trans id="festival.wintersday.items.login"/>} authorizationMessage={<Trans id="festival.wintersday.items.authorize"/>}>
         {items.map((item) => (
           <Fragment key={item.id}>

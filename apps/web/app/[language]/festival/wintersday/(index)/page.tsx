@@ -13,6 +13,8 @@ import { db } from '@/lib/prisma';
 import { linkProperties } from '@/lib/linkProperties';
 import { cache } from '@/lib/cache';
 import { ItemLink } from '@/components/Item/ItemLink';
+import type { PageProps } from '@/lib/next';
+import { getTranslate } from '@/lib/translate';
 
 const itemIds = [
   86601,
@@ -39,6 +41,7 @@ export default async function WintersdayPage() {
   return (
     <PageLayout>
       <ItemTableContext id="wintersday">
+        <p><Trans id="festival.wintersday.intro"/></p>
         <p><Trans id="festival.wintersday.description"/></p>
         <Headline actions={<ItemTableColumnsButton/>} id="items"><Trans id="navigation.items"/></Headline>
         <ItemTable query={{ where: { id: { in: itemIds }}}} defaultColumns={['item', 'rarity', 'type', 'buyPrice', 'buyPriceTrend', 'sellPrice', 'sellPriceTrend']}/>
@@ -57,6 +60,13 @@ export default async function WintersdayPage() {
   );
 }
 
-export const metadata: Metadata = {
-  title: 'Wintersday'
-};
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { language } = await params;
+  const t = getTranslate(language);
+
+  return {
+    title: {
+      absolute: `${t('festival.wintersday')} · gw2treasures.com`
+    }
+  }
+}

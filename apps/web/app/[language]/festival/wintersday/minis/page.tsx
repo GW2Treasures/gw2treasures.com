@@ -8,6 +8,8 @@ import { db } from '@/lib/prisma';
 import type { Metadata } from 'next';
 import { requiredScopes } from '../helper';
 import { pageView } from '@/lib/pageView';
+import { getTranslate } from '@/lib/translate';
+import type { PageProps } from '@/lib/next';
 
 const miniIds = [
   115, // Mini Princess Doll
@@ -76,6 +78,11 @@ export default async function WintersdayAchievementsPage() {
   );
 }
 
-export const metadata: Metadata = {
-  title: 'Minis'
-};
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { language } = await params;
+  const t = getTranslate(language);
+
+  return {
+    title: t('festival.wintersday.minis')
+  }
+}

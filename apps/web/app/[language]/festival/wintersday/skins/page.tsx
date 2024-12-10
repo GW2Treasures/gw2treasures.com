@@ -8,6 +8,8 @@ import { db } from '@/lib/prisma';
 import type { Metadata } from 'next';
 import { requiredScopes } from '../helper';
 import { pageView } from '@/lib/pageView';
+import type { PageProps } from '@/lib/next';
+import { getTranslate } from '@/lib/translate';
 
 const skinIds = [
   // weapons
@@ -103,6 +105,11 @@ export default async function WintersdayAchievementsPage() {
   );
 }
 
-export const metadata: Metadata = {
-  title: 'Skins'
-};
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { language } = await params;
+  const t = getTranslate(language);
+
+  return {
+    title: t('navigation.skins')
+  }
+}

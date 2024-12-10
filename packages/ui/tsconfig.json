@@ -4,6 +4,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
+    "**/*.module.css",
     ".next/types/**/*.ts"
   ],
 }

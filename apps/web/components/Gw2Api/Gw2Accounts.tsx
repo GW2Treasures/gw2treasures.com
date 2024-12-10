@@ -11,7 +11,7 @@ import { useUser } from '../User/use-user';
 import { Gw2AccountLoginNotice } from './Gw2AccountLoginNotice';
 
 export interface Gw2AccountsProps {
-  children?: (accounts: Gw2Account[], scopes: Scope[]) => ReactElement;
+  children?: ((accounts: Gw2Account[], scopes: Scope[]) => ReactElement) | ReactNode;
   requiredScopes: Scope[];
   optionalScopes?: Scope[];
   options?: GetAccountsOptions;
@@ -58,5 +58,9 @@ const Gw2AccountsInternal: FC<Gw2AccountsProps> = ({ children, requiredScopes, o
     );
   }
 
-  return children?.(accounts.accounts, accounts.scopes);
+  if(typeof children === 'function') {
+    return children?.(accounts.accounts, accounts.scopes);
+  }
+
+  return children;
 };

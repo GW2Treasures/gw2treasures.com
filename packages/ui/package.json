@@ -12,6 +12,7 @@
     "icons/",
     "lib/",
     "reset.module.css",
+    "common.module.css",
     "index.ts",
     "types.d.ts",
     "tsconfig.json",

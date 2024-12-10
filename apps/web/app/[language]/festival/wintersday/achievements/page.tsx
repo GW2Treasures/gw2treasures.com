@@ -13,6 +13,7 @@ import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import type { Metadata } from 'next';
 import { requiredScopes } from '../helper';
 import { pageView } from '@/lib/pageView';
+import { getTranslate } from '@/lib/translate';
 
 const achievementIds = [
   5005,
@@ -89,6 +90,12 @@ export default async function WintersdayAchievementsPage({ params }: PageProps) 
   );
 }
 
-export const metadata: Metadata = {
-  title: 'Achievements'
-};
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { language } = await params;
+  const t = getTranslate(language);
+
+  return {
+    title: t('navigation.achievements')
+  };
+}
+

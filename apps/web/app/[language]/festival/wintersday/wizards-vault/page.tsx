@@ -14,18 +14,21 @@ import { Icon } from '@gw2treasures/ui';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 
 const objectiveIds: number[] = [
-  // TODO: add objective ids
+  223, // (Festival) Complete the (Annual) Festival Automaton Achievement
+  224, // (Festival) Complete the (Annual) Some Disassembly Required Achievement
+  215, // (Festival) Complete the (Annual) Wintersday Traditions Achievement
+  219, // (Festival) Complete the Secret Lair of the Snowmen Strike Mission
 ];
 
 const loadData = cache(async function loadData() {
   const [objectives] = await Promise.all([
     db.wizardsVaultObjective.findMany({
-      where: { OR: [{ id: { in: objectiveIds }}, { name_en: { startsWith: '(Festival)' }, removedFromApi: false }] },
+      where: { id: { in: objectiveIds }}
     })
   ]);
 
   return { objectives };
-}, ['wintersday-wizards-vault-objectives'], { revalidate: 60 * 5 });
+}, ['wintersday-wizards-vault-objectives'], { revalidate: 60 * 60 });
 
 
 export default async function WintersdayAchievementsPage({ params }: PageProps) {

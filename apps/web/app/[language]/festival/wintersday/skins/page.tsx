@@ -23,6 +23,9 @@ const skinIds = [
   11949, // Ornamented Focus
   11190, // Silent Forest's Bell
   10194, // Wintergreen Custom Candy Cane Hammer
+  12791, // Ginger Shortbread Shortbow
+  12757, // Wintersday Bash
+  12755, // Gingerbread Speargun
 
   // armor
   7991, // Eggnog Helmet

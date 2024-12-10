@@ -14,7 +14,7 @@ const endsAt = new Date('2025-01-02T17:00:00.000Z');
 
 export default function WintersdayLayout({ children }: LayoutProps) {
   return (
-    <HeroLayout color="#7993a9" hero={(<Snow><Headline id="wintersday" actions={<>Time remaining: <ResetTimer reset={endsAt}/></>}>Wintersday</Headline></Snow>)} skipLayout
+    <HeroLayout color="#7993a9" hero={(<Snow><Headline id="wintersday" actions={<>Time remaining: <ResetTimer reset={endsAt}/></>}><Trans id="festival.wintersday"/></Headline></Snow>)} skipLayout
       navBar={(
         <NavBar base="/festival/wintersday/" items={[
           { segment: '(index)', href: '/festival/wintersday', label: <Trans id="festival.wintersday"/> },

@@ -56,6 +56,9 @@ const skinIds = [
   11179, // Wintersday Snow Boots
   11184, // Wintersday Snow Boots
   11171, // Wintersday Snow Boots
+  12786, // Winter Mittens
+  12765, // Winter Mittens
+  12748, // Winter Mittens
 ];
 
 const skinSetNames = [

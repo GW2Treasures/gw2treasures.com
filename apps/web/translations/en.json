@@ -317,5 +317,8 @@
   "festival.wintersday.minis": "Minis",
   "festival.wintersday.minis.description": "These minis are only available during wintersday.",
   "festival.wintersday.minis.authorize": "You need to authorize gw2treasures.com to be able to see your accounts mini unlocks.",
-  "festival.wintersday.minis.login": "You need to login to be able to see your accounts mini unlocks."
+  "festival.wintersday.minis.login": "You need to login to be able to see your accounts mini unlocks.",
+  "festival.wintersday.wizards-vault.description": "These are all the Wizard's Vault objectives only active during Wintersday.",
+  "festival.wintersday.wizards-vault.authorize": "You need to authorize gw2treasures.com to be able to see your accounts Wizard's Vault progress.",
+  "festival.wintersday.wizards-vault.login": "You need to login to be able to see your accounts Wizard's Vault progress."
 }

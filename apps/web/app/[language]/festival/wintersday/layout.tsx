@@ -21,6 +21,7 @@ export default function WintersdayLayout({ children }: LayoutProps) {
           { segment: 'achievements', label: <Trans id="navigation.achievements"/> },
           { segment: 'skins', label: <Trans id="navigation.skins"/> },
           { segment: 'minis', label: <Trans id="festival.wintersday.minis"/> },
+          { segment: 'wizards-vault', label: <Trans id="navigation.wizardsVault"/> },
         ]}/>
       )}
     >

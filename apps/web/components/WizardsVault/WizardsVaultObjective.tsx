@@ -13,7 +13,7 @@ interface WizardsVaultObjectiveProps {
 
 export const WizardsVaultObjective: FC<WizardsVaultObjectiveProps> = ({ objective, language }) => {
   return (
-    <>
+    <div className={styles.wrapper}>
       <div className={styles.objective}>
         <div className={styles.title}>
           {localizedName(objective, language)}
@@ -23,6 +23,6 @@ export const WizardsVaultObjective: FC<WizardsVaultObjectiveProps> = ({ objectiv
       </div>
 
       <WizardsVaultObjectiveTable objectiveId={objective.id}/>
-    </>
+    </div>
   );
 };

@@ -44,6 +44,7 @@ const miniIds = [
   880, // Mini Calico Cat
   881, // Mini Corgi
   916, // Mini Plush Cuckoo
+  957, // Mini Plush Fox
 ];
 
 const loadData = cache(async function loadData() {

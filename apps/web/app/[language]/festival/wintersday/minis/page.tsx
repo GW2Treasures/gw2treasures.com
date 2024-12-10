@@ -84,5 +84,5 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   return {
     title: t('festival.wintersday.minis')
-  }
+  };
 }

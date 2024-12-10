@@ -40,9 +40,9 @@ export default async function WintersdayAchievementsPage({ params }: PageProps) 
       <p><Trans id="festival.wintersday.wizards-vault.description"/></p>
 
       {objectives.length > 0 ? objectives.map((objective) => (
-        <WizardsVaultObjective objective={objective} language={language}/>
+        <WizardsVaultObjective key={objective.id} objective={objective} language={language}/>
       )) : (
-        <Notice>No Wizard's Vault objectives for wintersday are available in the Guild Wars 2 API yet.</Notice>
+        <Notice>No Wizard&apos;s Vault objectives for wintersday are available in the Guild Wars 2 API yet.</Notice>
       )}
 
       <p style={{ border: '1px solid var(--color-border)', marginTop: 48, padding: 16 }}>
@@ -60,5 +60,5 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   return {
     title: t('navigation.wizardsVault')
-  }
+  };
 }

@@ -111,5 +111,5 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   return {
     title: t('navigation.skins')
-  }
+  };
 }

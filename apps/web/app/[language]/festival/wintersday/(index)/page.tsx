@@ -15,6 +15,7 @@ import { cache } from '@/lib/cache';
 import { ItemLink } from '@/components/Item/ItemLink';
 import type { PageProps } from '@/lib/next';
 import { getTranslate } from '@/lib/translate';
+import { Fragment } from 'react';
 
 const itemIds = [
   86601,
@@ -49,10 +50,10 @@ export default async function WintersdayPage() {
 
       <Gw2Accounts requiredScopes={requiredScopes} loading={null} loginMessage={<Trans id="festival.wintersday.items.login"/>} authorizationMessage={<Trans id="festival.wintersday.items.authorize"/>}>
         {items.map((item) => (
-          <>
+          <Fragment key={item.id}>
             <Headline id={item.id.toString()}><ItemLink item={item}/></Headline>
             <ItemInventoryTable itemId={item.id}/>
-          </>
+          </Fragment>
         ))}
       </Gw2Accounts>
 
@@ -68,5 +69,5 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: {
       absolute: `${t('festival.wintersday')} · gw2treasures.com`
     }
-  }
+  };
 }

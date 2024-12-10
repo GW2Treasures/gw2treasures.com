@@ -152,6 +152,9 @@ const pages: Page[] = [
   { href: '/item/empty-containers', title: 'Empty containers', icon: 'item' },
   { href: '/achievement/random', title: 'Random Achievement', icon: 'shuffle' },
   { href: '/achievement/uncategorized', title: 'Uncategorized Achievements', icon: 'achievement' },
+
+  { href: '/festival/wintersday', title: 'Wintersday', icon: 'gift' },
+  { href: '/bonus-event/evon-gnashblades-birthday', title: 'Evon Gnashblade’s “Birthday” celebration', icon: 'story' },
 ];
 
 export function usePageResults(searchValue: string): SearchResults<'pages'> {

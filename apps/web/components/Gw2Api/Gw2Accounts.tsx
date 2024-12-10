@@ -37,7 +37,7 @@ const Gw2AccountsInternal: FC<Gw2AccountsProps> = ({ children, requiredScopes, o
   }
 
   if(!user) {
-    return (
+    return loginMessage === null ? null : (
       <Gw2AccountLoginNotice requiredScopes={requiredScopes} optionalScopes={optionalScopes}>
         {loginMessage ?? authorizationMessage}
       </Gw2AccountLoginNotice>
@@ -51,7 +51,7 @@ const Gw2AccountsInternal: FC<Gw2AccountsProps> = ({ children, requiredScopes, o
   }
 
   if(requiredScopes.some((scope) => !accounts.scopes.includes(scope))) {
-    return (
+    return authorizationMessage === null ? null : (
       <Gw2AccountAuthorizationNotice scopes={accounts.scopes} requiredScopes={requiredScopes} optionalScopes={optionalScopes}>
         {authorizationMessage ?? loginMessage}
       </Gw2AccountAuthorizationNotice>

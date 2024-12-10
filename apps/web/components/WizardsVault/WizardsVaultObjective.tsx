@@ -8,10 +8,11 @@ import { Waypoint } from '../Waypoint/Waypoint';
 
 interface WizardsVaultObjectiveProps {
   objective: Objective,
-  language: Language;
+  language: Language,
+  disabledLoginNotification?: boolean,
 }
 
-export const WizardsVaultObjective: FC<WizardsVaultObjectiveProps> = ({ objective, language }) => {
+export const WizardsVaultObjective: FC<WizardsVaultObjectiveProps> = ({ objective, language, disabledLoginNotification }) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.objective}>
@@ -22,7 +23,7 @@ export const WizardsVaultObjective: FC<WizardsVaultObjectiveProps> = ({ objectiv
         <div className={styles.aa}><AstralAcclaim value={objective.acclaim}/></div>
       </div>
 
-      <WizardsVaultObjectiveTable objectiveId={objective.id}/>
+      <WizardsVaultObjectiveTable objectiveId={objective.id} disabledLoginNotification={disabledLoginNotification}/>
     </div>
   );
 };

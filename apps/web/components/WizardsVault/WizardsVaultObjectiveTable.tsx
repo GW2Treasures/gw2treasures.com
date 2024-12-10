@@ -13,18 +13,19 @@ import { Gw2Accounts } from '../Gw2Api/Gw2Accounts';
 import { SkeletonTable } from '../Skeleton/SkeletonTable';
 
 interface WizardsVaultObjectiveTableProps {
-  objectiveId: number
+  objectiveId: number,
+  disabledLoginNotification?: boolean,
 }
 
 const requiredScopes = [Scope.GW2_Account, Scope.GW2_Progression];
 
-export const WizardsVaultObjectiveTable: FC<WizardsVaultObjectiveTableProps> = ({ objectiveId }) => {
+export const WizardsVaultObjectiveTable: FC<WizardsVaultObjectiveTableProps> = ({ objectiveId, disabledLoginNotification }) => {
   return (
     <Gw2Accounts
       requiredScopes={requiredScopes}
       loading={<SkeletonTable columns={['Account', 'Progress']} rows={1}/>}
-      authorizationMessage="gw2treasures.com needs additional permissions to display your Wizard's Vault progress."
-      loginMessage="Login to show your Wizard's Vault progress."
+      authorizationMessage={disabledLoginNotification ? null : 'gw2treasures.com needs additional permissions to display your Wizard\'s Vault progress.'}
+      loginMessage={disabledLoginNotification ? null : 'Login to show your Wizard\'s Vault progress.'}
     >
       {(accounts) => (
         <Table>

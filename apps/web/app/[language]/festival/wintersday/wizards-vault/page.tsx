@@ -34,7 +34,7 @@ const loadData = cache(async function loadData() {
 export default async function WintersdayAchievementsPage({ params }: PageProps) {
   const { language } = await params;
   const { objectives } = await loadData();
-  await pageView('festival/wintersday/wizwards-vault');
+  await pageView('festival/wintersday/wizards-vault');
 
   return (
     <PageLayout>
@@ -43,7 +43,7 @@ export default async function WintersdayAchievementsPage({ params }: PageProps) 
       <p><Trans id="festival.wintersday.wizards-vault.description"/></p>
 
       {objectives.length > 0 ? objectives.map((objective) => (
-        <WizardsVaultObjective key={objective.id} objective={objective} language={language}/>
+        <WizardsVaultObjective key={objective.id} objective={objective} language={language} disabledLoginNotification/>
       )) : (
         <Notice>No Wizard&apos;s Vault objectives for wintersday are available in the Guild Wars 2 API yet.</Notice>
       )}

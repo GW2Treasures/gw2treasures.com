@@ -1,5 +1,6 @@
 import { type FC, type ReactNode } from 'react';
 import styles from './OutputCount.module.css';
+import { FormatNumber } from '../Format/FormatNumber';
 
 export interface OutputCountProps {
   count: number;
@@ -14,7 +15,7 @@ export const OutputCount: FC<OutputCountProps> = ({ count, children }) => {
   return (
     <div className={styles.outputCount}>
       {children}
-      {count > 1 && `×${count}`}
+      {count > 1 && <span>&times;<FormatNumber value={count}/></span>}
     </div>
   );
 };

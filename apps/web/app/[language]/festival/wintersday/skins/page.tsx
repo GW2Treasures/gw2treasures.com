@@ -70,6 +70,7 @@ const skinSetNames = [
   'Sparkling Wrapped weapons',
   'Sacred Solstice weapons',
   'Snowdrift weapons',
+  'Plush weapons'
 ];
 
 const loadData = cache(async function loadData() {

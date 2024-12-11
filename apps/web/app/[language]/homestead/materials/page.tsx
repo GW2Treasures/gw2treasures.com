@@ -142,20 +142,11 @@ const RefinedMaterial: FC<RefinedMaterialProps> = ({ id, material, efficiencies,
         <Sources.Column id="buyPrice" title={<Trans id="itemTable.column.buyPrice"/>} sortBy={({ item }) => item?.buyPrice} align="right" hidden>
           {({ item }) => item && itemTableColumn.buyPrice(item, {})}
         </Sources.Column>
-        <Sources.Column id="buyPriceTrend" title={<Trans id="itemTable.column.buyPriceTrend"/>} align="right" hidden>
+        <Sources.Column id="buyPriceTrend" title={<Trans id="itemTable.column.buyPriceTrend"/>} align="right">
           {({ item }) => item && itemTableColumn.buyPriceTrend(item, {})}
         </Sources.Column>
         <Sources.Column id="buyQuantity" title={<Trans id="itemTable.column.buyQuantity"/>} sortBy={({ item }) => item?.buyQuantity} align="right" hidden>
           {({ item }) => item && itemTableColumn.buyQuantity(item, {})}
-        </Sources.Column>
-        <Sources.Column id="sellPrice" title={<Trans id="itemTable.column.sellPrice"/>} sortBy={({ item }) => item?.sellPrice} align="right" hidden>
-          {({ item }) => item && itemTableColumn.sellPrice(item, {})}
-        </Sources.Column>
-        <Sources.Column id="sellPriceTrend" title={<Trans id="itemTable.column.sellPriceTrend"/>} align="right" hidden>
-          {({ item }) => item && itemTableColumn.sellPriceTrend(item, {})}
-        </Sources.Column>
-        <Sources.Column id="sellQuantity" title={<Trans id="itemTable.column.sellQuantity"/>} sortBy={({ item }) => item?.sellQuantity} align="right" hidden>
-          {({ item }) => item && itemTableColumn.sellQuantity(item, {})}
         </Sources.Column>
         <Sources.Column
           id="buyPricePer"
@@ -173,6 +164,15 @@ const RefinedMaterial: FC<RefinedMaterialProps> = ({ id, material, efficiencies,
               </span>
             </Tip>
           )}
+        </Sources.Column>
+        <Sources.Column id="sellPrice" title={<Trans id="itemTable.column.sellPrice"/>} sortBy={({ item }) => item?.sellPrice} align="right" hidden>
+          {({ item }) => item && itemTableColumn.sellPrice(item, {})}
+        </Sources.Column>
+        <Sources.Column id="sellPriceTrend" title={<Trans id="itemTable.column.sellPriceTrend"/>} align="right">
+          {({ item }) => item && itemTableColumn.sellPriceTrend(item, {})}
+        </Sources.Column>
+        <Sources.Column id="sellQuantity" title={<Trans id="itemTable.column.sellQuantity"/>} sortBy={({ item }) => item?.sellQuantity} align="right" hidden>
+          {({ item }) => item && itemTableColumn.sellQuantity(item, {})}
         </Sources.Column>
         <Sources.Column
           id="sellPricePer"

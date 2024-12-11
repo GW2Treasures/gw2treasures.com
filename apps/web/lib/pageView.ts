@@ -1,7 +1,7 @@
 import { cache } from 'react';
 import { db } from './prisma';
 import { headers } from 'next/headers';
-import { unstable_after as after } from 'next/server';
+import { after } from 'next/server';
 
 export const pageView = cache(async function pageView(page: string, pageId?: number) {
   const header = await headers();

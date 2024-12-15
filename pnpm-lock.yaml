@@ -67,8 +67,8 @@ importers:
   apps/web:
     dependencies:
       '@floating-ui/react':
-        specifier: 0.27.0
-        version: 0.27.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+        specifier: 0.27.1
+        version: 0.27.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@floating-ui/react-dom':
         specifier: 2.1.2
         version: 2.1.2(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -491,8 +491,8 @@ importers:
   packages/ui:
     dependencies:
       '@floating-ui/react':
-        specifier: 0.27.0
-        version: 0.27.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+        specifier: 0.27.1
+        version: 0.27.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@floating-ui/react-dom':
         specifier: 2.1.2
         version: 2.1.2(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -952,8 +952,8 @@ packages:
       react: 19.0.0
       react-dom: 19.0.0
 
-  '@floating-ui/react@0.27.0':
-    resolution: {integrity: sha512-WLEksq7fJapXSJbmfiyq9pAW0a7ZFMEJToFE4oTDESxGjoa+nZu3YMjmZE2KvoUtQhqOK2yMMfWQFZyeWD0wGQ==}
+  '@floating-ui/react@0.27.1':
+    resolution: {integrity: sha512-/Ekg7W22DLGGmqP4vO/LQ6SqOrqIlx1h1PqTcRleVEuRZ0NdBDjtYMhehZqWxjSA13AKA1XCkr7QYz5Z7n9Hag==}
     peerDependencies:
       react: 19.0.0
       react-dom: 19.0.0
@@ -4745,7 +4745,7 @@ snapshots:
       react: 19.0.0
       react-dom: 19.0.0(react@19.0.0)
 
-  '@floating-ui/react@0.27.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
+  '@floating-ui/react@0.27.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
     dependencies:
       '@floating-ui/react-dom': 2.1.2(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@floating-ui/utils': 0.2.8

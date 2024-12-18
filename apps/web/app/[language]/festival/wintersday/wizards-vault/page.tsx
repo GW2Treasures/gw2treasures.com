@@ -38,7 +38,7 @@ export default async function WintersdayAchievementsPage({ params }: PageProps) 
 
   return (
     <PageLayout>
-      <Gw2Accounts requiredScopes={requiredScopes} loading={null} loginMessage={<Trans id="festival.wintersday.wizards-vault.login"/>} authorizationMessage={<Trans id="festival.wintersday.wizards-vault.authorize"/>}/>
+      <Gw2Accounts requiredScopes={requiredScopes} loading={null} loginMessage={<Trans id="festival.wizards-vault.login"/>} authorizationMessage={<Trans id="festival.wizards-vault.authorize"/>}/>
 
       <p><Trans id="festival.wintersday.wizards-vault.description"/></p>
 

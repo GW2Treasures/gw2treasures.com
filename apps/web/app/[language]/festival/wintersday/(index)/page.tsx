@@ -90,7 +90,7 @@ export default async function WintersdayPage({ params }: PageProps) {
 
       <div style={{ marginTop: 32 }}/>
 
-      <Gw2Accounts requiredScopes={requiredScopes} loading={null} loginMessage={<Trans id="festival.wintersday.items.login"/>} authorizationMessage={<Trans id="festival.wintersday.items.authorize"/>}>
+      <Gw2Accounts requiredScopes={requiredScopes} loading={null} loginMessage={<Trans id="festival.items.login"/>} authorizationMessage={<Trans id="festival.items.authorize"/>}>
         {items.map((item) => (
           <Fragment key={item.id}>
             <Headline id={item.id.toString()}><ItemLink item={item}/></Headline>

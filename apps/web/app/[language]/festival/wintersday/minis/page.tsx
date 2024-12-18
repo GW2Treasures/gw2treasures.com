@@ -65,7 +65,7 @@ export default async function WintersdayAchievementsPage() {
 
   return (
     <PageLayout>
-      <Gw2Accounts requiredScopes={requiredScopes} loading={null} loginMessage={<Trans id="festival.wintersday.minis.login"/>} authorizationMessage={<Trans id="festival.wintersday.minis.authorize"/>}/>
+      <Gw2Accounts requiredScopes={requiredScopes} loading={null} loginMessage={<Trans id="festival.minis.login"/>} authorizationMessage={<Trans id="festival.minis.authorize"/>}/>
 
       <MiniTable minis={minis}>
         {(table, ColumnSelect) => (

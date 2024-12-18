@@ -13,6 +13,7 @@
   transition: text-decoration-color .3s ease;
   text-decoration-thickness: 2px;
   text-underline-offset: 2px;
+  text-align: left;
   overflow: hidden;
   text-overflow: ellipsis;
   padding: 2px 0;

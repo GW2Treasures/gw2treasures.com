@@ -16,7 +16,7 @@ const Navigation: FC<NavigationProps> = ({ language }) => {
   return (
     <HorizontalOverflowContainer>
       <Composite render={<ul className={styles.navigation}/>}>
-        <NavigationItem href="/festival/wintersday" icon="gift" style={{ color: 'light-dark(#00838f, #80deea)' }}><Trans id="festival.wintersday"/></NavigationItem>
+        <NavigationItem href="/festival/lunar-new-year" icon="lantern" style={{ color: 'light-dark(#db2f22, #f1c702)' }}><Trans id="festival.lunar-new-year"/></NavigationItem>
         <NavigationItem href="/item" icon="item"><Trans language={language} id="navigation.items"/></NavigationItem>
         <NavigationItem href="/achievement" icon="achievement"><Trans language={language} id="navigation.achievements"/></NavigationItem>
         <NavigationItem href="/wizards-vault" icon="wizards-vault"><Trans language={language} id="navigation.wizardsVault"/><WizardsVaultNewSeasonBadge/></NavigationItem>

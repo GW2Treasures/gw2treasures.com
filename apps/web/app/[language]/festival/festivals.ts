@@ -1,5 +1,6 @@
 export enum Festival {
   Wintersday,
+  LunarNewYear,
 }
 
 export interface FestivalInfo {
@@ -13,11 +14,15 @@ export function getActiveFestival(): FestivalInfo | undefined {
   return festivals.find((festival) => isFestivalActive(festival, now));
 }
 
-export function getFestival(type: Festival): FestivalInfo {
-  return festivals.findLast((festival) => festival.type === type)!;
+export function getFestival(type: Festival): FestivalInfo | undefined {
+  return festivals.findLast((festival) => festival.type === type);
 }
 
-export function isFestivalActive(festival: FestivalInfo, timestamp?: Date) {
+export function isFestivalActive(festival: FestivalInfo | undefined, timestamp?: Date) {
+  if(!festival) {
+    return false;
+  }
+
   timestamp ??= new Date();
 
   return festival.startsAt <= timestamp && festival.endsAt > timestamp;

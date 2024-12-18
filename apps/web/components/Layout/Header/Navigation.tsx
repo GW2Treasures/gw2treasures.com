@@ -58,6 +58,8 @@ const FestivalNavigationItem: FC = () => {
   switch(getActiveFestival()?.type) {
     case Festival.Wintersday:
       return (<NavigationItem href="/festival/wintersday" icon="gift" style={{ color: 'light-dark(#00838f, #80deea)' }}><Trans id="festival.wintersday"/></NavigationItem>);
+    case Festival.LunarNewYear:
+      return (<NavigationItem href="/festival/lunar-new-year" icon="lantern" style={{ color: 'light-dark(#db2f22, #f1c702)' }}><Trans id="festival.lunar-new-year"/></NavigationItem>);
     default:
       return null;
   }

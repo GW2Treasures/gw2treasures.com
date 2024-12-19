@@ -3,7 +3,7 @@
 import { Gw2AccountName } from '@/components/Gw2Api/Gw2AccountName';
 import { Gw2Accounts } from '@/components/Gw2Api/Gw2Accounts';
 import type { Gw2Account } from '@/components/Gw2Api/types';
-import { type FC, useCallback, useEffect, useState } from 'react';
+import { type FC, Suspense, useCallback, useEffect, useState } from 'react';
 import styles from './dashboard.module.css';
 import { Button } from '@gw2treasures/ui/components/Form/Button';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
@@ -21,8 +21,9 @@ import { CurrencyLink } from '@/components/Currency/CurrencyLink';
 import { FormatNumber } from '@/components/Format/FormatNumber';
 import { encodeColumns, type Column } from './helper';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
+import { State, EmptyState } from './state';
 
-const requiredScopes = [Scope.GW2_Account, Scope.GW2_Characters, Scope.GW2_Inventories, Scope.GW2_Unlocks, Scope.GW2_Tradingpost];
+const requiredScopes = [Scope.GW2_Account, Scope.GW2_Characters, Scope.GW2_Inventories, Scope.GW2_Unlocks, Scope.GW2_Tradingpost, Scope.GW2_Wallet];
 
 export interface DashboardProps {
   initialColumns?: Column[]
@@ -36,43 +37,46 @@ export const Dashboard: FC<DashboardProps> = ({ initialColumns = [] }) => {
   }, [columns]);
 
   return (
-    <Gw2Accounts requiredScopes={requiredScopes}>
-      {(accounts) => (
-        <div>
-          <div className={styles.intro}>
-            <Notice icon="eye">Preview: The dashboard is still a work in progress!</Notice>
-            <Headline id="inventory" actions={[
-              (<Button key="c" onClick={() => setColumns([])} icon="delete">Clear Columns</Button>),
-              (<AddColumnButton key="+" onAddColumn={(column) => setColumns([...columns, column])}/>),
-            ]}
-            >
-              Dashboard
-            </Headline>
-          </div>
-          <table className={styles.table}>
-            <thead>
-              <tr>
-                <th align="left">Account</th>
-                {columns.map((column, i) => (
-                  <th key={i} align="right">
-                    {(column.type === 'item' && column.item) ? (
-                      <ItemLink item={column.item}/>
-                    ) : (column.type === 'currency' && column.currency) ? (
-                      <CurrencyLink currency={column.currency}/>
-                    ) : (
-                      <>[{column.type}: {column.id}]</>
-                    )}
-                  </th>
-                ))}
-              </tr>
-            </thead>
+    <div>
+      <div className={styles.intro}>
+        <Notice icon="eye">Preview: The dashboard is still a work in progress!</Notice>
+        <Headline id="inventory" actions={[
+          (<Button key="c" onClick={() => setColumns([])} icon="delete">Clear Columns</Button>),
+          (<AddColumnButton key="+" onAddColumn={(column) => setColumns([...columns, column])}/>),
+        ]}
+        >
+          Dashboard
+        </Headline>
+      </div>
+      <table className={styles.table}>
+        <thead>
+          <tr>
+            <th align="left">Account</th>
+            {columns.map((column) => (
+              <th key={`${column.type}-${column.id}`} align="right">
+                {(column.type === 'item' && column.item) ? (
+                  <ItemLink item={column.item}/>
+                ) : (column.type === 'currency' && column.currency) ? (
+                  <CurrencyLink currency={column.currency}/>
+                ) : (
+                  <>[{column.type}: {column.id}]</>
+                )}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <Gw2Accounts requiredScopes={requiredScopes} loading={null} authorizationMessage={null} loginMessage={null}>
+          {(accounts) => (
             <tbody>
               {accounts.map((account) => <AccountRow key={account.id} account={account} columns={columns}/>)}
             </tbody>
-          </table>
-        </div>
-      )}
-    </Gw2Accounts>
+          )}
+        </Gw2Accounts>
+      </table>
+      <Suspense fallback={<EmptyState icon="loading">Loading...</EmptyState>}>
+        <State requiredScopes={requiredScopes}/>
+      </Suspense>
+    </div>
   );
 };
 
@@ -117,10 +121,10 @@ const AccountRow: FC<AccountRow> = ({ account, columns }) => {
   return (
     <tr>
       <td><Gw2AccountName account={account}/></td>
-      {columns.map((column, i) => column.type === 'item' ? (
-        <AccountItemCell key={i} account={account} id={column.id}/>
+      {columns.map((column) => column.type === 'item' ? (
+        <AccountItemCell key={`${column.type}-${column.id}`} account={account} id={column.id}/>
       ) : (
-        <AccountCurrencyCell key={i} account={account} id={column.id}/>
+        <AccountCurrencyCell key={`${column.type}-${column.id}`} account={account} id={column.id}/>
       ))}
     </tr>
   );

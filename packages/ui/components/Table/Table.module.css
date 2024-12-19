@@ -112,19 +112,21 @@
 }
 
 .wrapper {
-  overflow: clip;
   width: calc(100% + 32px);
   margin: 0 -16px 16px;
   padding: 0 16px;
 }
 
-.wrapperOverflow {
-  composes: wrapper;
+.noOverflow {
+  overflow: clip;
+}
+
+.overflow {
   overflow-x: scroll;
   will-change: scroll-position;
 }
 
-.wrapperOverflow > .table > thead > tr > th { position: static; }
+.overflow > .table > thead > tr > th { position: static; }
 
 @media(max-width: 760px) {
   .table { width: max-content; min-width: 100%; }

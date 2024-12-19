@@ -19,6 +19,9 @@
   top: var(--table-sticky-top, 48px);
   height: 58px;
 }
+[data-table-overflow] > .table > thead > tr > th {
+  position: static;
+}
 
 .table > tbody > tr > td {
   padding: 16px;

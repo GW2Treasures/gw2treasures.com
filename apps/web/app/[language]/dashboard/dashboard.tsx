@@ -22,6 +22,7 @@ import { FormatNumber } from '@/components/Format/FormatNumber';
 import { encodeColumns, type Column } from './helper';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import { State, EmptyState } from './state';
+import { TableWrapper } from '@gw2treasures/ui/components/Table/TableWrapper';
 
 const requiredScopes = [Scope.GW2_Account, Scope.GW2_Characters, Scope.GW2_Inventories, Scope.GW2_Unlocks, Scope.GW2_Tradingpost, Scope.GW2_Wallet];
 
@@ -48,31 +49,33 @@ export const Dashboard: FC<DashboardProps> = ({ initialColumns = [] }) => {
           Dashboard
         </Headline>
       </div>
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            <th align="left">Account</th>
-            {columns.map((column) => (
-              <th key={`${column.type}-${column.id}`} align="right">
-                {(column.type === 'item' && column.item) ? (
-                  <ItemLink item={column.item}/>
-                ) : (column.type === 'currency' && column.currency) ? (
-                  <CurrencyLink currency={column.currency}/>
-                ) : (
-                  <>[{column.type}: {column.id}]</>
-                )}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <Gw2Accounts requiredScopes={requiredScopes} loading={null} authorizationMessage={null} loginMessage={null}>
-          {(accounts) => (
-            <tbody>
-              {accounts.map((account) => <AccountRow key={account.id} account={account} columns={columns}/>)}
-            </tbody>
-          )}
-        </Gw2Accounts>
-      </table>
+      <TableWrapper className={styles.overflow}>
+        <table className={styles.table}>
+          <thead>
+            <tr>
+              <th align="left">Account</th>
+              {columns.map((column) => (
+                <th key={`${column.type}-${column.id}`} align="right">
+                  {(column.type === 'item' && column.item) ? (
+                    <ItemLink item={column.item}/>
+                  ) : (column.type === 'currency' && column.currency) ? (
+                    <CurrencyLink currency={column.currency}/>
+                  ) : (
+                    <>[{column.type}: {column.id}]</>
+                  )}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <Gw2Accounts requiredScopes={requiredScopes} loading={null} authorizationMessage={null} loginMessage={null}>
+            {(accounts) => (
+              <tbody>
+                {accounts.map((account) => <AccountRow key={account.id} account={account} columns={columns}/>)}
+              </tbody>
+            )}
+          </Gw2Accounts>
+        </table>
+      </TableWrapper>
       <Suspense fallback={<EmptyState icon="loading">Loading...</EmptyState>}>
         <State requiredScopes={requiredScopes}/>
       </Suspense>

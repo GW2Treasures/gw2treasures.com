@@ -7,6 +7,7 @@ import { SubmitButton } from '@gw2treasures/ui/components/Form/Buttons/SubmitBut
 import { Icon, type IconProp } from '@gw2treasures/ui';
 import styles from './dashboard.module.css';
 import type { Scope } from '@gw2me/client';
+import { useHydrated } from '@/lib/useHydrated';
 
 interface StateProps {
   requiredScopes: Scope[];
@@ -15,8 +16,11 @@ interface StateProps {
 export const State: FC<StateProps> = ({ requiredScopes }) => {
   const user = useUser();
   const accounts = useGw2Accounts(requiredScopes);
+  const hydrated = useHydrated();
 
-  const loginUrl = `/login?returnTo=${encodeURIComponent(location.pathname + location.search)}&scopes=${encodeURIComponent(requiredScopes.join(','))}`;
+  const loginUrl = hydrated
+    ? `/login?returnTo=${encodeURIComponent(location.pathname + location.search)}&scopes=${encodeURIComponent(requiredScopes.join(','))}`
+    : '/login';
 
   if(!user) {
     return <EmptyState action={<LinkButton href={loginUrl} icon="user">Login</LinkButton>}>You need to log in to see your accounts.</EmptyState>;

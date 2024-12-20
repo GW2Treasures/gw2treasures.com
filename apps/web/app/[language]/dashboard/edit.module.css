@@ -24,6 +24,25 @@
   align-items: center;
 }
 
+.columnDragging {
+  composes: column;
+  box-shadow: var(--shadow);
+}
+
 .column:hover {
   background-color: var(--color-background-light);
+}
+
+.button {
+  margin-left: auto;
+}
+
+.hiddenButton {
+  composes: button;
+  opacity: 0;
+}
+
+.column:hover .hiddenButton,
+.column:focus-within .hiddenButton {
+  opacity: 1;
 }

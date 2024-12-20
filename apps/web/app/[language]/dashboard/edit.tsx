@@ -40,9 +40,9 @@ export const EditDialog: FC<EditDialogProps> = ({ columns, onEdit }) => {
   return (
     <DragDropProvider onDragEnd={handleDragEnd}>
       <div className={styles.editDialog}>
-        <ColumnList columns={sortedColumns}/>
+        <ColumnList columns={sortedColumns} onDelete={(deleted) => setSortedColumns(sortedColumns.filter((column) => column !== deleted))}/>
         <div className={styles.searchSection}>
-          <ItemSearch columns={sortedColumns}/>
+          <ItemSearch columns={sortedColumns} onAdd={(column) => setSortedColumns([...sortedColumns, column])}/>
         </div>
       </div>
 
@@ -54,7 +54,7 @@ export const EditDialog: FC<EditDialogProps> = ({ columns, onEdit }) => {
   );
 };
 
-const ColumnList: FC<{ columns: Column[] }> = ({ columns }) => {
+const ColumnList: FC<{ columns: Column[], onDelete: (column: Column) => void }> = ({ columns, onDelete }) => {
   const { ref } = useDroppable({
     id: 'column-list',
     type: 'column-list',
@@ -64,14 +64,14 @@ const ColumnList: FC<{ columns: Column[] }> = ({ columns }) => {
   return (
     <div ref={ref} className={styles.columnList}>
       {columns.map((column, index) => (
-        <ColumnItem key={`${column.type}-${column.id}`} column={column} index={index}/>
+        <ColumnItem key={`${column.type}-${column.id}`} column={column} index={index} onDelete={onDelete}/>
       ))}
     </div>
   );
 };
 
-const ColumnItem: FC<{ column: Column, index: number }> = ({ column, index }) => {
-  const { ref, handleRef } = useSortable({
+const ColumnItem: FC<{ column: Column, index: number, onDelete: (column: Column) => void }> = ({ column, index, onDelete }) => {
+  const { ref, handleRef, isDragSource } = useSortable({
     id: `${column.type}-${column.id}`,
     index,
     group: 'column-list',
@@ -81,17 +81,18 @@ const ColumnItem: FC<{ column: Column, index: number }> = ({ column, index }) =>
   });
 
   return (
-    <div className={styles.column} ref={ref}>
+    <div className={isDragSource ? styles.columnDragging : styles.column} ref={ref}>
       <div ref={handleRef}><Icon icon="menu" color="var(--color-text-muted)"/></div>
       {column.type === 'item' ? <ItemLink item={column.item!}/> :
        column.type === 'currency' ? <CurrencyLink currency={column.currency!}/> :
        column.type === 'achievement' ? <AchievementLink achievement={column.achievement!}/> : '?'}
+      <Button icon="delete" onClick={() => onDelete(column)} iconOnly className={styles.hiddenButton} appearance="menu"/>
     </div>
   );
 };
 
-const ColumnItemNew: FC<{ column: Column, index: number }> = ({ column, index }) => {
-  const { ref, handleRef } = useSortable({
+const ColumnItemNew: FC<{ column: Column, index: number, onAdd: (column: Column) => void }> = ({ column, index, onAdd }) => {
+  const { ref, handleRef, isDragSource } = useSortable({
     id: `${column.type}-${column.id}`,
     index,
     group: 'new-column-list',
@@ -101,16 +102,17 @@ const ColumnItemNew: FC<{ column: Column, index: number }> = ({ column, index })
   });
 
   return (
-    <div className={styles.column} ref={ref}>
+    <div className={isDragSource ? styles.columnDragging : styles.column} ref={ref}>
       <div ref={handleRef}><Icon icon="menu" color="var(--color-text-muted)"/></div>
       {column.type === 'item' ? <ItemLink item={column.item!}/> :
        column.type === 'currency' ? <CurrencyLink currency={column.currency!}/> :
        column.type === 'achievement' ? <AchievementLink achievement={column.achievement!}/> : '?'}
+      <Button icon="add" onClick={() => onAdd(column)} iconOnly className={styles.button}/>
     </div>
   );
 };
 
-const ItemSearch: FC<{ columns: Column[] }> = ({ columns }) => {
+const ItemSearch: FC<{ columns: Column[], onAdd: (column: Column) => void }> = ({ columns, onAdd }) => {
   const [searchValue, setSearchValue] = useState('');
   const debouncedValue = useDebounce(searchValue, 1000);
   const search = useJsonFetch<ApiItemSearchResponse>(`/api/item/search?q=${encodeURIComponent(debouncedValue)}`);
@@ -134,7 +136,7 @@ const ItemSearch: FC<{ columns: Column[] }> = ({ columns }) => {
         ) : (
           <div ref={ref}>
             {filteredItems.map((item, index) => (
-              <ColumnItemNew key={item.id} column={{ type: 'item', id: item.id, item }} index={index}/>
+              <ColumnItemNew key={item.id} column={{ type: 'item', id: item.id, item }} index={index} onAdd={onAdd}/>
             ))}
           </div>
         )}

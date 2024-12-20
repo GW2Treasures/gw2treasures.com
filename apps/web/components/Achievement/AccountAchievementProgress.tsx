@@ -15,11 +15,11 @@ import type { AchievementFlags } from '@gw2api/types/data/achievement';
 const requiredScopes = [Scope.GW2_Progression];
 
 export interface RowProps {
-  achievement: Achievement;
+  achievement: Pick<Achievement, 'id' | 'flags' | 'prerequisitesIds'>;
   bitId?: number;
 }
 export interface AccountAchievementProgressCellProps {
-  achievement: Achievement;
+  achievement: Pick<Achievement, 'id' | 'flags' | 'prerequisitesIds'>;
   bitId?: number;
   accountId: string;
 }

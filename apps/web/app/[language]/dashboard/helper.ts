@@ -1,11 +1,12 @@
 import type { WithIcon } from '@/lib/with';
-import type { Currency, Item } from '@gw2treasures/database';
+import type { Achievement, Currency, Item } from '@gw2treasures/database';
 import type { LocalizedEntity } from '@/lib/localizedName';
 import { isDefined } from '@gw2treasures/helper/is';
 
 const columnTypeMap = {
   i: 'item',
   c: 'currency',
+  a: 'achievement',
 } as const;
 
 export function encodeColumns(columns: Column[]): string {
@@ -47,4 +48,6 @@ export type Column = {
   type: 'item', item?: WithIcon<Pick<Item, 'id' | 'rarity' | keyof LocalizedEntity>>
 } | {
   type: 'currency', currency?: WithIcon<Pick<Currency, 'id' | keyof LocalizedEntity>>
+} | {
+  type: 'achievement', achievement?: WithIcon<Pick<Achievement, 'id' | keyof LocalizedEntity | 'flags' | 'prerequisitesIds'>>
 });

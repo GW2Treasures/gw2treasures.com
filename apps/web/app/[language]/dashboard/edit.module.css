@@ -1,0 +1,29 @@
+.editDialog {
+  margin: -16px -16px -32px;
+  display: flex;
+  width: 800px;
+}
+
+.columnList {
+  border-right: 1px solid var(--color-border);
+  padding: 16px;
+  min-width: 320px;
+}
+
+.searchSection {
+  flex: 1;
+  padding: 16px;
+}
+
+.column {
+  padding: 8px;
+  border-radius: 2px;
+  display: flex;
+  gap: 16px;
+  white-space: nowrap;
+  align-items: center;
+}
+
+.column:hover {
+  background-color: var(--color-background-light);
+}

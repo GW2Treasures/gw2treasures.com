@@ -25,6 +25,8 @@ import { State, EmptyState } from './state';
 import { TableWrapper } from '@gw2treasures/ui/components/Table/TableWrapper';
 import { AchievementLink } from '@/components/Achievement/AchievementLink';
 import { AccountAchievementProgressCell } from '@/components/Achievement/AccountAchievementProgress';
+import { EditDialog } from './edit';
+import { Dialog } from '@gw2treasures/ui/components/Dialog/Dialog';
 
 const requiredScopes = [Scope.GW2_Account, Scope.GW2_Characters, Scope.GW2_Inventories, Scope.GW2_Unlocks, Scope.GW2_Tradingpost, Scope.GW2_Wallet, Scope.GW2_Progression];
 
@@ -34,6 +36,8 @@ export interface DashboardProps {
 
 export const Dashboard: FC<DashboardProps> = ({ initialColumns = [] }) => {
   const [columns, setColumns] = useState<Column[]>(initialColumns);
+  const [isEditing, setIsEditing] = useState(false);
+
 
   useEffect(() => {
     window.history.replaceState(null, '', '?columns=' + encodeColumns(columns));
@@ -43,11 +47,7 @@ export const Dashboard: FC<DashboardProps> = ({ initialColumns = [] }) => {
     <div>
       <div className={styles.intro}>
         <Notice icon="eye">Preview: The dashboard is still a work in progress!</Notice>
-        <Headline id="inventory" actions={[
-          (<Button key="c" onClick={() => setColumns([])} icon="delete">Clear Columns</Button>),
-          (<AddColumnButton key="+" onAddColumn={(column) => setColumns([...columns, column])}/>),
-        ]}
-        >
+        <Headline id="inventory" actions={<Button icon="edit" onClick={() => setIsEditing(true)}>Edit dashboard</Button>}>
           Dashboard
         </Headline>
       </div>
@@ -83,6 +83,9 @@ export const Dashboard: FC<DashboardProps> = ({ initialColumns = [] }) => {
       <Suspense fallback={<EmptyState icon="loading">Loading...</EmptyState>}>
         <State requiredScopes={requiredScopes}/>
       </Suspense>
+      <Dialog open={isEditing} onClose={() => setIsEditing(false)} title="Edit Dashboard">
+        <EditDialog columns={columns} onEdit={(columns) => { setColumns(columns); setIsEditing(false); }}/>
+      </Dialog>
     </div>
   );
 };

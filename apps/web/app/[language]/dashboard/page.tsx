@@ -11,9 +11,10 @@ export default async function DashboardPage({ searchParams }: PageProps) {
   const columnsByType = groupBy(initialColumns, 'type');
 
   // load data
-  const [items, currencies] = await Promise.all([
+  const [items, currencies, achievements] = await Promise.all([
     groupById(await loadItems(columnsByType.get('item')?.map(({ id }) => id))),
     groupById(await loadCurrencies(columnsByType.get('currency')?.map(({ id }) => id))),
+    groupById(await loadAchievements(columnsByType.get('achievement')?.map(({ id }) => id))),
   ]);
 
   // append data to initial columns
@@ -24,6 +25,9 @@ export default async function DashboardPage({ searchParams }: PageProps) {
         break;
       case 'currency':
         column.currency = currencies.get(column.id);
+        break;
+      case 'achievement':
+        column.achievement = achievements.get(column.id);
         break;
     }
   }
@@ -52,6 +56,17 @@ function loadCurrencies(ids: number[] | undefined) {
   return db.currency.findMany({
     where: { id: { in: ids }},
     select: linkPropertiesWithoutRarity
+  });
+}
+
+function loadAchievements(ids: number[] | undefined) {
+  if(!ids || ids.length === 0) {
+    return [];
+  }
+
+  return db.achievement.findMany({
+    where: { id: { in: ids }},
+    select: { ...linkPropertiesWithoutRarity, flags: true, prerequisitesIds: true }
   });
 }
 

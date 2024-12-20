@@ -23,8 +23,10 @@ import { encodeColumns, type Column } from './helper';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import { State, EmptyState } from './state';
 import { TableWrapper } from '@gw2treasures/ui/components/Table/TableWrapper';
+import { AchievementLink } from '@/components/Achievement/AchievementLink';
+import { AccountAchievementProgressCell } from '@/components/Achievement/AccountAchievementProgress';
 
-const requiredScopes = [Scope.GW2_Account, Scope.GW2_Characters, Scope.GW2_Inventories, Scope.GW2_Unlocks, Scope.GW2_Tradingpost, Scope.GW2_Wallet];
+const requiredScopes = [Scope.GW2_Account, Scope.GW2_Characters, Scope.GW2_Inventories, Scope.GW2_Unlocks, Scope.GW2_Tradingpost, Scope.GW2_Wallet, Scope.GW2_Progression];
 
 export interface DashboardProps {
   initialColumns?: Column[]
@@ -55,11 +57,13 @@ export const Dashboard: FC<DashboardProps> = ({ initialColumns = [] }) => {
             <tr>
               <th align="left">Account</th>
               {columns.map((column) => (
-                <th key={`${column.type}-${column.id}`} align="right">
+                <th key={`${column.type}-${column.id}`} align={column.type !== 'achievement' ? 'right' : 'left'}>
                   {(column.type === 'item' && column.item) ? (
                     <ItemLink item={column.item}/>
                   ) : (column.type === 'currency' && column.currency) ? (
                     <CurrencyLink currency={column.currency}/>
+                  ) : (column.type === 'achievement' && column.achievement) ? (
+                    <AchievementLink achievement={column.achievement}/>
                   ) : (
                     <>[{column.type}: {column.id}]</>
                   )}
@@ -126,9 +130,11 @@ const AccountRow: FC<AccountRow> = ({ account, columns }) => {
       <td><Gw2AccountName account={account}/></td>
       {columns.map((column) => column.type === 'item' ? (
         <AccountItemCell key={`${column.type}-${column.id}`} account={account} id={column.id}/>
-      ) : (
+      ) : column.type === 'currency' ? (
         <AccountCurrencyCell key={`${column.type}-${column.id}`} account={account} id={column.id}/>
-      ))}
+      ) : column.type === 'achievement' ? (
+        <AccountAchievementProgressCell key={`${column.type}-${column.id}`} accountId={account.id} achievement={column.achievement!}/>
+      ) : <td/>)}
     </tr>
   );
 };

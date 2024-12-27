@@ -16,6 +16,8 @@ jobs:
     continue-on-error: ${{ matrix.target == 'web' && inputs.platform == 'arm64' && github.event_name != 'push' }}
     steps:
     # https://github.com/actions/virtual-environments/issues/1187
+    - name: Set DNS config
+      run: sudo resolvectl dns eth0 8.8.8.8 8.8.4.4
     - name: Tune linux network
       run: sudo ethtool -K eth0 tx off rx off
     - uses: actions/checkout@v4

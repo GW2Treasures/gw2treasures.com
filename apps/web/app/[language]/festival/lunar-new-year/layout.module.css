@@ -1,0 +1,6 @@
+.hero {
+  border: 16px solid;
+  border-image: url(./border-decoration.svg) 33%;
+  margin: -16px 0;
+  padding: 0 16px;
+}

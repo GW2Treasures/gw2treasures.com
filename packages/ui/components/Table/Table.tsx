@@ -19,7 +19,7 @@ export interface HeaderCellProps {
 }
 
 const Table: FC<TableProps> & { HeaderCell: FC<HeaderCellProps> } = ({ children, width = 'page' }: TableProps) => (
-  <TableWrapper>
+  <TableWrapper className={styles.wrapper}>
     <table className={width === 'page' ? styles.table : styles.tableAuto}>
       {children}
     </table>

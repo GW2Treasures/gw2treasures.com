@@ -5,7 +5,7 @@ import { ItemLink } from '@/components/Item/ItemLink';
 import { ItemList } from '@/components/ItemList/ItemList';
 import { HeroLayout } from '@/components/Layout/HeroLayout';
 import { SkeletonLink } from '@/components/Link/SkeletonLink';
-import { Suspense } from 'react';
+import { Fragment, Suspense, type ComponentType, type ReactNode } from 'react';
 import { Icon } from '@gw2treasures/ui';
 import { db } from '@/lib/prisma';
 import styles from './page.module.css';
@@ -17,20 +17,23 @@ import { getAlternateUrls } from '@/lib/url';
 import { PageView } from '@/components/PageView/PageView';
 import type { PageProps } from '@/lib/next';
 import { Snow } from '../festival/wintersday/snow';
+import { Festival, getActiveFestival } from '../festival/festivals';
 
 async function HomePage({ params }: PageProps) {
   const { language } = await params;
+  const festival = getActiveFestival();
+  const hero = festivalHero[festival?.type ?? 'default'] ?? festivalHero.default;
 
   return (
-    <HeroLayout color="#7993a9" hero={(
-      <Snow>
+    <HeroLayout color={hero.color} hero={(
+      <hero.wrapper>
         <div className={styles.hero}>
           <div className={styles.heroContent}>
             <div className={styles.heroTitle}><Icon icon="gw2t"/> gw2treasures.com</div>
             <div className={styles.heroSubtitle}><Trans language={language} id="subtitle"/></div>
           </div>
         </div>
-      </Snow>
+      </hero.wrapper>
     )}
     >
       <PageView page="/"/>
@@ -131,4 +134,9 @@ export async function generateMetadata({ params }: PageProps) {
     title: 'Home',
     alternates: getAlternateUrls('/', language)
   };
+}
+
+const festivalHero: Record<Festival | 'default', { color: string, wrapper: ComponentType<{ children: ReactNode }> }> = {
+  default: { color: '#b7000d', wrapper: Fragment },
+  [Festival.Wintersday]: { color: '#7993a9', wrapper: Snow },
 }

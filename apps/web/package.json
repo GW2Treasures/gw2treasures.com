@@ -14,7 +14,7 @@
   "dependencies": {
     "@floating-ui/react": "0.27.2",
     "@floating-ui/react-dom": "2.1.2",
-    "@formatjs/intl-localematcher": "0.5.9",
+    "@formatjs/intl-localematcher": "0.5.10",
     "@gw2api/fetch": "0.4.1",
     "@gw2efficiency/game-data": "0.1.53",
     "@gw2me/client": "0.5.2",

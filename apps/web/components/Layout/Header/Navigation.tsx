@@ -7,6 +7,7 @@ import type { Language } from '@gw2treasures/database';
 import { Composite, CompositeItem } from '@gw2treasures/ui/components/Focus/Composite';
 import type { IconProp } from '@gw2treasures/ui';
 import { WizardsVaultNewSeasonBadge } from './WizardsVaultNewSeasonBadge';
+import { Festival, getActiveFestival } from 'app/[language]/festival/festivals';
 
 interface NavigationProps {
   language: Language;
@@ -16,7 +17,7 @@ const Navigation: FC<NavigationProps> = ({ language }) => {
   return (
     <HorizontalOverflowContainer>
       <Composite render={<ul className={styles.navigation}/>}>
-        <NavigationItem href="/festival/wintersday" icon="gift" style={{ color: 'light-dark(#00838f, #80deea)' }}><Trans id="festival.wintersday"/></NavigationItem>
+        <FestivalNavigationItem/>
         <NavigationItem href="/item" icon="item"><Trans language={language} id="navigation.items"/></NavigationItem>
         <NavigationItem href="/achievement" icon="achievement"><Trans language={language} id="navigation.achievements"/></NavigationItem>
         <NavigationItem href="/wizards-vault" icon="wizards-vault"><Trans language={language} id="navigation.wizardsVault"/><WizardsVaultNewSeasonBadge/></NavigationItem>
@@ -52,3 +53,12 @@ export const NavigationItem: FC<NavigationItemProps> = (props) => {
 
 
 export default Navigation;
+
+const FestivalNavigationItem: FC = () => {
+  switch(getActiveFestival()?.type) {
+    case Festival.Wintersday:
+      return (<NavigationItem href="/festival/wintersday" icon="gift" style={{ color: 'light-dark(#00838f, #80deea)' }}><Trans id="festival.wintersday"/></NavigationItem>);
+    default:
+      return null;
+  }
+};

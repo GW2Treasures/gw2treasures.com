@@ -167,7 +167,7 @@ export const globalColumnRenderer: Renderer = {
   sellQuantity: (item) => !item.tpTradeable ? empty() : <FormatNumber value={item.sellQuantity ?? 0}/>,
 };
 
-function renderPriceWithOptionalWarning(date: Date | string | null, price: number | null): ReactNode {
+export function renderPriceWithOptionalWarning(date: Date | string | null, price: number | null): ReactNode {
   if(!price) {
     return empty();
   }

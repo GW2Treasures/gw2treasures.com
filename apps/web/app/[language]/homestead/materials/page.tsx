@@ -1,6 +1,6 @@
 import { Trans } from '@/components/I18n/Trans';
 import { ItemLink } from '@/components/Item/ItemLink';
-import { globalColumnRenderer as itemTableColumn } from '@/components/ItemTable/columns';
+import { globalColumnRenderer as itemTableColumn, renderPriceWithOptionalWarning } from '@/components/ItemTable/columns';
 import { Description } from '@/components/Layout/Description';
 import { PageView } from '@/components/PageView/PageView';
 import { ColumnSelect } from '@/components/Table/ColumnSelect';
@@ -26,6 +26,7 @@ import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 import { Coins } from '@/components/Format/Coins';
 import { Fraction } from '@/components/Format/Fraction';
 import { ResetTimer } from '@/components/Reset/ResetTimer';
+import { Badge } from '@/components/Badge/Badge';
 
 const getItems = cache(
   async (ids: number[]) => {
@@ -117,6 +118,21 @@ interface RefinedMaterialProps {
 const RefinedMaterial: FC<RefinedMaterialProps> = ({ id, material, efficiencies, sources }) => {
   const Sources = createDataTable(sources, ({ id }) => id);
 
+  let cheapestBuy: number | undefined = undefined;
+  let cheapestSell: number | undefined = undefined;
+
+  for(const source of sources) {
+    const buy = getCostPerUnit(source.item?.buyPrice, source.rate);
+    const sell = getCostPerUnit(source.item?.sellPrice, source.rate);
+
+    if(buy && (cheapestBuy === undefined || cheapestBuy > buy)) {
+      cheapestBuy = buy;
+    }
+    if(sell && (cheapestSell === undefined || cheapestSell > sell)) {
+      cheapestSell = sell;
+    }
+  }
+
   return (
     <>
       <Headline id={id} actions={[<EfficiencySwitch key="efficiency" id={id} efficiencies={efficiencies}/>, <ColumnSelect key="columns" table={Sources}/>]}>
@@ -154,16 +170,7 @@ const RefinedMaterial: FC<RefinedMaterialProps> = ({ id, material, efficiencies,
           sortBy={({ item, rate }) => getCostPerUnit(item?.buyPrice, rate)}
           align="right"
         >
-          {({ item, rate }) => item && item.buyPrice && (
-            <Tip tip={<><Fraction numerator="Required" denominator="Produced"/> &times; Price = <Fraction numerator={rate.required} denominator={rate.produced}/> &times; (<Coins value={item.buyPrice}/>)</>} preferredPlacement="top-end">
-              <span>
-                {itemTableColumn.buyPrice({
-                  ...item,
-                  buyPrice: getCostPerUnit(item.buyPrice, rate)
-                }, {})}
-              </span>
-            </Tip>
-          )}
+          {({ item, rate }) => renderCostPerUnit(item, rate, item?.buyPrice, cheapestBuy)}
         </Sources.Column>
         <Sources.Column id="sellPrice" title={<Trans id="itemTable.column.sellPrice"/>} sortBy={({ item }) => item?.sellPrice} align="right" hidden>
           {({ item }) => item && itemTableColumn.sellPrice(item, {})}
@@ -180,16 +187,7 @@ const RefinedMaterial: FC<RefinedMaterialProps> = ({ id, material, efficiencies,
           sortBy={({ item, rate }) => getCostPerUnit(item?.sellPrice, rate)}
           align="right"
         >
-          {({ item, rate }) => item && item.sellPrice && (
-            <Tip tip={<><Fraction numerator="Required" denominator="Produced"/> &times; Price = <Fraction numerator={rate.required} denominator={rate.produced}/> &times; (<Coins value={item.sellPrice}/>)</>} preferredPlacement="top-end">
-              <span>
-                {itemTableColumn.sellPrice({
-                  ...item,
-                  sellPrice: getCostPerUnit(item.sellPrice, rate)
-                }, {})}
-              </span>
-            </Tip>
-          )}
+          {({ item, rate }) => renderCostPerUnit(item, rate, item?.sellPrice, cheapestSell)}
         </Sources.Column>
       </Sources.Table>
     </>
@@ -200,6 +198,29 @@ const getCostPerUnit = (price: number | null | undefined, rate: ConversionRate) 
   ? Math.round(price * rate.required / rate.produced)
   : null;
 
+function renderCostPerUnit(item: DbItem | undefined, rate: ConversionRate, itemPrice: number | undefined | null, cheapestPrice: number | undefined) {
+  if(!item || !itemPrice) {
+    return (
+      <span style={{ color: 'var(--color-text-muted)' }}>
+        -
+      </span>
+    );
+  }
+
+  const costPerUnit = getCostPerUnit(itemPrice, rate);
+  const isCheapest = costPerUnit === cheapestPrice;
+
+  return (
+    <Tip tip={<><Fraction numerator="Required" denominator="Produced"/> &times; Price = <Fraction numerator={rate.required} denominator={rate.produced}/> &times; (<Coins value={itemPrice}/>)</>} preferredPlacement="top-end">
+      <FlexRow align="right">
+        {isCheapest && <Badge>Cheapest</Badge>}
+        <span style={{ fontWeight: isCheapest ? 500 : undefined }}>
+          {renderPriceWithOptionalWarning(item.tpCheckedAt, costPerUnit)}
+        </span>
+      </FlexRow>
+    </Tip>
+  );
+}
 
 interface EfficiencySwitchProps {
   id: Material,

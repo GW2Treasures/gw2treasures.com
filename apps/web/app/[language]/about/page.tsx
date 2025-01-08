@@ -14,6 +14,9 @@ export default function AboutPage() {
       <Headline id="tech">Technology</Headline>
       <p>Everything is written in <ExternalLink href="https://www.typescriptlang.org/">TypeScript</ExternalLink>. The website is using <ExternalLink href="https://react.dev/">react</ExternalLink> and the latest <ExternalLink href="https://nextjs.org/">next.js</ExternalLink> (App Router). The database is <ExternalLink href="https://www.postgresql.org/">PostgreSQL</ExternalLink> and <ExternalLink href="https://www.prisma.io/">prisma</ExternalLink> is used to access it.</p>
 
+      <Headline id="hosting">Hosting</Headline>
+      <p>gw2treasures.com is hosted in a kubernetes cluster on Hetzner Cloud. Use this referral link to sign up to Hetzner Cloud and receive $20 credits while supporting the hosting of this website: <ExternalLink href="https://hetzner.cloud/?ref=dy6iiRdH7bxg">Hetzner Cloud (Referral)</ExternalLink>.</p>
+
       <Headline id="github">Open Source</Headline>
       <p>Do you want to contribute to the development of gw2treasures.com? You can! Everything is open-source on GitHub: <ExternalLink href="https://github.com/GW2Treasures/gw2treasures.com">gw2treasures/gw2treasures.com</ExternalLink>.</p>
 

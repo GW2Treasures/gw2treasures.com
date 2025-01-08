@@ -82,8 +82,8 @@ importers:
         specifier: 0.1.53
         version: 0.1.53
       '@gw2me/client':
-        specifier: 0.5.2
-        version: 0.5.2
+        specifier: 0.5.3
+        version: 0.5.3
       '@gw2treasures/database':
         specifier: workspace:*
         version: link:../../packages/database
@@ -975,8 +975,8 @@ packages:
   '@gw2efficiency/game-data@0.1.53':
     resolution: {integrity: sha512-G+sUnMCGllRFZlciqpqI1reGJ2RAf+DKxlcv4XliSM6DGkuZZ+eVh5zIQrnm9qZxubCHN6wmrqA/tZpeoGGjFg==}
 
-  '@gw2me/client@0.5.2':
-    resolution: {integrity: sha512-ywaHxnBNmcFq5lityshlaVkmyd3ln+RXlmZYhRqScCNcy8fvdPz5LoB0fFzY3Q4cQkPu4f6zbgJdzdGwnH8Nlg==}
+  '@gw2me/client@0.5.3':
+    resolution: {integrity: sha512-QIkatuArwdjlknRrakdOZTApKCsYL2tLh1w3liCeB/9dMuy2+9KcfrCbHrNVAjD/YsHqSyB0ROLyyw5kL6vEcA==}
 
   '@humanfs/core@0.19.1':
     resolution: {integrity: sha512-5DyQ4+1JEUzejeK1JGICcideyfUbGixgS9jNgex5nqkW+cY7WZhxBigmieN5Qnw9ZosSNVC9KQKyb+GUaGyKUA==}
@@ -4798,7 +4798,7 @@ snapshots:
 
   '@gw2efficiency/game-data@0.1.53': {}
 
-  '@gw2me/client@0.5.2': {}
+  '@gw2me/client@0.5.3': {}
 
   '@humanfs/core@0.19.1': {}
 

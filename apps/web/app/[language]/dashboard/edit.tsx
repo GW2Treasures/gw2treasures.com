@@ -1,8 +1,8 @@
 import { useState, type FC } from 'react';
 import type { Column } from './helper';
-import { DragDropProvider, useDraggable, useDroppable } from '@dnd-kit/react';
+import { DragDropProvider, useDroppable } from '@dnd-kit/react';
 import { useSortable } from '@dnd-kit/react/sortable';
-import { arrayMove, move } from '@dnd-kit/helpers';
+import { arrayMove } from '@dnd-kit/helpers';
 import styles from './edit.module.css';
 import { Icon } from '@gw2treasures/ui';
 import { ItemLink } from '@/components/Item/ItemLink';
@@ -62,10 +62,13 @@ const ColumnList: FC<{ columns: Column[], onDelete: (column: Column) => void }> 
   });
 
   return (
-    <div ref={ref} className={styles.columnList}>
-      {columns.map((column, index) => (
-        <ColumnItem key={`${column.type}-${column.id}`} column={column} index={index} onDelete={onDelete}/>
-      ))}
+    <div className={styles.columnListWrapper}>
+      <div className={styles.columnListHeader}>Columns</div>
+      <div ref={ref} className={styles.columnList}>
+        {columns.map((column, index) => (
+          <ColumnItem key={`${column.type}-${column.id}`} column={column} index={index} onDelete={onDelete}/>
+        ))}
+      </div>
     </div>
   );
 };
@@ -82,7 +85,7 @@ const ColumnItem: FC<{ column: Column, index: number, onDelete: (column: Column)
 
   return (
     <div className={isDragSource ? styles.columnDragging : styles.column} ref={ref}>
-      <div ref={handleRef}><Icon icon="menu" color="var(--color-text-muted)"/></div>
+      <div ref={handleRef} className={styles.dragHandle}><Icon icon="drag-handle"/></div>
       {column.type === 'item' ? <ItemLink item={column.item!}/> :
        column.type === 'currency' ? <CurrencyLink currency={column.currency!}/> :
        column.type === 'achievement' ? <AchievementLink achievement={column.achievement!}/> : '?'}
@@ -99,11 +102,12 @@ const ColumnItemNew: FC<{ column: Column, index: number, onAdd: (column: Column)
     type: 'new-column',
     data: column,
     accept: [],
+
   });
 
   return (
     <div className={isDragSource ? styles.columnDragging : styles.column} ref={ref}>
-      <div ref={handleRef}><Icon icon="menu" color="var(--color-text-muted)"/></div>
+      <div ref={handleRef} className={styles.dragHandle}><Icon icon="drag-handle"/></div>
       {column.type === 'item' ? <ItemLink item={column.item!}/> :
        column.type === 'currency' ? <CurrencyLink currency={column.currency!}/> :
        column.type === 'achievement' ? <AchievementLink achievement={column.achievement!}/> : '?'}
@@ -127,8 +131,11 @@ const ItemSearch: FC<{ columns: Column[], onAdd: (column: Column) => void }> = (
 
   return (
     <div>
-      <TextInput placeholder="Name / Chatlink / ID" value={searchValue} onChange={setSearchValue}/>
-      <div>
+      <div className={styles.searchHeader}>
+        <div>Add Columns</div>
+        <TextInput placeholder="Name / Chatlink / ID" value={searchValue} onChange={setSearchValue}/>
+      </div>
+      <div className={styles.searchList}>
         {search.loading ? (
           'loading...'
         ) : filteredItems.length === 0 ? (

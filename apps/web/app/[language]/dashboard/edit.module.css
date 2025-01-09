@@ -1,0 +1,89 @@
+.editDialog {
+  margin: -16px -16px -32px;
+  display: flex;
+  width: 800px;
+}
+
+.columnListWrapper {
+  border-right: 1px solid var(--color-border);
+  min-width: 320px;
+}
+
+.header {
+  background-color: var(--color-background-light);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.columnListHeader {
+  composes: header;
+  background-color: var(--color-background-light);
+  padding: 8px 16px;
+  line-height: 36px;
+}
+
+.columnList {
+  padding: 8px;
+}
+
+.searchSection {
+  flex: 1;
+}
+
+.searchHeader {
+  composes: header;
+  padding: 8px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 32px;
+}
+
+.searchList {
+  padding: 8px;
+}
+
+.column {
+  padding: 8px;
+  border-radius: 2px;
+  display: flex;
+  gap: 16px;
+  white-space: nowrap;
+  align-items: center;
+}
+
+.columnDragging {
+  composes: column;
+  box-shadow: var(--shadow);
+}
+
+.column:hover {
+  background-color: var(--color-background-light);
+}
+
+.dragHandle {
+  cursor: grab;
+  color: var(--color-text-muted);
+  margin: -8px -16px -8px -8px;
+  padding: 8px 16px;
+  display: flex;
+  align-self: stretch;
+  align-items: center;
+}
+
+.dragHandle:hover {
+  color: var(--color-text);
+}
+
+.button {
+  margin-left: auto;
+}
+
+.hiddenButton {
+  composes: button;
+  opacity: 0;
+}
+
+.column:hover .hiddenButton,
+.column:focus-within .hiddenButton {
+  opacity: 1;
+}

@@ -379,8 +379,8 @@ importers:
         specifier: 2.31.0
         version: 2.31.0(@typescript-eslint/parser@8.19.1(eslint@9.18.0)(typescript@5.7.3))(eslint-import-resolver-typescript@3.6.3)(eslint@9.18.0)
       eslint-plugin-react:
-        specifier: 7.37.3
-        version: 7.37.3(eslint@9.18.0)
+        specifier: 7.37.4
+        version: 7.37.4(eslint@9.18.0)
 
   packages/eslint-plugin-nextjs:
     dependencies:
@@ -2459,8 +2459,8 @@ packages:
     peerDependencies:
       eslint: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0 || ^9.0.0
 
-  eslint-plugin-react@7.37.3:
-    resolution: {integrity: sha512-DomWuTQPFYZwF/7c9W2fkKkStqZmBd3uugfqBYLdkZ3Hii23WzZuOLUskGxB8qkSKqftxEeGL1TB2kMhrce0jA==}
+  eslint-plugin-react@7.37.4:
+    resolution: {integrity: sha512-BGP0jRmfYyvOyvMoRX/uoUeW+GqNj9y16bPQzqAHf3AYII/tDs+jMN0dBVkl88/OZwNGwrVFxE7riHsXVfy/LQ==}
     engines: {node: '>=4'}
     peerDependencies:
       eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8 || ^9.7
@@ -6453,7 +6453,7 @@ snapshots:
       eslint-import-resolver-typescript: 3.6.3(@typescript-eslint/parser@8.19.1(eslint@9.18.0)(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.31.0)(eslint@9.18.0)
       eslint-plugin-import: 2.31.0(@typescript-eslint/parser@8.19.1(eslint@9.18.0)(typescript@5.7.3))(eslint-import-resolver-typescript@3.6.3)(eslint@9.18.0)
       eslint-plugin-jsx-a11y: 6.10.0(eslint@9.18.0)
-      eslint-plugin-react: 7.37.3(eslint@9.18.0)
+      eslint-plugin-react: 7.37.4(eslint@9.18.0)
       eslint-plugin-react-hooks: 5.0.0(eslint@9.18.0)
     optionalDependencies:
       typescript: 5.7.3
@@ -6578,7 +6578,7 @@ snapshots:
     dependencies:
       eslint: 9.18.0
 
-  eslint-plugin-react@7.37.3(eslint@9.18.0):
+  eslint-plugin-react@7.37.4(eslint@9.18.0):
     dependencies:
       array-includes: 3.1.8
       array.prototype.findlast: 1.2.5

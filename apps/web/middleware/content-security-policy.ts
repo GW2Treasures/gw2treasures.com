@@ -38,8 +38,6 @@ export const contentSecurityPolicyMiddleware: NextMiddleware = async (request, n
     frame-ancestors 'none';
     block-all-mixed-content;
     upgrade-insecure-requests;
-    report-uri https://gw2treasures.report-uri.com/r/d/csp/enforce;
-    report-to default;
   `.replace(/\s{2,}/g, ' ');
 
   // set x-nonce and CSP for internal request
@@ -49,9 +47,8 @@ export const contentSecurityPolicyMiddleware: NextMiddleware = async (request, n
   // get response
   const response = await next(request);
 
-  // set outgoing CSP and Reporting headers
+  // set outgoing CSP
   response.headers.set('Content-Security-Policy', cspHeader);
-  response.headers.set('Reporting-Endpoints', 'default="https://gw2treasures.report-uri.com/a/d/g"');
 
   return response;
 };

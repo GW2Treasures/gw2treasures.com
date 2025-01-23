@@ -159,6 +159,11 @@ export const sitemaps: Record<string, Sitemap> = {
         '/festival/wintersday/skins',
         '/festival/wintersday/minis',
         '/festival/wintersday/wizards-vault',
+        '/festival/lunar-new-year',
+        '/festival/lunar-new-year/achievements',
+        '/festival/lunar-new-year/skins',
+        '/festival/lunar-new-year/minis',
+        '/festival/lunar-new-year/wizards-vault',
         '/bonus-event/evon-gnashblades-birthday',
       ].map((page) => getEntryForUrl(language, page));
     }

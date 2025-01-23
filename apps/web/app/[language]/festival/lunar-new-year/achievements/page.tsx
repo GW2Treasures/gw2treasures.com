@@ -18,21 +18,12 @@ import { getTranslate } from '@/lib/translate';
 const achievementIds = [
   6031, // The Goldclaw Holiday Collection
   5005, // Festival Frequenter
-  2030,
-  5069,
-  2028,
-  2768,
-  2029,
-  2765,
-  2049,
-  2792,
-  2048,
 ];
 const achievementCategoryIds = [
-  98,
-  150,
-  197,
-  198,
+  199, // Dragon Ball
+  200, // New Year's Customs
+  201, // Daily Lunar New Year
+  202, // Lunar New Year
 ];
 
 const dailyFlags: AchievementFlags[] = ['Daily', 'Weekly', 'Monthly'];
@@ -57,12 +48,12 @@ const loadData = cache(async function loadData() {
   }, { achievements: [], dailyAchievements: [] });
 
   return { ...groupedAchievements };
-}, ['wintersday'], { revalidate: 60 * 60 });
+}, ['lunar-new-year'], { revalidate: 60 * 60 });
 
-export default async function WintersdayAchievementsPage({ params }: PageProps) {
+export default async function LunarNewYearAchievementsPage({ params }: PageProps) {
   const { language } = await params;
   const { achievements, dailyAchievements } = await loadData();
-  await pageView('festival/wintersday/achievements');
+  await pageView('festival/lunar-new-year/achievements');
 
   return (
     <PageLayout>
@@ -71,7 +62,7 @@ export default async function WintersdayAchievementsPage({ params }: PageProps) 
       <AchievementTable achievements={achievements} language={language} includeRewardsColumns>
         {(table, ColumnSelect) => (
           <>
-            <Description actions={ColumnSelect}><Trans id="festival.wintersday.achievements.description"/></Description>
+            <Description actions={ColumnSelect}><Trans id="festival.lunar-new-year.achievements.description"/></Description>
             {table}
           </>
         )}

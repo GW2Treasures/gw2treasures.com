@@ -154,6 +154,7 @@ const pages: Page[] = [
   { href: '/achievement/uncategorized', title: 'Uncategorized Achievements', icon: 'achievement' },
 
   { href: '/festival/wintersday', title: 'Wintersday', icon: 'gift' },
+  { href: '/festival/lunar-new-year', title: 'Lunar New Year', icon: 'lantern' },
   { href: '/bonus-event/evon-gnashblades-birthday', title: 'Evon Gnashblade’s “Birthday” celebration', icon: 'story' },
 ];
 

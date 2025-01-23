@@ -14,6 +14,8 @@ import { TextInput } from '@gw2treasures/ui/components/Form/TextInput';
 import { useJsonFetch } from '@/lib/useFetch';
 import { useDebounce } from '@/lib/useDebounce';
 import type { ApiItemSearchResponse } from '../api/item/search/route';
+import { ErrorBoundary } from 'react-error-boundary';
+import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 
 export interface EditDialogProps {
   columns: Column[],
@@ -38,19 +40,21 @@ export const EditDialog: FC<EditDialogProps> = ({ columns, onEdit }) => {
   };
 
   return (
-    <DragDropProvider onDragEnd={handleDragEnd}>
-      <div className={styles.editDialog}>
-        <ColumnList columns={sortedColumns} onDelete={(deleted) => setSortedColumns(sortedColumns.filter((column) => column !== deleted))}/>
-        <div className={styles.searchSection}>
-          <ItemSearch columns={sortedColumns} onAdd={(column) => setSortedColumns([...sortedColumns, column])}/>
+    <ErrorBoundary fallback={<Notice type="error">Unknown error</Notice>}>
+      <DragDropProvider onDragEnd={handleDragEnd}>
+        <div className={styles.editDialog}>
+          <ColumnList columns={sortedColumns} onDelete={(deleted) => setSortedColumns(sortedColumns.filter((column) => column !== deleted))}/>
+          <div className={styles.searchSection}>
+            <ItemSearch columns={sortedColumns} onAdd={(column) => setSortedColumns([...sortedColumns, column])}/>
+          </div>
         </div>
-      </div>
 
-      <DialogActions description="Drag and drop to add or reorder columns.">
-        <Button onClick={() => onEdit(columns)} icon="cancel">Cancel</Button>
-        <Button onClick={() => onEdit(sortedColumns)} icon="checkmark">Apply</Button>
-      </DialogActions>
-    </DragDropProvider>
+        <DialogActions description="Drag and drop to add or reorder columns.">
+          <Button onClick={() => onEdit(columns)} icon="cancel">Cancel</Button>
+          <Button onClick={() => onEdit(sortedColumns)} icon="checkmark">Apply</Button>
+        </DialogActions>
+      </DragDropProvider>
+    </ErrorBoundary>
   );
 };
 
@@ -102,7 +106,6 @@ const ColumnItemNew: FC<{ column: Column, index: number, onAdd: (column: Column)
     type: 'new-column',
     data: column,
     accept: [],
-
   });
 
   return (

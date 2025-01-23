@@ -7,11 +7,12 @@ import { pageView } from '@/lib/pageView';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import type { Metadata } from 'next';
 import { db } from '@/lib/prisma';
-import { linkProperties } from '@/lib/linkProperties';
+import { linkProperties, linkPropertiesWithoutRarity } from '@/lib/linkProperties';
 import { cache } from '@/lib/cache';
 import type { PageProps } from '@/lib/next';
 import { getTranslate } from '@/lib/translate';
 import { groupById } from '@gw2treasures/helper/group-by';
+import { Dashboard } from 'app/[language]/dashboard/dashboard';
 
 const ITEM_ENVELOPE = 68646;
 const ITEM_DB_CHAMPION_ENVELOPE = 68647;
@@ -30,7 +31,7 @@ const itemIds = [
 ];
 
 const loadData = cache(async function loadData() {
-  const [items] = await Promise.all([
+  const [items, coins] = await Promise.all([
     db.item.findMany({
       where: { id: { in: itemIds }},
       select: {
@@ -41,15 +42,18 @@ const loadData = cache(async function loadData() {
         tpHistory: { orderBy: { time: 'asc' }}
       },
       orderBy: { relevancy: 'desc' },
-    })
+    }),
+    db.currency.findFirst({
+      where: { id: 1 },
+      select: linkPropertiesWithoutRarity,
+    }),
   ]);
 
-  return { items };
+  return { items, coins };
 }, ['lunar-new-year-items'], { revalidate: 60 * 60 });
 
 export default async function LunarNewYearPage() {
-  const { items } = await loadData();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { items, coins } = await loadData();
   const itemsById = groupById(items);
 
   await pageView('festival/lunar-new-year');
@@ -65,8 +69,9 @@ export default async function LunarNewYearPage() {
 
       <div style={{ marginTop: 32 }}/>
 
-      {/* <Headline id="inventory">Inventory</Headline>
-      <InventoryTable envelope={itemsById.get(ITEM_ENVELOPE)!}/> */}
+      <Headline id="inventory">Inventory</Headline>
+      {/* <InventoryTable envelope={itemsById.get(ITEM_ENVELOPE)!}/> */}
+      <Dashboard initialColumns={[{ type: 'currency', id: 1, currency: coins! }, { type: 'item', id: ITEM_ENVELOPE, item: itemsById.get(ITEM_ENVELOPE) }]} embedded/>
     </PageLayout>
   );
 }

@@ -5,7 +5,7 @@ import type { LayoutProps } from '@/lib/next';
 import { getTranslate } from '@/lib/translate';
 import { getCurrentUrl } from '@/lib/url';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
-import styles from './layout.module.css';
+import { LunarNewYearHero } from './hero';
 import type { Metadata } from 'next';
 import ogImage from './og.png';
 import { Festival, getFestival, isFestivalActive } from '../festivals';
@@ -16,7 +16,7 @@ export default function LunarNewYearFestivalLayout({ children }: LayoutProps) {
   const lunarNewYear = getFestival(Festival.LunarNewYear);
 
   return (
-    <HeroLayout color="#be3413" hero={(<div className={styles.hero}><Headline id="lunar-new-year" actions={<FestivalTimer festival={lunarNewYear}/>}><Trans id="festival.lunar-new-year"/></Headline></div>)}
+    <HeroLayout color="#be3413" hero={(<LunarNewYearHero><Headline id="lunar-new-year" actions={<FestivalTimer festival={lunarNewYear}/>}><Trans id="festival.lunar-new-year"/></Headline></LunarNewYearHero>)}
       skipLayout
       navBar={(
         <NavBar base="/festival/lunar-new-year/" items={[

@@ -241,5 +241,12 @@
   "weight.Light": "Léger",
   "weight.Heavy": "Lourd",
   "weight.Clothing": "Vêtement",
-  "actions": "Actions"
+  "actions": "Actions",
+  "festival.lunar-new-year": "Nouvel an lunaire",
+  "festival.lunar-new-year.description": "Suivez votre progression sur tous vos comptes pendant le Nouvel An lunaire sur gw2treasures.com.",
+  "festival.lunar-new-year.achievements.description": "Ces réalisations ne sont disponibles que pendant le Nouvel An lunaire.",
+  "festival.lunar-new-year.skins.description": "Ces skins ne sont disponibles que pendant le Nouvel An lunaire.",
+  "festival.lunar-new-year.minis": "Miniatures",
+  "festival.lunar-new-year.minis.description": "Ces figurines ne sont disponibles que pendant le Nouvel An lunaire.",
+  "festival.lunar-new-year.wizards-vault.description": "Il s'agit de tous les objectifs de la chambre forte du sorcier qui ne sont actifs que pendant le Nouvel An lunaire."
 }

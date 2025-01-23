@@ -19,7 +19,7 @@ export async function reauthorize(requiredScopes: Scope[], prompt?: Authorizatio
   const url = gw2me.getAuthorizationUrl({ redirect_uri, scopes, prompt, include_granted_scopes: true });
 
   // add cookie for return
-  await setReturnToUrlCookie(currentUrl.pathname);
+  await setReturnToUrlCookie(currentUrl.pathname + currentUrl.search);
 
   // redirect to gw2.me
   redirect(url);

@@ -32,7 +32,7 @@ export const SearchCurrencyDialog: FC<SearchCurrencyDialogProps> = ({ onSubmit, 
 
 
   return (
-    <Dialog onClose={() => onSubmit(undefined)} title="Search Currency" open={open}>
+    <Dialog onClose={() => onSubmit(undefined)} title="Search Currency" open={open} initialFocus={1}>
       <div style={{ display: 'flex', flexDirection: 'column', marginBottom: 16 }}>
         <TextInput placeholder="Name" value={searchValue} onChange={setSearchValue}/>
       </div>

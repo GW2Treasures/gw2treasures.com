@@ -28,9 +28,9 @@ export const SearchItemDialog: FC<SearchItemDialogProps> = ({ onSubmit, open }) 
   const search = useJsonFetch<ApiItemSearchResponse>(`/api/item/search?q=${encodeURIComponent(debouncedValue)}`);
 
   return (
-    <Dialog onClose={() => onSubmit(undefined)} title="Search Item" open={open}>
+    <Dialog onClose={() => onSubmit(undefined)} title="Search Item" open={open} initialFocus={1}>
       <div style={{ display: 'flex', flexDirection: 'column', marginBottom: 16 }}>
-        <TextInput placeholder="Name / Chatlink / ID" value={searchValue} onChange={setSearchValue} autoFocus/>
+        <TextInput placeholder="Name / Chatlink / ID" value={searchValue} onChange={setSearchValue}/>
       </div>
 
       {search.loading ? (

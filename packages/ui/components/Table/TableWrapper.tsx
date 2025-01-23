@@ -3,12 +3,14 @@
 import { Children, cloneElement, useCallback, useLayoutEffect, useRef, useState, type FC, type HTMLProps, type ReactElement } from 'react';
 import styles from './Table.module.css';
 import { useResizeObserver } from '../../lib/hooks/resize-observer';
+import { cx } from '../../lib';
 
 export interface TableWrapperProps {
   children: ReactElement<HTMLProps<HTMLElement>>;
+  className?: string;
 }
 
-export const TableWrapper: FC<TableWrapperProps> = ({ children }) => {
+export const TableWrapper: FC<TableWrapperProps> = ({ children, className }) => {
   const [isOverflowing, setIsOverflowing] = useState(false);
   const wrapper = useRef<HTMLDivElement>(null);
   const table = useRef<HTMLElement>(null);
@@ -25,7 +27,7 @@ export const TableWrapper: FC<TableWrapperProps> = ({ children }) => {
   useResizeObserver(table, checkOverflow);
 
   return (
-    <div className={isOverflowing ? styles.wrapperOverflow : styles.wrapper} ref={wrapper}>
+    <div className={cx(isOverflowing ? styles.overflow : styles.noOverflow, className)} ref={wrapper} data-table-overflow={isOverflowing ? '' : undefined}>
       {cloneElement(Children.only(children), { ref: table })}
     </div>
   );

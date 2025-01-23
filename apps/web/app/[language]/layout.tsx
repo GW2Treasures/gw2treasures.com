@@ -16,6 +16,7 @@ import { DataTableContext } from '@gw2treasures/ui/components/Table/DataTableCon
 import { Gw2AccountSubscriptionProvider } from '@/components/Gw2Api/Gw2AccountSubscriptionProvider';
 import type { ReactNode } from 'react';
 import type { LayoutProps } from '@/lib/next';
+import type { Viewport } from 'next';
 
 const bitter = Bitter({
   subsets: ['latin'],
@@ -101,9 +102,12 @@ export const metadata = {
   }
 };
 
-export const viewport = {
+export const viewport: Viewport = {
+  // Browsers use the first theme-color with matching media, discord always uses the last one for the link preview.
+  // This way we can use the brand color for discord, while using the background color in browsers.
   themeColor: [
     { media: '(prefers-color-scheme: light)', color: '#fff' },
     { media: '(prefers-color-scheme: dark)', color: '#36393f' },
+    { color: '#b7000d' },
   ],
 };

@@ -16,13 +16,13 @@ export const FestivalTimer: FC<FestivalTimerProps> = ({ festival }) => {
 
   if(isActive) {
     return (
-      <>Time remaining: <ResetTimer reset={festival.endsAt}/></>
+      <span>Time remaining: <ResetTimer reset={festival.endsAt}/></span>
     );
   }
 
   if(festival.startsAt > now) {
     return (
-      <>Starts in: <ResetTimer reset={festival.startsAt}/></>
+      <span>Starts in: <ResetTimer reset={festival.startsAt}/></span>
     );
   }
 

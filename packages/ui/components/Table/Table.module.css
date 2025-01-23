@@ -124,6 +124,7 @@
 .overflow {
   overflow-x: scroll;
   will-change: scroll-position;
+  scrollbar-width: thin;
 }
 
 .overflow > .table > thead > tr > th { position: static; }

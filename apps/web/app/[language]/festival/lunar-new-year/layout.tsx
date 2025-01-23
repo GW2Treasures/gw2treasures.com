@@ -48,7 +48,7 @@ export async function generateMetadata({ params }: LayoutProps): Promise<Metadat
       default: ''
     },
     description: t('festival.lunar-new-year.description'),
-    keywords: ['lunar new year', 'gw2', 'guild wars 2', 'festival'],
+    keywords: ['lunar new year', 'gw2', 'guild wars 2', 'festival', 'dragon ball', 'firecracker', 'firework', 'celestial challenge', 'lucky envelope', 'gold', 'coin', 'luck', 'mini', 'achievement', 'skin', 'unlock'],
     openGraph: {
       images: [{ url: new URL(ogImage.src, await getCurrentUrl()), width: ogImage.width, height: ogImage.height }],
     },

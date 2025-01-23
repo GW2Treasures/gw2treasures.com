@@ -1,7 +1,6 @@
 import { Trans } from '@/components/I18n/Trans';
 import { HeroLayout } from '@/components/Layout/HeroLayout';
 import { NavBar } from '@/components/Layout/NavBar';
-import { ResetTimer } from '@/components/Reset/ResetTimer';
 import type { LayoutProps } from '@/lib/next';
 import { getTranslate } from '@/lib/translate';
 import { getCurrentUrl } from '@/lib/url';
@@ -9,14 +8,15 @@ import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { Snow } from 'app/[language]/festival/wintersday/snow';
 import type { Metadata } from 'next';
 import ogImage from './og.png';
-import { Festival, getActiveFestival } from '../festivals';
+import { Festival, getFestival, isFestivalActive } from '../festivals';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
+import { FestivalTimer } from '@/components/Reset/FestivalTimer';
 
 export default function WintersdayLayout({ children }: LayoutProps) {
-  const festival = getActiveFestival();
+  const wintersday = getFestival(Festival.Wintersday);
 
   return (
-    <HeroLayout color="#7993a9" hero={(<Snow><Headline id="wintersday" actions={festival?.type === Festival.Wintersday && (<>Time remaining: <ResetTimer reset={festival.endsAt}/></>)}><Trans id="festival.wintersday"/></Headline></Snow>)}
+    <HeroLayout color="#7993a9" hero={(<Snow><Headline id="wintersday" actions={<FestivalTimer festival={wintersday}/>}><Trans id="festival.wintersday"/></Headline></Snow>)}
       skipLayout
       navBar={(
         <NavBar base="/festival/wintersday/" items={[
@@ -28,7 +28,7 @@ export default function WintersdayLayout({ children }: LayoutProps) {
         ]}/>
       )}
     >
-      {festival?.type !== Festival.Wintersday && (
+      {!isFestivalActive(wintersday) && (
         <div style={{ margin: '16px 16px -16px' }}>
           <Notice>The Wintersday festival is currently not active!</Notice>
         </div>

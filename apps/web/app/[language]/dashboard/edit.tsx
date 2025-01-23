@@ -140,9 +140,9 @@ const ItemSearch: FC<{ columns: Column[], onAdd: (column: Column) => void }> = (
       </div>
       <div className={styles.searchList}>
         {search.loading ? (
-          'loading...'
+          <div style={{ color: 'var(--color-text-muted)', textAlign: 'center', marginTop: 16 }}><Icon icon="loading"/> Loading...</div>
         ) : filteredItems.length === 0 ? (
-          <p>No items found</p>
+          <div style={{ color: 'var(--color-text-muted)', textAlign: 'center', marginTop: 16 }}>No items found</div>
         ) : (
           <div ref={ref}>
             {filteredItems.map((item, index) => (

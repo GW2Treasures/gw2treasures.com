@@ -3,7 +3,7 @@
 import { Gw2AccountName } from '@/components/Gw2Api/Gw2AccountName';
 import { Gw2Accounts } from '@/components/Gw2Api/Gw2Accounts';
 import type { Gw2Account } from '@/components/Gw2Api/types';
-import { type FC, Suspense, useCallback, useEffect, useState } from 'react';
+import { type FC, Suspense, useEffect, useState } from 'react';
 import styles from './dashboard.module.css';
 import { Button } from '@gw2treasures/ui/components/Form/Button';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
@@ -12,11 +12,7 @@ import { Skeleton } from '@/components/Skeleton/Skeleton';
 import { Scope } from '@gw2me/client';
 import { useSubscription } from '@/components/Gw2Api/Gw2AccountSubscriptionProvider';
 import { CurrencyValue } from '@/components/Currency/CurrencyValue';
-import { DropDown } from '@gw2treasures/ui/components/DropDown/DropDown';
-import { MenuList } from '@gw2treasures/ui/components/Layout/MenuList';
-import { SearchItemDialog, type SearchItemDialogSubmitHandler } from '@/components/Item/SearchItemDialog';
 import { ItemLink } from '@/components/Item/ItemLink';
-import { SearchCurrencyDialog, type SearchCurrencyDialogSubmitHandler } from '@/components/Currency/SearchCurrencyDialog';
 import { CurrencyLink } from '@/components/Currency/CurrencyLink';
 import { FormatNumber } from '@/components/Format/FormatNumber';
 import { encodeColumns, type Column } from './helper';
@@ -25,6 +21,8 @@ import { State, EmptyState } from './state';
 import { TableWrapper } from '@gw2treasures/ui/components/Table/TableWrapper';
 import { AchievementLink } from '@/components/Achievement/AchievementLink';
 import { AccountAchievementProgressCell } from '@/components/Achievement/AccountAchievementProgress';
+import { EditDialog } from './edit';
+import { Dialog } from '@gw2treasures/ui/components/Dialog/Dialog';
 
 const requiredScopes = [Scope.GW2_Account, Scope.GW2_Characters, Scope.GW2_Inventories, Scope.GW2_Unlocks, Scope.GW2_Tradingpost, Scope.GW2_Wallet, Scope.GW2_Progression];
 
@@ -34,6 +32,8 @@ export interface DashboardProps {
 
 export const Dashboard: FC<DashboardProps> = ({ initialColumns = [] }) => {
   const [columns, setColumns] = useState<Column[]>(initialColumns);
+  const [isEditing, setIsEditing] = useState(false);
+
 
   useEffect(() => {
     window.history.replaceState(null, '', '?columns=' + encodeColumns(columns));
@@ -43,11 +43,7 @@ export const Dashboard: FC<DashboardProps> = ({ initialColumns = [] }) => {
     <div>
       <div className={styles.intro}>
         <Notice icon="eye">Preview: The dashboard is still a work in progress!</Notice>
-        <Headline id="inventory" actions={[
-          (<Button key="c" onClick={() => setColumns([])} icon="delete">Clear Columns</Button>),
-          (<AddColumnButton key="+" onAddColumn={(column) => setColumns([...columns, column])}/>),
-        ]}
-        >
+        <Headline id="inventory" actions={<Button icon="edit" onClick={() => setIsEditing(true)}>Edit dashboard</Button>}>
           Dashboard
         </Headline>
       </div>
@@ -83,39 +79,10 @@ export const Dashboard: FC<DashboardProps> = ({ initialColumns = [] }) => {
       <Suspense fallback={<EmptyState icon="loading">Loading...</EmptyState>}>
         <State requiredScopes={requiredScopes}/>
       </Suspense>
+      <Dialog open={isEditing} onClose={() => setIsEditing(false)} title="Edit Dashboard">
+        <EditDialog columns={columns} onEdit={(columns) => { setColumns(columns); setIsEditing(false); }}/>
+      </Dialog>
     </div>
-  );
-};
-
-const AddColumnButton: FC<{ onAddColumn: (column: Column) => void }> = ({ onAddColumn }) => {
-  const [searchItem, setSearchItem] = useState(false);
-  const [searchCurrency, setSearchCurrency] = useState(false);
-
-  const handleAddItem: SearchItemDialogSubmitHandler = useCallback((item) => {
-    setSearchItem(false);
-    if(item) {
-      onAddColumn({ type: 'item', id: item.id, item });
-    }
-  }, [onAddColumn]);
-
-  const handleAddCurrency: SearchCurrencyDialogSubmitHandler = useCallback((currency) => {
-    setSearchCurrency(false);
-    if(currency) {
-      onAddColumn({ type: 'currency', id: currency.id, currency });
-    }
-  }, [onAddColumn]);
-
-  return (
-    <>
-      <DropDown button={<Button icon="add">Add column</Button>}>
-        <MenuList>
-          <Button appearance="menu" icon="item" onClick={() => setSearchItem(true)}>Add item</Button>
-          <Button appearance="menu" icon="coins" onClick={() => setSearchCurrency(true)}>Add currency</Button>
-        </MenuList>
-      </DropDown>
-      <SearchItemDialog open={searchItem} onSubmit={handleAddItem}/>
-      <SearchCurrencyDialog open={searchCurrency} onSubmit={handleAddCurrency}/>
-    </>
   );
 };
 

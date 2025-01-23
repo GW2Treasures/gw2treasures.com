@@ -65,8 +65,8 @@ export default async function LunarNewYearPage() {
 
       <div style={{ marginTop: 32 }}/>
 
-      <Headline id="inventory">Inventory</Headline>
-      <InventoryTable envelope={itemsById.get(ITEM_ENVELOPE)!}/>
+      {/* <Headline id="inventory">Inventory</Headline>
+      <InventoryTable envelope={itemsById.get(ITEM_ENVELOPE)!}/> */}
     </PageLayout>
   );
 }

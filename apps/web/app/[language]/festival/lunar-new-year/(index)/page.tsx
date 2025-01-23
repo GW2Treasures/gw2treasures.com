@@ -11,7 +11,6 @@ import { linkProperties } from '@/lib/linkProperties';
 import { cache } from '@/lib/cache';
 import type { PageProps } from '@/lib/next';
 import { getTranslate } from '@/lib/translate';
-import { InventoryTable } from './inventory-table';
 import { groupById } from '@gw2treasures/helper/group-by';
 
 const ITEM_ENVELOPE = 68646;
@@ -50,6 +49,7 @@ const loadData = cache(async function loadData() {
 
 export default async function LunarNewYearPage() {
   const { items } = await loadData();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const itemsById = groupById(items);
 
   await pageView('festival/lunar-new-year');

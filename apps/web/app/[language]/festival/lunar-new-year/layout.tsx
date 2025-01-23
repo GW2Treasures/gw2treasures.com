@@ -16,7 +16,7 @@ export default function LunarNewYearFestivalLayout({ children }: LayoutProps) {
   const lunarNewYear = getFestival(Festival.LunarNewYear);
 
   return (
-    <HeroLayout color="#be3413" hero={(<LunarNewYearHero><Headline id="lunar-new-year" actions={<FestivalTimer festival={lunarNewYear}/>}><Trans id="festival.lunar-new-year"/></Headline></LunarNewYearHero>)}
+    <HeroLayout color="#be3413" hero={(<LunarNewYearHero><Headline id="lunar-new-year" actions={<FestivalTimer festival={lunarNewYear}/>}><div style={{ minWidth: '40vw' }}><Trans id="festival.lunar-new-year"/></div></Headline></LunarNewYearHero>)}
       skipLayout
       navBar={(
         <NavBar base="/festival/lunar-new-year/" items={[

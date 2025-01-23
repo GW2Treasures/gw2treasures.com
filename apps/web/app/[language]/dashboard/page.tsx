@@ -1,14 +1,25 @@
 import type { PageProps } from '@/lib/next';
 import { Dashboard } from './dashboard';
-import { decodeColumns } from './helper';
+import { decodeColumns, type Column } from './helper';
 import { db } from '@/lib/prisma';
 import { linkProperties, linkPropertiesWithoutRarity } from '@/lib/linkProperties';
 import { groupBy, groupById } from '@gw2treasures/helper/group-by';
+import { cache } from 'react';
+import { localizedName, type LocalizedEntity } from '@/lib/localizedName';
+import { isDefined } from '@gw2treasures/helper/is';
+import type { Metadata } from 'next';
 
 export default async function DashboardPage({ searchParams }: PageProps) {
   const { columns } = await searchParams;
-  const initialColumns = decodeColumns(columns);
-  const columnsByType = groupBy(initialColumns, 'type');
+  const initialColumns = await loadColumns(decodeColumns(columns));
+
+  return (
+    <Dashboard initialColumns={initialColumns}/>
+  );
+}
+
+const loadColumns = cache(async (columns: Column[]): Promise<Column[]> => {
+  const columnsByType = groupBy(columns, 'type');
 
   // load data
   const [items, currencies, achievements] = await Promise.all([
@@ -17,25 +28,14 @@ export default async function DashboardPage({ searchParams }: PageProps) {
     groupById(await loadAchievements(columnsByType.get('achievement')?.map(({ id }) => id))),
   ]);
 
-  // append data to initial columns
-  for(const column of initialColumns) {
+  return columns.map((column) => {
     switch(column.type) {
-      case 'item':
-        column.item = items.get(column.id);
-        break;
-      case 'currency':
-        column.currency = currencies.get(column.id);
-        break;
-      case 'achievement':
-        column.achievement = achievements.get(column.id);
-        break;
+      case 'item': return { ...column, item: items.get(column.id) };
+      case 'currency': return { ...column, currency: currencies.get(column.id) };
+      case 'achievement': return { ...column, achievement: achievements.get(column.id) };
     }
-  }
-
-  return (
-    <Dashboard initialColumns={initialColumns}/>
-  );
-}
+  });
+});
 
 function loadItems(ids: number[] | undefined) {
   if(!ids || ids.length === 0) {
@@ -70,6 +70,30 @@ function loadAchievements(ids: number[] | undefined) {
   });
 }
 
-export const metadata = {
-  title: 'Dashboard'
-};
+export async function generateMetadata({ searchParams, params }: PageProps): Promise<Metadata> {
+  const { language } = await params;
+  const { columns } = await searchParams;
+  const initialColumns = await loadColumns(decodeColumns(columns));
+
+  const columnsToDisplay = 3;
+  const displayedColumns = initialColumns.map(getLocalizedEntityFromColumn).filter(isDefined).slice(0, columnsToDisplay).map((entity) => localizedName(entity, language));
+  const notDisplayedColumnCount = initialColumns.length - displayedColumns.length;
+
+  return {
+    title: initialColumns.length > 0
+      ? `Dashboard: ${displayedColumns.join(', ')}${notDisplayedColumnCount > 0 ? `, ${notDisplayedColumnCount} more` : ''}`
+      : 'Dashboard',
+    description: 'Create your own dashboard to keep track of items, currencies, achievements and more on all your Guild Wars 2 accounts.',
+
+    // only index the page if there are no columns
+    robots: columns ? 'noindex' : undefined,
+  };
+}
+
+function getLocalizedEntityFromColumn(column: Column): LocalizedEntity | undefined {
+  switch(column.type) {
+    case 'item': return column.item;
+    case 'achievement': return column.achievement;
+    case 'currency': return column.currency;
+  }
+}

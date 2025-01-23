@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1.13
 
-ARG node_version=22.13.0-alpine3.20
+ARG node_version=22.13.1-alpine3.21
 
 
 # common base for all stages

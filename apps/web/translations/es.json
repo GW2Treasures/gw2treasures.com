@@ -278,5 +278,12 @@
   "fractal.uncategorized": "Sin Clasificar",
   "fractal.underground_facility": "Instalación Subterránea",
   "fractal.urban_battleground": "Campo de Batalla Urbano",
-  "fractal.volcanic": "Volcánico"
+  "fractal.volcanic": "Volcánico",
+  "festival.lunar-new-year": "Año nuevo lunar",
+  "festival.lunar-new-year.description": "Controla tus progresos en todas tus cuentas durante el Año Nuevo Lunar en gw2treasures.com.",
+  "festival.lunar-new-year.achievements.description": "Estos logros solo están disponibles durante el Año Nuevo Lunar.",
+  "festival.lunar-new-year.skins.description": "Estas apariencias sólo están disponibles durante el Año Nuevo Lunar.",
+  "festival.lunar-new-year.minis": "Miniaturas",
+  "festival.lunar-new-year.minis.description": "Estas miniaturas sólo están disponibles durante el Año Nuevo Lunar.",
+  "festival.lunar-new-year.wizards-vault.description": "Estos son todos los objetivos de la Cámara del Brujo que solo están activos durante el Año Nuevo Lunar."
 }

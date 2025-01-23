@@ -42,3 +42,11 @@
   gap: 24px;
   margin: 16px;
 }
+
+.embedded {
+  border: 1px solid var(--color-border);
+  border-radius: 2px;
+}
+.embedded .table > thead > tr > th {
+  border-top: none;
+}

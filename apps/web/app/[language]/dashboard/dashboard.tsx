@@ -23,30 +23,35 @@ import { AchievementLink } from '@/components/Achievement/AchievementLink';
 import { AccountAchievementProgressCell } from '@/components/Achievement/AccountAchievementProgress';
 import { EditDialog } from './edit';
 import { Dialog } from '@gw2treasures/ui/components/Dialog/Dialog';
+import { cx } from '@gw2treasures/ui';
 
 const requiredScopes = [Scope.GW2_Account, Scope.GW2_Characters, Scope.GW2_Inventories, Scope.GW2_Unlocks, Scope.GW2_Tradingpost, Scope.GW2_Wallet, Scope.GW2_Progression];
 
 export interface DashboardProps {
-  initialColumns?: Column[]
+  initialColumns?: Column[],
+  embedded?: boolean,
 }
 
-export const Dashboard: FC<DashboardProps> = ({ initialColumns = [] }) => {
+export const Dashboard: FC<DashboardProps> = ({ initialColumns = [], embedded = false }) => {
   const [columns, setColumns] = useState<Column[]>(initialColumns);
   const [isEditing, setIsEditing] = useState(false);
 
-
   useEffect(() => {
-    window.history.replaceState(null, '', '?columns=' + encodeColumns(columns));
-  }, [columns]);
+    if(!embedded) {
+      window.history.replaceState(null, '', '?columns=' + encodeColumns(columns));
+    }
+  }, [columns, embedded]);
 
   return (
-    <div>
-      <div className={styles.intro}>
-        <Notice icon="eye">Preview: The dashboard is still a work in progress!</Notice>
-        <Headline id="inventory" actions={<Button icon="edit" onClick={() => setIsEditing(true)}>Edit dashboard</Button>}>
-          Dashboard
-        </Headline>
-      </div>
+    <div className={cx(embedded && styles.embedded)}>
+      {!embedded && (
+        <div className={styles.intro}>
+          <Notice icon="eye">Preview: The dashboard is still a work in progress!</Notice>
+          <Headline id="inventory" actions={<Button icon="edit" onClick={() => setIsEditing(true)}>Edit dashboard</Button>}>
+            Dashboard
+          </Headline>
+        </div>
+      )}
       <TableWrapper className={styles.overflow}>
         <table className={styles.table}>
           <thead>

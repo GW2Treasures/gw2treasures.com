@@ -16,13 +16,13 @@ import { pageView } from '@/lib/pageView';
 import { getTranslate } from '@/lib/translate';
 
 const achievementIds = [
-  5005,
+  6031, // The Goldclaw Holiday Collection
+  5005, // Festival Frequenter
   2030,
   5069,
   2028,
   2768,
   2029,
-  6031,
   2765,
   2049,
   2792,

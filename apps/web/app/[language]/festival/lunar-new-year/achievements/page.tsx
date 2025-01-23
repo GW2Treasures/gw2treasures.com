@@ -16,23 +16,14 @@ import { pageView } from '@/lib/pageView';
 import { getTranslate } from '@/lib/translate';
 
 const achievementIds = [
-  5005,
-  2030,
-  5069,
-  2028,
-  2768,
-  2029,
-  6031,
-  2765,
-  2049,
-  2792,
-  2048,
+  6031, // The Goldclaw Holiday Collection
+  5005, // Festival Frequenter
 ];
 const achievementCategoryIds = [
-  98,
-  150,
-  197,
-  198,
+  199, // Dragon Ball
+  200, // New Year's Customs
+  201, // Daily Lunar New Year
+  202, // Lunar New Year
 ];
 
 const dailyFlags: AchievementFlags[] = ['Daily', 'Weekly', 'Monthly'];

@@ -13,64 +13,60 @@ import { getTranslate } from '@/lib/translate';
 
 const skinIds = [
   // weapons
-  11177, // Call of Cheer
-  10217, // Custom Candy Cane Hammer
-  10185, // Dwayna's Promise
-  11181, // Greatcracker's Legend
-  10208, // Grenth's Vow
-  11947, // Ornamented Staff
-  101379, // Ornamented Shield
-  11949, // Ornamented Focus
-  11190, // Silent Forest's Bell
-  10194, // Wintergreen Custom Candy Cane Hammer
-  12791, // Ginger Shortbread Shortbow
-  12757, // Wintersday Bash
-  12755, // Gingerbread Speargun
+  11233, // Lucky Envelope
+  11227, // Moon Rabbit's Guidance
+  11222, // First Night's Spark
+  10195, // Gatherer's Fortune
+  8769, // Crescent Steel
+  10226, // Inherited Flame
+  11994, // Lucky Dragon Short Bow
+  11991, // Lucky Dragon Hammer
+  11993, // Lucky Dragon Speargun
 
   // armor
-  7991, // Eggnog Helmet
-  7970, // Eggnog Helmet
-  7966, // Eggnog Helmet
-  10218, // Embellished Wintersday Gift Bag
-  1021, // Festive Hat
-  1020, // Festive Hat
-  975, // Festive Hat
-  9062, // Festive Sweater
-  9087, // Festive Sweater
-  9089, // Festive Sweater
-  9765, // Festive Winter Hood
-  9742, // Festive Winter Hood
-  9731, // Festive Winter Hood
-  2382, // Light of Dwayna
-  9063, // Rime-Rimmed Mariner's Rebreather
-  9083, // Rime-Rimmed Mariner's Rebreather
-  9071, // Rime-Rimmed Mariner's Rebreather
-  2383, // Shadow of Grenth
-  2375, // Toymaker's Bag
-  11952, // Winter Fur Shoulders
-  11961, // Winter Fur Shoulders
-  11957, // Winter Fur Shoulders
-  6577, // Winter's Presence
-  6583, // Winter's Presence
-  6586, // Winter's Presence
-  11179, // Wintersday Snow Boots
-  11184, // Wintersday Snow Boots
-  11171, // Wintersday Snow Boots
-  12786, // Winter Mittens
-  12765, // Winter Mittens
-  12748, // Winter Mittens
+  10168, // Primal Tiger Hood
+  10175, // Primal Tiger Hood
+  10216, // Primal Tiger Hood
+  9845, // Lunar-Enchanted Scale Gloves
+  9876, // Lunar-Enchanted Feathered Gloves
+  9880, // Lunar-Enchanted Prowler Gloves
+  11992, // Dragon Descendant's Helm
+  11990, // Dragon Descendant's Helm
+  11995, // Dragon Descendant's Helm
+  9108, // Fireworks Spaulders
+  9101, // Fireworks Spaulders
+  9111, // Fireworks Spaulders
+  11212, // Embellished Rabbit Vest
+  11205, // Embellished Rabbit Vest
+  11226, // Embellished Rabbit Vest
+  7065, // Lucky Rooster Lantern
+  10206, // Lucky Tiger Lantern
+  11206, // Lucky Great Rabbit Lantern
+  5856, // Lucky Ram Lantern
+  5857, // Lucky Great Ram Lantern
+  6619, // Lucky Monkey Lantern
+  6620, // Lucky Great Monkey Lantern
+  7069, // Lucky Great Rooster Lantern
+  8006, // Lucky Dog Lantern
+  8014, // Lucky Great Dog Lantern
+  8623, // Lucky Boar Lantern
+  8624, // Lucky Great Boar Lantern
+  9097, // Lucky Rat Lantern
+  9120, // Lucky Great Rat Lantern
+  9838, // Lucky Great Ox Lantern
+  9883, // Lucky Ox Lantern
+  10183, // Lucky Great Tiger Lantern
+  11209, // Lucky Rabbit Lantern
+  12003, // Lucky Dragon Lantern
+  12007, // Lucky Great Dragon Lantern
 ];
 
 const skinSetNames = [
-  'Wrapped weapons',
-  'Rimed Verdant weapons',
-  'Candy Cane weapons',
-  'Wintergreen weapons',
-  'Toy weapon skins',
-  'Sparkling Wrapped weapons',
-  'Sacred Solstice weapons',
-  'Snowdrift weapons',
-  'Plush weapons'
+  'Fortune-Shining Aureate weapons',
+  'Refitted Aureate weapons',
+  'Shining Aureate weapons',
+  'Firework weapons',
+  'Fortunate weapons',
 ];
 
 const loadData = cache(async function loadData() {

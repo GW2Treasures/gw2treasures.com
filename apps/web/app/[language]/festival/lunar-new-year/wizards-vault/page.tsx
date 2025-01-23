@@ -14,10 +14,7 @@ import { Icon } from '@gw2treasures/ui';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 
 const objectiveIds: number[] = [
-  223, // (Festival) Complete the (Annual) Festival Automaton Achievement
-  224, // (Festival) Complete the (Annual) Some Disassembly Required Achievement
-  215, // (Festival) Complete the (Annual) Wintersday Traditions Achievement
-  219, // (Festival) Complete the Secret Lair of the Snowmen Strike Mission
+  // TODO
 ];
 
 const loadData = cache(async function loadData() {

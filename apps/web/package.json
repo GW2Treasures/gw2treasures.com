@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@dnd-kit/abstract": "0.0.6-beta-20250113155559",
-    "@dnd-kit/helpers": "0.0.6-beta-20250113155559",
+    "@dnd-kit/helpers": "0.0.6-beta-20250124010644",
     "@dnd-kit/react": "0.0.6-beta-20250113155559",
     "@floating-ui/react": "0.27.3",
     "@floating-ui/react-dom": "2.1.2",

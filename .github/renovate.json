@@ -17,6 +17,10 @@
       "matchPackageNames": ["mcr.microsoft.com/playwright", "@playwright/test"],
       "groupName": "playwright"
     }, {
+      "matchManagers": ["npm"],
+      "matchPackageNames": ["@dnd-kit/**"],
+      "groupName": "dnd-kit"
+    }, {
       "matchDatasources": ["npm"],
       "matchPackageNames": ["renovate"],
       "extends": ["schedule:weekly"]

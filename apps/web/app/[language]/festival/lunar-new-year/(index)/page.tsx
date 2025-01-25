@@ -15,7 +15,7 @@ import { groupById } from '@gw2treasures/helper/group-by';
 import { Dashboard } from 'app/[language]/dashboard/dashboard';
 import { StructuredData } from '@/components/StructuredData/StructuredData';
 import type { Event } from 'schema-dts';
-import { absoluteUrl } from '@/lib/url';
+import { absoluteUrl, getAlternateUrls } from '@/lib/url';
 import { Festival, getFestival } from '../../festivals';
 import ogImage from '../og.png';
 
@@ -108,6 +108,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: {
       absolute: `${t('festival.lunar-new-year')} · gw2treasures.com`
-    }
+    },
+    alternates: getAlternateUrls('festival/lunar-new-year', language),
   };
 }

@@ -24,6 +24,11 @@ import { PriceTrend } from '@/components/Item/PriceTrend';
 import { compareLocalizedName } from '@/lib/localizedName';
 import { ColumnSelect } from '@/components/Table/ColumnSelect';
 import { FormatNumber } from '@/components/Format/FormatNumber';
+import { Festival, getFestival } from '../../festivals';
+import { StructuredData } from '@/components/StructuredData/StructuredData';
+import ogImage from '../og.png';
+import { absoluteUrl, getAlternateUrls } from '@/lib/url';
+import type { Event } from 'schema-dts';
 
 const ITEM_SNOWFLAKE_ID = 86601;
 const ITEM_SNOW_DIAMOND_ID = 86627;
@@ -53,7 +58,11 @@ const loadData = cache(async function loadData() {
 }, ['wintersday-items'], { revalidate: 60 * 60 });
 
 export default async function WintersdayPage({ params }: PageProps) {
+  const wintersday = getFestival(Festival.Wintersday);
+
   const { language } = await params;
+  const t = getTranslate(language);
+
   const { items } = await loadData();
   await pageView('festival/wintersday');
 
@@ -99,6 +108,22 @@ export default async function WintersdayPage({ params }: PageProps) {
         ))}
       </Gw2Accounts>
 
+      {wintersday && (
+        <StructuredData data={{
+          '@type': 'Event',
+          name: t('festival.wintersday'),
+          description: t('festival.wintersday.description'),
+          location: {
+            '@type': 'VirtualLocation',
+            url: (await absoluteUrl('/festival/wintersday')).toString()
+          },
+          startDate: wintersday.startsAt.toISOString(),
+          endDate: wintersday.endsAt.toISOString(),
+          eventAttendanceMode: 'https://schema.org/OnlineEventAttendanceMode',
+          image: [(await absoluteUrl(ogImage.src)).toString()]
+        } satisfies Event}/>
+      )}
+
     </PageLayout>
   );
 }
@@ -110,6 +135,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: {
       absolute: `${t('festival.wintersday')} · gw2treasures.com`
-    }
+    },
+    alternates: getAlternateUrls('festival/wintersday', language),
   };
 }

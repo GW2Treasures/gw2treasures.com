@@ -10,6 +10,7 @@ import { requiredScopes } from '../helper';
 import { pageView } from '@/lib/pageView';
 import type { PageProps } from '@/lib/next';
 import { getTranslate } from '@/lib/translate';
+import { getAlternateUrls } from '@/lib/url';
 
 const skinIds = [
   // weapons
@@ -117,6 +118,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const t = getTranslate(language);
 
   return {
-    title: t('navigation.skins')
+    title: t('navigation.skins'),
+    alternates: getAlternateUrls('festival/wintersday/skins', language),
   };
 }

@@ -14,6 +14,7 @@ import type { Metadata } from 'next';
 import { requiredScopes } from '../helper';
 import { pageView } from '@/lib/pageView';
 import { getTranslate } from '@/lib/translate';
+import { getAlternateUrls } from '@/lib/url';
 
 const achievementIds = [
   6031, // The Goldclaw Holiday Collection
@@ -86,7 +87,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const t = getTranslate(language);
 
   return {
-    title: t('navigation.achievements')
+    title: t('navigation.achievements'),
+    alternates: getAlternateUrls('festival/lunar-new-year/achievements', language),
   };
 }
 

@@ -10,6 +10,7 @@ import { requiredScopes } from '../helper';
 import { pageView } from '@/lib/pageView';
 import { getTranslate } from '@/lib/translate';
 import type { PageProps } from '@/lib/next';
+import { getAlternateUrls } from '@/lib/url';
 
 const miniIds = [
   745, // Mini Fortunate Lantern
@@ -63,6 +64,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const t = getTranslate(language);
 
   return {
-    title: t('festival.lunar-new-year.minis')
+    title: t('festival.lunar-new-year.minis'),
+    alternates: getAlternateUrls('festival/lunar-new-year/minis', language),
   };
 }

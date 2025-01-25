@@ -24,6 +24,7 @@ import { PriceTrend } from '@/components/Item/PriceTrend';
 import { compareLocalizedName } from '@/lib/localizedName';
 import { ColumnSelect } from '@/components/Table/ColumnSelect';
 import { FormatNumber } from '@/components/Format/FormatNumber';
+import { getAlternateUrls } from '@/lib/url';
 
 const ITEM_SNOWFLAKE_ID = 86601;
 const ITEM_SNOW_DIAMOND_ID = 86627;
@@ -110,6 +111,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: {
       absolute: `${t('festival.wintersday')} · gw2treasures.com`
-    }
+    },
+    alternates: getAlternateUrls('festival/wintersday', language),
   };
 }

@@ -12,6 +12,7 @@ import type { PageProps } from '@/lib/next';
 import { getTranslate } from '@/lib/translate';
 import { Icon } from '@gw2treasures/ui';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
+import { getAlternateUrls } from '@/lib/url';
 
 const objectiveIds: number[] = [
   // TODO
@@ -59,6 +60,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const t = getTranslate(language);
 
   return {
-    title: t('navigation.wizardsVault')
+    title: t('navigation.wizardsVault'),
+    alternates: getAlternateUrls('festival/lunar-new-year/wizards-vault', language),
   };
 }

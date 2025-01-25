@@ -14,11 +14,11 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "3.2.0",
-    "@eslint/js": "9.18.0",
+    "@eslint/js": "9.19.0",
     "@gw2treasures/eslint-config": "workspace:*",
     "@gw2treasures/tsconfig": "workspace:*",
     "@types/node": "22.10.10",
-    "eslint": "9.18.0",
+    "eslint": "9.19.0",
     "prisma": "6.2.1",
     "typescript": "5.7.3"
   }

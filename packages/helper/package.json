@@ -35,10 +35,10 @@
   "homepage": "https://github.com/GW2Treasures/gw2treasures.com#readme",
   "devDependencies": {
     "@eslint/eslintrc": "3.2.0",
-    "@eslint/js": "9.18.0",
+    "@eslint/js": "9.19.0",
     "@gw2treasures/eslint-config": "workspace:*",
     "@gw2treasures/tsconfig": "workspace:*",
-    "eslint": "9.18.0",
+    "eslint": "9.19.0",
     "typescript": "5.7.3"
   },
   "publishConfig": {

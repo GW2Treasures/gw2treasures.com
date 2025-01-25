@@ -13,6 +13,11 @@ import type { PageProps } from '@/lib/next';
 import { getTranslate } from '@/lib/translate';
 import { groupById } from '@gw2treasures/helper/group-by';
 import { Dashboard } from 'app/[language]/dashboard/dashboard';
+import { StructuredData } from '@/components/StructuredData/StructuredData';
+import type { Event } from 'schema-dts';
+import { absoluteUrl } from '@/lib/url';
+import { Festival, getFestival } from '../../festivals';
+import ogImage from '../og.png';
 
 const ITEM_ENVELOPE = 68646;
 const ITEM_DB_CHAMPION_ENVELOPE = 68647;
@@ -52,7 +57,11 @@ const loadData = cache(async function loadData() {
   return { items, coins };
 }, ['lunar-new-year-items'], { revalidate: 60 * 60 });
 
-export default async function LunarNewYearPage() {
+export default async function LunarNewYearPage({ params }: PageProps) {
+  const { language } = await params;
+  const t = getTranslate(language);
+  const lunarNewYear = getFestival(Festival.LunarNewYear);
+
   const { items, coins } = await loadData();
   const itemsById = groupById(items);
 
@@ -72,6 +81,22 @@ export default async function LunarNewYearPage() {
       <Headline id="inventory">Inventory</Headline>
       {/* <InventoryTable envelope={itemsById.get(ITEM_ENVELOPE)!}/> */}
       <Dashboard initialColumns={[{ type: 'currency', id: 1, currency: coins! }, { type: 'item', id: ITEM_ENVELOPE, item: itemsById.get(ITEM_ENVELOPE) }]} embedded/>
+
+      {lunarNewYear && (
+        <StructuredData data={{
+          '@type': 'Event',
+          name: t('festival.lunar-new-year'),
+          description: t('festival.lunar-new-year.description'),
+          location: {
+            '@type': 'VirtualLocation',
+            url: (await absoluteUrl('/festival/lunar-new-year')).toString()
+          },
+          startDate: lunarNewYear.startsAt.toISOString(),
+          endDate: lunarNewYear.endsAt.toISOString(),
+          eventAttendanceMode: 'https://schema.org/OnlineEventAttendanceMode',
+          image: [(await absoluteUrl(ogImage.src)).toString()]
+        } satisfies Event}/>
+      )}
     </PageLayout>
   );
 }

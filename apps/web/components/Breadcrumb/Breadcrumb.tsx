@@ -3,6 +3,8 @@ import styles from './Breadcrumb.module.css';
 import Link from 'next/link';
 import { isTruthy, type Falsy } from '@gw2treasures/helper/is';
 import { absoluteUrl } from '@/lib/url';
+import { StructuredData } from '../StructuredData/StructuredData';
+import type { ListItem } from 'schema-dts';
 
 export interface BreadcrumbProps {
   children: (ReactElement<BreadcrumbItemProps, typeof BreadcrumbItem> | Falsy)[]
@@ -14,18 +16,14 @@ export const Breadcrumb: FC<BreadcrumbProps> = async ({ children }) => {
       {Children.map(children, (child) => isTruthy(child) && (
         <li>{child}</li>
       ))}
-      <script type="application/ld+json" dangerouslySetInnerHTML={{
-        __html: JSON.stringify({
-          '@context': 'https://schema.org',
-          '@type': 'BreadcrumbList',
-          'itemListElement': await Promise.all(children.filter(isTruthy).map(async ({ props: { name, href }}, index) => ({
-            '@type': 'ListItem',
-            'position': index + 1,
-            // eslint-disable-next-line object-shorthand
-            'name': name,
-            'item': href ? await absoluteUrl(href) : undefined
-          })))
-        })
+      <StructuredData data={{
+        '@type': 'BreadcrumbList',
+        itemListElement: await Promise.all(children.filter(isTruthy).map(async ({ props: { name, href }}, index) => ({
+          '@type': 'ListItem',
+          position: index + 1,
+          name,
+          item: href ? (await absoluteUrl(href)).toString() : undefined
+        } satisfies ListItem)))
       }}/>
     </ol>
   );

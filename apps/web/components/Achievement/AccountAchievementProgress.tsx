@@ -4,7 +4,7 @@ import type { FC } from 'react';
 import { Skeleton } from '../Skeleton/Skeleton';
 import { Icon } from '@gw2treasures/ui';
 import { ProgressCell } from './ProgressCell';
-import { useSubscription } from '../Gw2Api/Gw2AccountSubscriptionProvider';
+import { useSubscription } from '../Gw2Api/use-gw2-subscription';
 import { Scope } from '@gw2me/client';
 import type { Achievement } from '@gw2treasures/database';
 import { Tip } from '@gw2treasures/ui/components/Tip/Tip';

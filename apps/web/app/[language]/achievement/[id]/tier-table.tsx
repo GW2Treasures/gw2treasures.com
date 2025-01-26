@@ -9,7 +9,7 @@ import type { Gw2Account } from '@/components/Gw2Api/types';
 import { Skeleton } from '@/components/Skeleton/Skeleton';
 import { ProgressCell } from '@/components/Achievement/ProgressCell';
 import { AchievementPoints } from '@/components/Achievement/AchievementPoints';
-import { useSubscription } from '@/components/Gw2Api/Gw2AccountSubscriptionProvider';
+import { useSubscription } from '@/components/Gw2Api/use-gw2-subscription';
 import { Scope } from '@gw2me/client';
 import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 import { Table } from '@gw2treasures/ui/components/Table/Table';

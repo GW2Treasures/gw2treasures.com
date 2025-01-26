@@ -14,7 +14,7 @@ import styles from './objectives.module.css';
 import { ResetTimer } from '@/components/Reset/ResetTimer';
 import { ProgressCell } from '@/components/Achievement/ProgressCell';
 import { Scope } from '@gw2me/client';
-import { useSubscription } from '@/components/Gw2Api/Gw2AccountSubscriptionProvider';
+import { useSubscription } from '@/components/Gw2Api/use-gw2-subscription';
 import { useGw2Accounts } from '@/components/Gw2Api/use-gw2-accounts';
 import type { Gw2Account } from '@/components/Gw2Api/types';
 import { Waypoint } from '@/components/Waypoint/Waypoint';

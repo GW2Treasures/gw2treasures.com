@@ -1,7 +1,7 @@
 'use client';
 
 import { ProgressCell } from '@/components/Achievement/ProgressCell';
-import { useSubscription } from '@/components/Gw2Api/Gw2AccountSubscriptionProvider';
+import { useSubscription } from '@/components/Gw2Api/use-gw2-subscription';
 import { Skeleton } from '@/components/Skeleton/Skeleton';
 import { Scope } from '@gw2me/client';
 import { Icon } from '@gw2treasures/ui';

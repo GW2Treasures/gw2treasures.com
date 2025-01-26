@@ -13,7 +13,6 @@ import { ItemTableContext } from '@/components/ItemTable/ItemTableContext';
 import { Gw2ApiProvider } from '@/components/Gw2Api/Gw2ApiProvider';
 import { UserProvider } from '@/components/User/UserProvider';
 import { DataTableContext } from '@gw2treasures/ui/components/Table/DataTableContext';
-import { Gw2AccountSubscriptionProvider } from '@/components/Gw2Api/Gw2AccountSubscriptionProvider';
 import type { ReactNode } from 'react';
 import type { LayoutProps } from '@/lib/next';
 import type { Viewport } from 'next';
@@ -48,10 +47,8 @@ export default async function RootLayout({ children, modal, params }: LayoutProp
               <DataTableContext>
                 <UserProvider>
                   <Gw2ApiProvider>
-                    <Gw2AccountSubscriptionProvider>
-                      <Layout language={language}>{children}</Layout>
-                      {modal}
-                    </Gw2AccountSubscriptionProvider>
+                    <Layout language={language}>{children}</Layout>
+                    {modal}
                   </Gw2ApiProvider>
                 </UserProvider>
               </DataTableContext>

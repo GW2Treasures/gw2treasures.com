@@ -1,4 +1,4 @@
-import { useSubscription } from '../Gw2Api/Gw2AccountSubscriptionProvider';
+import { useSubscription } from '../Gw2Api/use-gw2-subscription';
 import type { ItemStack } from '@gw2api/types/data/item';
 import type { SharedInventoryItemStack } from '@gw2api/types/data/account-inventory';
 import type { CharacterEquipmentEntry } from '@gw2api/types/data/character';

@@ -2,7 +2,7 @@
 
 import type { FC } from 'react';
 import { CurrencyValue } from '@/components/Currency/CurrencyValue';
-import { useSubscription } from '@/components/Gw2Api/Gw2AccountSubscriptionProvider';
+import { useSubscription } from '@/components/Gw2Api/use-gw2-subscription';
 import type { Gw2Account } from '@/components/Gw2Api/types';
 import { Skeleton } from '@/components/Skeleton/Skeleton';
 import { Scope } from '@gw2me/client';

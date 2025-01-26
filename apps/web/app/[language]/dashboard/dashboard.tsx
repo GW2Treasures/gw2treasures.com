@@ -10,7 +10,7 @@ import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { useInventoryItemTotal } from '@/components/Inventory/use-inventory';
 import { Skeleton } from '@/components/Skeleton/Skeleton';
 import { Scope } from '@gw2me/client';
-import { useSubscription } from '@/components/Gw2Api/Gw2AccountSubscriptionProvider';
+import { useSubscription } from '@/components/Gw2Api/use-gw2-subscription';
 import { CurrencyValue } from '@/components/Currency/CurrencyValue';
 import { ItemLink } from '@/components/Item/ItemLink';
 import { CurrencyLink } from '@/components/Currency/CurrencyLink';

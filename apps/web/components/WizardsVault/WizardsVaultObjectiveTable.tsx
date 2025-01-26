@@ -6,7 +6,7 @@ import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { Icon } from '@gw2treasures/ui';
 import type { Gw2Account } from '../Gw2Api/types';
 import { Gw2AccountName } from '../Gw2Api/Gw2AccountName';
-import { useSubscription } from '../Gw2Api/Gw2AccountSubscriptionProvider';
+import { useSubscription } from '../Gw2Api/use-gw2-subscription';
 import { Skeleton } from '../Skeleton/Skeleton';
 import { ProgressCell } from '../Achievement/ProgressCell';
 import { Gw2Accounts } from '../Gw2Api/Gw2Accounts';

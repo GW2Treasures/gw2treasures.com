@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useState, type FC, type ReactNode } from 'react';
 import { Scope } from '@gw2me/client';
-import { useSubscription } from '@/components/Gw2Api/Gw2AccountSubscriptionProvider';
+import { useSubscription } from '@/components/Gw2Api/use-gw2-subscription';
 import { Skeleton } from '@/components/Skeleton/Skeleton';
 import { ProgressCell } from '@/components/Achievement/ProgressCell';
 import { Icon } from '@gw2treasures/ui';

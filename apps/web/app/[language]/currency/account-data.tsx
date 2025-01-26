@@ -3,7 +3,7 @@
 import type { FC } from 'react';
 import { useGw2Accounts } from '@/components/Gw2Api/use-gw2-accounts';
 import { Scope } from '@gw2me/client';
-import { useSubscription } from '@/components/Gw2Api/Gw2AccountSubscriptionProvider';
+import { useSubscription } from '@/components/Gw2Api/use-gw2-subscription';
 import { Skeleton } from '@/components/Skeleton/Skeleton';
 import { CurrencyValue } from '@/components/Currency/CurrencyValue';
 import { Gw2AccountName } from '@/components/Gw2Api/Gw2AccountName';

@@ -31,17 +31,13 @@ export type SubscriptionCallback<T extends SubscriptionType> = (response: Subscr
 
 type ActiveSubscription<T extends SubscriptionType> = {
   type: T,
-  accountId: string,
   callback: SubscriptionCallback<T>
 };
 
 export type CancelSubscription = () => void;
 
 export class SubscriptionManager {
-  #paused = false;
-  #subscriptions = new Set<ActiveSubscription<SubscriptionType>>();
-  #timeouts = new Map<string, Map<SubscriptionType, NodeJS.Timeout | 0>>();
-  #cache = new Map<string, { [T in SubscriptionType]?: SubscriptionData<T> }>();
+  #accounts = new Map<string, AccountSubscriptionManager>();
 
   constructor() {
     // no additional setup required on the server
@@ -49,14 +45,7 @@ export class SubscriptionManager {
       return;
     }
 
-    // restore cache from session storage
-    const cache = sessionStorage.getItem('gw2api.cache');
-    if(cache) {
-      this.#cache = new Map(JSON.parse(cache));
-    }
-
     // pause when the page is hidden
-    this.#paused = document.visibilityState === 'hidden';
     document.addEventListener('visibilitychange', () => {
       if(document.visibilityState === 'hidden') {
         this.pause();
@@ -67,19 +56,60 @@ export class SubscriptionManager {
   }
 
   pause() {
+    console.debug('[SubscriptionManager] pause');
+
+    for(const account of this.#accounts.values()) {
+      account.pause();
+    }
+  }
+
+  resume() {
+    console.debug('[SubscriptionManager] resume');
+
+    for(const account of this.#accounts.values()) {
+      account.resume();
+    }
+  }
+
+  subscribe<T extends SubscriptionType>(type: T, accountId: string, callback: SubscriptionCallback<T>): CancelSubscription {
+    if(!this.#accounts.has(accountId)) {
+      this.#accounts.set(accountId, new AccountSubscriptionManager(accountId, document.visibilityState === 'hidden'));
+    }
+
+    return this.#accounts.get(accountId)!.subscribe(type, callback);
+  }
+}
+
+export class AccountSubscriptionManager {
+  #accountId: string;
+  #paused = false;
+  #subscriptions = new Set<ActiveSubscription<SubscriptionType>>();
+  #timeouts = new Map<SubscriptionType, NodeJS.Timeout | 0>();
+  #cache: { [T in SubscriptionType]?: SubscriptionData<T> } = {};
+
+  constructor(accountId: string, paused: boolean) {
+    this.#accountId = accountId;
+    this.#paused = paused;
+
+    // restore cache from session storage
+    const cache = sessionStorage.getItem(`gw2api.cache.${accountId}`);
+    if(cache) {
+      this.#cache = JSON.parse(cache);
+    }
+  }
+
+  pause() {
     if(this.#paused) {
       return;
     }
 
-    console.debug('[SubscriptionManager] pause');
     this.#paused = true;
 
-    for(const [, accountTimeouts] of this.#timeouts) {
-      for(const [, timeout] of accountTimeouts) {
-        clearTimeout(timeout);
-      }
-      accountTimeouts.clear();
+    for(const [, timeout] of this.#timeouts) {
+      clearTimeout(timeout);
     }
+
+    this.#timeouts.clear();
   }
 
   resume() {
@@ -87,42 +117,29 @@ export class SubscriptionManager {
       return;
     }
 
-    console.debug('[SubscriptionManager] resume');
     this.#paused = false;
 
     this.#subscriptions.forEach((subscription) => this.#handleNewSubscription(subscription));
   }
 
   async #handleNewSubscription<T extends SubscriptionType>(subscription: ActiveSubscription<T>) {
-    if(this.#hasTimeout(subscription) || this.#paused) {
+    if(this.#timeouts.has(subscription.type) || this.#paused) {
       return;
     }
 
     // add fake timeout to prevent multiple subscriptions of the same type
     // the real timeout is only added after the first tick completed
-    this.#timeouts.get(subscription.accountId)!.set(subscription.type, 0);
+    this.#timeouts.set(subscription.type, 0);
 
     // first tick
-    await this.#tick(subscription.type, subscription.accountId);
+    await this.#tick(subscription.type);
   }
 
-  #hasTimeout({ accountId, type }: ActiveSubscription<SubscriptionType>) {
-    const accountTimeouts = this.#timeouts.get(accountId);
-
-    if(!accountTimeouts) {
-      this.#timeouts.set(accountId, new Map());
-      return false;
-    }
-
-    // check if this is the first subscription of this type
-    return accountTimeouts.has(type);
-  }
-
-  async #tick(type: SubscriptionType, accountId: string) {
-    console.debug('[SubscriptionManager] tick', type, accountId);
+  async #tick<T extends SubscriptionType>(type: T) {
+    console.debug(`[AccountSubscriptionManager(${this.#accountId})] tick`, type);
 
     // get access token
-    const accessToken = await accessTokenManager.getAccessToken(accountId);
+    const accessToken = await accessTokenManager.getAccessToken(this.#accountId);
 
     // fetch data
     let response: SubscriptionResponse<SubscriptionType>;
@@ -131,14 +148,14 @@ export class SubscriptionManager {
       const data = await fetchers[type](accessToken.accessToken);
 
       // write to cache
-      this.#cache.set(accountId, { ...this.#cache.get(accountId), [type]: data });
+      this.#cache = { ...this.#cache, [type]: data };
 
       // save cache to session storage
-      sessionStorage.setItem('gw2api.cache', JSON.stringify(Array.from(this.#cache.entries())));
+      sessionStorage.setItem(`gw2api.cache.${this.#accountId}`, JSON.stringify(this.#cache));
 
       response = { error: false, data };
     } catch(e) {
-      const cached = this.#cache.get(accountId)?.[type];
+      const cached = this.#cache[type];
       // if cached data is available, respond with it instead of showing an error
       // TODO: only respond with cached data if it is not too old
       response = cached ? { error: false, data: cached } : { error: true };
@@ -149,36 +166,31 @@ export class SubscriptionManager {
         nextTickMs = 5_000;
       }
 
-      console.warn('[SubscriptionManager] error fetching data' + (cached ? ' (fallback to cached data)' : ''), type, accountId, e);
+      console.warn(`[AccountSubscriptionManager(${this.#accountId})] error fetching data` + (cached ? ' (fallback to cached data)' : ''), type, e);
     }
 
     // call callbacks
     this.#subscriptions.forEach((subscription) => {
-      if(subscription.type === type && subscription.accountId === accountId) {
+      if(subscription.type === type) {
         subscription.callback(response);
       }
     });
 
     // schedule next tick
     if(!this.#paused) {
-      const timeout = setTimeout(() => this.#tick(type, accountId), nextTickMs);
-      this.#timeouts.get(accountId)!.set(type, timeout);
+      const timeout = setTimeout(() => this.#tick(type), nextTickMs);
+      this.#timeouts.set(type, timeout);
     }
   }
 
-  subscribe<T extends SubscriptionType>(type: T, accountId: string, callback: SubscriptionCallback<T>): CancelSubscription {
-    const subscription = { type, accountId, callback };
+  subscribe<T extends SubscriptionType>(type: T, callback: SubscriptionCallback<T>): CancelSubscription {
+    const subscription: ActiveSubscription<T> = { type, callback };
     this.#subscriptions.add(subscription);
 
     // check if the data is already in cache
-    if(this.#cache.has(accountId)) {
-      const data = this.#cache.get(accountId)![type];
-
-      if(data) {
-        callback({ error: false, data });
-      }
-    } else {
-      this.#cache.set(accountId, {});
+    const cached = this.#cache[type];
+    if(cached) {
+      callback({ error: false, data: cached });
     }
 
     // handle the new subscription

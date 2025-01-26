@@ -16,7 +16,7 @@
   border-bottom: 1px solid var(--color-border-dark);
   font-weight: 500;
   position: sticky;
-  top: var(--table-sticky-top, 48px);
+  top: calc(var(--table-sticky-top, 48px) - 1px);
   height: 58px;
 }
 [data-table-overflow] > .table > thead > tr > th {

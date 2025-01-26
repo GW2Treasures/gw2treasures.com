@@ -19,6 +19,7 @@
   color: inherit;
   flex: 1;
   font: inherit;
+  width: 0;
 }
 
 .icon {

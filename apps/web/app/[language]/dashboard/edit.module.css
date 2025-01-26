@@ -7,6 +7,8 @@
 .columnListWrapper {
   border-right: 1px solid var(--color-border);
   min-width: 320px;
+  display: flex;
+  flex-direction: column;
 }
 
 .header {
@@ -23,6 +25,8 @@
 
 .columnList {
   padding: 8px;
+  flex: 1;
+  min-height: 256px;
 }
 
 .searchSection {

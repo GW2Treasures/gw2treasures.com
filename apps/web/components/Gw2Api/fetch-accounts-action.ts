@@ -51,13 +51,13 @@ export async function fetchAccounts(requiredScopes: Scope[]): Promise<FetchAccou
 }
 
 export async function fetchAccessTokens(accountIds: string[]): Promise<FetchAccessTokenResponse> {
-  console.log('fetch access tokens', accountIds);
-
   const user = await getUser();
 
   if(!user) {
     return { error: ErrorCode.NOT_LOGGED_IN };
   }
+
+  console.log(`[fetchAccessTokens] fetch ${accountIds.length} GW2 api access tokens for ${user.name}`);
 
   const token = await db.userProvider.findFirst({
     where: { userId: user.id, provider: 'gw2.me' }

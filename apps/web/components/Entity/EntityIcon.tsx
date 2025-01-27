@@ -4,26 +4,21 @@
 import { type FC, useCallback, useState, type RefCallback, useMemo } from 'react';
 import type { Icon } from '@gw2treasures/database';
 import styles from './EntityIcon.module.css';
-import { getIconUrl, type IconSize } from '@/lib/getIconUrl';
+import { getIconSize, getIconUrl, type FixedIconSize, type IconSize } from '@/lib/getIconUrl';
 import { cx } from '@gw2treasures/ui';
 
 export type EntityIconType = 'skill';
 
 export interface EntityIconProps {
   icon: Omit<Icon, 'color'> & Partial<Pick<Icon, 'color'>>;
-  size?: IconSize | number;
+  size?: IconSize;
   type?: EntityIconType;
   className?: string;
 }
 
-const iconSizes: IconSize[] = [16, 32, 64];
-
-function getIconSize(size: number): IconSize {
-  return iconSizes.find((iconSize) => iconSize >= size) || 64;
-}
-
 export const EntityIcon: FC<EntityIconProps> = ({ icon, size = 64, type, className }) => {
-  const iconSize = getIconSize(size);
+  const scaledIconSize = type === 'skill' ? size * 1.333333 : size;
+  const iconSize = getIconSize(scaledIconSize);
 
   const [loading, setLoading] = useState(true);
 
@@ -51,7 +46,7 @@ export const EntityIcon: FC<EntityIconProps> = ({ icon, size = 64, type, classNa
         alt=""
         crossOrigin="anonymous"
         referrerPolicy="no-referrer"
-        srcSet={iconSize < 64 ? `${getIconUrl(icon, size * 2 as IconSize)} 2x` : undefined}
+        srcSet={iconSize < 64 ? `${getIconUrl(icon, iconSize * 2 as FixedIconSize)} 2x` : undefined}
         style={style}
         className={cx(loading ? styles.loading : styles.icon)}
         onLoad={handleLoad}/>

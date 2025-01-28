@@ -18,6 +18,7 @@ import type { Event } from 'schema-dts';
 import { absoluteUrl, getAlternateUrls } from '@/lib/url';
 import { Festival, getFestival } from '../../festivals';
 import ogImage from '../og.png';
+import { ExternalLink } from '@gw2treasures/ui/components/Link/ExternalLink';
 
 const ITEM_ENVELOPE = 68646;
 const ITEM_DB_CHAMPION_ENVELOPE = 68647;
@@ -70,7 +71,10 @@ export default async function LunarNewYearPage({ params }: PageProps) {
   return (
     <PageLayout>
       <ItemTableContext id="lunar-new-year">
-        <p><Trans id="festival.lunar-new-year.intro"/></p>
+        <p>
+          <Trans id="festival.lunar-new-year.intro"/>{' '}
+          If this is your first time participating or you just want a quick refresh, check out the YouTube video <ExternalLink href="https://www.youtube.com/watch?v=Eqg9No5Yo04">Get To The Point: A Lunar New Year for Guild Wars 2</ExternalLink> or read up on it on the <ExternalLink href="https://wiki.guildwars2.com/wiki/Lunar_New_Year">official Guild Wars 2 Wiki</ExternalLink>.
+        </p>
         <p><Trans id="festival.lunar-new-year.description"/></p>
         <Headline actions={<ItemTableColumnsButton/>} id="items"><Trans id="navigation.items"/></Headline>
         <ItemTable query={{ where: { id: { in: itemIds }}}} defaultColumns={['item', 'rarity', 'type', 'buyPrice', 'buyPriceTrend', 'sellPrice', 'sellPriceTrend']}/>

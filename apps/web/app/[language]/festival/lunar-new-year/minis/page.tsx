@@ -25,6 +25,7 @@ const miniIds = [
   883, // Mini Tortoiseshell Cat
   797, // Mini Lunar Rat
   882, // Mini Dachshund
+  958, // Mini Snake
 ];
 
 const loadData = cache(async function loadData() {

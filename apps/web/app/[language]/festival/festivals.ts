@@ -11,7 +11,10 @@ export interface FestivalInfo {
 
 export function getActiveFestival(): FestivalInfo | undefined {
   const now = new Date();
-  return festivals.find((festival) => isFestivalActive(festival, now));
+  const inThreeHours = new Date(now);
+  inThreeHours.setHours(inThreeHours.getHours() + 3);
+
+  return festivals.find((festival) => isFestivalActive(festival, now) || isFestivalActive(festival, inThreeHours));
 }
 
 export function getFestival(type: Festival): FestivalInfo | undefined {

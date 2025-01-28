@@ -15,7 +15,10 @@ import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import { getAlternateUrls } from '@/lib/url';
 
 const objectiveIds: number[] = [
-  // TODO
+  214, // Complete the Annual New Year Customs Achievement
+  208, // Open the Final Chest of the Celestial Challenge
+  207, // Play a Match in the Dragon Ball Arena
+  209, // Complete the Annual Race Event in Divinity's Reach in Under 3 Minutes and 30 Seconds
 ];
 
 const loadData = cache(async function loadData() {

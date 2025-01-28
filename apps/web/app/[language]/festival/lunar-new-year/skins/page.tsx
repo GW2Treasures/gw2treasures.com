@@ -23,6 +23,9 @@ const skinIds = [
   11994, // Lucky Dragon Short Bow
   11991, // Lucky Dragon Hammer
   11993, // Lucky Dragon Speargun
+  12827, // Jade Serpent Rifle
+  12831, // Jade Serpent Spear
+  12824, // Jade Serpent Dagger
 
   // armor
   10168, // Primal Tiger Hood
@@ -40,6 +43,9 @@ const skinIds = [
   11212, // Embellished Rabbit Vest
   11205, // Embellished Rabbit Vest
   11226, // Embellished Rabbit Vest
+  12819, // Snaketail Breeches
+  12814, // Snaketail Breeches
+  12820, // Snaketail Breeches
   7065, // Lucky Rooster Lantern
   10206, // Lucky Tiger Lantern
   11206, // Lucky Great Rabbit Lantern
@@ -60,6 +66,7 @@ const skinIds = [
   11209, // Lucky Rabbit Lantern
   12003, // Lucky Dragon Lantern
   12007, // Lucky Great Dragon Lantern
+  12828, // Lucky Great Snake Lantern
 ];
 
 const skinSetNames = [
@@ -68,6 +75,7 @@ const skinSetNames = [
   'Shining Aureate weapons',
   'Firework weapons',
   'Fortunate weapons',
+  'Lantern weapons',
 ];
 
 const loadData = cache(async function loadData() {

@@ -1,4 +1,3 @@
-import { LinkButton } from '@gw2treasures/ui/components/Form/Button';
 import { FormatDate } from '@/components/Format/FormatDate';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { HeroLayout } from '@/components/Layout/HeroLayout';
@@ -8,11 +7,12 @@ import { db } from '@/lib/prisma';
 import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { Suspense, cache } from 'react';
-import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { Accounts } from './accounts';
 import { Skeleton } from '@/components/Skeleton/Skeleton';
 import { revalidatePath } from 'next/cache';
 import { SubmitButton } from '@gw2treasures/ui/components/Form/Buttons/SubmitButton';
+import { ExternalLink } from '@gw2treasures/ui/components/Link/ExternalLink';
+import { pageView } from '@/lib/pageView';
 
 const getUserData = cache(async () => {
   const session = await getUser();
@@ -41,13 +41,13 @@ const getUserData = cache(async () => {
 
 export default async function ProfilePage() {
   const { sessionId, user } = await getUserData();
+  await pageView('profile');
 
   return (
     <HeroLayout hero={<Headline id="profile">{user.name}</Headline>} toc>
-      <FlexRow>
-        <LinkButton external href="/logout" icon="logout">Logout</LinkButton>
-        {user.roles.includes('Admin') && <LinkButton href="/admin/users">Admin</LinkButton>}
-      </FlexRow>
+      <p>
+        You can change your username on your <ExternalLink href="https://gw2.me/profile">gw2.me Profile</ExternalLink>.
+      </p>
 
       <Headline id="accounts">Accounts</Headline>
       <Suspense fallback={<Skeleton/>}>
@@ -68,7 +68,7 @@ export default async function ProfilePage() {
             <tr key={session.id}>
               <td>{session.info}{session.id === sessionId && ' (Current Session)'}</td>
               <td><FormatDate relative date={session.createdAt}/></td>
-              <td><FormatDate relative date={session.lastUsed}/></td>
+              <td>{session.id === sessionId ? 'now' : <FormatDate relative date={session.lastUsed}/>}</td>
             </tr>
           ))}
         </tbody>

@@ -61,7 +61,8 @@ const Layout: FC<LayoutProps> = ({ children, language }) => {
             <Link href="/about/legal">Legal</Link> /
             <Link href="/about/privacy">Privacy</Link> /
             <Link href="/status">Status</Link> /
-            <ExternalLink href="https://discord.gg/gvx6ZSE" target="_blank">Discord</ExternalLink>
+            <ExternalLink href="https://bsky.app/profile/gw2treasures.com">Bluesky</ExternalLink> /
+            <ExternalLink href="https://discord.gg/gvx6ZSE">Discord</ExternalLink>
           </div>
         </footer>
       </div>

@@ -10,6 +10,9 @@
   "kubernetes": {
     "fileMatch": ["kubernetes/.+\\.yaml$"]
   },
+  "git-submodules": {
+    "enabled": true
+  },
   "postUpdateOptions": ["pnpmDedupe"],
   "packageRules": [
     {

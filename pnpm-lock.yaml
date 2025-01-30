@@ -88,8 +88,8 @@ importers:
         specifier: 0.4.1
         version: 0.4.1(@gw2api/types@0.0.22)
       '@gw2efficiency/game-data':
-        specifier: 0.1.53
-        version: 0.1.53
+        specifier: 0.1.54
+        version: 0.1.54
       '@gw2me/client':
         specifier: 0.5.3
         version: 0.5.3
@@ -1009,8 +1009,8 @@ packages:
   '@gw2api/types@0.0.22':
     resolution: {integrity: sha512-6/482PBbk4QrUeEdGWDiugG7Rq0kAP6bwjVcEstlwuu9n+7zaRyfny9XWYLcn0i5wX5m59EFGiNHmhG6CuzOxg==}
 
-  '@gw2efficiency/game-data@0.1.53':
-    resolution: {integrity: sha512-G+sUnMCGllRFZlciqpqI1reGJ2RAf+DKxlcv4XliSM6DGkuZZ+eVh5zIQrnm9qZxubCHN6wmrqA/tZpeoGGjFg==}
+  '@gw2efficiency/game-data@0.1.54':
+    resolution: {integrity: sha512-RtZSp69hFXKWJCtgAd4l724ZtvW6CWqPKQCWtWw4rFgpA24Lz6wvtfqnqepi5G638bYmUpjvxaUSXlwQVdahHg==}
 
   '@gw2me/client@0.5.3':
     resolution: {integrity: sha512-QIkatuArwdjlknRrakdOZTApKCsYL2tLh1w3liCeB/9dMuy2+9KcfrCbHrNVAjD/YsHqSyB0ROLyyw5kL6vEcA==}
@@ -4927,7 +4927,7 @@ snapshots:
 
   '@gw2api/types@0.0.22': {}
 
-  '@gw2efficiency/game-data@0.1.53': {}
+  '@gw2efficiency/game-data@0.1.54': {}
 
   '@gw2me/client@0.5.3': {}
 

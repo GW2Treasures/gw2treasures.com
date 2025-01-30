@@ -9,13 +9,14 @@ import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 import { getCanonicalUrl, getDateOrFallback, getDayOfYearIndex, getInstabilities, getTierOrFallback } from './helper';
 import { isTruthy } from '@gw2treasures/helper/is';
 import { DateSelector } from './date-selector';
-import { getAlternateUrls } from '@/lib/url';
+import { getAlternateUrls, getCurrentUrl } from '@/lib/url';
 import { FormatNumber } from '@/components/Format/FormatNumber';
 import { getTranslate } from '@/lib/translate';
 import { PageView } from '@/components/PageView/PageView';
 import { Switch } from '@gw2treasures/ui/components/Form/Switch';
 import type { PageProps } from '@/lib/next';
 import type { Language } from '@gw2treasures/database';
+import ogImage from './fractals-og.png';
 
 
 export default async function FractalsPage({ params, searchParams }: PageProps) {
@@ -84,6 +85,12 @@ export async function generateMetadata({ searchParams, params }: PageProps) {
   return {
     title: t('fractals'),
     alternates: getAlternateUrls(getCanonicalUrl(getTierOrFallback(Array.isArray(tier) ? tier[0] : tier), Array.isArray(date) ? date[0] : date), language),
+    description: t('fractals.description'),
+    keywords: ['fractal', 'Fractals of the Mists', 't1', 't2', 't3', 't4', 'recommended', 'daily', 'challenge', 'today', 'tomorrow', 'weekend', 'agony', 'instability'],
+    openGraph: {
+      images: [{ url: new URL(ogImage.src, await getCurrentUrl()), width: ogImage.width, height: ogImage.height }],
+    },
+    twitter: { card: 'summary_large_image' }
   };
 }
 

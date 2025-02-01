@@ -70,7 +70,7 @@
     "@types/d3-array": "3.2.1",
     "@types/jest": "29.5.14",
     "@types/negotiator": "0.6.3",
-    "@types/node": "22.12.0",
+    "@types/node": "22.13.0",
     "@types/react": "19.0.8",
     "@types/react-dom": "19.0.3",
     "babel-plugin-react-compiler": "19.0.0-beta-e552027-20250112",

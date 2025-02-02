@@ -51,6 +51,7 @@ import { ItemInventoryTable } from '@/components/Item/ItemInventoryTable';
 import { AchievementTable } from '@/components/Achievement/AchievementTable';
 import { Description } from '@/components/Layout/Description';
 import { MiniTable } from '@/components/Mini/MiniTable';
+import { HomesteadRefinedMaterial } from './homestead-refined-material';
 
 export interface ItemPageComponentProps {
   language: Language;
@@ -273,6 +274,8 @@ export const ItemPageComponent: FC<ItemPageComponentProps> = async ({ language, 
           </Table>
         </>
       )}
+
+      <HomesteadRefinedMaterial itemId={itemId}/>
 
       {!fixedRevision && item._count.containedIn > 0 && (
         <ItemTableContext id="containedIn">

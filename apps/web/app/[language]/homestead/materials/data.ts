@@ -131,3 +131,9 @@ export const data: Record<Material, { itemId: number, sources: RefinedSources }>
     }
   }
 };
+
+export const refinedMaterialItemIds = [
+  data.fiber.itemId,
+  data.metal.itemId,
+  data.wood.itemId
+];

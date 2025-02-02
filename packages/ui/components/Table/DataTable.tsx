@@ -10,7 +10,7 @@ export type DataTableRowFilterComponent = FC<DataTableRowFilterComponentProps>;
 
 // table
 export interface DataTableProps<T> {
-  children: Array<ColumnReactElement<T> | DynamicColumnsReactElement<T> | false>,
+  children: Array<ColumnReactElement<T> | DynamicColumnsReactElement<T> | FooterReactElement | false>,
   rowFilter?: DataTableRowFilterComponent,
   collapsed?: boolean | number,
   initialSortBy?: string,
@@ -19,6 +19,7 @@ export interface DataTableProps<T> {
 
 type ColumnReactElement<T> = ReactElement<DataTableColumnProps<T>, FC<DataTableColumnProps<T>>>;
 type DynamicColumnsReactElement<T> = ReactElement<DataTableDynamicColumnsProps<T>, FC<DataTableDynamicColumnsProps<T>>>;
+type FooterReactElement = ReactElement<{ children: ReactNode }, FC<{ children: ReactNode }>>;
 
 export interface DataTableColumnProps<T> extends Pick<HeaderCellProps, 'align' | 'small'> {
   id: string,
@@ -45,6 +46,7 @@ export type DataTable<T> = {
   Column: FC<DataTableColumnProps<T>>,
   DynamicColumns: FC<DataTableDynamicColumnsProps<T>>,
   ColumnSelection: FC<DataTableColumnSelectionProps>,
+  Footer: FC<{ children: ReactNode }>
 };
 
 export function createDataTable<T>(rows: T[], getRowKey: (row: T, index: number) => Key): DataTable<T> {
@@ -61,13 +63,20 @@ export function createDataTable<T>(rows: T[], getRowKey: (row: T, index: number)
     return <DataTableClientColumnSelection id={datatableId} reset={reset}>{children}</DataTableClientColumnSelection>;
   };
 
+  const Footer: FC<{ children: ReactNode }> = ({ children }) => {
+    return <tfoot><tr>{children}</tr></tfoot>;
+  };
+
   function isStaticColumn(child: ReactElement): child is ColumnReactElement<T> {
     return child.type === Column;
   }
 
   return {
     Table: function DataTable({ children, rowFilter, collapsed = false, ...props }: DataTableProps<T>) {
-      const columns = children.filter(isTruthy);
+      const columnsOrFooter = children.filter(isTruthy);
+
+      const footer = columnsOrFooter.filter(({ type }) => type === Footer);
+      const columns = columnsOrFooter.filter((c) => !footer.includes(c)) as Array<ColumnReactElement<T> | DynamicColumnsReactElement<T>>;
 
       if(columns.some((child) => child.type !== Column && child.type !== DynamicColumns)) {
         throw new Error('Column and DynamicColumns are the only allowed children of DataTable');
@@ -126,6 +135,7 @@ export function createDataTable<T>(rows: T[], getRowKey: (row: T, index: number)
                 })}
               </DataTableClientRows>
             </tbody>
+            {footer}
           </Table>
         </DataTableClient>
       );
@@ -133,6 +143,7 @@ export function createDataTable<T>(rows: T[], getRowKey: (row: T, index: number)
     Column,
     DynamicColumns,
     ColumnSelection,
+    Footer,
   };
 }
 

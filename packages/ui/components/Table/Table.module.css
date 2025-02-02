@@ -10,16 +10,24 @@
   width: auto;
 }
 
-.table > thead > tr > th {
-  border-bottom: 3px solid var(--color-border);
+.table > thead > tr > th,
+.table > tfoot > tr > td {
   padding: 8px 16px;
   font-weight: 500;
   text-align: left;
   background: var(--color-background);
   position: sticky;
-  top: var(--table-sticky-top, 48px);
   z-index: 1;
   white-space: nowrap;
+}
+
+.table > thead > tr > th {
+  border-bottom: 3px solid var(--color-border);
+  top: var(--table-sticky-top, 48px);
+}
+.table > tfoot > tr > td {
+  border-top: 3px solid var(--color-border);
+  bottom: 0;
 }
 
 .table > tbody > tr > td,
@@ -35,6 +43,7 @@
 }
 
 .table > thead > tr > th[align=right],
+.table > tfoot > tr > td[align=right],
 .table > tbody > tr > td[align=right],
 .table > tbody > tr > th[align=right] {
   text-align: right;

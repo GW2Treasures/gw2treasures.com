@@ -7,7 +7,7 @@ import { MenuList } from '../Layout/MenuList';
 import { Separator } from '../Layout/Separator';
 import { DataTableGlobalContext, type AvailableColumn } from './DataTableContext';
 import { Table, type HeaderCellProps } from './Table';
-import { useState, type FC, type ReactNode, createContext, useCallback, useContext, useEffect, useMemo, type ThHTMLAttributes } from 'react';
+import { useState, type FC, type ReactNode, createContext, useCallback, useContext, useEffect, useMemo, type ThHTMLAttributes, type TdHTMLAttributes } from 'react';
 import { TableCollapse } from './TableCollapse';
 
 type DataTableContext = { id: string, sortBy: string | undefined, sortOrder: 'asc' | 'desc', visibleColumns: string[], interacted: boolean };
@@ -146,4 +146,16 @@ const useCurrentColumns = (id: string) => {
 
     return { currentAvailableColumns, defaultColumns, currentColumns };
   }, [availableColumns, columns, id]);
+};
+
+export const DataTableFooterTd: FC<TdHTMLAttributes<HTMLTableCellElement>> = ({ colSpan: requestedColspan, ...props }) => {
+  const { state: { visibleColumns }} = useContext(DataTableContext);
+
+  const colSpan = requestedColspan && requestedColspan < 0
+    ? visibleColumns.length + requestedColspan
+    : requestedColspan;
+
+  return (
+    <td colSpan={colSpan} {...props}/>
+  );
 };

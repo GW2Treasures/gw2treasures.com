@@ -16,7 +16,7 @@ import { Switch } from '@gw2treasures/ui/components/Form/Switch';
 import type { PageProps } from '@/lib/next';
 import { UnknownItem } from '@/components/Item/UnknownItem';
 import type { Metadata } from 'next';
-import { getAlternateUrls } from '@/lib/url';
+import { getAlternateUrls, getCurrentUrl } from '@/lib/url';
 import { translate } from '@/lib/translate';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { getSearchParamAsNumber, type SearchParams } from '@/lib/searchParams';
@@ -27,6 +27,7 @@ import { Coins } from '@/components/Format/Coins';
 import { Fraction } from '@/components/Format/Fraction';
 import { ResetTimer } from '@/components/Reset/ResetTimer';
 import { Badge } from '@/components/Badge/Badge';
+import ogImage from './materials-og.png';
 
 const getItems = cache(
   async (ids: number[]) => {
@@ -98,7 +99,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: translate('homestead.materials', language),
     description: translate('homestead.materials.description', language),
     // make sure the efficiency query parameter is not part of the canonical URL, so only the default gets indexed by search engines
-    alternates: getAlternateUrls('/homestead/materials', language)
+    alternates: getAlternateUrls('/homestead/materials', language),
+    keywords: ['homestead', 'home instance', 'decorations', 'materials', 'Metal', 'Wood', 'Fiber', 'crafting', 'refinement', 'trade', 'vendor', 'currency', 'tradingpost', 'tp', 'cheap', 'cheapest', 'best'],
+    openGraph: {
+      images: [{ url: new URL(ogImage.src, await getCurrentUrl()), width: ogImage.width, height: ogImage.height }],
+    },
+    twitter: { card: 'summary_large_image' }
   };
 }
 

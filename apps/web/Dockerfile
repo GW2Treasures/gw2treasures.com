@@ -5,6 +5,8 @@ ARG node_version=22.13.1-alpine3.21
 ARG turbo_version=2.4.0
 # renovate: datasource=npm packageName=sharp
 ARG sharp_version=0.33.5
+# renovate: datasource=npm packageName=pnpm
+ARG pnpm_version=9.15.4
 
 
 # common base for all stages
@@ -18,33 +20,35 @@ RUN apk add --no-cache libc6-compat
 # create pruned source files
 FROM --platform=$BUILDPLATFORM base AS source
 ARG turbo_version
+ARG pnpm_version
 WORKDIR /source
 COPY --link package.json pnpm-*.yaml ./
-RUN corepack enable && corepack install
+RUN npm i -g pnpm@${pnpm_version} turbo@${turbo_version}
 COPY --link . .
-RUN pnpx turbo@${turbo_version} prune web --docker
+RUN turbo prune web --docker
 
 
 # Install dependencies (on TARGETPLATFORM)
 FROM base AS dependencies
+ARG pnpm_version
 WORKDIR /app
 
 # add package.json and lockfile
 COPY --link --from=source /source/out/json/ .
 
-RUN corepack enable && pnpm install --frozen-lockfile
+RUN npm i -g pnpm@${pnpm_version} && pnpm install --frozen-lockfile
 
 
 # Build application on BUILDPLATFORM for speed
 FROM --platform=$BUILDPLATFORM base AS builder
-ARG TARGETPLATFORM
+ARG pnpm_version
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 ENV SKIP_LINT=true
 ENV SKIP_TYPES=true
 
 COPY --link --from=source /source/out/json/ .
-RUN corepack enable && corepack install
+RUN npm i -g pnpm@${pnpm_version}
 
 # copy dependencies and source
 COPY --link --from=dependencies /app .

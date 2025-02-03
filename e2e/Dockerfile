@@ -1,7 +1,8 @@
 # syntax=docker/dockerfile:1.13
 
 ARG node_version=22.13.1-alpine3.21
-
+# renovate: datasource=npm packageName=pnpm
+ARG pnpm_version=9.15.4
 
 # common base for all stages
 FROM node:${node_version} AS base
@@ -13,15 +14,17 @@ RUN apk add --no-cache libc6-compat
 # create pruned source files
 FROM base AS source
 ARG turbo_version
+ARG pnpm_version
 WORKDIR /source
 COPY --link package.json pnpm-*.yaml ./
-RUN corepack enable && corepack install
+RUN npm i -g pnpm@${pnpm_version} turbo@${turbo_version}
 COPY --link . .
-RUN pnpx turbo@${turbo_version} prune e2e --docker
+RUN turbo prune e2e --docker
 
 
 # final image
 FROM mcr.microsoft.com/playwright:v1.50.1-jammy AS tester
+ARG pnpm_version
 WORKDIR /app
 
 ENV CI=true
@@ -29,7 +32,7 @@ ENV CI=true
 COPY --link --from=source /source/out/json/ .
 
 # install dependencies
-RUN corepack enable && pnpm install --frozen-lockfile
+RUN npm i -g pnpm@${pnpm_version} && pnpm install --frozen-lockfile
 
 # add source
 COPY --link --from=source /source/out/full/ .

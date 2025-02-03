@@ -15,7 +15,7 @@
     "dist/"
   ],
   "scripts": {
-    "build": "ts-node build",
+    "build": "ts-node build.ts",
     "publish-package": "gw2treasures-publish-package"
   },
   "repository": {

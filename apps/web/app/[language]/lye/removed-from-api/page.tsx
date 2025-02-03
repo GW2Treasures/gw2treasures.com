@@ -22,6 +22,7 @@ export default async function LyeRemovedFromApi() {
     db.achievement.count({ where: { removedFromApi: true }}),
     db.item.findMany({
       where: { removedFromApi: true, createdAt: { gte: after }},
+      orderBy: { createdAt: 'desc' },
       select: {
         ...linkProperties,
         createdAt: true,
@@ -30,6 +31,7 @@ export default async function LyeRemovedFromApi() {
     }),
     db.skin.findMany({
       where: { removedFromApi: true, createdAt: { gte: after }},
+      orderBy: { createdAt: 'desc' },
       select: {
         ...linkProperties,
         createdAt: true,
@@ -38,6 +40,7 @@ export default async function LyeRemovedFromApi() {
     }),
     db.achievement.findMany({
       where: { removedFromApi: true, createdAt: { gte: afterAchievements }},
+      orderBy: { createdAt: 'desc' },
       select: {
         ...linkPropertiesWithoutRarity,
         createdAt: true,
@@ -46,6 +49,7 @@ export default async function LyeRemovedFromApi() {
     }),
     db.skill.findMany({
       where: { removedFromApi: true, createdAt: { gte: after }},
+      orderBy: { createdAt: 'desc' },
       select: {
         ...linkPropertiesWithoutRarity,
         createdAt: true,
@@ -76,10 +80,10 @@ export default async function LyeRemovedFromApi() {
       <p>These items added to the API after <FormatDate date={after}/> are currently not available.</p>
 
       <Items.Table>
-        <Items.Column id="id" title={<Trans id="itemTable.column.id"/>} fixed small align="right">{({ id }) => id}</Items.Column>
+        <Items.Column id="id" title={<Trans id="itemTable.column.id"/>} fixed small align="right" sortBy="id">{({ id }) => id}</Items.Column>
         <Items.Column id="item" title={<Trans id="itemTable.column.item"/>} fixed>{(item) => <ItemLink item={item}/>}</Items.Column>
-        <Items.Column id="createdAt" title="Added at" fixed small>{({ createdAt }) => <FormatDate date={createdAt}/>}</Items.Column>
-        <Items.Column id="removedAt" title="Removed at" fixed small>{({ current_en }) => <FormatDate date={current_en.createdAt}/>}</Items.Column>
+        <Items.Column id="createdAt" title="Added at" fixed small sortBy="createdAt">{({ createdAt }) => <FormatDate date={createdAt}/>}</Items.Column>
+        <Items.Column id="removedAt" title="Removed at" fixed small sortBy={({ current_en }) => current_en.createdAt}>{({ current_en }) => <FormatDate date={current_en.createdAt}/>}</Items.Column>
       </Items.Table>
 
 
@@ -96,10 +100,10 @@ export default async function LyeRemovedFromApi() {
       <p>These skins added to the API after <FormatDate date={after}/> are currently not available.</p>
 
       <Skins.Table>
-        <Skins.Column id="id" title="ID" fixed small align="right">{({ id }) => id}</Skins.Column>
+        <Skins.Column id="id" title="ID" fixed small align="right" sortBy="id">{({ id }) => id}</Skins.Column>
         <Skins.Column id="skin" title="Skin" fixed>{(skin) => <SkinLink skin={skin}/>}</Skins.Column>
-        <Skins.Column id="createdAt" title="Added at" fixed small>{({ createdAt }) => <FormatDate date={createdAt}/>}</Skins.Column>
-        <Skins.Column id="removedAt" title="Removed at" fixed small>{({ current_en }) => <FormatDate date={current_en.createdAt}/>}</Skins.Column>
+        <Skins.Column id="createdAt" title="Added at" fixed small sortBy="createdAt">{({ createdAt }) => <FormatDate date={createdAt}/>}</Skins.Column>
+        <Skins.Column id="removedAt" title="Removed at" fixed small sortBy={({ current_en }) => current_en.createdAt}>{({ current_en }) => <FormatDate date={current_en.createdAt}/>}</Skins.Column>
       </Skins.Table>
 
 
@@ -116,10 +120,10 @@ export default async function LyeRemovedFromApi() {
       <p>These achievements added to the API after <FormatDate date={afterAchievements}/> are currently not available.</p>
 
       <Achievements.Table>
-        <Achievements.Column id="id" title="ID" fixed small align="right">{({ id }) => id}</Achievements.Column>
+        <Achievements.Column id="id" title="ID" fixed small align="right" sortBy="id">{({ id }) => id}</Achievements.Column>
         <Achievements.Column id="achievement" title="Achievement" fixed>{(achievement) => <AchievementLink achievement={achievement}/>}</Achievements.Column>
-        <Achievements.Column id="createdAt" title="Added at" fixed small>{({ createdAt }) => <FormatDate date={createdAt}/>}</Achievements.Column>
-        <Achievements.Column id="removedAt" title="Removed at" fixed small>{({ current_en }) => <FormatDate date={current_en.createdAt}/>}</Achievements.Column>
+        <Achievements.Column id="createdAt" title="Added at" fixed small sortBy="createdAt">{({ createdAt }) => <FormatDate date={createdAt}/>}</Achievements.Column>
+        <Achievements.Column id="removedAt" title="Removed at" fixed small sortBy={({ current_en }) => current_en.createdAt}>{({ current_en }) => <FormatDate date={current_en.createdAt}/>}</Achievements.Column>
       </Achievements.Table>
 
 
@@ -136,10 +140,10 @@ export default async function LyeRemovedFromApi() {
       <p>These skills added to the API after <FormatDate date={after}/> are currently not available.</p>
 
       <Skills.Table>
-        <Skills.Column id="id" title="ID" fixed small align="right">{({ id }) => id}</Skills.Column>
+        <Skills.Column id="id" title="ID" fixed small align="right" sortBy="id">{({ id }) => id}</Skills.Column>
         <Skills.Column id="skill" title="Skill" fixed>{(skill) => <SkillLink skill={skill}/>}</Skills.Column>
-        <Skills.Column id="createdAt" title="Added at" fixed small>{({ createdAt }) => <FormatDate date={createdAt}/>}</Skills.Column>
-        <Skills.Column id="removedAt" title="Removed at" fixed small>{({ current_en }) => <FormatDate date={current_en.createdAt}/>}</Skills.Column>
+        <Skills.Column id="createdAt" title="Added at" fixed small sortBy="createdAt">{({ createdAt }) => <FormatDate date={createdAt}/>}</Skills.Column>
+        <Skills.Column id="removedAt" title="Removed at" fixed small sortBy={({ current_en }) => current_en.createdAt}>{({ current_en }) => <FormatDate date={current_en.createdAt}/>}</Skills.Column>
       </Skills.Table>
     </PageLayout>
   );

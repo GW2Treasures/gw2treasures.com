@@ -13,7 +13,7 @@ import { CopyButton } from '@gw2treasures/ui/components/Form/Buttons/CopyButton'
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
 
-const after = new Date('2024-01-01T00:00:00.000Z');
+const after = new Date('2023-01-01T00:00:00.000Z');
 const afterAchievements = new Date('2024-03-28T00:00:00.000Z');
 
 export default async function LyeRemovedFromApi() {
@@ -26,7 +26,6 @@ export default async function LyeRemovedFromApi() {
         ...linkProperties,
         createdAt: true,
         current_en: { select: { createdAt: true }},
-        _count: { select: { history: { where: { revision: { type: 'Removed', language: 'en' }}}}}
       }
     }),
     db.skin.findMany({
@@ -35,7 +34,6 @@ export default async function LyeRemovedFromApi() {
         ...linkProperties,
         createdAt: true,
         current_en: { select: { createdAt: true }},
-        _count: { select: { history: { where: { revision: { type: 'Removed', language: 'en' }}}}}
       }
     }),
     db.achievement.findMany({
@@ -44,7 +42,6 @@ export default async function LyeRemovedFromApi() {
         ...linkPropertiesWithoutRarity,
         createdAt: true,
         current_en: { select: { createdAt: true }},
-        _count: { select: { history: { where: { revision: { type: 'Removed', language: 'en' }}}}}
       }
     }),
     db.skill.findMany({
@@ -53,7 +50,6 @@ export default async function LyeRemovedFromApi() {
         ...linkPropertiesWithoutRarity,
         createdAt: true,
         current_en: { select: { createdAt: true }},
-        _count: { select: { history: { where: { revision: { type: 'Removed', language: 'en' }}}}}
       }
     })
   ]);
@@ -65,7 +61,7 @@ export default async function LyeRemovedFromApi() {
 
   return (
     <PageLayout>
-      <p>This page shows items, skins, achievements and skills that were added to the API recently but disappeared again. There are way more items (currently {removedItems}) and achievements (currently {removedAchievements}) missing that were added earlier (mostly caused by the whitelist wipe in 2014).</p>
+      <p>This page shows items, skins, achievements and skills that were added to the API recently but disappeared again. There are way more items (currently <FormatNumber value={removedItems}/>) and achievements (currently <FormatNumber value={removedAchievements}/>) missing that were added earlier (mostly caused by the whitelist wipe in 2014).</p>
 
       <Headline id="items" actions={(
         <>
@@ -84,7 +80,6 @@ export default async function LyeRemovedFromApi() {
         <Items.Column id="item" title={<Trans id="itemTable.column.item"/>} fixed>{(item) => <ItemLink item={item}/>}</Items.Column>
         <Items.Column id="createdAt" title="Added at" fixed small>{({ createdAt }) => <FormatDate date={createdAt}/>}</Items.Column>
         <Items.Column id="removedAt" title="Removed at" fixed small>{({ current_en }) => <FormatDate date={current_en.createdAt}/>}</Items.Column>
-        <Items.Column id="removeCount" title="Remove count" fixed small align="right">{({ _count }) => <FormatNumber value={_count.history}/>}</Items.Column>
       </Items.Table>
 
 
@@ -105,7 +100,6 @@ export default async function LyeRemovedFromApi() {
         <Skins.Column id="skin" title="Skin" fixed>{(skin) => <SkinLink skin={skin}/>}</Skins.Column>
         <Skins.Column id="createdAt" title="Added at" fixed small>{({ createdAt }) => <FormatDate date={createdAt}/>}</Skins.Column>
         <Skins.Column id="removedAt" title="Removed at" fixed small>{({ current_en }) => <FormatDate date={current_en.createdAt}/>}</Skins.Column>
-        <Skins.Column id="removeCount" title="Remove count" fixed small align="right">{({ _count }) => <FormatNumber value={_count.history}/>}</Skins.Column>
       </Skins.Table>
 
 
@@ -126,7 +120,6 @@ export default async function LyeRemovedFromApi() {
         <Achievements.Column id="achievement" title="Achievement" fixed>{(achievement) => <AchievementLink achievement={achievement}/>}</Achievements.Column>
         <Achievements.Column id="createdAt" title="Added at" fixed small>{({ createdAt }) => <FormatDate date={createdAt}/>}</Achievements.Column>
         <Achievements.Column id="removedAt" title="Removed at" fixed small>{({ current_en }) => <FormatDate date={current_en.createdAt}/>}</Achievements.Column>
-        <Achievements.Column id="removeCount" title="Remove count" fixed small align="right">{({ _count }) => <FormatNumber value={_count.history}/>}</Achievements.Column>
       </Achievements.Table>
 
 
@@ -147,7 +140,6 @@ export default async function LyeRemovedFromApi() {
         <Skills.Column id="skill" title="Skill" fixed>{(skill) => <SkillLink skill={skill}/>}</Skills.Column>
         <Skills.Column id="createdAt" title="Added at" fixed small>{({ createdAt }) => <FormatDate date={createdAt}/>}</Skills.Column>
         <Skills.Column id="removedAt" title="Removed at" fixed small>{({ current_en }) => <FormatDate date={current_en.createdAt}/>}</Skills.Column>
-        <Skills.Column id="removeCount" title="Remove count" fixed small align="right">{({ _count }) => <FormatNumber value={_count.history}/>}</Skills.Column>
       </Skills.Table>
     </PageLayout>
   );

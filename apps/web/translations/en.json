@@ -245,6 +245,7 @@
   "weight.Heavy": "Heavy",
   "weight.Clothing": "Clothing",
   "actions": "Actions",
+  "wizards-vault.description": "View and track your personal Wizard's Vault objectives.",
   "homestead.nodes": "Nodes",
   "homestead.nodes.description": "Nodes can be unlocked for your homestead and home instance. They can be collected once per day.",
   "homestead.cats": "Cats",

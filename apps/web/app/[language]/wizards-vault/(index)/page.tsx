@@ -10,6 +10,10 @@ import { PageLayout } from '@/components/Layout/PageLayout';
 import { cache } from '@/lib/cache';
 import { localizedName } from '@/lib/localizedName';
 import type { PageProps } from '@/lib/next';
+import { getTranslate } from '@/lib/translate';
+import type { Metadata } from 'next';
+import { getAlternateUrls, getCurrentUrl } from '@/lib/url';
+import ogImage from './wizards-vault-og.png';
 
 const getData = cache(async () => {
   const now = new Date();
@@ -42,6 +46,19 @@ export default async function WizardsVaultPage({ params }: PageProps) {
   );
 }
 
-export const metadata = {
-  title: 'Wizard\'s Vault'
-};
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { language } = await params;
+  const t = await getTranslate(language);
+
+  return {
+    title: t('navigation.wizardsVault'),
+    description: t('wizards-vault.description'),
+    alternates: getAlternateUrls('/wizards-vault', language),
+    keywords: ['wizards vault', 'season', 'rewards', 'objectives', 'reset', 'daily', 'weekly', 'special', 'track', 'PvE', 'PvP', 'WvW', 'AA', 'Astral Acclaim'],
+    openGraph: {
+      images: [{ url: new URL(ogImage.src, await getCurrentUrl()), width: ogImage.width, height: ogImage.height }],
+    },
+    twitter: { card: 'summary_large_image' }
+  };
+}

@@ -67,14 +67,14 @@ importers:
   apps/web:
     dependencies:
       '@dnd-kit/abstract':
-        specifier: 0.0.7
-        version: 0.0.7
+        specifier: 0.0.8
+        version: 0.0.8
       '@dnd-kit/helpers':
-        specifier: 0.0.7
-        version: 0.0.7
+        specifier: 0.0.8
+        version: 0.0.8
       '@dnd-kit/react':
-        specifier: 0.0.7
-        version: 0.0.7(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+        specifier: 0.0.8
+        version: 0.0.8(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@floating-ui/react':
         specifier: 0.27.3
         version: 0.27.3(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -772,29 +772,29 @@ packages:
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
     engines: {node: '>=12'}
 
-  '@dnd-kit/abstract@0.0.7':
-    resolution: {integrity: sha512-ZkcoCzL+rg9BDygXqUPdtoYH7ziATwqx8BmbNPWvQT7KvitYbN2OzPPaoChB9EWdkC1M+u0bFlPqkFPyVs8Eig==}
+  '@dnd-kit/abstract@0.0.8':
+    resolution: {integrity: sha512-af1/ThH13o5pSLgYWjnYFPeiilI4EFEg5VySxB5QwXvtKdYOatL2SlvSHG7arVaXybCgrpehES4ocZ7Rxm5E2w==}
 
-  '@dnd-kit/collision@0.0.7':
-    resolution: {integrity: sha512-iGUJubS3IJNJUu1lk61pjlyi9iVdLTM9AQ1IJlychJIS57wo0HGUVH2N1Mfii4gSoZSb7Hi8Fo27N3JZzW0Obg==}
+  '@dnd-kit/collision@0.0.8':
+    resolution: {integrity: sha512-BDm5viVhhg1GMxmS6lkseypI7AlKOY0s/OXodwBA01OCS/WCLjYPU5/pjsBtguVf0Juc5s2cJCWLI6vvOEqJwg==}
 
-  '@dnd-kit/dom@0.0.7':
-    resolution: {integrity: sha512-ks9ABusv1ArfkY2tvUK3ce5d3H/wbwbDkPLK7d2YWwRgATEBJgISSI7t+4eVnvrtxfX0lVoorGgS9hqeambBrQ==}
+  '@dnd-kit/dom@0.0.8':
+    resolution: {integrity: sha512-VgGxCMEhTnMdra5NdFVXtCgc0X3tznyq67htrtdrK9wSuhyeqtpjrmvntKyAM1OJRxvkkeO407asCxSSgKbpGw==}
 
-  '@dnd-kit/geometry@0.0.7':
-    resolution: {integrity: sha512-lVmDzj8MoUHNUVcE6CY295mvP06coNMsC03qdDqzKLZv6+h/dOwfUw0fbXAcSdcLcjCrwQIPbVkl3pGP6qYYIg==}
+  '@dnd-kit/geometry@0.0.8':
+    resolution: {integrity: sha512-snHsnm6YpBPVK2dyjkkynSm7ZpkMrqC8PM26ajuSnCg6I1SOLpqDMxGvGW6skUVzVXkbHBc/LEfB9NB/N3pqVA==}
 
-  '@dnd-kit/helpers@0.0.7':
-    resolution: {integrity: sha512-hhwqCOoeDi+ZQ2pXKIqncoJqfFS+EQD4QeKfNWXHnM+yND7Ok0ZusuHrdViQ++CutZ/C9WtPeFGlciBNBOD18A==}
+  '@dnd-kit/helpers@0.0.8':
+    resolution: {integrity: sha512-pO4AfYIR2gs462McfFofif+E/u9oe3IMK4TAkv9PN3oeb45bnCeGb7di1Uoi8xfzrY0rXevyjxRI7inWnm4fUw==}
 
-  '@dnd-kit/react@0.0.7':
-    resolution: {integrity: sha512-S9NVAUusqUrYSGW93ymn5k6rVFvRk5OOa7tN3u6Ft1xuJsVDUXDAGwfGLha/fP2QY7pb6D/XOB9J7rJuGOmc5A==}
+  '@dnd-kit/react@0.0.8':
+    resolution: {integrity: sha512-NHNvGJDjsa3XjOiONB+Q6RAmhYkLBzgnoE2Ad8TuZWzUm41XZzLg04TotvHI8j2kSf/JAJZn2kiuz5rCwfCpCA==}
     peerDependencies:
       react: 19.0.0
       react-dom: 19.0.0
 
-  '@dnd-kit/state@0.0.7':
-    resolution: {integrity: sha512-X0axADwstfpZP5Vl4yawrvV1Kwk3W4XSNkp/kBIE9ovn6jr4QSAqHJN9XvR0N5L7ciffJC1IG3EA/T4fhcRM4Q==}
+  '@dnd-kit/state@0.0.8':
+    resolution: {integrity: sha512-n2wnAwN3dWJC6wRe6SKxWPP7q4bmQQdhKGiGovS7tju57cy5i/3xAYYR1ZdtqNVNjE46u0iYlixcB55L9kD78g==}
 
   '@emnapi/runtime@1.2.0':
     resolution: {integrity: sha512-bV21/9LQmcQeCPEg3BDFtvwL6cwiTMksYNWQQ4KOxCZikEGalWtenoZ0wCiukJINlGCIi2KXx01g4FoH/LxpzQ==}
@@ -4696,46 +4696,46 @@ snapshots:
     dependencies:
       '@jridgewell/trace-mapping': 0.3.9
 
-  '@dnd-kit/abstract@0.0.7':
+  '@dnd-kit/abstract@0.0.8':
     dependencies:
-      '@dnd-kit/geometry': 0.0.7
-      '@dnd-kit/state': 0.0.7
+      '@dnd-kit/geometry': 0.0.8
+      '@dnd-kit/state': 0.0.8
       tslib: 2.8.1
 
-  '@dnd-kit/collision@0.0.7':
+  '@dnd-kit/collision@0.0.8':
     dependencies:
-      '@dnd-kit/abstract': 0.0.7
-      '@dnd-kit/geometry': 0.0.7
+      '@dnd-kit/abstract': 0.0.8
+      '@dnd-kit/geometry': 0.0.8
       tslib: 2.8.1
 
-  '@dnd-kit/dom@0.0.7':
+  '@dnd-kit/dom@0.0.8':
     dependencies:
-      '@dnd-kit/abstract': 0.0.7
-      '@dnd-kit/collision': 0.0.7
-      '@dnd-kit/geometry': 0.0.7
-      '@dnd-kit/state': 0.0.7
+      '@dnd-kit/abstract': 0.0.8
+      '@dnd-kit/collision': 0.0.8
+      '@dnd-kit/geometry': 0.0.8
+      '@dnd-kit/state': 0.0.8
       tslib: 2.8.1
 
-  '@dnd-kit/geometry@0.0.7':
+  '@dnd-kit/geometry@0.0.8':
     dependencies:
-      '@dnd-kit/state': 0.0.7
+      '@dnd-kit/state': 0.0.8
       tslib: 2.8.1
 
-  '@dnd-kit/helpers@0.0.7':
+  '@dnd-kit/helpers@0.0.8':
     dependencies:
-      '@dnd-kit/abstract': 0.0.7
+      '@dnd-kit/abstract': 0.0.8
       tslib: 2.8.1
 
-  '@dnd-kit/react@0.0.7(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
+  '@dnd-kit/react@0.0.8(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
     dependencies:
-      '@dnd-kit/abstract': 0.0.7
-      '@dnd-kit/dom': 0.0.7
-      '@dnd-kit/state': 0.0.7
+      '@dnd-kit/abstract': 0.0.8
+      '@dnd-kit/dom': 0.0.8
+      '@dnd-kit/state': 0.0.8
       react: 19.0.0
       react-dom: 19.0.0(react@19.0.0)
       tslib: 2.8.1
 
-  '@dnd-kit/state@0.0.7':
+  '@dnd-kit/state@0.0.8':
     dependencies:
       '@preact/signals-core': 1.8.0
       tslib: 2.8.1
@@ -6550,7 +6550,7 @@ snapshots:
       '@typescript-eslint/parser': 8.23.0(eslint@9.19.0)(typescript@5.7.3)
       eslint: 9.19.0
       eslint-import-resolver-node: 0.3.9
-      eslint-import-resolver-typescript: 3.6.3(@typescript-eslint/parser@8.23.0(eslint@9.19.0)(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.23.0(eslint@9.19.0)(typescript@5.7.3))(eslint@9.19.0))(eslint@9.19.0)
+      eslint-import-resolver-typescript: 3.6.3(@typescript-eslint/parser@8.23.0(eslint@9.19.0)(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.31.0)(eslint@9.19.0)
       eslint-plugin-import: 2.31.0(@typescript-eslint/parser@8.23.0(eslint@9.19.0)(typescript@5.7.3))(eslint-import-resolver-typescript@3.6.3)(eslint@9.19.0)
       eslint-plugin-jsx-a11y: 6.10.0(eslint@9.19.0)
       eslint-plugin-react: 7.37.4(eslint@9.19.0)
@@ -6583,13 +6583,13 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-import-resolver-typescript@3.6.3(@typescript-eslint/parser@8.23.0(eslint@9.19.0)(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.23.0(eslint@9.19.0)(typescript@5.7.3))(eslint@9.19.0))(eslint@9.19.0):
+  eslint-import-resolver-typescript@3.6.3(@typescript-eslint/parser@8.23.0(eslint@9.19.0)(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.31.0)(eslint@9.19.0):
     dependencies:
       '@nolyfill/is-core-module': 1.0.39
       debug: 4.3.7
       enhanced-resolve: 5.17.0
       eslint: 9.19.0
-      eslint-module-utils: 2.12.0(@typescript-eslint/parser@8.23.0(eslint@9.19.0)(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.3(@typescript-eslint/parser@8.23.0(eslint@9.19.0)(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.23.0(eslint@9.19.0)(typescript@5.7.3))(eslint@9.19.0))(eslint@9.19.0))(eslint@9.19.0)
+      eslint-module-utils: 2.12.0(@typescript-eslint/parser@8.23.0(eslint@9.19.0)(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.3)(eslint@9.19.0)
       fast-glob: 3.3.2
       get-tsconfig: 4.7.5
       is-bun-module: 1.1.0
@@ -6602,14 +6602,14 @@ snapshots:
       - eslint-import-resolver-webpack
       - supports-color
 
-  eslint-module-utils@2.12.0(@typescript-eslint/parser@8.23.0(eslint@9.19.0)(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.3(@typescript-eslint/parser@8.23.0(eslint@9.19.0)(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.23.0(eslint@9.19.0)(typescript@5.7.3))(eslint@9.19.0))(eslint@9.19.0))(eslint@9.19.0):
+  eslint-module-utils@2.12.0(@typescript-eslint/parser@8.23.0(eslint@9.19.0)(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.3)(eslint@9.19.0):
     dependencies:
       debug: 3.2.7
     optionalDependencies:
       '@typescript-eslint/parser': 8.23.0(eslint@9.19.0)(typescript@5.7.3)
       eslint: 9.19.0
       eslint-import-resolver-node: 0.3.9
-      eslint-import-resolver-typescript: 3.6.3(@typescript-eslint/parser@8.23.0(eslint@9.19.0)(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.23.0(eslint@9.19.0)(typescript@5.7.3))(eslint@9.19.0))(eslint@9.19.0)
+      eslint-import-resolver-typescript: 3.6.3(@typescript-eslint/parser@8.23.0(eslint@9.19.0)(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.31.0)(eslint@9.19.0)
     transitivePeerDependencies:
       - supports-color
 
@@ -6624,7 +6624,7 @@ snapshots:
       doctrine: 2.1.0
       eslint: 9.19.0
       eslint-import-resolver-node: 0.3.9
-      eslint-module-utils: 2.12.0(@typescript-eslint/parser@8.23.0(eslint@9.19.0)(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.3(@typescript-eslint/parser@8.23.0(eslint@9.19.0)(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.23.0(eslint@9.19.0)(typescript@5.7.3))(eslint@9.19.0))(eslint@9.19.0))(eslint@9.19.0)
+      eslint-module-utils: 2.12.0(@typescript-eslint/parser@8.23.0(eslint@9.19.0)(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.3)(eslint@9.19.0)
       hasown: 2.0.2
       is-core-module: 2.15.1
       is-glob: 4.0.3

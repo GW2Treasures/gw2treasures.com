@@ -35,7 +35,11 @@ function useExtendSession(user: UserProviderProps['user']) {
 
 
 /** Check if the date is within the next 60 days */
-function expiresSoon(date: Date) {
+function expiresSoon(date: Date | undefined) {
+  if(!date) {
+    return true;
+  }
+
   const soon = new Date();
   soon.setDate(soon.getDate() + 60);
 

@@ -12,7 +12,7 @@ export interface SessionUser {
   roles: UserRole[];
   session: {
     id: string,
-    expiresAt: Date,
+    expiresAt?: Date,
   }
 }
 
@@ -25,7 +25,7 @@ export const getUser = cache(async function getUser(): Promise<SessionUser | und
   }
 
   return session
-    ? { ...session.user, session: { id: sessionId!, expiresAt: session.expiresAt }}
+    ? { ...session.user, session: { id: sessionId!, expiresAt: session.expiresAt ?? undefined }}
     : undefined;
 });
 
@@ -41,7 +41,7 @@ async function getSessionFromDb(sessionId: string | null) {
   // update lastUsedAt timestamp,
   // and return with user data
   const [session] = await db.userSession.updateManyAndReturn({
-    where: { id: sessionId, expiresAt: { gte: now }},
+    where: { id: sessionId, OR: [{ expiresAt: { gte: now }}, { expiresAt: null }] },
     data: { lastUsedAt: now },
     select: { expiresAt: true, user: { select: { id: true, name: true, roles: true }}},
   });

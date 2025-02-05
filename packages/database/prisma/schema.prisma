@@ -1408,9 +1408,9 @@ model UserSession {
   user   User @relation("session", fields: [userId], references: [id], onDelete: Cascade)
   userId String
 
-  createdAt  DateTime @default(now())
-  lastUsedAt DateTime @default(now())
-  expiresAt  DateTime @default(dbgenerated("(now() + '1 year'::interval)"))
+  createdAt  DateTime  @default(now())
+  lastUsedAt DateTime  @default(now())
+  expiresAt  DateTime? @default(dbgenerated("(now() + '1 year'::interval)"))
 }
 
 model UserProvider {

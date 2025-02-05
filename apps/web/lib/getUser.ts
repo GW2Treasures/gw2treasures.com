@@ -7,10 +7,13 @@ import { redirect } from 'next/navigation';
 import { UserRole } from '@gw2treasures/database';
 
 export interface SessionUser {
-  sessionId: string;
   id: string;
   name: string;
   roles: UserRole[];
+  session: {
+    id: string,
+    expiresAt: Date,
+  }
 }
 
 export const getUser = cache(async function getUser(): Promise<SessionUser | undefined> {
@@ -21,7 +24,9 @@ export const getUser = cache(async function getUser(): Promise<SessionUser | und
     redirect('/logout');
   }
 
-  return session ? { ...session.user, sessionId: sessionId! } : undefined;
+  return session
+    ? { ...session.user, session: { id: sessionId!, expiresAt: session.expiresAt }}
+    : undefined;
 });
 
 async function getSessionFromDb(sessionId: string | null) {
@@ -29,17 +34,17 @@ async function getSessionFromDb(sessionId: string | null) {
     return undefined;
   }
 
-  const update = await db.userSession.updateMany({
-    where: { id: sessionId },
-    data: { lastUsed: new Date() },
+  // get the current date
+  const now = new Date();
+
+  // find matching session that is not expired,
+  // update lastUsedAt timestamp,
+  // and return with user data
+  const [session] = await db.userSession.updateManyAndReturn({
+    where: { id: sessionId, expiresAt: { gte: now }},
+    data: { lastUsedAt: now },
+    select: { expiresAt: true, user: { select: { id: true, name: true, roles: true }}},
   });
 
-  if(update.count === 1) {
-    return db.userSession.findUnique({
-      where: { id: sessionId },
-      select: { user: { select: { id: true, name: true, roles: true }}}
-    }) ?? undefined;
-  }
-
-  return undefined;
+  return session;
 }

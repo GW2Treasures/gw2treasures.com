@@ -12,7 +12,10 @@ import { ColumnSelect } from '@/components/Table/ColumnSelect';
 const getUsers = cache(() => {
   return db.user.findMany({
     orderBy: { createdAt: 'asc' },
-    include: { sessions: { take: 1, orderBy: { lastUsed: 'desc' }, select: { lastUsed: true }}, providers: { select: { scope: true }, take: 1 }}
+    include: {
+      sessions: { take: 1, orderBy: { lastUsedAt: 'desc' }, select: { lastUsedAt: true }},
+      providers: { select: { scope: true }, take: 1 }
+    }
   });
 });
 
@@ -33,7 +36,7 @@ export default async function AdminUserPage() {
         <Users.Column id="scopes" title="Scopes" hidden>{({ providers }) => <FlexRow wrap>{providers[0].scope.map((scope) => <span key={scope} style={{ backgroundColor: 'var(--color-background-light)', paddingInline: 8, borderRadius: 2, border: '1px solid var(--color-border-dark)', fontSize: 14 }}>{scope}</span>)}</FlexRow>}</Users.Column>
         <Users.Column id="gw2" title="GW2 Linked">{({ providers }) => <Icon icon={providers[0].scope.includes('accounts') ? 'checkmark' : 'cancel'}/>}</Users.Column>
         <Users.Column id="createdAt" title="Created At" sortBy="createdAt">{({ createdAt }) => <FormatDate date={createdAt}/>}</Users.Column>
-        <Users.Column id="session" title="Last access" sortBy={({ sessions }) => sessions[0]?.lastUsed}>{({ sessions }) => sessions.length > 0 ? <FormatDate date={sessions[0].lastUsed}/> : '-'}</Users.Column>
+        <Users.Column id="session" title="Last access" sortBy={({ sessions }) => sessions[0]?.lastUsedAt}>{({ sessions }) => sessions.length > 0 ? <FormatDate date={sessions[0].lastUsedAt}/> : '-'}</Users.Column>
       </Users.Table>
     </PageLayout>
   );

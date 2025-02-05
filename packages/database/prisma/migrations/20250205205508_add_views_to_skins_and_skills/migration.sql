@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "Skill" ADD COLUMN     "views" INTEGER NOT NULL DEFAULT 0;
+
+-- AlterTable
+ALTER TABLE "Skin" ADD COLUMN     "views" INTEGER NOT NULL DEFAULT 0;

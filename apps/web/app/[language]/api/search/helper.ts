@@ -159,7 +159,8 @@ export const searchSkills = cache((terms: string[], chatCodes: ChatCode[]) => {
   return db.skill.findMany({
     where: terms.length + chatCodes.length > 0 ? { OR: [...nameQueries, { id: { in: skillIdsInChatCodes }}] } : undefined,
     take: 5,
-    include: { icon: true }
+    include: { icon: true },
+    orderBy: { views: 'desc' },
   });
 }, ['search', 'search-skills'], { revalidate: 60 });
 
@@ -175,7 +176,8 @@ export const searchSkins = cache((terms: string[], chatCodes: ChatCode[]) => {
   return db.skin.findMany({
     where: terms.length + chatCodes.length > 0 ? { OR: [...nameQueries, { id: { in: skinIdsInChatcodes }}] } : undefined,
     take: 5,
-    include: { icon: true }
+    include: { icon: true },
+    orderBy: { views: 'desc' },
   });
 }, ['search', 'search-skins'], { revalidate: 60 });
 

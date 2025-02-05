@@ -62,6 +62,8 @@ import { HomesteadDecorationCategoriesJob } from './homestead/decoration-categor
 import { HomesteadGlyphsJob } from './homestead/glyphs';
 import { MinisJob } from './minis';
 import { MinisUnlocks } from './minis/unlocks';
+import { SkillsViews } from './skills/views';
+import { SkinsViews } from './skins/views';
 
 const jobsInternal = {
   'test': { run: () => undefined } as Job,
@@ -82,6 +84,7 @@ const jobsInternal = {
   'skills.rediscovered': SkillsRediscovered,
   'skills.update': SkillsUpdate,
   'skills.migrate': SkillsMigrate,
+  'skills.views': SkillsViews,
 
   'skins.check': SkinsCheck,
   'skins.new': skinsNew,
@@ -91,6 +94,7 @@ const jobsInternal = {
   'skins.migrate': SkinsMigrate,
   'skins.unlocks': SkinsUnlocks,
   'skins.wiki': SkinsWikiJob,
+  'skins.views': SkinsViews,
 
   'achievements': AchievementsJob,
   'achievements.unlocks': AchievementsUnlocks,

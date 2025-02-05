@@ -20,11 +20,13 @@ export async function registerCronJobs() {
   await registerJob('skills.check', '*/5 * * * *');
   await registerJob('skills.update', '*/3 * * * *');
   await registerJob('skills.migrate', '*/6 * * * *');
+  await registerJob('skills.views', '51 * * * *');
 
   await registerJob('skins.check', '*/5 * * * *');
   await registerJob('skins.update', '*/3 * * * *');
   await registerJob('skins.migrate', '*/6 * * * *');
   await registerJob('skins.unlocks', '11 * * * *');
+  await registerJob('skins.views', '49 * * * *');
   await registerJob('skins.wiki', '53 * * * *');
 
   await registerJob('achievements', '*/5 * * * *');

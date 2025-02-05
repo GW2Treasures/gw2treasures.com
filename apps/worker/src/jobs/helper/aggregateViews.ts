@@ -14,7 +14,7 @@ type UpdateManyArgs = {
 };
 
 export async function aggregateViews(
-  table: 'item' | 'achievement',
+  table: 'item' | 'achievement' | 'skin' | 'skill',
   findMany: (arg: typeof findManyArg) => PrismaPromise<{ id: number }[]>,
   updateMany: (arg: UpdateManyArgs) => PrismaPromise<unknown>
 ) {

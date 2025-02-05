@@ -15,16 +15,16 @@ import { ExternalLink } from '@gw2treasures/ui/components/Link/ExternalLink';
 import { pageView } from '@/lib/pageView';
 
 const getUserData = cache(async () => {
-  const session = await getUser();
+  const userSession = await getUser();
 
-  if(!session) {
+  if(!userSession) {
     redirect('/login');
   }
 
   const user = await db.user.findUnique({
-    where: { id: session.id },
+    where: { id: userSession.id },
     include: {
-      sessions: { orderBy: { lastUsed: 'desc' }},
+      sessions: { orderBy: { lastUsedAt: 'desc' }, where: { expiresAt: { gte: new Date() }}},
       providers: true
     },
   });
@@ -34,7 +34,7 @@ const getUserData = cache(async () => {
   }
 
   return {
-    sessionId: session.sessionId,
+    sessionId: userSession.session.id,
     user,
   };
 });
@@ -68,7 +68,7 @@ export default async function ProfilePage() {
             <tr key={session.id}>
               <td>{session.info}{session.id === sessionId && ' (Current Session)'}</td>
               <td><FormatDate relative date={session.createdAt}/></td>
-              <td>{session.id === sessionId ? 'now' : <FormatDate relative date={session.lastUsed}/>}</td>
+              <td>{session.id === sessionId ? 'now' : <FormatDate relative date={session.lastUsedAt}/>}</td>
             </tr>
           ))}
         </tbody>
@@ -89,14 +89,15 @@ export async function generateMetadata(): Promise<Metadata> {
 async function revokeAllSessions() {
   'use server';
 
-  const session = await getUser();
+  const user = await getUser();
 
-  if(!session) {
+  if(!user) {
     return;
   }
 
+  // delete all sessions except current in db
   await db.userSession.deleteMany({
-    where: { id: { not: session.sessionId }, userId: session.id }
+    where: { id: { not: user.session.id }, userId: user.id }
   });
 
   revalidatePath('/profile');

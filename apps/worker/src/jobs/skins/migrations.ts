@@ -4,7 +4,7 @@ import { encode } from 'gw2e-chat-codes';
 import { db } from '../../db';
 import { Prisma } from '@gw2treasures/database';
 
-export const CURRENT_VERSION = 2;
+export const CURRENT_VERSION = 3;
 
 /** @see Prisma.SkinUpdateInput */
 interface MigratedSkin {
@@ -27,14 +27,15 @@ export async function createMigrator() {
     };
 
     // Version 1: Update name for empty skin names
-    if(currentVersion < 1) {
+    // Version 3: Update name for empty skin names (include undefined)
+    if(currentVersion < 3) {
       const chatLink = encode('skin', en.id);
 
       if(chatLink !== false) {
-        if(en.name?.trim() === '') { update.name_en = chatLink; }
-        if(de.name?.trim() === '') { update.name_de = chatLink; }
-        if(es.name?.trim() === '') { update.name_es = chatLink; }
-        if(fr.name?.trim() === '') { update.name_fr = chatLink; }
+        if(!en.name || en.name.trim() === '') { update.name_en = chatLink; }
+        if(!de.name || de.name.trim() === '') { update.name_de = chatLink; }
+        if(!es.name || es.name.trim() === '') { update.name_es = chatLink; }
+        if(!fr.name || fr.name.trim() === '') { update.name_fr = chatLink; }
       }
     }
 

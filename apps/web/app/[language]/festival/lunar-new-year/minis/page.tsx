@@ -13,6 +13,9 @@ import type { PageProps } from '@/lib/next';
 import { getAlternateUrls } from '@/lib/url';
 
 const miniIds = [
+  317, // Mini Ram
+  435, // Mini Celestial Rooster
+  654, // Mini Lucky Lantern Puppy
   745, // Mini Fortunate Lantern
   746, // Mini Glowing Lantern
   748, // Mini Festive Lantern

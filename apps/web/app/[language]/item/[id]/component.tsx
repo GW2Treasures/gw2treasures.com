@@ -88,7 +88,7 @@ export const ItemPageComponent: FC<ItemPageComponentProps> = async ({ language, 
   const hasSkinUnlocks = item.unlocksSkinIds.length > 0;
   const unknownSkinIds = item.unlocksSkinIds.filter((id) => item.unlocksSkin.every((skin) => skin.id !== id));
 
-  const hasMiniUnlocks = item.unlocksMiniIds.length > 0;
+  const hasMiniUnlocks = item.unlocksMiniIds.length > 0 || item.unlocksMinis.length > 0;
   const unknownMiniIds = item.unlocksMiniIds.filter((id) => item.unlocksMinis.every((mini) => mini.id !== id));
 
   const icon = parseIcon(data.icon);

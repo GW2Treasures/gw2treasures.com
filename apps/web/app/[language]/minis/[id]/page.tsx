@@ -50,9 +50,13 @@ async function MiniPage ({ params }: MiniPageProps) {
 
   const data: Mini = JSON.parse(revision.data);
 
+  const name = data.name && data.name !== '((208738))'
+    ? data.name
+    : localizedName(mini, language);
+
   return (
     <DetailLayout
-      title={data.name || localizedName(mini, language)}
+      title={name}
       icon={mini.icon}
       breadcrumb="Mini"
       infobox={<MiniInfobox mini={mini} language={language}/>}

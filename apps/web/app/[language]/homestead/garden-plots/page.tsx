@@ -184,7 +184,7 @@ export default async function HomesteadGardenPlotPage({ params }: PageProps) {
       <Headline id="crops" actions={<ColumnSelect table={Crops}/>}><Trans id="homestead.garden-plots.crops"/></Headline>
       <p><Trans id="homestead.garden-plots.crops.description"/></p>
 
-      <Crops.Table>
+      <Crops.Table initialSortBy="sellPrice" initialSortOrder="desc">
         <Crops.Column id="id" title={<Trans id="itemTable.column.id"/>} sortBy="seedItemId" small hidden>
           {({ seedItemId }) => seedItemId}
         </Crops.Column>

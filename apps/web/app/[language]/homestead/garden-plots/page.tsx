@@ -11,7 +11,7 @@ import { PageView } from '@/components/PageView/PageView';
 import { translate } from '@/lib/translate';
 import type { PageProps } from '@/lib/next';
 import type { Metadata } from 'next';
-import { getAlternateUrls } from '@/lib/url';
+import { getAlternateUrls, getCurrentUrl } from '@/lib/url';
 import { Gw2Accounts } from '@/components/Gw2Api/Gw2Accounts';
 import { Scope } from '@gw2me/client';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
@@ -25,6 +25,7 @@ import { UnknownItem } from '@/components/Item/UnknownItem';
 import { ItemList } from '@/components/ItemList/ItemList';
 import { localizedName } from '@/lib/localizedName';
 import styles from './page.module.css';
+import ogImage from './garden-plots-og.png';
 
 type Plot = {
   nodeId: string;
@@ -228,6 +229,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: translate('homestead.garden-plots', language),
     description: translate('homestead.garden-plots.description', language),
     alternates: getAlternateUrls('/homestead/garden-plots', language),
-    keywords: ['homestead', 'garden plot', 'garden', 'seed', 'crop', 'plant', 'herb', 'black lion', 'gourmet', 'chef', 'trading post', 'profit']
+    keywords: ['homestead', 'garden plot', 'garden', 'seed', 'crop', 'plant', 'herb', 'black lion', 'gourmet', 'chef', 'trading post', 'profit'],
+    openGraph: {
+      images: [{ url: new URL(ogImage.src, await getCurrentUrl()), width: ogImage.width, height: ogImage.height }],
+    },
+    twitter: { card: 'summary_large_image' }
   };
 }

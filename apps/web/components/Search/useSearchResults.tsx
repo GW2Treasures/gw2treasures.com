@@ -134,6 +134,7 @@ const pages: Page[] = [
   { href: '/fractals', title: 'Fractals', icon: 'fractal' },
 
   { href: '/homestead/nodes', title: 'Homestead Nodes', icon: 'homestead' },
+  { href: '/homestead/garden-plots', title: 'Garden Plots', icon: 'homestead' },
   { href: '/homestead/cats', title: 'Homestead Cats', icon: 'homestead' },
   { href: '/homestead/decorations', title: 'Homestead Decorations', icon: 'homestead' },
   { href: '/homestead/materials', title: 'Homestead Refined Materials', icon: 'homestead' },

@@ -149,6 +149,7 @@ export const sitemaps: Record<string, Sitemap> = {
         '/wizards-vault/objectives',
         '/wizards-vault/rewards',
         '/homestead/nodes',
+        '/homestead/garden-plots',
         '/homestead/cats',
         '/homestead/decorations',
         '/homestead/materials',

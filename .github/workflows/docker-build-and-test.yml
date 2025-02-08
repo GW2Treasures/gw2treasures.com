@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     name: 'Build: ${{ matrix.target }}'
-    runs-on: ${{ inputs.platform == 'arm64' && 'ubuntu-24.04-arm' || 'ubuntu-24.04' }}
+    runs-on: ${{ inputs.platform == 'arm64' && 'ubuntu-22.04-arm' || 'ubuntu-24.04' }}
     strategy:
       matrix:
         target: [ web, worker, legacy-importer, database-migration, e2e ]

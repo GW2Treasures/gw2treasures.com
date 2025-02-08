@@ -13,12 +13,12 @@ export default function HomesteadLayout({ children }: LayoutProps) {
       hero={<Headline id="homestead"><Trans id="navigation.homestead"/></Headline>}
       navBar={(
         <NavBar base="/homestead/" items={[
-          { segment: 'nodes', label: <Trans id="homestead.nodes"/> },
-          { segment: 'garden-plots', label: <><Trans id="homestead.garden-plots"/><Badge>New</Badge></> },
-          { segment: 'cats', label: <Trans id="homestead.cats"/> },
-          { segment: 'decorations', label: <Trans id="homestead.decorations"/> },
-          { segment: 'materials', label: <><Trans id="homestead.materials"/></> },
-          { segment: 'glyphs', label: <Trans id="homestead.glyphs"/> },
+          { segment: 'nodes', icon: 'node', label: <Trans id="homestead.nodes"/> },
+          { segment: 'garden-plots', icon: 'garden', label: <><Trans id="homestead.garden-plots"/><Badge>New</Badge></> },
+          { segment: 'cats', icon: 'cat', label: <Trans id="homestead.cats"/> },
+          { segment: 'decorations', icon: 'decoration', label: <Trans id="homestead.decorations"/> },
+          { segment: 'materials', icon: 'refined-material', label: <><Trans id="homestead.materials"/></> },
+          { segment: 'glyphs', icon: 'glyph', label: <Trans id="homestead.glyphs"/> },
         ]}/>
       )}
     >

@@ -12,12 +12,13 @@ interface FormatNumberProps extends RefProp<HTMLDataElement> {
   value: number | bigint | undefined | null;
   className?: string;
   unit?: ReactNode;
-  options?: Intl.NumberFormatOptions
+  options?: Intl.NumberFormatOptions;
+  approx?: boolean;
 }
 
 const format = new Intl.NumberFormat(undefined, { useGrouping: true });
 
-export const FormatNumber: FC<FormatNumberProps> = ({ ref, value, className, unit, options }) => {
+export const FormatNumber: FC<FormatNumberProps> = ({ ref, value, className, unit, options, approx }) => {
   const { numberFormat, locale } = useFormatContext();
 
   const customFormat = useMemo(() => {
@@ -28,9 +29,11 @@ export const FormatNumber: FC<FormatNumberProps> = ({ ref, value, className, uni
     return new Intl.NumberFormat(locale, { ...numberFormat.resolvedOptions(), ...options });
   }, [numberFormat, locale, options]);
 
+  const formatted = value != null ? customFormat.format(value) : '?';
+
   return (
     <data ref={ref} className={cx(styles.format, className)} value={value?.toString() ?? undefined} suppressHydrationWarning>
-      {value != null ? customFormat.format(value) : '?'}
+      {(formatted === '0' && value !== 0 && approx) ? '~0' : formatted}
       {unit && <>{NARROW_NO_BREAK_SPACE}{unit}</>}
     </data>
   );

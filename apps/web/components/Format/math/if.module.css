@@ -1,0 +1,23 @@
+.if {
+  display: inline-grid;
+  grid-template:
+    "if a aCondition" 1fr
+    "if b bCondition" 1fr /
+    auto auto min-content;
+  gap: 4px 16px;
+  align-items: center;
+  white-space: nowrap;
+  vertical-align: -12px;
+}
+
+.bracket {
+  grid-area: if;
+  margin-right: -16px;
+  display: inline-block;
+  justify-self: center;
+}
+
+.a { grid-area: a; }
+.aCondition { grid-area: aCondition; }
+.b { grid-area: b; }
+.bCondition { grid-area: bCondition; }

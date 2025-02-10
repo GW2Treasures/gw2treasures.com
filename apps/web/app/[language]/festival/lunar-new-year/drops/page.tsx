@@ -27,102 +27,10 @@ import type { Metadata } from 'next';
 import { getAlternateUrls, getCurrentUrl } from '@/lib/url';
 import ogImage from './drops-og.png';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
-
-type DrfData = { itemId: number, total: number, content: { id: number, count: number }[] }
-
-const drfData: DrfData[] = [
-  // divine lucky envelope
-  { itemId: 68646, total: 1632, content: [
-    { id: 45175, count: 4602 },
-    { id: 104154, count: 1697 },
-    { id: 45176, count: 1601 },
-    { id: 77750, count: 896 },
-    { id: 45177, count: 824 },
-    { id: 77699, count: 394 },
-    { id: 45178, count: 345 },
-    { id: 77747, count: 242 },
-    { id: 77686, count: 214 },
-    { id: 68634, count: 210 },
-    { id: 68636, count: 121 },
-    { id: 68633, count: 117 },
-    { id: 68632, count: 101 },
-    { id: 68635, count: 99 },
-    { id: 104164, count: 66 },
-    { id: 68640, count: 42 },
-    { id: 45179, count: 36 },
-    { id: 90001, count: 23 },
-    { id: 89999, count: 23 },
-    { id: 104194, count: 21 },
-    { id: 104167, count: 8 },
-    { id: 104158, count: 3 },
-  ]},
-
-  // The Evon Gnashblade Lucky Envelope
-  { itemId: 86946, total: 293, content: [
-    { id: 45175, count: 1040 },
-    { id: 104154, count: 302 },
-    { id: 45176, count: 277 },
-    { id: 77699, count: 182 },
-    { id: 77750, count: 96 },
-    { id: 45177, count: 94 },
-    { id: 86945, count: 74 },
-    { id: 86911, count: 73 },
-    { id: 68634, count: 69 },
-    { id: 86936, count: 62 },
-    { id: 86942, count: 48 },
-    { id: 45178, count: 48 },
-    { id: 86934, count: 36 },
-    { id: 77747, count: 24 },
-    { id: 68636, count: 24 },
-    { id: 77686, count: 14 },
-    { id: 104164, count: 12 },
-    { id: 68633, count: 11 },
-    { id: 68632, count: 10 },
-    { id: 68635, count: 9 },
-    { id: 45179, count: 3 },
-    { id: 68640, count: 3 },
-    { id: 90001, count: 3 },
-    { id: 104167, count: 2 },
-    { id: 104194, count: 1 },
-  ]},
-
-  // Little Lucky Envelope
-  { itemId: 68645, total: 4638, content: [
-    { id: 45175, count: 2275 },
-    { id: 77699, count: 1760 },
-    { id: 68638, count: 1464 },
-    { id: 68634, count: 905 },
-    { id: 45176, count: 496 },
-    { id: 77750, count: 430 },
-    { id: 45177, count: 216 },
-    { id: 77686, count: 56 },
-    { id: 77747, count: 56 },
-    { id: 68635, count: 51 },
-    { id: 68633, count: 39 },
-    { id: 68636, count: 34 },
-    { id: 68632, count: 27 },
-    { id: 45178, count: 23 },
-    { id: 104194, count: 20 },
-    { id: 104154, count: 10 },
-    { id: 104158, count: 2 },
-    { id: 90001, count: 1 },
-  ]},
-
-  // Lucky Red Bag
-  { itemId: 94653, total: 65398, content: [
-    { id: 68638, count: 71038 },
-    { id: 68637, count: 1159 },
-    { id: 104194, count: 603 },
-    { id: 68635, count: 542 },
-    { id: 77699, count: 540 },
-    { id: 68633, count: 512 },
-    { id: 68632, count: 482 },
-    { id: 68636, count: 438 },
-    { id: 68634, count: 248 },
-    { id: 104158, count: 22 },
-    { id: 104154, count: 7 },
-  ]},
-]
+import { pageView } from '@/lib/pageView';
+import styles from './page.module.css';
+import { data as drfData, type DrfData } from './data';
+import { MathIf } from '@/components/Format/math/if';
 
 const loadItems = cache(async function loadItems(ids: number[]) {
   const items = await db.item.findMany({
@@ -153,13 +61,14 @@ function getAverage(item: Awaited<ReturnType<typeof loadItems>>[number], count: 
 
 export default async function LunarNewYearDropsPage({ params }: PageProps) {
   const { language } = await params;
+  await pageView('festival/lunar-new-year/drops');
   const items = await loadItems(drfData.flatMap((drf) => [drf.itemId, ...drf.content.map(({ id }) => id)]));
   const itemsById = groupById(items);
 
   return (
     <PageLayout toc>
       <Notice icon="eye">This is a preview based on a limited dataset including all MF.</Notice>
-      <p>The drop data on this page is provided by <ExternalLink href="https://drf.rs/"><Icon icon="drf"/> DRF</ExternalLink> and only contains data between the start of Lunar New Year 2025 and <FormatDate date={new Date('2025-02-10T10:33:57.611Z')}/>.</p>
+      <p>The drop data on this page is provided by <ExternalLink href="https://drf.rs/"><Icon icon={drfLogo} className={styles.drf}/>DRF</ExternalLink> and only contains data between the start of Lunar New Year 2025 and <FormatDate date={new Date('2025-02-10T10:33:57.611Z')}/>.</p>
       {drfData.map((data) => (
         <DropTable data={data} itemsById={itemsById} language={language}/>
       ))}
@@ -193,8 +102,12 @@ const DropTable: FC<{ data: DrfData, itemsById: Map<number, Awaited<ReturnType<t
         <Items.Column id="rarity" title={<Trans id="itemTable.column.rarity"/>} sortBy={({ item }) => item.rarity} hidden>
           {({ item }) => <Rarity rarity={item.rarity}><Trans id={`rarity.${item.rarity}`}/></Rarity>}
         </Items.Column>
-        <Items.Column id="avg" title="Avg. Droprate" align="right" sortBy="avg">
-          {({ avg, count }) => <Tip tip={<><Fraction numerator="Total" denominator="Count"/> = <Fraction denominator={<FormatNumber value={count}/>} numerator={<FormatNumber value={data.total}/>}/></>}><FormatNumber value={avg}/></Tip>}
+        <Items.Column id="avg" title="Avg. Drop Rate" align="right" sortBy="avg">
+          {({ avg, count }) => (
+            <Tip tip={<><Fraction numerator="Total" denominator="Count"/> = <Fraction denominator={<FormatNumber value={count}/>} numerator={<FormatNumber value={data.total}/>}/></>}>
+              <FormatNumber value={avg} approx/>
+            </Tip>
+          )}
         </Items.Column>
         <Items.Column id="vendor" title={<Trans id="itemTable.column.vendorValue"/>} sortBy={({ item }) => item.vendorValue} align="right" hidden>
           {({ item }) => itemTableColumn.vendorValue(item, vendorValueTranslations)}
@@ -219,20 +132,30 @@ const DropTable: FC<{ data: DrfData, itemsById: Map<number, Awaited<ReturnType<t
         </Items.Column>
 
         <Items.Column id="avgBuyPrice" title="Avg. Buy Price per" sortBy={({ avgBuyPrice }) => avgBuyPrice?.value} align="right" fixed>
-          {({ avgBuyPrice }) => avgBuyPrice ? <>{avgBuyPrice.isVendor && (<Tip tip="Vendor Value used"><Icon icon="vendor" color="var(--color-text-muted)"/>&nbsp;</Tip>)}<Coins value={Math.ceil(avgBuyPrice.value)}/></> : empty}
+          {({ avgBuyPrice, avg, item }) => avgBuyPrice ? (<>
+            {avgBuyPrice.isVendor && (<Tip tip="Vendor Value used"><Icon icon="vendor" color="var(--color-text-muted)"/>&nbsp;</Tip>)}
+            <Tip tip={<div style={{ lineHeight: 1.5, textAlign: 'right' }}>Avg. Drop Rate &times; {avgBuyPrice.isVendor ? 'Vendor Value' : 'Buy Price'}<br/>= <FormatNumber value={avg} approx/> &times; <Coins value={avgBuyPrice.isVendor ? item.vendorValue! : item.buyPrice!}/></div>}>
+              <Coins value={Math.ceil(avgBuyPrice.value)}/>
+            </Tip>
+          </>) : empty}
         </Items.Column>
         <Items.Column id="avgSellPrice" title="Avg. Sell Price per" sortBy={({ avgSellPrice }) => avgSellPrice?.value} align="right" fixed>
-          {({ avgSellPrice }) => avgSellPrice ? <>{avgSellPrice.isVendor && (<Tip tip="Vendor Value used"><Icon icon="vendor" color="var(--color-text-muted)"/>&nbsp;</Tip>)}<Coins value={Math.ceil(avgSellPrice.value)}/></> : empty}
+          {({ avgSellPrice, avg, item }) => avgSellPrice ? (<>
+            {avgSellPrice.isVendor && (<Tip tip="Vendor Value used"><Icon icon="vendor" color="var(--color-text-muted)"/>&nbsp;</Tip>)}
+            <Tip tip={<div style={{ lineHeight: 1.5, textAlign: 'right' }}>Avg. Drop Rate &times; {avgSellPrice.isVendor ? 'Vendor Value' : 'Sell Price'}<br/>= <FormatNumber value={avg} approx/> &times; <Coins value={avgSellPrice.isVendor ? item.vendorValue! : item.sellPrice!}/></div>}>
+              <Coins value={Math.ceil(avgSellPrice.value)}/>
+            </Tip>
+          </>) : empty}
         </Items.Column>
         <Items.Footer>
           <DataTableFooterTd colSpan={-2} align="right">Total Average (incl. Tax)</DataTableFooterTd>
-          <td align="right"><Coins value={Math.ceil(avgBuyPriceInclTax)}/></td>
-          <td align="right"><Coins value={Math.ceil(avgSellPriceInclTax)}/></td>
+          <td align="right"><Tip tip="∑ Avg. Buy Price per"><Coins value={Math.ceil(avgBuyPriceInclTax)}/></Tip></td>
+          <td align="right"><Tip tip="∑ Avg. Sell Price per"><Coins value={Math.ceil(avgSellPriceInclTax)}/></Tip></td>
         </Items.Footer>
         <Items.Footer>
           <DataTableFooterTd colSpan={-2} align="right">Total Average (excl. Tax)</DataTableFooterTd>
-          <td align="right"><Coins value={Math.ceil(avgBuyPrice)}/></td>
-          <td align="right"><Coins value={Math.ceil(avgSellPrice)}/></td>
+          <td align="right"><Tip tip={<>∑<MathIf a="Avg. Buy Price per × 0.85" aCondition="if tradable" b="Vendor Value" bCondition="otherwise"/></>}><Coins value={Math.ceil(avgBuyPrice)}/></Tip></td>
+          <td align="right"><Tip tip={<>∑<MathIf a="Avg. Sell Price per × 0.85" aCondition="if tradable" b="Vendor Value" bCondition="otherwise"/></>}><Coins value={Math.ceil(avgSellPrice)}/></Tip></td>
         </Items.Footer>
         {item.tpTradeable && (
           <Items.Footer>
@@ -244,8 +167,8 @@ const DropTable: FC<{ data: DrfData, itemsById: Map<number, Awaited<ReturnType<t
         {item.tpTradeable && (
           <Items.Footer>
             <DataTableFooterTd colSpan={-2} align="right">Trading Post (excl. Tax)</DataTableFooterTd>
-            <td align="right">{item.buyPrice ? <Coins value={Math.ceil(item.buyPrice * 0.85)}/> : empty}</td>
-            <td align="right">{item.sellPrice ? <Coins value={Math.ceil(item.sellPrice * 0.85)}/> : empty}</td>
+            <td align="right"><Tip tip="Buy Price × 0.85">{item.buyPrice ? <Coins value={Math.ceil(item.buyPrice * 0.85)}/> : empty}</Tip></td>
+            <td align="right"><Tip tip="Sell Price × 0.85">{item.sellPrice ? <Coins value={Math.ceil(item.sellPrice * 0.85)}/> : empty}</Tip></td>
           </Items.Footer>
         )}
       </Items.Table>
@@ -271,3 +194,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     twitter: { card: 'summary_large_image' }
   };
 }
+
+const drfLogo = (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 392 488" stroke="currentColor">
+    <path d="M379.5 292c0 101.3-82.2 183.5-183.5 183.5S12.5 393.3 12.5 292c0-42.6 13.77-82.29 38.9-112.7C86.55 136.75 196 12.5 196 12.5s109.45 124.25 144.6 166.8c25.13 30.41 38.9 70.1 38.9 112.7z" fill="none" strokeLinejoin="round" strokeWidth="25"/>
+    <path fill="currentColor" d="M354.17 293.05a158.17 158.17 0 0 1-316.34 0s74-84.19 158.17 0 158.17 0 158.17 0z"/>
+    <circle fill="currentColor" cx="223.83" cy="265.67" r="21.67"/>
+    <circle fill="currentColor" cx="231.33" cy="157.67" r="35.33"/>
+    <circle fill="currentColor" cx="135.42" cy="200.33" r="25.17"/>
+  </svg>
+);

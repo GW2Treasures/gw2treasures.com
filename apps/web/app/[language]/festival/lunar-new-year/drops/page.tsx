@@ -12,7 +12,7 @@ import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { ExternalLink } from '@gw2treasures/ui/components/Link/ExternalLink';
 import { Icon } from '@gw2treasures/ui';
 import type { PageProps } from '@/lib/next';
-import { translateMany } from '@/lib/translate';
+import { translate, translateMany } from '@/lib/translate';
 import { ColumnSelect } from '@/components/Table/ColumnSelect';
 import { Coins } from '@/components/Format/Coins';
 import { DataTableFooterTd } from '@gw2treasures/ui/components/Table/DataTable.client';
@@ -23,6 +23,9 @@ import type { FC } from 'react';
 import type { Language } from '@gw2treasures/database';
 import { localizedName } from '@/lib/localizedName';
 import { FormatDate } from '@/components/Format/FormatDate';
+import type { Metadata } from 'next';
+import { getAlternateUrls, getCurrentUrl } from '@/lib/url';
+import ogImage from './drops-og.png';
 
 type DrfData = { itemId: number, total: number, content: { id: number, count: number }[] }
 
@@ -205,6 +208,17 @@ const DropTable: FC<{ data: DrfData, itemsById: Map<number, Awaited<ReturnType<t
   );
 }
 
-export const metadata = {
-  title: 'Test'
-};
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { language } = await params;
+
+  return {
+    title: translate('festival.drops', language),
+    description: 'Lunar New Year 2025 drop data',
+    // make sure the efficiency query parameter is not part of the canonical URL, so only the default gets indexed by search engines
+    alternates: getAlternateUrls('/festival/lunar-new-year/drops', language),
+    openGraph: {
+      images: [{ url: new URL(ogImage.src, await getCurrentUrl()), width: ogImage.width, height: ogImage.height }],
+    },
+    twitter: { card: 'summary_large_image' }
+  };
+}

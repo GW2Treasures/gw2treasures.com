@@ -26,6 +26,7 @@ import { FormatDate } from '@/components/Format/FormatDate';
 import type { Metadata } from 'next';
 import { getAlternateUrls, getCurrentUrl } from '@/lib/url';
 import ogImage from './drops-og.png';
+import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 
 type DrfData = { itemId: number, total: number, content: { id: number, count: number }[] }
 
@@ -142,13 +143,11 @@ const loadItems = cache(async function loadItems(ids: number[]) {
 
 function getAverage(item: Awaited<ReturnType<typeof loadItems>>[number], count: number, total: number) {
   const avg = total / count;
-  const buyPrice = item.buyPrice ?? item.vendorValue;
-  const sellPrice = item.sellPrice ?? item.vendorValue;
 
   return {
     avg,
-    avgBuyPrice: buyPrice ? buyPrice * avg : buyPrice,
-    avgSellPrice: sellPrice ? sellPrice * avg : sellPrice
+    avgBuyPrice: item.buyPrice ? { value: item.buyPrice * avg, isVendor: false } : item.vendorValue ? { value: item.vendorValue * avg, isVendor: true } : undefined,
+    avgSellPrice: item.sellPrice ? { value: item.sellPrice * avg, isVendor: false } : item.vendorValue ? { value: item.vendorValue * avg, isVendor: true } : undefined,
   };
 }
 
@@ -159,7 +158,8 @@ export default async function LunarNewYearDropsPage({ params }: PageProps) {
 
   return (
     <PageLayout toc>
-      <p>The drop data on this page is provided by <ExternalLink href="drf.rs"><Icon icon="drf"/> DRF</ExternalLink> and only contains data between the start of Lunar New Year 2025 and <FormatDate date={new Date('2025-02-10T10:33:57.611Z')}/>.</p>
+      <Notice icon="eye">This is a preview based on a limited dataset including all MF.</Notice>
+      <p>The drop data on this page is provided by <ExternalLink href="https://drf.rs/"><Icon icon="drf"/> DRF</ExternalLink> and only contains data between the start of Lunar New Year 2025 and <FormatDate date={new Date('2025-02-10T10:33:57.611Z')}/>.</p>
       {drfData.map((data) => (
         <DropTable data={data} itemsById={itemsById} language={language}/>
       ))}
@@ -177,36 +177,85 @@ const DropTable: FC<{ data: DrfData, itemsById: Map<number, Awaited<ReturnType<t
 
   const Items = createDataTable(drops, ({ id }) => id);
 
-  const avgBuyPrice = drops.reduce((acc, cur) => acc + (cur.avgBuyPrice ?? 0), 0);
-  const avgSellPrice = drops.reduce((acc, cur) => acc + (cur.avgSellPrice ?? 0), 0);
+  const avgBuyPrice = drops.reduce((acc, cur) => acc + (cur.avgBuyPrice?.value ?? 0), 0);
+  const avgBuyPriceInclTax = drops.reduce((acc, cur) => acc + (cur.avgBuyPrice ? cur.avgBuyPrice.isVendor ? cur.avgBuyPrice.value : cur.avgBuyPrice.value * 0.85 : 0), 0);
+  const avgSellPrice = drops.reduce((acc, cur) => acc + (cur.avgSellPrice?.value ?? 0), 0);
+  const avgSellPriceInclTax = drops.reduce((acc, cur) => acc + (cur.avgSellPrice ? cur.avgSellPrice.isVendor ? cur.avgSellPrice.value : cur.avgSellPrice.value * 0.85 : 0), 0);
+
+  const item = itemsById.get(data.itemId)!;
 
   return (
     <>
-      <Headline id={data.itemId.toString()} actions={<ColumnSelect table={Items}/>} tableOfContentLabel={localizedName(itemsById.get(data.itemId)!, language)}><ItemLink item={itemsById.get(data.itemId)!}/></Headline>
+      <Headline id={data.itemId.toString()} actions={<ColumnSelect table={Items}/>} tableOfContentLabel={localizedName(item, language)}><ItemLink item={item}/></Headline>
       <p>Based on <FormatNumber value={data.total}/> drops at 750% Magic Find.</p>
-      <Items.Table>
+      <Items.Table initialSortBy="avgSellPrice" initialSortOrder="desc">
         <Items.Column id="item" title="Item" fixed>{({ item }) => <ItemLink item={item}/>}</Items.Column>
-        <Items.Column id="rarity" title={<Trans id="itemTable.column.rarity"/>} sortBy={({ item }) => item.rarity} hidden>{({ item }) => <Rarity rarity={item.rarity}><Trans id={`rarity.${item.rarity}`}/></Rarity>}</Items.Column>
-        <Items.Column id="avg" title="Avg. Droprate" align="right" sortBy="avg">{({ avg, count }) => <Tip tip={<><Fraction numerator="Total" denominator="Count"/> = <Fraction denominator={<FormatNumber value={count}/>} numerator={<FormatNumber value={data.total}/>}/></>}><FormatNumber value={avg}/></Tip>}</Items.Column>
-        <Items.Column id="vendor" title={<Trans id="itemTable.column.vendorValue"/>} sortBy={({ item }) => item.vendorValue} align="right" hidden>{({ item }) => itemTableColumn.vendorValue(item, vendorValueTranslations)}</Items.Column>
-        <Items.Column id="buyPrice" title={<Trans id="itemTable.column.buyPrice"/>} sortBy={({ item }) => item.buyPrice} align="right" hidden>{({ item }) => itemTableColumn.buyPrice(item, {})}</Items.Column>
-        <Items.Column id="buyPriceTrend" title={<Trans id="itemTable.column.buyPriceTrend"/>} align="right" hidden>{({ item }) => itemTableColumn.buyPriceTrend(item, {})}</Items.Column>
-        <Items.Column id="buyQuantity" title={<Trans id="itemTable.column.buyQuantity"/>} sortBy={({ item }) => item.buyQuantity} align="right" hidden>{({ item }) => itemTableColumn.buyQuantity(item, {})}</Items.Column>
-        <Items.Column id="sellPrice" title={<Trans id="itemTable.column.sellPrice"/>} sortBy={({ item }) => item.sellPrice} align="right" hidden>{({ item }) => itemTableColumn.sellPrice(item, {})}</Items.Column>
-        <Items.Column id="sellPriceTrend" title={<Trans id="itemTable.column.sellPriceTrend"/>} align="right" hidden>{({ item }) => itemTableColumn.sellPriceTrend(item, {})}</Items.Column>
-        <Items.Column id="sellQuantity" title={<Trans id="itemTable.column.sellQuantity"/>} sortBy={({ item }) => item.sellQuantity} align="right" hidden>{({ item }) => itemTableColumn.sellQuantity(item, {})}</Items.Column>
+        <Items.Column id="rarity" title={<Trans id="itemTable.column.rarity"/>} sortBy={({ item }) => item.rarity} hidden>
+          {({ item }) => <Rarity rarity={item.rarity}><Trans id={`rarity.${item.rarity}`}/></Rarity>}
+        </Items.Column>
+        <Items.Column id="avg" title="Avg. Droprate" align="right" sortBy="avg">
+          {({ avg, count }) => <Tip tip={<><Fraction numerator="Total" denominator="Count"/> = <Fraction denominator={<FormatNumber value={count}/>} numerator={<FormatNumber value={data.total}/>}/></>}><FormatNumber value={avg}/></Tip>}
+        </Items.Column>
+        <Items.Column id="vendor" title={<Trans id="itemTable.column.vendorValue"/>} sortBy={({ item }) => item.vendorValue} align="right" hidden>
+          {({ item }) => itemTableColumn.vendorValue(item, vendorValueTranslations)}
+        </Items.Column>
+        <Items.Column id="buyPrice" title={<Trans id="itemTable.column.buyPrice"/>} sortBy={({ item }) => item.buyPrice} align="right" hidden>
+          {({ item }) => itemTableColumn.buyPrice(item, {})}
+        </Items.Column>
+        <Items.Column id="buyPriceTrend" title={<Trans id="itemTable.column.buyPriceTrend"/>} align="right" hidden>
+          {({ item }) => itemTableColumn.buyPriceTrend(item, {})}
+        </Items.Column>
+        <Items.Column id="buyQuantity" title={<Trans id="itemTable.column.buyQuantity"/>} sortBy={({ item }) => item.buyQuantity} align="right" hidden>
+          {({ item }) => itemTableColumn.buyQuantity(item, {})}
+        </Items.Column>
+        <Items.Column id="sellPrice" title={<Trans id="itemTable.column.sellPrice"/>} sortBy={({ item }) => item.sellPrice} align="right" hidden>
+          {({ item }) => itemTableColumn.sellPrice(item, {})}
+        </Items.Column>
+        <Items.Column id="sellPriceTrend" title={<Trans id="itemTable.column.sellPriceTrend"/>} align="right" hidden>
+          {({ item }) => itemTableColumn.sellPriceTrend(item, {})}
+        </Items.Column>
+        <Items.Column id="sellQuantity" title={<Trans id="itemTable.column.sellQuantity"/>} sortBy={({ item }) => item.sellQuantity} align="right" hidden>
+          {({ item }) => itemTableColumn.sellQuantity(item, {})}
+        </Items.Column>
 
-        <Items.Column id="avgBuyPrice" title="Avg. Buy Price per" sortBy="avgBuyPrice" align="right" fixed>{({ avgBuyPrice }) => avgBuyPrice ? <Coins value={Math.ceil(avgBuyPrice)}/> : '-'}</Items.Column>
-        <Items.Column id="avgSellPrice" title="Avg. Sell Price per" sortBy="avgSellPrice" align="right" fixed>{({ avgSellPrice }) => avgSellPrice ? <Coins value={Math.ceil(avgSellPrice)}/> : '-'}</Items.Column>
+        <Items.Column id="avgBuyPrice" title="Avg. Buy Price per" sortBy={({ avgBuyPrice }) => avgBuyPrice?.value} align="right" fixed>
+          {({ avgBuyPrice }) => avgBuyPrice ? <>{avgBuyPrice.isVendor && (<Tip tip="Vendor Value used"><Icon icon="vendor" color="var(--color-text-muted)"/>&nbsp;</Tip>)}<Coins value={Math.ceil(avgBuyPrice.value)}/></> : empty}
+        </Items.Column>
+        <Items.Column id="avgSellPrice" title="Avg. Sell Price per" sortBy={({ avgSellPrice }) => avgSellPrice?.value} align="right" fixed>
+          {({ avgSellPrice }) => avgSellPrice ? <>{avgSellPrice.isVendor && (<Tip tip="Vendor Value used"><Icon icon="vendor" color="var(--color-text-muted)"/>&nbsp;</Tip>)}<Coins value={Math.ceil(avgSellPrice.value)}/></> : empty}
+        </Items.Column>
         <Items.Footer>
-          <DataTableFooterTd colSpan={-2} align="right">Total Average</DataTableFooterTd>
+          <DataTableFooterTd colSpan={-2} align="right">Total Average (incl. Tax)</DataTableFooterTd>
+          <td align="right"><Coins value={Math.ceil(avgBuyPriceInclTax)}/></td>
+          <td align="right"><Coins value={Math.ceil(avgSellPriceInclTax)}/></td>
+        </Items.Footer>
+        <Items.Footer>
+          <DataTableFooterTd colSpan={-2} align="right">Total Average (excl. Tax)</DataTableFooterTd>
           <td align="right"><Coins value={Math.ceil(avgBuyPrice)}/></td>
           <td align="right"><Coins value={Math.ceil(avgSellPrice)}/></td>
         </Items.Footer>
+        {item.tpTradeable && (
+          <Items.Footer>
+            <DataTableFooterTd colSpan={-2} align="right">Trading Post (incl. Tax)</DataTableFooterTd>
+            <td align="right">{item.buyPrice ? <Coins value={item.buyPrice}/> : empty}</td>
+            <td align="right">{item.sellPrice ? <Coins value={item.sellPrice}/> : empty}</td>
+          </Items.Footer>
+        )}
+        {item.tpTradeable && (
+          <Items.Footer>
+            <DataTableFooterTd colSpan={-2} align="right">Trading Post (excl. Tax)</DataTableFooterTd>
+            <td align="right">{item.buyPrice ? <Coins value={Math.ceil(item.buyPrice * 0.85)}/> : empty}</td>
+            <td align="right">{item.sellPrice ? <Coins value={Math.ceil(item.sellPrice * 0.85)}/> : empty}</td>
+          </Items.Footer>
+        )}
       </Items.Table>
     </>
   );
 }
+
+const empty = (
+  <span style={{ color: 'var(--color-text-muted)' }}>-</span>
+);
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { language } = await params;

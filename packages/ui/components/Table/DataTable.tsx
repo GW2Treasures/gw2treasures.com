@@ -41,12 +41,16 @@ export interface DataTableColumnSelectionProps {
   reset: ReactNode;
 }
 
+export interface DataTableFooterProps {
+  children: ReactNode,
+}
+
 export type DataTable<T> = {
   Table: FC<DataTableProps<T>>,
   Column: FC<DataTableColumnProps<T>>,
   DynamicColumns: FC<DataTableDynamicColumnsProps<T>>,
   ColumnSelection: FC<DataTableColumnSelectionProps>,
-  Footer: FC<{ children: ReactNode }>
+  Footer: FC<DataTableFooterProps>
 };
 
 export function createDataTable<T>(rows: T[], getRowKey: (row: T, index: number) => Key): DataTable<T> {
@@ -63,8 +67,8 @@ export function createDataTable<T>(rows: T[], getRowKey: (row: T, index: number)
     return <DataTableClientColumnSelection id={datatableId} reset={reset}>{children}</DataTableClientColumnSelection>;
   };
 
-  const Footer: FC<{ children: ReactNode }> = ({ children }) => {
-    return <tfoot><tr>{children}</tr></tfoot>;
+  const Footer: FC<DataTableFooterProps> = ({ children }) => {
+    return <tr>{children}</tr>;
   };
 
   function isStaticColumn(child: ReactElement): child is ColumnReactElement<T> {
@@ -135,7 +139,7 @@ export function createDataTable<T>(rows: T[], getRowKey: (row: T, index: number)
                 })}
               </DataTableClientRows>
             </tbody>
-            {footer}
+            {footer.length > 0 && <tfoot>{footer}</tfoot>}
           </Table>
         </DataTableClient>
       );

@@ -11,7 +11,7 @@
 }
 
 .table > thead > tr > th,
-.table > tfoot > tr > td {
+.table > tfoot > tr:first-child > td {
   padding: 8px 16px;
   font-weight: 500;
   text-align: left;
@@ -25,13 +25,15 @@
   border-bottom: 3px solid var(--color-border);
   top: var(--table-sticky-top, 48px);
 }
-.table > tfoot > tr > td {
+.table > tfoot > tr:first-child > td {
   border-top: 3px solid var(--color-border);
   bottom: 0;
 }
 
 .table > tbody > tr > td,
-.table > tbody > tr > th {
+.table > tbody > tr > th,
+.table > tfoot > tr:nth-child(n+2) > td,
+.table > tfoot > tr:nth-child(n+2) > th {
   padding: 8px 16px;
   font-weight: normal;
   line-height: 1.5;
@@ -51,7 +53,9 @@
 }
 
 .table > tbody > tr + tr > td,
-.table > tbody > tr + tr > th {
+.table > tbody > tr + tr > th,
+.table > tfoot > tr + tr > td,
+.table > tfoot > tr + tr > th {
   border-top: 1px solid var(--color-border);
 }
 

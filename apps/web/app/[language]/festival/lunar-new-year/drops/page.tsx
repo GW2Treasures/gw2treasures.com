@@ -87,9 +87,9 @@ const DropTable: FC<{ data: DrfData, itemsById: Map<number, Awaited<ReturnType<t
   const Items = createDataTable(drops, ({ id }) => id);
 
   const avgBuyPrice = drops.reduce((acc, cur) => acc + (cur.avgBuyPrice?.value ?? 0), 0);
-  const avgBuyPriceInclTax = drops.reduce((acc, cur) => acc + (cur.avgBuyPrice ? cur.avgBuyPrice.isVendor ? cur.avgBuyPrice.value : cur.avgBuyPrice.value * 0.85 : 0), 0);
+  const avgBuyPriceAfterTax = drops.reduce((acc, cur) => acc + (cur.avgBuyPrice ? cur.avgBuyPrice.isVendor ? cur.avgBuyPrice.value : cur.avgBuyPrice.value * 0.85 : 0), 0);
   const avgSellPrice = drops.reduce((acc, cur) => acc + (cur.avgSellPrice?.value ?? 0), 0);
-  const avgSellPriceInclTax = drops.reduce((acc, cur) => acc + (cur.avgSellPrice ? cur.avgSellPrice.isVendor ? cur.avgSellPrice.value : cur.avgSellPrice.value * 0.85 : 0), 0);
+  const avgSellPriceAfterTax = drops.reduce((acc, cur) => acc + (cur.avgSellPrice ? cur.avgSellPrice.isVendor ? cur.avgSellPrice.value : cur.avgSellPrice.value * 0.85 : 0), 0);
 
   const item = itemsById.get(data.itemId)!;
 
@@ -148,27 +148,27 @@ const DropTable: FC<{ data: DrfData, itemsById: Map<number, Awaited<ReturnType<t
           </>) : empty}
         </Items.Column>
         <Items.Footer>
-          <DataTableFooterTd colSpan={-2} align="right">Total Average (incl. Tax)</DataTableFooterTd>
-          <td align="right"><Tip tip="∑ Avg. Buy Price per"><Coins value={Math.ceil(avgBuyPriceInclTax)}/></Tip></td>
-          <td align="right"><Tip tip="∑ Avg. Sell Price per"><Coins value={Math.ceil(avgSellPriceInclTax)}/></Tip></td>
+          <DataTableFooterTd colSpan={-2} align="right">Total Average (after Tax)</DataTableFooterTd>
+          <td align="right"><Tip tip={<>∑<MathIf a="Avg. Buy Price per × 0.85" aCondition="if tradable" b="Vendor Value" bCondition="otherwise"/></>}><Coins value={Math.ceil(avgBuyPriceAfterTax)}/></Tip></td>
+          <td align="right"><Tip tip={<>∑<MathIf a="Avg. Sell Price per × 0.85" aCondition="if tradable" b="Vendor Value" bCondition="otherwise"/></>}><Coins value={Math.ceil(avgSellPriceAfterTax)}/></Tip></td>
         </Items.Footer>
         <Items.Footer>
-          <DataTableFooterTd colSpan={-2} align="right">Total Average (excl. Tax)</DataTableFooterTd>
-          <td align="right"><Tip tip={<>∑<MathIf a="Avg. Buy Price per × 0.85" aCondition="if tradable" b="Vendor Value" bCondition="otherwise"/></>}><Coins value={Math.ceil(avgBuyPrice)}/></Tip></td>
-          <td align="right"><Tip tip={<>∑<MathIf a="Avg. Sell Price per × 0.85" aCondition="if tradable" b="Vendor Value" bCondition="otherwise"/></>}><Coins value={Math.ceil(avgSellPrice)}/></Tip></td>
+          <DataTableFooterTd colSpan={-2} align="right">Total Average (before Tax)</DataTableFooterTd>
+          <td align="right"><Tip tip="∑ Avg. Buy Price per"><Coins value={Math.ceil(avgBuyPrice)}/></Tip></td>
+          <td align="right"><Tip tip="∑ Avg. Sell Price per"><Coins value={Math.ceil(avgSellPrice)}/></Tip></td>
         </Items.Footer>
         {item.tpTradeable && (
           <Items.Footer>
-            <DataTableFooterTd colSpan={-2} align="right">Trading Post (incl. Tax)</DataTableFooterTd>
-            <td align="right">{item.buyPrice ? <Coins value={item.buyPrice}/> : empty}</td>
-            <td align="right">{item.sellPrice ? <Coins value={item.sellPrice}/> : empty}</td>
+            <DataTableFooterTd colSpan={-2} align="right">{localizedName(item, language)} (after Tax)</DataTableFooterTd>
+            <td align="right"><Tip tip="Buy Price × 0.85">{item.buyPrice ? <Coins value={Math.ceil(item.buyPrice * 0.85)}/> : empty}</Tip></td>
+            <td align="right"><Tip tip="Sell Price × 0.85">{item.sellPrice ? <Coins value={Math.ceil(item.sellPrice * 0.85)}/> : empty}</Tip></td>
           </Items.Footer>
         )}
         {item.tpTradeable && (
           <Items.Footer>
-            <DataTableFooterTd colSpan={-2} align="right">Trading Post (excl. Tax)</DataTableFooterTd>
-            <td align="right"><Tip tip="Buy Price × 0.85">{item.buyPrice ? <Coins value={Math.ceil(item.buyPrice * 0.85)}/> : empty}</Tip></td>
-            <td align="right"><Tip tip="Sell Price × 0.85">{item.sellPrice ? <Coins value={Math.ceil(item.sellPrice * 0.85)}/> : empty}</Tip></td>
+            <DataTableFooterTd colSpan={-2} align="right">{localizedName(item, language)} (before Tax)</DataTableFooterTd>
+            <td align="right"><Tip tip="Buy Price">{item.buyPrice ? <Coins value={item.buyPrice}/> : empty}</Tip></td>
+            <td align="right"><Tip tip="Sell Price">{item.sellPrice ? <Coins value={item.sellPrice}/> : empty}</Tip></td>
           </Items.Footer>
         )}
       </Items.Table>

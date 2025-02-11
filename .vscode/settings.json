@@ -4,5 +4,8 @@
   "css.lint.validProperties": ["composes"],
   "files.associations": {
     "**/packages/eslint-config/configs/*.json": "jsonc"
-  }
+  },
+  "eslint.workingDirectories": [
+    { "mode": "auto" }
+  ]
 }

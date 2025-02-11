@@ -70,10 +70,10 @@ export default async function LunarNewYearDropsPage({ params }: PageProps) {
       <Notice icon="eye">This is a preview based on a limited dataset including all MF.</Notice>
       <p>The drop data on this page is provided by <ExternalLink href="https://drf.rs/"><Icon icon={drfLogo} className={styles.drf}/>DRF</ExternalLink> and only contains data between the start of Lunar New Year 2025 and <FormatDate date={new Date('2025-02-10T10:33:57.611Z')}/>.</p>
       {drfData.map((data) => (
-        <DropTable data={data} itemsById={itemsById} language={language}/>
+        <DropTable key={data.itemId} data={data} itemsById={itemsById} language={language}/>
       ))}
     </PageLayout>
-  )
+  );
 }
 
 const DropTable: FC<{ data: DrfData, itemsById: Map<number, Awaited<ReturnType<typeof loadItems>>[number]>, language: Language }> = async ({ data, itemsById, language }) => {
@@ -132,20 +132,24 @@ const DropTable: FC<{ data: DrfData, itemsById: Map<number, Awaited<ReturnType<t
         </Items.Column>
 
         <Items.Column id="avgBuyPrice" title="Avg. Buy Price per" sortBy={({ avgBuyPrice }) => avgBuyPrice?.value} align="right" fixed>
-          {({ avgBuyPrice, avg, item }) => avgBuyPrice ? (<>
-            {avgBuyPrice.isVendor && (<Tip tip="Vendor Value used"><Icon icon="vendor" color="var(--color-text-muted)"/>&nbsp;</Tip>)}
-            <Tip tip={<div style={{ lineHeight: 1.5, textAlign: 'right' }}>Avg. Drop Rate &times; {avgBuyPrice.isVendor ? 'Vendor Value' : 'Buy Price'}<br/>= <FormatNumber value={avg} approx/> &times; <Coins value={avgBuyPrice.isVendor ? item.vendorValue! : item.buyPrice!}/></div>}>
-              <Coins value={Math.ceil(avgBuyPrice.value)}/>
-            </Tip>
-          </>) : empty}
+          {({ avgBuyPrice, avg, item }) => avgBuyPrice ? (
+            <>
+              {avgBuyPrice.isVendor && (<Tip tip="Vendor Value used"><Icon icon="vendor" color="var(--color-text-muted)"/>&nbsp;</Tip>)}
+              <Tip tip={<div style={{ lineHeight: 1.5, textAlign: 'right' }}>Avg. Drop Rate &times; {avgBuyPrice.isVendor ? 'Vendor Value' : 'Buy Price'}<br/>= <FormatNumber value={avg} approx/> &times; <Coins value={avgBuyPrice.isVendor ? item.vendorValue! : item.buyPrice!}/></div>}>
+                <Coins value={Math.ceil(avgBuyPrice.value)}/>
+              </Tip>
+            </>
+          ) : empty}
         </Items.Column>
         <Items.Column id="avgSellPrice" title="Avg. Sell Price per" sortBy={({ avgSellPrice }) => avgSellPrice?.value} align="right" fixed>
-          {({ avgSellPrice, avg, item }) => avgSellPrice ? (<>
-            {avgSellPrice.isVendor && (<Tip tip="Vendor Value used"><Icon icon="vendor" color="var(--color-text-muted)"/>&nbsp;</Tip>)}
-            <Tip tip={<div style={{ lineHeight: 1.5, textAlign: 'right' }}>Avg. Drop Rate &times; {avgSellPrice.isVendor ? 'Vendor Value' : 'Sell Price'}<br/>= <FormatNumber value={avg} approx/> &times; <Coins value={avgSellPrice.isVendor ? item.vendorValue! : item.sellPrice!}/></div>}>
-              <Coins value={Math.ceil(avgSellPrice.value)}/>
-            </Tip>
-          </>) : empty}
+          {({ avgSellPrice, avg, item }) => avgSellPrice ? (
+            <>
+              {avgSellPrice.isVendor && (<Tip tip="Vendor Value used"><Icon icon="vendor" color="var(--color-text-muted)"/>&nbsp;</Tip>)}
+              <Tip tip={<div style={{ lineHeight: 1.5, textAlign: 'right' }}>Avg. Drop Rate &times; {avgSellPrice.isVendor ? 'Vendor Value' : 'Sell Price'}<br/>= <FormatNumber value={avg} approx/> &times; <Coins value={avgSellPrice.isVendor ? item.vendorValue! : item.sellPrice!}/></div>}>
+                <Coins value={Math.ceil(avgSellPrice.value)}/>
+              </Tip>
+            </>
+          ) : empty}
         </Items.Column>
         <Items.Footer>
           <DataTableFooterTd colSpan={-2} align="right">Total Average (after Tax)</DataTableFooterTd>
@@ -174,7 +178,7 @@ const DropTable: FC<{ data: DrfData, itemsById: Map<number, Awaited<ReturnType<t
       </Items.Table>
     </>
   );
-}
+};
 
 const empty = (
   <span style={{ color: 'var(--color-text-muted)' }}>-</span>

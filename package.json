@@ -35,7 +35,9 @@
     "onlyBuiltDependencies": [
       "@prisma/client",
       "@prisma/engines",
-      "prisma"
+      "esbuild",
+      "prisma",
+      "sharp"
     ]
   },
   "packageManager": "pnpm@10.3.0"

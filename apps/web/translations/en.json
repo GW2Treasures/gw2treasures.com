@@ -345,5 +345,17 @@
   "festival.lunar-new-year.skins.description": "These skins are only available during Lunar New Year.",
   "festival.lunar-new-year.minis": "Minis",
   "festival.lunar-new-year.minis.description": "These minis are only available during Lunar New Year.",
-  "festival.lunar-new-year.wizards-vault.description": "These are all the Wizard's Vault objectives only active during Lunar New Year."
+  "festival.lunar-new-year.wizards-vault.description": "These are all the Wizard's Vault objectives only active during Lunar New Year.",
+  "currencies": "Currencies",
+  "currencies.description": "All the available currencies. Add your Guild Wars 2 accounts to view their wallets.",
+  "currency": "Currency",
+  "currency.category": "Category",
+  "currency.category.general": "General",
+  "currency.category.competitive": "Competitive",
+  "currency.category.map": "Map",
+  "currency.category.key": "Key",
+  "currency.category.dungeon": "Dungeon",
+  "currency.category.blacklion": "Black Lion",
+  "currency.category.historic": "Historic",
+  "currency.order": "Order"
 }

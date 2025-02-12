@@ -38,13 +38,7 @@ import { SkillsRediscovered } from './skills/rediscovered';
 import { SkillsRemoved } from './skills/removed';
 import { SkillsUpdate } from './skills/update';
 import { SkinsWikiJob } from './skins/appearance';
-import { SkinsCheck } from './skins/check';
-import { SkinsMigrate } from './skins/migrate';
-import { skinsNew } from './skins/new';
-import { SkinsRediscovered } from './skins/rediscovered';
-import { SkinsRemoved } from './skins/removed';
 import { SkinsUnlocks } from './skins/unlocks';
-import { SkinsUpdate } from './skins/update';
 import { TitlesCheck } from './titles/check';
 import { titlesMigrate } from './titles/migrate';
 import { TitlesNew } from './titles/new';
@@ -64,6 +58,7 @@ import { MinisJob } from './minis';
 import { MinisUnlocks } from './minis/unlocks';
 import { SkillsViews } from './skills/views';
 import { SkinsViews } from './skins/views';
+import { SkinsJob } from './skins';
 
 const jobsInternal = {
   'test': { run: () => undefined } as Job,
@@ -86,12 +81,7 @@ const jobsInternal = {
   'skills.migrate': SkillsMigrate,
   'skills.views': SkillsViews,
 
-  'skins.check': SkinsCheck,
-  'skins.new': skinsNew,
-  'skins.removed': SkinsRemoved,
-  'skins.rediscovered': SkinsRediscovered,
-  'skins.update': SkinsUpdate,
-  'skins.migrate': SkinsMigrate,
+  'skins': SkinsJob,
   'skins.unlocks': SkinsUnlocks,
   'skins.wiki': SkinsWikiJob,
   'skins.views': SkinsViews,

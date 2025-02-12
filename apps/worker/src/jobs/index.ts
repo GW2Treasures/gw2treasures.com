@@ -4,26 +4,26 @@ import { AchievementGroups } from './achievements/groups';
 import { AchievementsUnlocks } from './achievements/unlocks';
 import { AchievementsViews } from './achievements/views';
 import { ColorsJob } from './colors';
-import { CurrenciesCheck } from './currencies/check';
-import { CurrenciesMigrate } from './currencies/migrate';
-import { CurrenciesNew } from './currencies/new';
-import { CurrenciesRediscovered } from './currencies/rediscovered';
-import { CurrenciesRemoved } from './currencies/removed';
-import { CurrenciesUpdate } from './currencies/update';
+import { CurrenciesJob } from './currencies';
 import { GuildUpgradesJob } from './guild-upgrades';
 import { Gw2ApiRequestsCleanup } from './gw2api-requests/cleanup';
+import { HomesteadDecorationCategoriesJob } from './homestead/decoration-categories';
+import { HomesteadDecorationsJob } from './homestead/decorations';
+import { HomesteadGlyphsJob } from './homestead/glyphs';
 import { IconsColors } from './icons/colors';
 import { ItemsCheck } from './items/check';
 import { ItemsContainerContent } from './items/containerContent';
 import { ItemsMigrate } from './items/migrate';
 import { ItemsNew } from './items/new';
 import { ItemsRediscovered } from './items/rediscovered';
+import { ItemsRelevancy } from './items/relevancy';
 import { ItemsRemoved } from './items/removed';
 import { ItemsUpdate } from './items/update';
 import { ItemsViews } from './items/views';
-import { ItemsRelevancy } from './items/relevancy';
 import { Job } from './job';
 import { JobsCleanup } from './jobs/cleanup';
+import { MinisJob } from './minis';
+import { MinisUnlocks } from './minis/unlocks';
 import { RecipesCheck } from './recipes/check';
 import { RecipesMigrate } from './recipes/migrate';
 import { RecipesNew } from './recipes/new';
@@ -37,8 +37,11 @@ import { SkillsNew } from './skills/new';
 import { SkillsRediscovered } from './skills/rediscovered';
 import { SkillsRemoved } from './skills/removed';
 import { SkillsUpdate } from './skills/update';
+import { SkillsViews } from './skills/views';
+import { SkinsJob } from './skins';
 import { SkinsWikiJob } from './skins/appearance';
 import { SkinsUnlocks } from './skins/unlocks';
+import { SkinsViews } from './skins/views';
 import { TitlesCheck } from './titles/check';
 import { titlesMigrate } from './titles/migrate';
 import { TitlesNew } from './titles/new';
@@ -47,18 +50,10 @@ import { TitlesRemoved } from './titles/removed';
 import { TitlesUpdate } from './titles/update';
 import { TpJob } from './tp';
 import { TpImportJob } from './tp/import';
-import { WizardsVaultSeasonJob } from './wizardsvault/season';
 import { WizardsVaultListingsJob } from './wizardsvault/listings';
 import { WizardsVaultObjectivesJob } from './wizardsvault/objectives';
 import { WizardsVaultPurchaseLimitJob } from './wizardsvault/purchase-limit';
-import { HomesteadDecorationsJob } from './homestead/decorations';
-import { HomesteadDecorationCategoriesJob } from './homestead/decoration-categories';
-import { HomesteadGlyphsJob } from './homestead/glyphs';
-import { MinisJob } from './minis';
-import { MinisUnlocks } from './minis/unlocks';
-import { SkillsViews } from './skills/views';
-import { SkinsViews } from './skins/views';
-import { SkinsJob } from './skins';
+import { WizardsVaultSeasonJob } from './wizardsvault/season';
 
 const jobsInternal = {
   'test': { run: () => undefined } as Job,
@@ -100,13 +95,6 @@ const jobsInternal = {
   'recipes.removed': RecipesRemoved,
   'recipes.update': RecipesUpdate,
 
-  'currencies.check': CurrenciesCheck,
-  'currencies.new': CurrenciesNew,
-  'currencies.removed': CurrenciesRemoved,
-  'currencies.rediscovered': CurrenciesRediscovered,
-  'currencies.update': CurrenciesUpdate,
-  'currencies.migrate': CurrenciesMigrate,
-
   'titles.check': TitlesCheck,
   'titles.new': TitlesNew,
   'titles.removed': TitlesRemoved,
@@ -115,6 +103,7 @@ const jobsInternal = {
   'titles.migrate': titlesMigrate,
 
   'colors': ColorsJob,
+  'currencies': CurrenciesJob,
   'guild-upgrades': GuildUpgradesJob,
   'minis': MinisJob,
   'minis.unlocks': MinisUnlocks,

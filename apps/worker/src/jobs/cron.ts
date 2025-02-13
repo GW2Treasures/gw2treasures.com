@@ -37,13 +37,11 @@ export async function registerCronJobs() {
   await registerJob('recipes.update', '*/3 * * * *');
   await registerJob('recipes.migrate', '*/6 * * * *');
 
-  await registerJob('titles.check', '*/5 * * * *');
-  await registerJob('titles.update', '*/30 * * * *');
-  await registerJob('titles.migrate', '*/6 * * * *');
-
   await registerJob('colors', '*/5 * * * *');
   await registerJob('currencies', '*/5 * * * *');
   await registerJob('guild-upgrades', '*/5 * * * *');
+  await registerJob('titles', '*/5 * * * *');
+
   await registerJob('minis', '*/5 * * * *');
   await registerJob('minis.unlocks', '7 * * * *');
 

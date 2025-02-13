@@ -19,6 +19,8 @@ import { strip } from 'gw2-tooltip-html';
 import type { Weight } from '@/lib/types/weight';
 import { SkinLinkTooltip } from '../Skin/SkinLinkTooltip';
 import type { SubType, Type } from '../Item/ItemType.types';
+import { CurrencyLinkTooltip } from '../Currency/CurrencyLinkTooltip';
+import { categoryById, currencyCategories } from 'app/[language]/currency/data';
 
 export interface SearchResults<Id extends string> {
   id: Id;
@@ -34,7 +36,7 @@ export interface SearchResult {
   render?: (link: ReactElement<HTMLProps<HTMLElement>>) => ReactNode;
 }
 
-export function useSearchApiResults(searchValue: string, translations: TranslationSubset<typeof itemTypeTranslations.short[0] | `rarity.${Rarity}` | `weight.${Weight}`>) {
+export function useSearchApiResults(searchValue: string, translations: TranslationSubset<typeof itemTypeTranslations.short[0] | `rarity.${Rarity}` | `weight.${Weight}` | `currency.category.${keyof typeof currencyCategories}`>) {
   const fetchResponse = useJsonFetch<ApiSearchResponse>(`/api/search?q=${encodeURIComponent(searchValue)}`);
   const response = useStaleJsonResponse(fetchResponse);
   const language = useLanguage();
@@ -90,6 +92,14 @@ export function useSearchApiResults(searchValue: string, translations: Translati
     href: `/achievement#${group.id}`,
   }));
 
+  const currencies = response.loading ? [] : response.data.currencies.map<SearchResult>((currency) => ({
+    title: localizedName(currency, language),
+    subtitle: categoryById[currency.id]?.map((category) => translations[`currency.category.${category}`]).join(', '),
+    icon: currency.icon && <EntityIcon icon={currency.icon} size={32}/>,
+    href: `/currency/${currency.id}`,
+    render: (link) => <Tooltip content={<CurrencyLinkTooltip currency={getLinkProperties(currency)}/>} key={link.key}>{link}</Tooltip>
+  }));
+
   const builds = response.loading ? [] : response.data.builds.map<SearchResult>((build) => ({
     title: `Build ${build.id}`,
     icon: <Icon icon="builds"/>,
@@ -105,6 +115,7 @@ export function useSearchApiResults(searchValue: string, translations: Translati
     results('achievements', achievements),
     results('achievements.categories', categories),
     results('achievements.groups', groups),
+    results('currencies', currencies),
     results('builds', builds),
   ];
 }

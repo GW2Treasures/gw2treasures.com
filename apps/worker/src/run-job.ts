@@ -1,6 +1,6 @@
 import { Job } from '@gw2treasures/database';
 import chalk from 'chalk';
-import { parseExpression } from 'cron-parser';
+import { CronExpressionParser } from 'cron-parser';
 import { db } from './db';
 import { jobs } from './jobs';
 
@@ -62,7 +62,7 @@ export async function runJob(job: Job) {
   } finally {
     // if the job is a cron job, schedule again
     if(job.cron) {
-      const interval = parseExpression(job.cron, { utc: true });
+      const interval = CronExpressionParser.parse(job.cron, { tz: 'utc' });
 
       await db.job.update({
         where: { id: job.id },

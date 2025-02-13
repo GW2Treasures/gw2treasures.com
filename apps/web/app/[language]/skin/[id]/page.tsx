@@ -104,8 +104,7 @@ async function SkinPage ({ params }: SkinPageProps) {
           <ExternalLink href={`https://wiki.guildwars2.com/wiki/${encodeURI(skin.wikiImage)}`}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={`https://wiki.guildwars2.com/wiki/Special:FilePath/${encodeURI(skin.wikiImage)}?width=640`}
-              srcSet={`https://wiki.guildwars2.com/wiki/Special:FilePath/${encodeURI(skin.wikiImage)}?width=1280 2x`}
+              src={`https://wiki.guildwars2.com/wiki/Special:FilePath/${encodeURI(skin.wikiImage)}`}
               alt="Appearance"
               style={{ maxWidth: 640, maxHeight: 400, borderRadius: 4 }}/>
             <br/>Source: Guild Wars 2 Wiki

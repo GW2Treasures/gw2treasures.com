@@ -42,12 +42,7 @@ import { SkinsJob } from './skins';
 import { SkinsWikiJob } from './skins/appearance';
 import { SkinsUnlocks } from './skins/unlocks';
 import { SkinsViews } from './skins/views';
-import { TitlesCheck } from './titles/check';
-import { titlesMigrate } from './titles/migrate';
-import { TitlesNew } from './titles/new';
-import { TitlesRediscovered } from './titles/rediscovered';
-import { TitlesRemoved } from './titles/removed';
-import { TitlesUpdate } from './titles/update';
+import { TitlesJob } from './titles';
 import { TpJob } from './tp';
 import { TpImportJob } from './tp/import';
 import { WizardsVaultListingsJob } from './wizardsvault/listings';
@@ -95,16 +90,11 @@ const jobsInternal = {
   'recipes.removed': RecipesRemoved,
   'recipes.update': RecipesUpdate,
 
-  'titles.check': TitlesCheck,
-  'titles.new': TitlesNew,
-  'titles.removed': TitlesRemoved,
-  'titles.rediscovered': TitlesRediscovered,
-  'titles.update': TitlesUpdate,
-  'titles.migrate': titlesMigrate,
-
   'colors': ColorsJob,
   'currencies': CurrenciesJob,
   'guild-upgrades': GuildUpgradesJob,
+  'titles': TitlesJob,
+
   'minis': MinisJob,
   'minis.unlocks': MinisUnlocks,
 

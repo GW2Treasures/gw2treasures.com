@@ -85,6 +85,24 @@ export const searchAchievements = cache(async (terms: string[]) => {
   return { achievements, achievementCategories, achievementGroups };
 }, ['search', 'search-achievements'], { revalidate: 60 });
 
+export const searchCurrencies = cache(async (terms: string[]) => {
+  // don't show anything for empty search
+  if(terms.length === 0) {
+    return [];
+  }
+
+  const nameQueries = nameQuery(terms);
+
+  const currencies = await db.currency.findMany({
+    where: terms.length > 0 ? { OR: nameQueries } : undefined,
+    take: 5,
+    include: { icon: true },
+    orderBy: { order: 'asc' }
+  });
+
+  return currencies;
+}, ['search', 'search-currencies'], { revalidate: 60 });
+
 export type ItemFilters = {
   iconId?: number | null,
   rarity?: Rarity,

@@ -126,8 +126,8 @@ export const DataTableClientColumnSelection: FC<DataTableClientColumnSelectionPr
   return (
     <DropDown button={<Button icon="columns">{children}</Button>} preferredPlacement="right-start">
       <MenuList>
-        {currentAvailableColumns.filter((column) => !column.fixed).map((column) => (
-          <Checkbox key={column.id} checked={currentColumns.includes(column.id)} onChange={(checked) => setColumns(id, currentAvailableColumns.map(({ id }) => id).filter((id) => id === column.id ? checked : currentColumns.includes(id)))}>{column.title}</Checkbox>
+        {currentAvailableColumns.filter((column) => !column.fixed || column.title).map((column) => (
+          <Checkbox key={column.id} checked={column.fixed || currentColumns.includes(column.id)} onChange={(checked) => setColumns(id, currentAvailableColumns.map(({ id }) => id).filter((id) => id === column.id ? checked : currentColumns.includes(id)))} disabled={column.fixed}>{column.title}</Checkbox>
         ))}
         <Separator/>
         <Button appearance="menu" onClick={() => setColumns(id, undefined)} disabled={columns[id] === undefined}>{reset}</Button>

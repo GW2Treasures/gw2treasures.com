@@ -106,13 +106,16 @@ export default async function LegendaryRelicsPage() {
       </Description>
       <LegendaryItemDataTable table={Items}/>
 
-      <Headline id="unlocks"><Trans id="legendary-armory.relics.unlocks"/></Headline>
+      <Headline id="unlocks" actions={<ColumnSelect table={Relics}/>}>
+        <Trans id="legendary-armory.relics.unlocks"/>
+      </Headline>
       <p><Trans id="legendary-armory.relics.unlocks.description"/></p>
       <Relics.Table initialSortBy="set">
-        <Relics.Column id="relic" title="Relic">
+        <Relics.Column id="id" title={<Trans id="itemTable.column.id"/>} small hidden align="right">{({ item }) => item.id}</Relics.Column>
+        <Relics.Column id="relic" title={<Trans id="legendary-armory.relic"/>} fixed>
           {({ item }) => <ItemLink item={item}/>}
         </Relics.Column>
-        <Relics.Column id="set" title="Set" sortBy={({ set, achievement }) => set?.order ?? achievement.id}>
+        <Relics.Column id="set" title={<Trans id="legendary-armory.set"/>} sortBy={({ set, achievement }) => set?.order ?? achievement.id}>
           {({ achievement }) => <AchievementLink achievement={achievement}/>}
         </Relics.Column>
         <Relics.DynamicColumns headers={<Gw2AccountHeaderCells small requiredScopes={requiredScopes}/>}>

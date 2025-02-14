@@ -22,3 +22,9 @@ export const requiredScopes = [
   // Relic unlocks using `/v2/account/achievements`
   Scope.GW2_Progression,
 ];
+
+
+export type RelicSet = {
+  type?: 'Core' | 'SotO',
+  order: number,
+};

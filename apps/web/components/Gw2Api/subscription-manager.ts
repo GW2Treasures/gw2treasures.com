@@ -1,13 +1,15 @@
-import { getResetDate } from '../Reset/ResetTimer';
 import { fetchGw2Api, Gw2ApiError } from '@gw2api/fetch';
+import type { Account } from '@gw2api/types/data/account';
 import type { AccountAchievement } from '@gw2api/types/data/account-achievements';
-import type { AccountWallet } from '@gw2api/types/data/account-wallet';
 import type { AccountHomesteadDecoration } from '@gw2api/types/data/account-homestead';
+import type { AccountWallet } from '@gw2api/types/data/account-wallet';
+import { getResetDate } from '../Reset/ResetTimer';
 import { accessTokenManager } from './access-token-manager';
 
-export type SubscriptionType = 'achievements' | 'skins' | 'minis' | 'wallet' | 'wizards-vault' | 'inventories' | 'home.nodes' | 'home.cats' | 'homestead.decorations' | 'homestead.glyphs';
+export type SubscriptionType = 'account' | 'achievements' | 'skins' | 'minis' | 'wallet' | 'wizards-vault' | 'inventories' | 'home.nodes' | 'home.cats' | 'homestead.decorations' | 'homestead.glyphs';
 
 export type SubscriptionData<T extends SubscriptionType> =
+  T extends 'account' ? Account :
   T extends 'achievements' ? AccountAchievement[] :
   T extends 'skins' ? number[] :
   T extends 'minis' ? number[] :
@@ -204,6 +206,7 @@ export class AccountSubscriptionManager {
 }
 
 const fetchers: { [T in SubscriptionType]: (accessToken: string) => Promise<SubscriptionData<T>> } = {
+  account: (accessToken: string) => fetchGw2Api('/v2/account', { accessToken, cache: 'no-cache' }),
   achievements: (accessToken: string) => fetchGw2Api('/v2/account/achievements', { accessToken, cache: 'no-cache' }),
   skins: (accessToken: string) => fetchGw2Api('/v2/account/skins', { accessToken, cache: 'no-cache' }),
   minis: (accessToken: string) => fetchGw2Api('/v2/account/minis', { accessToken, cache: 'no-cache' }),
@@ -217,6 +220,7 @@ const fetchers: { [T in SubscriptionType]: (accessToken: string) => Promise<Subs
 };
 
 async function loadAccountsWizardsVault(accessToken: string) {
+  // TODO: somehow reuse subscription (maybe just extract logic into a `useWizardsVault` hook that subscribes to both)
   const account = await fetchGw2Api('/v2/account', { accessToken, schema: '2019-02-21T00:00:00.000Z', cache: 'no-cache' });
 
   const lastModified = new Date(account.last_modified);

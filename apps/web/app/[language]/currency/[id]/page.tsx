@@ -17,7 +17,13 @@ import { cache } from '@/lib/cache';
 import { localizedName } from '@/lib/localizedName';
 import { WalletTable } from './wallet-table';
 import type { PageProps } from '@/lib/next';
-import { format } from 'gw2-tooltip-html';
+import { format, strip } from 'gw2-tooltip-html';
+import { Breadcrumb, BreadcrumbItem } from '@/components/Breadcrumb/Breadcrumb';
+import { getTranslate } from '@/lib/translate';
+import type { Metadata } from 'next';
+import { parseIcon } from '@/lib/parseIcon';
+import { getIconUrl } from '@/lib/getIconUrl';
+import { getAlternateUrls } from '@/lib/url';
 
 const getCurrency = cache(async (id: number) => {
   if(isNaN(id)) {
@@ -53,6 +59,8 @@ type CurrencyPageProps = PageProps<{ id: string }>;
 
 export default async function CurrencyPage({ params }: CurrencyPageProps) {
   const { language, id } = await params;
+  const t = getTranslate(language);
+
   const currencyId = Number(id);
   const [currency, { revision, data }] = await Promise.all([
     getCurrency(currencyId),
@@ -65,7 +73,11 @@ export default async function CurrencyPage({ params }: CurrencyPageProps) {
   }
 
   return (
-    <DetailLayout title={data.name} breadcrumb="Currency" icon={currency.icon}>
+    <DetailLayout
+      title={data.name}
+      icon={currency.icon}
+      breadcrumb={<Breadcrumb>{[<BreadcrumbItem key="currency" name={t('currency')} href="/currency"/>]}</Breadcrumb>}
+    >
       <p dangerouslySetInnerHTML={{ __html: format(data.description) }}/>
 
       <Headline id="wallet">Wallet</Headline>
@@ -111,16 +123,27 @@ export default async function CurrencyPage({ params }: CurrencyPageProps) {
   );
 }
 
-export async function generateMetadata({ params }: CurrencyPageProps) {
+export async function generateMetadata({ params }: CurrencyPageProps): Promise<Metadata> {
   const { language, id } = await params;
   const currencyId = Number(id);
-  const currency = await getCurrency(currencyId);
+  const [currency, { data }] = await Promise.all([
+    getCurrency(currencyId),
+    getRevision(currencyId, language),
+  ]);
 
-  if(!currency) {
+  if(!currency || !data) {
     return notFound();
   }
 
+  const icon = parseIcon(data.icon);
+
   return {
-    title: localizedName(currency, language)
+    title: localizedName(currency, language),
+    description: strip(data?.description) || undefined,
+    openGraph: {
+      images: icon ? [{ url: getIconUrl(icon, 64), width: 64, height: 64, type: 'image/png' }] : []
+    },
+    twitter: { card: 'summary' },
+    alternates: getAlternateUrls(`/item/${id}`, language)
   };
 }

@@ -1,5 +1,5 @@
-import { AccountAchievementProgressHeader, AccountAchievementProgressRow } from '@/components/Achievement/AccountAchievementProgress';
 import { AchievementLink } from '@/components/Achievement/AchievementLink';
+import { Gw2AccountBodyCells, Gw2AccountHeaderCells } from '@/components/Gw2Api/Gw2AccountTableCells';
 import { Trans } from '@/components/I18n/Trans';
 import { ItemLink } from '@/components/Item/ItemLink';
 import { Description } from '@/components/Layout/Description';
@@ -21,8 +21,9 @@ import { Separator } from '@gw2treasures/ui/components/Layout/Separator';
 import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
 import { encode } from 'gw2e-chat-codes';
 import type { Metadata } from 'next';
-import type { RelicSet } from '../helper';
+import { requiredScopes, type RelicSet } from '../helper';
 import { createItemTable, LegendaryItemDataTable } from '../table';
+import { RelicUnlockCell } from './page.client';
 
 // item id of the legendary relic
 const legendaryRelicId = 101582;
@@ -112,8 +113,8 @@ export default async function LegendaryRelicsPage() {
         <Relics.Column id="set" title="Set" sortBy={({ set, achievement }) => set?.order ?? achievement.id}>
           {({ achievement }) => <AchievementLink achievement={achievement}/>}
         </Relics.Column>
-        <Relics.DynamicColumns headers={<AccountAchievementProgressHeader/>}>
-          {({ achievement, bitId }) => <AccountAchievementProgressRow achievement={achievement} bitId={bitId}/>}
+        <Relics.DynamicColumns headers={<Gw2AccountHeaderCells small requiredScopes={requiredScopes}/>}>
+          {({ achievement, bitId, set }) => <Gw2AccountBodyCells requiredScopes={requiredScopes}><RelicUnlockCell achievement={achievement} bitId={bitId} set={set} accountId={undefined as never}/></Gw2AccountBodyCells>}
         </Relics.DynamicColumns>
         <Relics.Column id="actions" title="" small fixed>
           {({ item, achievement }) => (

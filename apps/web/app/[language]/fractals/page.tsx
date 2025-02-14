@@ -17,6 +17,7 @@ import { Switch } from '@gw2treasures/ui/components/Form/Switch';
 import type { PageProps } from '@/lib/next';
 import type { Language } from '@gw2treasures/database';
 import ogImage from './fractals-og.png';
+import { ResetTimer } from '@/components/Reset/ResetTimer';
 
 
 export default async function FractalsPage({ params, searchParams }: PageProps) {
@@ -46,7 +47,7 @@ export default async function FractalsPage({ params, searchParams }: PageProps) 
   const t = getTranslate(language);
 
   return (
-    <HeroLayout hero={<Headline id="fractals"><Trans id="fractals"/></Headline>}>
+    <HeroLayout hero={<Headline id="fractals" actions={<span>Reset: <ResetTimer reset="current-daily"/></span>}><Trans id="fractals"/></Headline>}>
       <div style={{ marginTop: -16, marginBottom: 16, marginInline: -16, padding: 16, background: 'var(--color-background-light)', borderBottom: '1px solid var(--color-border)', display: 'flex', gap: 16, alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap' }}>
         <label style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
           <Trans id="fractals.daily"/>:
@@ -63,6 +64,9 @@ export default async function FractalsPage({ params, searchParams }: PageProps) 
           <DateSelector date={parsedDate} tier={tier}/>
         </label>
       </div>
+
+      <p><Trans id="fractals.description"/></p>
+
       <Fractals.Table>
         <Fractals.Column id="tier" title={t('fractals.tier')} sortBy="level" small>{({ tier }) => `T${tier}`}</Fractals.Column>
         <Fractals.Column id="level" title={t('fractals.level')} align="right" sortBy="level" small>{({ level }) => <FormatNumber value={level}/>}</Fractals.Column>

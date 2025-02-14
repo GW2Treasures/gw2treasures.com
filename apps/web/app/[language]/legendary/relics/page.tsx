@@ -15,6 +15,13 @@ import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
 import type { Metadata } from 'next';
 import { createItemTable, LegendaryItemDataTable } from '../table';
+import { DropDown } from '@gw2treasures/ui/components/DropDown/DropDown';
+import { Button, LinkButton } from '@gw2treasures/ui/components/Form/Button';
+import { Icon } from '@gw2treasures/ui';
+import { MenuList } from '@gw2treasures/ui/components/Layout/MenuList';
+import { CopyButton } from '@gw2treasures/ui/components/Form/Buttons/CopyButton';
+import { encode } from 'gw2e-chat-codes';
+import { Separator } from '@gw2treasures/ui/components/Layout/Separator';
 
 // item id of the legendary relic
 const legendaryRelicId = 101582;
@@ -103,6 +110,20 @@ export default async function LegendaryRelicsPage() {
         <Relics.DynamicColumns headers={<AccountAchievementProgressHeader/>}>
           {({ achievement, bitId }) => <AccountAchievementProgressRow achievement={achievement} bitId={bitId}/>}
         </Relics.DynamicColumns>
+        <Relics.Column id="actions" title="" small fixed>
+          {({ item, achievement }) => (
+            <DropDown button={<Button iconOnly appearance="menu"><Icon icon="more"/></Button>} preferredPlacement="right-start">
+              <MenuList>
+                <LinkButton appearance="menu" icon="eye" href={`/item/${item.id}`}>View Item</LinkButton>
+                <CopyButton appearance="menu" icon="chatlink" copy={encode('item', item.id) || ''}><Trans id="chatlink.copy"/></CopyButton>
+                <LinkButton appearance="menu" icon="external" href={`https://api.guildwars2.com/v2/items/${item.id}?v=latest`} target="_blank" rel="noreferrer noopener">API</LinkButton>
+                <Separator/>
+                <LinkButton appearance="menu" icon="eye" href={`/achievement/${achievement.id}`}>View Achievement</LinkButton>
+                <LinkButton appearance="menu" icon="external" href={`https://api.guildwars2.com/v2/achievements/${achievement.id}?v=latest`} target="_blank" rel="noreferrer noopener">API</LinkButton>
+              </MenuList>
+            </DropDown>
+          )}
+        </Relics.Column>
       </Relics.Table>
     </>
   );

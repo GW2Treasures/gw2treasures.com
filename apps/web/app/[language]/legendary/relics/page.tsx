@@ -1,5 +1,5 @@
-import { AccountAchievementProgressHeader, AccountAchievementProgressRow } from '@/components/Achievement/AccountAchievementProgress';
 import { AchievementLink } from '@/components/Achievement/AchievementLink';
+import { Gw2AccountBodyCells, Gw2AccountHeaderCells } from '@/components/Gw2Api/Gw2AccountTableCells';
 import { Trans } from '@/components/I18n/Trans';
 import { ItemLink } from '@/components/Item/ItemLink';
 import { Description } from '@/components/Layout/Description';
@@ -11,17 +11,19 @@ import { db } from '@/lib/prisma';
 import { getTranslate } from '@/lib/translate';
 import type { Achievement } from '@gw2api/types/data/achievement';
 import { isDefined } from '@gw2treasures/helper/is';
-import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
-import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
-import type { Metadata } from 'next';
-import { createItemTable, LegendaryItemDataTable } from '../table';
+import { Icon } from '@gw2treasures/ui';
 import { DropDown } from '@gw2treasures/ui/components/DropDown/DropDown';
 import { Button, LinkButton } from '@gw2treasures/ui/components/Form/Button';
-import { Icon } from '@gw2treasures/ui';
-import { MenuList } from '@gw2treasures/ui/components/Layout/MenuList';
 import { CopyButton } from '@gw2treasures/ui/components/Form/Buttons/CopyButton';
-import { encode } from 'gw2e-chat-codes';
+import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
+import { MenuList } from '@gw2treasures/ui/components/Layout/MenuList';
 import { Separator } from '@gw2treasures/ui/components/Layout/Separator';
+import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
+import { encode } from 'gw2e-chat-codes';
+import type { Metadata } from 'next';
+import { requiredScopes, type RelicSet } from '../helper';
+import { createItemTable, LegendaryItemDataTable } from '../table';
+import { RelicUnlockCell } from './page.client';
 
 // item id of the legendary relic
 const legendaryRelicId = 101582;
@@ -29,13 +31,17 @@ const legendaryRelicId = 101582;
 // all the achievements are in this category
 const rareCollectionsAchievementCategoryId = 75;
 
-// core and SotO relics are always unlocked
-const coreAchievementIds = [
-  7685, // Relics—Core Set 1
-  7686, // Relics—Secrets of the Obscure Set 1
-  7684, // Relics—Secrets of the Obscure Set 2
-  7960, // Relics—Secrets of the Obscure Set 3
-];
+// core relics are always unlocked
+// SotO relics are unlocked if the account has access to SotO
+// other relics need to be unlocked bit by bit
+const knownAchievements: Record<number, RelicSet | undefined> = {
+  7685: { order: 1, access: 'Core' }, // Relics—Core Set 1
+  7686: { order: 2, access: 'SecretsOfTheObscure' }, // Relics—Secrets of the Obscure Set 1
+  7684: { order: 3, access: 'SecretsOfTheObscure' }, // Relics—Secrets of the Obscure Set 2
+  7960: { order: 4, access: 'SecretsOfTheObscure' }, // Relics—Secrets of the Obscure Set 3
+  8363: { order: 5, access: 'JanthirWilds' }, // Relics—Janthir Wilds Set 1
+  8446: { order: 6, access: 'JanthirWilds' }, // Relics—Janthir Wilds Set 2
+};
 
 const loadItems = cache(async () => {
   const items = await db.item.findMany({
@@ -50,7 +56,6 @@ const loadAchievements = cache(async () => {
   const achievements = await db.achievement.findMany({
     where: {
       name_en: { startsWith: 'Relics—%' },
-      id: { notIn: coreAchievementIds },
       achievementCategoryId: rareCollectionsAchievementCategoryId
     },
     select: {
@@ -70,14 +75,17 @@ function achievementsToRelics(achievements: Awaited<ReturnType<typeof loadAchiev
   return achievements.flatMap((achievement) => {
     const data = JSON.parse(achievement.current_en.data) as Achievement;
 
-    return data.bits?.map((bit, index) => {
+    return data.bits?.map((bit, bitId) => {
       if(bit.type !== 'Item') {
         return undefined;
       }
 
+      const set = knownAchievements[achievement.id];
       const item = achievement.bitsItem.find(({ id }) => id === bit.id);
 
-      return item ? { bitId: index, item, achievement } : undefined;
+      return item
+        ? { bitId, item, achievement, set }
+        : undefined;
     });
   }).filter(isDefined);
 }
@@ -100,15 +108,15 @@ export default async function LegendaryRelicsPage() {
 
       <Headline id="unlocks"><Trans id="legendary-armory.relics.unlocks"/></Headline>
       <p><Trans id="legendary-armory.relics.unlocks.description"/></p>
-      <Relics.Table>
+      <Relics.Table initialSortBy="set">
         <Relics.Column id="relic" title="Relic">
           {({ item }) => <ItemLink item={item}/>}
         </Relics.Column>
-        <Relics.Column id="set" title="Set">
+        <Relics.Column id="set" title="Set" sortBy={({ set, achievement }) => set?.order ?? achievement.id}>
           {({ achievement }) => <AchievementLink achievement={achievement}/>}
         </Relics.Column>
-        <Relics.DynamicColumns headers={<AccountAchievementProgressHeader/>}>
-          {({ achievement, bitId }) => <AccountAchievementProgressRow achievement={achievement} bitId={bitId}/>}
+        <Relics.DynamicColumns headers={<Gw2AccountHeaderCells small requiredScopes={requiredScopes}/>}>
+          {({ achievement, bitId, set }) => <Gw2AccountBodyCells requiredScopes={requiredScopes}><RelicUnlockCell achievement={achievement} bitId={bitId} set={set} accountId={undefined as never}/></Gw2AccountBodyCells>}
         </Relics.DynamicColumns>
         <Relics.Column id="actions" title="" small fixed>
           {({ item, achievement }) => (

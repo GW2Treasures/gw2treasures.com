@@ -1,3 +1,4 @@
+import type { AccountAccess } from '@gw2api/types/data/account';
 import { Scope } from '@gw2me/client';
 
 export const requiredScopes = [
@@ -22,3 +23,9 @@ export const requiredScopes = [
   // Relic unlocks using `/v2/account/achievements`
   Scope.GW2_Progression,
 ];
+
+
+export type RelicSet = {
+  access?: 'Core' | AccountAccess,
+  order: number,
+};

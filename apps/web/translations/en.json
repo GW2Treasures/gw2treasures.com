@@ -358,5 +358,16 @@
   "currency.category.dungeon": "Dungeon",
   "currency.category.blacklion": "Black Lion",
   "currency.category.historic": "Historic",
-  "currency.order": "Order"
+  "currency.order": "Order",
+  "legendary-armory": "Legendary Armory",
+  "legendary-armory.login": "Login to view your personal Legendary Armory",
+  "legendary-armory.authorize": "You need to authorize gw2treasures.com to be able to see your accounts Legendary Armory",
+  "legendary-armory.weapons": "Weapons",
+  "legendary-armory.armor": "Armor",
+  "legendary-armory.trinkets": "Trinkets",
+  "legendary-armory.relics": "Relics",
+  "legendary-armory.relics.title": "Legendary Relics",
+  "legendary-armory.relics.description": "Legendary Relics can take the effect of any relic, and can be used on every character once unlocked in the Legendary Armory.",
+  "legendary-armory.relics.unlocks": "Unlocks",
+  "legendary-armory.relics.unlocks.description": "Relics introduced after Secrets of the Obscure have to be unlocked, before they can be used with the Legendary Relic."
 }

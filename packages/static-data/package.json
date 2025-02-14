@@ -1,0 +1,47 @@
+{
+  "name": "@gw2treasures/static-data",
+  "private": true,
+  "version": "0.0.1",
+  "description": "gw2treasures.com static data",
+  "exports": {
+    "./*": {
+      "types": "./dist/*.d.ts",
+      "default": "./dist/*.js"
+    }
+  },
+  "scripts": {
+    "build": "pnpm run clean && if test $CI; then pnpm run build:ci; else pnpm run build:local; fi",
+    "build:local": "tsc --declarationMap",
+    "build:ci": "tsc",
+    "clean": "rm -rf dist/",
+    "lint": "eslint src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GW2Treasures/gw2treasures.com.git"
+  },
+  "keywords": [
+    "gw2treasures",
+    "static-data"
+  ],
+  "files": [
+    "dist/"
+  ],
+  "author": "darthmaim",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/GW2Treasures/gw2treasures.com/issues"
+  },
+  "homepage": "https://github.com/GW2Treasures/gw2treasures.com#readme",
+  "devDependencies": {
+    "@eslint/eslintrc": "3.2.0",
+    "@eslint/js": "9.20.0",
+    "@gw2treasures/eslint-config": "workspace:*",
+    "@gw2treasures/tsconfig": "workspace:*",
+    "eslint": "9.20.1",
+    "typescript": "5.7.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

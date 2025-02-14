@@ -25,6 +25,7 @@
     "@gw2treasures/helper": "workspace:*",
     "@gw2treasures/icons": "workspace:*",
     "@gw2treasures/onig": "workspace:*",
+    "@gw2treasures/static-data": "workspace:*",
     "@gw2treasures/ui": "workspace:*",
     "@prisma/nextjs-monorepo-workaround-plugin": "6.3.1",
     "@visx/axis": "3.12.0",

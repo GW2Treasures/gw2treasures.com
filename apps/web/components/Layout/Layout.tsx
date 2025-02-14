@@ -13,7 +13,7 @@ import { ReviewCountBadge } from './Header/ReviewCountBadge';
 import { UserButton } from './Header/UserButton';
 import { translations as itemTypeTranslations } from '../Item/ItemType.translations';
 import { Language, Rarity } from '@gw2treasures/database';
-import { currencyCategories } from 'app/[language]/currency/data';
+import { currencyCategories, type CurrencyCategoryName } from '@gw2treasures/static-data/currencies/categories';
 
 interface LayoutProps {
   children: ReactNode;
@@ -35,7 +35,7 @@ const Layout: FC<LayoutProps> = ({ children, language }) => {
     ...itemTypeTranslations.short,
     ...Object.values(Rarity).map((rarity) => `rarity.${rarity}` as const),
     'weight.Clothing', 'weight.Heavy', 'weight.Light', 'weight.Medium',
-    ...Object.keys(currencyCategories).map((category) => `currency.category.${category as keyof typeof currencyCategories}` as const),
+    ...Object.keys(currencyCategories).map((category) => `currency.category.${category as CurrencyCategoryName}` as const),
   ], language);
 
   return (

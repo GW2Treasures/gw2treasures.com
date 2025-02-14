@@ -20,7 +20,7 @@ import type { Weight } from '@/lib/types/weight';
 import { SkinLinkTooltip } from '../Skin/SkinLinkTooltip';
 import type { SubType, Type } from '../Item/ItemType.types';
 import { CurrencyLinkTooltip } from '../Currency/CurrencyLinkTooltip';
-import { categoryById, currencyCategories } from 'app/[language]/currency/data';
+import { currencyCategoryById, type CurrencyCategoryName } from '@gw2treasures/static-data/currencies/categories';
 
 export interface SearchResults<Id extends string> {
   id: Id;
@@ -36,7 +36,7 @@ export interface SearchResult {
   render?: (link: ReactElement<HTMLProps<HTMLElement>>) => ReactNode;
 }
 
-export function useSearchApiResults(searchValue: string, translations: TranslationSubset<typeof itemTypeTranslations.short[0] | `rarity.${Rarity}` | `weight.${Weight}` | `currency.category.${keyof typeof currencyCategories}`>) {
+export function useSearchApiResults(searchValue: string, translations: TranslationSubset<typeof itemTypeTranslations.short[0] | `rarity.${Rarity}` | `weight.${Weight}` | `currency.category.${CurrencyCategoryName}`>) {
   const fetchResponse = useJsonFetch<ApiSearchResponse>(`/api/search?q=${encodeURIComponent(searchValue)}`);
   const response = useStaleJsonResponse(fetchResponse);
   const language = useLanguage();
@@ -94,7 +94,7 @@ export function useSearchApiResults(searchValue: string, translations: Translati
 
   const currencies = response.loading ? [] : response.data.currencies.map<SearchResult>((currency) => ({
     title: localizedName(currency, language),
-    subtitle: categoryById[currency.id]?.map((category) => translations[`currency.category.${category}`]).join(', '),
+    subtitle: currencyCategoryById[currency.id]?.map((category) => translations[`currency.category.${category}`]).join(', '),
     icon: currency.icon && <EntityIcon icon={currency.icon} size={32}/>,
     href: `/currency/${currency.id}`,
     render: (link) => <Tooltip content={<CurrencyLinkTooltip currency={getLinkProperties(currency)}/>} key={link.key}>{link}</Tooltip>

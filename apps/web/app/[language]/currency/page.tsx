@@ -10,7 +10,7 @@ import { AccountHeader, AccountWalletRow } from './account-data';
 import type { PageProps } from '@/lib/next';
 import { getTranslate } from '@/lib/translate';
 import { Trans } from '@/components/I18n/Trans';
-import { categoryById } from './data';
+import { currencyCategoryById } from '@gw2treasures/static-data/currencies/categories';
 import type { Metadata } from 'next';
 import { Description } from '@/components/Layout/Description';
 import { getAlternateUrls } from '@/lib/url';
@@ -40,7 +40,7 @@ export default async function CurrencyPage({ params }: PageProps) {
       <Currencies.Table>
         <Currencies.Column id="id" title="Id" align="right" sortBy="id" small hidden>{({ id }) => id}</Currencies.Column>
         <Currencies.Column id="currency" title={<Trans id="currency"/>} sort={compareLocalizedName(language)}>{(currency) => <CurrencyLink currency={currency}/>}</Currencies.Column>
-        <Currencies.Column id="category" title={<Trans id="currency.category"/>}>{({ id }) => categoryById[id]?.map((category) => t(`currency.category.${category}`)).join(', ')}</Currencies.Column>
+        <Currencies.Column id="category" title={<Trans id="currency.category"/>}>{({ id }) => currencyCategoryById[id]?.map((category) => t(`currency.category.${category}`)).join(', ')}</Currencies.Column>
         <Currencies.Column id="order" title={<Trans id="currency.order"/>} sortBy="order" align="right" hidden>{({ order }) => order}</Currencies.Column>
         <Currencies.DynamicColumns headers={<AccountHeader/>}>
           {({ id }) => <AccountWalletRow currencyId={id}/>}

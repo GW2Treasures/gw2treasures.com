@@ -367,7 +367,7 @@
   "legendary-armory.trinkets": "Trinkets",
   "legendary-armory.relics": "Relics",
   "legendary-armory.relics.title": "Legendary Relics",
-  "legendary-armory.relics.description": "Legendary Relics can take the effect of any relic, and can be used on every character once unlocked in the Legendary Armory.",
+  "legendary-armory.relics.description": "Legendary Relics can take the effect of any unlocked relic, and can be used on every character once unlocked in the Legendary Armory.",
   "legendary-armory.relics.unlocks": "Unlocks",
-  "legendary-armory.relics.unlocks.description": "Relics introduced after Secrets of the Obscure have to be unlocked, before they can be used with the Legendary Relic."
+  "legendary-armory.relics.unlocks.description": "Core relics can always be used with the Legendary Relic. Other relics require the corresponding expansions, and relics introduced after Secrets of the Obscure have to be unlocked."
 }

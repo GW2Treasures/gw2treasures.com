@@ -16,7 +16,8 @@ export interface RelicUnlockCellProps extends AccountAchievementProgressCellProp
 export const RelicUnlockCell: FC<RelicUnlockCellProps> = ({ set, accountId, ...props }) => {
   const account = useSubscription('account', accountId);
 
-  if(set?.type === 'Core') {
+  // `Core` is always unlocked
+  if(set?.access === 'Core') {
     return <ProgressCell progress={1}><Tip tip="Always unlocked"><Icon icon="checkmark"/></Tip></ProgressCell>;
   }
 
@@ -28,17 +29,17 @@ export const RelicUnlockCell: FC<RelicUnlockCellProps> = ({ set, accountId, ...p
     return <td/>;
   }
 
-  // TODO check `/v2/account.access` if account has access to SotO
-  if(set?.type === 'SotO') {
-    const hasSotO = account.data.access.includes('SecretsOfTheObscure');
-
-    if(!hasSotO) {
-      return <td><Tip tip="Requires SotO"><Icon icon="lock"/></Tip></td>;
-    }
-
-    return <ProgressCell progress={1}><Tip tip="Requires SotO"><Icon icon="checkmark"/></Tip></ProgressCell>;
+  // if the set requires a specific expansion and the account doesn't have it unlocked show lock
+  if(set?.access && !account.data.access.includes(set.access)) {
+    return <td><Tip tip="Requires expansion"><Icon icon="lock"/></Tip></td>;
   }
 
+  // `SecretsOfTheObscure` is special, because all relics are unlocked by simply having access to the expansion
+  if(set?.access === 'SecretsOfTheObscure') {
+    return <ProgressCell progress={1}><Tip tip="Requires expansion"><Icon icon="checkmark"/></Tip></ProgressCell>;
+  }
+
+  // otherwise check achievement
   return (
     <AccountAchievementProgressCell accountId={accountId} {...props}/>
   );

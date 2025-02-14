@@ -1,3 +1,4 @@
+import type { AccountAccess } from '@gw2api/types/data/account';
 import { Scope } from '@gw2me/client';
 
 export const requiredScopes = [
@@ -25,6 +26,6 @@ export const requiredScopes = [
 
 
 export type RelicSet = {
-  type?: 'Core' | 'SotO',
+  access?: 'Core' | AccountAccess,
   order: number,
 };

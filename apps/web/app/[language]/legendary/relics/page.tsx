@@ -35,10 +35,12 @@ const rareCollectionsAchievementCategoryId = 75;
 // SotO relics are unlocked if the account has access to SotO
 // other relics need to be unlocked bit by bit
 const knownAchievements: Record<number, RelicSet | undefined> = {
-  7685: { type: 'Core', order: 1 }, // Relics—Core Set 1
-  7686: { type: 'SotO', order: 2 }, // Relics—Secrets of the Obscure Set 1
-  7684: { type: 'SotO', order: 3 }, // Relics—Secrets of the Obscure Set 2
-  7960: { type: 'SotO', order: 4 }, // Relics—Secrets of the Obscure Set 3
+  7685: { order: 1, access: 'Core' }, // Relics—Core Set 1
+  7686: { order: 2, access: 'SecretsOfTheObscure' }, // Relics—Secrets of the Obscure Set 1
+  7684: { order: 3, access: 'SecretsOfTheObscure' }, // Relics—Secrets of the Obscure Set 2
+  7960: { order: 4, access: 'SecretsOfTheObscure' }, // Relics—Secrets of the Obscure Set 3
+  8363: { order: 5, access: 'JanthirWilds' }, // Relics—Janthir Wilds Set 1
+  8446: { order: 6, access: 'JanthirWilds' }, // Relics—Janthir Wilds Set 2
 };
 
 const loadItems = cache(async () => {

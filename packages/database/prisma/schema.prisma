@@ -38,6 +38,9 @@ model Item {
   tpCheckedAt   DateTime?
   tpHistory     TradingPostHistory_Trend[]
 
+  // legendary armory
+  legendaryArmoryMaxCount Int?
+
   // skins
   unlocksSkin    Skin[]
   unlocksSkinIds Int[]

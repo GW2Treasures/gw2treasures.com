@@ -13,6 +13,7 @@ import { HomesteadGlyphsJob } from './homestead/glyphs';
 import { IconsColors } from './icons/colors';
 import { ItemsCheck } from './items/check';
 import { ItemsContainerContent } from './items/containerContent';
+import { ItemsLegendaryArmoryJob } from './items/legendary-armory';
 import { ItemsMigrate } from './items/migrate';
 import { ItemsNew } from './items/new';
 import { ItemsRediscovered } from './items/rediscovered';
@@ -62,6 +63,7 @@ const jobsInternal = {
   'items.containerContent': ItemsContainerContent,
   'items.views': ItemsViews,
   'items.relevancy': ItemsRelevancy,
+  'items.legendary-armory': ItemsLegendaryArmoryJob,
 
   'skills.check': SkillsCheck,
   'skills.new': SkillsNew,

@@ -11,7 +11,7 @@ import type { TranslationSubset } from '@/lib/translate';
 import type { translations as itemTypeTranslations } from '../Item/ItemType.translations';
 import type { Rarity } from '@gw2treasures/database';
 import type { Weight } from '@/lib/types/weight';
-import type { currencyCategories } from 'app/[language]/currency/data';
+import type { CurrencyCategoryName } from '@gw2treasures/static-data/currencies/categories';
 
 export interface SearchProps {
   translations: TranslationSubset<
@@ -28,7 +28,7 @@ export interface SearchProps {
    | typeof itemTypeTranslations.short[0]
    | `rarity.${Rarity}`
    | `weight.${Weight}`
-   | `currency.category.${keyof typeof currencyCategories}`
+   | `currency.category.${CurrencyCategoryName}`
   >
 }
 

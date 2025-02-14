@@ -1,5 +1,3 @@
-
-// TODO(static): Extract to static data
 export const currencyCategories = {
   general: [
     4, // Gem
@@ -86,13 +84,15 @@ export const currencyCategories = {
   ]
 };
 
-export const categoryById: Record<number, (keyof typeof currencyCategories)[]> = {};
+export type CurrencyCategoryName = keyof typeof currencyCategories;
 
-for(const [category, ids] of Object.entries(currencyCategories) as [keyof typeof currencyCategories, number[]][]) {
+export const currencyCategoryById: Record<number, (CurrencyCategoryName)[]> = {};
+
+for(const [category, ids] of Object.entries(currencyCategories) as [CurrencyCategoryName, number[]][]) {
   for(const id of ids) {
-    if(!categoryById[id]) {
-      categoryById[id] = [];
+    if(!currencyCategoryById[id]) {
+      currencyCategoryById[id] = [];
     }
-    categoryById[id].push(category);
+    currencyCategoryById[id].push(category);
   }
 }

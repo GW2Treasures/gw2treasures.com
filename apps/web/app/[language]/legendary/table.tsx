@@ -13,8 +13,9 @@ import { Icon } from '@gw2treasures/ui';
 import { MenuList } from '@gw2treasures/ui/components/Layout/MenuList';
 import { CopyButton } from '@gw2treasures/ui/components/Form/Buttons/CopyButton';
 import { encode } from 'gw2e-chat-codes';
+import { FormatNumber } from '@/components/Format/FormatNumber';
 
-export function createItemTable(items: Pick<Item, keyof LocalizedEntity | 'id' | 'rarity'>[]) {
+export function createItemTable(items: Pick<Item, keyof LocalizedEntity | 'id' | 'rarity' | 'legendaryArmoryMaxCount'>[]) {
   return createDataTable(items, ({ id }) => id);
 }
 
@@ -27,8 +28,9 @@ export const LegendaryItemDataTable: FC<LegendaryItemDataTableProps> = ({ table:
     <items.Table>
       <items.Column id="id" title={<Trans id="itemTable.column.id"/>} small hidden align="right">{({ id }) => id}</items.Column>
       <items.Column id="item" title={<Trans id="itemTable.column.item"/>} fixed>{(item) => <ItemLink item={item}/>}</items.Column>
+      <items.Column id="maxCount" title={<Trans id="legendary-armory.max-count"/>}>{(item) => <FormatNumber value={item.legendaryArmoryMaxCount}/>}</items.Column>
       <items.DynamicColumns headers={<Gw2AccountHeaderCells small requiredScopes={requiredScopes}/>}>
-        {(item) => <Gw2AccountBodyCells requiredScopes={requiredScopes}><LegendaryArmoryCell itemId={item.id} accountId={undefined as never}/></Gw2AccountBodyCells>}
+        {(item) => <Gw2AccountBodyCells requiredScopes={requiredScopes}><LegendaryArmoryCell itemId={item.id} accountId={undefined as never} maxCount={item.legendaryArmoryMaxCount}/></Gw2AccountBodyCells>}
       </items.DynamicColumns>
       <items.Column id="actions" title="" small fixed>
         {({ id }) => (

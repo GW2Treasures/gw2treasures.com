@@ -16,6 +16,7 @@ export async function registerCronJobs() {
   await registerJob('items.containerContent', '47 11 * * *');
   await registerJob('items.views', '56 * * * *');
   await registerJob('items.relevancy', '59 * * * *');
+  await registerJob('items.legendary-armory', '31 * * * *');
 
   await registerJob('skills.check', '*/5 * * * *');
   await registerJob('skills.update', '*/3 * * * *');

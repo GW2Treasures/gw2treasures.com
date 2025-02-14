@@ -40,7 +40,7 @@ const coreAchievementIds = [
 const loadItems = cache(async () => {
   const items = await db.item.findMany({
     where: { id: legendaryRelicId },
-    select: linkProperties
+    select: { ...linkProperties, legendaryArmoryMaxCount: true }
   });
 
   return items;

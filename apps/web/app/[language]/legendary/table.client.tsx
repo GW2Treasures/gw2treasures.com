@@ -9,9 +9,10 @@ import type { FC } from 'react';
 interface LegendaryArmoryCellProps {
   itemId: number;
   accountId: string;
+  maxCount: number | null;
 }
 
-export const LegendaryArmoryCell: FC<LegendaryArmoryCellProps> = ({ itemId, accountId }) => {
+export const LegendaryArmoryCell: FC<LegendaryArmoryCellProps> = ({ itemId, accountId, maxCount }) => {
   // TODO: only subscribe to legendary armory
   const inventory = useInventoryItem(accountId, itemId);
 
@@ -28,12 +29,9 @@ export const LegendaryArmoryCell: FC<LegendaryArmoryCellProps> = ({ itemId, acco
     ({ location }) => location === UseInventoryItemAccountLocation.LegendaryArmory
   );
 
-  // TODO use correct `max_count`
-  const max_count = 1;
-
   return (
     <ProgressCell progress={Math.min(legendaryArmory?.count ?? 0, 1)}>
-      <FormatNumber value={legendaryArmory?.count ?? 0}/> / <FormatNumber value={max_count}/>
+      <FormatNumber value={legendaryArmory?.count ?? 0}/> / <FormatNumber value={maxCount}/>
     </ProgressCell>
   );
 };

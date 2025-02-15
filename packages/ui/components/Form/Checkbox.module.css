@@ -76,6 +76,7 @@
 
 .disabled > .input:checked ~ .checkbox,
 .disabled > .input:indeterminate ~ .checkbox {
+  opacity: .5;
   background-color: var(--color-text-muted);
   border-color: var(--color-text-muted);
 }

@@ -29,18 +29,25 @@ export interface AchievementTableProps {
   headline?: ReactNode;
   headlineId?: string;
   sort?: boolean;
-  includeRewardsColumns?: boolean;
+
+  showMastery?: boolean;
+  showRewardsTitle?: boolean;
+  showRewardsItem?: boolean;
+
   collapsed?: boolean;
   children?: (table: ReactNode, columnSelect: ReactNode) => ReactNode
 }
 
-export const AchievementTable: FC<AchievementTableProps> = ({ language, achievements, headline, headlineId, sort = true, includeRewardsColumns, collapsed, children }) => {
+export const AchievementTable: FC<AchievementTableProps> = ({ language, achievements, headline, headlineId, sort = true, showMastery, showRewardsTitle, showRewardsItem, collapsed, children }) => {
   // sort achievements first by "moveToTop", then alphabetically
   const sortedAchievements = sort
     ? achievements.toSorted((a, b) => a.flags.includes('MoveToTop') ? -1 : b.flags.includes('MoveToTop') ? 1 : compareLocalizedName(language)(a, b))
     : achievements;
 
   const anyHasFlags = sortedAchievements.some(({ flags }) => flags.some((flag) => displayedFlags.includes(flag)));
+  const anyHasMastery = sortedAchievements.some(({ mastery }) => mastery);
+  const anyHasTitle = sortedAchievements.some(({ rewardsTitle }) => rewardsTitle.length > 0);
+  const anyHasItem = sortedAchievements.some(({ rewardsItem }) => rewardsItem.length > 0);
 
   const Achievements = createDataTable(sortedAchievements, ({ id }) => id);
 
@@ -55,13 +62,13 @@ export const AchievementTable: FC<AchievementTableProps> = ({ language, achievem
       <Achievements.Column id="flags" align="right" title="Flags" small sortBy={({ flags }) => flags.filter((flag) => displayedFlags.includes(flag)).length} hidden={!anyHasFlags}>
         {({ flags }) => <AchievementFlags flags={flags}/>}
       </Achievements.Column>
-      <Achievements.Column id="mastery" title={<MasteryColumnHeader/>} sortBy="mastery" hidden={!includeRewardsColumns}>
+      <Achievements.Column id="mastery" title={<MasteryColumnHeader/>} sortBy="mastery" hidden={showMastery === undefined ? !anyHasMastery : !showMastery}>
         {({ mastery }) => mastery && <Mastery mastery={mastery}/>}
       </Achievements.Column>
-      <Achievements.Column id="title" title={<TitleColumnHeader/>} sortBy={({ rewardsTitle }) => rewardsTitle.length} hidden={!includeRewardsColumns}>
+      <Achievements.Column id="title" title={<TitleColumnHeader/>} sortBy={({ rewardsTitle }) => rewardsTitle.length} hidden={showRewardsTitle === undefined ? !anyHasTitle : !showRewardsTitle}>
         {({ rewardsTitle }) => rewardsTitle.map((title) => <span key={title.id} dangerouslySetInnerHTML={{ __html: format(localizedName(title, language)) }}/>)}
       </Achievements.Column>
-      <Achievements.Column id="items" title="Items" sortBy={({ rewardsItem }) => rewardsItem.length} hidden={!includeRewardsColumns}>
+      <Achievements.Column id="items" title="Items" sortBy={({ rewardsItem }) => rewardsItem.length} hidden={showRewardsItem === undefined ? !anyHasItem : !showRewardsItem}>
         {({ rewardsItem }) => rewardsItem.length > 0 && (
           <ItemList singleColumn>
             {rewardsItem.map((item) => (

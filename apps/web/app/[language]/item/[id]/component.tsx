@@ -185,7 +185,7 @@ export const ItemPageComponent: FC<ItemPageComponentProps> = async ({ language, 
       )}
 
       {item.achievementRewards.length > 0 && (
-        <AchievementTable language={language} achievements={item.achievementRewards}>
+        <AchievementTable language={language} achievements={item.achievementRewards} showRewardsItem={false}>
           {(table, columnSelect) => (
             <>
               <Description actions={columnSelect}>

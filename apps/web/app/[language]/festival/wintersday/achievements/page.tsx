@@ -69,7 +69,7 @@ export default async function WintersdayAchievementsPage({ params }: PageProps) 
     <PageLayout>
       <Gw2Accounts requiredScopes={requiredScopes} loading={null} loginMessage={<Trans id="festival.achievements.login"/>} authorizationMessage={<Trans id="festival.achievements.authorize"/>}/>
 
-      <AchievementTable achievements={achievements} language={language} includeRewardsColumns>
+      <AchievementTable achievements={achievements} language={language}>
         {(table, ColumnSelect) => (
           <>
             <Description actions={ColumnSelect}><Trans id="festival.wintersday.achievements.description"/></Description>

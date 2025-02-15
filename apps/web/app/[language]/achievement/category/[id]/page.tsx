@@ -84,7 +84,6 @@ async function AchievementCategoryPage({ params }: AchievementCategoryPageProps)
       <AchievementTable
         language={language}
         achievements={currentAchievements}
-        includeRewardsColumns
         headline="Achievements"
         headlineId="achievements"/>
 
@@ -92,7 +91,6 @@ async function AchievementCategoryPage({ params }: AchievementCategoryPageProps)
         <AchievementTable
           language={language}
           achievements={historicAchievements}
-          includeRewardsColumns
           collapsed
           headline={<>Historic <Tip tip="Historic achievements have either been removed from the game or are part of a rotation."><Icon icon="info"/></Tip></>}
           headlineId="historic"/>

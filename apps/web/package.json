@@ -72,7 +72,7 @@
     "@types/jest": "29.5.14",
     "@types/negotiator": "0.6.3",
     "@types/node": "22.13.4",
-    "@types/react": "19.0.8",
+    "@types/react": "19.0.9",
     "@types/react-dom": "19.0.3",
     "babel-plugin-react-compiler": "19.0.0-beta-e552027-20250112",
     "csstype": "3.1.3",

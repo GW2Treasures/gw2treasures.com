@@ -170,11 +170,18 @@ export interface DataTableDynamicClientColumnProps {
 }
 
 export const DataTableDynamicClientColumn: FC<DataTableDynamicClientColumnProps> = ({ children, id: dynamicColumnId = 'dynamic' }) => {
+  const { state: { visibleColumns }} = useContext(DataTableContext);
+  const isVisible = visibleColumns.includes(dynamicColumnId);
+
   // create column context value
   const value = useMemo<ColumnContext>(
     () => ({ dynamicColumnId }),
     [dynamicColumnId]
   );
+
+  if(!isVisible) {
+    return null;
+  }
 
   return (
     <ColumnContext value={value}>
@@ -247,9 +254,8 @@ export const DataTableClientColumn: FC<DataTableClientColumnProps> = ({ id, chil
   const { state: { sortBy, sortOrder, visibleColumns }, setState } = useContext(DataTableContext);
   const dynamicColumn = use(ColumnContext);
 
-  // check if column is visible (dynamic columns are always visible for now)
-  // TODO: allow toggling dynamic columns
-  const isVisible = visibleColumns.includes(id) || dynamicColumn;
+  // check if column is visible
+  const isVisible = visibleColumns.includes(dynamicColumn ? dynamicColumn.dynamicColumnId : id);
 
   // if this is a dynamic column add dynamic column prefix
   const columnId = dynamicColumn ? `${dynamicColumn.dynamicColumnId}.${id}` : id;

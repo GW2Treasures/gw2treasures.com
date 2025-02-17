@@ -223,7 +223,7 @@ export async function AchievementPageComponent({ language, achievementId, revisi
                     }}
                   </Bits.Column>
                   {!fixedRevision && (
-                    <Bits.DynamicColumns headers={<AccountAchievementProgressHeader/>}>
+                    <Bits.DynamicColumns id="progress" title="Account Progress" headers={<AccountAchievementProgressHeader/>}>
                       {(_, index) => <AccountAchievementProgressRow achievement={achievement} bitId={index}/>}
                     </Bits.DynamicColumns>
                   )}

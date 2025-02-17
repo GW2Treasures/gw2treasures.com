@@ -42,7 +42,7 @@ export default async function CurrencyPage({ params }: PageProps) {
         <Currencies.Column id="currency" title={<Trans id="currency"/>} sort={compareLocalizedName(language)}>{(currency) => <CurrencyLink currency={currency}/>}</Currencies.Column>
         <Currencies.Column id="category" title={<Trans id="currency.category"/>}>{({ id }) => currencyCategoryById[id]?.map((category) => t(`currency.category.${category}`)).join(', ')}</Currencies.Column>
         <Currencies.Column id="order" title={<Trans id="currency.order"/>} sortBy="order" align="right" hidden>{({ order }) => order}</Currencies.Column>
-        <Currencies.DynamicColumns headers={<AccountHeader/>}>
+        <Currencies.DynamicColumns id="account-wallet" title="Account Wallets" headers={<AccountHeader/>}>
           {({ id }) => <AccountWalletRow currencyId={id}/>}
         </Currencies.DynamicColumns>
       </Currencies.Table>

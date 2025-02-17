@@ -118,7 +118,7 @@ export default async function LegendaryRelicsPage() {
         <Relics.Column id="set" title={<Trans id="legendary-armory.set"/>} sortBy={({ set, achievement }) => set?.order ?? achievement.id}>
           {({ achievement }) => <AchievementLink achievement={achievement}/>}
         </Relics.Column>
-        <Relics.DynamicColumns headers={<Gw2AccountHeaderCells small requiredScopes={requiredScopes}/>}>
+        <Relics.DynamicColumns id="account-unlock" title="Account Unlocks" headers={<Gw2AccountHeaderCells small requiredScopes={requiredScopes}/>}>
           {({ achievement, bitId, set }) => <Gw2AccountBodyCells requiredScopes={requiredScopes}><RelicUnlockCell achievement={achievement} bitId={bitId} set={set} accountId={undefined as never}/></Gw2AccountBodyCells>}
         </Relics.DynamicColumns>
         <Relics.Column id="actions" title="" small fixed>

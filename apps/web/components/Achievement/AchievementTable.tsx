@@ -83,7 +83,7 @@ export const AchievementTable: FC<AchievementTableProps> = ({ language, achievem
       <Achievements.Column id="points" align="right" title="AP" small sortBy="points">
         {({ points }) => <AchievementPoints points={points}/>}
       </Achievements.Column>
-      <Achievements.DynamicColumns headers={<AccountAchievementProgressHeader/>}>
+      <Achievements.DynamicColumns id="account-progress" title="Account Progress" headers={<AccountAchievementProgressHeader/>}>
         {(achievement) => <AccountAchievementProgressRow achievement={achievement}/>}
       </Achievements.DynamicColumns>
       <Achievements.Column id="actions" title="" small fixed>

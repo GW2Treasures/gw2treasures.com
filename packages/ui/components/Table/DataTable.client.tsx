@@ -10,6 +10,8 @@ import { Table, type HeaderCellProps } from './Table';
 import { useState, type FC, type ReactNode, createContext, useCallback, useContext, useEffect, useMemo, type ThHTMLAttributes, type TdHTMLAttributes, use, useDeferredValue, startTransition } from 'react';
 import { TableCollapse } from './TableCollapse';
 import type { DataTableRowFilterComponent } from './DataTable';
+import { compare } from './helper';
+import type { Comparable } from './comparable-properties';
 
 type DataTableState = {
   id: string,
@@ -30,8 +32,8 @@ type DataTableContext = {
   state: DataTableState,
   setState: (state: Partial<DataTableState>) => void,
 
-  dynamicValues: Record<string, number[]>
-  setDynamicValue: (columnId: string, rowIndex: number, value?: number) => void,
+  dynamicValues: Record<string, Comparable[]>
+  setDynamicValue: (columnId: string, rowIndex: number, value?: Comparable) => void,
 };
 
 const DataTableContext = createContext<DataTableContext>({ state: defaultDataTableContext, setState: () => {}, dynamicValues: {}, setDynamicValue: () => {} });
@@ -72,8 +74,8 @@ export const DataTableClient: FC<DataTableClientProps> = ({ children, id, column
     setStateInternal((currentState) => ({ ...currentState, interacted: true, ...update }));
   }, []);
 
-  const [dynamicValues, setDynamicValues] = useState<Record<string, number[]>>({});
-  const setDynamicValue = useCallback((columnId: string, rowIndex: number, value?: number) => {
+  const [dynamicValues, setDynamicValues] = useState<Record<string, Comparable[]>>({});
+  const setDynamicValue = useCallback((columnId: string, rowIndex: number, value?: Comparable) => {
     setDynamicValues((current) => ({ ...current, [columnId]: value ? addToArray(current[columnId] ?? [], rowIndex, value) : removeFromArray(current[columnId] ?? [], rowIndex) }));
   }, []);
 
@@ -111,10 +113,9 @@ export const DataTableClientRows: FC<DataTableClientRowsProps> = ({ children, so
     () => (sortBy && sortableColumns[sortBy])
       ? sortableColumns[sortBy].map((index) => children.at(index))
       : ((sortBy && dynamicValues[sortBy])
-        ? Array.from({ length: children.length }, (_, index) => [index, dynamicValues[sortBy!][index]] as const).sort(([, a], [, b]) => {
-          // TODO: allow custom sort function?
-          return (a ?? 0) - (b ?? 0);
-        }).map(([index]) => children.at(index))
+        ? Array.from({ length: children.length }, (_, index) => [index, dynamicValues[sortBy][index]] as const)
+          .sort(([, a], [, b]) => compare(a, b))
+          .map(([index]) => children.at(index))
         : children),
     [children, dynamicValues, sortBy, sortableColumns]
   );
@@ -216,7 +217,7 @@ export const DataTableClientDynamicCell: FC<DataTableClientDynamicCellProps> = (
 // === SORTABLE CELL ===
 export interface SortableDynamicDataTableCellProps {
   children: ReactNode,
-  value?: number,
+  value?: Comparable,
 }
 
 export const SortableDynamicDataTableCell: FC<SortableDynamicDataTableCellProps> = ({ children, value }) => {

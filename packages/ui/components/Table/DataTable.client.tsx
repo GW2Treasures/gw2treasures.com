@@ -7,12 +7,34 @@ import { MenuList } from '../Layout/MenuList';
 import { Separator } from '../Layout/Separator';
 import { DataTableGlobalContext, type AvailableColumn } from './DataTableContext';
 import { Table, type HeaderCellProps } from './Table';
-import { useState, type FC, type ReactNode, createContext, useCallback, useContext, useEffect, useMemo, type ThHTMLAttributes, type TdHTMLAttributes } from 'react';
+import { useState, type FC, type ReactNode, createContext, useCallback, useContext, useEffect, useMemo, type ThHTMLAttributes, type TdHTMLAttributes, use, useDeferredValue, startTransition } from 'react';
 import { TableCollapse } from './TableCollapse';
+import type { DataTableRowFilterComponent } from './DataTable';
 
-type DataTableContext = { id: string, sortBy: string | undefined, sortOrder: 'asc' | 'desc', visibleColumns: string[], interacted: boolean };
-const defaultDataTableContext: DataTableContext = { id: '', sortBy: undefined, sortOrder: 'asc', visibleColumns: [], interacted: false };
-const DataTableContext = createContext<{ state: DataTableContext, setState: (state: Partial<DataTableContext>) => void }>({ state: defaultDataTableContext, setState: () => {} });
+type DataTableState = {
+  id: string,
+  sortBy: string | undefined,
+  sortOrder: 'asc' | 'desc',
+  visibleColumns: string[],
+  interacted: boolean
+};
+const defaultDataTableContext: DataTableState = {
+  id: '',
+  sortBy: undefined,
+  sortOrder: 'asc',
+  visibleColumns: [],
+  interacted: false
+};
+
+type DataTableContext = {
+  state: DataTableState,
+  setState: (state: Partial<DataTableState>) => void,
+
+  dynamicValues: Record<string, number[]>
+  setDynamicValue: (columnId: string, rowIndex: number, value?: number) => void,
+};
+
+const DataTableContext = createContext<DataTableContext>({ state: defaultDataTableContext, setState: () => {}, dynamicValues: {}, setDynamicValue: () => {} });
 DataTableContext.displayName = 'DataTableContext';
 
 export interface DataTableClientProps {
@@ -23,8 +45,20 @@ export interface DataTableClientProps {
   initialSortOrder?: 'asc' | 'desc',
 }
 
+function addToArray<T>(array: T[], index: number, value: T): T[] {
+  const copy = Array.from(array);
+  copy[index] = value;
+  return copy;
+}
+
+function removeFromArray<T>(array: T[], index: number): T[] {
+  const copy = Array.from(array);
+  delete copy[index];
+  return copy;
+}
+
 export const DataTableClient: FC<DataTableClientProps> = ({ children, id, columns, initialSortBy, initialSortOrder = 'asc' }) => {
-  const [state, setStateInternal] = useState<DataTableContext>({
+  const [state, setStateInternal] = useState<DataTableState>({
     ...defaultDataTableContext,
     id,
     visibleColumns: columns.filter((column) => !column.hidden).map(({ id }) => id),
@@ -34,8 +68,13 @@ export const DataTableClient: FC<DataTableClientProps> = ({ children, id, column
   const { currentColumns, currentAvailableColumns } = useCurrentColumns(id);
   const { setAvailableColumns } = useContext(DataTableGlobalContext);
 
-  const setState = useCallback((update: Partial<DataTableContext>) => {
+  const setState = useCallback((update: Partial<DataTableState>) => {
     setStateInternal((currentState) => ({ ...currentState, interacted: true, ...update }));
+  }, []);
+
+  const [dynamicValues, setDynamicValues] = useState<Record<string, number[]>>({});
+  const setDynamicValue = useCallback((columnId: string, rowIndex: number, value?: number) => {
+    setDynamicValues((current) => ({ ...current, [columnId]: value ? addToArray(current[columnId] ?? [], rowIndex, value) : removeFromArray(current[columnId] ?? [], rowIndex) }));
   }, []);
 
   useEffect(() => setAvailableColumns(id, columns), [setAvailableColumns, id, columns]);
@@ -45,14 +84,19 @@ export const DataTableClient: FC<DataTableClientProps> = ({ children, id, column
     }
   }, [currentColumns, columns, currentAvailableColumns, setState]);
 
+  const value = useMemo(
+    () => ({ state, setState, dynamicValues, setDynamicValue }),
+    [dynamicValues, setDynamicValue, setState, state]
+  );
+
   return (
-    <DataTableContext.Provider value={{ state, setState }}>
+    <DataTableContext.Provider value={value}>
       {children}
     </DataTableContext.Provider>
   );
 };
 
-
+// === BODY ===
 export interface DataTableClientRowsProps {
   children: ReactNode[];
   sortableColumns: Record<string, number[]>
@@ -60,21 +104,139 @@ export interface DataTableClientRowsProps {
 }
 
 export const DataTableClientRows: FC<DataTableClientRowsProps> = ({ children, sortableColumns, collapsed }) => {
-  const { sortBy, sortOrder, interacted } = useContext(DataTableContext).state;
+  const { state, dynamicValues } = useContext(DataTableContext);
+  const { sortBy, sortOrder, interacted } = state;
 
-  const rows = sortBy && sortableColumns[sortBy]
-    ? sortOrder === 'desc'
-      ? sortableColumns[sortBy].map((index) => children.at(index)).toReversed()
-      : sortableColumns[sortBy].map((index) => children.at(index))
-    : children;
+  const rows = useMemo(
+    () => (sortBy && sortableColumns[sortBy])
+      ? sortableColumns[sortBy].map((index) => children.at(index))
+      : ((sortBy && dynamicValues[sortBy])
+        ? Array.from({ length: children.length }, (_, index) => [index, dynamicValues[sortBy!][index]] as const).sort(([, a], [, b]) => {
+          // TODO: allow custom sort function?
+          return (a ?? 0) - (b ?? 0);
+        }).map(([index]) => children.at(index))
+        : children),
+    [children, dynamicValues, sortBy, sortableColumns]
+  );
+
+  const maybeReversed = sortOrder === 'desc' ? rows.toReversed() : rows;
 
   return collapsed && !interacted
-    ? (<TableCollapse limit={collapsed === true ? undefined : collapsed}>{rows}</TableCollapse>)
-    : rows;
+    ? (<TableCollapse limit={collapsed === true ? undefined : collapsed}>{maybeReversed}</TableCollapse>)
+    : maybeReversed;
 };
 
 
-export interface DataTableClientColumnProps extends Pick<HeaderCellProps, 'align' | 'small'> {
+// === ROW ===
+interface RowContext { index: number }
+const RowContext = createContext<RowContext | undefined>(undefined);
+RowContext.displayName = 'RowContext';
+
+export interface DataTableClientRowProps {
+  children: ReactNode,
+  index: number,
+  rowFilter?: DataTableRowFilterComponent,
+}
+
+export const DataTableClientRow: FC<DataTableClientRowProps> = ({ children, index, rowFilter: RowFilter }) => {
+  // create row context value
+  const value = useMemo<RowContext>(
+    () => ({ index }),
+    [index]
+  );
+
+  // if the row can be filtered, wrap in RowFilter
+  const row = RowFilter
+    ? <RowFilter index={index}>{children}</RowFilter>
+    : <tr>{children}</tr>;
+
+  return (
+    <RowContext value={value}>
+      {row}
+    </RowContext>
+  );
+};
+
+// === DYNAMIC COLUMN ===
+type ColumnContext = { dynamicColumnId: string };
+const ColumnContext = createContext<ColumnContext | undefined>(undefined);
+ColumnContext.displayName = 'ColumnContext';
+
+export interface DataTableDynamicClientColumnProps {
+  children: ReactNode,
+  // TODO: make required
+  id?: string,
+}
+
+export const DataTableDynamicClientColumn: FC<DataTableDynamicClientColumnProps> = ({ children, id: dynamicColumnId = 'dynamic' }) => {
+  // create column context value
+  const value = useMemo<ColumnContext>(
+    () => ({ dynamicColumnId }),
+    [dynamicColumnId]
+  );
+
+  return (
+    <ColumnContext value={value}>
+      {children}
+    </ColumnContext>
+  );
+};
+
+// === CELL ===
+type CellContext = { columnId: string, rowIndex: number };
+const CellContext = createContext<CellContext | undefined>(undefined);
+CellContext.displayName = 'CellContext';
+
+export interface DataTableClientDynamicCellProps {
+  children: ReactNode,
+  id: string,
+}
+
+export const DataTableClientDynamicCell: FC<DataTableClientDynamicCellProps> = ({ children, id }) => {
+  // get row index
+  const { index: rowIndex } = use(RowContext)!;
+
+  // get dynamic column prefix
+  const { dynamicColumnId } = use(ColumnContext)!;
+
+  // create cell context value
+  const value = useMemo<CellContext>(
+    () => ({ columnId: `${dynamicColumnId}.${id}`, rowIndex }),
+    [dynamicColumnId, id, rowIndex]
+  );
+
+  return (
+    <CellContext value={value}>
+      {children}
+    </CellContext>
+  );
+};
+
+
+// === SORTABLE CELL ===
+export interface SortableDynamicDataTableCellProps {
+  children: ReactNode,
+  value?: number,
+}
+
+export const SortableDynamicDataTableCell: FC<SortableDynamicDataTableCellProps> = ({ children, value }) => {
+  const cell = use(CellContext);
+  const setDynamicValue = use(DataTableContext).setDynamicValue;
+
+  const deferredValue = useDeferredValue(value);
+
+  useEffect(() => {
+    if(cell) {
+      setDynamicValue(cell.columnId, cell.rowIndex, deferredValue);
+      return () => setDynamicValue(cell.columnId, cell.rowIndex);
+    }
+  }, [cell, setDynamicValue, deferredValue]);
+
+  return children;
+};
+
+// === COLUMN HEADER ===
+export interface DataTableClientColumnProps extends Pick<HeaderCellProps, 'align' | 'small' | 'colSpan'> {
   id: string;
   children: ReactNode;
   sortable: boolean;
@@ -82,23 +244,37 @@ export interface DataTableClientColumnProps extends Pick<HeaderCellProps, 'align
 
 export const DataTableClientColumn: FC<DataTableClientColumnProps> = ({ id, children, sortable, ...props }) => {
   const { state: { sortBy, sortOrder, visibleColumns }, setState } = useContext(DataTableContext);
-  const isVisible = visibleColumns.includes(id);
+  const dynamicColumn = use(ColumnContext);
+
+  // check if column is visible (dynamic columns are always visible for now)
+  // TODO: allow toggling dynamic columns
+  const isVisible = visibleColumns.includes(id) || dynamicColumn;
+
+  // if this is a dynamic column add dynamic column prefix
+  const columnId = dynamicColumn ? `${dynamicColumn.dynamicColumnId}.${id}` : id;
 
   const handleSort = useCallback(() => {
-    setState({
-      sortBy: sortBy === id && sortOrder === 'desc' ? undefined : id,
-      sortOrder: sortBy === id ? sortOrder === 'asc' ? 'desc' : 'asc' : 'asc'
+    startTransition(() => {
+      setState({
+        sortBy: sortBy === columnId && sortOrder === 'desc' ? undefined : columnId,
+        sortOrder: sortBy === columnId ? sortOrder === 'asc' ? 'desc' : 'asc' : 'asc'
+      });
     });
-  }, [id, sortOrder, sortBy, setState]);
+  }, [columnId, sortOrder, sortBy, setState]);
 
   if(!isVisible) {
     return null;
   }
 
-  return <Table.HeaderCell sort={sortable ? (sortBy === id ? sortOrder : true) : false} onSort={handleSort} {...props}>{children}</Table.HeaderCell>;
+  return (
+    <Table.HeaderCell sort={sortable ? (sortBy === columnId ? sortOrder : true) : false} onSort={handleSort} {...props}>
+      {children}
+    </Table.HeaderCell>
+  );
 };
 
 
+// === CELL ===
 export interface DataTableClientCellProps {
   children: ReactNode;
   columnId: string;
@@ -113,6 +289,7 @@ export const DataTableClientCell: FC<DataTableClientCellProps> = ({ children, co
 };
 
 
+// === COLUMN SELECTION ===
 export interface DataTableClientColumnSelectionProps {
   id: string;
   children: ReactNode;
@@ -148,6 +325,7 @@ const useCurrentColumns = (id: string) => {
   }, [availableColumns, columns, id]);
 };
 
+// === FOOTER ===
 export const DataTableFooterTd: FC<TdHTMLAttributes<HTMLTableCellElement>> = ({ colSpan: requestedColspan, ...props }) => {
   const { state: { visibleColumns }} = useContext(DataTableContext);
 

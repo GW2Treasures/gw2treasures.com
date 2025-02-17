@@ -1,7 +1,7 @@
 import { Table, type HeaderCellProps } from './Table';
-import { Suspense, type FC, type Key, type ReactElement, type ReactNode } from 'react';
+import { type FC, type Key, type ReactElement, type ReactNode } from 'react';
 import 'server-only';
-import { DataTableClient, DataTableClientCell, DataTableClientColumn, DataTableClientColumnSelection, DataTableClientRows } from './DataTable.client';
+import { DataTableClient, DataTableClientCell, DataTableClientColumn, DataTableClientColumnSelection, DataTableClientRow, DataTableClientRows, DataTableDynamicClientColumn } from './DataTable.client';
 import { isDefined, isTruthy } from '@gw2treasures/helper/is';
 import type { Comparable, ComparableProperties } from './comparable-properties';
 
@@ -32,6 +32,7 @@ export interface DataTableColumnProps<T> extends Pick<HeaderCellProps, 'align' |
 }
 
 export interface DataTableDynamicColumnsProps<T> {
+  id?: string,
   children: (row: T, index: number) => ReactNode,
   headers: ReactNode,
 }
@@ -114,27 +115,27 @@ export function createDataTable<T>(rows: T[], getRowKey: (row: T, index: number)
                     {column.props.title}
                   </DataTableClientColumn>
                 ) : (
-                  <Suspense key={column.key}>{column.props.headers}</Suspense>
+                  <DataTableDynamicClientColumn key={column.props.id ?? column.key} id={column.props.id}>
+                    {column.props.headers}
+                  </DataTableDynamicClientColumn>
                 ))}
               </tr>
             </thead>
             <tbody>
               <DataTableClientRows sortableColumns={sortableColumns} collapsed={collapsed}>
                 {rows.map((row, index) => {
-                  const Row = rowFilter ?? 'tr';
-
                   return (
-                    <Row key={getRowKey(row, index)} index={index}>
+                    <DataTableClientRow key={getRowKey(row, index)} index={index} rowFilter={rowFilter}>
                       {columns.map((column) => isStaticColumn(column) ? (
                         <DataTableClientCell key={column.props.id} columnId={column.props.id} align={column.props.align}>
                           {column.props.children(row, index)}
                         </DataTableClientCell>
                       ) : (
-                        <Suspense key={column.key}>
+                        <DataTableDynamicClientColumn key={column.props.id ?? column.key} id={column.props.id}>
                           {column.props.children(row, index)}
-                        </Suspense>
+                        </DataTableDynamicClientColumn>
                       ))}
-                    </Row>
+                    </DataTableClientRow>
                   );
                 })}
               </DataTableClientRows>

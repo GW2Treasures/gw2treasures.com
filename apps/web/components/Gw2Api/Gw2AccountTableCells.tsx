@@ -7,20 +7,18 @@ import { Gw2AccountName } from './Gw2AccountName';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { Skeleton } from '../Skeleton/Skeleton';
 import { withSuspense } from '@/lib/with-suspense';
-import { DataTableClientColumn, DataTableClientDynamicCell } from '@gw2treasures/ui/components/Table/DataTable.client';
+import { DataTableClientColumn, DataTableClientDynamicCell, type DataTableClientColumnProps } from '@gw2treasures/ui/components/Table/DataTable.client';
 
-export interface Gw2AccountHeaderCellsProps {
+export interface Gw2AccountHeaderCellsProps extends Pick<DataTableClientColumnProps, 'align' | 'colSpan' | 'small'> {
   requiredScopes: Scope[],
-  small?: boolean;
-  colSpan?: number;
-  sortable?: boolean;
+  sortable?: boolean,
 }
 
-export const Gw2AccountHeaderCells: FC<Gw2AccountHeaderCellsProps> = withSuspense(({ requiredScopes, small, colSpan, sortable = true }) => {
+export const Gw2AccountHeaderCells: FC<Gw2AccountHeaderCellsProps> = withSuspense(({ requiredScopes, sortable = true, ...props }) => {
   const accounts = useGw2Accounts(requiredScopes);
 
   return !accounts.loading && !accounts.error && accounts.accounts.map((account) => (
-    <DataTableClientColumn key={account.id} small={small} sortable={sortable} id={account.id} colSpan={colSpan}>
+    <DataTableClientColumn key={account.id} sortable={sortable} id={account.id} {...props}>
       <Gw2AccountName account={account}/>
     </DataTableClientColumn>
   ));
@@ -28,7 +26,7 @@ export const Gw2AccountHeaderCells: FC<Gw2AccountHeaderCellsProps> = withSuspens
 
 export interface Gw2AccountBodyCells {
   requiredScopes: Scope[],
-  children: ReactElement<{ accountId: string }>
+  children: ReactElement<{ accountId: string }>,
 }
 
 export const Gw2AccountBodyCells: FC<Gw2AccountBodyCells> = withSuspense(({ children, requiredScopes }) => {

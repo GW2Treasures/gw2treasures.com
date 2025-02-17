@@ -16,6 +16,7 @@ import { Separator } from '@gw2treasures/ui/components/Layout/Separator';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { HomesteadGlyphSlot } from '@gw2treasures/database';
 import type { TranslationSubset } from '@/lib/translate';
+import { SortableDynamicDataTableCell } from '@gw2treasures/ui/components/Table/DataTable.client';
 
 export const requiredScopes = [Scope.GW2_Progression, Scope.GW2_Unlocks];
 
@@ -68,7 +69,9 @@ export const AccountHomesteadDecorationCell: FC<{ decorationId: number; accountI
   const decoration = decorations.data.find(({ id }) => id === decorationId);
 
   return decoration ? (
-    <td align="right"><FormatNumber value={decoration?.count}/></td>
+    <SortableDynamicDataTableCell value={decoration?.count}>
+      <td align="right"><FormatNumber value={decoration?.count}/></td>
+    </SortableDynamicDataTableCell>
   ) : (
     <td/>
   );

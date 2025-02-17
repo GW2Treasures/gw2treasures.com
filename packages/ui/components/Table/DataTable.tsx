@@ -1,9 +1,10 @@
 import { Table, type HeaderCellProps } from './Table';
-import { Suspense, type FC, type Key, type ReactElement, type ReactNode } from 'react';
+import { type FC, type Key, type ReactElement, type ReactNode } from 'react';
 import 'server-only';
-import { DataTableClient, DataTableClientCell, DataTableClientColumn, DataTableClientColumnSelection, DataTableClientRows } from './DataTable.client';
+import { DataTableClient, DataTableClientCell, DataTableClientColumn, DataTableClientColumnSelection, DataTableClientRow, DataTableClientRows, DataTableDynamicClientColumn } from './DataTable.client';
 import { isDefined, isTruthy } from '@gw2treasures/helper/is';
 import type { Comparable, ComparableProperties } from './comparable-properties';
+import { sortBy } from './helper';
 
 export type DataTableRowFilterComponentProps = { children: ReactNode, index: number };
 export type DataTableRowFilterComponent = FC<DataTableRowFilterComponentProps>;
@@ -32,6 +33,7 @@ export interface DataTableColumnProps<T> extends Pick<HeaderCellProps, 'align' |
 }
 
 export interface DataTableDynamicColumnsProps<T> {
+  id?: string,
   children: (row: T, index: number) => ReactNode,
   headers: ReactNode,
 }
@@ -114,27 +116,27 @@ export function createDataTable<T>(rows: T[], getRowKey: (row: T, index: number)
                     {column.props.title}
                   </DataTableClientColumn>
                 ) : (
-                  <Suspense key={column.key}>{column.props.headers}</Suspense>
+                  <DataTableDynamicClientColumn key={column.props.id ?? column.key} id={column.props.id}>
+                    {column.props.headers}
+                  </DataTableDynamicClientColumn>
                 ))}
               </tr>
             </thead>
             <tbody>
               <DataTableClientRows sortableColumns={sortableColumns} collapsed={collapsed}>
                 {rows.map((row, index) => {
-                  const Row = rowFilter ?? 'tr';
-
                   return (
-                    <Row key={getRowKey(row, index)} index={index}>
+                    <DataTableClientRow key={getRowKey(row, index)} index={index} rowFilter={rowFilter}>
                       {columns.map((column) => isStaticColumn(column) ? (
                         <DataTableClientCell key={column.props.id} columnId={column.props.id} align={column.props.align}>
                           {column.props.children(row, index)}
                         </DataTableClientCell>
                       ) : (
-                        <Suspense key={column.key}>
+                        <DataTableDynamicClientColumn key={column.props.id ?? column.key} id={column.props.id}>
                           {column.props.children(row, index)}
-                        </Suspense>
+                        </DataTableDynamicClientColumn>
                       ))}
-                    </Row>
+                    </DataTableClientRow>
                   );
                 })}
               </DataTableClientRows>
@@ -149,36 +151,4 @@ export function createDataTable<T>(rows: T[], getRowKey: (row: T, index: number)
     ColumnSelection,
     Footer,
   };
-}
-
-export function compare<T extends Comparable>(a: T, b: T) {
-  if(a == null) {
-    if(b == null) {
-      return 0;
-    }
-    return -1;
-  }
-  if(b == null) {
-    return 1;
-  }
-
-  if(typeof a === 'string' && typeof b === 'string') {
-    return a.localeCompare(b);
-  }
-
-  if((typeof a === 'number' || typeof a === 'bigint') && (typeof b === 'number' || typeof b === 'bigint')) {
-    return a < b ? -1 : a > b ? 1 : 0;
-  }
-
-  if(a instanceof Date && b instanceof Date) {
-    return a.valueOf() - b.valueOf();
-  }
-
-  throw new Error(`Cant compare ${typeof a} and ${typeof b}`);
-}
-
-export function sortBy<T>(by: ComparableProperties<T> | ((x: T) => Comparable)): (a: T, b: T) => number {
-  return typeof by === 'function'
-    ? (a, b) => compare(by(a), by(b))
-    : (a, b) => compare(a[by] as Comparable, b[by] as Comparable);
 }

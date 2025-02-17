@@ -30,7 +30,7 @@ export const MiniTable: FC<MiniTableProps> = ({ minis, headline, headlineId, chi
       <Minis.Column id="id" title={<Trans id="itemTable.column.id"/>} align="right" small hidden sortBy="id">{({ id }) => id}</Minis.Column>
       <Minis.Column id="mini" title="Mini">{(mini) => <MiniLink mini={mini}/>}</Minis.Column>
       <Minis.Column id="unlocks" title="Unlocks" hidden align="right" sortBy="unlocks">{({ unlocks }) => <FormatNumber value={unlocks !== null ? Math.round(unlocks * 1000) / 10 : null} unit="%"/>}</Minis.Column>
-      <Minis.DynamicColumns headers={<Gw2AccountHeaderCells requiredScopes={requiredScopes} small/>} id="unlock">
+      <Minis.DynamicColumns id="account-unlock" title="Account Unlocks" headers={<Gw2AccountHeaderCells requiredScopes={requiredScopes} small/>}>
         {({ id }) => (
           <Gw2AccountBodyCells requiredScopes={requiredScopes}>
             <MiniAccountUnlockCell miniId={id} accountId={undefined as never}/>

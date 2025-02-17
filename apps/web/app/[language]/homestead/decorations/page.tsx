@@ -71,7 +71,7 @@ export default async function HomesteadDecorationsPage({ params }: PageProps) {
             {({ categories }) => categories.map((category) => localizedName(category, language)).join(', ')}
           </Decorations.Column>
           <Decorations.Column id="maxCount" title="Max Count" sortBy="maxCount" align="right">{({ maxCount }) => <FormatNumber value={maxCount}/>}</Decorations.Column>
-          <Decorations.DynamicColumns headers={<Gw2AccountHeaderCells requiredScopes={requiredScopes} small/>}>
+          <Decorations.DynamicColumns id="account-count" title="Account Count" headers={<Gw2AccountHeaderCells requiredScopes={requiredScopes} small/>}>
             {({ id }) => <Gw2AccountBodyCells requiredScopes={requiredScopes}><AccountHomesteadDecorationCell decorationId={id} accountId={undefined as never}/></Gw2AccountBodyCells>}
           </Decorations.DynamicColumns>
         </Decorations.Table>

@@ -33,9 +33,12 @@ export interface DataTableColumnProps<T> extends Pick<HeaderCellProps, 'align' |
 }
 
 export interface DataTableDynamicColumnsProps<T> {
-  id?: string,
+  id: string,
+  title: ReactNode,
   children: (row: T, index: number) => ReactNode,
   headers: ReactNode,
+  hidden?: boolean,
+  fixed?: boolean,
 }
 
 export interface DataTableColumnSelectionProps {
@@ -107,16 +110,16 @@ export function createDataTable<T>(rows: T[], getRowKey: (row: T, index: number)
       );
 
       return (
-        <DataTableClient id={datatableId} columns={columns.filter(isStaticColumn).map((column) => ({ id: column.props.id, title: <>{column.props.title}</>, hidden: !!column.props.hidden, fixed: !!column.props.fixed }))} {...props}>
+        <DataTableClient id={datatableId} columns={columns.map((column) => ({ id: column.props.id, title: <>{column.props.title}</>, hidden: !!column.props.hidden, fixed: !!column.props.fixed }))} {...props}>
           <Table>
             <thead>
               <tr>
                 {columns.map((column) => isStaticColumn(column) ? (
-                  <DataTableClientColumn id={column.props.id} key={column.props.id} sortable={!!column.props.sort || !!column.props.sortBy} align={column.props.align} small={column.props.small}>
+                  <DataTableClientColumn key={column.props.id} id={column.props.id} sortable={!!column.props.sort || !!column.props.sortBy} align={column.props.align} small={column.props.small}>
                     {column.props.title}
                   </DataTableClientColumn>
                 ) : (
-                  <DataTableDynamicClientColumn key={column.props.id ?? column.key} id={column.props.id}>
+                  <DataTableDynamicClientColumn key={column.props.id} id={column.props.id}>
                     {column.props.headers}
                   </DataTableDynamicClientColumn>
                 ))}

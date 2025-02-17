@@ -41,7 +41,7 @@ export const SkinTable: FC<SkinTableProps> = async ({ skins, headline, headlineI
       <Skins.Column id="type" title={<Trans id="itemTable.column.type"/>} sortBy="type">{(skin) => <ItemType display="long" type={skin.type as Type} subtype={skin.subtype as SubType<Type>} translations={translateMany(itemTypeTranslations.long, language) as unknown as Record<TypeTranslation<Type, SubType<Type>>, string>}/>}</Skins.Column>
       <Skins.Column id="weight" title="Weight" hidden={!anySkinHasWeight} sortBy="weight">{({ weight }) => weight ? <Trans id={`weight.${weight as Weight}`}/> : <span style={{ color: 'var(--color-text-muted)' }}>-</span>}</Skins.Column>
       <Skins.Column id="unlocks" title="Unlocks" hidden align="right" sortBy="unlocks">{({ unlocks }) => <FormatNumber value={unlocks !== null ? Math.round(unlocks * 1000) / 10 : null} unit="%"/>}</Skins.Column>
-      <Skins.DynamicColumns headers={<Gw2AccountHeaderCells requiredScopes={requiredScopes} small/>}>
+      <Skins.DynamicColumns id="account-unlock" title="Account Unlocks" headers={<Gw2AccountHeaderCells requiredScopes={requiredScopes} small/>}>
         {({ id }) => (
           <Gw2AccountBodyCells requiredScopes={requiredScopes}>
             <SkinAccountUnlockCell skinId={id} accountId={undefined as never}/>

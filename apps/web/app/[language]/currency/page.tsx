@@ -1,19 +1,23 @@
-import { db } from '@/lib/prisma';
-import { HeroLayout } from '@/components/Layout/HeroLayout';
-import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { CurrencyLink } from '@/components/Currency/CurrencyLink';
-import { cache } from '@/lib/cache';
-import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
-import { compareLocalizedName } from '@/lib/localizedName';
-import { ColumnSelect } from '@/components/Table/ColumnSelect';
-import { AccountHeader, AccountWalletRow } from './account-data';
-import type { PageProps } from '@/lib/next';
-import { getTranslate } from '@/lib/translate';
+import { Gw2AccountBodyCells, Gw2AccountHeaderCells } from '@/components/Gw2Api/Gw2AccountTableCells';
 import { Trans } from '@/components/I18n/Trans';
-import { currencyCategoryById } from '@gw2treasures/static-data/currencies/categories';
-import type { Metadata } from 'next';
 import { Description } from '@/components/Layout/Description';
+import { HeroLayout } from '@/components/Layout/HeroLayout';
+import { ColumnSelect } from '@/components/Table/ColumnSelect';
+import { cache } from '@/lib/cache';
+import { compareLocalizedName } from '@/lib/localizedName';
+import type { PageProps } from '@/lib/next';
+import { db } from '@/lib/prisma';
+import { getTranslate } from '@/lib/translate';
 import { getAlternateUrls } from '@/lib/url';
+import { Scope } from '@gw2me/client';
+import { currencyCategoryById } from '@gw2treasures/static-data/currencies/categories';
+import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
+import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
+import type { Metadata } from 'next';
+import { AccountWalletCell } from './account-data';
+
+const requiredScopes = [Scope.GW2_Wallet];
 
 const getCurrencies = cache(
   () => db.currency.findMany({
@@ -42,8 +46,8 @@ export default async function CurrencyPage({ params }: PageProps) {
         <Currencies.Column id="currency" title={<Trans id="currency"/>} sort={compareLocalizedName(language)}>{(currency) => <CurrencyLink currency={currency}/>}</Currencies.Column>
         <Currencies.Column id="category" title={<Trans id="currency.category"/>}>{({ id }) => currencyCategoryById[id]?.map((category) => t(`currency.category.${category}`)).join(', ')}</Currencies.Column>
         <Currencies.Column id="order" title={<Trans id="currency.order"/>} sortBy="order" align="right" hidden>{({ order }) => order}</Currencies.Column>
-        <Currencies.DynamicColumns id="account-wallet" title="Account Wallets" headers={<AccountHeader/>}>
-          {({ id }) => <AccountWalletRow currencyId={id}/>}
+        <Currencies.DynamicColumns id="account-wallet" title="Account Wallets" headers={<Gw2AccountHeaderCells requiredScopes={requiredScopes} align="right"/>}>
+          {({ id }) => <Gw2AccountBodyCells requiredScopes={requiredScopes}><AccountWalletCell currencyId={id} accountId={undefined as never}/></Gw2AccountBodyCells>}
         </Currencies.DynamicColumns>
       </Currencies.Table>
     </HeroLayout>

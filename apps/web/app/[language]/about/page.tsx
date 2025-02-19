@@ -4,12 +4,25 @@ import { ExternalLink } from '@gw2treasures/ui/components/Link/ExternalLink';
 import { TableOfContentAnchor } from '@gw2treasures/ui/components/TableOfContent/TableOfContent';
 import { Code } from '@/components/Layout/Code';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
+import { Menu, MenuItem } from '@gw2treasures/ui/components/Menu/Menu';
+import { Separator } from '@gw2treasures/ui/components/Layout/Separator';
+import { Button } from '@gw2treasures/ui/components/Form/Button';
 
 export default function AboutPage() {
   return (
     <HeroLayout hero={<Headline id="about">About</Headline>} toc>
       <TableOfContentAnchor id="about">About</TableOfContentAnchor>
       <p><b>gw2treasures.com</b> is a database website for Guild Wars 2. Development started in November 2013, shortly after the official API for the game released, and was released on January 10, 2014. It was completly rewritten starting in 2021 using modern technology.</p>
+
+      <Menu label="test">
+        <MenuItem label="foo"/>
+        <MenuItem label="bar"/>
+        <Separator/>
+        <Menu label="deep" keepMounted>
+          <MenuItem label="foo"/>
+          <MenuItem label="bar"/>
+        </Menu>
+      </Menu>
 
       <Headline id="tech">Technology</Headline>
       <p>Everything is written in <ExternalLink href="https://www.typescriptlang.org/">TypeScript</ExternalLink>. The website is using <ExternalLink href="https://react.dev/">react</ExternalLink> and the latest <ExternalLink href="https://nextjs.org/">next.js</ExternalLink> (App Router). The database is <ExternalLink href="https://www.postgresql.org/">PostgreSQL</ExternalLink> and <ExternalLink href="https://www.prisma.io/">prisma</ExternalLink> is used to access it.</p>

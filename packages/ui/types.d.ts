@@ -12,6 +12,6 @@ declare module 'csstype' {
     '--icon-color'?: CSS.Property.Color,
 
     // allow all custom properties
-    [index: `--${string}`]: string | number;
+    [index: `--${string}`]: string | number | undefined;
   }
 }

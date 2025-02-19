@@ -15,3 +15,7 @@
   overflow-y: auto;
   overscroll-behavior-y: contain;
 }
+
+.content:focus {
+  outline: none;
+}

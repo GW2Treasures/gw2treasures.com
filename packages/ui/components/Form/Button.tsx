@@ -5,7 +5,7 @@ import styles from './Button.module.css';
 import { type IconProp, Icon, type IconColor } from '../../icons';
 import type { RefProp } from '../../lib/react';
 
-export interface CommonButtonProps extends Pick<HTMLAttributes<HTMLElement>, 'aria-label' | 'className'> {
+export interface CommonButtonProps extends Pick<HTMLAttributes<HTMLElement>, 'aria-label' | 'className' | 'tabIndex' | 'role'> {
   children?: ReactNode;
   icon?: IconProp;
   iconColor?: IconColor;

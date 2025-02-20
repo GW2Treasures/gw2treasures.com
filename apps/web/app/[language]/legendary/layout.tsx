@@ -12,10 +12,10 @@ export default function LegendaryLayout({ children }: LayoutProps) {
       hero={<Headline id="legendary-armory"><Trans id="legendary-armory"/></Headline>}
       navBar={(
         <NavBar base="/legendary/" items={[
-          { segment: 'weapons', label: <Trans id="legendary-armory.weapons"/> },
-          { segment: 'armor', label: <Trans id="legendary-armory.armor"/> },
-          { segment: 'trinkets', label: <Trans id="legendary-armory.trinkets"/> },
-          { segment: 'relics', label: <Trans id="legendary-armory.relics"/> },
+          { segment: 'weapons', icon: 'legendary-weapon', label: <Trans id="legendary-armory.weapons"/> },
+          { segment: 'armor', icon: 'legendary-armor', label: <Trans id="legendary-armory.armor"/> },
+          { segment: 'trinkets', icon: 'legendary-trinket', label: <Trans id="legendary-armory.trinkets"/> },
+          { segment: 'relics', icon: 'legendary-relic', label: <Trans id="legendary-armory.relics"/> },
         ]}/>
       )}
     >

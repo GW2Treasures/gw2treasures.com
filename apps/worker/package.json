@@ -30,7 +30,7 @@
     "@gw2treasures/eslint-config": "workspace:*",
     "@gw2treasures/tsconfig": "workspace:*",
     "@types/jest": "29.5.14",
-    "@types/node": "22.13.4",
+    "@types/node": "22.13.5",
     "@typescript-eslint/parser": "8.24.1",
     "@vercel/ncc": "0.38.3",
     "eslint": "9.20.1",

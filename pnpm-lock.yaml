@@ -299,8 +299,8 @@ importers:
         specifier: 5.4.1
         version: 5.4.1
       cron-parser:
-        specifier: 5.0.3
-        version: 5.0.3
+        specifier: 5.0.4
+        version: 5.0.4
       dotenv:
         specifier: 16.4.7
         version: 16.4.7
@@ -2126,8 +2126,8 @@ packages:
   create-require@1.1.1:
     resolution: {integrity: sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==}
 
-  cron-parser@5.0.3:
-    resolution: {integrity: sha512-PWP8fZGP1QuLm7X/jT6kDNcJpoV7/XqT5Z8tQLgmX3El8RLscn2zc/TPQFo2TiMIZ2k4UNVNMGZmBI2B+YU7og==}
+  cron-parser@5.0.4:
+    resolution: {integrity: sha512-ud6L7uGE4a7QxKndq106+99iKMlhG1/gSVlA4SH7qy3xO/R/EUoXFTJFMBOogdk00mZiXPONRI4wFKAcymKp6w==}
     engines: {node: '>=18'}
 
   cross-spawn@7.0.6:
@@ -6169,7 +6169,7 @@ snapshots:
 
   create-require@1.1.1: {}
 
-  cron-parser@5.0.3:
+  cron-parser@5.0.4:
     dependencies:
       luxon: 3.5.0
 

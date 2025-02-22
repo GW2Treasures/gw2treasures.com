@@ -12,9 +12,10 @@ import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { Trans } from '@/components/I18n/Trans';
 import { SubmitButton } from '@gw2treasures/ui/components/Form/Buttons/SubmitButton';
 import type { PageProps } from '@/lib/next';
+import { cookies } from 'next/headers';
 
 export default async function LoginPage({ searchParams }: PageProps) {
-  const { returnTo: returnToParam, scopes: scopesParam, error, logout } = await searchParams;
+  const { returnTo: returnToParam, scopes: scopesParam, error } = await searchParams;
   const user = await getUser();
   const returnTo = Array.isArray(returnToParam) ? returnToParam[0] : returnToParam;
   const scopes = Array.isArray(scopesParam) ? scopesParam.join(',') : scopesParam;
@@ -23,13 +24,16 @@ export default async function LoginPage({ searchParams }: PageProps) {
     redirect(getReturnToUrl(returnTo));
   }
 
+  const cookieStore = await cookies();
+  const showLogoutMessage = cookieStore.has('logout');
+
   return (
     <HeroLayout hero={<Headline id="login"><Trans id="login"/></Headline>}>
       {error !== undefined && (
         <Notice type="error">Unknown error</Notice>
       )}
 
-      {logout !== undefined && (
+      {showLogoutMessage && (
         <Notice>Logout successful</Notice>
       )}
 

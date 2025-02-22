@@ -1,11 +1,9 @@
 import { ItemLink } from '@/components/Item/ItemLink';
 import { ItemList } from '@/components/ItemList/ItemList';
-import { HeroLayout } from '@/components/Layout/HeroLayout';
 import { linkProperties } from '@/lib/linkProperties';
 import { localizedName } from '@/lib/localizedName';
 import { db } from '@/lib/prisma';
 import type { Language } from '@gw2treasures/database';
-import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { unstable_cache } from 'next/cache';
 import { DyeColor } from '@/components/Color/DyeColor';
@@ -34,7 +32,7 @@ export default async function ColorPage({ params }: PageProps) {
   const colors = await getColors(language);
 
   return (
-    <HeroLayout hero={<Headline id="colors">Colors</Headline>} color="#f9a825">
+    <>
       <Table>
         <thead>
           <tr>
@@ -67,7 +65,7 @@ export default async function ColorPage({ params }: PageProps) {
           })}
         </tbody>
       </Table>
-    </HeroLayout>
+    </>
   );
 }
 

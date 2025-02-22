@@ -70,10 +70,12 @@ const UserButtonButton: FC<UserButtonButtonProps> = ({ user, language }) => {
         {user !== 'loading' && user.roles.includes('Admin') && (
           <LinkButton icon="developer" appearance="menu" href="/admin/users">Admin</LinkButton>
         )}
-        <LinkButton appearance="menu" external href="/logout" icon="logout">Logout</LinkButton>
+        <form action="/logout" method="POST" style={{ display: 'flex' }}>
+          <SubmitButton appearance="menu" icon="logout" flex>Logout</SubmitButton>
+        </form>
         <Separator/>
-        <form action={reauthorize.bind(null, [], 'consent')}>
-          <SubmitButton icon="gw2me-outline" appearance="menu">Manage Accounts</SubmitButton>
+        <form action={reauthorize.bind(null, [], 'consent')} style={{ display: 'flex' }}>
+          <SubmitButton icon="gw2me-outline" appearance="menu" flex>Manage Accounts</SubmitButton>
         </form>
         <UserButtonAccounts/>
       </MenuList>

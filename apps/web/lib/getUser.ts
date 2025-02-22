@@ -1,10 +1,11 @@
 import 'server-only';
 
-import { headers } from 'next/headers';
+import { cookies, headers } from 'next/headers';
 import { db } from '@/lib/prisma';
 import { cache } from 'react';
 import { redirect } from 'next/navigation';
 import { UserRole } from '@gw2treasures/database';
+import { authCookieSettings } from './auth/cookie';
 
 export interface SessionUser {
   id: string;
@@ -20,8 +21,11 @@ export const getUser = cache(async function getUser(): Promise<SessionUser | und
   const sessionId = (await headers()).get('x-gw2t-session');
   const session = await getSessionFromDb(sessionId);
 
+  // if a session id is set but the session was not found in the db,
+  // delete the cookie and redirect to login page
   if(sessionId && !session) {
-    redirect('/logout');
+    (await cookies()).delete(authCookieSettings);
+    redirect('/login');
   }
 
   return session

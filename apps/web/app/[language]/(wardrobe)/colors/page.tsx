@@ -1,14 +1,17 @@
 import { ItemLink } from '@/components/Item/ItemLink';
 import { ItemList } from '@/components/ItemList/ItemList';
 import { linkProperties } from '@/lib/linkProperties';
-import { localizedName } from '@/lib/localizedName';
+import { compareLocalizedName, localizedName } from '@/lib/localizedName';
 import { db } from '@/lib/prisma';
 import type { Language } from '@gw2treasures/database';
-import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { unstable_cache } from 'next/cache';
 import { DyeColor } from '@/components/Color/DyeColor';
 import { hexToRgb } from '@/components/Color/hex-to-rgb';
 import type { PageProps } from '@/lib/next';
+import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
+import { Description } from '@/components/Layout/Description';
+import { ColumnSelect } from '@/components/Table/ColumnSelect';
+import { Trans } from '@/components/I18n/Trans';
 
 const getColors = unstable_cache((language: Language) => {
   return db.color.findMany({
@@ -31,40 +34,37 @@ export default async function ColorPage({ params }: PageProps) {
   const { language } = await params;
   const colors = await getColors(language);
 
+  const Colors = createDataTable(colors, ({ id }) => id);
+
   return (
     <>
-      <Table>
-        <thead>
-          <tr>
-            <Table.HeaderCell small align="right">ID</Table.HeaderCell>
-            <Table.HeaderCell>Name</Table.HeaderCell>
-            <Table.HeaderCell>Item</Table.HeaderCell>
-            <Table.HeaderCell small>Cloth</Table.HeaderCell>
-            <Table.HeaderCell small>Leather</Table.HeaderCell>
-            <Table.HeaderCell small>Metal</Table.HeaderCell>
-          </tr>
-        </thead>
-        <tbody>
-          {colors.map((color) => {
-            return (
-              <tr key={color.id}>
-                <td align="right">{color.id}</td>
-                <td>{localizedName(color, language)}</td>
-                <td>
-                  <ItemList singleColumn>
-                    {color.unlockedByItems.map((item) => (
-                      <li key={item.id}><ItemLink item={item}/></li>
-                    ))}
-                  </ItemList>
-                </td>
-                <td><DyeColor color={hexToRgb(color.cloth_rgb)}/></td>
-                <td><DyeColor color={hexToRgb(color.leather_rgb)}/></td>
-                <td><DyeColor color={hexToRgb(color.metal_rgb)}/></td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </Table>
+      <Description actions={<ColumnSelect table={Colors}/>}>
+        <Trans id="colors.description"/>
+      </Description>
+      <Colors.Table>
+        <Colors.Column id="id" title={<Trans id="itemTable.column.id"/>} align="right" small hidden>
+          {({ id }) => id}
+        </Colors.Column>
+        <Colors.Column id="name" title={<Trans id="itemTable.column.name"/>} sort={compareLocalizedName(language)}>
+          {(name) => localizedName(name, language)}
+        </Colors.Column>
+        <Colors.Column id="items" title={<Trans id="navigation.items"/>}>
+          {({ unlockedByItems }) => (
+            <ItemList singleColumn>
+              {unlockedByItems.map((item) => (<li key={item.id}><ItemLink item={item}/></li>))}
+            </ItemList>
+          )}
+        </Colors.Column>
+        <Colors.Column id="cloth" title={<Trans id="colors.cloth"/>} small>
+          {({ cloth_rgb }) => <DyeColor color={hexToRgb(cloth_rgb)}/>}
+        </Colors.Column>
+        <Colors.Column id="leather" title={<Trans id="colors.leather"/>} small>
+          {({ leather_rgb }) => <DyeColor color={hexToRgb(leather_rgb)}/>}
+        </Colors.Column>
+        <Colors.Column id="metal" title={<Trans id="colors.metal"/>} small>
+          {({ metal_rgb }) => <DyeColor color={hexToRgb(metal_rgb)}/>}
+        </Colors.Column>
+      </Colors.Table>
     </>
   );
 }

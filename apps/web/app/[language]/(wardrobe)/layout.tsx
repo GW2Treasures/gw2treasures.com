@@ -14,7 +14,7 @@ export default function WardrobeLayout({ children }: LayoutProps) {
         <NavBar base="/" items={[
           { segment: 'skins', icon: 'skin', label: <Trans id="navigation.skins"/> },
           // { segment: 'outfits', icon: 'info', label: <>Outfits <Badge>soon</Badge></> },
-          { segment: 'colors', icon: 'color', label: <>Dyes</> },
+          { segment: 'colors', icon: 'color', label: <Trans id="colors"/> },
           // { segment: 'gliders', icon: 'info', label: <>Gliders <Badge>soon</Badge></> },
           // { segment: 'mounts', icon: 'mount', label: <><Trans id="navigation.mounts"/> <Badge>soon</Badge></> },
           // { segment: 'fishing', icon: 'info', label: <>Fishing <Badge>soon</Badge></> },

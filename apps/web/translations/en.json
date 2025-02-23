@@ -381,9 +381,11 @@
   "legendary-armory.relics.description": "Legendary Relics can take the effect of any unlocked relic, and can be used on every character once unlocked in the Legendary Armory.",
   "legendary-armory.relics.unlocks": "Unlocks",
   "legendary-armory.relics.unlocks.description": "Core relics can always be used with the Legendary Relic. Other relics require the corresponding expansions, and relics introduced after Secrets of the Obscure have to be unlocked.",
+  "colors": "Dyes",
   "colors.description": "All the available colors.",
   "colors.cloth": "Cloth",
   "colors.leather": "Leather",
   "colors.metal": "Metal",
+  "colors.unlocks": "Account Unlocks",
   "minis": "Minis"
 }

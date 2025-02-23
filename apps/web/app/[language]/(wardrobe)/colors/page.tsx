@@ -14,6 +14,8 @@ import { ColumnSelect } from '@/components/Table/ColumnSelect';
 import { Trans } from '@/components/I18n/Trans';
 import { Gw2AccountBodyCells, Gw2AccountHeaderCells } from '@/components/Gw2Api/Gw2AccountTableCells';
 import { ColorAccountUnlockCell, requiredScopes } from '@/components/Color/unlock-cell';
+import { getTranslate } from '@/lib/translate';
+import type { Metadata } from 'next';
 
 const getColors = unstable_cache((language: Language) => {
   return db.color.findMany({
@@ -66,7 +68,7 @@ export default async function ColorPage({ params }: PageProps) {
         <Colors.Column id="metal" title={<Trans id="colors.metal"/>} small>
           {({ metal_rgb }) => <DyeColor color={hexToRgb(metal_rgb)}/>}
         </Colors.Column>
-        <Colors.DynamicColumns id="unlock" title="Account Unlocks" headers={<Gw2AccountHeaderCells requiredScopes={requiredScopes} small/>}>
+        <Colors.DynamicColumns id="unlock" title={<Trans id="colors.unlocks"/>} headers={<Gw2AccountHeaderCells requiredScopes={requiredScopes} small/>}>
           {({ id }) => (
             <Gw2AccountBodyCells requiredScopes={requiredScopes}><ColorAccountUnlockCell colorId={id} accountId={undefined as never}/></Gw2AccountBodyCells>
           )}
@@ -76,6 +78,11 @@ export default async function ColorPage({ params }: PageProps) {
   );
 }
 
-export const metadata = {
-  title: 'Colors',
-};
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { language } = await params;
+  const t = getTranslate(language);
+
+  return {
+    title: t('colors'),
+  };
+}

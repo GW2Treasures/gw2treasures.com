@@ -21,7 +21,7 @@ export default function WardrobeLayout({ children }: LayoutProps) {
           // { segment: 'skiffs', icon: 'info', label: <>Skiffs <Badge>soon</Badge></> },
           // { segment: 'novelties', icon: 'info', label: <>Novelties <Badge>soon</Badge></> },
           // { segment: 'jade-bots', icon: 'info', label: <>Jade Bots <Badge>soon</Badge></> },
-          { segment: 'minis', icon: 'mini', label: <>Minis</> },
+          { segment: 'minis', icon: 'mini', label: <Trans id="minis"/> },
           // { segment: 'finishers', icon: 'info', label: <>Finishers <Badge>soon</Badge></> },
           // { segment: 'mail-carriers', icon: 'info', label: <>Mail Carriers <Badge>soon</Badge></> },
         ]}/>

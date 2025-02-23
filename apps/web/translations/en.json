@@ -384,5 +384,6 @@
   "colors.description": "All the available colors.",
   "colors.cloth": "Cloth",
   "colors.leather": "Leather",
-  "colors.metal": "Metal"
+  "colors.metal": "Metal",
+  "minis": "Minis"
 }

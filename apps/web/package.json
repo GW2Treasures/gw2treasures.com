@@ -62,7 +62,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "3.3.0",
     "@eslint/js": "9.21.0",
-    "@gw2api/types": "0.0.23",
+    "@gw2api/types": "0.0.24",
     "@gw2treasures/eslint-config": "workspace:*",
     "@gw2treasures/eslint-plugin-nextjs": "workspace:*",
     "@gw2treasures/tsconfig": "workspace:*",

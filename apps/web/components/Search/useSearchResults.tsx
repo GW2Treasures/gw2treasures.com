@@ -136,7 +136,7 @@ const pages: Page[] = [
   { href: '/item', title: 'Items', icon: 'item' },
   { href: '/achievement', title: 'Achievements', icon: 'achievement' },
   { href: '/wizards-vault', title: 'Wizard\'s Vault', icon: 'wizards-vault' },
-  { href: '/skin', title: 'Skins', icon: 'skin' },
+  { href: '/skins', title: 'Skins', icon: 'skin' },
   // { href: '/profession', title: 'Professions', icon: 'profession' },
   // { href: '/specialization', title: 'Specializations', icon: 'specialization' },
   { href: '/skill', title: 'Skills', icon: 'skill' },
@@ -158,7 +158,7 @@ const pages: Page[] = [
 
   { href: '/build', title: 'Builds', icon: 'builds' },
   { href: '/currency', title: 'Currencies', icon: 'coins' },
-  { href: '/color', title: 'Colors', icon: 'color' },
+  { href: '/colors', title: 'Colors', icon: 'color' },
 
   { href: '/item/random', title: 'Random Item', icon: 'shuffle' },
   { href: '/item/empty-containers', title: 'Empty containers', icon: 'item' },

@@ -6,9 +6,9 @@ import { GridRows } from '@visx/grid';
 import { Group } from '@visx/group';
 import { ParentSize } from '@visx/responsive';
 import { scaleLinear, scaleTime } from '@visx/scale';
-import { Bar, Circle, Line, LinePath } from '@visx/shape';
+import { AreaClosed, Bar, Circle, Line, LinePath } from '@visx/shape';
 import { getColor } from './Chart';
-import type { ComponentClass, FC, MouseEvent, TouchEvent } from 'react';
+import { Fragment, type ComponentClass, type FC, type MouseEvent, type TouchEvent } from 'react';
 import { Tooltip, TooltipWithBounds as TooltipWithBoundsReact18, useTooltip } from '@visx/tooltip';
 import { localPoint } from '@visx/event';
 import { bisector } from 'd3-array';
@@ -104,7 +104,10 @@ const ChartInternal: FC<ChartProps & { width: number }> = ({ lines, valueDomain,
           <AxisBottom scale={timeScale} top={yMax} stroke="var(--color-border)" strokeWidth={2} tickStroke="var(--color-border)" tickLabelProps={{ fill: 'var(--color-text)', fontFamily: 'var(--font-wotfard)', fontSize: 12 }} numTicks={7}/>
 
           {lines.map(([name, data], index) => (
-            <LinePath key={name} data={data} y={(d) => valueScale(d.value ?? 0)} x={(d) => timeScale(d.time)} curve={curveMonotoneX} stroke={getColor(index)} strokeWidth={2} strokeLinejoin="round" strokeLinecap="round"/>
+            <Fragment key={name}>
+              <LinePath data={data} y={(d) => valueScale(d.value ?? 0)} x={(d) => timeScale(d.time)} curve={curveMonotoneX} stroke={getColor(index)} strokeWidth={2} strokeLinejoin="round" strokeLinecap="round"/>
+              <AreaClosed data={data} y={(d) => valueScale(d.value ?? 0)} x={(d) => timeScale(d.time)} curve={curveMonotoneX} fill={getColor(index)} fillOpacity={.05} yScale={valueScale}/>
+            </Fragment>
           ))}
         </Group>
 

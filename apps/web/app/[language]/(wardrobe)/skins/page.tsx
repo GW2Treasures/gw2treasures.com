@@ -8,6 +8,8 @@ import Link from 'next/link';
 import { FormatNumber } from '@/components/Format/FormatNumber';
 import type { Icon } from '@gw2treasures/database';
 import { cache } from '@/lib/cache';
+import { Trans } from '@/components/I18n/Trans';
+import type { Type } from '@/components/Item/ItemType.types';
 
 const getSkins = cache(async () => {
   const [newSkins, byTypes] = await Promise.all([
@@ -43,7 +45,7 @@ async function SkinPage() {
               style={{ display: 'flex', alignItems: 'center', gap: 8 }}
             >
               {skin._max.iconId && (<EntityIcon icon={iconMap[skin._max.iconId]} size={32}/>)}
-              {skin.type}{skin.subtype && ` / ${skin.subtype}`}
+              <Trans id={`item.type.${skin.type as Type}`}/>{skin.subtype && <>&nbsp;/&nbsp;<Trans id={`item.type.${skin.type as Type}.${skin.subtype as never}`}/></>}
             </Link>
             <span>
               <FormatNumber value={skin._count}/> Skins

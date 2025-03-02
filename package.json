@@ -2,16 +2,16 @@
   "name": "gw2treasures.com",
   "private": true,
   "scripts": {
-    "dev:web": "FORCE_COLOR=1 turbo run dev --filter=web",
-    "dev:worker": "FORCE_COLOR=1 turbo run dev --filter=worker",
-    "prisma:studio": "pnpm run --filter @gw2treasures/database prisma:studio",
-    "prisma:migrate-dev": "pnpm run --filter @gw2treasures/database prisma:migrate-dev",
-    "build": "turbo run build",
-    "build:icons": "turbo run build --filter=@gw2treasures/icons",
-    "lint": "turbo run lint --continue -- -f gha",
-    "publish-package": "turbo run publish-package",
-    "e2e": "turbo run e2e",
-    "test": "turbo run test"
+    "dev:web": "PNPM_VERIFY_DEPS_BEFORE_RUN=false FORCE_COLOR=1 turbo run dev --filter=web",
+    "dev:worker": "PNPM_VERIFY_DEPS_BEFORE_RUN=false FORCE_COLOR=1 turbo run dev --filter=worker",
+    "prisma:studio": "PNPM_VERIFY_DEPS_BEFORE_RUN=false pnpm run --filter @gw2treasures/database prisma:studio",
+    "prisma:migrate-dev": "PNPM_VERIFY_DEPS_BEFORE_RUN=false pnpm run --filter @gw2treasures/database prisma:migrate-dev",
+    "build": "PNPM_VERIFY_DEPS_BEFORE_RUN=false turbo run build",
+    "build:icons": "PNPM_VERIFY_DEPS_BEFORE_RUN=false turbo run build --filter=@gw2treasures/icons",
+    "lint": "PNPM_VERIFY_DEPS_BEFORE_RUN=false turbo run lint --continue -- -f gha",
+    "publish-package": "PNPM_VERIFY_DEPS_BEFORE_RUN=false turbo run publish-package",
+    "e2e": "PNPM_VERIFY_DEPS_BEFORE_RUN=false turbo run e2e",
+    "test": "PNPM_VERIFY_DEPS_BEFORE_RUN=false turbo run test"
   },
   "devDependencies": {
     "@gw2treasures/publish-package": "workspace:*",

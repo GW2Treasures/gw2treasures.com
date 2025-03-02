@@ -1,6 +1,9 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "ui": "stream",
+  "globalPassThroughEnv": [
+    "PNPM_VERIFY_DEPS_BEFORE_RUN"
+  ],
   "tasks": {
     "build": {
       "dependsOn": [

@@ -22,13 +22,12 @@ const Navigation: FC<NavigationProps> = ({ language }) => {
         <NavigationItem href="/achievement" icon="achievement"><Trans language={language} id="navigation.achievements"/></NavigationItem>
         <NavigationItem href="/wizards-vault" icon="wizards-vault"><Trans language={language} id="navigation.wizardsVault"/><WizardsVaultNewSeasonBadge/></NavigationItem>
         <NavigationItem href="/homestead/nodes" icon="homestead"><Trans language={language} id="navigation.homestead"/></NavigationItem>
-        <NavigationItem href="/skin" icon="skin"><Trans language={language} id="navigation.skins"/></NavigationItem>
+        <NavigationItem href="/skins" icon="wardrobe"><Trans language={language} id="navigation.wardrobe"/></NavigationItem>
         {/* <NavigationItem href="/profession" icon="profession"><Trans language={language} id="navigation.professions"/></NavigationItem> */}
         {/* <NavigationItem href="/specialization" icon="specialization"><Trans language={language} id="navigation.specializations"/></NavigationItem> */}
         <NavigationItem href="/skill" icon="skill"><Trans language={language} id="navigation.skills"/></NavigationItem>
         <NavigationItem href="/fractals" icon="fractals"><Trans language={language} id="navigation.fractals"/></NavigationItem>
         {/* <NavigationItem href="/event-timer" icon="event-boss">Event Timer<Badge>New</Badge></NavigationItem> */}
-        {/* <NavigationItem href="/mount" icon="mount"><Trans language={language} id="navigation.mounts"/></NavigationItem> */}
         {/* <NavigationItem href="/wvw" icon="wvw"><Trans language={language} id="navigation.wvw"/></NavigationItem> */}
         <NavigationItem href="/dev" icon="developer"><Trans language={language} id="navigation.developer"/></NavigationItem>
       </Composite>

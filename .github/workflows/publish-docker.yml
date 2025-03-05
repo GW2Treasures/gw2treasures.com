@@ -68,7 +68,7 @@ jobs:
         echo "digest=$(docker buildx imagetools inspect --format '{{json .Manifest}}' ghcr.io/gw2treasures/gw2treasures.com/web:pr-1526 | jq -cr '.digest')" >> "$GITHUB_OUTPUT"
 
     - name: Attest
-      uses: actions/attest-build-provenance@v2.2.2
+      uses: actions/attest-build-provenance@v2.2.3
       with:
         subject-name: ${{ env.IMAGE_ID }}
         subject-digest: ${{ steps.image.outputs.digest }}

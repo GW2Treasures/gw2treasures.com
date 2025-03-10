@@ -13,12 +13,13 @@ import Link from 'next/link';
 import { FormatNumber } from '@/components/Format/FormatNumber';
 import { AchievementLink } from '@/components/Achievement/AchievementLink';
 import { cache } from '@/lib/cache';
-import { getAlternateUrls } from '@/lib/url';
+import { getAlternateUrls, getCurrentUrl } from '@/lib/url';
 import { PageView } from '@/components/PageView/PageView';
 import type { PageProps } from '@/lib/next';
 import { Snow } from '../festival/wintersday/snow';
 import { Festival, getActiveFestival } from '../festival/festivals';
 import { LunarNewYearHero } from '../festival/lunar-new-year/hero';
+import ogImage from './og.png';
 
 async function HomePage({ params }: PageProps) {
   const { language } = await params;
@@ -133,7 +134,11 @@ export async function generateMetadata({ params }: PageProps) {
 
   return {
     title: 'Home',
-    alternates: getAlternateUrls('/', language)
+    alternates: getAlternateUrls('/', language),
+    openGraph: {
+      images: [{ url: new URL(ogImage.src, await getCurrentUrl()), width: ogImage.width, height: ogImage.height }],
+    },
+    twitter: { card: 'summary_large_image' }
   };
 }
 

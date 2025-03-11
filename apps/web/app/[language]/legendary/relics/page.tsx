@@ -36,11 +36,12 @@ const rareCollectionsAchievementCategoryId = 75;
 // other relics need to be unlocked bit by bit
 const knownAchievements: Record<number, RelicSet | undefined> = {
   7685: { order: 1, access: 'Core' }, // Relics—Core Set 1
-  7686: { order: 2, access: 'SecretsOfTheObscure' }, // Relics—Secrets of the Obscure Set 1
-  7684: { order: 3, access: 'SecretsOfTheObscure' }, // Relics—Secrets of the Obscure Set 2
-  7960: { order: 4, access: 'SecretsOfTheObscure' }, // Relics—Secrets of the Obscure Set 3
-  8363: { order: 5, access: 'JanthirWilds' }, // Relics—Janthir Wilds Set 1
-  8446: { order: 6, access: 'JanthirWilds' }, // Relics—Janthir Wilds Set 2
+  8550: { order: 2, access: 'Core' }, // Relics—Core Set 2
+  7686: { order: 10, access: 'SecretsOfTheObscure' }, // Relics—Secrets of the Obscure Set 1
+  7684: { order: 11, access: 'SecretsOfTheObscure' }, // Relics—Secrets of the Obscure Set 2
+  7960: { order: 12, access: 'SecretsOfTheObscure' }, // Relics—Secrets of the Obscure Set 3
+  8363: { order: 20, access: 'JanthirWilds' }, // Relics—Janthir Wilds Set 1
+  8446: { order: 21, access: 'JanthirWilds' }, // Relics—Janthir Wilds Set 2
 };
 
 const loadItems = cache(async () => {
@@ -55,8 +56,12 @@ const loadItems = cache(async () => {
 const loadAchievements = cache(async () => {
   const achievements = await db.achievement.findMany({
     where: {
-      name_en: { startsWith: 'Relics—%' },
-      achievementCategoryId: rareCollectionsAchievementCategoryId
+      OR: [
+        // either its an achievement starting with `Relics—` (i.e. "Relics—Core Set 1") in the rare collections category
+        { name_en: { startsWith: 'Relics—%' }, achievementCategoryId: rareCollectionsAchievementCategoryId },
+        // or its one of the known achievements
+        { id: { in: Object.keys(knownAchievements).map(Number) }}
+      ]
     },
     select: {
       ...linkPropertiesWithoutRarity,

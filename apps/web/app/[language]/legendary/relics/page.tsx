@@ -24,6 +24,8 @@ import type { Metadata } from 'next';
 import { requiredScopes, type RelicSet } from '../helper';
 import { createItemTable, LegendaryItemDataTable } from '../table';
 import { RelicUnlockCell } from './page.client';
+import { TableFilterButton, TableFilterProvider, TableFilterRow, type TableFilterDefinition } from '@gw2treasures/ui/components/Table/TableFilter';
+import { localizedName } from '@/lib/localizedName';
 
 // item id of the legendary relic
 const legendaryRelicId = 101582;
@@ -95,14 +97,25 @@ function achievementsToRelics(achievements: Awaited<ReturnType<typeof loadAchiev
   }).filter(isDefined);
 }
 
-export default async function LegendaryRelicsPage() {
+export default async function LegendaryRelicsPage({ params }: PageProps) {
+  const { language } = await params;
   const [items, achievements] = await Promise.all([
     loadItems(),
     loadAchievements(),
   ]);
 
   const Items = createItemTable(items);
-  const Relics = createDataTable(achievementsToRelics(achievements), ({ item }) => item.id);
+
+  const relics = achievementsToRelics(achievements);
+  const Relics = createDataTable(relics, ({ item }) => item.id);
+
+  const relicSetFilter: TableFilterDefinition[] = achievements.toSorted((a, b) => (knownAchievements[a.id]?.order ?? 0) - (knownAchievements[b.id]?.order ?? 0)).map((achievement) => ({
+    id: achievement.id,
+    name: normalizeSetName(localizedName(achievement, language)),
+    rowIndexes: relics.map(({ achievement }, index) => [achievement.id, index] as const)
+      .filter(([ achievementId ]) => achievement.id === achievementId)
+      .map(([, index]) => index)
+  }));
 
   return (
     <>
@@ -111,36 +124,38 @@ export default async function LegendaryRelicsPage() {
       </Description>
       <LegendaryItemDataTable table={Items}/>
 
-      <Headline id="unlocks" actions={<ColumnSelect table={Relics}/>}>
-        <Trans id="legendary-armory.relics.unlocks"/>
-      </Headline>
-      <p><Trans id="legendary-armory.relics.unlocks.description"/></p>
-      <Relics.Table initialSortBy="set">
-        <Relics.Column id="id" title={<Trans id="itemTable.column.id"/>} small hidden align="right">{({ item }) => item.id}</Relics.Column>
-        <Relics.Column id="relic" title={<Trans id="legendary-armory.relic"/>} fixed>
-          {({ item }) => <ItemLink item={item}/>}
-        </Relics.Column>
-        <Relics.Column id="set" title={<Trans id="legendary-armory.set"/>} sortBy={({ set, achievement }) => set?.order ?? achievement.id}>
-          {({ achievement }) => <AchievementLink achievement={achievement}/>}
-        </Relics.Column>
-        <Relics.DynamicColumns id="account-unlock" title="Account Unlocks" headers={<Gw2AccountHeaderCells small requiredScopes={requiredScopes}/>}>
-          {({ achievement, bitId, set }) => <Gw2AccountBodyCells requiredScopes={requiredScopes}><RelicUnlockCell achievement={achievement} bitId={bitId} set={set} accountId={undefined as never}/></Gw2AccountBodyCells>}
-        </Relics.DynamicColumns>
-        <Relics.Column id="actions" title="" small fixed>
-          {({ item, achievement }) => (
-            <DropDown button={<Button iconOnly appearance="menu"><Icon icon="more"/></Button>} preferredPlacement="right-start">
-              <MenuList>
-                <LinkButton appearance="menu" icon="eye" href={`/item/${item.id}`}>View Item</LinkButton>
-                <CopyButton appearance="menu" icon="chatlink" copy={encode('item', item.id) || ''}><Trans id="chatlink.copy"/></CopyButton>
-                <LinkButton appearance="menu" icon="external" href={`https://api.guildwars2.com/v2/items/${item.id}?v=latest`} target="_blank" rel="noreferrer noopener">API</LinkButton>
-                <Separator/>
-                <LinkButton appearance="menu" icon="eye" href={`/achievement/${achievement.id}`}>View Achievement</LinkButton>
-                <LinkButton appearance="menu" icon="external" href={`https://api.guildwars2.com/v2/achievements/${achievement.id}?v=latest`} target="_blank" rel="noreferrer noopener">API</LinkButton>
-              </MenuList>
-            </DropDown>
-          )}
-        </Relics.Column>
-      </Relics.Table>
+      <TableFilterProvider filter={relicSetFilter}>
+        <Headline id="unlocks" actions={[<TableFilterButton key="filter" totalCount={relics.length}/>, <ColumnSelect key="columsn" table={Relics}/>]}>
+          <Trans id="legendary-armory.relics.unlocks"/>
+        </Headline>
+        <p><Trans id="legendary-armory.relics.unlocks.description"/></p>
+        <Relics.Table initialSortBy="set" rowFilter={TableFilterRow}>
+          <Relics.Column id="id" title={<Trans id="itemTable.column.id"/>} small hidden align="right">{({ item }) => item.id}</Relics.Column>
+          <Relics.Column id="relic" title={<Trans id="legendary-armory.relic"/>} fixed>
+            {({ item }) => <ItemLink item={item}/>}
+          </Relics.Column>
+          <Relics.Column id="set" title={<Trans id="legendary-armory.set"/>} sortBy={({ set, achievement }) => set?.order ?? achievement.id}>
+            {({ achievement }) => <AchievementLink achievement={achievement}/>}
+          </Relics.Column>
+          <Relics.DynamicColumns id="account-unlock" title="Account Unlocks" headers={<Gw2AccountHeaderCells small requiredScopes={requiredScopes}/>}>
+            {({ achievement, bitId, set }) => <Gw2AccountBodyCells requiredScopes={requiredScopes}><RelicUnlockCell achievement={achievement} bitId={bitId} set={set} accountId={undefined as never}/></Gw2AccountBodyCells>}
+          </Relics.DynamicColumns>
+          <Relics.Column id="actions" title="" small fixed>
+            {({ item, achievement }) => (
+              <DropDown button={<Button iconOnly appearance="menu"><Icon icon="more"/></Button>} preferredPlacement="right-start">
+                <MenuList>
+                  <LinkButton appearance="menu" icon="eye" href={`/item/${item.id}`}>View Item</LinkButton>
+                  <CopyButton appearance="menu" icon="chatlink" copy={encode('item', item.id) || ''}><Trans id="chatlink.copy"/></CopyButton>
+                  <LinkButton appearance="menu" icon="external" href={`https://api.guildwars2.com/v2/items/${item.id}?v=latest`} target="_blank" rel="noreferrer noopener">API</LinkButton>
+                  <Separator/>
+                  <LinkButton appearance="menu" icon="eye" href={`/achievement/${achievement.id}`}>View Achievement</LinkButton>
+                  <LinkButton appearance="menu" icon="external" href={`https://api.guildwars2.com/v2/achievements/${achievement.id}?v=latest`} target="_blank" rel="noreferrer noopener">API</LinkButton>
+                </MenuList>
+              </DropDown>
+            )}
+          </Relics.Column>
+        </Relics.Table>
+      </TableFilterProvider>
     </>
   );
 }
@@ -153,4 +168,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: t('legendary-armory.relics.title'),
     description: t('legendary-armory.relics.description'),
   };
+}
+
+/** Remove common prefix from set names */
+function normalizeSetName(name: string) {
+  // remove prefix for de, en, es, fr
+  const withoutPrefix = name.replace(/^(Relikte – |Relics—|Reliquias(—|: )|Reliques\u00A0: )/, '');
+
+  // uppercase first letter
+  return withoutPrefix.charAt(0).toUpperCase() + withoutPrefix.slice(1);
 }

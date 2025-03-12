@@ -11,16 +11,16 @@ import type { DataTableRowFilterComponent, DataTableRowFilterComponentProps } fr
 
 interface TableFilterContext {
   filteredRows?: number[] | undefined;
-  filterMap: Map<number, { name: string, rowIndexes: number[] }>
+  filterMap: Map<number | string, { name: string, rowIndexes: number[] }>
 
-  filterIds: number[];
-  setFilterIds: (filterIds: number[]) => void;
+  filterIds: (number | string)[];
+  setFilterIds: (filterIds: (number | string)[]) => void;
 }
 
 const context = createContext<TableFilterContext>({ filteredRows: undefined, filterMap: new Map(), filterIds: [], setFilterIds: () => {} });
 
 export interface TableFilterDefinition {
-  id: number,
+  id: number | string,
   name: string,
   rowIndexes: number[],
 }
@@ -86,7 +86,7 @@ export const TableFilterButton: FC<TableFilterButtonProps> = ({ totalCount: coun
     };
   }, []);
 
-  const handleFilterChange = useCallback((filterId: number) => {
+  const handleFilterChange = useCallback((filterId: number | string) => {
     // check if shift is pressed
     if(isShiftPressed) {
       if(filterIds.length === 1 && filterIds[0] === filterId) {

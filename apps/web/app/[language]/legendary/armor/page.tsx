@@ -17,6 +17,7 @@ const loadItems = cache(async () => {
     where: { OR: [{ type: { in: ['Armor', 'Back'] }}, { id: legendaryRuneId }], legendaryArmoryMaxCount: { not: null }},
     select: {
       ...linkProperties,
+      type: true, subtype: true,
       legendaryArmoryMaxCount: true
     }
   });
@@ -24,7 +25,8 @@ const loadItems = cache(async () => {
   return items;
 }, ['legendary-armor'], { revalidate: 60 * 60 });
 
-export default async function LegendaryRelicsPage() {
+export default async function LegendaryRelicsPage({ params }: PageProps) {
+  const { language } = await params;
   const items = await loadItems();
   const Items = createItemTable(items);
 
@@ -34,7 +36,7 @@ export default async function LegendaryRelicsPage() {
       <Description actions={<ColumnSelect table={Items}/>}>
         <Trans id="legendary-armory.armor.description"/>
       </Description>
-      <LegendaryItemDataTable table={Items}/>
+      <LegendaryItemDataTable language={language} table={Items}/>
     </>
   );
 }

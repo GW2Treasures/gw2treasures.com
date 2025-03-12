@@ -49,7 +49,11 @@ const knownAchievements: Record<number, RelicSet | undefined> = {
 const loadItems = cache(async () => {
   const items = await db.item.findMany({
     where: { id: legendaryRelicId },
-    select: { ...linkProperties, legendaryArmoryMaxCount: true }
+    select: {
+      ...linkProperties,
+      type: true, subtype: true,
+      legendaryArmoryMaxCount: true
+    }
   });
 
   return items;
@@ -122,7 +126,7 @@ export default async function LegendaryRelicsPage({ params }: PageProps) {
       <Description actions={<ColumnSelect table={Items}/>}>
         <Trans id="legendary-armory.relics.description"/>
       </Description>
-      <LegendaryItemDataTable table={Items}/>
+      <LegendaryItemDataTable language={language} table={Items}/>
 
       <TableFilterProvider filter={relicSetFilter}>
         <Headline id="unlocks" actions={[<TableFilterButton key="filter" totalCount={relics.length}/>, <ColumnSelect key="columsn" table={Relics}/>]}>

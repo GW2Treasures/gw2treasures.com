@@ -12,7 +12,7 @@ import { localizedUrl } from '@/lib/localizedUrl';
 import { cx } from '@gw2treasures/ui';
 import { EntityIconMissing } from '../Entity/EntityIconMissing';
 
-export const EntityLinkInternal: FC<EntityLinkProps> = ({ ref, href, entity, icon = 32, language, iconType, ...props }) => {
+export const EntityLinkInternal: FC<EntityLinkProps> = ({ ref, href, entity, icon = 32, language, iconType, children, ...props }) => {
   const defaultLanguage = useLanguage();
 
   if(language && defaultLanguage !== language) {
@@ -32,7 +32,7 @@ export const EntityLinkInternal: FC<EntityLinkProps> = ({ ref, href, entity, ico
     >
       <>
         {icon !== 'none' && (typeof icon === 'number' ? (entity.icon ? <EntityIcon icon={entity.icon} size={icon} type={iconType}/> : <EntityIconMissing size={icon}/>) : icon)}
-        <span className={styles.name}>{localizedName(entity, language ?? defaultLanguage)}</span>
+        <span className={styles.name}>{children ?? localizedName(entity, language ?? defaultLanguage)}</span>
       </>
     </NextLink>
   );

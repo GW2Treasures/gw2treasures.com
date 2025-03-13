@@ -150,10 +150,11 @@ export default async function LegendaryRelicsPage({ params }: PageProps) {
                 <MenuList>
                   <LinkButton appearance="menu" icon="eye" href={`/item/${item.id}`}>View Item</LinkButton>
                   <CopyButton appearance="menu" icon="chatlink" copy={encode('item', item.id) || ''}><Trans id="chatlink.copy"/></CopyButton>
-                  <LinkButton appearance="menu" icon="external" href={`https://api.guildwars2.com/v2/items/${item.id}?v=latest`} target="_blank" rel="noreferrer noopener">API</LinkButton>
+                  <LinkButton appearance="menu" icon="external" external href={`https://wiki.guildwars2.com/index.php?title=Special%3ASearch&search=${encodeURIComponent(encode('item', item.id))}&go=Go`} target="wiki" rel="noreferrer noopener">Wiki</LinkButton>
+                  <LinkButton appearance="menu" icon="external" external href={`https://api.guildwars2.com/v2/items/${item.id}?v=latest`} target="_blank" rel="noreferrer noopener">API</LinkButton>
                   <Separator/>
                   <LinkButton appearance="menu" icon="eye" href={`/achievement/${achievement.id}`}>View Achievement</LinkButton>
-                  <LinkButton appearance="menu" icon="external" href={`https://api.guildwars2.com/v2/achievements/${achievement.id}?v=latest`} target="_blank" rel="noreferrer noopener">API</LinkButton>
+                  <LinkButton appearance="menu" icon="external" external href={`https://api.guildwars2.com/v2/achievements/${achievement.id}?v=latest`} target="_blank" rel="noreferrer noopener">API</LinkButton>
                 </MenuList>
               </DropDown>
             )}

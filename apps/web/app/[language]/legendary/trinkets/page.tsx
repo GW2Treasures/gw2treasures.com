@@ -9,6 +9,7 @@ import { getTranslate } from '@/lib/translate';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import type { Metadata } from 'next';
 import { createItemTable, LegendaryItemDataTable } from '../table';
+import { pageView } from '@/lib/pageView';
 
 const loadItems = cache(async () => {
   const items = await db.item.findMany({
@@ -25,6 +26,9 @@ const loadItems = cache(async () => {
 
 export default async function LegendaryRelicsPage({ params }: PageProps) {
   const { language } = await params;
+
+  await pageView('legendary/trinkets');
+
   const items = await loadItems();
   const Items = createItemTable(items);
 

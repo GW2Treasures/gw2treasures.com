@@ -11,6 +11,7 @@ import type { Metadata } from 'next';
 import { createItemTable, LegendaryItemDataTable } from '../table';
 import { TableFilterButton, TableFilterProvider, type TableFilterDefinition } from '@gw2treasures/ui/components/Table/TableFilter';
 import type { SubType } from '@/components/Item/ItemType.types';
+import { pageView } from '@/lib/pageView';
 
 const legendarySigilId = 91505;
 
@@ -30,6 +31,8 @@ const loadItems = cache(async () => {
 export default async function LegendaryRelicsPage({ params }: PageProps) {
   const { language } = await params;
   const t = getTranslate(language);
+
+  await pageView('legendary/weapons');
 
   const items = await loadItems();
   const Items = createItemTable(items);

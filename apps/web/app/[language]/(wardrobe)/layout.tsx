@@ -24,6 +24,7 @@ export default function WardrobeLayout({ children }: LayoutProps) {
           { segment: 'minis', icon: 'mini', label: <Trans id="minis"/> },
           // { segment: 'finishers', icon: 'info', label: <>Finishers <Badge>soon</Badge></> },
           // { segment: 'mail-carriers', icon: 'info', label: <>Mail Carriers <Badge>soon</Badge></> },
+          { segment: 'legendary/weapons', icon: 'legendary', label: <Trans id="legendary-armory"/> },
         ]}/>
       )}
     >

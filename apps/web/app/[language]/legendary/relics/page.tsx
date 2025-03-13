@@ -28,6 +28,7 @@ import { TableFilterButton, TableFilterProvider, TableFilterRow, type TableFilte
 import { localizedName } from '@/lib/localizedName';
 import ogImage from './og.png';
 import { getCurrentUrl } from '@/lib/url';
+import { pageView } from '@/lib/pageView';
 
 // item id of the legendary relic
 const legendaryRelicId = 101582;
@@ -108,6 +109,7 @@ export default async function LegendaryRelicsPage({ params }: PageProps) {
   const [items, achievements] = await Promise.all([
     loadItems(),
     loadAchievements(),
+    pageView('legendary/relics'),
   ]);
 
   const Items = createItemTable(items);

@@ -11,6 +11,14 @@ const nextConfig: NextConfig = {
   // enable experimental features
   experimental: {
     reactCompiler: true,
+    allowedDevOrigins: [
+      'gw2treasures.localhost',
+      'de.gw2treasures.localhost',
+      'en.gw2treasures.localhost',
+      'fr.gw2treasures.localhost',
+      'es.gw2treasures.localhost',
+      'api.gw2treasures.localhost',
+    ],
   },
 
   // disable eslint/typescript during some CI jobs, as there are separate jobs for it

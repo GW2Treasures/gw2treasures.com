@@ -166,6 +166,10 @@ export const sitemaps: Record<string, Sitemap> = {
         '/festival/lunar-new-year/minis',
         '/festival/lunar-new-year/wizards-vault',
         '/bonus-event/evon-gnashblades-birthday',
+        '/legendary/weapons',
+        '/legendary/armor',
+        '/legendary/trinkets',
+        '/legendary/relics',
       ].map((page) => getEntryForUrl(language, page));
     }
   }

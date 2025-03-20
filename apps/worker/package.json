@@ -17,7 +17,7 @@
     "@gw2treasures/database": "workspace:*",
     "@gw2treasures/helper": "workspace:*",
     "chalk": "5.4.1",
-    "cron-parser": "5.0.5",
+    "cron-parser": "5.0.6",
     "dotenv": "16.4.7",
     "fast-average-color-node": "3.1.0",
     "gw2e-chat-codes": "1.4.2",

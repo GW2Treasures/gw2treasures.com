@@ -26,7 +26,7 @@ export default async function LoginPage({ searchParams }: PageProps) {
   }
 
   // parse scopes
-  const scope = parseScopeOrDefault(scopesParam);
+  const scopes = parseScopesOrDefault(scopesParam);
 
   // check if cookie exist to show logout message
   const cookieStore = await cookies();
@@ -46,7 +46,7 @@ export default async function LoginPage({ searchParams }: PageProps) {
         Login to contribute to gw2treasures.com and to view your progression, inventory, and more.
       </p>
 
-      <LoginButton scope={scope} returnTo={returnTo} logout={showLogoutMessage}/>
+      <LoginButton scopes={scopes} returnTo={returnTo} logout={showLogoutMessage}/>
 
       <div style={{ display: 'flex', gap: 8, alignItems: 'center', padding: '12px 16px', border: '1px solid var(--color-border)', borderRadius: 2, marginTop: 32 }}>
         <Icon icon="cookie"/>
@@ -67,7 +67,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 const validScopes = new Set(Object.values(Scope));
 
-function parseScopeOrDefault(scope: string | string[] | undefined): Scope[] {
+function parseScopesOrDefault(scope: string | string[] | undefined): Scope[] {
   if(!scope) {
     return [Scope.Identify];
   }

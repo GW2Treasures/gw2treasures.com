@@ -12,7 +12,6 @@ import { Trans } from '@/components/I18n/Trans';
 import type { PageProps } from '@/lib/next';
 import { cookies } from 'next/headers';
 import { LoginButton } from './login.client';
-import { client_id } from '@/lib/gw2me';
 
 export default async function LoginPage({ searchParams }: PageProps) {
   const { returnTo: returnToParam, scopes: scopesParam, error } = await searchParams;
@@ -47,7 +46,7 @@ export default async function LoginPage({ searchParams }: PageProps) {
         Login to contribute to gw2treasures.com and to view your progression, inventory, and more.
       </p>
 
-      <LoginButton scope={scope} returnTo={returnTo} logout={showLogoutMessage} clientId={client_id} gw2meBaseUrl={process.env.GW2ME_URL}/>
+      <LoginButton scope={scope} returnTo={returnTo} logout={showLogoutMessage}/>
 
       <div style={{ display: 'flex', gap: 8, alignItems: 'center', padding: '12px 16px', border: '1px solid var(--color-border)', borderRadius: 2, marginTop: 32 }}>
         <Icon icon="cookie"/>

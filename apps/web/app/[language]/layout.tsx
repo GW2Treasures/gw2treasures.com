@@ -16,6 +16,8 @@ import { DataTableContext } from '@gw2treasures/ui/components/Table/DataTableCon
 import type { ReactNode } from 'react';
 import type { LayoutProps } from '@/lib/next';
 import type { Viewport } from 'next';
+import { Gw2MeProvider } from '@/components/gw2me/gw2me-context';
+import { client_id } from '@/lib/gw2me';
 
 const bitter = Bitter({
   subsets: ['latin'],
@@ -46,10 +48,12 @@ export default async function RootLayout({ children, modal, params }: LayoutProp
             <ItemTableContext global id="global">
               <DataTableContext>
                 <UserProvider>
-                  <Gw2ApiProvider>
-                    <Layout language={language}>{children}</Layout>
-                    {modal}
-                  </Gw2ApiProvider>
+                  <Gw2MeProvider clientId={client_id} baseUrl={process.env.GW2ME_URL}>
+                    <Gw2ApiProvider>
+                      <Layout language={language}>{children}</Layout>
+                      {modal}
+                    </Gw2ApiProvider>
+                  </Gw2MeProvider>
                 </UserProvider>
               </DataTableContext>
             </ItemTableContext>

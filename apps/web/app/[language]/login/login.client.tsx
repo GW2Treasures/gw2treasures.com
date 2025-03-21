@@ -2,24 +2,20 @@
 
 import { Gw2MeClient, type Scope } from '@gw2me/client';
 import { SubmitButton } from '@gw2treasures/ui/components/Form/Buttons/SubmitButton';
-import { useCallback, useEffect, useMemo, type FC, type FormEventHandler } from 'react';
+import { useCallback, useEffect, type FC, type FormEventHandler } from 'react';
 import { prepareAuthRequest, redirectToGw2Me } from './login.action';
+import { useGw2MeBaseUrl, useGw2MeClient } from '@/components/gw2me/gw2me-context';
 
 export interface LoginButtonProps {
   scope: Scope[],
   returnTo?: string,
 
   logout: boolean,
-
-  clientId: string,
-  gw2meBaseUrl?: string,
 }
 
-export const LoginButton: FC<LoginButtonProps> = ({ scope, returnTo, logout, clientId, gw2meBaseUrl }) => {
-  const gw2me = useMemo(
-    () => new Gw2MeClient({ client_id: clientId }, { url: gw2meBaseUrl }),
-    [clientId, gw2meBaseUrl]
-  );
+export const LoginButton: FC<LoginButtonProps> = ({ scope, returnTo, logout }) => {
+  const gw2me = useGw2MeClient();
+  const gw2meBaseUrl = useGw2MeBaseUrl();
 
   useEffect(() => {
     // check if FedCM is supported

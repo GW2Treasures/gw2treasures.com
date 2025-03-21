@@ -3,27 +3,33 @@ import { getUser } from '@/lib/getUser';
 import { redirect } from 'next/navigation';
 import { Icon } from '@gw2treasures/ui';
 import { Scope } from '@gw2me/client';
-import { gw2me } from '@/lib/gw2me';
-import { getAlternateUrls, getCurrentUrl } from '@/lib/url';
-import { getReturnToUrl, setReturnToUrlCookie } from '@/lib/login-url';
+import { getAlternateUrls } from '@/lib/url';
+import { getReturnToUrl } from '@/lib/login-url';
 import type { Metadata } from 'next';
 import { HeroLayout } from '@/components/Layout/HeroLayout';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { Trans } from '@/components/I18n/Trans';
-import { SubmitButton } from '@gw2treasures/ui/components/Form/Buttons/SubmitButton';
 import type { PageProps } from '@/lib/next';
 import { cookies } from 'next/headers';
+import { LoginButton } from './login.client';
+import { client_id } from '@/lib/gw2me';
 
 export default async function LoginPage({ searchParams }: PageProps) {
   const { returnTo: returnToParam, scopes: scopesParam, error } = await searchParams;
-  const user = await getUser();
   const returnTo = Array.isArray(returnToParam) ? returnToParam[0] : returnToParam;
-  const scopes = Array.isArray(scopesParam) ? scopesParam.join(',') : scopesParam;
 
+  // get user
+  const user = await getUser();
+
+  // if the user already has a session, redirect the user
   if(user) {
     redirect(getReturnToUrl(returnTo));
   }
 
+  // parse scopes
+  const scope = parseScopeOrDefault(scopesParam);
+
+  // check if cookie exist to show logout message
   const cookieStore = await cookies();
   const showLogoutMessage = cookieStore.has('logout');
 
@@ -41,9 +47,7 @@ export default async function LoginPage({ searchParams }: PageProps) {
         Login to contribute to gw2treasures.com and to view your progression, inventory, and more.
       </p>
 
-      <form action={redirectToGw2Me.bind(null, returnTo, scopes)}>
-        <SubmitButton icon="gw2me" iconColor="#b7000d" type="submit">Login with gw2.me</SubmitButton>
-      </form>
+      <LoginButton scope={scope} returnTo={returnTo} logout={showLogoutMessage} clientId={client_id} gw2meBaseUrl={process.env.GW2ME_URL}/>
 
       <div style={{ display: 'flex', gap: 8, alignItems: 'center', padding: '12px 16px', border: '1px solid var(--color-border)', borderRadius: 2, marginTop: 32 }}>
         <Icon icon="cookie"/>
@@ -62,42 +66,28 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-async function redirectToGw2Me(returnTo?: string, additionalScopes?: string) {
-  'use server';
+const validScopes = new Set(Object.values(Scope));
 
-  // build redirect url
-  const redirect_uri = new URL('/auth/callback', await getCurrentUrl()).toString();
-
-  // get scopes to request from gw2.me
-  const scopes = getScopesFromString(additionalScopes);
-
-  // get gw2.me auth url
-  const url = gw2me.getAuthorizationUrl({ redirect_uri, scopes, include_granted_scopes: true });
-
-  // set cookie with url to return to after auth
-  await setReturnToUrlCookie(returnTo);
-
-  // redirect to gw2.me
-  redirect(url);
-}
-
-function getScopesFromString(scopeString?: string) {
-  // valid scope values to validate the provided scopes against
-  const validScopes: string[] = Object.values(Scope);
-
-  // default scopes that are always requested
-  const scopes = new Set([Scope.Identify]);
-
-  // parse scopes
-  const parsedScopes = scopeString?.split(',') ?? [];
-
-  // add all valid scopes to the scopes set
-  for(const scope of parsedScopes) {
-    if(validScopes.includes(scope)) {
-      scopes.add(scope as Scope);
-    }
+function parseScopeOrDefault(scope: string | string[] | undefined): Scope[] {
+  if(!scope) {
+    return [Scope.Identify];
   }
 
-  // return the array of scopes to request
+  // parse scopes
+  const parsedScopes = (Array.isArray(scope) ? scope : [scope])
+    .flatMap((value) => value.split(','))
+    .filter((scope): scope is Scope => validScopes.has(scope as Scope));
+
+  // create set to deduplicate scopes
+  const scopes = new Set(parsedScopes);
+
+  // ensure Identify is always included
+  scopes.add(Scope.Identify);
+
+  // make sure account display names are included if accounts are included
+  if(scopes.has(Scope.Accounts) || scopes.values().some((scope) => scope.startsWith('gw2:'))) {
+    scopes.add(Scope.Accounts_DisplayName);
+  }
+
   return Array.from(scopes);
 }

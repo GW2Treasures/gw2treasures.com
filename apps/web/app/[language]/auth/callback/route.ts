@@ -7,23 +7,38 @@ import { getUser } from '@/lib/getUser';
 import { cookies } from 'next/headers';
 import { gw2me } from '@/lib/gw2me';
 import { getCurrentUrl } from '@/lib/url';
-import { getReturnToUrlFromCookie } from '@/lib/login-url';
+import { getReturnToUrl } from '@/lib/login-url';
 
 export async function GET(request: NextRequest) {
   try {
     // get code from querystring
-    const { searchParams } = new URL(request.url);
-    const code = searchParams.get('code');
+    const { code, state } = gw2me.parseAuthorizationResponseSearchParams(request.nextUrl.searchParams);
 
-    if(!code) {
-      console.log('code missing');
-      redirect('/login?error');
+    if(!state) {
+      throw new Error('Received auth callback without state');
+    }
+
+    // get auth request from db
+    const auth = await db.authorizationRequest.delete({
+      where: { state }
+    });
+
+    // verify auth request is not already expired
+    if(auth.expiresAt < new Date()) {
+      throw new Error('Authorization request is already expired');
     }
 
     // build callback url
     const callbackUrl = new URL('/auth/callback', await getCurrentUrl());
 
-    const token = await gw2me.getAccessToken({ code, redirect_uri: callbackUrl.toString() });
+    // exchange code for access token
+    const token = await gw2me.getAccessToken({
+      code,
+      code_verifier: auth.code_verifier,
+      redirect_uri: callbackUrl.toString(),
+    });
+
+    // load user details
     const { user } = await gw2me.api(token.access_token).user();
 
     // build provider key
@@ -56,7 +71,7 @@ export async function GET(request: NextRequest) {
     if(currentUser) {
       if(currentUser.id === userId) {
         // the existing session was for the same user and we can reuse it
-        redirect(await getReturnToUrlFromCookie());
+        redirect(await getReturnToUrl(auth.returnTo));
       } else {
         // just logged in with a different user - lets delete the old session
         await db.userSession.delete({ where: { id: currentUser.session.id }});
@@ -74,7 +89,7 @@ export async function GET(request: NextRequest) {
 
     // send response with session cookie
     (await cookies()).set(authCookie(session.id, session.expiresAt!));
-    redirect(await getReturnToUrlFromCookie());
+    redirect(await getReturnToUrl(auth.returnTo));
   } catch(error) {
     rethrow(error);
 

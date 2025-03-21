@@ -1,6 +1,6 @@
 'use client';
 
-import { type FC, type ReactNode, useCallback, useMemo, useRef, useState } from 'react';
+import { experimental_useEffectEvent as useEffectEvent, type FC, type ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Gw2ApiContext, type GetAccountsOptions } from './Gw2ApiContext';
 import { fetchAccounts } from './fetch-accounts-action';
 import { ErrorCode, type Gw2Account } from './types';
@@ -13,6 +13,7 @@ import { SubmitButton } from '@gw2treasures/ui/components/Form/Buttons/SubmitBut
 import type { Scope } from '@gw2me/client';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useLocalStorageState } from '@/lib/useLocalStorageState';
+import { useFedCM } from '../gw2me/fedcm-context';
 
 export interface Gw2ApiProviderProps {
   children: ReactNode;
@@ -31,7 +32,8 @@ export const Gw2ApiProvider: FC<Gw2ApiProviderProps> = ({ children }) => {
 
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const loginUrl = `/login?returnTo=${encodeURIComponent(pathname + searchParams.toString())}&scopes=${encodeURIComponent(missingScopes.join(','))}`;
+  const returnTo = pathname + (searchParams.size > 0 ? '?' + searchParams : '');
+  const loginUrl = `/login?returnTo=${encodeURIComponent(returnTo)}&scopes=${encodeURIComponent(missingScopes.join(','))}`;
 
   const getAccounts = useCallback(async (requiredScopes: Scope[], optionalScopes: Scope[] = [], { includeHidden = false }: GetAccountsOptions = {}) => {
     // always return [] during SSR
@@ -111,13 +113,33 @@ export const Gw2ApiProvider: FC<Gw2ApiProviderProps> = ({ children }) => {
     setHiddenAccounts((hiddenAccounts) => hidden ? [...hiddenAccounts, id] : hiddenAccounts.filter((accountId) => accountId !== id));
   }, [setHiddenAccounts]);
 
+  const triggerFedCM = useFedCM();
+  // attempt silent logins
+  const triggerSilentFedCM = useEffectEvent(() => {
+    triggerFedCM({
+      returnTo,
+      scopes: missingScopes,
+      mediation: 'silent',
+      mode: 'passive',
+    });
+  });
+
+  useEffect(() => {
+    if(error === ErrorCode.NOT_LOGGED_IN) {
+      triggerSilentFedCM();
+    }
+  // react-hooks/exhaustive-deps doesn't correctly handle useEffectEvent yet
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [error]);
+
+
   // make sure the context value only changes if getAccounts or error changes
   const value = useMemo(() => ({ getAccounts, setHidden, error, scopes }), [getAccounts, setHidden, scopes, error]);
 
   return (
     <Gw2ApiContext.Provider value={value}>
       {children}
-      {(error === ErrorCode.NOT_LOGGED_IN) && pathname != '/login' && (
+      {(error === ErrorCode.NOT_LOGGED_IN) && pathname !== '/login' && (
         <div className={styles.dialog}>
           <p>Login to gw2treasures.com to access your Guild Wars 2 accounts.</p>
           <div>

@@ -1,6 +1,6 @@
 'use client';
 
-import { type FC, type ReactNode, useCallback, useMemo, useRef, useState, type MouseEventHandler } from 'react';
+import { experimental_useEffectEvent as useEffectEvent, type FC, type ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Gw2ApiContext, type GetAccountsOptions } from './Gw2ApiContext';
 import { fetchAccounts } from './fetch-accounts-action';
 import { ErrorCode, type Gw2Account } from './types';
@@ -11,8 +11,9 @@ import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { useUserPromise } from '../User/use-user';
 import { SubmitButton } from '@gw2treasures/ui/components/Form/Buttons/SubmitButton';
 import type { Scope } from '@gw2me/client';
-import { useRouter } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { useLocalStorageState } from '@/lib/useLocalStorageState';
+import { useFedCM } from '../gw2me/fedcm-context';
 
 export interface Gw2ApiProviderProps {
   children: ReactNode;
@@ -27,8 +28,12 @@ export const Gw2ApiProvider: FC<Gw2ApiProviderProps> = ({ children }) => {
   const [missingScopes, setMissingScopes] = useState<Scope[]>([]);
   const [dismissed, setDismissed] = useState(false);
   const userPromise = useUserPromise();
-  const router = useRouter();
   const [hiddenAccounts, setHiddenAccounts] = useLocalStorageState<string[]>('accounts.hidden', []);
+
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const returnTo = pathname + (searchParams.size > 0 ? '?' + searchParams : '');
+  const loginUrl = `/login?returnTo=${encodeURIComponent(returnTo)}&scopes=${encodeURIComponent(missingScopes.join(','))}`;
 
   const getAccounts = useCallback(async (requiredScopes: Scope[], optionalScopes: Scope[] = [], { includeHidden = false }: GetAccountsOptions = {}) => {
     // always return [] during SSR
@@ -101,16 +106,6 @@ export const Gw2ApiProvider: FC<Gw2ApiProviderProps> = ({ children }) => {
     setDismissed(true);
   }, []);
 
-  const handleLogin: MouseEventHandler<HTMLAnchorElement> = useCallback((e) => {
-    e.preventDefault();
-
-    // hide dialog
-    setError(undefined);
-
-    // navigate to login page with the current url as returnTo param
-    router.push(`/login?returnTo=${encodeURIComponent(location.pathname + location.search)}&scopes=${encodeURIComponent(missingScopes.join(','))}`);
-  }, [missingScopes, router]);
-
   // const scopes = useStablePrimitiveArray(grantedScopes);
   const scopes = grantedScopes;
 
@@ -118,19 +113,39 @@ export const Gw2ApiProvider: FC<Gw2ApiProviderProps> = ({ children }) => {
     setHiddenAccounts((hiddenAccounts) => hidden ? [...hiddenAccounts, id] : hiddenAccounts.filter((accountId) => accountId !== id));
   }, [setHiddenAccounts]);
 
+  const triggerFedCM = useFedCM();
+  // attempt silent logins
+  const triggerSilentFedCM = useEffectEvent(() => {
+    triggerFedCM({
+      returnTo,
+      scopes: missingScopes,
+      mediation: 'silent',
+      mode: 'passive',
+    });
+  });
+
+  useEffect(() => {
+    if(error === ErrorCode.NOT_LOGGED_IN) {
+      triggerSilentFedCM();
+    }
+  // react-hooks/exhaustive-deps doesn't correctly handle useEffectEvent yet
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [error]);
+
+
   // make sure the context value only changes if getAccounts or error changes
   const value = useMemo(() => ({ getAccounts, setHidden, error, scopes }), [getAccounts, setHidden, scopes, error]);
 
   return (
     <Gw2ApiContext.Provider value={value}>
       {children}
-      {(error === ErrorCode.NOT_LOGGED_IN) && (
+      {(error === ErrorCode.NOT_LOGGED_IN) && pathname !== '/login' && (
         <div className={styles.dialog}>
           <p>Login to gw2treasures.com to access your Guild Wars 2 accounts.</p>
           <div>
             <FlexRow>
               <Button onClick={handleDismiss}>Later</Button>
-              <LinkButton onClick={handleLogin} icon="user" href="/login">Login</LinkButton>
+              <LinkButton icon="user" href={loginUrl}>Login</LinkButton>
             </FlexRow>
           </div>
         </div>

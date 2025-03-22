@@ -1443,6 +1443,18 @@ model UserProvider {
   updatedAt      DateTime   @updatedAt
 }
 
+model AuthorizationRequest {
+  id String @id @default(uuid())
+
+  state         String @unique
+  code_verifier String
+
+  returnTo String?
+
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+}
+
 model Application {
   id String @id @default(uuid())
 

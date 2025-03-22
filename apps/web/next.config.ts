@@ -11,6 +11,10 @@ const nextConfig: NextConfig = {
   // enable experimental features
   experimental: {
     reactCompiler: true,
+
+    // taint is not actually used, this is just to opt Next.js into using react@experimental,
+    // so other APIs become available (e.g. useEffectEvent)
+    taint: true,
   },
 
   // Allow cross-origin requests during development

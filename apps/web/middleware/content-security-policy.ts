@@ -30,7 +30,7 @@ export const contentSecurityPolicyMiddleware: NextMiddleware = async (request, n
     script-src 'self' 'nonce-${nonce}' 'strict-dynamic' ${process.env.NODE_ENV !== 'production' ? '\'unsafe-eval\'' : ''};
     style-src 'self' 'unsafe-inline';
     img-src 'self' icons-gw2.darthmaim-cdn.com render.guildwars2.com wiki.guildwars2.com assets.gw2dat.com;
-    connect-src 'self' ${alternateLanguageDomains.join(' ')} api.guildwars2.com;
+    connect-src 'self' ${alternateLanguageDomains.join(' ')} api.guildwars2.com gw2.me;
     font-src 'self';
     object-src 'none';
     base-uri 'self';

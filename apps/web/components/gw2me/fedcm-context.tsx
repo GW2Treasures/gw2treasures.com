@@ -1,12 +1,9 @@
 'use client';
 
-import { Gw2MeClient } from '@gw2me/client';
+import type { FedCMRequestOptions } from '@gw2me/client';
+import { prepareAuthRequest } from 'app/[language]/login/login.action';
 import { createContext, use, useCallback, type FC, type ReactNode } from 'react';
 import { useGw2MeClient } from './gw2me-context';
-import { prepareAuthRequest } from 'app/[language]/login/login.action';
-
-// TODO: export type FedCMRequestOptions from `@gw2me/client`
-type FedCMRequestOptions = Parameters<Gw2MeClient['fedCM']['request']>[0];
 
 export interface FedCMTriggerOptions extends Omit<FedCMRequestOptions, 'state' | 'code_challenge' | 'code_challenge_method'> {
   returnTo?: string;

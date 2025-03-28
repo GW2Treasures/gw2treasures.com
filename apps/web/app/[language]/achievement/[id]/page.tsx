@@ -7,6 +7,7 @@ import { parseIcon } from '@/lib/parseIcon';
 import { getAlternateUrls } from '@/lib/url';
 import type { PageProps } from '@/lib/next';
 import { strip } from 'gw2-tooltip-html';
+import { db } from '@/lib/prisma';
 
 export type AchievementPageProps = PageProps<{ id: string }>;
 
@@ -33,7 +34,19 @@ export async function generateMetadata({ params }: AchievementPageProps): Promis
     data.requirement && strip(data.requirement.replace(/( |^)\/?( |$)/g, `$1${data.tiers[data.tiers.length - 1].count}$2`))
   ].filter(Boolean).join('\n\n');
 
-  const icon = parseIcon(data.icon);
+  // parse icon from revision
+  const achievementIcon = parseIcon(data.icon);
+
+  // load category icon if achievement icon doesn't exist
+  const categoryIcon = !achievementIcon
+    ? (await db.achievementCategory.findFirst({
+        where: { achievements: { some: { id: achievementId }}},
+        select: { icon: true }
+      }))?.icon
+    : undefined;
+
+  // fallback to category icon
+  const icon = achievementIcon ?? categoryIcon;
 
   return {
     title: data.name,

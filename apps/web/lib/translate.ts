@@ -45,6 +45,7 @@ export function translateMany<T extends TranslationId>(ids: T[], language: Langu
 }
 
 export async function getLanguage() {
+  // TODO: use getRootParams once those are supported
   const language = (await headers()).get('x-gw2t-lang') as Language;
 
   return language;

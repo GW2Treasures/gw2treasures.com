@@ -24,7 +24,7 @@ import type { Metadata } from 'next';
 import { requiredScopes, type RelicSet } from '../helper';
 import { createItemTable, LegendaryItemDataTable } from '../table';
 import { RelicUnlockCell } from './page.client';
-import { TableFilterButton, TableFilterProvider, TableFilterRow, type TableFilterDefinition } from '@gw2treasures/ui/components/Table/TableFilter';
+import { TableFilterButton, TableFilterProvider, TableFilterRow, type TableFilterDefinition } from '@/components/Table/TableFilter';
 import { localizedName } from '@/lib/localizedName';
 import ogImage from './og.png';
 import { getCurrentUrl } from '@/lib/url';

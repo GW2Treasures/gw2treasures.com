@@ -14,7 +14,7 @@ import { MenuList } from '@gw2treasures/ui/components/Layout/MenuList';
 import { CopyButton } from '@gw2treasures/ui/components/Form/Buttons/CopyButton';
 import { encode } from 'gw2e-chat-codes';
 import { FormatNumber } from '@/components/Format/FormatNumber';
-import { TableFilterRow } from '@gw2treasures/ui/components/Table/TableFilter';
+import { TableFilterRow } from '@/components/Table/TableFilter';
 import { ItemType } from '@/components/Item/ItemType';
 import { translations as itemTypeTranslations } from '@/components/Item/ItemType.translations';
 import { translateMany } from '@/lib/translate';

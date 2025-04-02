@@ -1,7 +1,7 @@
 // re-export client components
 export * from './TableFilter.client';
 
-export type TableFilterSearchIndex = Record<string, number[]>
+export type TableFilterSearchIndex = Record<string, number[]>;
 
 export function createSearchIndex<T>(values: T[], mapToSearchTerms: (value: T) => string | string[]): TableFilterSearchIndex {
   const searchIndex: Record<string, number[]> = {};
@@ -11,7 +11,7 @@ export function createSearchIndex<T>(values: T[], mapToSearchTerms: (value: T) =
 
     for(const term of terms) {
       if(!searchIndex[term]) {
-        searchIndex[term] = []
+        searchIndex[term] = [];
       }
 
       searchIndex[term].push(i);

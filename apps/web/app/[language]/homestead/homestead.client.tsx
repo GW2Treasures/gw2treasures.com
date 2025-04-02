@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, type FC, type ReactNode } from 'react';
+import { type FC } from 'react';
 import { Scope } from '@gw2me/client';
 import { useSubscription } from '@/components/Gw2Api/use-gw2-subscription';
 import { Skeleton } from '@/components/Skeleton/Skeleton';
@@ -93,18 +93,3 @@ export const AccountHomesteadGlyphsCell: FC<{ glyphIdPrefix: string; accountId: 
     );
   });
 };
-
-interface DecorationTableContext {
-  filteredRows?: number[] | undefined;
-  categoryMap: Map<number, { name: string, decorationIndexes: number[] }>
-
-  categoryIds: number[];
-  setCategoryIds: (categoryIds: number[]) => void;
-}
-
-const context = createContext<DecorationTableContext>({ filteredRows: undefined, categoryMap: new Map(), categoryIds: [], setCategoryIds: () => {} });
-
-export interface DecorationTableProviderProps {
-  categories: { id: number, name: string, decorationIndexes: number[] }[];
-  children: ReactNode;
-}

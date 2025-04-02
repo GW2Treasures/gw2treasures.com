@@ -53,7 +53,7 @@ export default async function HomesteadDecorationsPage({ params }: PageProps) {
       .map(([, index]) => index)
   }));
 
-  const decorationSearchIndex = createSearchIndex(decorations, (decoration) => strip(decoration[`name_${language}`]))
+  const decorationSearchIndex = createSearchIndex(decorations, (decoration) => strip(decoration[`name_${language}`]));
 
   return (
     <>
@@ -64,7 +64,8 @@ export default async function HomesteadDecorationsPage({ params }: PageProps) {
           <TableSearchInput key="search"/>,
           <TableFilterButton key="filter" totalCount={decorations.length}/>,
           <ColumnSelect key="columns" table={Decorations}/>,
-        ]}>
+        ]}
+        >
           <Trans id="homestead.decorations.description"/>
         </Description>
 
@@ -72,7 +73,7 @@ export default async function HomesteadDecorationsPage({ params }: PageProps) {
           <Decorations.Column id="id" title="Id" align="right" small hidden>{({ id }) => id}</Decorations.Column>
           <Decorations.Column id="name" title="Decoration" sortBy={(decoration) => decoration[`name_${language}`]}>
             {({ icon, ...decoration }) => (
-              <FlexRow>{icon ? <EntityIcon icon={icon} size={32}/> : <EntityIconMissing size={32}/>} <span dangerouslySetInnerHTML={{ __html: format(decoration[`name_${language}`])}}/></FlexRow>
+              <FlexRow>{icon ? <EntityIcon icon={icon} size={32}/> : <EntityIconMissing size={32}/>} <span dangerouslySetInnerHTML={{ __html: format(decoration[`name_${language}`]) }}/></FlexRow>
             )}
           </Decorations.Column>
           <Decorations.Column id="categories" title="Categories">

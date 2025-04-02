@@ -9,7 +9,7 @@ import { getTranslate } from '@/lib/translate';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import type { Metadata } from 'next';
 import { createItemTable, LegendaryItemDataTable } from '../table';
-import { TableFilterButton, TableFilterProvider, type TableFilterDefinition } from '@gw2treasures/ui/components/Table/TableFilter';
+import { TableFilterButton, TableFilterProvider, type TableFilterDefinition } from '@/components/Table/TableFilter';
 import type { SubType } from '@/components/Item/ItemType.types';
 import { pageView } from '@/lib/pageView';
 

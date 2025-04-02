@@ -6,7 +6,7 @@ import { EntityIcon } from '@/components/Entity/EntityIcon';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { cache } from '@/lib/cache';
 import { Gw2AccountBodyCells, Gw2AccountHeaderCells } from '@/components/Gw2Api/Gw2AccountTableCells';
-import { AccountHomesteadDecorationCell, DecorationRowFilter, DecorationTableFilter, DecorationTableProvider, requiredScopes } from '../homestead.client';
+import { AccountHomesteadDecorationCell, requiredScopes } from '../homestead.client';
 import { PageView } from '@/components/PageView/PageView';
 import { EntityIconMissing } from '@/components/Entity/EntityIconMissing';
 import { FormatNumber } from '@/components/Format/FormatNumber';
@@ -19,6 +19,7 @@ import { getAlternateUrls } from '@/lib/url';
 import { Gw2Accounts } from '@/components/Gw2Api/Gw2Accounts';
 import { Scope } from '@gw2me/client';
 import { format } from 'gw2-tooltip-html';
+import { TableFilterButton, TableFilterProvider, TableFilterRow } from '@/components/Table/TableFilter';
 
 const getDecorations = cache(
   () => db.homesteadDecoration.findMany({
@@ -44,24 +45,27 @@ export default async function HomesteadDecorationsPage({ params }: PageProps) {
 
   const Decorations = createDataTable(decorations, ({ id }) => id);
 
-  const decorationFilterDings = decorationCategories.map((category) => ({
+  const decorationFilter = decorationCategories.map((category) => ({
     id: category.id,
     name: localizedName(category, language),
-    decorationIndexes: decorations.map(({ categoryIds }, index) => [categoryIds, index] as const)
+    rowIndexes: decorations.map(({ categoryIds }, index) => [categoryIds, index] as const)
       .filter(([ categoryIds ]) => categoryIds.includes(category.id))
       .map(([, index]) => index)
   }));
 
   return (
     <>
-      <DecorationTableProvider categories={decorationFilterDings}>
+      <TableFilterProvider filter={decorationFilter}>
         <Gw2Accounts requiredScopes={[Scope.GW2_Progression, Scope.GW2_Unlocks]} authorizationMessage="Authorize gw2treasures.com to view your homestead progression." loading={null}/>
 
-        <Description actions={[<DecorationTableFilter key="filter" totalCount={decorations.length}/>, <ColumnSelect key="columns" table={Decorations}/>]}>
+        <Description actions={[
+          <TableFilterButton key="filter" totalCount={decorations.length}/>,
+          <ColumnSelect key="columns" table={Decorations}/>,
+        ]}>
           <Trans id="homestead.decorations.description"/>
         </Description>
 
-        <Decorations.Table rowFilter={DecorationRowFilter}>
+        <Decorations.Table rowFilter={TableFilterRow}>
           <Decorations.Column id="id" title="Id" align="right" small hidden>{({ id }) => id}</Decorations.Column>
           <Decorations.Column id="name" title="Decoration" sortBy={(decoration) => decoration[`name_${language}`]}>
             {({ icon, ...decoration }) => (
@@ -76,7 +80,7 @@ export default async function HomesteadDecorationsPage({ params }: PageProps) {
             {({ id }) => <Gw2AccountBodyCells requiredScopes={requiredScopes}><AccountHomesteadDecorationCell decorationId={id} accountId={undefined as never}/></Gw2AccountBodyCells>}
           </Decorations.DynamicColumns>
         </Decorations.Table>
-      </DecorationTableProvider>
+      </TableFilterProvider>
 
       <PageView page="homestead/decorations"/>
     </>

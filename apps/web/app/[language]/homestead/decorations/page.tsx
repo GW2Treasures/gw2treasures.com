@@ -18,8 +18,8 @@ import type { Metadata } from 'next';
 import { getAlternateUrls } from '@/lib/url';
 import { Gw2Accounts } from '@/components/Gw2Api/Gw2Accounts';
 import { Scope } from '@gw2me/client';
-import { format } from 'gw2-tooltip-html';
-import { TableFilterButton, TableFilterProvider, TableFilterRow } from '@/components/Table/TableFilter';
+import { format, strip } from 'gw2-tooltip-html';
+import { createSearchIndex, TableFilterButton, TableFilterProvider, TableFilterRow, TableSearchInput } from '@/components/Table/TableFilter';
 
 const getDecorations = cache(
   () => db.homesteadDecoration.findMany({
@@ -53,12 +53,15 @@ export default async function HomesteadDecorationsPage({ params }: PageProps) {
       .map(([, index]) => index)
   }));
 
+  const decorationSearchIndex = createSearchIndex(decorations, (decoration) => strip(decoration[`name_${language}`]))
+
   return (
     <>
-      <TableFilterProvider filter={decorationFilter}>
+      <TableFilterProvider filter={decorationFilter} searchIndex={decorationSearchIndex}>
         <Gw2Accounts requiredScopes={[Scope.GW2_Progression, Scope.GW2_Unlocks]} authorizationMessage="Authorize gw2treasures.com to view your homestead progression." loading={null}/>
 
         <Description actions={[
+          <TableSearchInput key="search"/>,
           <TableFilterButton key="filter" totalCount={decorations.length}/>,
           <ColumnSelect key="columns" table={Decorations}/>,
         ]}>

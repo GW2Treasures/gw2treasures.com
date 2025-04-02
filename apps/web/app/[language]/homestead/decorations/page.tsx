@@ -18,6 +18,7 @@ import type { Metadata } from 'next';
 import { getAlternateUrls } from '@/lib/url';
 import { Gw2Accounts } from '@/components/Gw2Api/Gw2Accounts';
 import { Scope } from '@gw2me/client';
+import { format } from 'gw2-tooltip-html';
 
 const getDecorations = cache(
   () => db.homesteadDecoration.findMany({
@@ -64,7 +65,7 @@ export default async function HomesteadDecorationsPage({ params }: PageProps) {
           <Decorations.Column id="id" title="Id" align="right" small hidden>{({ id }) => id}</Decorations.Column>
           <Decorations.Column id="name" title="Decoration" sortBy={(decoration) => decoration[`name_${language}`]}>
             {({ icon, ...decoration }) => (
-              <FlexRow>{icon ? <EntityIcon icon={icon} size={32}/> : <EntityIconMissing size={32}/>} {decoration[`name_${language}`]}</FlexRow>
+              <FlexRow>{icon ? <EntityIcon icon={icon} size={32}/> : <EntityIconMissing size={32}/>} <span dangerouslySetInnerHTML={{ __html: format(decoration[`name_${language}`])}}/></FlexRow>
             )}
           </Decorations.Column>
           <Decorations.Column id="categories" title="Categories">

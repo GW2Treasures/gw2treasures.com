@@ -1,0 +1,28 @@
+.description {
+  margin: -8px -8px 12px;
+  padding: 16px 24px;
+  background-color: var(--color-background-light);
+  border-bottom: 1px solid var(--color-border-dark);
+  line-height: 1.5;
+  max-width: 320px;
+}
+
+.badge {
+  background-color: var(--color-background-light);
+  border: 1px solid var(--color-border-dark);
+  padding: 0px 8px;
+  border-radius: 2000px;
+  margin-left: 8px;
+  font-size: 14px;
+}
+
+.button > span {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.button .badge {
+  font-feature-settings: "tnum" 1;
+}

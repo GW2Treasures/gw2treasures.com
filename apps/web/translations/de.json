@@ -324,5 +324,9 @@
   "festival.lunar-new-year.skins.description": "Diese Skins sind nur während des Mondneujahrs verfügbar.",
   "festival.lunar-new-year.minis": "Miniaturen",
   "festival.lunar-new-year.minis.description": "Diese Miniaturen sind nur während des Mondneujahrs erhältlich.",
-  "festival.lunar-new-year.wizards-vault.description": "Dies sind alle Ziele im Gewölbe des Zauberers, die nur während des Mondneujahrs aktiv sind."
+  "festival.lunar-new-year.wizards-vault.description": "Dies sind alle Ziele im Gewölbe des Zauberers, die nur während des Mondneujahrs aktiv sind.",
+  "review": "Review",
+  "review.description": "Überprüfe Änderungsvorschläge um gw2treasures.com zu verbessern.",
+  "review.queue.ContainerContent": "Behälterinhalt",
+  "review.queue.MysticForge": "Mystische-Schmiede-Rezepte"
 }

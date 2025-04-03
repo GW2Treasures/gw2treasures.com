@@ -389,5 +389,9 @@
   "colors.leather": "Leather",
   "colors.metal": "Metal",
   "colors.unlocks": "Account Unlocks",
-  "minis": "Minis"
+  "minis": "Minis",
+  "review": "Review",
+  "review.description": "Help to improve gw2treasures.com by reviewing suggested changes.",
+  "review.queue.ContainerContent": "Container Content",
+  "review.queue.MysticForge": "Mystic Forge Recipes"
 }

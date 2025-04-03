@@ -4,16 +4,15 @@ import { Icon } from '@gw2treasures/ui';
 import Navigation from './Header/Navigation';
 import Link from 'next/link';
 import { Search } from '../Search/Search';
-import { LinkButton } from '@gw2treasures/ui/components/Form/Button';
 import { ExternalLink } from '@gw2treasures/ui/components/Link/ExternalLink';
 import { LanguageDropdown } from './Header/LanguageDropdown';
 import { Menu } from './Header/Menu';
 import { translateMany } from '@/lib/translate';
-import { ReviewCountBadge } from './Header/ReviewCountBadge';
 import { UserButton } from './Header/UserButton';
 import { translations as itemTypeTranslations } from '../Item/ItemType.translations';
-import { Language, Rarity } from '@gw2treasures/database';
+import { Language, MasteryRegion, Rarity } from '@gw2treasures/database';
 import { currencyCategories, type CurrencyCategoryName } from '@gw2treasures/static-data/currencies/categories';
+import { ReviewButton } from './Header/ReviewButton';
 
 interface LayoutProps {
   children: ReactNode;
@@ -36,6 +35,7 @@ const Layout: FC<LayoutProps> = ({ children, language }) => {
     ...Object.values(Rarity).map((rarity) => `rarity.${rarity}` as const),
     'weight.Clothing', 'weight.Heavy', 'weight.Light', 'weight.Medium',
     ...Object.keys(currencyCategories).map((category) => `currency.category.${category as CurrencyCategoryName}` as const),
+    ...Object.values(MasteryRegion).map((mastery) => `mastery.${mastery}` as const),
   ], language);
 
   return (
@@ -48,9 +48,7 @@ const Layout: FC<LayoutProps> = ({ children, language }) => {
           </Link>
           <Search translations={searchTranslations}/>
           <div className={styles.right}>
-            <LinkButton appearance="menu" href="/review" aria-label="Review">
-              <Icon icon="review-queue"/><span className={styles.responsive}> Review<ReviewCountBadge/></span>
-            </LinkButton>
+            <ReviewButton language={language}/>
             <LanguageDropdown/>
             <UserButton language={language}/>
           </div>

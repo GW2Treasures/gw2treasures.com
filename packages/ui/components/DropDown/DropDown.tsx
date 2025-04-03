@@ -6,13 +6,14 @@ import styles from './DropDown.module.css';
 import { isTruthy } from '@gw2treasures/helper/is';
 
 export interface DropDown {
-  button: ReactElement<HTMLProps<HTMLElement>>;
-  children: ReactNode;
-  preferredPlacement?: Placement;
-  hideTop?: boolean;
+  button: ReactElement<HTMLProps<HTMLElement>>,
+  children: ReactNode,
+  preferredPlacement?: Placement,
+  hideTop?: boolean,
+  arrowColor?: string,
 }
 
-export const DropDown: FC<DropDown> = ({ children, button, preferredPlacement = 'bottom-end', hideTop = true }) => {
+export const DropDown: FC<DropDown> = ({ children, button, preferredPlacement = 'bottom-end', hideTop = true, arrowColor }) => {
   const [open, setOpen] = useState(false);
   const arrowRef = useRef<SVGSVGElement>(null);
   const padding = { top: 48 + 8, bottom: 8, left: 8, right: 8 };
@@ -63,7 +64,7 @@ export const DropDown: FC<DropDown> = ({ children, button, preferredPlacement = 
                 {children}
               </div>
             </FloatingFocusManager>
-            <FloatingArrow context={context} ref={arrowRef} width={12} height={6} tipRadius={1} fill="var(--color-background)" stroke="var(--color-border-dark)" strokeWidth={1}/>
+            <FloatingArrow context={context} ref={arrowRef} width={12} height={6} tipRadius={1} fill={arrowColor ?? 'var(--color-background)'} stroke="var(--color-border-dark)" strokeWidth={1}/>
           </div>
         </FloatingPortal>
       )}

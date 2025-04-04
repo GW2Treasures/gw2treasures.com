@@ -299,8 +299,8 @@ importers:
         specifier: 5.4.1
         version: 5.4.1
       cron-parser:
-        specifier: 5.1.0
-        version: 5.1.0
+        specifier: 5.1.1
+        version: 5.1.1
       dotenv:
         specifier: 16.4.7
         version: 16.4.7
@@ -2154,8 +2154,8 @@ packages:
   create-require@1.1.1:
     resolution: {integrity: sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==}
 
-  cron-parser@5.1.0:
-    resolution: {integrity: sha512-dnR1hHR7iGJe+Jev72sareuGO+/AzzbVGoy95lkXuw+ftvDkERdnXRnJMJ+ArxKId5QnLXGckFgVGCCwAMhlRw==}
+  cron-parser@5.1.1:
+    resolution: {integrity: sha512-xNhwjTUTJcvevF4EvOxB3xYpEKC/qOAmykR+2Qf91ARIfdbjStUwo8qpem6jjzdwFgoo4pnf3sS264xG0G858w==}
     engines: {node: '>=18'}
 
   cross-spawn@7.0.6:
@@ -3367,8 +3367,8 @@ packages:
   lru-cache@5.1.1:
     resolution: {integrity: sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==}
 
-  luxon@3.5.0:
-    resolution: {integrity: sha512-rh+Zjr6DNfUYR3bPwJEnuwDdqMbxZW7LOQfUN4B54+Cl+0o5zaU9RJ6bcidfDtC1cWCZXQ+nvX8bf6bAji37QQ==}
+  luxon@3.6.1:
+    resolution: {integrity: sha512-tJLxrKJhO2ukZ5z0gyjY1zPh3Rh88Ej9P7jNrZiHMUXHae1yvI2imgOZtL1TO8TW6biMMKfTtAOoEJANgtWBMQ==}
     engines: {node: '>=12'}
 
   lz-string@1.5.0:
@@ -6227,9 +6227,9 @@ snapshots:
 
   create-require@1.1.1: {}
 
-  cron-parser@5.1.0:
+  cron-parser@5.1.1:
     dependencies:
-      luxon: 3.5.0
+      luxon: 3.6.1
 
   cross-spawn@7.0.6:
     dependencies:
@@ -7855,7 +7855,7 @@ snapshots:
     dependencies:
       yallist: 3.1.1
 
-  luxon@3.5.0: {}
+  luxon@3.6.1: {}
 
   lz-string@1.5.0: {}
 

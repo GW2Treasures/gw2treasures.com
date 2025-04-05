@@ -8,14 +8,23 @@ import { getAlternateUrls } from '@/lib/url';
 import type { PageProps } from '@/lib/next';
 import { strip } from 'gw2-tooltip-html';
 import { db } from '@/lib/prisma';
+import { jwtVerify } from 'jose';
+import { signingKey } from '@/components/ItemTable/signingKey';
+import type { AchievementProgressSnapshot } from '@/components/Achievement/share/types';
 
 export type AchievementPageProps = PageProps<{ id: string }>;
 
-export default async function AchievementPage({ params }: AchievementPageProps) {
+export default async function AchievementPage({ params, searchParams }: AchievementPageProps) {
   const { language, id } = await params;
   const achievementId = Number(id);
 
-  return <AchievementPageComponent language={language} achievementId={achievementId}/>;
+  const { snapshot } = await searchParams;
+
+  const snapshotData = snapshot && typeof snapshot === 'string'
+    ? await tryParseSnapshotJwt(snapshot, achievementId)
+    : undefined;
+
+  return <AchievementPageComponent language={language} achievementId={achievementId} snapshots={snapshotData}/>;
 }
 
 
@@ -57,4 +66,16 @@ export async function generateMetadata({ params }: AchievementPageProps): Promis
     twitter: { card: 'summary' },
     alternates: getAlternateUrls(`/achievement/${achievementId}`, language),
   };
+}
+
+async function tryParseSnapshotJwt(jwt: string, achievementId: number) {
+  try {
+    const { payload } = await jwtVerify(jwt, await signingKey.getKey(), { audience: `gw2t:a${achievementId}` });
+
+    return payload.snps as AchievementProgressSnapshot[];
+  } catch (e) {
+    console.error('Failed to parse snapshot JWT', e);
+  }
+
+  return undefined;
 }

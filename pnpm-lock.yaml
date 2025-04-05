@@ -177,6 +177,9 @@ importers:
       isbot:
         specifier: 5.1.25
         version: 5.1.25
+      jose:
+        specifier: 6.0.10
+        version: 6.0.10
       let-it-go:
         specifier: 1.1.0
         version: 1.1.0
@@ -3347,6 +3350,9 @@ packages:
     peerDependenciesMeta:
       node-notifier:
         optional: true
+
+  jose@6.0.10:
+    resolution: {integrity: sha512-skIAxZqcMkOrSwjJvplIPYrlXGpxTPnro2/QWTDCxAdWQrSTV5/KqspMWmi5WAx5+ULswASJiZ0a+1B/Lxt9cw==}
 
   joycon@3.1.1:
     resolution: {integrity: sha512-34wB/Y7MW7bzjKRjUKTa46I2Z7eV62Rkhva+KkopW7Qvv/OSWBqvkSY7vusOPrNuZcUG3tApvdVgNB8POj3SPw==}
@@ -7920,6 +7926,8 @@ snapshots:
       - babel-plugin-macros
       - supports-color
       - ts-node
+
+  jose@6.0.10: {}
 
   joycon@3.1.1: {}
 

@@ -15,15 +15,17 @@ import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { Gw2AccountName } from '@/components/Gw2Api/Gw2AccountName';
 import type { Achievement } from '@gw2api/types/data/achievement';
+import type { AchievementProgressSnapshot } from '@/components/Achievement/share/types';
 
 export interface TierTableProps {
-  achievement: Achievement;
-  showAccounts?: boolean;
+  achievement: Achievement,
+  showAccounts?: boolean,
+  snapshots?: AchievementProgressSnapshot[],
 }
 
 const requiredScopes = [Scope.GW2_Progression];
 
-export const TierTable: FC<TierTableProps> = ({ achievement, showAccounts = true }) => {
+export const TierTable: FC<TierTableProps> = ({ achievement, showAccounts = true, snapshots }) => {
   const { tiers, flags } = achievement;
 
   const isRepeatable = flags.includes('Repeatable');
@@ -50,6 +52,7 @@ export const TierTable: FC<TierTableProps> = ({ achievement, showAccounts = true
           <td align="right" className={styles.totalColumn}><b><AchievementPoints points={pointCap}/></b></td>
         </tr>
         {showAccounts && (<TierTableAccountRows achievement={achievement}/>)}
+        {showAccounts && snapshots && snapshots.map((snapshot) => (<TierTableSnapshotRow key={snapshot[0]} achievement={achievement} snapshot={snapshot}/>))}
       </tbody>
     </Table>
   );
@@ -127,6 +130,64 @@ const TierTableAccountRow: FC<TierTableAccountRowProps> = ({ achievement, accoun
           </td>
         </>
       )}
+    </tr>
+  );
+};
+
+interface TierTableSnapshotRowProps {
+  achievement: Achievement,
+  snapshot: AchievementProgressSnapshot,
+}
+
+const TierTableSnapshotRow: FC<TierTableSnapshotRowProps> = ({ achievement, snapshot }) => {
+  const { tiers, flags } = achievement;
+  const [account, data] = snapshot;
+
+  const progress = data.find(({ id }) => id === achievement.id);
+
+  const isRepeatable = flags.includes('Repeatable');
+  const totalPoints = tiers.reduce((total, tier) => total + tier.points, 0);
+  const pointCap = isRepeatable ? Math.max(0, achievement.point_cap ?? 0) : totalPoints;
+
+  const repeated = progress?.repeated ?? 0;
+  const currentPoints = tiers.reduce((total, tier) => (progress?.current ?? 0) >= tier.count ? total + tier.points : total, 0);
+  const earnedPoints = Math.min(pointCap, currentPoints + (repeated * totalPoints));
+
+  const requiresPrerequisites = !!achievement.prerequisites?.length;
+  const hasPrerequisites = achievement.prerequisites
+      ?.map((prerequisitesId) => data.find(({ id }) => prerequisitesId === id))
+      .every((prerequisite) => prerequisite?.done);
+
+  const requiresUnlock = achievement.flags.includes('RequiresUnlock');
+  const hasUnlock = progress?.unlocked;
+
+  return (
+    <tr>
+      <th>{account} <Icon icon="legendary"/></th>
+      {tiers.map((tier, index) => {
+        const previousTier = index === 0 ? { points: 0, count: 0 } : tiers[index - 1];
+        const isDone = progress && (progress.done || (progress.current ?? 0) >= tier.count);
+        const isCurrent = progress && !isDone && (progress.current ?? 0) >= previousTier.count;
+        const percentage = isDone ? 1 : isCurrent ? (((progress.current ?? 0) - previousTier.count) / (tier.count - previousTier.count)) : 0;
+
+        return (
+          <ProgressCell key={tier.count} progress={percentage}>
+            {isDone ? <Icon icon="checkmark"/> : isCurrent ? <><FormatNumber value={progress.current}/> / <FormatNumber value={tier.count}/></> : null}
+          </ProgressCell>
+        );
+      })}
+      <td align="right" className={styles.totalColumn}>
+        {requiresPrerequisites && !hasPrerequisites ? (
+          <Tip tip="Missing prerequisites"><Icon icon="lock"/></Tip>
+        ) : (requiresUnlock && !hasUnlock ? (
+          <Tip tip="Missing unlock"><Icon icon="lock"/></Tip>
+        ) : (
+          <>
+            {progress?.repeated && `(↻ ${progress.repeated}) `}
+            <AchievementPoints points={earnedPoints}/>
+          </>
+        ))}
+      </td>
     </tr>
   );
 };

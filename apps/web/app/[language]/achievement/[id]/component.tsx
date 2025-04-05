@@ -19,7 +19,7 @@ import { AchievementInfobox } from '@/components/Achievement/AchievementInfobox'
 import { RemovedFromApiNotice } from '@/components/Notice/RemovedFromApiNotice';
 import { Breadcrumb, BreadcrumbItem } from '@/components/Breadcrumb/Breadcrumb';
 import { AchievementCategoryLink } from '@/components/Achievement/AchievementCategoryLink';
-import { AccountAchievementProgressHeader, AccountAchievementProgressRow } from '@/components/Achievement/AccountAchievementProgress';
+import { AccountAchievementProgressHeader, AccountAchievementProgressRow, AccountAchievementProgressSnapshotRow } from '@/components/Achievement/AccountAchievementProgress';
 import { TierTable } from './tier-table';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
@@ -40,6 +40,9 @@ import { AchievementLinkTooltip } from '@/components/Achievement/AchievementLink
 import { Tooltip } from '@/components/Tooltip/Tooltip';
 import { getRevision } from './data';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
+import { AchievementProgressShareButton } from '@/components/Achievement/share/progress-button';
+import type { AchievementProgressSnapshot } from '@/components/Achievement/share/types';
+import { DataTableClientColumn } from '@gw2treasures/ui/components/Table/DataTable.client';
 
 
 const notPartOfCategoryDisplayFlags: AchievementFlags[] = ['Repeatable', 'RequiresUnlock', 'Hidden', 'Daily', 'Weekly', 'IgnoreNearlyComplete'];
@@ -48,6 +51,7 @@ export interface AchievementPageComponentProps {
   language: Language,
   achievementId: number,
   revisionId?: string,
+  snapshots?: AchievementProgressSnapshot[],
 }
 
 const getAchievement = cache(async (id: number, language: Language, revisionId?: string) => {
@@ -104,7 +108,7 @@ const getAchievement = cache(async (id: number, language: Language, revisionId?:
   return { achievement, revision, categoryAchievements };
 }, ['achievement'], { revalidate: 60 });
 
-export async function AchievementPageComponent({ language, achievementId, revisionId }: AchievementPageComponentProps) {
+export async function AchievementPageComponent({ language, achievementId, revisionId, snapshots }: AchievementPageComponentProps) {
   const { achievement, revision: { revision, data }, categoryAchievements } = await getAchievement(achievementId, language, revisionId);
   await pageView('achievement', achievementId);
 
@@ -227,6 +231,11 @@ export async function AchievementPageComponent({ language, achievementId, revisi
                       {(_, index) => <AccountAchievementProgressRow achievement={achievement} bitId={index}/>}
                     </Bits.DynamicColumns>
                   )}
+                  {!fixedRevision && !!snapshots && (
+                    <Bits.DynamicColumns id="snapshots" title="Shared Progress" headers={snapshots.map(([account]) => (<DataTableClientColumn key={account} id={`snapshot:${account}`} small sortable>{account} <Icon icon="legendary"/></DataTableClientColumn>))}>
+                      {(_, index) => <AccountAchievementProgressSnapshotRow snapshots={snapshots} achievement={achievement} bitId={index}/>}
+                    </Bits.DynamicColumns>
+                  )}
                 </Bits.Table>
               )}
 
@@ -236,8 +245,10 @@ export async function AchievementPageComponent({ language, achievementId, revisi
         </OptionalCategoryAchievementTable>
       )}
 
-      <Headline id="tiers">Tiers</Headline>
-      <TierTable achievement={data} showAccounts={!fixedRevision}/>
+      <Headline id="tiers" actions={<AchievementProgressShareButton achievementId={achievementId}/>}>
+        Tiers
+      </Headline>
+      <TierTable achievement={data} showAccounts={!fixedRevision} snapshots={snapshots}/>
 
       {data.rewards && (
         <>

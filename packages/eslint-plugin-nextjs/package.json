@@ -34,10 +34,10 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "3.3.1",
-    "@eslint/js": "9.23.0",
+    "@eslint/js": "9.24.0",
     "@gw2treasures/eslint-config": "workspace:*",
     "@gw2treasures/tsconfig": "workspace:*",
-    "eslint": "9.23.0",
+    "eslint": "9.24.0",
     "tsup": "8.4.0",
     "typescript": "5.8.2"
   },

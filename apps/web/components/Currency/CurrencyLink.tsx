@@ -21,7 +21,9 @@ export const CurrencyLink: FC<CurrencyLinkProps> = ({ currency, icon = 32, langu
 
   return (
     <Tooltip content={<CurrencyLinkTooltip currency={entity} language={language} revision={revision}/>}>
-      <EntityLink href={`/currency/${currency.id}${revision ? `/${revision}` : ''}`} entity={entity} icon={icon} language={language} children={children}/>
+      <EntityLink href={`/currency/${currency.id}${revision ? `/${revision}` : ''}`} entity={entity} icon={icon} language={language}>
+        {children}
+      </EntityLink>
     </Tooltip>
   );
 };

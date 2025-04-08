@@ -35,7 +35,7 @@ const CURRENCY_COINS_ID = 1;
 const CURRENCY_TALES_OF_DUNGEON_DELVING_ID = 69;
 
 const getCurrencies = cache(
-  () => db.currency.findMany({ where: { id: { in: [CURRENCY_COINS_ID, CURRENCY_TALES_OF_DUNGEON_DELVING_ID] } }, select: linkPropertiesWithoutRarity }),
+  () => db.currency.findMany({ where: { id: { in: [CURRENCY_COINS_ID, CURRENCY_TALES_OF_DUNGEON_DELVING_ID] }}, select: linkPropertiesWithoutRarity }),
   ['dungeons-currencies'], { revalidate: 60 * 60 }
 );
 

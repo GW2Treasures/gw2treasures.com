@@ -21,6 +21,8 @@ import { CurrencyValue } from '@/components/Currency/CurrencyValue';
 import { CurrencyLink } from '@/components/Currency/CurrencyLink';
 import { Coins } from '@/components/Format/Coins';
 import { groupById } from '@gw2treasures/helper/group-by';
+import ogImage from './og.png';
+import { getCurrentUrl } from '@/lib/url';
 
 const ACHIEVEMENT_DUNGEON_FREQUENTER_ID = 2963;
 
@@ -54,7 +56,7 @@ export default async function DungeonsPage({ params }: PageProps) {
   const talesOfDungeonDelving = currencies.get(CURRENCY_TALES_OF_DUNGEON_DELVING_ID)!;
 
   return (
-    <HeroLayout hero={<Headline id="dungeons">Dungeons</Headline>}>
+    <HeroLayout hero={<Headline id="dungeons">Dungeons</Headline>} color="#1e5636">
       <Description actions={<ColumnSelect table={Paths}/>}>
         <Trans id="dungeons.description"/>
       </Description>
@@ -100,5 +102,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: t('dungeons'),
     description: t('dungeons.description'),
+    keywords: ['dungeon', 'dungeons', 'instance', 'PvE', 'group', 'story', 'explorable', 'tales of dungeon delving', 'coins', 'dungeon rush', 'daily', 'clear', 'completion'],
+
+    openGraph: {
+      images: [{ url: new URL(ogImage.src, await getCurrentUrl()), width: ogImage.width, height: ogImage.height }],
+    },
+    twitter: { card: 'summary_large_image' }
   };
 }

@@ -35,7 +35,7 @@ export const EntityIcon: FC<EntityIconProps> = ({ icon, size = 64, type, classNa
   const style = useMemo(() => icon.color ? { '--loading-color': icon.color } : undefined, [icon.color]);
 
   return (
-    <div className={cx(styles.wrapper, className)} data-icon-type={type}>
+    <span className={cx(styles.wrapper, className)} data-icon-type={type}>
       <img
         loading="lazy"
         decoding="async"
@@ -50,6 +50,6 @@ export const EntityIcon: FC<EntityIconProps> = ({ icon, size = 64, type, classNa
         style={style}
         className={cx(loading ? styles.loading : styles.icon)}
         onLoad={handleLoad}/>
-    </div>
+    </span>
   );
 };

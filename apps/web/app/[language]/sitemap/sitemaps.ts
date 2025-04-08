@@ -155,6 +155,7 @@ export const sitemaps: Record<string, Sitemap> = {
         '/homestead/materials',
         '/homestead/glyphs',
         '/fractals',
+        '/dungeons',
         '/festival/wintersday',
         '/festival/wintersday/achievements',
         '/festival/wintersday/skins',

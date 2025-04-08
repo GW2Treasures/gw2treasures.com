@@ -6,10 +6,10 @@ import type { AccountWallet } from '@gw2api/types/data/account-wallet';
 import { getResetDate } from '../Reset/ResetTimer';
 import { accessTokenManager } from './access-token-manager';
 
-export type SubscriptionType = 'account' | 'achievements' | 'skins' | 'minis' | 'wallet' | 'wizards-vault' | 'inventories' | 'home.nodes' | 'home.cats' | 'homestead.decorations' | 'homestead.glyphs' | 'colors';
+export type SubscriptionType = 'account' | 'achievements' | 'skins' | 'minis' | 'wallet' | 'wizards-vault' | 'inventories' | 'home.nodes' | 'home.cats' | 'homestead.decorations' | 'homestead.glyphs' | 'colors' | 'dungeons';
 
 export type SubscriptionData<T extends SubscriptionType> =
-  T extends 'account' ? Account :
+  T extends 'account' ? Account<'2019-12-19T00:00:00.000Z'> :
   T extends 'achievements' ? AccountAchievement[] :
   T extends 'skins' ? number[] :
   T extends 'minis' ? number[] :
@@ -21,6 +21,7 @@ export type SubscriptionData<T extends SubscriptionType> =
   T extends 'homestead.decorations' ? AccountHomesteadDecoration[] :
   T extends 'homestead.glyphs' ? string[] :
   T extends 'colors' ? number[] :
+  T extends 'dungeons' ? string[] :
   never;
 
 export type SubscriptionResponse<T extends SubscriptionType> = {
@@ -207,7 +208,7 @@ export class AccountSubscriptionManager {
 }
 
 const fetchers: { [T in SubscriptionType]: (accessToken: string) => Promise<SubscriptionData<T>> } = {
-  account: (accessToken: string) => fetchGw2Api('/v2/account', { accessToken, cache: 'no-cache' }),
+  account: (accessToken: string) => fetchGw2Api('/v2/account', { accessToken, schema: '2019-02-21T00:00:00.000Z', cache: 'no-cache' }),
   achievements: (accessToken: string) => fetchGw2Api('/v2/account/achievements', { accessToken, cache: 'no-cache' }),
   skins: (accessToken: string) => fetchGw2Api('/v2/account/skins', { accessToken, cache: 'no-cache' }),
   minis: (accessToken: string) => fetchGw2Api('/v2/account/minis', { accessToken, cache: 'no-cache' }),
@@ -219,6 +220,7 @@ const fetchers: { [T in SubscriptionType]: (accessToken: string) => Promise<Subs
   'homestead.decorations': (accessToken: string) => fetchGw2Api('/v2/account/homestead/decorations', { accessToken, cache: 'no-cache' }),
   'homestead.glyphs': (accessToken: string) => fetchGw2Api('/v2/account/homestead/glyphs', { accessToken, cache: 'no-cache' }),
   'colors': (accessToken: string) => fetchGw2Api('/v2/account/dyes', { accessToken, cache: 'no-cache' }),
+  'dungeons': (accessToken: string) => fetchGw2Api('/v2/account/dungeons', { accessToken, cache: 'no-cache' }),
 };
 
 async function loadAccountsWizardsVault(accessToken: string) {

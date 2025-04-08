@@ -59,7 +59,7 @@ export default async function DungeonsPage({ params }: PageProps) {
   const talesOfDungeonDelving = currencies.get(CURRENCY_TALES_OF_DUNGEON_DELVING_ID)!;
 
   return (
-    <HeroLayout hero={<Headline id="dungeons">Dungeons</Headline>} color="#1e5636">
+    <HeroLayout hero={<Headline id="dungeons"><Trans id="dungeons"/></Headline>} color="#1e5636">
       <div style={{ background: 'light-dark(#b8ffd6, #1c5133)', margin: '-16px -16px 16px', padding: 16, lineHeight: 1.5, borderBottom: '1px solid var(--color-border-transparent)' }}>
         <FlexRow align="space-between" wrap>
           <div>

@@ -1,4 +1,3 @@
-import { Badge } from '@/components/Badge/Badge';
 import { Trans } from '@/components/I18n/Trans';
 import { HeroLayout } from '@/components/Layout/HeroLayout';
 import { NavBar } from '@/components/Layout/NavBar';
@@ -14,7 +13,7 @@ export default function HomesteadLayout({ children }: LayoutProps) {
       navBar={(
         <NavBar base="/homestead/" items={[
           { segment: 'nodes', icon: 'node', label: <Trans id="homestead.nodes"/> },
-          { segment: 'garden-plots', icon: 'garden', label: <><Trans id="homestead.garden-plots"/><Badge>New</Badge></> },
+          { segment: 'garden-plots', icon: 'garden', label: <Trans id="homestead.garden-plots"/> },
           { segment: 'cats', icon: 'cat', label: <Trans id="homestead.cats"/> },
           { segment: 'decorations', icon: 'decoration', label: <Trans id="homestead.decorations"/> },
           { segment: 'materials', icon: 'refined-material', label: <><Trans id="homestead.materials"/></> },

@@ -143,6 +143,7 @@ const pages: Page[] = [
   // { href: '/mount', title: 'Mounts', icon: 'mount' },
   // { href: '/wvw', title: 'Word vs. World (WvW)', icon: 'wvw' },
   { href: '/fractals', title: 'Fractals', icon: 'fractal' },
+  { href: '/dungeons', title: 'Dungeons', icon: 'dungeon' },
 
   { href: '/homestead/nodes', title: 'Homestead: Nodes', icon: 'node' },
   { href: '/homestead/garden-plots', title: 'Homestead: Garden Plots', icon: 'garden' },

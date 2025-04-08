@@ -27,6 +27,7 @@ const Navigation: FC<NavigationProps> = ({ language }) => {
         {/* <NavigationItem href="/specialization" icon="specialization"><Trans language={language} id="navigation.specializations"/></NavigationItem> */}
         <NavigationItem href="/skill" icon="skill"><Trans language={language} id="navigation.skills"/></NavigationItem>
         <NavigationItem href="/fractals" icon="fractals"><Trans language={language} id="navigation.fractals"/></NavigationItem>
+        <NavigationItem href="/dungeons" icon="story" style={{ color: 'light-dark(#1c5133, #b8ffd6)'}}>Dungeon Rush</NavigationItem>
         {/* <NavigationItem href="/event-timer" icon="event-boss">Event Timer<Badge>New</Badge></NavigationItem> */}
         {/* <NavigationItem href="/wvw" icon="wvw"><Trans language={language} id="navigation.wvw"/></NavigationItem> */}
         <NavigationItem href="/dev" icon="developer"><Trans language={language} id="navigation.developer"/></NavigationItem>

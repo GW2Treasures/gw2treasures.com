@@ -1,12 +1,16 @@
 export interface DungeonPath {
-  id: DungeonPathId;
-  type: 'Story' | 'Explorable';
-  level: number;
+  id: DungeonPathId,
+  type: 'Story' | 'Explorable',
+  level: number,
+  rewards: {
+    coins: number,
+    talesOfDungeonDelving?: number,
+  }
 }
 export interface Dungeon {
-  id: DungeonId;
-  icon: string;
-  paths: DungeonPath[];
+  id: DungeonId,
+  icon: string,
+  paths: DungeonPath[],
 }
 
 export type DungeonId = 'ascalonian_catacombs' | 'caudecus_manor' | 'twilight_arbor' | 'sorrows_embrace' | 'citadel_of_flame' | 'honor_of_the_waves' | 'crucible_of_eternity' | 'ruined_city_of_arah';
@@ -27,18 +31,22 @@ export const dungeons: Dungeon[] = [{
     id: 'ac_story',
     type: 'Story',
     level: 30,
+    rewards: { coins: 6300 },
   }, {
     id: 'hodgins',
     type: 'Explorable',
     level: 35,
+    rewards: { coins: 5000 + 2600, talesOfDungeonDelving: 100 },
   }, {
     id: 'detha',
     type: 'Explorable',
     level: 35,
+    rewards: { coins: 5000 + 2600, talesOfDungeonDelving: 100 },
   }, {
     id: 'tzark',
     type: 'Explorable',
     level: 35,
+    rewards: { coins: 5000 + 2600, talesOfDungeonDelving: 100 },
   }]
 }, {
   id: 'caudecus_manor',
@@ -47,18 +55,22 @@ export const dungeons: Dungeon[] = [{
     id: 'cm_story',
     type: 'Story',
     level: 40,
+    rewards: { coins: 6300 },
   }, {
     id: 'asura',
     type: 'Explorable',
     level: 45,
+    rewards: { coins: 3500 + 2600, talesOfDungeonDelving: 100 },
   }, {
     id: 'seraph',
     type: 'Explorable',
     level: 45,
+    rewards: { coins: 3500 + 2600, talesOfDungeonDelving: 100 },
   }, {
     id: 'butler',
     type: 'Explorable',
     level: 45,
+    rewards: { coins: 3500 + 2600, talesOfDungeonDelving: 100 },
   }]
 }, {
   id: 'twilight_arbor',
@@ -67,18 +79,22 @@ export const dungeons: Dungeon[] = [{
     id: 'ta_story',
     type: 'Story',
     level: 50,
+    rewards: { coins: 6300 },
   }, {
     id: 'leurent',
     type: 'Explorable',
     level: 55,
+    rewards: { coins: 3500 + 2600, talesOfDungeonDelving: 100 },
   }, {
     id: 'vevina',
     type: 'Explorable',
     level: 55,
+    rewards: { coins: 3500 + 2600, talesOfDungeonDelving: 100 },
   }, {
     id: 'aetherpath',
     type: 'Explorable',
     level: 80,
+    rewards: { coins: 6600 + 2600, talesOfDungeonDelving: 100 },
   }]
 }, {
   id: 'sorrows_embrace',
@@ -87,18 +103,22 @@ export const dungeons: Dungeon[] = [{
     id: 'se_story',
     type: 'Story',
     level: 60,
+    rewards: { coins: 6300 },
   }, {
     id: 'fergg',
     type: 'Explorable',
     level: 65,
+    rewards: { coins: 3500 + 2600, talesOfDungeonDelving: 100 },
   }, {
     id: 'rasalov',
     type: 'Explorable',
     level: 65,
+    rewards: { coins: 3500 + 2600, talesOfDungeonDelving: 100 },
   }, {
     id: 'koptev',
     type: 'Explorable',
     level: 65,
+    rewards: { coins: 3500 + 2600, talesOfDungeonDelving: 100 },
   }]
 }, {
   id: 'citadel_of_flame',
@@ -107,18 +127,22 @@ export const dungeons: Dungeon[] = [{
     id: 'cof_story',
     type: 'Story',
     level: 70,
+    rewards: { coins: 6300 },
   }, {
     id: 'ferrah',
     type: 'Explorable',
     level: 75,
+    rewards: { coins: 3500 + 2600, talesOfDungeonDelving: 100 },
   }, {
     id: 'magg',
     type: 'Explorable',
     level: 75,
+    rewards: { coins: 3500 + 2600, talesOfDungeonDelving: 100 },
   }, {
     id: 'rhiannon',
     type: 'Explorable',
     level: 75,
+    rewards: { coins: 3500 + 2600, talesOfDungeonDelving: 100 },
   }]
 }, {
   id: 'honor_of_the_waves',
@@ -127,18 +151,22 @@ export const dungeons: Dungeon[] = [{
     id: 'hotw_story',
     type: 'Story',
     level: 76,
+    rewards: { coins: 6300 },
   }, {
     id: 'butcher',
     type: 'Explorable',
     level: 80,
+    rewards: { coins: 3500 + 2600, talesOfDungeonDelving: 100 },
   }, {
     id: 'plunderer',
     type: 'Explorable',
     level: 80,
+    rewards: { coins: 3500 + 2600, talesOfDungeonDelving: 100 },
   }, {
     id: 'zealot',
     type: 'Explorable',
     level: 80,
+    rewards: { coins: 3500 + 2600, talesOfDungeonDelving: 100 },
   }]
 }, {
   id: 'crucible_of_eternity',
@@ -147,18 +175,22 @@ export const dungeons: Dungeon[] = [{
     id: 'coe_story',
     type: 'Story',
     level: 78,
+    rewards: { coins: 6300 },
   }, {
     id: 'submarine',
     type: 'Explorable',
     level: 80,
+    rewards: { coins: 3500 + 2600, talesOfDungeonDelving: 100 },
   }, {
     id: 'teleporter',
     type: 'Explorable',
     level: 80,
+    rewards: { coins: 3500 + 2600, talesOfDungeonDelving: 100 },
   }, {
     id: 'front_door',
     type: 'Explorable',
     level: 80,
+    rewards: { coins: 3500 + 2600, talesOfDungeonDelving: 100 },
   }]
 }, {
   id: 'ruined_city_of_arah',
@@ -167,21 +199,26 @@ export const dungeons: Dungeon[] = [{
     id: 'arah_story',
     type: 'Story',
     level: 80,
+    rewards: { coins: 6300 },
   }, {
     id: 'jotun',
     type: 'Explorable',
     level: 80,
+    rewards: { coins: 10000 + 2600, talesOfDungeonDelving: 100 },
   }, {
     id: 'mursaat',
     type: 'Explorable',
     level: 80,
+    rewards: { coins: 15000 + 2600, talesOfDungeonDelving: 100 },
   }, {
     id: 'forgotten',
     type: 'Explorable',
     level: 80,
+    rewards: { coins: 5000 + 2600, talesOfDungeonDelving: 100 },
   }, {
     id: 'seer',
     type: 'Explorable',
     level: 80,
+    rewards: { coins: 10000 + 2600, talesOfDungeonDelving: 100 },
   }]
 }];

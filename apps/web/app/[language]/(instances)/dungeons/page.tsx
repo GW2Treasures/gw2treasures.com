@@ -17,10 +17,24 @@ import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
 import type { Metadata } from 'next';
 import { DungeonDailyCell, requiredScopes } from './page.client';
+import { CurrencyValue } from '@/components/Currency/CurrencyValue';
+import { CurrencyLink } from '@/components/Currency/CurrencyLink';
+import { Coins } from '@/components/Format/Coins';
+import { groupById } from '@gw2treasures/helper/group-by';
+
+const ACHIEVEMENT_DUNGEON_FREQUENTER_ID = 2963;
 
 const getDungeonFrequenter = cache(
-  () => db.achievement.findUnique({ where: { id: 2963 }, select: linkPropertiesWithoutRarity }),
+  () => db.achievement.findUnique({ where: { id: ACHIEVEMENT_DUNGEON_FREQUENTER_ID }, select: linkPropertiesWithoutRarity }),
   ['dungeons-frequenter'], { revalidate: 60 * 60 }
+);
+
+const CURRENCY_COINS_ID = 1;
+const CURRENCY_TALES_OF_DUNGEON_DELVING_ID = 69;
+
+const getCurrencies = cache(
+  () => db.currency.findMany({ where: { id: { in: [CURRENCY_COINS_ID, CURRENCY_TALES_OF_DUNGEON_DELVING_ID] } }, select: linkPropertiesWithoutRarity }),
+  ['dungeons-currencies'], { revalidate: 60 * 60 }
 );
 
 export default async function DungeonsPage({ params }: PageProps) {
@@ -32,7 +46,12 @@ export default async function DungeonsPage({ params }: PageProps) {
 
   const dungeonIcons = new Map(dungeons.map(({ id, icon }) => [id, parseIcon(icon)]));
 
-  const dungeonFrequenter = await getDungeonFrequenter();
+  const [dungeonFrequenter, currencies] = await Promise.all([
+    getDungeonFrequenter(),
+    groupById(await getCurrencies()),
+  ]);
+
+  const talesOfDungeonDelving = currencies.get(CURRENCY_TALES_OF_DUNGEON_DELVING_ID)!;
 
   return (
     <HeroLayout hero={<Headline id="dungeons">Dungeons</Headline>}>
@@ -52,13 +71,19 @@ export default async function DungeonsPage({ params }: PageProps) {
           {({ dungeon }) => dungeon.id}
         </Paths.Column>
         <Paths.Column id="dungeon" title={<Trans id="dungeon"/>} sortBy={({ dungeon }) => t(`dungeons.${dungeon.id}`)}>
-          {({ dungeon }) => <FlexRow><EntityIcon icon={dungeonIcons.get(dungeon.id)!} size={32}/> {t(`dungeons.${dungeon.id}`)}</FlexRow>}
+          {({ dungeon }) => <FlexRow><EntityIcon icon={dungeonIcons.get(dungeon.id)!} size={24}/> {t(`dungeons.${dungeon.id}`)}</FlexRow>}
         </Paths.Column>
         <Paths.Column id="path" title={<Trans id="dungeons.path"/>} sortBy={({ id }) => t(`dungeons.path.${id}`)}>
           {({ id }) => t(`dungeons.path.${id}`)}
         </Paths.Column>
-        <Paths.Column id="level" title={<Trans id="dungeons.level"/>} align="right">
+        <Paths.Column id="level" title={<Trans id="dungeons.level"/>} align="right" sortBy="level">
           {({ level }) => level}
+        </Paths.Column>
+        <Paths.Column id="coins" title={<Trans id="dungeons.rewards.coins"/>} align="right" sortBy={({ rewards }) => rewards.coins}>
+          {({ rewards }) => <Coins value={rewards.coins}/>}
+        </Paths.Column>
+        <Paths.Column id="tokens" title={<Trans id="dungeons.rewards.tokens"/>} align="right" sortBy={({ rewards }) => rewards.talesOfDungeonDelving}>
+          {({ rewards }) => rewards.talesOfDungeonDelving ? <><CurrencyLink currency={talesOfDungeonDelving} icon="none"><FlexRow><CurrencyValue currencyId={talesOfDungeonDelving.id} value={rewards.talesOfDungeonDelving}/> <EntityIcon icon={talesOfDungeonDelving.icon!} size={24}/></FlexRow></CurrencyLink></> : null}
         </Paths.Column>
         <Paths.DynamicColumns id="daily" title={<Trans id="dungeons.daily"/>} headers={<Gw2AccountHeaderCells requiredScopes={requiredScopes} small/>}>
           {({ id }) => <Gw2AccountBodyCells requiredScopes={requiredScopes}><DungeonDailyCell path={id} accountId={undefined as never}/></Gw2AccountBodyCells> }

@@ -399,6 +399,8 @@
   "dungeons.description": "Dungeons each have their own story and multiple explorable paths. They are designed for parties of five players.",
   "dungeons.path": "Path",
   "dungeons.level": "Level",
+  "dungeons.rewards.coins": "Coins (First daily clear)",
+  "dungeons.rewards.tokens": "Tokens (First daily clear)",
   "dungeons.daily": "Daily",
   "dungeons.ascalonian_catacombs": "Ascalonian Catacombs",
   "dungeons.caudecus_manor": "Caudecus's Manor",

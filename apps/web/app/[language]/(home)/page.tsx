@@ -20,6 +20,7 @@ import { Snow } from '../festival/wintersday/snow';
 import { Festival, getActiveFestival } from '../festival/festivals';
 import { LunarNewYearHero } from '../festival/lunar-new-year/hero';
 import ogImage from './og.png';
+import { DungeonRushLink } from '../bonus-event/dungeon-rush/DungeonRushLink';
 
 async function HomePage({ params }: PageProps) {
   const { language } = await params;
@@ -42,6 +43,8 @@ async function HomePage({ params }: PageProps) {
       <Suspense fallback={<div className={styles.statsRow}/>}>
         <DbStats/>
       </Suspense>
+
+      <DungeonRushLink/>
 
       <Headline id="new-items">
         <Trans language={language} id="items.new"/>

@@ -27,10 +27,10 @@ spec:
         resources:
           requests:
             memory: "64Mi"
-            cpu: "20m"
+            cpu: "10m"
           limits:
-            memory: "256Mi"
-            cpu: "250m"
+            memory: "200Mi"
+            cpu: "100m"
         env:
         - name: DATABASE_URL
           valueFrom:

@@ -31,11 +31,11 @@ spec:
         imagePullPolicy: IfNotPresent
         resources:
           requests:
-            memory: "128Mi"
-            cpu: "50m"
+            memory: "256Mi"
+            cpu: "100m"
           limits:
             memory: "512Mi"
-            cpu: "1"
+            cpu: "250m"
         env:
         - name: DATABASE_URL
           valueFrom:

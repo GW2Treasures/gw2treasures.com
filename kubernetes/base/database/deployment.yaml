@@ -39,8 +39,8 @@ spec:
         - "max_connections=80"
         resources:
           requests:
-            memory: "1536Mi"
-            cpu: "100m"
+            memory: "3072Mi"
+            cpu: "250m"
         ports:
         - containerPort: 5432
           protocol: TCP

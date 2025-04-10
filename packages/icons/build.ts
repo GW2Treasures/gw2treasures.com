@@ -29,7 +29,8 @@ async function build() {
       plugins: [
         'preset-default',
         'removeDimensions',
-        'removeXMLNS'
+        'removeXMLNS',
+        { name: 'prefixIds', params: { prefix: `i-${componentName}`, delim: '-' }},
       ],
     }).data;
     output = output.replace(/^<svg/, `<symbol id="${componentName}"`);

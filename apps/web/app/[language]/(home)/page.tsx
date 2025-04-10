@@ -21,9 +21,13 @@ import { Festival, getActiveFestival } from '../festival/festivals';
 import { LunarNewYearHero } from '../festival/lunar-new-year/hero';
 import ogImage from './og.png';
 import { DungeonRushLink } from '../bonus-event/dungeon-rush/DungeonRushLink';
+import gw2treasuresSab from './gw2treasures-sab.png';
+import { getTranslate } from '@/lib/translate';
 
 async function HomePage({ params }: PageProps) {
   const { language } = await params;
+  const t = getTranslate(language);
+
   const festival = getActiveFestival();
   const hero = festivalHero[festival?.type ?? 'default'] ?? festivalHero.default;
 
@@ -31,10 +35,15 @@ async function HomePage({ params }: PageProps) {
     <HeroLayout color={hero.color} hero={(
       <hero.wrapper>
         <div className={styles.hero}>
-          <div className={styles.heroContent}>
-            <div className={styles.heroTitle}><Icon icon="gw2t"/> gw2treasures.com</div>
-            <div className={styles.heroSubtitle}><Trans language={language} id="subtitle"/></div>
-          </div>
+          {festival?.type === Festival.SuperAdventureFestival ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={gw2treasuresSab.src} height={gw2treasuresSab.height} width={gw2treasuresSab.width} alt={`gw2treasures.com - ${t('subtitle')}`} className={styles.heroSab}/>
+          ) : (
+            <div className={styles.heroContent}>
+              <div className={styles.heroTitle}><Icon icon="gw2t"/> gw2treasures.com</div>
+              <div className={styles.heroSubtitle}><Trans language={language} id="subtitle"/></div>
+            </div>
+          )}
         </div>
       </hero.wrapper>
     )}
@@ -149,4 +158,5 @@ const festivalHero: Record<Festival | 'default', { color: string, wrapper: Compo
   default: { color: '#b7000d', wrapper: Fragment },
   [Festival.Wintersday]: { color: '#7993a9', wrapper: Snow },
   [Festival.LunarNewYear]: { color: '#be3413', wrapper: LunarNewYearHero },
+  [Festival.SuperAdventureFestival]: { color: '#25b2f9', wrapper: Fragment },
 };

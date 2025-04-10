@@ -13,10 +13,10 @@ import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import { FestivalTimer } from '@/components/Reset/FestivalTimer';
 
 export default function SuperAdventureBoxFestivalLayout({ children }: LayoutProps) {
-  const sab = getFestival(Festival.SuperAdventureFestival);
+  const festival = getFestival(Festival.SuperAdventureFestival);
 
   return (
-    <HeroLayout color="#25b2f9" hero={(<SuperAdventureFestivalHero><Headline id="super-adventure-box" actions={<FestivalTimer festival={sab}/>}><div style={{ minWidth: '40vw' }}><Trans id="festival.super-adventure"/></div></Headline></SuperAdventureFestivalHero>)}
+    <HeroLayout color="#25b2f9" hero={(<SuperAdventureFestivalHero><Headline id="super-adventure-box" actions={<FestivalTimer festival={festival}/>}><div style={{ minWidth: '40vw' }}><Trans id="festival.super-adventure"/></div></Headline></SuperAdventureFestivalHero>)}
       skipLayout
       navBar={(
         <NavBar base="/festival/super-adventure/" items={[
@@ -28,7 +28,7 @@ export default function SuperAdventureBoxFestivalLayout({ children }: LayoutProp
         ]}/>
       )}
     >
-      {!isFestivalActive(sab) && (
+      {!isFestivalActive(festival) && (
         <div style={{ margin: '16px 16px -16px' }}>
           <Notice>The Super Adventure Festival is currently not active!</Notice>
         </div>

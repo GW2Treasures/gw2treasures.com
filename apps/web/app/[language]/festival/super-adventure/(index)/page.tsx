@@ -50,7 +50,7 @@ const loadData = cache(async function loadData() {
 export default async function SuperAdventureFestivalPage({ params }: PageProps) {
   const { language } = await params;
   const t = getTranslate(language);
-  const lunarNewYear = getFestival(Festival.LunarNewYear);
+  const festival = getFestival(Festival.SuperAdventureFestival);
 
   const { items } = await loadData();
 
@@ -68,7 +68,7 @@ export default async function SuperAdventureFestivalPage({ params }: PageProps) 
       <p><Trans id="festival.super-adventure.items.description"/></p>
       <Dashboard initialColumns={items.map((item) => ({ type: 'item', id: item.id, item }))} embedded/>
 
-      {lunarNewYear && (
+      {festival && (
         <StructuredData data={{
           '@type': 'Event',
           name: t('festival.super-adventure'),
@@ -77,8 +77,8 @@ export default async function SuperAdventureFestivalPage({ params }: PageProps) 
             '@type': 'VirtualLocation',
             url: (await absoluteUrl('/festival/super-adventure')).toString()
           },
-          startDate: lunarNewYear.startsAt.toISOString(),
-          endDate: lunarNewYear.endsAt.toISOString(),
+          startDate: festival.startsAt.toISOString(),
+          endDate: festival.endsAt.toISOString(),
           eventAttendanceMode: 'https://schema.org/OnlineEventAttendanceMode',
           image: [(await absoluteUrl(ogImage.src)).toString()]
         } satisfies Event}/>

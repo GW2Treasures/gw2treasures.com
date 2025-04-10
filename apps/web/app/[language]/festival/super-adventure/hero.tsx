@@ -1,11 +1,11 @@
 import type { FC, ReactNode } from 'react';
 import styles from './hero.module.css';
 
-export interface LunarNewYearHeroProps {
+export interface SuperAdventureFestivalHeroProps {
   children: ReactNode
 }
 
-export const SuperAdventureFestivalHero: FC<LunarNewYearHeroProps> = ({ children }) => {
+export const SuperAdventureFestivalHero: FC<SuperAdventureFestivalHeroProps> = ({ children }) => {
   return (
     <div className={styles.hero}>
       {children}

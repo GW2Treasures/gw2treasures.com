@@ -48,13 +48,19 @@ export const SkinsWikiJob: Job = {
       return 'Queued follow up jobs';
     }
 
-    const query = `[[Has context::Skin]][[Has game id::≥${offset}]][[Has game id::<<${offset + batchSize}]]|?Has game id|?Has appearance|?Has skin set.Has appearance=Has set appearance|?Has skin set|limit=${batchSize}`;
+    const query = `[[Has context::Skin]][[Has game id::>>${offset - 1}]][[Has game id::<<${offset + batchSize}]]|?Has game id|?Has appearance|?Has skin set.Has appearance=Has set appearance|?Has skin set|limit=${batchSize}`
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;');
     const url = `https://wiki.guildwars2.com/api.php?action=ask&query=${encodeURIComponent(query)}&format=json`;
 
     console.log('> Fetch data for skins from wiki');
     console.log(url);
 
-    const data = await fetch(url).then((r) => {
+    const headers = {
+      'User-Agent': 'Mozilla/5.0 (compatible; gw2treasures.com/1.0; +https://gw2treasures.com/)'
+    };
+
+    const data = await fetch(url, { headers }).then((r) => {
       if(r.status !== 200) {
         throw new Error(`${url} returned ${r.status} ${r.statusText}`);
       }

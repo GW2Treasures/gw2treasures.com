@@ -42,7 +42,11 @@ export const ItemsContainerContent: Job = {
       const query = `[[Contained in.Has game id::${id}]][[Has context::Container item]][[Contained in.Has context::Item]][[Contains item.Has context::Item]][[Contains item.Is historical::False]]|?Contained in.Has game id=ContainerId|?Contains item.Has game id=ContentId|?Has contained item chance=Chance|?Has contained item quantity=Quantity`;
       const url = `https://wiki.guildwars2.com/api.php?action=ask&query=${encodeURIComponent(query)}&format=json`;
 
-      const result = await fetch(url).then((r) => r.json()) as WikiAskResponse;
+      const headers = {
+        'User-Agent': 'Mozilla/5.0 (compatible; gw2treasures.com/1.0; +https://gw2treasures.com/)'
+      };
+
+      const result = await fetch(url, { headers }).then((r) => r.json()) as WikiAskResponse;
 
       const contents = Object.values(result.query.results).map<Prisma.ContentCreateManyInput>((entry) => ({
         containerItemId: id,

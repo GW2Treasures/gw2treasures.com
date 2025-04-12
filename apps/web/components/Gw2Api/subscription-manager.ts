@@ -5,8 +5,9 @@ import type { AccountHomesteadDecoration } from '@gw2api/types/data/account-home
 import type { AccountWallet } from '@gw2api/types/data/account-wallet';
 import { getResetDate } from '../Reset/ResetTimer';
 import { accessTokenManager } from './access-token-manager';
+import type { CharacterSab } from '@gw2api/types/data/character-sab';
 
-export type SubscriptionType = 'account' | 'achievements' | 'skins' | 'minis' | 'wallet' | 'wizards-vault' | 'inventories' | 'home.nodes' | 'home.cats' | 'homestead.decorations' | 'homestead.glyphs' | 'colors' | 'dungeons';
+export type SubscriptionType = 'account' | 'achievements' | 'skins' | 'minis' | 'wallet' | 'wizards-vault' | 'inventories' | 'home.nodes' | 'home.cats' | 'homestead.decorations' | 'homestead.glyphs' | 'colors' | 'dungeons' | 'sab';
 
 export type SubscriptionData<T extends SubscriptionType> =
   T extends 'account' ? Account<'2019-12-19T00:00:00.000Z'> :
@@ -22,6 +23,7 @@ export type SubscriptionData<T extends SubscriptionType> =
   T extends 'homestead.glyphs' ? string[] :
   T extends 'colors' ? number[] :
   T extends 'dungeons' ? string[] :
+  T extends 'sab' ? Record<string, CharacterSab> :
   never;
 
 export type SubscriptionResponse<T extends SubscriptionType> = {
@@ -221,6 +223,7 @@ const fetchers: { [T in SubscriptionType]: (accessToken: string) => Promise<Subs
   'homestead.glyphs': (accessToken: string) => fetchGw2Api('/v2/account/homestead/glyphs', { accessToken, cache: 'no-cache' }),
   'colors': (accessToken: string) => fetchGw2Api('/v2/account/dyes', { accessToken, cache: 'no-cache' }),
   'dungeons': (accessToken: string) => fetchGw2Api('/v2/account/dungeons', { accessToken, cache: 'no-cache' }),
+  'sab': (accessToken: string) => loadSab(accessToken),
 };
 
 async function loadAccountsWizardsVault(accessToken: string) {
@@ -258,4 +261,15 @@ async function loadInventories(accessToken: string) {
   return {
     bank, materials, sharedInventory, armory, characters, delivery
   };
+}
+
+async function loadSab(accessToken: string) {
+  const characters = await fetchGw2Api('/v2/characters', { accessToken });
+
+  const entries = await Promise.all(characters.map(
+    (character) => fetchGw2Api(`/v2/characters/${character}/sab`, { accessToken, cache: 'no-cache' })
+      .then((data) => [character, data] as const)
+  ));
+
+  return Object.fromEntries(entries);
 }

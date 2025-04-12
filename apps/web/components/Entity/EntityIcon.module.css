@@ -5,6 +5,7 @@
   flex-shrink: 0;
   aspect-ratio: 1 / 1;
   width: fit-content;
+  display: inline-block;
 }
 
 .icon {

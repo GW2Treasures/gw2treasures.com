@@ -32,7 +32,7 @@ const loadData = cache(async function loadData() {
 }, ['super-adventure-box-wizards-vault-objectives'], { revalidate: 60 * 60 });
 
 
-export default async function SuperAdventureFestivalAchievementsPage({ params }: PageProps) {
+export default async function SuperAdventureFestivalWizardsVaultPage({ params }: PageProps) {
   const { language } = await params;
   const { objectives } = await loadData();
   await pageView('festival/super-adventure/wizards-vault');
@@ -64,6 +64,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   return {
     title: t('navigation.wizardsVault'),
+    description: t('festival.super-adventure.wizards-vault.description'),
     alternates: getAlternateUrls('festival/super-adventure/wizards-vault', language),
   };
 }

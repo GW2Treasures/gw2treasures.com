@@ -10,7 +10,7 @@ import { cx } from '@gw2treasures/ui';
 export type EntityIconType = 'skill';
 
 export interface EntityIconProps {
-  icon: Omit<Icon, 'color'> & Partial<Pick<Icon, 'color'>>;
+  icon: Omit<Icon, 'color' | 'signature'> & Partial<Pick<Icon, 'color' | 'signature'>>;
   size?: IconSize;
   type?: EntityIconType;
   className?: string;
@@ -44,7 +44,6 @@ export const EntityIcon: FC<EntityIconProps> = ({ icon, size = 64, type, classNa
         width={size}
         height={size}
         alt=""
-        crossOrigin="anonymous"
         referrerPolicy="no-referrer"
         srcSet={iconSize < 64 ? `${getIconUrl(icon, iconSize * 2 as FixedIconSize)} 2x` : undefined}
         style={style}

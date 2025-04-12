@@ -97,6 +97,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   return {
     title: t('navigation.achievements'),
+    description: t('festival.super-adventure.achievements.description'),
     alternates: getAlternateUrls('festival/super-adventure/achievements', language),
   };
 }

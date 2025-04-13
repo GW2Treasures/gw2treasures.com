@@ -10,7 +10,6 @@ import { useSubscription } from '@/components/Gw2Api/use-gw2-subscription';
 import { Skeleton } from '@/components/Skeleton/Skeleton';
 import type { TranslationSubset } from '@/lib/translate';
 import type { CharacterSab, CharacterSabSong, CharacterSabUnlock, CharacterSabZoneMode } from '@gw2api/types/data/character-sab';
-import { Scope } from '@gw2me/client';
 import { groupById } from '@gw2treasures/helper/group-by';
 import { Icon, type IconName } from '@gw2treasures/ui';
 import { Checkbox } from '@gw2treasures/ui/components/Form/Checkbox';
@@ -18,15 +17,11 @@ import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 import { useState, type FC } from 'react';
+import { requiredScopes } from '../helper';
 import styles from './page.module.css';
 
 import purseImg from './purse.png';
 import toteBagImg from './tote_bag.png';
-
-export const requiredScopes = [
-  Scope.GW2_Account,
-  Scope.GW2_Characters,
-];
 
 export interface SabAccountsProps {
   translations: TranslationSubset<

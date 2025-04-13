@@ -1,3 +1,7 @@
+.songColumn {
+  width: 200px;
+}
+
 .upgrades {
   display: grid;
   grid-template-columns: repeat(18, 1fr);
@@ -7,8 +11,18 @@
 }
 
 @media (max-width: 1760px) {
+  .songColumn {
+    width: 160px;
+  }
+
   .upgrades {
     grid-template-columns: repeat(9, 1fr);
+  }
+}
+
+@media (max-width: 1440px) {
+  .songColumn {
+    width: 1px;
   }
 }
 

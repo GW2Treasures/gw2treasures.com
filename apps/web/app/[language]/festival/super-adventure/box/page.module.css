@@ -6,8 +6,20 @@
   display: grid;
   grid-template-columns: repeat(18, 1fr);
   align-items: center;
-  gap: 8px;
+  gap: 4px;
   line-height: 1;
+}
+
+.upgradeLocked {
+  opacity: .5;
+  filter: grayscale(.9);
+
+  transition: all .3s ease;
+}
+
+.upgradeLocked:hover {
+  opacity: 1;
+  filter: grayscale(0);
 }
 
 @media (max-width: 1760px) {

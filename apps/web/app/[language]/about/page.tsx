@@ -20,6 +20,9 @@ export default function AboutPage() {
       <Headline id="github">Open Source</Headline>
       <p>Do you want to contribute to the development of gw2treasures.com? You can! Everything is open-source on GitHub: <ExternalLink href="https://github.com/GW2Treasures/gw2treasures.com">gw2treasures/gw2treasures.com</ExternalLink>.</p>
 
+      <Headline id="donate">Donate</Headline>
+      <p>If you want to support the development and hosting of gw2treasures.com by donating, you can do so on <ExternalLink href="https://ko-fi.com/darthmaim">Ko-fi</ExternalLink>.</p>
+
       <Headline id="contact">Contact</Headline>
       <p>Join the discord <ExternalLink href="https://discord.gg/gvx6ZSE" target="_blank">Discord</ExternalLink> (channel <Code inline>#gw2treasures</Code>) or send an email to <a href="mailto:support@gw2treasures.com">support@gw2treasures.com</a>.</p>
       <p>Feature Requests and Bug Reports can also be submitted <ExternalLink href="https://github.com/GW2Treasures/gw2treasures.com/issues">on GitHub</ExternalLink>.</p>

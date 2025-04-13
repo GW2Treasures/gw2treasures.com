@@ -29,6 +29,9 @@ export const requiredScopes = [
 
 export interface SabAccountsProps {
   translations: TranslationSubset<
+    | 'festival.super-adventure.sab.character'
+    | 'festival.super-adventure.sab.upgrades'
+    | 'festival.super-adventure.sab.songs'
     | 'festival.super-adventure.sab.mode.infantile'
     | 'festival.super-adventure.sab.mode.normal'
     | 'festival.super-adventure.sab.mode.tribulation'
@@ -93,15 +96,15 @@ const SabAccountTable: FC<SabAccountTableProps> = ({ data, translations }) => {
     <Table>
       <thead>
         <tr>
-          <Table.HeaderCell>Character</Table.HeaderCell>
+          <Table.HeaderCell>{translations['festival.super-adventure.sab.character']}</Table.HeaderCell>
           <Table.HeaderCell small>W1 / Z1</Table.HeaderCell>
           <Table.HeaderCell small>W1 / Z2</Table.HeaderCell>
           <Table.HeaderCell small>W1 / Z3</Table.HeaderCell>
           <Table.HeaderCell small>W2 / Z1</Table.HeaderCell>
           <Table.HeaderCell small>W2 / Z2</Table.HeaderCell>
           <Table.HeaderCell small>W2 / Z3</Table.HeaderCell>
-          <Table.HeaderCell small>Upgrades</Table.HeaderCell>
-          <Table.HeaderCell>Songs</Table.HeaderCell>
+          <Table.HeaderCell small>{translations['festival.super-adventure.sab.upgrades']}</Table.HeaderCell>
+          <Table.HeaderCell>{translations['festival.super-adventure.sab.songs']}</Table.HeaderCell>
         </tr>
       </thead>
       <tbody>

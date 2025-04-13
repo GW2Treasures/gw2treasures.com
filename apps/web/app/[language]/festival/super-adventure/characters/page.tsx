@@ -12,6 +12,9 @@ export default async function SuperAdventureFestivalCharactersPage({ params }: P
   const { language } = await params;
 
   const translations = translateMany([
+    'festival.super-adventure.sab.character',
+    'festival.super-adventure.sab.upgrades',
+    'festival.super-adventure.sab.songs',
     'festival.super-adventure.sab.mode.infantile',
     'festival.super-adventure.sab.mode.normal',
     'festival.super-adventure.sab.mode.tribulation',

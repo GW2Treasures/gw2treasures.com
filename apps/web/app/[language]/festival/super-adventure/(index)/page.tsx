@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { Trans } from '@/components/I18n/Trans';
 import { PageLayout } from '@/components/Layout/PageLayout';
 import { pageView } from '@/lib/pageView';
@@ -14,7 +15,11 @@ import type { Event } from 'schema-dts';
 import { absoluteUrl, getAlternateUrls } from '@/lib/url';
 import { Festival, getFestival } from '../../festivals';
 import ogImage from '../og.png';
-import { ExternalLink } from '@gw2treasures/ui/components/Link/ExternalLink';
+import styles from './page.module.css';
+
+import thumbnailGttp from './thumbnail-gttp.png';
+import thumbnailWiki from './thumbnail-wiki.png';
+import { Icon } from '@gw2treasures/ui';
 
 const ITEM_BAUBLE = 39752;
 const ITEM_BAUBLE_BUBBLE = 41886;
@@ -58,11 +63,22 @@ export default async function SuperAdventureFestivalPage({ params }: PageProps) 
 
   return (
     <PageLayout>
-      <p>
-        <Trans id="festival.super-adventure.intro"/>{' '}
-        If this is your first time participating or you just want a quick refresh, check out the YouTube video <ExternalLink href="https://www.youtube.com/watch?v=1SqenoV1vg8">Get To The Point: A Super Adventure Box Festival Guide for Guild Wars 2</ExternalLink> or read up on it on the <ExternalLink href="https://wiki.guildwars2.com/wiki/Super_Adventure_Festival">official Guild Wars 2 Wiki</ExternalLink>.
-      </p>
+      <p><Trans id="festival.super-adventure.intro"/></p>
       <p><Trans id="festival.super-adventure.description"/></p>
+
+      <div className={styles.cards}>
+        <a href="https://www.youtube.com/watch?v=1SqenoV1vg8" rel="noreferrer noopener" target="_blank" className={styles.linkCardYoutube}>
+          <img src={thumbnailGttp.src} alt="" width={128}/>
+          <span className={styles.linkCardType}>Youtube <Icon icon="external-link"/></span>
+          <span className={styles.linkCardTitle}>Get To The Point: A Super Adventure Box Festival Guide for Guild Wars 2</span>
+        </a>
+
+        <a href="https://wiki.guildwars2.com/wiki/Super_Adventure_Festival" rel="noreferrer noopener" target="_blank" className={styles.linkCard}>
+          <img src={thumbnailWiki.src} alt="" width={128}/>
+          <span className={styles.linkCardType}>Wiki <Icon icon="external-link"/></span>
+          <span className={styles.linkCardTitle}>Super Adventure Festival</span>
+        </a>
+      </div>
 
       <Headline id="inventory">Account Dashboard</Headline>
       <p><Trans id="festival.super-adventure.items.description"/></p>

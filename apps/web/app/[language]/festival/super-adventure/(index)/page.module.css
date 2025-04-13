@@ -1,0 +1,51 @@
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin: 24px 0;
+}
+
+.linkCard {
+  padding: 8px;
+  background-color: #03a9f422;
+  border-radius: 2px;
+  display: grid;
+  grid-template:
+    "icon        type  " min-content
+    "icon        title " 1fr /
+     min-content 1fr;
+  gap: 8px;
+  max-width: 560px;
+  min-width: 400px;
+  flex: 1;
+  text-decoration: none;
+  transition: box-shadow .3s ease;
+}
+
+.linkCardYoutube {
+  composes: linkCard;
+  background-color: #f4433622;
+}
+
+.linkCard:hover .linkCardTitle {
+  text-decoration: 2px underline;
+}
+
+.linkCard > img {
+  grid-area: icon;
+  border-radius: 2px;
+}
+
+.linkCardType {
+  font-weight: 500;
+  font-size: 14px;
+  text-transform: uppercase;
+  color: var(--color-text);
+  opacity: .75;
+  margin-top: 4px;
+}
+
+.linkCardTitle {
+  line-height: 1.4;
+  line-clamp: 2;
+}

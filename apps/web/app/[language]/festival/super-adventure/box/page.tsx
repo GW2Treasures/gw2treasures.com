@@ -6,6 +6,7 @@ import { getTranslate, translateMany } from '@/lib/translate';
 import { getAlternateUrls } from '@/lib/url';
 import type { Metadata } from 'next';
 import { SabAccounts } from './page.client';
+import { pageView } from '@/lib/pageView';
 
 
 export default async function SuperAdventureFestivalCharactersPage({ params }: PageProps) {
@@ -41,10 +42,12 @@ export default async function SuperAdventureFestivalCharactersPage({ params }: P
     'festival.super-adventure.sab.song.shatter_serenade',
   ], language);
 
+  await pageView('festival/super-adventure/box');
+
   return (
     <PageLayout>
       <Description>
-        <Trans id="festival.super-adventure.characters.description"/>
+        <Trans id="festival.super-adventure.sab.description"/>
       </Description>
 
       <SabAccounts translations={translations}/>
@@ -57,8 +60,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const t = getTranslate(language);
 
   return {
-    title: t('festival.super-adventure.characters'),
-    description: t('festival.super-adventure.characters.description'),
-    alternates: getAlternateUrls('festival/super-adventure/characters', language),
+    title: t('festival.super-adventure.sab'),
+    description: t('festival.super-adventure.sab.description'),
+    alternates: getAlternateUrls('festival/super-adventure/box', language),
   };
 }

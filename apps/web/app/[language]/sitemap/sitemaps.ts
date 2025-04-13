@@ -167,6 +167,7 @@ export const sitemaps: Record<string, Sitemap> = {
         '/festival/lunar-new-year/minis',
         '/festival/lunar-new-year/wizards-vault',
         '/festival/super-adventure',
+        '/festival/super-adventure/box',
         '/festival/super-adventure/achievements',
         '/festival/super-adventure/skins',
         '/festival/super-adventure/minis',

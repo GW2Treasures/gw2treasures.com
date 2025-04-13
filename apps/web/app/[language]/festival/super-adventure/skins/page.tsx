@@ -93,6 +93,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   return {
     title: t('navigation.skins'),
+    description: t('festival.super-adventure.skins.description'),
     alternates: getAlternateUrls('festival/super-adventure/skins', language),
   };
 }

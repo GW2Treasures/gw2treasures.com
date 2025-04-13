@@ -1,0 +1,24 @@
+.upgrades {
+  display: grid;
+  grid-template-columns: repeat(18, 1fr);
+  align-items: center;
+  gap: 8px;
+  line-height: 1;
+}
+
+@media (max-width: 1760px) {
+  .upgrades {
+    grid-template-columns: repeat(9, 1fr);
+  }
+}
+
+.songsTip {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.songMissing {
+  color: var(--color-text-muted);
+}

@@ -61,6 +61,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   return {
     title: t('minis'),
+    description: t('festival.super-adventure.minis.description'),
     alternates: getAlternateUrls('festival/super-adventure/minis', language),
   };
 }

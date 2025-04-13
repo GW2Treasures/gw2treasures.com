@@ -11,7 +11,7 @@ import { useUser } from '../User/use-user';
 import { Gw2AccountLoginNotice } from './Gw2AccountLoginNotice';
 
 export interface Gw2AccountsProps {
-  children?: ((accounts: Gw2Account[], scopes: Scope[]) => ReactElement) | ReactNode;
+  children?: ((accounts: Gw2Account[], scopes: Scope[]) => ReactElement | ReactElement[]) | ReactNode;
   requiredScopes: Scope[];
   optionalScopes?: Scope[];
   options?: GetAccountsOptions;

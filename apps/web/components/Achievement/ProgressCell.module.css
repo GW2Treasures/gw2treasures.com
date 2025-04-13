@@ -2,12 +2,15 @@
   position: relative;
 }
 
+.red { --progress-cell-color: #f4433622; }
+.blue { --progress-cell-color: #03a9f422; }
+
 .cell::before {
   content: '';
   display: block;
   position: absolute;
   inset: 6px 8px 6px 0;
-  background-color: var(--color-diff-added);
+  background-color: var(--progress-cell-color, var(--color-diff-added));
   width: calc(var(--progress) * (100% - 16px));
   min-width: 4px;
   border-radius: 2px;

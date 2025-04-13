@@ -21,6 +21,7 @@ export default function SuperAdventureBoxFestivalLayout({ children }: LayoutProp
       navBar={(
         <NavBar base="/festival/super-adventure/" items={[
           { segment: '(index)', href: '/festival/super-adventure', label: <Trans id="festival.super-adventure"/> },
+          { segment: 'box', label: <Trans id="festival.super-adventure.sab"/> },
           { segment: 'achievements', label: <Trans id="navigation.achievements"/> },
           { segment: 'skins', label: <Trans id="navigation.skins"/> },
           { segment: 'minis', label: <Trans id="minis"/> },

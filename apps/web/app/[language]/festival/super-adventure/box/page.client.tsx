@@ -13,10 +13,11 @@ import type { CharacterSab, CharacterSabSong, CharacterSabUnlock, CharacterSabZo
 import { Scope } from '@gw2me/client';
 import { groupById } from '@gw2treasures/helper/group-by';
 import { Icon, type IconName } from '@gw2treasures/ui';
+import { Checkbox } from '@gw2treasures/ui/components/Form/Checkbox';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
-import { type FC } from 'react';
+import { useState, type FC } from 'react';
 import styles from './page.module.css';
 
 import purseImg from './purse.png';
@@ -29,6 +30,7 @@ export const requiredScopes = [
 
 export interface SabAccountsProps {
   translations: TranslationSubset<
+    | 'festival.super-adventure.sab.hideEmpty'
     | 'festival.super-adventure.sab.character'
     | 'festival.super-adventure.sab.upgrades'
     | 'festival.super-adventure.sab.songs'
@@ -73,15 +75,16 @@ interface SabAccountProps extends SabAccountsProps {
 
 const SabAccount: FC<SabAccountProps> = ({ account, translations }) => {
   const sab = useSubscription('sab', account.id);
+  const [hideEmpty, setHideEmpty] = useState(false);
 
   return (
     <>
-      <Headline id={account.id}>
+      <Headline id={account.id} actions={<Checkbox checked={hideEmpty} onChange={setHideEmpty}>{translations['festival.super-adventure.sab.hideEmpty']}</Checkbox>}>
         <Gw2AccountName account={account}/>
       </Headline>
 
       {sab.loading ? <Skeleton/> : sab.error ? 'error' : (
-        <SabAccountTable data={sab.data} translations={translations}/>
+        <SabAccountTable data={sab.data} hideEmpty={hideEmpty} translations={translations}/>
       )}
     </>
   );
@@ -89,9 +92,10 @@ const SabAccount: FC<SabAccountProps> = ({ account, translations }) => {
 
 interface SabAccountTableProps extends SabAccountsProps {
   data: Record<string, CharacterSab>,
+  hideEmpty: boolean,
 }
 
-const SabAccountTable: FC<SabAccountTableProps> = ({ data, translations }) => {
+const SabAccountTable: FC<SabAccountTableProps> = ({ data, hideEmpty, translations }) => {
   return (
     <Table>
       <thead>
@@ -109,6 +113,10 @@ const SabAccountTable: FC<SabAccountTableProps> = ({ data, translations }) => {
       </thead>
       <tbody>
         {Object.entries(data).map(([character, sab]) => {
+          if(hideEmpty && sab.zones.length + sab.unlocks.length + sab.songs.length === 0) {
+            return null;
+          }
+
           const zones = sabZoneLookup(sab);
           return (
             <tr key={character}>

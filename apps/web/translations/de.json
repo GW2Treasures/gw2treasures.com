@@ -335,6 +335,7 @@
   "festival.super-adventure.wizards-vault.description": "Dies sind alle Ziele im Gewölbe des Zauberers, die nur während des Super Adventure Festivals aktiv sind.",
   "festival.super-adventure.sab": "SAB Freischaltungen",
   "festival.super-adventure.sab.description": "Sieh dir an, welche Zonen, Upgrades und Lieder deine Charaktere in der Super Adventure Box bereits freigeschaltet haben.",
+  "festival.super-adventure.sab.hideEmpty": "Verstecke Charaktere ohne Fortschritt",
   "festival.super-adventure.sab.character": "Charakter",
   "festival.super-adventure.sab.upgrades": "Upgrades",
   "festival.super-adventure.sab.songs": "Lieder",

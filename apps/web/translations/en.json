@@ -361,6 +361,7 @@
   "festival.super-adventure.wizards-vault.description": "These are all the Wizard's Vault objectives only active during the Super Adventure Festival.",
   "festival.super-adventure.sab": "SAB Unlocks",
   "festival.super-adventure.sab.description": "View all your characters unlocked zones, upgrades and songs in the Super Adventure Box.",
+  "festival.super-adventure.sab.hideEmpty": "Hide characters without progress",
   "festival.super-adventure.sab.character": "Character",
   "festival.super-adventure.sab.upgrades": "Upgrades",
   "festival.super-adventure.sab.songs": "Songs",

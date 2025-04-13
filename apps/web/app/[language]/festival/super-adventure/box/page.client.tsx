@@ -108,7 +108,7 @@ const SabAccountTable: FC<SabAccountTableProps> = ({ data, hideEmpty, translatio
           <Table.HeaderCell small>W2 / Z2</Table.HeaderCell>
           <Table.HeaderCell small>W2 / Z3</Table.HeaderCell>
           <Table.HeaderCell small>{translations['festival.super-adventure.sab.upgrades']}</Table.HeaderCell>
-          <Table.HeaderCell>{translations['festival.super-adventure.sab.songs']}</Table.HeaderCell>
+          <th className={styles.songColumn}>{translations['festival.super-adventure.sab.songs']}</th>
         </tr>
       </thead>
       <tbody>

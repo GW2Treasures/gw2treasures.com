@@ -181,7 +181,7 @@ const SabAccountTableUnlocksCell: FC<SabAccountTableUnlocksCellProps> = ({ upgra
       <div className={styles.upgrades}>
         {allUpgrades.map((upgrade) => (
           <Tip key={upgrade.id} tip={translations[`festival.super-adventure.sab.unlock.${upgrade.name}`]}>
-            <span style={!unlocks.has(upgrade.id) ? { opacity: .5, filter: 'grayscale(.9)' } : undefined}>
+            <span className={!unlocks.has(upgrade.id) ? styles.upgradeLocked : undefined}>
               {upgrade.iconId ? (
                 <EntityIcon type={upgrade.iconType as 'skill'} icon={{ id: upgrade.iconId }} size={32}/>
               ) : upgrade.id === 24 ? (

@@ -1,3 +1,5 @@
+import type { BonusEventInfo } from '../bonus-event/bonus-events';
+
 export enum Festival {
   Wintersday,
   LunarNewYear,
@@ -22,7 +24,7 @@ export function getFestival(type: Festival): FestivalInfo | undefined {
   return festivals.findLast((festival) => festival.type === type);
 }
 
-export function isFestivalActive(festival: FestivalInfo | undefined, timestamp?: Date) {
+export function isFestivalActive(festival: FestivalInfo | BonusEventInfo | undefined, timestamp?: Date) {
   if(!festival) {
     return false;
   }

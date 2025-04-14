@@ -23,12 +23,15 @@ import ogImage from './og.png';
 import { DungeonRushLink } from '../bonus-event/dungeon-rush/DungeonRushLink';
 import gw2treasuresSab from './gw2treasures-sab.png';
 import { getTranslate } from '@/lib/translate';
+import { BonusEvent, getActiveBonusEvent } from '../bonus-event/bonus-events';
 
 async function HomePage({ params }: PageProps) {
   const { language } = await params;
   const t = getTranslate(language);
 
   const festival = getActiveFestival();
+  const bonusEvent = getActiveBonusEvent();
+
   const hero = festivalHero[festival?.type ?? 'default'] ?? festivalHero.default;
 
   return (
@@ -53,7 +56,7 @@ async function HomePage({ params }: PageProps) {
         <DbStats/>
       </Suspense>
 
-      <DungeonRushLink/>
+      {bonusEvent?.type === BonusEvent.DungeonRush && (<DungeonRushLink/>)}
 
       <Headline id="new-items">
         <Trans language={language} id="items.new"/>

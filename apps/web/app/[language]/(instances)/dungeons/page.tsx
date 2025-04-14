@@ -23,7 +23,8 @@ import { Coins } from '@/components/Format/Coins';
 import { groupById } from '@gw2treasures/helper/group-by';
 import ogImage from './og.png';
 import { getCurrentUrl } from '@/lib/url';
-import { ResetTimer } from '@/components/Reset/ResetTimer';
+import { BonusEvent, getBonusEvent, isBonusEventActive } from 'app/[language]/bonus-event/bonus-events';
+import { FestivalTimer } from '@/components/Reset/FestivalTimer';
 
 const ACHIEVEMENT_DUNGEON_FREQUENTER_ID = 2963;
 
@@ -39,8 +40,6 @@ const getCurrencies = cache(
   () => db.currency.findMany({ where: { id: { in: [CURRENCY_COINS_ID, CURRENCY_TALES_OF_DUNGEON_DELVING_ID] }}, select: linkPropertiesWithoutRarity }),
   ['dungeons-currencies'], { revalidate: 60 * 60 }
 );
-
-const dungeonRushEndsAt = new Date('2025-04-15T19:00:00Z');
 
 export default async function DungeonsPage({ params }: PageProps) {
   const { language } = await params;
@@ -58,16 +57,20 @@ export default async function DungeonsPage({ params }: PageProps) {
 
   const talesOfDungeonDelving = currencies.get(CURRENCY_TALES_OF_DUNGEON_DELVING_ID)!;
 
+  const dungeonRush = getBonusEvent(BonusEvent.DungeonRush);
+
   return (
     <HeroLayout hero={<Headline id="dungeons"><Trans id="dungeons"/></Headline>} color="#1e5636">
-      <div style={{ background: 'light-dark(#b8ffd6, #1c5133)', margin: '-16px -16px 16px', padding: 16, lineHeight: 1.5, borderBottom: '1px solid var(--color-border-transparent)' }}>
-        <FlexRow align="space-between" wrap>
-          <div>
-            Complete dungeons during the <b>Dungeon Rush</b> bonus event to earn additional rewards.
-          </div>
-          <span>Time remaining: <ResetTimer reset={dungeonRushEndsAt}/></span>
-        </FlexRow>
-      </div>
+      {isBonusEventActive(dungeonRush) && (
+        <div style={{ background: 'light-dark(#b8ffd6, #1c5133)', margin: '-16px -16px 16px', padding: 16, lineHeight: 1.5, borderBottom: '1px solid var(--color-border-transparent)' }}>
+          <FlexRow align="space-between" wrap>
+            <div>
+              Complete dungeons during the <b>Dungeon Rush</b> bonus event to earn additional rewards.
+            </div>
+            <FestivalTimer festival={dungeonRush}/>
+          </FlexRow>
+        </div>
+      )}
 
       <Description actions={<ColumnSelect table={Paths}/>}>
         <Trans id="dungeons.description"/>

@@ -32,6 +32,7 @@
     "@stylistic/eslint-plugin": "3.1.0",
     "eslint-plugin-import": "2.31.0",
     "eslint-plugin-react": "7.37.5",
+    "eslint-plugin-react-hooks": "5.2.0",
     "typescript-eslint": "8.29.1"
   },
   "peerDependencies": {

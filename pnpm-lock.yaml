@@ -253,9 +253,6 @@ importers:
       eslint-plugin-react-compiler:
         specifier: 19.0.0-beta-ebf51a3-20250411
         version: 19.0.0-beta-ebf51a3-20250411(eslint@9.24.0)
-      eslint-plugin-react-hooks:
-        specifier: 5.2.0
-        version: 5.2.0(eslint@9.24.0)
       gw2-api-types:
         specifier: 0.0.8
         version: 0.0.8
@@ -378,6 +375,9 @@ importers:
       eslint-plugin-react:
         specifier: 7.37.5
         version: 7.37.5(eslint@9.24.0)
+      eslint-plugin-react-hooks:
+        specifier: 5.2.0
+        version: 5.2.0(eslint@9.24.0)
       typescript-eslint:
         specifier: 8.29.1
         version: 8.29.1(eslint@9.24.0)(typescript@5.8.3)

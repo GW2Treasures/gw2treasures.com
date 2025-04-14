@@ -1,11 +1,20 @@
 import ts from 'typescript-eslint';
 import react from 'eslint-plugin-react';
+import reactHooks from 'eslint-plugin-react-hooks';
 import config from './index.mjs';
 
 export default ts.config(
+  // extend eslint-plugin-react
   react.configs.flat.recommended,
   react.configs.flat['jsx-runtime'],
+  
+  // extends eslint-plugin-react-hooks
+  reactHooks.configs['recommended-latest'],
+
+  // extend ./index
   config,
+
+  // custom rules for react
   {
     rules: {
       // `<C foo='bar'>` → `<C foo="bar">`

@@ -129,6 +129,7 @@ export const Gw2ApiProvider: FC<Gw2ApiProviderProps> = ({ children }) => {
       triggerSilentFedCM();
     }
   // react-hooks/exhaustive-deps doesn't correctly handle useEffectEvent yet
+  // eslint-disable-next-line react-compiler/react-compiler
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error]);
 

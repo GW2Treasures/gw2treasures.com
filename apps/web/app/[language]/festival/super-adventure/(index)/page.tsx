@@ -19,6 +19,7 @@ import styles from './page.module.css';
 
 import thumbnailGttp from './thumbnail-gttp.png';
 import thumbnailWiki from './thumbnail-wiki.png';
+import thumbnailJppe from './thumbnail-jppe.png';
 import { Icon } from '@gw2treasures/ui';
 
 const ITEM_BAUBLE = 39752;
@@ -77,6 +78,12 @@ export default async function SuperAdventureFestivalPage({ params }: PageProps) 
           <img src={thumbnailWiki.src} alt="" width={128}/>
           <span className={styles.linkCardType}>Wiki <Icon icon="external-link"/></span>
           <span className={styles.linkCardTitle}>Super Adventure Festival</span>
+        </a>
+
+        <a href="https://discord.gg/JwdJM52F" rel="noreferrer noopener" target="_blank" className={styles.linkCardDiscord}>
+          <img src={thumbnailJppe.src} alt="" width={128}/>
+          <span className={styles.linkCardType}>Discord <Icon icon="external-link"/></span>
+          <span className={styles.linkCardTitle}>Jumping Puzzle Portal Escort - Community and Resources around SAB</span>
         </a>
       </div>
 

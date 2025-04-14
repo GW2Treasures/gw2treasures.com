@@ -4,17 +4,31 @@
 
 .upgrades {
   display: grid;
-  grid-template-columns: repeat(18, 1fr);
+  grid-template-columns: repeat(20, 1fr);
   align-items: center;
   gap: 4px;
   line-height: 1;
 }
 
+.upgrade {
+  position: relative;
+}
+
 .upgradeLocked {
+  composes: upgrade;
+
   opacity: .5;
   filter: grayscale(.9);
 
   transition: all .3s ease;
+}
+
+.missingInApi {
+  position: absolute;
+  pointer-events: none;
+  left: 0;
+  top: 0;
+  image-rendering: pixelated;
 }
 
 .upgradeLocked:hover {
@@ -28,7 +42,7 @@
   }
 
   .upgrades {
-    grid-template-columns: repeat(9, 1fr);
+    grid-template-columns: repeat(10, 1fr);
   }
 }
 

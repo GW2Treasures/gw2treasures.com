@@ -22,6 +22,8 @@ import styles from './page.module.css';
 
 import purseImg from './purse.png';
 import toteBagImg from './tote_bag.png';
+import backpackImg from './backpack.png';
+import questionmarkImg from './questionmark.png';
 
 export interface SabAccountsProps {
   translations: TranslationSubset<
@@ -35,6 +37,7 @@ export interface SabAccountsProps {
     | 'festival.super-adventure.sab.unlock.chain_stick'
     | 'festival.super-adventure.sab.unlock.slingshot'
     | 'festival.super-adventure.sab.unlock.whip'
+    | 'festival.super-adventure.sab.unlock.boomerang'
     | 'festival.super-adventure.sab.unlock.mini_bomb'
     | 'festival.super-adventure.sab.unlock.mega_bomb'
     | 'festival.super-adventure.sab.unlock.candle'
@@ -45,11 +48,13 @@ export interface SabAccountsProps {
     | 'festival.super-adventure.sab.unlock.glove_of_wisdom'
     | 'festival.super-adventure.sab.unlock.bauble_purse'
     | 'festival.super-adventure.sab.unlock.bauble_tote_bag'
+    | 'festival.super-adventure.sab.unlock.bauble_backpack'
     | 'festival.super-adventure.sab.unlock.moto_breath'
     | 'festival.super-adventure.sab.unlock.moto_finger'
     | 'festival.super-adventure.sab.unlock.health_vessel_1'
     | 'festival.super-adventure.sab.unlock.health_vessel_2'
     | 'festival.super-adventure.sab.unlock.medium_health_potion'
+    | 'festival.super-adventure.sab.unlock.missingInApi'
     | 'festival.super-adventure.sab.song.secret_song'
     | 'festival.super-adventure.sab.song.gatekeeper_lullaby'
     | 'festival.super-adventure.sab.song.shatter_serenade'
@@ -171,19 +176,24 @@ interface SabAccountTableUnlocksCellProps extends SabAccountsProps {
 const SabAccountTableUnlocksCell: FC<SabAccountTableUnlocksCellProps> = ({ upgrades, translations }) => {
   const unlocks = groupById(upgrades);
 
+  const missingInApi = <div style={{ color: 'var(--color-text-muted)', marginTop: 4 }}>{translations['festival.super-adventure.sab.unlock.missingInApi']}</div>;
+
   return (
     <td>
       <div className={styles.upgrades}>
         {allUpgrades.map((upgrade) => (
-          <Tip key={upgrade.id} tip={translations[`festival.super-adventure.sab.unlock.${upgrade.name}`]}>
-            <span className={!unlocks.has(upgrade.id) ? styles.upgradeLocked : undefined}>
+          <Tip key={upgrade.id} tip={<>{translations[`festival.super-adventure.sab.unlock.${upgrade.name}`]}{upgrade.id < 0 && missingInApi}</>}>
+            <span className={!unlocks.has(upgrade.id) ? styles.upgradeLocked : styles.upgrade}>
               {upgrade.iconId ? (
                 <EntityIcon type={upgrade.iconType as 'skill'} icon={{ id: upgrade.iconId }} size={32}/>
-              ) : upgrade.id === 24 ? (
+              ) : upgrade.name === 'bauble_purse' ? (
                 <img width={32} height={32} alt="" src={purseImg.src} style={{ imageRendering: 'pixelated' }}/>
-              ) : upgrade.id === 25 ? (
+              ) : upgrade.name === 'bauble_tote_bag' ? (
                 <img width={32} height={32} alt="" src={toteBagImg.src} style={{ imageRendering: 'pixelated' }}/>
+              ) : upgrade.name === 'bauble_backpack' ? (
+                <img width={32} height={32} alt="" src={backpackImg.src} style={{ imageRendering: 'pixelated' }}/>
               ) : null}
+              {upgrade.id < 0 && (<img width={32} height={32} alt="" src={questionmarkImg.src} className={styles.missingInApi}/>)}
             </span>
           </Tip>
         ))}
@@ -196,6 +206,7 @@ const allUpgrades = [
   { id: 1, iconId: 563502, iconType: 'skill', name: 'chain_stick' as const },
   { id: 3, iconId: 563481, iconType: 'skill', name: 'slingshot' as const },
   { id: 6, iconId: 563482, iconType: 'skill', name: 'whip' as const },
+  { id: -1, iconId: 563476, iconType: 'skill', name: 'boomerang' as const },
   { id: 9, iconId: 563486, iconType: 'skill', name: 'mini_bomb' as const },
   { id: 10, iconId: 563487, iconType: 'skill', name: 'mega_bomb' as const },
   { id: 2, iconId: 563489, iconType: 'skill', name: 'candle' as const },
@@ -211,6 +222,7 @@ const allUpgrades = [
   { id: 34, iconId: 563522, iconType: 'skill', name: 'medium_health_potion' as const },
   { id: 24, name: 'bauble_purse' as const },
   { id: 25, name: 'bauble_tote_bag' as const },
+  { id: -2, name: 'bauble_backpack' as const },
 ];
 
 

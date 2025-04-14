@@ -8,12 +8,15 @@ import { Composite, CompositeItem } from '@gw2treasures/ui/components/Focus/Comp
 import type { IconProp } from '@gw2treasures/ui';
 import { WizardsVaultNewSeasonBadge } from './WizardsVaultNewSeasonBadge';
 import { Festival, getActiveFestival } from 'app/[language]/festival/festivals';
+import { BonusEvent, getActiveBonusEvent } from 'app/[language]/bonus-event/bonus-events';
 
 interface NavigationProps {
   language: Language;
 }
 
 const Navigation: FC<NavigationProps> = ({ language }) => {
+  const bonusEvent = getActiveBonusEvent();
+
   return (
     <HorizontalOverflowContainer>
       <Composite render={<ul className={styles.navigation}/>}>
@@ -27,7 +30,10 @@ const Navigation: FC<NavigationProps> = ({ language }) => {
         {/* <NavigationItem href="/specialization" icon="specialization"><Trans language={language} id="navigation.specializations"/></NavigationItem> */}
         <NavigationItem href="/skill" icon="skill"><Trans language={language} id="navigation.skills"/></NavigationItem>
         <NavigationItem href="/fractals" icon="fractals"><Trans language={language} id="navigation.fractals"/></NavigationItem>
-        <NavigationItem href="/dungeons" icon="story" style={{ color: 'light-dark( #1c5133, #b8ffd6)' }}>Dungeon Rush</NavigationItem>
+        {bonusEvent?.type === BonusEvent.DungeonRush
+          ? (<NavigationItem href="/dungeons" icon="story" style={{ color: 'light-dark( #1c5133, #b8ffd6)' }}>Dungeon Rush</NavigationItem>)
+          : (<NavigationItem href="/dungeons" icon="dungeon"><Trans language={language} id="dungeons"/></NavigationItem>)
+        }
         {/* <NavigationItem href="/event-timer" icon="event-boss">Event Timer<Badge>New</Badge></NavigationItem> */}
         {/* <NavigationItem href="/wvw" icon="wvw"><Trans language={language} id="navigation.wvw"/></NavigationItem> */}
         <NavigationItem href="/dev" icon="developer"><Trans language={language} id="navigation.developer"/></NavigationItem>

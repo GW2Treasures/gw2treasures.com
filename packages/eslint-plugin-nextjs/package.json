@@ -4,7 +4,7 @@
   "description": "ESLint plugin with custom rules for Next.js",
   "main": "dist/index.js",
   "scripts": {
-    "build": "pnpm run clean && tsc",
+    "build": "pnpm run clean && tsup src",
     "lint": "eslint src",
     "clean": "rm -rf dist/",
     "publish-package": "gw2treasures-publish-package"
@@ -35,6 +35,7 @@
   "devDependencies": {
     "@gw2treasures/eslint-config": "workspace:*",
     "@gw2treasures/tsconfig": "workspace:*",
+    "@types/node": "22.14.1",
     "eslint": "9.24.0",
     "tsup": "8.4.0",
     "typescript": "5.8.3"

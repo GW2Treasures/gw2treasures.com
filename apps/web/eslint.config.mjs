@@ -21,11 +21,5 @@ export default tseslint.config(
   },
   
   // enable @gw2treasures/nextjs plugin for page.tsx files (no flat preset yet)
-  {
-    files: ['**/page.tsx'],
-    plugins: { '@gw2treasures/nextjs': nextJsPlugin },
-    rules: {
-      '@gw2treasures/nextjs/require-metadata': 'warn',
-    },
-  },
+  nextJsPlugin.configs.recommended,
 );

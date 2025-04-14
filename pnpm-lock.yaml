@@ -394,6 +394,9 @@ importers:
       '@gw2treasures/tsconfig':
         specifier: workspace:*
         version: link:../tsconfig
+      '@types/node':
+        specifier: 22.14.1
+        version: 22.14.1
       eslint:
         specifier: 9.24.0
         version: 9.24.0

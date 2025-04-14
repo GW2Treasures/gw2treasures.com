@@ -67,6 +67,11 @@ export default async function SuperAdventureFestivalPage({ params }: PageProps) 
       <p><Trans id="festival.super-adventure.intro"/></p>
       <p><Trans id="festival.super-adventure.description"/></p>
 
+      <Headline id="inventory">Account Dashboard</Headline>
+      <p><Trans id="festival.super-adventure.items.description"/></p>
+      <Dashboard initialColumns={items.map((item) => ({ type: 'item', id: item.id, item }))} embedded/>
+
+      <Headline id="resources">External Resources</Headline>
       <div className={styles.cards}>
         <a href="https://www.youtube.com/watch?v=1SqenoV1vg8" rel="noreferrer noopener" target="_blank" className={styles.linkCardYoutube}>
           <img src={thumbnailGttp.src} alt="" width={128}/>
@@ -86,10 +91,6 @@ export default async function SuperAdventureFestivalPage({ params }: PageProps) 
           <span className={styles.linkCardTitle}>Jumping Puzzle Portal Escort - Community and Resources around SAB</span>
         </a>
       </div>
-
-      <Headline id="inventory">Account Dashboard</Headline>
-      <p><Trans id="festival.super-adventure.items.description"/></p>
-      <Dashboard initialColumns={items.map((item) => ({ type: 'item', id: item.id, item }))} embedded/>
 
       {festival && (
         <StructuredData data={{

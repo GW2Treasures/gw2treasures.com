@@ -12,6 +12,7 @@ import { Gw2AccountBodyCells, Gw2AccountHeaderCells } from '../Gw2Api/Gw2Account
 import { FormatNumber } from '../Format/FormatNumber';
 import type { AchievementFlags } from '@gw2api/types/data/achievement';
 import type { AchievementProgressSnapshot } from './share/types';
+import common from '@gw2treasures/ui/common.module.css';
 
 const requiredScopes = [Scope.GW2_Progression];
 
@@ -79,8 +80,8 @@ export const AccountAchievementProgressCell: FC<AccountAchievementProgressCellPr
 
   return (
     <ProgressCell progress={progress.done ? 1 : (progress.current ?? 0) / (progress.max ?? 1)}>
-      {progress.done ? <Icon icon="checkmark"/> : <><FormatNumber value={progress.current ?? 0}/> / <FormatNumber value={progress.max ?? 1}/></>}
-      {progress.repeated && ` (↻ ${progress.repeated})`}
+      {progress.done ? <Icon icon="checkmark"/> : <span className={common.nowrap}><FormatNumber value={progress.current ?? 0}/> / <FormatNumber value={progress.max ?? 1}/></span>}
+      {progress.repeated && <span className={common.nowrap}><wbr/>{` (↻ ${progress.repeated})`}</span>}
     </ProgressCell>
   );
 };

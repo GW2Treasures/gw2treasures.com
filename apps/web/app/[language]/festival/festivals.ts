@@ -37,5 +37,5 @@ export function isFestivalActive(festival: FestivalInfo | BonusEventInfo | undef
 export const festivals: FestivalInfo[] = [
   { type: Festival.Wintersday, startsAt: new Date('2024-12-10T17:00:00.000Z'), endsAt: new Date('2025-01-02T17:00:00.000Z') },
   { type: Festival.LunarNewYear, startsAt: new Date('2025-01-28T17:00:00.000Z'), endsAt: new Date('2025-02-18T20:00:00.000Z') },
-  { type: Festival.SuperAdventureFestival, startsAt: new Date('2025-04-15T17:00:00.000Z'), endsAt: new Date('2025-05-06T20:00:00.000Z') },
+  { type: Festival.SuperAdventureFestival, startsAt: new Date('2025-04-15T16:00:00.000Z'), endsAt: new Date('2025-05-06T20:00:00.000Z') },
 ];

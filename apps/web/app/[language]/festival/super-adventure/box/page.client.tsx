@@ -235,9 +235,9 @@ const SabAccountTableSongsCell: FC<SabAccountTableSongsCellProps> = ({ songs, tr
 
   const tip = (
     <ul className={styles.songsTip}>
-      <li className={!unlocks.has(1) ? styles.songMissing : undefined}><Icon icon={unlocks.has(1) ? 'checkmark' : 'cancel'}/> {translations['festival.super-adventure.sab.song.secret_song']}</li>
-      <li className={!unlocks.has(2) ? styles.songMissing : undefined}><Icon icon={unlocks.has(2) ? 'checkmark' : 'cancel'}/> {translations['festival.super-adventure.sab.song.gatekeeper_lullaby']}</li>
-      <li className={!unlocks.has(3) ? styles.songMissing : undefined}><Icon icon={unlocks.has(3) ? 'checkmark' : 'cancel'}/> {translations['festival.super-adventure.sab.song.shatter_serenade']}</li>
+      <li className={!unlocks.has(1) ? styles.songMissing : undefined}><Icon icon={unlocks.has(1) ? 'checkmark' : 'cancel'}/> {translations['festival.super-adventure.sab.song.secret_song']} <span style={{ color: 'var(--color-text-muted)' }}>(1-2-3-1-2-3)</span></li>
+      <li className={!unlocks.has(2) ? styles.songMissing : undefined}><Icon icon={unlocks.has(2) ? 'checkmark' : 'cancel'}/> {translations['festival.super-adventure.sab.song.gatekeeper_lullaby']} <span style={{ color: 'var(--color-text-muted)' }}>(3-3-2-3-3-1)</span></li>
+      <li className={!unlocks.has(3) ? styles.songMissing : undefined}><Icon icon={unlocks.has(3) ? 'checkmark' : 'cancel'}/> {translations['festival.super-adventure.sab.song.shatter_serenade']} <span style={{ color: 'var(--color-text-muted)' }}>(1-3-3-1-3-3)</span></li>
     </ul>
   );
 

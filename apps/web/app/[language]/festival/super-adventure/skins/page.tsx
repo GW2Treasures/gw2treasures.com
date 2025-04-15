@@ -32,6 +32,9 @@ const skinIds = [
   12106, // Powered Shoulders
   12116, // Powered Shoulders
   12117, // Powered Shoulders
+  12988, // Powered Boots
+  12993, // Powered Boots
+  12996, // Powered Boots
 ];
 
 const skinSetNames = [
@@ -45,6 +48,7 @@ const skinSetNames = [
   'King Toad\'s weapons',
   'Retro-Forged weapons',
   'Storm Wizard\'s weapons',
+  'Super Rainbow Cloud weapons',
   'Super weapons',
 ];
 

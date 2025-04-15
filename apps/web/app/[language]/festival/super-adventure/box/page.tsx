@@ -3,10 +3,11 @@ import { Description } from '@/components/Layout/Description';
 import { PageLayout } from '@/components/Layout/PageLayout';
 import type { PageProps } from '@/lib/next';
 import { getTranslate, translateMany } from '@/lib/translate';
-import { getAlternateUrls } from '@/lib/url';
+import { getAlternateUrls, getCurrentUrl } from '@/lib/url';
 import type { Metadata } from 'next';
 import { SabAccounts } from './page.client';
 import { pageView } from '@/lib/pageView';
+import ogImage from './og.png';
 
 
 export default async function SuperAdventureFestivalCharactersPage({ params }: PageProps) {
@@ -67,5 +68,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: t('festival.super-adventure.sab'),
     description: t('festival.super-adventure.sab.description'),
     alternates: getAlternateUrls('festival/super-adventure/box', language),
+
+    openGraph: {
+      images: [{ url: new URL(ogImage.src, await getCurrentUrl()), width: ogImage.width, height: ogImage.height }],
+    },
+    twitter: { card: 'summary_large_image' }
   };
 }

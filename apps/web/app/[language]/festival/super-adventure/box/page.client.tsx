@@ -209,7 +209,7 @@ const allUpgrades = [
   { id: -1, iconId: 563476, iconType: 'skill', name: 'boomerang' as const },
   { id: 9, iconId: 563486, iconType: 'skill', name: 'mini_bomb' as const },
   { id: 10, iconId: 563487, iconType: 'skill', name: 'mega_bomb' as const },
-  { id: 2, iconId: 563489, iconType: 'skill', name: 'candle' as const },
+  { id: 12, iconId: 563489, iconType: 'skill', name: 'candle' as const },
   { id: 13, iconId: 563490, iconType: 'skill', name: 'torch' as const },
   { id: 15, iconId: 563494, iconType: 'skill', name: 'wooden_whistle' as const },
   { id: 18, iconId: 563478, iconType: 'skill', name: 'digger' as const },

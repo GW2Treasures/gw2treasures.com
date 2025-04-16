@@ -36,6 +36,7 @@ export interface SabAccountsProps {
     | 'festival.super-adventure.sab.mode.tribulation'
     | 'festival.super-adventure.sab.unlock.chain_stick'
     | 'festival.super-adventure.sab.unlock.slingshot'
+    | 'festival.super-adventure.sab.unlock.bow'
     | 'festival.super-adventure.sab.unlock.whip'
     | 'festival.super-adventure.sab.unlock.boomerang'
     | 'festival.super-adventure.sab.unlock.mini_bomb'
@@ -205,11 +206,12 @@ const SabAccountTableUnlocksCell: FC<SabAccountTableUnlocksCellProps> = ({ upgra
 const allUpgrades = [
   { id: 1, iconId: 563502, iconType: 'skill', name: 'chain_stick' as const },
   { id: 3, iconId: 563481, iconType: 'skill', name: 'slingshot' as const },
+  { id: 4, iconId: 563484, iconType: 'skill', name: 'bow' as const },
   { id: 6, iconId: 563482, iconType: 'skill', name: 'whip' as const },
   { id: -1, iconId: 563476, iconType: 'skill', name: 'boomerang' as const },
   { id: 9, iconId: 563486, iconType: 'skill', name: 'mini_bomb' as const },
   { id: 10, iconId: 563487, iconType: 'skill', name: 'mega_bomb' as const },
-  { id: 2, iconId: 563489, iconType: 'skill', name: 'candle' as const },
+  { id: 12, iconId: 563489, iconType: 'skill', name: 'candle' as const },
   { id: 13, iconId: 563490, iconType: 'skill', name: 'torch' as const },
   { id: 15, iconId: 563494, iconType: 'skill', name: 'wooden_whistle' as const },
   { id: 18, iconId: 563478, iconType: 'skill', name: 'digger' as const },
@@ -222,7 +224,7 @@ const allUpgrades = [
   { id: 34, iconId: 563522, iconType: 'skill', name: 'medium_health_potion' as const },
   { id: 24, name: 'bauble_purse' as const },
   { id: 25, name: 'bauble_tote_bag' as const },
-  { id: -2, name: 'bauble_backpack' as const },
+  { id: 26, name: 'bauble_backpack' as const },
 ];
 
 

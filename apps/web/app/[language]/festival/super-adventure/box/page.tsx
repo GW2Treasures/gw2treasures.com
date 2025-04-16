@@ -23,6 +23,7 @@ export default async function SuperAdventureFestivalCharactersPage({ params }: P
     'festival.super-adventure.sab.mode.tribulation',
     'festival.super-adventure.sab.unlock.chain_stick',
     'festival.super-adventure.sab.unlock.slingshot',
+    'festival.super-adventure.sab.unlock.bow',
     'festival.super-adventure.sab.unlock.whip',
     'festival.super-adventure.sab.unlock.boomerang',
     'festival.super-adventure.sab.unlock.mini_bomb',

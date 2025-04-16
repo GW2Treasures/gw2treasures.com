@@ -4,7 +4,7 @@
 
 .upgrades {
   display: grid;
-  grid-template-columns: repeat(20, 1fr);
+  grid-template-columns: repeat(21, 1fr);
   align-items: center;
   gap: 4px;
   line-height: 1;
@@ -42,7 +42,7 @@
   }
 
   .upgrades {
-    grid-template-columns: repeat(10, 1fr);
+    grid-template-columns: repeat(11, 1fr);
   }
 }
 

@@ -1,4 +1,5 @@
 import { fetchAccounts } from '@/components/Gw2Api/fetch-accounts-action';
+import { Gw2AccountName } from '@/components/Gw2Api/Gw2AccountName';
 import { reauthorize } from '@/components/Gw2Api/reauthorize';
 import { SubmitButton } from '@gw2treasures/ui/components/Form/Buttons/SubmitButton';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
@@ -22,7 +23,7 @@ export const Accounts: FC = async () => {
           <p>gw2treasures.com is authorized to view your progress of these accounts.</p>
           <List>
             {accounts.accounts.map((account) => (
-              <li key={account.name}>{account.name}</li>
+              <li key={account.id}><Gw2AccountName account={account} long/></li>
             ))}
           </List>
 

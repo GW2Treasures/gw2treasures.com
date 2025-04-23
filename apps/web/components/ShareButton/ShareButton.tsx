@@ -22,7 +22,7 @@ export const ShareButton: FC<ShareButtonProps> = ({ data, appearance, flex }) =>
   }
 
   return (
-    <Button appearance={appearance} flex={flex} onClick={handleShare} icon="external">
+    <Button appearance={appearance} flex={flex} onClick={handleShare} icon="share">
       Share
     </Button>
   );

@@ -19,6 +19,7 @@ export type FetchAccountSuccessResponse = {
 export interface Gw2Account {
   id: string;
   name: string;
+  shared: boolean;
   verified?: boolean;
   displayName?: string | null;
 }

@@ -6,6 +6,8 @@ import { Checkbox } from '@gw2treasures/ui/components/Form/Checkbox';
 import { Scope } from '@gw2me/client';
 import { Gw2ApiContext, type GetAccountsOptions } from '@/components/Gw2Api/Gw2ApiContext';
 import { Button } from '@gw2treasures/ui/components/Form/Button';
+import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
+import { Icon } from '@gw2treasures/ui';
 
 const requiredScopes: Scope[] = [];
 const optionalScopes: Scope[] = [Scope.Accounts_DisplayName];
@@ -23,7 +25,7 @@ export const UserButtonAccounts: FC = () => {
 
   return accounts.accounts.map((account) => (
     <Checkbox key={account.id} checked={!account.hidden} onChange={(hidden) => setHidden(account.id, !hidden)}>
-      {account.displayName ?? account.name}
+      {account.displayName ?? account.name} {account.shared && <Tip tip="Shared Account"><Icon icon="share"/></Tip>}
       {account.displayName && (<div style={{ color: 'var(--color-text-muted)', fontSize: 16 }}>{account.name}</div>)}
     </Checkbox>
   ));

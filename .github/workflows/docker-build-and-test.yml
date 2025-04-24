@@ -56,7 +56,7 @@ jobs:
           ${{ matrix.target }}.tags=${{ env.IMAGE_ID }}
           *.platform=linux/${{ inputs.platform }}
           *.cache-from=type=gha,scope=build-${{ inputs.platform }}-${{ matrix.target }}
-          *.cache-to=type=gha,scope=build-${{ inputs.platform }}-${{ matrix.target }},mode=max
+          *.cache-to=type=gha,scope=build-${{ inputs.platform }}-${{ matrix.target }},mode=max,ignore-error=true
     - name: Export digest
       run: |
         mkdir -p /tmp/digests/${{ matrix.target }}

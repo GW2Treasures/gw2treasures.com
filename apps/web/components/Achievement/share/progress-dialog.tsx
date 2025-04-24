@@ -1,10 +1,12 @@
 import { Gw2Accounts } from '@/components/Gw2Api/Gw2Accounts';
 import { Scope } from '@gw2me/client';
 import { Dialog, type DialogProps } from '@gw2treasures/ui/components/Dialog/Dialog';
+import { DialogActions } from '@gw2treasures/ui/components/Dialog/DialogActions';
 import { Button } from '@gw2treasures/ui/components/Form/Button';
 import { CopyButton } from '@gw2treasures/ui/components/Form/Buttons/CopyButton';
 import { TextInput } from '@gw2treasures/ui/components/Form/TextInput';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
+import { ExternalLink } from '@gw2treasures/ui/components/Link/ExternalLink';
 import { useCallback, useState, useTransition, type FC } from 'react';
 import { createAchievementSnapshotUrl } from './action';
 
@@ -32,7 +34,7 @@ export const AchievementProgressShareDialog: FC<AchievementProgressShareDialogPr
   }, [achievementId]);
 
   return (
-    <Dialog open={open} onClose={onClose} title="Share your progress">
+    <Dialog open={open} onClose={onClose} title="Share your achievement progress">
       <p>Share a snapshot of your achievement progress with others.</p>
 
       <Gw2Accounts requiredScopes={requiredScopes}>
@@ -40,11 +42,12 @@ export const AchievementProgressShareDialog: FC<AchievementProgressShareDialogPr
           <TextInput type="text" value={url ?? ''} readOnly/>
           {url
             ? <CopyButton copy={url} icon="copy">Copy</CopyButton>
-            : <Button icon={loading ? 'loading' : 'legendary'} onClick={handleClick}>Create URL</Button>
+            : <Button icon={loading ? 'loading' : 'legendary'} onClick={handleClick} disabled={loading}>Create URL</Button>
           }
         </FlexRow>
       </Gw2Accounts>
       {error && <p style={{ marginTop: 8, color: 'var(--color-error)' }}>{error}</p>}
+      <DialogActions description={<>You can also share your account with your friends on <ExternalLink href="https://gw2.me/accounts">gw2.me</ExternalLink>.</>}/>
     </Dialog>
   );
 };

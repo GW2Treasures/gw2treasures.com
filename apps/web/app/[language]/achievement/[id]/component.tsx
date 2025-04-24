@@ -191,9 +191,9 @@ export async function AchievementPageComponent({ language, achievementId, revisi
             <>
               <Headline id="objectives" actions={(
                 <FlexRow>
+                  <AchievementProgressShareButton achievementId={achievementId}/>
                   {Bits && <ColumnSelect table={Bits}/>}
                   {columnSelect}
-                  <AchievementProgressShareButton achievementId={achievementId}/>
                 </FlexRow>
               )}
               >

@@ -27,20 +27,22 @@ export async function createAchievementSnapshotUrl(achievementId: number) {
   }
 
   // load all accounts
-  const accounts = await fetchAccounts([Scope.Accounts, Scope.GW2_Account, Scope.GW2_Progression]);
+  const accountRequest = await fetchAccounts([Scope.Accounts, Scope.GW2_Account, Scope.GW2_Progression]);
 
-  if(accounts.error !== undefined) {
+  if(accountRequest.error !== undefined) {
     return { error: 'Unable to load accounts' };
   }
 
-  const accessTokens = await fetchAccessTokens(accounts.accounts.map((account) => account.id));
+  const accounts = accountRequest.accounts.filter((account) => !account.shared);
+
+  const accessTokens = await fetchAccessTokens(accounts.map((account) => account.id));
 
   if(accessTokens.error !== undefined) {
     return { error: 'Unable to load accounts' };
   }
 
   // fetch achievement progress
-  const snapshots = await Promise.all(accounts.accounts.map<Promise<AchievementProgressSnapshot>>(async (account) => {
+  const snapshots = await Promise.all(accounts.map<Promise<AchievementProgressSnapshot>>(async (account) => {
     const allAchievementProgress = await fetchGw2Api('/v2/account/achievements', { accessToken: accessTokens.accessTokens[account.id].accessToken, schema: '2022-03-23T19:00:00.000Z' });
     const relevantAchievementProgress = allAchievementProgress.filter((achievementProgress) => achievementProgress.id === achievementId || achievement.prerequisitesIds.includes(achievementProgress.id));
 

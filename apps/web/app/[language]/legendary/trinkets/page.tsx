@@ -11,9 +11,17 @@ import type { Metadata } from 'next';
 import { createItemTable, LegendaryItemDataTable } from '../table';
 import { pageView } from '@/lib/pageView';
 
+const ignoredItems = [
+  95093, // Legendary Equipment Unlocked!
+];
+
 const loadItems = cache(async () => {
   const items = await db.item.findMany({
-    where: { type: 'Trinket', legendaryArmoryMaxCount: { not: null }},
+    where: {
+      type: 'Trinket',
+      legendaryArmoryMaxCount: { not: null },
+      id: { notIn: ignoredItems },
+    },
     select: {
       ...linkProperties,
       type: true, subtype: true,

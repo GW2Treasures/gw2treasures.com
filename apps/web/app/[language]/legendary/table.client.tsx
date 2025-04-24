@@ -30,7 +30,7 @@ export const LegendaryArmoryCell: FC<LegendaryArmoryCellProps> = ({ itemId, acco
   );
 
   return (
-    <ProgressCell progress={Math.min(legendaryArmory?.count ?? 0, 1) / (maxCount ?? 1)}>
+    <ProgressCell progress={Math.min((legendaryArmory?.count ?? 0) / (maxCount ?? 1), 1)}>
       <FormatNumber value={legendaryArmory?.count ?? 0}/> / <FormatNumber value={maxCount}/>
     </ProgressCell>
   );

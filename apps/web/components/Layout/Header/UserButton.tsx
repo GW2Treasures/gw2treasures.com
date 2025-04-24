@@ -77,6 +77,9 @@ const UserButtonButton: FC<UserButtonButtonProps> = ({ user, language }) => {
         <form action={reauthorize.bind(null, [], 'consent')} style={{ display: 'flex' }}>
           <SubmitButton icon="gw2me-outline" appearance="menu" flex>Manage Accounts</SubmitButton>
         </form>
+        <LinkButton external target="_blank" appearance="menu" href="https://gw2.me/accounts" icon="share">
+          Share your Accounts
+        </LinkButton>
         <UserButtonAccounts/>
       </MenuList>
     </DropDown>

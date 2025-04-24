@@ -124,6 +124,8 @@ export async function AchievementPageComponent({ language, achievementId, revisi
   const OptionalCategoryAchievementTable = hasCategoryAchievements ? AchievementTable : ({ children }: { children: (t: ReactNode, c: ReactNode) => ReactNode }) => children(null, null);
   // const CategoryAchievements = hasCategoryAchievements ? createDataTable(categoryAchievements, (achievement) => achievement.id) : undefined;
 
+  const hasObjectives = !!(data.requirement || (data.bits && data.bits.length > 0) || categoryAchievements.length > 0);
+
   const t = getTranslate(language);
 
   return (
@@ -183,7 +185,7 @@ export async function AchievementPageComponent({ language, achievementId, revisi
         </>
       )}
 
-      {(data.requirement || (data.bits && data.bits.length > 0) || categoryAchievements.length > 0) && (
+      {hasObjectives && (
         <OptionalCategoryAchievementTable achievements={categoryAchievements} language={language}>
           {(categoryAchievementTable, columnSelect) => (
             <>
@@ -191,6 +193,7 @@ export async function AchievementPageComponent({ language, achievementId, revisi
                 <FlexRow>
                   {Bits && <ColumnSelect table={Bits}/>}
                   {columnSelect}
+                  <AchievementProgressShareButton achievementId={achievementId}/>
                 </FlexRow>
               )}
               >
@@ -245,7 +248,7 @@ export async function AchievementPageComponent({ language, achievementId, revisi
         </OptionalCategoryAchievementTable>
       )}
 
-      <Headline id="tiers" actions={<AchievementProgressShareButton achievementId={achievementId}/>}>
+      <Headline id="tiers" actions={!hasObjectives && <AchievementProgressShareButton achievementId={achievementId}/>}>
         Tiers
       </Headline>
       <TierTable achievement={data} showAccounts={!fixedRevision} snapshots={snapshots}/>

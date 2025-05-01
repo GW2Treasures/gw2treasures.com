@@ -1,7 +1,4 @@
-declare module '*.module.css' {
-  const classes: { readonly [key: string]: string };
-  export default classes;
-}
+/// <reference types="next" />
 
 import type * as CSS from 'csstype';
 

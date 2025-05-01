@@ -4,7 +4,7 @@
 
 .hero {
   position: relative;
-  background-image: url(./login.webp);
+  background-image: url(./login.jpg);
   background-size: cover;
   background-position: center center;
   min-height: 600px;

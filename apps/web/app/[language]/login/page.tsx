@@ -6,12 +6,11 @@ import { Scope } from '@gw2me/client';
 import { getAlternateUrls } from '@/lib/url';
 import { getReturnToUrl } from '@/lib/login-url';
 import type { Metadata } from 'next';
-import { HeroLayout } from '@/components/Layout/HeroLayout';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
-import { Trans } from '@/components/I18n/Trans';
 import type { PageProps } from '@/lib/next';
 import { cookies } from 'next/headers';
 import { LoginButton } from './login.client';
+import styles from './page.module.css';
 
 export default async function LoginPage({ searchParams }: PageProps) {
   const { returnTo: returnToParam, scopes: scopesParam, error } = await searchParams;
@@ -33,26 +32,35 @@ export default async function LoginPage({ searchParams }: PageProps) {
   const showLogoutMessage = cookieStore.has('logout');
 
   return (
-    <HeroLayout hero={<Headline id="login"><Trans id="login"/></Headline>}>
-      {error !== undefined && (
-        <Notice type="error">Unknown error</Notice>
-      )}
+    <div className={styles.page}>
+      <div className={styles.hero}>
+        <div className={styles.loginForm}>
+          {error !== undefined && (
+            <Notice type="error">Unknown error</Notice>
+          )}
 
-      {showLogoutMessage && (
-        <Notice>Logout successful</Notice>
-      )}
+          {showLogoutMessage && (
+            <Notice>Logout successful</Notice>
+          )}
 
-      <p>
-        Login to contribute to gw2treasures.com and to view your progression, inventory, and more.
-      </p>
+          <Headline id="login">Login</Headline>
 
-      <LoginButton scopes={scopes} returnTo={returnTo} logout={showLogoutMessage}/>
+          <p>
+            Login to contribute to gw2treasures.com and to view your progression, inventory, and more.
+          </p>
 
-      <div style={{ display: 'flex', gap: 8, alignItems: 'center', padding: '12px 16px', border: '1px solid var(--color-border)', borderRadius: 2, marginTop: 32 }}>
-        <Icon icon="cookie"/>
-        <p>By logging in you accept that gw2treasures.com will store cookies in your browser.</p>
+          <LoginButton scopes={scopes} returnTo={returnTo} logout={showLogoutMessage}/>
+
+          <div className={styles.cookies}>
+            <Icon icon="cookie"/>
+            <p>By logging in you accept that gw2treasures.com will store cookies in your browser.</p>
+          </div>
+        </div>
+        <aside className={styles.attribution}>
+          TERRAFORM STUDIOS &copy; 2024 ArenaNet, LLC. All rights reserved.
+        </aside>
       </div>
-    </HeroLayout>
+    </div>
   );
 }
 

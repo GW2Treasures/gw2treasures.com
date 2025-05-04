@@ -21,6 +21,7 @@ const miniIds = [
   886, // Mini Adventure Boxer
   887, // Mini Blue Bauble
   918, // Mini Super Green Ooze
+  962, // Mini Super Yellow Ooze
 ];
 
 const loadData = cache(async function loadData() {

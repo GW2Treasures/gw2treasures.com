@@ -61,14 +61,14 @@ importers:
   apps/web:
     dependencies:
       '@dnd-kit/abstract':
-        specifier: 0.1.7
-        version: 0.1.7
+        specifier: 0.1.8
+        version: 0.1.8
       '@dnd-kit/helpers':
-        specifier: 0.1.7
-        version: 0.1.7
+        specifier: 0.1.8
+        version: 0.1.8
       '@dnd-kit/react':
-        specifier: 0.1.7
-        version: 0.1.7(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        specifier: 0.1.8
+        version: 0.1.8(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@floating-ui/react':
         specifier: 0.27.8
         version: 0.27.8(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -751,29 +751,29 @@ packages:
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
     engines: {node: '>=12'}
 
-  '@dnd-kit/abstract@0.1.7':
-    resolution: {integrity: sha512-+u7QaXDyVEDU7o87nzLeO59EW8fwyoLMENoHt8N8FlXFR0+HTdgb96kQdvICiJk8nGBpym0ZOsEAuhKrbBz/cg==}
+  '@dnd-kit/abstract@0.1.8':
+    resolution: {integrity: sha512-KxFbkyQQHflqaTtU9B/46IRoDVppDiY6TGy+7g2eLlPpXIaol4BJAgABdjF0Dn1ln10RR1DzlZJyf9C0hSaE8A==}
 
-  '@dnd-kit/collision@0.1.7':
-    resolution: {integrity: sha512-uqLJOBv3BLjIGMJLzz5Y+/g616F6D6FouokYk64lnX2ZgpK6BdJcFA7B1F170SxG/DeYwo6O2+SJO+MdONyyQw==}
+  '@dnd-kit/collision@0.1.8':
+    resolution: {integrity: sha512-mLEii1qxpW6XaYnQ8TdrUi5Azsn6trG+yeuiu4xGB9cxNGdgfnSK7JQpVntlgOFdg9+lep189f4zRibzmrY/uA==}
 
-  '@dnd-kit/dom@0.1.7':
-    resolution: {integrity: sha512-MgykoV6vbLo1HnjVxP8WGlwKSlnReLhMvn5LyYI+so7G2IZUzK9npf/nRqkxMEeMIdvn49DN10hy3be9sMAhKg==}
+  '@dnd-kit/dom@0.1.8':
+    resolution: {integrity: sha512-GN34YS+tErLRsIVpg1XCBqvIklvneNjiquQSYKG0HbWjedot7LjxssCLoSb40lEWMHgL0NHQdTw5rBB59dNYVQ==}
 
-  '@dnd-kit/geometry@0.1.7':
-    resolution: {integrity: sha512-aBpvmsIARSXYT30nxKw8iK7AScYBJ0jOd72TYsKvyGTwIFfSdcnsSCaqkUA5J8CW/E68zl2qAl0SBEkN3XShzQ==}
+  '@dnd-kit/geometry@0.1.8':
+    resolution: {integrity: sha512-KlHvIFPpeSnc/78HK/cHlmrw0frzRnnVjsx6Ck+5XKduK0lFGb18tzCpDYHqjqG7d88z0v1dHvi8H5vZXqGcjw==}
 
-  '@dnd-kit/helpers@0.1.7':
-    resolution: {integrity: sha512-SpUUdxBf1nwYNUeoHLsbNkRhZQO5IQNovpKSe7F2Zwv8w7v2nzGfXZvcAABwM3fTTrOYhwfId00E5CzCAleTkg==}
+  '@dnd-kit/helpers@0.1.8':
+    resolution: {integrity: sha512-JtUPzu0pOsuSkk3RxYlOFqLN/9GrUYyA3Oa3RBKxWSJ9lS+2ozs3vApuBxxVNyFpvin9VOrU9Fs3R1Zldpxd7w==}
 
-  '@dnd-kit/react@0.1.7':
-    resolution: {integrity: sha512-qREkP4gRfFr3pL3raN800tJyDVTL8R92NJUZbB9JzavTo3R9WkxGt7+TV1az89vWY0b7GiKAjwIEeHKmUpoLSQ==}
+  '@dnd-kit/react@0.1.8':
+    resolution: {integrity: sha512-u3fQVcNMoKH+E1l/U+epKtjF3/855FQsHKk8vA6yOQu0lMhCbp6MLYIkNKoLqrB21a4+2QuUJaPRkyRJnb7eaQ==}
     peerDependencies:
       react: 19.1.0
       react-dom: 19.1.0
 
-  '@dnd-kit/state@0.1.7':
-    resolution: {integrity: sha512-XIBZopBZ0PIrCWvH9Qm+eR143jTVeYa6xZYIadCGvws1U4c9pUqZDF5oQaPTToeZCTBk2nK4ihKif53jTrV2sg==}
+  '@dnd-kit/state@0.1.8':
+    resolution: {integrity: sha512-JZYHHNLU0Nwjb4OwbbctOY7sgv2eLsvlqZIzvIJ8dr6akGypJH/KFJ1PtlL54V1PDbFnMreOipdYgcK1GX3YEw==}
 
   '@emnapi/runtime@1.4.0':
     resolution: {integrity: sha512-64WYIf4UYcdLnbKn/umDlNjQDSS8AgZrI/R9+x5ilkUVFxXcA1Ebl+gQLc/6mERA4407Xof0R7wEyEuj091CVw==}
@@ -4922,46 +4922,46 @@ snapshots:
     dependencies:
       '@jridgewell/trace-mapping': 0.3.9
 
-  '@dnd-kit/abstract@0.1.7':
+  '@dnd-kit/abstract@0.1.8':
     dependencies:
-      '@dnd-kit/geometry': 0.1.7
-      '@dnd-kit/state': 0.1.7
+      '@dnd-kit/geometry': 0.1.8
+      '@dnd-kit/state': 0.1.8
       tslib: 2.8.1
 
-  '@dnd-kit/collision@0.1.7':
+  '@dnd-kit/collision@0.1.8':
     dependencies:
-      '@dnd-kit/abstract': 0.1.7
-      '@dnd-kit/geometry': 0.1.7
+      '@dnd-kit/abstract': 0.1.8
+      '@dnd-kit/geometry': 0.1.8
       tslib: 2.8.1
 
-  '@dnd-kit/dom@0.1.7':
+  '@dnd-kit/dom@0.1.8':
     dependencies:
-      '@dnd-kit/abstract': 0.1.7
-      '@dnd-kit/collision': 0.1.7
-      '@dnd-kit/geometry': 0.1.7
-      '@dnd-kit/state': 0.1.7
+      '@dnd-kit/abstract': 0.1.8
+      '@dnd-kit/collision': 0.1.8
+      '@dnd-kit/geometry': 0.1.8
+      '@dnd-kit/state': 0.1.8
       tslib: 2.8.1
 
-  '@dnd-kit/geometry@0.1.7':
+  '@dnd-kit/geometry@0.1.8':
     dependencies:
-      '@dnd-kit/state': 0.1.7
+      '@dnd-kit/state': 0.1.8
       tslib: 2.8.1
 
-  '@dnd-kit/helpers@0.1.7':
+  '@dnd-kit/helpers@0.1.8':
     dependencies:
-      '@dnd-kit/abstract': 0.1.7
+      '@dnd-kit/abstract': 0.1.8
       tslib: 2.8.1
 
-  '@dnd-kit/react@0.1.7(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
+  '@dnd-kit/react@0.1.8(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
     dependencies:
-      '@dnd-kit/abstract': 0.1.7
-      '@dnd-kit/dom': 0.1.7
-      '@dnd-kit/state': 0.1.7
+      '@dnd-kit/abstract': 0.1.8
+      '@dnd-kit/dom': 0.1.8
+      '@dnd-kit/state': 0.1.8
       react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)
       tslib: 2.8.1
 
-  '@dnd-kit/state@0.1.7':
+  '@dnd-kit/state@0.1.8':
     dependencies:
       '@preact/signals-core': 1.8.0
       tslib: 2.8.1

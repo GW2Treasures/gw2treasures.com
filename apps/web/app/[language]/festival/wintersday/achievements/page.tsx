@@ -9,7 +9,6 @@ import type { PageProps } from '@/lib/next';
 import { db } from '@/lib/prisma';
 import type { AchievementFlags } from '@gw2api/types/data/achievement';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
-import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import type { Metadata } from 'next';
 import { requiredScopes } from '../helper';
 import { pageView } from '@/lib/pageView';
@@ -78,11 +77,10 @@ export default async function WintersdayAchievementsPage({ params }: PageProps) 
         )}
       </AchievementTable>
 
-      <AchievementTable achievements={dailyAchievements} language={language}>
+      <AchievementTable achievements={dailyAchievements} language={language} collapsed="historic" sort>
         {(table, columnSelect) => (
           <>
             <Headline actions={columnSelect} id="daily">Daily Achievements</Headline>
-            <Notice>The Guild Wars 2 API does not report progress for daily achievements.</Notice>
             {table}
           </>
         )}

@@ -9,7 +9,6 @@ import type { PageProps } from '@/lib/next';
 import { db } from '@/lib/prisma';
 import type { AchievementFlags } from '@gw2api/types/data/achievement';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
-import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import type { Metadata } from 'next';
 import { requiredScopes } from '../helper';
 import { pageView } from '@/lib/pageView';
@@ -58,7 +57,7 @@ const loadData = cache(async function loadData() {
   }, { achievements: [], dailyAchievements: [] });
 
   return { ...groupedAchievements };
-}, ['super-adventure-box'], { revalidate: 60 * 60 });
+}, ['super-adventure-box-achievements'], { revalidate: 60 * 60 });
 
 export default async function SuperAdventureFestivalAchievementsPage({ params }: PageProps) {
   const { language } = await params;
@@ -78,11 +77,10 @@ export default async function SuperAdventureFestivalAchievementsPage({ params }:
         )}
       </AchievementTable>
 
-      <AchievementTable achievements={dailyAchievements} language={language}>
+      <AchievementTable achievements={dailyAchievements} language={language} collapsed="historic" sort>
         {(table, columnSelect) => (
           <>
             <Headline actions={columnSelect} id="daily">Daily Achievements</Headline>
-            <Notice>The Guild Wars 2 API does not report progress for daily achievements.</Notice>
             {table}
           </>
         )}

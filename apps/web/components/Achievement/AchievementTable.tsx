@@ -34,15 +34,30 @@ export interface AchievementTableProps {
   showRewardsTitle?: boolean;
   showRewardsItem?: boolean;
 
-  collapsed?: boolean;
+  collapsed?: boolean | 'historic';
   children?: (table: ReactNode, columnSelect: ReactNode) => ReactNode
+}
+
+function compare(language: Language, a: AchievementTableProps['achievements'][number], b: AchievementTableProps['achievements'][number]) {
+  if(a.historic !== b.historic) {
+    return a.historic ? 1 : -1;
+  }
+
+  const aHasMoveToTop = a.flags.includes('MoveToTop');
+  if(aHasMoveToTop !== b.flags.includes('MoveToTop')) {
+    return aHasMoveToTop ? -1 : 1;
+  }
+
+  return compareLocalizedName(language)(a, b);
 }
 
 export const AchievementTable: FC<AchievementTableProps> = ({ language, achievements, headline, headlineId, sort = true, showMastery, showRewardsTitle, showRewardsItem, collapsed, children }) => {
   // sort achievements first by "moveToTop", then alphabetically
   const sortedAchievements = sort
-    ? achievements.toSorted((a, b) => a.flags.includes('MoveToTop') ? -1 : b.flags.includes('MoveToTop') ? 1 : compareLocalizedName(language)(a, b))
-    : achievements;
+    ? achievements.toSorted((a, b) => compare(language, a, b))
+    : collapsed === 'historic'
+      ? achievements.toSorted((a, b) => a.historic !== b.historic ? (a.historic ? 1 : -1) : 0)
+      : achievements;
 
   const anyHasFlags = sortedAchievements.some(({ flags }) => flags.some((flag) => displayedFlags.includes(flag)));
   const anyHasMastery = sortedAchievements.some(({ mastery }) => mastery);
@@ -51,8 +66,10 @@ export const AchievementTable: FC<AchievementTableProps> = ({ language, achievem
 
   const Achievements = createDataTable(sortedAchievements, ({ id }) => id);
 
+  const historicCount = sortedAchievements.filter(({ historic }) => !historic).length;
+
   const table = (
-    <Achievements.Table collapsed={collapsed}>
+    <Achievements.Table collapsed={collapsed === 'historic' ? historicCount : collapsed}>
       <Achievements.Column id="id" title="ID" sortBy="id" hidden small align="right">
         {({ id }) => id}
       </Achievements.Column>

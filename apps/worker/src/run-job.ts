@@ -62,7 +62,7 @@ export async function runJob(job: Job) {
   } finally {
     // if the job is a cron job, schedule again
     if(job.cron) {
-      const interval = CronExpressionParser.parse(job.cron, { tz: 'utc' });
+      const interval = CronExpressionParser.parse(job.cron, { tz: 'utc', hashSeed: job.type });
 
       await db.job.update({
         where: { id: job.id },

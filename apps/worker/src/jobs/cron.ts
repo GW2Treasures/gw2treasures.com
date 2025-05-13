@@ -5,62 +5,69 @@ import { JobName } from '.';
 import { db } from '../db';
 import { toId } from './helper/toId';
 
+const schedule = {
+  daily: 'H H * * *',
+  hourly: 'H * * * *',
+  every5Minutes: 'H/5 * * * *',
+  every10Minutes: 'H/10 * * * *',
+} as const;
+
 export async function registerCronJobs() {
   console.log('Registering cron jobs...');
 
   await registerJob('test', '0 0 * * *');
 
-  await registerJob('items.check', '*/5 * * * *');
-  await registerJob('items.update', '*/3 * * * *');
-  await registerJob('items.migrate', '*/6 * * * *');
-  await registerJob('items.containerContent', '47 11 * * *');
-  await registerJob('items.views', '56 * * * *');
-  await registerJob('items.relevancy', '59 * * * *');
-  await registerJob('items.legendary-armory', '31 * * * *');
+  await registerJob('items.check', schedule.every5Minutes);
+  await registerJob('items.update', 'H/3 * * * *');
+  await registerJob('items.migrate', 'H/6 * * * *');
+  await registerJob('items.containerContent', schedule.daily);
+  await registerJob('items.views', schedule.hourly);
+  await registerJob('items.relevancy', schedule.hourly);
+  await registerJob('items.legendary-armory', schedule.hourly);
 
-  await registerJob('skills.check', '*/5 * * * *');
-  await registerJob('skills.update', '*/3 * * * *');
-  await registerJob('skills.migrate', '*/6 * * * *');
-  await registerJob('skills.views', '51 * * * *');
+  await registerJob('skills.check', schedule.every5Minutes);
+  await registerJob('skills.update', 'H/3 * * * *');
+  await registerJob('skills.migrate', 'H/6 * * * *');
+  await registerJob('skills.views', schedule.hourly);
 
-  await registerJob('skins', '*/5 * * * *');
-  await registerJob('skins.unlocks', '11 * * * *');
-  await registerJob('skins.views', '49 * * * *');
-  await registerJob('skins.wiki', '53 * * * *');
+  await registerJob('skins', schedule.every5Minutes);
+  await registerJob('skins.unlocks', schedule.hourly);
+  await registerJob('skins.views', schedule.hourly);
+  await registerJob('skins.wiki', schedule.hourly);
 
-  await registerJob('achievements', '*/5 * * * *');
-  await registerJob('achievements.categories', '*/10 * * * *');
-  await registerJob('achievements.groups', '*/10 * * * *');
-  await registerJob('achievements.unlocks', '7 * * * *');
-  await registerJob('achievements.views', '57 * * * *');
+  await registerJob('achievements', schedule.every5Minutes);
+  await registerJob('achievements.categories', schedule.every10Minutes);
+  await registerJob('achievements.groups', schedule.every10Minutes);
+  await registerJob('achievements.unlocks', schedule.hourly);
+  await registerJob('achievements.views', schedule.hourly);
 
-  await registerJob('recipes.check', '*/5 * * * *');
-  await registerJob('recipes.update', '*/3 * * * *');
-  await registerJob('recipes.migrate', '*/6 * * * *');
+  await registerJob('recipes.check', schedule.every5Minutes);
+  await registerJob('recipes.update', 'H/3 * * * *');
+  await registerJob('recipes.migrate', 'H/6 * * * *');
 
-  await registerJob('colors', '*/5 * * * *');
-  await registerJob('currencies', '*/5 * * * *');
-  await registerJob('guild-upgrades', '*/5 * * * *');
-  await registerJob('titles', '*/5 * * * *');
+  await registerJob('colors', schedule.every5Minutes);
+  await registerJob('currencies', schedule.every5Minutes);
+  await registerJob('guild-upgrades', schedule.every5Minutes);
+  await registerJob('titles', schedule.every5Minutes);
 
-  await registerJob('minis', '*/5 * * * *');
-  await registerJob('minis.unlocks', '7 * * * *');
+  await registerJob('minis', schedule.every5Minutes);
+  await registerJob('minis.unlocks', schedule.hourly);
 
-  await registerJob('homestead.decorations', '*/5 * * * *');
-  await registerJob('homestead.decorations.categories', '*/10 * * * *');
-  await registerJob('homestead.glyphs', '*/10 * * * *');
-  await registerJob('wizardsvault.season', '*/10 * * * *');
-  await registerJob('wizardsvault.listings', '*/5 * * * *');
-  await registerJob('wizardsvault.objectives', '13 * * * *');
-  await registerJob('wizardsvault.purchase-limit', '47 * * * *');
+  await registerJob('homestead.decorations', schedule.every5Minutes);
+  await registerJob('homestead.decorations.categories', schedule.every10Minutes);
+  await registerJob('homestead.glyphs', schedule.every10Minutes);
+  await registerJob('wizardsvault.season', schedule.every10Minutes);
+  await registerJob('wizardsvault.listings', schedule.every5Minutes);
+  await registerJob('wizardsvault.objectives', schedule.hourly);
+  await registerJob('wizardsvault.purchase-limit', schedule.hourly);
 
   await registerJob('tp', '* * * * *');
 
-  await registerJob('gw2api-requests.cleanup', '33 3 * * *');
+  await registerJob('gw2api-requests.cleanup', 'H 3 * * *');
 
-  await registerJob('icons.colors', '37 * * * *');
+  await registerJob('icons.colors', schedule.hourly);
 
-  await registerJob('jobs.cleanup', '8 * * * *');
+  await registerJob('jobs.cleanup', schedule.hourly);
 }
 
 async function registerJob(name: JobName, cron: string, data: Prisma.InputJsonValue = {}) {
@@ -77,7 +84,7 @@ async function registerJob(name: JobName, cron: string, data: Prisma.InputJsonVa
     // add new cron job
     console.log(`Registering new cron job ${chalk.blue(name)}.`);
 
-    const scheduledAt = CronExpressionParser.parse(cron, { tz: 'utc' }).next().toDate();
+    const scheduledAt = CronExpressionParser.parse(cron, { tz: 'utc', hashSeed: name }).next().toDate();
     await db.job.create({ data: { type: name, data, cron, scheduledAt }});
     return;
   }
@@ -87,7 +94,7 @@ async function registerJob(name: JobName, cron: string, data: Prisma.InputJsonVa
     if(jobs[0].cron !== cron || JSON.stringify(jobs[0].data) !== JSON.stringify(data)) {
       console.log(`Updating cron job ${chalk.blue(name)}.`);
 
-      const scheduledAt = CronExpressionParser.parse(cron, { tz: 'utc' }).next().toDate();
+      const scheduledAt = CronExpressionParser.parse(cron, { tz: 'utc', hashSeed: name }).next().toDate();
       await db.job.update({ where: { id: jobs[0].id }, data: { data, cron, scheduledAt }});
     }
 

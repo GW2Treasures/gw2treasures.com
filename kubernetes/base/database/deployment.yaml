@@ -32,7 +32,7 @@ spec:
           medium: Memory
       containers:
       - name: database-pg17
-        image: timescale/timescaledb:2.19.3-pg17
+        image: timescale/timescaledb:2.20.0-pg17
         args:
         - "postgres"
         - "-c"

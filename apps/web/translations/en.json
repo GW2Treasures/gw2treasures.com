@@ -34,6 +34,7 @@
   "navigation.homestead": "Homestead",
   "navigation.fractals": "Fractals",
   "navigation.wardrobe": "Wardrobe",
+  "navigation.instances": "Instances",
   "itemTable.column.id": "ID",
   "itemTable.column.item": "Item",
   "itemTable.column.level": "Level",

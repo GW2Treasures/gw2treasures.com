@@ -1,6 +1,4 @@
 /* eslint-disable @next/next/no-img-element */
-import { HeroLayout } from '@/components/Layout/HeroLayout';
-import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
 import data from './fractals.json';
 import { Trans } from '@/components/I18n/Trans';
@@ -18,6 +16,7 @@ import type { PageProps } from '@/lib/next';
 import type { Language } from '@gw2treasures/database';
 import ogImage from './fractals-og.png';
 import { ResetTimer } from '@/components/Reset/ResetTimer';
+import { Description } from '@/components/Layout/Description';
 
 
 export default async function FractalsPage({ params, searchParams }: PageProps) {
@@ -47,8 +46,12 @@ export default async function FractalsPage({ params, searchParams }: PageProps) 
   const t = getTranslate(language);
 
   return (
-    <HeroLayout hero={<Headline id="fractals" actions={<span>Reset: <ResetTimer reset="current-daily"/></span>}><Trans id="fractals"/></Headline>}>
-      <div style={{ marginTop: -16, marginBottom: 16, marginInline: -16, padding: 16, background: 'var(--color-background-light)', borderBottom: '1px solid var(--color-border)', display: 'flex', gap: 16, alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap' }}>
+    <>
+      <Description actions={<span>Reset: <ResetTimer reset="current-daily"/></span>}>
+        <Trans id="fractals.description"/>
+      </Description>
+
+      <div style={{ marginBottom: 16, marginInline: -16, paddingBlock: 12, paddingInline: 16, background: 'var(--color-background-light)', borderBlock: '1px solid var(--color-border-dark)', display: 'flex', gap: 16, alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap' }}>
         <label style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
           <Trans id="fractals.daily"/>:
           <Switch>
@@ -65,8 +68,6 @@ export default async function FractalsPage({ params, searchParams }: PageProps) 
         </label>
       </div>
 
-      <p><Trans id="fractals.description"/></p>
-
       <Fractals.Table>
         <Fractals.Column id="tier" title={t('fractals.tier')} sortBy="level" small>{({ tier }) => `T${tier}`}</Fractals.Column>
         <Fractals.Column id="level" title={t('fractals.level')} align="right" sortBy="level" small>{({ level }) => <FormatNumber value={level}/>}</Fractals.Column>
@@ -77,7 +78,7 @@ export default async function FractalsPage({ params, searchParams }: PageProps) 
       </Fractals.Table>
 
       <PageView page="fractal"/>
-    </HeroLayout>
+    </>
   );
 }
 

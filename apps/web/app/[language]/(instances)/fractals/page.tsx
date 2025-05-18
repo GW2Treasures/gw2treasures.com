@@ -47,11 +47,11 @@ export default async function FractalsPage({ params, searchParams }: PageProps) 
 
   return (
     <>
-      <Description actions={<span>Reset: <ResetTimer reset="current-daily"/></span>}>
+      <Description actions={<span style={{ lineHeight: '36px' }}>Reset: <ResetTimer reset="current-daily"/></span>}>
         <Trans id="fractals.description"/>
       </Description>
 
-      <div style={{ marginBottom: 16, marginInline: -16, paddingBlock: 12, paddingInline: 16, background: 'var(--color-background-light)', borderBlock: '1px solid var(--color-border-dark)', display: 'flex', gap: 16, alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap' }}>
+      <div style={{ marginTop: -8, marginBottom: 16, marginInline: -16, paddingBlock: 12, paddingInline: 16, background: 'var(--color-background-light)', borderBlock: '1px solid var(--color-border-dark)', display: 'flex', gap: 16, alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap' }}>
         <label style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
           <Trans id="fractals.daily"/>:
           <Switch>

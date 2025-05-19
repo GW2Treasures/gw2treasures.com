@@ -53,6 +53,7 @@
   "itemTable.column.sellPriceTrend": "Sell Price Trend (7d)",
   "itemTable.column.sellQuantity": "Sell Listings",
   "itemTable.column.icon": "Icon",
+  "itemTable.column.weight": "Weight",
   "itemTable.viewItem": "View Item",
   "pagination.next": "Next Page",
   "pagination.previous": "Previous Page",

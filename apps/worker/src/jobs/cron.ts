@@ -41,13 +41,10 @@ export async function registerCronJobs() {
   await registerJob('achievements.unlocks', schedule.hourly);
   await registerJob('achievements.views', schedule.hourly);
 
-  await registerJob('recipes.check', schedule.every5Minutes);
-  await registerJob('recipes.update', 'H/3 * * * *');
-  await registerJob('recipes.migrate', 'H/6 * * * *');
-
   await registerJob('colors', schedule.every5Minutes);
   await registerJob('currencies', schedule.every5Minutes);
   await registerJob('guild-upgrades', schedule.every5Minutes);
+  await registerJob('recipes', schedule.every5Minutes);
   await registerJob('titles', schedule.every5Minutes);
 
   await registerJob('minis', schedule.every5Minutes);

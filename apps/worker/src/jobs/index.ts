@@ -25,12 +25,7 @@ import { Job } from './job';
 import { JobsCleanup } from './jobs/cleanup';
 import { MinisJob } from './minis';
 import { MinisUnlocks } from './minis/unlocks';
-import { RecipesCheck } from './recipes/check';
-import { RecipesMigrate } from './recipes/migrate';
-import { RecipesNew } from './recipes/new';
-import { RecipesRediscovered } from './recipes/rediscovered';
-import { RecipesRemoved } from './recipes/removed';
-import { RecipesUpdate } from './recipes/update';
+import { RecipesJob } from './recipes';
 import { RevisionsPrevious } from './revisions/previous';
 import { SkillsCheck } from './skills/check';
 import { SkillsMigrate } from './skills/migrate';
@@ -85,16 +80,10 @@ const jobsInternal = {
   'achievements.categories': AchievementCategories,
   'achievements.groups': AchievementGroups,
 
-  'recipes.check': RecipesCheck,
-  'recipes.new': RecipesNew,
-  'recipes.migrate': RecipesMigrate,
-  'recipes.rediscovered': RecipesRediscovered,
-  'recipes.removed': RecipesRemoved,
-  'recipes.update': RecipesUpdate,
-
   'colors': ColorsJob,
   'currencies': CurrenciesJob,
   'guild-upgrades': GuildUpgradesJob,
+  'recipes': RecipesJob,
   'titles': TitlesJob,
 
   'minis': MinisJob,

@@ -7,7 +7,7 @@ import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 export default function InstancesLayout({ children }: LayoutProps) {
   return (
     <HeroLayout color="#397aa1"
-      hero={<Headline id="instances">Instances</Headline>}
+      hero={<Headline id="instances"><Trans id="navigation.instances"/></Headline>}
       navBar={(
         <NavBar base="/" items={[
           { segment: 'fractals', icon: 'fractals', label: <Trans id="fractals"/> },
@@ -21,4 +21,3 @@ export default function InstancesLayout({ children }: LayoutProps) {
     </HeroLayout>
   );
 }
-

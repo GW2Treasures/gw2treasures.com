@@ -17,6 +17,7 @@ import type { Language } from '@gw2treasures/database';
 import ogImage from './fractals-og.png';
 import { ResetTimer } from '@/components/Reset/ResetTimer';
 import { Description } from '@/components/Layout/Description';
+import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 
 
 export default async function FractalsPage({ params, searchParams }: PageProps) {
@@ -47,6 +48,11 @@ export default async function FractalsPage({ params, searchParams }: PageProps) 
 
   return (
     <>
+      <Notice>
+        The next Janthir Wilds update on June 3, 2025 will introduce a new fractal.
+        Instabilities, daily and recommended fractals will need to be updated, which will take a few days.
+      </Notice>
+
       <Description actions={<span style={{ lineHeight: '36px' }}>Reset: <ResetTimer reset="current-daily"/></span>}>
         <Trans id="fractals.description"/>
       </Description>

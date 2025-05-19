@@ -3,7 +3,6 @@ import { EntityIcon } from '@/components/Entity/EntityIcon';
 import { Gw2AccountBodyCells, Gw2AccountHeaderCells } from '@/components/Gw2Api/Gw2AccountTableCells';
 import { Trans } from '@/components/I18n/Trans';
 import { Description } from '@/components/Layout/Description';
-import { HeroLayout } from '@/components/Layout/HeroLayout';
 import { ColumnSelect } from '@/components/Table/ColumnSelect';
 import { cache } from '@/lib/cache';
 import { linkPropertiesWithoutRarity } from '@/lib/linkProperties';
@@ -12,7 +11,6 @@ import { parseIcon } from '@/lib/parseIcon';
 import { db } from '@/lib/prisma';
 import { getTranslate } from '@/lib/translate';
 import { dungeons } from '@gw2treasures/static-data/dungeons/index';
-import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
 import type { Metadata } from 'next';
@@ -25,6 +23,7 @@ import ogImage from './og.png';
 import { getCurrentUrl } from '@/lib/url';
 import { BonusEvent, getBonusEvent, isBonusEventActive } from 'app/[language]/bonus-event/bonus-events';
 import { FestivalTimer } from '@/components/Reset/FestivalTimer';
+import { ResetTimer } from '@/components/Reset/ResetTimer';
 
 const ACHIEVEMENT_DUNGEON_FREQUENTER_ID = 2963;
 
@@ -60,7 +59,7 @@ export default async function DungeonsPage({ params }: PageProps) {
   const dungeonRush = getBonusEvent(BonusEvent.DungeonRush);
 
   return (
-    <HeroLayout hero={<Headline id="dungeons"><Trans id="dungeons"/></Headline>} color="#1e5636">
+    <>
       {isBonusEventActive(dungeonRush) && (
         <div style={{ background: 'light-dark(#b8ffd6, #1c5133)', margin: '-16px -16px 16px', padding: 16, lineHeight: 1.5, borderBottom: '1px solid var(--color-border-transparent)' }}>
           <FlexRow align="space-between" wrap>
@@ -72,7 +71,11 @@ export default async function DungeonsPage({ params }: PageProps) {
         </div>
       )}
 
-      <Description actions={<ColumnSelect table={Paths}/>}>
+      <Description actions={[
+        <span key="reset">Reset: <ResetTimer reset="current-daily"/></span>,
+        <ColumnSelect key="columns" table={Paths}/>
+      ]}
+      >
         <Trans id="dungeons.description"/>
       </Description>
 
@@ -106,7 +109,7 @@ export default async function DungeonsPage({ params }: PageProps) {
           {({ id }) => <Gw2AccountBodyCells requiredScopes={requiredScopes}><DungeonDailyCell path={id} accountId={undefined as never}/></Gw2AccountBodyCells> }
         </Paths.DynamicColumns>
       </Paths.Table>
-    </HeroLayout>
+    </>
   );
 }
 

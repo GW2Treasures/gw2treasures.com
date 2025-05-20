@@ -157,7 +157,8 @@ export async function generateMetadata({ params }: PageProps) {
   };
 }
 
-const festivalHero: Record<Festival | 'default', { color: string, wrapper: ComponentType<{ children: ReactNode }> }> = {
+type WrapperConfig = { color: string, wrapper: ComponentType<{ children: ReactNode }> };
+const festivalHero: Partial<Record<Festival, WrapperConfig>> & { default: WrapperConfig } = {
   default: { color: '#b7000d', wrapper: Fragment },
   [Festival.Wintersday]: { color: '#7993a9', wrapper: Snow },
   [Festival.LunarNewYear]: { color: '#be3413', wrapper: LunarNewYearHero },

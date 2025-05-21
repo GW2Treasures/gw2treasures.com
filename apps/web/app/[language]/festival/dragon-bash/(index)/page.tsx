@@ -1,22 +1,23 @@
 /* eslint-disable @next/next/no-img-element */
 import { Trans } from '@/components/I18n/Trans';
 import { PageLayout } from '@/components/Layout/PageLayout';
-import { pageView } from '@/lib/pageView';
-import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
-import type { Metadata } from 'next';
-import { db } from '@/lib/prisma';
-import { linkProperties } from '@/lib/linkProperties';
-import { cache } from '@/lib/cache';
-import type { PageProps } from '@/lib/next';
-import { getTranslate } from '@/lib/translate';
-import { Dashboard } from 'app/[language]/dashboard/dashboard';
 import { StructuredData } from '@/components/StructuredData/StructuredData';
-import type { Event } from 'schema-dts';
+import { cache } from '@/lib/cache';
+import { linkProperties } from '@/lib/linkProperties';
+import type { PageProps } from '@/lib/next';
+import { pageView } from '@/lib/pageView';
+import { db } from '@/lib/prisma';
+import { getTranslate } from '@/lib/translate';
 import { absoluteUrl, getAlternateUrls } from '@/lib/url';
+import { Icon } from '@gw2treasures/ui';
+import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
+import { Dashboard } from 'app/[language]/dashboard/dashboard';
+import type { Metadata } from 'next';
+import type { Event } from 'schema-dts';
 import { Festival, getFestival } from '../../festivals';
 import ogImage from '../og.png';
+import { HologramStampedeTimer } from './hologram-stampede-timer';
 import styles from './page.module.css';
-import { Icon } from '@gw2treasures/ui';
 
 import thumbnailGttp from './thumbnail-gttp.png';
 import thumbnailWiki from './thumbnail-wiki.png';
@@ -63,7 +64,7 @@ export default async function DragonBashFestivalPage({ params }: PageProps) {
       <p><Trans id="festival.dragon-bash.description"/></p>
 
       <Headline id="hologram-stampede">Hologram Stampede</Headline>
-      TODO
+      <HologramStampedeTimer/>
 
       <Headline id="inventory">Account Dashboard</Headline>
       <p><Trans id="festival.dragon-bash.items.description"/></p>

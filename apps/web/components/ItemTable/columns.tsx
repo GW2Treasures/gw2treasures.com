@@ -15,6 +15,7 @@ import { translations, type TypeTranslation } from '../Item/ItemType.translation
 import { ItemType } from '../Item/ItemType';
 import type { SubType, Type } from '../Item/ItemType.types';
 import { PriceTrend } from '../Item/PriceTrend';
+import type { Weight } from '@/lib/types/weight';
 
 // typehelper
 function createColumn<Select extends Prisma.ItemSelect, Translations extends TranslationId = never>(column: ItemTableColumn<Select, Translations>) {
@@ -88,6 +89,13 @@ export const globalColumnDefinitions = {
     orderBy: [[{ type: 'asc' }, { subtype: 'asc' }], [{ type: 'desc' }, { subtype: 'desc' }]],
     translations: translations.long
   }),
+  weight: createColumn({
+    id: 'weight',
+    order: 105,
+    select: { weight: true },
+    orderBy: [{ weight: 'asc' }, { weight: 'desc' }],
+    translations: ['weight.Light', 'weight.Medium', 'weight.Heavy', 'weight.Clothing'] satisfies `weight.${Weight}`[],
+  }),
   vendorValue: createColumn({
     id: 'vendorValue',
     order: 110,
@@ -158,6 +166,7 @@ export const globalColumnRenderer: Renderer = {
   level: (item) => item.level,
   rarity: (item, t) => <Rarity rarity={item.rarity}>{t[`rarity.${item.rarity}`]}</Rarity>,
   type: (item, t) => <ItemType type={item.type as Type} subtype={item.subtype as SubType<Type>} translations={t as Record<TypeTranslation<Type, SubType<Type>>, string>} display="long"/>,
+  weight: (item, t) => item.weight ? t[`weight.${item.weight as Weight}`] : empty(),
   vendorValue: (item, t) => item.vendorValue === null ? empty(t['item.flag.NoSell']) : <Coins value={item.vendorValue}/>,
   buyPrice: (item) => !item.tpTradeable ? empty() : renderPriceWithOptionalWarning(item.tpCheckedAt, item.buyPrice),
   buyPriceTrend: (item) => !item.tpTradeable ? empty() : <PriceTrend history={item.tpHistory} price="buyPrice"/>,

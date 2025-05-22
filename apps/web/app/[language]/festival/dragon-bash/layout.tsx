@@ -13,7 +13,7 @@ import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import { FestivalTimer } from '@/components/Reset/FestivalTimer';
 
 export default function DragonBashFestivalLayout({ children }: LayoutProps) {
-  const festival = getFestival(Festival.SuperAdventureFestival);
+  const festival = getFestival(Festival.DragonBash);
 
   return (
     <HeroLayout hero={(<DragonBashHero><Headline id="dragon-bash" actions={<FestivalTimer festival={festival}/>}><div style={{ minWidth: '40vw' }}><Trans id="festival.dragon-bash"/></div></Headline></DragonBashHero>)}

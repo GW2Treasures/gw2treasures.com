@@ -63,7 +63,7 @@ export default async function DragonBashFestivalPage({ params }: PageProps) {
       <p><Trans id="festival.dragon-bash.intro"/></p>
       <p><Trans id="festival.dragon-bash.description"/></p>
 
-      <Headline id="hologram-stampede">Hologram Stampede</Headline>
+      <Headline id="hologram-stampede"><Trans id="festival.dragon-bash.hologram-stampede"/></Headline>
       <HologramStampedeTimer/>
 
       <Headline id="inventory">Account Dashboard</Headline>

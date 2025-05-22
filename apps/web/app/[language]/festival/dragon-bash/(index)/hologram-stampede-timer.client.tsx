@@ -1,5 +1,6 @@
 'use client';
 
+import { Skeleton } from '@/components/Skeleton/Skeleton';
 import { useInterval } from '@/lib/useInterval';
 import { createContext, startTransition, use, useState, type FC, type ReactNode } from 'react';
 
@@ -39,7 +40,7 @@ export const HologramStampedeNextTimer: FC<HologramStampedeNextTimerProps> = ({ 
 
   // don't render the timer on the server
   if(!time) {
-    return null;
+    return <Skeleton width={64}/>;
   }
 
   const currentMinute = time.getMinutes();

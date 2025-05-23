@@ -45,7 +45,7 @@ function renderBonuses(bonuses: ItemTooltip['bonuses']) {
       {bonuses.map((bonus, index) => (
         // eslint-disable-next-line react/no-array-index-key
         <Fragment key={index}>
-          <dt className={styles.bonus}>({index}):</dt>
+          <dt className={styles.bonus}>({index + 1}):</dt>
           <dd dangerouslySetInnerHTML={{ __html: bonus }}/>
         </Fragment>
       ))}

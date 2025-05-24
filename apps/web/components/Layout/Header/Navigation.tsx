@@ -67,6 +67,8 @@ const FestivalNavigationItem: FC = () => {
       return (<NavigationItem href="/festival/lunar-new-year" icon="lantern" style={{ color: 'light-dark( #db2f22, #f1c702)' }}><Trans id="festival.lunar-new-year"/></NavigationItem>);
     case Festival.SuperAdventureFestival:
       return (<NavigationItem href="/festival/super-adventure" icon="sab" style={{ color: 'light-dark( #cd00cd, #00ffff)', '--icon-color': 'light-dark(#000, #fff)' }}><Trans id="festival.super-adventure"/></NavigationItem>);
+    case Festival.DragonBash:
+      return (<NavigationItem href="/festival/dragon-bash" icon="dragon-bash" style={{ color: 'light-dark( #8a0009, #ff8a92)' }}><Trans id="festival.dragon-bash"/></NavigationItem>);
     default:
       return null;
   }

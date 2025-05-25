@@ -11,8 +11,11 @@ import type { PageProps } from '@/lib/next';
 import { cookies } from 'next/headers';
 import { LoginButton } from './login.client';
 import styles from './page.module.css';
+import { Trans } from '@/components/I18n/Trans';
+import { translateMany } from '@/lib/translate';
 
-export default async function LoginPage({ searchParams }: PageProps) {
+export default async function LoginPage({ searchParams, params }: PageProps) {
+  const { language } = await params;
   const { returnTo: returnToParam, scopes: scopesParam, error } = await searchParams;
   const returnTo = Array.isArray(returnToParam) ? returnToParam[0] : returnToParam;
 
@@ -40,23 +43,24 @@ export default async function LoginPage({ searchParams }: PageProps) {
           )}
 
           {showLogoutMessage && (
-            <Notice>Logout successful</Notice>
+            <Notice><Trans id="logout.success"/></Notice>
           )}
 
-          <Headline id="login">Login</Headline>
+          <Headline id="login"><Trans id="login"/></Headline>
 
           <p>
-            Login to contribute to gw2treasures.com and to view your progression, inventory, and more.
+            <Trans id="login.description"/>
           </p>
 
-          <LoginButton scopes={scopes} returnTo={returnTo} logout={showLogoutMessage}/>
+          <LoginButton scopes={scopes} returnTo={returnTo} logout={showLogoutMessage}
+            translations={translateMany(['login.button', 'login.grant-all', 'login.grant-all.hint'], language)}/>
 
-          <div className={styles.cookies}>
+          <div className={styles.cookies} data-nosnippet>
             <Icon icon="cookie"/>
-            <p>By logging in you accept that gw2treasures.com will store cookies in your browser.</p>
+            <p><Trans id="login.cookies"/></p>
           </div>
         </div>
-        <aside className={styles.attribution}>
+        <aside className={styles.attribution} data-nosnippet>
           TERRAFORM STUDIOS &copy; 2024 ArenaNet, LLC. All rights reserved.
         </aside>
       </div>

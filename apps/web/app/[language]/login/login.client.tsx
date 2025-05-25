@@ -8,6 +8,7 @@ import { useCallback, useEffect, useState, type FC, type FormEventHandler } from
 import { redirectToGw2Me } from './login.action';
 import styles from './page.module.css';
 import { Checkbox } from '@gw2treasures/ui/components/Form/Checkbox';
+import type { TranslationSubset } from '@/lib/translate';
 
 const fullScopes = [
   Scope.Identify,
@@ -31,9 +32,11 @@ export interface LoginButtonProps {
   returnTo?: string,
 
   logout: boolean,
+
+  translations: TranslationSubset<'login.button' | 'login.grant-all' | 'login.grant-all.hint'>
 }
 
-export const LoginButton: FC<LoginButtonProps> = ({ scopes, returnTo, logout }) => {
+export const LoginButton: FC<LoginButtonProps> = ({ scopes, returnTo, logout, translations }) => {
   const gw2me = useGw2MeClient();
   const triggerFedCM = useFedCM();
   const [fullPermissions, setFullPermissions] = useState(true);
@@ -81,16 +84,18 @@ export const LoginButton: FC<LoginButtonProps> = ({ scopes, returnTo, logout }) 
   return (
     <>
       <Checkbox checked={fullPermissions} onChange={setFullPermissions}>
-        <span style={{ lineHeight: 1.5, position: 'relative', top: -1 }}>Grant gw2treasures.com permissions to access your Guild Wars 2 account data required for all pages.</span>
+        <span style={{ lineHeight: 1.5, position: 'relative', top: -1 }} data-nosnippet>{translations['login.grant-all']}</span>
       </Checkbox>
       {!fullPermissions && (
-        <div className={styles.limitedPermissions}>
-          You might have to reauthorize again later to use some features.
+        <div className={styles.limitedPermissions} data-nosnippet>
+          {translations['login.grant-all.hint']}
         </div>
       )}
 
-      <form action={redirectToGw2Me.bind(null, returnTo, fullPermissions ? fullScopes.join(' ') : scopes.join(' '))} onSubmit={handleSubmit}>
-        <SubmitButton icon="gw2me" iconColor="#b7000d" type="submit" className={styles.loginButton}>Login with gw2.me</SubmitButton>
+      <form action={redirectToGw2Me.bind(null, returnTo, (fullPermissions ? fullScopes : scopes).join(' '))} onSubmit={handleSubmit}>
+        <SubmitButton icon="gw2me" iconColor="#b7000d" type="submit" className={styles.loginButton}>
+          {translations['login.button']}
+        </SubmitButton>
       </form>
     </>
   );

@@ -71,7 +71,7 @@ const UserButtonButton: FC<UserButtonButtonProps> = ({ user, language }) => {
           <LinkButton icon="developer" appearance="menu" href="/admin/users">Admin</LinkButton>
         )}
         <form action="/logout" method="POST" style={{ display: 'flex' }}>
-          <SubmitButton appearance="menu" icon="logout" flex>Logout</SubmitButton>
+          <SubmitButton appearance="menu" icon="logout" flex><Trans id="logout" language={language}/></SubmitButton>
         </form>
         <Separator/>
         <form action={reauthorize.bind(null, [], 'consent')} style={{ display: 'flex' }}>

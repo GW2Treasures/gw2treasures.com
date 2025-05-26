@@ -20,7 +20,7 @@
     "@formatjs/intl-localematcher": "0.6.1",
     "@gw2api/fetch": "0.4.1",
     "@gw2efficiency/game-data": "0.1.58",
-    "@gw2me/client": "0.8.2",
+    "@gw2me/client": "0.9.0",
     "@gw2treasures/database": "workspace:*",
     "@gw2treasures/helper": "workspace:*",
     "@gw2treasures/icons": "workspace:*",

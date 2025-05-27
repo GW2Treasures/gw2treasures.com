@@ -19,6 +19,7 @@ import ogImage from '../og.png';
 import { HologramStampedeTimer } from './hologram-stampede-timer';
 import styles from './page.module.css';
 
+import thumbnail100s from './thumbnail-100s.png';
 import thumbnailGttp from './thumbnail-gttp.png';
 import thumbnailWiki from './thumbnail-wiki.png';
 
@@ -72,6 +73,12 @@ export default async function DragonBashFestivalPage({ params }: PageProps) {
 
       <Headline id="resources">External Resources</Headline>
       <div className={styles.cards}>
+        <a href="https://www.youtube.com/watch?v=3pj6UcM6yH4" rel="noreferrer noopener" target="_blank" className={styles.linkCardYoutube}>
+          <img src={thumbnail100s.src} alt="" width={128}/>
+          <span className={styles.linkCardType}>Youtube <Icon icon="external-link"/></span>
+          <span className={styles.linkCardTitle}>Dragon Bash in 100 Seconds</span>
+        </a>
+
         <a href="https://www.youtube.com/watch?v=1SqenoV1vg8" rel="noreferrer noopener" target="_blank" className={styles.linkCardYoutube}>
           <img src={thumbnailGttp.src} alt="" width={128}/>
           <span className={styles.linkCardType}>Youtube <Icon icon="external-link"/></span>

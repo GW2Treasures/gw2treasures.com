@@ -18,7 +18,7 @@ const ignoredItems = [
 const loadItems = cache(async () => {
   const items = await db.item.findMany({
     where: {
-      type: 'Trinket',
+      type: { in: ['Trinket', 'Back', 'Relic'] },
       legendaryArmoryMaxCount: { not: null },
       id: { notIn: ignoredItems },
     },
@@ -26,7 +26,8 @@ const loadItems = cache(async () => {
       ...linkProperties,
       type: true, subtype: true,
       legendaryArmoryMaxCount: true
-    }
+    },
+    orderBy: [{ type: 'asc' }, { subtype: 'asc' }]
   });
 
   return items;

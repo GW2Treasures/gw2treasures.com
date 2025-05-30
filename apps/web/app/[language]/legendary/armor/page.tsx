@@ -36,11 +36,11 @@ export default async function LegendaryRelicsPage({ params }: PageProps) {
   const Items = createItemTable(items);
 
   // TODO: add filtering by weight
-  const types = Array.from(new Set(items.map(({ type, subtype }) => type === 'Back' ? 'Back' : `${type}.${subtype}`))) as (`Armor.${SubType<'Armor'>}` | 'Back' | `UpgradeComponent.${SubType<'UpgradeComponent'>}`)[];
+  const types = Array.from(new Set(items.map(({ type, subtype }) => `${type}.${subtype}`))) as `Armor.${SubType<'Armor'>}`[];
   const armorFilter: TableFilterDefinition[] = types.map((type) => ({
     id: type,
-    name: type === 'Back' ? t('item.type.Back') : t(`item.type.short.${type}`),
-    rowIndexes: items.map(({ type, subtype }, index) => [type === 'Back' ? 'Back' : `${type}.${subtype}`, index] as const)
+    name: t(`item.type.short.${type}`),
+    rowIndexes: items.map(({ type, subtype }, index) => [`${type}.${subtype}`, index] as const)
       .filter(([ itemType ]) => type === itemType)
       .map(([, index]) => index)
   })).sort((a, b) => a.name.localeCompare(b.name));

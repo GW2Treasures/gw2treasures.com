@@ -10,14 +10,14 @@ import type { Metadata } from 'next';
 import { createItemTable, LegendaryItemDataTable } from '../table';
 import { pageView } from '@/lib/pageView';
 
-const ignoredItems = [
-  95093, // Legendary Equipment Unlocked!
+const ignoredItems: number[] = [
+  // 95093, // Legendary Equipment Unlocked!
 ];
 
 const loadItems = cache(async () => {
   const items = await db.item.findMany({
     where: {
-      type: { in: ['Trinket', 'Back', 'Relic'] },
+      type: { in: ['UpgradeComponent'] },
       legendaryArmoryMaxCount: { not: null },
       id: { notIn: ignoredItems },
     },
@@ -26,16 +26,16 @@ const loadItems = cache(async () => {
       type: true, subtype: true,
       legendaryArmoryMaxCount: true
     },
-    orderBy: [{ type: 'asc' }, { subtype: 'asc' }]
+    orderBy: { subtype: 'asc' }
   });
 
   return items;
-}, ['legendary-trinkets'], { revalidate: 60 * 60 });
+}, ['legendary-upgrades'], { revalidate: 60 * 60 });
 
-export default async function LegendaryRelicsPage({ params }: PageProps) {
+export default async function LegendaryUpgradesPage({ params }: PageProps) {
   const { language } = await params;
 
-  await pageView('legendary/trinkets');
+  await pageView('legendary/upgrades');
 
   const items = await loadItems();
   const Items = createItemTable(items);
@@ -43,7 +43,7 @@ export default async function LegendaryRelicsPage({ params }: PageProps) {
   return (
     <>
       <Description actions={<ColumnSelect table={Items}/>}>
-        <Trans id="legendary-armory.trinkets.description"/>
+        <Trans id="legendary-armory.upgrades.description"/>
       </Description>
       <LegendaryItemDataTable language={language} table={Items}/>
     </>
@@ -55,7 +55,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const t = getTranslate(language);
 
   return {
-    title: t('legendary-armory.trinkets.title'),
-    description: t('legendary-armory.trinkets.description'),
+    title: t('legendary-armory.upgrades.title'),
+    description: t('legendary-armory.upgrades.description'),
   };
 }

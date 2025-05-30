@@ -13,11 +13,9 @@ import { TableFilterButton, TableFilterProvider, type TableFilterDefinition } fr
 import type { SubType } from '@/components/Item/ItemType.types';
 import { pageView } from '@/lib/pageView';
 
-const legendarySigilId = 91505;
-
 const loadItems = cache(async () => {
   const items = await db.item.findMany({
-    where: { OR: [{ type: 'Weapon' }, { id: legendarySigilId }], legendaryArmoryMaxCount: { not: null }},
+    where: { type: 'Weapon', legendaryArmoryMaxCount: { not: null }},
     select: {
       ...linkProperties,
       type: true, subtype: true,

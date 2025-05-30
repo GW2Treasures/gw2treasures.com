@@ -14,6 +14,7 @@ export default function LegendaryLayout({ children }: LayoutProps) {
         <NavBar base="/legendary/" items={[
           { segment: 'weapons', icon: 'legendary-weapon', label: <Trans id="legendary-armory.weapons"/> },
           { segment: 'armor', icon: 'legendary-armor', label: <Trans id="legendary-armory.armor"/> },
+          { segment: 'upgrades', icon: 'upgrade-slot', label: <Trans id="legendary-armory.upgrades"/> },
           { segment: 'trinkets', icon: 'legendary-trinket', label: <Trans id="legendary-armory.trinkets"/> },
           { segment: 'relics', icon: 'legendary-relic', label: <Trans id="legendary-armory.relics"/> },
         ]}/>

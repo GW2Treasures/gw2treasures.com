@@ -17,7 +17,7 @@ const legendaryRuneId = 91536;
 
 const loadItems = cache(async () => {
   const items = await db.item.findMany({
-    where: { OR: [{ type: { in: ['Armor', 'Back'] }}, { id: legendaryRuneId }], legendaryArmoryMaxCount: { not: null }},
+    where: { OR: [{ type: 'Armor' }, { id: legendaryRuneId }], legendaryArmoryMaxCount: { not: null }},
     select: {
       ...linkProperties,
       type: true, subtype: true,

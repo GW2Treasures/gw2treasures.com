@@ -35,7 +35,7 @@ export default async function LegendaryRelicsPage({ params }: PageProps) {
   const items = await loadItems();
   const Items = createItemTable(items);
 
-  const types = Array.from(new Set(items.map(({ type, subtype }) => `${type}.${subtype}`))) as (`Weapon.${SubType<'Weapon'>}` | `UpgradeComponent.${SubType<'UpgradeComponent'>}`)[];
+  const types = Array.from(new Set(items.map(({ type, subtype }) => `${type}.${subtype}`))) as (`Weapon.${SubType<'Weapon'>}`)[];
   const weaponFilter: TableFilterDefinition[] = types.map((type) => ({
     id: type,
     name: t(`item.type.short.${type}`),

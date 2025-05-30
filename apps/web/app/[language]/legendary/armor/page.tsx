@@ -1,17 +1,22 @@
 import { Trans } from '@/components/I18n/Trans';
-import { Description } from '@/components/Layout/Description';
 import { ColumnSelect } from '@/components/Table/ColumnSelect';
 import { cache } from '@/lib/cache';
 import { linkProperties } from '@/lib/linkProperties';
 import type { PageProps } from '@/lib/next';
 import { db } from '@/lib/prisma';
 import { getTranslate } from '@/lib/translate';
-import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import type { Metadata } from 'next';
 import { createItemTable, LegendaryItemDataTable } from '../table';
 import { TableFilterButton, TableFilterProvider, type TableFilterDefinition } from '@/components/Table/TableFilter';
 import type { SubType } from '@/components/Item/ItemType.types';
 import { pageView } from '@/lib/pageView';
+import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
+import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
+import { Gw2AccountBodyCells, Gw2AccountHeaderCells } from '@/components/Gw2Api/Gw2AccountTableCells';
+import { requiredScopes } from '../helper';
+import { LegendaryArmorOverviewCell } from './overview.client';
+import type { ArmorSlot, ArmorWeight } from './types';
+import { Gw2Accounts } from '@/components/Gw2Api/Gw2Accounts';
 
 const loadItems = cache(async () => {
   const items = await db.item.findMany({
@@ -19,11 +24,22 @@ const loadItems = cache(async () => {
     select: {
       ...linkProperties,
       type: true, subtype: true,
+      weight: true,
       legendaryArmoryMaxCount: true
     }
   });
 
-  return items;
+  const itemIdsByWeightBySlot: Record<ArmorWeight, Record<ArmorSlot, number[]>> = {
+    Light: { Helm: [], Shoulders: [], Coat: [], Gloves: [], Leggings: [], Boots: [] },
+    Medium: { Helm: [], Shoulders: [], Coat: [], Gloves: [], Leggings: [], Boots: [] },
+    Heavy: { Helm: [], Shoulders: [], Coat: [], Gloves: [], Leggings: [], Boots: [] },
+  };
+
+  for(const item of items) {
+    itemIdsByWeightBySlot[item.weight as ArmorWeight][item.subtype as ArmorSlot].push(item.id);
+  }
+
+  return { items, itemIdsByWeightBySlot };
 }, ['legendary-armor'], { revalidate: 60 * 60 });
 
 export default async function LegendaryRelicsPage({ params }: PageProps) {
@@ -32,7 +48,7 @@ export default async function LegendaryRelicsPage({ params }: PageProps) {
 
   await pageView('legendary/armor');
 
-  const items = await loadItems();
+  const { items, itemIdsByWeightBySlot } = await loadItems();
   const Items = createItemTable(items);
 
   // TODO: add filtering by weight
@@ -45,14 +61,35 @@ export default async function LegendaryRelicsPage({ params }: PageProps) {
       .map(([, index]) => index)
   })).sort((a, b) => a.name.localeCompare(b.name));
 
+  const Overview = createDataTable<ArmorWeight>(['Light', 'Medium', 'Heavy'], (w) => w);
+
   return (
-    <TableFilterProvider filter={armorFilter}>
-      <Notice icon="eye" index={false}>This is a preview page and more features will be added in the future.</Notice>
-      <Description actions={[<TableFilterButton key="filter" totalCount={items.length}/>, <ColumnSelect key="columns" table={Items}/>]}>
-        <Trans id="legendary-armory.armor.description"/>
-      </Description>
-      <LegendaryItemDataTable language={language} table={Items} filtered/>
-    </TableFilterProvider>
+    <>
+      <Gw2Accounts requiredScopes={requiredScopes} authorizationMessage={null} loginMessage={null} loading={null}>
+        <Headline id="overview">
+          <Trans id="legendary-armory.armor.overview"/>
+        </Headline>
+
+        <Overview.Table>
+          <Overview.Column id="weight" title={<Trans id="itemTable.column.weight"/>}>
+            {(weight) => <Trans id={`weight.${weight}`}/>}
+          </Overview.Column>
+          <Overview.DynamicColumns id="account-unlock" title="Account Unlocks" headers={<Gw2AccountHeaderCells small requiredScopes={requiredScopes}/>}>
+            {(weight) => <Gw2AccountBodyCells requiredScopes={requiredScopes}><LegendaryArmorOverviewCell accountId={undefined as never} itemIdsBySlot={itemIdsByWeightBySlot[weight]}/></Gw2AccountBodyCells>}
+          </Overview.DynamicColumns>
+        </Overview.Table>
+      </Gw2Accounts>
+
+      <TableFilterProvider filter={armorFilter}>
+        <Headline id="armor" actions={[<TableFilterButton key="filter" totalCount={items.length}/>, <ColumnSelect key="columns" table={Items}/>]}>
+          <Trans id="legendary-armory.armor.title"/>
+        </Headline>
+        <p>
+          <Trans id="legendary-armory.armor.description"/>
+        </p>
+        <LegendaryItemDataTable language={language} table={Items} filtered/>
+      </TableFilterProvider>
+    </>
   );
 }
 

@@ -1,29 +1,29 @@
 /* eslint-disable @next/next/no-img-element */
-import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
-import data from './fractals.json';
-import { Trans } from '@/components/I18n/Trans';
-import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
-import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
-import { getCanonicalUrl, getDateOrFallback, getDayOfYearIndex, getInstabilities, getTierOrFallback } from './helper';
-import { isTruthy } from '@gw2treasures/helper/is';
-import { DateSelector } from './date-selector';
-import { getAlternateUrls, getCurrentUrl } from '@/lib/url';
 import { FormatNumber } from '@/components/Format/FormatNumber';
-import { getTranslate } from '@/lib/translate';
-import { PageView } from '@/components/PageView/PageView';
-import { Switch } from '@gw2treasures/ui/components/Form/Switch';
-import type { PageProps } from '@/lib/next';
-import type { Language } from '@gw2treasures/database';
-import ogImage from './fractals-og.png';
-import { ResetTimer } from '@/components/Reset/ResetTimer';
+import { Trans } from '@/components/I18n/Trans';
 import { Description } from '@/components/Layout/Description';
+import { PageView } from '@/components/PageView/PageView';
+import { ResetTimer } from '@/components/Reset/ResetTimer';
+import type { PageProps } from '@/lib/next';
+import { getTranslate } from '@/lib/translate';
+import { getAlternateUrls, getCurrentUrl } from '@/lib/url';
+import type { Language } from '@gw2treasures/database';
+import { isTruthy } from '@gw2treasures/helper/is';
+import { data, getDayOfYearIndex, getInstabilities } from '@gw2treasures/static-data/fractals/index';
+import { Switch } from '@gw2treasures/ui/components/Form/Switch';
+import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
+import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
+import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
+import { DateSelector } from './date-selector';
+import ogImage from './fractals-og.png';
+import { getCanonicalUrl, getDateOrFallback, getTierOrFallback } from './helper';
 
+const { fractals, daily, recommended } = data;
 
 export default async function FractalsPage({ params, searchParams }: PageProps) {
   const { language } = await params;
   const { tier: rawTier, date: rawDate } = await searchParams;
-  const { fractals, daily, recommended } = data;
 
   const date = getDateOrFallback(Array.isArray(rawDate) ? rawDate[0] : rawDate);
   const parsedDate = new Date(date);

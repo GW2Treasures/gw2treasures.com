@@ -1,0 +1,42 @@
+model Job {
+  id String @id @default(uuid())
+
+  priority Int    @default(1)
+  type     String
+  data     Json
+
+  state  JobState @default(Queued)
+  output String   @default("")
+
+  flags String[] @default([])
+
+  cron String?
+
+  scheduledAt DateTime  @default(now())
+  startedAt   DateTime?
+  finishedAt  DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum JobState {
+  Queued
+  Running
+  Success
+  Error
+}
+
+model ApiRequest {
+  id String @id @default(uuid())
+
+  endpoint        String
+  queryParameters String
+
+  status     Int
+  statusText String
+
+  responseTimeMs Float
+
+  createdAt DateTime @default(now())
+}

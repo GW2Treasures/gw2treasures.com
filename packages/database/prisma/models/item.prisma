@@ -1,0 +1,168 @@
+model Item {
+  id Int @id
+
+  name_de String
+  name_en String
+  name_es String
+  name_fr String
+
+  icon   Icon? @relation(fields: [iconId], references: [id])
+  iconId Int?
+
+  rarity      Rarity
+  type        String  @default("")
+  subtype     String?
+  weight      String?
+  vendorValue Int?
+  level       Int     @default(0)
+
+  // tp
+  tpTradeable   Boolean   @default(false)
+  tpWhitelisted Boolean   @default(false)
+  buyQuantity   Int?
+  buyPrice      Int?
+  sellQuantity  Int?
+  sellPrice     Int?
+  tpCheckedAt   DateTime?
+
+  tpHistory TradingPostHistory_Trend[]
+
+  // legendary armory
+  legendaryArmoryMaxCount Int?
+
+  // skins
+  unlocksSkin    Skin[]
+  unlocksSkinIds Int[]
+
+  // recipes
+  recipeOutput Recipe[]           @relation(name: "recipe_output")
+  ingredient   RecipeIngredient[]
+
+  unlocksRecipe    Recipe[] @relation(name: "unlocks_recipe")
+  unlocksRecipeIds Int[]
+
+  // mystic forge recipes
+  mysticForgeRecipeOutput MysticForgeRecipe[]         @relation("mystic_forge_output")
+  mysticForgeIngredient   MysticForgeIngredientItem[] @relation("mystic_forge_ingredient")
+
+  // achievements
+  achievementRewards Achievement[] @relation(name: "rewards_item")
+  achievementBits    Achievement[] @relation(name: "bits_item")
+
+  // items
+  suffixItems   Item[] @relation(name: "suffix")
+  suffixItemIds Int[]
+  suffixIn      Item[] @relation(name: "suffix")
+
+  contains    Content[] @relation("contains")
+  containedIn Content[] @relation("containedIn")
+
+  // currency
+  containsCurrency CurrencyContent[] @relation("containsCurrency")
+
+  // color
+  unlocksColor    Color[] @relation("unlocks_color")
+  unlocksColorIds Int[]
+
+  // guild upgrades
+  unlocksGuildUpgrade    GuildUpgrade[] @relation("unlocks_guild_upgrade")
+  unlocksGuildUpgradeIds Int[]
+
+  // wizardsvault
+  wizardsVaultListings WizardsVaultListing[] @relation("wizardsvault_listing")
+
+  // homestead glyph
+  homesteadGlyphs HomesteadGlyph[] @relation("homestead_glyph")
+
+  // minis
+  unlocksMinis   Mini[] @relation("unlock")
+  unlocksMiniIds Int[]
+
+  // outfits
+  unlocksOutfits Outfit[] @relation("unlocks_outfit")
+
+  // review queue
+  reviews Review[] @relation("itemReview")
+
+  // flag if the item is no longer available in the API
+  removedFromApi Boolean @default(false)
+
+  // item views (last 7 days) and relevancy score
+  views     Int   @default(0)
+  relevancy Float @default(0)
+
+  // history
+  current_de   Revision @relation("current_de", fields: [currentId_de], references: [id], onDelete: Cascade)
+  currentId_de String   @unique
+
+  current_en   Revision @relation("current_en", fields: [currentId_en], references: [id], onDelete: Cascade)
+  currentId_en String   @unique
+
+  current_es   Revision @relation("current_es", fields: [currentId_es], references: [id], onDelete: Cascade)
+  currentId_es String   @unique
+
+  current_fr   Revision @relation("current_fr", fields: [currentId_fr], references: [id], onDelete: Cascade)
+  currentId_fr String   @unique
+
+  history ItemHistory[]
+
+  // last time checked for updates
+  lastCheckedAt DateTime @default(now())
+
+  // common timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // migration version
+  version Int @default(0)
+
+  @@index([createdAt])
+  @@index([name_de(ops: raw("gin_trgm_ops")), name_en(ops: raw("gin_trgm_ops")), name_es(ops: raw("gin_trgm_ops")), name_fr(ops: raw("gin_trgm_ops"))], type: Gin)
+}
+
+enum Rarity {
+  Junk
+  Basic
+  Fine
+  Masterwork
+  Rare
+  Exotic
+  Ascended
+  Legendary
+}
+
+model TradingPostHistory {
+  itemId Int
+  time   DateTime @default(now())
+
+  buyQuantity  Int?
+  buyPrice     Int?
+  sellQuantity Int?
+  sellPrice    Int?
+
+  @@unique([itemId, time])
+}
+
+view TradingPostHistory_Trend {
+  itemId Int
+  time   DateTime @default(now())
+
+  buyQuantity  Int?
+  buyPrice     Int?
+  sellQuantity Int?
+  sellPrice    Int?
+
+  item Item @relation(fields: [itemId], references: [id])
+
+  @@unique([itemId, time])
+}
+
+model ItemHistory {
+  itemId     Int
+  revisionId String @unique
+
+  item     Item     @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  revision Revision @relation(fields: [revisionId], references: [id], onDelete: Cascade)
+
+  @@id([itemId, revisionId])
+}

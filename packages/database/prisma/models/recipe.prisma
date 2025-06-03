@@ -1,0 +1,77 @@
+model Recipe {
+  id Int @id
+
+  type        String
+  rating      Int
+  disciplines String[]
+
+  outputCount   Int
+  timeToCraftMs Int
+
+  flags String[] @default([])
+
+  unlockedByItems Item[] @relation(name: "unlocks_recipe")
+
+  outputItemId    Int?
+  outputItem      Item? @relation(name: "recipe_output", fields: [outputItemId], references: [id])
+  outputItemIdRaw Int?
+
+  outputGuildUpgradeId    Int?
+  outputGuildUpgrade      GuildUpgrade? @relation(name: "recipe_output", fields: [outputGuildUpgradeId], references: [id])
+  outputGuildUpgradeIdRaw Int?
+
+  ingredients RecipeIngredient[]
+
+  ingredientCount Int?
+
+  removedFromApi Boolean @default(false)
+
+  current   Revision @relation("current", fields: [currentId], references: [id], onDelete: Cascade)
+  currentId String   @unique
+
+  history RecipeHistory[]
+
+  lastCheckedAt DateTime @default(now())
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  version Int @default(0)
+}
+
+model RecipeHistory {
+  recipeId   Int
+  revisionId String
+
+  recipe   Recipe   @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  revision Revision @relation(fields: [revisionId], references: [id], onDelete: Cascade)
+
+  @@id([recipeId, revisionId])
+}
+
+model RecipeIngredient {
+  recipeId     Int
+  ingredientId Int
+  type         RecipeIngredientType
+
+  count Int
+
+  recipe Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+
+  item   Item? @relation(fields: [itemId], references: [id], onDelete: SetNull)
+  itemId Int?
+
+  currency   Currency? @relation(fields: [currencyId], references: [id], onDelete: SetNull)
+  currencyId Int?
+
+  guildUpgrade   GuildUpgrade? @relation(fields: [guildUpgradeId], references: [id], onDelete: SetNull)
+  guildUpgradeId Int?
+
+  @@id([recipeId, type, ingredientId])
+}
+
+enum RecipeIngredientType {
+  Item
+  Currency
+  GuildUpgrade
+}

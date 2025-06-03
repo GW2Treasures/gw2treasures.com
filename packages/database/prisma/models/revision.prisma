@@ -1,0 +1,152 @@
+model Revision {
+  id String @id @default(uuid())
+
+  entity String?
+
+  schema      String
+  data        String
+  description String?
+  type        RevisionType @default(Update)
+
+  language Language
+
+  build   Build @relation(fields: [buildId], references: [id])
+  buildId Int
+
+  createdAt DateTime @default(now())
+
+  previousRevisionId String?   @unique
+  previousRevision   Revision? @relation("previous", fields: [previousRevisionId], references: [id])
+  nextRevision       Revision? @relation("previous")
+
+  // items
+  currentItem_de Item?        @relation("current_de")
+  currentItem_en Item?        @relation("current_en")
+  currentItem_es Item?        @relation("current_es")
+  currentItem_fr Item?        @relation("current_fr")
+  itemHistory    ItemHistory?
+
+  // skills
+  currentSkill_de Skill?         @relation("current_de")
+  currentSkill_en Skill?         @relation("current_en")
+  currentSkill_es Skill?         @relation("current_es")
+  currentSkill_fr Skill?         @relation("current_fr")
+  skillHistory    SkillHistory[]
+
+  // skins
+  currentSkin_de Skin?         @relation("current_de")
+  currentSkin_en Skin?         @relation("current_en")
+  currentSkin_es Skin?         @relation("current_es")
+  currentSkin_fr Skin?         @relation("current_fr")
+  skinHistory    SkinHistory[]
+
+  // achievements
+  currentAchievement_de Achievement?         @relation("current_de")
+  currentAchievement_en Achievement?         @relation("current_en")
+  currentAchievement_es Achievement?         @relation("current_es")
+  currentAchievement_fr Achievement?         @relation("current_fr")
+  achievementHistory    AchievementHistory[]
+
+  // achievement groups
+  currentAchievementGroup_de AchievementGroup?         @relation("current_de")
+  currentAchievementGroup_en AchievementGroup?         @relation("current_en")
+  currentAchievementGroup_es AchievementGroup?         @relation("current_es")
+  currentAchievementGroup_fr AchievementGroup?         @relation("current_fr")
+  achievementGroupHistory    AchievementGroupHistory[]
+
+  // achievement categories
+  currentAchievementCategory_de AchievementCategory?         @relation("current_de")
+  currentAchievementCategory_en AchievementCategory?         @relation("current_en")
+  currentAchievementCategory_es AchievementCategory?         @relation("current_es")
+  currentAchievementCategory_fr AchievementCategory?         @relation("current_fr")
+  achievementCategoryHistory    AchievementCategoryHistory[]
+
+  // currencies
+  currentCurrency_de Currency?         @relation("current_de")
+  currentCurrency_en Currency?         @relation("current_en")
+  currentCurrency_es Currency?         @relation("current_es")
+  currentCurrency_fr Currency?         @relation("current_fr")
+  currencyHistory    CurrencyHistory[]
+
+  // titles
+  currentTitle_de Title?         @relation("current_de")
+  currentTitle_en Title?         @relation("current_en")
+  currentTitle_es Title?         @relation("current_es")
+  currentTitle_fr Title?         @relation("current_fr")
+  titleHistory    TitleHistory[]
+
+  // recipes
+  currentRecipe Recipe?         @relation("current")
+  recipeHistory RecipeHistory[]
+
+  // colors
+  currentColor_de Color?         @relation("current_de")
+  currentColor_en Color?         @relation("current_en")
+  currentColor_es Color?         @relation("current_es")
+  currentColor_fr Color?         @relation("current_fr")
+  colorHistory    ColorHistory[]
+
+  // colors
+  currentGuildUpgrade_de GuildUpgrade?         @relation("current_de")
+  currentGuildUpgrade_en GuildUpgrade?         @relation("current_en")
+  currentGuildUpgrade_es GuildUpgrade?         @relation("current_es")
+  currentGuildUpgrade_fr GuildUpgrade?         @relation("current_fr")
+  guildUpgradeHistory    GuildUpgradeHistory[]
+
+  // wizards vault
+  currentWizardsVaultListing WizardsVaultListing?         @relation("current")
+  wizardsVaultListingHistory WizardsVaultListingHistory[]
+
+  currentWizardsVaultObjective_de WizardsVaultObjective?         @relation("current_de")
+  currentWizardsVaultObjective_en WizardsVaultObjective?         @relation("current_en")
+  currentWizardsVaultObjective_es WizardsVaultObjective?         @relation("current_es")
+  currentWizardsVaultObjective_fr WizardsVaultObjective?         @relation("current_fr")
+  wizardsVaultObjectiveHistory    WizardsVaultObjectiveHistory[]
+
+  currentWizardsVaultSeason_de WizardsVaultSeason?         @relation("current_de")
+  currentWizardsVaultSeason_en WizardsVaultSeason?         @relation("current_en")
+  currentWizardsVaultSeason_es WizardsVaultSeason?         @relation("current_es")
+  currentWizardsVaultSeason_fr WizardsVaultSeason?         @relation("current_fr")
+  wizardsVaultSeasonHistory    WizardsVaultSeasonHistory[]
+
+  // homestead decorations
+  currentHomesteadDecoration_de HomesteadDecoration?         @relation("current_de")
+  currentHomesteadDecoration_en HomesteadDecoration?         @relation("current_en")
+  currentHomesteadDecoration_es HomesteadDecoration?         @relation("current_es")
+  currentHomesteadDecoration_fr HomesteadDecoration?         @relation("current_fr")
+  homesteadDecorationHistory    HomesteadDecorationHistory[]
+
+  // homestead decorations categories
+  currentHomesteadDecorationCategory_de HomesteadDecorationCategory?         @relation("current_de")
+  currentHomesteadDecorationCategory_en HomesteadDecorationCategory?         @relation("current_en")
+  currentHomesteadDecorationCategory_es HomesteadDecorationCategory?         @relation("current_es")
+  currentHomesteadDecorationCategory_fr HomesteadDecorationCategory?         @relation("current_fr")
+  homesteadDecorationCategoryHistory    HomesteadDecorationCategoryHistory[]
+
+  // homestead glyphs
+  currentHomesteadGlyph HomesteadGlyph?         @relation("current")
+  homesteadGlyphHistory HomesteadGlyphHistory[]
+
+  //minis
+  currentMini_de Mini?         @relation("current_de")
+  currentMini_en Mini?         @relation("current_en")
+  currentMini_es Mini?         @relation("current_es")
+  currentMini_fr Mini?         @relation("current_fr")
+  miniHistory    MiniHistory[]
+
+  //outfits
+  currentOutfit_de Outfit?         @relation("current_de")
+  currentOutfit_en Outfit?         @relation("current_en")
+  currentOutfit_es Outfit?         @relation("current_es")
+  currentOutfit_fr Outfit?         @relation("current_fr")
+  outfitHistory    OutfitHistory[]
+
+  @@index([language, type])
+}
+
+enum RevisionType {
+  Update
+  Import
+  Added
+  Removed
+}

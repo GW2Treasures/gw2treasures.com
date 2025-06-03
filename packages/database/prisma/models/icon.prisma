@@ -1,0 +1,17 @@
+model Icon {
+  id        Int    @id
+  signature String
+
+  color String?
+
+  items                 Item[]
+  skills                Skill[]
+  skins                 Skin[]
+  achievements          Achievement[]
+  achievementCategories AchievementCategory[]
+  currencies            Currency[]
+  guildUpgrades         GuildUpgrade[]
+  homesteadDecorations  HomesteadDecoration[]
+  minis                 Mini[]
+  outfits               Outfit[]
+}

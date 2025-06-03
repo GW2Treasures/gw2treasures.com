@@ -48,9 +48,9 @@ export default async function FractalsPage({ params, searchParams }: PageProps) 
 
   return (
     <>
-      <Notice>
-        The next Janthir Wilds update on June 3, 2025 will introduce a new fractal.
-        Instabilities, daily and recommended fractals will need to be updated, which will take a few days.
+      <Notice type="warning">
+        The latest Janthir Wilds update on June 3, 2025 has introduced a new fractal.
+        Instabilities, daily and recommended fractals have not yet been updated, which will take a few days.
       </Notice>
 
       <Description actions={<span style={{ lineHeight: '36px' }}>Reset: <ResetTimer reset="current-daily"/></span>}>

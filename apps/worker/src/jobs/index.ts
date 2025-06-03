@@ -25,6 +25,8 @@ import { Job } from './job';
 import { JobsCleanup } from './jobs/cleanup';
 import { MinisJob } from './minis';
 import { MinisUnlocks } from './minis/unlocks';
+import { OutfitsJob } from './outfits';
+import { OutfitsUnlocks } from './outfits/unlocks';
 import { RecipesJob } from './recipes';
 import { RevisionsPrevious } from './revisions/previous';
 import { SkillsCheck } from './skills/check';
@@ -88,6 +90,9 @@ const jobsInternal = {
 
   'minis': MinisJob,
   'minis.unlocks': MinisUnlocks,
+
+  'outfits': OutfitsJob,
+  'outfits.unlocks': OutfitsUnlocks,
 
   'homestead.decorations': HomesteadDecorationsJob,
   'homestead.decorations.categories': HomesteadDecorationCategoriesJob,

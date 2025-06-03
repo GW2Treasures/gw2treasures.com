@@ -1,0 +1,31 @@
+model Content {
+  containerItemId Int
+  contentItemId   Int
+
+  quantity Int
+  chance   ContentChance
+
+  containerItem Item @relation("contains", fields: [containerItemId], references: [id])
+  contentItem   Item @relation("containedIn", fields: [contentItemId], references: [id])
+
+  @@id([containerItemId, contentItemId])
+}
+
+enum ContentChance {
+  Chance
+  Choice
+  Guaranteed
+}
+
+model CurrencyContent {
+  containerItemId Int
+  currencyId      Int
+
+  min Int
+  max Int
+
+  containerItem Item     @relation("containsCurrency", fields: [containerItemId], references: [id])
+  currency      Currency @relation("containedCurrency", fields: [currencyId], references: [id])
+
+  @@id([containerItemId, currencyId])
+}

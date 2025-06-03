@@ -1,0 +1,31 @@
+model Review {
+  id String @id @default(uuid())
+
+  requesterId String?
+  requester   User?   @relation("requester", fields: [requesterId], references: [id], onDelete: SetNull)
+
+  reviewerId String?
+  reviewer   User?   @relation("reviewer", fields: [reviewerId], references: [id], onDelete: SetNull)
+
+  queue   ReviewQueue
+  changes Json
+  state   ReviewState @default(Open)
+
+  relatedItemId Int?
+  relatedItem   Item? @relation("itemReview", fields: [relatedItemId], references: [id], onDelete: Cascade)
+
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  reviewedAt DateTime?
+}
+
+enum ReviewQueue {
+  ContainerContent
+  MysticForge
+}
+
+enum ReviewState {
+  Open
+  Approved
+  Rejected
+}

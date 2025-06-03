@@ -1,0 +1,21 @@
+model PageView {
+  time DateTime @default(now())
+
+  page   String
+  pageId Int    @default(0)
+
+  asn Int?
+
+  @@unique([time, page, pageId])
+}
+
+view PageView_daily {
+  bucket DateTime @default(now())
+
+  page   String
+  pageId Int
+
+  count Int
+
+  @@unique([bucket, page, pageId])
+}

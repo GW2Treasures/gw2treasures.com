@@ -1,0 +1,73 @@
+model User {
+  id String @id @default(uuid())
+
+  name String @unique
+
+  email         String?
+  emailVerified Boolean @default(false)
+
+  roles UserRole[] @default([])
+
+  sessions  UserSession[]  @relation("session")
+  providers UserProvider[] @relation("provider")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  reviewsRequested Review[] @relation("requester")
+  reviewsReviewed  Review[] @relation("reviewer")
+
+  applications Application[] @relation("application")
+}
+
+enum UserRole {
+  Admin
+}
+
+model UserSession {
+  id String @id @default(uuid())
+
+  info String
+
+  user   User   @relation("session", fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
+  createdAt  DateTime  @default(now())
+  lastUsedAt DateTime  @default(now())
+  expiresAt  DateTime? @default(dbgenerated("(now() + '1 year'::interval)"))
+}
+
+model UserProvider {
+  provider          String
+  providerAccountId String
+
+  displayName String
+
+  accessToken          String?
+  accessTokenExpiresAt DateTime?
+
+  refreshToken          String?
+  refreshTokenExpiresAt DateTime?
+
+  scope String[] @default([])
+
+  userId String
+  user   User   @relation("provider", fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@id([provider, providerAccountId])
+}
+
+model AuthorizationRequest {
+  id String @id @default(uuid())
+
+  state         String @unique
+  code_verifier String
+
+  returnTo String?
+
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+}

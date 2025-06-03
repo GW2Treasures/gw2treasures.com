@@ -1,0 +1,39 @@
+model HomesteadGlyph {
+  id String @id
+
+  slot HomesteadGlyphSlot
+
+  itemId    Int?
+  item      Item? @relation("homestead_glyph", fields: [itemId], references: [id], onDelete: SetNull)
+  itemIdRaw Int
+
+  removedFromApi Boolean @default(false)
+
+  current   Revision @relation("current", fields: [currentId], references: [id], onDelete: Cascade)
+  currentId String   @unique
+
+  history HomesteadGlyphHistory[]
+
+  lastCheckedAt DateTime @default(now())
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  version Int @default(0)
+}
+
+model HomesteadGlyphHistory {
+  homesteadGlyphId String
+  revisionId       String
+
+  homesteadGlyph HomesteadGlyph @relation(fields: [homesteadGlyphId], references: [id], onDelete: Cascade)
+  revision       Revision       @relation(fields: [revisionId], references: [id], onDelete: Cascade)
+
+  @@id([homesteadGlyphId, revisionId])
+}
+
+enum HomesteadGlyphSlot {
+  harvesting
+  logging
+  mining
+}

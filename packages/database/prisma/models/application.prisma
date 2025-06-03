@@ -1,0 +1,30 @@
+model Application {
+  id String @id @default(uuid())
+
+  name String
+
+  apiKey String @unique
+
+  origins String[]
+
+  owner   User   @relation("application", fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  requests ApplicationApiRequest[] @relation()
+}
+
+model ApplicationApiRequest {
+  requestId String
+
+  time DateTime @default(now())
+
+  application   Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  applicationId String
+
+  endpoint String
+
+  @@unique([requestId, time, applicationId, endpoint])
+}

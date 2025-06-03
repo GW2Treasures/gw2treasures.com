@@ -89,6 +89,9 @@ model Item {
   unlocksMinis   Mini[] @relation("unlock")
   unlocksMiniIds Int[] 
 
+  // outfits
+  unlocksOutfits Outfit[] @relation("unlocks_outfit")
+  
   // review queue
   reviews Review[] @relation("itemReview")
 
@@ -180,6 +183,7 @@ model Icon {
   guildUpgrades GuildUpgrade[]
   homesteadDecorations HomesteadDecoration[]
   minis Mini[]
+  outfits Outfit[]
 }
 
 model Content {
@@ -797,6 +801,13 @@ model Revision {
   currentMini_es Mini? @relation("current_es")
   currentMini_fr Mini? @relation("current_fr")
   miniHistory MiniHistory[]
+
+  //outfits
+  currentOutfit_de Outfit? @relation("current_de")
+  currentOutfit_en Outfit? @relation("current_en")
+  currentOutfit_es Outfit? @relation("current_es")
+  currentOutfit_fr Outfit? @relation("current_fr")
+  outfitHistory OutfitHistory[]
 }
 
 enum RevisionType {
@@ -1329,6 +1340,56 @@ model MiniHistory {
   revision Revision @relation(fields: [revisionId], references: [id], onDelete: Cascade)
 
   @@id([miniId, revisionId])
+}
+
+model Outfit {
+  id Int @id
+
+  name_de String
+  name_en String
+  name_es String
+  name_fr String
+
+  icon   Icon? @relation(fields: [iconId], references: [id])
+  iconId Int?
+
+  unlockedByItemIds Int[]
+  unlockedByItems   Item[] @relation("unlocks_outfit")
+
+  unlocks Float?
+  
+  removedFromApi Boolean @default(false)
+  
+  current_de Revision @relation("current_de", fields: [currentId_de], references: [id], onDelete: Cascade)
+  currentId_de String @unique
+  
+  current_en Revision @relation("current_en", fields: [currentId_en], references: [id], onDelete: Cascade)
+  currentId_en String @unique
+  
+  current_es Revision @relation("current_es", fields: [currentId_es], references: [id], onDelete: Cascade)
+  currentId_es String @unique
+  
+  current_fr Revision @relation("current_fr", fields: [currentId_fr], references: [id], onDelete: Cascade)
+  currentId_fr String @unique
+
+  history OutfitHistory[]
+  
+  lastCheckedAt  DateTime   @default(now())
+
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  version Int @default(0)
+}
+
+model OutfitHistory {
+  outfitId Int
+  revisionId String
+
+  outfit Outfit @relation(fields: [outfitId], references: [id], onDelete: Cascade)
+  revision Revision @relation(fields: [revisionId], references: [id], onDelete: Cascade)
+
+  @@id([outfitId, revisionId])
 }
 
 model Job {

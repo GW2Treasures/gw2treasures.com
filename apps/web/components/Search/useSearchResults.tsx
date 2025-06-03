@@ -122,6 +122,7 @@ export function useSearchApiResults(searchValue: string, translations: Translati
 
 type Page = { href: string, title: string, icon: IconName };
 const pages: Page[] = [
+  // static pages
   { href: '/login', title: 'Login', icon: 'user' },
   { href: '/status', title: 'Status', icon: 'status' },
   { href: '/status/jobs', title: 'Job Status', icon: 'jobs' },
@@ -133,18 +134,13 @@ const pages: Page[] = [
   { href: '/review', title: 'Review Queues', icon: 'review-queue' },
   { href: 'https://discord.gg/gvx6ZSE', title: 'Discord', icon: 'discord' },
 
+  // main navigation
   { href: '/item', title: 'Items', icon: 'item' },
   { href: '/achievement', title: 'Achievements', icon: 'achievement' },
   { href: '/wizards-vault', title: 'Wizard\'s Vault', icon: 'wizards-vault' },
-  { href: '/skins', title: 'Skins', icon: 'skin' },
-  // { href: '/profession', title: 'Professions', icon: 'profession' },
-  // { href: '/specialization', title: 'Specializations', icon: 'specialization' },
   { href: '/skill', title: 'Skills', icon: 'skill' },
-  // { href: '/mount', title: 'Mounts', icon: 'mount' },
-  // { href: '/wvw', title: 'Word vs. World (WvW)', icon: 'wvw' },
-  { href: '/fractals', title: 'Fractals', icon: 'fractal' },
-  { href: '/dungeons', title: 'Dungeons', icon: 'dungeon' },
 
+  // homestead
   { href: '/homestead/nodes', title: 'Homestead: Nodes', icon: 'node' },
   { href: '/homestead/garden-plots', title: 'Homestead: Garden Plots', icon: 'garden' },
   { href: '/homestead/cats', title: 'Homestead: Cats', icon: 'cat' },
@@ -152,20 +148,33 @@ const pages: Page[] = [
   { href: '/homestead/materials', title: 'Homestead: Refined Materials', icon: 'refined-material' },
   { href: '/homestead/glyphs', title: 'Homestead: Glyphs', icon: 'glyph' },
 
+  // wardrobe
+  { href: '/skins', title: 'Skins', icon: 'skin' },
+  { href: '/outfits', title: 'Outfits', icon: 'outfit' },
+  { href: '/colors', title: 'Colors', icon: 'color' },
+  { href: '/minis', title: 'Minis', icon: 'mini' },
+
+  // instances
+  { href: '/fractals', title: 'Fractals', icon: 'fractal' },
+  { href: '/dungeons', title: 'Dungeons', icon: 'dungeon' },
+
+  // developer
   { href: '/dev', title: 'Developer', icon: 'developer' },
   { href: '/dev/icons', title: 'Developer / Icons', icon: 'developer' },
   { href: '/dev/api', title: 'Developer / API', icon: 'developer' },
   { href: '/dev#applications', title: 'Developer / Your Applications', icon: 'developer' },
 
+  // other (not in nav)
   { href: '/build', title: 'Builds', icon: 'builds' },
   { href: '/currency', title: 'Currencies', icon: 'coins' },
-  { href: '/colors', title: 'Colors', icon: 'color' },
 
+  // misc sub routes
   { href: '/item/random', title: 'Random Item', icon: 'shuffle' },
   { href: '/item/empty-containers', title: 'Empty containers', icon: 'item' },
   { href: '/achievement/random', title: 'Random Achievement', icon: 'shuffle' },
   { href: '/achievement/uncategorized', title: 'Uncategorized Achievements', icon: 'achievement' },
 
+  // festivals
   { href: '/festival/wintersday', title: 'Wintersday', icon: 'gift' },
   { href: '/festival/lunar-new-year', title: 'Lunar New Year', icon: 'lantern' },
   { href: '/festival/super-adventure', title: 'Super Adventure Festival', icon: 'sab' },

@@ -462,6 +462,8 @@
   "colors.metal": "Metal",
   "colors.unlocks": "Account Unlocks",
   "minis": "Minis",
+  "outfits": "Outfits",
+  "outfits.description": "All available outfits.",
   "review": "Review",
   "review.description": "Help to improve gw2treasures.com by reviewing suggested changes.",
   "review.queue.ContainerContent": "Container Content",

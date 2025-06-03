@@ -7,13 +7,26 @@ import { getResetDate } from '../Reset/ResetTimer';
 import { accessTokenManager } from './access-token-manager';
 import type { CharacterSab } from '@gw2api/types/data/character-sab';
 
-export type SubscriptionType = 'account' | 'achievements' | 'skins' | 'minis' | 'wallet' | 'wizards-vault' | 'inventories' | 'home.nodes' | 'home.cats' | 'homestead.decorations' | 'homestead.glyphs' | 'colors' | 'dungeons' | 'sab';
+export type SubscriptionType = 'account'
+  | 'achievements'
+  | 'skins'
+  | 'minis'
+  | 'wallet'
+  | 'wizards-vault'
+  | 'inventories'
+  | 'home.nodes'
+  | 'home.cats'
+  | 'homestead.decorations'
+  | 'homestead.glyphs'
+  | 'colors'
+  | 'dungeons'
+  | 'sab'
+  | 'outfits';
 
 export type SubscriptionData<T extends SubscriptionType> =
   T extends 'account' ? Account<'2019-12-19T00:00:00.000Z'> :
   T extends 'achievements' ? AccountAchievement[] :
-  T extends 'skins' ? number[] :
-  T extends 'minis' ? number[] :
+  T extends 'skins' | 'minis' | 'colors' | 'outfits' ? number[] :
   T extends 'wallet' ? AccountWallet[] :
   T extends 'wizards-vault' ? Awaited<ReturnType<typeof loadAccountsWizardsVault>> :
   T extends 'inventories' ? Awaited<ReturnType<typeof loadInventories>> :
@@ -21,7 +34,6 @@ export type SubscriptionData<T extends SubscriptionType> =
   T extends 'home.cats' ? number[] :
   T extends 'homestead.decorations' ? AccountHomesteadDecoration[] :
   T extends 'homestead.glyphs' ? string[] :
-  T extends 'colors' ? number[] :
   T extends 'dungeons' ? string[] :
   T extends 'sab' ? Record<string, CharacterSab> :
   never;
@@ -224,6 +236,7 @@ const fetchers: { [T in SubscriptionType]: (accessToken: string) => Promise<Subs
   'colors': (accessToken: string) => fetchGw2Api('/v2/account/dyes', { accessToken, cache: 'no-cache' }),
   'dungeons': (accessToken: string) => fetchGw2Api('/v2/account/dungeons', { accessToken, cache: 'no-cache' }),
   'sab': (accessToken: string) => loadSab(accessToken),
+  'outfits': (accessToken: string) => fetchGw2Api('/v2/account/outfits', { accessToken, cache: 'no-cache' }),
 };
 
 async function loadAccountsWizardsVault(accessToken: string) {

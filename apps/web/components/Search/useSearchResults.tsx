@@ -156,6 +156,7 @@ const pages: Page[] = [
 
   // instances
   { href: '/fractals', title: 'Fractals', icon: 'fractal' },
+  { href: '/raids', title: 'Raids', icon: 'raid' },
   { href: '/dungeons', title: 'Dungeons', icon: 'dungeon' },
 
   // developer

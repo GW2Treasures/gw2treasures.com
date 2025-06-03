@@ -57,12 +57,19 @@
 .table > tbody > tr + tr > td,
 .table > tbody > tr + tr > th,
 .table > tfoot > tr + tr > td,
-.table > tfoot > tr + tr > th {
+.table > tfoot > tr + tr > th,
+.table > tbody + tbody > tr > th,
+.table > tbody + tbody > tr > td {
   border-top: 1px solid var(--color-border);
 }
 
+.table > tbody > tr > [rowspan]:not(:has(~ [rowspan])) {
+  border-right: 1px solid var(--color-border);
+}
+
 .table > tbody > tr:hover > td,
-.table > tbody > tr:hover > th {
+.table > tbody > tr:hover > th,
+.table > tbody:hover > tr > [rowspan] {
   background-color: var(--color-background-light);
 }
 

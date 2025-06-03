@@ -20,6 +20,7 @@ export type SubscriptionType = 'account'
   | 'homestead.glyphs'
   | 'colors'
   | 'dungeons'
+  | 'raids'
   | 'sab'
   | 'outfits';
 
@@ -34,7 +35,7 @@ export type SubscriptionData<T extends SubscriptionType> =
   T extends 'home.cats' ? number[] :
   T extends 'homestead.decorations' ? AccountHomesteadDecoration[] :
   T extends 'homestead.glyphs' ? string[] :
-  T extends 'dungeons' ? string[] :
+  T extends 'dungeons' | 'raids' ? string[] :
   T extends 'sab' ? Record<string, CharacterSab> :
   never;
 
@@ -235,6 +236,7 @@ const fetchers: { [T in SubscriptionType]: (accessToken: string) => Promise<Subs
   'homestead.glyphs': (accessToken: string) => fetchGw2Api('/v2/account/homestead/glyphs', { accessToken, cache: 'no-cache' }),
   'colors': (accessToken: string) => fetchGw2Api('/v2/account/dyes', { accessToken, cache: 'no-cache' }),
   'dungeons': (accessToken: string) => fetchGw2Api('/v2/account/dungeons', { accessToken, cache: 'no-cache' }),
+  'raids': (accessToken: string) => fetchGw2Api('/v2/account/raids', { accessToken, cache: 'no-cache' }),
   'sab': (accessToken: string) => loadSab(accessToken),
   'outfits': (accessToken: string) => fetchGw2Api('/v2/account/outfits', { accessToken, cache: 'no-cache' }),
 };

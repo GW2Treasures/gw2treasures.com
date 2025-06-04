@@ -50,7 +50,7 @@ export default async function FractalsPage({ params, searchParams }: PageProps) 
     <>
       <Notice type="warning">
         The latest Janthir Wilds update on June 3, 2025 has introduced a new fractal.
-        Instabilities, daily and recommended fractals have not yet been updated, which will take a few days.
+        Fractal levels and instabilities have been updated, but daily/recommended fractals might be wrong until the new rotation is known (likely until June 17, 2025).
       </Notice>
 
       <Description actions={<span style={{ lineHeight: '36px' }}>Reset: <ResetTimer reset="current-daily"/></span>}>

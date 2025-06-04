@@ -20,6 +20,7 @@ import type { Gw2Account } from '@/components/Gw2Api/types';
 import { Waypoint } from '@/components/Waypoint/Waypoint';
 import { Gw2AccountName } from '@/components/Gw2Api/Gw2AccountName';
 import { Gw2AccountAuthorizationNotice } from '@/components/Gw2Api/Gw2AccountAuthorizationNotice';
+import { useWizardsVault } from '@/components/WizardsVault/use-wizards-vault';
 
 export interface WizardVaultObjectivesProps {
   seasonEnd?: Date,
@@ -103,7 +104,7 @@ interface AccountObjectivesProps {
 }
 
 const AccountOverviewRow: FC<AccountObjectivesProps> = ({ account }) => {
-  const wizardsVault = useSubscription('wizards-vault', account.id);
+  const wizardsVault = useWizardsVault(account.id);
   const wallet = useSubscription('wallet', account.id);
 
   if(wizardsVault.loading || wizardsVault.error) {
@@ -118,16 +119,16 @@ const AccountOverviewRow: FC<AccountObjectivesProps> = ({ account }) => {
   return (
     <tr key={account.id}>
       <td><Gw2AccountName account={account}/></td>
-      <td align="right">{wizardsVault.data.daily ? <>{wizardsVault.data.daily.meta_reward_claimed && <Tip tip="Reward claimed"><Icon icon="checkmark"/></Tip>} {wizardsVault.data.daily.meta_progress_current} / {wizardsVault.data.daily.meta_progress_complete}</> : <Tip tip="Account has not logged in since last reset."><span>0 / ?</span></Tip> }</td>
-      <td align="right">{wizardsVault.data.weekly ? <>{wizardsVault.data.weekly.meta_reward_claimed && <Tip tip="Reward claimed"><Icon icon="checkmark"/></Tip>} {wizardsVault.data.weekly.meta_progress_current} / {wizardsVault.data.weekly.meta_progress_complete}</> : <Tip tip="Account has not logged in since last reset."><span>0 / ?</span></Tip> }</td>
-      <td align="right">{wizardsVault.data.special ? <>{wizardsVault.data.special.objectives.filter(({ claimed }) => claimed).length} / {wizardsVault.data.special.objectives.length}</> : <Tip tip="Account has not logged in since last reset."><span>0 / ?</span></Tip>}</td>
+      <td align="right">{wizardsVault.daily ? <>{wizardsVault.daily.meta_reward_claimed && <Tip tip="Reward claimed"><Icon icon="checkmark"/></Tip>} {wizardsVault.daily.meta_progress_current} / {wizardsVault.daily.meta_progress_complete}</> : <Tip tip="Account has not logged in since last reset."><span>0 / ?</span></Tip> }</td>
+      <td align="right">{wizardsVault.weekly ? <>{wizardsVault.weekly.meta_reward_claimed && <Tip tip="Reward claimed"><Icon icon="checkmark"/></Tip>} {wizardsVault.weekly.meta_progress_current} / {wizardsVault.weekly.meta_progress_complete}</> : <Tip tip="Account has not logged in since last reset."><span>0 / ?</span></Tip> }</td>
+      <td align="right">{wizardsVault.special ? <>{wizardsVault.special.objectives.filter(({ claimed }) => claimed).length} / {wizardsVault.special.objectives.length}</> : <Tip tip="Account has not logged in since last reset."><span>0 / ?</span></Tip>}</td>
       <td align="right">{wallet.loading ? <Skeleton/> : wallet.error ? '?' : <AstralAcclaim value={wallet.data.find(({ id }) => id === ASTRAL_ACCLAIM_ID)?.value ?? 0}/>}</td>
     </tr>
   );
 };
 
 const AccountObjectiveDetails: FC<AccountObjectivesProps> = ({ account, objectiveWaypoints }) => {
-  const wizardsVault = useSubscription('wizards-vault', account.id);
+  const wizardsVault = useWizardsVault(account.id);
 
   if(wizardsVault.loading) {
     return <Skeleton/>;
@@ -139,7 +140,7 @@ const AccountObjectiveDetails: FC<AccountObjectivesProps> = ({ account, objectiv
 
   return (
     <>
-      {!wizardsVault.data.lastModifiedToday && <Notice>This account has not logged in to the game since the last reset. Not all objectives can be shown and special objectives may be outdated.</Notice>}
+      {wizardsVault.daily === null && <Notice>This account has not logged in to the game since the last reset. Not all objectives can be shown and special objectives may be outdated.</Notice>}
 
       <Table>
         <thead>
@@ -154,7 +155,7 @@ const AccountObjectiveDetails: FC<AccountObjectivesProps> = ({ account, objectiv
           </tr>
         </thead>
         <tbody>
-          {wizardsVault.data.daily?.objectives.map((objective) => (
+          {wizardsVault.daily?.objectives.map((objective) => (
             <tr key={objective.id} className={cx(objective.claimed && styles.claimed)}>
               <td>Daily</td>
               <td>{objective.track}</td>
@@ -165,7 +166,7 @@ const AccountObjectiveDetails: FC<AccountObjectivesProps> = ({ account, objectiv
               <td align="right"><AstralAcclaim value={objective.acclaim}/></td>
             </tr>
           ))}
-          {wizardsVault.data.weekly?.objectives.map((objective, i) => (
+          {wizardsVault.weekly?.objectives.map((objective, i) => (
             <tr key={objective.id} className={cx(i === 0 && styles.rowSection, objective.claimed && styles.claimed)}>
               <td>Weekly</td>
               <td>{objective.track}</td>
@@ -176,7 +177,7 @@ const AccountObjectiveDetails: FC<AccountObjectivesProps> = ({ account, objectiv
               <td align="right"><AstralAcclaim value={objective.acclaim}/></td>
             </tr>
           ))}
-          {wizardsVault.data.special?.objectives.map((objective, i) => (
+          {wizardsVault.special?.objectives.map((objective, i) => (
             <tr key={objective.id} className={cx(i === 0 && styles.rowSection, objective.claimed && styles.claimed)}>
               <td>Special</td>
               <td>{objective.track}</td>

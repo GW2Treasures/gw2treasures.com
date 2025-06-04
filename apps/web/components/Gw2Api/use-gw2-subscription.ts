@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { SubscriptionManager, type SubscriptionCallback, type SubscriptionData, type SubscriptionResponse, type SubscriptionType } from './subscription-manager';
 import type { WithLoadingState } from '@/lib/with';
 import { getResetDate, type Reset } from '../Reset/ResetTimer';
+import type { ResponseWithLoading, SuccessfulResponse } from '@/lib/response';
 
 // global subscription manager (client side only)
 const manager = typeof window !== 'undefined' ? new SubscriptionManager() : null;
@@ -28,7 +29,7 @@ export function useSubscription<T extends SubscriptionType>(type: T, accountId: 
   );
 }
 
-export function useAccountModificationDate(accountId: string): WithLoadingState<{ error: true } | { error: false, date: Date }> {
+export function useAccountModificationDate(accountId: string): ResponseWithLoading<{ date: Date }> {
   const account = useSubscription('account', accountId);
 
   return useMemo(
@@ -39,7 +40,9 @@ export function useAccountModificationDate(accountId: string): WithLoadingState<
   );
 }
 
-export function useSubscriptionWithReset<T extends SubscriptionType>(type: T, accountId: string, reset: Reset, empty: SubscriptionData<T>): WithLoadingState<SubscriptionResponse<T>> {
+export function useSubscriptionWithReset<T extends SubscriptionType>(type: T, accountId: string, reset: Reset, empty: SubscriptionData<T>): WithLoadingState<SubscriptionResponse<T>>;
+export function useSubscriptionWithReset<T extends SubscriptionType, E>(type: T, accountId: string, reset: Reset, empty: E): WithLoadingState<SubscriptionResponse<T> | SuccessfulResponse<{ data: E }>>;
+export function useSubscriptionWithReset<T extends SubscriptionType, E>(type: T, accountId: string, reset: Reset, empty: E) {
   const response = useSubscription(type, accountId);
   const lastModified = useAccountModificationDate(accountId);
 

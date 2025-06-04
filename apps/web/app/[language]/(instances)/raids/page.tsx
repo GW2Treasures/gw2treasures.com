@@ -59,7 +59,7 @@ export default async function RaidsPage() {
 
   return (
     <>
-      <Description actions={<span style={{ lineHeight: '36px' }}>Reset: <ResetTimer reset="current-daily"/></span>}>
+      <Description actions={<span style={{ lineHeight: '36px' }}>Reset: <ResetTimer reset="current-weekly"/></span>}>
         <Trans id="raids.description"/>
       </Description>
       <Table>

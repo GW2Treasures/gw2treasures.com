@@ -42,6 +42,7 @@ export type SubscriptionData<T extends SubscriptionType> =
 export type SubscriptionResponse<T extends SubscriptionType> = {
   error: false,
   data: SubscriptionData<T>
+  timestamp: Date,
 } | {
   error: true
 };
@@ -104,7 +105,7 @@ export class AccountSubscriptionManager {
   #paused = false;
   #subscriptions = new Set<ActiveSubscription<SubscriptionType>>();
   #timeouts = new Map<SubscriptionType, NodeJS.Timeout | 0>();
-  #cache: { [T in SubscriptionType]?: SubscriptionData<T> } = {};
+  #cache: { [T in SubscriptionType]?: { timestamp: Date, data: SubscriptionData<T> }} = {};
 
   constructor(accountId: string, paused: boolean) {
     this.#accountId = accountId;
@@ -113,7 +114,22 @@ export class AccountSubscriptionManager {
     // restore cache from session storage
     const cache = sessionStorage.getItem(`gw2api.cache.${accountId}`);
     if(cache) {
-      this.#cache = JSON.parse(cache);
+      const cachedData = JSON.parse(cache);
+
+      // deserialize and migrate timestamps
+      for(const [key, value] of Object.entries(cachedData)) {
+        if(typeof value !== 'object' || !value) { continue; }
+
+        if(!('timestamp' in value)) {
+          // migrate data without timestamp
+          cachedData[key] = { timestamp: new Date(0), data: value };
+        } else if(typeof value.timestamp === 'string') {
+          // deserialize timestamp
+          cachedData[key] = { ...value, timestamp: new Date(value.timestamp as string) };
+        }
+      }
+
+      this.#cache = cachedData;
     }
   }
 
@@ -164,20 +180,21 @@ export class AccountSubscriptionManager {
     let response: SubscriptionResponse<SubscriptionType>;
     let nextTickMs = 60_000;
     try {
+      const timestamp = new Date();
       const data = await fetchers[type](accessToken.accessToken);
 
       // write to cache
-      this.#cache = { ...this.#cache, [type]: data };
+      this.#cache = { ...this.#cache, [type]: { data, timestamp }};
 
       // save cache to session storage
       sessionStorage.setItem(`gw2api.cache.${this.#accountId}`, JSON.stringify(this.#cache));
 
-      response = { error: false, data };
+      response = { error: false, data, timestamp };
     } catch(e) {
       const cached = this.#cache[type];
       // if cached data is available, respond with it instead of showing an error
       // TODO: only respond with cached data if it is not too old
-      response = cached ? { error: false, data: cached } : { error: true };
+      response = cached ? { error: false, ...cached } : { error: true };
 
       const isRateLimitError = e instanceof Gw2ApiError && e.response.status === 429;
       if(!isRateLimitError) {
@@ -209,7 +226,7 @@ export class AccountSubscriptionManager {
     // check if the data is already in cache
     const cached = this.#cache[type];
     if(cached) {
-      callback({ error: false, data: cached });
+      callback({ error: false, ...cached });
     }
 
     // handle the new subscription

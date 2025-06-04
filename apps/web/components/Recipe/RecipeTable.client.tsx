@@ -4,31 +4,32 @@ import { TextInput } from '@gw2treasures/ui/components/Form/TextInput';
 import type { DataTableRowFilterComponent, DataTableRowFilterComponentProps } from '@gw2treasures/ui/components/Table/DataTable';
 import { createContext, useState, type FC, type ReactNode, useContext, useEffect } from 'react';
 import { useLanguage } from '../I18n/Context';
-import { DisciplineIcon, type Discipline } from './DisciplineIcon';
+import { DisciplineIcon } from './DisciplineIcon';
 import { DropDown } from '@gw2treasures/ui/components/DropDown/DropDown';
 import { Button } from '@gw2treasures/ui/components/Form/Button';
 import { MenuList } from '@gw2treasures/ui/components/Layout/MenuList';
 import { Checkbox } from '@gw2treasures/ui/components/Form/Checkbox';
 import { Separator } from '@gw2treasures/ui/components/Layout/Separator';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
+import type { CraftingDiscipline } from '@gw2api/types/data/recipe';
 
-const allDisciplines: Discipline[] = [ 'Armorsmith', 'Artificer', 'Chef', 'Huntsman', 'Jeweler', 'Leatherworker', 'Scribe', 'Tailor', 'Weaponsmith', 'Homesteader' ];
+const allDisciplines: CraftingDiscipline[] = [ 'Armorsmith', 'Artificer', 'Chef', 'Homesteader', 'Huntsman', 'Jeweler', 'Leatherworker', 'Scribe', 'Tailor', 'Weaponsmith' ];
 
 interface RecipeTableContext {
   filteredRows?: number[] | undefined;
-  recipeIndexByDiscipline: Partial<Record<Discipline, number[]>>;
+  recipeIndexByDiscipline: Partial<Record<CraftingDiscipline, number[]>>;
 
   search: string;
   setSearch: (search: string) => void;
 
-  disciplines: Discipline[];
-  setDisciplines: (disciplines: Discipline[]) => void;
+  disciplines: CraftingDiscipline[];
+  setDisciplines: (disciplines: CraftingDiscipline[]) => void;
 }
 
 const context = createContext<RecipeTableContext>({ search: '', setSearch: () => {}, recipeIndexByDiscipline: {}, disciplines: allDisciplines, setDisciplines: () => {} });
 
 export interface RecipeTableProviderProps {
-  recipeIndexByDiscipline: Partial<Record<Discipline, number[]>>;
+  recipeIndexByDiscipline: Partial<Record<CraftingDiscipline, number[]>>;
   recipeNamesSearchIndex: Record<string, number[]>;
   children: ReactNode;
 }

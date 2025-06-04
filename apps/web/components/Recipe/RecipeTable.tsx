@@ -5,7 +5,7 @@ import type { With } from '@/lib/with';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { ItemLink, type ItemLinkProps } from '../Item/ItemLink';
 import { ShowMore } from '../ShowMore/ShowMore';
-import { type Discipline, DisciplineIcon } from './DisciplineIcon';
+import { DisciplineIcon } from './DisciplineIcon';
 import { Ingredients, type Ingredient } from './Ingredients';
 import recipeBoxStyles from './RecipeBox.module.css';
 import styles from './RecipeTable.module.css';
@@ -17,6 +17,7 @@ import { getLanguage } from '@/lib/translate';
 import { ColumnSelect } from '../Table/ColumnSelect';
 import { RecipeDropdown } from './RecipeDropdown';
 import { UnknownItem } from '../Item/UnknownItem';
+import type { CraftingDiscipline } from '@gw2api/types/data/recipe';
 
 export interface RecipeTableProps {
   recipes: With<Pick<Recipe, 'id' | 'rating' | 'disciplines' | 'outputCount' | 'outputItemId' | 'outputItemIdRaw'>, {
@@ -31,9 +32,9 @@ export const RecipeTable: FC<RecipeTableProps> = async ({ recipes }) => {
 
   const Recipes = createDataTable(recipes, (recipe) => recipe.id);
 
-  const recipeIndexByDiscipline = recipes.reduce<Partial<Record<Discipline, number[]>>>((record, recipe, index) => {
+  const recipeIndexByDiscipline = recipes.reduce<Partial<Record<CraftingDiscipline, number[]>>>((record, recipe, index) => {
     const update = Object.fromEntries(
-      recipe.disciplines.map((discipline) => [discipline, [...record[discipline as Discipline] ?? [], index]])
+      recipe.disciplines.map((discipline) => [discipline, [...record[discipline as CraftingDiscipline] ?? [], index]])
     );
 
     return { ...record, ...update };
@@ -103,7 +104,7 @@ export const RecipeTable: FC<RecipeTableProps> = async ({ recipes }) => {
           </Recipes.Column>
           <Recipes.Column id="rating" title="Rating" align="right" sortBy="rating">{({ rating }) => rating}</Recipes.Column>
           <Recipes.Column id="disciplines" title="Disciplines">
-            {({ disciplines }) => <span className={recipeBoxStyles.disciplines}>{disciplines.map((discipline) => <DisciplineIcon discipline={discipline as Discipline} key={discipline}/>)}</span>}
+            {({ disciplines }) => <span className={recipeBoxStyles.disciplines}>{disciplines.map((discipline) => <DisciplineIcon discipline={discipline as CraftingDiscipline} key={discipline}/>)}</span>}
           </Recipes.Column>
           <Recipes.Column id="ingredients" title="Ingredients">{(recipe) => <Ingredients recipe={recipe}/>}</Recipes.Column>
           <Recipes.Column id="actions" title="" small fixed>

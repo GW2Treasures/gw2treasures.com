@@ -4,7 +4,7 @@ import type { FC } from 'react';
 import { Icon } from '@gw2treasures/ui';
 import type { WithIcon } from '@/lib/with';
 import { ItemLink } from '../Item/ItemLink';
-import { type Discipline, DisciplineIcon } from './DisciplineIcon';
+import { DisciplineIcon } from './DisciplineIcon';
 import { Ingredients, type Ingredient } from './Ingredients';
 import styles from './RecipeBox.module.css';
 import { ShowMore } from '../ShowMore/ShowMore';
@@ -13,6 +13,7 @@ import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 import { OutputCount } from '../Item/OutputCount';
 import { RecipeDropdown } from './RecipeDropdown';
 import { UnknownItem } from '../Item/UnknownItem';
+import type { CraftingDiscipline } from '@gw2api/types/data/recipe';
 
 interface RecipeBoxProps {
   recipe: Recipe & {
@@ -33,7 +34,7 @@ export const RecipeBox: FC<RecipeBoxProps> = ({ recipe, outputItem }) => {
       </div>
       <div className={styles.info}>
         <span className={styles.disciplines}>
-          {recipe.disciplines.map((discipline) => <DisciplineIcon key={discipline} discipline={discipline as Discipline}/>)}
+          {recipe.disciplines.map((discipline) => <DisciplineIcon key={discipline} discipline={discipline as CraftingDiscipline}/>)}
         </span>
         <span className={styles.rating}>
           {recipe.rating}

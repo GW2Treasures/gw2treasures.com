@@ -34,7 +34,8 @@
 .disciplines {
   margin-right: 4px;
   display: flex;
-  gap: 2px;
+  gap: 8px 4px;
+  flex-wrap: wrap;
 }
 
 .rating {

@@ -2,7 +2,7 @@ import type { CSSProperties, FC } from 'react';
 import { Icon, type IconName } from '@gw2treasures/ui';
 import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 
-export type Discipline = 'Armorsmith' | 'Artificer' | 'Chef' | 'Huntsman' | 'Jeweler' | 'Leatherworker' | 'Scribe' | 'Tailor' | 'Weaponsmith';
+export type Discipline = 'Armorsmith' | 'Artificer' | 'Chef' | 'Huntsman' | 'Jeweler' | 'Leatherworker' | 'Scribe' | 'Tailor' | 'Weaponsmith' | 'Homesteader';
 
 export interface DisciplineIconProps {
   discipline: Discipline;
@@ -18,6 +18,7 @@ const DisciplieIcons: Record<Discipline, { icon: IconName, color: CSSProperties[
   'Scribe': { icon: 'scribe', color: '#3f51b5' },
   'Tailor': { icon: 'tailor', color: '#9e9e9e' },
   'Weaponsmith': { icon: 'weaponsmith', color: '#794848' },
+  'Homesteader': { icon: 'homestead', color: '#2a485d' }
 };
 
 export const DisciplineIcon: FC<DisciplineIconProps> = ({ discipline }) => {

@@ -12,7 +12,7 @@ import { Checkbox } from '@gw2treasures/ui/components/Form/Checkbox';
 import { Separator } from '@gw2treasures/ui/components/Layout/Separator';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 
-const allDisciplines: Discipline[] = [ 'Armorsmith', 'Artificer', 'Chef', 'Huntsman', 'Jeweler', 'Leatherworker', 'Scribe', 'Tailor', 'Weaponsmith' ];
+const allDisciplines: Discipline[] = [ 'Armorsmith', 'Artificer', 'Chef', 'Huntsman', 'Jeweler', 'Leatherworker', 'Scribe', 'Tailor', 'Weaponsmith', 'Homesteader' ];
 
 interface RecipeTableContext {
   filteredRows?: number[] | undefined;

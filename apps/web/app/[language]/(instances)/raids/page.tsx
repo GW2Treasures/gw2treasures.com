@@ -20,6 +20,7 @@ import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 import type { Metadata } from 'next';
 import { RaidClearCell, requiredScopes } from './page.client';
+import { pageView } from '@/lib/pageView';
 
 function getEmboldenedIndex() {
   const offsetStart = new Date(Date.UTC(2025, 1, 17, 8, 30));
@@ -51,6 +52,7 @@ const getRaidAchievements = cache(async () => {
 
 export default async function RaidsPage() {
   const { achievements, achievementCategories } = await getRaidAchievements();
+  await pageView('/raids');
 
   const emboldenedWing = getEmboldenedIndex() + 1;
   let wingNumber = 0;

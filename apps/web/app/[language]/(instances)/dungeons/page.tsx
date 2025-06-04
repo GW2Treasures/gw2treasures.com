@@ -24,6 +24,7 @@ import { getCurrentUrl } from '@/lib/url';
 import { BonusEvent, getBonusEvent, isBonusEventActive } from 'app/[language]/bonus-event/bonus-events';
 import { FestivalTimer } from '@/components/Reset/FestivalTimer';
 import { ResetTimer } from '@/components/Reset/ResetTimer';
+import { pageView } from '@/lib/pageView';
 
 const ACHIEVEMENT_DUNGEON_FREQUENTER_ID = 2963;
 
@@ -43,6 +44,8 @@ const getCurrencies = cache(
 export default async function DungeonsPage({ params }: PageProps) {
   const { language } = await params;
   const t = getTranslate(language);
+
+  await pageView('dungeons');
 
   const paths = dungeons.flatMap(({ paths, ...dungeon }) => paths.map((path) => ({ ...path, dungeon })));
   const Paths = createDataTable(paths, ({ id }) => id);

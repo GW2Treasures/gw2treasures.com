@@ -11,6 +11,7 @@ export default function InstancesLayout({ children }: LayoutProps) {
       navBar={(
         <NavBar base="/" items={[
           { segment: 'fractals', icon: 'fractals', label: <Trans id="fractals"/> },
+          { segment: 'raids', icon: 'raid', label: <Trans id="raids"/> },
           { segment: 'dungeons', icon: 'dungeon', label: <Trans id="dungeons"/> },
         ]}/>
       )}

@@ -6,7 +6,7 @@ import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { Icon } from '@gw2treasures/ui';
 import type { Gw2Account } from '../Gw2Api/types';
 import { Gw2AccountName } from '../Gw2Api/Gw2AccountName';
-import { useSubscription } from '../Gw2Api/use-gw2-subscription';
+import { useWizardsVault } from './use-wizards-vault';
 import { Skeleton } from '../Skeleton/Skeleton';
 import { ProgressCell } from '../Achievement/ProgressCell';
 import { Gw2Accounts } from '../Gw2Api/Gw2Accounts';
@@ -55,7 +55,7 @@ interface WizardsVaultObjectiveTableProgressCellProps {
 }
 
 const WizardsVaultObjectiveTableProgressCell: FC<WizardsVaultObjectiveTableProgressCellProps> = ({ objectiveId, account }) => {
-  const wizardsVault = useSubscription('wizards-vault', account.id);
+  const wizardsVault = useWizardsVault(account.id);
 
   if(wizardsVault.loading) {
     return (
@@ -69,9 +69,9 @@ const WizardsVaultObjectiveTableProgressCell: FC<WizardsVaultObjectiveTableProgr
     );
   }
 
-  const progress = wizardsVault.data.special.objectives.find(({ id }) => id === objectiveId)
-    ?? wizardsVault.data.weekly?.objectives.find(({ id }) => id === objectiveId)
-    ?? wizardsVault.data.daily?.objectives.find(({ id }) => id === objectiveId);
+  const progress = wizardsVault.special?.objectives.find(({ id }) => id === objectiveId)
+    ?? wizardsVault.weekly?.objectives.find(({ id }) => id === objectiveId)
+    ?? wizardsVault.daily?.objectives.find(({ id }) => id === objectiveId);
 
   if(!progress) {
     return (

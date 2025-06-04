@@ -3,16 +3,19 @@ import type { Account } from '@gw2api/types/data/account';
 import type { AccountAchievement } from '@gw2api/types/data/account-achievements';
 import type { AccountHomesteadDecoration } from '@gw2api/types/data/account-homestead';
 import type { AccountWallet } from '@gw2api/types/data/account-wallet';
-import { getResetDate } from '../Reset/ResetTimer';
 import { accessTokenManager } from './access-token-manager';
 import type { CharacterSab } from '@gw2api/types/data/character-sab';
+import type { AccountWizardsVaultMetaObjectives, AccountWizardsVaultSpecialObjectives } from '@gw2api/types/data/account-wizardsvault';
+import type { Response } from '@/lib/response';
 
 export type SubscriptionType = 'account'
   | 'achievements'
   | 'skins'
   | 'minis'
   | 'wallet'
-  | 'wizards-vault'
+  | 'wizards-vault.daily'
+  | 'wizards-vault.weekly'
+  | 'wizards-vault.special'
   | 'inventories'
   | 'home.nodes'
   | 'home.cats'
@@ -29,7 +32,8 @@ export type SubscriptionData<T extends SubscriptionType> =
   T extends 'achievements' ? AccountAchievement[] :
   T extends 'skins' | 'minis' | 'colors' | 'outfits' ? number[] :
   T extends 'wallet' ? AccountWallet[] :
-  T extends 'wizards-vault' ? Awaited<ReturnType<typeof loadAccountsWizardsVault>> :
+  T extends 'wizards-vault.daily' | 'wizards-vault.weekly' ? AccountWizardsVaultMetaObjectives :
+  T extends 'wizards-vault.special' ? AccountWizardsVaultSpecialObjectives :
   T extends 'inventories' ? Awaited<ReturnType<typeof loadInventories>> :
   T extends 'home.nodes' ? string[] :
   T extends 'home.cats' ? number[] :
@@ -39,12 +43,10 @@ export type SubscriptionData<T extends SubscriptionType> =
   T extends 'sab' ? Record<string, CharacterSab> :
   never;
 
-export type SubscriptionResponse<T extends SubscriptionType> = {
-  error: false,
+export type SubscriptionResponse<T extends SubscriptionType> = Response<{
   data: SubscriptionData<T>
-} | {
-  error: true
-};
+  timestamp: Date,
+}>;
 
 export type SubscriptionCallback<T extends SubscriptionType> = (response: SubscriptionResponse<T>) => void;
 
@@ -104,7 +106,7 @@ export class AccountSubscriptionManager {
   #paused = false;
   #subscriptions = new Set<ActiveSubscription<SubscriptionType>>();
   #timeouts = new Map<SubscriptionType, NodeJS.Timeout | 0>();
-  #cache: { [T in SubscriptionType]?: SubscriptionData<T> } = {};
+  #cache: { [T in SubscriptionType]?: { timestamp: Date, data: SubscriptionData<T> }} = {};
 
   constructor(accountId: string, paused: boolean) {
     this.#accountId = accountId;
@@ -113,7 +115,22 @@ export class AccountSubscriptionManager {
     // restore cache from session storage
     const cache = sessionStorage.getItem(`gw2api.cache.${accountId}`);
     if(cache) {
-      this.#cache = JSON.parse(cache);
+      const cachedData = JSON.parse(cache);
+
+      // deserialize and migrate timestamps
+      for(const [key, value] of Object.entries(cachedData)) {
+        if(typeof value !== 'object' || !value) { continue; }
+
+        if(!('timestamp' in value)) {
+          // migrate data without timestamp
+          cachedData[key] = { timestamp: new Date(0), data: value };
+        } else if(typeof value.timestamp === 'string') {
+          // deserialize timestamp
+          cachedData[key] = { ...value, timestamp: new Date(value.timestamp as string) };
+        }
+      }
+
+      this.#cache = cachedData;
     }
   }
 
@@ -164,20 +181,21 @@ export class AccountSubscriptionManager {
     let response: SubscriptionResponse<SubscriptionType>;
     let nextTickMs = 60_000;
     try {
+      const timestamp = new Date();
       const data = await fetchers[type](accessToken.accessToken);
 
       // write to cache
-      this.#cache = { ...this.#cache, [type]: data };
+      this.#cache = { ...this.#cache, [type]: { data, timestamp }};
 
       // save cache to session storage
       sessionStorage.setItem(`gw2api.cache.${this.#accountId}`, JSON.stringify(this.#cache));
 
-      response = { error: false, data };
+      response = { error: false, data, timestamp };
     } catch(e) {
       const cached = this.#cache[type];
       // if cached data is available, respond with it instead of showing an error
       // TODO: only respond with cached data if it is not too old
-      response = cached ? { error: false, data: cached } : { error: true };
+      response = cached ? { error: false, ...cached } : { error: true };
 
       const isRateLimitError = e instanceof Gw2ApiError && e.response.status === 429;
       if(!isRateLimitError) {
@@ -209,7 +227,7 @@ export class AccountSubscriptionManager {
     // check if the data is already in cache
     const cached = this.#cache[type];
     if(cached) {
-      callback({ error: false, data: cached });
+      callback({ error: false, ...cached });
     }
 
     // handle the new subscription
@@ -228,7 +246,9 @@ const fetchers: { [T in SubscriptionType]: (accessToken: string) => Promise<Subs
   skins: (accessToken: string) => fetchGw2Api('/v2/account/skins', { accessToken, cache: 'no-cache' }),
   minis: (accessToken: string) => fetchGw2Api('/v2/account/minis', { accessToken, cache: 'no-cache' }),
   wallet: (accessToken: string) => fetchGw2Api('/v2/account/wallet', { accessToken, cache: 'no-cache' }),
-  'wizards-vault': (accessToken: string) => loadAccountsWizardsVault(accessToken),
+  'wizards-vault.daily': (accessToken: string) => fetchGw2Api('/v2/account/wizardsvault/daily', { accessToken, cache: 'no-cache' }),
+  'wizards-vault.weekly': (accessToken: string) => fetchGw2Api('/v2/account/wizardsvault/weekly', { accessToken, cache: 'no-cache' }),
+  'wizards-vault.special': (accessToken: string) => fetchGw2Api('/v2/account/wizardsvault/special', { accessToken, cache: 'no-cache' }),
   inventories: (accessToken: string) => loadInventories(accessToken),
   'home.cats': (accessToken: string) => fetchGw2Api('/v2/account/home/cats', { accessToken, cache: 'no-cache', schema: '2022-03-23T19:00:00.000Z' }),
   'home.nodes': (accessToken: string) => fetchGw2Api('/v2/account/home/nodes', { accessToken, cache: 'no-cache' }),
@@ -240,28 +260,6 @@ const fetchers: { [T in SubscriptionType]: (accessToken: string) => Promise<Subs
   'sab': (accessToken: string) => loadSab(accessToken),
   'outfits': (accessToken: string) => fetchGw2Api('/v2/account/outfits', { accessToken, cache: 'no-cache' }),
 };
-
-async function loadAccountsWizardsVault(accessToken: string) {
-  // TODO: somehow reuse subscription (maybe just extract logic into a `useWizardsVault` hook that subscribes to both)
-  const account = await fetchGw2Api('/v2/account', { accessToken, schema: '2019-02-21T00:00:00.000Z', cache: 'no-cache' });
-
-  const lastModified = new Date(account.last_modified);
-  const lastModifiedToday = lastModified > getResetDate('last-daily');
-  const lastModifiedThisWeek = lastModified > getResetDate('last-weekly');
-
-  const [daily, weekly, special] = await Promise.all([
-    lastModifiedToday ? fetchGw2Api('/v2/account/wizardsvault/daily', { accessToken, cache: 'no-cache' }) : undefined,
-    lastModifiedThisWeek ? fetchGw2Api('/v2/account/wizardsvault/weekly', { accessToken, cache: 'no-cache' }) : undefined,
-    fetchGw2Api('/v2/account/wizardsvault/special', { accessToken, cache: 'no-cache' }),
-  ]);
-
-  return {
-    account,
-    lastModifiedToday,
-    lastModifiedThisWeek,
-    daily, weekly, special
-  };
-}
 
 async function loadInventories(accessToken: string) {
   const [bank, materials, sharedInventory, armory, characters, delivery] = await Promise.all([

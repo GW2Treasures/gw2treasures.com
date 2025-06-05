@@ -32,7 +32,7 @@ export const EntityLinkInternal: FC<EntityLinkProps> = ({ ref, href, entity, ico
     >
       <>
         {icon !== 'none' && (typeof icon === 'number' ? (entity.icon ? <EntityIcon icon={entity.icon} size={icon} type={iconType}/> : <EntityIconMissing size={icon}/>) : icon)}
-        <span className={styles.name}>{children ?? localizedName(entity, language ?? defaultLanguage)}</span>
+        {children !== null && (<span className={styles.name}>{children ?? localizedName(entity, language ?? defaultLanguage)}</span>)}
       </>
     </NextLink>
   );

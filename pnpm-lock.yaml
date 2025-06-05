@@ -145,8 +145,8 @@ importers:
         specifier: 3.12.0
         version: 3.12.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@wooorm/starry-night':
-        specifier: 3.7.0
-        version: 3.7.0
+        specifier: 3.8.0
+        version: 3.8.0
       chalk:
         specifier: 5.4.1
         version: 5.4.1
@@ -1888,8 +1888,8 @@ packages:
   '@visx/vendor@3.12.0':
     resolution: {integrity: sha512-SVO+G0xtnL9dsNpGDcjCgoiCnlB3iLSM9KLz1sLbSrV7RaVXwY3/BTm2X9OWN1jH2a9M+eHt6DJ6sE6CXm4cUg==}
 
-  '@wooorm/starry-night@3.7.0':
-    resolution: {integrity: sha512-Gg3yXUub8jwz10x4PAeMjmgYzzwUVMGXWfk33jA32XL1iQX9lt8798943ONpjnJIyYSeDysxI8gMNegCU38low==}
+  '@wooorm/starry-night@3.8.0':
+    resolution: {integrity: sha512-BWRm0tCzWCmv1ucBh6frL2uFRvYFj/LWmJzr+rJsdF/JsJ1+bBkeiyExH1iWQS18IH22HFu7f4QgG99OU1nklA==}
 
   abab@2.0.6:
     resolution: {integrity: sha512-j2afSsaIENvHZN2B8GOpF566vZ5WVk5opAiMTvWgaQT8DkbOqsTfvNAvHoRGU2zzP8cPoqys+xHTRDWW8L+/BA==}
@@ -5955,7 +5955,7 @@ snapshots:
       d3-time-format: 4.1.0
       internmap: 2.0.3
 
-  '@wooorm/starry-night@3.7.0':
+  '@wooorm/starry-night@3.8.0':
     dependencies:
       '@types/hast': 3.0.3
       import-meta-resolve: 4.0.0

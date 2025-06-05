@@ -9,7 +9,7 @@ import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 import Link from 'next/link';
-import { type FC, Fragment } from 'react';
+import { type FC, Fragment, type ReactNode } from 'react';
 import styles from './objectives.module.css';
 import { ResetTimer } from '@/components/Reset/ResetTimer';
 import { ProgressCell } from '@/components/Achievement/ProgressCell';
@@ -25,6 +25,8 @@ import { useWizardsVault } from '@/components/WizardsVault/use-wizards-vault';
 export interface WizardVaultObjectivesProps {
   seasonEnd?: Date,
   objectiveWaypoints: Record<number, number>,
+  dailyChest: ReactNode,
+  weeklyChest: ReactNode,
 }
 
 const requiredScopes = [Scope.GW2_Account, Scope.GW2_Progression];
@@ -32,7 +34,7 @@ const optionalScopes = [Scope.GW2_Wallet];
 
 const loginUrl = `/login?returnTo=${encodeURIComponent('/wizards-vault')}&scopes=${encodeURIComponent([...requiredScopes, ...optionalScopes].join(','))}`;
 
-export const WizardVaultObjectives: FC<WizardVaultObjectivesProps> = ({ seasonEnd, objectiveWaypoints }) => {
+export const WizardVaultObjectives: FC<WizardVaultObjectivesProps> = ({ seasonEnd, objectiveWaypoints, dailyChest, weeklyChest }) => {
   const user = useUser();
   const accounts = useGw2Accounts(requiredScopes, optionalScopes);
 
@@ -73,8 +75,8 @@ export const WizardVaultObjectives: FC<WizardVaultObjectivesProps> = ({ seasonEn
           ))}
           <tr className={styles.rowSection}>
             <td>Rewards</td>
-            <td align="right"><AstralAcclaim value={20}/></td>
-            <td align="right"><AstralAcclaim value={450}/></td>
+            <td align="right">{dailyChest} + <AstralAcclaim value={20}/></td>
+            <td align="right">{weeklyChest} + <AstralAcclaim value={450}/></td>
             <td align="right">-</td>
             <td align="right"/>
           </tr>

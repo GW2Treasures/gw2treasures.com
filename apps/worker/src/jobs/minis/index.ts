@@ -1,12 +1,12 @@
 import { db } from '../../db';
 import { fetchApi } from '../helper/fetchApi';
 import { Job } from '../job';
-import { loadMinis } from '../helper/loadMinis';
 import { isEmptyObject } from '@gw2treasures/helper/is';
 import { Changes, type ProcessEntitiesData, createSubJobs, processLocalizedEntities } from '../helper/process-entities';
 import { toId } from '../helper/toId';
 import { createIcon } from '../helper/createIcon';
 import { Prisma } from '@gw2treasures/database';
+import { loadLocalizedEntities } from '../helper/load-entities';
 
 const CURRENT_VERSION = 2;
 
@@ -26,6 +26,7 @@ export const MinisJob: Job = {
     return processLocalizedEntities(
       data,
       'Mini',
+      (ids) => loadLocalizedEntities('/v2/minis', ids),
       (miniId, revisionId) => ({ miniId_revisionId: { revisionId, miniId }}),
       async (mini, version, changes) => {
         const iconId = await createIcon(mini.en.icon);
@@ -60,7 +61,6 @@ export const MinisJob: Job = {
         } satisfies Partial<Prisma.MiniUncheckedCreateInput>;
       },
       db.mini.findMany,
-      loadMinis,
       (tx, data) => tx.mini.create(data),
       (tx, data) => tx.mini.update(data),
       CURRENT_VERSION

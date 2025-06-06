@@ -1,10 +1,10 @@
 import { db } from '../../db';
 import { fetchApi } from '../helper/fetchApi';
 import { Job } from '../job';
-import { loadHomesteadDecorationCategories } from '../helper/loadHomestead';
 import { isEmptyObject } from '@gw2treasures/helper/is';
 import { Changes, type ProcessEntitiesData, createSubJobs, processLocalizedEntities } from '../helper/process-entities';
 import { Prisma } from '@gw2treasures/database';
+import { loadLocalizedEntities } from '../helper/load-entities';
 
 export const HomesteadDecorationCategoriesJob: Job = {
   run(data: ProcessEntitiesData<number> | Record<string, never>) {
@@ -22,6 +22,7 @@ export const HomesteadDecorationCategoriesJob: Job = {
     return processLocalizedEntities(
       data,
       'HomesteadDecorationCategory',
+      (ids) => loadLocalizedEntities('/v2/homestead/decorations/categories', ids),
       (homesteadDecorationCategoryId, revisionId) => ({ homesteadDecorationCategoryId_revisionId: { revisionId, homesteadDecorationCategoryId }}),
       async (category, _, change) => {
         return {
@@ -36,7 +37,6 @@ export const HomesteadDecorationCategoriesJob: Job = {
         } satisfies Partial<Prisma.HomesteadDecorationCategoryUncheckedCreateInput>;
       },
       db.homesteadDecorationCategory.findMany,
-      loadHomesteadDecorationCategories,
       (tx, data) => tx.homesteadDecorationCategory.create(data),
       (tx, data) => tx.homesteadDecorationCategory.update(data),
       CURRENT_VERSION

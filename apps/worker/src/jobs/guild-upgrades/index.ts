@@ -1,11 +1,11 @@
 import { db } from '../../db';
 import { fetchApi } from '../helper/fetchApi';
 import { Job } from '../job';
-import { loadGuildUpgrades } from '../helper/loadGuildUpgrades';
 import { isEmptyObject } from '@gw2treasures/helper/is';
 import { type ProcessEntitiesData, createSubJobs, processLocalizedEntities, Changes } from '../helper/process-entities';
 import { Prisma } from '@gw2treasures/database';
 import { createIcon } from '../helper/createIcon';
+import { loadLocalizedEntities } from '../helper/load-entities';
 
 export const GuildUpgradesJob: Job = {
   run(data: ProcessEntitiesData<number> | Record<string, never>) {
@@ -23,6 +23,7 @@ export const GuildUpgradesJob: Job = {
     return processLocalizedEntities(
       data,
       'GuildUpgrade',
+      (ids) => loadLocalizedEntities('/v2/guild/upgrades', ids),
       (guildUpgradeId, revisionId) => ({ guildUpgradeId_revisionId: { revisionId, guildUpgradeId }}),
       async (guildUpgrade, version, changes) => {
         const ingredients = changes === Changes.New
@@ -52,7 +53,6 @@ export const GuildUpgradesJob: Job = {
         } satisfies Prisma.GuildUpgradeUncheckedUpdateInput;
       },
       db.guildUpgrade.findMany,
-      loadGuildUpgrades,
       (tx, data) => tx.guildUpgrade.create(data),
       (tx, data) => tx.guildUpgrade.update(data),
       CURRENT_VERSION

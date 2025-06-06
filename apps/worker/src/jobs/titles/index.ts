@@ -1,10 +1,10 @@
 import { db } from '../../db';
 import { fetchApi } from '../helper/fetchApi';
 import { Job } from '../job';
-import { loadTitles } from '../helper/loadTitles';
 import { isEmptyObject } from '@gw2treasures/helper/is';
 import { Changes, type ProcessEntitiesData, createSubJobs, processLocalizedEntities } from '../helper/process-entities';
 import { getNamesWithFallback } from '../helper/helper';
+import { loadLocalizedEntities } from '../helper/load-entities';
 
 const CURRENT_VERSION = 0;
 
@@ -22,6 +22,7 @@ export const TitlesJob: Job = {
     return processLocalizedEntities(
       data,
       'Title',
+      (ids) => loadLocalizedEntities('/v2/titles', ids),
       (titleId, revisionId) => ({ titleId_revisionId: { revisionId, titleId }}),
       async (title, version, changes) => {
         const names = getNamesWithFallback(title);
@@ -37,7 +38,6 @@ export const TitlesJob: Job = {
         };
       },
       db.title.findMany,
-      loadTitles,
       (tx, data) => tx.title.create(data),
       (tx, data) => tx.title.update(data),
       CURRENT_VERSION

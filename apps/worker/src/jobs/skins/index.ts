@@ -1,12 +1,12 @@
 import { db } from '../../db';
 import { fetchApi } from '../helper/fetchApi';
 import { Job } from '../job';
-import { loadSkins } from '../helper/loadSkins';
 import { isEmptyObject } from '@gw2treasures/helper/is';
 import { Changes, type ProcessEntitiesData, createSubJobs, processLocalizedEntities } from '../helper/process-entities';
 import { createIcon } from '../helper/createIcon';
 import { encode } from 'gw2e-chat-codes';
 import { getNamesWithFallback } from '../helper/helper';
+import { loadLocalizedEntities } from '../helper/load-entities';
 
 const CURRENT_VERSION = 3;
 
@@ -24,6 +24,7 @@ export const SkinsJob: Job = {
     return processLocalizedEntities(
       data,
       'Skin',
+      (ids) => loadLocalizedEntities('/v2/skins', ids),
       (skinId, revisionId) => ({ skinId_revisionId: { revisionId, skinId }}),
       async (skin, version, changes) => {
         const iconId = await createIcon(skin.en.icon);
@@ -56,7 +57,6 @@ export const SkinsJob: Job = {
         };
       },
       db.skin.findMany,
-      loadSkins,
       (tx, data) => tx.skin.create(data),
       (tx, data) => tx.skin.update(data),
       CURRENT_VERSION

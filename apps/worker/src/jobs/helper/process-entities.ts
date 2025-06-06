@@ -185,10 +185,10 @@ export enum Changes {
 export async function processLocalizedEntities<Id extends string | number, DbEntity extends DbLocalizedEntityBase<Id>, ApiEntity extends { id: Id }, HistoryId, ExtraData>(
   data: ProcessEntitiesData<Id>,
   entityName: string,
+  getEntitiesFromApi: (ids: Id[]) => Promise<Map<Id, LocalizedObject<ApiEntity>>>,
   createHistoryId: (id: Id, revisionId: string) => HistoryId,
   migrate: (entity: LocalizedObject<ApiEntity>, version: number, changes: Changes) => ExtraData | Promise<ExtraData>,
   getEntitiesFromDb: (args: GetLocalizedEntitiesArgs<Id>) => Promise<DbEntity[]>,
-  getEntitiesFromApi: (ids: Id[]) => Promise<Map<Id, LocalizedObject<ApiEntity>>>,
   create: (tx: PrismaTransaction, data: CreateInputLocalized<Id, HistoryId, ExtraData>) => Promise<unknown>,
   update: (tx: PrismaTransaction, data: UpdateInputLocalized<Id, HistoryId, ExtraData>) => Promise<unknown>,
   currentVersion: number,
@@ -296,10 +296,10 @@ export async function processLocalizedEntities<Id extends string | number, DbEnt
 export async function processEntities<Id extends string | number, DbEntity extends DbEntityBase<Id>, ApiEntity extends { id: Id }, HistoryId, ExtraData>(
   data: ProcessEntitiesData<Id>,
   entityName: string,
+  getEntitiesFromApi: (ids: Id[]) => Promise<Map<Id, ApiEntity>>,
   createHistoryId: (id: Id, revisionId: string) => HistoryId,
   migrate: (entity: ApiEntity, version: number, changes: Changes) => ExtraData | Promise<ExtraData>,
   getEntitiesFromDb: (args: GetEntitiesArgs<Id>) => Promise<DbEntity[]>,
-  getEntitiesFromApi: (ids: Id[]) => Promise<Map<Id, ApiEntity>>,
   create: (tx: PrismaTransaction, data: CreateInput<Id, HistoryId, ExtraData>) => Promise<unknown>,
   update: (tx: PrismaTransaction, data: UpdateInput<Id, HistoryId, ExtraData>) => Promise<unknown>,
   currentVersion: number,

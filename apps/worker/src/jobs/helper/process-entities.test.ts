@@ -56,10 +56,10 @@ async function testProcessLocalizedEntities(
   await processLocalizedEntities(
     { ids: [1] },
     'test',
+    () => apiEntity ? loadFromApi({ id: 1, ...apiEntity }) : Promise.resolve(new Map()), // get from api
     (testId, revisionId) => ({ testId_revisionId: { testId, revisionId }}),
     () => ({}), // migrate
     () => Promise.resolve(dbEntity ? [{ ...TestDbEntityBase, ...dbEntity }] : []), // get from db
-    () => apiEntity ? loadFromApi({ id: 1, ...apiEntity }) : Promise.resolve(new Map()), // get from api
     (_, create) => {
       data = { create: create.data };
       return Promise.resolve();

@@ -4,8 +4,8 @@ import { Job } from '../job';
 import { isEmptyObject } from '@gw2treasures/helper/is';
 import { type ProcessEntitiesData, createSubJobs, processEntities } from '../helper/process-entities';
 import { Prisma } from '@gw2treasures/database';
-import { loadWizardsVaultListings } from '../helper/loadWizardsVaultListings';
 import { toId } from '../helper/toId';
+import { loadEntities } from '../helper/load-entities';
 
 export const WizardsVaultListingsJob: Job = {
   async run(data: ProcessEntitiesData<number> | Record<string, never>) {
@@ -25,6 +25,7 @@ export const WizardsVaultListingsJob: Job = {
     return processEntities(
       data,
       'WizardsVaultListing',
+      (ids) => loadEntities('/v2/wizardsvault/listings', ids),
       (listingId, revisionId) => ({ wizardsVaultListingId_revisionId: { revisionId, wizardsVaultListingId: listingId }}),
       (listing) => {
         return {
@@ -36,7 +37,6 @@ export const WizardsVaultListingsJob: Job = {
         } satisfies Prisma.WizardsVaultListingUncheckedUpdateInput;
       },
       db.wizardsVaultListing.findMany,
-      loadWizardsVaultListings,
       (tx, data) => tx.wizardsVaultListing.create(data),
       (tx, data) => tx.wizardsVaultListing.update(data),
       CURRENT_VERSION

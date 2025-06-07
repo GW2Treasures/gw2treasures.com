@@ -4,12 +4,15 @@ import { Gw2AccountName } from '@/components/Gw2Api/Gw2AccountName';
 import { Gw2Accounts } from '@/components/Gw2Api/Gw2Accounts';
 import { Scope } from '@gw2me/client';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
-import type { FC } from 'react';
+import { useState, type FC } from 'react';
 import type { Gw2Account } from '../Gw2Api/types';
 import { Skeleton } from '../Skeleton/Skeleton';
 import { FormatNumber } from '../Format/FormatNumber';
 import { Icon } from '@gw2treasures/ui';
-import { useInventoryItem, UseInventoryItemAccountLocation, UseInventoryItemCharacterLocation, type UseInventoryItemResultLocation } from '../Inventory/use-inventory';
+import { sumItemCount, useInventoryItem, UseInventoryItemAccountLocation, UseInventoryItemCharacterLocation, type UseInventoryItemResultLocation } from '../Inventory/use-inventory';
+import styles from './ItemInventoryTable.module.css';
+import { isTruthy } from '@gw2treasures/helper/is';
+import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 
 interface WardrobeProps {
   itemId: number;
@@ -39,9 +42,8 @@ export const ItemInventoryTable: FC<WardrobeProps> = ({ itemId }) => {
         <Table>
           <thead>
             <tr>
-              <Table.HeaderCell small>Account</Table.HeaderCell>
               <Table.HeaderCell>Location</Table.HeaderCell>
-              <Table.HeaderCell align="right">Count</Table.HeaderCell>
+              <Table.HeaderCell align="right" small>Count</Table.HeaderCell>
             </tr>
           </thead>
           <tbody>
@@ -62,12 +64,17 @@ interface ItemInventoryAccountRowsProps {
 
 const ItemInventoryAccountRows: FC<ItemInventoryAccountRowsProps> = ({ itemId, account }) => {
   const inventory = useInventoryItem(account.id, itemId);
+  const [expanded, setExpanded] = useState(false);
 
   if(inventory.loading) {
     return (
       <tr>
-        <th><Gw2AccountName account={account}/></th>
-        <td><Skeleton/></td>
+        <th>
+          <FlexRow>
+            <Icon icon="loading"/>
+            <Gw2AccountName account={account}/>
+          </FlexRow>
+        </th>
         <td align="right"><Skeleton/></td>
       </tr>
     );
@@ -76,30 +83,39 @@ const ItemInventoryAccountRows: FC<ItemInventoryAccountRowsProps> = ({ itemId, a
   if(inventory.error) {
     return (
       <tr>
-        <th><Gw2AccountName account={account}/></th>
-        <td colSpan={2} style={{ color: 'var(--color-error)' }}>Error loading inventory</td>
+        <th>
+          <FlexRow>
+            <Icon icon="close"/>
+            <Gw2AccountName account={account}/>
+          </FlexRow>
+        </th>
+        <td style={{ color: 'var(--color-error)' }}>Error loading inventory</td>
       </tr>
     );
   }
 
-  if(inventory.locations.length === 0) {
-    return (
+  const total = inventory.locations.reduce(sumItemCount, 0);
+
+  return (
+    <>
       <tr>
-        <th><Gw2AccountName account={account}/></th>
-        <td>-</td>
-        <td align="right">0</td>
+        <th>
+          <button className={styles.button} onClick={() => setExpanded(!expanded)}>
+            <Icon icon={expanded ? 'chevron-down' : 'chevron-right'}/>
+            <Gw2AccountName account={account}/>
+          </button>
+        </th>
+        <td align="right" className={styles.totalCount}><FormatNumber value={total}/></td>
       </tr>
-    );
-  }
 
-  return inventory.locations.map((location, index) => (
-    // eslint-disable-next-line react/no-array-index-key
-    <tr key={index}>
-      <th><Gw2AccountName account={account}/></th>
-      <td><ItemInventoryLocation location={location}/></td>
-      <td align="right"><FormatNumber value={location.count}/></td>
-    </tr>
-  ));
+      {expanded && inventory.locations.map((location) => (
+        <tr key={locationKey(location)}>
+          <td className={styles.locationCell}><ItemInventoryLocation location={location}/></td>
+          <td align="right"><FormatNumber value={location.count}/></td>
+        </tr>
+      ))}
+    </>
+  );
 };
 
 interface ItemInventoryLocationProps {
@@ -120,13 +136,25 @@ const ItemInventoryLocation: FC<ItemInventoryLocationProps> = ({ location }) => 
       return 'Trading Post (Delivery Box)';
 
     case UseInventoryItemCharacterLocation.Inventory:
-      return <><Icon icon="user"/> {location.character} (Inventory)</>;
+      return <>{location.character.name} <span className={styles.locationInfo}>(Inventory)</span></>;
     case UseInventoryItemCharacterLocation.Equipment:
-      return <><Icon icon="user"/> {location.character} (Equipped)</>;
+      return <>{location.character.name} <span className={styles.locationInfo}>(Equipped)</span></>;
     case UseInventoryItemCharacterLocation.EquipmentTemplate:
-      return <><Icon icon="user"/> {location.character} (Equipment Template{location.tab && ` "${location.tab}"`})</>;
+      return <>{location.character.name} <span className={styles.locationInfo}>(Equipment Template{location.tab && ` "${location.tab}"`})</span></>;
 
     default:
       return '?';
   }
 };
+
+function locationKey(location: UseInventoryItemResultLocation): string {
+  return [
+    location.location,
+    (location.location === UseInventoryItemCharacterLocation.Inventory ||
+    location.location === UseInventoryItemCharacterLocation.Equipment ||
+    location.location === UseInventoryItemCharacterLocation.EquipmentTemplate) &&
+      location.character.name,
+    location.location === UseInventoryItemCharacterLocation.EquipmentTemplate &&
+      location.tab
+  ].filter(isTruthy).join(':');
+}

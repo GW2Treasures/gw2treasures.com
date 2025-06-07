@@ -1,7 +1,7 @@
 import { useSubscription } from '../Gw2Api/use-gw2-subscription';
 import type { ItemStack } from '@gw2api/types/data/item';
 import type { SharedInventoryItemStack } from '@gw2api/types/data/account-inventory';
-import type { CharacterEquipmentEntry } from '@gw2api/types/data/character';
+import type { CharacterEquipmentEntry, Profession } from '@gw2api/types/data/character';
 
 export enum UseInventoryItemAccountLocation {
   Bank = 0,
@@ -17,10 +17,12 @@ export enum UseInventoryItemCharacterLocation {
   EquipmentTemplate = -3,
 }
 
+type Character = { name: string, profession: Profession };
+
 export type UseInventoryItemResultLocation =
  | { count: number, location: UseInventoryItemAccountLocation }
- | { count: number, location: Exclude<UseInventoryItemCharacterLocation, UseInventoryItemCharacterLocation.EquipmentTemplate>, character: string }
- | { count: number, location: UseInventoryItemCharacterLocation.EquipmentTemplate, character: string, tab?: string };
+ | { count: number, location: Exclude<UseInventoryItemCharacterLocation, UseInventoryItemCharacterLocation.EquipmentTemplate>, character: Character }
+ | { count: number, location: UseInventoryItemCharacterLocation.EquipmentTemplate, character: Character, tab?: string };
 
 export type UseInventoryItemResult =
   | { loading: true }
@@ -50,30 +52,53 @@ export function useInventoryItem(accountId: string, itemId: number): UseInventor
   const inDelivery = delivery.items.filter(isItemId).reduce(sumItemCount, 0);
 
   // get item counts in each characters
-  const inCharacters: UseInventoryItemResultLocation[] = characters.flatMap((character) => {
+  const inCharacters: UseInventoryItemResultLocation[] = characters.flatMap((char) => {
+    const character: Character = {
+      name: char.name,
+      profession: char.profession,
+    };
+
     // items in the inventory of a character
-    const inCharactersBags = character.bags?.flatMap((bag) => bag?.inventory).flatMap(mapItemWithUpgradesToItems).filter(isItemId).reduce(sumItemCount, 0);
+    const inCharactersBags = char.bags?.flatMap((bag) => bag?.inventory).flatMap(mapItemWithUpgradesToItems).filter(isItemId).reduce(sumItemCount, 0);
 
     // the bags a character has equipped
-    const inCharactersEquippedBags = character.bags?.filter(isItemId).length;
+    const inCharactersEquippedBags = char.bags?.filter(isItemId).length;
+
+    // some slots are missing in equipment_tabs
+    const otherSlots = [
+      'Sickle',
+      'Axe',
+      'Pick',
+      'FishingRod',
+      'FishingBait',
+      'FishingLure',
+      'PowerCore',
+      'SensoryArray',
+      'Relic' // https://github.com/gw2-api/issues/issues/87
+    ];
+    const inCharactersEquipmentOther = char.equipment?.filter(({ slot }) => otherSlots.includes(slot))
+      .flatMap((e) => mapItemWithUpgradesToItems(e as ItemStackLike))
+      .filter(isItemId)
+      .length;
 
     // count items in equipment tabs
     // if the item is a legendary (inLegendaryArmory > 0) we skip it to not count it multiple times (TODO: but maybe we want still know which characters are using it?)
-    const inCharactersEquipment = (inLegendaryArmory > 0 || character.equipment_tabs === undefined) ? [] : character.equipment_tabs.map((tab) => ({
+    const inCharactersEquipment = (inLegendaryArmory > 0 || char.equipment_tabs === undefined) ? [] : char.equipment_tabs.map((tab) => ({
       count: tab.equipment.flatMap(mapItemWithUpgradesToItems)
         .filter(isItemId)
         // Exclude items that are also equipped in the active tab or in a tab with a lower index, so that linked items are only counted once
         // this is currently broken because of https://github.com/gw2-api/issues/issues/12
-        .filter((item) => tab.is_active || (isEquipmentItem(item) ? !item.tabs.some((tabId) => tabId === character.active_equipment_tab || tabId < tab.tab) : true))
+        .filter((item) => tab.is_active || (isEquipmentItem(item) ? !item.tabs.some((tabId) => tabId === char.active_equipment_tab || tabId < tab.tab) : true))
         .reduce(sumItemCount, 0),
       location: tab.is_active ? UseInventoryItemCharacterLocation.Equipment : UseInventoryItemCharacterLocation.EquipmentTemplate,
-      character: character.name,
+      character,
       tab: tab.name,
     }));
 
     return [
-      { count: inCharactersBags ?? 0, location: UseInventoryItemCharacterLocation.Inventory, character: character.name },
-      { count: inCharactersEquippedBags ?? 0, location: UseInventoryItemCharacterLocation.Equipment, character: character.name },
+      { count: inCharactersBags ?? 0, location: UseInventoryItemCharacterLocation.Inventory, character },
+      { count: inCharactersEquippedBags ?? 0, location: UseInventoryItemCharacterLocation.Equipment, character },
+      { count: inCharactersEquipmentOther ?? 0, location: UseInventoryItemCharacterLocation.Equipment, character },
       ...inCharactersEquipment,
     ];
   });
@@ -85,7 +110,7 @@ export function useInventoryItem(accountId: string, itemId: number): UseInventor
     { count: inLegendaryArmory, location: UseInventoryItemAccountLocation.LegendaryArmory },
     { count: inDelivery, location: UseInventoryItemAccountLocation.Delivery },
     ...inCharacters,
-  ].filter(hasNonEmptyCount);
+  ].filter(hasNonEmptyCount).sort((a, b) => b.count - a.count);
 
   return {
     loading: false,
@@ -122,7 +147,7 @@ function isEquipmentItem(item: unknown): item is CharacterEquipmentEntry<'2019-1
   return typeof item === 'object' && item != null && 'tabs' in item;
 }
 
-function sumItemCount(total: number, { count }: { count?: number }) {
+export function sumItemCount(total: number, { count }: { count?: number }) {
   return total + (count ?? 1);
 }
 

@@ -105,7 +105,7 @@ const ItemInventoryAccountRows: FC<ItemInventoryAccountRowsProps> = ({ itemId, a
             <Gw2AccountName account={account}/>
           </button>
         </th>
-        <td align="right" className={styles.totalCount}><FormatNumber value={total}/></td>
+        <td align="right"><FormatNumber className={styles.totalCount} value={total}/></td>
       </tr>
 
       {expanded && inventory.locations.map((location) => (

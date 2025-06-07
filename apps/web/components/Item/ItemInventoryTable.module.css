@@ -1,0 +1,35 @@
+.button {
+  /* remove button styles */
+  composes: reset from '@gw2treasures/ui/reset.module.css';
+
+  background: none;
+  cursor: pointer;
+  color: inherit;
+
+  display: block;
+  width: calc(100% + 32px);
+  margin: -8px -16px;
+  padding: 8px 16px;
+  text-align: inherit;
+  border-radius: 2px;
+
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.button:focus-visible {
+  box-shadow: var(--shadow-focus);
+}
+
+.totalCount {
+  font-weight: 500;
+}
+
+.locationCell {
+  padding-left: 40px !important;
+}
+
+.locationInfo {
+  color: var(--color-text-muted);
+}

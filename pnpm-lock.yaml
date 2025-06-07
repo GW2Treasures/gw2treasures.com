@@ -230,8 +230,8 @@ importers:
         specifier: 29.5.14
         version: 29.5.14
       '@types/negotiator':
-        specifier: 0.6.3
-        version: 0.6.3
+        specifier: 0.6.4
+        version: 0.6.4
       '@types/node':
         specifier: 22.15.30
         version: 22.15.30
@@ -1716,8 +1716,8 @@ packages:
   '@types/ms@0.7.34':
     resolution: {integrity: sha512-nG96G3Wp6acyAgJqGasjODb+acrI7KltPiRxzHPXnP3NgI28bpQDRv53olbqGXbfcgF5aiiHmO3xpwEpS5Ld9g==}
 
-  '@types/negotiator@0.6.3':
-    resolution: {integrity: sha512-JkXTOdKs5MF086b/pt8C3+yVp3iDUwG635L7oCH6HvJvvr6lSUU5oe/gLXnPEfYRROHjJIPgCV6cuAg8gGkntQ==}
+  '@types/negotiator@0.6.4':
+    resolution: {integrity: sha512-elf6BsTq+AkyNsb2h5cGNst2Mc7dPliVoAPm1fXglC/BM3f2pFA40BaSSv3E5lyHteEawVKLP+8TwiY1DMNb3A==}
 
   '@types/node@22.15.30':
     resolution: {integrity: sha512-6Q7lr06bEHdlfplU6YRbgG1SFBdlsfNC4/lX+SkhiTs0cpJkOElmWls8PxDFv4yY/xKb8Y6SO0OmSX4wgqTZbA==}
@@ -5678,7 +5678,7 @@ snapshots:
 
   '@types/ms@0.7.34': {}
 
-  '@types/negotiator@0.6.3': {}
+  '@types/negotiator@0.6.4': {}
 
   '@types/node@22.15.30':
     dependencies:

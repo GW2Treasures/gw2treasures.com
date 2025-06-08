@@ -4,7 +4,7 @@ import { Gw2AccountName } from '@/components/Gw2Api/Gw2AccountName';
 import { Gw2Accounts } from '@/components/Gw2Api/Gw2Accounts';
 import { Scope } from '@gw2me/client';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
-import { useState, type FC } from 'react';
+import { type FC } from 'react';
 import type { Gw2Account } from '../Gw2Api/types';
 import { Skeleton } from '../Skeleton/Skeleton';
 import { FormatNumber } from '../Format/FormatNumber';
@@ -13,6 +13,7 @@ import { sumItemCount, useInventoryItem, UseInventoryItemAccountLocation, UseInv
 import styles from './ItemInventoryTable.module.css';
 import { isTruthy } from '@gw2treasures/helper/is';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
+import { useLocalStorageState } from '@/lib/useLocalStorageState';
 
 interface WardrobeProps {
   itemId: number;
@@ -64,7 +65,7 @@ interface ItemInventoryAccountRowsProps {
 
 const ItemInventoryAccountRows: FC<ItemInventoryAccountRowsProps> = ({ itemId, account }) => {
   const inventory = useInventoryItem(account.id, itemId);
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useLocalStorageState(`inventory.${account.id}.expanded`, true);
 
   if(inventory.loading) {
     return (

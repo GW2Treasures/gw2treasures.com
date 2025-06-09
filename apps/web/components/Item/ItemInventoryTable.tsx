@@ -101,12 +101,12 @@ const ItemInventoryAccountRows: FC<ItemInventoryAccountRowsProps> = ({ itemId, a
     <>
       <tr>
         <th>
-          <button className={styles.button} onClick={() => setExpanded(!expanded)}>
-            <Icon icon={expanded ? 'chevron-down' : 'chevron-right'}/>
+          <button className={styles.button} onClick={() => setExpanded(!expanded)} disabled={total === 0} aria-expanded={total > 0 ? expanded : undefined}>
+            <Icon icon="chevron-right" className={styles.chevron}/>
             <Gw2AccountName account={account}/>
           </button>
         </th>
-        <td align="right"><FormatNumber className={styles.totalCount} value={total}/></td>
+        <td align="right"><FormatNumber className={total === 0 ? styles.totalCountZero : styles.totalCount} value={total}/></td>
       </tr>
 
       {expanded && inventory.locations.map((location) => (

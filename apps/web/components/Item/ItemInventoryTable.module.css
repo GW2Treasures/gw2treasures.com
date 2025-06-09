@@ -16,14 +16,55 @@
   display: flex;
   gap: 8px;
   align-items: center;
+
+  --chevron-rotate: 0deg;
+  --chevron-wiggle: 15deg;
 }
 
 .button:focus-visible {
   box-shadow: var(--shadow-focus);
 }
 
+.button[aria-expanded=true] {
+  --chevron-rotate: 90deg;
+  --chevron-wiggle: 75deg;
+}
+
+.chevron {
+  transform: rotate(var(--chevron-rotate));
+  transition: transform .3s ease;
+}
+
+.button[disabled] {
+  cursor: initial;
+  color: var(--color-text-muted);
+}
+
+/* .button:hover > .chevron {
+  animation: wiggle .3s ease-in-out;
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(var(--chevron-rotate)); }
+  50% { transform: rotate(var(--chevron-wiggle)); }
+}
+
+*/
+
+@media (prefers-reduced-motion) {
+  .chevron {
+    transition: none;
+    animation: none !important;
+  }
+}
+
 .totalCount {
   font-weight: 500;
+}
+
+.totalCountZero {
+  composes: totalCount;
+  color: var(--color-text-muted);
 }
 
 .locationCell {

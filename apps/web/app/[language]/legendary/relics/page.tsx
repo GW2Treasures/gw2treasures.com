@@ -47,6 +47,7 @@ const knownAchievements: Record<number, RelicSet | undefined> = {
   7960: { order: 12, access: 'SecretsOfTheObscure' }, // Relics—Secrets of the Obscure Set 3
   8363: { order: 20, access: 'JanthirWilds' }, // Relics—Janthir Wilds Set 1
   8446: { order: 21, access: 'JanthirWilds' }, // Relics—Janthir Wilds Set 2
+  8725: { order: 22, access: 'JanthirWilds' }, // Relics—Janthir Wilds Set 3
 };
 
 const loadItems = cache(async () => {

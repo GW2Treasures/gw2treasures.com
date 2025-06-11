@@ -105,7 +105,7 @@ export async function createTooltip(item: Gw2Api.Item, language: Language): Prom
 
   return {
     language,
-    name: item.name || encode('item', item.id) || '???',
+    name: format(item.name?.trim()) || encode('item', item.id) || '???',
     icon,
     weaponStrength: item.type === 'Weapon'
       ? { label: t('item.strength'), min: item.details?.min_power ?? 0, max: item.details?.max_power ?? 0 }

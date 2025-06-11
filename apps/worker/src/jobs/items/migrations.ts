@@ -5,6 +5,7 @@ import { toId } from '../helper/toId';
 import { LocalizedObject } from '../helper/types';
 import { Item } from '@gw2api/types/data/item';
 import { SchemaVersion } from '../helper/schema';
+import { strip } from 'gw2-tooltip-html';
 
 export const CURRENT_VERSION = 12;
 
@@ -55,7 +56,12 @@ export async function createMigrator() {
   // eslint-disable-next-line require-await
   return async function migrate({ de, en, es, fr }: LocalizedObject<Item<SchemaVersion>>, currentVersion = -1) {
     const update: MigratedItem = {
-      version: CURRENT_VERSION
+      version: CURRENT_VERSION,
+
+      name_de: strip(de.name?.trim()),
+      name_en: strip(en.name?.trim()),
+      name_es: strip(es.name?.trim()),
+      name_fr: strip(fr.name?.trim()),
     };
 
     // Populate common fields

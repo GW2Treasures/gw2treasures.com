@@ -1,12 +1,12 @@
 import { db } from '../../db';
 import { fetchApi } from '../helper/fetchApi';
 import { Job } from '../job';
-import { loadCurrencies } from '../helper/loadCurrencies';
 import { isEmptyObject } from '@gw2treasures/helper/is';
 import { Changes, type ProcessEntitiesData, createSubJobs, processLocalizedEntities } from '../helper/process-entities';
 import { createIcon } from '../helper/createIcon';
 import { getNamesWithFallback } from '../helper/helper';
 import { RecipeIngredientType } from '@gw2treasures/database';
+import { loadLocalizedEntities } from '../helper/load-entities';
 
 const CURRENT_VERSION = 0;
 
@@ -24,6 +24,7 @@ export const CurrenciesJob: Job = {
     return processLocalizedEntities(
       data,
       'Currency',
+      (ids) => loadLocalizedEntities('/v2/currencies', ids),
       (currencyId, revisionId) => ({ currencyId_revisionId: { revisionId, currencyId }}),
       async (currency, version, changes) => {
         // get name and icon
@@ -45,7 +46,6 @@ export const CurrenciesJob: Job = {
         };
       },
       db.currency.findMany,
-      loadCurrencies,
       (tx, data) => tx.currency.create(data),
       (tx, data) => tx.currency.update(data),
       CURRENT_VERSION

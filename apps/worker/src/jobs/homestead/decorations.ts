@@ -1,11 +1,11 @@
 import { db } from '../../db';
 import { fetchApi } from '../helper/fetchApi';
 import { Job } from '../job';
-import { loadHomesteadDecorations } from '../helper/loadHomestead';
 import { isEmptyObject } from '@gw2treasures/helper/is';
 import { type ProcessEntitiesData, createSubJobs, processLocalizedEntities } from '../helper/process-entities';
 import { createIcon } from '../helper/createIcon';
 import { toId } from '../helper/toId';
+import { loadLocalizedEntities } from '../helper/load-entities';
 
 export const HomesteadDecorationsJob: Job = {
   async run(data: ProcessEntitiesData<number> | Record<string, never>) {
@@ -25,6 +25,7 @@ export const HomesteadDecorationsJob: Job = {
     return processLocalizedEntities(
       data,
       'HomesteadDecoration',
+      (ids) => loadLocalizedEntities('/v2/homestead/decorations', ids),
       (homesteadDecorationId, revisionId) => ({ homesteadDecorationId_revisionId: { revisionId, homesteadDecorationId }}),
       async (decoration) => {
         const iconId = await createIcon(decoration.en.icon);
@@ -44,7 +45,6 @@ export const HomesteadDecorationsJob: Job = {
         };
       },
       db.homesteadDecoration.findMany,
-      loadHomesteadDecorations,
       (tx, data) => tx.homesteadDecoration.create(data),
       (tx, data) => tx.homesteadDecoration.update(data),
       CURRENT_VERSION

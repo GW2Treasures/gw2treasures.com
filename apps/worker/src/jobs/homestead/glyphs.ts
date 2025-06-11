@@ -1,10 +1,10 @@
 import { db } from '../../db';
 import { fetchApi } from '../helper/fetchApi';
 import { Job } from '../job';
-import { loadHomesteadGlyphs } from '../helper/loadHomestead';
 import { isEmptyObject } from '@gw2treasures/helper/is';
 import { type ProcessEntitiesData, createSubJobs, processEntities } from '../helper/process-entities';
 import { toId } from '../helper/toId';
+import { loadEntities } from '../helper/load-entities';
 
 export const HomesteadGlyphsJob: Job = {
   async run(data: ProcessEntitiesData<string> | Record<string, never>) {
@@ -23,7 +23,8 @@ export const HomesteadGlyphsJob: Job = {
 
     return processEntities(
       data,
-      'HomesteadDecoration',
+      'HomesteadGlyph',
+      (ids) => loadEntities('/v2/homestead/glyphs', ids),
       (homesteadGlyphId, revisionId) => ({ homesteadGlyphId_revisionId: { revisionId, homesteadGlyphId }}),
       (glyph) => {
         return {
@@ -34,7 +35,6 @@ export const HomesteadGlyphsJob: Job = {
         };
       },
       db.homesteadGlyph.findMany,
-      loadHomesteadGlyphs,
       (tx, data) => tx.homesteadGlyph.create(data),
       (tx, data) => tx.homesteadGlyph.update(data),
       CURRENT_VERSION

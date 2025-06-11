@@ -1,12 +1,12 @@
 import { db } from '../../db';
 import { fetchApi } from '../helper/fetchApi';
 import { Job } from '../job';
-import { loadOutfits } from '../helper/loadOutfits';
 import { isEmptyObject } from '@gw2treasures/helper/is';
 import { Changes, type ProcessEntitiesData, createSubJobs, processLocalizedEntities } from '../helper/process-entities';
 import { toId } from '../helper/toId';
 import { createIcon } from '../helper/createIcon';
 import { Prisma } from '@gw2treasures/database';
+import { loadLocalizedEntities } from '../helper/load-entities';
 
 const CURRENT_VERSION = 1;
 
@@ -26,6 +26,7 @@ export const OutfitsJob: Job = {
     return processLocalizedEntities(
       data,
       'Outfit',
+      (ids) => loadLocalizedEntities('/v2/outfits', ids),
       (outfitId, revisionId) => ({ outfitId_revisionId: { revisionId, outfitId }}),
       async (outfit, version, changes) => {
         const iconId = await createIcon(outfit.en.icon);
@@ -44,7 +45,6 @@ export const OutfitsJob: Job = {
         } satisfies Partial<Prisma.OutfitUncheckedCreateInput | Prisma.OutfitUncheckedUpdateInput>;
       },
       db.outfit.findMany,
-      loadOutfits,
       (tx, data) => tx.outfit.create(data),
       (tx, data) => tx.outfit.update(data),
       CURRENT_VERSION

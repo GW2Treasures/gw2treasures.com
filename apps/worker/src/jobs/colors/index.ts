@@ -1,9 +1,9 @@
 import { db } from '../../db';
 import { fetchApi } from '../helper/fetchApi';
 import { Job } from '../job';
-import { loadColors } from '../helper/loadColors';
 import { isEmptyObject } from '@gw2treasures/helper/is';
 import { type ProcessEntitiesData, createSubJobs, processLocalizedEntities, Changes } from '../helper/process-entities';
+import { loadLocalizedEntities } from '../helper/load-entities';
 
 export const ColorsJob: Job = {
   run(data: ProcessEntitiesData<number> | Record<string, never>) {
@@ -21,6 +21,7 @@ export const ColorsJob: Job = {
     return processLocalizedEntities(
       data,
       'Color',
+      (ids) => loadLocalizedEntities('/v2/colors', ids),
       (colorId, revisionId) => ({ colorId_revisionId: { revisionId, colorId }}),
       async (colors, version, changes) => {
         // if this is a new color lets check if there are items waiting for it
@@ -42,7 +43,6 @@ export const ColorsJob: Job = {
         };
       },
       db.color.findMany,
-      loadColors,
       (tx, data) => tx.color.create(data),
       (tx, data) => tx.color.update(data),
       CURRENT_VERSION

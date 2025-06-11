@@ -4,7 +4,7 @@ import { Job } from '../job';
 import { isEmptyObject } from '@gw2treasures/helper/is';
 import { type ProcessEntitiesData, createSubJobs, processLocalizedEntities } from '../helper/process-entities';
 import { Prisma } from '@gw2treasures/database';
-import { loadWizardsVaultObjectives } from '../helper/loadWizardsVaultObjectives';
+import { loadLocalizedEntities } from '../helper/load-entities';
 
 export const WizardsVaultObjectivesJob: Job = {
   // eslint-disable-next-line require-await
@@ -23,6 +23,7 @@ export const WizardsVaultObjectivesJob: Job = {
     return processLocalizedEntities(
       data,
       'WizardsVaultObjective',
+      (ids) => loadLocalizedEntities('/v2/wizardsvault/objectives', ids),
       (objectiveId, revisionId) => ({ wizardsVaultObjectiveId_revisionId: { revisionId, wizardsVaultObjectiveId: objectiveId }}),
       (objective) => {
         return {
@@ -36,7 +37,6 @@ export const WizardsVaultObjectivesJob: Job = {
         } satisfies Prisma.WizardsVaultObjectiveUncheckedUpdateInput;
       },
       db.wizardsVaultObjective.findMany,
-      loadWizardsVaultObjectives,
       (tx, data) => tx.wizardsVaultObjective.create(data),
       (tx, data) => tx.wizardsVaultObjective.update(data),
       CURRENT_VERSION

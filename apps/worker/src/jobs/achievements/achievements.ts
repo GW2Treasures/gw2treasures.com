@@ -1,12 +1,12 @@
 import { db } from '../../db';
 import { fetchApi } from '../helper/fetchApi';
 import { Job } from '../job';
-import { loadAchievements } from '../helper/loadAchievements';
 import { isEmptyObject } from '@gw2treasures/helper/is';
 import { type ProcessEntitiesData, createSubJobs, processLocalizedEntities, Changes } from '../helper/process-entities';
 import { createIcon } from '../helper/createIcon';
 import { toId } from '../helper/toId';
 import { AchievementReward } from '@gw2api/types/data/achievement';
+import { loadLocalizedEntities } from '../helper/load-entities';
 
 const CURRENT_VERSION = 8;
 // Migration history
@@ -40,6 +40,7 @@ export const AchievementsJob: Job = {
     return processLocalizedEntities(
       data,
       'Achievement',
+      (ids) => loadLocalizedEntities('/v2/achievements', ids),
       (achievementId, revisionId) => ({ achievementId_revisionId: { revisionId, achievementId }}),
       async (achievements, version, changes) => {
         const id = achievements.en.id;
@@ -150,7 +151,6 @@ export const AchievementsJob: Job = {
         };
       },
       db.achievement.findMany,
-      loadAchievements,
       (tx, data) => tx.achievement.create(data),
       (tx, data) => tx.achievement.update(data),
       CURRENT_VERSION

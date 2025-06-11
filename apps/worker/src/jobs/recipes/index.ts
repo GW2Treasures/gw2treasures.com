@@ -1,12 +1,12 @@
 import { db } from '../../db';
 import { fetchApi } from '../helper/fetchApi';
 import { Job } from '../job';
-import { loadRecipes } from '../helper/loadRecipes';
 import { isEmptyObject } from '@gw2treasures/helper/is';
 import { Changes, type ProcessEntitiesData, createSubJobs, processEntities } from '../helper/process-entities';
 import { toId } from '../helper/toId';
 import { Prisma } from '@gw2treasures/database';
 import { enumerableToArray } from '../helper/appendHistory';
+import { loadEntities } from '../helper/load-entities';
 
 const CURRENT_VERSION = 8;
 
@@ -28,6 +28,7 @@ export const RecipesJob: Job = {
     return processEntities(
       data,
       'Recipe',
+      (ids) => loadEntities('/v2/recipes', ids),
       (recipeId, revisionId) => ({ recipeId_revisionId: { revisionId, recipeId }}),
       async (recipe, version, changes) => {
         // get all items that unlock this recipe
@@ -97,7 +98,6 @@ export const RecipesJob: Job = {
         } satisfies Partial<Prisma.RecipeUncheckedCreateInput | Prisma.RecipeUncheckedUpdateInput>;
       },
       db.recipe.findMany,
-      loadRecipes,
       (tx, data) => tx.recipe.create(data),
       (tx, data) => tx.recipe.update(data),
       CURRENT_VERSION

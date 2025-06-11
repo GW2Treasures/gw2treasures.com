@@ -3,9 +3,9 @@
   "private": true,
   "scripts": {
     "prisma:generate": "prisma generate --schema ./prisma --no-hints",
-    "prisma:migrate": "prisma migrate deploy",
-    "prisma:migrate-dev": "prisma migrate dev --name",
-    "prisma:studio": "prisma studio",
+    "prisma:migrate": "prisma migrate deploy --schema ./prisma",
+    "prisma:migrate-dev": "prisma migrate dev --schema ./prisma --name",
+    "prisma:studio": "prisma studio --schema ./prisma",
     "build": "tsc"
   },
   "main": "./lib/index.js",

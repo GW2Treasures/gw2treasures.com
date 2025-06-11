@@ -7,7 +7,7 @@ import { Item } from '@gw2api/types/data/item';
 import { SchemaVersion } from '../helper/schema';
 import { strip } from 'gw2-tooltip-html';
 
-export const CURRENT_VERSION = 12;
+export const CURRENT_VERSION = 13;
 
 /** @see Prisma.ItemUpdateInput */
 interface MigratedItem {
@@ -43,6 +43,9 @@ interface MigratedItem {
 
   unlocksGuildUpgradeIds?: number[]
   unlocksGuildUpgrade?: Prisma.GuildUpgradeUpdateManyWithoutUnlockedByItemsNestedInput
+
+  itemStatIds?: number[]
+  itemStats?: Prisma.ItemStatUpdateManyWithoutItemsNestedInput
 }
 
 export async function createMigrator() {
@@ -52,6 +55,7 @@ export async function createMigrator() {
   const knownColorIds = (await db.color.findMany({ select: { id: true }})).map(toId);
   const knownGuildUpgradeIds = (await db.guildUpgrade.findMany({ select: { id: true }})).map(toId);
   const knownMiniIds = (await db.mini.findMany({ select: { id: true }})).map(toId);
+  const knownItemStatIds = (await db.itemStat.findMany({ select: { id: true }})).map(toId);
 
   // eslint-disable-next-line require-await
   return async function migrate({ de, en, es, fr }: LocalizedObject<Item<SchemaVersion>>, currentVersion = -1) {
@@ -145,6 +149,17 @@ export async function createMigrator() {
         update.unlocksMiniIds = unlocksMiniIds;
         update.unlocksMinis = { connect: unlocksMiniIds.filter((id) => knownMiniIds.includes(id)).map((id) => ({ id })) };
       }
+    }
+
+    // Version 13: ItemStats
+    if(currentVersion < 13) {
+      const infix = en.details?.infix_upgrade?.id;
+      const selectable = en.details?.stat_choices ?? [];
+
+      const itemStatIds = [infix, ...selectable].filter(isTruthy);
+
+      update.itemStatIds = itemStatIds;
+      update.itemStats = { connect: itemStatIds.filter((id) => knownItemStatIds.includes(id)).map((id) => ({ id })) };
     }
 
     return update satisfies Prisma.ItemUpdateInput;

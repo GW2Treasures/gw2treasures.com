@@ -81,6 +81,10 @@ model Item {
   // outfits
   unlocksOutfits Outfit[] @relation("unlocks_outfit")
 
+  // item stats
+  itemStats   ItemStat[] @relation("item_itemstats")
+  itemStatIds Int[]
+
   // review queue
   reviews Review[] @relation("itemReview")
 

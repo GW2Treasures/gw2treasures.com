@@ -21,6 +21,7 @@ import { ItemsRelevancy } from './items/relevancy';
 import { ItemsRemoved } from './items/removed';
 import { ItemsUpdate } from './items/update';
 import { ItemsViews } from './items/views';
+import { ItemStatsJob } from './itemstats';
 import { Job } from './job';
 import { JobsCleanup } from './jobs/cleanup';
 import { MinisJob } from './minis';
@@ -85,6 +86,7 @@ const jobsInternal = {
   'colors': ColorsJob,
   'currencies': CurrenciesJob,
   'guild-upgrades': GuildUpgradesJob,
+  'itemstats': ItemStatsJob,
   'recipes': RecipesJob,
   'titles': TitlesJob,
 

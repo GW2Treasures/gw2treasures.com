@@ -25,7 +25,7 @@
     "sharp": "0.34.2"
   },
   "devDependencies": {
-    "@gw2api/types": "0.0.29",
+    "@gw2api/types": "0.0.30",
     "@gw2treasures/eslint-config": "workspace:*",
     "@gw2treasures/tsconfig": "workspace:*",
     "@types/jest": "29.5.14",

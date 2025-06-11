@@ -80,7 +80,7 @@ importers:
         version: 0.6.1
       '@gw2api/fetch':
         specifier: 0.4.1
-        version: 0.4.1(@gw2api/types@0.0.29)
+        version: 0.4.1(@gw2api/types@0.0.30)
       '@gw2efficiency/game-data':
         specifier: 0.1.60
         version: 0.1.60
@@ -203,8 +203,8 @@ importers:
         version: 0.34.2
     devDependencies:
       '@gw2api/types':
-        specifier: 0.0.29
-        version: 0.0.29
+        specifier: 0.0.30
+        version: 0.0.30
       '@gw2treasures/eslint-config':
         specifier: workspace:*
         version: link:../../packages/eslint-config
@@ -279,7 +279,7 @@ importers:
     dependencies:
       '@gw2api/fetch':
         specifier: 0.4.1
-        version: 0.4.1(@gw2api/types@0.0.29)
+        version: 0.4.1(@gw2api/types@0.0.30)
       '@gw2treasures/database':
         specifier: workspace:*
         version: link:../../packages/database
@@ -309,8 +309,8 @@ importers:
         version: 0.34.2
     devDependencies:
       '@gw2api/types':
-        specifier: 0.0.29
-        version: 0.0.29
+        specifier: 0.0.30
+        version: 0.0.30
       '@gw2treasures/eslint-config':
         specifier: workspace:*
         version: link:../../packages/eslint-config
@@ -334,7 +334,7 @@ importers:
         version: 29.7.0(@types/node@22.15.31)(ts-node@10.9.2(@types/node@22.15.31)(typescript@5.8.3))
       ts-jest:
         specifier: 29.3.4
-        version: 29.3.4(@babel/core@7.24.6)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.24.6))(jest@29.7.0(@types/node@22.15.31)(ts-node@10.9.2(@types/node@22.15.31)(typescript@5.8.3)))(typescript@5.8.3)
+        version: 29.3.4(@babel/core@7.24.6)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.24.6))(jest@29.7.0(@types/node@22.15.31))(typescript@5.8.3)
       typescript:
         specifier: 5.8.3
         version: 5.8.3
@@ -374,7 +374,7 @@ importers:
         version: 9.28.0(jiti@2.4.2)
       eslint-plugin-import:
         specifier: 2.31.0
-        version: 2.31.0(@typescript-eslint/parser@8.34.0(eslint@9.28.0(jiti@2.4.2))(typescript@5.8.3))(eslint@9.28.0(jiti@2.4.2))
+        version: 2.31.0(eslint@9.28.0(jiti@2.4.2))
       eslint-plugin-react:
         specifier: 7.37.5
         version: 7.37.5(eslint@9.28.0(jiti@2.4.2))
@@ -998,8 +998,8 @@ packages:
     peerDependencies:
       '@gw2api/types': ~0.0.5
 
-  '@gw2api/types@0.0.29':
-    resolution: {integrity: sha512-O6SIY9lyHrBovTg32ted6eGboXd12BDWSMgfTUjMoibZTbqgVWZuQZy/LrxnWoPHXiHxOLqgvisGTuBI9Vd4iA==}
+  '@gw2api/types@0.0.30':
+    resolution: {integrity: sha512-yQuaWSTsC+NNTZ9rOXeFwgeV5nskbwGoohPV9WOMLj1DoVZzxuglltob+NEvVNOnoysHOdKKX3VTmkTQ7JsVHw==}
 
   '@gw2efficiency/game-data@0.1.60':
     resolution: {integrity: sha512-YqA1n+ZVPF5AjbMEjMWqnpDNBUr7sPQuyx6BH34JCveWH5zSry1GccF333ZA7piZ4sLdoTrHhqXUmd4pI3sc2g==}
@@ -4978,11 +4978,11 @@ snapshots:
     dependencies:
       tslib: 2.8.1
 
-  '@gw2api/fetch@0.4.1(@gw2api/types@0.0.29)':
+  '@gw2api/fetch@0.4.1(@gw2api/types@0.0.30)':
     dependencies:
-      '@gw2api/types': 0.0.29
+      '@gw2api/types': 0.0.30
 
-  '@gw2api/types@0.0.29': {}
+  '@gw2api/types@0.0.30': {}
 
   '@gw2efficiency/game-data@0.1.60': {}
 
@@ -6711,17 +6711,16 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-module-utils@2.12.0(@typescript-eslint/parser@8.34.0(eslint@9.28.0(jiti@2.4.2))(typescript@5.8.3))(eslint-import-resolver-node@0.3.9)(eslint@9.28.0(jiti@2.4.2)):
+  eslint-module-utils@2.12.0(eslint-import-resolver-node@0.3.9)(eslint@9.28.0(jiti@2.4.2)):
     dependencies:
       debug: 3.2.7
     optionalDependencies:
-      '@typescript-eslint/parser': 8.34.0(eslint@9.28.0(jiti@2.4.2))(typescript@5.8.3)
       eslint: 9.28.0(jiti@2.4.2)
       eslint-import-resolver-node: 0.3.9
     transitivePeerDependencies:
       - supports-color
 
-  eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.34.0(eslint@9.28.0(jiti@2.4.2))(typescript@5.8.3))(eslint@9.28.0(jiti@2.4.2)):
+  eslint-plugin-import@2.31.0(eslint@9.28.0(jiti@2.4.2)):
     dependencies:
       '@rtsao/scc': 1.1.0
       array-includes: 3.1.8
@@ -6732,7 +6731,7 @@ snapshots:
       doctrine: 2.1.0
       eslint: 9.28.0(jiti@2.4.2)
       eslint-import-resolver-node: 0.3.9
-      eslint-module-utils: 2.12.0(@typescript-eslint/parser@8.34.0(eslint@9.28.0(jiti@2.4.2))(typescript@5.8.3))(eslint-import-resolver-node@0.3.9)(eslint@9.28.0(jiti@2.4.2))
+      eslint-module-utils: 2.12.0(eslint-import-resolver-node@0.3.9)(eslint@9.28.0(jiti@2.4.2))
       hasown: 2.0.2
       is-core-module: 2.15.1
       is-glob: 4.0.3
@@ -6743,8 +6742,6 @@ snapshots:
       semver: 6.3.1
       string.prototype.trimend: 1.0.9
       tsconfig-paths: 3.15.0
-    optionalDependencies:
-      '@typescript-eslint/parser': 8.34.0(eslint@9.28.0(jiti@2.4.2))(typescript@5.8.3)
     transitivePeerDependencies:
       - eslint-import-resolver-typescript
       - eslint-import-resolver-webpack
@@ -8873,7 +8870,7 @@ snapshots:
 
   ts-interface-checker@0.1.13: {}
 
-  ts-jest@29.3.4(@babel/core@7.24.6)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.24.6))(jest@29.7.0(@types/node@22.15.31)(ts-node@10.9.2(@types/node@22.15.31)(typescript@5.8.3)))(typescript@5.8.3):
+  ts-jest@29.3.4(@babel/core@7.24.6)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.24.6))(jest@29.7.0(@types/node@22.15.31))(typescript@5.8.3):
     dependencies:
       bs-logger: 0.2.6
       ejs: 3.1.10

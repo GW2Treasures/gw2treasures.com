@@ -164,7 +164,7 @@ export const ClientItemTooltip: FC<ClientItemTooltipProps> = ({ tooltip, hideTit
       {!hideTitle && (
         <div className={cx(rarityStyles[tooltip.rarity.value], styles.title)}>
           {tooltip.icon && (<EntityIcon icon={tooltip.icon} size={32}/>)}
-          {tooltip.name}
+          <span dangerouslySetInnerHTML={{ __html: tooltip.name }}/>
         </div>
       )}
 

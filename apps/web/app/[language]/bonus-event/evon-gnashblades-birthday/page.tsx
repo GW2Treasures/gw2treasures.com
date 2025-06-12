@@ -95,32 +95,32 @@ export default async function EventPage({ params }: PageProps) {
 
 
         <Exchange.Column id="buyPrice" title={<Trans id="itemTable.column.buyPrice"/>} sortBy={({ materialId }) => items[materialId]?.buyPrice} align="right" hidden>
-          {({ materialId }) => items[materialId] && itemTableColumn.buyPrice(items[materialId], {})}
+          {({ materialId }) => items[materialId] && itemTableColumn.buyPrice(items[materialId], {}, language)}
         </Exchange.Column>
         <Exchange.Column id="buyQuantity" title={<Trans id="itemTable.column.buyQuantity"/>} sortBy={({ materialId }) => items[materialId]?.buyQuantity} align="right" hidden>
-          {({ materialId }) => items[materialId] && itemTableColumn.buyQuantity(items[materialId], {})}
+          {({ materialId }) => items[materialId] && itemTableColumn.buyQuantity(items[materialId], {}, language)}
         </Exchange.Column>
         <Exchange.Column id="buyPriceTrend" title={<Trans id="itemTable.column.buyPriceTrend"/>} align="right" hidden>
-          {({ materialId }) => items[materialId] && itemTableColumn.buyPriceTrend(items[materialId], {})}
+          {({ materialId }) => items[materialId] && itemTableColumn.buyPriceTrend(items[materialId], {}, language)}
         </Exchange.Column>
 
         <Exchange.Column title="Material Buy Price (total)" id="totalBuyPrice" sortBy={({ materialId, quantity }) => items[materialId].buyPrice ? items[materialId].buyPrice * quantity : null} align="right">
-          {({ materialId, quantity }) => itemTableColumn.buyPrice({ ...items[materialId], buyPrice: items[materialId].buyPrice ? items[materialId].buyPrice * quantity : null }, {})}
+          {({ materialId, quantity }) => itemTableColumn.buyPrice({ ...items[materialId], buyPrice: items[materialId].buyPrice ? items[materialId].buyPrice * quantity : null }, {}, language)}
         </Exchange.Column>
 
 
         <Exchange.Column id="sellPrice" title={<Trans id="itemTable.column.sellPrice"/>} sortBy={({ materialId }) => items[materialId]?.sellPrice} align="right" hidden>
-          {({ materialId }) => items[materialId] && itemTableColumn.sellPrice(items[materialId], {})}
+          {({ materialId }) => items[materialId] && itemTableColumn.sellPrice(items[materialId], {}, language)}
         </Exchange.Column>
         <Exchange.Column id="sellQuantity" title={<Trans id="itemTable.column.sellQuantity"/>} sortBy={({ materialId }) => items[materialId]?.sellQuantity} align="right" hidden>
-          {({ materialId }) => items[materialId] && itemTableColumn.sellQuantity(items[materialId], {})}
+          {({ materialId }) => items[materialId] && itemTableColumn.sellQuantity(items[materialId], {}, language)}
         </Exchange.Column>
         <Exchange.Column id="sellPriceTrend" title={<Trans id="itemTable.column.sellPriceTrend"/>} align="right" hidden>
-          {({ materialId }) => items[materialId] && itemTableColumn.sellPriceTrend(items[materialId], {})}
+          {({ materialId }) => items[materialId] && itemTableColumn.sellPriceTrend(items[materialId], {}, language)}
         </Exchange.Column>
 
         <Exchange.Column title="Material Sell Price (total)" id="totalSellPrice" sortBy={({ materialId, quantity }) => items[materialId].sellPrice ? items[materialId].sellPrice * quantity : null} align="right">
-          {({ materialId, quantity }) => itemTableColumn.sellPrice({ ...items[materialId], sellPrice: items[materialId].sellPrice ? items[materialId].sellPrice * quantity : null }, {})}
+          {({ materialId, quantity }) => itemTableColumn.sellPrice({ ...items[materialId], sellPrice: items[materialId].sellPrice ? items[materialId].sellPrice * quantity : null }, {}, language)}
         </Exchange.Column>
 
 

@@ -1,0 +1,14 @@
+.cell {
+  white-space: nowrap;
+}
+
+.icon {
+  margin-right: 8px;
+}
+
+.value {
+  color: var(--color-text-muted);
+  font-feature-settings: "tnum" 1;
+  display: inline-block;
+  text-align: right;
+}

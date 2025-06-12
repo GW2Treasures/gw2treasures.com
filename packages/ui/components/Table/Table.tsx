@@ -12,7 +12,7 @@ export interface HeaderCellProps {
   children?: ReactNode;
   small?: boolean;
   align?: ThHTMLAttributes<HTMLTableCellElement>['align'],
-  colSpan?: number;
+  colSpan?: ThHTMLAttributes<HTMLTableCellElement>['colSpan'];
 
   sort?: boolean | 'asc' | 'desc',
   onSort?: () => void;

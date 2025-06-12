@@ -127,19 +127,26 @@ model Revision {
   currentHomesteadGlyph HomesteadGlyph?         @relation("current")
   homesteadGlyphHistory HomesteadGlyphHistory[]
 
-  //minis
+  // minis
   currentMini_de Mini?         @relation("current_de")
   currentMini_en Mini?         @relation("current_en")
   currentMini_es Mini?         @relation("current_es")
   currentMini_fr Mini?         @relation("current_fr")
   miniHistory    MiniHistory[]
 
-  //outfits
+  // outfits
   currentOutfit_de Outfit?         @relation("current_de")
   currentOutfit_en Outfit?         @relation("current_en")
   currentOutfit_es Outfit?         @relation("current_es")
   currentOutfit_fr Outfit?         @relation("current_fr")
   outfitHistory    OutfitHistory[]
+
+  // item stats
+  currentItemStat_de ItemStat?         @relation("current_de")
+  currentItemStat_en ItemStat?         @relation("current_en")
+  currentItemStat_es ItemStat?         @relation("current_es")
+  currentItemStat_fr ItemStat?         @relation("current_fr")
+  itemstatHistory    ItemStatHistory[]
 
   @@index([language, type])
 }

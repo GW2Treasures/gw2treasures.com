@@ -53,6 +53,8 @@ import { Description } from '@/components/Layout/Description';
 import { MiniTable } from '@/components/Mini/MiniTable';
 import { HomesteadRefinedMaterial } from './homestead-refined-material';
 import { format } from 'gw2-tooltip-html';
+import { ItemStatTable } from '@/components/ItemStat/table';
+import { Trans } from '@/components/I18n/Trans';
 
 export interface ItemPageComponentProps {
   language: Language;
@@ -161,6 +163,14 @@ export const ItemPageComponent: FC<ItemPageComponentProps> = async ({ language, 
             {item.unlocksGuildUpgrade.map((guildUpgrade) => <li key={guildUpgrade.id}><GuildUpgradeLink guildUpgrade={guildUpgrade}/></li>)}
           </ItemList>
         </>
+      )}
+
+      {data.details?.stat_choices && (
+        <ItemStatTable
+          headlineId="stat-choices"
+          headline={<Trans id="item.itemStats.choice"/>}
+          itemStats={item.itemStats}
+          attributeAdjustment={data.details.attribute_adjustment}/>
       )}
 
       {item._count.suffixIn > 0 && (

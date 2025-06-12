@@ -39,6 +39,15 @@ type DataTableContext = {
 const DataTableContext = createContext<DataTableContext>({ state: defaultDataTableContext, setState: () => {}, dynamicValues: {}, setDynamicValue: () => {} });
 DataTableContext.displayName = 'DataTableContext';
 
+export function useDataTableInteracted() {
+  const { state, setState } = useContext(DataTableContext);
+
+  return useMemo(
+    () => [state.interacted, (interacted: boolean) => setState({ interacted })] as const,
+    [setState, state.interacted]
+  );
+}
+
 export interface DataTableClientProps {
   children: ReactNode,
   id: string,
@@ -283,15 +292,23 @@ export const DataTableClientColumn: FC<DataTableClientColumnProps> = ({ id, chil
 
 // === CELL ===
 export interface DataTableClientCellProps {
-  children: ReactNode;
-  columnId: string;
-  align: ThHTMLAttributes<HTMLTableCellElement>['align']
+  children: ReactNode,
+  columnId: string,
+  align: ThHTMLAttributes<HTMLTableCellElement>['align'],
+  colSpan?: boolean,
 }
 
-export const DataTableClientCell: FC<DataTableClientCellProps> = ({ children, columnId, align }) => {
+export const DataTableClientCell: FC<DataTableClientCellProps> = ({ children, columnId, align, colSpan }) => {
   const { state: { visibleColumns }} = useContext(DataTableContext);
   const isVisible = visibleColumns.includes(columnId);
 
+  // if this column uses colSpan, the children has to supply the td
+  // and hidden columns are not rendered at all
+  if(colSpan) {
+    return isVisible ? children : null;
+  }
+
+  // use hidden attribute for hidden columns, as this keeps the column in the DOM and is faster to toggle for large tables
   return <td hidden={!isVisible} align={align}>{children}</td>;
 };
 

@@ -198,22 +198,22 @@ export default async function HomesteadGardenPlotPage({ params }: PageProps) {
           {({ gatheredItemId }) => <ItemList singleColumn>{gatheredItemId?.map((id) => <li key={id}><ItemLink item={items.get(id)!}/></li>)}</ItemList>}
         </Crops.Column>
         <Crops.Column id="buyPrice" title={<Trans id="itemTable.column.buyPrice"/>} sortBy={({ gatheredItemId }) => items.get(gatheredItemId[0])?.buyPrice} align="right" hidden>
-          {({ gatheredItemId }) => <ul className={styles.list}>{gatheredItemId?.map((id) => <li key={id}>{items.has(id) ? itemTableColumn.buyPrice(items.get(id)!, {}) : '-'}</li>)}</ul>}
+          {({ gatheredItemId }) => <ul className={styles.list}>{gatheredItemId?.map((id) => <li key={id}>{items.has(id) ? itemTableColumn.buyPrice(items.get(id)!, {}, language) : '-'}</li>)}</ul>}
         </Crops.Column>
         <Crops.Column id="buyPriceTrend" title={<Trans id="itemTable.column.buyPriceTrend"/>} align="right" hidden>
-          {({ gatheredItemId }) => <ul className={styles.list}>{gatheredItemId?.map((id) => <li key={id}>{items.has(id) ? itemTableColumn.buyPriceTrend(items.get(id)!, {}) : '-'}</li>)}</ul>}
+          {({ gatheredItemId }) => <ul className={styles.list}>{gatheredItemId?.map((id) => <li key={id}>{items.has(id) ? itemTableColumn.buyPriceTrend(items.get(id)!, {}, language) : '-'}</li>)}</ul>}
         </Crops.Column>
         <Crops.Column id="buyQuantity" title={<Trans id="itemTable.column.buyQuantity"/>} sortBy={({ gatheredItemId }) => items.get(gatheredItemId[0])?.buyQuantity} align="right" hidden>
-          {({ gatheredItemId }) => <ul className={styles.list}>{gatheredItemId?.map((id) => <li key={id}>{items.has(id) ? itemTableColumn.buyQuantity(items.get(id)!, {}) : '-'}</li>)}</ul>}
+          {({ gatheredItemId }) => <ul className={styles.list}>{gatheredItemId?.map((id) => <li key={id}>{items.has(id) ? itemTableColumn.buyQuantity(items.get(id)!, {}, language) : '-'}</li>)}</ul>}
         </Crops.Column>
         <Crops.Column id="sellPrice" title={<Trans id="itemTable.column.sellPrice"/>} sortBy={({ gatheredItemId }) => items.get(gatheredItemId[0])?.sellPrice} align="right">
-          {({ gatheredItemId }) => <ul className={styles.list}>{gatheredItemId?.map((id) => <li key={id}>{items.has(id) ? itemTableColumn.sellPrice(items.get(id)!, {}) : '-'}</li>)}</ul>}
+          {({ gatheredItemId }) => <ul className={styles.list}>{gatheredItemId?.map((id) => <li key={id}>{items.has(id) ? itemTableColumn.sellPrice(items.get(id)!, {}, language) : '-'}</li>)}</ul>}
         </Crops.Column>
         <Crops.Column id="sellPriceTrend" title={<Trans id="itemTable.column.sellPriceTrend"/>} align="right">
-          {({ gatheredItemId }) => <ul className={styles.list}>{gatheredItemId?.map((id) => <li key={id}>{items.has(id) ? itemTableColumn.sellPriceTrend(items.get(id)!, {}) : '-'}</li>)}</ul>}
+          {({ gatheredItemId }) => <ul className={styles.list}>{gatheredItemId?.map((id) => <li key={id}>{items.has(id) ? itemTableColumn.sellPriceTrend(items.get(id)!, {}, language) : '-'}</li>)}</ul>}
         </Crops.Column>
         <Crops.Column id="sellQuantity" title={<Trans id="itemTable.column.sellQuantity"/>} sortBy={({ gatheredItemId }) => items.get(gatheredItemId[0])?.sellQuantity} align="right" hidden>
-          {({ gatheredItemId }) => <ul className={styles.list}>{gatheredItemId?.map((id) => <li key={id}>{items.has(id) ? itemTableColumn.sellQuantity(items.get(id)!, {}) : '-'}</li>)}</ul>}
+          {({ gatheredItemId }) => <ul className={styles.list}>{gatheredItemId?.map((id) => <li key={id}>{items.has(id) ? itemTableColumn.sellQuantity(items.get(id)!, {}, language) : '-'}</li>)}</ul>}
         </Crops.Column>
       </Crops.Table>
 

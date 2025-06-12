@@ -61,6 +61,8 @@
   "itemTable.column.sellQuantity": "Sell Listings",
   "itemTable.column.icon": "Icon",
   "itemTable.column.weight": "Weight",
+  "itemTable.column.itemstats": "Stats",
+  "itemTable.column.itemstats.selectable": "Selectable",
   "itemTable.viewItem": "View Item",
   "pagination.next": "Next Page",
   "pagination.previous": "Previous Page",

@@ -1,4 +1,4 @@
-import { Prisma, Rarity as RarityEnum } from '@gw2treasures/database';
+import { Language, Prisma, Rarity as RarityEnum } from '@gw2treasures/database';
 import type { ReactNode } from 'react';
 import { EntityIcon } from '../Entity/EntityIcon';
 import { ItemLink } from '../Item/ItemLink';
@@ -16,6 +16,7 @@ import { ItemType } from '../Item/ItemType';
 import type { SubType, Type } from '../Item/ItemType.types';
 import { PriceTrend } from '../Item/PriceTrend';
 import type { Weight } from '@/lib/types/weight';
+import { localizedName } from '@/lib/localizedName';
 
 // typehelper
 function createColumn<Select extends Prisma.ItemSelect, Translations extends TranslationId = never>(column: ItemTableColumn<Select, Translations>) {
@@ -96,6 +97,12 @@ export const globalColumnDefinitions = {
     orderBy: [{ weight: 'asc' }, { weight: 'desc' }],
     translations: ['weight.Light', 'weight.Medium', 'weight.Heavy', 'weight.Clothing'] satisfies `weight.${Weight}`[],
   }),
+  itemstats: createColumn({
+    id: 'itemstats',
+    order: 107,
+    select: { itemStatIds: true, itemStats: { select: { name_de: true, name_en: true, name_es: true, name_fr: true }}},
+    translations: ['itemTable.column.itemstats.selectable']
+  }),
   vendorValue: createColumn({
     id: 'vendorValue',
     order: 110,
@@ -150,7 +157,7 @@ type ColumnDefinition<Id extends GlobalColumnId> = (typeof globalColumnDefinitio
 type AvailableTranslations<Id extends GlobalColumnId> = ColumnDefinition<Id> extends ItemTableColumn<Prisma.ItemSelect, infer Translations> ? Translations : never;
 
 type Renderer = {
-  [Id in GlobalColumnId]: (item: Result<ColumnDefinition<Id>['select'] & { id: true }>, translations: Record<AvailableTranslations<Id>, string>) => ReactNode;
+  [Id in GlobalColumnId]: (item: Result<ColumnDefinition<Id>['select'] & { id: true }>, translations: Record<AvailableTranslations<Id>, string>, language: Language) => ReactNode;
 };
 
 const empty = (label = '-') => <span style={{ color: 'var(--color-text-muted)' }}>{label}</span>;
@@ -167,6 +174,7 @@ export const globalColumnRenderer: Renderer = {
   rarity: (item, t) => <Rarity rarity={item.rarity}>{t[`rarity.${item.rarity}`]}</Rarity>,
   type: (item, t) => <ItemType type={item.type as Type} subtype={item.subtype as SubType<Type>} translations={t as Record<TypeTranslation<Type, SubType<Type>>, string>} display="long"/>,
   weight: (item, t) => item.weight ? t[`weight.${item.weight as Weight}`] : empty(),
+  itemstats: (item, t, language) => item.itemStatIds.length > 1 ? <span><Icon icon="alternative"/> {t['itemTable.column.itemstats.selectable']} {empty(`(${item.itemStatIds.length})`)}</span> : item.itemStats.length === 1 ? localizedName(item.itemStats[0], language) : empty(),
   vendorValue: (item, t) => item.vendorValue === null ? empty(t['item.flag.NoSell']) : <Coins value={item.vendorValue}/>,
   buyPrice: (item) => !item.tpTradeable ? empty() : renderPriceWithOptionalWarning(item.tpCheckedAt, item.buyPrice),
   buyPriceTrend: (item) => !item.tpTradeable ? empty() : <PriceTrend history={item.tpHistory} price="buyPrice"/>,

@@ -23,6 +23,7 @@ import type { AvailableColumns, GlobalColumnId, ItemTableQuery, LoadItemsResult,
 import { getHistoryState, updateHistoryState } from './history-state';
 import type { TranslationId, TranslationSubset } from '@/lib/translate';
 import { FormatNumber } from '../Format/FormatNumber';
+import { useLanguage } from '../I18n/Context';
 
 const LOADING = false;
 type LOADING = typeof LOADING;
@@ -110,6 +111,8 @@ export const ItemTable = <ExtraColumnId extends string = never, Model extends Qu
     );
   }, []);
 
+  const language = useLanguage();
+
   if(items === LOADING) {
     return (<SkeletonTable icons columns={columns.map((column) => column.title)} rows={Math.min(totalItems, collapsed ? collapsedSize : pageSize)}/>);
   }
@@ -141,7 +144,7 @@ export const ItemTable = <ExtraColumnId extends string = never, Model extends Qu
                   return (
                     <td key={column.id} align={column.align}>
                       {loadedColumns.includes(column.id) ? (
-                        column.component ? createElement(column.component, properties) : globalColumnRenderer[column.id as GlobalColumnId](properties.item, properties.translations as Record<TranslationId, string>)
+                        column.component ? createElement(column.component, properties) : globalColumnRenderer[column.id as GlobalColumnId](properties.item, properties.translations as Record<TranslationId, string>, language)
                       ) : <Skeleton width={48}/>}
                     </td>
                   );

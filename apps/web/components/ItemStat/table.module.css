@@ -5,4 +5,7 @@
 .value {
   color: var(--color-text-muted);
   font-feature-settings: "tnum" 1;
+  display: inline-block;
+  min-width: 4ch;
+  text-align: right;
 }

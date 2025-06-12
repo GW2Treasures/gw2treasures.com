@@ -32,7 +32,7 @@ export const AttributeCell: FC<AttributeCellProps> = ({ colSpan, icon, value, ch
   return (
     <td colSpan={colSpan}>
       <Icon icon={icon} color={major ? 'var(--color-focus)' : undefined} className={styles.icon}/>
-      {showValue && (<span className={styles.value}>+{value}{' '}</span>)}
+      {showValue && (<><span className={styles.value}>+{value}</span>{' '}</>)}
       {children}
     </td>
   );

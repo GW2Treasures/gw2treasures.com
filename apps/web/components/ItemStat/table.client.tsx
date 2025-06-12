@@ -24,15 +24,17 @@ export interface AttributeCellProps {
   value: number,
   children: ReactNode,
   major?: boolean,
+  alignmentWidth?: number,
+  small?: boolean,
 }
 
-export const AttributeCell: FC<AttributeCellProps> = ({ colSpan, icon, value, children, major }) => {
+export const AttributeCell: FC<AttributeCellProps> = ({ colSpan, icon, value, children, major, alignmentWidth = 0, small = false }) => {
   const showValue = useShowValue();
 
   return (
-    <td colSpan={colSpan}>
+    <td colSpan={colSpan} width={small ? 1 : undefined} className={styles.cell}>
       <Icon icon={icon} color={major ? 'var(--color-focus)' : undefined} className={styles.icon}/>
-      {showValue && (<><span className={styles.value}>+{value}</span>{' '}</>)}
+      {showValue && (<><span className={styles.value} style={{ minWidth: `${alignmentWidth + 1}ch` }}>+{value}</span>{' '}</>)}
       {children}
     </td>
   );

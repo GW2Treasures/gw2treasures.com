@@ -37,10 +37,18 @@ export const ItemStatTable: FC<ItemStatTableProps> = async ({ headlineId, headli
 
   const ItemStats = createDataTable(itemStats, ({ id }) => id);
 
-  // find max attributes per itemstat to set colSpan correctly
-  const maxAttributes = itemStats.reduce((max, itemStat) => itemStat.attributes.length > max ? itemStat.attributes.length : max, 1);
-
   const calculateValue = (attribute: ApiItemStat.Attribute) => Math.round(attributeAdjustment * attribute.multiplier + attribute.value);
+
+  // find max attributes count and max value per itemstat to set colSpan and attribute value alignment correctly
+  const [maxAttributes, maxValue] = itemStats.reduce(
+    (max, itemStat) => [
+      Math.max(max[0], itemStat.attributes.length),
+      Math.max(max[1], itemStat.attributes.reduce<number>((m, attribute) => Math.max(m, calculateValue(attribute as unknown as ApiItemStat.Attribute)), 0))
+    ],
+    [1, 0]
+  );
+
+  const maxValueWidth = maxValue.toString().length;
 
   const filter: TableFilterDefinition[] = allAttributes.map((attribute) => ({
     id: attribute,
@@ -74,7 +82,7 @@ export const ItemStatTable: FC<ItemStatTableProps> = async ({ headlineId, headli
           </ItemStats.Column>
           <ItemStats.Column id="itemstats" title={<Trans id="itemTable.column.itemstats"/>} colSpan={maxAttributes}>
             {({ attributes }) => attributes.length === 9 ? (
-              <AttributeCell colSpan={maxAttributes} icon="upgrade-slot" value={calculateValue(attributes[0] as unknown as ApiItemStat.Attribute)}>
+              <AttributeCell colSpan={maxAttributes} icon="upgrade-slot" value={calculateValue(attributes[0] as unknown as ApiItemStat.Attribute)} alignmentWidth={maxValueWidth}>
                 <Trans id="attribute.allAttributes"/>
               </AttributeCell>
             ) : (attributes as unknown[] as ApiItemStat.Attribute[]).map((attribute, index) => (
@@ -84,6 +92,8 @@ export const ItemStatTable: FC<ItemStatTableProps> = async ({ headlineId, headli
                 icon={attributeIcon(attribute.attribute)}
                 major={attribute.multiplier >= .3}
                 value={calculateValue(attribute)}
+                alignmentWidth={maxValueWidth}
+                small={index < attributes.length - 1}
               >
                 <Trans id={`attribute.${attribute.attribute}`}/>
               </AttributeCell>

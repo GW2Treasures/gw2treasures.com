@@ -10,10 +10,15 @@ import { Separator } from '../Layout/Separator';
 import type { DataTableRowFilterComponent, DataTableRowFilterComponentProps } from './DataTable';
 import type { TableFilterSearchIndex } from './TableFilter';
 import { TextInput } from '../Form/TextInput';
+import { isDefined } from '@gw2treasures/helper/is';
+import { useDataTableInteracted } from './DataTable.client';
+
+type FilterMode = 'or' | 'and';
 
 interface TableFilterContext {
   filteredRows?: number[] | undefined,
   filterMap: Map<number | string, { name: string, rowIndexes: number[] }>,
+  filterMode: FilterMode,
 
   filterIds: (number | string)[],
   setFilterIds: (filterIds: (number | string)[]) => void,
@@ -26,6 +31,7 @@ interface TableFilterContext {
 const context = createContext<TableFilterContext>({
   filteredRows: undefined,
   filterMap: new Map(),
+  filterMode: 'or',
   filterIds: [],
   setFilterIds: () => {},
   searchQuery: '',
@@ -40,16 +46,17 @@ export interface TableFilterDefinition {
 
 export interface TableFilterProviderProps {
   filter: TableFilterDefinition[],
+  filterMode?: FilterMode,
   searchIndex?: TableFilterSearchIndex,
   children: ReactNode,
   language: string,
 }
 
-export const TableFilterProvider: FC<TableFilterProviderProps> = ({ children, filter, searchIndex, language }) => {
+export const TableFilterProvider: FC<TableFilterProviderProps> = ({ children, filter, filterMode = 'or', searchIndex, language }) => {
   const filterMap = new Map(filter.map(({ id, ...filter }) => [id, filter]));
   const allFilterIds = filter.map(({ id }) => id);
 
-  const [filterIds, setFilterIds] = useState(allFilterIds);
+  const [filterIds, setFilterIds] = useState(filterMode === 'or' ? allFilterIds : []);
 
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -57,25 +64,43 @@ export const TableFilterProvider: FC<TableFilterProviderProps> = ({ children, fi
     ? Object.entries(searchIndex).map(([string, indexes]) => string.toLocaleLowerCase(language).includes(searchQuery.toLocaleLowerCase(language)) ? indexes : []).flat(1)
     : undefined;
 
-  const filteredRowsByFilter = filterIds.length !== allFilterIds.length
-    ? filterIds.flatMap((id) => filterMap.get(id)?.rowIndexes ?? [])
-    : undefined;
+  const filteredRowsByFilter = filterMode === 'or'
+    ? (filterIds.length !== allFilterIds.length
+      ? filterIds.flatMap((id) => filterMap.get(id)?.rowIndexes ?? [])
+      : undefined)
+    : (filterIds.length > 0
+      ? reduceOrUndefined(
+        filterIds.map((id) => filterMap.get(id)?.rowIndexes).filter(isDefined),
+        (common, indexes) => common.filter((i) => indexes.includes(i))
+      ) : undefined);
 
   const filteredRows = filteredRowsBySearch === undefined && filteredRowsByFilter === undefined
     ? undefined
     : filteredRowsBySearch === undefined ? filteredRowsByFilter : filteredRowsByFilter === undefined ? filteredRowsBySearch : filteredRowsBySearch.filter((index) => filteredRowsByFilter.includes(index));
 
   return (
-    <context.Provider value={{ filteredRows, filterIds, setFilterIds, filterMap, searchIndex, searchQuery, setSearchQuery }}>
+    <context.Provider value={{ filteredRows, filterIds, setFilterIds, filterMap, filterMode, searchIndex, searchQuery, setSearchQuery }}>
       {children}
     </context.Provider>
   );
 };
 
+/** Returns `undefined` if rows is empty, otherwise applies the reducer */
+function reduceOrUndefined<T>(rows: T[], reducer: (prev: T, current: T) => T) {
+  return rows.length > 0 ? rows.reduce(reducer) : undefined;
+}
 
 export const TableFilterRow: DataTableRowFilterComponent = ({ children, index }: DataTableRowFilterComponentProps) => {
   const { filteredRows } = useContext(context);
+  const [interacted, setInteracted] = useDataTableInteracted();
+
   const isVisible = filteredRows === undefined || filteredRows.includes(index);
+
+  useEffect(() => {
+    if(filteredRows !== undefined && !interacted) {
+      setInteracted(true);
+    }
+  }, [filteredRows, interacted, setInteracted]);
 
   return <tr hidden={!isVisible}>{children}</tr>;
 };
@@ -87,7 +112,7 @@ export interface TableFilterButtonProps {
 }
 
 export const TableFilterButton: FC<TableFilterButtonProps> = ({ totalCount: count, children, all }) => {
-  const { filterMap, filterIds, setFilterIds } = useContext(context);
+  const { filterMap, filterIds, setFilterIds, filterMode } = useContext(context);
 
   const [isShiftPressed, setIsShiftPressed] = useState(false);
 
@@ -130,7 +155,7 @@ export const TableFilterButton: FC<TableFilterButtonProps> = ({ totalCount: coun
   }, [filterIds, filterMap, isShiftPressed, setFilterIds]);
 
   return (
-    <DropDown button={<Button icon={filterMap.size === filterIds.length ? 'filter' : 'filter-active'}>{children}</Button>} preferredPlacement="bottom">
+    <DropDown button={<Button icon={(filterMode === 'or' ? filterMap.size === filterIds.length : filterIds.length === 0) ? 'filter' : 'filter-active'}>{children}</Button>} preferredPlacement="bottom">
       <MenuList>
         <Checkbox checked={filterIds.length > 0} indeterminate={filterIds.length < filterMap.size && filterIds.length > 0} onChange={() => setFilterIds(filterIds.length > 0 ? [] : Array.from(filterMap.keys()))}>
           <FlexRow align="space-between">

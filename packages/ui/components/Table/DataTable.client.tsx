@@ -39,6 +39,15 @@ type DataTableContext = {
 const DataTableContext = createContext<DataTableContext>({ state: defaultDataTableContext, setState: () => {}, dynamicValues: {}, setDynamicValue: () => {} });
 DataTableContext.displayName = 'DataTableContext';
 
+export function useDataTableInteracted() {
+  const { state, setState } = useContext(DataTableContext);
+
+  return useMemo(
+    () => [state.interacted, (interacted: boolean) => setState({ interacted })] as const,
+    [setState, state.interacted]
+  );
+}
+
 export interface DataTableClientProps {
   children: ReactNode,
   id: string,

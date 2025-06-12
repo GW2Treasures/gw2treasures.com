@@ -54,7 +54,7 @@ export const ItemStatTable: FC<ItemStatTableProps> = async ({ headlineId, headli
 
   return (
     <ShowAttributeValueContextProvider>
-      <TableFilterProvider filter={filter} searchIndex={search}>
+      <TableFilterProvider filter={filter} searchIndex={search} filterMode="and">
         <Headline id={headlineId} actions={[
           <ShowAttributeValueCheckbox key="show-values">Show attribute values</ShowAttributeValueCheckbox>,
           <TableSearchInput key="search"/>,
@@ -65,7 +65,7 @@ export const ItemStatTable: FC<ItemStatTableProps> = async ({ headlineId, headli
           {headline}
         </Headline>
 
-        <ItemStats.Table initialSortBy="name" collapsed rowFilter={TableFilterRow}>
+        <ItemStats.Table initialSortBy="name" rowFilter={TableFilterRow} collapsed>
           <ItemStats.Column id="id" title={<Trans id="itemTable.column.id"/>} align="right" small hidden sortBy="id">
             {({ id }) => id}
           </ItemStats.Column>

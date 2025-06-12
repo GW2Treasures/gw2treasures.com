@@ -6,6 +6,8 @@ model ItemStat {
   name_es String
   name_fr String
 
+  attributes Json[]
+
   items Item[] @relation("item_itemstats")
 
   removedFromApi Boolean @default(false)

@@ -39,6 +39,8 @@ export const ItemStatsJob: Job = {
           name_es: es.name,
           name_fr: fr.name,
 
+          attributes: en.attributes as unknown[] as Prisma.InputJsonValue[],
+
           items: { [connectOrSet]: items }
         } satisfies Partial<Prisma.ItemStatUncheckedCreateInput | Prisma.ItemStatUncheckedUpdateInput>;
       },

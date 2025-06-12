@@ -54,6 +54,7 @@ import { MiniTable } from '@/components/Mini/MiniTable';
 import { HomesteadRefinedMaterial } from './homestead-refined-material';
 import { format } from 'gw2-tooltip-html';
 import { ItemStatTable } from '@/components/ItemStat/table';
+import { Trans } from '@/components/I18n/Trans';
 
 export interface ItemPageComponentProps {
   language: Language;
@@ -167,7 +168,7 @@ export const ItemPageComponent: FC<ItemPageComponentProps> = async ({ language, 
       {data.details?.stat_choices && (
         <ItemStatTable
           headlineId="stat-choices"
-          headline="Stat Choices"
+          headline={<Trans id="item.itemStats.choice"/>}
           itemStats={item.itemStats}
           attributeAdjustment={data.details.attribute_adjustment}/>
       )}

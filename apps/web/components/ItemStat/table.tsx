@@ -56,7 +56,7 @@ export const ItemStatTable: FC<ItemStatTableProps> = async ({ headlineId, headli
     <ShowAttributeValueContextProvider>
       <TableFilterProvider filter={filter} searchIndex={search} filterMode="and">
         <Headline id={headlineId} actions={[
-          <ShowAttributeValueCheckbox key="show-values">Show attribute values</ShowAttributeValueCheckbox>,
+          <ShowAttributeValueCheckbox key="show-values"><Trans id="item.itemStats.showValues"/></ShowAttributeValueCheckbox>,
           <TableSearchInput key="search"/>,
           <TableFilterButton key="filter" totalCount={itemStats.length}/>,
           <ColumnSelect key="columns" table={ItemStats}/>
@@ -74,7 +74,9 @@ export const ItemStatTable: FC<ItemStatTableProps> = async ({ headlineId, headli
           </ItemStats.Column>
           <ItemStats.Column id="itemstats" title={<Trans id="itemTable.column.itemstats"/>} colSpan={maxAttributes}>
             {({ attributes }) => attributes.length === 9 ? (
-              <AttributeCell colSpan={maxAttributes} icon="upgrade-slot" value={calculateValue(attributes[0] as unknown as ApiItemStat.Attribute)}>All Stats</AttributeCell>
+              <AttributeCell colSpan={maxAttributes} icon="upgrade-slot" value={calculateValue(attributes[0] as unknown as ApiItemStat.Attribute)}>
+                <Trans id="attribute.allAttributes"/>
+              </AttributeCell>
             ) : (attributes as unknown[] as ApiItemStat.Attribute[]).map((attribute, index) => (
               // eslint-disable-next-line react/no-array-index-key
               <AttributeCell key={index}

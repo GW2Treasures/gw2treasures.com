@@ -110,25 +110,25 @@ const DropTable: FC<{ data: DrfData, itemsById: Map<number, Awaited<ReturnType<t
           )}
         </Items.Column>
         <Items.Column id="vendor" title={<Trans id="itemTable.column.vendorValue"/>} sortBy={({ item }) => item.vendorValue} align="right" hidden>
-          {({ item }) => itemTableColumn.vendorValue(item, vendorValueTranslations)}
+          {({ item }) => itemTableColumn.vendorValue(item, vendorValueTranslations, language)}
         </Items.Column>
         <Items.Column id="buyPrice" title={<Trans id="itemTable.column.buyPrice"/>} sortBy={({ item }) => item.buyPrice} align="right" hidden>
-          {({ item }) => itemTableColumn.buyPrice(item, {})}
+          {({ item }) => itemTableColumn.buyPrice(item, {}, language)}
         </Items.Column>
         <Items.Column id="buyPriceTrend" title={<Trans id="itemTable.column.buyPriceTrend"/>} align="right" hidden>
-          {({ item }) => itemTableColumn.buyPriceTrend(item, {})}
+          {({ item }) => itemTableColumn.buyPriceTrend(item, {}, language)}
         </Items.Column>
         <Items.Column id="buyQuantity" title={<Trans id="itemTable.column.buyQuantity"/>} sortBy={({ item }) => item.buyQuantity} align="right" hidden>
-          {({ item }) => itemTableColumn.buyQuantity(item, {})}
+          {({ item }) => itemTableColumn.buyQuantity(item, {}, language)}
         </Items.Column>
         <Items.Column id="sellPrice" title={<Trans id="itemTable.column.sellPrice"/>} sortBy={({ item }) => item.sellPrice} align="right" hidden>
-          {({ item }) => itemTableColumn.sellPrice(item, {})}
+          {({ item }) => itemTableColumn.sellPrice(item, {}, language)}
         </Items.Column>
         <Items.Column id="sellPriceTrend" title={<Trans id="itemTable.column.sellPriceTrend"/>} align="right" hidden>
-          {({ item }) => itemTableColumn.sellPriceTrend(item, {})}
+          {({ item }) => itemTableColumn.sellPriceTrend(item, {}, language)}
         </Items.Column>
         <Items.Column id="sellQuantity" title={<Trans id="itemTable.column.sellQuantity"/>} sortBy={({ item }) => item.sellQuantity} align="right" hidden>
-          {({ item }) => itemTableColumn.sellQuantity(item, {})}
+          {({ item }) => itemTableColumn.sellQuantity(item, {}, language)}
         </Items.Column>
 
         <Items.Column id="avgBuyPrice" title="Avg. Buy Price per" sortBy={({ avgBuyPrice }) => avgBuyPrice?.value} align="right" fixed>

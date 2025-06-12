@@ -17,7 +17,7 @@ import type { PageProps } from '@/lib/next';
 import { UnknownItem } from '@/components/Item/UnknownItem';
 import type { Metadata } from 'next';
 import { getAlternateUrls, getCurrentUrl } from '@/lib/url';
-import { translate } from '@/lib/translate';
+import { getLanguage, translate } from '@/lib/translate';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { getSearchParamAsNumber, type SearchParams } from '@/lib/searchParams';
 import { OutputCount } from '@/components/Item/OutputCount';
@@ -121,7 +121,9 @@ interface RefinedMaterialProps {
   }[]
 }
 
-const RefinedMaterial: FC<RefinedMaterialProps> = ({ id, material, efficiencies, sources }) => {
+const RefinedMaterial: FC<RefinedMaterialProps> = async ({ id, material, efficiencies, sources }) => {
+  const language = await getLanguage();
+
   const Sources = createDataTable(sources, ({ id }) => id);
 
   let cheapestBuy: number | undefined = undefined;
@@ -162,13 +164,13 @@ const RefinedMaterial: FC<RefinedMaterialProps> = ({ id, material, efficiencies,
           {({ rate }) => <FormatNumber value={rate.required / rate.produced}/>}
         </Sources.Column>
         <Sources.Column id="buyPrice" title={<Trans id="itemTable.column.buyPrice"/>} sortBy={({ item }) => item?.buyPrice} align="right" hidden>
-          {({ item }) => item && itemTableColumn.buyPrice(item, {})}
+          {({ item }) => item && itemTableColumn.buyPrice(item, {}, language)}
         </Sources.Column>
         <Sources.Column id="buyPriceTrend" title={<Trans id="itemTable.column.buyPriceTrend"/>} align="right">
-          {({ item }) => item && itemTableColumn.buyPriceTrend(item, {})}
+          {({ item }) => item && itemTableColumn.buyPriceTrend(item, {}, language)}
         </Sources.Column>
         <Sources.Column id="buyQuantity" title={<Trans id="itemTable.column.buyQuantity"/>} sortBy={({ item }) => item?.buyQuantity} align="right" hidden>
-          {({ item }) => item && itemTableColumn.buyQuantity(item, {})}
+          {({ item }) => item && itemTableColumn.buyQuantity(item, {}, language)}
         </Sources.Column>
         <Sources.Column
           id="buyPricePer"
@@ -179,13 +181,13 @@ const RefinedMaterial: FC<RefinedMaterialProps> = ({ id, material, efficiencies,
           {({ item, rate }) => renderCostPerUnit(item, rate, item?.buyPrice, cheapestBuy)}
         </Sources.Column>
         <Sources.Column id="sellPrice" title={<Trans id="itemTable.column.sellPrice"/>} sortBy={({ item }) => item?.sellPrice} align="right" hidden>
-          {({ item }) => item && itemTableColumn.sellPrice(item, {})}
+          {({ item }) => item && itemTableColumn.sellPrice(item, {}, language)}
         </Sources.Column>
         <Sources.Column id="sellPriceTrend" title={<Trans id="itemTable.column.sellPriceTrend"/>} align="right">
-          {({ item }) => item && itemTableColumn.sellPriceTrend(item, {})}
+          {({ item }) => item && itemTableColumn.sellPriceTrend(item, {}, language)}
         </Sources.Column>
         <Sources.Column id="sellQuantity" title={<Trans id="itemTable.column.sellQuantity"/>} sortBy={({ item }) => item?.sellQuantity} align="right" hidden>
-          {({ item }) => item && itemTableColumn.sellQuantity(item, {})}
+          {({ item }) => item && itemTableColumn.sellQuantity(item, {}, language)}
         </Sources.Column>
         <Sources.Column
           id="sellPricePer"

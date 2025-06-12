@@ -38,7 +38,9 @@ const getItems = cache(
   }, ['homestead-items'], { revalidate: 60 * 5 }
 );
 
-export default async function HomesteadNodesPage() {
+export default async function HomesteadNodesPage({ params }: PageProps) {
+  const { language } = await params;
+
   // collect all the item ids
   const itemIds = homeNodes.reduce<number[]>(
     (ids, node) => [...ids, ...node.unlock_items, ...(node.gathered_items ?? [])],
@@ -70,12 +72,12 @@ export default async function HomesteadNodesPage() {
         <HomeNode.Column id="id" title={<Trans id="itemTable.column.id"/>} sortBy="id" small hidden>{({ id }) => id}</HomeNode.Column>
         <HomeNode.Column id="node" title="Node" sortBy="name">{({ item, name }) => item ? <ItemLink item={item}/> : name}</HomeNode.Column>
         <HomeNode.Column id="gathered" title="Gathered Items">{({ gatheredItems }) => <FlexRow>{gatheredItems?.map((item) => <ItemLink key={item.id} item={item}/>)}</FlexRow>}</HomeNode.Column>
-        <HomeNode.Column id="buyPrice" title={<Trans id="itemTable.column.buyPrice"/>} sortBy={({ item }) => item.buyPrice} align="right">{({ item }) => itemTableColumn.buyPrice(item, {})}</HomeNode.Column>
-        <HomeNode.Column id="buyPriceTrend" title={<Trans id="itemTable.column.buyPriceTrend"/>} align="right">{({ item }) => itemTableColumn.buyPriceTrend(item, {})}</HomeNode.Column>
-        <HomeNode.Column id="buyQuantity" title={<Trans id="itemTable.column.buyQuantity"/>} sortBy={({ item }) => item.buyQuantity} align="right" hidden>{({ item }) => itemTableColumn.buyQuantity(item, {})}</HomeNode.Column>
-        <HomeNode.Column id="sellPrice" title={<Trans id="itemTable.column.sellPrice"/>} sortBy={({ item }) => item.sellPrice} align="right" hidden>{({ item }) => itemTableColumn.sellPrice(item, {})}</HomeNode.Column>
-        <HomeNode.Column id="sellPriceTrend" title={<Trans id="itemTable.column.sellPriceTrend"/>} align="right" hidden>{({ item }) => itemTableColumn.sellPriceTrend(item, {})}</HomeNode.Column>
-        <HomeNode.Column id="sellQuantity" title={<Trans id="itemTable.column.sellQuantity"/>} sortBy={({ item }) => item.sellQuantity} align="right" hidden>{({ item }) => itemTableColumn.sellQuantity(item, {})}</HomeNode.Column>
+        <HomeNode.Column id="buyPrice" title={<Trans id="itemTable.column.buyPrice"/>} sortBy={({ item }) => item.buyPrice} align="right">{({ item }) => itemTableColumn.buyPrice(item, {}, language)}</HomeNode.Column>
+        <HomeNode.Column id="buyPriceTrend" title={<Trans id="itemTable.column.buyPriceTrend"/>} align="right">{({ item }) => itemTableColumn.buyPriceTrend(item, {}, language)}</HomeNode.Column>
+        <HomeNode.Column id="buyQuantity" title={<Trans id="itemTable.column.buyQuantity"/>} sortBy={({ item }) => item.buyQuantity} align="right" hidden>{({ item }) => itemTableColumn.buyQuantity(item, {}, language)}</HomeNode.Column>
+        <HomeNode.Column id="sellPrice" title={<Trans id="itemTable.column.sellPrice"/>} sortBy={({ item }) => item.sellPrice} align="right" hidden>{({ item }) => itemTableColumn.sellPrice(item, {}, language)}</HomeNode.Column>
+        <HomeNode.Column id="sellPriceTrend" title={<Trans id="itemTable.column.sellPriceTrend"/>} align="right" hidden>{({ item }) => itemTableColumn.sellPriceTrend(item, {}, language)}</HomeNode.Column>
+        <HomeNode.Column id="sellQuantity" title={<Trans id="itemTable.column.sellQuantity"/>} sortBy={({ item }) => item.sellQuantity} align="right" hidden>{({ item }) => itemTableColumn.sellQuantity(item, {}, language)}</HomeNode.Column>
         <HomeNode.DynamicColumns id="account-unlock" title="Account Unlocks" headers={<Gw2AccountHeaderCells requiredScopes={requiredScopes} small/>}>
           {({ id }) => <Gw2AccountBodyCells requiredScopes={requiredScopes}><AccountHomeNodeCell nodeId={id} accountId={undefined as never}/></Gw2AccountBodyCells>}
         </HomeNode.DynamicColumns>

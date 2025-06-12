@@ -1,0 +1,52 @@
+'use client';
+
+import { createContextState } from '@/lib/context';
+import { Icon, type IconProp } from '@gw2treasures/ui';
+import { Checkbox } from '@gw2treasures/ui/components/Form/Checkbox';
+import { use, type FC, type ReactNode } from 'react';
+import styles from './table.module.css';
+
+// context to control the display of the attribute value
+const {
+  Provider: ShowAttributeValueContextProvider,
+  context: showValueContext,
+  useValue: useShowValue
+} = createContextState(true);
+
+export {
+  ShowAttributeValueContextProvider
+};
+
+
+export interface AttributeCellProps {
+  colSpan?: number,
+  icon: IconProp,
+  value: number,
+  children: ReactNode,
+  major?: boolean,
+}
+
+export const AttributeCell: FC<AttributeCellProps> = ({ colSpan, icon, value, children, major }) => {
+  const showValue = useShowValue();
+
+  return (
+    <td colSpan={colSpan}>
+      <Icon icon={icon} color={major ? 'var(--color-focus)' : undefined} className={styles.icon}/>
+      {showValue && (<span className={styles.value}>+{value}{' '}</span>)}
+      {children}
+    </td>
+  );
+};
+
+
+export interface ShowAttributeValueCheckboxProps {
+  children: ReactNode,
+}
+
+export const ShowAttributeValueCheckbox: FC<ShowAttributeValueCheckboxProps> = ({ children }) => {
+  const [showValue, setShowValue] = use(showValueContext);
+
+  return (
+    <Checkbox checked={showValue} onChange={setShowValue}>{children}</Checkbox>
+  );
+};

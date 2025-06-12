@@ -26,6 +26,7 @@ export const getItem = cache((id: number, language: Language) => {
       wizardsVaultListings: { where: { removedFromApi: false }},
       mysticForgeIngredient: { include: { Recipe: { include: { itemIngredients: { include: { Item: { select: linkProperties }}}, outputItem: { select: linkProperties }}}}},
       mysticForgeRecipeOutput: { include: { itemIngredients: { include: { Item: { select: linkProperties }}}}},
+      itemStats: true,
       _count: {
         select: { ingredient: true, suffixIn: true, contains: true, containedIn: true, mysticForgeIngredient: true }
       }

@@ -253,7 +253,7 @@ export const SortableDynamicDataTableCell: FC<SortableDynamicDataTableCellProps>
 };
 
 // === COLUMN HEADER ===
-export interface DataTableClientColumnProps extends Pick<HeaderCellProps, 'align' | 'small' | 'colSpan'> {
+export interface DataTableClientColumnProps extends Pick<HeaderCellProps, 'align' | 'small' | 'colSpan' | 'width'> {
   id: string;
   children: ReactNode;
   sortable: boolean;

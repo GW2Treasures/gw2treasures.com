@@ -4,18 +4,19 @@ import { Icon } from '../../icons';
 import { TableWrapper } from './TableWrapper';
 
 export interface TableProps {
-  children: ReactNode;
-  width?: 'page' | 'auto';
+  children: ReactNode,
+  width?: 'page' | 'auto',
 }
 
 export interface HeaderCellProps {
-  children?: ReactNode;
-  small?: boolean;
+  children?: ReactNode,
+  small?: boolean,
   align?: ThHTMLAttributes<HTMLTableCellElement>['align'],
-  colSpan?: ThHTMLAttributes<HTMLTableCellElement>['colSpan'];
+  colSpan?: ThHTMLAttributes<HTMLTableCellElement>['colSpan'],
+  width?: number | string,
 
   sort?: boolean | 'asc' | 'desc',
-  onSort?: () => void;
+  onSort?: () => void,
 }
 
 const Table: FC<TableProps> & { HeaderCell: FC<HeaderCellProps> } = ({ children, width = 'page' }: TableProps) => (
@@ -26,9 +27,9 @@ const Table: FC<TableProps> & { HeaderCell: FC<HeaderCellProps> } = ({ children,
   </TableWrapper>
 );
 
-Table.HeaderCell = function HeaderCell({ children, small = false, align, colSpan, sort, onSort }: HeaderCellProps) {
+Table.HeaderCell = function HeaderCell({ children, small = false, align, colSpan, width, sort, onSort }: HeaderCellProps) {
   return (
-    <th className={small ? styles.small : undefined} align={align} colSpan={colSpan} aria-sort={sort === 'asc' ? 'ascending' : sort === 'desc' ? 'descending' : undefined}>
+    <th className={small ? styles.small : undefined} align={align} colSpan={colSpan} aria-sort={sort === 'asc' ? 'ascending' : sort === 'desc' ? 'descending' : undefined} style={width ? { width } : undefined}>
       {sort ? (
         <button className={styles.sortButton}
           onClick={onSort}

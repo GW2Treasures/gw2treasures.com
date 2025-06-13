@@ -77,7 +77,7 @@ export const ItemStatTable: FC<ItemStatTableProps> = async ({ headlineId, headli
           <ItemStats.Column id="id" title={<Trans id="itemTable.column.id"/>} align="right" small hidden sortBy="id">
             {({ id }) => id}
           </ItemStats.Column>
-          <ItemStats.Column id="name" title={<Trans id="itemTable.column.name"/>} sort={compareLocalizedName(language)}>
+          <ItemStats.Column id="name" title={<Trans id="itemTable.column.name"/>} sort={compareLocalizedName(language)} width="25%">
             {(itemStat) => localizedName(itemStat, language)}
           </ItemStats.Column>
           <ItemStats.Column id="itemstats" title={<Trans id="itemTable.column.itemstats"/>} colSpan={maxAttributes}>

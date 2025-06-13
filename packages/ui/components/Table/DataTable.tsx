@@ -31,6 +31,7 @@ export interface DataTableColumnProps<T> extends Pick<HeaderCellProps, 'align' |
   hidden?: boolean,
   fixed?: boolean,
   colSpan?: number,
+  width?: number | string,
 }
 
 export interface DataTableDynamicColumnsProps<T> {
@@ -116,7 +117,7 @@ export function createDataTable<T>(rows: T[], getRowKey: (row: T, index: number)
             <thead>
               <tr>
                 {columns.map((column) => isStaticColumn(column) ? (
-                  <DataTableClientColumn key={column.props.id} id={column.props.id} sortable={!!column.props.sort || !!column.props.sortBy} align={column.props.align} small={column.props.small} colSpan={column.props.colSpan}>
+                  <DataTableClientColumn key={column.props.id} id={column.props.id} sortable={!!column.props.sort || !!column.props.sortBy} align={column.props.align} small={column.props.small} colSpan={column.props.colSpan} width={column.props.width}>
                     {column.props.title}
                   </DataTableClientColumn>
                 ) : (

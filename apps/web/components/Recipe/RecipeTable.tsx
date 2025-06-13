@@ -11,13 +11,16 @@ import recipeBoxStyles from './RecipeBox.module.css';
 import styles from './RecipeTable.module.css';
 import { OutputCount } from '../Item/OutputCount';
 import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
-import { RecipeRowFilter, RecipeTableDisciplineFilter, RecipeTableProvider, RecipeTableSearch } from './RecipeTable.client';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { getLanguage } from '@/lib/translate';
 import { ColumnSelect } from '../Table/ColumnSelect';
 import { RecipeDropdown } from './RecipeDropdown';
 import { UnknownItem } from '../Item/UnknownItem';
 import type { CraftingDiscipline } from '@gw2api/types/data/recipe';
+import { createSearchIndex, TableFilterButton, TableFilterProvider, TableFilterRow, TableSearchInput, type TableFilterDefinition } from '../Table/TableFilter';
+import { isTruthy } from '@gw2treasures/helper/is';
+
+const allDisciplines: CraftingDiscipline[] = [ 'Armorsmith', 'Artificer', 'Chef', 'Homesteader', 'Huntsman', 'Jeweler', 'Leatherworker', 'Scribe', 'Tailor', 'Weaponsmith' ];
 
 export interface RecipeTableProps {
   recipes: With<Pick<Recipe, 'id' | 'rating' | 'disciplines' | 'outputCount' | 'outputItemId' | 'outputItemIdRaw'>, {
@@ -32,49 +35,30 @@ export const RecipeTable: FC<RecipeTableProps> = async ({ recipes }) => {
 
   const Recipes = createDataTable(recipes, (recipe) => recipe.id);
 
-  const recipeIndexByDiscipline = recipes.reduce<Partial<Record<CraftingDiscipline, number[]>>>((record, recipe, index) => {
-    const update = Object.fromEntries(
-      recipe.disciplines.map((discipline) => [discipline, [...record[discipline as CraftingDiscipline] ?? [], index]])
-    );
+  const filter: TableFilterDefinition[] = allDisciplines.map((discipline) => ({
+    id: discipline,
+    name: <><DisciplineIcon discipline={discipline}/> {discipline}</>, // TODO: translate
+    rowIndexes: recipes.map((recipe, i) => [recipe, i] as const)
+      .filter(([stat]) => stat.disciplines.includes(discipline))
+      .map(([, index]) => index)
+  }));
 
-    return { ...record, ...update };
-  }, {});
-
-  const recipeNamesSearchIndex = recipes.reduce<Record<string, number[]>>((record, recipe, index) => {
-    const strings = [];
-
-    if(recipe.outputItem) {
-      strings.push(localizedName(recipe.outputItem, language));
-    }
-
-    for(const ingredient of recipe.ingredients) {
-      if(ingredient.item) {
-        strings.push(localizedName(ingredient.item, language));
-      }
-      if(ingredient.currency) {
-        strings.push(localizedName(ingredient.currency, language));
-      }
-      if(ingredient.guildUpgrade) {
-        strings.push(localizedName(ingredient.guildUpgrade, language));
-      }
-    }
-
-    for(const unlock of recipe.unlockedByItems) {
-      strings.push(localizedName(unlock, language));
-    }
-
-    return {
-      ...record,
-      ...Object.fromEntries(strings.map((string) => [string, [...record[string] ?? [], index]]))
-    };
-  }, {});
+  const searchIndex = createSearchIndex(recipes, (recipe) => [
+    recipe.outputItem && localizedName(recipe.outputItem, language),
+    ...recipe.ingredients.flatMap((ingredient) => [
+      ingredient.item && localizedName(ingredient.item, language),
+      ingredient.currency && localizedName(ingredient.currency, language),
+      ingredient.guildUpgrade && localizedName(ingredient.guildUpgrade, language)
+    ]),
+    ...recipe.unlockedByItems.map((unlock) => localizedName(unlock, language))
+  ].filter(isTruthy));
 
   return (
-    <RecipeTableProvider recipeIndexByDiscipline={recipeIndexByDiscipline} recipeNamesSearchIndex={recipeNamesSearchIndex}>
+    <TableFilterProvider filter={filter} searchIndex={searchIndex}>
       <Headline id="crafting" actions={(
         <FlexRow wrap>
-          <RecipeTableSearch/>
-          <RecipeTableDisciplineFilter totalCount={recipes.length}/>
+          <TableSearchInput/>
+          <TableFilterButton totalCount={recipes.length}/>
           <ColumnSelect table={Recipes}/>
         </FlexRow>
       )}
@@ -83,7 +67,7 @@ export const RecipeTable: FC<RecipeTableProps> = async ({ recipes }) => {
       </Headline>
 
       <div style={{ '--ingredient-count-min-width': '3ch' }}>
-        <Recipes.Table rowFilter={RecipeRowFilter} collapsed={10}>
+        <Recipes.Table rowFilter={TableFilterRow} collapsed={10}>
           <Recipes.Column id="id" title="ID" align="right" small sortBy="id" hidden>{({ id }) => id}</Recipes.Column>
           <Recipes.Column id="outputId" title="Item ID" align="right" small sortBy="outputItemIdRaw" hidden>{({ outputItemIdRaw }) => outputItemIdRaw}</Recipes.Column>
           <Recipes.Column id="output" title="Output">
@@ -112,6 +96,6 @@ export const RecipeTable: FC<RecipeTableProps> = async ({ recipes }) => {
           </Recipes.Column>
         </Recipes.Table>
       </div>
-    </RecipeTableProvider>
+    </TableFilterProvider>
   );
 };

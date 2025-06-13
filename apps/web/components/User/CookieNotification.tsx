@@ -1,3 +1,5 @@
+'use client';
+
 import { useUser } from './use-user';
 import { Icon } from '@gw2treasures/ui';
 import { withSuspense } from '@/lib/with-suspense';

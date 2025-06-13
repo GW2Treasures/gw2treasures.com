@@ -17,7 +17,7 @@ type FilterMode = 'or' | 'and';
 
 interface TableFilterContext {
   filteredRows?: number[] | undefined,
-  filterMap: Map<number | string, { name: string, rowIndexes: number[] }>,
+  filterMap: Map<number | string, { name: ReactNode, rowIndexes: number[] }>,
   filterMode: FilterMode,
 
   filterIds: (number | string)[],
@@ -40,7 +40,7 @@ const context = createContext<TableFilterContext>({
 
 export interface TableFilterDefinition {
   id: number | string,
-  name: string,
+  name: ReactNode,
   rowIndexes: number[],
 }
 

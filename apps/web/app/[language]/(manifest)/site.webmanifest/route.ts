@@ -35,7 +35,7 @@ export async function GET() {
     theme_color: '#b7000d',
     background_color: '#ffffff',
     display: 'standalone',
-    scope_extensions: Object.values(Language).map((language) => ({ origin: `${protocol}//${language}.${process.env.GW2T_NEXT_DOMAIN}` }))
+    scope_extensions: Object.values(Language).map((language) => ({ type: 'origin', origin: `${protocol}//${language}.${process.env.GW2T_NEXT_DOMAIN}` }))
   }, {
     headers: {
       'content-type': 'application/manifest+json'

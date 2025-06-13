@@ -11,6 +11,10 @@ import { AttributeCell, ShowAttributeValueCheckbox, ShowAttributeValueContextPro
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { createSearchIndex, TableFilterButton, TableFilterProvider, TableFilterRow, TableSearchInput, type TableFilterDefinition } from '../Table/TableFilter';
 import { ColumnSelect } from '../Table/ColumnSelect';
+import { DropDown } from '@gw2treasures/ui/components/DropDown/DropDown';
+import { Button } from '@gw2treasures/ui/components/Form/Button';
+import { CookieNotification } from '../User/CookieNotification';
+import { MenuList } from '@gw2treasures/ui/components/Layout/MenuList';
 
 export interface ItemStatTableProps {
   headlineId: string,
@@ -64,9 +68,14 @@ export const ItemStatTable: FC<ItemStatTableProps> = async ({ headlineId, headli
     <ShowAttributeValueContextProvider>
       <TableFilterProvider filter={filter} searchIndex={search} filterMode="and">
         <Headline id={headlineId} actions={[
-          <ShowAttributeValueCheckbox key="show-values"><Trans id="item.itemStats.showValues"/></ShowAttributeValueCheckbox>,
           <TableSearchInput key="search"/>,
           <TableFilterButton key="filter" totalCount={itemStats.length}/>,
+          <DropDown key="settings" button={<Button icon="settings"><Trans id="settings"/></Button>} preferredPlacement="bottom">
+            <MenuList>
+              <CookieNotification/>
+              <ShowAttributeValueCheckbox key="show-values"><Trans id="item.itemStats.showValues"/></ShowAttributeValueCheckbox>
+            </MenuList>
+          </DropDown>,
           <ColumnSelect key="columns" table={ItemStats}/>
         ]}
         >

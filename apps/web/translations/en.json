@@ -29,6 +29,7 @@
   "login.grant-all.hint": "You might have to reauthorize again later to use some features.",
   "logout": "Logout",
   "logout.success": "Logout successful",
+  "settings": "Settings",
   "navigation.items": "Items",
   "navigation.achievements": "Achievements",
   "navigation.skins": "Skins",

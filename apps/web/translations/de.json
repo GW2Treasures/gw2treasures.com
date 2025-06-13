@@ -29,6 +29,7 @@
   "login.grant-all.hint": "Du musst die Autorisierung möglicherweise später erneut erteilen, um einige Funktionen zu nutzen.",
   "logout": "Abmelden",
   "logout.success": "Erfolgreich abgemeldet",
+  "settings": "Einstellungen",
   "navigation.items": "Gegenstände",
   "navigation.achievements": "Erfolge",
   "navigation.skins": "Skins",

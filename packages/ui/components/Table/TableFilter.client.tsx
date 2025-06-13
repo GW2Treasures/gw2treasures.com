@@ -114,18 +114,18 @@ export interface TableFilterButtonProps {
 export const TableFilterButton: FC<TableFilterButtonProps> = ({ totalCount: count, children, all }) => {
   const { filterMap, filterIds, setFilterIds, filterMode } = useContext(context);
 
-  const [isShiftPressed, setIsShiftPressed] = useState(false);
+  const [isAltPressed, setIsAltPressed] = useState(false);
 
-  // track shift key state
+  // track alt key state
   useEffect(() => {
     const keyDown = (e: KeyboardEvent) => {
-      if(e.key === 'Shift') {
-        setIsShiftPressed(true);
+      if(e.key === 'Alt') {
+        setIsAltPressed(true);
       }
     };
     const keyUp = (e: KeyboardEvent) => {
-      if(e.key === 'Shift') {
-        setIsShiftPressed(false);
+      if(e.key === 'Alt') {
+        setIsAltPressed(false);
       }
     };
 
@@ -139,8 +139,8 @@ export const TableFilterButton: FC<TableFilterButtonProps> = ({ totalCount: coun
   }, []);
 
   const handleFilterChange = useCallback((filterId: number | string) => {
-    // check if shift is pressed
-    if(isShiftPressed) {
+    // check if alt is pressed to isolate filter
+    if(isAltPressed) {
       if(filterIds.length === 1 && filterIds[0] === filterId) {
         // if the clicked filter is the only active filter, invert all filters (select all except the clicked one)
         setFilterIds(Array.from(filterMap.keys()).filter((filter) => filter !== filterId));
@@ -149,10 +149,10 @@ export const TableFilterButton: FC<TableFilterButtonProps> = ({ totalCount: coun
         setFilterIds([filterId]);
       }
     } else {
-      // if shift is not pressed, toggle the clicked filter
+      // if alt is not pressed, toggle the clicked filter
       setFilterIds(toggleArray(filterIds, filterId));
     }
-  }, [filterIds, filterMap, isShiftPressed, setFilterIds]);
+  }, [filterIds, filterMap, isAltPressed, setFilterIds]);
 
   return (
     <DropDown button={<Button icon={(filterMode === 'or' ? filterMap.size === filterIds.length : filterIds.length === 0) ? 'filter' : 'filter-active'}>{children}</Button>} preferredPlacement="bottom">
@@ -173,7 +173,7 @@ export const TableFilterButton: FC<TableFilterButtonProps> = ({ totalCount: coun
           </Checkbox>
         ))}
         <Separator/>
-        <span style={{ padding: '8px 16px', color: 'var(--color-text-muted)' }}>Tip: Hold <kbd style={{ border: '1px solid var(--color-border-dark)', borderRadius: 2, padding: '1px 3px' }}>⇧ Shift</kbd> to select a single filter</span>
+        <span style={{ padding: '8px 16px', color: 'var(--color-text-muted)', fontSize: 14 }}>Tip: Hold <kbd style={{ border: '1px solid var(--color-border-dark)', borderRadius: 2, padding: '1px 3px' }}>Alt</kbd> to select a single filter</span>
       </MenuList>
     </DropDown>
   );

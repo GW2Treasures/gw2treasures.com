@@ -14,6 +14,7 @@ import { OutputCount } from '../Item/OutputCount';
 import { RecipeDropdown } from './RecipeDropdown';
 import { UnknownItem } from '../Item/UnknownItem';
 import type { CraftingDiscipline } from '@gw2api/types/data/recipe';
+import { allDisciplines } from './disciplines';
 
 interface RecipeBoxProps {
   recipe: Recipe & {
@@ -34,7 +35,7 @@ export const RecipeBox: FC<RecipeBoxProps> = ({ recipe, outputItem }) => {
       </div>
       <div className={styles.info}>
         <span className={styles.disciplines}>
-          {recipe.disciplines.map((discipline) => <DisciplineIcon key={discipline} discipline={discipline as CraftingDiscipline}/>)}
+          {allDisciplines.map((discipline) => recipe.disciplines.includes(discipline) && <DisciplineIcon key={discipline} discipline={discipline as CraftingDiscipline}/>)}
         </span>
         <span className={styles.rating}>
           {recipe.rating}

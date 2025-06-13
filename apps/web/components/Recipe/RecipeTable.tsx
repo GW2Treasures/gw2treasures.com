@@ -19,8 +19,8 @@ import { UnknownItem } from '../Item/UnknownItem';
 import type { CraftingDiscipline } from '@gw2api/types/data/recipe';
 import { createSearchIndex, TableFilterButton, TableFilterProvider, TableFilterRow, TableSearchInput, type TableFilterDefinition } from '../Table/TableFilter';
 import { isTruthy } from '@gw2treasures/helper/is';
-
-const allDisciplines: CraftingDiscipline[] = [ 'Armorsmith', 'Artificer', 'Chef', 'Homesteader', 'Huntsman', 'Jeweler', 'Leatherworker', 'Scribe', 'Tailor', 'Weaponsmith' ];
+import { Trans } from '../I18n/Trans';
+import { allDisciplines } from './disciplines';
 
 export interface RecipeTableProps {
   recipes: With<Pick<Recipe, 'id' | 'rating' | 'disciplines' | 'outputCount' | 'outputItemId' | 'outputItemIdRaw'>, {
@@ -37,7 +37,7 @@ export const RecipeTable: FC<RecipeTableProps> = async ({ recipes }) => {
 
   const filter: TableFilterDefinition[] = allDisciplines.map((discipline) => ({
     id: discipline,
-    name: <><DisciplineIcon discipline={discipline}/> {discipline}</>, // TODO: translate
+    name: <><DisciplineIcon discipline={discipline}/> <Trans id={`discipline.${discipline}`}/></>,
     rowIndexes: recipes.map((recipe, i) => [recipe, i] as const)
       .filter(([stat]) => stat.disciplines.includes(discipline))
       .map(([, index]) => index)
@@ -87,8 +87,8 @@ export const RecipeTable: FC<RecipeTableProps> = async ({ recipes }) => {
             )}
           </Recipes.Column>
           <Recipes.Column id="rating" title="Rating" align="right" sortBy="rating">{({ rating }) => rating}</Recipes.Column>
-          <Recipes.Column id="disciplines" title="Disciplines">
-            {({ disciplines }) => <span className={recipeBoxStyles.disciplines}>{disciplines.map((discipline) => <DisciplineIcon discipline={discipline as CraftingDiscipline} key={discipline}/>)}</span>}
+          <Recipes.Column id="disciplines" title={<Trans id="disciplines"/>}>
+            {({ disciplines }) => <span className={recipeBoxStyles.disciplines}>{allDisciplines.map((discipline) => disciplines.includes(discipline) && <DisciplineIcon discipline={discipline as CraftingDiscipline} key={discipline}/>)}</span>}
           </Recipes.Column>
           <Recipes.Column id="ingredients" title="Ingredients">{(recipe) => <Ingredients recipe={recipe}/>}</Recipes.Column>
           <Recipes.Column id="actions" title="" small fixed>

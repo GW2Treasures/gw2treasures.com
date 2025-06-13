@@ -77,20 +77,21 @@ export interface RecipeTableDisciplineFilterProps {
   totalCount: number;
 }
 
+// TODO: use `TableFilter`
 export const RecipeTableDisciplineFilter: FC<RecipeTableDisciplineFilterProps> = ({ totalCount: count }) => {
   const { disciplines, setDisciplines, recipeIndexByDiscipline } = useContext(context);
 
-  const [isShiftPressed, setIsShiftPressed] = useState(false);
+  const [isAltPressed, setIsAltPressed] = useState(false);
 
   useEffect(() => {
     const keyDown = (e: KeyboardEvent) => {
-      if(e.key === 'Shift') {
-        setIsShiftPressed(true);
+      if(e.key === 'Alt') {
+        setIsAltPressed(true);
       }
     };
     const keyUp = (e: KeyboardEvent) => {
-      if(e.key === 'Shift') {
-        setIsShiftPressed(false);
+      if(e.key === 'Alt') {
+        setIsAltPressed(false);
       }
     };
 
@@ -114,7 +115,7 @@ export const RecipeTableDisciplineFilter: FC<RecipeTableDisciplineFilterProps> =
         </Checkbox>
         <Separator/>
         {allDisciplines.map((discipline) => (
-          <Checkbox key={discipline} checked={disciplines.includes(discipline)} onChange={() => isShiftPressed ? setDisciplines([discipline]) : setDisciplines(toggleArray(disciplines, discipline))}>
+          <Checkbox key={discipline} checked={disciplines.includes(discipline)} onChange={() => isAltPressed ? setDisciplines([discipline]) : setDisciplines(toggleArray(disciplines, discipline))}>
             <FlexRow align="space-between">
               <span><DisciplineIcon discipline={discipline}/> {discipline}</span>
               <span style={{ paddingLeft: 8, color: !recipeIndexByDiscipline[discipline] ? 'var(--color-text-muted)' : undefined }}>{recipeIndexByDiscipline[discipline]?.length ?? 0}</span>
@@ -122,7 +123,7 @@ export const RecipeTableDisciplineFilter: FC<RecipeTableDisciplineFilterProps> =
           </Checkbox>
         ))}
         <Separator/>
-        <span style={{ padding: '8px 16px', color: 'var(--color-text-muted)' }}>Tip: Hold <kbd style={{ border: '1px solid var(--color-border-dark)', borderRadius: 2, padding: '1px 3px' }}>Shift</kbd> to select a single discipline</span>
+        <span style={{ padding: '8px 16px', color: 'var(--color-text-muted)' }}>Tip: Hold <kbd style={{ border: '1px solid var(--color-border-dark)', borderRadius: 2, padding: '1px 3px' }}>Alt</kbd> to select a single discipline</span>
       </MenuList>
     </DropDown>
   );

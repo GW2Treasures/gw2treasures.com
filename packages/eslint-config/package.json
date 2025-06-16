@@ -28,7 +28,7 @@
   },
   "homepage": "https://github.com/GW2Treasures/gw2treasures.com#readme",
   "dependencies": {
-    "@eslint/js": "9.28.0",
+    "@eslint/js": "9.29.0",
     "@stylistic/eslint-plugin": "4.4.1",
     "eslint-plugin-import": "2.31.0",
     "eslint-plugin-react": "7.37.5",

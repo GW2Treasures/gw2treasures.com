@@ -74,3 +74,7 @@
 .locationInfo {
   color: var(--color-text-muted);
 }
+
+.icon {
+  margin-right: 8px;
+}

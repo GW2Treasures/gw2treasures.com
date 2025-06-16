@@ -14,6 +14,7 @@ import styles from './ItemInventoryTable.module.css';
 import { isTruthy } from '@gw2treasures/helper/is';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { useLocalStorageState } from '@/lib/useLocalStorageState';
+import { ProfessionIcon } from '../Profession/icon';
 
 interface WardrobeProps {
   itemId: number;
@@ -126,22 +127,22 @@ interface ItemInventoryLocationProps {
 const ItemInventoryLocation: FC<ItemInventoryLocationProps> = ({ location }) => {
   switch(location.location) {
     case UseInventoryItemAccountLocation.Bank:
-      return 'Bank';
+      return <><Icon className={styles.icon} icon="vendor"/>Bank</>;
     case UseInventoryItemAccountLocation.Materials:
-      return 'Material Storage';
+      return <><Icon className={styles.icon} icon="material"/>Material Storage</>;
     case UseInventoryItemAccountLocation.SharedInventory:
-      return 'Shared Inventory';
+      return <><Icon className={styles.icon} icon="shared-inventory"/>Shared Inventory</>;
     case UseInventoryItemAccountLocation.LegendaryArmory:
-      return 'Legendary Armory';
+      return <><Icon className={styles.icon} icon="legendary"/>Legendary Armory</>;
     case UseInventoryItemAccountLocation.Delivery:
-      return 'Trading Post (Delivery Box)';
+      return <><Icon className={styles.icon} icon="tradingpost"/>Trading Post <span className={styles.locationInfo}>(Delivery Box)</span></>;
 
     case UseInventoryItemCharacterLocation.Inventory:
-      return <>{location.character.name} <span className={styles.locationInfo}>(Inventory)</span></>;
+      return <><ProfessionIcon profession={location.character.profession} className={styles.icon}/>{location.character.name} <span className={styles.locationInfo}>(Inventory)</span></>;
     case UseInventoryItemCharacterLocation.Equipment:
-      return <>{location.character.name} <span className={styles.locationInfo}>(Equipped)</span></>;
+      return <><ProfessionIcon profession={location.character.profession} className={styles.icon}/>{location.character.name} <span className={styles.locationInfo}>(Equipped)</span></>;
     case UseInventoryItemCharacterLocation.EquipmentTemplate:
-      return <>{location.character.name} <span className={styles.locationInfo}>(Equipment Template{location.tab && ` "${location.tab}"`})</span></>;
+      return <><ProfessionIcon profession={location.character.profession} className={styles.icon}/>{location.character.name} <span className={styles.locationInfo}>(Equipment Template{location.tab && ` "${location.tab}"`})</span></>;
 
     default:
       return '?';

@@ -527,6 +527,8 @@
   "minis": "Minis",
   "outfits": "Outfits",
   "outfits.description": "All available outfits.",
+  "gliders": "Gliders",
+  "gliders.description": "All glider skins that can be unlocked in the account wardrobe.",
   "review": "Review",
   "review.description": "Help to improve gw2treasures.com by reviewing suggested changes.",
   "review.queue.ContainerContent": "Container Content",

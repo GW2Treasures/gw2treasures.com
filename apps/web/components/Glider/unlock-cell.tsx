@@ -7,25 +7,25 @@ import { Scope } from '@gw2me/client';
 import { Icon } from '@gw2treasures/ui';
 import type { FC } from 'react';
 
-export interface OutfitAccountUnlockCellProps {
+export interface GliderAccountUnlockCellProps {
   accountId: string;
-  outfitId: number;
+  gliderId: number;
 }
 
 export const requiredScopes = [Scope.GW2_Account, Scope.GW2_Unlocks];
 
-export const OutfitAccountUnlockCell: FC<OutfitAccountUnlockCellProps> = ({ accountId, outfitId }) => {
-  const unlockedOutfits = useSubscription('outfits', accountId);
+export const GliderAccountUnlockCell: FC<GliderAccountUnlockCellProps> = ({ accountId, gliderId }) => {
+  const unlockedGliders = useSubscription('gliders', accountId);
 
-  if(unlockedOutfits.loading) {
+  if(unlockedGliders.loading) {
     return (<td><Skeleton/></td>);
   }
 
-  if(unlockedOutfits.error) {
-    return (<td style={{ color: 'var(--color-error)' }}>Error loading outfit unlocks from Guild Wars 2 API</td>);
+  if(unlockedGliders.error) {
+    return (<td style={{ color: 'var(--color-error)' }}>Error loading glider unlocks from Guild Wars 2 API</td>);
   }
 
-  const unlocked = unlockedOutfits.data.includes(outfitId);
+  const unlocked = unlockedGliders.data.includes(gliderId);
 
   return (
     <ProgressCell progress={unlocked ? 1 : 0}>

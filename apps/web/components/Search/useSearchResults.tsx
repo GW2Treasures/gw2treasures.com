@@ -152,6 +152,7 @@ const pages: Page[] = [
   { href: '/skins', title: 'Skins', icon: 'skin' },
   { href: '/outfits', title: 'Outfits', icon: 'outfit' },
   { href: '/colors', title: 'Colors', icon: 'color' },
+  { href: '/gliders', title: 'Gliders', icon: 'glider' },
   { href: '/minis', title: 'Minis', icon: 'mini' },
 
   // instances

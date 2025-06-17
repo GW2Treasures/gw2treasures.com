@@ -29,6 +29,7 @@ export const ItemsNew: Job = {
       const wizardsVaultListing = await db.wizardsVaultListing.findMany({ where: { itemIdRaw: id }, select: { id: true }});
       const homesteadGlyphs = await db.homesteadGlyph.findMany({ where: { itemIdRaw: id }, select: { id: true }});
       const unlocksOutfits = await db.outfit.findMany({ where: { unlockedByItemIds: { has: id }}, select: { id: true }});
+      const unlocksGliders = await db.glider.findMany({ where: { unlockedByItemIds: { has: id }}, select: { id: true }});
       const ingredients = await db.recipeIngredient.findMany({ where: { type: 'Item', ingredientId: en.id }, select: { recipeId: true }});
 
       await db.item.create({
@@ -57,6 +58,7 @@ export const ItemsNew: Job = {
           wizardsVaultListings: { connect: wizardsVaultListing },
           homesteadGlyphs: { connect: homesteadGlyphs },
           unlocksOutfits: { connect: unlocksOutfits },
+          unlocksGliders: { connect: unlocksGliders },
           ingredient: { connect: ingredients.map(({ recipeId }) => ({ recipeId_type_ingredientId: { recipeId, type: 'Item', ingredientId: en.id }})) },
         }
       });

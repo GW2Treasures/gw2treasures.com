@@ -5,6 +5,8 @@ import { AchievementsUnlocks } from './achievements/unlocks';
 import { AchievementsViews } from './achievements/views';
 import { ColorsJob } from './colors';
 import { CurrenciesJob } from './currencies';
+import { GlidersJob } from './gliders';
+import { GlidersUnlocks } from './gliders/unlocks';
 import { GuildUpgradesJob } from './guild-upgrades';
 import { Gw2ApiRequestsCleanup } from './gw2api-requests/cleanup';
 import { HomesteadDecorationCategoriesJob } from './homestead/decoration-categories';
@@ -95,6 +97,9 @@ const jobsInternal = {
 
   'outfits': OutfitsJob,
   'outfits.unlocks': OutfitsUnlocks,
+
+  'gliders': GlidersJob,
+  'gliders.unlocks': GlidersUnlocks,
 
   'homestead.decorations': HomesteadDecorationsJob,
   'homestead.decorations.categories': HomesteadDecorationCategoriesJob,

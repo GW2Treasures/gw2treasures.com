@@ -145,18 +145,33 @@ export const sitemaps: Record<string, Sitemap> = {
         '/review',
         '/item/empty-containers',
         '/achievement/uncategorized',
+
+        // wizards vault
         '/wizards-vault',
         '/wizards-vault/objectives',
         '/wizards-vault/rewards',
+
+        // homestead
         '/homestead/nodes',
         '/homestead/garden-plots',
         '/homestead/cats',
         '/homestead/decorations',
         '/homestead/materials',
         '/homestead/glyphs',
+
+        // wardrobe
+        '/skins',
+        '/outfits',
+        '/colors',
+        '/gliders',
+        '/minis',
+
+        // instances
         '/fractals',
         '/raids',
         '/dungeons',
+
+        // festivals
         '/festival/wintersday',
         '/festival/wintersday/achievements',
         '/festival/wintersday/skins',
@@ -179,6 +194,8 @@ export const sitemaps: Record<string, Sitemap> = {
         '/festival/dragon-bash/minis',
         '/festival/dragon-bash/wizards-vault',
         '/bonus-event/evon-gnashblades-birthday',
+
+        // legendary armory
         '/legendary/weapons',
         '/legendary/armor',
         '/legendary/trinkets',

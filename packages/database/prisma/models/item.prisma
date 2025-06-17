@@ -81,6 +81,9 @@ model Item {
   // outfits
   unlocksOutfits Outfit[] @relation("unlocks_outfit")
 
+  // outfits
+  unlocksGliders Glider[] @relation("unlocks_glider")
+
   // item stats
   itemStats   ItemStat[] @relation("item_itemstats")
   itemStatIds Int[]

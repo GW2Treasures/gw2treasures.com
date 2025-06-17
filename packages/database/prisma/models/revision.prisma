@@ -141,6 +141,13 @@ model Revision {
   currentOutfit_fr Outfit?         @relation("current_fr")
   outfitHistory    OutfitHistory[]
 
+  // outfits
+  currentGlider_de Glider?         @relation("current_de")
+  currentGlider_en Glider?         @relation("current_en")
+  currentGlider_es Glider?         @relation("current_es")
+  currentGlider_fr Glider?         @relation("current_fr")
+  gliderHistory    GliderHistory[]
+
   // item stats
   currentItemStat_de ItemStat?         @relation("current_de")
   currentItemStat_en ItemStat?         @relation("current_en")

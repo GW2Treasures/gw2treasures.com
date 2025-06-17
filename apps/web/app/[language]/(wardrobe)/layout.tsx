@@ -15,7 +15,7 @@ export default function WardrobeLayout({ children }: LayoutProps) {
           { segment: 'skins', icon: 'skin', label: <Trans id="navigation.skins"/> },
           { segment: 'outfits', icon: 'outfit', label: <Trans id="outfits"/> },
           { segment: 'colors', icon: 'color', label: <Trans id="colors"/> },
-          // { segment: 'gliders', icon: 'info', label: <>Gliders <Badge>soon</Badge></> },
+          { segment: 'gliders', icon: 'glider', label: <Trans id="gliders"/> },
           // { segment: 'mounts', icon: 'mount', label: <><Trans id="navigation.mounts"/> <Badge>soon</Badge></> },
           // { segment: 'fishing', icon: 'info', label: <>Fishing <Badge>soon</Badge></> },
           // { segment: 'skiffs', icon: 'info', label: <>Skiffs <Badge>soon</Badge></> },

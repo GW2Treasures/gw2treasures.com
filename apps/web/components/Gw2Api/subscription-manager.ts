@@ -25,12 +25,13 @@ export type SubscriptionType = 'account'
   | 'dungeons'
   | 'raids'
   | 'sab'
-  | 'outfits';
+  | 'outfits'
+  | 'gliders';
 
 export type SubscriptionData<T extends SubscriptionType> =
   T extends 'account' ? Account<'2019-12-19T00:00:00.000Z'> :
   T extends 'achievements' ? AccountAchievement[] :
-  T extends 'skins' | 'minis' | 'colors' | 'outfits' ? number[] :
+  T extends 'skins' | 'minis' | 'colors' | 'outfits' | 'gliders' ? number[] :
   T extends 'wallet' ? AccountWallet[] :
   T extends 'wizards-vault.daily' | 'wizards-vault.weekly' ? AccountWizardsVaultMetaObjectives :
   T extends 'wizards-vault.special' ? AccountWizardsVaultSpecialObjectives :
@@ -259,6 +260,7 @@ const fetchers: { [T in SubscriptionType]: (accessToken: string) => Promise<Subs
   'raids': (accessToken: string) => fetchGw2Api('/v2/account/raids', { accessToken, cache: 'no-cache' }),
   'sab': (accessToken: string) => loadSab(accessToken),
   'outfits': (accessToken: string) => fetchGw2Api('/v2/account/outfits', { accessToken, cache: 'no-cache' }),
+  'gliders': (accessToken: string) => fetchGw2Api('/v2/account/gliders', { accessToken, cache: 'no-cache' }),
 };
 
 async function loadInventories(accessToken: string) {

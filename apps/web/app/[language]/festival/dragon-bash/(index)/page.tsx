@@ -79,10 +79,10 @@ export default async function DragonBashFestivalPage({ params }: PageProps) {
           <span className={styles.linkCardTitle}>Dragon Bash in 100 Seconds</span>
         </a>
 
-        <a href="https://www.youtube.com/watch?v=1SqenoV1vg8" rel="noreferrer noopener" target="_blank" className={styles.linkCardYoutube}>
+        <a href="https://www.youtube.com/watch?v=RECavSpY0ic" rel="noreferrer noopener" target="_blank" className={styles.linkCardYoutube}>
           <img src={thumbnailGttp.src} alt="" width={128}/>
           <span className={styles.linkCardType}>Youtube <Icon icon="external-link"/></span>
-          <span className={styles.linkCardTitle}>Get To The Point: A Super Adventure Box Festival Guide for Guild Wars 2</span>
+          <span className={styles.linkCardTitle}>Get To The Point: A Dragon Bash Festival Guide for Guild Wars 2</span>
         </a>
 
         <a href="https://wiki.guildwars2.com/wiki/Dragon_Bash" rel="noreferrer noopener" target="_blank" className={styles.linkCard}>

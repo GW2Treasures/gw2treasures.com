@@ -37,6 +37,12 @@ const skinIds: number[] = [
   2014, // Horns of the Dragon
   2016, // Horns of the Dragon
   2013, // Horns of the Dragon
+  13029, // Uncrowned Legend's Greatsword
+  13031, // Uncrowned Legend's Warhorn
+  13079, // Uncrowned Legend's Trident
+  13051, // Raven-Blessed Visage
+  13064, // Raven-Blessed Visage
+  13069, // Raven-Blessed Visage
 ];
 
 const skinSetNames: string[] = [
@@ -46,6 +52,7 @@ const skinSetNames: string[] = [
   'Holographic weapons',
   'Imbued Holographic weapons',
   'Sacred Crystal weapons',
+  'Sacred Raven\'s weapons'
 ];
 
 const loadData = cache(async function loadData() {

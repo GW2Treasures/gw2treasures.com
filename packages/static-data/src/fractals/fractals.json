@@ -114,7 +114,7 @@
     ["aquatic_ruins", "lonely_tower", "thaumanova_reactor"],
     ["sunqua_peak", "underground_facility", "urban_battleground"],
     ["aetherblade", "chaos", "nightmare"],
-    ["cliffside", "lonely_tower", "sirens_reef"],
+    ["cliffside", "lonely_tower", "kinfall"],
     ["deepstone", "solid_ocean", "swampland"],
     ["captain_mai_trin_boss", "molten_boss", "shattered_observatory"]
   ],
@@ -127,7 +127,7 @@
     [15, 48, 60],
     [24, 35, 66],
     [21, 36, 75],
-    [12, 40, 67],
+    [ 7, 40, 67],
     [ 8, 31, 54],
     [11, 39, 59],
     [18, 27, 64],

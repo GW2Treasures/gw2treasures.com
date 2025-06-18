@@ -12,7 +12,6 @@ import { isTruthy } from '@gw2treasures/helper/is';
 import { data, getDayOfYearIndex, getInstabilities } from '@gw2treasures/static-data/fractals/index';
 import { Switch } from '@gw2treasures/ui/components/Form/Switch';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
-import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
 import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 import { DateSelector } from './date-selector';
@@ -48,11 +47,6 @@ export default async function FractalsPage({ params, searchParams }: PageProps) 
 
   return (
     <>
-      <Notice type="warning">
-        The latest Janthir Wilds update on June 3, 2025 has introduced a new fractal.
-        Fractal levels and instabilities have been updated, but daily/recommended fractals might be wrong until the new rotation is known (likely until June 17, 2025).
-      </Notice>
-
       <Description actions={<span style={{ lineHeight: '36px' }}>Reset: <ResetTimer reset="current-daily"/></span>}>
         <Trans id="fractals.description"/>
       </Description>

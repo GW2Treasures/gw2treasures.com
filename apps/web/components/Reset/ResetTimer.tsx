@@ -6,7 +6,7 @@ import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 import { isDefined } from '@gw2treasures/helper/is';
 import { useInterval } from '@/lib/useInterval';
 
-type ResetType = 'daily' | 'weekly';
+type ResetType = 'daily' | 'weekly' | 'monthly';
 type ResetModifier = 'next' | 'current' | 'last';
 export type Reset = `${ResetModifier}-${ResetType}`;
 
@@ -57,7 +57,12 @@ export function getResetDate(reset: Reset, relativeTo = new Date()) {
       date.setUTCHours(7, 30, 0, 0);
       const daysAgo = date.getUTCDay() === 1 && relativeTo < date ? 7 : (date.getUTCDay() + 6) % 7;
       date.setUTCDate(date.getUTCDate() - daysAgo + 7 * modifierValue);
+      break;
     }
+    case 'monthly':
+      date.setUTCHours(0, 0, 0, 0);
+      date.setUTCMonth(date.getUTCMonth() + modifierValue, 1);
+      break;
   }
 
   return date;

@@ -4,7 +4,7 @@ import type { FC } from 'react';
 import { Skeleton } from '../Skeleton/Skeleton';
 import { Icon } from '@gw2treasures/ui';
 import { ProgressCell } from './ProgressCell';
-import { useSubscription } from '../Gw2Api/use-gw2-subscription';
+import { useAccountModificationDate, useSubscription } from '../Gw2Api/use-gw2-subscription';
 import { Scope } from '@gw2me/client';
 import type { Achievement } from '@gw2treasures/database';
 import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
@@ -12,6 +12,8 @@ import { Gw2AccountBodyCells, Gw2AccountHeaderCells } from '../Gw2Api/Gw2Account
 import { FormatNumber } from '../Format/FormatNumber';
 import type { AchievementProgressSnapshot } from './share/types';
 import common from '@gw2treasures/ui/common.module.css';
+import type { AchievementFlags } from '@gw2api/types/data/achievement';
+import { getResetDate, type Reset } from '../Reset/ResetTimer';
 
 const requiredScopes = [Scope.GW2_Progression];
 
@@ -33,11 +35,23 @@ export const AccountAchievementProgressRow: FC<RowProps> = ({ achievement, bitId
 
 export const AccountAchievementProgressCell: FC<AccountAchievementProgressCellProps> = ({ achievement, accountId, bitId }) => {
   const achievements = useSubscription('achievements', accountId);
+  const lastModified = useAccountModificationDate(accountId);
 
-  if(achievements.loading) {
+  if(achievements.loading || lastModified.loading) {
     return (<td><Skeleton/></td>);
-  } else if (achievements.error) {
+  } else if (achievements.error || lastModified.error) {
     return (<td/>);
+  }
+
+  // get the reset when this achievement has last reset its progress
+  const reset = getResetFromFlags(achievement.flags as AchievementFlags[]);
+
+  // the progress for this achievement is stale if it has a reset date before the last modified date
+  const isStale = reset !== undefined && lastModified.date < getResetDate(reset);
+
+  // no progress on stale achievements
+  if(isStale) {
+    return <td/>;
   }
 
   const progress = achievements.data.find(({ id }) => id === achievement.id);
@@ -76,6 +90,18 @@ export const AccountAchievementProgressCell: FC<AccountAchievementProgressCellPr
     </ProgressCell>
   );
 };
+
+function getResetFromFlags(flags: AchievementFlags[]): Reset | undefined {
+  for(const flag of flags) {
+    switch (flag) {
+      case 'Daily': return 'last-daily';
+      case 'Weekly': return 'last-weekly';
+      case 'Monthly': return 'last-monthly';
+    }
+  }
+
+  return undefined;
+}
 
 interface SnapshotRowProps extends RowProps {
   snapshots: AchievementProgressSnapshot[];

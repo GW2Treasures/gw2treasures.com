@@ -71,7 +71,7 @@ const ItemInventoryAccountRows: FC<ItemInventoryAccountRowsProps> = ({ itemId, a
   if(inventory.loading) {
     return (
       <tr>
-        <th>
+        <th style={{ color: 'var(--color-text-muted)' }}>
           <FlexRow>
             <Icon icon="loading"/>
             <Gw2AccountName account={account}/>
@@ -85,7 +85,7 @@ const ItemInventoryAccountRows: FC<ItemInventoryAccountRowsProps> = ({ itemId, a
   if(inventory.error) {
     return (
       <tr>
-        <th>
+        <th style={{ color: 'var(--color-text-muted)' }}>
           <FlexRow>
             <Icon icon="close"/>
             <Gw2AccountName account={account}/>

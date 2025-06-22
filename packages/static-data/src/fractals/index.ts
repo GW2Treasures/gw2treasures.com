@@ -1,4 +1,13 @@
-import instabilityData from './instabilities/data.json';
+import dailyData from './data/dailies.json';
+import fractalData from './data/fractals.json';
+import instabilityData from './data/instabilities.json';
+import recommendedData from './data/recommended.json';
+
+export const { dailies } = dailyData;
+export const { scales, fractal_details } = fractalData;
+export const { instabilities, instability_details } = instabilityData;
+export const { recommended } = recommendedData;
+
 
 export function getDayOfYearIndex(date: Date = new Date()) {
   const dateUTC = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate());
@@ -20,10 +29,5 @@ export function getInstabilities(level: number, dayOfYearIndex: number) {
     return [];
   }
 
-  // const t4Level = level + (3 - tier) * 25;
-
-  return instabilityData.instabilities[level.toString() as keyof typeof instabilityData.instabilities][dayOfYearIndex].slice(0, tier);
+  return instabilities[level.toString() as keyof typeof instabilities][dayOfYearIndex].slice(0, tier);
 }
-
-import data from './fractals.json';
-export { data };

@@ -9,7 +9,7 @@ import { getTranslate } from '@/lib/translate';
 import { getAlternateUrls, getCurrentUrl } from '@/lib/url';
 import type { Language } from '@gw2treasures/database';
 import { isTruthy } from '@gw2treasures/helper/is';
-import { data, getDayOfYearIndex, getInstabilities } from '@gw2treasures/static-data/fractals/index';
+import { dailies, fractal_details, getDayOfYearIndex, getInstabilities, instability_details, recommended, scales } from '@gw2treasures/static-data/fractals/index';
 import { Switch } from '@gw2treasures/ui/components/Form/Switch';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
@@ -17,8 +17,6 @@ import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 import { DateSelector } from './date-selector';
 import ogImage from './fractals-og.png';
 import { getCanonicalUrl, getDateOrFallback, getTierOrFallback } from './helper';
-
-const { fractals, daily, recommended } = data;
 
 export default async function FractalsPage({ params, searchParams }: PageProps) {
   const { language } = await params;
@@ -31,17 +29,17 @@ export default async function FractalsPage({ params, searchParams }: PageProps) 
   const dayOfYearIndex = getDayOfYearIndex(parsedDate);
   const currentDaily = dayOfYearIndex % 15;
 
-  const foo = fractals.toReversed()
+  const fractals = scales.toReversed()
     .map((fractal) => ({
       ...fractal,
-      tier: Math.floor((fractal.level - 1) / 25) + 1,
-      isDaily: daily[currentDaily].includes(fractal.type),
-      isRecommended: recommended[currentDaily].includes(fractal.level)
+      tier: Math.floor((fractal.scale - 1) / 25) + 1,
+      isDaily: dailies[currentDaily].includes(fractal.type),
+      isRecommended: recommended[currentDaily].some(({ scale }) => scale === fractal.scale),
     }))
     .filter((fractal) => tier === 'all' || (fractal.isDaily && fractal.tier.toString() === tier) || (fractal.isRecommended && fractal.tier.toString() <= tier));
 
 
-  const Fractals = createDataTable(foo, ({ level }) => level);
+  const Fractals = createDataTable(fractals, ({ scale }) => scale);
 
   const t = getTranslate(language);
 
@@ -69,11 +67,11 @@ export default async function FractalsPage({ params, searchParams }: PageProps) 
       </div>
 
       <Fractals.Table>
-        <Fractals.Column id="tier" title={t('fractals.tier')} sortBy="level" small>{({ tier }) => `T${tier}`}</Fractals.Column>
-        <Fractals.Column id="level" title={t('fractals.level')} align="right" sortBy="level" small>{({ level }) => <FormatNumber value={level}/>}</Fractals.Column>
-        <Fractals.Column id="name" title={t('fractal')} sortBy="type">{({ type }) => <Trans id={`fractal.${type as 'lonely_tower'}`}/>}</Fractals.Column>
+        <Fractals.Column id="tier" title={t('fractals.tier')} sortBy="scale" small>{({ tier }) => `T${tier}`}</Fractals.Column>
+        <Fractals.Column id="level" title={t('fractals.level')} align="right" sortBy="scale" small>{({ scale }) => <FormatNumber value={scale}/>}</Fractals.Column>
+        <Fractals.Column id="name" title={t('fractal')} sortBy="type">{({ type }) => fractal_details[type as keyof typeof fractal_details].name[language] }</Fractals.Column>
         <Fractals.Column id="daily" title={t('fractals.daily')} sortBy={({ isDaily, isRecommended }) => isDaily ? 1 : isRecommended ? 2 : 3}>{({ isDaily, isRecommended }) => [isDaily && t('fractals.daily'), isRecommended && t('fractals.recommended')].filter(isTruthy).join(', ')}</Fractals.Column>
-        <Fractals.Column id="instabilities" title={t('fractals.instabilities')}>{({ level }) => <Instabilities level={level} dayOfYearIndex={dayOfYearIndex} language={language}/>}</Fractals.Column>
+        <Fractals.Column id="instabilities" title={t('fractals.instabilities')}>{({ scale }) => <Instabilities scale={scale} dayOfYearIndex={dayOfYearIndex} language={language}/>}</Fractals.Column>
         <Fractals.Column id="ar" title={t('fractals.agony')} align="right" sortBy="ar" small>{({ ar }) => <FormatNumber value={ar}/>}</Fractals.Column>
       </Fractals.Table>
 
@@ -99,26 +97,25 @@ export async function generateMetadata({ searchParams, params }: PageProps) {
   };
 }
 
-const Instabilities = ({ level, dayOfYearIndex, language }: { level: number, dayOfYearIndex: number, language: Language }) => {
-  const { instabilities } = data;
+const Instabilities = ({ scale, dayOfYearIndex, language }: { scale: number, dayOfYearIndex: number, language: Language }) => {
   const t = getTranslate(language);
 
-  if(level > 75) {
+  if(scale > 75) {
     return (
       <FlexRow>
-        {getInstabilities(level, dayOfYearIndex).map((instabilityIndex) => instabilities[instabilityIndex]).map((instability) => (
-          <Tip key={instability.name} tip={instability.name}><img alt={instability.name} src={`https://assets.gw2dat.com/${instability.iconId}.png`} height={24} width={24} style={{ borderRadius: 2 }}/></Tip>
+        {getInstabilities(scale, dayOfYearIndex).map((instabilityIndex) => instability_details[instabilityIndex]).map((instability) => (
+          <Tip key={instability.name.en} tip={instability.name[language]}><img alt={instability.name[language]} src={`https://assets.gw2dat.com/${instability.icon_id}.png`} height={24} width={24} style={{ borderRadius: 2 }}/></Tip>
         ))}
       </FlexRow>
     );
-  } else if (level > 50) {
+  } else if (scale > 50) {
     return (
       <FlexRow>
         <Tip tip={t('fractals.instabilities.unknown')}><UnknownInstabilityIcon/></Tip>
         <Tip tip={t('fractals.instabilities.unknown')}><UnknownInstabilityIcon/></Tip>
       </FlexRow>
     );
-  } else if (level > 25) {
+  } else if (scale > 25) {
     return (
       <FlexRow>
         <Tip tip={t('fractals.instabilities.unknown')}><UnknownInstabilityIcon/></Tip>

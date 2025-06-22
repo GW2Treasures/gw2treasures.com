@@ -1,3 +1,3 @@
-[submodule "apps/web/app/[language]/fractals/instabilities"]
-	path = packages/static-data/src/fractals/instabilities
+[submodule "fractals"]
+	path = packages/static-data/src/fractals/data
 	url = https://github.com/Invisi/gw2-fotm-instabilities.git

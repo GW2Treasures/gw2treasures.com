@@ -71,7 +71,7 @@ export default async function HomesteadNodesPage({ params }: PageProps) {
       <HomeNode.Table>
         <HomeNode.Column id="id" title={<Trans id="itemTable.column.id"/>} sortBy="id" small hidden>{({ id }) => id}</HomeNode.Column>
         <HomeNode.Column id="node" title="Node" sortBy="name">{({ item, name }) => item ? <ItemLink item={item}/> : name}</HomeNode.Column>
-        <HomeNode.Column id="gathered" title="Gathered Items">{({ gatheredItems }) => <FlexRow>{gatheredItems?.map((item) => <ItemLink key={item.id} item={item}/>)}</FlexRow>}</HomeNode.Column>
+        <HomeNode.Column id="gathered" title="Gathered Items">{({ gatheredItems }) => <FlexRow>{gatheredItems?.map((item) => <ItemLink key={item.id} item={item}>{null}</ItemLink>)}</FlexRow>}</HomeNode.Column>
         <HomeNode.Column id="buyPrice" title={<Trans id="itemTable.column.buyPrice"/>} sortBy={({ item }) => item.buyPrice} align="right">{({ item }) => itemTableColumn.buyPrice(item, {}, language)}</HomeNode.Column>
         <HomeNode.Column id="buyPriceTrend" title={<Trans id="itemTable.column.buyPriceTrend"/>} align="right">{({ item }) => itemTableColumn.buyPriceTrend(item, {}, language)}</HomeNode.Column>
         <HomeNode.Column id="buyQuantity" title={<Trans id="itemTable.column.buyQuantity"/>} sortBy={({ item }) => item.buyQuantity} align="right" hidden>{({ item }) => itemTableColumn.buyQuantity(item, {}, language)}</HomeNode.Column>

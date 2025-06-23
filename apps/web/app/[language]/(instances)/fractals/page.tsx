@@ -8,7 +8,6 @@ import type { PageProps } from '@/lib/next';
 import { getTranslate } from '@/lib/translate';
 import { getAlternateUrls, getCurrentUrl } from '@/lib/url';
 import type { Language } from '@gw2treasures/database';
-import { isTruthy } from '@gw2treasures/helper/is';
 import { dailies, fractal_details, getDayOfYearIndex, getInstabilities, instability_details, recommended, scales } from '@gw2treasures/static-data/fractals/index';
 import { Switch } from '@gw2treasures/ui/components/Form/Switch';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
@@ -17,10 +16,33 @@ import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 import { DateSelector } from './date-selector';
 import ogImage from './fractals-og.png';
 import { getCanonicalUrl, getDateOrFallback, getTierOrFallback } from './helper';
+import { Scope } from '@gw2me/client';
+import { Gw2AccountBodyCells, Gw2AccountHeaderCells } from '@/components/Gw2Api/Gw2AccountTableCells';
+import { AccountAchievementProgressCell } from '@/components/Achievement/AccountAchievementProgress';
+import { Icon } from '@gw2treasures/ui';
+import { cache } from '@/lib/cache';
+import { db } from '@/lib/prisma';
+import { linkPropertiesWithoutRarity } from '@/lib/linkProperties';
+import { groupById } from '@gw2treasures/helper/group-by';
+import { AchievementLink } from '@/components/Achievement/AchievementLink';
+
+const requiredScopes: Scope[] = [Scope.GW2_Account, Scope.GW2_Progression];
+
+const getAchievements = cache((ids: number[]) => db.achievement.findMany({
+  where: { id: { in: ids }},
+  select: { ...linkPropertiesWithoutRarity, flags: true, prerequisitesIds: true }
+}), ['fractal-achievements'], { revalidate: 60 });
+
+const achievementIds = [
+  ...scales.map(({ daily_achievement_id }) => daily_achievement_id),
+  ...recommended.flatMap((recs) => recs.map(({ achievement_id }) => achievement_id)),
+];
 
 export default async function FractalsPage({ params, searchParams }: PageProps) {
   const { language } = await params;
   const { tier: rawTier, date: rawDate } = await searchParams;
+
+  const achievements = groupById(await getAchievements(achievementIds));
 
   const date = getDateOrFallback(Array.isArray(rawDate) ? rawDate[0] : rawDate);
   const parsedDate = new Date(date);
@@ -30,12 +52,17 @@ export default async function FractalsPage({ params, searchParams }: PageProps) 
   const currentDaily = dayOfYearIndex % 15;
 
   const fractals = scales.toReversed()
-    .map((fractal) => ({
-      ...fractal,
-      tier: Math.floor((fractal.scale - 1) / 25) + 1,
-      isDaily: dailies[currentDaily].includes(fractal.type),
-      isRecommended: recommended[currentDaily].some(({ scale }) => scale === fractal.scale),
-    }))
+    .map((fractal) => {
+      const rec = recommended[currentDaily].find(({ scale }) => scale === fractal.scale);
+
+      return {
+        ...fractal,
+        tier: Math.floor((fractal.scale - 1) / 25) + 1,
+        isDaily: dailies[currentDaily].includes(fractal.type),
+        isRecommended: rec !== undefined,
+        recommended_achievement_id: rec?.achievement_id,
+      };
+    })
     .filter((fractal) => tier === 'all' || (fractal.isDaily && fractal.tier.toString() === tier) || (fractal.isRecommended && fractal.tier.toString() <= tier));
 
 
@@ -70,9 +97,29 @@ export default async function FractalsPage({ params, searchParams }: PageProps) 
         <Fractals.Column id="tier" title={t('fractals.tier')} sortBy="scale" small>{({ tier }) => `T${tier}`}</Fractals.Column>
         <Fractals.Column id="level" title={t('fractals.level')} align="right" sortBy="scale" small>{({ scale }) => <FormatNumber value={scale}/>}</Fractals.Column>
         <Fractals.Column id="name" title={t('fractal')} sortBy="type">{({ type }) => fractal_details[type as keyof typeof fractal_details].name[language] }</Fractals.Column>
-        <Fractals.Column id="daily" title={t('fractals.daily')} sortBy={({ isDaily, isRecommended }) => isDaily ? 1 : isRecommended ? 2 : 3}>{({ isDaily, isRecommended }) => [isDaily && t('fractals.daily'), isRecommended && t('fractals.recommended')].filter(isTruthy).join(', ')}</Fractals.Column>
+        <Fractals.Column id="daily" title={t('fractals.daily')} sortBy={({ isDaily, isRecommended }) => isDaily ? 1 : isRecommended ? 2 : 3}>
+          {({ isDaily, isRecommended, daily_achievement_id, recommended_achievement_id }) =>
+            isRecommended ? <AchievementLink achievement={achievements.get(recommended_achievement_id!)!}><Trans id="fractals.recommended"/></AchievementLink> :
+            isDaily ? <AchievementLink achievement={achievements.get(daily_achievement_id)!}><Trans id="fractals.daily"/></AchievementLink> :
+            null}
+        </Fractals.Column>
         <Fractals.Column id="instabilities" title={t('fractals.instabilities')}>{({ scale }) => <Instabilities scale={scale} dayOfYearIndex={dayOfYearIndex} language={language}/>}</Fractals.Column>
         <Fractals.Column id="ar" title={t('fractals.agony')} align="right" sortBy="ar" small>{({ ar }) => <FormatNumber value={ar}/>}</Fractals.Column>
+        <Fractals.DynamicColumns id="account" title={t('fractals.completion')} headers={<Gw2AccountHeaderCells requiredScopes={requiredScopes} small/>}>
+          {(fractal) => (
+            <Gw2AccountBodyCells requiredScopes={requiredScopes}>
+              {(fractal.isDaily || fractal.isRecommended) ? (
+                <AccountAchievementProgressCell accountId={null as never} achievement={achievements.get(fractal.recommended_achievement_id ?? fractal.daily_achievement_id)!}/>
+              ) : (
+                <td>
+                  <Tip tip={<Trans id="fractals.completion.unavailable"/>}>
+                    <Icon icon="info" color="var(--color-text-muted)"/>
+                  </Tip>
+                </td>
+              )}
+            </Gw2AccountBodyCells>
+          )}
+        </Fractals.DynamicColumns>
       </Fractals.Table>
 
       <PageView page="fractal"/>

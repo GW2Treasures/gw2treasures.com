@@ -142,7 +142,7 @@ const AccountObjectiveDetails: FC<AccountObjectivesProps> = ({ account, objectiv
 
   return (
     <>
-      {wizardsVault.daily === null && <Notice>This account has not logged in to the game since the last reset. Not all objectives can be shown and special objectives may be outdated.</Notice>}
+      {(wizardsVault.daily === null || wizardsVault.weekly === null) && <Notice>This account has not logged in to the game since the last reset. Not all objectives can be shown and special objectives may be outdated.</Notice>}
 
       <Table>
         <thead>

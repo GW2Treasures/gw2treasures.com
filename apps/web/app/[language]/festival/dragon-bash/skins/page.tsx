@@ -10,7 +10,8 @@ import { requiredScopes } from '../helper';
 import { pageView } from '@/lib/pageView';
 import type { PageProps } from '@/lib/next';
 import { getTranslate } from '@/lib/translate';
-import { getAlternateUrls } from '@/lib/url';
+import { getAlternateUrls, getCurrentUrl } from '@/lib/url';
+import ogImage from './og.png';
 
 const skinIds: number[] = [
   10028, // Holographic Dragon Gloves
@@ -102,5 +103,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: t('navigation.skins'),
     description: t('festival.dragon-bash.skins.description'),
     alternates: getAlternateUrls('festival/dragon-bash/skins', language),
+
+    openGraph: {
+      images: [{ url: new URL(ogImage.src, await getCurrentUrl()), width: ogImage.width, height: ogImage.height }],
+    },
+    twitter: { card: 'summary_large_image' }
   };
 }

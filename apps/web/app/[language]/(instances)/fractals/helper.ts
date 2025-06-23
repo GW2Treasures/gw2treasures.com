@@ -1,5 +1,5 @@
-export type TierFilter = '4' | '3' | '2' | '1' | 'all';
-const validTiers: string[] = ['1', '2', '3', '4', 'all'] satisfies TierFilter[];
+export type TierFilter = 'cm' | '4' | '3' | '2' | '1' | 'all';
+const validTiers: string[] = ['cm', '1', '2', '3', '4', 'all'] satisfies TierFilter[];
 
 export function getTierOrFallback(value: string | undefined): TierFilter {
   return value !== undefined && validTiers.includes(value)

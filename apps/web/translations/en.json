@@ -326,6 +326,8 @@
   "fractals.recommended": "Recommended",
   "fractals.tier.all": "All",
   "fractals.date": "Date",
+  "fractals.completion": "Completion",
+  "fractals.completion.unavailable": "Fractal completion data is only available for recommended and daily fractals",
   "raids": "Raids",
   "raids.description": "Raids are difficult 10-player PvE instances. Each raid wing has weekly rewards for clearing it, which you can track in the table below if you are logged in. Each week one wing is emboldened, effectively reducing the difficulty, and one has the Call of the Mists effect, doubling the amount of gold earned.",
   "raids.name": "Name",

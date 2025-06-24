@@ -15,7 +15,7 @@ import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
 import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 import { DateSelector } from './date-selector';
 import ogImage from './fractals-og.png';
-import { getCanonicalUrl, getDateOrFallback, getTierOrFallback } from './helper';
+import { formatDate, getCanonicalUrl, getDateOrFallback, getTierOrFallback } from './helper';
 import { Scope } from '@gw2me/client';
 import { Gw2AccountBodyCells, Gw2AccountHeaderCells } from '@/components/Gw2Api/Gw2AccountTableCells';
 import { AccountAchievementProgressCell } from '@/components/Achievement/AccountAchievementProgress';
@@ -25,6 +25,9 @@ import { db } from '@/lib/prisma';
 import { linkPropertiesWithoutRarity } from '@/lib/linkProperties';
 import { groupById } from '@gw2treasures/helper/group-by';
 import { AchievementLink } from '@/components/Achievement/AchievementLink';
+
+// Kinfall and above have CM
+const firstCMScale = 95;
 
 const requiredScopes: Scope[] = [Scope.GW2_Account, Scope.GW2_Progression];
 
@@ -44,9 +47,14 @@ export default async function FractalsPage({ params, searchParams }: PageProps) 
 
   const achievements = groupById(await getAchievements(achievementIds));
 
+  const today = formatDate(new Date());
   const date = getDateOrFallback(Array.isArray(rawDate) ? rawDate[0] : rawDate);
   const parsedDate = new Date(date);
-  const tier = getTierOrFallback(Array.isArray(rawTier) ? rawTier[0] : rawTier);
+  const tierString = getTierOrFallback(Array.isArray(rawTier) ? rawTier[0] : rawTier);
+  const tier =
+    tierString === 'cm' ? 4 :
+    tierString === 'all' ? 0 :
+    parseInt(tierString);
 
   const dayOfYearIndex = getDayOfYearIndex(parsedDate);
   const currentDaily = dayOfYearIndex % 15;
@@ -63,7 +71,12 @@ export default async function FractalsPage({ params, searchParams }: PageProps) 
         recommended_achievement_id: rec?.achievement_id,
       };
     })
-    .filter((fractal) => tier === 'all' || (fractal.isDaily && fractal.tier.toString() === tier) || (fractal.isRecommended && fractal.tier.toString() <= tier));
+    .filter((fractal) =>
+      tierString === 'all' ||
+      (tierString === 'cm' && fractal.scale >= firstCMScale) ||
+      (fractal.isDaily && fractal.tier === tier) ||
+      (fractal.isRecommended && fractal.tier <= tier)
+    );
 
 
   const Fractals = createDataTable(fractals, ({ scale }) => scale);
@@ -80,21 +93,22 @@ export default async function FractalsPage({ params, searchParams }: PageProps) 
         <label style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
           <Trans id="fractals.daily"/>:
           <Switch>
-            <Switch.Control type="link" replace active={tier === '4'} href={getCanonicalUrl('4', date)}>T4</Switch.Control>
-            <Switch.Control type="link" replace active={tier === '3'} href={getCanonicalUrl('3', date)}>T3</Switch.Control>
-            <Switch.Control type="link" replace active={tier === '2'} href={getCanonicalUrl('2', date)}>T2</Switch.Control>
-            <Switch.Control type="link" replace active={tier === '1'} href={getCanonicalUrl('1', date)}>T1</Switch.Control>
-            <Switch.Control type="link" replace active={tier === 'all'} href={getCanonicalUrl('all', date)}><Trans id="fractals.tier.all"/></Switch.Control>
+            <Switch.Control type="link" replace active={tierString === 'cm'} href={getCanonicalUrl('cm', date)}>T4&#x202F;+&#x202F;CM</Switch.Control>
+            <Switch.Control type="link" replace active={tierString === '4'} href={getCanonicalUrl('4', date)}>T4</Switch.Control>
+            <Switch.Control type="link" replace active={tierString === '3'} href={getCanonicalUrl('3', date)}>T3</Switch.Control>
+            <Switch.Control type="link" replace active={tierString === '2'} href={getCanonicalUrl('2', date)}>T2</Switch.Control>
+            <Switch.Control type="link" replace active={tierString === '1'} href={getCanonicalUrl('1', date)}>T1</Switch.Control>
+            <Switch.Control type="link" replace active={tierString === 'all'} href={getCanonicalUrl('all', date)}><Trans id="fractals.tier.all"/></Switch.Control>
           </Switch>
         </label>
         <label style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
           <Trans id="fractals.date"/>:
-          <DateSelector date={parsedDate} tier={tier}/>
+          <DateSelector date={parsedDate} tier={tierString}/>
         </label>
       </div>
 
       <Fractals.Table>
-        <Fractals.Column id="tier" title={t('fractals.tier')} sortBy="scale" small>{({ tier }) => `T${tier}`}</Fractals.Column>
+        <Fractals.Column id="tier" title={t('fractals.tier')} sortBy="scale" small>{({ tier, scale }) => `T${tier}${(tierString === 'cm' && scale >= firstCMScale) ? '\u202F+\u202FCM' : ''}`}</Fractals.Column>
         <Fractals.Column id="level" title={t('fractals.level')} align="right" sortBy="scale" small>{({ scale }) => <FormatNumber value={scale}/>}</Fractals.Column>
         <Fractals.Column id="name" title={t('fractal')} sortBy="type">{({ type }) => fractal_details[type as keyof typeof fractal_details].name[language] }</Fractals.Column>
         <Fractals.Column id="daily" title={t('fractals.daily')} sortBy={({ isDaily, isRecommended }) => isDaily ? 1 : isRecommended ? 2 : 3}>
@@ -105,21 +119,23 @@ export default async function FractalsPage({ params, searchParams }: PageProps) 
         </Fractals.Column>
         <Fractals.Column id="instabilities" title={t('fractals.instabilities')}>{({ scale }) => <Instabilities scale={scale} dayOfYearIndex={dayOfYearIndex} language={language}/>}</Fractals.Column>
         <Fractals.Column id="ar" title={t('fractals.agony')} align="right" sortBy="ar" small>{({ ar }) => <FormatNumber value={ar}/>}</Fractals.Column>
-        <Fractals.DynamicColumns id="account" title={t('fractals.completion')} headers={<Gw2AccountHeaderCells requiredScopes={requiredScopes} small/>}>
-          {(fractal) => (
-            <Gw2AccountBodyCells requiredScopes={requiredScopes}>
-              {(fractal.isDaily || fractal.isRecommended) ? (
-                <AccountAchievementProgressCell accountId={null as never} achievement={achievements.get(fractal.recommended_achievement_id ?? fractal.daily_achievement_id)!}/>
-              ) : (
-                <td>
-                  <Tip tip={<Trans id="fractals.completion.unavailable"/>}>
-                    <Icon icon="info" color="var(--color-text-muted)"/>
-                  </Tip>
-                </td>
-              )}
-            </Gw2AccountBodyCells>
-          )}
-        </Fractals.DynamicColumns>
+        {date === today && (
+          <Fractals.DynamicColumns id="account" title={t('fractals.completion')} headers={<Gw2AccountHeaderCells requiredScopes={requiredScopes} small/>}>
+            {(fractal) => (
+              <Gw2AccountBodyCells requiredScopes={requiredScopes}>
+                {(fractal.isDaily || fractal.isRecommended) ? (
+                  <AccountAchievementProgressCell accountId={null as never} achievement={achievements.get(fractal.recommended_achievement_id ?? fractal.daily_achievement_id)!}/>
+                ) : (
+                  <td>
+                    <Tip tip={<Trans id="fractals.completion.unavailable"/>}>
+                      <Icon icon="info" color="var(--color-text-muted)"/>
+                    </Tip>
+                  </td>
+                )}
+              </Gw2AccountBodyCells>
+            )}
+          </Fractals.DynamicColumns>
+        )}
       </Fractals.Table>
 
       <PageView page="fractal"/>

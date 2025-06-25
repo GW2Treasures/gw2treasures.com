@@ -80,7 +80,7 @@ importers:
         version: 0.6.1
       '@gw2api/fetch':
         specifier: 0.4.1
-        version: 0.4.1(@gw2api/types@0.0.30)
+        version: 0.4.1(@gw2api/types@0.0.31)
       '@gw2efficiency/game-data':
         specifier: 0.1.63
         version: 0.1.63
@@ -203,8 +203,8 @@ importers:
         version: 0.34.2
     devDependencies:
       '@gw2api/types':
-        specifier: 0.0.30
-        version: 0.0.30
+        specifier: 0.0.31
+        version: 0.0.31
       '@gw2treasures/eslint-config':
         specifier: workspace:*
         version: link:../../packages/eslint-config
@@ -279,7 +279,7 @@ importers:
     dependencies:
       '@gw2api/fetch':
         specifier: 0.4.1
-        version: 0.4.1(@gw2api/types@0.0.30)
+        version: 0.4.1(@gw2api/types@0.0.31)
       '@gw2treasures/database':
         specifier: workspace:*
         version: link:../../packages/database
@@ -309,8 +309,8 @@ importers:
         version: 0.34.2
     devDependencies:
       '@gw2api/types':
-        specifier: 0.0.30
-        version: 0.0.30
+        specifier: 0.0.31
+        version: 0.0.31
       '@gw2treasures/eslint-config':
         specifier: workspace:*
         version: link:../../packages/eslint-config
@@ -998,8 +998,8 @@ packages:
     peerDependencies:
       '@gw2api/types': ~0.0.5
 
-  '@gw2api/types@0.0.30':
-    resolution: {integrity: sha512-yQuaWSTsC+NNTZ9rOXeFwgeV5nskbwGoohPV9WOMLj1DoVZzxuglltob+NEvVNOnoysHOdKKX3VTmkTQ7JsVHw==}
+  '@gw2api/types@0.0.31':
+    resolution: {integrity: sha512-BsBAdBB15t46Z4p4mjNMum+Je++BUP6Rzd11HW5Gyv7TNzsCqrofewFc2UPuzqPpa9D7kAFfcFO7ydgHmY7dow==}
 
   '@gw2efficiency/game-data@0.1.63':
     resolution: {integrity: sha512-+1td+B0Aos9XzJKWh1kLedba7nOle07WXRcmUE07A/fYuT9EpDhdQD3lMhZm3iYCMwHF7U7cibY1Gc4tq/OQog==}
@@ -5002,11 +5002,11 @@ snapshots:
     dependencies:
       tslib: 2.8.1
 
-  '@gw2api/fetch@0.4.1(@gw2api/types@0.0.30)':
+  '@gw2api/fetch@0.4.1(@gw2api/types@0.0.31)':
     dependencies:
-      '@gw2api/types': 0.0.30
+      '@gw2api/types': 0.0.31
 
-  '@gw2api/types@0.0.30': {}
+  '@gw2api/types@0.0.31': {}
 
   '@gw2efficiency/game-data@0.1.63': {}
 

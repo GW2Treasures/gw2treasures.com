@@ -293,8 +293,8 @@ importers:
         specifier: 5.3.0
         version: 5.3.0
       dotenv:
-        specifier: 16.5.0
-        version: 16.5.0
+        specifier: 16.6.0
+        version: 16.6.0
       fast-average-color-node:
         specifier: 3.1.0
         version: 3.1.0
@@ -2430,8 +2430,8 @@ packages:
   domutils@3.1.0:
     resolution: {integrity: sha512-H78uMmQtI2AhgDJjWeQmHwJJ2bLPD3GMmO7Zja/ZZh84wkm+4ut+IUnUdRa8uCGX88DiVx1j6FRe1XfxEgjEZA==}
 
-  dotenv@16.5.0:
-    resolution: {integrity: sha512-m/C+AwOAr9/W1UOIZUo232ejMNnJAJtYQjUbHoNTBNTJSvqzzDh7vnrei3o3r3m9blf6ZoDkvcw0VmozNRFJxg==}
+  dotenv@16.6.0:
+    resolution: {integrity: sha512-Omf1L8paOy2VJhILjyhrhqwLIdstqm1BvcDPKg4NGAlkwEu9ODyrFbvk8UymUOMCT+HXo31jg1lArIrVAAhuGA==}
     engines: {node: '>=12'}
 
   dunder-proto@1.0.1:
@@ -6550,7 +6550,7 @@ snapshots:
       domelementtype: 2.3.0
       domhandler: 5.0.3
 
-  dotenv@16.5.0: {}
+  dotenv@16.6.0: {}
 
   dunder-proto@1.0.1:
     dependencies:

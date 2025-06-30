@@ -30,6 +30,7 @@ import { MinisJob } from './minis';
 import { MinisUnlocks } from './minis/unlocks';
 import { OutfitsJob } from './outfits';
 import { OutfitsUnlocks } from './outfits/unlocks';
+import { ProfessionsJob } from './professions';
 import { RecipesJob } from './recipes';
 import { RevisionsPrevious } from './revisions/previous';
 import { SkillsCheck } from './skills/check';
@@ -91,6 +92,7 @@ const jobsInternal = {
   'itemstats': ItemStatsJob,
   'recipes': RecipesJob,
   'titles': TitlesJob,
+  'professions': ProfessionsJob,
 
   'minis': MinisJob,
   'minis.unlocks': MinisUnlocks,

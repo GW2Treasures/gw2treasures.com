@@ -1,19 +1,21 @@
-model Skill {
-  id Int @id
+model Profession {
+  id String @id
 
   name_de String
   name_en String
   name_es String
   name_fr String
 
-  icon   Icon? @relation(fields: [iconId], references: [id])
+  icon   Icon? @relation("icon", fields: [iconId], references: [id])
   iconId Int?
 
-  professions Profession[]
+  iconBig   Icon? @relation("iconBig", fields: [iconBigId], references: [id])
+  iconBigId Int?
+
+  skillIds Int[]
+  skills   Skill[]
 
   removedFromApi Boolean @default(false)
-
-  views Int @default(0)
 
   current_de   Revision @relation("current_de", fields: [currentId_de], references: [id], onDelete: Cascade)
   currentId_de String   @unique
@@ -27,7 +29,7 @@ model Skill {
   current_fr   Revision @relation("current_fr", fields: [currentId_fr], references: [id], onDelete: Cascade)
   currentId_fr String   @unique
 
-  history SkillHistory[]
+  history ProfessionHistory[]
 
   lastCheckedAt DateTime @default(now())
 
@@ -35,17 +37,14 @@ model Skill {
   updatedAt DateTime @updatedAt
 
   version Int @default(0)
-
-  @@index([createdAt])
-  @@index([name_de(ops: raw("gin_trgm_ops")), name_en(ops: raw("gin_trgm_ops")), name_es(ops: raw("gin_trgm_ops")), name_fr(ops: raw("gin_trgm_ops"))], type: Gin)
 }
 
-model SkillHistory {
-  skillId    Int
-  revisionId String
+model ProfessionHistory {
+  professionId String
+  revisionId   String
 
-  skill    Skill    @relation(fields: [skillId], references: [id], onDelete: Cascade)
-  revision Revision @relation(fields: [revisionId], references: [id], onDelete: Cascade)
+  profession Profession @relation(fields: [professionId], references: [id], onDelete: Cascade)
+  revision   Revision   @relation(fields: [revisionId], references: [id], onDelete: Cascade)
 
-  @@id([skillId, revisionId])
+  @@id([professionId, revisionId])
 }

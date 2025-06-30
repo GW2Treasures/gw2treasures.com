@@ -18,6 +18,11 @@ export const SkillsNew: Job = {
 
       const iconId = await createIcon(en.icon);
 
+      const professions = await db.profession.findMany({
+        where: { skillIds: { has: en.id }},
+        select: { id: true },
+      });
+
       await db.skill.create({
         data: {
           id,
@@ -26,6 +31,7 @@ export const SkillsNew: Job = {
           name_es: es.name,
           name_fr: fr.name,
           iconId,
+          professions: { connect: professions },
           version: 1,
           currentId_de: revisions.de.id,
           currentId_en: revisions.en.id,

@@ -35,7 +35,7 @@
     "@gw2treasures/eslint-config": "workspace:*",
     "@gw2treasures/tsconfig": "workspace:*",
     "@types/node": "22.16.0",
-    "eslint": "9.30.0",
+    "eslint": "9.30.1",
     "typescript": "5.8.3"
   },
   "publishConfig": {

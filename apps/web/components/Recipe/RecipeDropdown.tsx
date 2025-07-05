@@ -17,6 +17,7 @@ export const RecipeDropdown: FC<RecipeDropdownProps> = ({ id, outputItemId }) =>
     <DropDown button={<Button iconOnly appearance="menu"><Icon icon="more"/></Button>} preferredPlacement="right-start">
       <MenuList>
         <CopyButton appearance="menu" icon="chatlink" copy={encode('recipe', id) || ''}>Copy chatlink</CopyButton>
+        {outputItemId && <LinkButton appearance="menu" icon="eye" href={`/item/${outputItemId}`}>View Output Item</LinkButton>}
         {outputItemId && (<LinkButton appearance="menu" icon="external" href={`https://gw2efficiency.com/crafting/calculator/a~0!b~1!c~0!d~1-${outputItemId}`} target="_blank" rel="noreferrer noopener">gw2efficiency</LinkButton>)}
         <LinkButton appearance="menu" icon="external" href={`https://api.guildwars2.com/v2/recipes/${id}?v=latest`} target="_blank" rel="noreferrer noopener">API</LinkButton>
       </MenuList>

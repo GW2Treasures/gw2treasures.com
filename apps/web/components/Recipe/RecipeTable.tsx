@@ -92,7 +92,7 @@ export const RecipeTable: FC<RecipeTableProps> = async ({ recipes }) => {
           </Recipes.Column>
           <Recipes.Column id="ingredients" title="Ingredients">{(recipe) => <Ingredients recipe={recipe}/>}</Recipes.Column>
           <Recipes.Column id="actions" title="" small fixed>
-            {({ id, outputItemId }) => (<RecipeDropdown id={id} outputItemId={outputItemId}/>)}
+            {({ id, outputItemIdRaw }) => (<RecipeDropdown id={id} outputItemId={outputItemIdRaw}/>)}
           </Recipes.Column>
         </Recipes.Table>
       </div>

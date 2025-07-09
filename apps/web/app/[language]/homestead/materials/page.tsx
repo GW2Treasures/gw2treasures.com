@@ -15,9 +15,7 @@ import { data, materials, type ConversionRate, type Efficiency, type Material } 
 import { Switch } from '@gw2treasures/ui/components/Form/Switch';
 import type { PageProps } from '@/lib/next';
 import { UnknownItem } from '@/components/Item/UnknownItem';
-import type { Metadata } from 'next';
-import { getAlternateUrls, getCurrentUrl } from '@/lib/url';
-import { getLanguage, translate } from '@/lib/translate';
+import { getLanguage, getTranslate } from '@/lib/translate';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { getSearchParamAsNumber, type SearchParams } from '@/lib/searchParams';
 import { OutputCount } from '@/components/Item/OutputCount';
@@ -28,6 +26,7 @@ import { Fraction } from '@/components/Format/Fraction';
 import { ResetTimer } from '@/components/Reset/ResetTimer';
 import { Badge } from '@/components/Badge/Badge';
 import ogImage from './materials-og.png';
+import { createMetadata } from '@/lib/metadata';
 
 const getItems = cache(
   async (ids: number[]) => {
@@ -92,21 +91,19 @@ export default async function RefinedMaterialsPage({ searchParams }: PageProps) 
   );
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export const generateMetadata = createMetadata(async ({ params }) => {
   const { language } = await params;
+  const t = getTranslate(language);
 
   return {
-    title: translate('homestead.materials', language),
-    description: translate('homestead.materials.description', language),
-    // make sure the efficiency query parameter is not part of the canonical URL, so only the default gets indexed by search engines
-    alternates: getAlternateUrls('/homestead/materials', language),
+    title: t('homestead.materials'),
+    description: t('homestead.materials.description'),
+    url: '/homestead/materials',
     keywords: ['homestead', 'home instance', 'decorations', 'materials', 'Metal', 'Wood', 'Fiber', 'crafting', 'refinement', 'trade', 'vendor', 'currency', 'tradingpost', 'tp', 'cheap', 'cheapest', 'best'],
-    openGraph: {
-      images: [{ url: new URL(ogImage.src, await getCurrentUrl()), width: ogImage.width, height: ogImage.height }],
-    },
-    twitter: { card: 'summary_large_image' }
+    image: ogImage,
   };
-}
+});
+
 
 type DbItem = Awaited<ReturnType<typeof getItems>>[string];
 

@@ -1,12 +1,11 @@
 import { AchievementPageComponent } from '../component';
-import type { Metadata } from 'next';
 import { getRevision } from '../data';
 import { notFound } from 'next/navigation';
 import type { PageProps } from '@/lib/next';
 import { strip } from 'gw2-tooltip-html';
 import { parseIcon } from '@/lib/parseIcon';
 import { getIconUrl } from '@/lib/getIconUrl';
-import { getAlternateUrls } from '@/lib/url';
+import { createMetadata } from '@/lib/metadata';
 
 type AchievementRevisionPageProps = PageProps<{ id: string, revisionId: string }>;
 
@@ -17,7 +16,7 @@ export default async function AchievementPage({ params }: AchievementRevisionPag
   return <AchievementPageComponent language={language} achievementId={achievementId} revisionId={revisionId}/>;
 }
 
-export async function generateMetadata({ params }: AchievementRevisionPageProps): Promise<Metadata> {
+export const generateMetadata = createMetadata<AchievementRevisionPageProps>(async ({ params }) => {
   const { language, id: idParam, revisionId } = await params;
   const achievementId = Number(idParam);
 
@@ -37,11 +36,8 @@ export async function generateMetadata({ params }: AchievementRevisionPageProps)
   return {
     title: `${data.name} @ ${revisionId}`,
     description,
-    openGraph: {
-      images: icon ? [{ url: getIconUrl(icon, 64), width: 64, height: 64, type: 'image/png' }] : []
-    },
-    twitter: { card: 'summary' },
-    alternates: getAlternateUrls(`/achievement/${achievementId}/${revisionId}`, language),
+    image: icon ? { src: getIconUrl(icon, 64), width: 64, height: 64 } : undefined,
+    url: `/achievement/${achievementId}/${revisionId}`,
     robots: { index: false }
   };
-}
+});

@@ -5,13 +5,11 @@ import { PageLayout } from '@/components/Layout/PageLayout';
 import { SkinTable } from '@/components/Skin/SkinTable';
 import { cache } from '@/lib/cache';
 import { db } from '@/lib/prisma';
-import type { Metadata } from 'next';
 import { requiredScopes } from '../helper';
 import { pageView } from '@/lib/pageView';
-import type { PageProps } from '@/lib/next';
 import { getTranslate } from '@/lib/translate';
-import { getAlternateUrls, getCurrentUrl } from '@/lib/url';
 import ogImage from './og.png';
+import { createMetadata } from '@/lib/metadata';
 
 const skinIds: number[] = [
   10028, // Holographic Dragon Gloves
@@ -95,18 +93,14 @@ export default async function DragonBashAchievementsPage() {
   );
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export const generateMetadata = createMetadata(async ({ params }) => {
   const { language } = await params;
   const t = getTranslate(language);
 
   return {
     title: t('navigation.skins'),
     description: t('festival.dragon-bash.skins.description'),
-    alternates: getAlternateUrls('festival/dragon-bash/skins', language),
-
-    openGraph: {
-      images: [{ url: new URL(ogImage.src, await getCurrentUrl()), width: ogImage.width, height: ogImage.height }],
-    },
-    twitter: { card: 'summary_large_image' }
+    url: 'festival/dragon-bash/skins',
+    image: ogImage,
   };
-}
+});

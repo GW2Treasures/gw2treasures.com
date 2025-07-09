@@ -1,16 +1,15 @@
 import { AchievementPageComponent } from './component';
-import type { Metadata } from 'next';
 import { getRevision } from './data';
 import { notFound } from 'next/navigation';
 import { getIconUrl } from '@/lib/getIconUrl';
 import { parseIcon } from '@/lib/parseIcon';
-import { getAlternateUrls } from '@/lib/url';
 import type { PageProps } from '@/lib/next';
 import { strip } from 'gw2-tooltip-html';
 import { db } from '@/lib/prisma';
 import { jwtVerify } from 'jose';
 import { signingKey } from '@/components/ItemTable/signingKey';
 import type { AchievementProgressSnapshot } from '@/components/Achievement/share/types';
+import { createMetadata } from '@/lib/metadata';
 
 export type AchievementPageProps = PageProps<{ id: string }>;
 
@@ -27,8 +26,7 @@ export default async function AchievementPage({ params, searchParams }: Achievem
   return <AchievementPageComponent language={language} achievementId={achievementId} snapshots={snapshotData}/>;
 }
 
-
-export async function generateMetadata({ params }: AchievementPageProps): Promise<Metadata> {
+export const generateMetadata = createMetadata<AchievementPageProps>(async ({ params }) => {
   const { language, id: idParam } = await params;
   const achievementId = Number(idParam);
 
@@ -60,13 +58,10 @@ export async function generateMetadata({ params }: AchievementPageProps): Promis
   return {
     title: data.name,
     description,
-    openGraph: {
-      images: icon ? [{ url: getIconUrl(icon, 64), width: 64, height: 64, type: 'image/png' }] : []
-    },
-    twitter: { card: 'summary' },
-    alternates: getAlternateUrls(`/achievement/${achievementId}`, language),
+    url: `/achievement/${achievementId}`,
+    image: icon ? { src: getIconUrl(icon, 64), width: 64, height: 64 } : undefined
   };
-}
+});
 
 async function tryParseSnapshotJwt(jwt: string, achievementId: number) {
   try {

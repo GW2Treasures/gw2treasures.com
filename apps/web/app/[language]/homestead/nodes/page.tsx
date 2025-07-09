@@ -14,12 +14,11 @@ import { PageView } from '@/components/PageView/PageView';
 import { Description } from '@/components/Layout/Description';
 import { translate } from '@/lib/translate';
 import type { PageProps } from '@/lib/next';
-import type { Metadata } from 'next';
-import { getAlternateUrls } from '@/lib/url';
 import { Gw2Accounts } from '@/components/Gw2Api/Gw2Accounts';
 import { Scope } from '@gw2me/client';
 import { isDefined } from '@gw2treasures/helper/is';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
+import { createMetadata } from '@/lib/metadata';
 
 const getItems = cache(
   async (ids: number[]) => {
@@ -88,12 +87,11 @@ export default async function HomesteadNodesPage({ params }: PageProps) {
   );
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export const generateMetadata = createMetadata(async ({ params }) => {
   const { language } = await params;
 
   return {
     title: translate('homestead.nodes', language),
     description: translate('homestead.nodes.description', language),
-    alternates: getAlternateUrls('/homestead/nodes', language)
   };
-}
+});

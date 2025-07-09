@@ -1,11 +1,12 @@
 import { SkillPageComponent } from './component';
-import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { parseIcon } from '@/lib/parseIcon';
 import { getIconUrl } from '@/lib/getIconUrl';
 import { getRevision } from './getSkill';
-import { getAlternateUrls } from '@/lib/url';
 import type { PageProps } from '@/lib/next';
+import { encode } from 'gw2e-chat-codes';
+import { createMetadata } from '@/lib/metadata';
+import { getTranslate } from '@/lib/translate';
 
 export type SkillPageProps = PageProps<{ id: string }>;
 
@@ -16,8 +17,9 @@ export default async function SkillPage({ params }: SkillPageProps) {
   return <SkillPageComponent language={language} skillId={skillId}/>;
 }
 
-export async function generateMetadata({ params }: SkillPageProps): Promise<Metadata> {
+export const generateMetadata = createMetadata<SkillPageProps>(async ({ params }) => {
   const { language, id } = await params;
+  const t = getTranslate(language);
   const skillId = Number(id);
   const { data } = await getRevision(skillId, language);
 
@@ -28,12 +30,9 @@ export async function generateMetadata({ params }: SkillPageProps): Promise<Meta
   const icon = parseIcon(data.icon);
 
   return {
-    title: data.name || id,
-    openGraph: {
-      images: icon ? [{ url: getIconUrl(icon, 64), width: 64, height: 64, type: 'image/png' }] : []
-    },
-    twitter: { card: 'summary' },
-    alternates: getAlternateUrls(`/skill/${id}`, language)
+    title: data.name || encode('skill', skillId) || id,
+    description: t('legendary-armory.relics.description'),
+    url: `/skill/${id}`,
+    image: icon ? { src: getIconUrl(icon, 64), width: 64, height: 64 } : undefined,
   };
-}
-
+});

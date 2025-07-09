@@ -20,15 +20,14 @@ import { MenuList } from '@gw2treasures/ui/components/Layout/MenuList';
 import { Separator } from '@gw2treasures/ui/components/Layout/Separator';
 import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
 import { encode } from 'gw2e-chat-codes';
-import type { Metadata } from 'next';
 import { requiredScopes, type RelicSet } from '../helper';
 import { createItemTable, LegendaryItemDataTable } from '../table';
 import { RelicUnlockCell } from './page.client';
 import { TableFilterButton, TableFilterProvider, TableFilterRow, type TableFilterDefinition } from '@/components/Table/TableFilter';
 import { localizedName } from '@/lib/localizedName';
 import ogImage from './og.png';
-import { getCurrentUrl } from '@/lib/url';
 import { pageView } from '@/lib/pageView';
+import { createMetadata } from '@/lib/metadata';
 
 // item id of the legendary relic
 const legendaryRelicId = 101582;
@@ -170,19 +169,16 @@ export default async function LegendaryRelicsPage({ params }: PageProps) {
   );
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export const generateMetadata = createMetadata(async ({ params }) => {
   const { language } = await params;
   const t = getTranslate(language);
 
   return {
     title: t('legendary-armory.relics.title'),
     description: t('legendary-armory.relics.description'),
-    openGraph: {
-      images: [{ url: new URL(ogImage.src, await getCurrentUrl()), width: ogImage.width, height: ogImage.height }],
-    },
-    twitter: { card: 'summary_large_image' }
+    image: ogImage,
   };
-}
+});
 
 /** Remove common prefix from set names */
 function normalizeSetName(name: string) {

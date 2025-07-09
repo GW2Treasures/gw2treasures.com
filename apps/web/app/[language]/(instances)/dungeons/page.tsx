@@ -13,18 +13,17 @@ import { getTranslate } from '@/lib/translate';
 import { dungeons } from '@gw2treasures/static-data/dungeons/index';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
-import type { Metadata } from 'next';
 import { DungeonDailyCell, requiredScopes } from './page.client';
 import { CurrencyValue } from '@/components/Currency/CurrencyValue';
 import { CurrencyLink } from '@/components/Currency/CurrencyLink';
 import { Coins } from '@/components/Format/Coins';
 import { groupById } from '@gw2treasures/helper/group-by';
 import ogImage from './og.png';
-import { getCurrentUrl } from '@/lib/url';
 import { BonusEvent, getBonusEvent, isBonusEventActive } from 'app/[language]/bonus-event/bonus-events';
 import { FestivalTimer } from '@/components/Reset/FestivalTimer';
 import { ResetTimer } from '@/components/Reset/ResetTimer';
 import { pageView } from '@/lib/pageView';
+import { createMetadata } from '@/lib/metadata';
 
 const ACHIEVEMENT_DUNGEON_FREQUENTER_ID = 2963;
 
@@ -116,7 +115,7 @@ export default async function DungeonsPage({ params }: PageProps) {
   );
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export const generateMetadata = createMetadata(async ({ params }) => {
   const { language } = await params;
   const t = getTranslate(language);
 
@@ -124,10 +123,6 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: t('dungeons'),
     description: t('dungeons.description'),
     keywords: ['dungeon', 'dungeons', 'instance', 'PvE', 'group', 'story', 'explorable', 'tales of dungeon delving', 'coins', 'dungeon rush', 'daily', 'clear', 'completion'],
-
-    openGraph: {
-      images: [{ url: new URL(ogImage.src, await getCurrentUrl()), width: ogImage.width, height: ogImage.height }],
-    },
-    twitter: { card: 'summary_large_image' }
+    image: ogImage
   };
-}
+});

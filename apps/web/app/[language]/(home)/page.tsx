@@ -13,7 +13,6 @@ import Link from 'next/link';
 import { FormatNumber } from '@/components/Format/FormatNumber';
 import { AchievementLink } from '@/components/Achievement/AchievementLink';
 import { cache } from '@/lib/cache';
-import { getAlternateUrls, getCurrentUrl } from '@/lib/url';
 import { PageView } from '@/components/PageView/PageView';
 import type { PageProps } from '@/lib/next';
 import { Snow } from '../festival/wintersday/snow';
@@ -24,6 +23,7 @@ import { DungeonRushLink } from '../bonus-event/dungeon-rush/DungeonRushLink';
 import gw2treasuresSab from './gw2treasures-sab.png';
 import { getTranslate } from '@/lib/translate';
 import { BonusEvent, getActiveBonusEvent } from '../bonus-event/bonus-events';
+import { createMetadata } from '@/lib/metadata';
 
 async function HomePage({ params }: PageProps) {
   const { language } = await params;
@@ -144,18 +144,10 @@ async function DbStats() {
 
 export default HomePage;
 
-export async function generateMetadata({ params }: PageProps) {
-  const { language } = await params;
-
-  return {
-    title: 'Home',
-    alternates: getAlternateUrls('/', language),
-    openGraph: {
-      images: [{ url: new URL(ogImage.src, await getCurrentUrl()), width: ogImage.width, height: ogImage.height }],
-    },
-    twitter: { card: 'summary_large_image' }
-  };
-}
+export const generateMetadata = createMetadata({
+  title: 'Home',
+  image: ogImage
+});
 
 type WrapperConfig = { color: string, wrapper: ComponentType<{ children: ReactNode }> };
 const festivalHero: Partial<Record<Festival, WrapperConfig>> & { default: WrapperConfig } = {

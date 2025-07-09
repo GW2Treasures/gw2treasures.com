@@ -24,6 +24,9 @@ export const requireMetadata = ESLintUtils.RuleCreator.withoutDocs({
           metadataDeclarator = node;
           hasMetadataExport = true;
         }
+        if(isExported(node.parent) && node.id.type === TSESTree.AST_NODE_TYPES.Identifier && node.id.name === 'generateMetadata') {
+          hasGenerateMetadataExport = true;
+        }
       },
 
       'VariableDeclarator:exit'(node: TSESTree.VariableDeclarator) {

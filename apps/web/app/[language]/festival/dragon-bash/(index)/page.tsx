@@ -8,11 +8,10 @@ import type { PageProps } from '@/lib/next';
 import { pageView } from '@/lib/pageView';
 import { db } from '@/lib/prisma';
 import { getTranslate } from '@/lib/translate';
-import { absoluteUrl, getAlternateUrls } from '@/lib/url';
+import { absoluteUrl } from '@/lib/url';
 import { Icon } from '@gw2treasures/ui';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { Dashboard } from 'app/[language]/dashboard/dashboard';
-import type { Metadata } from 'next';
 import type { Event } from 'schema-dts';
 import { Festival, getFestival } from '../../festivals';
 import ogImage from '../og.png';
@@ -22,6 +21,7 @@ import styles from './page.module.css';
 import thumbnail100s from './thumbnail-100s.png';
 import thumbnailGttp from './thumbnail-gttp.png';
 import thumbnailWiki from './thumbnail-wiki.png';
+import { createMetadata } from '@/lib/metadata';
 
 const ITEM_COFFER = 43357;
 const ITEM_ZHAITAFFY = 43319;
@@ -111,7 +111,7 @@ export default async function DragonBashFestivalPage({ params }: PageProps) {
   );
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export const generateMetadata = createMetadata(async ({ params }) => {
   const { language } = await params;
   const t = getTranslate(language);
 
@@ -119,6 +119,5 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: {
       absolute: `${t('festival.dragon-bash')} · gw2treasures.com`
     },
-    alternates: getAlternateUrls('festival/dragon-bash', language),
   };
-}
+});

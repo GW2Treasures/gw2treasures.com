@@ -3,14 +3,13 @@ import { HeroLayout } from '@/components/Layout/HeroLayout';
 import { NavBar } from '@/components/Layout/NavBar';
 import type { LayoutProps } from '@/lib/next';
 import { getTranslate } from '@/lib/translate';
-import { getCurrentUrl } from '@/lib/url';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { DragonBashHero } from './hero';
-import type { Metadata } from 'next';
 import ogImage from './og.png';
 import { Festival, getFestival, isFestivalActive } from '../festivals';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import { FestivalTimer } from '@/components/Reset/FestivalTimer';
+import { createMetadata } from '@/lib/metadata';
 
 export default function DragonBashFestivalLayout({ children }: LayoutProps) {
   const festival = getFestival(Festival.DragonBash);
@@ -38,7 +37,7 @@ export default function DragonBashFestivalLayout({ children }: LayoutProps) {
   );
 }
 
-export async function generateMetadata({ params }: LayoutProps): Promise<Metadata> {
+export const generateMetadata = createMetadata(async ({ params }) => {
   const { language } = await params;
   const t = getTranslate(language);
 
@@ -49,9 +48,6 @@ export async function generateMetadata({ params }: LayoutProps): Promise<Metadat
     },
     description: t('festival.dragon-bash.description'),
     keywords: ['dragon', 'bash', 'gw2', 'treasures', 'gw2treasures', 'guild', 'wars', '2', 'festival', 'event', 'piñata', 'racing', 'hologram', 'stampede', 'arena', 'adventure'],
-    openGraph: {
-      images: [{ url: new URL(ogImage.src, await getCurrentUrl()), width: ogImage.width, height: ogImage.height }],
-    },
-    twitter: { card: 'summary_large_image' }
+    image: ogImage,
   };
-}
+});

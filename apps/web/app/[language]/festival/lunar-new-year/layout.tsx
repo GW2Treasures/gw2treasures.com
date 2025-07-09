@@ -11,6 +11,7 @@ import ogImage from './og.png';
 import { Festival, getFestival, isFestivalActive } from '../festivals';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import { FestivalTimer } from '@/components/Reset/FestivalTimer';
+import { Badge } from '@/components/Badge/Badge';
 
 export default function LunarNewYearFestivalLayout({ children }: LayoutProps) {
   const lunarNewYear = getFestival(Festival.LunarNewYear);
@@ -25,6 +26,7 @@ export default function LunarNewYearFestivalLayout({ children }: LayoutProps) {
           { segment: 'skins', label: <Trans id="navigation.skins"/> },
           { segment: 'minis', label: <Trans id="festival.lunar-new-year.minis"/> },
           { segment: 'wizards-vault', label: <Trans id="navigation.wizardsVault"/> },
+          { segment: 'drops', label: <><Trans id="festival.drops"/><Badge>NEW</Badge></> },
         ]}/>
       )}
     >

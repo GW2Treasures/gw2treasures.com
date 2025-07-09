@@ -67,7 +67,7 @@ export const generateMetadata = createMetadata(async ({ params }) => {
   const t = await getTranslate(language);
 
   return {
-    title: t('navigation.wizardsVault'),
+    title: { absolute: t('navigation.wizardsVault') },
     description: t('wizards-vault.description'),
     url: '/wizards-vault',
     keywords: ['wizards vault', 'season', 'rewards', 'objectives', 'reset', 'daily', 'weekly', 'special', 'track', 'PvE', 'PvP', 'WvW', 'AA', 'Astral Acclaim'],

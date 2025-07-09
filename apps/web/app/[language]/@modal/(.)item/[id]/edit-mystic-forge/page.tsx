@@ -3,6 +3,7 @@ import { Modal } from './modal';
 import { EditMysticForge } from 'app/[language]/item/[id]/edit-mystic-forge/EditMysticForge';
 import type { EditMysticForgePageProps } from 'app/[language]/item/[id]/edit-mystic-forge/page';
 import { Suspense } from 'react';
+import { createMetadata } from '@/lib/metadata';
 
 
 export default async function EditMysticForgePage({ params, searchParams }: EditMysticForgePageProps) {
@@ -19,6 +20,6 @@ export default async function EditMysticForgePage({ params, searchParams }: Edit
   );
 }
 
-export const metadata = {
+export const generateMetadata = createMetadata({
   title: 'Edit Mystic Forge'
-};
+});

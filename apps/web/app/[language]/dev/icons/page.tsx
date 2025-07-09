@@ -6,6 +6,7 @@ import { List } from '@gw2treasures/ui/components/Layout/List';
 import { ExternalLink } from '@gw2treasures/ui/components/Link/ExternalLink';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
+import { createMetadata } from '@/lib/metadata';
 
 const htmlExample = `<img
   src="https://icons-gw2.darthmaim-cdn.com/9D94B96446F269662F6ACC2531394A06C0E03951/947657-32px.png"
@@ -100,6 +101,6 @@ export default function DeveloperIconsPage() {
   );
 }
 
-export const metadata = {
+export const generateMetadata = createMetadata({
   title: 'Icon Service'
-};
+});

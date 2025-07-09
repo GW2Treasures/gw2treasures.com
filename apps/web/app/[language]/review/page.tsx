@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { ReviewQueue } from '@gw2treasures/database';
 import { FormatNumber } from '@/components/Format/FormatNumber';
 import { Trans } from '@/components/I18n/Trans';
+import { createMetadata } from '@/lib/metadata';
 
 const getQueues = async function getQueues() {
   const queues = await db.review.groupBy({
@@ -45,6 +46,6 @@ export default async function ReviewPage() {
   );
 }
 
-export const metadata = {
+export const generateMetadata = createMetadata({
   title: 'Review Queues',
-};
+});

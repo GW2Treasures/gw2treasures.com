@@ -10,6 +10,7 @@ import type { Icon } from '@gw2treasures/database';
 import { cache } from '@/lib/cache';
 import { Trans } from '@/components/I18n/Trans';
 import type { Type } from '@/components/Item/ItemType.types';
+import { createMetadata } from '@/lib/metadata';
 
 const getSkins = cache(async () => {
   const [newSkins, byTypes] = await Promise.all([
@@ -63,6 +64,6 @@ function notNull<T>(x: T | null): x is T {
 
 export default SkinPage;
 
-export const metadata = {
+export const generateMetadata = createMetadata({
   title: 'Skins'
-};
+});

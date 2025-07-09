@@ -14,6 +14,7 @@ import { Fragment } from 'react';
 import { db } from '@/lib/prisma';
 import { cache } from '@/lib/cache';
 import type { PageProps } from '@/lib/next';
+import { createMetadata } from '@/lib/metadata';
 
 const getRevisions = cache(async (idA: string, idB: string) => {
   const [a, b] = await Promise.all([
@@ -151,7 +152,7 @@ function diffFacts<T>(left: T[] | undefined, right: T[] | undefined): { left?: T
 
 export default SkillDiffPage;
 
-export const metadata = {
+export const generateMetadata = createMetadata({
   title: 'Compare Skills',
   robots: { index: false }
-};
+});

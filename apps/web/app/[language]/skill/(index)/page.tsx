@@ -8,6 +8,7 @@ import { SkillLink } from '@/components/Skill/SkillLink';
 import { FormatDate } from '@/components/Format/FormatDate';
 import { cache } from '@/lib/cache';
 import type { PageProps } from '@/lib/next';
+import { createMetadata } from '@/lib/metadata';
 
 const getSkills = cache(async (language: Language) => {
   const [recentlyAdded, recentlyUpdated] = await Promise.all([
@@ -45,6 +46,6 @@ export default async function SkillPage({ params }: PageProps) {
   );
 }
 
-export const metadata = {
+export const generateMetadata = createMetadata({
   title: 'Skills'
-};
+});

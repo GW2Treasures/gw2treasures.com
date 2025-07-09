@@ -7,6 +7,7 @@ import { ensureUserIsAdmin } from '../admin';
 import { Chart } from '@/components/Chart/Chart';
 import { Switch } from '@gw2treasures/ui/components/Form/Switch';
 import type { PageProps } from '@/lib/next';
+import { createMetadata } from '@/lib/metadata';
 
 type Interval = 'hour' | 'day';
 type Days = '7' | '30';
@@ -94,6 +95,6 @@ export default async function AdminUserPage({ searchParams }: PageProps) {
   );
 }
 
-export const metadata = {
+export const generateMetadata = createMetadata({
   title: 'Page Views'
-};
+});

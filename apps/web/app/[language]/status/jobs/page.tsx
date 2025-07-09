@@ -7,6 +7,7 @@ import { PageLayout } from '@/components/Layout/PageLayout';
 import { ReloadCheckbox } from '@/components/Reload/ReloadCheckbox';
 import styles from '../page.module.css';
 import { cache } from '@/lib/cache';
+import { createMetadata } from '@/lib/metadata';
 
 const getJobs = cache(async () => {
   const [running, finished] = await Promise.all([
@@ -88,6 +89,6 @@ async function JobPage() {
 
 export default JobPage;
 
-export const metadata = {
+export const generateMetadata = createMetadata({
   title: 'Job Status'
-};
+});

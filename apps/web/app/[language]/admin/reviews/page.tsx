@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
 import { getReviewUrlKeyFromQueue } from '@/lib/review-url';
 import { ensureUserIsAdmin } from '../admin';
+import { createMetadata } from '@/lib/metadata';
 
 const getReviews = cache(() => {
   return db.review.findMany({
@@ -41,6 +42,6 @@ export default async function AdminReviewsPage() {
   );
 }
 
-export const metadata = {
+export const generateMetadata = createMetadata({
   title: 'Reviews'
-};
+});

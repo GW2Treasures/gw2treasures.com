@@ -4,6 +4,7 @@ import { ExternalLink } from '@gw2treasures/ui/components/Link/ExternalLink';
 import { TableOfContentAnchor } from '@gw2treasures/ui/components/TableOfContent/TableOfContent';
 import { Code } from '@/components/Layout/Code';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
+import { createMetadata } from '@/lib/metadata';
 
 export default function AboutPage() {
   return (
@@ -42,6 +43,6 @@ export default function AboutPage() {
   );
 }
 
-export const metadata = {
+export const generateMetadata = createMetadata({
   title: 'About'
-};
+});

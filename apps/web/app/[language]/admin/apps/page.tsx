@@ -14,6 +14,7 @@ import { Skeleton } from '@/components/Skeleton/Skeleton';
 import { Chart, getColor } from '@/components/Chart/Chart';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
+import { createMetadata } from '@/lib/metadata';
 
 const getApplications = cache(() => {
   const lastDay = new Date();
@@ -67,9 +68,9 @@ export default async function AdminUserPage() {
   );
 }
 
-export const metadata = {
+export const generateMetadata = createMetadata({
   title: 'Applications'
-};
+});
 
 const RequestsChart: FC = async () => {
   const requests = await db.$queryRaw<{ time: Date, endpoint: string, value: number }[]>`

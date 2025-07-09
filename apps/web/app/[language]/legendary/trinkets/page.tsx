@@ -6,9 +6,9 @@ import { linkProperties } from '@/lib/linkProperties';
 import type { PageProps } from '@/lib/next';
 import { db } from '@/lib/prisma';
 import { getTranslate } from '@/lib/translate';
-import type { Metadata } from 'next';
 import { createItemTable, LegendaryItemDataTable } from '../table';
 import { pageView } from '@/lib/pageView';
+import { createMetadata } from '@/lib/metadata';
 
 const ignoredItems = [
   95093, // Legendary Equipment Unlocked!
@@ -50,7 +50,7 @@ export default async function LegendaryRelicsPage({ params }: PageProps) {
   );
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export const generateMetadata = createMetadata(async ({ params }) => {
   const { language } = await params;
   const t = getTranslate(language);
 
@@ -58,4 +58,4 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: t('legendary-armory.trinkets.title'),
     description: t('legendary-armory.trinkets.description'),
   };
-}
+});

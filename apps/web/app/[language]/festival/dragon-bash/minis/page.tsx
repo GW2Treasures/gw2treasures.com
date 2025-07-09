@@ -5,12 +5,10 @@ import { PageLayout } from '@/components/Layout/PageLayout';
 import { MiniTable } from '@/components/Mini/MiniTable';
 import { cache } from '@/lib/cache';
 import { db } from '@/lib/prisma';
-import type { Metadata } from 'next';
 import { requiredScopes } from '../helper';
 import { pageView } from '@/lib/pageView';
 import { getTranslate } from '@/lib/translate';
-import type { PageProps } from '@/lib/next';
-import { getAlternateUrls } from '@/lib/url';
+import { createMetadata } from '@/lib/metadata';
 
 const miniIds: number[] = [
   158, // Mini Holographic Axe-Wielding Destroyer
@@ -62,13 +60,13 @@ export default async function DragonBashAchievementsPage() {
   );
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export const generateMetadata = createMetadata(async ({ params }) => {
   const { language } = await params;
   const t = getTranslate(language);
 
   return {
     title: t('minis'),
     description: t('festival.dragon-bash.minis.description'),
-    alternates: getAlternateUrls('festival/dragon-bash/minis', language),
+    url: 'festival/dragon-bash/minis',
   };
-}
+});

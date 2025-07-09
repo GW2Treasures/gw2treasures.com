@@ -11,7 +11,6 @@ import { ColumnSelect } from '@/components/Table/ColumnSelect';
 import { Trans } from '@/components/I18n/Trans';
 import { Gw2AccountBodyCells, Gw2AccountHeaderCells } from '@/components/Gw2Api/Gw2AccountTableCells';
 import { getTranslate } from '@/lib/translate';
-import type { Metadata } from 'next';
 import { EntityIcon } from '@/components/Entity/EntityIcon';
 import { EntityIconMissing } from '@/components/Entity/EntityIconMissing';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
@@ -19,6 +18,7 @@ import { OutfitAccountUnlockCell, requiredScopes } from '@/components/Outfit/unl
 import { cache } from '@/lib/cache';
 import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 import { FormatNumber } from '@/components/Format/FormatNumber';
+import { createMetadata } from '@/lib/metadata';
 
 const getOutfits = cache((language: Language) => {
   return db.outfit.findMany({
@@ -74,7 +74,7 @@ export default async function OutfitsPage({ params }: PageProps) {
   );
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export const generateMetadata = createMetadata(async ({ params }) => {
   const { language } = await params;
   const t = getTranslate(language);
 
@@ -82,4 +82,4 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: t('outfits'),
     description: t('outfits.description'),
   };
-}
+});

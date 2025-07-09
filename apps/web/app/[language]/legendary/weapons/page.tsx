@@ -7,11 +7,11 @@ import type { PageProps } from '@/lib/next';
 import { db } from '@/lib/prisma';
 import { getTranslate } from '@/lib/translate';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
-import type { Metadata } from 'next';
 import { createItemTable, LegendaryItemDataTable } from '../table';
 import { TableFilterButton, TableFilterProvider, type TableFilterDefinition } from '@/components/Table/TableFilter';
 import type { SubType } from '@/components/Item/ItemType.types';
 import { pageView } from '@/lib/pageView';
+import { createMetadata } from '@/lib/metadata';
 
 const loadItems = cache(async () => {
   const items = await db.item.findMany({
@@ -55,7 +55,7 @@ export default async function LegendaryRelicsPage({ params }: PageProps) {
   );
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export const generateMetadata = createMetadata(async ({ params }) => {
   const { language } = await params;
   const t = getTranslate(language);
 
@@ -63,4 +63,4 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: t('legendary-armory.weapons.title'),
     description: t('legendary-armory.weapons.description'),
   };
-}
+});

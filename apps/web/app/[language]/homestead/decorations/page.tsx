@@ -13,13 +13,12 @@ import { FormatNumber } from '@/components/Format/FormatNumber';
 import { localizedName } from '@/lib/localizedName';
 import { Description } from '@/components/Layout/Description';
 import type { PageProps } from '@/lib/next';
-import { translate } from '@/lib/translate';
-import type { Metadata } from 'next';
-import { getAlternateUrls } from '@/lib/url';
+import { getTranslate } from '@/lib/translate';
 import { Gw2Accounts } from '@/components/Gw2Api/Gw2Accounts';
 import { Scope } from '@gw2me/client';
 import { format, strip } from 'gw2-tooltip-html';
 import { createSearchIndex, TableFilterButton, TableFilterProvider, TableFilterRow, TableSearchInput } from '@/components/Table/TableFilter';
+import { createMetadata } from '@/lib/metadata';
 
 const getDecorations = cache(
   () => db.homesteadDecoration.findMany({
@@ -91,12 +90,12 @@ export default async function HomesteadDecorationsPage({ params }: PageProps) {
   );
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export const generateMetadata = createMetadata(async ({ params }) => {
   const { language } = await params;
+  const t = getTranslate(language);
 
   return {
-    title: translate('homestead.decorations', language),
-    description: translate('homestead.decorations.description', language),
-    alternates: getAlternateUrls('/homestead/decorations', language)
+    title: t('homestead.decorations'),
+    description: t('homestead.decorations.description'),
   };
-}
+});

@@ -11,6 +11,7 @@ import { ColumnSelect } from '@/components/Table/ColumnSelect';
 import { cache } from '@/lib/cache';
 import { linkProperties } from '@/lib/linkProperties';
 import { compareLocalizedName, localizedName } from '@/lib/localizedName';
+import { createMetadata } from '@/lib/metadata';
 import type { PageProps } from '@/lib/next';
 import { db } from '@/lib/prisma';
 import { getTranslate } from '@/lib/translate';
@@ -18,7 +19,6 @@ import type { Language } from '@gw2treasures/database';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
 import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
-import type { Metadata } from 'next';
 
 const getGliders = cache((language: Language) => {
   return db.glider.findMany({
@@ -74,7 +74,7 @@ export default async function GlidersPage({ params }: PageProps) {
   );
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export const generateMetadata = createMetadata(async ({ params }) => {
   const { language } = await params;
   const t = getTranslate(language);
 
@@ -82,4 +82,4 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: t('gliders'),
     description: t('gliders.description'),
   };
-}
+});

@@ -11,12 +11,10 @@ import { Gw2AccountBodyCells, Gw2AccountHeaderCells } from '@/components/Gw2Api/
 import { AccountHomeCatCell, requiredScopes } from '../homestead.client';
 import { PageView } from '@/components/PageView/PageView';
 import { Description } from '@/components/Layout/Description';
-import { translate } from '@/lib/translate';
-import type { PageProps } from '@/lib/next';
-import type { Metadata } from 'next';
-import { getAlternateUrls } from '@/lib/url';
+import { getTranslate } from '@/lib/translate';
 import { Gw2Accounts } from '@/components/Gw2Api/Gw2Accounts';
 import { Scope } from '@gw2me/client';
+import { createMetadata } from '@/lib/metadata';
 
 export default function HomesteadCatsPage() {
   const HomeCats = createDataTable(homeCats, ({ id }) => id);
@@ -43,15 +41,15 @@ export default function HomesteadCatsPage() {
   );
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export const generateMetadata = createMetadata(async ({ params }) => {
   const { language } = await params;
+  const t = getTranslate(language);
 
   return {
-    title: translate('homestead.cats', language),
-    description: translate('homestead.cats.description', language),
-    alternates: getAlternateUrls('/homestead/cats', language)
+    title: t('homestead.cats'),
+    description: t('homestead.cats.description'),
   };
-}
+});
 
 const MaybeRenderIcon: FC<{ src: string }> = ({ src }) => {
   const icon = parseIcon(src);

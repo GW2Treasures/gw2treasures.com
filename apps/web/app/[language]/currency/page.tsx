@@ -9,13 +9,12 @@ import { compareLocalizedName } from '@/lib/localizedName';
 import type { PageProps } from '@/lib/next';
 import { db } from '@/lib/prisma';
 import { getTranslate } from '@/lib/translate';
-import { getAlternateUrls } from '@/lib/url';
 import { Scope } from '@gw2me/client';
 import { currencyCategoryById } from '@gw2treasures/static-data/currencies/categories';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
-import type { Metadata } from 'next';
 import { AccountWalletCell } from './account-data';
+import { createMetadata } from '@/lib/metadata';
 
 const requiredScopes = [Scope.GW2_Wallet];
 
@@ -54,15 +53,13 @@ export default async function CurrencyPage({ params }: PageProps) {
   );
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export const generateMetadata = createMetadata(async ({ params }) => {
   const { language } = await params;
   const t = getTranslate(language);
 
   return {
     title: t('currencies'),
     description: t('currencies.description'),
-    alternates: getAlternateUrls('/homestead/materials', language),
     keywords: ['currency', 'wallet', 'key', 'map currency', 'black lion', 'gems', 'coins', 'gold', 'silver', 'copper', 'karma'],
-    // TODO(og): Add og image
   };
-}
+});

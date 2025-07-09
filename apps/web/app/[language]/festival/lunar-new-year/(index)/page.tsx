@@ -5,7 +5,6 @@ import { ItemTableContext } from '@/components/ItemTable/ItemTableContext';
 import { PageLayout } from '@/components/Layout/PageLayout';
 import { pageView } from '@/lib/pageView';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
-import type { Metadata } from 'next';
 import { db } from '@/lib/prisma';
 import { linkProperties, linkPropertiesWithoutRarity } from '@/lib/linkProperties';
 import { cache } from '@/lib/cache';
@@ -15,10 +14,11 @@ import { groupById } from '@gw2treasures/helper/group-by';
 import { Dashboard } from 'app/[language]/dashboard/dashboard';
 import { StructuredData } from '@/components/StructuredData/StructuredData';
 import type { Event } from 'schema-dts';
-import { absoluteUrl, getAlternateUrls } from '@/lib/url';
+import { absoluteUrl } from '@/lib/url';
 import { Festival, getFestival } from '../../festivals';
 import ogImage from '../og.png';
 import { ExternalLink } from '@gw2treasures/ui/components/Link/ExternalLink';
+import { createMetadata } from '@/lib/metadata';
 
 const ITEM_ENVELOPE = 68646;
 const ITEM_DB_CHAMPION_ENVELOPE = 68647;
@@ -108,7 +108,7 @@ export default async function LunarNewYearPage({ params }: PageProps) {
   );
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export const generateMetadata = createMetadata(async ({ params }) => {
   const { language } = await params;
   const t = getTranslate(language);
 
@@ -116,6 +116,6 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: {
       absolute: `${t('festival.lunar-new-year')} · gw2treasures.com`
     },
-    alternates: getAlternateUrls('festival/lunar-new-year', language),
+    url: 'festival/lunar-new-year',
   };
-}
+});

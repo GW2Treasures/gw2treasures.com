@@ -7,7 +7,7 @@ import { groupBy, groupById } from '@gw2treasures/helper/group-by';
 import { cache } from 'react';
 import { localizedName, type LocalizedEntity } from '@/lib/localizedName';
 import { isDefined } from '@gw2treasures/helper/is';
-import type { Metadata } from 'next';
+import { createMetadata } from '@/lib/metadata';
 
 export default async function DashboardPage({ searchParams }: PageProps) {
   const { columns } = await searchParams;
@@ -70,7 +70,7 @@ function loadAchievements(ids: number[] | undefined) {
   });
 }
 
-export async function generateMetadata({ searchParams, params }: PageProps): Promise<Metadata> {
+export const generateMetadata = createMetadata<PageProps>(async ({ params, searchParams }) => {
   const { language } = await params;
   const { columns } = await searchParams;
   const initialColumns = await loadColumns(decodeColumns(columns));
@@ -88,7 +88,7 @@ export async function generateMetadata({ searchParams, params }: PageProps): Pro
     // only index the page if there are no columns
     robots: columns ? 'noindex' : undefined,
   };
-}
+});
 
 function getLocalizedEntityFromColumn(column: Column): LocalizedEntity | undefined {
   switch(column.type) {

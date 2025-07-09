@@ -9,16 +9,15 @@ import { localizedName } from '@/lib/localizedName';
 import { ItemTable } from '@/components/ItemTable/ItemTable';
 import { ItemTableContext } from '@/components/ItemTable/ItemTableContext';
 import { ItemTableColumnsButton } from '@/components/ItemTable/ItemTableColumnsButton';
-import type { Metadata } from 'next';
 import { Json } from '@/components/Format/Json';
 import { pageView } from '@/lib/pageView';
 import { cache } from '@/lib/cache';
-import { getAlternateUrls } from '@/lib/url';
 import { MiniTooltip } from '@/components/Mini/MiniTooltip';
 import { AchievementTable } from '@/components/Achievement/AchievementTable';
 import type { PageProps } from '@/lib/next';
 import type { Mini } from '@gw2api/types/data/mini';
 import { Wardrobe } from './wardrobe';
+import { createMetadata } from '@/lib/metadata';
 
 const getMini = cache(async (id: number, language: Language) => {
   const [mini, revision] = await Promise.all([
@@ -93,13 +92,13 @@ async function MiniPage ({ params }: MiniPageProps) {
 
 export default MiniPage;
 
-export async function generateMetadata({ params }: MiniPageProps): Promise<Metadata> {
+export const generateMetadata = createMetadata<MiniPageProps>(async ({ params }) => {
   const { language, id } = await params;
   const miniId: number = Number(id);
   const { mini } = await getMini(miniId, language);
 
   return {
     title: localizedName(mini, language),
-    alternates: getAlternateUrls(`/minis/${id}`, language)
+    url: `/minis/${id}`,
   };
-}
+});

@@ -3,16 +3,15 @@ import { getUser } from '@/lib/getUser';
 import { redirect } from 'next/navigation';
 import { Icon } from '@gw2treasures/ui';
 import { Scope } from '@gw2me/client';
-import { getAlternateUrls } from '@/lib/url';
 import { getReturnToUrl } from '@/lib/login-url';
-import type { Metadata } from 'next';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import type { PageProps } from '@/lib/next';
 import { cookies } from 'next/headers';
 import { LoginButton } from './login.client';
 import styles from './page.module.css';
 import { Trans } from '@/components/I18n/Trans';
-import { translateMany } from '@/lib/translate';
+import { getTranslate, translateMany } from '@/lib/translate';
+import { createMetadata } from '@/lib/metadata';
 
 export default async function LoginPage({ searchParams, params }: PageProps) {
   const { language } = await params;
@@ -68,14 +67,14 @@ export default async function LoginPage({ searchParams, params }: PageProps) {
   );
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export const generateMetadata = createMetadata(async ({ params }) => {
   const { language } = await params;
+  const t = getTranslate(language);
 
   return {
-    title: 'Login',
-    alternates: getAlternateUrls('/login', language),
+    title: t('login'),
   };
-}
+});
 
 const validScopes = new Set(Object.values(Scope));
 

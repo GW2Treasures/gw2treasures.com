@@ -12,7 +12,7 @@ import { AccountHomeNodeCell, requiredScopes } from '../homestead.client';
 import { globalColumnRenderer as itemTableColumn } from '@/components/ItemTable/columns';
 import { PageView } from '@/components/PageView/PageView';
 import { Description } from '@/components/Layout/Description';
-import { translate } from '@/lib/translate';
+import { getTranslate } from '@/lib/translate';
 import type { PageProps } from '@/lib/next';
 import { Gw2Accounts } from '@/components/Gw2Api/Gw2Accounts';
 import { Scope } from '@gw2me/client';
@@ -89,9 +89,10 @@ export default async function HomesteadNodesPage({ params }: PageProps) {
 
 export const generateMetadata = createMetadata(async ({ params }) => {
   const { language } = await params;
+  const t = getTranslate(language);
 
   return {
-    title: translate('homestead.nodes', language),
-    description: translate('homestead.nodes.description', language),
+    title: t('homestead.nodes'),
+    description: t('homestead.nodes.description'),
   };
 });

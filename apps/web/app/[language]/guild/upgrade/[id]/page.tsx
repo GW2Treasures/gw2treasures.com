@@ -11,13 +11,13 @@ import { GuildUpgradeIngredientFor } from '@/components/GuildUpgrade/GuildUpgrad
 import { linkProperties, linkPropertiesWithoutRarity } from '@/lib/linkProperties';
 import { ItemList } from '@/components/ItemList/ItemList';
 import { ItemLink } from '@/components/Item/ItemLink';
-import type { Metadata } from 'next';
 import { localizedName } from '@/lib/localizedName';
 import { RecipeBoxWrapper } from '@/components/Recipe/RecipeBoxWrapper';
 import { RecipeBox } from '@/components/Recipe/RecipeBox';
 import { pageView } from '@/lib/pageView';
 import { cache } from '@/lib/cache';
 import type { PageProps } from '@/lib/next';
+import { createMetadata } from '@/lib/metadata';
 
 const getGuildUpgrade = cache(async (id: number) => {
   if(isNaN(id)) {
@@ -110,7 +110,7 @@ export default async function GuildUpgradePage({ params }: GuildUpgradePageProps
   );
 }
 
-export async function generateMetadata({ params }: GuildUpgradePageProps): Promise<Metadata> {
+export const generateMetadata = createMetadata<GuildUpgradePageProps>(async ({ params }) => {
   const { language, id } = await params;
   const skinId: number = Number(id);
   const guildUpgrade = await getGuildUpgrade(skinId);
@@ -122,4 +122,4 @@ export async function generateMetadata({ params }: GuildUpgradePageProps): Promi
   return {
     title: localizedName(guildUpgrade, language)
   };
-}
+});

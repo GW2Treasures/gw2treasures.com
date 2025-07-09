@@ -3,7 +3,6 @@ import { Trans } from '@/components/I18n/Trans';
 import { PageLayout } from '@/components/Layout/PageLayout';
 import { cache } from '@/lib/cache';
 import { db } from '@/lib/prisma';
-import type { Metadata } from 'next';
 import { requiredScopes } from '../helper';
 import { pageView } from '@/lib/pageView';
 import Link from 'next/link';
@@ -12,7 +11,7 @@ import type { PageProps } from '@/lib/next';
 import { getTranslate } from '@/lib/translate';
 import { Icon } from '@gw2treasures/ui';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
-import { getAlternateUrls } from '@/lib/url';
+import { createMetadata } from '@/lib/metadata';
 
 const objectiveIds: number[] = [
   228, // (Festival) Complete the (Annual) World 1 Classic Achievement
@@ -58,13 +57,12 @@ export default async function SuperAdventureFestivalWizardsVaultPage({ params }:
   );
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export const generateMetadata = createMetadata(async ({ params }) => {
   const { language } = await params;
   const t = getTranslate(language);
 
   return {
     title: t('navigation.wizardsVault'),
     description: t('festival.super-adventure.wizards-vault.description'),
-    alternates: getAlternateUrls('festival/super-adventure/wizards-vault', language),
   };
-}
+});

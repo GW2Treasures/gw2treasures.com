@@ -1,10 +1,9 @@
 import { MiniTable } from '@/components/Mini/MiniTable';
 import { cache } from '@/lib/cache';
 import { linkPropertiesWithoutRarity } from '@/lib/linkProperties';
-import type { PageProps } from '@/lib/next';
+import { createMetadata } from '@/lib/metadata';
 import { db } from '@/lib/prisma';
 import { getTranslate } from '@/lib/translate';
-import type { Metadata } from 'next';
 
 const getMinis = cache(async () => {
   return await db.mini.findMany({
@@ -25,11 +24,11 @@ export default async function MinisPage() {
   );
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export const generateMetadata = createMetadata(async ({ params }) => {
   const { language } = await params;
   const t = getTranslate(language);
 
   return {
     title: t('minis'),
   };
-}
+});

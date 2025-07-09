@@ -5,7 +5,6 @@ import { linkProperties } from '@/lib/linkProperties';
 import type { PageProps } from '@/lib/next';
 import { db } from '@/lib/prisma';
 import { getTranslate } from '@/lib/translate';
-import type { Metadata } from 'next';
 import { createItemTable, LegendaryItemDataTable } from '../table';
 import { TableFilterButton, TableFilterProvider, type TableFilterDefinition } from '@/components/Table/TableFilter';
 import type { SubType } from '@/components/Item/ItemType.types';
@@ -17,6 +16,7 @@ import { requiredScopes } from '../helper';
 import { LegendaryArmorOverviewCell } from './overview.client';
 import type { ArmorSlot, ArmorWeight } from './types';
 import { Gw2Accounts } from '@/components/Gw2Api/Gw2Accounts';
+import { createMetadata } from '@/lib/metadata';
 
 const loadItems = cache(async () => {
   const items = await db.item.findMany({
@@ -93,7 +93,7 @@ export default async function LegendaryRelicsPage({ params }: PageProps) {
   );
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export const generateMetadata = createMetadata(async ({ params }) => {
   const { language } = await params;
   const t = getTranslate(language);
 
@@ -101,4 +101,4 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: t('legendary-armory.armor.title'),
     description: t('legendary-armory.armor.description'),
   };
-}
+});

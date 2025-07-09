@@ -3,7 +3,6 @@ import { Trans } from '@/components/I18n/Trans';
 import { PageLayout } from '@/components/Layout/PageLayout';
 import { pageView } from '@/lib/pageView';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
-import type { Metadata } from 'next';
 import { db } from '@/lib/prisma';
 import { linkProperties } from '@/lib/linkProperties';
 import { cache } from '@/lib/cache';
@@ -12,7 +11,7 @@ import { getTranslate } from '@/lib/translate';
 import { Dashboard } from 'app/[language]/dashboard/dashboard';
 import { StructuredData } from '@/components/StructuredData/StructuredData';
 import type { Event } from 'schema-dts';
-import { absoluteUrl, getAlternateUrls } from '@/lib/url';
+import { absoluteUrl } from '@/lib/url';
 import { Festival, getFestival } from '../../festivals';
 import ogImage from '../og.png';
 import styles from './page.module.css';
@@ -21,6 +20,7 @@ import thumbnailGttp from './thumbnail-gttp.png';
 import thumbnailWiki from './thumbnail-wiki.png';
 import thumbnailJppe from './thumbnail-jppe.png';
 import { Icon } from '@gw2treasures/ui';
+import { createMetadata } from '@/lib/metadata';
 
 const ITEM_BAUBLE = 39752;
 const ITEM_BAUBLE_BUBBLE = 41886;
@@ -111,7 +111,7 @@ export default async function SuperAdventureFestivalPage({ params }: PageProps) 
   );
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export const generateMetadata = createMetadata(async ({ params }) => {
   const { language } = await params;
   const t = getTranslate(language);
 
@@ -119,6 +119,5 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: {
       absolute: `${t('festival.super-adventure')} · gw2treasures.com`
     },
-    alternates: getAlternateUrls('festival/super-adventure', language),
   };
-}
+});

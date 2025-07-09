@@ -4,7 +4,6 @@ import { HeroLayout } from '@/components/Layout/HeroLayout';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { getUser } from '@/lib/getUser';
 import { db } from '@/lib/prisma';
-import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { Suspense, cache } from 'react';
 import { Accounts } from './accounts';
@@ -13,6 +12,7 @@ import { revalidatePath } from 'next/cache';
 import { SubmitButton } from '@gw2treasures/ui/components/Form/Buttons/SubmitButton';
 import { ExternalLink } from '@gw2treasures/ui/components/Link/ExternalLink';
 import { pageView } from '@/lib/pageView';
+import { createMetadata } from '@/lib/metadata';
 
 const getUserData = cache(async () => {
   const userSession = await getUser();
@@ -77,13 +77,13 @@ export default async function ProfilePage() {
   );
 }
 
-export async function generateMetadata(): Promise<Metadata> {
+export const generateMetadata = createMetadata(async () => {
   const { user } = await getUserData();
 
   return {
     title: user.name,
   };
-}
+});
 
 
 async function revokeAllSessions() {

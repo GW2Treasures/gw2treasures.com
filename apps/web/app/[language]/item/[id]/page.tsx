@@ -1,11 +1,12 @@
 import { ItemPageComponent } from './component';
-import type { Metadata } from 'next';
 import { getRevision } from './data';
 import { notFound } from 'next/navigation';
 import { getIconUrl } from '@/lib/getIconUrl';
 import { parseIcon } from '@/lib/parseIcon';
-import { getAlternateUrls } from '@/lib/url';
 import type { PageProps } from '@/lib/next';
+import { encode } from 'gw2e-chat-codes';
+import { strip } from 'gw2-tooltip-html';
+import { createMetadata } from '@/lib/metadata';
 
 export type ItemPageProps = PageProps<{ id: string }>;
 
@@ -16,7 +17,7 @@ export default async function ItemPage({ params }: ItemPageProps) {
   return <ItemPageComponent language={language} itemId={itemId}/>;
 }
 
-export async function generateMetadata({ params }: ItemPageProps): Promise<Metadata> {
+export const generateMetadata = createMetadata<ItemPageProps>(async ({ params }) => {
   const { language, id } = await params;
   const itemId = Number(id);
   const { data } = await getRevision(itemId, language);
@@ -28,11 +29,9 @@ export async function generateMetadata({ params }: ItemPageProps): Promise<Metad
   const icon = parseIcon(data.icon);
 
   return {
-    title: data.name || id,
-    openGraph: {
-      images: icon ? [{ url: getIconUrl(icon, 64), width: 64, height: 64, type: 'image/png' }] : []
-    },
-    twitter: { card: 'summary' },
-    alternates: getAlternateUrls(`/item/${id}`, language)
+    title: strip(data.name) || encode('item', itemId) || id,
+    description: strip(data.description) || undefined,
+    url: `/item/${id}`,
+    image: icon ? { src: getIconUrl(icon, 64), width: 64, height: 64 } : undefined,
   };
-}
+});

@@ -15,7 +15,7 @@ import { Trans } from '@/components/I18n/Trans';
 import { Gw2AccountBodyCells, Gw2AccountHeaderCells } from '@/components/Gw2Api/Gw2AccountTableCells';
 import { ColorAccountUnlockCell, requiredScopes } from '@/components/Color/unlock-cell';
 import { getTranslate } from '@/lib/translate';
-import type { Metadata } from 'next';
+import { createMetadata } from '@/lib/metadata';
 
 const getColors = unstable_cache((language: Language) => {
   return db.color.findMany({
@@ -78,11 +78,11 @@ export default async function ColorPage({ params }: PageProps) {
   );
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export const generateMetadata = createMetadata(async ({ params }) => {
   const { language } = await params;
   const t = getTranslate(language);
 
   return {
     title: t('colors'),
   };
-}
+});

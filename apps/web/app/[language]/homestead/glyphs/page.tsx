@@ -9,16 +9,15 @@ import { AccountHomesteadGlyphsCell, requiredScopes } from '../homestead.client'
 import { PageView } from '@/components/PageView/PageView';
 import { localizedName } from '@/lib/localizedName';
 import { UnknownItem } from '@/components/Item/UnknownItem';
-import { translateMany, translate } from '@/lib/translate';
+import { translateMany, getTranslate } from '@/lib/translate';
 import { ColumnSelect } from '@/components/Table/ColumnSelect';
 import { Description } from '@/components/Layout/Description';
 import { isTruthy } from '@gw2treasures/helper/is';
 import { globalColumnRenderer as itemTableColumn } from '@/components/ItemTable/columns';
 import type { PageProps } from '@/lib/next';
-import type { Metadata } from 'next';
-import { getAlternateUrls } from '@/lib/url';
 import { Gw2Accounts } from '@/components/Gw2Api/Gw2Accounts';
 import { Scope } from '@gw2me/client';
+import { createMetadata } from '@/lib/metadata';
 
 const getGlyphs = cache(async () => {
   const glyphs = await db.homesteadGlyph.findMany({
@@ -91,12 +90,12 @@ export default async function HomesteadGlyphsPage({ params }: PageProps) {
   );
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export const generateMetadata = createMetadata(async ({ params }) => {
   const { language } = await params;
+  const t = getTranslate(language);
 
   return {
-    title: translate('homestead.glyphs', language),
-    description: translate('homestead.glyphs.description', language),
-    alternates: getAlternateUrls('/homestead/glyphs', language)
+    title: t('homestead.glyphs'),
+    description: t('homestead.glyphs.description'),
   };
-}
+});

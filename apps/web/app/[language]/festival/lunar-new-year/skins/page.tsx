@@ -5,12 +5,10 @@ import { PageLayout } from '@/components/Layout/PageLayout';
 import { SkinTable } from '@/components/Skin/SkinTable';
 import { cache } from '@/lib/cache';
 import { db } from '@/lib/prisma';
-import type { Metadata } from 'next';
 import { requiredScopes } from '../helper';
 import { pageView } from '@/lib/pageView';
-import type { PageProps } from '@/lib/next';
 import { getTranslate } from '@/lib/translate';
-import { getAlternateUrls } from '@/lib/url';
+import { createMetadata } from '@/lib/metadata';
 
 const skinIds = [
   // weapons
@@ -117,12 +115,12 @@ export default async function LunarNewYearAchievementsPage() {
   );
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export const generateMetadata = createMetadata(async ({ params }) => {
   const { language } = await params;
   const t = getTranslate(language);
 
   return {
     title: t('navigation.skins'),
-    alternates: getAlternateUrls('festival/lunar-new-year/skins', language),
+    url: 'festival/lunar-new-year/skins',
   };
-}
+});

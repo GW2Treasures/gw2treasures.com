@@ -15,6 +15,7 @@ import { ExternalLink } from '@gw2treasures/ui/components/Link/ExternalLink';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { deleteApplication, saveApplication, updateOrigins } from './actions';
 import type { PageProps } from '@/lib/next';
+import { createMetadata } from '@/lib/metadata';
 
 async function getApplication(id: string) {
   const user = await getUser();
@@ -101,8 +102,7 @@ export default async function DevAppPage({ params }: DevAppPageProps) {
   );
 }
 
-
-export async function generateMetadata({ params }: DevAppPageProps) {
+export const generateMetadata = createMetadata<DevAppPageProps>(async ({ params }) => {
   const { id } = await params;
   const application = getApplication(id);
 
@@ -113,4 +113,4 @@ export async function generateMetadata({ params }: DevAppPageProps) {
   return {
     title: `Application: ${(await application).name}`
   };
-}
+});

@@ -13,16 +13,15 @@ import { localizedName } from '@/lib/localizedName';
 import { ItemTable } from '@/components/ItemTable/ItemTable';
 import { ItemTableContext } from '@/components/ItemTable/ItemTableContext';
 import { ItemTableColumnsButton } from '@/components/ItemTable/ItemTableColumnsButton';
-import type { Metadata } from 'next';
 import { Json } from '@/components/Format/Json';
 import { pageView } from '@/lib/pageView';
 import { cache } from '@/lib/cache';
-import { getAlternateUrls } from '@/lib/url';
 import { Wardrobe } from './wardrobe';
 import { SkinTable } from '@/components/Skin/SkinTable';
 import { SkinTooltip } from '@/components/Skin/SkinTooltip';
 import { AchievementTable } from '@/components/Achievement/AchievementTable';
 import type { PageProps } from '@/lib/next';
+import { createMetadata } from '@/lib/metadata';
 
 const getSkin = cache(async (id: number, language: Language) => {
   const [skin, revision] = await Promise.all([
@@ -128,7 +127,7 @@ async function SkinPage ({ params }: SkinPageProps) {
 
 export default SkinPage;
 
-export async function generateMetadata({ params }: SkinPageProps): Promise<Metadata> {
+export const generateMetadata = createMetadata<SkinPageProps>(async ({ params }) => {
   const { language, id } = await params;
 
   const skinId: number = Number(id);
@@ -136,6 +135,5 @@ export async function generateMetadata({ params }: SkinPageProps): Promise<Metad
 
   return {
     title: localizedName(skin, language),
-    alternates: getAlternateUrls(`/skin/${id}`, language)
   };
-}
+});

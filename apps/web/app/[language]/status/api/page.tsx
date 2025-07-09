@@ -11,6 +11,7 @@ import { PeriodSelect } from './period-select';
 import { availablePeriods } from './available-periods';
 import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 import type { PageProps } from '@/lib/next';
+import { createMetadata } from '@/lib/metadata';
 
 async function getData(hours: number) {
   const now = new Date();
@@ -174,6 +175,6 @@ function toBuckets<T>(count: number, by: (value: T) => number): (previousValue: 
   };
 }
 
-export const metadata = {
+export const generateMetadata = createMetadata({
   title: 'API Status'
-};
+});

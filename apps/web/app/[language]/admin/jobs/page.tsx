@@ -9,6 +9,7 @@ import { getUser } from '@/lib/getUser';
 import { Form, type FormState } from '@gw2treasures/ui/components/Form/Form';
 import { SubmitButton } from '@gw2treasures/ui/components/Form/Buttons/SubmitButton';
 import { ensureUserIsAdmin } from '../admin';
+import { createMetadata } from '@/lib/metadata';
 
 export default async function AdminQueueJobPage() {
   await ensureUserIsAdmin();
@@ -65,6 +66,6 @@ async function submit(_: FormState, payload: FormData): Promise<FormState> {
   return { success: 'Queued' };
 }
 
-export const metadata = {
+export const generateMetadata = createMetadata({
   title: 'Jobs'
-};
+});

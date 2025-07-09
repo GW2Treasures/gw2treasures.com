@@ -9,11 +9,10 @@ import type { PageProps } from '@/lib/next';
 import { db } from '@/lib/prisma';
 import type { AchievementFlags } from '@gw2api/types/data/achievement';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
-import type { Metadata } from 'next';
 import { requiredScopes } from '../helper';
 import { pageView } from '@/lib/pageView';
 import { getTranslate } from '@/lib/translate';
-import { getAlternateUrls } from '@/lib/url';
+import { createMetadata } from '@/lib/metadata';
 
 const achievementIds = [
   6031, // The Goldclaw Holiday Collection
@@ -79,14 +78,13 @@ export default async function DragonBashAchievementsPage({ params }: PageProps) 
   );
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export const generateMetadata = createMetadata(async ({ params }) => {
   const { language } = await params;
   const t = getTranslate(language);
 
   return {
     title: t('navigation.achievements'),
     description: t('festival.dragon-bash.achievements.description'),
-    alternates: getAlternateUrls('festival/dragon-bash/achievements', language),
+    url: 'festival/dragon-bash/achievements'
   };
-}
-
+});

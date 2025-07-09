@@ -2,7 +2,7 @@ import { PageLayout } from '@/components/Layout/PageLayout';
 import { EditMysticForge } from './EditMysticForge';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import type { PageProps } from '@/lib/next';
-import type { Metadata } from 'next';
+import { createMetadata } from '@/lib/metadata';
 
 export type EditMysticForgePageProps = PageProps<{ id: string }>;
 
@@ -19,7 +19,7 @@ export default async function EditMysticForgePage({ params, searchParams }: Edit
   );
 }
 
-export const metadata: Metadata = {
+export const generateMetadata = createMetadata({
   title: 'Edit Mystic Forge',
   robots: { index: false },
-};
+});

@@ -11,12 +11,11 @@ import { cache } from '@/lib/cache';
 import { localizedName } from '@/lib/localizedName';
 import type { PageProps } from '@/lib/next';
 import { getTranslate } from '@/lib/translate';
-import type { Metadata } from 'next';
-import { getAlternateUrls, getCurrentUrl } from '@/lib/url';
 import ogImage from './wizards-vault-og.png';
 import { ItemLink } from '@/components/Item/ItemLink';
 import { groupById } from '@gw2treasures/helper/group-by';
 import { linkProperties } from '@/lib/linkProperties';
+import { createMetadata } from '@/lib/metadata';
 
 const ITEM_DAILY_CHEST = 99961;
 const ITEM_WEEKLY_CHEST = 100137;
@@ -63,19 +62,16 @@ export default async function WizardsVaultPage({ params }: PageProps) {
   );
 }
 
-
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export const generateMetadata = createMetadata(async ({ params }) => {
   const { language } = await params;
   const t = await getTranslate(language);
 
   return {
-    title: t('navigation.wizardsVault'),
+    title: { absolute: t('navigation.wizardsVault') },
     description: t('wizards-vault.description'),
-    alternates: getAlternateUrls('/wizards-vault', language),
+    url: '/wizards-vault',
     keywords: ['wizards vault', 'season', 'rewards', 'objectives', 'reset', 'daily', 'weekly', 'special', 'track', 'PvE', 'PvP', 'WvW', 'AA', 'Astral Acclaim'],
-    openGraph: {
-      images: [{ url: new URL(ogImage.src, await getCurrentUrl()), width: ogImage.width, height: ogImage.height }],
-    },
-    twitter: { card: 'summary_large_image' }
+    image: ogImage,
   };
-}
+});
+

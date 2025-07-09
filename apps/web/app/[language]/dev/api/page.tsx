@@ -7,8 +7,8 @@ import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
 import Link from 'next/link';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
-import type { Metadata } from 'next';
 import ogImage from './api-og.png';
+import { createMetadata } from '@/lib/metadata';
 
 const exampleCodeFetchWithAuthorizationHeader =
 `fetch('https://api.gw2treasures.com/items', {
@@ -259,15 +259,9 @@ export default async function DeveloperIconsPage() {
   );
 }
 
-export async function generateMetadata(): Promise<Metadata> {
-  return {
-    title: 'API',
-    description: 'Use the gw2treasures.com API to access content not available in the official Guild Wars 2 API.',
-    keywords: ['api', 'whitelist', 'deleted', 'community', 'api key', 'mystic-forge', 'container', 'item', 'achievement', 'tradingpost', 'data', 'bulk'],
-
-    openGraph: {
-      images: [{ url: new URL(ogImage.src, await getCurrentUrl()), width: ogImage.width, height: ogImage.height }],
-    },
-    twitter: { card: 'summary_large_image' }
-  };
-}
+export const generateMetadata = createMetadata({
+  title: 'API',
+  description: 'Use the gw2treasures.com API to access content not available in the official Guild Wars 2 API.',
+  keywords: ['api', 'whitelist', 'deleted', 'community', 'api key', 'mystic-forge', 'container', 'item', 'achievement', 'tradingpost', 'data', 'bulk'],
+  image: ogImage
+});

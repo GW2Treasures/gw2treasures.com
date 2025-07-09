@@ -1,4 +1,5 @@
 import { HeroLayout } from '@/components/Layout/HeroLayout';
+import { createMetadata } from '@/lib/metadata';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 
 export default function LegalPage() {
@@ -21,7 +22,7 @@ export default function LegalPage() {
   );
 }
 
-export const metadata = {
+export const generateMetadata = createMetadata({
   title: 'Legal Notice',
   description: 'Last updated January 2, 2024',
-};
+});

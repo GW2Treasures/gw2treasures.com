@@ -8,6 +8,7 @@ import { Icon } from '@gw2treasures/ui';
 import { ensureUserIsAdmin } from '../admin';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { ColumnSelect } from '@/components/Table/ColumnSelect';
+import { createMetadata } from '@/lib/metadata';
 
 const getUsers = cache(() => {
   return db.user.findMany({
@@ -42,6 +43,6 @@ export default async function AdminUserPage() {
   );
 }
 
-export const metadata = {
+export const generateMetadata = createMetadata({
   title: 'Users'
-};
+});

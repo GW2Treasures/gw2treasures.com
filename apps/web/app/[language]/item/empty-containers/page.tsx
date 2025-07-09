@@ -3,6 +3,7 @@ import { ItemTableColumnsButton } from '@/components/ItemTable/ItemTableColumnsB
 import { ItemTableContext } from '@/components/ItemTable/ItemTableContext';
 import type { ItemTableQuery } from '@/components/ItemTable/types';
 import { PageLayout } from '@/components/Layout/PageLayout';
+import { createMetadata } from '@/lib/metadata';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 
 const query: ItemTableQuery = {
@@ -22,6 +23,6 @@ export default function ItemEmptyContainersPage() {
   );
 }
 
-export const metadata = {
+export const generateMetadata = createMetadata({
   title: 'Empty Containers'
-};
+});

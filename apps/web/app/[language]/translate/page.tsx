@@ -15,6 +15,7 @@ import { ExternalLink } from '@gw2treasures/ui/components/Link/ExternalLink';
 import { Code } from '@/components/Layout/Code';
 import { List } from '@gw2treasures/ui/components/Layout/List';
 import Link from 'next/link';
+import { createMetadata } from '@/lib/metadata';
 
 const dictionaries = { de, en, es, fr };
 const legacyDictionaries = { de: deLegacy, en: enLegacy, es: esLegacy, fr: frLegacy };
@@ -55,6 +56,6 @@ export default function TranslatePage() {
   );
 }
 
-export const metadata = {
+export const generateMetadata = createMetadata({
   title: 'Translate'
-};
+});

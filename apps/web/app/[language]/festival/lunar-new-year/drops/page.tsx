@@ -12,7 +12,7 @@ import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { ExternalLink } from '@gw2treasures/ui/components/Link/ExternalLink';
 import { Icon } from '@gw2treasures/ui';
 import type { PageProps } from '@/lib/next';
-import { translate, translateMany } from '@/lib/translate';
+import { getTranslate, translateMany } from '@/lib/translate';
 import { ColumnSelect } from '@/components/Table/ColumnSelect';
 import { Coins } from '@/components/Format/Coins';
 import { DataTableFooterTd } from '@gw2treasures/ui/components/Table/DataTable.client';
@@ -23,14 +23,13 @@ import type { FC } from 'react';
 import type { Language } from '@gw2treasures/database';
 import { localizedName } from '@/lib/localizedName';
 import { FormatDate } from '@/components/Format/FormatDate';
-import type { Metadata } from 'next';
-import { getAlternateUrls, getCurrentUrl } from '@/lib/url';
 import ogImage from './drops-og.png';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import { pageView } from '@/lib/pageView';
 import styles from './page.module.css';
 import { data as drfData, type DrfData } from './data';
 import { MathIf } from '@/components/Format/math/if';
+import { createMetadata } from '@/lib/metadata';
 
 const loadItems = cache(async function loadItems(ids: number[]) {
   const items = await db.item.findMany({
@@ -184,20 +183,19 @@ const empty = (
   <span style={{ color: 'var(--color-text-muted)' }}>-</span>
 );
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export const generateMetadata = createMetadata(async ({ params }) => {
   const { language } = await params;
+  const t = getTranslate(language);
 
   return {
-    title: translate('festival.drops', language),
+    title: t('festival.drops'),
     description: 'Lunar New Year 2025 drop data',
-    // make sure the efficiency query parameter is not part of the canonical URL, so only the default gets indexed by search engines
-    alternates: getAlternateUrls('/festival/lunar-new-year/drops', language),
-    openGraph: {
-      images: [{ url: new URL(ogImage.src, await getCurrentUrl()), width: ogImage.width, height: ogImage.height }],
-    },
-    twitter: { card: 'summary_large_image' }
+    url: '/festival/lunar-new-year/drops',
+    image: ogImage,
+    robots: { index: false },
   };
-}
+});
+
 
 const drfLogo = (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 392 488" stroke="currentColor">

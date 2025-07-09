@@ -7,6 +7,7 @@ import { PageLayout } from '@/components/Layout/PageLayout';
 import { pageView } from '@/lib/pageView';
 import type { TODO } from '@/lib/todo';
 import { WizardsVaultCostColumn, WizardsVaultLimitColumn, WizardsVaultTypeColumn } from './columns';
+import { createMetadata } from '@/lib/metadata';
 
 export default async function WizardsVaultPage() {
   await pageView('wizards-vault/rewards');
@@ -30,6 +31,6 @@ export default async function WizardsVaultPage() {
   );
 }
 
-export const metadata = {
-  title: 'Wizard\'s Vault'
-};
+export const generateMetadata = createMetadata({
+  title: 'Rewards'
+});

@@ -1,8 +1,10 @@
 import { ItemPageComponent } from '../component';
-import type { Metadata } from 'next';
 import { getRevision } from '../data';
 import { notFound } from 'next/navigation';
 import type { PageProps } from '@/lib/next';
+import { createMetadata } from '@/lib/metadata';
+import { strip } from 'gw2-tooltip-html';
+import { encode } from 'gw2e-chat-codes';
 
 type ItemRevisionPageProps = PageProps<{ id: string, revisionId: string }>;
 
@@ -13,7 +15,7 @@ export default async function ItemPage({ params }: ItemRevisionPageProps) {
   return <ItemPageComponent language={language} itemId={itemId} revisionId={revisionId}/>;
 }
 
-export async function generateMetadata({ params }: ItemRevisionPageProps): Promise<Metadata> {
+export const generateMetadata = createMetadata<ItemRevisionPageProps>(async ({ params }) => {
   const { language, id, revisionId } = await params;
   const itemId = Number(id);
   const { data } = await getRevision(itemId, language, revisionId);
@@ -23,7 +25,7 @@ export async function generateMetadata({ params }: ItemRevisionPageProps): Promi
   }
 
   return {
-    title: `${data.name || id} @ ${revisionId}`,
+    title: `${strip(data.name) || encode('item', itemId) || id} @ ${revisionId}`,
     robots: { index: false }
   };
-}
+});

@@ -14,14 +14,13 @@ import { ColumnSelect } from '@/components/Table/ColumnSelect';
 import { Trans } from '@/components/I18n/Trans';
 import { Icon } from '@gw2treasures/ui';
 import { ExternalLink } from '@gw2treasures/ui/components/Link/ExternalLink';
-import type { Metadata } from 'next';
 import ogImage from './og.png';
-import { getCurrentUrl } from '@/lib/url';
 import { WizardsVaultObjective } from '@/components/WizardsVault/WizardsVaultObjective';
 import type { PageProps } from '@/lib/next';
 import { PageView } from '@/components/PageView/PageView';
 import Link from 'next/link';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
+import { createMetadata } from '@/lib/metadata';
 
 const endsAt = new Date('2024-12-02T17:00:00.000Z');
 
@@ -141,15 +140,10 @@ export default async function EventPage({ params }: PageProps) {
   );
 }
 
-export async function generateMetadata(): Promise<Metadata> {
-  return {
-    title: 'Evon Gnashblade’s “Birthday” celebration',
-    description: 'From November 25 to December 2, the Black Lion Vaults will open with exclusive offerings and a chance to trade materials for a few limited-time surprises. ' +
-      'There will also be new vendors, new displays, and a whole new look to the Vaults, so get ready to head over to Lion’s Arch next week.',
-    keywords: ['evon', 'gnashblade', 'birthday', 'material', 'festival', 'event', 'bonus', 'special', 'wizards vault'],
-    openGraph: {
-      images: [{ url: new URL(ogImage.src, await getCurrentUrl()), width: ogImage.width, height: ogImage.height }],
-    },
-    twitter: { card: 'summary_large_image' }
-  };
-}
+export const generateMetadata = createMetadata({
+  title: 'Evon Gnashblade’s “Birthday” celebration',
+  description: 'From November 25 to December 2, the Black Lion Vaults will open with exclusive offerings and a chance to trade materials for a few limited-time surprises. ' +
+    'There will also be new vendors, new displays, and a whole new look to the Vaults, so get ready to head over to Lion’s Arch next week.',
+  keywords: ['evon', 'gnashblade', 'birthday', 'material', 'festival', 'event', 'bonus', 'special', 'wizards vault'],
+  image: ogImage
+});

@@ -7,6 +7,7 @@ import { PageLayout } from '@/components/Layout/PageLayout';
 import { SkillLink } from '@/components/Skill/SkillLink';
 import { SkinLink } from '@/components/Skin/SkinLink';
 import { linkProperties, linkPropertiesWithoutRarity } from '@/lib/linkProperties';
+import { createMetadata } from '@/lib/metadata';
 import { db } from '@/lib/prisma';
 import { LinkButton } from '@gw2treasures/ui/components/Form/Button';
 import { CopyButton } from '@gw2treasures/ui/components/Form/Buttons/CopyButton';
@@ -149,8 +150,8 @@ export default async function LyeRemovedFromApi() {
   );
 }
 
-export const metadata = {
+export const generateMetadata = createMetadata({
   title: 'Removed From API',
   robots: { index: false },
-};
+});
 

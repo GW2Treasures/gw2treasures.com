@@ -9,6 +9,7 @@ import { FormatDate } from '@/components/Format/FormatDate';
 import { pageView } from '@/lib/pageView';
 import { cache } from '@/lib/cache';
 import type { PageProps } from '@/lib/next';
+import { createMetadata } from '@/lib/metadata';
 
 const getItems = cache(async (language: Language) => {
   const [recentlyAdded, recentlyUpdated] = await Promise.all([
@@ -47,6 +48,6 @@ export default async function ItemPage({ params }: PageProps) {
   );
 }
 
-export const metadata = {
+export const generateMetadata = createMetadata({
   title: 'Items'
-};
+});

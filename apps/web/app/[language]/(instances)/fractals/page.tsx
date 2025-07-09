@@ -6,7 +6,6 @@ import { PageView } from '@/components/PageView/PageView';
 import { ResetTimer } from '@/components/Reset/ResetTimer';
 import type { PageProps } from '@/lib/next';
 import { getTranslate } from '@/lib/translate';
-import { getAlternateUrls, getCurrentUrl } from '@/lib/url';
 import type { Language } from '@gw2treasures/database';
 import { dailies, fractal_details, getDayOfYearIndex, getInstabilities, instability_details, recommended, scales } from '@gw2treasures/static-data/fractals/index';
 import { Switch } from '@gw2treasures/ui/components/Form/Switch';
@@ -25,6 +24,7 @@ import { db } from '@/lib/prisma';
 import { linkPropertiesWithoutRarity } from '@/lib/linkProperties';
 import { groupById } from '@gw2treasures/helper/group-by';
 import { AchievementLink } from '@/components/Achievement/AchievementLink';
+import { createMetadata } from '@/lib/metadata';
 
 // Kinfall and above have CM
 const firstCMScale = 95;
@@ -143,22 +143,20 @@ export default async function FractalsPage({ params, searchParams }: PageProps) 
   );
 }
 
-export async function generateMetadata({ searchParams, params }: PageProps) {
+export const generateMetadata = createMetadata<PageProps>(async ({ searchParams, params }) => {
   const { language } = await params;
   const { tier, date } = await searchParams;
   const t = getTranslate(language);
 
   return {
     title: t('fractals'),
-    alternates: getAlternateUrls(getCanonicalUrl(getTierOrFallback(Array.isArray(tier) ? tier[0] : tier), Array.isArray(date) ? date[0] : date), language),
+    url: getCanonicalUrl(getTierOrFallback(Array.isArray(tier) ? tier[0] : tier), Array.isArray(date) ? date[0] : date),
     description: t('fractals.description'),
     keywords: ['fractal', 'Fractals of the Mists', 't1', 't2', 't3', 't4', 'recommended', 'daily', 'challenge', 'today', 'tomorrow', 'weekend', 'agony', 'instability'],
-    openGraph: {
-      images: [{ url: new URL(ogImage.src, await getCurrentUrl()), width: ogImage.width, height: ogImage.height }],
-    },
-    twitter: { card: 'summary_large_image' }
+    image: ogImage,
   };
-}
+});
+
 
 const Instabilities = ({ scale, dayOfYearIndex, language }: { scale: number, dayOfYearIndex: number, language: Language }) => {
   const t = getTranslate(language);

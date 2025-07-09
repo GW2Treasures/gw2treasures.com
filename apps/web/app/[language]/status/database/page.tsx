@@ -1,6 +1,7 @@
 import { FormatNumber } from '@/components/Format/FormatNumber';
 import { PageLayout } from '@/components/Layout/PageLayout';
 import { cache } from '@/lib/cache';
+import { createMetadata } from '@/lib/metadata';
 import { db } from '@/lib/prisma';
 import { Prisma } from '@gw2treasures/database';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
@@ -61,9 +62,9 @@ export default async function StatusDatabasePage() {
   );
 }
 
-export const metadata = {
+export const generateMetadata = createMetadata({
   title: 'Database Status'
-};
+});
 
 function formatSize(size: bigint | null): ReactNode {
   if(size === null) {

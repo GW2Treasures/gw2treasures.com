@@ -14,6 +14,7 @@ import { PageLayout } from '@/components/Layout/PageLayout';
 import { ColumnSelect } from '@/components/Table/ColumnSelect';
 import { cache } from '@/lib/cache';
 import type { PageProps } from '@/lib/next';
+import { createMetadata } from '@/lib/metadata';
 
 const getUncategorizedAchievements = cache(async () => {
   const achievements = await db.achievement.findMany({
@@ -71,9 +72,9 @@ async function AchievementUncategorizedPage({ params }: PageProps) {
 
 export default AchievementUncategorizedPage;
 
-export const metadata = {
+export const generateMetadata = createMetadata({
   title: 'Uncategorized Achievements'
-};
+});
 
 const MasteryColumnHeader = () => (<><Icon icon="mastery"/> Mastery</>);
 const TitleColumnHeader = () => (<><Icon icon="title"/> Title</>);

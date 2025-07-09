@@ -1,5 +1,6 @@
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { HeroLayout } from '@/components/Layout/HeroLayout';
+import { createMetadata } from '@/lib/metadata';
 
 export default function ItemNotFound() {
   return (
@@ -9,6 +10,6 @@ export default function ItemNotFound() {
   );
 }
 
-export const metadata = {
+export const generateMetadata = createMetadata({
   title: 'Item not found'
-};
+});

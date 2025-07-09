@@ -14,16 +14,15 @@ import { SkeletonTable } from '@/components/Skeleton/SkeletonTable';
 import { CurrencyIngredientFor } from '@/components/Currency/CurrencyIngredientFor';
 import { pageView } from '@/lib/pageView';
 import { cache } from '@/lib/cache';
-import { localizedName } from '@/lib/localizedName';
 import { WalletTable } from './wallet-table';
 import type { PageProps } from '@/lib/next';
 import { format, strip } from 'gw2-tooltip-html';
 import { Breadcrumb, BreadcrumbItem } from '@/components/Breadcrumb/Breadcrumb';
 import { getTranslate } from '@/lib/translate';
-import type { Metadata } from 'next';
 import { parseIcon } from '@/lib/parseIcon';
 import { getIconUrl } from '@/lib/getIconUrl';
-import { getAlternateUrls } from '@/lib/url';
+import { createMetadata } from '@/lib/metadata';
+import { localizedName } from '@/lib/localizedName';
 
 const getCurrency = cache(async (id: number) => {
   if(isNaN(id)) {
@@ -123,7 +122,7 @@ export default async function CurrencyPage({ params }: CurrencyPageProps) {
   );
 }
 
-export async function generateMetadata({ params }: CurrencyPageProps): Promise<Metadata> {
+export const generateMetadata = createMetadata<CurrencyPageProps>(async ({ params }) => {
   const { language, id } = await params;
   const currencyId = Number(id);
   const [currency, { data }] = await Promise.all([
@@ -140,10 +139,7 @@ export async function generateMetadata({ params }: CurrencyPageProps): Promise<M
   return {
     title: localizedName(currency, language),
     description: strip(data?.description) || undefined,
-    openGraph: {
-      images: icon ? [{ url: getIconUrl(icon, 64), width: 64, height: 64, type: 'image/png' }] : []
-    },
-    twitter: { card: 'summary' },
-    alternates: getAlternateUrls(`/item/${id}`, language)
+    url: `/currency/${currencyId}`,
+    image: icon ? { src: getIconUrl(icon, 64), width: 64, height: 64 } : undefined
   };
-}
+});

@@ -4,6 +4,7 @@ import { HeroLayout } from '@/components/Layout/HeroLayout';
 import { db } from '@/lib/prisma';
 import Link from 'next/link';
 import styles from './page.module.css';
+import { createMetadata } from '@/lib/metadata';
 
 function getStatus() {
   const last30Minutes = new Date();
@@ -54,6 +55,6 @@ export default async function StatusPage() {
   );
 }
 
-export const metadata = {
+export const generateMetadata = createMetadata({
   title: 'Status'
-};
+});

@@ -8,7 +8,6 @@ import { Description } from '@/components/Layout/Description';
 import { ResetTimer } from '@/components/Reset/ResetTimer';
 import { cache } from '@/lib/cache';
 import { linkPropertiesWithoutRarity } from '@/lib/linkProperties';
-import type { PageProps } from '@/lib/next';
 import { parseIcon } from '@/lib/parseIcon';
 import { db } from '@/lib/prisma';
 import { getTranslate } from '@/lib/translate';
@@ -18,9 +17,9 @@ import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
-import type { Metadata } from 'next';
 import { RaidClearCell, requiredScopes } from './page.client';
 import { pageView } from '@/lib/pageView';
+import { createMetadata } from '@/lib/metadata';
 
 function getEmboldenedIndex() {
   const offsetStart = new Date(Date.UTC(2025, 1, 17, 8, 30));
@@ -113,7 +112,7 @@ export default async function RaidsPage() {
   );
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export const generateMetadata = createMetadata(async ({ params }) => {
   const { language } = await params;
   const t = getTranslate(language);
 
@@ -122,4 +121,4 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     description: t('raids.description'),
     keywords: ['raid', 'wing', 'instance', 'PvE', 'group', 'squad', 'weekly', 'emboldened', 'call of the mists', 'clear', 'completion'],
   };
-}
+});

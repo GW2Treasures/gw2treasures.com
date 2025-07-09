@@ -19,6 +19,7 @@ import { OutputCountRange } from '@/components/Item/OutputCountRange';
 import { OutputCount } from '@/components/Item/OutputCount';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
 import type { PageProps } from '@/lib/next';
+import { createMetadata } from '@/lib/metadata';
 
 const getReview = async function getReview(id: string) {
   const review = await db.review.findUnique({
@@ -43,9 +44,9 @@ const getReview = async function getReview(id: string) {
   return { review, item: review.relatedItem };
 };
 
-type ReviewContainerContentPageProps = PageProps<{ id: string }>;
+type ReviewMysticForgePageProps = PageProps<{ id: string }>;
 
-export default async function ReviewMysticForgePage({ params }: ReviewContainerContentPageProps) {
+export default async function ReviewMysticForgePage({ params }: ReviewMysticForgePageProps) {
   const { id } = await params;
   const { item, review } = await getReview(id);
   const { recipeId, outputCountMin, outputCountMax, ingredients } = review.changes as unknown as SubmitEditMysticForgeOrder;
@@ -125,11 +126,11 @@ export default async function ReviewMysticForgePage({ params }: ReviewContainerC
 }
 
 
-export async function generateMetadata({ params }: ReviewContainerContentPageProps) {
+export const generateMetadata = createMetadata<ReviewMysticForgePageProps>(async ({ params }) => {
   const { language, id } = await params;
   const { item } = await getReview(id);
 
   return {
     title: `Review Mystic Forge Recipe: ${localizedName(item, language)}`
   };
-}
+});

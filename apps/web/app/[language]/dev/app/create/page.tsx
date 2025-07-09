@@ -14,6 +14,7 @@ import { getLoginUrlWithReturnTo } from '@/lib/login-url';
 import { cache } from 'react';
 import { reauthorize } from '@/components/Gw2Api/reauthorize';
 import { Scope } from '@gw2me/client';
+import { createMetadata } from '@/lib/metadata';
 
 async function createApplication(_: FormState, data: FormData): Promise<FormState> {
   'use server';
@@ -86,6 +87,6 @@ export default async function DevAppCreatePage() {
   );
 }
 
-export const metadata = {
+export const generateMetadata = createMetadata({
   title: 'Create Application'
-};
+});

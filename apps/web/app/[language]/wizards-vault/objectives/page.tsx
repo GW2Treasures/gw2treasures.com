@@ -5,6 +5,7 @@ import { ColumnSelect } from '@/components/Table/ColumnSelect';
 import { Waypoint } from '@/components/Waypoint/Waypoint';
 import { cache } from '@/lib/cache';
 import { compareLocalizedName, localizedName } from '@/lib/localizedName';
+import { createMetadata } from '@/lib/metadata';
 import type { PageProps } from '@/lib/next';
 import { db } from '@/lib/prisma';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
@@ -38,6 +39,6 @@ export default async function WizardsVaultObjectivesPage({ params }: PageProps) 
   );
 }
 
-export const metadata = {
-  title: 'Wizard\'s Vault',
-};
+export const generateMetadata = createMetadata({
+  title: 'Objectives'
+});

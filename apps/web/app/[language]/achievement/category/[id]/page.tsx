@@ -9,13 +9,13 @@ import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 import { notFound } from 'next/navigation';
 import { Icon } from '@gw2treasures/ui';
 import { RemovedFromApiNotice } from '@/components/Notice/RemovedFromApiNotice';
-import type { Metadata } from 'next';
 import { linkProperties } from '@/lib/linkProperties';
 import { cache } from '@/lib/cache';
 import { AchievementTable } from '@/components/Achievement/AchievementTable';
 import { Breadcrumb, BreadcrumbItem } from '@/components/Breadcrumb/Breadcrumb';
 import { getTranslate } from '@/lib/translate';
 import type { PageProps } from '@/lib/next';
+import { createMetadata } from '@/lib/metadata';
 
 export type AchievementCategoryPageProps = PageProps<{ id: string }>;
 
@@ -105,7 +105,7 @@ async function AchievementCategoryPage({ params }: AchievementCategoryPageProps)
 
 export default AchievementCategoryPage;
 
-export async function generateMetadata({ params }: AchievementCategoryPageProps): Promise<Metadata> {
+export const generateMetadata = createMetadata<AchievementCategoryPageProps>(async ({ params }) => {
   const { language, id: idParam } = await params;
   const id = Number(idParam);
 
@@ -121,5 +121,4 @@ export async function generateMetadata({ params }: AchievementCategoryPageProps)
   return {
     title: localizedName(achievementCategory, language)
   };
-}
-
+});

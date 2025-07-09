@@ -7,7 +7,6 @@ import { ItemTableContext } from '@/components/ItemTable/ItemTableContext';
 import { PageLayout } from '@/components/Layout/PageLayout';
 import { pageView } from '@/lib/pageView';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
-import type { Metadata } from 'next';
 import { requiredScopes } from '../helper';
 import { db } from '@/lib/prisma';
 import { linkProperties } from '@/lib/linkProperties';
@@ -27,8 +26,9 @@ import { FormatNumber } from '@/components/Format/FormatNumber';
 import { Festival, getFestival } from '../../festivals';
 import { StructuredData } from '@/components/StructuredData/StructuredData';
 import ogImage from '../og.png';
-import { absoluteUrl, getAlternateUrls } from '@/lib/url';
+import { absoluteUrl } from '@/lib/url';
 import type { Event } from 'schema-dts';
+import { createMetadata } from '@/lib/metadata';
 
 const ITEM_SNOWFLAKE_ID = 86601;
 const ITEM_SNOW_DIAMOND_ID = 86627;
@@ -128,7 +128,7 @@ export default async function WintersdayPage({ params }: PageProps) {
   );
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export const generateMetadata = createMetadata(async ({ params }) => {
   const { language } = await params;
   const t = getTranslate(language);
 
@@ -136,6 +136,5 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: {
       absolute: `${t('festival.wintersday')} · gw2treasures.com`
     },
-    alternates: getAlternateUrls('festival/wintersday', language),
   };
-}
+});

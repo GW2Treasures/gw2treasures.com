@@ -12,6 +12,7 @@ import { pageView } from '@/lib/pageView';
 import { cache } from '@/lib/cache';
 import { ResetTimer } from '@/components/Reset/ResetTimer';
 import type { PageProps } from '@/lib/next';
+import { createMetadata } from '@/lib/metadata';
 
 const getAchievementGroups = cache(async (language: string) => {
   const groups = await db.achievementGroup.findMany({
@@ -84,6 +85,6 @@ export default async function AchievementPage({ params }: PageProps) {
   );
 }
 
-export const metadata = {
+export const generateMetadata = createMetadata({
   title: 'Achievements'
-};
+});

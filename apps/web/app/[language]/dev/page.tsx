@@ -5,6 +5,7 @@ import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import Link from 'next/link';
 import { db } from '@/lib/prisma';
 import { List } from '@gw2treasures/ui/components/Layout/List';
+import { createMetadata } from '@/lib/metadata';
 
 async function getApplications() {
   const user = await getUser();
@@ -53,6 +54,6 @@ export default async function DeveloperPage() {
   );
 }
 
-export const metadata = {
+export const generateMetadata = createMetadata({
   title: 'Developer Resources'
-};
+});

@@ -3,6 +3,7 @@ import type { Language } from '@gw2treasures/database';
 import { BuildTable } from './BuildTable';
 import { cache } from '@/lib/cache';
 import type { PageProps } from '@/lib/next';
+import { createMetadata } from '@/lib/metadata';
 
 const getBuilds = cache(async (language: Language) => {
   const builds = await db.build.findMany({
@@ -33,6 +34,6 @@ export default async function BuildPage({ params }: PageProps) {
   );
 }
 
-export const metadata = {
+export const generateMetadata = createMetadata({
   title: 'Builds'
-};
+});

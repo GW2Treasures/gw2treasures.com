@@ -8,10 +8,8 @@ import { groupById } from '@gw2treasures/helper/group-by';
 import { cache } from '@/lib/cache';
 import { globalColumnRenderer as itemTableColumn } from '@/components/ItemTable/columns';
 import { PageView } from '@/components/PageView/PageView';
-import { translate } from '@/lib/translate';
+import { getTranslate } from '@/lib/translate';
 import type { PageProps } from '@/lib/next';
-import type { Metadata } from 'next';
-import { getAlternateUrls, getCurrentUrl } from '@/lib/url';
 import { Gw2Accounts } from '@/components/Gw2Api/Gw2Accounts';
 import { Scope } from '@gw2me/client';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
@@ -26,6 +24,7 @@ import { ItemList } from '@/components/ItemList/ItemList';
 import { localizedName } from '@/lib/localizedName';
 import styles from './page.module.css';
 import ogImage from './garden-plots-og.png';
+import { createMetadata } from '@/lib/metadata';
 
 type Plot = {
   nodeId: string;
@@ -222,17 +221,15 @@ export default async function HomesteadGardenPlotPage({ params }: PageProps) {
   );
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export const generateMetadata = createMetadata(async ({ params }) => {
   const { language } = await params;
+  const t = getTranslate(language);
 
   return {
-    title: translate('homestead.garden-plots', language),
-    description: translate('homestead.garden-plots.description', language),
-    alternates: getAlternateUrls('/homestead/garden-plots', language),
+    title: t('homestead.garden-plots'),
+    description: t('homestead.garden-plots.description'),
+    url: '/homestead/garden-plots',
     keywords: ['homestead', 'garden plot', 'garden', 'seed', 'crop', 'plant', 'herb', 'black lion', 'gourmet', 'chef', 'trading post', 'profit'],
-    openGraph: {
-      images: [{ url: new URL(ogImage.src, await getCurrentUrl()), width: ogImage.width, height: ogImage.height }],
-    },
-    twitter: { card: 'summary_large_image' }
+    image: ogImage,
   };
-}
+});

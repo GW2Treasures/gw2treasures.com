@@ -20,6 +20,7 @@ import { Separator } from '@gw2treasures/ui/components/Layout/Separator';
 import { localizedName } from '@/lib/localizedName';
 import { getLoginUrlWithReturnTo } from '@/lib/login-url';
 import type { PageProps } from '@/lib/next';
+import { createMetadata } from '@/lib/metadata';
 
 const getReview = async function getReview(id: string) {
   const review = await db.review.findUnique({
@@ -176,11 +177,11 @@ export default async function ReviewContainerContentPage({ params, searchParams 
 }
 
 
-export async function generateMetadata({ params }: ReviewContainerContentPageProps) {
+export const generateMetadata = createMetadata<ReviewContainerContentPageProps>(async ({ params }) => {
   const { language, id } = await params;
   const { item } = await getReview(id);
 
   return {
     title: `Review Container Content: ${localizedName(item, language)}`
   };
-}
+});

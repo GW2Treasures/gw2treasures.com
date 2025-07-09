@@ -1,10 +1,10 @@
 import { Trans } from '@/components/I18n/Trans';
 import { HeroLayout } from '@/components/Layout/HeroLayout';
 import { NavBar } from '@/components/Layout/NavBar';
+import { createMetadata } from '@/lib/metadata';
 import type { LayoutProps } from '@/lib/next';
 import { translate } from '@/lib/translate';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
-import type { Metadata } from 'next';
 
 export default function WardrobeLayout({ children }: LayoutProps) {
   return (
@@ -35,7 +35,7 @@ export default function WardrobeLayout({ children }: LayoutProps) {
   );
 }
 
-export async function generateMetadata({ params }: LayoutProps): Promise<Metadata> {
+export const generateMetadata = createMetadata(async ({ params }) => {
   const { language } = await params;
 
   return {
@@ -44,4 +44,4 @@ export async function generateMetadata({ params }: LayoutProps): Promise<Metadat
       default: ''
     }
   };
-}
+});

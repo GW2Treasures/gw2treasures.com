@@ -1,4 +1,5 @@
 import { HeroLayout } from '@/components/Layout/HeroLayout';
+import { createMetadata } from '@/lib/metadata';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { List } from '@gw2treasures/ui/components/Layout/List';
 
@@ -86,7 +87,7 @@ export default function PrivacyPage() {
   );
 }
 
-export const metadata = {
+export const generateMetadata = createMetadata({
   title: 'Privacy Policy',
   description: 'Last updated January 2, 2024',
-};
+});

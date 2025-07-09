@@ -1,8 +1,9 @@
 import { SkillPageComponent } from '../component';
-import type { Metadata } from 'next';
 import { getRevision } from '../getSkill';
 import { notFound } from 'next/navigation';
 import type { PageProps } from '@/lib/next';
+import { createMetadata } from '@/lib/metadata';
+import { encode } from 'gw2e-chat-codes';
 
 type SkillRevisionPageProps = PageProps<{ id: string, revisionId: string }>;
 
@@ -13,7 +14,7 @@ export default async function SkillPage({ params }: SkillRevisionPageProps) {
   return <SkillPageComponent language={language} skillId={skillId} revisionId={revisionId}/>;
 }
 
-export async function generateMetadata({ params }: SkillRevisionPageProps): Promise<Metadata> {
+export const generateMetadata = createMetadata<SkillRevisionPageProps>(async ({ params }) => {
   const { language, id, revisionId } = await params;
   const skillId = Number(id);
   const { data } = await getRevision(skillId, language, revisionId);
@@ -23,7 +24,7 @@ export async function generateMetadata({ params }: SkillRevisionPageProps): Prom
   }
 
   return {
-    title: `${data.name || id} @ ${revisionId}`,
+    title: `${data.name || encode('skill', skillId) || id} @ ${revisionId}`,
     robots: { index: false }
   };
-}
+});

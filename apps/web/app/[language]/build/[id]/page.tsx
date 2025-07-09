@@ -11,10 +11,10 @@ import { notFound } from 'next/navigation';
 import { type FC, Suspense } from 'react';
 import { SkeletonLink } from '@/components/Link/SkeletonLink';
 import { linkProperties } from '@/lib/linkProperties';
-import type { Metadata } from 'next';
 import { pageView } from '@/lib/pageView';
 import { cache } from '@/lib/cache';
 import type { PageProps } from '@/lib/next';
+import { createMetadata } from '@/lib/metadata';
 
 type BuildPageProps = PageProps<{ id: string }>;
 
@@ -150,10 +150,10 @@ const UpdatedSkills: FC<{ skillsPromise: ReturnType<typeof getUpdatedSkills> }> 
 
 export default BuildDetail;
 
-export async function generateMetadata({ params }: BuildPageProps): Promise<Metadata> {
+export const generateMetadata = createMetadata<BuildPageProps>(async ({ params }) => {
   const { id } = await params;
 
   return {
     title: `Build ${id}`,
   };
-}
+});

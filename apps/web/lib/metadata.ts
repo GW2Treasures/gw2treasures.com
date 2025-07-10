@@ -15,8 +15,8 @@ export function createMetadata<Props extends PageProps | LayoutProps>(getMeta: (
 
     const parentMeta = await parent;
 
-    const title = resolveTitle(meta.title, parentMeta.title)
-      .replace(' · gw2treasures.com', '');
+    const title = meta.ogTitle ??
+      resolveTitle(meta.title, parentMeta.title).replace(' · gw2treasures.com', '');
 
     const image = resolveImage(meta.image, url);
 
@@ -33,11 +33,13 @@ export function createMetadata<Props extends PageProps | LayoutProps>(getMeta: (
         images: image ?? parentMeta.openGraph?.images,
         url: alternates.canonical,
         title,
+        description: meta.description ?? parentMeta.description ?? undefined
       },
       twitter: {
         ...parentMeta.twitter as Twitter,
         card: (image?.width && image.width > 128) ? 'summary_large_image' : parentMeta.twitter?.card as 'summary_large_image',
         title,
+        description: meta.description ?? parentMeta.description ?? undefined
       },
     };
   };
@@ -45,6 +47,7 @@ export function createMetadata<Props extends PageProps | LayoutProps>(getMeta: (
 
 type Meta = {
   title: string | TemplateString,
+  ogTitle?: string,
   description?: string,
   keywords?: string[],
   url?: string,

@@ -146,6 +146,7 @@ export default HomePage;
 
 export const generateMetadata = createMetadata({
   title: 'Home',
+  ogTitle: 'gw2treasures.com',
   image: ogImage
 });
 

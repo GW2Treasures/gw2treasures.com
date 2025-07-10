@@ -12,20 +12,23 @@ import { Gw2AccountBodyCells, Gw2AccountHeaderCells } from '../Gw2Api/Gw2Account
 import { FormatNumber } from '../Format/FormatNumber';
 import type { AchievementProgressSnapshot } from './share/types';
 import common from '@gw2treasures/ui/common.module.css';
-import type { AchievementFlags } from '@gw2api/types/data/achievement';
+import type { AchievementFlags, AchievementTier } from '@gw2api/types/data/achievement';
 import { getResetDate, type Reset } from '../Reset/ResetTimer';
+import { AchievementProgressType, useAchievementProgressType } from './AchievementProgressTypeContext';
+import { AchievementPoints } from './AchievementPoints';
+import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 
 const requiredScopes = [Scope.GW2_Progression];
 
 export interface RowProps {
-  achievement: Pick<Achievement, 'id' | 'flags' | 'prerequisitesIds'>;
+  achievement: Pick<Achievement, 'id' | 'flags' | 'prerequisitesIds' | 'points' | 'pointCap' | 'tiers'>;
   bitId?: number;
 }
 export interface AccountAchievementProgressCellProps extends RowProps {
   accountId: string;
 }
 
-export const AccountAchievementProgressHeader: FC = () => <Gw2AccountHeaderCells requiredScopes={requiredScopes} small/>;
+export const AccountAchievementProgressHeader: FC = () => <Gw2AccountHeaderCells requiredScopes={requiredScopes} small align="right"/>;
 
 export const AccountAchievementProgressRow: FC<RowProps> = ({ achievement, bitId }) => (
   <Gw2AccountBodyCells requiredScopes={requiredScopes}>
@@ -34,6 +37,7 @@ export const AccountAchievementProgressRow: FC<RowProps> = ({ achievement, bitId
 );
 
 export const AccountAchievementProgressCell: FC<AccountAchievementProgressCellProps> = ({ achievement, accountId, bitId }) => {
+  const progressType = useAchievementProgressType();
   const achievements = useSubscription('achievements', accountId);
   const lastModified = useAccountModificationDate(accountId);
 
@@ -81,6 +85,37 @@ export const AccountAchievementProgressCell: FC<AccountAchievementProgressCellPr
     return progress.done || progress.bits?.includes(bitId)
       ? <ProgressCell progress={1}><Icon icon="checkmark"/></ProgressCell>
       : <td/>;
+  }
+
+  if(progressType === AchievementProgressType.Points) {
+    const repeated = progress?.repeated ?? 0;
+
+    const currentPoints = (achievement.tiers as AchievementTier[])
+      .reduce((total, tier) => (progress?.current ?? 0) >= tier.count ? total + tier.points : total, 0);
+    const earnedPoints = Math.min(achievement.pointCap, currentPoints + (repeated * achievement.points));
+
+    if(earnedPoints === 0) {
+      return <td/>;
+    }
+
+    if(earnedPoints === achievement.pointCap) {
+      return (
+        <ProgressCell progress={1} align="right">
+          <FlexRow align="space-between">
+            <Icon icon="checkmark"/>
+            <AchievementPoints points={achievement.pointCap}/>
+          </FlexRow>
+        </ProgressCell>
+      );
+    }
+
+    return (
+      <ProgressCell progress={earnedPoints / achievement.pointCap} align="right">
+        <span className={common.nowrap}>
+          <FormatNumber value={earnedPoints}/> / <AchievementPoints points={achievement.pointCap}/>
+        </span>
+      </ProgressCell>
+    );
   }
 
   return (

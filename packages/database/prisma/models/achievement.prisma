@@ -8,6 +8,8 @@ model Achievement {
 
   historic Boolean        @default(true)
   points   Int            @default(0)
+  pointCap Int            @default(0)
+  tiers    Json[]
   mastery  MasteryRegion?
 
   flags String[]

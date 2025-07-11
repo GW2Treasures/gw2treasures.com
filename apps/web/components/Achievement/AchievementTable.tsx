@@ -20,7 +20,7 @@ import { MenuList } from '@gw2treasures/ui/components/Layout/MenuList';
 import { Mastery } from './Mastery';
 import { AchievementProgressToggle } from './AchievementProgressTypeContext';
 import { AchievementPoints } from './AchievementPoints';
-import { CookieNotification } from '../User/CookieNotification';
+import { UserGate } from '../User/gate';
 
 export interface AchievementTableProps {
   language: Language;
@@ -118,12 +118,13 @@ export const AchievementTable: FC<AchievementTableProps> = ({ language, achievem
   );
 
   const settings = (
-    <DropDown key="settings" button={<Button icon="settings">Settings</Button>}>
-      <MenuList>
-        <CookieNotification/>
-        <AchievementProgressToggle key="progressType"/>
-      </MenuList>
-    </DropDown>
+    <UserGate>
+      <DropDown key="settings" button={<Button icon="settings">Settings</Button>}>
+        <MenuList>
+          <AchievementProgressToggle key="progressType"/>
+        </MenuList>
+      </DropDown>
+    </UserGate>
   );
 
   const actions = [

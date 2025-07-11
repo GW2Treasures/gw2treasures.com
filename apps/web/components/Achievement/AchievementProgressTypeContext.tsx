@@ -24,8 +24,6 @@ export {
 export const AchievementProgressToggle: FC = () => {
   const [type, setType] = use(context);
 
-  // TODO: only render if user is logged in? need a localStorage warning otherwise
-
   return (
     <>
       <Radiobutton checked={type === AchievementProgressType.Objectives} onChange={() => setType(AchievementProgressType.Objectives)}>

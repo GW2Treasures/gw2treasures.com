@@ -8,7 +8,7 @@ import { toId } from '../helper/toId';
 import { AchievementReward } from '@gw2api/types/data/achievement';
 import { loadLocalizedEntities } from '../helper/load-entities';
 
-const CURRENT_VERSION = 8;
+const CURRENT_VERSION = 9;
 // Migration history
 // 1: added points
 // 2: added mastery
@@ -18,6 +18,7 @@ const CURRENT_VERSION = 8;
 // 6: added title rewards
 // 7: added flags
 // 8: added mini bits
+// 9: added pointCap and tiers
 
 export const AchievementsJob: Job = {
   async run(data: ProcessEntitiesData<number> | Record<string, never>) {
@@ -46,15 +47,16 @@ export const AchievementsJob: Job = {
         const id = achievements.en.id;
         const iconId = await createIcon(achievements.en.icon);
 
-        // calculate points
-        const points = achievements.en.tiers.reduce((total, tier) => total + tier.points, 0);
-
         // get mastery
         const isMastery = (reward: AchievementReward): reward is AchievementReward.Mastery => reward.type === 'Mastery';
         const mastery = achievements.en.rewards?.find(isMastery)?.region;
 
         // get achievement flags
         const flags = achievements.en.flags;
+
+        // calculate points
+        const points = achievements.en.tiers.reduce((total, tier) => total + tier.points, 0);
+        const pointCap = flags.includes('Repeatable') ? achievements.en.point_cap ?? 0 : points;
 
         // list of ids this is a prerequisite for
         const prerequisitesIds = achievements.en.prerequisites ?? [];
@@ -124,6 +126,8 @@ export const AchievementsJob: Job = {
           iconId,
 
           points,
+          pointCap,
+          tiers: achievements.en.tiers,
           mastery,
           flags,
 

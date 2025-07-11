@@ -1,6 +1,6 @@
 'use client';
 
-import { AccountAchievementProgressCell, type AccountAchievementProgressCellProps } from '@/components/Achievement/AccountAchievementProgress';
+import { AccountAchievementProgressCell } from '@/components/Achievement/AccountAchievementProgress';
 import type { FC } from 'react';
 import type { RelicSet } from '../helper';
 import { ProgressCell } from '@/components/Achievement/ProgressCell';
@@ -8,10 +8,14 @@ import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 import { Icon } from '@gw2treasures/ui';
 import { useSubscription } from '@/components/Gw2Api/use-gw2-subscription';
 import { Skeleton } from '@/components/Skeleton/Skeleton';
+import type { Achievement } from '@gw2treasures/database';
 
-export interface RelicUnlockCellProps extends AccountAchievementProgressCellProps {
+export type RelicUnlockCellProps = {
   set: RelicSet | undefined
-}
+  achievement: Pick<Achievement, 'id' | 'flags' | 'prerequisitesIds'>,
+  bitId: number,
+  accountId: string,
+};
 
 export const RelicUnlockCell: FC<RelicUnlockCellProps> = ({ set, accountId, ...props }) => {
   const account = useSubscription('account', accountId);

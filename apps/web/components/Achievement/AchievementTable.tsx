@@ -4,7 +4,6 @@ import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
 import type { FC, ReactNode } from 'react';
 import { ColumnSelect } from '../Table/ColumnSelect';
 import { AchievementLink } from './AchievementLink';
-import { AchievementPoints } from './AchievementPoints';
 import { AccountAchievementProgressHeader, AccountAchievementProgressRow } from './AccountAchievementProgress';
 import { ItemList } from '../ItemList/ItemList';
 import { ItemLink } from '../Item/ItemLink';
@@ -19,6 +18,9 @@ import { DropDown } from '@gw2treasures/ui/components/DropDown/DropDown';
 import { Button, LinkButton } from '@gw2treasures/ui/components/Form/Button';
 import { MenuList } from '@gw2treasures/ui/components/Layout/MenuList';
 import { Mastery } from './Mastery';
+import { AchievementProgressToggle } from './AchievementProgressTypeContext';
+import { AchievementPoints } from './AchievementPoints';
+import { UserGate } from '../User/gate';
 
 export interface AchievementTableProps {
   language: Language;
@@ -115,15 +117,28 @@ export const AchievementTable: FC<AchievementTableProps> = ({ language, achievem
     </Achievements.Table>
   );
 
-  const columnSelect = (<ColumnSelect table={Achievements}/>);
+  const settings = (
+    <UserGate>
+      <DropDown key="settings" button={<Button icon="settings">Settings</Button>}>
+        <MenuList>
+          <AchievementProgressToggle key="progressType"/>
+        </MenuList>
+      </DropDown>
+    </UserGate>
+  );
+
+  const actions = [
+    settings,
+    <ColumnSelect key="columns" table={Achievements}/>,
+  ];
 
   if(children) {
-    return children(table, columnSelect);
+    return children(table, actions);
   }
 
   return (
     <>
-      {headline && headlineId && (<Headline id={headlineId} actions={columnSelect}>{headline}</Headline>)}
+      {headline && headlineId && (<Headline id={headlineId} actions={actions}>{headline}</Headline>)}
       {table}
     </>
   );

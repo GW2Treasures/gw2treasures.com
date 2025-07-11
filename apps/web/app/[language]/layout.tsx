@@ -18,6 +18,7 @@ import type { LayoutProps } from '@/lib/next';
 import type { Viewport } from 'next';
 import { Gw2MeProvider } from '@/components/gw2me/gw2me-context';
 import { client_id } from '@/lib/gw2me';
+import { AchievementProgressTypeProvider } from '@/components/Achievement/AchievementProgressTypeContext';
 
 const bitter = Bitter({
   subsets: ['latin'],
@@ -50,8 +51,10 @@ export default async function RootLayout({ children, modal, params }: LayoutProp
                 <UserProvider>
                   <Gw2MeProvider clientId={client_id} baseUrl={process.env.GW2ME_URL}>
                     <Gw2ApiProvider>
-                      <Layout language={language}>{children}</Layout>
-                      {modal}
+                      <AchievementProgressTypeProvider>
+                        <Layout language={language}>{children}</Layout>
+                        {modal}
+                      </AchievementProgressTypeProvider>
                     </Gw2ApiProvider>
                   </Gw2MeProvider>
                 </UserProvider>

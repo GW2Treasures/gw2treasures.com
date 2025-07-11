@@ -124,7 +124,7 @@ export default async function FractalsPage({ params, searchParams }: PageProps) 
             {(fractal) => (
               <Gw2AccountBodyCells requiredScopes={requiredScopes}>
                 {(fractal.isDaily || fractal.isRecommended) ? (
-                  <AccountAchievementProgressCell accountId={null as never} achievement={achievements.get(fractal.recommended_achievement_id ?? fractal.daily_achievement_id)!}/>
+                  <AccountAchievementProgressCell accountId={null as never} type="objective" achievement={achievements.get(fractal.recommended_achievement_id ?? fractal.daily_achievement_id)!}/>
                 ) : (
                   <td>
                     <Tip tip={<Trans id="fractals.completion.unavailable"/>}>

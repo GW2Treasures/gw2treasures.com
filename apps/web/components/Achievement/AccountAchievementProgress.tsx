@@ -20,23 +20,26 @@ import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 
 const requiredScopes = [Scope.GW2_Progression];
 
-export interface RowProps {
-  achievement: Pick<Achievement, 'id' | 'flags' | 'prerequisitesIds' | 'points' | 'pointCap' | 'tiers'>;
-  bitId?: number;
-}
-export interface AccountAchievementProgressCellProps extends RowProps {
+// if bitId or type=objectives is set, we don't need points/pointCap/tiers
+export type RowProps = (
+  ({ bitId: number, type?: undefined } | { bitId?: undefined, type: 'objective' }) & { achievement: Pick<Achievement, 'id' | 'flags' | 'prerequisitesIds'> }
+) | (
+  { bitId?: undefined, type?: undefined, achievement: Pick<Achievement, 'id' | 'flags' | 'prerequisitesIds' | 'points' | 'pointCap' | 'tiers'> }
+);
+
+export type AccountAchievementProgressCellProps = RowProps & {
   accountId: string;
-}
+};
 
 export const AccountAchievementProgressHeader: FC = () => <Gw2AccountHeaderCells requiredScopes={requiredScopes} small align="right"/>;
 
-export const AccountAchievementProgressRow: FC<RowProps> = ({ achievement, bitId }) => (
+export const AccountAchievementProgressRow: FC<RowProps> = (props) => (
   <Gw2AccountBodyCells requiredScopes={requiredScopes}>
-    <AccountAchievementProgressCell achievement={achievement} bitId={bitId} accountId={undefined as never}/>
+    <AccountAchievementProgressCell {...props} accountId={undefined as never}/>
   </Gw2AccountBodyCells>
 );
 
-export const AccountAchievementProgressCell: FC<AccountAchievementProgressCellProps> = ({ achievement, accountId, bitId }) => {
+export const AccountAchievementProgressCell: FC<AccountAchievementProgressCellProps> = ({ accountId, ...props }) => {
   const progressType = useAchievementProgressType();
   const achievements = useSubscription('achievements', accountId);
   const lastModified = useAccountModificationDate(accountId);
@@ -48,7 +51,7 @@ export const AccountAchievementProgressCell: FC<AccountAchievementProgressCellPr
   }
 
   // get the reset when this achievement has last reset its progress
-  const reset = getResetFromFlags(achievement.flags as AchievementFlags[]);
+  const reset = getResetFromFlags(props.achievement.flags as AchievementFlags[]);
 
   // the progress for this achievement is stale if it has a reset date before the last modified date
   const isStale = reset !== undefined && lastModified.date < getResetDate(reset);
@@ -58,15 +61,15 @@ export const AccountAchievementProgressCell: FC<AccountAchievementProgressCellPr
     return <td/>;
   }
 
-  const progress = achievements.data.find(({ id }) => id === achievement.id);
+  const progress = achievements.data.find(({ id }) => id === props.achievement.id);
 
-  const requiresPrerequisites = achievement.prerequisitesIds.length > 0;
+  const requiresPrerequisites = props.achievement.prerequisitesIds.length > 0;
   const hasPrerequisites = !achievements.loading && !achievements.error &&
-    achievement.prerequisitesIds
+    props.achievement.prerequisitesIds
       .map((prerequisitesId) => achievements.data.find(({ id }) => prerequisitesId === id))
       .every((prerequisite) => prerequisite?.done);
 
-  const requiresUnlock = achievement.flags.includes('RequiresUnlock');
+  const requiresUnlock = props.achievement.flags.includes('RequiresUnlock');
   const hasUnlock = progress?.unlocked;
 
   if(requiresPrerequisites && !hasPrerequisites) {
@@ -81,38 +84,38 @@ export const AccountAchievementProgressCell: FC<AccountAchievementProgressCellPr
     return (<td/>);
   }
 
-  if(bitId !== undefined) {
-    return progress.done || progress.bits?.includes(bitId)
+  if(props.bitId !== undefined) {
+    return progress.done || progress.bits?.includes(props.bitId)
       ? <ProgressCell progress={1}><Icon icon="checkmark"/></ProgressCell>
       : <td/>;
   }
 
-  if(progressType === AchievementProgressType.Points) {
+  if(props.type !== 'objective' && progressType === AchievementProgressType.Points) {
     const repeated = progress?.repeated ?? 0;
 
-    const currentPoints = (achievement.tiers as AchievementTier[])
+    const currentPoints = (props.achievement.tiers as AchievementTier[])
       .reduce((total, tier) => (progress?.current ?? 0) >= tier.count ? total + tier.points : total, 0);
-    const earnedPoints = Math.min(achievement.pointCap, currentPoints + (repeated * achievement.points));
+    const earnedPoints = Math.min(props.achievement.pointCap, currentPoints + (repeated * props.achievement.points));
 
     if(earnedPoints === 0) {
       return <td/>;
     }
 
-    if(earnedPoints === achievement.pointCap) {
+    if(earnedPoints === props.achievement.pointCap) {
       return (
         <ProgressCell progress={1} align="right">
           <FlexRow align="space-between">
             <Icon icon="checkmark"/>
-            <AchievementPoints points={achievement.pointCap}/>
+            <AchievementPoints points={props.achievement.pointCap}/>
           </FlexRow>
         </ProgressCell>
       );
     }
 
     return (
-      <ProgressCell progress={earnedPoints / achievement.pointCap} align="right">
+      <ProgressCell progress={earnedPoints / props.achievement.pointCap} align="right">
         <span className={common.nowrap}>
-          <FormatNumber value={earnedPoints}/> / <AchievementPoints points={achievement.pointCap}/>
+          <FormatNumber value={earnedPoints}/> / <AchievementPoints points={props.achievement.pointCap}/>
         </span>
       </ProgressCell>
     );
@@ -138,17 +141,17 @@ function getResetFromFlags(flags: AchievementFlags[]): Reset | undefined {
   return undefined;
 }
 
-interface SnapshotRowProps extends RowProps {
+type SnapshotRowProps = RowProps & {
   snapshots: AchievementProgressSnapshot[];
-}
+};
 
-export const AccountAchievementProgressSnapshotRow: FC<SnapshotRowProps> = ({ snapshots, achievement, bitId }) => snapshots.map((snapshot) => (
-  <AccountAchievementProgressSnapshotCell key={snapshot[0]} achievement={achievement} bitId={bitId} snapshot={snapshot}/>
+export const AccountAchievementProgressSnapshotRow: FC<SnapshotRowProps> = ({ snapshots, ...props }) => snapshots.map((snapshot) => (
+  <AccountAchievementProgressSnapshotCell key={snapshot[0]} {...props} snapshot={snapshot}/>
 ));
 
-interface SnapshotCellProps extends RowProps {
+type SnapshotCellProps = RowProps & {
   snapshot: AchievementProgressSnapshot;
-}
+};
 
 export const AccountAchievementProgressSnapshotCell: FC<SnapshotCellProps> = ({ snapshot, achievement, bitId }) => {
   const [, data] = snapshot;

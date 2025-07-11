@@ -105,7 +105,7 @@ const AccountRow: FC<AccountRow> = ({ account, columns }) => {
       ) : column.type === 'currency' ? (
         <AccountCurrencyCell key={`${column.type}-${column.id}`} account={account} id={column.id}/>
       ) : column.type === 'achievement' ? (
-        <AccountAchievementProgressCell key={`${column.type}-${column.id}`} accountId={account.id} achievement={column.achievement!}/>
+        <AccountAchievementProgressCell type="objective" key={`${column.type}-${column.id}`} accountId={account.id} achievement={column.achievement!}/>
       ) : <td/>)}
     </tr>
   );

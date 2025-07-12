@@ -8,6 +8,6 @@
     "e2e": "playwright test"
   },
   "devDependencies": {
-    "@playwright/test": "1.54.0"
+    "@playwright/test": "1.54.1"
   }
 }

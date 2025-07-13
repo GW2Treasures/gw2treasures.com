@@ -24,6 +24,7 @@ import { getHistoryState, updateHistoryState } from './history-state';
 import type { TranslationId, TranslationSubset } from '@/lib/translate';
 import { FormatNumber } from '../Format/FormatNumber';
 import { useLanguage } from '../I18n/Context';
+import scrollIntoView from 'scroll-into-view-if-needed';
 
 const LOADING = false;
 type LOADING = typeof LOADING;
@@ -102,6 +103,18 @@ export const ItemTable = <ExtraColumnId extends string = never, Model extends Qu
   useEffect(() => updateHistoryState(id, { page }), [id, page]);
   useEffect(() => updateHistoryState(id, { orderBy }), [id, orderBy]);
 
+  // ensure the top of the table is visible inside the viewport when changing page
+  const topRef = useRef<HTMLTableElement>(null);
+  useEffect(() => {
+    if(topRef.current) {
+      scrollIntoView(topRef.current, {
+        behavior: 'smooth',
+        block: 'start',
+        scrollMode: 'if-needed',
+      });
+    }
+  }, [page]);
+
   const handleSort = useCallback((column: ColumnId) => {
     setCollapsed(false);
     setOrderBy(
@@ -120,7 +133,7 @@ export const ItemTable = <ExtraColumnId extends string = never, Model extends Qu
   return (
     <>
       {process.env.NODE_ENV === 'development' && isGlobalContext && (<Notice type="warning">Missing ItemTableContext</Notice>)}
-      <Table>
+      <Table ref={topRef}>
         <thead>
           <tr>
             {columns.map((column) => (

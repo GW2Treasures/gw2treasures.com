@@ -4,6 +4,7 @@ import { Children, cloneElement, use, useCallback, useLayoutEffect, useRef, useS
 import styles from './Table.module.css';
 import { useResizeObserver } from '../../lib/hooks/resize-observer';
 import { cx } from '../../lib';
+import { useMergeRefs } from '@floating-ui/react';
 
 export interface TableWrapperProps {
   children: ReactElement<HTMLProps<HTMLElement>>;
@@ -34,7 +35,7 @@ export const TableWrapper: FC<TableWrapperProps> = ({ children, className }) => 
 
   return (
     <div className={cx(isOverflowing ? styles.overflow : styles.noOverflow, className)} ref={wrapper} data-table-overflow={isOverflowing ? '' : undefined}>
-      {cloneElement(Children.only(children), { ref: table })}
+      {cloneElement(Children.only(children), { ref: useMergeRefs([table, children.props.ref]) })}
     </div>
   );
 };

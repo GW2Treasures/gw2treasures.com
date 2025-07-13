@@ -3,6 +3,13 @@
   border-collapse: separate;
   border-spacing: 0;
   border: none;
+
+  /**
+    Some tables are scrolled into view if the row count changes. Usually `scroll-padding` is used on the body to ensure
+    elements don't end up under the fixed header, but the library scroll-into-view-if-needed only supports `scroll-margin`.
+    TODO: remove once library supports `scroll-margin` or the library is not needed anymore (=when FF supports if-needed)
+  */
+  scroll-margin-top: 32px;
 }
 
 .tableAuto {

@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@gw2treasures/database": "workspace:*",
-    "@prisma/client": "6.11.1",
+    "@prisma/client": "6.12.0",
     "gw2-api-types": "0.0.8"
   },
   "devDependencies": {
@@ -17,7 +17,7 @@
     "@gw2treasures/tsconfig": "workspace:*",
     "@types/node": "22.16.3",
     "eslint": "9.31.0",
-    "prisma": "6.11.1",
+    "prisma": "6.12.0",
     "typescript": "5.8.3"
   }
 }

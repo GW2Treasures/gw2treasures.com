@@ -35,7 +35,7 @@ async function HomePage({ params }: PageProps) {
   const hero = festivalHero[festival?.type ?? 'default'] ?? festivalHero.default;
 
   return (
-    <HeroLayout color={hero.color} hero={(
+    <HeroLayout color={hero.color} heroClassName={hero === festivalHero.default ? styles.heroGradient : undefined} hero={(
       <hero.wrapper>
         <div className={styles.hero}>
           {festival?.type === Festival.SuperAdventureFestival ? (

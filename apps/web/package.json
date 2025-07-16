@@ -12,9 +12,9 @@
     "test": "jest"
   },
   "dependencies": {
-    "@dnd-kit/abstract": "0.1.19",
-    "@dnd-kit/helpers": "0.1.19",
-    "@dnd-kit/react": "0.1.19",
+    "@dnd-kit/abstract": "0.1.20",
+    "@dnd-kit/helpers": "0.1.20",
+    "@dnd-kit/react": "0.1.20",
     "@floating-ui/react": "0.27.13",
     "@floating-ui/react-dom": "2.1.4",
     "@formatjs/intl-localematcher": "0.6.1",

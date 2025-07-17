@@ -12,13 +12,13 @@
 }
 
 .left {
-  padding: 8px 16px;
+  padding: 8px 16px 8px var(--max-page-width--padding);
   flex: 1;
   max-width: 50%;
 }
 
 .right {
-  padding: 8px 16px;
+  padding: 8px var(--max-page-width--padding) 8px 16px;
   flex: 1;
   max-width: 50%;
   border-left: 1px solid var(--color-border-transparent);
@@ -39,7 +39,8 @@
 
   border-bottom: 1px solid var(--color-border);
   background-color: var(--color-background-light);
-  padding: 16px;
+  padding-top: 16px;
+  padding-bottom: 16px;
 
   display: grid;
   grid-template:

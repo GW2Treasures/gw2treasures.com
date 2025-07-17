@@ -6,7 +6,9 @@
     "headline infobox padding" min-content
     "content  infobox .      " min-content
     "content  toc     .      " 1fr /
-    calc(100% - clamp(250px, 25%, 360px) - 16px) clamp(250px, 25%, 360px) 16px;
+    calc(100% - clamp(250px, 25%, 360px) - var(--max-page-width--padding))
+    clamp(250px, 25%, 360px)
+    var(--max-page-width--padding);
 }
 
 .headline {
@@ -15,7 +17,7 @@
   border-bottom: 1px solid var(--color-border);
   background-color: var(--color-background-light);
   /* background-color: color-mix(in srgb, var(--color-background), var(--hero-color, var(--color-rarity, #000)) 4.5%); */
-  padding: 16px;
+  padding: 16px 16px 16px var(--max-page-width--padding);
 
   display: grid;
   grid-template:
@@ -88,7 +90,7 @@
 
 .content {
   grid-area: content;
-  padding: 16px;
+  padding: 16px 16px 16px var(--max-page-width--padding);
 }
 
 @media (max-width: 920px) {

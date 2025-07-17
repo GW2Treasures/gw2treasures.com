@@ -12,6 +12,15 @@ export default function AboutPage() {
       <TableOfContentAnchor id="about">About</TableOfContentAnchor>
       <p><b>gw2treasures.com</b> is a database website for Guild Wars 2. Development started in November 2013, shortly after the official API for the game released, and was released on January 10, 2014. It was completly rewritten starting in 2021 using modern technology.</p>
 
+      <Headline id="partner">ArenaNet Partner</Headline>
+      <p>
+        gw2treasures.com is a <b>ArenaNet Partner</b>. You can support this website by buying Guild Wars 2 using our <ExternalLink href="http://guildwars2.go2cloud.org/aff_c?offer_id=34&aff_id=758">affiliate link</ExternalLink>.
+        If you want to try Guild Wars 2 for free, you can use <ExternalLink href="http://guildwars2.go2cloud.org/aff_c?offer_id=19&aff_id=758">this link instead</ExternalLink>.
+      </p>
+      <p style={{ color: 'var(--color-text-muted)', marginTop: -16, fontSize: 15 }}>
+        The affiliate link works by setting a cookie in your browser, you don&apos;t need to enter a code. Please disable your adblocker to make sure the cookie is working correctly.
+      </p>
+
       <Headline id="tech">Technology</Headline>
       <p>Everything is written in <ExternalLink href="https://www.typescriptlang.org/">TypeScript</ExternalLink>. The website is using <ExternalLink href="https://react.dev/">react</ExternalLink> and the latest <ExternalLink href="https://nextjs.org/">next.js</ExternalLink> (App Router). The database is <ExternalLink href="https://www.postgresql.org/">PostgreSQL</ExternalLink> and <ExternalLink href="https://www.prisma.io/">prisma</ExternalLink> is used to access it.</p>
 

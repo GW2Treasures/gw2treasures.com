@@ -13,6 +13,9 @@ import { translations as itemTypeTranslations } from '../Item/ItemType.translati
 import { Language, MasteryRegion, Rarity } from '@gw2treasures/database';
 import { currencyCategories, type CurrencyCategoryName } from '@gw2treasures/static-data/currencies/categories';
 import { ReviewButton } from './Header/ReviewButton';
+import { PartnerBanner } from './Header/partner-banner';
+import PartnerLogoWhite from './assets/ArenanetPartnerLogo_Horizontal_SolidWhite.png';
+import PartnerLogoBlack from './assets/ArenanetPartnerLogo_Horizontal_SolidBlack.png';
 
 interface LayoutProps {
   children: ReactNode;
@@ -41,6 +44,7 @@ const Layout: FC<LayoutProps> = ({ children, language }) => {
   return (
     <div>
       <div className={styles.layout}>
+        <PartnerBanner/>
         <Menu navigation={<Navigation language={language}/>}>
           <Link href="/" className={styles.title} aria-label="gw2treasures.com">
             <Icon icon="gw2t"/>
@@ -56,6 +60,10 @@ const Layout: FC<LayoutProps> = ({ children, language }) => {
         <hr className={styles.headerShadow}/>
         {children}
         <footer className={styles.footer} data-nosnippet>
+          <picture>
+            <source media="(prefers-color-scheme: dark)" srcSet={PartnerLogoWhite.src}/>
+            <img src={PartnerLogoBlack.src} alt="ArenaNet Partner" height={48} width={(48 / PartnerLogoBlack.height) * PartnerLogoBlack.width}/>
+          </picture>
           <span><b>gw2treasures.com</b> by darthmaim &copy; {new Date().getFullYear()}</span>
           <div className={styles.footerLinks}>
             <Link href="/about">About</Link> /
@@ -68,8 +76,7 @@ const Layout: FC<LayoutProps> = ({ children, language }) => {
           </div>
         </footer>
       </div>
-      <div className={styles.disclaimer} data-nosnippet>This site is not affiliated with ArenaNet, Guild Wars 2, or any of their partners. All copyrights reserved to their respective owners.</div>
-      <div className={styles.disclaimer} data-nosnippet>© 2014 ArenaNet, Inc. All rights reserved. NCsoft, the interlocking NC logo, ArenaNet, Guild Wars, Guild Wars Factions, Guild Wars Nightfall, Guild Wars: Eye of the North, Guild Wars 2, and all associated logos and designs are trademarks or registered trademarks of NCsoft Corporation. All other trademarks are the property of their respective owners.</div>
+      <div className={styles.disclaimer} data-nosnippet>© ArenaNet LLC. All rights reserved. NCSOFT, ArenaNet, Guild Wars, Guild Wars 2, GW2, Guild Wars 2: Heart of Thorns, Guild Wars 2: Path of Fire, Guild Wars 2: End of Dragons, and Guild Wars 2: Secrets of the Obscure and all associated logos, designs, and composite marks are trademarks or registered trademarks of NCSOFT Corporation.</div>
     </div>
   );
 };

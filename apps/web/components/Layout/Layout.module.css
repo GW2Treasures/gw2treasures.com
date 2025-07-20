@@ -153,21 +153,28 @@
   background-color: var(--color-background-light);
 }
 
+.footerFlex {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
 .footer {
+  composes: footerFlex;
   grid-area: footer;
   padding: 16px 16px;
   border-top: 1px solid var(--color-border);
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 16px;
+  justify-content: space-between;
+}
+
+.footerLeft {
+  composes: footerFlex;
+  gap: 0 16px;
 }
 
 .footerLinks {
-  margin-left: auto;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
+  composes: footerFlex;
   color: var(--color-text-muted);
 }
 

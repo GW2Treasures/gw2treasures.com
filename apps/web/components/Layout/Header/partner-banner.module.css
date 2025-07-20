@@ -20,3 +20,9 @@
 .text > a {
   white-space: nowrap;
 }
+
+@media (max-width: 920px) {
+  .note {
+    display: none;
+  }
+}

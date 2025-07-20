@@ -60,11 +60,13 @@ const Layout: FC<LayoutProps> = ({ children, language }) => {
         <hr className={styles.headerShadow}/>
         {children}
         <footer className={styles.footer} data-nosnippet>
-          <picture>
-            <source media="(prefers-color-scheme: dark)" srcSet={PartnerLogoWhite.src}/>
-            <img src={PartnerLogoBlack.src} alt="ArenaNet Partner" height={48} width={(48 / PartnerLogoBlack.height) * PartnerLogoBlack.width}/>
-          </picture>
-          <span><b>gw2treasures.com</b> by darthmaim &copy; {new Date().getFullYear()}</span>
+          <div className={styles.footerLeft}>
+            <picture>
+              <source media="(prefers-color-scheme: dark)" srcSet={PartnerLogoWhite.src}/>
+              <img src={PartnerLogoBlack.src} alt="ArenaNet Partner" height={48} width={(48 / PartnerLogoBlack.height) * PartnerLogoBlack.width}/>
+            </picture>
+            <span><b>gw2treasures.com</b> by darthmaim &copy; {new Date().getFullYear()}</span>
+          </div>
           <div className={styles.footerLinks}>
             <Link href="/about">About</Link> /
             <Link href="/about/legal">Legal</Link> /

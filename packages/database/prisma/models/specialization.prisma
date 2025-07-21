@@ -1,21 +1,16 @@
-model Profession {
-  id String @id
+model Specialization {
+  id Int @id
 
   name_de String
   name_en String
   name_es String
   name_fr String
 
-  icon   Icon? @relation("icon", fields: [iconId], references: [id])
+  icon   Icon? @relation(fields: [iconId], references: [id])
   iconId Int?
 
-  iconBig   Icon? @relation("iconBig", fields: [iconBigId], references: [id])
-  iconBigId Int?
-
-  skillIds Int[]
-  skills   Skill[]
-
-  specializations Specialization[]
+  profession   Profession @relation(fields: [professionId], references: [id], onDelete: Cascade)
+  professionId String
 
   removedFromApi Boolean @default(false)
 
@@ -31,7 +26,7 @@ model Profession {
   current_fr   Revision @relation("current_fr", fields: [currentId_fr], references: [id], onDelete: Cascade)
   currentId_fr String   @unique
 
-  history ProfessionHistory[]
+  history SpecializationHistory[]
 
   lastCheckedAt DateTime @default(now())
 
@@ -41,12 +36,12 @@ model Profession {
   version Int @default(0)
 }
 
-model ProfessionHistory {
-  professionId String
-  revisionId   String
+model SpecializationHistory {
+  specializationId Int
+  revisionId       String
 
-  profession Profession @relation(fields: [professionId], references: [id], onDelete: Cascade)
-  revision   Revision   @relation(fields: [revisionId], references: [id], onDelete: Cascade)
+  specialization Specialization @relation(fields: [specializationId], references: [id], onDelete: Cascade)
+  revision       Revision       @relation(fields: [revisionId], references: [id], onDelete: Cascade)
 
-  @@id([professionId, revisionId])
+  @@id([specializationId, revisionId])
 }

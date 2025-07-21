@@ -17,4 +17,5 @@ model Icon {
   gliders               Glider[]
   profession            Profession[] @relation("icon")
   professionBig         Profession[] @relation("iconBig")
+  specialization        Specialization[]
 }

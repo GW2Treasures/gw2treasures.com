@@ -9,6 +9,8 @@ model Skill {
   icon   Icon? @relation(fields: [iconId], references: [id])
   iconId Int?
 
+  flags String[]
+
   professions Profession[]
 
   removedFromApi Boolean @default(false)

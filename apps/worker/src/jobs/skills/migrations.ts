@@ -2,7 +2,7 @@ import { Prisma } from '@gw2treasures/database';
 import { LocalizedObject } from '../helper/types';
 import { Skill } from '@gw2api/types/data/skill';
 
-export const CURRENT_VERSION = 2;
+export const CURRENT_VERSION = 3;
 
 /** @see Prisma.SkillUpdateInput  */
 interface MigratedSkill {
@@ -12,6 +12,8 @@ interface MigratedSkill {
   name_en?: string
   name_es?: string
   name_fr?: string
+
+  flags?: string[]
 }
 
 // eslint-disable-next-line require-await
@@ -29,6 +31,9 @@ export async function createMigrator() {
       if(es.name?.trim() === '') { update.name_es = en.chat_link; }
       if(fr.name?.trim() === '') { update.name_fr = en.chat_link; }
     }
+
+    // Version 3: Add flags
+    update.flags = en.flags;
 
     return update satisfies Prisma.SkillUpdateInput;
   };

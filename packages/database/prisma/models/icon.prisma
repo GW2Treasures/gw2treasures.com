@@ -15,4 +15,6 @@ model Icon {
   minis                 Mini[]
   outfits               Outfit[]
   gliders               Glider[]
+  profession            Profession[] @relation("icon")
+  professionBig         Profession[] @relation("iconBig")
 }

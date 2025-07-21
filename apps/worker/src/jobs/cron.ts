@@ -47,6 +47,7 @@ export async function registerCronJobs() {
   await registerJob('itemstats', schedule.every5Minutes);
   await registerJob('recipes', schedule.every5Minutes);
   await registerJob('titles', schedule.every5Minutes);
+  await registerJob('professions', schedule.every10Minutes);
 
   await registerJob('minis', schedule.every5Minutes);
   await registerJob('minis.unlocks', schedule.hourly);

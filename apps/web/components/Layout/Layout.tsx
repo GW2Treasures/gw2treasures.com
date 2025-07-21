@@ -44,7 +44,6 @@ const Layout: FC<LayoutProps> = ({ children, language }) => {
   return (
     <div>
       <div className={styles.layout}>
-        <PartnerBanner/>
         <Menu navigation={<Navigation language={language}/>}>
           <Link href="/" className={styles.title} aria-label="gw2treasures.com">
             <Icon icon="gw2t"/>
@@ -58,6 +57,7 @@ const Layout: FC<LayoutProps> = ({ children, language }) => {
           </div>
         </Menu>
         <hr className={styles.headerShadow}/>
+        <PartnerBanner/>
         {children}
         <footer className={styles.footer} data-nosnippet>
           <div className={styles.footerLeft}>

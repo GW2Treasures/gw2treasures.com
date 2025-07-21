@@ -22,6 +22,7 @@ type BuildTuple<Length extends SmallInteger, Acc extends number[] = []> =
   Acc['length'] extends Length ? Acc : BuildTuple<Length, [...Acc, Acc['length']]>;
 
 type DropUntil<Start extends SmallInteger, Acc extends number[], Dropped extends SmallInteger[] = []> =
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   Dropped['length'] extends Start ? Acc : DropUntil<Start, Acc extends [infer _, ...infer Rest] ? Rest : [], [...Dropped, 0]>;
 
 type Range<Start extends SmallInteger, End extends SmallInteger> =

@@ -1,9 +1,9 @@
-import type { Profession } from '@gw2api/types/data/character';
+import type { Profession } from '@gw2api/types/data/profession';
 import { Icon, type IconProps } from '@gw2treasures/ui';
 import type { FC } from 'react';
 
 
-const icons: Record<Profession, Pick<IconProps, 'icon' | 'color'>> = {
+const icons: Record<Profession.Id, Pick<IconProps, 'icon' | 'color'>> = {
   'Elementalist': { icon: 'elementalist', color: 'light-dark( #c62828, #e57373)' },
   'Engineer': { icon: 'engineer', color: 'light-dark( #d84315, #ff8a65)' },
   'Guardian': { icon: 'guardian', color: 'light-dark( #00838f, #4dd0e1)' },
@@ -17,7 +17,7 @@ const icons: Record<Profession, Pick<IconProps, 'icon' | 'color'>> = {
 
 
 export interface ProfessionIconProps {
-  profession: Profession,
+  profession: Profession.Id,
   className?: string,
 }
 
@@ -28,3 +28,7 @@ export const ProfessionIcon: FC<ProfessionIconProps> = ({ profession, className 
     <Icon {...props} className={className}/>
   );
 };
+
+export function getProfessionColor(profession: Profession.Id) {
+  return icons[profession].color;
+}

@@ -75,7 +75,7 @@ export default async function ProfessionPage({ params }: ProfessionPageProps) {
             <b>{weapon.id}</b>
             {weapon.specialization && <p style={{ marginBottom: 0, marginTop: 8 }}>Requires specialization [{weapon.specialization}].</p>}
             {weapon.skillSets.map(({ requirement, skills: weaponSkills }) => (
-              <div key={requirement === undefined ? '-' : Object.values(requirement).filter(isDefined).join('.')} style={{ marginTop: 12 }}>
+              <div key={requirement === undefined ? '-' : Object.values(requirement).filter(isDefined).join('.')} style={{ marginTop: 16 }}>
                 {(requirement?.attunement || requirement?.offhand || requirement?.underwater) && (
                   <div style={{ marginBottom: 8 }}>
                     {jsxJoin([
@@ -155,6 +155,8 @@ function getWeaponInfo(weapons: Profession['weapons'], skills: Map<number, { fla
       }
     }
 
+    requirements.sort(compareRequirement);
+
     const skillSets = (requirements.length === 0 ? [undefined] : requirements)
       .map((requirement) => ({
         requirement,
@@ -187,6 +189,15 @@ function skillToRequirement(skill: Profession.Weapon.Skill, weaponFlags: Profess
       ? !skillFlags.includes('NoUnderwater')
       : undefined,
   };
+}
+
+function compareRequirement(a: SkillSetRequirement, b: SkillSetRequirement) {
+  // always show underwater last
+  if(a.underwater !== undefined && b.underwater !== undefined) {
+    return (+a.underwater) - (+b.underwater);
+  }
+
+  return 0;
 }
 
 function matchesRequirement(a: SkillSetRequirement, b: SkillSetRequirement) {

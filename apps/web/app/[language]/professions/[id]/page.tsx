@@ -21,7 +21,8 @@ import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import type { Skill } from '@gw2api/types/data/skill';
 import { range } from '@gw2treasures/helper/range';
 import { getProfessionColor } from '@/components/Profession/icon';
-import { isDefined } from '@gw2treasures/helper/is';
+import { isDefined, isTruthy } from '@gw2treasures/helper/is';
+import { jsxJoin } from '@gw2treasures/ui/lib/jsx';
 
 const getProfession = cache(async (id: string) => {
   const profession = await db.profession.findUnique({
@@ -29,7 +30,7 @@ const getProfession = cache(async (id: string) => {
     include: {
       icon: true,
       iconBig: true,
-      skills: { select: linkPropertiesWithoutRarity }
+      skills: { select: { ...linkPropertiesWithoutRarity, flags: true }}
     },
   });
 
@@ -63,7 +64,7 @@ export default async function ProfessionPage({ params }: ProfessionPageProps) {
   }
 
   const skills = groupById(profession.skills);
-  const weapons = getWeaponInfo(data.weapons);
+  const weapons = getWeaponInfo(data.weapons, skills);
 
   return (
     <DetailLayout title={data.name} breadcrumb="Profession" icon={profession.iconBig} color={getProfessionColor(data.id)}>
@@ -77,9 +78,11 @@ export default async function ProfessionPage({ params }: ProfessionPageProps) {
               <div key={requirement === undefined ? '-' : Object.values(requirement).filter(isDefined).join('.')} style={{ marginTop: 12 }}>
                 {(requirement?.attunement || requirement?.offhand || requirement?.underwater) && (
                   <div style={{ marginBottom: 8 }}>
-                    {requirement?.attunement && (`${requirement.attunement} attunement`)}
-                    {requirement?.offhand && (`With offhand ${requirement.offhand}`)}
-                    {requirement?.underwater && 'Underwater'}
+                    {jsxJoin([
+                      requirement?.attunement && (`${requirement.attunement} attunement`),
+                      requirement?.offhand && (`With offhand ${requirement.offhand}`),
+                      requirement?.underwater && 'Underwater',
+                    ].filter(isTruthy), <span style={{ color: 'var(--color-text-muted)' }}> ▪ </span>)}
                   </div>
                 )}
                 <FlexRow>
@@ -140,15 +143,12 @@ interface SkillSetRequirement {
   offhand?: Profession.Weapon.Type,
 }
 
-function getWeaponInfo(weapons: Profession['weapons']): WeaponInfo[] {
-  return (Object.entries(weapons) as [Profession.Weapon.Type, Profession.Weapon][]).map(([id, { flags, skills, specialization }]) => {
+function getWeaponInfo(weapons: Profession['weapons'], skills: Map<number, { flags: string[] }>): WeaponInfo[] {
+  return (Object.entries(weapons) as [Profession.Weapon.Type, Profession.Weapon][]).map(([id, { flags, skills: weaponSkills, specialization }]) => {
     const requirements: SkillSetRequirement[] = [];
 
-    for(const skill of skills) {
-      const requirement: SkillSetRequirement = {
-        attunement: skill.attunement,
-        offhand: skill.offhand,
-      };
+    for(const skill of weaponSkills) {
+      const requirement = skillToRequirement(skill, flags, skills.get(skill.id)?.flags as Skill['flags'] ?? []);
 
       if(!requirements.some(matchesRequirement.bind(null, requirement))) {
         requirements.push(requirement);
@@ -159,8 +159,8 @@ function getWeaponInfo(weapons: Profession['weapons']): WeaponInfo[] {
       .map((requirement) => ({
         requirement,
         skills: Object.fromEntries(
-          skills
-            .filter((skill) => requirement === undefined || matchesRequirement(requirement, skill))
+          weaponSkills
+            .filter((skill) => requirement === undefined || matchesRequirement(requirement, skillToRequirement(skill, flags, skills.get(skill.id)?.flags as Skill['flags'] ?? [])))
             .map(({ id, slot }) => [slotToIndex(slot), id])
         )
       }));
@@ -177,6 +177,16 @@ function slotToIndex(slot: Skill.Slot.Weapon) {
     case 'Weapon_4': return 3;
     case 'Weapon_5': return 4;
   }
+}
+
+function skillToRequirement(skill: Profession.Weapon.Skill, weaponFlags: Profession.Weapon.Flag[], skillFlags: Skill['flags']): SkillSetRequirement {
+  return {
+    attunement: skill.attunement,
+    offhand: skill.offhand,
+    underwater: weaponFlags.includes('Aquatic')
+      ? !skillFlags.includes('NoUnderwater')
+      : undefined,
+  };
 }
 
 function matchesRequirement(a: SkillSetRequirement, b: SkillSetRequirement) {

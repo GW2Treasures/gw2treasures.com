@@ -1,9 +1,10 @@
-import type { FC } from 'react';
-import styles from './TraitTooltip.module.css';
 import { Separator } from '@gw2treasures/ui/components/Layout/Separator';
-import { Fact, type TraitTooltip } from './TraitTooltip';
-import { EntityIcon } from '../Entity/EntityIcon';
 import { format } from 'gw2-tooltip-html';
+import type { FC } from 'react';
+import { EntityIcon } from '../Entity/EntityIcon';
+import { Fact } from './TraitFact';
+import type { TraitTooltip } from './TraitTooltip';
+import styles from './TraitTooltip.module.css';
 
 export interface ClientTraitTooltipProps {
   tooltip: TraitTooltip;

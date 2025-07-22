@@ -16,7 +16,7 @@ import { ClientTraitTooltip } from './TraitTooltip.client';
 import { localizedUrl } from '@/lib/localizedUrl';
 
 export interface TraitLinkTooltipProps {
-  trait: WithIcon<Pick<Trait, 'id' | keyof LocalizedEntity>>
+  trait: WithIcon<Pick<Trait, 'id' | keyof LocalizedEntity | 'slot'>>
   language?: Language;
   revision?: string;
 }
@@ -33,7 +33,7 @@ export const TraitLinkTooltip: FC<TraitLinkTooltipProps> = ({ trait, language, r
         {tooltip.loading && (
           <>
             <div className={cx(styles.title)}>
-              {trait.icon && (<EntityIcon icon={trait.icon} size={32}/>)}
+              {trait.icon && (<EntityIcon icon={trait.icon} size={32} type={trait.slot === 'Major' ? 'trait-major' : 'trait-minor'}/>)}
               {localizedName(trait, language)}
             </div>
             <div className={styles.loading}><Skeleton/><br/><Skeleton width={120}/></div>

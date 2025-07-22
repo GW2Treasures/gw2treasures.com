@@ -9,7 +9,7 @@ import { getLinkProperties } from '@/lib/linkProperties';
 import { TraitLinkTooltip } from './TraitLinkTooltip';
 
 export interface TraitLinkProps {
-  trait: WithIcon<LocalizedEntity> & Pick<Trait, 'id'>,
+  trait: WithIcon<LocalizedEntity> & Pick<Trait, 'id' | 'slot'>,
   revision?: string,
   icon?: IconSize | 'none',
   language?: Language,
@@ -17,11 +17,11 @@ export interface TraitLinkProps {
 }
 
 export const TraitLink: FC<TraitLinkProps> = ({ trait, revision, icon = 32, language, ...props }) => {
-  const entity = getLinkProperties(trait);
+  const entity = { ...getLinkProperties(trait), slot: trait.slot };
 
   return (
     <Tooltip content={<TraitLinkTooltip trait={entity} language={language} revision={revision}/>}>
-      <EntityLink href={`/traits/${trait.id}`} entity={entity} icon={icon} language={language} {...props}/>
+      <EntityLink href={`/traits/${trait.id}`} entity={entity} icon={icon} language={language} iconType={trait.slot === 'Major' ? 'trait-major' : 'trait-minor'} {...props}/>
     </Tooltip>
   );
 };

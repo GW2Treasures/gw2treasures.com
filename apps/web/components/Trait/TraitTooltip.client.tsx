@@ -15,7 +15,7 @@ export const ClientTraitTooltip: FC<ClientTraitTooltipProps> = ({ tooltip, hideT
     <div>
       {!hideTitle && (
         <div className={styles.title}>
-          {tooltip.icon && (<EntityIcon icon={tooltip.icon} size={32}/>)}
+          {tooltip.icon && (<EntityIcon icon={tooltip.icon} size={32} type={tooltip.slot === 'Major' ? 'trait-major' : 'trait-minor'}/>)}
           {tooltip.name}
         </div>
       )}

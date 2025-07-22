@@ -48,6 +48,7 @@ import { SpecializationsJob } from './specializations';
 import { TitlesJob } from './titles';
 import { TpJob } from './tp';
 import { TpImportJob } from './tp/import';
+import { TraitsJob } from './traits';
 import { WizardsVaultListingsJob } from './wizardsvault/listings';
 import { WizardsVaultObjectivesJob } from './wizardsvault/objectives';
 import { WizardsVaultPurchaseLimitJob } from './wizardsvault/purchase-limit';
@@ -95,6 +96,7 @@ const jobsInternal = {
   'titles': TitlesJob,
   'professions': ProfessionsJob,
   'specializations': SpecializationsJob,
+  'traits': TraitsJob,
 
   'minis': MinisJob,
   'minis.unlocks': MinisUnlocks,

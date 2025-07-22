@@ -3,7 +3,7 @@ import { isEmptyObject } from '@gw2treasures/helper/is';
 import { db } from '../../db';
 import { fetchApi } from '../helper/fetchApi';
 import { loadLocalizedEntities } from '../helper/load-entities';
-import { type ProcessEntitiesData, createSubJobs, processLocalizedEntities } from '../helper/process-entities';
+import { Changes, type ProcessEntitiesData, createSubJobs, processLocalizedEntities } from '../helper/process-entities';
 import { Job } from '../job';
 import { createIcon } from '../helper/createIcon';
 
@@ -25,7 +25,7 @@ export const SpecializationsJob: Job = {
       'Specialization',
       (ids) => loadLocalizedEntities('/v2/specializations', ids),
       (specializationId, revisionId) => ({ specializationId_revisionId: { revisionId, specializationId }}),
-      async ({ de, en, es, fr }) => {
+      async ({ de, en, es, fr }, _, changes) => {
         const iconId = await createIcon(en.icon);
 
         return {
@@ -38,6 +38,10 @@ export const SpecializationsJob: Job = {
 
           professionId: en.profession,
 
+          // for new specializations, check if there are traits for it already and connect if so
+          traits: changes === Changes.New || changes === Changes.Migrate
+            ? { connect: await db.trait.findMany({ where: { specializationIdRaw: en.id }, select: { id: true }}) }
+            : undefined,
         } satisfies Partial<Prisma.SpecializationUncheckedCreateInput | Prisma.SpecializationUncheckedUpdateInput>;
       },
       db.specialization.findMany,

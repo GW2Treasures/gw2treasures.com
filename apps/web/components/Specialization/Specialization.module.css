@@ -1,0 +1,33 @@
+.specialization {
+  display: flex;
+  aspect-ratio: 647 / 136;
+  max-width: 647px;
+
+  position: relative;
+  overflow: hidden;
+  border-radius: 2px;
+}
+
+.background {
+  position: absolute;
+  inset: 0;
+  transform-origin: bottom left;
+  transform: scale(159%);
+  background: no-repeat bottom left;
+  background-size: 100%;
+}
+
+.background + .tier {
+  margin-left: 33%;
+}
+
+.tier {
+  z-index: 1;
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}

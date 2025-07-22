@@ -24,6 +24,7 @@ import { getProfessionColor } from '@/components/Profession/icon';
 import { isDefined, isTruthy } from '@gw2treasures/helper/is';
 import { jsxJoin } from '@gw2treasures/ui/lib/jsx';
 import { SpecializationLink } from '@/components/Specialization/SpecialiazationLink';
+import { Specialization } from '@/components/Specialization/Specialization';
 
 const getProfession = cache(async (id: string) => {
   const profession = await db.profession.findUnique({
@@ -32,7 +33,17 @@ const getProfession = cache(async (id: string) => {
       icon: true,
       iconBig: true,
       skills: { select: { ...linkPropertiesWithoutRarity, flags: true }},
-      specializations: { select: { ...linkPropertiesWithoutRarity, professionId: true }},
+      specializations: {
+        select: {
+          ...linkPropertiesWithoutRarity,
+          current_de: true,
+          current_en: true,
+          current_es: true,
+          current_fr: true,
+          professionId: true,
+          traits: { select: { ...linkPropertiesWithoutRarity, tier: true, slot: true }, orderBy: { order: 'asc' }}
+        }
+      },
     },
   });
 
@@ -107,14 +118,16 @@ export default async function ProfessionPage({ params }: ProfessionPageProps) {
       </ItemList>
 
       <Headline id="specializations">Specializations</Headline>
-      {profession.specializations.map((specialization) => (
-        <Fragment key={specialization.id}>
-          <div id={specialization.id.toString()} style={{ marginTop: 16, marginBottom: 8, fontWeight: 500 }}>
-            {localizedName(specialization, language)}
-          </div>
-          TODO
-        </Fragment>
-      ))}
+      <ItemList style={{ columnWidth: 647 }}>
+        {profession.specializations.map((specialization) => (
+          <li key={specialization.id} style={{ display: 'block', marginBottom: 32, breakInside: 'avoid' }}>
+            <div id={specialization.id.toString()} style={{ marginBottom: 8, fontWeight: 500 }}>
+              {localizedName(specialization, language)}
+            </div>
+            <Specialization data={JSON.parse(specialization[`current_${language}`].data)} traits={specialization.traits}/>
+          </li>
+        ))}
+      </ItemList>
 
       <Headline id="data">Data</Headline>
       <Json data={data}/>

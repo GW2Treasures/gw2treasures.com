@@ -66,6 +66,7 @@ export default async function TraitPage({ params }: TraitPageProps) {
     <DetailLayout title={data.name}
       breadcrumb={breadcrumb}
       icon={trait.icon}
+      iconType={trait.slot === 'Major' ? 'trait-major' : 'trait-minor'}
       color={getProfessionColor(profession)}
     >
       <TraitTooltip trait={data} language={language} hideTitle/>

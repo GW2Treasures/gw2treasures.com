@@ -25,7 +25,7 @@ export const TraitLinkTooltip: FC<TraitLinkTooltipProps> = ({ trait, language, r
   const defaultLanguage = useLanguage();
   language ??= defaultLanguage;
 
-  const tooltip = useJsonFetch<TraitTooltip>(localizedUrl(`/trait/${trait.id}/tooltip${revision ? `?revision=${revision}` : ''}`, language));
+  const tooltip = useJsonFetch<TraitTooltip>(localizedUrl(`/traits/${trait.id}/tooltip${revision ? `?revision=${revision}` : ''}`, language));
 
   return (
     <div>

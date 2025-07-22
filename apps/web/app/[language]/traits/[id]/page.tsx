@@ -1,4 +1,5 @@
 import { Breadcrumb, BreadcrumbItem } from '@/components/Breadcrumb/Breadcrumb';
+import { Json } from '@/components/Format/Json';
 import { ItemList } from '@/components/ItemList/ItemList';
 import DetailLayout from '@/components/Layout/DetailLayout';
 import { getProfessionColor } from '@/components/Profession/icon';
@@ -103,6 +104,9 @@ export default async function TraitPage({ params }: TraitPageProps) {
           </ItemList>
         </>
       )}
+
+      <Headline id="data">Data</Headline>
+      <Json data={data}/>
     </DetailLayout>
   );
 }

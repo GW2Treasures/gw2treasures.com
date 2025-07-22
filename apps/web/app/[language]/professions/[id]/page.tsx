@@ -23,6 +23,7 @@ import { range } from '@gw2treasures/helper/range';
 import { getProfessionColor } from '@/components/Profession/icon';
 import { isDefined, isTruthy } from '@gw2treasures/helper/is';
 import { jsxJoin } from '@gw2treasures/ui/lib/jsx';
+import { SpecializationLink } from '@/components/Specialization/SpecialiazationLink';
 
 const getProfession = cache(async (id: string) => {
   const profession = await db.profession.findUnique({
@@ -30,7 +31,8 @@ const getProfession = cache(async (id: string) => {
     include: {
       icon: true,
       iconBig: true,
-      skills: { select: { ...linkPropertiesWithoutRarity, flags: true }}
+      skills: { select: { ...linkPropertiesWithoutRarity, flags: true }},
+      specializations: { select: { ...linkPropertiesWithoutRarity, professionId: true }},
     },
   });
 
@@ -64,6 +66,7 @@ export default async function ProfessionPage({ params }: ProfessionPageProps) {
   }
 
   const skills = groupById(profession.skills);
+  const specializations = groupById(profession.specializations);
   const weapons = getWeaponInfo(data.weapons, skills);
 
   return (
@@ -73,7 +76,7 @@ export default async function ProfessionPage({ params }: ProfessionPageProps) {
         {weapons.map((weapon) => (
           <li key={weapon.id} style={{ display: 'block', marginBottom: 32, breakInside: 'avoid' }}>
             <b>{weapon.id}</b>
-            {weapon.specialization && <p style={{ marginBottom: 0, marginTop: 8 }}>Requires specialization [{weapon.specialization}].</p>}
+            {weapon.specialization && <p style={{ marginBottom: 0, marginTop: 8 }}>Requires specialization <SpecializationLink specialization={specializations.get(weapon.specialization)!} icon={24}/>.</p>}
             {weapon.skillSets.map(({ requirement, skills: weaponSkills }) => (
               <div key={requirement === undefined ? '-' : Object.values(requirement).filter(isDefined).join('.')} style={{ marginTop: 16 }}>
                 {(requirement?.attunement || requirement?.offhand || requirement?.underwater) && (
@@ -102,6 +105,16 @@ export default async function ProfessionPage({ params }: ProfessionPageProps) {
           </li>
         ))}
       </ItemList>
+
+      <Headline id="specializations">Specializations</Headline>
+      {profession.specializations.map((specialization) => (
+        <Fragment key={specialization.id}>
+          <div id={specialization.id.toString()} style={{ marginTop: 16, marginBottom: 8, fontWeight: 500 }}>
+            {localizedName(specialization, language)}
+          </div>
+          TODO
+        </Fragment>
+      ))}
 
       <Headline id="data">Data</Headline>
       <Json data={data}/>

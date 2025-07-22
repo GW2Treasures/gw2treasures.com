@@ -18,4 +18,5 @@ model Icon {
   profession            Profession[] @relation("icon")
   professionBig         Profession[] @relation("iconBig")
   specialization        Specialization[]
+  trait                 Trait[]
 }

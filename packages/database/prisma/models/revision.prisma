@@ -169,6 +169,13 @@ model Revision {
   currentSpecialization_fr Specialization?         @relation("current_fr")
   specializationHistory    SpecializationHistory[]
 
+  // trait
+  currentTrait_de Trait?         @relation("current_de")
+  currentTrait_en Trait?         @relation("current_en")
+  currentTrait_es Trait?         @relation("current_es")
+  currentTrait_fr Trait?         @relation("current_fr")
+  traitHistory    TraitHistory[]
+
   @@index([language, type])
 }
 

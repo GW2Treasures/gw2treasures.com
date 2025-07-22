@@ -5,7 +5,7 @@ import type { Trait } from '@gw2treasures/database';
 import { Fragment, type FC } from 'react';
 import styles from './Specialization.module.css';
 import { groupById } from '@gw2treasures/helper/group-by';
-import { TraitLink } from '../Traits/TraitLink';
+import { TraitLink } from '../Trait/TraitLink';
 import { range } from 'd3-array';
 
 export interface SpecializationProps {

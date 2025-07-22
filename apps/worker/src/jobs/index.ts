@@ -44,6 +44,7 @@ import { SkinsJob } from './skins';
 import { SkinsWikiJob } from './skins/appearance';
 import { SkinsUnlocks } from './skins/unlocks';
 import { SkinsViews } from './skins/views';
+import { SpecializationsJob } from './specializations';
 import { TitlesJob } from './titles';
 import { TpJob } from './tp';
 import { TpImportJob } from './tp/import';
@@ -93,6 +94,7 @@ const jobsInternal = {
   'recipes': RecipesJob,
   'titles': TitlesJob,
   'professions': ProfessionsJob,
+  'specializations': SpecializationsJob,
 
   'minis': MinisJob,
   'minis.unlocks': MinisUnlocks,

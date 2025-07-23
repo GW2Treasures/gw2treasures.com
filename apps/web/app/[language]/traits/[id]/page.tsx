@@ -4,6 +4,7 @@ import { ItemList } from '@/components/ItemList/ItemList';
 import DetailLayout from '@/components/Layout/DetailLayout';
 import { getProfessionColor } from '@/components/Profession/icon';
 import { SkillLink } from '@/components/Skill/SkillLink';
+import { TraitInfobox } from '@/components/Trait/TraitInfobox';
 import { TraitLink } from '@/components/Trait/TraitLink';
 import { TraitTooltip } from '@/components/Trait/TraitTooltip';
 import { cache } from '@/lib/cache';
@@ -69,6 +70,7 @@ export default async function TraitPage({ params }: TraitPageProps) {
       icon={trait.icon}
       iconType={trait.slot === 'Major' ? 'trait-major' : 'trait-minor'}
       color={getProfessionColor(profession)}
+      infobox={<TraitInfobox trait={trait} data={data} language={language}/>}
     >
       <TraitTooltip trait={data} language={language} hideTitle/>
 

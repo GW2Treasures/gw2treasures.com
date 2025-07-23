@@ -13,9 +13,8 @@ import { translations as itemTypeTranslations } from '../Item/ItemType.translati
 import { Language, MasteryRegion, Rarity } from '@gw2treasures/database';
 import { currencyCategories, type CurrencyCategoryName } from '@gw2treasures/static-data/currencies/categories';
 import { ReviewButton } from './Header/ReviewButton';
-import { PartnerBanner } from './Header/partner-banner';
-import PartnerLogoWhite from './assets/ArenanetPartnerLogo_Horizontal_SolidWhite.png';
-import PartnerLogoBlack from './assets/ArenanetPartnerLogo_Horizontal_SolidBlack.png';
+import { PartnerButton } from './partner/button';
+import { PartnerLogo } from './partner/logo';
 
 interface LayoutProps {
   children: ReactNode;
@@ -51,20 +50,17 @@ const Layout: FC<LayoutProps> = ({ children, language }) => {
           </Link>
           <Search translations={searchTranslations}/>
           <div className={styles.right}>
+            <PartnerButton/>
             <ReviewButton language={language}/>
             <LanguageDropdown/>
             <UserButton language={language}/>
           </div>
         </Menu>
         <hr className={styles.headerShadow}/>
-        <PartnerBanner/>
         {children}
         <footer className={styles.footer} data-nosnippet>
           <div className={styles.footerLeft}>
-            <picture>
-              <source media="(prefers-color-scheme: dark)" srcSet={PartnerLogoWhite.src}/>
-              <img src={PartnerLogoBlack.src} alt="ArenaNet Partner" height={48} width={(48 / PartnerLogoBlack.height) * PartnerLogoBlack.width}/>
-            </picture>
+            <PartnerLogo/>
             <span><b>gw2treasures.com</b> by darthmaim &copy; {new Date().getFullYear()}</span>
           </div>
           <div className={styles.footerLinks}>

@@ -1,0 +1,27 @@
+.button {
+  border: transparent solid 1px;
+  background: linear-gradient(color(from var(--color-background) srgb r g b / .9), color(from var(--color-background) srgb r g b / .9)) padding-box,
+              linear-gradient(-20deg, #a0447e, #fd8e0f, #f4763d, #fd8e0f, #a0447e) border-box;
+}
+
+.button:hover {
+  background: linear-gradient(color(from var(--color-background-light) srgb r g b / .9), color(from var(--color-background-light) srgb r g b / .9)) padding-box,
+              linear-gradient(-20deg, #a0447e, #fd8e0f, #f4763d, #fd8e0f, #a0447e) border-box;
+}
+
+.dropdownDescription {
+  margin: -8px -8px 12px;
+  padding: 16px 24px;
+  background-color: var(--color-background-light);
+  border-bottom: 1px solid var(--color-border-dark);
+  line-height: 1.5;
+  max-width: 380px;
+}
+
+.buySub {
+  color: var(--color-text-muted);
+  margin-top: 4px;
+  font-size: 14px;
+  contain: inline-size;
+  white-space: normal;
+}

@@ -14,7 +14,7 @@ export default function AboutPage() {
 
       <Headline id="partner">ArenaNet Partner</Headline>
       <p>
-        gw2treasures.com is a <b>ArenaNet Partner</b>. You can support this website by buying Guild Wars 2 using our <ExternalLink href="http://guildwars2.go2cloud.org/aff_c?offer_id=34&aff_id=758">affiliate link</ExternalLink>.
+        gw2treasures.com is an <b>ArenaNet Partner</b>. You can support this website by buying Guild Wars 2 using our <ExternalLink href="http://guildwars2.go2cloud.org/aff_c?offer_id=34&aff_id=758">affiliate link</ExternalLink>.
         If you want to try Guild Wars 2 for free, you can use <ExternalLink href="http://guildwars2.go2cloud.org/aff_c?offer_id=19&aff_id=758">this link instead</ExternalLink>.
       </p>
       <p style={{ color: 'var(--color-text-muted)', marginTop: -16, fontSize: 15 }}>

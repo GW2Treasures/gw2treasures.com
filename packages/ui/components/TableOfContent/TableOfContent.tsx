@@ -73,6 +73,13 @@ export const useTableOfContentAnchor = (id: string, { label, enabled = true }: {
     [registerAnchor, id, label, element, enabled]
   );
 
+  // since Next.js scrolling sucks, try to scroll to the hash in the url on mount
+  useEffect(() => {
+    if(location.hash === `#${id}`) {
+      document.getElementById(id)?.scrollIntoView({ block: 'start' });
+    }
+  }, [id]);
+
   return setElement;
 };
 

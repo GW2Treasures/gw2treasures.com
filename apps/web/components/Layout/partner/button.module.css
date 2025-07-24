@@ -1,7 +1,7 @@
 .button.button {
   border: transparent solid 1px;
   background: linear-gradient(color(from var(--color-background) srgb r g b / .9), color(from var(--color-background) srgb r g b / .9)) padding-box,
-              linear-gradient(-33deg, transparent, transparent 33%, #a0447e, #f4763d, transparent 66%, transparent) border-box;
+              linear-gradient(-55deg, transparent, transparent 33%, #a0447e, #f4763d, transparent 66%, transparent) border-box;
   background-size: 300% 100%;
   background-repeat: no-repeat;
   background-position: -15% 0;

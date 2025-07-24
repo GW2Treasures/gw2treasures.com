@@ -1,12 +1,20 @@
-.button {
+.button.button {
   border: transparent solid 1px;
   background: linear-gradient(color(from var(--color-background) srgb r g b / .9), color(from var(--color-background) srgb r g b / .9)) padding-box,
-              linear-gradient(-20deg, #a0447e, #fd8e0f, #f4763d, #fd8e0f, #a0447e) border-box;
+              linear-gradient(-33deg, transparent, transparent 33%, #a0447e, #f4763d, transparent 66%, transparent) border-box;
+  background-size: 300% 100%;
+  background-repeat: no-repeat;
+  background-position: -15% 0;
+  animation: flash ease-in-out 3s 2s;
 }
 
-.button:hover {
-  background: linear-gradient(color(from var(--color-background-light) srgb r g b / .9), color(from var(--color-background-light) srgb r g b / .9)) padding-box,
-              linear-gradient(-20deg, #a0447e, #fd8e0f, #f4763d, #fd8e0f, #a0447e) border-box;
+@keyframes flash {
+  0% { background-position-x: -15%; }
+  100% { background-position-x: 115%; }
+}
+
+.button.button:hover:not(:disabled) {
+  background: var(--color-background-light);
 }
 
 .dropdownDescription {

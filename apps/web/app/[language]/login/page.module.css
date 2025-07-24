@@ -49,6 +49,10 @@
   margin-top: 32px;
 }
 
+.loginButton > span {
+  flex: 0;
+}
+
 .attribution {
   position: absolute;
   font-size: 14px;

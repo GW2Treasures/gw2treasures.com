@@ -28,6 +28,10 @@
   outline: none;
 }
 
+.button > span {
+  flex: 1;
+}
+
 .secondary {
   composes: button;
 

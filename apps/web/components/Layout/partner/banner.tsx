@@ -1,6 +1,6 @@
 import { ExternalLink } from '@gw2treasures/ui/components/Link/ExternalLink';
 import type { FC } from 'react';
-import styles from './partner-banner.module.css';
+import styles from './banner.module.css';
 
 export const PartnerBanner: FC = () => {
   return (

@@ -1,9 +1,9 @@
-import type { Gw2Api } from 'gw2-api-types';
 import type { FC } from 'react';
 import styles from './SlotRenderer.module.css';
+import type { Skill } from '@gw2api/types/data/skill';
 
 interface SlotRendererProps {
-  data: Gw2Api.Skill;
+  data: Skill;
 }
 
 export const SlotRenderer: FC<SlotRendererProps> = ({ data }) => {
@@ -26,7 +26,7 @@ export const SlotRenderer: FC<SlotRendererProps> = ({ data }) => {
 type Slot = 'X' | '0';
 type Slots = `${Slot}${Slot}${Slot}${Slot}${Slot}` | `${Slot}${Slot}${Slot}${Slot}`;
 
-function getSlotLayout(data: Gw2Api.Skill): Slots | undefined {
+function getSlotLayout(data: Skill): Slots | undefined {
 
 
   switch(data.slot) {

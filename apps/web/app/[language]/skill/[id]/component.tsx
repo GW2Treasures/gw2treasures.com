@@ -21,6 +21,8 @@ import { pageView } from '@/lib/pageView';
 import { parseIcon } from '@/lib/parseIcon';
 import { notFound } from 'next/navigation';
 import type { FC } from 'react';
+import { ItemList } from '@/components/ItemList/ItemList';
+import { TraitLink } from '@/components/Trait/TraitLink';
 
 export interface SkillPageComponentProps {
   language: Language;
@@ -71,6 +73,17 @@ export const SkillPageComponent: FC<SkillPageComponentProps> = async ({ language
 
       <TableOfContentAnchor id="tooltip">Tooltip</TableOfContentAnchor>
       <SkillTooltip skill={data} language={language} hideTitle/>
+
+      {!fixedRevision && skill.affectedByTraits.length > 0 && (
+        <>
+          <Headline id="affected-by">Affected by</Headline>
+          <ItemList>
+            {skill.affectedByTraits.map((trait) => (
+              <li key={trait.id}><TraitLink trait={trait}/></li>
+            ))}
+          </ItemList>
+        </>
+      )}
 
       <Headline id="history">History</Headline>
 

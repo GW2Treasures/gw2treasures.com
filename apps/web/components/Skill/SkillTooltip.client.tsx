@@ -1,9 +1,10 @@
 import type { FC } from 'react';
 import styles from './SkillTooltip.module.css';
 import { Separator } from '@gw2treasures/ui/components/Layout/Separator';
-import { Fact, type SkillTooltip } from './SkillTooltip';
+import type { SkillTooltip } from './SkillTooltip';
 import { EntityIcon } from '../Entity/EntityIcon';
 import { format } from 'gw2-tooltip-html';
+import { Fact } from './SkillFact';
 
 export interface ClientSkillTooltipProps {
   tooltip: SkillTooltip;

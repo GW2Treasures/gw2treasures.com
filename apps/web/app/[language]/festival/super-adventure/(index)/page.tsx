@@ -14,13 +14,12 @@ import type { Event } from 'schema-dts';
 import { absoluteUrl } from '@/lib/url';
 import { Festival, getFestival } from '../../festivals';
 import ogImage from '../og.png';
-import styles from './page.module.css';
 
 import thumbnailGttp from './thumbnail-gttp.png';
 import thumbnailWiki from './thumbnail-wiki.png';
 import thumbnailJppe from './thumbnail-jppe.png';
-import { Icon } from '@gw2treasures/ui';
 import { createMetadata } from '@/lib/metadata';
+import { FestivalResource, FestivalResourceGrid } from '@/components/Festival/resource';
 
 const ITEM_BAUBLE = 39752;
 const ITEM_BAUBLE_BUBBLE = 41886;
@@ -72,25 +71,19 @@ export default async function SuperAdventureFestivalPage({ params }: PageProps) 
       <Dashboard initialColumns={items.map((item) => ({ type: 'item', id: item.id, item }))} embedded/>
 
       <Headline id="resources">External Resources</Headline>
-      <div className={styles.cards}>
-        <a href="https://www.youtube.com/watch?v=1SqenoV1vg8" rel="noreferrer noopener" target="_blank" className={styles.linkCardYoutube}>
-          <img src={thumbnailGttp.src} alt="" width={128}/>
-          <span className={styles.linkCardType}>Youtube <Icon icon="external-link"/></span>
-          <span className={styles.linkCardTitle}>Get To The Point: A Super Adventure Box Festival Guide for Guild Wars 2</span>
-        </a>
+      <FestivalResourceGrid>
+        <FestivalResource href="https://www.youtube.com/watch?v=1SqenoV1vg8" imgSrc={thumbnailGttp.src} type="YouTube">
+          Get To The Point: A Super Adventure Box Festival Guide for Guild Wars 2
+        </FestivalResource>
 
-        <a href="https://wiki.guildwars2.com/wiki/Super_Adventure_Festival" rel="noreferrer noopener" target="_blank" className={styles.linkCard}>
-          <img src={thumbnailWiki.src} alt="" width={128}/>
-          <span className={styles.linkCardType}>Wiki <Icon icon="external-link"/></span>
-          <span className={styles.linkCardTitle}>Super Adventure Festival</span>
-        </a>
+        <FestivalResource href="https://wiki.guildwars2.com/wiki/Super_Adventure_Festival" imgSrc={thumbnailWiki.src} type="Wiki">
+          Super Adventure Festival
+        </FestivalResource>
 
-        <a href="https://discord.gg/JwdJM52F" rel="noreferrer noopener" target="_blank" className={styles.linkCardDiscord}>
-          <img src={thumbnailJppe.src} alt="" width={128}/>
-          <span className={styles.linkCardType}>Discord <Icon icon="external-link"/></span>
-          <span className={styles.linkCardTitle}>Jumping Puzzle Portal Escort - Community and Resources around SAB</span>
-        </a>
-      </div>
+        <FestivalResource href="https://discord.gg/JwdJM52F" imgSrc={thumbnailJppe.src} type="Discord">
+          Jumping Puzzle Portal Escort - Community and Resources around SAB
+        </FestivalResource>
+      </FestivalResourceGrid>
 
       {festival && (
         <StructuredData data={{

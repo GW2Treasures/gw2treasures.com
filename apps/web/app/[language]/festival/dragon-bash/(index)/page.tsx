@@ -1,5 +1,5 @@
-/* eslint-disable @next/next/no-img-element */
 import { Trans } from '@/components/I18n/Trans';
+import { FestivalResource, FestivalResourceGrid } from '@/components/Festival/resource';
 import { PageLayout } from '@/components/Layout/PageLayout';
 import { StructuredData } from '@/components/StructuredData/StructuredData';
 import { cache } from '@/lib/cache';
@@ -9,14 +9,12 @@ import { pageView } from '@/lib/pageView';
 import { db } from '@/lib/prisma';
 import { getTranslate } from '@/lib/translate';
 import { absoluteUrl } from '@/lib/url';
-import { Icon } from '@gw2treasures/ui';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { Dashboard } from 'app/[language]/dashboard/dashboard';
 import type { Event } from 'schema-dts';
 import { Festival, getFestival } from '../../festivals';
 import ogImage from '../og.png';
 import { HologramStampedeTimer } from './hologram-stampede-timer';
-import styles from './page.module.css';
 
 import thumbnail100s from './thumbnail-100s.png';
 import thumbnailGttp from './thumbnail-gttp.png';
@@ -72,25 +70,17 @@ export default async function DragonBashFestivalPage({ params }: PageProps) {
       <Dashboard initialColumns={items.map((item) => ({ type: 'item', id: item.id, item }))} embedded/>
 
       <Headline id="resources">External Resources</Headline>
-      <div className={styles.cards}>
-        <a href="https://www.youtube.com/watch?v=3pj6UcM6yH4" rel="noreferrer noopener" target="_blank" className={styles.linkCardYoutube}>
-          <img src={thumbnail100s.src} alt="" width={128}/>
-          <span className={styles.linkCardType}>Youtube <Icon icon="external-link"/></span>
-          <span className={styles.linkCardTitle}>Dragon Bash in 100 Seconds</span>
-        </a>
-
-        <a href="https://www.youtube.com/watch?v=RECavSpY0ic" rel="noreferrer noopener" target="_blank" className={styles.linkCardYoutube}>
-          <img src={thumbnailGttp.src} alt="" width={128}/>
-          <span className={styles.linkCardType}>Youtube <Icon icon="external-link"/></span>
-          <span className={styles.linkCardTitle}>Get To The Point: A Dragon Bash Festival Guide for Guild Wars 2</span>
-        </a>
-
-        <a href="https://wiki.guildwars2.com/wiki/Dragon_Bash" rel="noreferrer noopener" target="_blank" className={styles.linkCard}>
-          <img src={thumbnailWiki.src} alt="" width={128}/>
-          <span className={styles.linkCardType}>Wiki <Icon icon="external-link"/></span>
-          <span className={styles.linkCardTitle}>Dragon Bash</span>
-        </a>
-      </div>
+      <FestivalResourceGrid>
+        <FestivalResource href="https://www.youtube.com/watch?v=3pj6UcM6yH4" imgSrc={thumbnail100s.src} type="YouTube">
+          Dragon Bash in 100 Seconds
+        </FestivalResource>
+        <FestivalResource href="https://www.youtube.com/watch?v=RECavSpY0ic" imgSrc={thumbnailGttp.src} type="YouTube">
+          Get To The Point: A Dragon Bash Festival Guide for Guild Wars 2
+        </FestivalResource>
+        <FestivalResource href="https://wiki.guildwars2.com/wiki/Dragon_Bash" imgSrc={thumbnailWiki.src} type="Wiki">
+          Dragon Bash
+        </FestivalResource>
+      </FestivalResourceGrid>
 
       {festival && (
         <StructuredData data={{

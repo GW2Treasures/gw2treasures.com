@@ -1,10 +1,10 @@
-.cards {
+.grid {
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
 }
 
-.linkCard {
+.card {
   padding: 8px;
   background-color: #03a9f422;
   border-radius: 2px;
@@ -15,32 +15,29 @@
      min-content 1fr;
   gap: 8px;
   max-width: 560px;
-  min-width: 400px;
-  flex: 1;
+  flex: 1 400px;
   text-decoration: none;
   transition: box-shadow .3s ease;
 }
 
-.linkCardYoutube {
-  composes: linkCard;
+.card[data-type=YouTube] {
   background-color: #f4433622;
 }
 
-.linkCardDiscord {
-  composes: linkCard;
+.card[data-type=Discord] {
   background-color: #3440f421;
 }
 
-.linkCard:hover .linkCardTitle {
+.card:hover .title {
   text-decoration: 2px underline;
 }
 
-.linkCard > img {
+.card > img {
   grid-area: icon;
   border-radius: 2px;
 }
 
-.linkCardType {
+.type {
   font-weight: 500;
   font-size: 14px;
   text-transform: uppercase;
@@ -49,7 +46,7 @@
   margin-top: 4px;
 }
 
-.linkCardTitle {
+.title {
   line-height: 1.4;
   line-clamp: 2;
 }

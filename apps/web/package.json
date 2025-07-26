@@ -67,7 +67,7 @@
     "@gw2treasures/eslint-plugin-nextjs": "workspace:*",
     "@gw2treasures/tsconfig": "workspace:*",
     "@next/eslint-plugin-next": "15.3.5",
-    "@testing-library/jest-dom": "6.6.3",
+    "@testing-library/jest-dom": "6.6.4",
     "@testing-library/react": "16.3.0",
     "@types/d3-array": "3.2.1",
     "@types/jest": "29.5.14",

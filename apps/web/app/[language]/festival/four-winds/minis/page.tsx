@@ -40,7 +40,7 @@ const loadData = cache(async function loadData() {
 }, ['four-winds-minis'], { revalidate: 60 * 60 });
 
 
-export default async function FourWindsAchievementsPage() {
+export default async function FourWindsMiniPage() {
   const { minis } = await loadData();
   await pageView('festival/four-winds/minis');
 

@@ -24,6 +24,7 @@ export default function FourWindsFestivalLayout({ children }: LayoutProps) {
           { segment: 'skins', icon: 'skin', label: <Trans id="navigation.skins"/> },
           { segment: 'minis', icon: 'mini', label: <Trans id="minis"/> },
           { segment: 'wizards-vault', icon: 'wizards-vault', label: <Trans id="navigation.wizardsVault"/> },
+          { segment: 'zephyrite-box', icon: 'vendor', label: <Trans id="festival.four-winds.zephyrite-box"/> },
         ]}/>
       )}
     >

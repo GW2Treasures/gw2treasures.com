@@ -217,7 +217,7 @@ function renderCostPerUnit(item: DbItem | undefined, rate: ConversionRate, itemP
 
   return (
     <Tip tip={<><Fraction numerator="Required" denominator="Produced"/> &times; Price = <Fraction numerator={rate.required} denominator={rate.produced}/> &times; (<Coins value={itemPrice}/>)</>} preferredPlacement="top-end">
-      <FlexRow align="right">
+      <FlexRow align="right" inline>
         {isCheapest && <Badge>Cheapest</Badge>}
         <span style={{ fontWeight: isCheapest ? 500 : undefined }}>
           {renderPriceWithOptionalWarning(item.tpCheckedAt, costPerUnit)}

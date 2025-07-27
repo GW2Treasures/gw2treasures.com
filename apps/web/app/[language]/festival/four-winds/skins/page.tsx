@@ -93,7 +93,7 @@ const loadData = cache(async function loadData() {
   return { skins, sets };
 }, ['four-winds-skins'], { revalidate: 60 * 60 });
 
-export default async function FourWindsAchievementsPage() {
+export default async function FourWindsSkinsPage() {
   const { skins, sets } = await loadData();
   await pageView('festival/four-winds/skins');
 

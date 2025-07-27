@@ -5,6 +5,7 @@ export enum Festival {
   LunarNewYear,
   SuperAdventureFestival,
   DragonBash,
+  FourWinds,
 }
 
 export interface FestivalInfo {
@@ -40,4 +41,5 @@ export const festivals: FestivalInfo[] = [
   { type: Festival.LunarNewYear, startsAt: new Date('2025-01-28T17:00:00.000Z'), endsAt: new Date('2025-02-18T20:00:00.000Z') },
   { type: Festival.SuperAdventureFestival, startsAt: new Date('2025-04-15T16:00:00.000Z'), endsAt: new Date('2025-05-06T19:00:00.000Z') },
   { type: Festival.DragonBash, startsAt: new Date('2025-06-17T16:00:00.000Z'), endsAt: new Date('2025-07-08T19:00:00.000Z') },
+  { type: Festival.FourWinds, startsAt: new Date('2025-08-05T16:00:00.000Z'), endsAt: new Date('2025-08-26T19:00:00.000Z') },
 ];

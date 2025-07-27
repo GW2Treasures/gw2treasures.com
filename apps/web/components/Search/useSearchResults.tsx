@@ -14,13 +14,15 @@ import { SkillLinkTooltip } from '../Skill/SkillLinkTooltip';
 import type { TranslationSubset } from '@/lib/translate';
 import type { translations as itemTypeTranslations, TypeTranslation } from '../Item/ItemType.translations';
 import { ItemType } from '../Item/ItemType';
-import type { Rarity } from '@gw2treasures/database';
+import type { Rarity, TraitSlot } from '@gw2treasures/database';
 import { strip } from 'gw2-tooltip-html';
 import type { Weight } from '@/lib/types/weight';
 import { SkinLinkTooltip } from '../Skin/SkinLinkTooltip';
 import type { SubType, Type } from '../Item/ItemType.types';
 import { CurrencyLinkTooltip } from '../Currency/CurrencyLinkTooltip';
 import { currencyCategoryById, type CurrencyCategoryName } from '@gw2treasures/static-data/currencies/categories';
+import { TraitLinkTooltip } from '../Trait/TraitLinkTooltip';
+import { isDefined } from '@gw2treasures/helper/is';
 
 export interface SearchResults<Id extends string> {
   id: Id;
@@ -36,7 +38,7 @@ export interface SearchResult {
   render?: (link: ReactElement<HTMLProps<HTMLElement>>) => ReactNode;
 }
 
-export function useSearchApiResults(searchValue: string, translations: TranslationSubset<typeof itemTypeTranslations.short[0] | `rarity.${Rarity}` | `weight.${Weight}` | `currency.category.${CurrencyCategoryName}`>) {
+export function useSearchApiResults(searchValue: string, translations: TranslationSubset<typeof itemTypeTranslations.short[0] | `rarity.${Rarity}` | `weight.${Weight}` | `currency.category.${CurrencyCategoryName}` | `trait.slot.${TraitSlot}` | `trait.tier.${1 | 2 | 3}`>) {
   const fetchResponse = useJsonFetch<ApiSearchResponse>(`/api/search?q=${encodeURIComponent(searchValue)}`);
   const response = useStaleJsonResponse(fetchResponse);
   const language = useLanguage();
@@ -54,6 +56,18 @@ export function useSearchApiResults(searchValue: string, translations: Translati
     icon: skill.icon && <EntityIcon type="skill" icon={skill.icon} size={32}/>,
     href: `/skill/${skill.id}`,
     render: (link) => <Tooltip content={<SkillLinkTooltip skill={getLinkProperties(skill)}/>} key={link.key}>{link}</Tooltip>
+  }));
+
+  const traits = response.loading ? [] : response.data.traits.map<SearchResult>((trait) => ({
+    title: localizedName(trait, language),
+    subtitle: [
+      trait.specialization?.profession ? localizedName(trait.specialization.profession, language) : undefined,
+      trait.specialization ? localizedName(trait.specialization, language) : undefined,
+      `${translations[`trait.slot.${trait.slot}`]} ${translations[`trait.tier.${trait.tier as 1 | 2 | 3}`]}${trait.slot === 'Major' ? ` ${trait.order + 1}` : ''}`
+    ].filter(isDefined).join(' ▪ '),
+    icon: trait.icon && <EntityIcon type={trait.slot === 'Major' ? 'trait-major' : 'trait-minor'} icon={trait.icon} size={32}/>,
+    href: `/traits/${trait.id}`,
+    render: (link) => <Tooltip content={<TraitLinkTooltip trait={trait}/>} key={link.key}>{link}</Tooltip>
   }));
 
   const skins = response.loading ? [] : response.data.skins.map<SearchResult>((skin) => ({
@@ -111,6 +125,7 @@ export function useSearchApiResults(searchValue: string, translations: Translati
   return [
     results('items', items),
     results('skills', skills),
+    results('traits', traits),
     results('skins', skins),
     results('achievements', achievements),
     results('achievements.categories', categories),

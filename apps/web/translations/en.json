@@ -80,6 +80,7 @@
   "search.placeholder": "Search…",
   "search.results.items": "Items",
   "search.results.skills": "Skills",
+  "search.results.traits": "Traits",
   "search.results.skins": "Skins",
   "search.results.achievements": "Achievements",
   "search.results.achievements.categories": "Achievement Categories",
@@ -580,5 +581,10 @@
   "dungeons.path.jotun": "Jotun",
   "dungeons.path.mursaat": "Mursaat",
   "dungeons.path.forgotten": "Forgotten",
-  "dungeons.path.seer": "Seer"
+  "dungeons.path.seer": "Seer",
+  "trait.tier.1": "Adept",
+  "trait.tier.2": "Master",
+  "trait.tier.3": "Grandmaster",
+  "trait.slot.Minor": "Minor",
+  "trait.slot.Major": "Major"
 }

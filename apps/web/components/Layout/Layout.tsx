@@ -26,6 +26,7 @@ const Layout: FC<LayoutProps> = ({ children, language }) => {
     'search.placeholder',
     'search.results.items',
     'search.results.skills',
+    'search.results.traits',
     'search.results.skins',
     'search.results.achievements',
     'search.results.achievements.categories',
@@ -38,6 +39,7 @@ const Layout: FC<LayoutProps> = ({ children, language }) => {
     'weight.Clothing', 'weight.Heavy', 'weight.Light', 'weight.Medium',
     ...Object.keys(currencyCategories).map((category) => `currency.category.${category as CurrencyCategoryName}` as const),
     ...Object.values(MasteryRegion).map((mastery) => `mastery.${mastery}` as const),
+    'trait.tier.1', 'trait.tier.2', 'trait.tier.3', 'trait.slot.Minor', 'trait.slot.Major',
   ], language);
 
   return (

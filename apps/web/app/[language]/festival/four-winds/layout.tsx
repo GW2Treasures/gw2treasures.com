@@ -15,7 +15,7 @@ export default function FourWindsFestivalLayout({ children }: LayoutProps) {
   const festival = getFestival(Festival.FourWinds);
 
   return (
-    <HeroLayout hero={(<FourWindsHero><Headline id="four-winds" actions={<FestivalTimer festival={festival}/>}><div style={{ minWidth: '40vw' }}><Trans id="festival.four-winds"/></div></Headline></FourWindsHero>)}
+    <HeroLayout hero={(<FourWindsHero><Headline id="four-winds" actions={<FestivalTimer festival={festival}/>}><div style={{ minWidth: '40vw' }}><Trans id="festival.four-winds.title"/></div></Headline></FourWindsHero>)}
       skipLayout color="#81D4FA"
       navBar={(
         <NavBar base="/festival/four-winds/" items={[

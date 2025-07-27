@@ -5,7 +5,7 @@ import styles from './Navigation.module.css';
 import { HorizontalOverflowContainer } from '../HorizontalOverflowContainer';
 import type { Language } from '@gw2treasures/database';
 import { Composite, CompositeItem } from '@gw2treasures/ui/components/Focus/Composite';
-import type { IconProp } from '@gw2treasures/ui';
+import type { IconColor, IconProp } from '@gw2treasures/ui';
 import { WizardsVaultNewSeasonBadge } from './WizardsVaultNewSeasonBadge';
 import { Festival, getActiveFestival } from 'app/[language]/festival/festivals';
 import { BonusEvent, getActiveBonusEvent } from 'app/[language]/bonus-event/bonus-events';
@@ -45,6 +45,7 @@ interface NavigationItemProps {
   children: ReactNode;
   href: string;
   icon: IconProp;
+  iconColor?: IconColor;
   style?: CSSProperties;
 }
 
@@ -69,6 +70,8 @@ const FestivalNavigationItem: FC = () => {
       return (<NavigationItem href="/festival/super-adventure" icon="sab" style={{ color: 'light-dark( #cd00cd, #00ffff)', '--icon-color': 'light-dark(#000, #fff)' }}><Trans id="festival.super-adventure"/></NavigationItem>);
     case Festival.DragonBash:
       return (<NavigationItem href="/festival/dragon-bash" icon="dragon-bash" style={{ color: 'light-dark( #8a0009, #ff8a92)' }}><Trans id="festival.dragon-bash"/></NavigationItem>);
+    case Festival.FourWinds:
+      return (<NavigationItem href="/festival/four-winds" icon="four-winds" style={{ color: 'light-dark( #0288d1, #81d4fa)' }}><Trans id="festival.four-winds"/></NavigationItem>);
     default:
       return null;
   }

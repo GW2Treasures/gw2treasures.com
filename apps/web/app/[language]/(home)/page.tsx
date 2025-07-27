@@ -24,6 +24,7 @@ import gw2treasuresSab from './gw2treasures-sab.png';
 import { getTranslate } from '@/lib/translate';
 import { BonusEvent, getActiveBonusEvent } from '../bonus-event/bonus-events';
 import { createMetadata } from '@/lib/metadata';
+import { FourWindsHero } from '../festival/four-winds/hero';
 
 async function HomePage({ params }: PageProps) {
   const { language } = await params;
@@ -156,4 +157,5 @@ const festivalHero: Partial<Record<Festival, WrapperConfig>> & { default: Wrappe
   [Festival.Wintersday]: { color: '#7993a9', wrapper: Snow },
   [Festival.LunarNewYear]: { color: '#be3413', wrapper: LunarNewYearHero },
   [Festival.SuperAdventureFestival]: { color: '#25b2f9', wrapper: Fragment },
+  [Festival.FourWinds]: { color: '#81D4FA', wrapper: FourWindsHero },
 };

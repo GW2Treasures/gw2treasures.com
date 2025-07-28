@@ -91,7 +91,7 @@ const loadData = cache(async function loadData() {
   ]);
 
   return { items, currencies };
-}, ['four-winds-minis'], { revalidate: 60 * 60 });
+}, ['four-winds-minis'], { revalidate: 60 * 5 });
 
 type DbItem = Awaited<ReturnType<typeof loadData>>['items'][number];
 
@@ -196,9 +196,9 @@ export const generateMetadata = createMetadata(async ({ params }) => {
   const t = getTranslate(language);
 
   return {
-    title: t('minis'),
-    description: t('festival.four-winds.minis.description'),
-    url: 'festival/four-winds/minis',
+    title: t('festival.four-winds.zephyrite-box'),
+    description: t('festival.four-winds.zephyrite-box.vendor.description'),
+    url: 'festival/four-winds/zephyrite-box',
   };
 });
 

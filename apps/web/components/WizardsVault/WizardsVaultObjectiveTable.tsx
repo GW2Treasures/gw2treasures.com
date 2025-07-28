@@ -4,7 +4,6 @@ import type { FC } from 'react';
 import { Scope } from '@gw2me/client';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { Icon } from '@gw2treasures/ui';
-import type { Gw2Account } from '../Gw2Api/types';
 import { Gw2AccountName } from '../Gw2Api/Gw2AccountName';
 import { useWizardsVault } from './use-wizards-vault';
 import { Skeleton } from '../Skeleton/Skeleton';
@@ -39,7 +38,7 @@ export const WizardsVaultObjectiveTable: FC<WizardsVaultObjectiveTableProps> = (
             {accounts.map((account) => (
               <tr key={account.id}>
                 <td><Gw2AccountName account={account}/></td>
-                <WizardsVaultObjectiveTableProgressCell account={account} objectiveId={objectiveId}/>
+                <WizardsVaultObjectiveTableProgressCell accountId={account.id} objectiveId={objectiveId}/>
               </tr>
             ))}
           </tbody>
@@ -51,11 +50,11 @@ export const WizardsVaultObjectiveTable: FC<WizardsVaultObjectiveTableProps> = (
 
 interface WizardsVaultObjectiveTableProgressCellProps {
   objectiveId: number,
-  account: Gw2Account,
+  accountId: string,
 }
 
-const WizardsVaultObjectiveTableProgressCell: FC<WizardsVaultObjectiveTableProgressCellProps> = ({ objectiveId, account }) => {
-  const wizardsVault = useWizardsVault(account.id);
+export const WizardsVaultObjectiveTableProgressCell: FC<WizardsVaultObjectiveTableProgressCellProps> = ({ objectiveId, accountId }) => {
+  const wizardsVault = useWizardsVault(accountId);
 
   if(wizardsVault.loading) {
     return (

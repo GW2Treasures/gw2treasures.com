@@ -5,15 +5,17 @@ import { SubscriptionManager, type SubscriptionCallback, type SubscriptionData, 
 import type { WithLoadingState } from '@/lib/with';
 import { getResetDate, type Reset } from '../Reset/ResetTimer';
 import type { ResponseWithLoading, SuccessfulResponse } from '@/lib/response';
+import { useLanguage } from '../I18n/Context';
 
 // global subscription manager (client side only)
 const manager = typeof window !== 'undefined' ? new SubscriptionManager() : null;
 
 /** Hook to subscribe to gw2 account data */
 export function useSubscribe<T extends SubscriptionType>(type: T, accountId: string, callback: SubscriptionCallback<T>) {
+  const language = useLanguage();
   useEffect(
-    () => manager?.subscribe(type, accountId, callback),
-    [accountId, callback, type]
+    () => manager?.subscribe(type, accountId, language, callback),
+    [accountId, callback, language, type]
   );
 }
 

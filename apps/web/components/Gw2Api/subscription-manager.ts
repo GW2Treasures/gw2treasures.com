@@ -7,6 +7,7 @@ import { accessTokenManager } from './access-token-manager';
 import type { CharacterSab } from '@gw2api/types/data/character-sab';
 import type { AccountWizardsVaultMetaObjectives, AccountWizardsVaultSpecialObjectives } from '@gw2api/types/data/account-wizardsvault';
 import type { Response } from '@/lib/response';
+import type { Language } from '@gw2treasures/database';
 
 export type SubscriptionType = 'account'
   | 'achievements'
@@ -53,6 +54,7 @@ export type SubscriptionCallback<T extends SubscriptionType> = (response: Subscr
 
 type ActiveSubscription<T extends SubscriptionType> = {
   type: T,
+  language: Language,
   callback: SubscriptionCallback<T>
 };
 
@@ -93,12 +95,12 @@ export class SubscriptionManager {
     }
   }
 
-  subscribe<T extends SubscriptionType>(type: T, accountId: string, callback: SubscriptionCallback<T>): CancelSubscription {
+  subscribe<T extends SubscriptionType>(type: T, accountId: string, language: Language, callback: SubscriptionCallback<T>): CancelSubscription {
     if(!this.#accounts.has(accountId)) {
       this.#accounts.set(accountId, new AccountSubscriptionManager(accountId, document.visibilityState === 'hidden'));
     }
 
-    return this.#accounts.get(accountId)!.subscribe(type, callback);
+    return this.#accounts.get(accountId)!.subscribe(type, language, callback);
   }
 }
 
@@ -169,10 +171,10 @@ export class AccountSubscriptionManager {
     this.#timeouts.set(subscription.type, 0);
 
     // first tick
-    await this.#tick(subscription.type);
+    await this.#tick(subscription.type, subscription.language);
   }
 
-  async #tick<T extends SubscriptionType>(type: T) {
+  async #tick<T extends SubscriptionType>(type: T, language: Language) {
     console.debug(`[AccountSubscriptionManager(${this.#accountId})] tick`, type);
 
     // get access token
@@ -183,7 +185,7 @@ export class AccountSubscriptionManager {
     let nextTickMs = 60_000;
     try {
       const timestamp = new Date();
-      const data = await fetchers[type](accessToken.accessToken);
+      const data = await fetchers[type](accessToken.accessToken, language);
 
       // write to cache
       this.#cache = { ...this.#cache, [type]: { data, timestamp }};
@@ -216,13 +218,13 @@ export class AccountSubscriptionManager {
 
     // schedule next tick
     if(!this.#paused) {
-      const timeout = setTimeout(() => this.#tick(type), nextTickMs);
+      const timeout = setTimeout(() => this.#tick(type, language), nextTickMs);
       this.#timeouts.set(type, timeout);
     }
   }
 
-  subscribe<T extends SubscriptionType>(type: T, callback: SubscriptionCallback<T>): CancelSubscription {
-    const subscription: ActiveSubscription<T> = { type, callback };
+  subscribe<T extends SubscriptionType>(type: T, language: Language, callback: SubscriptionCallback<T>): CancelSubscription {
+    const subscription: ActiveSubscription<T> = { type, language, callback };
     this.#subscriptions.add(subscription);
 
     // check if the data is already in cache
@@ -241,15 +243,15 @@ export class AccountSubscriptionManager {
   }
 }
 
-const fetchers: { [T in SubscriptionType]: (accessToken: string) => Promise<SubscriptionData<T>> } = {
+const fetchers: { [T in SubscriptionType]: (accessToken: string, language: Language) => Promise<SubscriptionData<T>> } = {
   account: (accessToken: string) => fetchGw2Api('/v2/account', { accessToken, schema: '2019-02-21T00:00:00.000Z', cache: 'no-cache' }),
   achievements: (accessToken: string) => fetchGw2Api('/v2/account/achievements', { accessToken, cache: 'no-cache' }),
   skins: (accessToken: string) => fetchGw2Api('/v2/account/skins', { accessToken, cache: 'no-cache' }),
   minis: (accessToken: string) => fetchGw2Api('/v2/account/minis', { accessToken, cache: 'no-cache' }),
   wallet: (accessToken: string) => fetchGw2Api('/v2/account/wallet', { accessToken, cache: 'no-cache' }),
-  'wizards-vault.daily': (accessToken: string) => fetchGw2Api('/v2/account/wizardsvault/daily', { accessToken, cache: 'no-cache' }),
-  'wizards-vault.weekly': (accessToken: string) => fetchGw2Api('/v2/account/wizardsvault/weekly', { accessToken, cache: 'no-cache' }),
-  'wizards-vault.special': (accessToken: string) => fetchGw2Api('/v2/account/wizardsvault/special', { accessToken, cache: 'no-cache' }),
+  'wizards-vault.daily': (accessToken: string, language: Language) => fetchGw2Api('/v2/account/wizardsvault/daily', { accessToken, cache: 'no-cache', language }),
+  'wizards-vault.weekly': (accessToken: string, language: Language) => fetchGw2Api('/v2/account/wizardsvault/weekly', { accessToken, cache: 'no-cache', language }),
+  'wizards-vault.special': (accessToken: string, language: Language) => fetchGw2Api('/v2/account/wizardsvault/special', { accessToken, cache: 'no-cache', language }),
   inventories: (accessToken: string) => loadInventories(accessToken),
   'home.cats': (accessToken: string) => fetchGw2Api('/v2/account/home/cats', { accessToken, cache: 'no-cache', schema: '2022-03-23T19:00:00.000Z' }),
   'home.nodes': (accessToken: string) => fetchGw2Api('/v2/account/home/nodes', { accessToken, cache: 'no-cache' }),

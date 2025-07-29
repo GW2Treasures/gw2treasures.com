@@ -44,6 +44,12 @@ export const DropDown: FC<DropDown> = ({ children, button, preferredPlacement = 
 
   const { styles: transitionStyles, isMounted } = useTransitionStyles(context);
 
+  // @ts-expect-error this is a workaround, because react@19 somehow broke passing children elements (Tooltip is a client component, children is usually a server component)
+  //   before react@19 `children` was `<Lazy/>`, now it is `{ $$typeof: Symbol(react.lazy) }`.
+  //   We need access to the component props (especially ref) for the tooltip to function correctly
+  //   This seems to work for now, but I need to create a reproduction for this and report it to get it fixed.
+  if(button.$$typeof === Symbol.for('react.lazy')) { button = use(button._payload); }
+
   return (
     <>
       {cloneElement(Children.only(button), { ref: refs.setReference, ...getReferenceProps({ ...button.props, onClick: (e) => e.preventDefault() }) })}

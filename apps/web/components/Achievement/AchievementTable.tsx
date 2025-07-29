@@ -118,8 +118,8 @@ export const AchievementTable: FC<AchievementTableProps> = ({ language, achievem
   );
 
   const settings = (
-    <UserGate>
-      <DropDown key="settings" button={<Button icon="settings">Settings</Button>}>
+    <UserGate key="settings">
+      <DropDown button={<Button icon="settings">Settings</Button>}>
         <MenuList>
           <AchievementProgressToggle key="progressType"/>
         </MenuList>

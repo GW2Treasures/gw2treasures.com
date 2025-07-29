@@ -125,6 +125,7 @@ export async function AchievementPageComponent({ language, achievementId, revisi
   // const CategoryAchievements = hasCategoryAchievements ? createDataTable(categoryAchievements, (achievement) => achievement.id) : undefined;
 
   const hasObjectives = !!(data.requirement || (data.bits && data.bits.length > 0) || categoryAchievements.length > 0);
+  const anyObjectiveHasHint = Bits !== undefined && data.bits?.some((bit) => bit.type !== 'Text' && bit.text);
 
   const t = getTranslate(language);
 
@@ -229,6 +230,7 @@ export async function AchievementPageComponent({ language, achievementId, revisi
                       }
                     }}
                   </Bits.Column>
+                  <Bits.Column id="text" title="Hint" hidden={!anyObjectiveHasHint}>{({ type, text }) => type !== 'Text' && <span style={{ color: 'var(--color-text-muted)' }}>{text}</span>}</Bits.Column>
                   {!fixedRevision && (
                     <Bits.DynamicColumns id="progress" title="Account Progress" headers={<AccountAchievementProgressHeader/>}>
                       {(_, index) => <AccountAchievementProgressRow achievement={achievement} bitId={index}/>}

@@ -65,6 +65,12 @@ const skinIds: number[] = [
   10102, // Zephyrite Traveling Boots
   10107, // Zephyrite Traveling Boots
   10103, // Zephyrite Traveling Boots
+  13177, // Cloud Cuirass
+  13186, // Cloud Cuirass
+  13169, // Cloud Cuirass
+  13137, // Seashell Shield
+  13149, // Seashell Focus
+  13138, // Seashell Staff
 ];
 
 const skinSetNames: string[] = [
@@ -76,6 +82,7 @@ const skinSetNames: string[] = [
   'Sun-Grown weapons',
   'Watchwork weapons',
   'Zephyrite weapons',
+  'Leviathan Bone weapons',
 ];
 
 const loadData = cache(async function loadData() {

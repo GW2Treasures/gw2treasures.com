@@ -20,7 +20,6 @@ import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
 import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
-import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 
 type Offer = {
   quantity: number,
@@ -31,37 +30,37 @@ type Offer = {
 const ITEM_ZEPHYRITE_SUPPLY_BOX = 88145;
 
 const vendor: Offer[] = [
-  { quantity: 1, cost: { quantity: 23, itemId: 19730 }}, // Coarse Leather Section
+  { quantity: 1, cost: { quantity: 30, itemId: 19730 }}, // Coarse Leather Section
   { quantity: 1, cost: { quantity: 10, currencyId: 61 }}, // Research Note
   { quantity: 1, cost: { quantity: 8, currencyId: 61 }, weeklyLimit: 5 }, // Research Note
   { quantity: 1, cost: { quantity: 6, currencyId: 61 }, weeklyLimit: 3 }, // Research Note
-  { quantity: 1, cost: { quantity: 8, itemId: 44941 }}, // Watchwork Sprocket
-  { quantity: 1, cost: { quantity: 11, itemId: 19745 }}, // Gossamer Scrap
-  { quantity: 1, cost: { quantity: 51, itemId: 19748 }}, // Silk Scrap
-  { quantity: 1, cost: { quantity: 16, itemId: 19743 }}, // Linen Scrap
-  { quantity: 1, cost: { quantity: 54, itemId: 19741 }}, // Cotton Scrap
-  { quantity: 1, cost: { quantity: 14, itemId: 19739 }}, // Wool Scrap
-  { quantity: 1, cost: { quantity: 34, itemId: 19718 }}, // Jute Scrap
+  { quantity: 1, cost: { quantity: 6, itemId: 44941 }}, // Watchwork Sprocket
+  { quantity: 1, cost: { quantity: 7, itemId: 19745 }}, // Gossamer Scrap
+  { quantity: 1, cost: { quantity: 59, itemId: 19748 }}, // Silk Scrap
+  { quantity: 1, cost: { quantity: 20, itemId: 19743 }}, // Linen Scrap
+  { quantity: 1, cost: { quantity: 72, itemId: 19741 }}, // Cotton Scrap
+  { quantity: 1, cost: { quantity: 17, itemId: 19739 }}, // Wool Scrap
+  { quantity: 1, cost: { quantity: 46, itemId: 19718 }}, // Jute Scrap
   { quantity: 1, cost: { quantity: 3, itemId: 19732 }}, // Hardened Leather Section
-  { quantity: 1, cost: { quantity: 24, itemId: 19729 }}, // Thick Leather Section
-  { quantity: 1, cost: { quantity: 6, itemId: 19731 }}, // Rugged Leather Section
-  { quantity: 1, cost: { quantity: 31, itemId: 19697 }}, // Copper Ore
-  { quantity: 1, cost: { quantity: 40, itemId: 19728 }}, // Thin Leather Section
-  { quantity: 1, cost: { quantity: 84, itemId: 19719 }}, // Rawhide Leather Section
-  { quantity: 1, cost: { quantity: 6, itemId: 19725 }}, // Ancient Wood Log
+  { quantity: 1, cost: { quantity: 6, itemId: 19729 }}, // Thick Leather Section
+  { quantity: 1, cost: { quantity: 7, itemId: 19731 }}, // Rugged Leather Section
+  { quantity: 1, cost: { quantity: 15, itemId: 19697 }}, // Copper Ore
+  { quantity: 1, cost: { quantity: 65, itemId: 19728 }}, // Thin Leather Section
+  { quantity: 1, cost: { quantity: 130, itemId: 19719 }}, // Rawhide Leather Section
+  { quantity: 1, cost: { quantity: 3, itemId: 19725 }}, // Ancient Wood Log
   { quantity: 1, cost: { quantity: 22, itemId: 19722 }}, // Elder Wood Log
-  { quantity: 1, cost: { quantity: 11, itemId: 19724 }}, // Hard Wood Log
-  { quantity: 1, cost: { quantity: 13, itemId: 19727 }}, // Seasoned Wood Log
-  { quantity: 1, cost: { quantity: 34, itemId: 19726 }}, // Soft Wood Log
-  { quantity: 1, cost: { quantity: 71, itemId: 19723 }}, // Green Wood Log
-  { quantity: 1, cost: { quantity: 8, itemId: 19701 }}, // Orichalcum Ore
-  { quantity: 1, cost: { quantity: 16, itemId: 19700 }}, // Mithril Ore
-  { quantity: 1, cost: { quantity: 6, itemId: 19702 }}, // Platinum Ore
-  { quantity: 1, cost: { quantity: 23, itemId: 19698 }}, // Gold Ore
-  { quantity: 1, cost: { quantity: 66, itemId: 19703 }}, // Silver Ore
-  { quantity: 1, cost: { quantity: 10, itemId: 19699 }}, // Iron Ore
-  { quantity: 2, cost: { quantity: 1, itemId: 24277 }}, // Pile of Crystalline Dust
-  { quantity: 7, cost: { quantity: 2, itemId: 19721 }}, // Glob of Ectoplasm
+  { quantity: 1, cost: { quantity: 5, itemId: 19724 }}, // Hard Wood Log
+  { quantity: 1, cost: { quantity: 9, itemId: 19727 }}, // Seasoned Wood Log
+  { quantity: 1, cost: { quantity: 30, itemId: 19726 }}, // Soft Wood Log
+  { quantity: 1, cost: { quantity: 54, itemId: 19723 }}, // Green Wood Log
+  { quantity: 1, cost: { quantity: 4, itemId: 19701 }}, // Orichalcum Ore
+  { quantity: 1, cost: { quantity: 15, itemId: 19700 }}, // Mithril Ore
+  { quantity: 1, cost: { quantity: 4, itemId: 19702 }}, // Platinum Ore
+  { quantity: 1, cost: { quantity: 20, itemId: 19698 }}, // Gold Ore
+  { quantity: 1, cost: { quantity: 46, itemId: 19703 }}, // Silver Ore
+  { quantity: 1, cost: { quantity: 7, itemId: 19699 }}, // Iron Ore
+  { quantity: 1, cost: { quantity: 4, itemId: 24277 }}, // Pile of Crystalline Dust
+  { quantity: 7, cost: { quantity: 1, itemId: 19721 }}, // Glob of Ectoplasm
 ];
 
 const itemIds = [
@@ -142,7 +141,6 @@ export default async function FourWindsAchievementsPage({ params }: PageProps) {
     <PageLayout>
       <Headline id="vendor" actions={<ColumnSelect table={vendorTable}/>}><Trans id="festival.four-winds.zephyrite-box.vendor"/></Headline>
       <p><Trans id="festival.four-winds.zephyrite-box.vendor.description"/></p>
-      <Notice>This table has not been updated to the 2025 prices yet!</Notice>
 
       <vendorTable.Table initialSortBy="buyPricePer" initialSortOrder="asc">
         <vendorTable.Column id="output" title="Output">

@@ -60,7 +60,9 @@ const Layout: FC<LayoutProps> = ({ children, language }) => {
         {children}
         <footer className={styles.footer} data-nosnippet>
           <div className={styles.footerLeft}>
-            <PartnerLogo/>
+            <Link href="/about#partner">
+              <PartnerLogo/>
+            </Link>
             <span><b>gw2treasures.com</b> by darthmaim &copy; {new Date().getFullYear()}</span>
           </div>
           <div className={styles.footerLinks}>

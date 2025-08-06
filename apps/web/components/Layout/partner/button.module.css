@@ -17,6 +17,15 @@
   background: var(--color-background-light);
 }
 
+.buttonNoDelay {
+  composes: button;
+}
+
+.buttonNoDelay.buttonNoDelay {
+  animation-delay: 0s;
+  animation-duration: 5s;
+}
+
 .dropdownDescription {
   margin: -8px -8px 12px;
   padding: 16px 24px;
@@ -24,6 +33,9 @@
   border-bottom: 1px solid var(--color-border-dark);
   line-height: 1.5;
   max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .buySub {

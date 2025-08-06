@@ -6,6 +6,7 @@ import type { FC } from 'react';
 import layoutStyles from '../Layout.module.css';
 import styles from './button.module.css';
 import { Trans } from '@/components/I18n/Trans';
+import { PartnerLogo } from './logo';
 
 export const PartnerButton: FC = () => {
   const button = (
@@ -18,9 +19,10 @@ export const PartnerButton: FC = () => {
     <DropDown button={button} hideTop={false} preferredPlacement="bottom" arrowColor="var(--color-background-light)">
       <MenuList>
         <div className={styles.dropdownDescription}>
+          <PartnerLogo/>
           <Trans id="partner.info"/>
         </div>
-        <LinkButton external appearance="menu" href="http://guildwars2.go2cloud.org/aff_c?offer_id=34&aff_id=758" icon="external">
+        <LinkButton external appearance="menu" href="http://guildwars2.go2cloud.org/aff_c?offer_id=34&aff_id=758" icon="external" className={styles.buttonNoDelay}>
           <Trans id="partner.button.buy"/>
           <div className={styles.buySub}><Trans id="partner.button.buy.sub"/></div>
         </LinkButton>

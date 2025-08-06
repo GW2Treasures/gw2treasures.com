@@ -31,9 +31,9 @@ const ITEM_ZEPHYRITE_SUPPLY_BOX = 88145;
 
 const vendor: Offer[] = [
   { quantity: 1, cost: { quantity: 30, itemId: 19730 }}, // Coarse Leather Section
-  { quantity: 1, cost: { quantity: 10, currencyId: 61 }}, // Research Note
-  { quantity: 1, cost: { quantity: 8, currencyId: 61 }, weeklyLimit: 5 }, // Research Note
   { quantity: 1, cost: { quantity: 6, currencyId: 61 }, weeklyLimit: 3 }, // Research Note
+  { quantity: 1, cost: { quantity: 8, currencyId: 61 }, weeklyLimit: 5 }, // Research Note
+  { quantity: 1, cost: { quantity: 10, currencyId: 61 }}, // Research Note
   { quantity: 1, cost: { quantity: 6, itemId: 44941 }}, // Watchwork Sprocket
   { quantity: 1, cost: { quantity: 7, itemId: 19745 }}, // Gossamer Scrap
   { quantity: 1, cost: { quantity: 59, itemId: 19748 }}, // Silk Scrap
@@ -95,7 +95,7 @@ const loadData = cache(async function loadData() {
 type DbItem = Awaited<ReturnType<typeof loadData>>['items'][number];
 
 const costQuantityStyle = {
-  width: '2ch',
+  width: '4ch',
   fontFeatureSettings: '"tnum"',
   display: 'inline-block',
   textAlign: 'right'
@@ -147,7 +147,7 @@ export default async function FourWindsAchievementsPage({ params }: PageProps) {
           {({ quantity, weeklyLimit }) => <FlexRow><OutputCount count={quantity}><ItemLink item={itemsById.get(ITEM_ZEPHYRITE_SUPPLY_BOX)!}/></OutputCount> {weeklyLimit && `(${weeklyLimit} per week)`}</FlexRow>}
         </vendorTable.Column>
         <vendorTable.Column id="cost" title="Cost">
-          {({ cost, item, currency }) => <FlexRow><span style={costQuantityStyle}>{cost.quantity}</span> {item ? <ItemLink item={item}/> : <CurrencyLink currency={currency!}/>}</FlexRow>}
+          {({ cost, item, currency }) => <FlexRow><span style={costQuantityStyle}>{cost.quantity}×</span> {item ? <ItemLink item={item}/> : <CurrencyLink currency={currency!}/>}</FlexRow>}
         </vendorTable.Column>
 
         <vendorTable.Column id="buyPrice" title={<Trans id="itemTable.column.buyPrice"/>} sortBy={({ item }) => item?.buyPrice} align="right" hidden>

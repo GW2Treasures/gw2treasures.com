@@ -370,8 +370,8 @@ importers:
         specifier: 9.33.0
         version: 9.33.0
       '@stylistic/eslint-plugin':
-        specifier: 5.2.2
-        version: 5.2.2(eslint@9.33.0(jiti@2.4.2))
+        specifier: 5.2.3
+        version: 5.2.3(eslint@9.33.0(jiti@2.4.2))
       eslint:
         specifier: ^9.16.0
         version: 9.33.0(jiti@2.4.2)
@@ -1574,8 +1574,8 @@ packages:
   '@sinonjs/fake-timers@10.3.0':
     resolution: {integrity: sha512-V4BG07kuYSUkTCSBHG8G8TNhM+F19jXFWnQtzj+we8DrkpSBCee9Z3Ms8yiGer/dlmhe35/Xdgyo3/0rQKg7YA==}
 
-  '@stylistic/eslint-plugin@5.2.2':
-    resolution: {integrity: sha512-bE2DUjruqXlHYP3Q2Gpqiuj2bHq7/88FnuaS0FjeGGLCy+X6a07bGVuwtiOYnPSLHR6jmx5Bwdv+j7l8H+G97A==}
+  '@stylistic/eslint-plugin@5.2.3':
+    resolution: {integrity: sha512-oY7GVkJGVMI5benlBDCaRrSC1qPasafyv5dOBLLv5MTilMGnErKhO6ziEfodDDIZbo5QxPUNW360VudJOFODMw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
       eslint: '>=9.0.0'
@@ -5538,7 +5538,7 @@ snapshots:
     dependencies:
       '@sinonjs/commons': 3.0.0
 
-  '@stylistic/eslint-plugin@5.2.2(eslint@9.33.0(jiti@2.4.2))':
+  '@stylistic/eslint-plugin@5.2.3(eslint@9.33.0(jiti@2.4.2))':
     dependencies:
       '@eslint-community/eslint-utils': 4.7.0(eslint@9.33.0(jiti@2.4.2))
       '@typescript-eslint/types': 8.39.0

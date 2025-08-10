@@ -9,7 +9,7 @@ import { TraitLink } from '@/components/Trait/TraitLink';
 import { TraitTooltip } from '@/components/Trait/TraitTooltip';
 import { cache } from '@/lib/cache';
 import { linkPropertiesWithoutRarity } from '@/lib/linkProperties';
-import { localizedName, selectLocalizedProp } from '@/lib/localizedName';
+import { localizedName, selectLocalizedProp, type LocalizedEntity } from '@/lib/localizedName';
 import { createMetadata } from '@/lib/metadata';
 import type { PageProps } from '@/lib/next';
 import { db } from '@/lib/prisma';
@@ -29,7 +29,7 @@ const getTrait = cache(async (id: number, language: Language) => {
         icon: true,
         ...selectLocalizedProp('current', language),
 
-        specialization: { select: { professionId: true, ...selectLocalizedProp('name', language) }},
+        specialization: { select: { profession: { select: { id: true, ...selectLocalizedProp('name', language) }}, ...selectLocalizedProp('name', language) }},
 
         affectedByTraits: { select: { ...linkPropertiesWithoutRarity, slot: true }},
         affectsSkills: { select: linkPropertiesWithoutRarity },
@@ -54,13 +54,13 @@ export default async function TraitPage({ params }: TraitPageProps) {
 
   const { trait, data } = await getTrait(traitId, language);
 
-  const profession = trait.specialization?.professionId as Profession.Id | undefined;
+  const profession = trait.specialization ? trait.specialization.profession as { id: Profession.Id } & LocalizedEntity : undefined;
 
   const breadcrumb = (
     <Breadcrumb>
       <BreadcrumbItem name="Trait"/>
-      {profession && <BreadcrumbItem name={profession} href={`/professions/${profession}`}/>}
-      {trait.specialization && <BreadcrumbItem name={localizedName(trait.specialization, language)} href={`/professions/${profession}#${trait.specializationId}`}/>}
+      {profession && <BreadcrumbItem name={localizedName(profession, language)} href={`/professions/${profession.id}`}/>}
+      {trait.specialization && <BreadcrumbItem name={localizedName(trait.specialization, language)} href={`/professions/${trait.specialization.profession.id}#${trait.specializationId}`}/>}
     </Breadcrumb>
   );
 
@@ -69,7 +69,7 @@ export default async function TraitPage({ params }: TraitPageProps) {
       breadcrumb={breadcrumb}
       icon={trait.icon}
       iconType={trait.slot === 'Major' ? 'trait-major' : 'trait-minor'}
-      color={getProfessionColor(profession)}
+      color={getProfessionColor(profession?.id)}
       infobox={<TraitInfobox trait={trait} data={data} language={language}/>}
     >
       <TraitTooltip trait={data} language={language} hideTitle/>

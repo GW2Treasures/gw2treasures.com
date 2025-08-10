@@ -587,5 +587,15 @@
   "trait.tier.2": "Master",
   "trait.tier.3": "Grandmaster",
   "trait.slot.Minor": "Minor",
-  "trait.slot.Major": "Major"
+  "trait.slot.Major": "Major",
+  "profession": "Profession",
+  "professions.weapon-skills": "Weapon Skills",
+  "professions.weapon-skills.specialization": "Requires Specialization",
+  "professions.weapon-skills.offhand": "Offhand",
+  "professions.weapon-skills.offhand.nothing": "Nothing",
+  "professions.weapon-skills.underwater": "Underwater",
+  "professions.weapon-skills.attunement.Air": "Air attunement",
+  "professions.weapon-skills.attunement.Earth": "Earth attunement",
+  "professions.weapon-skills.attunement.Fire": "Fire attunement",
+  "professions.weapon-skills.attunement.Water": "Water attunement"
 }

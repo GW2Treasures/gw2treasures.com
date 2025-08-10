@@ -494,5 +494,20 @@
   "dungeons.path.jotun": "Jotun",
   "dungeons.path.mursaat": "Mursaat",
   "dungeons.path.forgotten": "Vergessener",
-  "dungeons.path.seer": "Seher"
+  "dungeons.path.seer": "Seher",
+  "trait.tier.1": "Experte",
+  "trait.tier.2": "Meister",
+  "trait.tier.3": "Großmeister",
+  "trait.slot.Minor": "Neben-Eigenschaft",
+  "trait.slot.Major": "Haupt-Eigenschaft",
+  "profession": "Klasse",
+  "professions.weapon-skills": "Waffenfertigkeiten",
+  "professions.weapon-skills.specialization": "Erfordert Spezialisierung",
+  "professions.weapon-skills.offhand": "Begleithand",
+  "professions.weapon-skills.offhand.nothing": "Keine Waffe",
+  "professions.weapon-skills.underwater": "Unterwasser",
+  "professions.weapon-skills.attunement.Air": "Lufteinstimmung",
+  "professions.weapon-skills.attunement.Earth": "Erdeinstimmung",
+  "professions.weapon-skills.attunement.Fire": "Feuereinstimmung",
+  "professions.weapon-skills.attunement.Water": "Wassereinstimmung"
 }

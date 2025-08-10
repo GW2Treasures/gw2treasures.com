@@ -197,6 +197,10 @@ export const sitemaps: Record<string, Sitemap> = {
         '/gliders',
         '/minis',
 
+        // professions
+        '/professions',
+        '/skills',
+
         // instances
         '/fractals',
         '/raids',

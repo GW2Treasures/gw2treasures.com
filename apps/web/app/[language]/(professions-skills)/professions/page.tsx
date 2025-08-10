@@ -1,0 +1,35 @@
+import { ItemList } from '@/components/ItemList/ItemList';
+import { EntityLink } from '@/components/Link/EntityLink';
+import { cache } from '@/lib/cache';
+import { linkPropertiesWithoutRarity } from '@/lib/linkProperties';
+import { compareLocalizedName } from '@/lib/localizedName';
+import { createMetadata } from '@/lib/metadata';
+import type { PageProps } from '@/lib/next';
+import { db } from '@/lib/prisma';
+import { getTranslate } from '@/lib/translate';
+
+const getProfessions = cache(() => {
+  return db.profession.findMany({ select: linkPropertiesWithoutRarity });
+}, ['get-professions'], { revalidate: 60 * 60 });
+
+export default async function ProfessionPage({ params }: PageProps) {
+  const { language } = await params;
+  const professions = (await getProfessions()).toSorted(compareLocalizedName(language));
+
+  return (
+    <>
+      <ItemList>
+        {professions.map((profession) => <li key={profession.id}><EntityLink entity={profession} href={`/professions/${profession.id}`}/></li>)}
+      </ItemList>
+    </>
+  );
+}
+
+export const generateMetadata = createMetadata(async ({ params }) => {
+  const { language } = await params;
+  const t = getTranslate(language);
+
+  return {
+    title: t('navigation.professions')
+  };
+});

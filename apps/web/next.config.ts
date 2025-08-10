@@ -42,8 +42,9 @@ const nextConfig: NextConfig = {
     { source: '/wizardsvault', destination: '/wizards-vault', permanent: true },
     { source: '/homestead', destination: '/homestead/nodes', permanent: true },
     { source: '/event/evon-gnashblades-birthday', destination: '/bonus-event/evon-gnashblades-birthday', permanent: true },
-    { source: '/skin', destination: '/skins', permanent: true },
     { source: '/color', destination: '/colors', permanent: true },
+    { source: '/skin', destination: '/skins', permanent: true },
+    { source: '/skill', destination: '/skills', permanent: true },
   ]),
 };
 

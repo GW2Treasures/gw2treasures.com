@@ -155,12 +155,26 @@ model Revision {
   currentItemStat_fr ItemStat?         @relation("current_fr")
   itemstatHistory    ItemStatHistory[]
 
-  // item stats
+  // profession
   currentProfession_de Profession?         @relation("current_de")
   currentProfession_en Profession?         @relation("current_en")
   currentProfession_es Profession?         @relation("current_es")
   currentProfession_fr Profession?         @relation("current_fr")
   professionHistory    ProfessionHistory[]
+
+  // specialization
+  currentSpecialization_de Specialization?         @relation("current_de")
+  currentSpecialization_en Specialization?         @relation("current_en")
+  currentSpecialization_es Specialization?         @relation("current_es")
+  currentSpecialization_fr Specialization?         @relation("current_fr")
+  specializationHistory    SpecializationHistory[]
+
+  // trait
+  currentTrait_de Trait?         @relation("current_de")
+  currentTrait_en Trait?         @relation("current_en")
+  currentTrait_es Trait?         @relation("current_es")
+  currentTrait_fr Trait?         @relation("current_fr")
+  traitHistory    TraitHistory[]
 
   @@index([language, type])
 }

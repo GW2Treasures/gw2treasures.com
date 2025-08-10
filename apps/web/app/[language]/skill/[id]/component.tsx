@@ -21,6 +21,10 @@ import { pageView } from '@/lib/pageView';
 import { parseIcon } from '@/lib/parseIcon';
 import { notFound } from 'next/navigation';
 import type { FC } from 'react';
+import { ItemList } from '@/components/ItemList/ItemList';
+import { TraitLink } from '@/components/Trait/TraitLink';
+import { Breadcrumb, BreadcrumbItem } from '@/components/Breadcrumb/Breadcrumb';
+import { getProfessionColor } from '@/components/Profession/icon';
 
 export interface SkillPageComponentProps {
   language: Language;
@@ -41,13 +45,15 @@ export const SkillPageComponent: FC<SkillPageComponentProps> = async ({ language
     notFound();
   }
 
-  const breadcrumb = [
-    'Skill',
-    data.professions?.length === 1 && data.professions,
-    data.attunement,
-    (data.type !== 'Weapon' || !data.weapon_type) && data.type,
-    data.weapon_type !== 'None' && data.weapon_type,
-  ].filter(Boolean).join(' › ');
+  const breadcrumb = (
+    <Breadcrumb>
+      <BreadcrumbItem name="Skill"/>
+      {data.professions?.length === 1 && <BreadcrumbItem name={data.professions[0]} href={`/professions/${data.professions[0]}`}/>}
+      {data.attunement && <BreadcrumbItem name={data.attunement}/>}
+      {(data.type !== 'Weapon' || !data.weapon_type) && data.type && <BreadcrumbItem name={data.type}/>}
+      {data.weapon_type && data.weapon_type !== 'None' && <BreadcrumbItem name={data.weapon_type}/>}
+    </Breadcrumb>
+  );
 
   const icon = parseIcon(data.icon);
 
@@ -57,6 +63,7 @@ export const SkillPageComponent: FC<SkillPageComponentProps> = async ({ language
       icon={icon?.id === skill.icon?.id ? skill.icon : (icon ? { ...icon, color: null } : null)}
       iconType="skill"
       breadcrumb={breadcrumb}
+      color={data.professions?.length === 1 ? getProfessionColor(data.professions[0]) : skill.icon?.color ?? undefined}
       infobox={<SkillInfobox skill={skill} data={data} language={language}/>}
     >
       {skill[`currentId_${language}`] !== revision.id && (
@@ -71,6 +78,17 @@ export const SkillPageComponent: FC<SkillPageComponentProps> = async ({ language
 
       <TableOfContentAnchor id="tooltip">Tooltip</TableOfContentAnchor>
       <SkillTooltip skill={data} language={language} hideTitle/>
+
+      {!fixedRevision && skill.affectedByTraits.length > 0 && (
+        <>
+          <Headline id="affected-by">Affected by</Headline>
+          <ItemList>
+            {skill.affectedByTraits.map((trait) => (
+              <li key={trait.id}><TraitLink trait={trait}/></li>
+            ))}
+          </ItemList>
+        </>
+      )}
 
       <Headline id="history">History</Headline>
 

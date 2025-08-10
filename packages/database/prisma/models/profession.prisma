@@ -15,6 +15,8 @@ model Profession {
   skillIds Int[]
   skills   Skill[]
 
+  specializations Specialization[]
+
   removedFromApi Boolean @default(false)
 
   current_de   Revision @relation("current_de", fields: [currentId_de], references: [id], onDelete: Cascade)

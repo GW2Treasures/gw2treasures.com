@@ -1,10 +1,9 @@
 import Link from 'next/link';
-import type { Gw2Api } from 'gw2-api-types';
 import { DiffLayout, DiffLayoutHeader, DiffLayoutRow } from '@/components/Layout/DiffLayout';
 import { EntityIcon } from '@/components/Entity/EntityIcon';
 import { parseIcon } from '@/lib/parseIcon';
 import { FormatDate } from '@/components/Format/FormatDate';
-import { Fact } from '@/components/Skill/SkillTooltip';
+import { Fact } from '@/components/Skill/SkillFact';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import { format } from 'gw2-tooltip-html';
 import { Separator } from '@gw2treasures/ui/components/Layout/Separator';
@@ -15,6 +14,7 @@ import { db } from '@/lib/prisma';
 import { cache } from '@/lib/cache';
 import type { PageProps } from '@/lib/next';
 import { createMetadata } from '@/lib/metadata';
+import type { Skill } from '@gw2api/types/data/skill';
 
 const getRevisions = cache(async (idA: string, idB: string) => {
   const [a, b] = await Promise.all([
@@ -37,8 +37,8 @@ async function SkillDiffPage({ params }: PageProps<{ a: string, b: string }>) {
 
   const { a, b } = await getRevisions(idA, idB);
 
-  const dataA: Gw2Api.Skill = JSON.parse(a.data);
-  const dataB: Gw2Api.Skill = JSON.parse(b.data);
+  const dataA: Skill = JSON.parse(a.data);
+  const dataB: Skill = JSON.parse(b.data);
 
   const iconA = parseIcon(dataA.icon);
   const iconB = parseIcon(dataB.icon);

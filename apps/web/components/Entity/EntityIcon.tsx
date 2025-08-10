@@ -7,7 +7,7 @@ import styles from './EntityIcon.module.css';
 import { getIconSize, getIconUrl, type FixedIconSize, type IconSize } from '@/lib/getIconUrl';
 import { cx } from '@gw2treasures/ui';
 
-export type EntityIconType = 'skill';
+export type EntityIconType = 'skill' | 'trait-major' | 'trait-minor';
 
 export interface EntityIconProps {
   icon: Omit<Icon, 'color' | 'signature'> & Partial<Pick<Icon, 'color' | 'signature'>>;

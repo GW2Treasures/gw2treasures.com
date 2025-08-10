@@ -1,8 +1,10 @@
 import { Prisma } from '@gw2treasures/database';
 import { LocalizedObject } from '../helper/types';
 import { Skill } from '@gw2api/types/data/skill';
+import { db } from '../../db';
+import { toId } from '../helper/toId';
 
-export const CURRENT_VERSION = 3;
+export const CURRENT_VERSION = 4;
 
 /** @see Prisma.SkillUpdateInput  */
 interface MigratedSkill {
@@ -13,11 +15,16 @@ interface MigratedSkill {
   name_es?: string
   name_fr?: string
 
+  affectedByTraits?: { connect: { id: number }[] }
+  affectedByTraitIdsRaw?: number[]
+
   flags?: string[]
 }
 
-// eslint-disable-next-line require-await
 export async function createMigrator() {
+  // get all known trait ids
+  const knownTraitIds = (await db.trait.findMany({ select: { id: true }})).map(toId);
+
   // eslint-disable-next-line require-await
   return async function migrate({ de, en, es, fr }: LocalizedObject<Skill>, currentVersion = -1) {
     const update: MigratedSkill = {
@@ -34,6 +41,16 @@ export async function createMigrator() {
 
     // Version 3: Add flags
     update.flags = en.flags;
+
+    // Version 4: Add trait relations
+    if(currentVersion < 4) {
+      update.affectedByTraitIdsRaw = Array.from(new Set(en.traited_facts?.map(({ requires_trait }) => requires_trait)));
+      update.affectedByTraits = update.affectedByTraitIdsRaw.length === 0 ? undefined : {
+        connect: update.affectedByTraitIdsRaw
+          .filter((id) => knownTraitIds.includes(id))
+          .map((id) => ({ id }))
+      };
+    }
 
     return update satisfies Prisma.SkillUpdateInput;
   };

@@ -3,6 +3,7 @@ import type { Prisma, Rarity } from '@gw2treasures/database';
 import type { decode } from 'gw2e-chat-codes';
 import { isDefined, isTruthy } from '@gw2treasures/helper/is';
 import { cache } from '@/lib/cache';
+import { linkPropertiesWithoutRarity } from '@/lib/linkProperties';
 
 type ChatCode = Exclude<ReturnType<typeof decode>, false>;
 type ChatCodeOfType<Type> = Type extends Exclude<ChatCode['type'], 'item' | 'objective' | 'build'> ? { type: Type, id: number } : Extract<ChatCode, { type: Type }>;
@@ -181,6 +182,41 @@ export const searchSkills = cache((terms: string[], chatCodes: ChatCode[]) => {
     orderBy: { views: 'desc' },
   });
 }, ['search', 'search-skills'], { revalidate: 60 });
+
+export const searchTraits = cache(async (terms: string[], chatCodes: ChatCode[]) => {
+  // don't show anything for empty search
+  if(terms.length === 0) {
+    return [];
+  }
+
+  const nameQueries = nameQuery(terms);
+  const traitChatCodes = chatCodes.filter(isChatCodeWithType('trait'));
+  const traitIdsInChatCodes = traitChatCodes.map(({ id }) => id);
+
+  return await db.trait.findMany({
+    where: terms.length + chatCodes.length > 0 ? { OR: [...nameQueries, { id: { in: traitIdsInChatCodes }}] } : undefined,
+    take: 5,
+    include: { icon: true, specialization: { select: { ...linkPropertiesWithoutRarity, profession: { select: linkPropertiesWithoutRarity }}}},
+  });
+}, ['search', 'search-traits'], { revalidate: 60 });
+
+export const searchProfession = cache(async (terms: string[], chatCodes: ChatCode[]) => {
+  // don't show anything for empty search
+  if(terms.length === 0) {
+    return [];
+  }
+
+  const nameQueries = nameQuery(terms);
+
+  // const buildChatCodes = chatCodes.filter(isChatCodeWithType('build'));
+  // const professionCodesInChatCodes = buildChatCodes.map(({ profession }) => profession);
+
+  return await db.profession.findMany({
+    where: terms.length + chatCodes.length > 0 ? { OR: [...nameQueries/*, { code: { in: professionCodesInChatCodes }}*/] } : undefined,
+    take: 5,
+    include: { icon: true },
+  });
+}, ['search', 'search-professions'], { revalidate: 60 });
 
 export const searchSkins = cache((terms: string[], chatCodes: ChatCode[]) => {
   const nameQueries = nameQuery(terms);

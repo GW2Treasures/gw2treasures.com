@@ -29,6 +29,8 @@ export const ProfessionIcon: FC<ProfessionIconProps> = ({ profession, className 
   );
 };
 
-export function getProfessionColor(profession: Profession.Id) {
-  return icons[profession].color;
+export function getProfessionColor(profession: Profession.Id | undefined) {
+  return profession
+    ? icons[profession].color
+    : undefined;
 }

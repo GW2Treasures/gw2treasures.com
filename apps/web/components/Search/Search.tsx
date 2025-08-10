@@ -9,7 +9,7 @@ import { autoUpdate, offset, shift, size, useDismiss, useFloating, useFocus, use
 import { Icon } from '@gw2treasures/ui';
 import type { TranslationSubset } from '@/lib/translate';
 import type { translations as itemTypeTranslations } from '../Item/ItemType.translations';
-import type { Rarity } from '@gw2treasures/database';
+import type { Rarity, TraitSlot } from '@gw2treasures/database';
 import type { Weight } from '@/lib/types/weight';
 import type { CurrencyCategoryName } from '@gw2treasures/static-data/currencies/categories';
 
@@ -18,6 +18,8 @@ export interface SearchProps {
    | 'search.placeholder'
    | 'search.results.items'
    | 'search.results.skills'
+   | 'search.results.traits'
+   | 'search.results.professions'
    | 'search.results.skins'
    | 'search.results.achievements'
    | 'search.results.achievements.categories'
@@ -29,6 +31,8 @@ export interface SearchProps {
    | `rarity.${Rarity}`
    | `weight.${Weight}`
    | `currency.category.${CurrencyCategoryName}`
+   | `trait.slot.${TraitSlot}`
+   | `trait.tier.${1 | 2 | 3}`
   >
 }
 

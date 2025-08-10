@@ -23,6 +23,11 @@ import { range } from '@gw2treasures/helper/range';
 import { getProfessionColor } from '@/components/Profession/icon';
 import { isDefined, isTruthy } from '@gw2treasures/helper/is';
 import { jsxJoin } from '@gw2treasures/ui/lib/jsx';
+import { SpecializationLink } from '@/components/Specialization/SpecialiazationLink';
+import { Specialization } from '@/components/Specialization/Specialization';
+import { Trans } from '@/components/I18n/Trans';
+import { Breadcrumb, BreadcrumbItem } from '@/components/Breadcrumb/Breadcrumb';
+import { translate } from '@/lib/translate';
 
 const getProfession = cache(async (id: string) => {
   const profession = await db.profession.findUnique({
@@ -30,7 +35,18 @@ const getProfession = cache(async (id: string) => {
     include: {
       icon: true,
       iconBig: true,
-      skills: { select: { ...linkPropertiesWithoutRarity, flags: true }}
+      skills: { select: { ...linkPropertiesWithoutRarity, flags: true }},
+      specializations: {
+        select: {
+          ...linkPropertiesWithoutRarity,
+          current_de: true,
+          current_en: true,
+          current_es: true,
+          current_fr: true,
+          professionId: true,
+          traits: { select: { ...linkPropertiesWithoutRarity, tier: true, slot: true }, orderBy: { order: 'asc' }}
+        }
+      },
     },
   });
 
@@ -64,24 +80,27 @@ export default async function ProfessionPage({ params }: ProfessionPageProps) {
   }
 
   const skills = groupById(profession.skills);
+  const specializations = groupById(profession.specializations);
   const weapons = getWeaponInfo(data.weapons, skills);
 
+  const breadcrumb = <Breadcrumb>{[<BreadcrumbItem key="p" name={translate('profession', language)} href="/professions"/>]}</Breadcrumb>;
+
   return (
-    <DetailLayout title={data.name} breadcrumb="Profession" icon={profession.iconBig} color={getProfessionColor(data.id)}>
-      <Headline id="skills">Weapons</Headline>
+    <DetailLayout title={data.name} breadcrumb={breadcrumb} icon={profession.iconBig} color={getProfessionColor(data.id)}>
+      <Headline id="skills"><Trans id="professions.weapon-skills"/></Headline>
       <ItemList>
         {weapons.map((weapon) => (
           <li key={weapon.id} style={{ display: 'block', marginBottom: 32, breakInside: 'avoid' }}>
-            <b>{weapon.id}</b>
-            {weapon.specialization && <p style={{ marginBottom: 0, marginTop: 8 }}>Requires specialization [{weapon.specialization}].</p>}
+            <b><Trans id={`item.type.Weapon.${weapon.id}`}/></b>
+            {weapon.specialization && <p style={{ marginBottom: 0, marginTop: 8 }}><Trans id="professions.weapon-skills.specialization"/>: <SpecializationLink specialization={specializations.get(weapon.specialization)!} icon={24}/></p>}
             {weapon.skillSets.map(({ requirement, skills: weaponSkills }) => (
               <div key={requirement === undefined ? '-' : Object.values(requirement).filter(isDefined).join('.')} style={{ marginTop: 16 }}>
                 {(requirement?.attunement || requirement?.offhand || requirement?.underwater) && (
                   <div style={{ marginBottom: 8 }}>
                     {jsxJoin([
-                      requirement?.attunement && (`${requirement.attunement} attunement`),
-                      requirement?.offhand && (`With offhand ${requirement.offhand}`),
-                      requirement?.underwater && 'Underwater',
+                      requirement?.attunement && <Trans key="attunement" id={`professions.weapon-skills.attunement.${requirement.attunement}`}/>,
+                      requirement?.offhand && <Fragment key="offhand"><Trans id="professions.weapon-skills.offhand"/>: {requirement.offhand === 'Nothing' ? <Trans id="professions.weapon-skills.offhand.nothing"/> : <Trans id={`item.type.Weapon.${requirement.offhand}`}/>}</Fragment>,
+                      requirement?.underwater && <Trans key="underwater" id="professions.weapon-skills.underwater"/>,
                     ].filter(isTruthy), <span style={{ color: 'var(--color-text-muted)' }}> ▪ </span>)}
                   </div>
                 )}
@@ -99,6 +118,18 @@ export default async function ProfessionPage({ params }: ProfessionPageProps) {
                 </FlexRow>
               </div>
             ))}
+          </li>
+        ))}
+      </ItemList>
+
+      <Headline id="specializations"><Trans id="navigation.specializations"/></Headline>
+      <ItemList style={{ columnWidth: 647 }}>
+        {profession.specializations.map((specialization) => (
+          <li key={specialization.id} style={{ display: 'block', marginBottom: 32, breakInside: 'avoid' }}>
+            <div id={specialization.id.toString()} style={{ marginBottom: 8, fontWeight: 500 }}>
+              {localizedName(specialization, language)}
+            </div>
+            <Specialization data={JSON.parse(specialization[`current_${language}`].data)} traits={specialization.traits}/>
           </li>
         ))}
       </ItemList>
@@ -140,7 +171,7 @@ interface WeaponInfo {
 interface SkillSetRequirement {
   attunement?: Skill.Attunement,
   underwater?: boolean,
-  offhand?: Profession.Weapon.Type,
+  offhand?: Profession.Weapon.Type | 'Nothing',
 }
 
 function getWeaponInfo(weapons: Profession['weapons'], skills: Map<number, { flags: string[] }>): WeaponInfo[] {

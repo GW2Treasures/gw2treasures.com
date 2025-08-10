@@ -1,5 +1,5 @@
 import type { Language, Skill } from '@gw2treasures/database';
-import type { Gw2Api } from 'gw2-api-types';
+import type { Skill as SkillData } from '@gw2api/types/data/skill';
 import type { FC } from 'react';
 import { isTruthy } from '@gw2treasures/helper/is';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
@@ -17,7 +17,7 @@ import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 
 interface SkillInfoboxProps {
   skill: Skill;
-  data: Gw2Api.Skill;
+  data: SkillData;
   language: Language;
 }
 

@@ -22,6 +22,16 @@
   transform: scale(1.333333);
 }
 
+[data-icon-type="trait-major"] .icon {
+  mask: luminance url(./trait-major-mask.png);
+  mask-size: 100%;
+}
+
+[data-icon-type="trait-minor"] .icon {
+  mask: luminance url(./trait-minor-mask.png);
+  mask-size: 100%;
+}
+
 .missingIcon {
   display: inline-block;
   width: var(--icon-size);

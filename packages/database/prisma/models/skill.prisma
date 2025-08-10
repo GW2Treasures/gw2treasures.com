@@ -13,6 +13,9 @@ model Skill {
 
   professions Profession[]
 
+  affectedByTraits Trait[] @relation("skill_traited_facts")
+  affectedByTraitIdsRaw Int[]
+
   removedFromApi Boolean @default(false)
 
   views Int @default(0)

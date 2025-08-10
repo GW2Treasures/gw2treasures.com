@@ -51,6 +51,37 @@ export const sitemaps: Record<string, Sitemap> = {
 
     }
   },
+  'traits': {
+    getCount() {
+      return db.trait.count();
+    },
+
+    async getEntries(language, skip, take) {
+      const traits = await db.trait.findMany({ skip, take, select: { id: true, updatedAt: true }});
+
+      return traits.map((trait) => getEntryForUrl(
+        language,
+        `/traits/${trait.id}`,
+        { lastmod: trait.updatedAt }
+      ));
+
+    }
+  },
+  'professions': {
+    getCount() {
+      return db.profession.count();
+    },
+
+    async getEntries(language, skip, take) {
+      const professions = await db.profession.findMany({ skip, take, select: { id: true, updatedAt: true }});
+
+      return professions.map((profession) => getEntryForUrl(
+        language,
+        `/professions/${profession.id}`,
+        { lastmod: profession.updatedAt }
+      ));
+    }
+  },
   'achievements': {
     getCount() {
       return db.achievement.count();
@@ -165,6 +196,10 @@ export const sitemaps: Record<string, Sitemap> = {
         '/colors',
         '/gliders',
         '/minis',
+
+        // professions
+        '/professions',
+        '/skills',
 
         // instances
         '/fractals',

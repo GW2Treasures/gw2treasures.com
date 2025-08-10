@@ -67,6 +67,21 @@ export const sitemaps: Record<string, Sitemap> = {
 
     }
   },
+  'professions': {
+    getCount() {
+      return db.profession.count();
+    },
+
+    async getEntries(language, skip, take) {
+      const professions = await db.profession.findMany({ skip, take, select: { id: true, updatedAt: true }});
+
+      return professions.map((profession) => getEntryForUrl(
+        language,
+        `/professions/${profession.id}`,
+        { lastmod: profession.updatedAt }
+      ));
+    }
+  },
   'achievements': {
     getCount() {
       return db.achievement.count();

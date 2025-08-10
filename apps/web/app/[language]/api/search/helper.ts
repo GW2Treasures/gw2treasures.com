@@ -200,6 +200,24 @@ export const searchTraits = cache(async (terms: string[], chatCodes: ChatCode[])
   });
 }, ['search', 'search-traits'], { revalidate: 60 });
 
+export const searchProfession = cache(async (terms: string[], chatCodes: ChatCode[]) => {
+  // don't show anything for empty search
+  if(terms.length === 0) {
+    return [];
+  }
+
+  const nameQueries = nameQuery(terms);
+
+  // const buildChatCodes = chatCodes.filter(isChatCodeWithType('build'));
+  // const professionCodesInChatCodes = buildChatCodes.map(({ profession }) => profession);
+
+  return await db.profession.findMany({
+    where: terms.length + chatCodes.length > 0 ? { OR: [...nameQueries/*, { code: { in: professionCodesInChatCodes }}*/] } : undefined,
+    take: 5,
+    include: { icon: true },
+  });
+}, ['search', 'search-professions'], { revalidate: 60 });
+
 export const searchSkins = cache((terms: string[], chatCodes: ChatCode[]) => {
   const nameQueries = nameQuery(terms);
   const itemChatCodes = chatCodes.filter(isChatCodeWithType('item'));

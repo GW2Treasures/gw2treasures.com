@@ -58,6 +58,16 @@ export function useSearchApiResults(searchValue: string, translations: Translati
     render: (link) => <Tooltip content={<SkillLinkTooltip skill={getLinkProperties(skill)}/>} key={link.key}>{link}</Tooltip>
   }));
 
+  const professions = response.loading ? [] : response.data.professions.map<SearchResult>((profession) => ({
+    title: localizedName(profession, language),
+    subtitle:
+      ['Elementalist', 'Mesmer', 'Necromancer'].includes(profession.id) ? translations['weight.Light'] :
+      ['Engineer', 'Ranger', 'Thief'].includes(profession.id) ? translations['weight.Medium'] :
+      translations['weight.Heavy'],
+    icon: profession.icon && <EntityIcon icon={profession.icon} size={32}/>,
+    href: `/professions/${profession.id}`,
+  }));
+
   const traits = response.loading ? [] : response.data.traits.map<SearchResult>((trait) => ({
     title: localizedName(trait, language),
     subtitle: [
@@ -125,6 +135,7 @@ export function useSearchApiResults(searchValue: string, translations: Translati
   return [
     results('items', items),
     results('skills', skills),
+    results('professions', professions),
     results('traits', traits),
     results('skins', skins),
     results('achievements', achievements),

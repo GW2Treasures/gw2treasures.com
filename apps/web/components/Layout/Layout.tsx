@@ -27,6 +27,7 @@ const Layout: FC<LayoutProps> = ({ children, language }) => {
     'search.results.items',
     'search.results.skills',
     'search.results.traits',
+    'search.results.professions',
     'search.results.skins',
     'search.results.achievements',
     'search.results.achievements.categories',

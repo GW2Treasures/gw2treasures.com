@@ -18,7 +18,7 @@ jobs:
       matrix:
         target: [ ui, icons, helper, tsconfig, publish-package, eslint-config, eslint-plugin-nextjs ]
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     - name: Setup Node.js env
       uses: ./.github/actions/setup-node-env
       with:

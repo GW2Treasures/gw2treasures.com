@@ -97,19 +97,19 @@ export const AccountAchievementProgressCell: FC<AccountAchievementProgressCellPr
       .reduce((total, tier) => (progress?.current ?? 0) >= tier.count ? total + tier.points : total, 0);
     const earnedPoints = Math.min(props.achievement.pointCap, currentPoints + (repeated * props.achievement.points));
 
-    if(earnedPoints === 0) {
-      return <td/>;
-    }
-
     if(earnedPoints === props.achievement.pointCap) {
       return (
         <ProgressCell progress={1} align="right">
           <FlexRow align="space-between">
             <Icon icon="checkmark"/>
-            <AchievementPoints points={props.achievement.pointCap}/>
+            {earnedPoints > 0 && (<AchievementPoints points={earnedPoints}/>)}
           </FlexRow>
         </ProgressCell>
       );
+    }
+
+    if(earnedPoints === 0) {
+      return <td/>;
     }
 
     return (

@@ -2,5 +2,6 @@
 
 *.png binary
 *.jpg binary
+*.avif binary
 
 legacy/**/* linguist-vendored

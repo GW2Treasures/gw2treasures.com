@@ -9,14 +9,17 @@ import { Festival, getFestival, isFestivalActive } from '../festivals';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import { FestivalTimer } from '@/components/Reset/FestivalTimer';
 import { createMetadata } from '@/lib/metadata';
-import { FourWindsHero } from './hero';
+import { FourWindsHero, heroNoImageClass } from './_hero/hero';
 
 export default function FourWindsFestivalLayout({ children }: LayoutProps) {
   const festival = getFestival(Festival.FourWinds);
 
   return (
     <HeroLayout hero={(<FourWindsHero><Headline id="four-winds" actions={<FestivalTimer festival={festival}/>}><div style={{ minWidth: '40vw' }}><Trans id="festival.four-winds.title"/></div></Headline></FourWindsHero>)}
-      skipLayout color="#81D4FA"
+      heroClassName={heroNoImageClass}
+      skipPreload
+      skipLayout
+      color="#DBC2C1"
       navBar={(
         <NavBar base="/festival/four-winds/" items={[
           { segment: '(index)', href: '/festival/four-winds', icon: 'four-winds', label: <Trans id="festival.four-winds"/> },

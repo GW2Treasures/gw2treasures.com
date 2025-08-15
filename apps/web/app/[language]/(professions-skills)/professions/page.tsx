@@ -1,5 +1,6 @@
 import { ItemList } from '@/components/ItemList/ItemList';
 import { EntityLink } from '@/components/Link/EntityLink';
+import { PageView } from '@/components/PageView/PageView';
 import { cache } from '@/lib/cache';
 import { linkPropertiesWithoutRarity } from '@/lib/linkProperties';
 import { compareLocalizedName } from '@/lib/localizedName';
@@ -20,6 +21,7 @@ export default async function ProfessionPage({ params }: PageProps) {
     <>
       <ItemList>
         {professions.map((profession) => <li key={profession.id}><EntityLink entity={profession} href={`/professions/${profession.id}`}/></li>)}
+        <PageView page="professions"/>
       </ItemList>
     </>
   );

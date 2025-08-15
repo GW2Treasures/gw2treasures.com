@@ -1,5 +1,6 @@
 import { FormatDate } from '@/components/Format/FormatDate';
 import { ItemList } from '@/components/ItemList/ItemList';
+import { PageView } from '@/components/PageView/PageView';
 import { SkillLink } from '@/components/Skill/SkillLink';
 import { cache } from '@/lib/cache';
 import { linkPropertiesWithoutRarity } from '@/lib/linkProperties';
@@ -42,6 +43,7 @@ export default async function SkillPage({ params }: PageProps) {
       <ItemList>
         {recentlyUpdated.map((revision) => <li key={revision.id}><SkillLink skill={revision.skillHistory[0].skill}/><FormatDate date={revision.createdAt} relative/></li>)}
       </ItemList>
+      <PageView page="professions"/>
     </>
   );
 }

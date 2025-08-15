@@ -15,10 +15,10 @@ export interface FourWindsHeroProps {
 }
 
 export const FourWindsHero: FC<FourWindsHeroProps> = ({ children }) => {
-  // preload background images
-  preload(bg.src, { as: 'image' });
-  preload(left.src, { as: 'image' });
-  preload(right.src, { as: 'image' });
+  // preload background images (the right image is hidden at 800px or smaller)
+  preload(bg.src, { as: 'image', fetchPriority: 'high', type: 'image/avif' });
+  preload(left.src, { as: 'image', fetchPriority: 'high', type: 'image/avif' });
+  preload(right.src, { as: 'image', fetchPriority: 'high', type: 'image/avif', media: '(min-width: 801px)' });
 
   return (
     <div className={styles.hero}>

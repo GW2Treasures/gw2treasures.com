@@ -41,7 +41,6 @@ export default async function RootLayout({ children, modal, params }: LayoutProp
     <html lang={language} className={cx(bitter.variable, wotfard.variable)}>
       <head>
         <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#b7000d"/>
-        <meta httpEquiv="origin-trial" content="AjYEGXQiv6Eh2jKsaJ42xEdyFjlIDI61UGOalti/W3vhl/QeG+cG4lMCAJwG78ffAB+12o6iKL8kSfAtUmaMVAkAAAByeyJvcmlnaW4iOiJodHRwczovL2d3MnRyZWFzdXJlcy5jb206NDQzIiwiZmVhdHVyZSI6IldlYkFwcFNjb3BlRXh0ZW5zaW9ucyIsImV4cGlyeSI6MTcxOTM1OTk5OSwiaXNTdWJkb21haW4iOnRydWV9"/>
       </head>
       <body>
         <I18nProvider language={language}>

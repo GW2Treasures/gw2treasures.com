@@ -6,7 +6,10 @@ export async function GET() {
   const currentUrl = await getCurrentUrl();
   const protocol = currentUrl.protocol;
 
-  return NextResponse.json({
-    web_apps: Object.values(Language).map((language) => ({ web_app_identity: `${protocol}//${language}.${process.env.GW2T_NEXT_DOMAIN}` }))
-  });
+  return NextResponse.json(Object.fromEntries(
+    Object.values(Language).map((language) => [
+      `${protocol}//${language}.${process.env.GW2T_NEXT_DOMAIN}`,
+      { scope: '/' }
+    ])
+  ));
 }

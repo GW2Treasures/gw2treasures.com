@@ -35,6 +35,7 @@ export async function GET() {
     theme_color: '#b7000d',
     background_color: '#ffffff',
     display: 'standalone',
+    display_override: ['window-controls-overlay'],
     scope_extensions: Object.values(Language).map((language) => ({ type: 'origin', origin: `${protocol}//${language}.${process.env.GW2T_NEXT_DOMAIN}` }))
   }, {
     headers: {

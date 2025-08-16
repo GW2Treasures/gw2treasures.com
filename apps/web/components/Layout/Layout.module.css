@@ -40,6 +40,14 @@
   right: 0;
   background-color: var(--color-background);
   z-index: 10;
+
+  padding-left: calc(env(titlebar-area-x, 0px) + 16px);
+  padding-right: calc(100% - env(titlebar-area-x, 0px) - env(titlebar-area-width, 100%) + 16px);
+  app-region: drag;
+}
+
+.headerMain > * {
+  app-region: no-drag;
 }
 
 .headerMainScrolled {

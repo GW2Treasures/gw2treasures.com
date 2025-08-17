@@ -25,6 +25,8 @@ import { ItemList } from '@/components/ItemList/ItemList';
 import { TraitLink } from '@/components/Trait/TraitLink';
 import { Breadcrumb, BreadcrumbItem } from '@/components/Breadcrumb/Breadcrumb';
 import { getProfessionColor } from '@/components/Profession/icon';
+import { SkillLink } from '@/components/Skill/SkillLink';
+import { isDefined } from '@gw2treasures/helper/is';
 
 export interface SkillPageComponentProps {
   language: Language;
@@ -57,6 +59,8 @@ export const SkillPageComponent: FC<SkillPageComponentProps> = async ({ language
 
   const icon = parseIcon(data.icon);
 
+  const flipOrFlippedSkills = [skill.flipSkill, ...skill.flippedSkill].filter(isDefined).filter((flip) => !skill.chainSkills.some(({ id }) => flip.id !== id));
+
   return (
     <DetailLayout
       title={data.name}
@@ -85,6 +89,28 @@ export const SkillPageComponent: FC<SkillPageComponentProps> = async ({ language
           <ItemList>
             {skill.affectedByTraits.map((trait) => (
               <li key={trait.id}><TraitLink trait={trait}/></li>
+            ))}
+          </ItemList>
+        </>
+      )}
+
+      {!fixedRevision && flipOrFlippedSkills.length > 0 && (
+        <>
+          <Headline id="chain">Flip Skills</Headline>
+          <ItemList>
+            {flipOrFlippedSkills.map((skill) => (
+              <li key={skill.id}><SkillLink skill={skill}/></li>
+            ))}
+          </ItemList>
+        </>
+      )}
+
+      {!fixedRevision && skill.chainSkills.length > 0 && (
+        <>
+          <Headline id="chain">Chain Skills</Headline>
+          <ItemList>
+            {skill.chainSkills.map((skill) => (
+              <li key={skill.id}><SkillLink skill={skill}/></li>
             ))}
           </ItemList>
         </>

@@ -16,6 +16,9 @@ export const getSkill = cache(async (id: number, language: Language) => {
       },
       icon: true,
       affectedByTraits: { select: { ...linkPropertiesWithoutRarity, slot: true }},
+      flipSkill: { select: linkPropertiesWithoutRarity },
+      flippedSkill: { select: linkPropertiesWithoutRarity },
+      chainSkills: { select: linkPropertiesWithoutRarity },
     }
   });
 

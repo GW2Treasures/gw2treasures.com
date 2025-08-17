@@ -13,8 +13,16 @@ model Skill {
 
   professions Profession[]
 
-  affectedByTraits Trait[] @relation("skill_traited_facts")
+  affectedByTraits      Trait[] @relation("skill_traited_facts")
   affectedByTraitIdsRaw Int[]
+
+  chainSkills  Skill[] @relation("chainSkills")
+  chainSkills_ Skill[] @relation("chainSkills")
+
+  flippedSkill   Skill[] @relation("flipSkill")
+  flipSkill      Skill?  @relation("flipSkill", fields: [flipSkillId], references: [id])
+  flipSkillId    Int?
+  flipSkillIdRaw Int?
 
   removedFromApi Boolean @default(false)
 

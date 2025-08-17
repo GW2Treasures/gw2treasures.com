@@ -23,6 +23,8 @@ export const SkillsNew: Job = {
         select: { id: true },
       });
 
+      const flippedSkill = await db.skill.findMany({ where: { flipSkillIdRaw: en.id }, select: { id: true }});
+
       await db.skill.create({
         data: {
           id,
@@ -32,6 +34,7 @@ export const SkillsNew: Job = {
           name_fr: fr.name,
           iconId,
           professions: { connect: professions },
+          flippedSkill: { connect: flippedSkill },
           version: 1,
           currentId_de: revisions.de.id,
           currentId_en: revisions.en.id,

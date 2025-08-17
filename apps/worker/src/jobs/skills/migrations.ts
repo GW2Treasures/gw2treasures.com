@@ -4,7 +4,7 @@ import { Skill } from '@gw2api/types/data/skill';
 import { db } from '../../db';
 import { toId } from '../helper/toId';
 
-export const CURRENT_VERSION = 4;
+export const CURRENT_VERSION = 5;
 
 /** @see Prisma.SkillUpdateInput  */
 interface MigratedSkill {
@@ -15,17 +15,23 @@ interface MigratedSkill {
   name_es?: string
   name_fr?: string
 
+  flags?: string[]
+
   affectedByTraits?: { connect: { id: number }[] }
   affectedByTraitIdsRaw?: number[]
 
-  flags?: string[]
+  chainSkills?: { connect: { id: number }[] }
+  chainSkills_?: { connect: { id: number }[] }
+
+  flipSkillId?: number | null
+  flipSkillIdRaw?: number | null
 }
 
 export async function createMigrator() {
-  // get all known trait ids
+  // get all known ids
   const knownTraitIds = (await db.trait.findMany({ select: { id: true }})).map(toId);
+  const knownSkillIds = (await db.skill.findMany({ select: { id: true }})).map(toId);
 
-  // eslint-disable-next-line require-await
   return async function migrate({ de, en, es, fr }: LocalizedObject<Skill>, currentVersion = -1) {
     const update: MigratedSkill = {
       version: CURRENT_VERSION
@@ -50,6 +56,31 @@ export async function createMigrator() {
           .filter((id) => knownTraitIds.includes(id))
           .map((id) => ({ id }))
       };
+    }
+
+    // Version 5: Add flip/chain skills
+    if(currentVersion < 5) {
+      // flip skills
+      const flipSkillId = en.flip_skill;
+      update.flipSkillIdRaw = flipSkillId;
+
+      if(flipSkillId && knownSkillIds.includes(flipSkillId)) {
+        update.flipSkillId = flipSkillId;
+      }
+
+      // chain skills
+      const chainIds = [en.next_chain, en.prev_chain].filter((id): id is number => id !== undefined && knownSkillIds.includes(id));
+
+      if(chainIds.length > 0) {
+        // find all skills in the chain
+        const chainSkills = await db.skill.findMany({
+          where: { OR: [{ id: { in: chainIds }}, { chainSkills: { some: { id: { in: chainIds }}}}, { chainSkills_: { some: { id: { in: chainIds }}}}] },
+          select: { id: true }
+        });
+
+        update.chainSkills = { connect: chainSkills };
+        update.chainSkills_ = { connect: chainSkills };
+      }
     }
 
     return update satisfies Prisma.SkillUpdateInput;

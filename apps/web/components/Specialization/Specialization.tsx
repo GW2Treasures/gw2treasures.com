@@ -5,8 +5,9 @@ import type { Trait } from '@gw2treasures/database';
 import { Fragment, type FC } from 'react';
 import styles from './Specialization.module.css';
 import { groupById } from '@gw2treasures/helper/group-by';
-import { TraitLink } from '../Trait/TraitLink';
+import { TraitLink, type TraitLinkProps } from '../Trait/TraitLink';
 import { range } from 'd3-array';
+import { EntityIconMissing } from '../Entity/EntityIconMissing';
 
 export interface SpecializationProps {
   data: SpecializationData,
@@ -22,15 +23,24 @@ export const Specialization: FC<SpecializationProps> = ({ data, traits }) => {
       {range(3).map((tier) => (
         <Fragment key={tier}>
           <div className={styles.tier}>
-            <TraitLink trait={traitsById.get(data.minor_traits[tier])!}>{null}</TraitLink>
+            <MaybeTraitLink trait={traitsById.get(data.minor_traits[tier])}>{null}</MaybeTraitLink>
           </div>
           <div className={styles.tier}>
-            <TraitLink trait={traitsById.get(data.major_traits[tier * 3 + 0])!}>{null}</TraitLink>
-            <TraitLink trait={traitsById.get(data.major_traits[tier * 3 + 1])!}>{null}</TraitLink>
-            <TraitLink trait={traitsById.get(data.major_traits[tier * 3 + 2])!}>{null}</TraitLink>
+            <MaybeTraitLink trait={traitsById.get(data.major_traits[tier * 3 + 0])}>{null}</MaybeTraitLink>
+            <MaybeTraitLink trait={traitsById.get(data.major_traits[tier * 3 + 1])}>{null}</MaybeTraitLink>
+            <MaybeTraitLink trait={traitsById.get(data.major_traits[tier * 3 + 2])}>{null}</MaybeTraitLink>
           </div>
         </Fragment>
       ))}
     </div>
   );
+};
+
+
+const MaybeTraitLink: FC<TraitLinkProps | { trait?: null }> = ({ trait, ...props }) => {
+  if(!trait) {
+    return <EntityIconMissing size={32}/>;
+  }
+
+  return <TraitLink trait={trait} {...props}/>;
 };

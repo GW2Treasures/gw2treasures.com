@@ -28,6 +28,10 @@ import { Specialization } from '@/components/Specialization/Specialization';
 import { Trans } from '@/components/I18n/Trans';
 import { Breadcrumb, BreadcrumbItem } from '@/components/Breadcrumb/Breadcrumb';
 import { translate } from '@/lib/translate';
+import { Icon } from '@gw2treasures/ui';
+import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
+import { encode } from 'gw2e-chat-codes';
+import { TraitLink } from '@/components/Trait/TraitLink';
 
 const getProfession = cache(async (id: string) => {
   const profession = await db.profession.findUnique({
@@ -82,6 +86,7 @@ export default async function ProfessionPage({ params }: ProfessionPageProps) {
   const skills = groupById(profession.skills);
   const specializations = groupById(profession.specializations);
   const weapons = getWeaponInfo(data.weapons, skills);
+  const traits = groupById(profession.specializations.flatMap((specialization) => specialization.traits));
 
   const breadcrumb = <Breadcrumb>{[<BreadcrumbItem key="p" name={translate('profession', language)} href="/professions"/>]}</Breadcrumb>;
 
@@ -136,6 +141,27 @@ export default async function ProfessionPage({ params }: ProfessionPageProps) {
           );
         })}
       </ItemList>
+
+      <Headline id="training">Training</Headline>
+      {data.training.map((training) => (
+        <Fragment key={training.id}>
+          <div id={`training-${training.id}`} style={{ display: 'block', marginBottom: 16 }}>
+            <b>{training.name}</b> ({training.track.at(-1)?.cost} <Icon icon="heropoint"/> total)
+          </div>
+
+          <ItemList>
+            {training.track.map((track, i) => (
+              <li key={`${track.type}-${track.skill_id ?? track.trait_id}`}>
+                {track.type === 'Skill'
+                  ? (skills.has(track.skill_id) ? <SkillLink skill={skills.get(track.skill_id)!}/> : <span>Unknown Skill ({encode('skill', track.skill_id)})</span>)
+                  : (traits.has(track.trait_id) ? <TraitLink trait={traits.get(track.trait_id)!}/> : <span>Unknown Trait ({encode('trait', track.trait_id)})</span>)
+                }
+                <span style={{ color: 'var(--color-text-muted)' }}>{track.cost - (training.track[i - 1]?.cost || 0)} <Tip tip="Heropoint"><Icon icon="heropoint"/></Tip></span>
+              </li>
+            ))}
+          </ItemList>
+        </Fragment>
+      ))}
 
       <Headline id="data">Data</Headline>
       <Json data={data}/>

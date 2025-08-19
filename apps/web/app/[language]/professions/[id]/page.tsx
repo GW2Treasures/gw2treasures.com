@@ -124,14 +124,17 @@ export default async function ProfessionPage({ params }: ProfessionPageProps) {
 
       <Headline id="specializations"><Trans id="navigation.specializations"/></Headline>
       <ItemList style={{ columnWidth: 647 }}>
-        {profession.specializations.map((specialization) => (
-          <li key={specialization.id} style={{ display: 'block', marginBottom: 32, breakInside: 'avoid' }}>
-            <div id={specialization.id.toString()} style={{ marginBottom: 8, fontWeight: 500 }}>
-              {localizedName(specialization, language)}
-            </div>
-            <Specialization data={JSON.parse(specialization[`current_${language}`].data)} traits={specialization.traits}/>
-          </li>
-        ))}
+        {data.specializations.map((specializationId) => {
+          const specialization = specializations.get(specializationId);
+          return !specialization ? null : (
+            <li key={specializationId} style={{ display: 'block', marginBottom: 32, breakInside: 'avoid' }}>
+              <div id={specializationId.toString()} style={{ marginBottom: 8, fontWeight: 500 }}>
+                {localizedName(specialization, language)}
+              </div>
+              <Specialization data={JSON.parse(specialization[`current_${language}`].data)} traits={specialization.traits}/>
+            </li>
+          );
+        })}
       </ItemList>
 
       <Headline id="data">Data</Headline>

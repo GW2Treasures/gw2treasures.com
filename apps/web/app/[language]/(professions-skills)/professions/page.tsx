@@ -8,6 +8,7 @@ import { createMetadata } from '@/lib/metadata';
 import type { PageProps } from '@/lib/next';
 import { db } from '@/lib/prisma';
 import { getTranslate } from '@/lib/translate';
+import ogImage from './og.png';
 
 const getProfessions = cache(() => {
   return db.profession.findMany({ select: linkPropertiesWithoutRarity });
@@ -32,6 +33,7 @@ export const generateMetadata = createMetadata(async ({ params }) => {
   const t = getTranslate(language);
 
   return {
-    title: t('navigation.professions')
+    title: t('navigation.professions'),
+    image: ogImage,
   };
 });

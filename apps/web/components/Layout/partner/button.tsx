@@ -7,11 +7,12 @@ import layoutStyles from '../Layout.module.css';
 import styles from './button.module.css';
 import { Trans } from '@/components/I18n/Trans';
 import { PartnerLogo } from './logo';
+import { Badge } from '@/components/Badge/Badge';
 
 export const PartnerButton: FC = () => {
   const button = (
     <LinkButton href="/about#partner" appearance="menu" className={styles.button}>
-      <Icon icon="story"/><span className={layoutStyles.responsive}> <Trans id="partner.button"/></span>
+      <Icon icon="story"/><span className={layoutStyles.responsive}> <Trans id="partner.button"/> <Badge>60% Sale</Badge></span>
     </LinkButton>
   );
 
@@ -21,6 +22,7 @@ export const PartnerButton: FC = () => {
         <div className={styles.dropdownDescription}>
           <PartnerLogo/>
           <Trans id="partner.info"/>
+          <div style={{ marginTop: 8, color: 'var(--color-focus)', fontSize: 15, alignSelf: 'stretch' }}>Save up to 60% on expansions until Sept. 2nd.</div>
         </div>
         <LinkButton external appearance="menu" href="http://guildwars2.go2cloud.org/aff_c?offer_id=34&aff_id=758" icon="external" className={styles.buttonNoDelay}>
           <Trans id="partner.button.buy"/>

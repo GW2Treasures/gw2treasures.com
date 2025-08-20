@@ -192,7 +192,7 @@
   padding-top: 0;
 }
 
-@media(max-width: 920px) {
+@media(max-width: 1079px) {
   .title > span { display: none; }
   .headerMain { gap: 16px; }
   .responsive { display: none; }

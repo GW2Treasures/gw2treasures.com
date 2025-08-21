@@ -73,8 +73,8 @@ importers:
         specifier: 0.27.16
         version: 0.27.16(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       '@floating-ui/react-dom':
-        specifier: 2.1.5
-        version: 2.1.5(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
+        specifier: 2.1.6
+        version: 2.1.6(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       '@formatjs/intl-localematcher':
         specifier: 0.6.1
         version: 0.6.1
@@ -500,8 +500,8 @@ importers:
         specifier: 0.27.16
         version: 0.27.16(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       '@floating-ui/react-dom':
-        specifier: 2.1.5
-        version: 2.1.5(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
+        specifier: 2.1.6
+        version: 2.1.6(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       '@gw2treasures/helper':
         specifier: workspace:~0.0.5
         version: link:../helper
@@ -977,12 +977,6 @@ packages:
 
   '@floating-ui/dom@1.7.4':
     resolution: {integrity: sha512-OOchDgh4F2CchOX94cRVqhvy7b3AFb+/rQXyswmzmGakRfkMgoWVjfnLWkRirfLEfuD4ysVW16eXzwt3jHIzKA==}
-
-  '@floating-ui/react-dom@2.1.5':
-    resolution: {integrity: sha512-HDO/1/1oH9fjj4eLgegrlH3dklZpHtUYYFiVwMUwfGvk9jWDRWqkklA2/NFScknrcNSspbV868WjXORvreDX+Q==}
-    peerDependencies:
-      react: 19.1.1
-      react-dom: 19.1.1
 
   '@floating-ui/react-dom@2.1.6':
     resolution: {integrity: sha512-4JX6rEatQEvlmgU80wZyq9RT96HZJa88q8hp0pBd+LrczeDI4o6uA2M+uvxngVHo4Ihr8uibXxH6+70zhAFrVw==}
@@ -5056,12 +5050,6 @@ snapshots:
     dependencies:
       '@floating-ui/core': 1.7.3
       '@floating-ui/utils': 0.2.10
-
-  '@floating-ui/react-dom@2.1.5(react-dom@19.1.1(react@19.1.1))(react@19.1.1)':
-    dependencies:
-      '@floating-ui/dom': 1.7.4
-      react: 19.1.1
-      react-dom: 19.1.1(react@19.1.1)
 
   '@floating-ui/react-dom@2.1.6(react-dom@19.1.1(react@19.1.1))(react@19.1.1)':
     dependencies:

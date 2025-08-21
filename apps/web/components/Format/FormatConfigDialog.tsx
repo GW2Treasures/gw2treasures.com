@@ -19,7 +19,7 @@ export interface FormatConfigDialogProps {
 }
 
 const defaultLocales = { languages: ['de', 'en', 'es', 'fr'], regions: ['US', 'GB', 'DE', 'FR', 'ES'] };
-const localeRegex = /^([a-z]{2,4})([_-][a-z]{4})?[_-]([a-z]{2,3})?/i;
+const localeRegex = /^([a-z]{2,4})([_-][a-z]{4})?[_-]([a-z]{2,3})?\b/i;
 
 const { languages: availableLanguages, regions: availableRegions } = typeof window === 'undefined'
   ? defaultLocales
@@ -45,15 +45,15 @@ export const FormatConfigDialog: FC<FormatConfigDialogProps> = ({ open, onClose 
   const currentLanguage = useLanguage();
 
   const languages = useMemo(() => {
-    const formatter = new Intl.DisplayNames(currentLanguage, { type: 'language' });
+    const formatter = new Intl.DisplayNames(currentLanguage, { type: 'language', fallback: 'none' });
 
-    return availableLanguages.map((lang) => ({ value: lang, label: `${formatter.of(lang)} (${lang})` }));
+    return availableLanguages.map((lang) => ({ value: lang, label: tryFormat(formatter, lang) }));
   }, [currentLanguage]);
 
   const regions = useMemo(() => {
-    const formatter = new Intl.DisplayNames(currentLanguage, { type: 'region' });
+    const formatter = new Intl.DisplayNames(currentLanguage, { type: 'region', fallback: 'none' });
 
-    return availableRegions.map((region) => ({ value: region, label: `${formatter.of(region)} (${region})` }));
+    return availableRegions.map((region) => ({ value: region, label: tryFormat(formatter, region) }));
   }, [currentLanguage]);
 
   return (
@@ -92,3 +92,12 @@ const FormatConfigDialogCookieNote = withSuspense(() => {
     </div>
   );
 });
+
+function tryFormat(formatter: Intl.DisplayNames, code: string) {
+  try {
+    const formatted = formatter.of(code);
+    return formatted ? `${formatted} (${code})` : code;
+  } catch {
+    return code;
+  }
+}

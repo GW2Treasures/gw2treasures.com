@@ -9,8 +9,7 @@ import { Skeleton } from '@/components/Skeleton/Skeleton';
 import { PageLayout } from '@/components/Layout/PageLayout';
 import { cache } from '@/lib/cache';
 import { localizedName } from '@/lib/localizedName';
-import type { PageProps } from '@/lib/next';
-import { getTranslate } from '@/lib/translate';
+import { getLanguage, getTranslate } from '@/lib/translate';
 import ogImage from './wizards-vault-og.png';
 import { ItemLink } from '@/components/Item/ItemLink';
 import { groupById } from '@gw2treasures/helper/group-by';
@@ -42,8 +41,8 @@ const getData = cache(async () => {
   return { season, objectiveWaypoints, items };
 }, ['wizards-vault-data'], { revalidate: 60 });
 
-export default async function WizardsVaultPage({ params }: PageProps) {
-  const { language } = await params;
+export default async function WizardsVaultPage() {
+  const language = await getLanguage();
   const { season, objectiveWaypoints, items } = await getData();
 
   const itemsById = groupById(items);
@@ -62,8 +61,8 @@ export default async function WizardsVaultPage({ params }: PageProps) {
   );
 }
 
-export const generateMetadata = createMetadata(async ({ params }) => {
-  const { language } = await params;
+export const generateMetadata = createMetadata(async () => {
+  const language = await getLanguage();
   const t = await getTranslate(language);
 
   return {

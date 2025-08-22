@@ -1,16 +1,15 @@
 import { Trans } from '@/components/I18n/Trans';
 import { Description } from '@/components/Layout/Description';
 import { PageLayout } from '@/components/Layout/PageLayout';
-import type { PageProps } from '@/lib/next';
-import { getTranslate, translateMany } from '@/lib/translate';
+import { getLanguage, getTranslate, translateMany } from '@/lib/translate';
 import { SabAccounts } from './page.client';
 import { pageView } from '@/lib/pageView';
 import ogImage from './og.png';
 import { createMetadata } from '@/lib/metadata';
 
 
-export default async function SuperAdventureFestivalCharactersPage({ params }: PageProps) {
-  const { language } = await params;
+export default async function SuperAdventureFestivalCharactersPage() {
+  const language = await getLanguage();
 
   const translations = translateMany([
     'festival.super-adventure.sab.hideEmpty',
@@ -60,8 +59,8 @@ export default async function SuperAdventureFestivalCharactersPage({ params }: P
   );
 }
 
-export const generateMetadata = createMetadata(async ({ params }) => {
-  const { language } = await params;
+export const generateMetadata = createMetadata(async () => {
+  const language = await getLanguage();
   const t = getTranslate(language);
 
   return {

@@ -10,11 +10,13 @@ import { jwtVerify } from 'jose';
 import { signingKey } from '@/components/ItemTable/signingKey';
 import type { AchievementProgressSnapshot } from '@/components/Achievement/share/types';
 import { createMetadata } from '@/lib/metadata';
+import { getLanguage } from '@/lib/translate';
 
 export type AchievementPageProps = PageProps<{ id: string }>;
 
 export default async function AchievementPage({ params, searchParams }: AchievementPageProps) {
-  const { language, id } = await params;
+  const language = await getLanguage();
+  const { id } = await params;
   const achievementId = Number(id);
 
   const { snapshot } = await searchParams;
@@ -27,7 +29,8 @@ export default async function AchievementPage({ params, searchParams }: Achievem
 }
 
 export const generateMetadata = createMetadata<AchievementPageProps>(async ({ params }) => {
-  const { language, id: idParam } = await params;
+  const language = await getLanguage();
+  const { id: idParam } = await params;
   const achievementId = Number(idParam);
 
   const { data } = await getRevision(achievementId, language);

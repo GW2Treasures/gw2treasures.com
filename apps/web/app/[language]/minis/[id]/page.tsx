@@ -18,6 +18,7 @@ import type { PageProps } from '@/lib/next';
 import type { Mini } from '@gw2api/types/data/mini';
 import { Wardrobe } from './wardrobe';
 import { createMetadata } from '@/lib/metadata';
+import { getLanguage } from '@/lib/translate';
 
 const getMini = cache(async (id: number, language: Language) => {
   const [mini, revision] = await Promise.all([
@@ -41,7 +42,8 @@ const getMini = cache(async (id: number, language: Language) => {
 type MiniPageProps = PageProps<{ id: string }>;
 
 async function MiniPage ({ params }: MiniPageProps) {
-  const { language, id } = await params;
+  const language = await getLanguage();
+  const { id } = await params;
   const miniId: number = Number(id);
 
   const { mini, revision } = await getMini(miniId, language);
@@ -93,7 +95,8 @@ async function MiniPage ({ params }: MiniPageProps) {
 export default MiniPage;
 
 export const generateMetadata = createMetadata<MiniPageProps>(async ({ params }) => {
-  const { language, id } = await params;
+  const language = await getLanguage();
+  const { id } = await params;
   const miniId: number = Number(id);
   const { mini } = await getMini(miniId, language);
 

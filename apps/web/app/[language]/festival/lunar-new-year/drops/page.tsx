@@ -11,8 +11,7 @@ import { FormatNumber } from '@/components/Format/FormatNumber';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { ExternalLink } from '@gw2treasures/ui/components/Link/ExternalLink';
 import { Icon } from '@gw2treasures/ui';
-import type { PageProps } from '@/lib/next';
-import { getTranslate, translateMany } from '@/lib/translate';
+import { getLanguage, getTranslate, translateMany } from '@/lib/translate';
 import { ColumnSelect } from '@/components/Table/ColumnSelect';
 import { Coins } from '@/components/Format/Coins';
 import { DataTableFooterTd } from '@gw2treasures/ui/components/Table/DataTable.client';
@@ -58,8 +57,8 @@ function getAverage(item: Awaited<ReturnType<typeof loadItems>>[number], count: 
   };
 }
 
-export default async function LunarNewYearDropsPage({ params }: PageProps) {
-  const { language } = await params;
+export default async function LunarNewYearDropsPage() {
+  const language = await getLanguage();
   await pageView('festival/lunar-new-year/drops');
   const items = await loadItems(drfData.flatMap((drf) => [drf.itemId, ...drf.content.map(({ id }) => id)]));
   const itemsById = groupById(items);
@@ -183,8 +182,8 @@ const empty = (
   <span style={{ color: 'var(--color-text-muted)' }}>-</span>
 );
 
-export const generateMetadata = createMetadata(async ({ params }) => {
-  const { language } = await params;
+export const generateMetadata = createMetadata(async () => {
+  const language = await getLanguage();
   const t = getTranslate(language);
 
   return {

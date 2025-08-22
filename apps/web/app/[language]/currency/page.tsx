@@ -6,9 +6,8 @@ import { HeroLayout } from '@/components/Layout/HeroLayout';
 import { ColumnSelect } from '@/components/Table/ColumnSelect';
 import { cache } from '@/lib/cache';
 import { compareLocalizedName } from '@/lib/localizedName';
-import type { PageProps } from '@/lib/next';
 import { db } from '@/lib/prisma';
-import { getTranslate } from '@/lib/translate';
+import { getLanguage, getTranslate } from '@/lib/translate';
 import { Scope } from '@gw2me/client';
 import { currencyCategoryById } from '@gw2treasures/static-data/currencies/categories';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
@@ -27,8 +26,8 @@ const getCurrencies = cache(
   { revalidate: 60 }
 );
 
-export default async function CurrencyPage({ params }: PageProps) {
-  const { language } = await params;
+export default async function CurrencyPage() {
+  const language = await getLanguage();
   const t = getTranslate(language);
 
   const currencies = await getCurrencies();
@@ -53,8 +52,8 @@ export default async function CurrencyPage({ params }: PageProps) {
   );
 }
 
-export const generateMetadata = createMetadata(async ({ params }) => {
-  const { language } = await params;
+export const generateMetadata = createMetadata(async () => {
+  const language = await getLanguage();
   const t = getTranslate(language);
 
   return {

@@ -8,8 +8,7 @@ import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { db } from '@/lib/prisma';
 import { linkProperties, linkPropertiesWithoutRarity } from '@/lib/linkProperties';
 import { cache } from '@/lib/cache';
-import type { PageProps } from '@/lib/next';
-import { getTranslate } from '@/lib/translate';
+import { getLanguage, getTranslate } from '@/lib/translate';
 import { groupById } from '@gw2treasures/helper/group-by';
 import { Dashboard } from 'app/[language]/dashboard/dashboard';
 import { StructuredData } from '@/components/StructuredData/StructuredData';
@@ -60,8 +59,8 @@ const loadData = cache(async function loadData() {
   return { items, coins };
 }, ['lunar-new-year-items'], { revalidate: 60 * 60 });
 
-export default async function LunarNewYearPage({ params }: PageProps) {
-  const { language } = await params;
+export default async function LunarNewYearPage() {
+  const language = await getLanguage();
   const t = getTranslate(language);
   const lunarNewYear = getFestival(Festival.LunarNewYear);
 
@@ -108,8 +107,8 @@ export default async function LunarNewYearPage({ params }: PageProps) {
   );
 }
 
-export const generateMetadata = createMetadata(async ({ params }) => {
-  const { language } = await params;
+export const generateMetadata = createMetadata(async () => {
+  const language = await getLanguage();
   const t = getTranslate(language);
 
   return {

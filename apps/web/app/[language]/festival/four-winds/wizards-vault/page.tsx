@@ -7,7 +7,7 @@ import { cache } from '@/lib/cache';
 import { createMetadata } from '@/lib/metadata';
 import { pageView } from '@/lib/pageView';
 import { db } from '@/lib/prisma';
-import { getTranslate } from '@/lib/translate';
+import { getLanguage, getTranslate } from '@/lib/translate';
 import { Icon } from '@gw2treasures/ui';
 import Link from 'next/link';
 import { requiredScopes } from '../helper';
@@ -59,8 +59,8 @@ export default async function FourWindsWizardsVaultPage() {
   );
 }
 
-export const generateMetadata = createMetadata(async ({ params }) => {
-  const { language } = await params;
+export const generateMetadata = createMetadata(async () => {
+  const language = await getLanguage();
   const t = getTranslate(language);
 
   return {

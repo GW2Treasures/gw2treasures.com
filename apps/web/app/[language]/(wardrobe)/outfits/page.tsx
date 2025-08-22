@@ -4,13 +4,12 @@ import { linkProperties } from '@/lib/linkProperties';
 import { compareLocalizedName, localizedName } from '@/lib/localizedName';
 import { db } from '@/lib/prisma';
 import type { Language } from '@gw2treasures/database';
-import type { PageProps } from '@/lib/next';
 import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
 import { Description } from '@/components/Layout/Description';
 import { ColumnSelect } from '@/components/Table/ColumnSelect';
 import { Trans } from '@/components/I18n/Trans';
 import { Gw2AccountBodyCells, Gw2AccountHeaderCells } from '@/components/Gw2Api/Gw2AccountTableCells';
-import { getTranslate } from '@/lib/translate';
+import { getLanguage, getTranslate } from '@/lib/translate';
 import { EntityIcon } from '@/components/Entity/EntityIcon';
 import { EntityIconMissing } from '@/components/Entity/EntityIconMissing';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
@@ -36,8 +35,8 @@ const getOutfits = cache((language: Language) => {
   });
 }, ['outfits'], { revalidate: 60 });
 
-export default async function OutfitsPage({ params }: PageProps) {
-  const { language } = await params;
+export default async function OutfitsPage() {
+  const language = await getLanguage();
   const outfits = await getOutfits(language);
 
   const Outfits = createDataTable(outfits, ({ id }) => id);
@@ -74,8 +73,8 @@ export default async function OutfitsPage({ params }: PageProps) {
   );
 }
 
-export const generateMetadata = createMetadata(async ({ params }) => {
-  const { language } = await params;
+export const generateMetadata = createMetadata(async () => {
+  const language = await getLanguage();
   const t = getTranslate(language);
 
   return {

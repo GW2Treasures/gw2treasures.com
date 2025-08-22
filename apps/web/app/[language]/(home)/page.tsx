@@ -14,19 +14,18 @@ import { FormatNumber } from '@/components/Format/FormatNumber';
 import { AchievementLink } from '@/components/Achievement/AchievementLink';
 import { cache } from '@/lib/cache';
 import { PageView } from '@/components/PageView/PageView';
-import type { PageProps } from '@/lib/next';
 import { Snow } from '../festival/wintersday/snow';
 import { Festival, getActiveFestival } from '../festival/festivals';
 import { LunarNewYearHero } from '../festival/lunar-new-year/hero';
 import ogImage from './og.png';
 import { DungeonRushLink } from '../bonus-event/dungeon-rush/DungeonRushLink';
 import gw2treasuresSab from './gw2treasures-sab.png';
-import { getTranslate } from '@/lib/translate';
+import { getLanguage, getTranslate } from '@/lib/translate';
 import { BonusEvent, getActiveBonusEvent } from '../bonus-event/bonus-events';
 import { createMetadata } from '@/lib/metadata';
 
-async function HomePage({ params }: PageProps) {
-  const { language } = await params;
+async function HomePage() {
+  const language = await getLanguage();
   const t = getTranslate(language);
 
   const festival = getActiveFestival();

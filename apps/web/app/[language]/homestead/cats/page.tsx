@@ -11,7 +11,7 @@ import { Gw2AccountBodyCells, Gw2AccountHeaderCells } from '@/components/Gw2Api/
 import { AccountHomeCatCell, requiredScopes } from '../homestead.client';
 import { PageView } from '@/components/PageView/PageView';
 import { Description } from '@/components/Layout/Description';
-import { getTranslate } from '@/lib/translate';
+import { getLanguage, getTranslate } from '@/lib/translate';
 import { Gw2Accounts } from '@/components/Gw2Api/Gw2Accounts';
 import { Scope } from '@gw2me/client';
 import { createMetadata } from '@/lib/metadata';
@@ -41,8 +41,8 @@ export default function HomesteadCatsPage() {
   );
 }
 
-export const generateMetadata = createMetadata(async ({ params }) => {
-  const { language } = await params;
+export const generateMetadata = createMetadata(async () => {
+  const language = await getLanguage();
   const t = getTranslate(language);
 
   return {

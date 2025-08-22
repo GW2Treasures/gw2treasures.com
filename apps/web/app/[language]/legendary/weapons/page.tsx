@@ -3,9 +3,8 @@ import { Description } from '@/components/Layout/Description';
 import { ColumnSelect } from '@/components/Table/ColumnSelect';
 import { cache } from '@/lib/cache';
 import { linkProperties } from '@/lib/linkProperties';
-import type { PageProps } from '@/lib/next';
 import { db } from '@/lib/prisma';
-import { getTranslate } from '@/lib/translate';
+import { getLanguage, getTranslate } from '@/lib/translate';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import { createItemTable, LegendaryItemDataTable } from '../table';
 import { TableFilterButton, TableFilterProvider, type TableFilterDefinition } from '@/components/Table/TableFilter';
@@ -26,8 +25,8 @@ const loadItems = cache(async () => {
   return items;
 }, ['legendary-weapons'], { revalidate: 60 * 60 });
 
-export default async function LegendaryRelicsPage({ params }: PageProps) {
-  const { language } = await params;
+export default async function LegendaryRelicsPage() {
+  const language = await getLanguage();
   const t = getTranslate(language);
 
   await pageView('legendary/weapons');
@@ -55,8 +54,8 @@ export default async function LegendaryRelicsPage({ params }: PageProps) {
   );
 }
 
-export const generateMetadata = createMetadata(async ({ params }) => {
-  const { language } = await params;
+export const generateMetadata = createMetadata(async () => {
+  const language = await getLanguage();
   const t = getTranslate(language);
 
   return {

@@ -6,18 +6,21 @@ import { strip } from 'gw2-tooltip-html';
 import { parseIcon } from '@/lib/parseIcon';
 import { getIconUrl } from '@/lib/getIconUrl';
 import { createMetadata } from '@/lib/metadata';
+import { getLanguage } from '@/lib/translate';
 
 type AchievementRevisionPageProps = PageProps<{ id: string, revisionId: string }>;
 
 export default async function AchievementPage({ params }: AchievementRevisionPageProps) {
-  const { language, id, revisionId } = await params;
+  const language = await getLanguage();
+  const { id, revisionId } = await params;
   const achievementId = Number(id);
 
   return <AchievementPageComponent language={language} achievementId={achievementId} revisionId={revisionId}/>;
 }
 
 export const generateMetadata = createMetadata<AchievementRevisionPageProps>(async ({ params }) => {
-  const { language, id: idParam, revisionId } = await params;
+  const language = await getLanguage();
+  const { id: idParam, revisionId } = await params;
   const achievementId = Number(idParam);
 
   const { data } = await getRevision(achievementId, language, revisionId);

@@ -13,8 +13,8 @@ import { AccountAchievementProgressHeader, AccountAchievementProgressRow } from 
 import { PageLayout } from '@/components/Layout/PageLayout';
 import { ColumnSelect } from '@/components/Table/ColumnSelect';
 import { cache } from '@/lib/cache';
-import type { PageProps } from '@/lib/next';
 import { createMetadata } from '@/lib/metadata';
+import { getLanguage } from '@/lib/translate';
 
 const getUncategorizedAchievements = cache(async () => {
   const achievements = await db.achievement.findMany({
@@ -25,8 +25,8 @@ const getUncategorizedAchievements = cache(async () => {
   return { achievements };
 }, ['uncategorized-achievements'], { revalidate: 60 });
 
-async function AchievementUncategorizedPage({ params }: PageProps) {
-  const { language } = await params;
+async function AchievementUncategorizedPage() {
+  const language = await getLanguage();
   const { achievements } = await getUncategorizedAchievements();
 
   const UncategorizedAchievements = createDataTable(achievements, ({ id }) => id);

@@ -5,9 +5,8 @@ import { SkillLink } from '@/components/Skill/SkillLink';
 import { cache } from '@/lib/cache';
 import { linkPropertiesWithoutRarity } from '@/lib/linkProperties';
 import { createMetadata } from '@/lib/metadata';
-import type { PageProps } from '@/lib/next';
 import { db } from '@/lib/prisma';
-import { getTranslate } from '@/lib/translate';
+import { getLanguage, getTranslate } from '@/lib/translate';
 import type { Language } from '@gw2treasures/database';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 
@@ -29,8 +28,8 @@ const getSkills = cache(async (language: Language) => {
   return { recentlyAdded, recentlyUpdated };
 }, ['skills'], { revalidate: 60 });
 
-export default async function SkillPage({ params }: PageProps) {
-  const { language } = await params;
+export default async function SkillPage() {
+  const language = await getLanguage();
   const { recentlyAdded, recentlyUpdated } = await getSkills(language);
 
   return (
@@ -48,8 +47,8 @@ export default async function SkillPage({ params }: PageProps) {
   );
 }
 
-export const generateMetadata = createMetadata(async ({ params }) => {
-  const { language } = await params;
+export const generateMetadata = createMetadata(async () => {
+  const language = await getLanguage();
   const t = getTranslate(language);
 
   return {

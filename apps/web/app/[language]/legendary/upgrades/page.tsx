@@ -3,9 +3,8 @@ import { Description } from '@/components/Layout/Description';
 import { ColumnSelect } from '@/components/Table/ColumnSelect';
 import { cache } from '@/lib/cache';
 import { linkProperties } from '@/lib/linkProperties';
-import type { PageProps } from '@/lib/next';
 import { db } from '@/lib/prisma';
-import { getTranslate } from '@/lib/translate';
+import { getLanguage, getTranslate } from '@/lib/translate';
 import { createItemTable, LegendaryItemDataTable } from '../table';
 import { pageView } from '@/lib/pageView';
 import { createMetadata } from '@/lib/metadata';
@@ -32,8 +31,8 @@ const loadItems = cache(async () => {
   return items;
 }, ['legendary-upgrades'], { revalidate: 60 * 60 });
 
-export default async function LegendaryUpgradesPage({ params }: PageProps) {
-  const { language } = await params;
+export default async function LegendaryUpgradesPage() {
+  const language = await getLanguage();
 
   await pageView('legendary/upgrades');
 
@@ -50,8 +49,8 @@ export default async function LegendaryUpgradesPage({ params }: PageProps) {
   );
 }
 
-export const generateMetadata = createMetadata(async ({ params }) => {
-  const { language } = await params;
+export const generateMetadata = createMetadata(async () => {
+  const language = await getLanguage();
   const t = getTranslate(language);
 
   return {

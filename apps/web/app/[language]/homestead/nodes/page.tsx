@@ -12,8 +12,7 @@ import { AccountHomeNodeCell, requiredScopes } from '../homestead.client';
 import { globalColumnRenderer as itemTableColumn } from '@/components/ItemTable/columns';
 import { PageView } from '@/components/PageView/PageView';
 import { Description } from '@/components/Layout/Description';
-import { getTranslate } from '@/lib/translate';
-import type { PageProps } from '@/lib/next';
+import { getLanguage, getTranslate } from '@/lib/translate';
 import { Gw2Accounts } from '@/components/Gw2Api/Gw2Accounts';
 import { Scope } from '@gw2me/client';
 import { isDefined } from '@gw2treasures/helper/is';
@@ -37,8 +36,8 @@ const getItems = cache(
   }, ['homestead-items'], { revalidate: 60 * 5 }
 );
 
-export default async function HomesteadNodesPage({ params }: PageProps) {
-  const { language } = await params;
+export default async function HomesteadNodesPage() {
+  const language = await getLanguage();
 
   // collect all the item ids
   const itemIds = homeNodes.reduce<number[]>(
@@ -87,8 +86,8 @@ export default async function HomesteadNodesPage({ params }: PageProps) {
   );
 }
 
-export const generateMetadata = createMetadata(async ({ params }) => {
-  const { language } = await params;
+export const generateMetadata = createMetadata(async () => {
+  const language = await getLanguage();
   const t = getTranslate(language);
 
   return {

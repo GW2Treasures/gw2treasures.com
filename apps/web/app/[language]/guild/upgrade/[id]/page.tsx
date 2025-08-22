@@ -18,6 +18,7 @@ import { pageView } from '@/lib/pageView';
 import { cache } from '@/lib/cache';
 import type { PageProps } from '@/lib/next';
 import { createMetadata } from '@/lib/metadata';
+import { getLanguage } from '@/lib/translate';
 
 const getGuildUpgrade = cache(async (id: number) => {
   if(isNaN(id)) {
@@ -54,7 +55,8 @@ const getRevision = cache(async (id: number, language: Language, revisionId?: st
 type GuildUpgradePageProps = PageProps<{ id: string }>;
 
 export default async function GuildUpgradePage({ params }: GuildUpgradePageProps) {
-  const { language, id } = await params;
+  const language = await getLanguage();
+  const { id } = await params;
   const guildUpgradeId = Number(id);
   const [guildUpgrade, { revision, data }] = await Promise.all([
     getGuildUpgrade(guildUpgradeId),
@@ -111,7 +113,8 @@ export default async function GuildUpgradePage({ params }: GuildUpgradePageProps
 }
 
 export const generateMetadata = createMetadata<GuildUpgradePageProps>(async ({ params }) => {
-  const { language, id } = await params;
+  const language = await getLanguage();
+  const { id } = await params;
   const skinId: number = Number(id);
   const guildUpgrade = await getGuildUpgrade(skinId);
 

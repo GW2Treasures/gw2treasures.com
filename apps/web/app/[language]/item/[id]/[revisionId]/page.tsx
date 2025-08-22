@@ -5,18 +5,21 @@ import type { PageProps } from '@/lib/next';
 import { createMetadata } from '@/lib/metadata';
 import { strip } from 'gw2-tooltip-html';
 import { encode } from 'gw2e-chat-codes';
+import { getLanguage } from '@/lib/translate';
 
 type ItemRevisionPageProps = PageProps<{ id: string, revisionId: string }>;
 
 export default async function ItemPage({ params }: ItemRevisionPageProps) {
-  const { language, id, revisionId } = await params;
+  const language = await getLanguage();
+  const { id, revisionId } = await params;
   const itemId = Number(id);
 
   return <ItemPageComponent language={language} itemId={itemId} revisionId={revisionId}/>;
 }
 
 export const generateMetadata = createMetadata<ItemRevisionPageProps>(async ({ params }) => {
-  const { language, id, revisionId } = await params;
+  const language = await getLanguage();
+  const { id, revisionId } = await params;
   const itemId = Number(id);
   const { data } = await getRevision(itemId, language, revisionId);
 

@@ -13,6 +13,7 @@ import { localizedName, selectLocalizedProp, type LocalizedEntity } from '@/lib/
 import { createMetadata } from '@/lib/metadata';
 import type { PageProps } from '@/lib/next';
 import { db } from '@/lib/prisma';
+import { getLanguage } from '@/lib/translate';
 import type { Profession } from '@gw2api/types/data/profession';
 import type { Trait } from '@gw2api/types/data/trait';
 import type { Language } from '@gw2treasures/database';
@@ -49,7 +50,8 @@ const getTrait = cache(async (id: number, language: Language) => {
 }, ['get-trait'], { });
 
 export default async function TraitPage({ params }: TraitPageProps) {
-  const { language, id } = await params;
+  const language = await getLanguage();
+  const { id } = await params;
   const traitId = Number(id);
 
   const { trait, data } = await getTrait(traitId, language);
@@ -114,7 +116,8 @@ export default async function TraitPage({ params }: TraitPageProps) {
 }
 
 export const generateMetadata = createMetadata<TraitPageProps>(async ({ params }) => {
-  const { language, id } = await params;
+  const language = await getLanguage();
+  const { id } = await params;
   const traitId = Number(id);
 
   const { trait, data } = await getTrait(traitId, language);

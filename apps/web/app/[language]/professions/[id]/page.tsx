@@ -27,7 +27,7 @@ import { SpecializationLink } from '@/components/Specialization/SpecialiazationL
 import { Specialization } from '@/components/Specialization/Specialization';
 import { Trans } from '@/components/I18n/Trans';
 import { Breadcrumb, BreadcrumbItem } from '@/components/Breadcrumb/Breadcrumb';
-import { translate } from '@/lib/translate';
+import { getLanguage, translate } from '@/lib/translate';
 import { Icon } from '@gw2treasures/ui';
 import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 import { encode } from 'gw2e-chat-codes';
@@ -72,7 +72,8 @@ const getRevision = cache(async (id: string, language: Language, revisionId?: st
 type ProfessionPageProps = PageProps<{ id: string }>;
 
 export default async function ProfessionPage({ params }: ProfessionPageProps) {
-  const { language, id } = await params;
+  const language = await getLanguage();
+  const { id } = await params;
   const [profession, { revision, data }] = await Promise.all([
     getProfession(id),
     getRevision(id, language),
@@ -170,7 +171,8 @@ export default async function ProfessionPage({ params }: ProfessionPageProps) {
 }
 
 export async function generateMetadata({ params }: ProfessionPageProps): Promise<Metadata> {
-  const { language, id } = await params;
+  const language = await getLanguage();
+  const { id } = await params;
   const profession = await getProfession(id);
 
   if(!profession) {

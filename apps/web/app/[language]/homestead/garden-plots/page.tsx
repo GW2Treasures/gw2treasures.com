@@ -8,8 +8,7 @@ import { groupById } from '@gw2treasures/helper/group-by';
 import { cache } from '@/lib/cache';
 import { globalColumnRenderer as itemTableColumn } from '@/components/ItemTable/columns';
 import { PageView } from '@/components/PageView/PageView';
-import { getTranslate } from '@/lib/translate';
-import type { PageProps } from '@/lib/next';
+import { getLanguage, getTranslate } from '@/lib/translate';
 import { Gw2Accounts } from '@/components/Gw2Api/Gw2Accounts';
 import { Scope } from '@gw2me/client';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
@@ -133,8 +132,8 @@ const getData = cache(
   }, ['homestead-garden'], { revalidate: 60 * 5 }
 );
 
-export default async function HomesteadGardenPlotPage({ params }: PageProps) {
-  const { language } = await params;
+export default async function HomesteadGardenPlotPage() {
+  const language = await getLanguage();
 
   // collect all the item ids
   const itemIds = [
@@ -221,8 +220,8 @@ export default async function HomesteadGardenPlotPage({ params }: PageProps) {
   );
 }
 
-export const generateMetadata = createMetadata(async ({ params }) => {
-  const { language } = await params;
+export const generateMetadata = createMetadata(async () => {
+  const language = await getLanguage();
   const t = getTranslate(language);
 
   return {

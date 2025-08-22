@@ -5,13 +5,12 @@ import { Description } from '@/components/Layout/Description';
 import { PageLayout } from '@/components/Layout/PageLayout';
 import { cache } from '@/lib/cache';
 import { linkProperties } from '@/lib/linkProperties';
-import type { PageProps } from '@/lib/next';
 import { db } from '@/lib/prisma';
 import type { AchievementFlags } from '@gw2api/types/data/achievement';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { requiredScopes } from '../helper';
 import { pageView } from '@/lib/pageView';
-import { getTranslate } from '@/lib/translate';
+import { getLanguage, getTranslate } from '@/lib/translate';
 import { createMetadata } from '@/lib/metadata';
 
 const achievementIds = [
@@ -58,8 +57,8 @@ const loadData = cache(async function loadData() {
   return { ...groupedAchievements };
 }, ['wintersday'], { revalidate: 60 * 60 });
 
-export default async function WintersdayAchievementsPage({ params }: PageProps) {
-  const { language } = await params;
+export default async function WintersdayAchievementsPage() {
+  const language = await getLanguage();
   const { achievements, dailyAchievements } = await loadData();
   await pageView('festival/wintersday/achievements');
 
@@ -88,8 +87,8 @@ export default async function WintersdayAchievementsPage({ params }: PageProps) 
   );
 }
 
-export const generateMetadata = createMetadata(async ({ params }) => {
-  const { language } = await params;
+export const generateMetadata = createMetadata(async () => {
+  const language = await getLanguage();
   const t = getTranslate(language);
 
   return {

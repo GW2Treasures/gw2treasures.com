@@ -6,19 +6,21 @@ import { getRevision } from './getSkill';
 import type { PageProps } from '@/lib/next';
 import { encode } from 'gw2e-chat-codes';
 import { createMetadata } from '@/lib/metadata';
-import { getTranslate } from '@/lib/translate';
+import { getLanguage, getTranslate } from '@/lib/translate';
 
 export type SkillPageProps = PageProps<{ id: string }>;
 
 export default async function SkillPage({ params }: SkillPageProps) {
-  const { language, id } = await params;
+  const language = await getLanguage();
+  const { id } = await params;
   const skillId: number = Number(id);
 
   return <SkillPageComponent language={language} skillId={skillId}/>;
 }
 
 export const generateMetadata = createMetadata<SkillPageProps>(async ({ params }) => {
-  const { language, id } = await params;
+  const language = await getLanguage();
+  const { id } = await params;
   const t = getTranslate(language);
   const skillId = Number(id);
   const { data } = await getRevision(skillId, language);

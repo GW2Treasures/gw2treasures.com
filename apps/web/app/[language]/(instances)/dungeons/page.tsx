@@ -6,10 +6,9 @@ import { Description } from '@/components/Layout/Description';
 import { ColumnSelect } from '@/components/Table/ColumnSelect';
 import { cache } from '@/lib/cache';
 import { linkPropertiesWithoutRarity } from '@/lib/linkProperties';
-import type { PageProps } from '@/lib/next';
 import { parseIcon } from '@/lib/parseIcon';
 import { db } from '@/lib/prisma';
-import { getTranslate } from '@/lib/translate';
+import { getLanguage, getTranslate } from '@/lib/translate';
 import { dungeons } from '@gw2treasures/static-data/dungeons/index';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
@@ -40,8 +39,8 @@ const getCurrencies = cache(
   ['dungeons-currencies'], { revalidate: 60 * 60 }
 );
 
-export default async function DungeonsPage({ params }: PageProps) {
-  const { language } = await params;
+export default async function DungeonsPage() {
+  const language = await getLanguage();
   const t = getTranslate(language);
 
   await pageView('dungeons');
@@ -115,8 +114,8 @@ export default async function DungeonsPage({ params }: PageProps) {
   );
 }
 
-export const generateMetadata = createMetadata(async ({ params }) => {
-  const { language } = await params;
+export const generateMetadata = createMetadata(async () => {
+  const language = await getLanguage();
   const t = getTranslate(language);
 
   return {

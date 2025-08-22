@@ -16,11 +16,11 @@ import { Icon } from '@gw2treasures/ui';
 import { ExternalLink } from '@gw2treasures/ui/components/Link/ExternalLink';
 import ogImage from './og.png';
 import { WizardsVaultObjective } from '@/components/WizardsVault/WizardsVaultObjective';
-import type { PageProps } from '@/lib/next';
 import { PageView } from '@/components/PageView/PageView';
 import Link from 'next/link';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import { createMetadata } from '@/lib/metadata';
+import { getLanguage } from '@/lib/translate';
 
 const endsAt = new Date('2024-12-02T17:00:00.000Z');
 
@@ -58,8 +58,8 @@ const loadObjective = cache(async function loadObjective() {
   return objective!;
 }, ['evon-gnashblades-birthday-objective'], { revalidate: 60 * 60 * 24 });
 
-export default async function EventPage({ params }: PageProps) {
-  const { language } = await params;
+export default async function EventPage() {
+  const language = await getLanguage();
   const [items, objective] = await Promise.all([loadItems(), loadObjective()]);
   const Exchange = createDataTable(data, (_, index) => index);
 

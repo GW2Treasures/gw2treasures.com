@@ -6,6 +6,7 @@ import { createTooltip } from '@/components/Skin/SkinTooltip';
 import type { Gw2Api } from 'gw2-api-types';
 import { cache } from '@/lib/cache';
 import type { RouteHandler } from '@/lib/next';
+import { getLanguage } from '@/lib/translate';
 
 const getSkinRevision = cache((id: number, language: Language, revisionId?: string) => {
   return revisionId
@@ -14,7 +15,8 @@ const getSkinRevision = cache((id: number, language: Language, revisionId?: stri
 }, ['skin-revision'], { revalidate: 60 });
 
 export const GET: RouteHandler<{ id: string }> = async (request, { params }) => {
-  const { language, id } = await params;
+  const language = await getLanguage();
+  const { id } = await params;
   const skinId = Number(id);
 
   const { searchParams } = new URL(request.url);

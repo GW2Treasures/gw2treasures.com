@@ -7,14 +7,13 @@ import type { Language } from '@gw2treasures/database';
 import { unstable_cache } from 'next/cache';
 import { DyeColor } from '@/components/Color/DyeColor';
 import { hexToRgb } from '@/components/Color/hex-to-rgb';
-import type { PageProps } from '@/lib/next';
 import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
 import { Description } from '@/components/Layout/Description';
 import { ColumnSelect } from '@/components/Table/ColumnSelect';
 import { Trans } from '@/components/I18n/Trans';
 import { Gw2AccountBodyCells, Gw2AccountHeaderCells } from '@/components/Gw2Api/Gw2AccountTableCells';
 import { ColorAccountUnlockCell, requiredScopes } from '@/components/Color/unlock-cell';
-import { getTranslate } from '@/lib/translate';
+import { getLanguage, getTranslate } from '@/lib/translate';
 import { createMetadata } from '@/lib/metadata';
 
 const getColors = unstable_cache((language: Language) => {
@@ -34,8 +33,8 @@ const getColors = unstable_cache((language: Language) => {
   });
 }, ['get-colors']);
 
-export default async function ColorPage({ params }: PageProps) {
-  const { language } = await params;
+export default async function ColorPage() {
+  const language = await getLanguage();
   const colors = await getColors(language);
 
   const Colors = createDataTable(colors, ({ id }) => id);
@@ -78,8 +77,8 @@ export default async function ColorPage({ params }: PageProps) {
   );
 }
 
-export const generateMetadata = createMetadata(async ({ params }) => {
-  const { language } = await params;
+export const generateMetadata = createMetadata(async () => {
+  const language = await getLanguage();
   const t = getTranslate(language);
 
   return {

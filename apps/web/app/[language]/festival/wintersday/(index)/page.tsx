@@ -12,8 +12,7 @@ import { db } from '@/lib/prisma';
 import { linkProperties } from '@/lib/linkProperties';
 import { cache } from '@/lib/cache';
 import { ItemLink } from '@/components/Item/ItemLink';
-import type { PageProps } from '@/lib/next';
-import { getTranslate } from '@/lib/translate';
+import { getLanguage, getTranslate } from '@/lib/translate';
 import { Fragment } from 'react';
 import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
 import { OutputCount } from '@/components/Item/OutputCount';
@@ -57,10 +56,10 @@ const loadData = cache(async function loadData() {
   return { items };
 }, ['wintersday-items'], { revalidate: 60 * 60 });
 
-export default async function WintersdayPage({ params }: PageProps) {
+export default async function WintersdayPage() {
   const wintersday = getFestival(Festival.Wintersday);
 
-  const { language } = await params;
+  const language = await getLanguage();
   const t = getTranslate(language);
 
   const { items } = await loadData();
@@ -128,8 +127,8 @@ export default async function WintersdayPage({ params }: PageProps) {
   );
 }
 
-export const generateMetadata = createMetadata(async ({ params }) => {
-  const { language } = await params;
+export const generateMetadata = createMetadata(async () => {
+  const language = await getLanguage();
   const t = getTranslate(language);
 
   return {

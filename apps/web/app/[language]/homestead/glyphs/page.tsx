@@ -9,12 +9,11 @@ import { AccountHomesteadGlyphsCell, requiredScopes } from '../homestead.client'
 import { PageView } from '@/components/PageView/PageView';
 import { localizedName } from '@/lib/localizedName';
 import { UnknownItem } from '@/components/Item/UnknownItem';
-import { translateMany, getTranslate } from '@/lib/translate';
+import { translateMany, getTranslate, getLanguage } from '@/lib/translate';
 import { ColumnSelect } from '@/components/Table/ColumnSelect';
 import { Description } from '@/components/Layout/Description';
 import { isTruthy } from '@gw2treasures/helper/is';
 import { globalColumnRenderer as itemTableColumn } from '@/components/ItemTable/columns';
-import type { PageProps } from '@/lib/next';
 import { Gw2Accounts } from '@/components/Gw2Api/Gw2Accounts';
 import { Scope } from '@gw2me/client';
 import { createMetadata } from '@/lib/metadata';
@@ -51,8 +50,8 @@ const getGlyphs = cache(async () => {
   });
 }, ['homestead-glyphs'], { revalidate: 60 });
 
-export default async function HomesteadGlyphsPage({ params }: PageProps) {
-  const { language } = await params;
+export default async function HomesteadGlyphsPage() {
+  const language = await getLanguage();
   const glyphs = await getGlyphs();
 
   const Glyphs = createDataTable(glyphs, ({ id }) => id);
@@ -90,8 +89,8 @@ export default async function HomesteadGlyphsPage({ params }: PageProps) {
   );
 }
 
-export const generateMetadata = createMetadata(async ({ params }) => {
-  const { language } = await params;
+export const generateMetadata = createMetadata(async () => {
+  const language = await getLanguage();
   const t = getTranslate(language);
 
   return {

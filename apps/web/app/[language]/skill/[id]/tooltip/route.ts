@@ -6,6 +6,7 @@ import { createTooltip } from '@/components/Skill/SkillTooltip';
 import { cache } from '@/lib/cache';
 import type { RouteHandler } from '@/lib/next';
 import type { Skill } from '@gw2api/types/data/skill';
+import { getLanguage } from '@/lib/translate';
 
 const getSkillRevision = cache((id: number, language: Language, revisionId?: string) => {
   return revisionId
@@ -14,7 +15,8 @@ const getSkillRevision = cache((id: number, language: Language, revisionId?: str
 }, ['revision-skill'], { revalidate: 60 });
 
 export const GET: RouteHandler<{ id: string }> = async (request, { params }) => {
-  const { language, id } = await params;
+  const language = await getLanguage();
+  const { id } = await params;
   const itemId = Number(id);
 
   const { searchParams } = new URL(request.url);

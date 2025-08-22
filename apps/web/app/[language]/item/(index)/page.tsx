@@ -8,8 +8,8 @@ import { ItemLink } from '@/components/Item/ItemLink';
 import { FormatDate } from '@/components/Format/FormatDate';
 import { pageView } from '@/lib/pageView';
 import { cache } from '@/lib/cache';
-import type { PageProps } from '@/lib/next';
 import { createMetadata } from '@/lib/metadata';
+import { getLanguage } from '@/lib/translate';
 
 const getItems = cache(async (language: Language) => {
   const [recentlyAdded, recentlyUpdated] = await Promise.all([
@@ -29,8 +29,8 @@ const getItems = cache(async (language: Language) => {
   return { recentlyAdded, recentlyUpdated };
 }, ['items'], { revalidate: 60 });
 
-export default async function ItemPage({ params }: PageProps) {
-  const { language } = await params;
+export default async function ItemPage() {
+  const language = await getLanguage();
   const { recentlyAdded, recentlyUpdated } = await getItems(language);
   pageView('item');
 

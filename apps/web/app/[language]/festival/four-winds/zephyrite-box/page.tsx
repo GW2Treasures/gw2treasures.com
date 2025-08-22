@@ -11,10 +11,9 @@ import { ColumnSelect } from '@/components/Table/ColumnSelect';
 import { cache } from '@/lib/cache';
 import { linkProperties, linkPropertiesWithoutRarity } from '@/lib/linkProperties';
 import { createMetadata } from '@/lib/metadata';
-import type { PageProps } from '@/lib/next';
 import { pageView } from '@/lib/pageView';
 import { db } from '@/lib/prisma';
-import { getTranslate } from '@/lib/translate';
+import { getLanguage, getTranslate } from '@/lib/translate';
 import { groupById } from '@gw2treasures/helper/group-by';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
@@ -102,8 +101,8 @@ const costQuantityStyle = {
 } as const;
 
 
-export default async function FourWindsAchievementsPage({ params }: PageProps) {
-  const { language } = await params;
+export default async function FourWindsAchievementsPage() {
+  const language = await getLanguage();
   const { items, currencies } = await loadData();
   await pageView('festival/four-winds/zephyrite-box');
 
@@ -189,8 +188,8 @@ export default async function FourWindsAchievementsPage({ params }: PageProps) {
   );
 }
 
-export const generateMetadata = createMetadata(async ({ params }) => {
-  const { language } = await params;
+export const generateMetadata = createMetadata(async () => {
+  const language = await getLanguage();
   const t = getTranslate(language);
 
   return {

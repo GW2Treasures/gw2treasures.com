@@ -1,11 +1,12 @@
 import 'server-only';
-import type { Language } from '@gw2treasures/database';
+import { Language } from '@gw2treasures/database';
 
 import de from '../translations/de.json';
 import en from '../translations/en.json';
 import es from '../translations/es.json';
 import fr from '../translations/fr.json';
 import { headers } from 'next/headers';
+import { unstable_rootParams } from 'next/server';
 
 export type TranslationId = keyof typeof en;
 
@@ -44,9 +45,26 @@ export function translateMany<T extends TranslationId>(ids: T[], language: Langu
   return Object.fromEntries(ids.map((id) => [id, translate(id)])) as TranslationSubset<T>;
 }
 
-export async function getLanguage() {
-  // TODO: use getRootParams once those are supported
-  const language = (await headers()).get('x-gw2t-lang') as Language;
+export async function getLanguage(): Promise<Language> {
+  // TODO: replace with `next/rootParams`
+  const { language } = await unstable_rootParams();
 
-  return language;
+  return isValidLanguage(language)
+    ? language
+    : getFallbackLanguageFromHeaders();
+}
+
+async function getFallbackLanguageFromHeaders(): Promise<Language> {
+  // get language from internal `x-gw2t-lang` header
+  const language = (await headers()).get('x-gw2t-lang');
+
+  if(isValidLanguage(language)) {
+    return language;
+  }
+
+  throw new Error('Could not detect language');
+}
+
+function isValidLanguage(language: unknown): language is Language {
+  return !!language && typeof language === 'string' && language in Language;
 }

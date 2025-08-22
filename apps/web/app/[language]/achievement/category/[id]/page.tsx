@@ -13,7 +13,7 @@ import { linkProperties } from '@/lib/linkProperties';
 import { cache } from '@/lib/cache';
 import { AchievementTable } from '@/components/Achievement/AchievementTable';
 import { Breadcrumb, BreadcrumbItem } from '@/components/Breadcrumb/Breadcrumb';
-import { getTranslate } from '@/lib/translate';
+import { getLanguage, getTranslate } from '@/lib/translate';
 import type { PageProps } from '@/lib/next';
 import { createMetadata } from '@/lib/metadata';
 
@@ -40,7 +40,8 @@ const getAchievementCategory = cache(async (id: number, language: Language) => {
 }, ['achievement-category'], { revalidate: 60 });
 
 async function AchievementCategoryPage({ params }: AchievementCategoryPageProps) {
-  const { language, id } = await params;
+  const language = await getLanguage();
+  const { id } = await params;
   const achievementCategoryId = Number(id);
 
   if(isNaN(achievementCategoryId)) {
@@ -106,7 +107,8 @@ async function AchievementCategoryPage({ params }: AchievementCategoryPageProps)
 export default AchievementCategoryPage;
 
 export const generateMetadata = createMetadata<AchievementCategoryPageProps>(async ({ params }) => {
-  const { language, id: idParam } = await params;
+  const language = await getLanguage();
+  const { id: idParam } = await params;
   const id = Number(idParam);
 
   const achievementCategory = await db.achievementCategory.findUnique({

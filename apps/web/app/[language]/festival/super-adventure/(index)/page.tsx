@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import { Trans } from '@/components/I18n/Trans';
 import { PageLayout } from '@/components/Layout/PageLayout';
 import { pageView } from '@/lib/pageView';
@@ -6,8 +5,7 @@ import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { db } from '@/lib/prisma';
 import { linkProperties } from '@/lib/linkProperties';
 import { cache } from '@/lib/cache';
-import type { PageProps } from '@/lib/next';
-import { getTranslate } from '@/lib/translate';
+import { getLanguage, getTranslate } from '@/lib/translate';
 import { Dashboard } from 'app/[language]/dashboard/dashboard';
 import { StructuredData } from '@/components/StructuredData/StructuredData';
 import type { Event } from 'schema-dts';
@@ -52,8 +50,8 @@ const loadData = cache(async function loadData() {
   return { items: items.sort((a, b) => itemIds.indexOf(a.id) - itemIds.indexOf(b.id)) };
 }, ['super-adventure-box-items'], { revalidate: 60 * 60 });
 
-export default async function SuperAdventureFestivalPage({ params }: PageProps) {
-  const { language } = await params;
+export default async function SuperAdventureFestivalPage() {
+  const language = await getLanguage();
   const t = getTranslate(language);
   const festival = getFestival(Festival.SuperAdventureFestival);
 
@@ -104,8 +102,8 @@ export default async function SuperAdventureFestivalPage({ params }: PageProps) 
   );
 }
 
-export const generateMetadata = createMetadata(async ({ params }) => {
-  const { language } = await params;
+export const generateMetadata = createMetadata(async () => {
+  const language = await getLanguage();
   const t = getTranslate(language);
 
   return {

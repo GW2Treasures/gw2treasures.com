@@ -4,11 +4,12 @@ import { getAlternateUrls, getCurrentUrl } from './url';
 import type { StaticImageData } from 'next/image';
 import type { TemplateString } from 'next/dist/lib/metadata/types/metadata-types';
 import type { Twitter } from 'next/dist/lib/metadata/types/twitter-types';
+import { getLanguage } from './translate';
 
 export function createMetadata<Props extends PageProps | LayoutProps>(getMeta: ((props: Props) => Promise<Meta> | Meta) | Meta) {
   return async (props: Props, parent: ResolvingMetadata): Promise<Metadata> => {
     const meta = typeof getMeta === 'function' ? await getMeta(props) : getMeta;
-    const { language } = await props.params;
+    const language = await getLanguage();
 
     const url = await getCurrentUrl();
     const alternates = getAlternateUrls(meta.url ?? url.pathname, language);

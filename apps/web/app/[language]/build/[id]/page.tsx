@@ -15,6 +15,7 @@ import { pageView } from '@/lib/pageView';
 import { cache } from '@/lib/cache';
 import type { PageProps } from '@/lib/next';
 import { createMetadata } from '@/lib/metadata';
+import { getLanguage } from '@/lib/translate';
 
 type BuildPageProps = PageProps<{ id: string }>;
 
@@ -75,7 +76,8 @@ const getUpdatedSkills = cache(timed(function getUpdatedSkills(buildId: number, 
 }), ['build-updated-skills'], { revalidate: 600 });
 
 async function BuildDetail({ params }: BuildPageProps) {
-  const { language, id } = await params;
+  const language = await getLanguage();
+  const { id } = await params;
   const buildId: number = Number(id);
 
   const itemsPromise = getUpdatedItems(buildId, language);

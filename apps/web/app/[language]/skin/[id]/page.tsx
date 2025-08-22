@@ -22,6 +22,7 @@ import { SkinTooltip } from '@/components/Skin/SkinTooltip';
 import { AchievementTable } from '@/components/Achievement/AchievementTable';
 import type { PageProps } from '@/lib/next';
 import { createMetadata } from '@/lib/metadata';
+import { getLanguage } from '@/lib/translate';
 
 const getSkin = cache(async (id: number, language: Language) => {
   const [skin, revision] = await Promise.all([
@@ -55,7 +56,8 @@ const getSkin = cache(async (id: number, language: Language) => {
 type SkinPageProps = PageProps<{ id: string }>;
 
 async function SkinPage ({ params }: SkinPageProps) {
-  const { language, id } = await params;
+  const language = await getLanguage();
+  const { id } = await params;
 
   const skinId: number = Number(id);
 
@@ -128,7 +130,8 @@ async function SkinPage ({ params }: SkinPageProps) {
 export default SkinPage;
 
 export const generateMetadata = createMetadata<SkinPageProps>(async ({ params }) => {
-  const { language, id } = await params;
+  const language = await getLanguage();
+  const { id } = await params;
 
   const skinId: number = Number(id);
   const { skin } = await getSkin(skinId, language);

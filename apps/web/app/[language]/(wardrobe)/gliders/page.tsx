@@ -12,9 +12,8 @@ import { cache } from '@/lib/cache';
 import { linkProperties } from '@/lib/linkProperties';
 import { compareLocalizedName, localizedName } from '@/lib/localizedName';
 import { createMetadata } from '@/lib/metadata';
-import type { PageProps } from '@/lib/next';
 import { db } from '@/lib/prisma';
-import { getTranslate } from '@/lib/translate';
+import { getLanguage, getTranslate } from '@/lib/translate';
 import type { Language } from '@gw2treasures/database';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
@@ -36,8 +35,8 @@ const getGliders = cache((language: Language) => {
   });
 }, ['gliders'], { revalidate: 60 });
 
-export default async function GlidersPage({ params }: PageProps) {
-  const { language } = await params;
+export default async function GlidersPage() {
+  const language = await getLanguage();
   const gliders = await getGliders(language);
 
   const Gliders = createDataTable(gliders, ({ id }) => id);
@@ -74,8 +73,8 @@ export default async function GlidersPage({ params }: PageProps) {
   );
 }
 
-export const generateMetadata = createMetadata(async ({ params }) => {
-  const { language } = await params;
+export const generateMetadata = createMetadata(async () => {
+  const language = await getLanguage();
   const t = getTranslate(language);
 
   return {

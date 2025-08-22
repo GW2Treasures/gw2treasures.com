@@ -2,9 +2,8 @@ import { Trans } from '@/components/I18n/Trans';
 import { ColumnSelect } from '@/components/Table/ColumnSelect';
 import { cache } from '@/lib/cache';
 import { linkProperties } from '@/lib/linkProperties';
-import type { PageProps } from '@/lib/next';
 import { db } from '@/lib/prisma';
-import { getTranslate } from '@/lib/translate';
+import { getLanguage, getTranslate } from '@/lib/translate';
 import { createItemTable, LegendaryItemDataTable } from '../table';
 import { TableFilterButton, TableFilterProvider, type TableFilterDefinition } from '@/components/Table/TableFilter';
 import type { SubType } from '@/components/Item/ItemType.types';
@@ -42,8 +41,8 @@ const loadItems = cache(async () => {
   return { items, itemIdsByWeightBySlot };
 }, ['legendary-armor'], { revalidate: 60 * 60 });
 
-export default async function LegendaryRelicsPage({ params }: PageProps) {
-  const { language } = await params;
+export default async function LegendaryRelicsPage() {
+  const language = await getLanguage();
   const t = getTranslate(language);
 
   await pageView('legendary/armor');
@@ -93,8 +92,8 @@ export default async function LegendaryRelicsPage({ params }: PageProps) {
   );
 }
 
-export const generateMetadata = createMetadata(async ({ params }) => {
-  const { language } = await params;
+export const generateMetadata = createMetadata(async () => {
+  const language = await getLanguage();
   const t = getTranslate(language);
 
   return {

@@ -11,8 +11,8 @@ import Link from 'next/link';
 import { pageView } from '@/lib/pageView';
 import { cache } from '@/lib/cache';
 import { ResetTimer } from '@/components/Reset/ResetTimer';
-import type { PageProps } from '@/lib/next';
 import { createMetadata } from '@/lib/metadata';
+import { getLanguage } from '@/lib/translate';
 
 const getAchievementGroups = cache(async (language: string) => {
   const groups = await db.achievementGroup.findMany({
@@ -32,8 +32,8 @@ const getAchievementGroups = cache(async (language: string) => {
   return groups;
 }, ['achievement-groups'], { revalidate: 60 });
 
-export default async function AchievementPage({ params }: PageProps) {
-  const { language } = await params;
+export default async function AchievementPage() {
+  const language = await getLanguage();
   const groups = await getAchievementGroups(language);
   await pageView('achievement');
 

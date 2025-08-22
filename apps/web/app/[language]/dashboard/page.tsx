@@ -8,6 +8,7 @@ import { cache } from 'react';
 import { localizedName, type LocalizedEntity } from '@/lib/localizedName';
 import { isDefined } from '@gw2treasures/helper/is';
 import { createMetadata } from '@/lib/metadata';
+import { getLanguage } from '@/lib/translate';
 
 export default async function DashboardPage({ searchParams }: PageProps) {
   const { columns } = await searchParams;
@@ -70,8 +71,8 @@ function loadAchievements(ids: number[] | undefined) {
   });
 }
 
-export const generateMetadata = createMetadata<PageProps>(async ({ params, searchParams }) => {
-  const { language } = await params;
+export const generateMetadata = createMetadata<PageProps>(async ({ searchParams }) => {
+  const language = await getLanguage();
   const { columns } = await searchParams;
   const initialColumns = await loadColumns(decodeColumns(columns));
 

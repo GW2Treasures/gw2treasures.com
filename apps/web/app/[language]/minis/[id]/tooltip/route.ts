@@ -6,6 +6,7 @@ import { createTooltip } from '@/components/Mini/MiniTooltip';
 import { cache } from '@/lib/cache';
 import type { Mini } from '@gw2api/types/data/mini';
 import type { RouteHandler } from '@/lib/next';
+import { getLanguage } from '@/lib/translate';
 
 const getMiniRevision = cache((id: number, language: Language, revisionId?: string) => {
   return revisionId
@@ -14,7 +15,8 @@ const getMiniRevision = cache((id: number, language: Language, revisionId?: stri
 }, ['mini-revision'], { revalidate: 60 });
 
 export const GET: RouteHandler<{ id: string }> = async (request, { params }) => {
-  const { language, id } = await params;
+  const language = await getLanguage();
+  const { id } = await params;
   const miniId = Number(id);
 
   const { searchParams } = new URL(request.url);

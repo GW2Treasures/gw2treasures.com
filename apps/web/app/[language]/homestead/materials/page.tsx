@@ -91,8 +91,8 @@ export default async function RefinedMaterialsPage({ searchParams }: PageProps) 
   );
 }
 
-export const generateMetadata = createMetadata(async ({ params }) => {
-  const { language } = await params;
+export const generateMetadata = createMetadata(async () => {
+  const language = await getLanguage();
   const t = getTranslate(language);
 
   return {

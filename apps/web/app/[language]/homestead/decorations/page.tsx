@@ -12,8 +12,7 @@ import { EntityIconMissing } from '@/components/Entity/EntityIconMissing';
 import { FormatNumber } from '@/components/Format/FormatNumber';
 import { localizedName } from '@/lib/localizedName';
 import { Description } from '@/components/Layout/Description';
-import type { PageProps } from '@/lib/next';
-import { getTranslate } from '@/lib/translate';
+import { getLanguage, getTranslate } from '@/lib/translate';
 import { Gw2Accounts } from '@/components/Gw2Api/Gw2Accounts';
 import { Scope } from '@gw2me/client';
 import { format, strip } from 'gw2-tooltip-html';
@@ -35,8 +34,8 @@ const getDecorationCategories = cache(
   ['homestead-decoration-categories'], { revalidate: 60 }
 );
 
-export default async function HomesteadDecorationsPage({ params }: PageProps) {
-  const { language } = await params;
+export default async function HomesteadDecorationsPage() {
+  const language = await getLanguage();
   const [decorations, decorationCategories] = await Promise.all([
     getDecorations(),
     getDecorationCategories(),
@@ -90,8 +89,8 @@ export default async function HomesteadDecorationsPage({ params }: PageProps) {
   );
 }
 
-export const generateMetadata = createMetadata(async ({ params }) => {
-  const { language } = await params;
+export const generateMetadata = createMetadata(async () => {
+  const language = await getLanguage();
   const t = getTranslate(language);
 
   return {

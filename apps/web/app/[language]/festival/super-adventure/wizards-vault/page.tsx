@@ -7,8 +7,7 @@ import { requiredScopes } from '../helper';
 import { pageView } from '@/lib/pageView';
 import Link from 'next/link';
 import { WizardsVaultObjective } from '@/components/WizardsVault/WizardsVaultObjective';
-import type { PageProps } from '@/lib/next';
-import { getTranslate } from '@/lib/translate';
+import { getLanguage, getTranslate } from '@/lib/translate';
 import { Icon } from '@gw2treasures/ui';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import { createMetadata } from '@/lib/metadata';
@@ -31,8 +30,8 @@ const loadData = cache(async function loadData() {
 }, ['super-adventure-box-wizards-vault-objectives'], { revalidate: 60 * 60 });
 
 
-export default async function SuperAdventureFestivalWizardsVaultPage({ params }: PageProps) {
-  const { language } = await params;
+export default async function SuperAdventureFestivalWizardsVaultPage() {
+  const language = await getLanguage();
   const { objectives } = await loadData();
   await pageView('festival/super-adventure/wizards-vault');
 
@@ -57,8 +56,8 @@ export default async function SuperAdventureFestivalWizardsVaultPage({ params }:
   );
 }
 
-export const generateMetadata = createMetadata(async ({ params }) => {
-  const { language } = await params;
+export const generateMetadata = createMetadata(async () => {
+  const language = await getLanguage();
   const t = getTranslate(language);
 
   return {

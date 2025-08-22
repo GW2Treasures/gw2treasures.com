@@ -10,11 +10,11 @@ import { cookies } from 'next/headers';
 import { LoginButton } from './login.client';
 import styles from './page.module.css';
 import { Trans } from '@/components/I18n/Trans';
-import { getTranslate, translateMany } from '@/lib/translate';
+import { getLanguage, getTranslate, translateMany } from '@/lib/translate';
 import { createMetadata } from '@/lib/metadata';
 
-export default async function LoginPage({ searchParams, params }: PageProps) {
-  const { language } = await params;
+export default async function LoginPage({ searchParams }: PageProps) {
+  const language = await getLanguage();
   const { returnTo: returnToParam, scopes: scopesParam, error } = await searchParams;
   const returnTo = Array.isArray(returnToParam) ? returnToParam[0] : returnToParam;
 
@@ -67,8 +67,8 @@ export default async function LoginPage({ searchParams, params }: PageProps) {
   );
 }
 
-export const generateMetadata = createMetadata(async ({ params }) => {
-  const { language } = await params;
+export const generateMetadata = createMetadata(async () => {
+  const language = await getLanguage();
   const t = getTranslate(language);
 
   return {

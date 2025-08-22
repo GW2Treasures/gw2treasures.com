@@ -19,6 +19,7 @@ import type { Viewport } from 'next';
 import { Gw2MeProvider } from '@/components/gw2me/gw2me-context';
 import { client_id } from '@/lib/gw2me';
 import { AchievementProgressTypeProvider } from '@/components/Achievement/AchievementProgressTypeContext';
+import { getLanguage } from '@/lib/translate';
 
 const bitter = Bitter({
   subsets: ['latin'],
@@ -34,8 +35,8 @@ const wotfard = localFont({
   variable: '--font-wotfard',
 });
 
-export default async function RootLayout({ children, modal, params }: LayoutProps & { modal?: ReactNode }) {
-  const { language } = await params;
+export default async function RootLayout({ children, modal }: LayoutProps & { modal?: ReactNode }) {
+  const language = await getLanguage();
 
   return (
     <html lang={language} className={cx(bitter.variable, wotfard.variable)}>

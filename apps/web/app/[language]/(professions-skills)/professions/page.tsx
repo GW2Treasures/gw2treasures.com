@@ -5,17 +5,16 @@ import { cache } from '@/lib/cache';
 import { linkPropertiesWithoutRarity } from '@/lib/linkProperties';
 import { compareLocalizedName } from '@/lib/localizedName';
 import { createMetadata } from '@/lib/metadata';
-import type { PageProps } from '@/lib/next';
 import { db } from '@/lib/prisma';
-import { getTranslate } from '@/lib/translate';
+import { getLanguage, getTranslate } from '@/lib/translate';
 import ogImage from './og.png';
 
 const getProfessions = cache(() => {
   return db.profession.findMany({ select: linkPropertiesWithoutRarity });
 }, ['get-professions'], { revalidate: 60 * 60 });
 
-export default async function ProfessionPage({ params }: PageProps) {
-  const { language } = await params;
+export default async function ProfessionPage() {
+  const language = await getLanguage();
   const professions = (await getProfessions()).toSorted(compareLocalizedName(language));
 
   return (
@@ -28,8 +27,8 @@ export default async function ProfessionPage({ params }: PageProps) {
   );
 }
 
-export const generateMetadata = createMetadata(async ({ params }) => {
-  const { language } = await params;
+export const generateMetadata = createMetadata(async () => {
+  const language = await getLanguage();
   const t = getTranslate(language);
 
   return {

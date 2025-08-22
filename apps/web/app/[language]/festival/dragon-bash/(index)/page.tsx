@@ -4,10 +4,9 @@ import { PageLayout } from '@/components/Layout/PageLayout';
 import { StructuredData } from '@/components/StructuredData/StructuredData';
 import { cache } from '@/lib/cache';
 import { linkProperties } from '@/lib/linkProperties';
-import type { PageProps } from '@/lib/next';
 import { pageView } from '@/lib/pageView';
 import { db } from '@/lib/prisma';
-import { getTranslate } from '@/lib/translate';
+import { getLanguage, getTranslate } from '@/lib/translate';
 import { absoluteUrl } from '@/lib/url';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { Dashboard } from 'app/[language]/dashboard/dashboard';
@@ -48,8 +47,8 @@ const loadData = cache(async function loadData() {
   return { items: items.sort((a, b) => itemIds.indexOf(a.id) - itemIds.indexOf(b.id)) };
 }, ['dragon-bash-items'], { revalidate: 60 * 60 });
 
-export default async function DragonBashFestivalPage({ params }: PageProps) {
-  const { language } = await params;
+export default async function DragonBashFestivalPage() {
+  const language = await getLanguage();
   const t = getTranslate(language);
   const festival = getFestival(Festival.DragonBash);
 
@@ -101,8 +100,8 @@ export default async function DragonBashFestivalPage({ params }: PageProps) {
   );
 }
 
-export const generateMetadata = createMetadata(async ({ params }) => {
-  const { language } = await params;
+export const generateMetadata = createMetadata(async () => {
+  const language = await getLanguage();
   const t = getTranslate(language);
 
   return {

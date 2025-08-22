@@ -3,7 +3,7 @@ import { HeroLayout } from '@/components/Layout/HeroLayout';
 import { NavBar } from '@/components/Layout/NavBar';
 import { createMetadata } from '@/lib/metadata';
 import type { LayoutProps } from '@/lib/next';
-import { translate } from '@/lib/translate';
+import { getLanguage, translate } from '@/lib/translate';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 
 export default function HomesteadLayout({ children }: LayoutProps) {
@@ -28,8 +28,8 @@ export default function HomesteadLayout({ children }: LayoutProps) {
   );
 }
 
-export const generateMetadata = createMetadata(async ({ params }) => {
-  const { language } = await params;
+export const generateMetadata = createMetadata(async () => {
+  const language = await getLanguage();
 
   return {
     title: {

@@ -21,6 +21,7 @@ import { localizedName } from '@/lib/localizedName';
 import { getLoginUrlWithReturnTo } from '@/lib/login-url';
 import type { PageProps } from '@/lib/next';
 import { createMetadata } from '@/lib/metadata';
+import { getLanguage } from '@/lib/translate';
 
 const getReview = async function getReview(id: string) {
   const review = await db.review.findUnique({
@@ -178,7 +179,8 @@ export default async function ReviewContainerContentPage({ params, searchParams 
 
 
 export const generateMetadata = createMetadata<ReviewContainerContentPageProps>(async ({ params }) => {
-  const { language, id } = await params;
+  const language = await getLanguage();
+  const { id } = await params;
   const { item } = await getReview(id);
 
   return {

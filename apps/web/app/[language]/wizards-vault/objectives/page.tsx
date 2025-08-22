@@ -6,8 +6,8 @@ import { Waypoint } from '@/components/Waypoint/Waypoint';
 import { cache } from '@/lib/cache';
 import { compareLocalizedName, localizedName } from '@/lib/localizedName';
 import { createMetadata } from '@/lib/metadata';
-import type { PageProps } from '@/lib/next';
 import { db } from '@/lib/prisma';
+import { getLanguage } from '@/lib/translate';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
 import Link from 'next/link';
@@ -16,8 +16,8 @@ const getObjectives = cache(() => {
   return db.wizardsVaultObjective.findMany();
 }, ['wizards-vault-objectives'], { revalidate: 60 * 60 });
 
-export default async function WizardsVaultObjectivesPage({ params }: PageProps) {
-  const { language } = await params;
+export default async function WizardsVaultObjectivesPage() {
+  const language = await getLanguage();
   const objectives = await getObjectives();
 
   const Objectives = createDataTable(objectives, ({ id }) => id);

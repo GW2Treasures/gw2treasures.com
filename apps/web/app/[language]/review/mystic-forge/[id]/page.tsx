@@ -20,6 +20,7 @@ import { OutputCount } from '@/components/Item/OutputCount';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
 import type { PageProps } from '@/lib/next';
 import { createMetadata } from '@/lib/metadata';
+import { getLanguage } from '@/lib/translate';
 
 const getReview = async function getReview(id: string) {
   const review = await db.review.findUnique({
@@ -127,7 +128,8 @@ export default async function ReviewMysticForgePage({ params }: ReviewMysticForg
 
 
 export const generateMetadata = createMetadata<ReviewMysticForgePageProps>(async ({ params }) => {
-  const { language, id } = await params;
+  const language = await getLanguage();
+  const { id } = await params;
   const { item } = await getReview(id);
 
   return {

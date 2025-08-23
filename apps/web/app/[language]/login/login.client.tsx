@@ -4,11 +4,12 @@ import { useFedCM } from '@/components/gw2me/fedcm-context';
 import { useGw2MeClient } from '@/components/gw2me/gw2me-context';
 import { Scope } from '@gw2me/client';
 import { SubmitButton } from '@gw2treasures/ui/components/Form/Buttons/SubmitButton';
-import { useCallback, useEffect, useState, type FC, type FormEventHandler } from 'react';
+import { useCallback, useEffect, useRef, useState, type FC, type FormEventHandler } from 'react';
 import { redirectToGw2Me } from './login.action';
 import styles from './page.module.css';
 import { Checkbox } from '@gw2treasures/ui/components/Form/Checkbox';
 import type { TranslationSubset } from '@/lib/translate';
+import Link from 'next/link';
 
 const fullScopes = [
   Scope.Identify,
@@ -37,6 +38,9 @@ export interface LoginButtonProps {
 }
 
 export const LoginButton: FC<LoginButtonProps> = ({ scopes, returnTo, logout, translations }) => {
+  const form = useRef<HTMLFormElement>(null);
+  const [error, setError] = useState(false);
+
   const gw2me = useGw2MeClient();
   const triggerFedCM = useFedCM();
   const [fullPermissions, setFullPermissions] = useState(true);
@@ -65,8 +69,8 @@ export const LoginButton: FC<LoginButtonProps> = ({ scopes, returnTo, logout, tr
   }, [fullPermissions, gw2me.fedCM, logout, returnTo, scopes, triggerFedCM]);
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = useCallback((e) => {
-    // only handle submit if FedCM is supported
-    if(!gw2me.fedCM.isSupported()) {
+    // only handle submit if FedCM is supported and we did not run into an error earlier
+    if(!gw2me.fedCM.isSupported() || error) {
       return;
     }
 
@@ -78,8 +82,14 @@ export const LoginButton: FC<LoginButtonProps> = ({ scopes, returnTo, logout, tr
       mediation: 'optional',
       mode: 'active',
       returnTo,
+    }).catch((error) => {
+      console.error(error);
+      setError(true);
+
+      // attempt resubmit (without FedCM)
+      form.current?.requestSubmit();
     });
-  }, [fullPermissions, gw2me.fedCM, returnTo, scopes, triggerFedCM]);
+  }, [error, fullPermissions, gw2me.fedCM, returnTo, scopes, triggerFedCM]);
 
   return (
     <>
@@ -92,11 +102,17 @@ export const LoginButton: FC<LoginButtonProps> = ({ scopes, returnTo, logout, tr
         </div>
       )}
 
-      <form action={redirectToGw2Me.bind(null, returnTo, (fullPermissions ? fullScopes : scopes).join(' '))} onSubmit={handleSubmit}>
+      <form action={redirectToGw2Me.bind(null, returnTo, (fullPermissions ? fullScopes : scopes).join(' '))} onSubmit={handleSubmit} ref={form}>
         <SubmitButton icon="gw2me" iconColor="#b7000d" type="submit" className={styles.loginButton}>
           {translations['login.button']}
         </SubmitButton>
       </form>
+
+      {error && (
+        <div style={{ marginTop: 8, color: 'var(--color-error)', lineHeight: 1.25, fontSize: 15 }}>
+          Error during authentication. Please contact <Link href="/about#contact" style={{ color: 'inherit', textDecoration: 'underline' }}>support</Link> if this error persists.
+        </div>
+      )}
     </>
   );
 };

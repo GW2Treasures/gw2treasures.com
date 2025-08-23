@@ -72,6 +72,7 @@
   .loginForm {
     border: none;
     border-bottom: 1px solid var(--color-border-dark);
+    border-radius: 0;
     max-width: initial;
     box-shadow: initial;
   }

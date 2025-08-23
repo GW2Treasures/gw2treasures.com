@@ -12,10 +12,16 @@ const nextConfig: NextConfig = {
   experimental: {
     reactCompiler: true,
 
+    // generate server source maps for better errors
+    serverSourceMaps: true,
+
     // taint is not actually used, this is just to opt Next.js into using react@experimental,
     // so other APIs become available (e.g. useEffectEvent)
     taint: true,
   },
+
+  // enable production source maps
+  productionBrowserSourceMaps: true,
 
   // Allow cross-origin requests during development
   allowedDevOrigins: ['*.gw2treasures.localhost'],

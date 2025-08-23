@@ -86,8 +86,10 @@ export const LoginButton: FC<LoginButtonProps> = ({ scopes, returnTo, logout, tr
       console.error(error);
       setError(true);
 
-      // attempt resubmit (without FedCM)
-      form.current?.requestSubmit();
+      // attempt resubmit without FedCM if FedCM is not supported
+      if(error instanceof Error && error.name === 'NotSupportedError') {
+        form.current?.requestSubmit();
+      }
     });
   }, [error, fullPermissions, gw2me.fedCM, returnTo, scopes, triggerFedCM]);
 

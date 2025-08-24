@@ -1,6 +1,6 @@
 'use client';
 
-import { type ChangeEventHandler, type FC, Fragment, type KeyboardEventHandler, type ReactElement, useCallback, useEffect, useRef, useState } from 'react';
+import { type ChangeEventHandler, type FC, type FormEventHandler, Fragment, type KeyboardEventHandler, type ReactElement, useCallback, useEffect, useRef, useState } from 'react';
 import styles from './Search.module.css';
 import { usePageResults, useSearchApiResults } from './useSearchResults';
 import Link from 'next/link';
@@ -93,8 +93,11 @@ export const Search: FC<SearchProps> = ({ translations }) => {
   }, []);
 
   const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = useCallback((e) => {
-    if(e.key === 'Enter' && activeIndex !== null) {
-      const current = listRef.current[activeIndex];
+    if(e.key === 'Enter') {
+      // get active element, fallback to first element
+      const current = listRef.current.length > 0
+        ? listRef.current[activeIndex ?? 0]
+        : null;
 
       if(current === null) {
         return;
@@ -125,8 +128,13 @@ export const Search: FC<SearchProps> = ({ translations }) => {
     return () => window.removeEventListener('keypress', handler);
   }, []);
 
+  const handleSubmit: FormEventHandler<HTMLFormElement> = useCallback((e) => {
+    // prevent form submission
+    e.preventDefault();
+  }, []);
+
   return (
-    <form className={styles.search} ref={refs.setReference} {...getReferenceProps()}>
+    <form className={styles.search} ref={refs.setReference} {...getReferenceProps()} onSubmit={handleSubmit}>
       <Icon icon="search"/>
       {/* <div className={styles.restriciton}>Item</div> */}
 

@@ -30,7 +30,7 @@
       "react": "19.1.1",
       "react-dom": "19.1.1",
       "@types/react": "19.1.11",
-      "@types/react-dom": "19.1.7"
+      "@types/react-dom": "19.1.8"
     },
     "onlyBuiltDependencies": [
       "@prisma/client",

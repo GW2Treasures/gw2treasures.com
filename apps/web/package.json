@@ -27,7 +27,7 @@
     "@gw2treasures/onig": "workspace:*",
     "@gw2treasures/static-data": "workspace:*",
     "@gw2treasures/ui": "workspace:*",
-    "@prisma/nextjs-monorepo-workaround-plugin": "6.14.0",
+    "@prisma/nextjs-monorepo-workaround-plugin": "6.15.0",
     "@visx/axis": "3.12.0",
     "@visx/brush": "3.12.0",
     "@visx/clip-path": "3.12.0",

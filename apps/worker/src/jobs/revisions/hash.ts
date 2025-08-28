@@ -4,12 +4,16 @@ import { createRevisionHash } from '../helper/revision';
 
 export const RevisionsHash: Job = {
   run: async () => {
+    console.log('  Loading revisions without hash');
+
     // get revisions without hash
     const revisions = await db.revision.findMany({
       where: { hash: '' },
       select: { id: true, data: true },
-      take: 2000,
+      take: 500,
     });
+
+    console.log(`  Found ${revisions.length} revisions`);
 
     // all revisions updated, skip
     if(revisions.length === 0) {

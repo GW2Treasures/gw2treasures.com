@@ -9,6 +9,7 @@ import { createEntityMap } from './map';
 import { createRevision as createRevisionInDb } from './revision-create';
 import { getUpdateCheckpoint } from './updateCheckpoints';
 import { schema } from './schema';
+import { createRevisionHash } from './revision';
 
 type FindManyArgs<Id extends string | number> = {
   select: { id: true },
@@ -394,22 +395,22 @@ function createRevision<T>(tx: PrismaTransaction, known: T | undefined, updated:
 
   // new
   if(!knownData && updatedData) {
-    return createRevisionInDb({ ...base, schema, data: updatedData, type: 'Added', description: 'Added to API' }, tx);
+    return createRevisionInDb({ ...base, schema, data: updatedData, hash: createRevisionHash(updatedData), type: 'Added', description: 'Added to API' }, tx);
   }
 
   // removed
   if(knownData && !updatedData && !wasRemoved) {
-    return createRevisionInDb({ ...base, schema, data: knownData, type: 'Removed', description: 'Removed from API' }, tx);
+    return createRevisionInDb({ ...base, schema, data: knownData, hash: createRevisionHash(knownData), type: 'Removed', description: 'Removed from API' }, tx);
   }
 
   // rediscovered
   if(knownData && updatedData && wasRemoved) {
-    return createRevisionInDb({ ...base, schema, data: updatedData, type: 'Update', description: 'Rediscovered in API' }, tx);
+    return createRevisionInDb({ ...base, schema, data: updatedData, hash: createRevisionHash(updatedData), type: 'Update', description: 'Rediscovered in API' }, tx);
   }
 
   // updated
   if(knownData && updatedData && knownData !== updatedData) {
-    return createRevisionInDb({ ...base, schema, data: updatedData, type: 'Update', description: 'Updated in API' }, tx);
+    return createRevisionInDb({ ...base, schema, data: updatedData, hash: createRevisionHash(updatedData), type: 'Update', description: 'Updated in API' }, tx);
   }
 
   // nothing has changed, so we don't need to create a new revision

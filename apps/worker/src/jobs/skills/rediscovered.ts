@@ -6,6 +6,7 @@ import { loadSkills } from '../helper/loadSkills';
 import { createIcon } from '../helper/createIcon';
 import { appendHistory } from '../helper/appendHistory';
 import { schema } from '../helper/schema';
+import { createRevisionHash } from '../helper/revision';
 
 export const SkillsRediscovered: Job = {
   run: async (rediscoveredIds: number[]) => {
@@ -40,10 +41,12 @@ export const SkillsRediscovered: Job = {
 
       // create a new revision
       for(const language of ['de', 'en', 'es', 'fr'] as const) {
+        const serializedData = JSON.stringify(data[language]);
         const revision = await db.revision.create({
           data: {
             schema,
-            data: JSON.stringify(data[language]),
+            data: serializedData,
+            hash: createRevisionHash(serializedData),
             description: 'Rediscovered in API',
             entity: 'Skill',
             language,

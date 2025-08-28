@@ -4,6 +4,7 @@ import { Prisma } from '@gw2treasures/database';
 import { getCurrentBuild } from '../helper/getCurrentBuild';
 import { appendHistory } from '../helper/appendHistory';
 import { schema } from '../helper/schema';
+import { createRevisionHash } from '../helper/revision';
 
 export const ItemsRemoved: Job = {
   run: async (removedIds: number[]) => {
@@ -29,6 +30,7 @@ export const ItemsRemoved: Job = {
             schema,
             previousRevisionId: item[`currentId_${language}`],
             data: item[`current_${language}`].data,
+            hash: createRevisionHash(item[`current_${language}`].data),
             description: 'Removed from API',
             type: 'Removed',
             entity: 'Item',

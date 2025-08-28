@@ -5,6 +5,7 @@ model Revision {
 
   schema      String
   data        String
+  hash        String @default("")
   description String?
   type        RevisionType @default(Update)
 

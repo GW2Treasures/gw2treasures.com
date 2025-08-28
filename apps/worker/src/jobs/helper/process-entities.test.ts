@@ -3,6 +3,7 @@ import { InputDataLocalized, processLocalizedEntities } from './process-entities
 import { LocalizedObject } from './types';
 import { Build, Prisma, Revision } from '@gw2treasures/database';
 import { db } from '../../db';
+import { createRevisionHash } from './revision';
 
 function loadFromApi<T extends { id: number }>(entity: T) {
   return Promise.resolve(new Map<number, LocalizedObject<T>>([[entity.id, { de: entity, en: entity, es: entity, fr: entity }]]));
@@ -32,7 +33,7 @@ type TestDbEntity = {
   version: number,
 };
 
-const revisionBase: Revision = { buildId: 1, schema: 'test', createdAt: new Date(), data: JSON.stringify({ id: 1 }), description: 'Test', entity: 'test', id: 'test-revision', language: 'en', type: 'Import', previousRevisionId: null };
+const revisionBase: Revision = { buildId: 1, schema: 'test', createdAt: new Date(), data: '{"id":1}', hash: createRevisionHash('{"id":1}'), description: 'Test', entity: 'test', id: 'test-revision', language: 'en', type: 'Import', previousRevisionId: null };
 
 const TestDbEntityBase: TestDbEntity = {
   id: 1,

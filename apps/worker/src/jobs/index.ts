@@ -32,6 +32,7 @@ import { OutfitsJob } from './outfits';
 import { OutfitsUnlocks } from './outfits/unlocks';
 import { ProfessionsJob } from './professions';
 import { RecipesJob } from './recipes';
+import { RevisionsHash } from './revisions/hash';
 import { RevisionsPrevious } from './revisions/previous';
 import { SkillsCheck } from './skills/check';
 import { SkillsMigrate } from './skills/migrate';
@@ -120,6 +121,7 @@ const jobsInternal = {
   'tp.import': TpImportJob,
 
   'revisions.previous': RevisionsPrevious,
+  'revisions.hash': RevisionsHash,
 
   'gw2api-requests.cleanup': Gw2ApiRequestsCleanup,
 

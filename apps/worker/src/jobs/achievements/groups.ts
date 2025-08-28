@@ -2,7 +2,7 @@ import { Job } from '../job';
 import { db } from '../../db';
 import { loadAchievementGroups } from '../helper/loadAchievements';
 import { Language, Prisma } from '@gw2treasures/database';
-import { createRevisions } from '../helper/revision';
+import { createRevisionHash, createRevisions } from '../helper/revision';
 import { getCurrentBuild } from '../helper/getCurrentBuild';
 import { filterMapKeys, getIdsFromMap } from '../helper/getIdsFromMap';
 import { appendHistory } from '../helper/appendHistory';
@@ -86,6 +86,7 @@ async function removedGroups(buildId: number, removedIds: string[]) {
         data: {
           schema,
           data: achievementGroup[`current_${language}`].data,
+          hash: createRevisionHash(achievementGroup[`current_${language}`].data),
           description: 'Removed from API',
           type: 'Removed',
           entity: 'AchievementGroup',
@@ -117,10 +118,12 @@ async function rediscoveredGroups(buildId: number, groups: { [key in Language]: 
 
     // create a new revision
     for(const language of ['de', 'en', 'es', 'fr'] as const) {
+      const serializedData = JSON.stringify(data[language]);
       const revision = await db.revision.create({
         data: {
           schema,
-          data: JSON.stringify(data[language]),
+          data: serializedData,
+          hash: createRevisionHash(serializedData),
           description: 'Rediscovered in API',
           entity: 'AchievementGroup',
           language,
@@ -155,10 +158,15 @@ async function updatedGroups(buildId: number, apiGroups: Map<string, LocalizedOb
   let updated = 0;
 
   for(const { existing, de, en, es, fr } of groups) {
-    const revision_de = existing.current_de.data !== JSON.stringify(de) ? await db.revision.create({ data: { data: JSON.stringify(de), language: 'de', buildId, type: 'Update', entity: 'AchievementGroup', description: 'Updated in API', schema }}) : existing.current_de;
-    const revision_en = existing.current_en.data !== JSON.stringify(en) ? await db.revision.create({ data: { data: JSON.stringify(en), language: 'en', buildId, type: 'Update', entity: 'AchievementGroup', description: 'Updated in API', schema }}) : existing.current_en;
-    const revision_es = existing.current_es.data !== JSON.stringify(es) ? await db.revision.create({ data: { data: JSON.stringify(es), language: 'es', buildId, type: 'Update', entity: 'AchievementGroup', description: 'Updated in API', schema }}) : existing.current_es;
-    const revision_fr = existing.current_fr.data !== JSON.stringify(fr) ? await db.revision.create({ data: { data: JSON.stringify(fr), language: 'fr', buildId, type: 'Update', entity: 'AchievementGroup', description: 'Updated in API', schema }}) : existing.current_fr;
+    const data_de = JSON.stringify(de);
+    const data_en = JSON.stringify(en);
+    const data_es = JSON.stringify(es);
+    const data_fr = JSON.stringify(fr);
+
+    const revision_de = existing.current_de.data !== data_de ? await db.revision.create({ data: { data: data_de, hash: createRevisionHash(data_de), language: 'de', buildId, type: 'Update', entity: 'AchievementGroup', description: 'Updated in API', schema }}) : existing.current_de;
+    const revision_en = existing.current_en.data !== data_en ? await db.revision.create({ data: { data: data_en, hash: createRevisionHash(data_en), language: 'en', buildId, type: 'Update', entity: 'AchievementGroup', description: 'Updated in API', schema }}) : existing.current_en;
+    const revision_es = existing.current_es.data !== data_es ? await db.revision.create({ data: { data: data_es, hash: createRevisionHash(data_es), language: 'es', buildId, type: 'Update', entity: 'AchievementGroup', description: 'Updated in API', schema }}) : existing.current_es;
+    const revision_fr = existing.current_fr.data !== data_fr ? await db.revision.create({ data: { data: data_fr, hash: createRevisionHash(data_fr), language: 'fr', buildId, type: 'Update', entity: 'AchievementGroup', description: 'Updated in API', schema }}) : existing.current_fr;
 
     await db.achievementCategory.updateMany({
       where: { id: { in: en.categories }},

@@ -68,10 +68,15 @@ export const WizardsVaultSeasonJob: Job = {
       return 'Discovered new Wizard\'s Vault Season';
     }
 
-    const changed_de = season.current_de.data !== JSON.stringify(de);
-    const changed_en = season.current_en.data !== JSON.stringify(en);
-    const changed_es = season.current_es.data !== JSON.stringify(es);
-    const changed_fr = season.current_fr.data !== JSON.stringify(fr);
+    const data_de = JSON.stringify(de);
+    const data_en = JSON.stringify(en);
+    const data_es = JSON.stringify(es);
+    const data_fr = JSON.stringify(fr);
+
+    const changed_de = season.current_de.data !== data_de;
+    const changed_en = season.current_en.data !== data_en;
+    const changed_es = season.current_es.data !== data_es;
+    const changed_fr = season.current_fr.data !== data_fr;
 
     if(!changed_de && !changed_en && !changed_es && !changed_fr) {
       // nothing changed
@@ -79,10 +84,10 @@ export const WizardsVaultSeasonJob: Job = {
       return 'Wizard\'s Vault season unchanged';
     }
 
-    const revision_de = changed_de ? await db.revision.create({ data: { data: JSON.stringify(de), language: 'de', buildId, type: 'Update', entity: 'WizardsVaultSeason', description: 'Updated in API', previousRevisionId: season.currentId_de, schema }}) : season.current_de;
-    const revision_en = changed_en ? await db.revision.create({ data: { data: JSON.stringify(en), language: 'en', buildId, type: 'Update', entity: 'WizardsVaultSeason', description: 'Updated in API', previousRevisionId: season.currentId_en, schema }}) : season.current_en;
-    const revision_es = changed_es ? await db.revision.create({ data: { data: JSON.stringify(es), language: 'es', buildId, type: 'Update', entity: 'WizardsVaultSeason', description: 'Updated in API', previousRevisionId: season.currentId_es, schema }}) : season.current_es;
-    const revision_fr = changed_fr ? await db.revision.create({ data: { data: JSON.stringify(fr), language: 'fr', buildId, type: 'Update', entity: 'WizardsVaultSeason', description: 'Updated in API', previousRevisionId: season.currentId_fr, schema }}) : season.current_fr;
+    const revision_de = changed_de ? await db.revision.create({ data: { data: data_de, hash: data_de, language: 'de', buildId, type: 'Update', entity: 'WizardsVaultSeason', description: 'Updated in API', previousRevisionId: season.currentId_de, schema }}) : season.current_de;
+    const revision_en = changed_en ? await db.revision.create({ data: { data: data_en, hash: data_en, language: 'en', buildId, type: 'Update', entity: 'WizardsVaultSeason', description: 'Updated in API', previousRevisionId: season.currentId_en, schema }}) : season.current_en;
+    const revision_es = changed_es ? await db.revision.create({ data: { data: data_es, hash: data_es, language: 'es', buildId, type: 'Update', entity: 'WizardsVaultSeason', description: 'Updated in API', previousRevisionId: season.currentId_es, schema }}) : season.current_es;
+    const revision_fr = changed_fr ? await db.revision.create({ data: { data: data_fr, hash: data_fr, language: 'fr', buildId, type: 'Update', entity: 'WizardsVaultSeason', description: 'Updated in API', previousRevisionId: season.currentId_fr, schema }}) : season.current_fr;
 
     await db.wizardsVaultSeason.update({
       where: { id: season.id },

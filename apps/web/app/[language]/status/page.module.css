@@ -43,6 +43,11 @@
   background-color: #2196f3;
 }
 
+.scheduled {
+  composes: queued;
+  opacity: .5;
+}
+
 .running {
   composes: status;
   background-color: #FFC107;

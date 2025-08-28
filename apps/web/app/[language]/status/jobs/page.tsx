@@ -10,13 +10,16 @@ import { cache } from '@/lib/cache';
 import { createMetadata } from '@/lib/metadata';
 
 const getJobs = cache(async () => {
-  const [running, finished] = await Promise.all([
-    db.job.findMany({ where: { OR: [{ state: { in: ['Running', 'Queued'] }}, { cron: { not: '' }}] }, orderBy: [{ priority: 'desc' }, { scheduledAt: 'asc' }] }),
+  const now = new Date();
+
+  const [active, scheduled, finished] = await Promise.all([
+    db.job.findMany({ where: { OR: [{ state: { in: ['Running', 'Queued'] }}, { cron: { not: '' }}], scheduledAt: { lte: now }}, orderBy: [{ priority: 'desc' }, { scheduledAt: 'asc' }] }),
+    db.job.findMany({ where: { OR: [{ state: { in: ['Running', 'Queued'] }}, { cron: { not: '' }}], scheduledAt: { gt: now }}, orderBy: [{ scheduledAt: 'asc' }] }),
     db.job.findMany({ where: { state: { notIn: ['Running', 'Queued'] }}, orderBy: { finishedAt: 'desc' }, take: 100 }),
   ]);
 
-  return { running, finished, now: new Date() };
-}, ['jobs'], { revalidate: 1 });
+  return { active, scheduled, finished, now };
+}, ['jobs'], { revalidate: 1, tags: ['jobs'] });
 
 function formatTime(totalSeconds: number) {
   const minutes = Math.floor(totalSeconds / 60);
@@ -31,12 +34,12 @@ function formatTime(totalSeconds: number) {
 }
 
 async function JobPage() {
-  const { running, finished, now } = await getJobs();
+  const { active, scheduled, finished, now } = await getJobs();
 
   return (
     <PageLayout>
       <Headline id="jobs" actions={<ReloadCheckbox intervalMs={1000}/>}>
-        Active Jobs ({running.length})
+        Active Jobs ({active.length + scheduled.length})
       </Headline>
       <Table>
         <thead>
@@ -48,15 +51,15 @@ async function JobPage() {
           </tr>
         </thead>
         <tbody>
-          {running.map((job) => (
+          {[...active, ...scheduled].map((job) => (
             <tr key={job.id}>
-              <td style={{ whiteSpace: 'nowrap' }}><span className={job.state === 'Running' ? styles.running : styles.queued}/>{job.state === 'Running' ? 'Running' : 'Queued'}</td>
+              <td style={{ whiteSpace: 'nowrap' }}><span className={job.state === 'Running' ? styles.running : ((job.scheduledAt < now) ? styles.queued : styles.scheduled)}/>{job.state === 'Running' ? 'Running' : 'Queued'}</td>
               <th><b>{job.type}</b></th>
               <td style={{ whiteSpace: 'nowrap' }} align="right">{job.state === 'Running' ? formatTime(Math.round((now.valueOf() - job.startedAt!.valueOf()) / 1000)) : '-'}</td>
               <td align="right"><FormatDate key={job.id} date={job.scheduledAt} relative/></td>
             </tr>
           ))}
-          {running.length === 0 && <tr><td colSpan={5} style={{ textAlign: 'center' }}>No jobs currently running</td></tr>}
+          {active.length === 0 && scheduled.length === 0 && <tr><td colSpan={5} style={{ textAlign: 'center' }}>No jobs currently running</td></tr>}
         </tbody>
       </Table>
 

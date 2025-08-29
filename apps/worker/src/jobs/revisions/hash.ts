@@ -10,7 +10,11 @@ export const RevisionsHash: Job = {
     const revisions = await db.revision.findMany({
       where: { hash: '' },
       select: { id: true, data: true },
-      take: 500,
+      take: 1000,
+
+      // prisma sorts by `id` by default, which is bad because postgres then uses an Index Scan using `Revision_pkey` to find revisions
+      // sorting by the hash (even though the hash is always empty), prevents postgres to use an unrelated slow index.
+      orderBy: { hash: 'asc' },
     });
 
     console.log(`  Found ${revisions.length} revisions`);

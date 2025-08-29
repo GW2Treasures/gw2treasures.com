@@ -9,7 +9,7 @@
         ".next/**",
         "!.next/cache/**"
       ],
-      "env": ["SKIP_LINT", "SKIP_TYPES"]
+      "env": ["SKIP_LINT", "SKIP_TYPES", "DEPLOYMENT_ID"]
     },
     "dev": {
       "dependsOn": [

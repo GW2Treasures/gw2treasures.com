@@ -43,6 +43,7 @@ RUN npm i -g pnpm@${pnpm_version} && pnpm install --frozen-lockfile
 # Build application on BUILDPLATFORM for speed
 FROM --platform=$BUILDPLATFORM base AS builder
 ARG pnpm_version
+ARG deployment_id
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 ENV SKIP_LINT=true
@@ -55,6 +56,7 @@ RUN npm i -g pnpm@${pnpm_version}
 COPY --link --from=dependencies /app .
 COPY --link --from=source /source/out/full/ .
 
+ENV DEPLOYMENT_ID=${deployment_id}
 RUN pnpm run build --filter=web
 
 

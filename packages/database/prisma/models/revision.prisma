@@ -8,6 +8,7 @@ model Revision {
   hash        String @default("")
   description String?
   type        RevisionType @default(Update)
+  @@index([hash], type: Hash)
 
   language Language
 

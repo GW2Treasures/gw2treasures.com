@@ -8,6 +8,9 @@ const nextConfig: NextConfig = {
   // publish as standalone docker images
   output: 'standalone',
 
+  // add deploymentId
+  deploymentId: process.env.DEPLOYMENT_ID || undefined,
+
   // enable experimental features
   experimental: {
     reactCompiler: true,

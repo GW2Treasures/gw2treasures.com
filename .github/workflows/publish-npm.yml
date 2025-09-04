@@ -42,7 +42,7 @@ jobs:
         body-includes: Publish / npm / ${{ matrix.target }}
     - name: Delete comment if found but nothing will be published
       if: github.event_name == 'pull_request' && steps.fc.outputs.comment-id && !steps.publish.outputs.publish
-      uses: actions/github-script@v7
+      uses: actions/github-script@v8
       with:
         script: |
           github.rest.issues.deleteComment({

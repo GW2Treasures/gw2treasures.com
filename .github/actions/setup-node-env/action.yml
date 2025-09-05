@@ -20,7 +20,7 @@ runs:
       run: sudo ethtool -K eth0 tx off rx off
     - name: Install pnpm
       uses: pnpm/action-setup@v4
-    - uses: actions/setup-node@v4
+    - uses: actions/setup-node@v5
       with:
         node-version: ${{ inputs.node-version }}
         cache: pnpm

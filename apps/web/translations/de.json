@@ -509,5 +509,11 @@
   "professions.weapon-skills.attunement.Air": "Lufteinstimmung",
   "professions.weapon-skills.attunement.Earth": "Erdeinstimmung",
   "professions.weapon-skills.attunement.Fire": "Feuereinstimmung",
-  "professions.weapon-skills.attunement.Water": "Wassereinstimmung"
+  "professions.weapon-skills.attunement.Water": "Wassereinstimmung",
+  "revisions.history": "Verlauf",
+  "revisions.build": "Build",
+  "revisions.description": "Beschreibung",
+  "revisions.date": "Datum",
+  "revisions.view": "Anzeigen",
+  "revisions.showHidden": "Zeige {0} versteckte Revisionen"
 }

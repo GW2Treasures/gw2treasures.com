@@ -7,7 +7,6 @@ import { TableOfContentAnchor } from '@gw2treasures/ui/components/TableOfContent
 import rarityClasses from '@/components/Layout/RarityColor.module.css';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
-import { FormatDate } from '@/components/Format/FormatDate';
 import { ItemList } from '@/components/ItemList/ItemList';
 import { ItemInfobox } from '@/components/Item/ItemInfobox';
 import { Json } from '@/components/Format/Json';
@@ -16,11 +15,6 @@ import { ItemIngredientFor } from '@/components/Item/ItemIngredientFor';
 import { notFound } from 'next/navigation';
 import { Suspense, type FC } from 'react';
 import { SkeletonTable } from '@/components/Skeleton/SkeletonTable';
-import { getLinkProperties } from '@/lib/linkProperties';
-import { Tooltip } from '@/components/Tooltip/Tooltip';
-import { ItemLinkTooltip } from '@/components/Item/ItemLinkTooltip';
-import { Icon } from '@gw2treasures/ui';
-import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 import { RemovedFromApiNotice } from '@/components/Notice/RemovedFromApiNotice';
 import { RecipeBoxWrapper } from '@/components/Recipe/RecipeBoxWrapper';
 import { SimilarItems } from './similar-items';
@@ -55,6 +49,7 @@ import { HomesteadRefinedMaterial } from './homestead-refined-material';
 import { format } from 'gw2-tooltip-html';
 import { ItemStatTable } from '@/components/ItemStat/table';
 import { Trans } from '@/components/I18n/Trans';
+import { RevisionTable } from '@/components/Revision/table';
 
 export interface ItemPageComponentProps {
   language: Language;
@@ -365,36 +360,11 @@ export const ItemPageComponent: FC<ItemPageComponentProps> = async ({ language, 
         <TradingPostHistory itemId={item.id}/>
       )}
 
-      <Headline id="history">History</Headline>
+      <Headline id="history"><Trans id="revisions.history"/></Headline>
 
-      <Table>
-        <thead>
-          <tr>
-            <Table.HeaderCell small/>
-            <Table.HeaderCell small>Build</Table.HeaderCell>
-            <Table.HeaderCell>Description</Table.HeaderCell>
-            <Table.HeaderCell small>Date</Table.HeaderCell>
-            <Table.HeaderCell small>Actions</Table.HeaderCell>
-          </tr>
-        </thead>
-        <tbody>
-          {item.history.map((history) => (
-            <tr key={history.revisionId}>
-              <td style={{ paddingRight: 0 }}>{history.revisionId === revision.id && <Tip tip="Currently viewing"><Icon icon="eye"/></Tip>}</td>
-              <td>{history.revision.buildId !== 0 ? (<Link href={`/build/${history.revision.buildId}`}>{history.revision.buildId}</Link>) : '-'}</td>
-              <td>
-                <Tooltip content={<ItemLinkTooltip item={getLinkProperties(item)} language={language} revision={history.revisionId}/>}>
-                  <Link href={`/item/${item.id}/${history.revisionId}`}>
-                    {history.revision.description}
-                  </Link>
-                </Tooltip>
-              </td>
-              <td><FormatDate date={history.revision.createdAt} relative/></td>
-              <td>{history.revisionId !== revision.id && <Link href={`/item/${item.id}/${history.revisionId}`}>View</Link>}</td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
+      <RevisionTable revisions={item.history.map(({ revision }) => revision)} currentRevisionId={fixedRevision ? revision.id : undefined} link={({ revisionId, children }) => (
+        <ItemLink item={item} language={language} revision={revisionId} icon="none">{children}</ItemLink>
+      )}/>
 
       {!fixedRevision && (
         <Suspense>

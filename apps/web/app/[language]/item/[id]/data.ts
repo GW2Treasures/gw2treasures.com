@@ -9,7 +9,7 @@ export const getItem = cache((id: number, language: Language) => {
     where: { id },
     include: {
       history: {
-        include: { revision: { select: { id: true, buildId: true, createdAt: true, description: true, language: true }}},
+        include: { revision: { select: { id: true, buildId: true, hash: true, type: true, createdAt: true, description: true, language: true }}},
         where: { revision: { language }},
         orderBy: { revision: { createdAt: 'desc' }}
       },

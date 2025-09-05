@@ -10,7 +10,7 @@ import { notFound } from 'next/navigation';
 import styles from './page.module.css';
 import { Coins } from '@/components/Format/Coins';
 import { ItemList } from '@/components/ItemList/ItemList';
-import { getLinkProperties, linkProperties, linkPropertiesWithoutRarity } from '@/lib/linkProperties';
+import { linkProperties, linkPropertiesWithoutRarity } from '@/lib/linkProperties';
 import { ItemLink } from '@/components/Item/ItemLink';
 import { SkinLink } from '@/components/Skin/SkinLink';
 import { MiniLink } from '@/components/Mini/MiniLink';
@@ -32,17 +32,14 @@ import type { AchievementFlags } from '@gw2api/types/data/achievement';
 import { AchievementTable } from '@/components/Achievement/AchievementTable';
 import type { ReactNode } from 'react';
 import { Mastery, MasteryColors } from '@/components/Achievement/Mastery';
-import { Table } from '@gw2treasures/ui/components/Table/Table';
-import { FormatDate } from '@/components/Format/FormatDate';
-import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 import Link from 'next/link';
-import { AchievementLinkTooltip } from '@/components/Achievement/AchievementLinkTooltip';
-import { Tooltip } from '@/components/Tooltip/Tooltip';
 import { getRevision } from './data';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import { AchievementProgressShareButton } from '@/components/Achievement/share/progress-button';
 import type { AchievementProgressSnapshot } from '@/components/Achievement/share/types';
 import { DataTableClientColumn } from '@gw2treasures/ui/components/Table/DataTable.client';
+import { RevisionTable } from '@/components/Revision/table';
+import { Trans } from '@/components/I18n/Trans';
 
 
 const notPartOfCategoryDisplayFlags: AchievementFlags[] = ['Repeatable', 'RequiresUnlock', 'Hidden', 'Daily', 'Weekly', 'IgnoreNearlyComplete'];
@@ -76,7 +73,7 @@ const getAchievement = cache(async (id: number, language: Language, revisionId?:
         rewardsItem: { select: linkProperties },
         rewardsTitle: { select: { id: true, name_de: true, name_en: true, name_es: true, name_fr: true }},
         history: {
-          include: { revision: { select: { id: true, buildId: true, createdAt: true, description: true, language: true }}},
+          include: { revision: { select: { id: true, buildId: true, hash: true, type: true, createdAt: true, description: true, language: true }}},
           where: { revision: { language }},
           orderBy: { revision: { createdAt: 'desc' }}
         },
@@ -311,36 +308,10 @@ export async function AchievementPageComponent({ language, achievementId, revisi
         </>
       )}
 
-
-      <Headline id="history">History</Headline>
-      <Table>
-        <thead>
-          <tr>
-            <Table.HeaderCell small/>
-            <Table.HeaderCell small>Build</Table.HeaderCell>
-            <Table.HeaderCell>Description</Table.HeaderCell>
-            <Table.HeaderCell small>Date</Table.HeaderCell>
-            <Table.HeaderCell small>Actions</Table.HeaderCell>
-          </tr>
-        </thead>
-        <tbody>
-          {achievement.history.map((history) => (
-            <tr key={history.revisionId}>
-              <td style={{ paddingRight: 0 }}>{history.revisionId === revision.id && <Tip tip="Currently viewing"><Icon icon="eye"/></Tip>}</td>
-              <td>{history.revision.buildId !== 0 ? (<Link href={`/build/${history.revision.buildId}`}>{history.revision.buildId}</Link>) : '-'}</td>
-              <td>
-                <Tooltip content={<AchievementLinkTooltip achievement={getLinkProperties(achievement)} language={language} revision={history.revisionId}/>}>
-                  <Link href={`/achievement/${achievement.id}/${history.revisionId}`}>
-                    {history.revision.description}
-                  </Link>
-                </Tooltip>
-              </td>
-              <td><FormatDate date={history.revision.createdAt} relative/></td>
-              <td>{history.revisionId !== revision.id && <Link href={`/achievement/${achievement.id}/${history.revisionId}`}>View</Link>}</td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
+      <Headline id="history"><Trans id="revisions.history"/></Headline>
+      <RevisionTable revisions={achievement.history.map(({ revision }) => revision)} currentRevisionId={fixedRevision ? revision.id : undefined} link={({ revisionId, children }) => (
+        <AchievementLink achievement={achievement} revision={revisionId} icon="none">{children}</AchievementLink>
+      )}/>
 
       <Headline id="data">Data</Headline>
       <Json data={data}/>

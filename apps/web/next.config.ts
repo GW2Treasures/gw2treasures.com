@@ -21,6 +21,9 @@ const nextConfig: NextConfig = {
     // taint is not actually used, this is just to opt Next.js into using react@experimental,
     // so other APIs become available (e.g. useEffectEvent)
     taint: true,
+
+    // typed environment variables (.env)
+    typedEnv: true,
   },
 
   // enable production source maps

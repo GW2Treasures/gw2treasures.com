@@ -11,6 +11,11 @@
   transition: all .3s ease;
 }
 
+.buttonThin {
+  composes: button;
+  padding: 8px 16px;
+}
+
 .button:focus {
   outline: none;
 }

@@ -17,13 +17,14 @@ export const EntityLinkInternal: FC<EntityLinkProps> = ({ ref, href, entity, ico
 
   if(language && defaultLanguage !== language) {
     href = localizedUrl(href, language);
+  } else {
+    language = undefined;
   }
 
   return (
     <NextLink
       suppressHydrationWarning
       href={href}
-      locale={language}
       className={cx(styles.link, 'rarity' in entity ? rarityClasses[entity.rarity] : styles.noRarity)}
       hrefLang={language}
       ref={ref}

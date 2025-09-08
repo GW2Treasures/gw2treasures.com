@@ -12,15 +12,16 @@ export interface AchievementLinkProps {
   achievement: WithIcon<Pick<Achievement, 'id' | keyof LocalizedEntity>>,
   icon?: IconSize | 'none',
   language?: Language,
+  revision?: string,
   children?: ReactNode,
 }
 
-export const AchievementLink: FC<AchievementLinkProps> = ({ achievement, icon = 32, language, children }) => {
+export const AchievementLink: FC<AchievementLinkProps> = ({ achievement, icon = 32, language, revision, children }) => {
   const entity = getLinkProperties(achievement);
 
   return (
-    <Tooltip content={<AchievementLinkTooltip achievement={entity} language={language}/>}>
-      <EntityLink href={`/achievement/${achievement.id}`} entity={entity} icon={icon} language={language}>
+    <Tooltip content={<AchievementLinkTooltip achievement={entity} language={language} revision={revision}/>}>
+      <EntityLink href={`/achievement/${achievement.id}${revision ? `/${revision}` : ''}`} entity={entity} icon={icon} language={language}>
         {children}
       </EntityLink>
     </Tooltip>

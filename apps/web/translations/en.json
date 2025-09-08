@@ -597,5 +597,11 @@
   "professions.weapon-skills.attunement.Air": "Air attunement",
   "professions.weapon-skills.attunement.Earth": "Earth attunement",
   "professions.weapon-skills.attunement.Fire": "Fire attunement",
-  "professions.weapon-skills.attunement.Water": "Water attunement"
+  "professions.weapon-skills.attunement.Water": "Water attunement",
+  "revisions.history": "History",
+  "revisions.build": "Build",
+  "revisions.description": "Description",
+  "revisions.date": "Date",
+  "revisions.view": "View",
+  "revisions.showHidden": "Show {0} hidden revisions"
 }

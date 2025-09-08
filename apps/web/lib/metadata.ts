@@ -1,25 +1,46 @@
 import type { Metadata, ResolvedMetadata, ResolvingMetadata } from 'next';
 import type { LayoutProps, PageProps } from './next';
-import { getAlternateUrls, getCurrentUrl } from './url';
+import { getAlternateUrls, getBaseUrl, getCurrentUrl } from './url';
 import type { StaticImageData } from 'next/image';
 import type { TemplateString } from 'next/dist/lib/metadata/types/metadata-types';
 import type { Twitter } from 'next/dist/lib/metadata/types/twitter-types';
 import { getLanguage } from './translate';
+import type { Language } from '@gw2treasures/database';
 
-export function createMetadata<Props extends PageProps | LayoutProps>(getMeta: ((props: Props) => Promise<Meta> | Meta) | Meta) {
-  return async (props: Props, parent: ResolvingMetadata): Promise<Metadata> => {
-    const meta = typeof getMeta === 'function' ? await getMeta(props) : getMeta;
+interface CreateMetadataContext {
+  language: Language
+}
+
+type CreateMetadataCallback<T> = (props: T, context: CreateMetadataContext) => Promise<Meta> | Meta;
+
+type GenerateMetadata<T> = (props: T, parent: ResolvingMetadata) => Promise<Metadata>;
+
+export function createMetadata<Props extends PageProps | LayoutProps>(
+  getMeta: CreateMetadataCallback<Props> | Meta
+): GenerateMetadata<Props> {
+  return async (props, parent) => {
+    // get current language (root param)
     const language = await getLanguage();
 
+    // get meta from callback or object
+    const meta = typeof getMeta === 'function'
+      ? await getMeta(props, { language })
+      : getMeta;
+
+    // generate alternate urls
+    // TODO: require `meta.url` to be set for all pages to remove fallback to dynamic `getCurrentUrl`
     const url = await getCurrentUrl();
     const alternates = getAlternateUrls(meta.url ?? url.pathname, language);
 
+    // get metadata from parent layouts
     const parentMeta = await parent;
 
+    // generate title
     const title = meta.ogTitle ??
       resolveTitle(meta.title, parentMeta.title).replace(' · gw2treasures.com', '');
 
-    const image = resolveImage(meta.image, url);
+    // resolve absolute image url
+    const image = resolveImage(meta.image, getBaseUrl(language));
 
     return {
       title: meta.title,

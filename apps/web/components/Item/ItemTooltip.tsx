@@ -101,7 +101,11 @@ export async function createTooltip(item: Gw2Api.Item, language: Language): Prom
     : undefined;
 
   // get item icon
-  const icon = parseIcon(item.icon);
+  const icon = parseIcon(item.icon) ??
+    (('icon_file_id' in item && 'icon_file_signature' in item)
+      ? { id: Number(item.icon_file_id), signature: String(item.icon_file_signature) }
+      : undefined
+    );
 
   return {
     language,

@@ -78,6 +78,9 @@ export default defineConfig(
       // disable import/no-unresolved, ts is already handling this
       'import/no-unresolved': 'off',
 
+      // require node protocol in imports (`import { x } from 'node:util'`)
+      'import/enforce-node-protocol-usage': ['warn', 'always'],
+
       // `const foo:Bar` → `const foo: Bar`
       '@stylistic/type-annotation-spacing': 'warn',
 
@@ -92,7 +95,7 @@ export default defineConfig(
       '@stylistic/member-delimiter-style': ['warn', {
         multiline: { delimiter: 'comma', requireLast: true },
         singleline: { delimiter: 'comma', requireLast: false },
-      }]
+      }],
     }
   }
 );

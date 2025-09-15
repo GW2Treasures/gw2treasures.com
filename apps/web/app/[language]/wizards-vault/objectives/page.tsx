@@ -1,8 +1,10 @@
 import { AstralAcclaim } from '@/components/Format/AstralAcclaim';
+import { Trans } from '@/components/I18n/Trans';
 import { Description } from '@/components/Layout/Description';
 import { PageLayout } from '@/components/Layout/PageLayout';
 import { ColumnSelect } from '@/components/Table/ColumnSelect';
 import { Waypoint } from '@/components/Waypoint/Waypoint';
+import { WizardsVaultTrackIcon } from '@/components/WizardsVault/track-icon';
 import { cache } from '@/lib/cache';
 import { compareLocalizedName, localizedName } from '@/lib/localizedName';
 import { createMetadata } from '@/lib/metadata';
@@ -30,10 +32,10 @@ export default async function WizardsVaultObjectivesPage() {
 
       <Objectives.Table>
         <Objectives.Column id="id" sortBy="id" title="ID" align="right" hidden>{({ id }) => id}</Objectives.Column>
-        <Objectives.Column id="track" sortBy="track" title="Track">{({ track }) => track}</Objectives.Column>
-        <Objectives.Column id="title" sort={compareLocalizedName(language)} title="Objective">{(objective) => localizedName(objective, language)}</Objectives.Column>
+        <Objectives.Column id="track" sortBy="track" title={<Trans id="wizards-vault.track"/>}>{({ track }) => <FlexRow><WizardsVaultTrackIcon track={track}/><Trans id={`wizards-vault.track.${track}`}/></FlexRow>}</Objectives.Column>
+        <Objectives.Column id="title" sort={compareLocalizedName(language)} title={<Trans id="wizards-vault.objective"/>}>{(objective) => localizedName(objective, language)}</Objectives.Column>
         <Objectives.Column id="wp" title="Waypoint">{({ waypointId }) => waypointId && <FlexRow><Waypoint id={waypointId}/> {waypointId}</FlexRow>}</Objectives.Column>
-        <Objectives.Column id="acclaim" sortBy="acclaim" title="Astral Acclaim" align="right">{({ acclaim }) => <AstralAcclaim value={acclaim}/>}</Objectives.Column>
+        <Objectives.Column id="acclaim" sortBy="acclaim" title={<Trans id="wizards-vault.astral-acclaim"/>} align="right">{({ acclaim }) => <AstralAcclaim value={acclaim}/>}</Objectives.Column>
       </Objectives.Table>
     </PageLayout>
   );

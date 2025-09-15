@@ -7,7 +7,7 @@ import { db } from '@/lib/prisma';
 import { getCurrentUrl } from '@/lib/url';
 import { Scope } from '@gw2me/client';
 import { generatePKCEPair, type PKCEChallenge } from '@gw2me/client/pkce';
-import { randomBytes } from 'crypto';
+import { randomBytes } from 'node:crypto';
 import { redirect } from 'next/navigation';
 import 'server-only';
 

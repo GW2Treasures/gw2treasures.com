@@ -2,7 +2,7 @@ import { Prisma, Revision } from '@gw2treasures/database';
 import { db } from '../../db';
 import { LocalizedObject } from './types';
 import { schema } from './schema';
-import { createHash } from 'crypto';
+import { createHash } from 'node:crypto';
 
 export async function createRevisions(data: LocalizedObject, revision: Omit<Prisma.RevisionUncheckedCreateInput, 'data' | 'hash' | 'language' | 'schema'>): Promise<LocalizedObject<Revision>> {
   const data_de = JSON.stringify(data.de);

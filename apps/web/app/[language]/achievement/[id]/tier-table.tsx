@@ -67,8 +67,8 @@ const TierTableAccountRows: FC<TierTableProps> = ({ achievement }) => {
 };
 
 interface TierTableAccountRowProps {
-  achievement: Achievement;
-  account: Gw2Account;
+  achievement: Achievement,
+  account: Gw2Account,
 }
 
 const TierTableAccountRow: FC<TierTableAccountRowProps> = ({ achievement, account }) => {
@@ -155,8 +155,8 @@ const TierTableSnapshotRow: FC<TierTableSnapshotRowProps> = ({ achievement, snap
 
   const requiresPrerequisites = !!achievement.prerequisites?.length;
   const hasPrerequisites = achievement.prerequisites
-      ?.map((prerequisitesId) => data.find(({ id }) => prerequisitesId === id))
-      .every((prerequisite) => prerequisite?.done);
+    ?.map((prerequisitesId) => data.find(({ id }) => prerequisitesId === id))
+    .every((prerequisite) => prerequisite?.done);
 
   const requiresUnlock = achievement.flags.includes('RequiresUnlock');
   const hasUnlock = progress?.unlocked;

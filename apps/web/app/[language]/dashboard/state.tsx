@@ -10,7 +10,7 @@ import type { Scope } from '@gw2me/client';
 import { useHydrated } from '@/lib/useHydrated';
 
 interface StateProps {
-  requiredScopes: Scope[];
+  requiredScopes: Scope[],
 }
 
 export const State: FC<StateProps> = ({ requiredScopes }) => {

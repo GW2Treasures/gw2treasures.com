@@ -8,7 +8,7 @@ import { getLanguage } from './translate';
 import type { Language } from '@gw2treasures/database';
 
 interface CreateMetadataContext {
-  language: Language
+  language: Language,
 }
 
 type CreateMetadataCallback<T> = (props: T, context: CreateMetadataContext) => Promise<Meta> | Meta;
@@ -74,7 +74,7 @@ type Meta = {
   keywords?: string[],
   url?: string,
   image?: Image,
-  robots?: Metadata['robots']
+  robots?: Metadata['robots'],
 };
 
 

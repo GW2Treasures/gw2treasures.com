@@ -3,8 +3,8 @@ import type { FC, ReactNode } from 'react';
 import { Trans } from '../I18n/Trans';
 
 export interface ColumnSelectProps {
-  table: { ColumnSelection: FC<DataTableColumnSelectionProps> }
-  children?: ReactNode
+  table: { ColumnSelection: FC<DataTableColumnSelectionProps> },
+  children?: ReactNode,
 }
 
 export const ColumnSelect: FC<ColumnSelectProps> = ({ table: { ColumnSelection }, children }) => {

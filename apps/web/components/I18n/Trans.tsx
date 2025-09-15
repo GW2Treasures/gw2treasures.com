@@ -5,8 +5,8 @@ import type { FC } from 'react';
 import type { Language } from '@gw2treasures/database';
 
 export interface TransProps {
-  id: TranslationId;
-  language?: Language;
+  id: TranslationId,
+  language?: Language,
 }
 
 export const Trans: FC<TransProps> = async ({ id, language }) => {

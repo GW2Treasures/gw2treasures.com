@@ -8,8 +8,8 @@ import Link from 'next/link';
 import { ReviewState } from '@gw2treasures/database';
 
 export interface EditMysticForgeProps {
-  outputItemId: number;
-  recipeId?: string;
+  outputItemId: number,
+  recipeId?: string,
 }
 
 export const EditMysticForge: FC<EditMysticForgeProps> = async ({ outputItemId, recipeId }) => {

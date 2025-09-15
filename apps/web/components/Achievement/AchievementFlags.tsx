@@ -8,7 +8,7 @@ import type { FC } from 'react';
 type FlagOrString = ApiAchievementFlags | (string & {});
 
 export interface AchievementFlagsProps {
-  flags: FlagOrString[]
+  flags: FlagOrString[],
 }
 
 export const displayedFlags: FlagOrString[] = [

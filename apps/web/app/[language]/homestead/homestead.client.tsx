@@ -13,7 +13,7 @@ import { SortableDynamicDataTableCell } from '@gw2treasures/ui/components/Table/
 
 export const requiredScopes = [Scope.GW2_Progression, Scope.GW2_Unlocks];
 
-export const AccountHomeNodeCell: FC<{ nodeId: string; accountId: string; }> = ({ nodeId, accountId }) => {
+export const AccountHomeNodeCell: FC<{ nodeId: string, accountId: string }> = ({ nodeId, accountId }) => {
   const nodes = useSubscription('home.nodes', accountId);
 
   if (nodes.loading) {
@@ -31,7 +31,7 @@ export const AccountHomeNodeCell: FC<{ nodeId: string; accountId: string; }> = (
   );
 };
 
-export const AccountHomeCatCell: FC<{ catId: number; accountId: string; }> = ({ catId, accountId }) => {
+export const AccountHomeCatCell: FC<{ catId: number, accountId: string }> = ({ catId, accountId }) => {
   const cats = useSubscription('home.cats', accountId);
 
   if (cats.loading) {
@@ -50,7 +50,7 @@ export const AccountHomeCatCell: FC<{ catId: number; accountId: string; }> = ({ 
 };
 
 
-export const AccountHomesteadDecorationCell: FC<{ decorationId: number; accountId: string; }> = ({ decorationId, accountId }) => {
+export const AccountHomesteadDecorationCell: FC<{ decorationId: number, accountId: string }> = ({ decorationId, accountId }) => {
   const decorations = useSubscription('homestead.decorations', accountId);
 
   if (decorations.loading) {
@@ -72,7 +72,7 @@ export const AccountHomesteadDecorationCell: FC<{ decorationId: number; accountI
 
 type GlyphSlotTranslations = TranslationSubset<'homestead.glyphs.slot.harvesting' | 'homestead.glyphs.slot.logging' | 'homestead.glyphs.slot.mining'>;
 
-export const AccountHomesteadGlyphsCell: FC<{ glyphIdPrefix: string; accountId: string; slotTranslations: GlyphSlotTranslations }> = ({ glyphIdPrefix, accountId, slotTranslations }) => {
+export const AccountHomesteadGlyphsCell: FC<{ glyphIdPrefix: string, accountId: string, slotTranslations: GlyphSlotTranslations }> = ({ glyphIdPrefix, accountId, slotTranslations }) => {
   const glyphs = useSubscription('homestead.glyphs', accountId);
 
   if (glyphs.loading) {

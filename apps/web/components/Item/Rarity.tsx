@@ -5,8 +5,8 @@ import rarityStyles from '../Layout/RarityColor.module.css';
 import type { Rarity as RarityEnum } from '@gw2treasures/database';
 
 export interface RarityProps {
-  rarity: RarityEnum;
-  children?: ReactNode;
+  rarity: RarityEnum,
+  children?: ReactNode,
 }
 
 export const Rarity: FC<RarityProps> = ({ rarity, children }) => {

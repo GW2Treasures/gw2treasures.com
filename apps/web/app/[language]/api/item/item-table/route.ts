@@ -6,7 +6,7 @@ import { NextResponse, NextRequest } from 'next/server';
 export async function POST(request: NextRequest) {
   const body: {
     query: Signed<ItemTableQuery<QueryModel>>,
-    options?: ItemTableLoadOptions<QueryModel>
+    options?: ItemTableLoadOptions<QueryModel>,
   } = await request.json();
 
   if(request.nextUrl.searchParams.has('count')) {

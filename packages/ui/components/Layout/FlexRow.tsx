@@ -3,10 +3,10 @@ import styles from './FlexRow.module.css';
 import { cx } from '../../lib';
 
 interface FlexRowProps {
-  align?: 'left' | 'right' | 'center' | 'space-between';
-  wrap?: boolean;
-  inline?: boolean;
-  children: ReactNode;
+  align?: 'left' | 'right' | 'center' | 'space-between',
+  wrap?: boolean,
+  inline?: boolean,
+  children: ReactNode,
 }
 
 export const FlexRow: FC<FlexRowProps> = ({ children, align = 'left', wrap, inline }) => {

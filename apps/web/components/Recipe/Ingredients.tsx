@@ -12,14 +12,14 @@ import { UnknownItem } from '../Item/UnknownItem';
 export type Ingredient = With<RecipeIngredient, {
   item?: null | WithIcon<Pick<Item, 'id' | 'rarity' | keyof LocalizedEntity>>,
   currency?: null | WithIcon<Pick<Currency, 'id' | keyof LocalizedEntity>>,
-  guildUpgrade?: null | WithIcon<Pick<GuildUpgrade, 'id' | keyof LocalizedEntity>>
+  guildUpgrade?: null | WithIcon<Pick<GuildUpgrade, 'id' | keyof LocalizedEntity>>,
 }>;
 
 interface IngredientsProps {
   recipe: {
     ingredientCount?: number | null,
     ingredients: Ingredient[],
-  }
+  },
 }
 
 export const Ingredients: FC<IngredientsProps> = ({ recipe }) => {

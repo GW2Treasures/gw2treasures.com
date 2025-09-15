@@ -4,7 +4,7 @@ import { Skeleton } from '../Skeleton/Skeleton';
 import styles from './EntityLink.module.css';
 
 export interface SkeletonLinkProps {
-  icon?: IconSize | 'none'
+  icon?: IconSize | 'none',
 }
 
 export const SkeletonLink: FC<SkeletonLinkProps> = ({ icon = 32 }) => {

@@ -4,8 +4,8 @@ import { Code } from '../Layout/Code';
 import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 
 export interface JsonProps {
-  data: object;
-  borderless?: boolean;
+  data: object,
+  borderless?: boolean,
 }
 
 const comma = <span style={{ color: '#aaa' }}>, </span>;

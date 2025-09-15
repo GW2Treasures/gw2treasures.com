@@ -8,17 +8,17 @@ export const CURRENT_VERSION = 4;
 
 /** @see Prisma.SkillUpdateInput  */
 interface MigratedSkill {
-  version: number
+  version: number,
 
-  name_de?: string
-  name_en?: string
-  name_es?: string
-  name_fr?: string
+  name_de?: string,
+  name_en?: string,
+  name_es?: string,
+  name_fr?: string,
 
-  affectedByTraits?: { connect: { id: number }[] }
-  affectedByTraitIdsRaw?: number[]
+  affectedByTraits?: { connect: { id: number }[] },
+  affectedByTraitIdsRaw?: number[],
 
-  flags?: string[]
+  flags?: string[],
 }
 
 export async function createMigrator() {

@@ -17,8 +17,8 @@ type ItemType = WithIcon<LocalizedEntity> & { id: number, rarity: Rarity };
 type ItemIngredient = { count: number, Item: ItemType };
 
 export interface EditMysticForgeClientProps {
-  outputItem: ItemType;
-  recipe?: Pick<MysticForgeRecipe, 'id' | 'outputCountMin' | 'outputCountMax'> & { itemIngredients: ItemIngredient[] };
+  outputItem: ItemType,
+  recipe?: Pick<MysticForgeRecipe, 'id' | 'outputCountMin' | 'outputCountMax'> & { itemIngredients: ItemIngredient[] },
 }
 
 export const EditMysticForgeClient: FC<EditMysticForgeClientProps> = ({ outputItem, recipe }) => {

@@ -52,9 +52,9 @@ import { Trans } from '@/components/I18n/Trans';
 import { RevisionTable } from '@/components/Revision/table';
 
 export interface ItemPageComponentProps {
-  language: Language;
-  itemId: number;
-  revisionId?: string;
+  language: Language,
+  itemId: number,
+  revisionId?: string,
 }
 
 export const ItemPageComponent: FC<ItemPageComponentProps> = async ({ language, itemId, revisionId }) => {

@@ -13,9 +13,9 @@ import { ShareButton } from '../ShareButton/ShareButton';
 import { TraitLink } from './TraitLink';
 
 interface TraitInfoboxProps {
-  trait: Trait;
-  data: TraitData;
-  language: Language;
+  trait: Trait,
+  data: TraitData,
+  language: Language,
 }
 
 export const TraitInfobox: FC<TraitInfoboxProps> = async ({ trait, language }) => {

@@ -11,7 +11,7 @@ type ResetModifier = 'next' | 'current' | 'last';
 export type Reset = `${ResetModifier}-${ResetType}`;
 
 export interface ResetTimerProps {
-  reset?: Reset | Date
+  reset?: Reset | Date,
 }
 
 export const ResetTimer: FC<ResetTimerProps> = ({ reset = 'current-daily' }) => {

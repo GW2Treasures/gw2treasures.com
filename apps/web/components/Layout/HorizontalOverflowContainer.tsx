@@ -6,8 +6,8 @@ import { Icon, cx } from '@gw2treasures/ui';
 import { useResizeObserver } from '@gw2treasures/ui/lib/hooks/resize-observer';
 
 export interface HorizontalOverflowContainerProps {
-  children: ReactNode;
-  inverted?: boolean;
+  children: ReactNode,
+  inverted?: boolean,
 }
 
 export const HorizontalOverflowContainer: FC<HorizontalOverflowContainerProps> = ({ children, inverted = false }) => {

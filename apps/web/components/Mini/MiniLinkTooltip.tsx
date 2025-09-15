@@ -16,9 +16,9 @@ import { ClientMiniTooltip } from './MiniTooltip.client';
 import { Skeleton } from '../Skeleton/Skeleton';
 
 export interface MiniLinkTooltipProps {
-  mini: WithIcon<Pick<Mini, 'id' | keyof LocalizedEntity>>
-  language?: Language;
-  revision?: string;
+  mini: WithIcon<Pick<Mini, 'id' | keyof LocalizedEntity>>,
+  language?: Language,
+  revision?: string,
 }
 
 export const MiniLinkTooltip: FC<MiniLinkTooltipProps> = ({ mini, language, revision }) => {

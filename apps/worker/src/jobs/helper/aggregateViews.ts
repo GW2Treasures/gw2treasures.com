@@ -10,7 +10,7 @@ const findManyArg = {
 
 type UpdateManyArgs = {
   where: { id: number } | { id: { in: number[] }},
-  data: { views: number }
+  data: { views: number },
 };
 
 export async function aggregateViews(

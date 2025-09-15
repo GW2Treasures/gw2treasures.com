@@ -6,7 +6,7 @@ import { useState, type FC, type ReactNode } from 'react';
 
 export interface RevisionTableHiddenRowsProps {
   label: string,
-  hiddenIndexes: number[];
+  hiddenIndexes: number[],
   children: ReactNode[],
 }
 

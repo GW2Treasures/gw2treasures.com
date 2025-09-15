@@ -5,7 +5,7 @@ import { useId, type FC } from 'react';
 import styles from './Chatlink.module.css';
 
 export interface ChatlinkProps {
-  chatlink: string;
+  chatlink: string,
 }
 
 export const Chatlink: FC<ChatlinkProps> = ({ chatlink }) => {

@@ -25,7 +25,7 @@ type Datum = { time: Date, value: number | null };
 const bisectDate = bisector<Datum, Date>((d) => d.time).left;
 
 interface ChartProps {
-  lines: [name: string, data: Datum[]][]
+  lines: [name: string, data: Datum[]][],
   valueDomain: [number, number],
   timeDomain: [Date, Date],
 }

@@ -11,7 +11,7 @@ import { Skeleton } from '@/components/Skeleton/Skeleton';
 import type { Achievement } from '@gw2treasures/database';
 
 export type RelicUnlockCellProps = {
-  set: RelicSet | undefined
+  set: RelicSet | undefined,
   achievement: Pick<Achievement, 'id' | 'flags' | 'prerequisitesIds'>,
   bitId: number,
   accountId: string,

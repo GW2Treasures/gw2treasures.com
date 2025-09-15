@@ -24,10 +24,10 @@ import { allDisciplines } from './disciplines';
 
 export interface RecipeTableProps {
   recipes: With<Pick<Recipe, 'id' | 'rating' | 'disciplines' | 'outputCount' | 'outputItemId' | 'outputItemIdRaw'>, {
-    ingredients: Ingredient[];
-    outputItem: ItemLinkProps['item'] | null;
-    unlockedByItems: ItemLinkProps['item'][];
-  }>[]
+    ingredients: Ingredient[],
+    outputItem: ItemLinkProps['item'] | null,
+    unlockedByItems: ItemLinkProps['item'][],
+  }>[],
 }
 
 export const RecipeTable: FC<RecipeTableProps> = async ({ recipes }) => {

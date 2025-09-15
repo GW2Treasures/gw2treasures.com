@@ -3,17 +3,17 @@ import { getAlternateUrls } from '@/lib/url';
 import type { Language } from '@gw2treasures/database';
 
 interface SitemapEntry {
-  url: string | URL;
-  lastmod?: Date;
+  url: string | URL,
+  lastmod?: Date,
   alternates?: {
-    lang: string;
-    href: string | URL;
-  }[]
+    lang: string,
+    href: string | URL,
+  }[],
 }
 
 interface Sitemap {
-  getCount(): number | Promise<number>
-  getEntries(language: Language, skip: number, take: number): SitemapEntry[] | Promise<SitemapEntry[]>
+  getCount(): number | Promise<number>,
+  getEntries(language: Language, skip: number, take: number): SitemapEntry[] | Promise<SitemapEntry[]>,
 }
 
 export const pageSize = 20_000;

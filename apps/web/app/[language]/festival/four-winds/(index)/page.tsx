@@ -96,16 +96,16 @@ export default async function FourWindsFestivalPage() {
       {festival && (
         <StructuredData data={{
           '@type': 'Event',
-          name: t('festival.four-winds'),
-          description: t('festival.four-winds.description'),
-          location: {
+          'name': t('festival.four-winds'),
+          'description': t('festival.four-winds.description'),
+          'location': {
             '@type': 'VirtualLocation',
-            url: (await absoluteUrl('/festival/four-winds')).toString()
+            'url': (await absoluteUrl('/festival/four-winds')).toString()
           },
-          startDate: festival.startsAt.toISOString(),
-          endDate: festival.endsAt.toISOString(),
-          eventAttendanceMode: 'https://schema.org/OnlineEventAttendanceMode',
-          image: [(await absoluteUrl(ogImage.src)).toString()]
+          'startDate': festival.startsAt.toISOString(),
+          'endDate': festival.endsAt.toISOString(),
+          'eventAttendanceMode': 'https://schema.org/OnlineEventAttendanceMode',
+          'image': [(await absoluteUrl(ogImage.src)).toString()]
         } satisfies Event}/>
       )}
     </PageLayout>

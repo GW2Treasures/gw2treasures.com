@@ -12,8 +12,8 @@ import { localizedName } from '@/lib/localizedName';
 import { getCurrentUrl } from '@/lib/url';
 
 interface MiniInfoboxProps {
-  mini: Mini;
-  language: Language;
+  mini: Mini,
+  language: Language,
 }
 
 export const MiniInfobox: FC<MiniInfoboxProps> = async ({ mini, language }) => {

@@ -17,9 +17,9 @@ import { ClientSkinTooltip } from './SkinTooltip.client';
 import { Skeleton } from '../Skeleton/Skeleton';
 
 export interface SkinLinkTooltipProps {
-  skin: WithIcon<Pick<Skin, 'id' | 'rarity' | keyof LocalizedEntity>>
-  language?: Language;
-  revision?: string;
+  skin: WithIcon<Pick<Skin, 'id' | 'rarity' | keyof LocalizedEntity>>,
+  language?: Language,
+  revision?: string,
 }
 
 export const SkinLinkTooltip: FC<SkinLinkTooltipProps> = ({ skin, language, revision }) => {

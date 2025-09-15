@@ -33,7 +33,7 @@ export interface SearchProps {
    | `currency.category.${CurrencyCategoryName}`
    | `trait.slot.${TraitSlot}`
    | `trait.tier.${1 | 2 | 3}`
-  >
+  >,
 }
 
 export const Search: FC<SearchProps> = ({ translations }) => {

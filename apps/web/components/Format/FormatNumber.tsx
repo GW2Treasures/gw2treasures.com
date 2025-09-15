@@ -9,11 +9,11 @@ import type { RefProp } from '@gw2treasures/ui/lib/react';
 const NARROW_NO_BREAK_SPACE = '\u{202F}';
 
 interface FormatNumberProps extends RefProp<HTMLDataElement> {
-  value: number | bigint | undefined | null;
-  className?: string;
-  unit?: ReactNode;
-  options?: Intl.NumberFormatOptions;
-  approx?: boolean;
+  value: number | bigint | undefined | null,
+  className?: string,
+  unit?: ReactNode,
+  options?: Intl.NumberFormatOptions,
+  approx?: boolean,
 }
 
 const format = new Intl.NumberFormat(undefined, { useGrouping: true });

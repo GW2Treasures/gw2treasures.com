@@ -8,9 +8,9 @@ import { getTranslate, type TranslationId } from '@/lib/translate';
 import { parseIcon } from '@/lib/parseIcon';
 
 export interface SkinTooltipProps {
-  skin: Gw2Api.Skin;
-  language: Language;
-  hideTitle?: boolean;
+  skin: Gw2Api.Skin,
+  language: Language,
+  hideTitle?: boolean,
 }
 
 export const SkinTooltip: FC<SkinTooltipProps> = async ({ skin, language, hideTitle }) => {
@@ -47,7 +47,7 @@ export interface SkinTooltip {
   type: string,
   rarity: {
     label: string,
-    value: Rarity
+    value: Rarity,
   },
   weight?: string,
 }

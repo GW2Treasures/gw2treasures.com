@@ -5,9 +5,9 @@ import { context, type Context } from './context';
 import type { AvailableColumns, GlobalColumnId } from './types';
 
 interface ItemTableContextProps {
-  children: ReactNode;
-  id: string;
-  global?: boolean;
+  children: ReactNode,
+  id: string,
+  global?: boolean,
 }
 
 const emptyAvailableColumns = {} as AvailableColumns<string>;

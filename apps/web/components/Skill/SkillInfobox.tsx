@@ -16,9 +16,9 @@ import { LinkButton } from '@gw2treasures/ui/components/Form/Button';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 
 interface SkillInfoboxProps {
-  skill: Skill;
-  data: SkillData;
-  language: Language;
+  skill: Skill,
+  data: SkillData,
+  language: Language,
 }
 
 export const SkillInfobox: FC<SkillInfoboxProps> = async ({ skill, data, language }) => {

@@ -1,12 +1,15 @@
 import nextJsPlugin from '@gw2treasures/eslint-plugin-nextjs';
 import reactConfig from '@gw2treasures/eslint-config/react';
 import reactCompiler from 'eslint-plugin-react-compiler';
-import tseslint from 'typescript-eslint';
 import nextConfig from '@next/eslint-plugin-next';
+import { defineConfig, globalIgnores } from 'eslint/config';
 
-export default tseslint.config(
-  // ignore all files in .next
-  { ignores: ['.next'] },
+export default defineConfig(
+  // ignore Next.js generated files
+  globalIgnores([
+    '.next/',
+    'next-env.d.ts'
+  ]),
 
   // extends next/core-web-vitals
   nextConfig.flatConfig.coreWebVitals,

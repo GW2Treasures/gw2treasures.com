@@ -19,7 +19,7 @@ import type { Language } from '@gw2treasures/database';
 // exported suspended wrapper around the actual button
 
 export interface UserButtonProps {
-  language: Language;
+  language: Language,
 }
 
 export const UserButton: FC<UserButtonProps> = ({ language }) => {
@@ -43,8 +43,8 @@ const UserButtonLoader: FC<UserButtonProps> = async ({ language }) => {
 // internal button component to show loader / user / login
 
 interface UserButtonButtonProps {
-  user?: SessionUser | 'loading'
-  language: Language;
+  user?: SessionUser | 'loading',
+  language: Language,
 }
 const UserButtonButton: FC<UserButtonButtonProps> = ({ user, language }) => {
   const t = getTranslate(language);

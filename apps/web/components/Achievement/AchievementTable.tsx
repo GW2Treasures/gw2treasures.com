@@ -23,21 +23,21 @@ import { AchievementPoints } from './AchievementPoints';
 import { UserGate } from '../User/gate';
 
 export interface AchievementTableProps {
-  language: Language;
+  language: Language,
   achievements: With<WithIcon<Achievement>, {
     rewardsItem: WithIcon<Pick<Item, 'id' | 'rarity' | keyof LocalizedEntity>>[],
-    rewardsTitle: WithIcon<Pick<Title, 'id' | keyof LocalizedEntity>>[]
-  }>[];
-  headline?: ReactNode;
-  headlineId?: string;
-  sort?: boolean;
+    rewardsTitle: WithIcon<Pick<Title, 'id' | keyof LocalizedEntity>>[],
+  }>[],
+  headline?: ReactNode,
+  headlineId?: string,
+  sort?: boolean,
 
-  showMastery?: boolean;
-  showRewardsTitle?: boolean;
-  showRewardsItem?: boolean;
+  showMastery?: boolean,
+  showRewardsTitle?: boolean,
+  showRewardsItem?: boolean,
 
-  collapsed?: boolean | 'historic';
-  children?: (table: ReactNode, columnSelect: ReactNode) => ReactNode
+  collapsed?: boolean | 'historic',
+  children?: (table: ReactNode, columnSelect: ReactNode) => ReactNode,
 }
 
 function compare(language: Language, a: AchievementTableProps['achievements'][number], b: AchievementTableProps['achievements'][number]) {

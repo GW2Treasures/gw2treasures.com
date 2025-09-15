@@ -7,14 +7,14 @@ import { cx } from '@gw2treasures/ui';
 const heroMask = new URL('./hero-mask.jpg', import.meta.url).toString();
 
 export interface HeroLayoutProps {
-  children: ReactNode;
-  hero: ReactNode;
-  heroClassName?: string;
-  navBar?: ReactNode;
-  color?: CSSProperties['--hero-color'];
-  toc?: boolean;
-  skipPreload?: boolean;
-  skipLayout?: boolean;
+  children: ReactNode,
+  hero: ReactNode,
+  heroClassName?: string,
+  navBar?: ReactNode,
+  color?: CSSProperties['--hero-color'],
+  toc?: boolean,
+  skipPreload?: boolean,
+  skipLayout?: boolean,
 }
 
 export const HeroLayout: FC<HeroLayoutProps> = ({ children, hero, heroClassName, navBar, color, toc, skipPreload, skipLayout }) => {

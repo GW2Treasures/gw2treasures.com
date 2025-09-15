@@ -23,10 +23,10 @@ import { encode } from 'gw2e-chat-codes';
 import type { SubType, Type } from '../Item/ItemType.types';
 
 export interface SkinTableProps {
-  skins: WithIcon<Pick<Skin, 'id' | 'rarity' | 'weight' | 'type' | 'subtype' | 'unlocks' | keyof LocalizedEntity>>[]
-  headline?: ReactNode;
-  headlineId?: string;
-  children?: (table: ReactNode, columnSelect: ReactNode) => ReactNode
+  skins: WithIcon<Pick<Skin, 'id' | 'rarity' | 'weight' | 'type' | 'subtype' | 'unlocks' | keyof LocalizedEntity>>[],
+  headline?: ReactNode,
+  headlineId?: string,
+  children?: (table: ReactNode, columnSelect: ReactNode) => ReactNode,
 }
 
 export const SkinTable: FC<SkinTableProps> = async ({ skins, headline, headlineId, children }) => {

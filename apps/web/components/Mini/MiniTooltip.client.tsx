@@ -4,8 +4,8 @@ import styles from './MiniTooltip.module.css';
 import { EntityIcon } from '../Entity/EntityIcon';
 
 export interface ClientMiniTooltipProps {
-  tooltip: MiniTooltip;
-  hideTitle?: boolean;
+  tooltip: MiniTooltip,
+  hideTitle?: boolean,
 }
 
 export const ClientMiniTooltip: FC<ClientMiniTooltipProps> = ({ tooltip, hideTitle = false }) => {

@@ -9,9 +9,9 @@ import { Tooltip } from '../Tooltip/Tooltip';
 import { MiniLinkTooltip } from './MiniLinkTooltip';
 
 export interface MiniLinkProps {
-  mini: WithIcon<Pick<Mini, 'id' | keyof LocalizedEntity>>;
-  icon?: IconSize | 'none';
-  language?: Language;
+  mini: WithIcon<Pick<Mini, 'id' | keyof LocalizedEntity>>,
+  icon?: IconSize | 'none',
+  language?: Language,
 }
 
 export const MiniLink: FC<MiniLinkProps> = ({ mini, icon = 32, language }) => {

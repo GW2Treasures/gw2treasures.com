@@ -15,9 +15,9 @@ import { localizedName } from '@/lib/localizedName';
 import { getCurrentUrl } from '@/lib/url';
 
 interface SkinInfoboxProps {
-  skin: Skin;
-  data: Gw2Api.Skin;
-  language: Language;
+  skin: Skin,
+  data: Gw2Api.Skin,
+  language: Language,
 }
 
 export const SkinInfobox: FC<SkinInfoboxProps> = async ({ skin, language }) => {

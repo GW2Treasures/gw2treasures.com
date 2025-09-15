@@ -2,7 +2,7 @@ import { lazy, type FC } from 'react';
 import { extent, max } from 'd3-array';
 
 export interface ChartProps {
-  lines: [name: string, data: { time: Date, value: number }[]][]
+  lines: [name: string, data: { time: Date, value: number }[]][],
 }
 
 const colorPalette = [

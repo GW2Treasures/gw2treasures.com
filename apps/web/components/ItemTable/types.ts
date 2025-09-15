@@ -7,10 +7,10 @@ import type { TranslationId } from '@/lib/translate';
 export type GlobalColumnId = 'id' | 'item' | 'icon' | 'name_de' | 'name_en' | 'name_es' | 'name_fr' | 'level' | 'rarity' | 'type' | 'weight' | 'itemstats' | 'vendorValue' | 'buyPrice' | 'buyPriceTrend' | 'buyQuantity' | 'sellPrice' | 'sellPriceTrend' | 'sellQuantity';
 
 export interface ItemTableQuery<Model extends QueryModel = 'item'> {
-  model?: Model;
-  where: ColumnModelTypes[Model]['where'];
-  mapToItem?: ColumnModelTypes[Model]['map'];
-  orderBy?: OrderBy<ColumnModelTypes[Model]['orderBy']>;
+  model?: Model,
+  where: ColumnModelTypes[Model]['where'],
+  mapToItem?: ColumnModelTypes[Model]['map'],
+  orderBy?: OrderBy<ColumnModelTypes[Model]['orderBy']>,
 }
 
 export type QueryModel = keyof ColumnModelTypes;
@@ -27,37 +27,37 @@ export interface ItemTableColumn<Select extends Prisma.ItemSelect, Translations 
   align?: 'right',
   small?: boolean,
   orderBy?: [asc: OrderBy, desc: OrderBy],
-  translations?: Translations[]
+  translations?: Translations[],
 }
 
 export type ColumnModelTypes = {
   'item': { select: Prisma.ItemSelect, orderBy: Prisma.ItemOrderByWithRelationInput, where: Prisma.ItemWhereInput, map: undefined },
   'content': { select: Prisma.ContentSelect, orderBy: Prisma.ContentOrderByWithRelationInput, where: Prisma.ContentWhereInput, map: 'containerItem' | 'contentItem' },
-  'mysticForgeRecipe': { select: Prisma.MysticForgeRecipeSelect, orderBy: Prisma.MysticForgeRecipeOrderByWithRelationInput, where: Prisma.MysticForgeRecipeWhereInput, map: 'outputItem' }
-  'wizardsVaultListing': { select: Prisma.WizardsVaultListingSelect, orderBy: Prisma.WizardsVaultListingOrderByWithRelationInput, where: Prisma.WizardsVaultListingWhereInput, map: 'item' }
+  'mysticForgeRecipe': { select: Prisma.MysticForgeRecipeSelect, orderBy: Prisma.MysticForgeRecipeOrderByWithRelationInput, where: Prisma.MysticForgeRecipeWhereInput, map: 'outputItem' },
+  'wizardsVaultListing': { select: Prisma.WizardsVaultListingSelect, orderBy: Prisma.WizardsVaultListingOrderByWithRelationInput, where: Prisma.WizardsVaultListingWhereInput, map: 'item' },
 };
 
 export interface ExtraColumn<Id extends string, Model extends QueryModel, Select extends ColumnModelTypes[Model]['select'], Props extends object> {
   id: Id,
   select: Select,
-  title: string;
+  title: string,
   order?: number,
-  component: FC<{ item: Result<Select & { id: true }> } & Props>
+  component: FC<{ item: Result<Select & { id: true }> } & Props>,
   componentProps?: Props,
   align?: 'right',
   small?: boolean,
-  orderBy?: [asc: OrderBy<ColumnModelTypes[Model]['orderBy']>, desc: OrderBy<ColumnModelTypes[Model]['orderBy']>]
+  orderBy?: [asc: OrderBy<ColumnModelTypes[Model]['orderBy']>, desc: OrderBy<ColumnModelTypes[Model]['orderBy']>],
 }
 
 export type AvailableColumn<ColumnId extends string, Model extends QueryModel = QueryModel, Select extends ColumnModelTypes[Model]['select'] = ColumnModelTypes[Model]['select']> = {
   id: ColumnId,
-  globalColumnId?: Signed<GlobalColumnId>
+  globalColumnId?: Signed<GlobalColumnId>,
   title: string,
   select: Signed<Select>,
   orderBy?: [asc: Signed<OrderBy<ColumnModelTypes[Model]['orderBy']>>, desc: Signed<OrderBy<ColumnModelTypes[Model]['orderBy']>>],
   align?: 'right',
   small?: boolean,
-  component?: FC<{ item: Result<Select & { id: true }> }>
+  component?: FC<{ item: Result<Select & { id: true }> }>,
   componentProps?: object,
 };
 
@@ -65,5 +65,5 @@ export type AvailableColumns<ColumnId extends string> = Record<ColumnId, Availab
 
 export type LoadItemsResult = Promise<{
   items: { id: number }[],
-  translations: Partial<Record<TranslationId, string>>
+  translations: Partial<Record<TranslationId, string>>,
 }>;

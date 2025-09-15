@@ -46,7 +46,7 @@ export type SubscriptionData<T extends SubscriptionType> =
   never;
 
 export type SubscriptionResponse<T extends SubscriptionType> = Response<{
-  data: SubscriptionData<T>
+  data: SubscriptionData<T>,
   timestamp: Date,
 }>;
 
@@ -55,7 +55,7 @@ export type SubscriptionCallback<T extends SubscriptionType> = (response: Subscr
 type ActiveSubscription<T extends SubscriptionType> = {
   type: T,
   language: Language,
-  callback: SubscriptionCallback<T>
+  callback: SubscriptionCallback<T>,
 };
 
 export type CancelSubscription = () => void;
@@ -244,15 +244,15 @@ export class AccountSubscriptionManager {
 }
 
 const fetchers: { [T in SubscriptionType]: (accessToken: string, language: Language) => Promise<SubscriptionData<T>> } = {
-  account: (accessToken: string) => fetchGw2Api('/v2/account', { accessToken, schema: '2019-02-21T00:00:00.000Z', cache: 'no-cache' }),
-  achievements: (accessToken: string) => fetchGw2Api('/v2/account/achievements', { accessToken, cache: 'no-cache' }),
-  skins: (accessToken: string) => fetchGw2Api('/v2/account/skins', { accessToken, cache: 'no-cache' }),
-  minis: (accessToken: string) => fetchGw2Api('/v2/account/minis', { accessToken, cache: 'no-cache' }),
-  wallet: (accessToken: string) => fetchGw2Api('/v2/account/wallet', { accessToken, cache: 'no-cache' }),
+  'account': (accessToken: string) => fetchGw2Api('/v2/account', { accessToken, schema: '2019-02-21T00:00:00.000Z', cache: 'no-cache' }),
+  'achievements': (accessToken: string) => fetchGw2Api('/v2/account/achievements', { accessToken, cache: 'no-cache' }),
+  'skins': (accessToken: string) => fetchGw2Api('/v2/account/skins', { accessToken, cache: 'no-cache' }),
+  'minis': (accessToken: string) => fetchGw2Api('/v2/account/minis', { accessToken, cache: 'no-cache' }),
+  'wallet': (accessToken: string) => fetchGw2Api('/v2/account/wallet', { accessToken, cache: 'no-cache' }),
   'wizards-vault.daily': (accessToken: string, language: Language) => fetchGw2Api('/v2/account/wizardsvault/daily', { accessToken, cache: 'no-cache', language }),
   'wizards-vault.weekly': (accessToken: string, language: Language) => fetchGw2Api('/v2/account/wizardsvault/weekly', { accessToken, cache: 'no-cache', language }),
   'wizards-vault.special': (accessToken: string, language: Language) => fetchGw2Api('/v2/account/wizardsvault/special', { accessToken, cache: 'no-cache', language }),
-  inventories: (accessToken: string) => loadInventories(accessToken),
+  'inventories': (accessToken: string) => loadInventories(accessToken),
   'home.cats': (accessToken: string) => fetchGw2Api('/v2/account/home/cats', { accessToken, cache: 'no-cache', schema: '2022-03-23T19:00:00.000Z' }),
   'home.nodes': (accessToken: string) => fetchGw2Api('/v2/account/home/nodes', { accessToken, cache: 'no-cache' }),
   'homestead.decorations': (accessToken: string) => fetchGw2Api('/v2/account/homestead/decorations', { accessToken, cache: 'no-cache' }),

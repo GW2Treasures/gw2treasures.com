@@ -7,7 +7,7 @@ import { extendUserSessionAction } from './UserProvider.action';
 
 interface UserProviderProps {
   children: ReactNode,
-  user: Promise<SessionUser | undefined>
+  user: Promise<SessionUser | undefined>,
 }
 
 export const UserProvider: FC<UserProviderProps> = ({ children, user }) => {

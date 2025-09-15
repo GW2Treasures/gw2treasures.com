@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { type FC, useEffect, useTransition } from 'react';
 
 export interface ReloadProps {
-  intervalMs: number;
+  intervalMs: number,
 }
 
 export const Reload: FC<ReloadProps> = ({ intervalMs }) => {

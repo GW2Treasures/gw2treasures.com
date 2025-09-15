@@ -13,9 +13,9 @@ import { getCurrentUrl } from '@/lib/url';
 import type { Achievement as ApiAchievement } from '@gw2api/types/data/achievement';
 
 interface AchievementInfoboxProps {
-  achievement: Achievement;
-  data: ApiAchievement;
-  language: Language;
+  achievement: Achievement,
+  data: ApiAchievement,
+  language: Language,
 }
 
 export const AchievementInfobox: FC<AchievementInfoboxProps> = async ({ achievement, language }) => {

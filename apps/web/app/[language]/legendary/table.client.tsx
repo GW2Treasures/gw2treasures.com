@@ -7,9 +7,9 @@ import { Skeleton } from '@/components/Skeleton/Skeleton';
 import type { FC } from 'react';
 
 interface LegendaryArmoryCellProps {
-  itemId: number;
-  accountId: string;
-  maxCount: number | null;
+  itemId: number,
+  accountId: string,
+  maxCount: number | null,
 }
 
 export const LegendaryArmoryCell: FC<LegendaryArmoryCellProps> = ({ itemId, accountId, maxCount }) => {

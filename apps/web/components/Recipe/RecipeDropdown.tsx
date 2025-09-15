@@ -7,8 +7,8 @@ import { MenuList } from '@gw2treasures/ui/components/Layout/MenuList';
 import { encode } from 'gw2e-chat-codes';
 
 interface RecipeDropdownProps {
-  id: number;
-  outputItemId?: number | null;
+  id: number,
+  outputItemId?: number | null,
 }
 
 export const RecipeDropdown: FC<RecipeDropdownProps> = ({ id, outputItemId }) => {

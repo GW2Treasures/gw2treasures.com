@@ -19,7 +19,7 @@ import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 
 export interface EditDialogProps {
   columns: Column[],
-  onEdit: (columns: Column[]) => void
+  onEdit: (columns: Column[]) => void,
 }
 
 type DragEndEvent = Parameters<typeof DragDropProvider>[0]['onDragEnd'];
@@ -91,8 +91,8 @@ const ColumnItem: FC<{ column: Column, index: number, onDelete: (column: Column)
     <div className={isDragSource ? styles.columnDragging : styles.column} ref={ref}>
       <div ref={handleRef} className={styles.dragHandle}><Icon icon="drag-handle"/></div>
       {column.type === 'item' ? <ItemLink item={column.item!}/> :
-       column.type === 'currency' ? <CurrencyLink currency={column.currency!}/> :
-       column.type === 'achievement' ? <AchievementLink achievement={column.achievement!}/> : '?'}
+      column.type === 'currency' ? <CurrencyLink currency={column.currency!}/> :
+      column.type === 'achievement' ? <AchievementLink achievement={column.achievement!}/> : '?'}
       <Button icon="delete" onClick={() => onDelete(column)} iconOnly className={styles.hiddenButton} appearance="menu"/>
     </div>
   );
@@ -112,8 +112,8 @@ const ColumnItemNew: FC<{ column: Column, index: number, onAdd: (column: Column)
     <div className={isDragSource ? styles.columnDragging : styles.column} ref={ref}>
       <div ref={handleRef} className={styles.dragHandle}><Icon icon="drag-handle"/></div>
       {column.type === 'item' ? <ItemLink item={column.item!}/> :
-       column.type === 'currency' ? <CurrencyLink currency={column.currency!}/> :
-       column.type === 'achievement' ? <AchievementLink achievement={column.achievement!}/> : '?'}
+      column.type === 'currency' ? <CurrencyLink currency={column.currency!}/> :
+      column.type === 'achievement' ? <AchievementLink achievement={column.achievement!}/> : '?'}
       <Button icon="add" onClick={() => onAdd(column)} iconOnly className={styles.button}/>
     </div>
   );

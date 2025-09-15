@@ -9,12 +9,12 @@ interface WikiAskResponse {
   query: {
     results: Record<string, {
       printouts: {
-        'ContentId': [number]
+        'ContentId': [number],
         'Chance': [ContentChance],
-        'Quantity': [string]
-      }
+        'Quantity': [string],
+      },
     }>,
-  }
+  },
 }
 
 export const ItemsContainerContent: Job = {

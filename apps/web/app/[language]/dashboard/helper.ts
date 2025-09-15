@@ -43,11 +43,11 @@ function decodeColumn(column: string): Column | undefined {
 }
 
 export type Column = {
-  id: number;
+  id: number,
 } & ({
-  type: 'item', item?: WithIcon<Pick<Item, 'id' | 'rarity' | keyof LocalizedEntity>>
+  type: 'item', item?: WithIcon<Pick<Item, 'id' | 'rarity' | keyof LocalizedEntity>>,
 } | {
-  type: 'currency', currency?: WithIcon<Pick<Currency, 'id' | keyof LocalizedEntity>>
+  type: 'currency', currency?: WithIcon<Pick<Currency, 'id' | keyof LocalizedEntity>>,
 } | {
-  type: 'achievement', achievement?: WithIcon<Pick<Achievement, 'id' | keyof LocalizedEntity | 'flags' | 'prerequisitesIds'>>
+  type: 'achievement', achievement?: WithIcon<Pick<Achievement, 'id' | keyof LocalizedEntity | 'flags' | 'prerequisitesIds'>>,
 });

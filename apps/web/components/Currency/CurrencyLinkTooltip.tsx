@@ -23,9 +23,9 @@ import { CurrencyValue } from './CurrencyValue';
 
 
 export interface CurrencyLinkTooltipProps {
-  currency: WithIcon<Pick<Currency, 'id' | keyof LocalizedEntity>>
-  language?: Language;
-  revision?: string;
+  currency: WithIcon<Pick<Currency, 'id' | keyof LocalizedEntity>>,
+  language?: Language,
+  revision?: string,
 }
 
 export const CurrencyLinkTooltip: FC<CurrencyLinkTooltipProps> = ({ currency, language, revision }) => {

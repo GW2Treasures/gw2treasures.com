@@ -12,9 +12,9 @@ import { type TraitLinkProps } from './TraitLink';
 import { ClientTraitTooltip } from './TraitTooltip.client';
 
 export interface TraitTooltipProps {
-  trait: Trait;
-  language: Language;
-  hideTitle?: boolean;
+  trait: Trait,
+  language: Language,
+  hideTitle?: boolean,
 }
 
 export const TraitTooltip: FC<TraitTooltipProps> = async ({ trait, language, hideTitle }) => {

@@ -3,8 +3,8 @@ import styles from './OutputCount.module.css';
 import { FormatNumber } from '../Format/FormatNumber';
 
 export interface OutputCountProps {
-  count: number;
-  children: ReactNode;
+  count: number,
+  children: ReactNode,
 }
 
 export const OutputCount: FC<OutputCountProps> = ({ count, children }) => {

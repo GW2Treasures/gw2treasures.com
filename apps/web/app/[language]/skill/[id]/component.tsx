@@ -27,9 +27,9 @@ import { Breadcrumb, BreadcrumbItem } from '@/components/Breadcrumb/Breadcrumb';
 import { getProfessionColor } from '@/components/Profession/icon';
 
 export interface SkillPageComponentProps {
-  language: Language;
-  skillId: number;
-  revisionId?: string;
+  language: Language,
+  skillId: number,
+  revisionId?: string,
 }
 
 export const SkillPageComponent: FC<SkillPageComponentProps> = async ({ language, skillId, revisionId }) => {

@@ -8,7 +8,7 @@ import styles from './TradingPost.module.css';
 import type { Price } from '@gw2api/types/data/commerce';
 
 export interface TradingPostProps {
-  itemId: number;
+  itemId: number,
 }
 
 export const TradingPost: FC<TradingPostProps> = ({ itemId }) => {

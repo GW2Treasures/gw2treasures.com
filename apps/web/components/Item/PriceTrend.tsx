@@ -11,8 +11,8 @@ import { Icon } from '@gw2treasures/ui';
 import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 
 export interface PriceTrendProps {
-  history: TradingPostHistory_Trend[];
-  price: 'buyPrice' | 'sellPrice';
+  history: TradingPostHistory_Trend[],
+  price: 'buyPrice' | 'sellPrice',
 }
 
 const percentageFormat: Intl.NumberFormatOptions = {
@@ -48,7 +48,7 @@ export const PriceTrend: FC<PriceTrendProps> = ({ history, price }) => {
 };
 
 interface SparklineProps {
-  history: { price: number | null, time: Date }[]
+  history: { price: number | null, time: Date }[],
 }
 
 const Sparkline: FC<SparklineProps> = ({ history }) => {
@@ -80,7 +80,7 @@ const Sparkline: FC<SparklineProps> = ({ history }) => {
     ? [min * (0.9 + Math.abs(domainDiff)), max * (1.1 - Math.abs(domainDiff))]
     : [min, max];
 
-    const xScale = scaleTime({
+  const xScale = scaleTime({
     domain: [now, then],
     range: [width - 2 * margin, 0]
   });

@@ -5,7 +5,7 @@ export interface ItemTypeProps<T extends Type, S extends SubType<T>> {
   type: T,
   subtype: S,
   display?: 'short' | 'long',
-  translations: Record<TypeTranslation<T, S>, string>
+  translations: Record<TypeTranslation<T, S>, string>,
 }
 
 export function ItemType<T extends Type, S extends SubType<T>>({ type, subtype, translations, display = 'short' }: ItemTypeProps<T, S>) {

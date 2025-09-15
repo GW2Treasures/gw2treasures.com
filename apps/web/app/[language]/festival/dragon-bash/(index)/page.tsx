@@ -84,16 +84,16 @@ export default async function DragonBashFestivalPage() {
       {festival && (
         <StructuredData data={{
           '@type': 'Event',
-          name: t('festival.dragon-bash'),
-          description: t('festival.dragon-bash.description'),
-          location: {
+          'name': t('festival.dragon-bash'),
+          'description': t('festival.dragon-bash.description'),
+          'location': {
             '@type': 'VirtualLocation',
-            url: (await absoluteUrl('/festival/dragon-bash')).toString()
+            'url': (await absoluteUrl('/festival/dragon-bash')).toString()
           },
-          startDate: festival.startsAt.toISOString(),
-          endDate: festival.endsAt.toISOString(),
-          eventAttendanceMode: 'https://schema.org/OnlineEventAttendanceMode',
-          image: [(await absoluteUrl(ogImage.src)).toString()]
+          'startDate': festival.startsAt.toISOString(),
+          'endDate': festival.endsAt.toISOString(),
+          'eventAttendanceMode': 'https://schema.org/OnlineEventAttendanceMode',
+          'image': [(await absoluteUrl(ogImage.src)).toString()]
         } satisfies Event}/>
       )}
     </PageLayout>

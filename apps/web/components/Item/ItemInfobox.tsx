@@ -14,9 +14,9 @@ import { LinkButton } from '@gw2treasures/ui/components/Form/Button';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 
 interface ItemInfoboxProps {
-  item: Item;
-  data: Gw2Api.Item;
-  language: Language;
+  item: Item,
+  data: Gw2Api.Item,
+  language: Language,
 }
 
 function isTpTradeable(data: Gw2Api.Item) {

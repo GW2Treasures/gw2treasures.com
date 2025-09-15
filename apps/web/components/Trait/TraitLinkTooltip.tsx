@@ -16,9 +16,9 @@ import { ClientTraitTooltip } from './TraitTooltip.client';
 import { localizedUrl } from '@/lib/localizedUrl';
 
 export interface TraitLinkTooltipProps {
-  trait: WithIcon<Pick<Trait, 'id' | keyof LocalizedEntity | 'slot'>>
-  language?: Language;
-  revision?: string;
+  trait: WithIcon<Pick<Trait, 'id' | keyof LocalizedEntity | 'slot'>>,
+  language?: Language,
+  revision?: string,
 }
 
 export const TraitLinkTooltip: FC<TraitLinkTooltipProps> = ({ trait, language, revision }) => {

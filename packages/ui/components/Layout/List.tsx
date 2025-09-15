@@ -2,9 +2,9 @@ import type { FC, ReactNode } from 'react';
 import styles from './List.module.css';
 
 interface ListProps {
-  children: ReactNode;
+  children: ReactNode,
 
-  numbered?: boolean;
+  numbered?: boolean,
 }
 
 export const List: FC<ListProps> = ({ children, numbered = false }) => {

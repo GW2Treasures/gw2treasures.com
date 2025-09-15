@@ -27,7 +27,7 @@ const getIngredientFor = cache(async (itemId: number) => {
 }, ['ingredients-for'], { revalidate: 60 });
 
 interface ItemIngredientForProps {
-  itemId: number;
+  itemId: number,
 }
 
 export const ItemIngredientFor: FC<ItemIngredientForProps> = async ({ itemId }) => {

@@ -9,8 +9,8 @@ import { Composite, CompositeItem } from '@floating-ui/react';
 import type { IconProp } from '@gw2treasures/ui';
 
 interface NavBarProps {
-  items: { label: ReactNode, segment: string, href?: string, icon?: IconProp }[]
-  base?: '/' | `/${string}/`;
+  items: { label: ReactNode, segment: string, href?: string, icon?: IconProp }[],
+  base?: '/' | `/${string}/`,
 }
 
 export const NavBar: FC<NavBarProps> = ({ items, base = '/' }) => {

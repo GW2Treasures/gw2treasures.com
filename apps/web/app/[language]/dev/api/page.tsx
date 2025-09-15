@@ -11,6 +11,7 @@ import ogImage from './api-og.png';
 import { createMetadata } from '@/lib/metadata';
 
 const exampleCodeFetchWithAuthorizationHeader =
+// eslint-disable-next-line @stylistic/indent
 `fetch('https://api.gw2treasures.com/items', {
   headers: {
     Authorization: \`Bearer \${apiKey}\`
@@ -18,6 +19,7 @@ const exampleCodeFetchWithAuthorizationHeader =
 })`;
 
 const containerContentsSchema =
+// eslint-disable-next-line @stylistic/indent
 `Array<{
   id: number,
   contents: Array<

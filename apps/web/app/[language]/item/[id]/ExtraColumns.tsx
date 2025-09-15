@@ -9,7 +9,7 @@ import type { ContentChance, Item } from '@gw2treasures/database';
 import type { FC } from 'react';
 
 export interface ContentChanceColumnProps {
-  content: { chance: ContentChance }
+  content: { chance: ContentChance },
 }
 
 export const ContentChanceColumn: FC<ContentChanceColumnProps> = ({ content }) => {
@@ -17,7 +17,7 @@ export const ContentChanceColumn: FC<ContentChanceColumnProps> = ({ content }) =
 };
 
 export interface ContentQuantityColumnProps {
-  content: { quantity: number }
+  content: { quantity: number },
 }
 
 export const ContentQuantityColumn: FC<ContentQuantityColumnProps> = ({ content }) => {
@@ -25,8 +25,8 @@ export const ContentQuantityColumn: FC<ContentQuantityColumnProps> = ({ content 
 };
 
 export interface ItemContentQuantityColumnProps {
-  item: WithIcon<Pick<Item, 'id' | 'rarity' | keyof LocalizedEntity>>
-  content: { quantity: number }
+  item: WithIcon<Pick<Item, 'id' | 'rarity' | keyof LocalizedEntity>>,
+  content: { quantity: number },
 }
 
 export const ItemContentQuantityColumn: FC<ItemContentQuantityColumnProps> = ({ content, item }) => {

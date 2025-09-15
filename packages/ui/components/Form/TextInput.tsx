@@ -2,16 +2,16 @@ import { type ChangeEvent, type FC, useCallback, type HTMLInputAutoCompleteAttri
 import styles from './TextInput.module.css';
 
 export interface TextInputProps {
-  type?: 'text' | 'password' | 'search' | 'date'
-  value?: string;
-  defaultValue?: string;
-  onChange?: (value: string) => void;
-  placeholder?: string;
-  name?: string;
-  readOnly?: boolean;
-  autoFocus?: boolean;
-  autoComplete?: HTMLInputAutoCompleteAttribute;
-  form?: string;
+  type?: 'text' | 'password' | 'search' | 'date',
+  value?: string,
+  defaultValue?: string,
+  onChange?: (value: string) => void,
+  placeholder?: string,
+  name?: string,
+  readOnly?: boolean,
+  autoFocus?: boolean,
+  autoComplete?: HTMLInputAutoCompleteAttribute,
+  form?: string,
 }
 
 export const TextInput: FC<TextInputProps> = ({ type = 'text', onChange, ...props }) => {

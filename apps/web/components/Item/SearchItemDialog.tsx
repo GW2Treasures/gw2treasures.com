@@ -18,8 +18,8 @@ import { getLinkProperties } from '@/lib/linkProperties';
 export type SearchItemDialogSubmitHandler = (item?: WithIcon<Pick<Item, 'id' | 'rarity' | keyof LocalizedEntity>>) => void;
 
 export interface SearchItemDialogProps {
-  onSubmit: SearchItemDialogSubmitHandler;
-  open: boolean;
+  onSubmit: SearchItemDialogSubmitHandler,
+  open: boolean,
 }
 
 export const SearchItemDialog: FC<SearchItemDialogProps> = ({ onSubmit, open }) => {

@@ -6,7 +6,7 @@ import { TableRowButton } from './TableRowButton';
 
 export interface TableCollapseProps {
   children: ReactNode[],
-  limit?: number;
+  limit?: number,
 }
 
 export const TableCollapse: FC<TableCollapseProps> = ({ children, limit = 5 }) => {

@@ -2,9 +2,9 @@ import { type FC, type KeyboardEventHandler, type ReactNode, useCallback, useId,
 import styles from './Radiobutton.module.css';
 
 export interface RadiobuttonProps {
-  checked: boolean;
-  onChange: (checked: boolean) => void;
-  children: ReactNode;
+  checked: boolean,
+  onChange: (checked: boolean) => void,
+  children: ReactNode,
 }
 
 export const Radiobutton: FC<RadiobuttonProps> = ({ checked, onChange, children }) => {

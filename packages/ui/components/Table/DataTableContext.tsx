@@ -18,7 +18,7 @@ export const DataTableGlobalContext = createContext<DataTableGlobalContext>({
 });
 
 export interface DataTableContextProps {
-  children: ReactNode;
+  children: ReactNode,
 }
 
 export type AvailableColumn = { id: string, title: ReactNode, hidden: boolean, fixed: boolean };

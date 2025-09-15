@@ -7,8 +7,8 @@ import '@wooorm/starry-night/style/both';
 import { url } from '@gw2treasures/onig';
 
 interface HighlightProps {
-  code: string;
-  language: string;
+  code: string,
+  language: string,
 }
 
 export const Highlight: FC<HighlightProps> = ({ code, language }) => {

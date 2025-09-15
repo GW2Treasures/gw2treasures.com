@@ -17,8 +17,8 @@ import { useLanguage } from '../I18n/Context';
 export type SearchCurrencyDialogSubmitHandler = (currency?: WithIcon<Pick<Currency, 'id' | keyof LocalizedEntity>>) => void;
 
 export interface SearchCurrencyDialogProps {
-  onSubmit: SearchCurrencyDialogSubmitHandler;
-  open: boolean;
+  onSubmit: SearchCurrencyDialogSubmitHandler,
+  open: boolean,
 }
 
 export const SearchCurrencyDialog: FC<SearchCurrencyDialogProps> = ({ onSubmit, open }) => {

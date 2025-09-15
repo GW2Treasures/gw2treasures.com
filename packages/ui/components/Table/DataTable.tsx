@@ -44,8 +44,8 @@ export interface DataTableDynamicColumnsProps<T> {
 }
 
 export interface DataTableColumnSelectionProps {
-  children: ReactNode;
-  reset: ReactNode;
+  children: ReactNode,
+  reset: ReactNode,
 }
 
 export interface DataTableFooterProps {
@@ -57,7 +57,7 @@ export type DataTable<T> = {
   Column: FC<DataTableColumnProps<T>>,
   DynamicColumns: FC<DataTableDynamicColumnsProps<T>>,
   ColumnSelection: FC<DataTableColumnSelectionProps>,
-  Footer: FC<DataTableFooterProps>
+  Footer: FC<DataTableFooterProps>,
 };
 
 export function createDataTable<T>(rows: T[], getRowKey: (row: T, index: number) => Key): DataTable<T> {

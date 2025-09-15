@@ -6,10 +6,10 @@ import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { SubmitButton } from '@gw2treasures/ui/components/Form/Buttons/SubmitButton';
 
 export interface Gw2AccountAuthorizationNoticeProps {
-  children?: ReactNode;
-  scopes: Scope[];
-  requiredScopes: Scope[];
-  optionalScopes?: Scope[];
+  children?: ReactNode,
+  scopes: Scope[],
+  requiredScopes: Scope[],
+  optionalScopes?: Scope[],
 }
 
 export const Gw2AccountAuthorizationNotice: FC<Gw2AccountAuthorizationNoticeProps> = ({ children, scopes, requiredScopes, optionalScopes = [] }) => {

@@ -5,9 +5,9 @@ import { cloneElement, type FC, type ReactNode, useRef, useState, isValidElement
 import styles from './Tip.module.css';
 
 export interface TipProps {
-  children: ReactNode;
-  tip: ReactNode;
-  preferredPlacement?: Placement;
+  children: ReactNode,
+  tip: ReactNode,
+  preferredPlacement?: Placement,
 }
 
 export const Tip: FC<TipProps> = ({ children, tip, preferredPlacement = 'top' }) => {

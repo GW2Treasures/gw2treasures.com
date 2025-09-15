@@ -6,15 +6,15 @@ import { Tip } from '../Tip/Tip';
 import { Composite, CompositeItem } from '../Focus/Composite';
 
 export interface SwitchProps {
-  children: ReactElement<SwitchControlProps>[]
+  children: ReactElement<SwitchControlProps>[],
 }
 
 export type SwitchControlProps = {
-  children?: ReactNode;
-  active?: boolean;
-  clickAction?: () => void;
-  icon?: IconProp;
-  tip?: ReactNode;
+  children?: ReactNode,
+  active?: boolean,
+  clickAction?: () => void,
+  icon?: IconProp,
+  tip?: ReactNode,
 } & (
   | { type?: 'button', href?: never, replace?: never, scroll?: never, clickAction: () => void, name?: string, value?: string }
   | { type: 'link', href: string, replace?: boolean, scroll?: boolean, name?: never, value?: never }

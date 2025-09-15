@@ -8,7 +8,7 @@ import { useHydrated } from '@/lib/useHydrated';
 
 export interface DateSelectorProps {
   tier: TierFilter,
-  date: Date
+  date: Date,
 }
 
 export const DateSelector: FC<DateSelectorProps> = ({ tier, date }) => {

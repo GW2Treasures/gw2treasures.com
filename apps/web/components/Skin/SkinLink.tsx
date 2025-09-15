@@ -9,9 +9,9 @@ import { Tooltip } from '../Tooltip/Tooltip';
 import { SkinLinkTooltip } from './SkinLinkTooltip';
 
 export interface SkinLinkProps {
-  skin: WithIcon<Pick<Skin, 'id' | 'rarity' | keyof LocalizedEntity>>;
-  icon?: IconSize | 'none';
-  language?: Language;
+  skin: WithIcon<Pick<Skin, 'id' | 'rarity' | keyof LocalizedEntity>>,
+  icon?: IconSize | 'none',
+  language?: Language,
 }
 
 export const SkinLink: FC<SkinLinkProps> = ({ skin, icon = 32, language }) => {

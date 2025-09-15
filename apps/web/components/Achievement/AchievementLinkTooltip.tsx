@@ -16,9 +16,9 @@ import { AchievementTooltip } from './AchievementTooltip';
 import { ClientAchievementTooltip } from './AchievementTooltip.client';
 
 export interface AchievementLinkTooltipProps {
-  achievement: WithIcon<Pick<Achievement, 'id' | keyof LocalizedEntity>>
-  language?: Language;
-  revision?: string;
+  achievement: WithIcon<Pick<Achievement, 'id' | keyof LocalizedEntity>>,
+  language?: Language,
+  revision?: string,
 }
 
 export const AchievementLinkTooltip: FC<AchievementLinkTooltipProps> = ({ achievement, language, revision }) => {

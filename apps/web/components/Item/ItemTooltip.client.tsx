@@ -14,8 +14,8 @@ import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 import rarityStyles from '../Layout/RarityColor.module.css';
 
 export interface ClientItemTooltipProps {
-  tooltip: ItemTooltip | Promise<ItemTooltip>;
-  hideTitle?: boolean;
+  tooltip: ItemTooltip | Promise<ItemTooltip>,
+  hideTitle?: boolean,
 }
 
 function renderAttributes(attributes: ItemTooltip['attributes']) {
@@ -125,13 +125,13 @@ export const ClientItemTooltip: FC<ClientItemTooltipProps> = ({ tooltip, hideTit
       <div key={slot} className={styles.row}>
         {infusion.item
           ? (
-            <>
-              <ItemLink item={infusion.item} icon={16} language={tooltip.language}/>
-              {renderAttributes(infusion.item.attributes)}
-              {infusion.item.buff && (<p className={styles.buff} dangerouslySetInnerHTML={{ __html: infusion.item.buff }}/>)}
-              {renderBonuses(infusion.item.bonuses)}
-            </>
-          )
+              <>
+                <ItemLink item={infusion.item} icon={16} language={tooltip.language}/>
+                {renderAttributes(infusion.item.attributes)}
+                {infusion.item.buff && (<p className={styles.buff} dangerouslySetInnerHTML={{ __html: infusion.item.buff }}/>)}
+                {renderBonuses(infusion.item.bonuses)}
+              </>
+            )
           : <><Icon icon={infusion.type === 'Infusion' ? 'infusion-slot' : 'enrichment-slot'}/> {infusion.unused}</>
         }
       </div>

@@ -3,7 +3,7 @@ import type { ErrorCode, Gw2AccountWithHidden } from './types';
 import type { Scope } from '@gw2me/client';
 
 export interface GetAccountsOptions {
-  includeHidden?: boolean;
+  includeHidden?: boolean,
 }
 
 export interface Gw2ApiContext {

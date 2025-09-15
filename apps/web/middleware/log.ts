@@ -2,7 +2,7 @@ import type { NextMiddleware } from './types';
 
 declare module './types' {
   interface NextMiddlewareData {
-    requestId: string;
+    requestId: string,
   }
 }
 

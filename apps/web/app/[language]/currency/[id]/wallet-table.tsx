@@ -11,7 +11,7 @@ import { Gw2AccountName } from '@/components/Gw2Api/Gw2AccountName';
 import { Gw2Accounts } from '@/components/Gw2Api/Gw2Accounts';
 
 interface WalletTableProps {
-  currencyId: number;
+  currencyId: number,
 }
 
 const requiredScopes = [Scope.GW2_Wallet];
@@ -39,8 +39,8 @@ export const WalletTable: FC<WalletTableProps> = ({ currencyId }) => {
 };
 
 interface WalletTableAccountRowProps {
-  currencyId: number;
-  account: Gw2Account
+  currencyId: number,
+  account: Gw2Account,
 }
 
 export const WalletTableAccountRow: FC<WalletTableAccountRowProps> = ({ currencyId, account }) => {

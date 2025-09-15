@@ -28,14 +28,14 @@ import { CurrencyValue } from '@/components/Currency/CurrencyValue';
 import { DialogActions } from '@gw2treasures/ui/components/Dialog/DialogActions';
 
 export interface EditContentsProps {
-  appearance?: ButtonProps['appearance'];
-  itemId: number;
+  appearance?: ButtonProps['appearance'],
+  itemId: number,
   contents: (Content & {
-    contentItem: WithIcon<Pick<Item, 'id' | 'rarity' | keyof LocalizedEntity>>
-  })[];
+    contentItem: WithIcon<Pick<Item, 'id' | 'rarity' | keyof LocalizedEntity>>,
+  })[],
   currencyContents: (CurrencyContent & {
-    currency: WithIcon<Pick<Currency, 'id' | keyof LocalizedEntity>>
-  })[];
+    currency: WithIcon<Pick<Currency, 'id' | keyof LocalizedEntity>>,
+  })[],
 }
 
 export const EditContents: FC<EditContentsProps> = ({ itemId, contents, currencyContents, appearance }) => {
@@ -101,8 +101,7 @@ export const EditContents: FC<EditContentsProps> = ({ itemId, contents, currency
             canSubmitState.ownReview
               ? (<p>You must wait for your <Link href={`/review/container-content/${canSubmitState.reviewId}`}>suggested change</Link> to be reviewed before you can submit another change.</p>)
               : (<p>There is already a suggested change for this item. You can <Link href={`/review/container-content/${canSubmitState.reviewId}`}>review the change now</Link>.</p>)
-          ) :
-          (<p>Unknown error</p>)
+          ) : (<p>Unknown error</p>)
         ) : (
           <>
             {error && (<Notice type="error">Your changes could not be saved ({error}).</Notice>)}

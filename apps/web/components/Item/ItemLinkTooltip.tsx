@@ -23,9 +23,9 @@ import { FormatNumber } from '../Format/FormatNumber';
 import { useJsonFetchPromise } from '@/lib/useFetch';
 
 export interface ItemLinkTooltipProps {
-  item: WithIcon<Pick<Item, 'id' | 'rarity' | keyof LocalizedEntity>>
-  language?: Language;
-  revision?: string;
+  item: WithIcon<Pick<Item, 'id' | 'rarity' | keyof LocalizedEntity>>,
+  language?: Language,
+  revision?: string,
 }
 
 export const ItemLinkTooltip: FC<ItemLinkTooltipProps> = ({ item, language, revision }) => {

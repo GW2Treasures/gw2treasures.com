@@ -66,13 +66,13 @@ export const TableFilterProvider: FC<TableFilterProviderProps> = ({ children, fi
 
   const filteredRowsByFilter = filterMode === 'or'
     ? (filterIds.length !== allFilterIds.length
-      ? filterIds.flatMap((id) => filterMap.get(id)?.rowIndexes ?? [])
-      : undefined)
+        ? filterIds.flatMap((id) => filterMap.get(id)?.rowIndexes ?? [])
+        : undefined)
     : (filterIds.length > 0
-      ? reduceOrUndefined(
-        filterIds.map((id) => filterMap.get(id)?.rowIndexes).filter(isDefined),
-        (common, indexes) => common.filter((i) => indexes.includes(i))
-      ) : undefined);
+        ? reduceOrUndefined(
+            filterIds.map((id) => filterMap.get(id)?.rowIndexes).filter(isDefined),
+            (common, indexes) => common.filter((i) => indexes.includes(i))
+          ) : undefined);
 
   const filteredRows = filteredRowsBySearch === undefined && filteredRowsByFilter === undefined
     ? undefined
@@ -186,7 +186,7 @@ function toggleArray<T>(array: T[], value: T): T[] {
 
 
 export interface TableSearchInputProps {
-  placeholder?: string
+  placeholder?: string,
 }
 
 export const TableSearchInput: FC<TableSearchInputProps> = ({ placeholder = 'Search…' }) => {

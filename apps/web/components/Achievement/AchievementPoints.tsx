@@ -4,7 +4,7 @@ import { Icon } from '@gw2treasures/ui';
 import { FormatNumber } from '../Format/FormatNumber';
 
 export interface AchievementPointsProps {
-  points: number;
+  points: number,
 }
 
 export const AchievementPoints: FC<AchievementPointsProps> = ({ points }) => {

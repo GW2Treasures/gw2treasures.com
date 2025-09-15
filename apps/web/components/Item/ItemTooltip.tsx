@@ -14,9 +14,9 @@ import type { FC } from 'react';
 import { encode } from 'gw2e-chat-codes';
 
 export interface ItemTooltipProps {
-  item: Gw2Api.Item;
-  language: Language;
-  hideTitle?: boolean;
+  item: Gw2Api.Item,
+  language: Language,
+  hideTitle?: boolean,
 }
 
 export const ItemTooltip: FC<ItemTooltipProps> = async ({ item, language, hideTitle }) => {
@@ -157,17 +157,17 @@ export type ItemWithAttributes = WithIcon<LocalizedEntity> & {
   rarity: Rarity,
   attributes?: { label: string, value: number }[],
   buff?: string,
-  bonuses?: string[]
+  bonuses?: string[],
 };
 
 export type ItemTooltipInfusion = ({
-  type: 'Infusion' | 'Enrichment'
+  type: 'Infusion' | 'Enrichment',
 } & ({
   unused: string,
-  item?: never
+  item?: never,
 } | {
   unused?: never,
-  item: ItemWithAttributes
+  item: ItemWithAttributes,
 }));
 
 export interface ItemTooltip {
@@ -184,12 +184,12 @@ export interface ItemTooltip {
     apply_count?: number,
     name?: string,
     description?: string,
-    icon?: { id: number, signature: string }
+    icon?: { id: number, signature: string },
   },
   bonuses?: string[],
-  upgrades?: ({ item: ItemWithAttributes, unused?: never } | { item?: never, unused: string })[];
+  upgrades?: ({ item: ItemWithAttributes, unused?: never } | { item?: never, unused: string })[],
   infusions?: ItemTooltipInfusion[],
-  unlocksColor?: { id: number, name: string, colors: { cloth: string, leather: string, metal: string }}
+  unlocksColor?: { id: number, name: string, colors: { cloth: string, leather: string, metal: string }},
   rarity: { label: string, value: Gw2Api.Item['rarity'] },
   type?: string,
   weightClass?: string,

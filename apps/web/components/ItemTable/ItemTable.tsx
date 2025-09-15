@@ -9,11 +9,11 @@ import { getLanguage, getTranslate, translateMany } from '@/lib/translate';
 import type { AvailableColumn, AvailableColumns, ColumnModelTypes, ExtraColumn, GlobalColumnId, ItemTableQuery, OrderBy, QueryModel } from './types';
 
 export interface ItemTableProps<ExtraColumnId extends string, Model extends QueryModel> {
-  query: ItemTableQuery<Model>;
-  defaultColumns?: (ExtraColumnId | GlobalColumnId)[];
-  collapsed?: boolean;
+  query: ItemTableQuery<Model>,
+  defaultColumns?: (ExtraColumnId | GlobalColumnId)[],
+  collapsed?: boolean,
   extraColumns?: ExtraColumn<ExtraColumnId, Model, object, object>[],
-  pageSize?: number;
+  pageSize?: number,
 }
 
 export const ItemTable = async <ExtraColumnId extends string = never, Model extends QueryModel = 'item'>({ query, extraColumns, ...props }: ItemTableProps<ExtraColumnId, Model>) => {

@@ -5,21 +5,21 @@ import type { Language } from '@gw2treasures/database';
 import { getLanguage } from '@/lib/translate';
 
 export interface PublicApiErrorResponse {
-  error: number;
-  text?: string;
+  error: number,
+  text?: string,
 }
 
 export interface CallbackParams<DynamicRouteSegments extends string = never> {
-  params: Record<DynamicRouteSegments, string>;
-  searchParams: Record<string, string | undefined>;
-  language: Language
+  params: Record<DynamicRouteSegments, string>,
+  searchParams: Record<string, string | undefined>,
+  language: Language,
 }
 
 export interface CallbackResult<T = unknown> {
   status?: number,
-  header?: Record<string, string>
+  header?: Record<string, string>,
   json?: T,
-  stringAsJson?: string
+  stringAsJson?: string,
 }
 
 export type PublicApiResponse<T = unknown> = CallbackResult<T> | PublicApiErrorResponse;

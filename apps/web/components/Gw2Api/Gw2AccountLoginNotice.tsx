@@ -5,9 +5,9 @@ import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { LinkButton } from '@gw2treasures/ui/components/Form/Button';
 
 export interface Gw2AccountLoginNoticeProps {
-  children?: ReactNode;
-  requiredScopes: Scope[];
-  optionalScopes?: Scope[];
+  children?: ReactNode,
+  requiredScopes: Scope[],
+  optionalScopes?: Scope[],
 }
 
 export const Gw2AccountLoginNotice: FC<Gw2AccountLoginNoticeProps> = ({ children, requiredScopes, optionalScopes = [] }) => {

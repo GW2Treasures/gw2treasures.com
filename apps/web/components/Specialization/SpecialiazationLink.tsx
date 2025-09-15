@@ -6,9 +6,9 @@ import type { WithIcon } from '@/lib/with';
 import { type LocalizedEntity } from '@/lib/localizedName';
 
 export interface SpecializationLinkProps {
-  specialization: WithIcon<LocalizedEntity> & Pick<Specialization, 'id' | 'professionId'>;
-  icon?: IconSize | 'none';
-  language?: Language;
+  specialization: WithIcon<LocalizedEntity> & Pick<Specialization, 'id' | 'professionId'>,
+  icon?: IconSize | 'none',
+  language?: Language,
 }
 
 export const SpecializationLink: FC<SpecializationLinkProps> = ({ specialization, icon = 32, language }) => {

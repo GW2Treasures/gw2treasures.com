@@ -2,7 +2,7 @@ import type { FC, ReactNode } from 'react';
 import styles from './hero.module.css';
 
 export interface SuperAdventureFestivalHeroProps {
-  children: ReactNode
+  children: ReactNode,
 }
 
 export const SuperAdventureFestivalHero: FC<SuperAdventureFestivalHeroProps> = ({ children }) => {

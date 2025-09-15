@@ -7,12 +7,12 @@ import styles from './TableOfContent.module.css';
 type Anchor = {
   id: string,
   element: HTMLElement,
-  label: ReactNode
+  label: ReactNode,
 };
 
 type Context = {
   anchors: Anchor[],
-  registerAnchor: (anchor: Anchor) => () => void
+  registerAnchor: (anchor: Anchor) => () => void,
 };
 
 const Context = createContext<Context>({
@@ -21,7 +21,7 @@ const Context = createContext<Context>({
 });
 
 export interface TableOfContentContextProps {
-  children: ReactNode;
+  children: ReactNode,
 }
 
 type Action = {
@@ -54,8 +54,8 @@ export const TableOfContentContext: FC<TableOfContentContextProps> = ({ children
 };
 
 export interface TableOfContentAnchorProps {
-  id: string;
-  children?: ReactNode;
+  id: string,
+  children?: ReactNode,
 }
 
 export const TableOfContentAnchor: FC<TableOfContentAnchorProps> = ({ id, children }) => {

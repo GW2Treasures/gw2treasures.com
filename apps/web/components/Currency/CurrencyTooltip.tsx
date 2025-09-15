@@ -7,9 +7,9 @@ import { parseIcon } from '@/lib/parseIcon';
 import type { FC } from 'react';
 
 export interface CurrencyTooltipProps {
-  currency: Gw2Api.Currency;
-  language: Language;
-  hideTitle?: boolean;
+  currency: Gw2Api.Currency,
+  language: Language,
+  hideTitle?: boolean,
 }
 
 export const CurrencyTooltip: FC<CurrencyTooltipProps> = async ({ currency, language, hideTitle }) => {

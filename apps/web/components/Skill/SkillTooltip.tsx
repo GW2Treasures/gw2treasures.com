@@ -11,9 +11,9 @@ import { linkPropertiesWithoutRarity } from '@/lib/linkProperties';
 import type { TraitLinkProps } from '../Trait/TraitLink';
 
 export interface SkillTooltipProps {
-  skill: Skill;
-  language: Language;
-  hideTitle?: boolean;
+  skill: Skill,
+  language: Language,
+  hideTitle?: boolean,
 }
 
 export const SkillTooltip: FC<SkillTooltipProps> = async ({ skill, language, hideTitle }) => {

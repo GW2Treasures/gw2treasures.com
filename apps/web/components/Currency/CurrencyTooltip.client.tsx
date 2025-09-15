@@ -4,8 +4,8 @@ import styles from './CurrencyTooltip.module.css';
 import { EntityIcon } from '@/components/Entity/EntityIcon';
 
 export interface ClientCurrencyTooltipProps {
-  tooltip: CurrencyTooltip | Promise<CurrencyTooltip>;
-  hideTitle?: boolean;
+  tooltip: CurrencyTooltip | Promise<CurrencyTooltip>,
+  hideTitle?: boolean,
 }
 
 export const ClientCurrencyTooltip: FC<ClientCurrencyTooltipProps> = ({ tooltip, hideTitle = false }) => {

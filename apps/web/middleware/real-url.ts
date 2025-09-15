@@ -3,7 +3,7 @@ import type { NextMiddleware } from './types';
 
 declare module './types' {
   interface NextMiddlewareData {
-    url: URL;
+    url: URL,
   }
 }
 

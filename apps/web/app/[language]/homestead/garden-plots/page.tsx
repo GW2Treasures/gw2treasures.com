@@ -26,14 +26,14 @@ import ogImage from './garden-plots-og.png';
 import { createMetadata } from '@/lib/metadata';
 
 type Plot = {
-  nodeId: string;
-  itemId: number;
-  source: 'chef' | 'black-lion'
+  nodeId: string,
+  itemId: number,
+  source: 'chef' | 'black-lion',
 };
 type Crop = {
   seedItemId: number,
   gatheredItemId: number[],
-  type: 'chef' | 'black-lion'
+  type: 'chef' | 'black-lion',
 };
 
 const plots: Plot[] = [

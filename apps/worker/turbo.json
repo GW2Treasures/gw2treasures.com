@@ -6,7 +6,8 @@
   "tasks": {
     "dev": {
       "dependsOn": [
-        "build"
+        "build",
+        "@gw2treasures/database#prisma:migrate"
       ]
     },
     "build": {

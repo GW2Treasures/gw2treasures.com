@@ -13,7 +13,7 @@
     "build:local": "tsc --declarationMap",
     "build:ci": "tsc",
     "clean": "rm -rf dist/",
-    "lint": "eslint src",
+    "lint": "eslint .",
     "publish-package": "gw2treasures-publish-package"
   },
   "repository": {

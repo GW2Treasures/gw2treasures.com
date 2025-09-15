@@ -5,7 +5,7 @@
     "build": "tsc",
     "predev": "pnpm run build",
     "dev": ". ./.env && node lib/index.js",
-    "lint": "eslint src"
+    "lint": "eslint ."
   },
   "dependencies": {
     "@gw2treasures/database": "workspace:*",

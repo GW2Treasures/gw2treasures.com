@@ -14,7 +14,7 @@
     "build:local": "tsc --declarationMap",
     "build:ci": "tsc",
     "clean": "rm -rf dist/",
-    "lint": "eslint src"
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",

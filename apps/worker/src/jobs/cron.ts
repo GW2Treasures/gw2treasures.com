@@ -1,9 +1,9 @@
 import { Prisma } from '@gw2treasures/database';
-import chalk from 'chalk';
 import { CronExpressionParser } from 'cron-parser';
 import { JobName } from '.';
 import { db } from '../db';
 import { toId } from './helper/toId';
+import { styleText } from 'node:util';
 
 const schedule = {
   daily: 'H H * * *',
@@ -82,14 +82,14 @@ async function registerJob(name: JobName, cron: string, data: Prisma.InputJsonVa
   const jobs = await db.job.findMany({ where: { type: name, cron: { not: '' }}});
 
   if(jobs.length > 1) {
-    console.warn(`Found multiple cron jobs for ${chalk.blue(name)}. Deleting superfluous jobs.`);
+    console.warn(`Found multiple cron jobs for ${styleText('blue', name)}. Deleting superfluous jobs.`);
 
     await db.job.deleteMany({ where: { id: { in: jobs.slice(1).map(toId) }}});
   }
 
   if(jobs.length === 0) {
     // add new cron job
-    console.log(`Registering new cron job ${chalk.blue(name)}.`);
+    console.log(`Registering new cron job ${styleText('blue', name)}.`);
 
     const scheduledAt = CronExpressionParser.parse(cron, { tz: 'utc', hashSeed: name }).next().toDate();
     await db.job.create({ data: { type: name, data, cron, scheduledAt }});
@@ -99,7 +99,7 @@ async function registerJob(name: JobName, cron: string, data: Prisma.InputJsonVa
   if(jobs.length >= 1) {
     // check if data matches
     if(jobs[0].cron !== cron || JSON.stringify(jobs[0].data) !== JSON.stringify(data)) {
-      console.log(`Updating cron job ${chalk.blue(name)}.`);
+      console.log(`Updating cron job ${styleText('blue', name)}.`);
 
       const scheduledAt = CronExpressionParser.parse(cron, { tz: 'utc', hashSeed: name }).next().toDate();
       await db.job.update({ where: { id: jobs[0].id }, data: { data, cron, scheduledAt }});

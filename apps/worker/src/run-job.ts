@@ -1,8 +1,8 @@
 import { Job } from '@gw2treasures/database';
-import chalk from 'chalk';
 import { CronExpressionParser } from 'cron-parser';
 import { db } from './db';
 import { jobs } from './jobs';
+import { styleText } from 'node:util';
 
 export async function runJob(job: Job) {
   const startedAt = new Date();
@@ -13,11 +13,11 @@ export async function runJob(job: Job) {
 
   // if nothing was updated, the job is already claimed
   if(q.count === 0) {
-    console.log(chalk.yellow(`Job ${job.id} already claimed by other worker`));
+    console.log(styleText('yellow', `Job ${job.id} already claimed by other worker`));
     return;
   }
 
-  console.log(`Running ${chalk.blue.bold(job.type)} ${chalk.gray(`(${job.id}) (${(process.memoryUsage().heapTotal / 1024 / 1024).toFixed(2)} MB)`)}`);
+  console.log(`Running ${styleText(['bold', 'blue'], job.type)} ${styleText('gray', `(${job.id}) (${(process.memoryUsage().heapTotal / 1024 / 1024).toFixed(2)} MB)`)}`);
 
   try {
     // get runner
@@ -44,10 +44,10 @@ export async function runJob(job: Job) {
     const runtime = finishedAt.valueOf() - startedAt.valueOf();
 
     // print out output and runtime
-    console.log(`${chalk.green('>')} ${output ?? 'Done.'} ${chalk.gray(`(${runtime} ms)`)}`);
+    console.log(`${styleText('green', '>')} ${output ?? 'Done.'} ${styleText('gray', `(${runtime} ms)`)}`);
     console.log('');
   } catch(error) {
-    console.error(chalk.red('>'), error);
+    console.error(styleText('red', '>'), error);
     console.log('');
 
     // set job as errored in db

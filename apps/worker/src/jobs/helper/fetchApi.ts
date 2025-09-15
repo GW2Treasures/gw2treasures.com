@@ -1,4 +1,4 @@
-import chalk from 'chalk';
+import { styleText } from 'node:util';
 import { db } from '../../db';
 import { schemaVersion as schema, SchemaVersion } from './schema';
 import { fetchGw2Api, FetchOptions } from '@gw2api/fetch';
@@ -30,9 +30,9 @@ export async function fetchApi<Url extends KnownEndpoint | (string & {})>(
     const responseTimeMs = performance.now() - startTime;
 
     const endpointWithQueryKeys = endpoint + (queryParameters ? '?' + [...new URLSearchParams(queryParameters).keys()].join('&') : '');
-    const language = options && 'language' in options ? chalk.dim.magenta(` [${options.language}]`) : '';
-    const status = rawResponse?.ok ? chalk.green(rawResponse.status) : chalk.red(rawResponse?.status ?? 'error');
-    console.log(`> ${chalk.magenta(endpointWithQueryKeys)}${language} ${status} ${chalk.gray(`(${Math.round(responseTimeMs)} ms)`)}`);
+    const language = options && 'language' in options ? styleText(['dim', 'magenta'], ` [${options.language}]`) : '';
+    const status = rawResponse?.ok ? styleText('green', rawResponse.status.toString()) : styleText('red', rawResponse?.status?.toString() ?? 'error');
+    console.log(`> ${styleText('magenta', endpointWithQueryKeys)}${language} ${status} ${styleText('gray', `(${Math.round(responseTimeMs)} ms)`)}`);
 
     await db.apiRequest.create({
       data: {

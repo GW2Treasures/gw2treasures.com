@@ -1,6 +1,6 @@
-import chalk from 'chalk';
 import { createServer } from 'http';
 import { worker } from './worker';
+import { styleText } from 'node:util';
 
 const server = createServer((_, res) => {
   // calculate the time since last worker run
@@ -27,7 +27,7 @@ export const healthServer = {
     return new Promise<void>((resolve) => {
       server.listen(process.env.HEALTH_PORT, undefined, () => {
         const address = server.address();
-        console.log(`Health Server running on ${chalk.blue(typeof address === 'string' ? address : `http://localhost:${address?.port}`)}`);
+        console.log(`Health Server running on ${styleText('blue', typeof address === 'string' ? address : `http://localhost:${address?.port}`)}`);
 
         resolve();
       });

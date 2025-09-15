@@ -1,22 +1,14 @@
 import Link from 'next/link';
 import type { Language } from '@gw2treasures/database';
 import DetailLayout from '@/components/Layout/DetailLayout';
-import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { TableOfContentAnchor } from '@gw2treasures/ui/components/TableOfContent/TableOfContent';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
-import { FormatDate } from '@/components/Format/FormatDate';
 import { Json } from '@/components/Format/Json';
 import { SkillTooltip } from '@/components/Skill/SkillTooltip';
 import { SkillInfobox } from '@/components/Skill/SkillInfobox';
 import { getRevision, getSkill } from './getSkill';
 import { RemovedFromApiNotice } from '@/components/Notice/RemovedFromApiNotice';
-import { Tooltip } from '@/components/Tooltip/Tooltip';
-import { SkillLinkTooltip } from '@/components/Skill/SkillLinkTooltip';
-import { getLinkProperties } from '@/lib/linkProperties';
-import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
-import { Icon } from '@gw2treasures/ui';
-import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { pageView } from '@/lib/pageView';
 import { parseIcon } from '@/lib/parseIcon';
 import { notFound } from 'next/navigation';
@@ -25,6 +17,8 @@ import { ItemList } from '@/components/ItemList/ItemList';
 import { TraitLink } from '@/components/Trait/TraitLink';
 import { Breadcrumb, BreadcrumbItem } from '@/components/Breadcrumb/Breadcrumb';
 import { getProfessionColor } from '@/components/Profession/icon';
+import { RevisionTable } from '@/components/Revision/table';
+import { SkillLink } from '@/components/Skill/SkillLink';
 
 export interface SkillPageComponentProps {
   language: Language,
@@ -90,43 +84,13 @@ export const SkillPageComponent: FC<SkillPageComponentProps> = async ({ language
         </>
       )}
 
-      <Headline id="history">History</Headline>
 
-      <Table>
-        <thead>
-          <tr>
-            <Table.HeaderCell small/>
-            <Table.HeaderCell small>Build</Table.HeaderCell>
-            <Table.HeaderCell>Description</Table.HeaderCell>
-            <Table.HeaderCell small>Date</Table.HeaderCell>
-            <Table.HeaderCell small>Actions</Table.HeaderCell>
-          </tr>
-        </thead>
-        <tbody>
-          {skill.history.map((history) => (
-            <tr key={history.revisionId}>
-              <td style={{ paddingRight: 0 }}>{history.revisionId === revision.id && <Tip tip="Currently viewing"><Icon icon="eye"/></Tip>}</td>
-              <td>{history.revision.buildId !== 0 ? (<Link href={`/build/${history.revision.buildId}`}>{history.revision.buildId}</Link>) : '-'}</td>
-              <td>
-                <Tooltip content={<SkillLinkTooltip skill={getLinkProperties(skill)} language={language} revision={history.revisionId}/>}>
-                  <Link href={`/skill/${skill.id}/${history.revisionId}`}>
-                    {history.revision.description}
-                  </Link>
-                </Tooltip>
-              </td>
-              <td><FormatDate date={history.revision.createdAt} relative/></td>
-              <td>
-                {history.revisionId !== revision.id && (
-                  <FlexRow>
-                    <Link href={`/skill/${skill.id}/${history.revisionId}`}>View</Link> ·
-                    <Link href={`/skill/diff/${history.revisionId}/${revision.id}`}>Compare</Link>
-                  </FlexRow>
-                )}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
+      <Headline id="history">History</Headline>
+      <RevisionTable revisions={skill.history.map(({ revision }) => revision)}
+        currentRevisionId={revision.id} fixedRevision={fixedRevision}
+        link={({ revisionId, children }) => <SkillLink skill={skill} revision={revisionId} icon="none">{children}</SkillLink>}
+        diff={({ revisionIdA, revisionIdB, children }) => <Link href={`/skill/diff/${revisionIdA}/${revisionIdB}`}>{children}</Link>}/>
+
 
       <Headline id="data">Data</Headline>
       <Json data={data}/>

@@ -10,11 +10,13 @@ import { getLanguage, translate } from '@/lib/translate';
 
 export interface RevisionTableProps {
   revisions: Pick<Revision, 'id' | 'type' | 'buildId' | 'hash' | 'description' | 'createdAt'>[],
-  currentRevisionId?: string,
+  currentRevisionId: string,
+  fixedRevision?: boolean,
   link: ({ revisionId, children }: { revisionId: string, children: ReactNode }) => ReactNode,
+  diff?: ({ revisionIdA, revisionIdB, children }: { revisionIdA: string, revisionIdB: string, children: ReactNode }) => ReactNode,
 }
 
-export const RevisionTable: FC<RevisionTableProps> = async ({ revisions, currentRevisionId, link }) => {
+export const RevisionTable: FC<RevisionTableProps> = async ({ revisions, currentRevisionId, fixedRevision, link, diff }) => {
   const language = await getLanguage();
 
   const hiddenIndexes = new Set<number>();
@@ -55,12 +57,17 @@ export const RevisionTable: FC<RevisionTableProps> = async ({ revisions, current
             {revisions.map((revision) => (
               <tr key={revision.id}>
                 <td>{revision.buildId !== 0 ? (<Link href={`/build/${revision.buildId}`}>{revision.buildId}</Link>) : '-'}</td>
-                <td style={{ fontWeight: currentRevisionId === revision.id ? 500 : undefined }}>
+                <td style={{ fontWeight: fixedRevision && currentRevisionId === revision.id ? 500 : undefined }}>
                   {link({ revisionId: revision.id, children: revision.description })}
                 </td>
                 <td><FormatDate date={revision.createdAt} relative/></td>
-                <td>
-                  {currentRevisionId !== revision.id && link({ revisionId: revision.id, children: <Trans id="revisions.view"/> })}
+                <td style={{ whiteSpace: 'nowrap' }}>
+                  {(!fixedRevision || currentRevisionId !== revision.id) && link({ revisionId: revision.id, children: <Trans id="revisions.view"/> })}
+                  {diff && currentRevisionId && currentRevisionId !== revision.id && (
+                    <>
+                      {' · '}{diff({ revisionIdA: revision.id, revisionIdB: currentRevisionId, children: <Trans id="revisions.diff"/> })}
+                    </>
+                  )}
                 </td>
               </tr>
             ))}

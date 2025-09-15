@@ -7,7 +7,8 @@
     "./react": "./configs/react.mjs"
   },
   "scripts": {
-    "publish-package": "gw2treasures-publish-package"
+    "publish-package": "gw2treasures-publish-package",
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",
@@ -34,6 +35,9 @@
     "eslint-plugin-react": "7.37.5",
     "eslint-plugin-react-hooks": "5.2.0",
     "typescript-eslint": "8.43.0"
+  },
+  "devDependencies": {
+    "eslint": "9.35.0"
   },
   "peerDependencies": {
     "eslint": "^9.22.0"

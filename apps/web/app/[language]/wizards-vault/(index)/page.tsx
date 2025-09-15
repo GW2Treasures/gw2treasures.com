@@ -9,12 +9,14 @@ import { Skeleton } from '@/components/Skeleton/Skeleton';
 import { PageLayout } from '@/components/Layout/PageLayout';
 import { cache } from '@/lib/cache';
 import { localizedName } from '@/lib/localizedName';
-import { getLanguage, getTranslate } from '@/lib/translate';
+import { getLanguage, getTranslate, translateMany } from '@/lib/translate';
 import ogImage from './wizards-vault-og.png';
 import { ItemLink } from '@/components/Item/ItemLink';
 import { groupById } from '@gw2treasures/helper/group-by';
 import { linkProperties } from '@/lib/linkProperties';
 import { createMetadata } from '@/lib/metadata';
+import { wizardsVaultObjectiveClientTranslationIds } from './translations';
+import { Trans } from '@/components/I18n/Trans';
 
 const ITEM_DAILY_CHEST = 99961;
 const ITEM_WEEKLY_CHEST = 100137;
@@ -47,12 +49,16 @@ export default async function WizardsVaultPage() {
 
   const itemsById = groupById(items);
 
+  const translations = translateMany(wizardsVaultObjectiveClientTranslationIds, language);
+
   return (
     <PageLayout toc>
-      <Headline id="objectives" actions={<LinkButton icon="chevron-right" href="/wizards-vault/objectives" appearance="tertiary">All Objectives</LinkButton>}>{season ? localizedName(season, language) : 'Summary'}</Headline>
+      <Headline id="objectives" actions={<LinkButton icon="chevron-right" href="/wizards-vault/objectives" appearance="tertiary"><Trans id="wizards-vault.objectives.all"/></LinkButton>}>
+        {season ? localizedName(season, language) : <Trans id="wizards-vault.summary"/>}
+      </Headline>
       <ErrorBoundary fallback={<Notice type="error">Unknown error</Notice>}>
         <Suspense fallback={<Skeleton/>}>
-          <WizardVaultObjectives seasonEnd={season?.end} objectiveWaypoints={objectiveWaypoints}
+          <WizardVaultObjectives seasonEnd={season?.end} objectiveWaypoints={objectiveWaypoints} translations={translations}
             dailyChest={<ItemLink item={itemsById.get(ITEM_DAILY_CHEST)!} icon={24}>{null}</ItemLink>}
             weeklyChest={<ItemLink item={itemsById.get(ITEM_WEEKLY_CHEST)!} icon={24}>{null}</ItemLink>}/>
         </Suspense>

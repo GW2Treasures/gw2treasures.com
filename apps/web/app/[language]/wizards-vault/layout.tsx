@@ -12,8 +12,8 @@ export default function WizardsVaultLayout({ children }: LayoutProps) {
       hero={<Headline id="wizardsvault"><Trans id="navigation.wizardsVault"/></Headline>}
       navBar={(
         <NavBar base="/wizards-vault/" items={[
-          { segment: '(index)', href: '/wizards-vault', label: 'Objectives' },
-          { segment: 'rewards', label: 'Rewards' },
+          { segment: '(index)', href: '/wizards-vault', label: <Trans id="wizards-vault.objectives"/>, icon: 'wizards-vault' },
+          { segment: 'rewards', label: <Trans id="wizards-vault.rewards"/>, icon: 'wv-rewards' },
         ]}/>
       )}
     >

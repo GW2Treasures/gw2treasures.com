@@ -7,7 +7,7 @@ import styles from './Ingredients.module.css';
 interface MysticForgeIngredientsProps {
   recipe: {
     itemIngredients: With<Pick<MysticForgeIngredientItem, 'count' | 'id'>, { Item: ItemLinkProps['item'] }>[],
-  }
+  },
 }
 
 export const MysticForgeIngredients: FC<MysticForgeIngredientsProps> = ({ recipe }) => {

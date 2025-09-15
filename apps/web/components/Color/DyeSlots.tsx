@@ -5,7 +5,7 @@ import type { RGB } from './types';
 import { isDark } from './is-dark';
 
 interface DyeSlotsProps {
-  slots: RGB[]
+  slots: RGB[],
 }
 
 export const DyeSlots: FC<DyeSlotsProps> = ({ slots }) => {

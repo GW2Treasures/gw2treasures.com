@@ -27,7 +27,7 @@ const getIngredientForGuildUpgrade = cache(async (guildUpgradeId: number) => {
 }, ['ingredient-for-guild-upgrade'], { revalidate: 60 });
 
 interface GuildUpgradeIngredientForProps {
-  guildUpgradeId: number;
+  guildUpgradeId: number,
 }
 
 export const GuildUpgradeIngredientFor: FC<GuildUpgradeIngredientForProps> = async ({ guildUpgradeId }) => {

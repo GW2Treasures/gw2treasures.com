@@ -8,7 +8,7 @@ const baseDomain = process.env.GW2T_NEXT_DOMAIN;
 
 declare module './types' {
   interface NextMiddlewareData {
-    subdomain: Subdomain;
+    subdomain: Subdomain,
   }
 }
 

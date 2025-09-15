@@ -11,10 +11,10 @@ import { isString } from '@gw2treasures/helper/is';
 import { getLanguage, getTranslate } from '@/lib/translate';
 
 export interface ItemTableLoadOptions<Model extends QueryModel> {
-  skip?: number;
-  take?: number;
-  columns: Signed<GlobalColumnId | object>[];
-  orderBy?: Signed<OrderBy<ColumnModelTypes[Model]['orderBy']>>;
+  skip?: number,
+  take?: number,
+  columns: Signed<GlobalColumnId | object>[],
+  orderBy?: Signed<OrderBy<ColumnModelTypes[Model]['orderBy']>>,
 }
 
 const defaultItemSort = [{ relevancy: 'desc' }, { id: 'asc' }];

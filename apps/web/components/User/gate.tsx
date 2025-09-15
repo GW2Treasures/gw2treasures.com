@@ -4,7 +4,7 @@ import type { FC, ReactNode } from 'react';
 import { useUser } from './use-user';
 
 export interface UserGateProps {
-  children: ReactNode
+  children: ReactNode,
 }
 
 export const UserGate: FC<UserGateProps> = ({ children }) => {

@@ -10,15 +10,15 @@ import { MenuList } from '@gw2treasures/ui/components/Layout/MenuList';
 import { getLanguage, getTranslate } from '@/lib/translate';
 
 interface DetailLayoutProps {
-  title: ReactNode;
-  icon?: Icon | ReactElement<{ className: string }> | null;
-  iconType?: EntityIconType;
-  breadcrumb?: ReactNode;
-  children: ReactNode;
-  infobox?: ReactNode;
-  className?: string;
-  actions?: ReactNode[];
-  color?: CSSProperties['--hero-color'];
+  title: ReactNode,
+  icon?: Icon | ReactElement<{ className: string }> | null,
+  iconType?: EntityIconType,
+  breadcrumb?: ReactNode,
+  children: ReactNode,
+  infobox?: ReactNode,
+  className?: string,
+  actions?: ReactNode[],
+  color?: CSSProperties['--hero-color'],
 }
 
 const DetailLayout: FC<DetailLayoutProps> = async ({ title, icon, breadcrumb, children, infobox, className, iconType, actions, color }) => {

@@ -30,12 +30,12 @@ const LOADING = false;
 type LOADING = typeof LOADING;
 
 export interface ItemTableProps<ExtraColumnId extends string, Model extends QueryModel> {
-  query: Signed<ItemTableQuery<Model>>;
-  defaultColumns?: (GlobalColumnId | ExtraColumnId)[];
-  availableColumns: AvailableColumns<GlobalColumnId | ExtraColumnId>;
-  collapsed?: boolean;
-  pageSize?: number;
-  translations: PaginationProps['translations'] & TranslationSubset<'itemTable.viewItem' | 'chatlink.copy' | 'actions'>
+  query: Signed<ItemTableQuery<Model>>,
+  defaultColumns?: (GlobalColumnId | ExtraColumnId)[],
+  availableColumns: AvailableColumns<GlobalColumnId | ExtraColumnId>,
+  collapsed?: boolean,
+  pageSize?: number,
+  translations: PaginationProps['translations'] & TranslationSubset<'itemTable.viewItem' | 'chatlink.copy' | 'actions'>,
 }
 
 const globalDefaultColumns: GlobalColumnId[] = [

@@ -3,15 +3,15 @@ import { Table } from './Table';
 import styles from './Table.module.css';
 
 export interface DataTableColumn<T> {
-  key: Key;
-  label: ReactNode;
-  value: (row: T) => ReactNode;
-  small?: boolean;
-  sort?: (a: T, b: T) => number;
+  key: Key,
+  label: ReactNode,
+  value: (row: T) => ReactNode,
+  small?: boolean,
+  sort?: (a: T, b: T) => number,
 }
 
 export interface DataTableProps<T> {
-  rows: T[];
+  rows: T[],
 }
 
 /** @deprecated Use DataTable instead */
@@ -73,9 +73,9 @@ export function useDataTable<T>(columns: DataTableColumn<T>[], rowKey: (row: T) 
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 interface ColumnHeaderProps<T = any> {
-  column: DataTableColumn<T>;
-  onSort: (column: DataTableColumn<T>) => void;
-  sortBy: { column: DataTableColumn<T>, reverse: boolean } | undefined;
+  column: DataTableColumn<T>,
+  onSort: (column: DataTableColumn<T>) => void,
+  sortBy: { column: DataTableColumn<T>, reverse: boolean } | undefined,
 }
 
 const ColumnHeader: FC<ColumnHeaderProps> = ({ column, onSort, sortBy }) => {

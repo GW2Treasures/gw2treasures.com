@@ -30,7 +30,7 @@ export interface WizardVaultObjectivesProps {
   objectiveWaypoints: Record<number, number>,
   dailyChest: ReactNode,
   weeklyChest: ReactNode,
-  translations: WizardsVaultObjectiveClientTranslations
+  translations: WizardsVaultObjectiveClientTranslations,
 }
 
 const requiredScopes = [Scope.GW2_Account, Scope.GW2_Progression];

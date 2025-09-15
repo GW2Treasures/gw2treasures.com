@@ -3,7 +3,7 @@ import type { FC } from 'react';
 import styles from './EntityIcon.module.css';
 
 export interface EntityIconMissingProps {
-  size?: IconSize | number;
+  size?: IconSize | number,
 }
 
 export const EntityIconMissing: FC<EntityIconMissingProps> = ({ size = 64 }) => {

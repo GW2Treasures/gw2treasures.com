@@ -46,7 +46,7 @@ export type SubscriptionData<T extends SubscriptionType> =
   never;
 
 export type SubscriptionResponse<T extends SubscriptionType> = Response<{
-  data: SubscriptionData<T>
+  data: SubscriptionData<T>,
   timestamp: Date,
 }>;
 
@@ -55,7 +55,7 @@ export type SubscriptionCallback<T extends SubscriptionType> = (response: Subscr
 type ActiveSubscription<T extends SubscriptionType> = {
   type: T,
   language: Language,
-  callback: SubscriptionCallback<T>
+  callback: SubscriptionCallback<T>,
 };
 
 export type CancelSubscription = () => void;

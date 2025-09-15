@@ -67,8 +67,8 @@ const TierTableAccountRows: FC<TierTableProps> = ({ achievement }) => {
 };
 
 interface TierTableAccountRowProps {
-  achievement: Achievement;
-  account: Gw2Account;
+  achievement: Achievement,
+  account: Gw2Account,
 }
 
 const TierTableAccountRow: FC<TierTableAccountRowProps> = ({ achievement, account }) => {

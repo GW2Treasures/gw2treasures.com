@@ -195,7 +195,7 @@ interface WeaponInfo {
   specialization?: number,
   skillSets: {
     requirement?: SkillSetRequirement,
-    skills: Partial<Record<0 | 1 | 2 | 3 | 4 | 5, number>>
+    skills: Partial<Record<0 | 1 | 2 | 3 | 4 | 5, number>>,
   }[],
 }
 

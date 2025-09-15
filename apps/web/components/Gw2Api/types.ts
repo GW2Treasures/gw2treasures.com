@@ -7,25 +7,25 @@ export enum ErrorCode {
 }
 
 export type ErrorResponse = {
-  error: ErrorCode
+  error: ErrorCode,
 };
 
 export type FetchAccountSuccessResponse = {
-  error: undefined;
-  accounts: Gw2Account[];
-  scopes: Scope[];
+  error: undefined,
+  accounts: Gw2Account[],
+  scopes: Scope[],
 };
 
 export interface Gw2Account {
-  id: string;
-  name: string;
-  shared: boolean;
-  verified?: boolean;
-  displayName?: string | null;
+  id: string,
+  name: string,
+  shared: boolean,
+  verified?: boolean,
+  displayName?: string | null,
 }
 
 export interface Gw2AccountWithHidden extends Gw2Account {
-  hidden: boolean;
+  hidden: boolean,
 }
 
 export type FetchAccountResponse = ErrorResponse | FetchAccountSuccessResponse;

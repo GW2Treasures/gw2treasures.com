@@ -9,7 +9,7 @@ import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import type { FC } from 'react';
 
 interface WizardsVaultColumnProps<T extends keyof WizardsVaultListing> {
-  wizardsVaultListing: Pick<WizardsVaultListing, T>
+  wizardsVaultListing: Pick<WizardsVaultListing, T>,
 }
 
 export const WizardsVaultTypeColumn: FC<WizardsVaultColumnProps<'type'> & { translations: TranslationSubset<`wizards-vault.rewards.type.${WizardsVaultListingType}`> }> = ({ wizardsVaultListing: { type }, translations }) => {

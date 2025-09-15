@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 
 const globalWithSigningKey = globalThis as unknown as {
-  _signing_key: SigningKeyClient
+  _signing_key: SigningKeyClient,
 };
 
 class SigningKeyClient {

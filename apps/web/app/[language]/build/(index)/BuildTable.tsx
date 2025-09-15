@@ -28,7 +28,7 @@ const buildRowKey = ({ build }: BuildWithUpdates) => build.id;
 
 
 export interface BuildTableProps {
-  rows: BuildWithUpdates[]
+  rows: BuildWithUpdates[],
 }
 
 export const BuildTable: FC<BuildTableProps> = ({ rows }) => {

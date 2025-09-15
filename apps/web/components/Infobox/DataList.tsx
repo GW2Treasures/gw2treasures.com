@@ -6,8 +6,8 @@ interface DataListProps {
   data: ({
     label: ReactNode,
     value: ReactNode,
-    key: string
-  } | false | undefined)[]
+    key: string,
+  } | false | undefined)[],
 }
 
 export const DataList: FC<DataListProps> = ({ data }) => {

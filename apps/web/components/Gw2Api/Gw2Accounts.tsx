@@ -11,13 +11,13 @@ import { useUser } from '../User/use-user';
 import { Gw2AccountLoginNotice } from './Gw2AccountLoginNotice';
 
 export interface Gw2AccountsProps {
-  children?: ((accounts: Gw2Account[], scopes: Scope[]) => ReactElement | ReactElement[]) | ReactNode;
-  requiredScopes: Scope[];
-  optionalScopes?: Scope[];
-  options?: GetAccountsOptions;
-  loading?: ReactNode;
-  authorizationMessage?: ReactNode;
-  loginMessage?: ReactNode;
+  children?: ((accounts: Gw2Account[], scopes: Scope[]) => ReactElement | ReactElement[]) | ReactNode,
+  requiredScopes: Scope[],
+  optionalScopes?: Scope[],
+  options?: GetAccountsOptions,
+  loading?: ReactNode,
+  authorizationMessage?: ReactNode,
+  loginMessage?: ReactNode,
 }
 
 export const Gw2Accounts: FC<Gw2AccountsProps> = ({ loading, ...props }) => {

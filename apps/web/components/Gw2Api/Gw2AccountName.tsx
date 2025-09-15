@@ -5,8 +5,8 @@ import commonStyles from '@gw2treasures/ui/common.module.css';
 import { Icon } from '@gw2treasures/ui';
 
 interface Gw2AccountNameProps {
-  account: Gw2Account;
-  long?: boolean;
+  account: Gw2Account,
+  long?: boolean,
 }
 
 export const Gw2AccountName: FC<Gw2AccountNameProps> = ({ account, long }) => {

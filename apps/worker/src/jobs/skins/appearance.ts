@@ -7,18 +7,18 @@ interface WikiAskResponse {
   query: {
     results: Record<string, {
       printouts: {
-        'Has game id': Array<number>
-        'Has appearance'?: { 0?: { fulltext: string }}
-        'Has set appearance'?: { 0?: { fulltext: string }}
-        'Has skin set'?: { 0?: { fulltext: string }}
-      }
-      fulltext: string
+        'Has game id': Array<number>,
+        'Has appearance'?: { 0?: { fulltext: string }},
+        'Has set appearance'?: { 0?: { fulltext: string }},
+        'Has skin set'?: { 0?: { fulltext: string }},
+      },
+      fulltext: string,
     }>,
-  }
+  },
 }
 
 interface SkinsWikiProps {
-  offset?: number
+  offset?: number,
 }
 
 const batchSize = 1500;

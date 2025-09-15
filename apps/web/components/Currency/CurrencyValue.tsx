@@ -3,8 +3,8 @@ import { Coins } from '../Format/Coins';
 import { FormatNumber } from '../Format/FormatNumber';
 
 export interface CurrencyValueProps {
-  currencyId: number;
-  value: number;
+  currencyId: number,
+  value: number,
 }
 
 export const CurrencyValue: FC<CurrencyValueProps> = ({ currencyId, value }) => {

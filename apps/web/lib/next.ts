@@ -19,7 +19,7 @@ export interface LayoutProps<P extends Params = {}> {
 
 /** @deprecated Use Next.js `RouteContext` instead */
 export interface RouteProps<P extends Params = {}> {
-  params: Promise<P>
+  params: Promise<P>,
 }
 
 export type RouteHandler<P extends Params = {}> = (request: NextRequest, context: RouteProps<P>) => Promise<Response>;

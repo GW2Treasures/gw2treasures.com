@@ -7,7 +7,7 @@ import { encode } from 'gw2e-chat-codes';
 import type { FC } from 'react';
 
 export interface WaypointProps {
-  id: number;
+  id: number,
 }
 
 export const Waypoint: FC<WaypointProps> = ({ id }) => {

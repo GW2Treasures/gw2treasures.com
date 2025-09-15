@@ -4,7 +4,7 @@ import { ResetTimer } from './ResetTimer';
 import type { BonusEventInfo } from 'app/[language]/bonus-event/bonus-events';
 
 export interface FestivalTimerProps {
-  festival?: FestivalInfo | BonusEventInfo;
+  festival?: FestivalInfo | BonusEventInfo,
 }
 
 export const FestivalTimer: FC<FestivalTimerProps> = ({ festival }) => {

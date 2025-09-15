@@ -11,7 +11,7 @@ import { Festival, getActiveFestival } from 'app/[language]/festival/festivals';
 import { BonusEvent, getActiveBonusEvent } from 'app/[language]/bonus-event/bonus-events';
 
 interface NavigationProps {
-  language: Language;
+  language: Language,
 }
 
 const Navigation: FC<NavigationProps> = ({ language }) => {
@@ -42,11 +42,11 @@ const Navigation: FC<NavigationProps> = ({ language }) => {
 };
 
 interface NavigationItemProps {
-  children: ReactNode;
-  href: string;
-  icon: IconProp;
-  iconColor?: IconColor;
-  style?: CSSProperties;
+  children: ReactNode,
+  href: string,
+  icon: IconProp,
+  iconColor?: IconColor,
+  style?: CSSProperties,
 }
 
 export const NavigationItem: FC<NavigationItemProps> = (props) => {

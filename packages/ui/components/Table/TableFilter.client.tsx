@@ -186,7 +186,7 @@ function toggleArray<T>(array: T[], value: T): T[] {
 
 
 export interface TableSearchInputProps {
-  placeholder?: string
+  placeholder?: string,
 }
 
 export const TableSearchInput: FC<TableSearchInputProps> = ({ placeholder = 'Search…' }) => {

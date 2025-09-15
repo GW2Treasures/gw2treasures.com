@@ -114,8 +114,8 @@ interface RefinedMaterialProps {
   sources: {
     id: number,
     item?: DbItem,
-    rate: ConversionRate
-  }[]
+    rate: ConversionRate,
+  }[],
 }
 
 const RefinedMaterial: FC<RefinedMaterialProps> = async ({ id, material, efficiencies, sources }) => {
@@ -229,7 +229,7 @@ function renderCostPerUnit(item: DbItem | undefined, rate: ConversionRate, itemP
 
 interface EfficiencySwitchProps {
   id: Material,
-  efficiencies: Efficiencies;
+  efficiencies: Efficiencies,
 }
 
 const EfficiencySwitch: FC<EfficiencySwitchProps> = ({ id, efficiencies }) => (

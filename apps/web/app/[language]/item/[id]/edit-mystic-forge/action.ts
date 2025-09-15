@@ -14,7 +14,7 @@ export interface SubmitEditMysticForgeRequest {
   ingredients: ({
     itemId: number | undefined,
     count: number | undefined,
-  } | undefined)[]
+  } | undefined)[],
 }
 
 export interface SubmitEditMysticForgeOrder extends SubmitEditMysticForgeRequest {
@@ -25,7 +25,7 @@ export interface SubmitEditMysticForgeOrder extends SubmitEditMysticForgeRequest
   ingredients: {
     itemId: number,
     count: number,
-  }[]
+  }[],
 }
 
 export async function submitEditMysticForge(_: unknown, data: SubmitEditMysticForgeRequest): Promise<{ error: string, success?: never } | { error?: never, success: true }> {

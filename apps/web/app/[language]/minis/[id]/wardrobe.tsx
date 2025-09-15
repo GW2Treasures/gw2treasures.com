@@ -10,7 +10,7 @@ import { Table } from '@gw2treasures/ui/components/Table/Table';
 import type { FC } from 'react';
 
 interface WardrobeProps {
-  miniId: number;
+  miniId: number,
 }
 
 const requiredScopes = [Scope.GW2_Account, Scope.GW2_Unlocks];

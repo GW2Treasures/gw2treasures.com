@@ -1,7 +1,7 @@
 export type DrfData = {
   itemId: number,
   total: number,
-  content: { id: number, count: number }[]
+  content: { id: number, count: number }[],
 };
 
 export const data: DrfData[] = [

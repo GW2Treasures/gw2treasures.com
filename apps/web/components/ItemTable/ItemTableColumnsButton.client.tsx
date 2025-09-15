@@ -13,7 +13,7 @@ import type { TranslationSubset } from '@/lib/translate';
 import { Skeleton } from '../Skeleton/Skeleton';
 
 export interface ItemTableColumnsButtonProps {
-  translations: TranslationSubset<'table.columns' | 'table.columns.reset'>
+  translations: TranslationSubset<'table.columns' | 'table.columns.reset'>,
 }
 
 export const ItemTableColumnsButton: FC<ItemTableColumnsButtonProps> = ({ translations }) => {

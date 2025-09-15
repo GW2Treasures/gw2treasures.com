@@ -4,9 +4,9 @@ import { Source_Code_Pro } from 'next/font/google';
 import { cx } from '@gw2treasures/ui';
 
 interface CodeProps {
-  children: ReactNode;
-  borderless?: boolean;
-  inline?: boolean;
+  children: ReactNode,
+  borderless?: boolean,
+  inline?: boolean,
 }
 
 const font = Source_Code_Pro({

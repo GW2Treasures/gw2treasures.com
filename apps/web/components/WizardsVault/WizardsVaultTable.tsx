@@ -13,9 +13,9 @@ import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 
 export interface WizardsVaultTableProps {
   objectives: Objective[],
-  headline?: ReactNode;
-  headlineId?: string;
-  children?: (table: ReactNode, columnSelect: ReactNode) => ReactNode
+  headline?: ReactNode,
+  headlineId?: string,
+  children?: (table: ReactNode, columnSelect: ReactNode) => ReactNode,
 }
 
 const requiredScopes = [Scope.GW2_Account, Scope.GW2_Progression];

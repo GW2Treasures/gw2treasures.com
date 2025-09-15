@@ -7,9 +7,9 @@ import { parseIcon } from '@/lib/parseIcon';
 import type { Mini } from '@gw2api/types/data/mini';
 
 export interface MiniTooltipProps {
-  mini: Mini;
-  language: Language;
-  hideTitle?: boolean;
+  mini: Mini,
+  language: Language,
+  hideTitle?: boolean,
 }
 
 export const MiniTooltip: FC<MiniTooltipProps> = async ({ mini, language, hideTitle }) => {

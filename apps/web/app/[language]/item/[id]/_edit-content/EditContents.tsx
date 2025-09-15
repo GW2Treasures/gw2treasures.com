@@ -28,14 +28,14 @@ import { CurrencyValue } from '@/components/Currency/CurrencyValue';
 import { DialogActions } from '@gw2treasures/ui/components/Dialog/DialogActions';
 
 export interface EditContentsProps {
-  appearance?: ButtonProps['appearance'];
-  itemId: number;
+  appearance?: ButtonProps['appearance'],
+  itemId: number,
   contents: (Content & {
-    contentItem: WithIcon<Pick<Item, 'id' | 'rarity' | keyof LocalizedEntity>>
-  })[];
+    contentItem: WithIcon<Pick<Item, 'id' | 'rarity' | keyof LocalizedEntity>>,
+  })[],
   currencyContents: (CurrencyContent & {
-    currency: WithIcon<Pick<Currency, 'id' | keyof LocalizedEntity>>
-  })[];
+    currency: WithIcon<Pick<Currency, 'id' | keyof LocalizedEntity>>,
+  })[],
 }
 
 export const EditContents: FC<EditContentsProps> = ({ itemId, contents, currencyContents, appearance }) => {

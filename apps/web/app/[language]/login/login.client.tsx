@@ -34,7 +34,7 @@ export interface LoginButtonProps {
 
   logout: boolean,
 
-  translations: TranslationSubset<'login.button' | 'login.grant-all' | 'login.grant-all.hint'>
+  translations: TranslationSubset<'login.button' | 'login.grant-all' | 'login.grant-all.hint'>,
 }
 
 export const LoginButton: FC<LoginButtonProps> = ({ scopes, returnTo, logout, translations }) => {

@@ -17,13 +17,13 @@ export interface TranslationEditorProps {
     en: Record<TranslationId, string>,
     es: Partial<Record<TranslationId, string>>,
     fr: Partial<Record<TranslationId, string>>,
-  }
+  },
   legacyDictionaries: {
     de: Record<string, string>,
     en: Record<string, string>,
     es: Record<string, string>,
     fr: Record<string, string>,
-  }
+  },
 }
 
 export const TranslationEditor: FC<TranslationEditorProps> = ({ dictionaries, legacyDictionaries }) => {
@@ -122,11 +122,11 @@ export const TranslationEditor: FC<TranslationEditorProps> = ({ dictionaries, le
 };
 
 export interface TranslationButtonProps {
-  language: Language;
-  id: TranslationId;
-  dictionaries: Record<Language, Partial<Record<TranslationId, string>>>
-  changes: Record<Language, Partial<Record<TranslationId, string>>>
-  onEdit: (edit: { language: Language, key: TranslationId, value: string }) => void;
+  language: Language,
+  id: TranslationId,
+  dictionaries: Record<Language, Partial<Record<TranslationId, string>>>,
+  changes: Record<Language, Partial<Record<TranslationId, string>>>,
+  onEdit: (edit: { language: Language, key: TranslationId, value: string }) => void,
 }
 
 export const TranslationButton: FC<TranslationButtonProps> = ({ language, id, dictionaries, changes, onEdit }) => {

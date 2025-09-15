@@ -6,7 +6,7 @@ import { Skeleton } from '@/components/Skeleton/Skeleton';
 import { CurrencyValue } from '@/components/Currency/CurrencyValue';
 import { SortableDynamicDataTableCell } from '@gw2treasures/ui/components/Table/DataTable.client';
 
-export const AccountWalletCell: FC<{ currencyId: number; accountId: string; }> = ({ currencyId, accountId }) => {
+export const AccountWalletCell: FC<{ currencyId: number, accountId: string }> = ({ currencyId, accountId }) => {
   const wallet = useSubscription('wallet', accountId);
 
   if (wallet.loading) {

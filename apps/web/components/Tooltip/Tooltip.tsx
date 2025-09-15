@@ -5,8 +5,8 @@ import { Children, cloneElement, type FC, type ReactElement, type ReactNode, use
 import styles from './Tooltip.module.css';
 
 export interface TooltipProps {
-  children: ReactElement<HTMLProps<HTMLElement>>;
-  content: ReactNode;
+  children: ReactElement<HTMLProps<HTMLElement>>,
+  content: ReactNode,
 }
 
 export const Tooltip: FC<TooltipProps> = ({ children, content }) => {

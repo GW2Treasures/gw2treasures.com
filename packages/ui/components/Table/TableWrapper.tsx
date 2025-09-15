@@ -7,8 +7,8 @@ import { cx } from '../../lib';
 import { useMergeRefs } from '@floating-ui/react';
 
 export interface TableWrapperProps {
-  children: ReactElement<HTMLProps<HTMLElement>>;
-  className?: string;
+  children: ReactElement<HTMLProps<HTMLElement>>,
+  className?: string,
 }
 
 export const TableWrapper: FC<TableWrapperProps> = ({ children, className }) => {

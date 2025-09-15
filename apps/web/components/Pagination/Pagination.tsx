@@ -6,11 +6,11 @@ import type { TranslationSubset } from '@/lib/translate';
 import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 
 export interface PaginationProps {
-  current: number;
-  total: number;
-  onPageChange: (page: number) => void;
-  disabled?: boolean;
-  translations: TranslationSubset<'pagination.next' | 'pagination.previous'>
+  current: number,
+  total: number,
+  onPageChange: (page: number) => void,
+  disabled?: boolean,
+  translations: TranslationSubset<'pagination.next' | 'pagination.previous'>,
 }
 
 export const Pagination: FC<PaginationProps> = ({ current, total, onPageChange, disabled, translations }) => {

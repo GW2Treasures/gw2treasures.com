@@ -3,7 +3,7 @@ import { cx } from '@gw2treasures/ui';
 import styles from './DiffLayout.module.css';
 
 export interface DiffLayoutProps {
-  children: ReactNode;
+  children: ReactNode,
 }
 
 export const DiffLayout: FC<DiffLayoutProps> = ({ children }) => {
@@ -39,9 +39,9 @@ export const DiffLayoutHeader: FC<DiffLayoutHeaderProps> = ({ icons, title, subt
 
 
 interface DiffLayoutRowProps {
-  left: ReactNode;
-  right: ReactNode;
-  changed?: boolean;
+  left: ReactNode,
+  right: ReactNode,
+  changed?: boolean,
 }
 
 export const DiffLayoutRow: FC<DiffLayoutRowProps> = ({ left, right, changed = false }) => {

@@ -16,7 +16,7 @@ import { useLocalStorageState } from '@/lib/useLocalStorageState';
 import { useFedCM } from '../gw2me/fedcm-context';
 
 export interface Gw2ApiProviderProps {
-  children: ReactNode;
+  children: ReactNode,
 }
 
 const initialGrantedScopes: Scope[] = [];

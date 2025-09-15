@@ -19,7 +19,7 @@ import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 
 export interface EditDialogProps {
   columns: Column[],
-  onEdit: (columns: Column[]) => void
+  onEdit: (columns: Column[]) => void,
 }
 
 type DragEndEvent = Parameters<typeof DragDropProvider>[0]['onDragEnd'];

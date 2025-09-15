@@ -42,12 +42,12 @@ function toNumber(value: string): number | undefined {
 }
 
 type LocalizedNameInput = {
-  AND?: LocalizedNameInput[];
-  OR?: LocalizedNameInput[];
-  name_de?: Prisma.StringFilter | string;
-  name_en?: Prisma.StringFilter | string;
-  name_es?: Prisma.StringFilter | string;
-  name_fr?: Prisma.StringFilter | string;
+  AND?: LocalizedNameInput[],
+  OR?: LocalizedNameInput[],
+  name_de?: Prisma.StringFilter | string,
+  name_en?: Prisma.StringFilter | string,
+  name_es?: Prisma.StringFilter | string,
+  name_fr?: Prisma.StringFilter | string,
 };
 
 function nameQuery(terms: string[]): LocalizedNameInput[] {

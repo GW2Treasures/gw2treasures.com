@@ -7,7 +7,7 @@ import { StructuredData } from '../StructuredData/StructuredData';
 import type { ListItem } from 'schema-dts';
 
 export interface BreadcrumbProps {
-  children: (ReactElement<BreadcrumbItemProps, typeof BreadcrumbItem> | Falsy)[]
+  children: (ReactElement<BreadcrumbItemProps, typeof BreadcrumbItem> | Falsy)[],
 }
 
 export const Breadcrumb: FC<BreadcrumbProps> = async ({ children }) => {

@@ -7,7 +7,7 @@ import type { FC } from 'react';
 import { ItemLink } from '@/components/Item/ItemLink';
 
 export interface HomesteadRefinedMaterialProps {
-  itemId: number
+  itemId: number,
 }
 
 export const HomesteadRefinedMaterial: FC<HomesteadRefinedMaterialProps> = async ({ itemId }) => {

@@ -7,8 +7,8 @@ import type { TraitTooltip } from './TraitTooltip';
 import styles from './TraitTooltip.module.css';
 
 export interface ClientTraitTooltipProps {
-  tooltip: TraitTooltip;
-  hideTitle?: boolean;
+  tooltip: TraitTooltip,
+  hideTitle?: boolean,
 }
 
 export const ClientTraitTooltip: FC<ClientTraitTooltipProps> = ({ tooltip, hideTitle = false }) => {

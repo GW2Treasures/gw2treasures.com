@@ -3,7 +3,7 @@ import styles from './SlotRenderer.module.css';
 import type { Skill } from '@gw2api/types/data/skill';
 
 interface SlotRendererProps {
-  data: Skill;
+  data: Skill,
 }
 
 export const SlotRenderer: FC<SlotRendererProps> = ({ data }) => {

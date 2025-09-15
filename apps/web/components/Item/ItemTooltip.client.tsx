@@ -14,8 +14,8 @@ import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 import rarityStyles from '../Layout/RarityColor.module.css';
 
 export interface ClientItemTooltipProps {
-  tooltip: ItemTooltip | Promise<ItemTooltip>;
-  hideTitle?: boolean;
+  tooltip: ItemTooltip | Promise<ItemTooltip>,
+  hideTitle?: boolean,
 }
 
 function renderAttributes(attributes: ItemTooltip['attributes']) {

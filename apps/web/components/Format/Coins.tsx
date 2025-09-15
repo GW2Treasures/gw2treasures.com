@@ -3,7 +3,7 @@ import styles from './Coins.module.css';
 import { FormatNumber } from './FormatNumber';
 
 interface CoinsProps {
-  value: number;
+  value: number,
 }
 
 export const Coins: FC<CoinsProps> = ({ value }) => {

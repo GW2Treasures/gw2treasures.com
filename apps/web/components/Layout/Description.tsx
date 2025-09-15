@@ -2,8 +2,8 @@ import type { FC, ReactNode } from 'react';
 import styles from './Description.module.css';
 
 interface DescriptionProps {
-  children: ReactNode;
-  actions?: ReactNode;
+  children: ReactNode,
+  actions?: ReactNode,
 }
 
 export const Description: FC<DescriptionProps> = ({ children, actions }) => {

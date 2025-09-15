@@ -19,7 +19,7 @@ import { allDisciplines } from './disciplines';
 interface RecipeBoxProps {
   recipe: Recipe & {
     ingredients: Ingredient[],
-    unlockedByItems?: WithIcon<Pick<Item, 'id' | 'rarity' | keyof LocalizedEntity>>[]
+    unlockedByItems?: WithIcon<Pick<Item, 'id' | 'rarity' | keyof LocalizedEntity>>[],
   },
   outputItem: WithIcon<Pick<Item, 'id' | 'rarity' | keyof LocalizedEntity>> | null,
 }

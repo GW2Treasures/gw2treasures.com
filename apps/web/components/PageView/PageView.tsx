@@ -3,7 +3,7 @@ import { pageView } from '@/lib/pageView';
 import 'server-only';
 
 interface PageViewProps {
-  page: string;
+  page: string,
 }
 
 // run this in a suspense, so this does not block rendering

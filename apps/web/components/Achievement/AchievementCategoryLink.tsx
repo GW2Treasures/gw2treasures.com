@@ -6,9 +6,9 @@ import type { WithIcon } from '@/lib/with';
 import type { LocalizedEntity } from '@/lib/localizedName';
 
 export interface AchievementCategoryLinkProps {
-  achievementCategory: WithIcon<LocalizedEntity> & Pick<AchievementCategory, 'id'>;
-  icon?: IconSize | 'none';
-  language?: Language;
+  achievementCategory: WithIcon<LocalizedEntity> & Pick<AchievementCategory, 'id'>,
+  icon?: IconSize | 'none',
+  language?: Language,
 }
 
 export const AchievementCategoryLink: FC<AchievementCategoryLinkProps> = ({ achievementCategory, icon = 32, language }) => {

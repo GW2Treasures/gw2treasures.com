@@ -7,7 +7,7 @@ import type { SkillFactTraitedTooltip } from './SkillTooltip';
 import styles from './SkillTooltip.module.css';
 
 export interface FactProps {
-  fact: SkillFact | SkillFactTraitedTooltip
+  fact: SkillFact | SkillFactTraitedTooltip,
 }
 
 export const Fact: FC<FactProps> = ({ fact }) => {

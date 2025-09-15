@@ -6,7 +6,7 @@ import { encode } from 'gw2e-chat-codes';
 
 export interface UnknownItemProps {
   id: number,
-  icon?: IconSize | 'none'
+  icon?: IconSize | 'none',
 }
 
 export const UnknownItem: FC<UnknownItemProps> = ({ id, icon = 32 }) => {

@@ -5,8 +5,8 @@ import styles from './SkinTooltip.module.css';
 import { EntityIcon } from '../Entity/EntityIcon';
 
 export interface ClientSkinTooltipProps {
-  tooltip: SkinTooltip;
-  hideTitle?: boolean;
+  tooltip: SkinTooltip,
+  hideTitle?: boolean,
 }
 
 export const ClientSkinTooltip: FC<ClientSkinTooltipProps> = ({ tooltip, hideTitle = false }) => {

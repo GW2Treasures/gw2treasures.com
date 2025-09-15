@@ -17,8 +17,8 @@ import { PartnerButton } from './partner/button';
 import { PartnerLogo } from './partner/logo';
 
 interface LayoutProps {
-  children: ReactNode;
-  language: Language;
+  children: ReactNode,
+  language: Language,
 }
 
 const Layout: FC<LayoutProps> = ({ children, language }) => {

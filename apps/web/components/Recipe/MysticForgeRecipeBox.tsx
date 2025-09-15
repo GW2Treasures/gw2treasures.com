@@ -13,7 +13,7 @@ import { Button, LinkButton } from '@gw2treasures/ui/components/Form/Button';
 
 interface MysticForgeRecipeBoxProps {
   recipe: MysticForgeRecipe & {
-    itemIngredients: With<MysticForgeIngredientItem, { Item: WithIcon<Pick<Item, 'id' | 'rarity' | keyof LocalizedEntity>> }>[]
+    itemIngredients: With<MysticForgeIngredientItem, { Item: WithIcon<Pick<Item, 'id' | 'rarity' | keyof LocalizedEntity>> }>[],
   },
   outputItem: WithIcon<Pick<Item, 'id' | 'rarity' | keyof LocalizedEntity>>,
 }

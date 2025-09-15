@@ -3,8 +3,8 @@ import { cloneElement, type FC, type ReactElement } from 'react';
 import styles from './LanguageLinks.module.css';
 
 interface LanguageLinksProps {
-  link: ReactElement<{ language: string }>;
-  language: Language;
+  link: ReactElement<{ language: string }>,
+  language: Language,
 }
 
 export const LanguageLinks: FC<LanguageLinksProps> = ({ link, language }) => {

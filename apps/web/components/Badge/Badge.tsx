@@ -3,7 +3,7 @@ import styles from './Badge.module.css';
 
 export interface BadgeProps {
   children: ReactNode,
-  color?: CSSProperties['color']
+  color?: CSSProperties['color'],
 }
 
 export const Badge: FC<BadgeProps> = ({ children, color }) => (

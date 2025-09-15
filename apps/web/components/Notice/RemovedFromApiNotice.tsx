@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 
 export interface RemovedFromApiNoticeProps {
-  type: string;
+  type: string,
 }
 
 export const RemovedFromApiNotice: FC<RemovedFromApiNoticeProps> = ({ type }) => {

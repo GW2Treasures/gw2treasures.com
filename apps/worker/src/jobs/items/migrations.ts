@@ -11,41 +11,41 @@ export const CURRENT_VERSION = 13;
 
 /** @see Prisma.ItemUpdateInput */
 interface MigratedItem {
-  version: number
+  version: number,
 
-  name_de?: string
-  name_en?: string
-  name_es?: string
-  name_fr?: string
-  type?: string
-  subtype?: string | null
-  weight?: string | null
-  vendorValue?: number | null
-  level?: number
-  unlocksSkinIds?: number[]
-  removedFromApi?: boolean
-  lastCheckedAt?: Date | string
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  unlocksSkin?: Prisma.SkinCreateNestedManyWithoutUnlockedByItemsInput
+  name_de?: string,
+  name_en?: string,
+  name_es?: string,
+  name_fr?: string,
+  type?: string,
+  subtype?: string | null,
+  weight?: string | null,
+  vendorValue?: number | null,
+  level?: number,
+  unlocksSkinIds?: number[],
+  removedFromApi?: boolean,
+  lastCheckedAt?: Date | string,
+  createdAt?: Date | string,
+  updatedAt?: Date | string,
+  unlocksSkin?: Prisma.SkinCreateNestedManyWithoutUnlockedByItemsInput,
 
-  suffixItemIds?: number[]
-  suffixItems?: Prisma.ItemUpdateManyWithoutSuffixInNestedInput
+  suffixItemIds?: number[],
+  suffixItems?: Prisma.ItemUpdateManyWithoutSuffixInNestedInput,
 
-  unlocksRecipeIds?: number[]
-  unlocksRecipe?: Prisma.RecipeUpdateManyWithoutUnlockedByItemsNestedInput
+  unlocksRecipeIds?: number[],
+  unlocksRecipe?: Prisma.RecipeUpdateManyWithoutUnlockedByItemsNestedInput,
 
-  unlocksColorIds?: number[]
-  unlocksColor?: Prisma.ColorUpdateManyWithoutUnlockedByItemsNestedInput
+  unlocksColorIds?: number[],
+  unlocksColor?: Prisma.ColorUpdateManyWithoutUnlockedByItemsNestedInput,
 
-  unlocksMiniIds?: number[]
-  unlocksMinis?: Prisma.MiniUpdateManyWithoutUnlockedByItemsNestedInput
+  unlocksMiniIds?: number[],
+  unlocksMinis?: Prisma.MiniUpdateManyWithoutUnlockedByItemsNestedInput,
 
-  unlocksGuildUpgradeIds?: number[]
-  unlocksGuildUpgrade?: Prisma.GuildUpgradeUpdateManyWithoutUnlockedByItemsNestedInput
+  unlocksGuildUpgradeIds?: number[],
+  unlocksGuildUpgrade?: Prisma.GuildUpgradeUpdateManyWithoutUnlockedByItemsNestedInput,
 
-  itemStatIds?: number[]
-  itemStats?: Prisma.ItemStatUpdateManyWithoutItemsNestedInput
+  itemStatIds?: number[],
+  itemStats?: Prisma.ItemStatUpdateManyWithoutItemsNestedInput,
 }
 
 export async function createMigrator() {

@@ -26,8 +26,8 @@ export type UseInventoryItemResultLocation =
 
 export type UseInventoryItemResult =
   | { loading: true }
-  | { loading: false; error: true }
-  | { loading: false; error: false; locations: UseInventoryItemResultLocation[] };
+  | { loading: false, error: true }
+  | { loading: false, error: false, locations: UseInventoryItemResultLocation[] };
 
 
 /** Get a list of locations containing this item in the accounts inventory */
@@ -121,8 +121,8 @@ export function useInventoryItem(accountId: string, itemId: number): UseInventor
 
 export type UseInventoryItemTotalResult =
   | { loading: true }
-  | { loading: false; error: true }
-  | { loading: false; error: false; count: number };
+  | { loading: false, error: true }
+  | { loading: false, error: false, count: number };
 
 export function useInventoryItemTotal(accountId: string, itemId: number): UseInventoryItemTotalResult {
   // get all locations of this item...
@@ -151,7 +151,7 @@ export function sumItemCount(total: number, { count }: { count?: number }) {
   return total + (count ?? 1);
 }
 
-function mapItemWithUpgradesToItems(item: ItemStackLike | null | undefined): ({ id: number; count?: number } | null | undefined)[] {
+function mapItemWithUpgradesToItems(item: ItemStackLike | null | undefined): ({ id: number, count?: number } | null | undefined)[] {
   return [
     item,
     ...(item?.upgrades?.map((id) => ({ id })) ?? []),

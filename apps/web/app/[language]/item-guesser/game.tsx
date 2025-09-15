@@ -19,7 +19,7 @@ import { Coins } from '@/components/Format/Coins';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 
 export interface ItemGuesserGameProps {
-  challengeItem: WithIcon<Item>
+  challengeItem: WithIcon<Item>,
 }
 
 export const ItemGuesserGame: FC<ItemGuesserGameProps> = ({ challengeItem }) => {

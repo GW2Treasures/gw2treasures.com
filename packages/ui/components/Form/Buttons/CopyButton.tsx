@@ -4,7 +4,7 @@ import { type FC, useCallback, useEffect, useState } from 'react';
 import { Button, type ButtonProps } from '../Button';
 
 export interface CopyButtonProps extends Omit<ButtonProps, 'onClick'> {
-  copy: string;
+  copy: string,
 }
 
 export const CopyButton: FC<CopyButtonProps> = ({ ref, copy, ...props }) => {

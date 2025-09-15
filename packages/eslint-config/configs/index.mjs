@@ -86,7 +86,13 @@ export default defineConfig(
         'warn',
         { selector: 'default', format: null },
         { selector: 'typeLike', format: ['PascalCase'] }
-      ]
+      ],
+
+      // require comma as delimiter in typescript interfaces and type aliases
+      '@stylistic/member-delimiter-style': ['warn', {
+        multiline: { delimiter: 'comma', requireLast: true },
+        singleline: { delimiter: 'comma', requireLast: false },
+      }]
     }
   }
 );

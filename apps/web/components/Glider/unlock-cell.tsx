@@ -8,8 +8,8 @@ import { Icon } from '@gw2treasures/ui';
 import type { FC } from 'react';
 
 export interface GliderAccountUnlockCellProps {
-  accountId: string;
-  gliderId: number;
+  accountId: string,
+  gliderId: number,
 }
 
 export const requiredScopes = [Scope.GW2_Account, Scope.GW2_Unlocks];

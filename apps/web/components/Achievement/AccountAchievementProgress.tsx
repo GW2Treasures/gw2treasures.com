@@ -28,7 +28,7 @@ export type RowProps = (
 );
 
 export type AccountAchievementProgressCellProps = RowProps & {
-  accountId: string;
+  accountId: string,
 };
 
 export const AccountAchievementProgressHeader: FC = () => <Gw2AccountHeaderCells requiredScopes={requiredScopes} small align="right"/>;
@@ -142,7 +142,7 @@ function getResetFromFlags(flags: AchievementFlags[]): Reset | undefined {
 }
 
 type SnapshotRowProps = RowProps & {
-  snapshots: AchievementProgressSnapshot[];
+  snapshots: AchievementProgressSnapshot[],
 };
 
 export const AccountAchievementProgressSnapshotRow: FC<SnapshotRowProps> = ({ snapshots, ...props }) => snapshots.map((snapshot) => (
@@ -150,7 +150,7 @@ export const AccountAchievementProgressSnapshotRow: FC<SnapshotRowProps> = ({ sn
 ));
 
 type SnapshotCellProps = RowProps & {
-  snapshot: AchievementProgressSnapshot;
+  snapshot: AchievementProgressSnapshot,
 };
 
 export const AccountAchievementProgressSnapshotCell: FC<SnapshotCellProps> = ({ snapshot, achievement, bitId }) => {

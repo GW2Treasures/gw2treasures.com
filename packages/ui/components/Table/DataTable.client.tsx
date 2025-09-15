@@ -18,7 +18,7 @@ type DataTableState = {
   sortBy: string | undefined,
   sortOrder: 'asc' | 'desc',
   visibleColumns: string[],
-  interacted: boolean
+  interacted: boolean,
 };
 const defaultDataTableContext: DataTableState = {
   id: '',
@@ -32,7 +32,7 @@ type DataTableContext = {
   state: DataTableState,
   setState: (state: Partial<DataTableState>) => void,
 
-  dynamicValues: Record<string, Comparable[]>
+  dynamicValues: Record<string, Comparable[]>,
   setDynamicValue: (columnId: string, rowIndex: number, value?: Comparable) => void,
 };
 
@@ -109,9 +109,9 @@ export const DataTableClient: FC<DataTableClientProps> = ({ children, id, column
 
 // === BODY ===
 export interface DataTableClientRowsProps {
-  children: ReactNode[];
-  sortableColumns: Record<string, number[]>
-  collapsed: boolean | number;
+  children: ReactNode[],
+  sortableColumns: Record<string, number[]>,
+  collapsed: boolean | number,
 }
 
 export const DataTableClientRows: FC<DataTableClientRowsProps> = ({ children, sortableColumns, collapsed }) => {
@@ -254,9 +254,9 @@ export const SortableDynamicDataTableCell: FC<SortableDynamicDataTableCellProps>
 
 // === COLUMN HEADER ===
 export interface DataTableClientColumnProps extends Pick<HeaderCellProps, 'align' | 'small' | 'colSpan' | 'width'> {
-  id: string;
-  children: ReactNode;
-  sortable: boolean;
+  id: string,
+  children: ReactNode,
+  sortable: boolean,
 }
 
 export const DataTableClientColumn: FC<DataTableClientColumnProps> = ({ id, children, sortable, ...props }) => {
@@ -315,9 +315,9 @@ export const DataTableClientCell: FC<DataTableClientCellProps> = ({ children, co
 
 // === COLUMN SELECTION ===
 export interface DataTableClientColumnSelectionProps {
-  id: string;
-  children: ReactNode;
-  reset: ReactNode;
+  id: string,
+  children: ReactNode,
+  reset: ReactNode,
 }
 
 export const DataTableClientColumnSelection: FC<DataTableClientColumnSelectionProps> = ({ id, children, reset }) => {

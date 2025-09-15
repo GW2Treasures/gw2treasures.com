@@ -7,8 +7,8 @@ import { useCallback, type FC, type ReactNode, useState } from 'react';
 import styles from './page.module.css';
 
 export interface AddItemButtonProps {
-  children: ReactNode;
-  ids: number[];
+  children: ReactNode,
+  ids: number[],
 }
 
 export const AddItemButton: FC<AddItemButtonProps> = ({ children, ids }) => {

@@ -4,7 +4,7 @@ import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { Icon } from '@gw2treasures/ui';
 
 export interface TradingPostHistoryProps {
-  itemId: number
+  itemId: number,
 }
 
 export const TradingPostHistory: FC<TradingPostHistoryProps> = ({ itemId }) => {

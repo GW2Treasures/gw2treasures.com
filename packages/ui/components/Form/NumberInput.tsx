@@ -2,14 +2,14 @@ import { type ChangeEvent, type FC, useCallback } from 'react';
 import styles from './TextInput.module.css';
 
 export interface NumberInputProps {
-  value?: number;
-  defaultValue?: number;
-  onChange?: (value: number) => void;
-  placeholder?: string;
-  name?: string;
-  readOnly?: boolean;
-  min?: number;
-  max?: number;
+  value?: number,
+  defaultValue?: number,
+  onChange?: (value: number) => void,
+  placeholder?: string,
+  name?: string,
+  readOnly?: boolean,
+  min?: number,
+  max?: number,
 }
 
 export const NumberInput: FC<NumberInputProps> = ({ value, defaultValue, onChange, placeholder, name, readOnly, min, max }) => {

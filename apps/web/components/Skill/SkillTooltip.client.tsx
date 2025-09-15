@@ -7,8 +7,8 @@ import { format } from 'gw2-tooltip-html';
 import { Fact } from './SkillFact';
 
 export interface ClientSkillTooltipProps {
-  tooltip: SkillTooltip;
-  hideTitle?: boolean;
+  tooltip: SkillTooltip,
+  hideTitle?: boolean,
 }
 
 export const ClientSkillTooltip: FC<ClientSkillTooltipProps> = ({ tooltip, hideTitle = false }) => {

@@ -8,7 +8,7 @@ export interface ProgressCellProps {
   small?: boolean,
   children: ReactNode,
   color?: 'red' | 'blue',
-  align?: TdHTMLAttributes<HTMLTableCellElement>['align']
+  align?: TdHTMLAttributes<HTMLTableCellElement>['align'],
 }
 
 export const ProgressCell: FC<ProgressCellProps> = ({ progress, children, small, color, align }) => {

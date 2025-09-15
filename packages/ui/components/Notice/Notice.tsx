@@ -6,12 +6,12 @@ import { Icon } from '../../icons';
 import type { RefProp } from '../../lib/react';
 
 export interface NoticeProps extends RefProp<HTMLDivElement> {
-  children: ReactNode;
-  type?: 'info' | 'warning' | 'error';
-  icon?: IconName;
+  children: ReactNode,
+  type?: 'info' | 'warning' | 'error',
+  icon?: IconName,
 
   /** Hide this Notice from google and other search engines */
-  index?: boolean;
+  index?: boolean,
 }
 
 export const Notice: FC<NoticeProps> = ({ ref, children, type = 'info', icon, index }) => {

@@ -16,10 +16,10 @@ import { MenuList } from '@gw2treasures/ui/components/Layout/MenuList';
 import { FormatNumber } from '../Format/FormatNumber';
 
 export interface MiniTableProps {
-  minis: WithIcon<Pick<Mini, 'id' | 'unlocks' | keyof LocalizedEntity>>[]
-  headline?: ReactNode;
-  headlineId?: string;
-  children?: (table: ReactNode, columnSelect: ReactNode) => ReactNode
+  minis: WithIcon<Pick<Mini, 'id' | 'unlocks' | keyof LocalizedEntity>>[],
+  headline?: ReactNode,
+  headlineId?: string,
+  children?: (table: ReactNode, columnSelect: ReactNode) => ReactNode,
 }
 
 export const MiniTable: FC<MiniTableProps> = ({ minis, headline, headlineId, children }) => {

@@ -6,18 +6,18 @@ import { type IconProp, Icon, type IconColor } from '../../icons';
 import type { RefProp } from '../../lib/react';
 
 export interface CommonButtonProps extends Pick<HTMLAttributes<HTMLElement>, 'aria-label' | 'className'> {
-  children?: ReactNode;
-  icon?: IconProp;
-  iconColor?: IconColor;
-  appearance?: 'primary' | 'secondary' | 'tertiary' | 'menu';
-  flex?: boolean;
-  intent?: 'delete';
-  iconOnly?: boolean;
+  children?: ReactNode,
+  icon?: IconProp,
+  iconColor?: IconColor,
+  appearance?: 'primary' | 'secondary' | 'tertiary' | 'menu',
+  flex?: boolean,
+  intent?: 'delete',
+  iconOnly?: boolean,
 }
 
 export interface ButtonProps extends CommonButtonProps, RefProp<HTMLButtonElement>, Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'disabled' | 'form' | 'name' | 'value' | 'formAction' | 'aria-label'> {
-  type?: 'button' | 'submit'
-  onClick?: MouseEventHandler<HTMLButtonElement>;
+  type?: 'button' | 'submit',
+  onClick?: MouseEventHandler<HTMLButtonElement>,
 }
 
 export const Button: FC<ButtonProps> = ({ ref, children, icon, iconColor, appearance = 'secondary', flex, intent, iconOnly, onClick, className, type = 'button', ...props }) => {
@@ -30,11 +30,11 @@ export const Button: FC<ButtonProps> = ({ ref, children, icon, iconColor, appear
 };
 
 export interface LinkButtonProps extends CommonButtonProps, RefProp<HTMLAnchorElement>, Pick<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'target' | 'rel'> {
-  onClick?: MouseEventHandler<HTMLAnchorElement>;
-  href: string;
-  locale?: string | false;
-  prefetch?: boolean;
-  external?: boolean;
+  onClick?: MouseEventHandler<HTMLAnchorElement>,
+  href: string,
+  locale?: string | false,
+  prefetch?: boolean,
+  external?: boolean,
 }
 
 export const LinkButton: FC<LinkButtonProps> = ({ ref, children, icon, iconColor, appearance = 'secondary', flex, intent, iconOnly, className, external, ...props }) => {

@@ -10,10 +10,10 @@ import { cx } from '@gw2treasures/ui';
 export type EntityIconType = 'skill' | 'trait-major' | 'trait-minor';
 
 export interface EntityIconProps {
-  icon: Omit<Icon, 'color' | 'signature'> & Partial<Pick<Icon, 'color' | 'signature'>>;
-  size?: IconSize;
-  type?: EntityIconType;
-  className?: string;
+  icon: Omit<Icon, 'color' | 'signature'> & Partial<Pick<Icon, 'color' | 'signature'>>,
+  size?: IconSize,
+  type?: EntityIconType,
+  className?: string,
 }
 
 export const EntityIcon: FC<EntityIconProps> = ({ icon, size = 64, type, className }) => {

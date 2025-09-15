@@ -14,7 +14,7 @@ export const MasteryColors: Record<MasteryRegion, CSS.Property.Color> = {
 };
 
 export interface MasteryProps {
-  mastery: MasteryRegion
+  mastery: MasteryRegion,
 }
 
 export const Mastery: FC<MasteryProps> = ({ mastery }) => {

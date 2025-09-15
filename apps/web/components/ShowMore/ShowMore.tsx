@@ -6,8 +6,8 @@ import styles from './ShowMore.module.css';
 import { FormatNumber } from '../Format/FormatNumber';
 
 export interface ShowMoreProps {
-  children: ReactNode[];
-  initialSize?: number;
+  children: ReactNode[],
+  initialSize?: number,
 }
 
 export const ShowMore: FC<ShowMoreProps> = ({ children, initialSize = 3 }) => {

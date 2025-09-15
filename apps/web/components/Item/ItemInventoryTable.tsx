@@ -17,7 +17,7 @@ import { useLocalStorageState } from '@/lib/useLocalStorageState';
 import { ProfessionIcon } from '../Profession/icon';
 
 interface WardrobeProps {
-  itemId: number;
+  itemId: number,
 }
 
 const requiredScopes = [
@@ -60,8 +60,8 @@ export const ItemInventoryTable: FC<WardrobeProps> = ({ itemId }) => {
 };
 
 interface ItemInventoryAccountRowsProps {
-  itemId: number;
-  account: Gw2Account;
+  itemId: number,
+  account: Gw2Account,
 }
 
 const ItemInventoryAccountRows: FC<ItemInventoryAccountRowsProps> = ({ itemId, account }) => {
@@ -121,7 +121,7 @@ const ItemInventoryAccountRows: FC<ItemInventoryAccountRowsProps> = ({ itemId, a
 };
 
 interface ItemInventoryLocationProps {
-  location: UseInventoryItemResultLocation;
+  location: UseInventoryItemResultLocation,
 }
 
 const ItemInventoryLocation: FC<ItemInventoryLocationProps> = ({ location }) => {

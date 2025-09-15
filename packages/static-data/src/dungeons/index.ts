@@ -5,7 +5,7 @@ export interface DungeonPath {
   rewards: {
     coins: number,
     talesOfDungeonDelving?: number,
-  }
+  },
 }
 export interface Dungeon {
   id: DungeonId,

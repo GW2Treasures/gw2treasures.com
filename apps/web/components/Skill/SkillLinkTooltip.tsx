@@ -16,9 +16,9 @@ import { ClientSkillTooltip } from './SkillTooltip.client';
 import { localizedUrl } from '@/lib/localizedUrl';
 
 export interface SkillLinkTooltipProps {
-  skill: WithIcon<Pick<Skill, 'id' | keyof LocalizedEntity>>
-  language?: Language;
-  revision?: string;
+  skill: WithIcon<Pick<Skill, 'id' | keyof LocalizedEntity>>,
+  language?: Language,
+  revision?: string,
 }
 
 export const SkillLinkTooltip: FC<SkillLinkTooltipProps> = ({ skill, language, revision }) => {

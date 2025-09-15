@@ -1,10 +1,10 @@
 import type { Language } from '@gw2treasures/database';
 
 export interface LocalizedEntity {
-  name_de: string;
-  name_en: string;
-  name_es: string;
-  name_fr: string;
+  name_de: string,
+  name_en: string,
+  name_es: string,
+  name_fr: string,
 }
 
 export function localizedName(entity: LocalizedEntity, language: Language): string {

@@ -1,6 +1,6 @@
 export interface ConversionRate {
-  produced: number;
-  required: number;
+  produced: number,
+  required: number,
 }
 
 export type RefinedCosts = [

@@ -4,7 +4,7 @@ import { Button, type ButtonProps } from '@gw2treasures/ui/components/Form/Butto
 import { type FC, useCallback, useEffect, useState } from 'react';
 
 export interface ShareButtonProps {
-  data: ShareData;
+  data: ShareData,
   appearance?: ButtonProps['appearance'],
   flex?: ButtonProps['flex'],
 }

@@ -7,10 +7,10 @@ import type { LocalizedEntity } from '@/lib/localizedName';
 import { getLinkProperties } from '@/lib/linkProperties';
 
 export interface GuildUpgradeLinkProps {
-  guildUpgrade: WithIcon<Pick<GuildUpgrade, 'id' | keyof LocalizedEntity>>;
-  icon?: IconSize | 'none';
-  language?: Language;
-  revision?: string;
+  guildUpgrade: WithIcon<Pick<GuildUpgrade, 'id' | keyof LocalizedEntity>>,
+  icon?: IconSize | 'none',
+  language?: Language,
+  revision?: string,
 }
 
 export const GuildUpgradeLink: FC<GuildUpgradeLinkProps> = ({ guildUpgrade, icon = 32, language, revision }) => {

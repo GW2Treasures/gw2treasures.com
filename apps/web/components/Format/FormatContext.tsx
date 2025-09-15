@@ -22,17 +22,17 @@ function getDefaultRegion() {
 }
 
 interface FormatContextProps {
-  language: string;
-  region: string;
-  locale: string;
-  setLocale: (language: string | 'auto', region: string) => void;
-  defaultLocale: string;
-  defaultRegion: string;
+  language: string,
+  region: string,
+  locale: string,
+  setLocale: (language: string | 'auto', region: string) => void,
+  defaultLocale: string,
+  defaultRegion: string,
 
-  utcFormat: Intl.DateTimeFormat;
-  localFormat: Intl.DateTimeFormat;
-  relativeFormat: Intl.RelativeTimeFormat;
-  numberFormat: Intl.NumberFormat;
+  utcFormat: Intl.DateTimeFormat,
+  localFormat: Intl.DateTimeFormat,
+  relativeFormat: Intl.RelativeTimeFormat,
+  numberFormat: Intl.NumberFormat,
 }
 
 const FormatContext = createContext<FormatContextProps>(null!);
@@ -40,7 +40,7 @@ const FormatContext = createContext<FormatContextProps>(null!);
 export function useFormatContext() { return useContext(FormatContext); }
 
 export interface FormatProviderProps {
-  children: ReactNode;
+  children: ReactNode,
 }
 
 export const FormatProvider: FC<FormatProviderProps> = ({ children }) => {

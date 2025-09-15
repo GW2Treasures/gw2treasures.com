@@ -11,7 +11,7 @@ interface HistoryEntry {
   date: string,
   itemID: number,
   sell_price_max: number,
-  sell_quantity_max: number
+  sell_quantity_max: number,
 }
 
 export const TpImportJob: Job = {

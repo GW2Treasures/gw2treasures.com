@@ -38,7 +38,7 @@ import { Switch } from '@gw2treasures/ui/components/Form/Switch';
 const TooltipWithBounds = TooltipWithBoundsReact18 as unknown as ComponentClass<TooltipWithBoundsProps>;
 
 export interface TradingPostHistoryClientProps {
-  history: TradingPostHistory[]
+  history: TradingPostHistory[],
 }
 
 export const TradingPostHistoryClient: FC<TradingPostHistoryClientProps> = (props) => {
@@ -46,7 +46,7 @@ export const TradingPostHistoryClient: FC<TradingPostHistoryClientProps> = (prop
 };
 
 export interface TradingPostHistoryClientInternalProps extends TradingPostHistoryClientProps {
-  width: number;
+  width: number,
 }
 
 const bisectDate = bisector<TradingPostHistory, Date>((d) => d.time).left;
@@ -614,12 +614,12 @@ function estimateGoldTickLength(value: number) {
 }
 
 interface ChartToggleProps {
-  label: ReactNode;
-  children: ReactNode;
-  checked: boolean;
-  onChange: (checked: boolean) => void;
-  color: string;
-  dashed?: boolean;
+  label: ReactNode,
+  children: ReactNode,
+  checked: boolean,
+  onChange: (checked: boolean) => void,
+  color: string,
+  dashed?: boolean,
 }
 
 const ChartToggle: FC<ChartToggleProps> = ({ label, children, checked, onChange, color, dashed }) => {

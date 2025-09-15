@@ -3,8 +3,8 @@ import { fetchAccessTokens } from './fetch-accounts-action';
 import type { AccessToken } from './types';
 
 interface Queue {
-  promise: Promise<void>;
-  accountIds: Set<string>;
+  promise: Promise<void>,
+  accountIds: Set<string>,
 }
 
 export class AccessTokenManager {

@@ -4,7 +4,7 @@ import { NavBar } from '@/components/Layout/NavBar';
 import { createMetadata } from '@/lib/metadata';
 
 interface AdminLayoutProps {
-  children: ReactNode;
+  children: ReactNode,
 }
 
 export default async function AdminLayout({ children }: AdminLayoutProps) {

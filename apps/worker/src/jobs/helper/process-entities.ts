@@ -18,7 +18,7 @@ type FindManyArgs<Id extends string | number> = {
     id?: { notIn: Id[] },
     lastCheckedAt?: { lt: Date },
     version?: { lt: number },
-  }
+  },
 };
 
 export async function createSubJobs<Id extends string | number>(
@@ -90,8 +90,8 @@ export async function createSubJobs<Id extends string | number>(
 }
 
 export interface ProcessEntitiesData<Id extends string | number> {
-  ids: Id[];
-  removed?: boolean;
+  ids: Id[],
+  removed?: boolean,
 }
 
 type GetEntitiesArgs<Id> = {
@@ -146,7 +146,7 @@ export type InputData<Id, HistoryId> = {
   history: {
     connectOrCreate: [
       { where: HistoryId, create: { revisionId: string }}
-    ]
+    ],
   },
 
   lastCheckedAt: Date,
@@ -167,7 +167,7 @@ export type InputDataLocalized<Id, HistoryId> = {
       { where: HistoryId, create: { revisionId: string }},
       { where: HistoryId, create: { revisionId: string }},
       { where: HistoryId, create: { revisionId: string }},
-    ]
+    ],
   },
 
   lastCheckedAt: Date,

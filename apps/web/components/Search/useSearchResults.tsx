@@ -25,17 +25,17 @@ import { TraitLinkTooltip } from '../Trait/TraitLinkTooltip';
 import { isDefined } from '@gw2treasures/helper/is';
 
 export interface SearchResults<Id extends string> {
-  id: Id;
-  results: SearchResult[];
-  loading: boolean;
+  id: Id,
+  results: SearchResult[],
+  loading: boolean,
 }
 
 export interface SearchResult {
-  href: string;
-  title: ReactNode;
-  icon: ReactNode;
-  subtitle?: ReactNode;
-  render?: (link: ReactElement<HTMLProps<HTMLElement>>) => ReactNode;
+  href: string,
+  title: ReactNode,
+  icon: ReactNode,
+  subtitle?: ReactNode,
+  render?: (link: ReactElement<HTMLProps<HTMLElement>>) => ReactNode,
 }
 
 export function useSearchApiResults(searchValue: string, translations: TranslationSubset<typeof itemTypeTranslations.short[0] | `rarity.${Rarity}` | `weight.${Weight}` | `currency.category.${CurrencyCategoryName}` | `trait.slot.${TraitSlot}` | `trait.tier.${1 | 2 | 3}`>) {

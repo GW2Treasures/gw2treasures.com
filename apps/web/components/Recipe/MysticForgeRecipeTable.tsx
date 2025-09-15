@@ -9,7 +9,7 @@ import { ItemTableContext } from '../ItemTable/ItemTableContext';
 import { ItemTableColumnsButton } from '../ItemTable/ItemTableColumnsButton';
 
 export interface MysticForgeRecipeTableProps {
-  ingredientItemId: number;
+  ingredientItemId: number,
 }
 
 export const MysticForgeRecipeTable: FC<MysticForgeRecipeTableProps> = ({ ingredientItemId }) => {

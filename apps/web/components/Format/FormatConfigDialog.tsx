@@ -14,8 +14,8 @@ import { useUser } from '../User/use-user';
 import { withSuspense } from '@/lib/with-suspense';
 
 export interface FormatConfigDialogProps {
-  open: boolean;
-  onClose: () => void
+  open: boolean,
+  onClose: () => void,
 }
 
 const defaultLocales = { languages: ['de', 'en', 'es', 'fr'], regions: ['US', 'GB', 'DE', 'FR', 'ES'] };

@@ -5,8 +5,8 @@ import { type FC, type ReactNode, useEffect, useState } from 'react';
 import styles from '../Layout.module.css';
 
 export interface MenuProps {
-  children: ReactNode;
-  navigation: ReactNode;
+  children: ReactNode,
+  navigation: ReactNode,
 }
 
 export const Menu: FC<MenuProps> = ({ children, navigation }) => {

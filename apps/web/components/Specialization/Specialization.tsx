@@ -11,7 +11,7 @@ import { EntityIconMissing } from '../Entity/EntityIconMissing';
 
 export interface SpecializationProps {
   data: SpecializationData,
-  traits: Pick<WithIcon<Trait>, keyof typeof linkPropertiesWithoutRarity | 'slot' | 'tier'>[]
+  traits: Pick<WithIcon<Trait>, keyof typeof linkPropertiesWithoutRarity | 'slot' | 'tier'>[],
 }
 
 export const Specialization: FC<SpecializationProps> = ({ data, traits }) => {

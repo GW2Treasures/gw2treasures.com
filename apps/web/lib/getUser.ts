@@ -7,13 +7,13 @@ import { UserRole } from '@gw2treasures/database';
 import { authCookieSettings } from './auth/cookie';
 
 export interface SessionUser {
-  id: string;
-  name: string;
-  roles: UserRole[];
+  id: string,
+  name: string,
+  roles: UserRole[],
   session: {
     id: string,
     expiresAt?: Date,
-  }
+  },
 }
 
 export const getUser = cache(async function getUser(): Promise<SessionUser | undefined> {

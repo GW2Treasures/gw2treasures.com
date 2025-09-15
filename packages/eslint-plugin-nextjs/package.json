@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "pnpm run clean && tsup src",
-    "lint": "eslint src",
+    "lint": "eslint .",
     "clean": "rm -rf dist/",
     "publish-package": "gw2treasures-publish-package"
   },

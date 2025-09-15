@@ -34,7 +34,7 @@
   "homepage": "https://github.com/GW2Treasures/gw2treasures.com#readme",
   "devDependencies": {
     "@gw2treasures/tsconfig": "workspace:*",
-    "@types/node": "22.18.3",
+    "@types/node": "22.18.4",
     "rimraf": "6.0.1",
     "svgo": "4.0.0",
     "ts-node": "10.9.2",

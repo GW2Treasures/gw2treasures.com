@@ -147,9 +147,9 @@ export const ItemTable = <ExtraColumnId extends string = never, Model extends Qu
         <tbody>
           {items.map((item) => {
             const properties = query.data.mapToItem && query.data.model !== undefined && query.data.model !== 'item'
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            ? { item: (item as any)[query.data.mapToItem], [query.data.model]: item, translations: dynamicTranslations }
-            : { item, translations: dynamicTranslations };
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              ? { item: (item as any)[query.data.mapToItem], [query.data.model]: item, translations: dynamicTranslations }
+              : { item, translations: dynamicTranslations };
 
             return (
               <tr key={item.id ?? properties.item.id}>
@@ -157,7 +157,9 @@ export const ItemTable = <ExtraColumnId extends string = never, Model extends Qu
                   return (
                     <td key={column.id} align={column.align}>
                       {loadedColumns.includes(column.id) ? (
-                        column.component ? createElement(column.component, properties) : globalColumnRenderer[column.id as GlobalColumnId](properties.item, properties.translations as Record<TranslationId, string>, language)
+                        column.component
+                          ? createElement(column.component, { ...properties, ...column.componentProps })
+                          : globalColumnRenderer[column.id as GlobalColumnId](properties.item, properties.translations as Record<TranslationId, string>, language)
                       ) : <Skeleton width={48}/>}
                     </td>
                   );

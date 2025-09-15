@@ -12,7 +12,7 @@ export interface ItemTableProps<ExtraColumnId extends string, Model extends Quer
   query: ItemTableQuery<Model>;
   defaultColumns?: (ExtraColumnId | GlobalColumnId)[];
   collapsed?: boolean;
-  extraColumns?: ExtraColumn<ExtraColumnId, Model, object>[],
+  extraColumns?: ExtraColumn<ExtraColumnId, Model, object, object>[],
   pageSize?: number;
 }
 
@@ -28,7 +28,7 @@ export const ItemTable = async <ExtraColumnId extends string = never, Model exte
   );
 };
 
-async function getColumns<T extends string>(extraColumns: ExtraColumn<T, keyof ColumnModelTypes, object>[] | undefined, mapToItem?: string): Promise<AvailableColumns<GlobalColumnId | T>> {
+async function getColumns<T extends string>(extraColumns: ExtraColumn<T, keyof ColumnModelTypes, object, object>[] | undefined, mapToItem?: string): Promise<AvailableColumns<GlobalColumnId | T>> {
   const columns = Object.values(globalColumnDefinitions);
   const language = await getLanguage();
   const translate = getTranslate(language);
@@ -59,6 +59,7 @@ async function getColumns<T extends string>(extraColumns: ExtraColumn<T, keyof C
       const title = column.title;
       const select = await sign(column.select);
       const component = column.component;
+      const componentProps = column.componentProps;
       const orderBy = column.orderBy
         ? await Promise.all(column.orderBy.map(sign)) as [asc: Signed<OrderBy>, desc: Signed<OrderBy>]
         : undefined;
@@ -66,7 +67,7 @@ async function getColumns<T extends string>(extraColumns: ExtraColumn<T, keyof C
       const small = column.small;
       const order = column.order;
 
-      return [id, { id, title, select, orderBy, align, small, component, order }] as unknown as [GlobalColumnId | T, AvailableColumn<GlobalColumnId | T, keyof ColumnModelTypes, object> & { order?: number }];
+      return [id, { id, title, select, orderBy, align, small, component, componentProps, order }] as unknown as [GlobalColumnId | T, AvailableColumn<GlobalColumnId | T, keyof ColumnModelTypes, object> & { order?: number }];
     }) ?? []
   ]);
 

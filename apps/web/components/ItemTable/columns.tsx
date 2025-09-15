@@ -22,7 +22,7 @@ import { localizedName } from '@/lib/localizedName';
 function createColumn<Select extends Prisma.ItemSelect, Translations extends TranslationId = never>(column: ItemTableColumn<Select, Translations>) {
   return column;
 }
-export function extraColumn<Model extends QueryModel>(column: ExtraColumn<string, Model, ColumnModelTypes[Model]['select']>) {
+export function extraColumn<Model extends QueryModel, Props extends object = object>(column: ExtraColumn<string, Model, ColumnModelTypes[Model]['select'], Props>) {
   return column;
 }
 

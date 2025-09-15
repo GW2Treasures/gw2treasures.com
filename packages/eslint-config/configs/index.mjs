@@ -40,16 +40,19 @@ export default defineConfig(
       '@stylistic/no-multiple-empty-lines': 'warn',
 
       // only 1 property per line for objects (enforced only for > 3 properties or multiline values)
-      '@stylistic/object-curly-newline': ['warn', { 'multiline': true, 'consistent': true }],
+      '@stylistic/object-curly-newline': ['warn', { multiline: true, consistent: true }],
 
       // `{foo: bar}` → `{ foo: bar }`
-      '@stylistic/object-curly-spacing': ['warn', 'always', { 'objectsInObjects': false }],
+      '@stylistic/object-curly-spacing': ['warn', 'always', { objectsInObjects: false }],
 
       // `{ foo:bar }` → `{ foo: bar }`
       '@stylistic/key-spacing': 'warn',
 
       // `{ x: x }` → `{ x }`
       'object-shorthand': 'warn',
+
+      // `{ 'foo': 'bar' }` → `{ foo: 'bar' }`
+      'quote-props': ['warn', 'consistent-as-needed'],
 
       // allows (but does not require) dangling commas in multiline
       '@stylistic/comma-dangle': ['warn', 'only-multiline'],
@@ -81,8 +84,8 @@ export default defineConfig(
       // `class foo_bar` → `class FooBar`
       '@typescript-eslint/naming-convention': [
         'warn',
-        { 'selector': 'default', 'format': null },
-        { 'selector': 'typeLike', 'format': ['PascalCase'] }
+        { selector: 'default', format: null },
+        { selector: 'typeLike', format: ['PascalCase'] }
       ]
     }
   }

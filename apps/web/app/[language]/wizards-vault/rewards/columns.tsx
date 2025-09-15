@@ -25,7 +25,7 @@ export const WizardsVaultCostColumn: FC<WizardsVaultColumnProps<'cost'>> = ({ wi
 };
 
 const listingTypeIcons: Record<WizardsVaultListingType, IconName> = {
-  'Featured': 'wizards-vault',
-  'Normal': 'wv-rewards',
-  'Legacy': 'wv-legacy-rewards',
+  Featured: 'wizards-vault',
+  Normal: 'wv-rewards',
+  Legacy: 'wv-legacy-rewards',
 };

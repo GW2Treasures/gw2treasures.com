@@ -110,16 +110,16 @@ export default async function WintersdayPage() {
       {wintersday && (
         <StructuredData data={{
           '@type': 'Event',
-          name: t('festival.wintersday'),
-          description: t('festival.wintersday.description'),
-          location: {
+          'name': t('festival.wintersday'),
+          'description': t('festival.wintersday.description'),
+          'location': {
             '@type': 'VirtualLocation',
-            url: (await absoluteUrl('/festival/wintersday')).toString()
+            'url': (await absoluteUrl('/festival/wintersday')).toString()
           },
-          startDate: wintersday.startsAt.toISOString(),
-          endDate: wintersday.endsAt.toISOString(),
-          eventAttendanceMode: 'https://schema.org/OnlineEventAttendanceMode',
-          image: [(await absoluteUrl(ogImage.src)).toString()]
+          'startDate': wintersday.startsAt.toISOString(),
+          'endDate': wintersday.endsAt.toISOString(),
+          'eventAttendanceMode': 'https://schema.org/OnlineEventAttendanceMode',
+          'image': [(await absoluteUrl(ogImage.src)).toString()]
         } satisfies Event}/>
       )}
 

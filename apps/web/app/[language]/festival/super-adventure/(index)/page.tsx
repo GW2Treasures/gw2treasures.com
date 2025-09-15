@@ -86,16 +86,16 @@ export default async function SuperAdventureFestivalPage() {
       {festival && (
         <StructuredData data={{
           '@type': 'Event',
-          name: t('festival.super-adventure'),
-          description: t('festival.super-adventure.description'),
-          location: {
+          'name': t('festival.super-adventure'),
+          'description': t('festival.super-adventure.description'),
+          'location': {
             '@type': 'VirtualLocation',
-            url: (await absoluteUrl('/festival/super-adventure')).toString()
+            'url': (await absoluteUrl('/festival/super-adventure')).toString()
           },
-          startDate: festival.startsAt.toISOString(),
-          endDate: festival.endsAt.toISOString(),
-          eventAttendanceMode: 'https://schema.org/OnlineEventAttendanceMode',
-          image: [(await absoluteUrl(ogImage.src)).toString()]
+          'startDate': festival.startsAt.toISOString(),
+          'endDate': festival.endsAt.toISOString(),
+          'eventAttendanceMode': 'https://schema.org/OnlineEventAttendanceMode',
+          'image': [(await absoluteUrl(ogImage.src)).toString()]
         } satisfies Event}/>
       )}
     </PageLayout>

@@ -29,7 +29,7 @@ const getMysticForgeRecipes = cache(async (id: number): Promise<PublicApiRespons
 
   return {
     json: recipes.map((recipe) => ({
-      '_gw2treasures_recipe_id': recipe.id,
+      _gw2treasures_recipe_id: recipe.id,
       output_item_id: recipe.outputItemId,
       output_item_count_min: recipe.outputCountMin,
       output_item_count_max: recipe.outputCountMax,

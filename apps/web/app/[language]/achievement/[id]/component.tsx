@@ -264,7 +264,7 @@ export async function AchievementPageComponent({ language, achievementId, revisi
                   return (
                     <li key={reward.id}>
                       <FlexRow>
-                        <span className={styles.listIcon} style={reward.region ? { '--icon-color': MasteryColors[reward.region], backgroundColor: `${MasteryColors[reward.region]}22` } : undefined}><Icon icon="mastery"/></span>
+                        <span className={styles.listIcon} style={reward.region ? { '--icon-color': MasteryColors[reward.region], 'backgroundColor': `${MasteryColors[reward.region]}22` } : undefined}><Icon icon="mastery"/></span>
                         <Mastery mastery={reward.region}/>
                       </FlexRow>
                     </li>

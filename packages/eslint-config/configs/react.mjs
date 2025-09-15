@@ -29,10 +29,10 @@ export default defineConfig(
 
       // `< C / >` → `<C/>`
       '@stylistic/jsx-tag-spacing': ['warn', {
-        'closingSlash': 'never',
-        'beforeSelfClosing': 'never',
-        'afterOpening': 'never',
-        'beforeClosing': 'never'
+        closingSlash: 'never',
+        beforeSelfClosing: 'never',
+        afterOpening: 'never',
+        beforeClosing: 'never'
       }],
 
       // `<C prop={'test'}/>` → `<C prop="test"/>`
@@ -40,19 +40,19 @@ export default defineConfig(
 
       // add parens around jsx
       '@stylistic/jsx-wrap-multilines': ['warn', {
-        'declaration': 'parens-new-line',
-        'assignment': 'parens-new-line',
-        'return': 'parens-new-line',
-        'arrow': 'parens-new-line',
-        'condition': 'parens-new-line',
-        'logical': 'parens-new-line',
-        'prop': 'parens-new-line'
+        declaration: 'parens-new-line',
+        assignment: 'parens-new-line',
+        return: 'parens-new-line',
+        arrow: 'parens-new-line',
+        condition: 'parens-new-line',
+        logical: 'parens-new-line',
+        prop: 'parens-new-line'
       }],
 
       // multiline closing bracket location
       '@stylistic/jsx-closing-bracket-location': ['warn', {
-        'nonEmpty': 'line-aligned',
-        'selfClosing': 'after-props'
+        nonEmpty: 'line-aligned',
+        selfClosing: 'after-props'
       }],
 
       // indent props with 2 spaces
@@ -74,7 +74,7 @@ export default defineConfig(
       'react/jsx-fragments': 'warn',
 
       // require key
-      'react/jsx-key': ['warn', { 'checkFragmentShorthand': true }],
+      'react/jsx-key': ['warn', { checkFragmentShorthand: true }],
 
       // `<Foo bar={ baz }>` → `<Foo bar={baz}/>`
       '@stylistic/jsx-curly-spacing': 'warn',

@@ -13,7 +13,7 @@ export const WizardsVaultTrackIcon: FC<WizardsVaultTrackIconProps> = ({ track, .
 };
 
 const trackIcons: Record<WizardsVaultTrack, IconName> = {
-  'PvE': 'tyria',
-  'PvP': 'pvp',
-  'WvW': 'wvw-keep',
+  PvE: 'tyria',
+  PvP: 'pvp',
+  WvW: 'wvw-keep',
 };

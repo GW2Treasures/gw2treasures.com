@@ -91,16 +91,16 @@ export default async function LunarNewYearPage() {
       {lunarNewYear && (
         <StructuredData data={{
           '@type': 'Event',
-          name: t('festival.lunar-new-year'),
-          description: t('festival.lunar-new-year.description'),
-          location: {
+          'name': t('festival.lunar-new-year'),
+          'description': t('festival.lunar-new-year.description'),
+          'location': {
             '@type': 'VirtualLocation',
-            url: (await absoluteUrl('/festival/lunar-new-year')).toString()
+            'url': (await absoluteUrl('/festival/lunar-new-year')).toString()
           },
-          startDate: lunarNewYear.startsAt.toISOString(),
-          endDate: lunarNewYear.endsAt.toISOString(),
-          eventAttendanceMode: 'https://schema.org/OnlineEventAttendanceMode',
-          image: [(await absoluteUrl(ogImage.src)).toString()]
+          'startDate': lunarNewYear.startsAt.toISOString(),
+          'endDate': lunarNewYear.endsAt.toISOString(),
+          'eventAttendanceMode': 'https://schema.org/OnlineEventAttendanceMode',
+          'image': [(await absoluteUrl(ogImage.src)).toString()]
         } satisfies Event}/>
       )}
     </PageLayout>

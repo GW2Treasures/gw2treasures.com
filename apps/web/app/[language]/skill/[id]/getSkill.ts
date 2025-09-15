@@ -10,7 +10,7 @@ export const getSkill = cache(async (id: number, language: Language) => {
     where: { id },
     include: {
       history: {
-        include: { revision: { select: { id: true, buildId: true, createdAt: true, description: true, language: true }}},
+        include: { revision: { select: { id: true, type: true, hash: true, buildId: true, createdAt: true, description: true, language: true }}},
         where: { revision: { language }},
         orderBy: { revision: { createdAt: 'desc' }}
       },

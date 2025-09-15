@@ -309,9 +309,9 @@ export async function AchievementPageComponent({ language, achievementId, revisi
       )}
 
       <Headline id="history"><Trans id="revisions.history"/></Headline>
-      <RevisionTable revisions={achievement.history.map(({ revision }) => revision)} currentRevisionId={fixedRevision ? revision.id : undefined} link={({ revisionId, children }) => (
-        <AchievementLink achievement={achievement} revision={revisionId} icon="none">{children}</AchievementLink>
-      )}/>
+      <RevisionTable revisions={achievement.history.map(({ revision }) => revision)}
+        currentRevisionId={revision.id} fixedRevision={fixedRevision}
+        link={({ revisionId, children }) => (<AchievementLink achievement={achievement} revision={revisionId} icon="none">{children}</AchievementLink>)}/>
 
       <Headline id="data">Data</Headline>
       <Json data={data}/>

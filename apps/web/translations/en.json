@@ -630,5 +630,6 @@
   "revisions.description": "Description",
   "revisions.date": "Date",
   "revisions.view": "View",
+  "revisions.diff": "Compare",
   "revisions.showHidden": "Show {0} hidden revisions"
 }

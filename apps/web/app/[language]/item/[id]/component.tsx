@@ -361,10 +361,9 @@ export const ItemPageComponent: FC<ItemPageComponentProps> = async ({ language, 
       )}
 
       <Headline id="history"><Trans id="revisions.history"/></Headline>
-
-      <RevisionTable revisions={item.history.map(({ revision }) => revision)} currentRevisionId={fixedRevision ? revision.id : undefined} link={({ revisionId, children }) => (
-        <ItemLink item={item} language={language} revision={revisionId} icon="none">{children}</ItemLink>
-      )}/>
+      <RevisionTable revisions={item.history.map(({ revision }) => revision)}
+        currentRevisionId={revision.id} fixedRevision={fixedRevision}
+        link={({ revisionId, children }) => (<ItemLink item={item} language={language} revision={revisionId} icon="none">{children}</ItemLink>)}/>
 
       {!fixedRevision && (
         <Suspense>

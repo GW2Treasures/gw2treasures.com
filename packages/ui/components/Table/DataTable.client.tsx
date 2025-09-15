@@ -122,10 +122,10 @@ export const DataTableClientRows: FC<DataTableClientRowsProps> = ({ children, so
     () => (sortBy && sortableColumns[sortBy])
       ? sortableColumns[sortBy].map((index) => children.at(index))
       : ((sortBy && dynamicValues[sortBy])
-        ? Array.from({ length: children.length }, (_, index) => [index, dynamicValues[sortBy][index]] as const)
-          .sort(([, a], [, b]) => compare(a, b))
-          .map(([index]) => children.at(index))
-        : children),
+          ? Array.from({ length: children.length }, (_, index) => [index, dynamicValues[sortBy][index]] as const)
+              .sort(([, a], [, b]) => compare(a, b))
+              .map(([index]) => children.at(index))
+          : children),
     [children, dynamicValues, sortBy, sortableColumns]
   );
 

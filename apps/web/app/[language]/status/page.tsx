@@ -42,8 +42,8 @@ export default async function StatusPage() {
           {apiErrorsPercentage > apiErrorThreshold
             ? <><FormatNumber value={apiErrors}/> errors in the last 30 minutes</>
             : (apiSlowPercentage > apiSlowThreshold
-              ? <><FormatNumber value={apiSlow}/> slow requests in the last 30 minutes</>
-              : <><FormatNumber value={apiTotal}/> requests in the last 30 minutes</>)}
+                ? <><FormatNumber value={apiSlow}/> slow requests in the last 30 minutes</>
+                : <><FormatNumber value={apiTotal}/> requests in the last 30 minutes</>)}
         </span>
       </Link>
       <Link href="/status/database" className={styles.statusRow}>

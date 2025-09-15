@@ -80,7 +80,7 @@ const Sparkline: FC<SparklineProps> = ({ history }) => {
     ? [min * (0.9 + Math.abs(domainDiff)), max * (1.1 - Math.abs(domainDiff))]
     : [min, max];
 
-    const xScale = scaleTime({
+  const xScale = scaleTime({
     domain: [now, then],
     range: [width - 2 * margin, 0]
   });

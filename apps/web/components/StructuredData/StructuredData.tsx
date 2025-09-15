@@ -9,7 +9,7 @@ export const StructuredData: FC<StructuredDataProps> = ({ data }) => {
   const dataWithContext: WithContext<Thing> = {
     '@context': 'https://schema.org',
     ...data
-   };
+  };
 
   return (
     <script type="application/ld+json" dangerouslySetInnerHTML={{

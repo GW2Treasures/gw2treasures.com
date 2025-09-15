@@ -24,21 +24,21 @@ const localeRegex = /^([a-z]{2,4})([_-][a-z]{4})?[_-]([a-z]{2,3})?\b/i;
 const { languages: availableLanguages, regions: availableRegions } = typeof window === 'undefined'
   ? defaultLocales
   : navigator.languages.reduceRight((available, lang) => {
-    const match = lang.match(localeRegex);
+      const match = lang.match(localeRegex);
 
-    if(!match) {
-      return available;
-    }
+      if(!match) {
+        return available;
+      }
 
-    if(match[3]) {
-      return {
-        languages: [match[1], ...available.languages.filter((l) => l !== match[1])],
-        regions: [match[3], ...available.regions.filter((r) => r !== match[3])]
-      };
-    }
+      if(match[3]) {
+        return {
+          languages: [match[1], ...available.languages.filter((l) => l !== match[1])],
+          regions: [match[3], ...available.regions.filter((r) => r !== match[3])]
+        };
+      }
 
-    return { ...available, languages: [match[1], ...available.languages.filter((l) => l !== match[1])] };
-  }, defaultLocales);
+      return { ...available, languages: [match[1], ...available.languages.filter((l) => l !== match[1])] };
+    }, defaultLocales);
 
 export const FormatConfigDialog: FC<FormatConfigDialogProps> = ({ open, onClose }) => {
   const { locale, language, region, setLocale, defaultRegion } = useFormatContext();

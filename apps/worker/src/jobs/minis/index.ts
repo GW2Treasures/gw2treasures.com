@@ -34,9 +34,10 @@ export const MinisJob: Job = {
         // if this mini is one of the broken ones, load the item from the hardcoded list
         const brokenItem = mini.en.id in brokenMiniIds
           ? await db.item.findUnique({
-            where: { id: brokenMiniIds[mini.en.id] },
-            select: { id: true, name_de: true, name_en: true, name_es: true, name_fr: true },
-          }) : undefined;
+              where: { id: brokenMiniIds[mini.en.id] },
+              select: { id: true, name_de: true, name_en: true, name_es: true, name_fr: true },
+            })
+          : undefined;
 
         const itemId = brokenItem?.id ?? mini.en.item_id;
 
@@ -44,9 +45,10 @@ export const MinisJob: Job = {
         // this did not work correctly for version 1, so it also also run as part of version 1 migrations
         const achievementBit = changes === Changes.New || version === 1
           ? await db.achievement.findMany({
-            where: { bitsMiniIds: { has: mini.en.id }},
-            select: { id: true }
-          }) : [];
+              where: { bitsMiniIds: { has: mini.en.id }},
+              select: { id: true }
+            })
+          : [];
 
         return {
           // the broken minipets just have "((208738))" as name, so we use the item name instead

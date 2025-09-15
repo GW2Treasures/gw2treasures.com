@@ -160,8 +160,8 @@ export const AccountAchievementProgressSnapshotCell: FC<SnapshotCellProps> = ({ 
 
   const requiresPrerequisites = achievement.prerequisitesIds.length > 0;
   const hasPrerequisites = achievement.prerequisitesIds
-      .map((prerequisitesId) => data.find(({ id }) => prerequisitesId === id))
-      .every((prerequisite) => prerequisite?.done);
+    .map((prerequisitesId) => data.find(({ id }) => prerequisitesId === id))
+    .every((prerequisite) => prerequisite?.done);
 
   const requiresUnlock = achievement.flags.includes('RequiresUnlock');
   const hasUnlock = progress?.unlocked;

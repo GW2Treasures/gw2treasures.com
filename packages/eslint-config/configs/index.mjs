@@ -2,8 +2,9 @@ import js from "@eslint/js";
 import ts from 'typescript-eslint';
 import importPlugin from 'eslint-plugin-import';
 import stylistic from '@stylistic/eslint-plugin'
+import { defineConfig } from "eslint/config";
 
-export default ts.config(
+export default defineConfig(
   js.configs.recommended,
   ts.configs.recommended,
   importPlugin.flatConfigs.recommended,
@@ -17,6 +18,9 @@ export default ts.config(
       '@stylistic': stylistic
     },
     rules: {
+      // indent with 2 spaces
+      "@stylistic/indent": ["warn", 2, { SwitchCase: 1, flatTernaryExpressions: true, offsetTernaryExpressions: true }],
+
       // `"foo"` → `'foo'`
       "@stylistic/quotes": ["warn", "single"],
 

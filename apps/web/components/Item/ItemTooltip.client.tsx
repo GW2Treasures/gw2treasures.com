@@ -125,13 +125,13 @@ export const ClientItemTooltip: FC<ClientItemTooltipProps> = ({ tooltip, hideTit
       <div key={slot} className={styles.row}>
         {infusion.item
           ? (
-            <>
-              <ItemLink item={infusion.item} icon={16} language={tooltip.language}/>
-              {renderAttributes(infusion.item.attributes)}
-              {infusion.item.buff && (<p className={styles.buff} dangerouslySetInnerHTML={{ __html: infusion.item.buff }}/>)}
-              {renderBonuses(infusion.item.bonuses)}
-            </>
-          )
+              <>
+                <ItemLink item={infusion.item} icon={16} language={tooltip.language}/>
+                {renderAttributes(infusion.item.attributes)}
+                {infusion.item.buff && (<p className={styles.buff} dangerouslySetInnerHTML={{ __html: infusion.item.buff }}/>)}
+                {renderBonuses(infusion.item.bonuses)}
+              </>
+            )
           : <><Icon icon={infusion.type === 'Infusion' ? 'infusion-slot' : 'enrichment-slot'}/> {infusion.unused}</>
         }
       </div>

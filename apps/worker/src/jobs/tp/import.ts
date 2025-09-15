@@ -12,7 +12,7 @@ interface HistoryEntry {
   itemID: number,
   sell_price_max: number,
   sell_quantity_max: number
-  }
+}
 
 export const TpImportJob: Job = {
   async run(itemIds: number[] | Record<string, never>) {

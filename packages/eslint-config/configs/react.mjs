@@ -1,13 +1,20 @@
-import ts from 'typescript-eslint';
 import react from 'eslint-plugin-react';
 import reactHooks from 'eslint-plugin-react-hooks';
 import config from './index.mjs';
+import { defineConfig } from 'eslint/config';
 
-export default ts.config(
+export default defineConfig(
   // extend eslint-plugin-react
   react.configs.flat.recommended,
   react.configs.flat['jsx-runtime'],
-  
+
+  // auto-detect react version
+  {
+    settings: {
+      react: { version: 'detect' }
+    }
+  },
+
   // extends eslint-plugin-react-hooks
   reactHooks.configs['recommended-latest'],
 
@@ -19,7 +26,7 @@ export default ts.config(
     rules: {
       // `<C foo='bar'>` → `<C foo="bar">`
       "@stylistic/jsx-quotes": ["warn", "prefer-double"],
-        
+
       // `< C / >` → `<C/>`
       "@stylistic/jsx-tag-spacing": ["warn", {
         "closingSlash": "never",
@@ -48,9 +55,6 @@ export default ts.config(
         "selfClosing": "after-props"
       }],
 
-      // indent jsx with 2 spaces
-      "@stylistic/jsx-indent": ["warn", 2, { "checkAttributes": true, "indentLogicalExpressions": true }],
-
       // indent props with 2 spaces
       "@stylistic/jsx-indent-props": ["warn", 2],
 
@@ -71,9 +75,6 @@ export default ts.config(
 
       // require key
       "react/jsx-key": ["warn", { "checkFragmentShorthand": true }],
-
-      // prevent multiple spaces in jsx
-      "@stylistic/jsx-props-no-multi-spaces": "warn",
 
       // `<Foo bar={ baz }>` → `<Foo bar={baz}/>`
       "@stylistic/jsx-curly-spacing": "warn",

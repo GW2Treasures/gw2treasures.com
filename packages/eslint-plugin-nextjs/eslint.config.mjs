@@ -1,6 +1,7 @@
 import config from '@gw2treasures/eslint-config';
+import { defineConfig, globalIgnores } from 'eslint/config';
 
-export default [
-  { ignores: ['dist/**/*'] },
-  ...config,
-];
+export default defineConfig([
+  globalIgnores(['dist/']),
+  ...config
+]);

@@ -148,22 +148,24 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
   const curve = smoothCurve ? curveMonotoneX : curveLinear;
 
   // calculate max values
-  const max = useMemo(() => data.reduce<{ sellPrice: number, buyPrice: number, sellQuantity: number, buyQuantity: number }>(
-    (max, current) => ({
-      sellPrice: Math.max(max.sellPrice, current.sellPrice ?? 0),
-      buyPrice: Math.max(max.buyPrice, current.buyPrice ?? 0),
-      sellQuantity: Math.max(max.sellQuantity, current.sellQuantity ?? 0),
-      buyQuantity: Math.max(max.buyQuantity, current.buyQuantity ?? 0),
-    }), { sellPrice: 0, buyPrice: 0, sellQuantity: 0, buyQuantity: 0 }),
+  const max = useMemo(
+    () => data.reduce<{ sellPrice: number, buyPrice: number, sellQuantity: number, buyQuantity: number }>(
+      (max, current) => ({
+        sellPrice: Math.max(max.sellPrice, current.sellPrice ?? 0),
+        buyPrice: Math.max(max.buyPrice, current.buyPrice ?? 0),
+        sellQuantity: Math.max(max.sellQuantity, current.sellQuantity ?? 0),
+        buyQuantity: Math.max(max.buyQuantity, current.buyQuantity ?? 0),
+      }), { sellPrice: 0, buyPrice: 0, sellQuantity: 0, buyQuantity: 0 }),
     [data]
   );
-  const maxComplete = useMemo(() => completeHistory.reduce<{ sellPrice: number, buyPrice: number, sellQuantity: number, buyQuantity: number }>(
-    (max, current) => ({
-      sellPrice: Math.max(max.sellPrice, current.sellPrice ?? 0),
-      buyPrice: Math.max(max.buyPrice, current.buyPrice ?? 0),
-      sellQuantity: Math.max(max.sellQuantity, current.sellQuantity ?? 0),
-      buyQuantity: Math.max(max.buyQuantity, current.buyQuantity ?? 0),
-    }), { sellPrice: 0, buyPrice: 0, sellQuantity: 0, buyQuantity: 0 }),
+  const maxComplete = useMemo(
+    () => completeHistory.reduce<{ sellPrice: number, buyPrice: number, sellQuantity: number, buyQuantity: number }>(
+      (max, current) => ({
+        sellPrice: Math.max(max.sellPrice, current.sellPrice ?? 0),
+        buyPrice: Math.max(max.buyPrice, current.buyPrice ?? 0),
+        sellQuantity: Math.max(max.sellQuantity, current.sellQuantity ?? 0),
+        buyQuantity: Math.max(max.buyQuantity, current.buyQuantity ?? 0),
+      }), { sellPrice: 0, buyPrice: 0, sellQuantity: 0, buyQuantity: 0 }),
     [completeHistory]
   );
 
@@ -608,7 +610,7 @@ function estimateGoldTickLength(value: number) {
     (copper && silver || copper && gold || silver && copper ? 6 : 0) +
     // additional margin if all are set
     (copper && silver && gold ? 6 : 0)
-    );
+  );
 }
 
 interface ChartToggleProps {

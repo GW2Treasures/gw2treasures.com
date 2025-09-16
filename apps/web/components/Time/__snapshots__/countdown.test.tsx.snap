@@ -72,3 +72,39 @@ exports[`CountDown test 9`] = `
   ,
 </DocumentFragment>
 `;
+
+exports[`CountDown test 10`] = `
+<DocumentFragment>
+  <span>
+    in 23:29:59
+  </span>
+  ,
+</DocumentFragment>
+`;
+
+exports[`CountDown test 11`] = `
+<DocumentFragment>
+  <span>
+    in 1:29:59
+  </span>
+  ,
+</DocumentFragment>
+`;
+
+exports[`CountDown test 12`] = `
+<DocumentFragment>
+  <span>
+    in 59:59
+  </span>
+  ,
+</DocumentFragment>
+`;
+
+exports[`CountDown test 13`] = `
+<DocumentFragment>
+  <span>
+    in 59:59
+  </span>
+  ,
+</DocumentFragment>
+`;

@@ -1,0 +1,74 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CountDown test 1`] = `
+<DocumentFragment>
+  <span
+    class="skeleton"
+    style="width: 64px;"
+  />
+  ,
+</DocumentFragment>
+`;
+
+exports[`CountDown test 2`] = `
+<DocumentFragment>
+  active,
+</DocumentFragment>
+`;
+
+exports[`CountDown test 3`] = `
+<DocumentFragment>
+  active,
+</DocumentFragment>
+`;
+
+exports[`CountDown test 4`] = `
+<DocumentFragment>
+  <span>
+    in 58:59
+  </span>
+  ,
+</DocumentFragment>
+`;
+
+exports[`CountDown test 5`] = `
+<DocumentFragment>
+  <strong>
+    in 00:59
+  </strong>
+  ,
+</DocumentFragment>
+`;
+
+exports[`CountDown test 6`] = `
+<DocumentFragment>
+  <strong>
+    in 00:00
+  </strong>
+  ,
+</DocumentFragment>
+`;
+
+exports[`CountDown test 7`] = `
+<DocumentFragment>
+  active,
+</DocumentFragment>
+`;
+
+exports[`CountDown test 8`] = `
+<DocumentFragment>
+  <span>
+    in 59:59
+  </span>
+  ,
+</DocumentFragment>
+`;
+
+exports[`CountDown test 9`] = `
+<DocumentFragment>
+  <span>
+    in 1:29:59
+  </span>
+  ,
+</DocumentFragment>
+`;

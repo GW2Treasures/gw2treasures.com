@@ -1,8 +1,8 @@
 import { Waypoint } from '@/components/Waypoint/Waypoint';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { type FC } from 'react';
-import { HologramStampedeNextTimer } from './hologram-stampede-timer.client';
 import { Trans } from '@/components/I18n/Trans';
+import { CountDown } from '@/components/Time/countdown';
 
 export const HologramStampedeTimer: FC = () => {
   const scheduleMinutes = (
@@ -10,8 +10,15 @@ export const HologramStampedeTimer: FC = () => {
   );
 
   const active = (
-    <Trans id="festival.dragon-bash.hologram-stampede.active"/>
+    <strong><Trans id="festival.dragon-bash.hologram-stampede.active"/></strong>
   );
+
+  const countdownConfig = {
+    repeatMinutes: 60,
+    activeDurationMinutes: 5,
+    highlightNextMinutes: 10,
+    active,
+  };
 
   const tnum = { fontFeatureSettings: '"tnum"' };
 
@@ -29,25 +36,25 @@ export const HologramStampedeTimer: FC = () => {
           <th><Trans id="festival.dragon-bash.hologram-stampede.zone.wayfarerFoothills"/></th>
           <td><Waypoint id={381}/></td>
           <td style={tnum}>{scheduleMinutes}:00</td>
-          <td style={tnum}><HologramStampedeNextTimer schedule={0} active={active}/></td>
+          <td style={tnum}><CountDown offsetMinutes={0} {...countdownConfig}/></td>
         </tr>
         <tr>
           <th><Trans id="festival.dragon-bash.hologram-stampede.zone.dredgehauntCliffs"/></th>
           <td><Waypoint id={611}/></td>
           <td style={tnum}>{scheduleMinutes}:15</td>
-          <td style={tnum}><HologramStampedeNextTimer schedule={15} active={active}/></td>
+          <td style={tnum}><CountDown offsetMinutes={15} {...countdownConfig}/></td>
         </tr>
         <tr>
           <th><Trans id="festival.dragon-bash.hologram-stampede.zone.lornarsPass"/></th>
           <td><Waypoint id={409}/></td>
           <td style={tnum}>{scheduleMinutes}:30</td>
-          <td style={tnum}><HologramStampedeNextTimer schedule={30} active={active}/></td>
+          <td style={tnum}><CountDown offsetMinutes={30} {...countdownConfig}/></td>
         </tr>
         <tr>
           <th><Trans id="festival.dragon-bash.hologram-stampede.zone.snowdenDrifts"/></th>
           <td><Waypoint id={187}/></td>
           <td style={tnum}>{scheduleMinutes}:45</td>
-          <td style={tnum}><HologramStampedeNextTimer schedule={45} active={active}/></td>
+          <td style={tnum}><CountDown offsetMinutes={45} {...countdownConfig}/></td>
         </tr>
       </tbody>
     </Table>

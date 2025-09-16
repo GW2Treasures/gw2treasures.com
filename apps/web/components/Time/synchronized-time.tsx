@@ -5,7 +5,7 @@ import { createContext, startTransition, use, useState, type FC, type ReactNode 
 
 // this context is used to used to have a single interval updating the time
 // otherwise it could happen that multiple timers update slightly offset
-const SynchronizedTime = createContext<Date | undefined>(undefined);
+export const SynchronizedTimeContext = createContext<Date | undefined>(undefined);
 
 export interface SynchronizedTimeProviderProps {
   children: ReactNode,
@@ -21,12 +21,12 @@ export const SynchronizedTimeProvider: FC<SynchronizedTimeProviderProps> = ({ ch
   }, 1000);
 
   return (
-    <SynchronizedTime value={time}>
+    <SynchronizedTimeContext value={time}>
       {children}
-    </SynchronizedTime>
+    </SynchronizedTimeContext>
   );
 };
 
 export function useSynchronizedTime() {
-  return use(SynchronizedTime);
+  return use(SynchronizedTimeContext);
 }

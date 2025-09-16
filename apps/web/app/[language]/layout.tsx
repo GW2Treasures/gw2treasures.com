@@ -20,6 +20,7 @@ import { Gw2MeProvider } from '@/components/gw2me/gw2me-context';
 import { client_id } from '@/lib/gw2me';
 import { AchievementProgressTypeProvider } from '@/components/Achievement/AchievementProgressTypeContext';
 import { getLanguage } from '@/lib/translate';
+import { SynchronizedTimeProvider } from '@/components/Time/synchronized-time';
 
 const bitter = Bitter({
   subsets: ['latin'],
@@ -45,22 +46,24 @@ export default async function RootLayout({ children, modal }: LayoutProps & { mo
       </head>
       <body>
         <I18nProvider language={language}>
-          <FormatProvider>
-            <ItemTableContext global id="global">
-              <DataTableContext>
-                <UserProvider>
-                  <Gw2MeProvider clientId={client_id} baseUrl={process.env.GW2ME_URL}>
-                    <Gw2ApiProvider>
-                      <AchievementProgressTypeProvider>
-                        <Layout language={language}>{children}</Layout>
-                        {modal}
-                      </AchievementProgressTypeProvider>
-                    </Gw2ApiProvider>
-                  </Gw2MeProvider>
-                </UserProvider>
-              </DataTableContext>
-            </ItemTableContext>
-          </FormatProvider>
+          <SynchronizedTimeProvider>
+            <FormatProvider>
+              <ItemTableContext global id="global">
+                <DataTableContext>
+                  <UserProvider>
+                    <Gw2MeProvider clientId={client_id} baseUrl={process.env.GW2ME_URL}>
+                      <Gw2ApiProvider>
+                        <AchievementProgressTypeProvider>
+                          <Layout language={language}>{children}</Layout>
+                          {modal}
+                        </AchievementProgressTypeProvider>
+                      </Gw2ApiProvider>
+                    </Gw2MeProvider>
+                  </UserProvider>
+                </DataTableContext>
+              </ItemTableContext>
+            </FormatProvider>
+          </SynchronizedTimeProvider>
         </I18nProvider>
       </body>
     </html>

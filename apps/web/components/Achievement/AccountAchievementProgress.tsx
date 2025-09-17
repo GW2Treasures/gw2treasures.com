@@ -17,6 +17,7 @@ import { getResetDate, type Reset } from '../Reset/ResetTimer';
 import { AchievementProgressType, useAchievementProgressType } from './AchievementProgressTypeContext';
 import { AchievementPoints } from './AchievementPoints';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
+import type { AccountAchievement } from '@gw2api/types/data/account-achievements';
 
 const requiredScopes = [Scope.GW2_Progression];
 
@@ -41,12 +42,12 @@ export const AccountAchievementProgressRow: FC<RowProps> = (props) => (
 
 export const AccountAchievementProgressCell: FC<AccountAchievementProgressCellProps> = ({ accountId, ...props }) => {
   const progressType = useAchievementProgressType();
-  const achievements = useSubscription('achievements', accountId);
+  const accountAchievements = useSubscription('achievements', accountId);
   const lastModified = useAccountModificationDate(accountId);
 
-  if(achievements.loading || lastModified.loading) {
+  if(accountAchievements.loading || lastModified.loading) {
     return (<td><Skeleton/></td>);
-  } else if (achievements.error || lastModified.error) {
+  } else if (accountAchievements.error || lastModified.error) {
     return (<td/>);
   }
 
@@ -61,73 +62,193 @@ export const AccountAchievementProgressCell: FC<AccountAchievementProgressCellPr
     return <td/>;
   }
 
-  const progress = achievements.data.find(({ id }) => id === props.achievement.id);
+  const achievement = {
+    prerequisitesIds: props.achievement.prerequisitesIds,
+    flags: props.achievement.flags as AchievementFlags[]
+  };
 
-  const requiresPrerequisites = props.achievement.prerequisitesIds.length > 0;
-  const hasPrerequisites = !achievements.loading && !achievements.error &&
-    props.achievement.prerequisitesIds
-      .map((prerequisitesId) => achievements.data.find(({ id }) => prerequisitesId === id))
-      .every((prerequisite) => prerequisite?.done);
+  // this component can either show the objective progress or the AP progress
+  // this is globally controlled by `useAchievementProgressType()`, but can be overwritten by passing a `type`
+  const showObjectiveProgress = props.type === 'objective' || progressType === AchievementProgressType.Objectives;
 
-  const requiresUnlock = props.achievement.flags.includes('RequiresUnlock');
-  const hasUnlock = progress?.unlocked;
+  // get the progress
+  const progress = props.bitId !== undefined
+    ? getAchievementBitState(accountAchievements.data, props.achievement.id, props.bitId, achievement)
+    : showObjectiveProgress
+      ? getAchievementObjectiveState(accountAchievements.data, props.achievement.id, achievement)
+      : getAchievementPointState(accountAchievements.data, props.achievement.id, {
+          ...achievement,
+          tiers: props.achievement.tiers as AchievementTier[],
+          points: props.achievement.points,
+          pointCap: props.achievement.pointCap
+        });
 
-  if(requiresPrerequisites && !hasPrerequisites) {
+  if(progress.state === 'missing_prerequisites') {
     return (<td><Tip tip="Missing prerequisites"><Icon icon="lock"/></Tip></td>);
   }
 
-  if(requiresUnlock && !hasUnlock) {
+  if(progress.state === 'missing_unlock') {
     return (<td><Tip tip="Missing unlock"><Icon icon="lock"/></Tip></td>);
   }
 
-  if(!progress) {
-    return (<td/>);
+  if(progress.state === 'no_progress') {
+    return <td/>;
   }
 
-  if(props.bitId !== undefined) {
-    return progress.done || progress.bits?.includes(props.bitId)
-      ? <ProgressCell progress={1}><Icon icon="checkmark"/></ProgressCell>
-      : <td/>;
-  }
-
-  if(props.type !== 'objective' && progressType === AchievementProgressType.Points) {
-    const repeated = progress?.repeated ?? 0;
-
-    const currentPoints = (props.achievement.tiers as AchievementTier[])
-      .reduce((total, tier) => (progress?.current ?? 0) >= tier.count ? total + tier.points : total, 0);
-    const earnedPoints = Math.min(props.achievement.pointCap, currentPoints + (repeated * props.achievement.points));
-
-    if(earnedPoints === props.achievement.pointCap) {
+  if(!showObjectiveProgress) {
+    if(progress.state === 'done') {
       return (
         <ProgressCell progress={1} align="right">
           <FlexRow align="space-between">
             <Icon icon="checkmark"/>
-            {earnedPoints > 0 && (<AchievementPoints points={earnedPoints}/>)}
+            {progress.points && progress.points > 0 && (<AchievementPoints points={progress.points}/>)}
           </FlexRow>
         </ProgressCell>
       );
     }
 
-    if(earnedPoints === 0) {
-      return <td/>;
-    }
-
     return (
-      <ProgressCell progress={earnedPoints / props.achievement.pointCap} align="right">
+      <ProgressCell progress={progress.current / progress.total} align="right">
         <span className={common.nowrap}>
-          <FormatNumber value={earnedPoints}/> / <AchievementPoints points={props.achievement.pointCap}/>
+          <FormatNumber value={progress.current}/> / <AchievementPoints points={progress.total}/>
         </span>
       </ProgressCell>
     );
   }
 
+  if(progress.state === 'done') {
+    return (<ProgressCell progress={1}><Icon icon="checkmark"/></ProgressCell>);
+  }
+
   return (
-    <ProgressCell progress={progress.done ? 1 : (progress.current ?? 0) / (progress.max ?? 1)}>
-      {progress.done ? <Icon icon="checkmark"/> : <span className={common.nowrap}><FormatNumber value={progress.current ?? 0}/> / <FormatNumber value={progress.max ?? 1}/></span>}
+    <ProgressCell progress={progress.current / progress.total}>
+      <span className={common.nowrap}><FormatNumber value={progress.current ?? 0}/> / <FormatNumber value={progress.total}/></span>
       {progress.repeated && <span className={common.nowrap}><wbr/>{` (↻ ${progress.repeated})`}</span>}
     </ProgressCell>
   );
 };
+
+type AchievementStateUnlock =
+  | { state: 'missing_unlock' }
+  | { state: 'missing_prerequisites' };
+
+// TODO: instead of no_progress/done, always return progress with correct numbers,
+//   then check when displaying with `current === 0` or `current === total`.
+//   This has the advantage that we always know how many objectives there were, even if its done already.
+//   This probably requires a DB schema change so we always know how many objectives an achievement has, even if done or without progress
+type AchievementState =
+  | AchievementStateUnlock
+  | { state: 'no_progress' }
+  | { state: 'progress', current: number, total: number, repeated?: number }
+  | { state: 'done', points?: number };
+
+interface AchievementDataForState {
+  prerequisitesIds: number[],
+  flags: AchievementFlags[],
+}
+
+interface AchievementDataForPointState extends AchievementDataForState {
+  pointCap: number,
+  tiers: AchievementTier[],
+  points: number,
+}
+
+export function getAchievementObjectiveState(
+  accountAchievements: AccountAchievement[],
+  achievementId: number,
+  achievement: AchievementDataForState,
+): AchievementState {
+  const progress = accountAchievements.find(({ id }) => id === achievementId);
+
+  const unlockState = getAchievementUnlockState(progress, accountAchievements, achievement);
+  if(unlockState) {
+    return unlockState;
+  }
+
+  if(!progress) {
+    return { state: 'no_progress' };
+  }
+
+  return progress.done
+    ? { state: 'done' }
+    : { state: 'progress', current: progress.current ?? 0, total: progress.max ?? 1, repeated: progress.repeated };
+}
+
+
+export function getAchievementPointState(
+  accountAchievements: AccountAchievement[],
+  achievementId: number,
+  { pointCap, tiers, points, ...achievement }: AchievementDataForPointState
+): AchievementState {
+  const progress = accountAchievements.find(({ id }) => id === achievementId);
+
+  const unlockState = getAchievementUnlockState(progress, accountAchievements, achievement);
+  if(unlockState) {
+    return unlockState;
+  }
+
+  if(!progress) {
+    return { state: 'no_progress' };
+  }
+
+  const repeated = progress?.repeated ?? 0;
+
+  const currentPoints = tiers.reduce((total, tier) => (progress?.current ?? 0) >= tier.count ? total + tier.points : total, 0);
+  const earnedPoints = Math.min(pointCap, currentPoints + (repeated * points));
+
+  if(earnedPoints === pointCap) {
+    return { state: 'done', points: earnedPoints };
+  }
+
+  if(earnedPoints === 0) {
+    return { state: 'no_progress' };
+  }
+
+  return { state: 'progress', current: earnedPoints, total: pointCap };
+}
+
+export function getAchievementBitState(
+  accountAchievements: AccountAchievement[],
+  achievementId: number,
+  bitId: number,
+  achievement: AchievementDataForState
+): AchievementState {
+  const progress = accountAchievements.find(({ id }) => id === achievementId);
+
+  // make sure achievement is unlocked
+  const unlockState = getAchievementUnlockState(progress, accountAchievements, achievement);
+  if(unlockState) {
+    return unlockState;
+  }
+
+  const hasBit = progress && (progress.done || progress?.bits?.includes(bitId));
+
+  return { state: hasBit ? 'done' : 'no_progress' };
+}
+
+function getAchievementUnlockState(
+  progress: AccountAchievement | undefined,
+  accountAchievements: AccountAchievement[],
+  { prerequisitesIds, flags }: AchievementDataForState
+): AchievementStateUnlock | undefined {
+  const requiresPrerequisites = prerequisitesIds.length > 0;
+  const hasPrerequisites = prerequisitesIds
+    .map((prerequisitesId) => accountAchievements.find(({ id }) => prerequisitesId === id))
+    .every((prerequisite) => prerequisite?.done);
+
+  const requiresUnlock = flags.includes('RequiresUnlock');
+  const hasUnlock = progress?.unlocked;
+
+  if(requiresPrerequisites && !hasPrerequisites) {
+    return { state: 'missing_prerequisites' };
+  }
+
+  if(requiresUnlock && !hasUnlock) {
+    return { state: 'missing_unlock' };
+  }
+
+  return undefined;
+}
 
 function getResetFromFlags(flags: AchievementFlags[]): Reset | undefined {
   for(const flag of flags) {

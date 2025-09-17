@@ -159,6 +159,7 @@ const pages: Page[] = [
   { href: '/about/privacy', title: 'Privacy Policy', icon: 'info' },
   { href: '/review', title: 'Review Queues', icon: 'review-queue' },
   { href: 'https://discord.gg/gvx6ZSE', title: 'Discord', icon: 'discord' },
+  { href: '/incursive-investigation', title: 'Incursive Investigation', icon: 'hand' },
 
   // main navigation
   { href: '/item', title: 'Items', icon: 'item' },

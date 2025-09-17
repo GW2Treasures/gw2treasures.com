@@ -1,0 +1,35 @@
+.banner {
+  display: block;
+  background-color: #f3e5f5;
+  color: var(--color-text);
+  text-decoration: none;
+  line-height: 1.5;
+
+  margin-bottom: 16px;
+  padding: 16px;
+  border-radius: 2px;
+  border-image: url(./frame.svg) 18 4 18 12 / 18px 4px 18px 12px;
+
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+@media (prefers-color-scheme: dark) {
+  .banner {
+    background-color: #4a148c;
+  }
+}
+
+.content {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 2px;
+  text-decoration-color: transparent;
+  transition: text-decoration-color .3s ease;
+}
+
+.banner:hover .content {
+  text-decoration-color: currentColor;
+  transition: text-decoration-color .15s ease;
+}

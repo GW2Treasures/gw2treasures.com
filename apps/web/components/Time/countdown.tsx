@@ -4,6 +4,7 @@ import { mod } from '@gw2treasures/helper/modulo';
 import type { FC, ReactNode } from 'react';
 import { Skeleton } from '../Skeleton/Skeleton';
 import { useSynchronizedTime } from './synchronized-time';
+import { SortableDynamicDataTableCell } from '@gw2treasures/ui/components/Table/DataTable.client';
 
 export interface Schedule {
   /** UTC offset in minutes */
@@ -24,9 +25,11 @@ export interface CountDownProps {
 
   /** Node to render when the event is active */
   active: ReactNode,
+
+  sortable?: boolean,
 }
 
-export const CountDown: FC<CountDownProps> = ({ schedule, highlightNextMinutes, activeDurationMinutes, active }) => {
+export const CountDown: FC<CountDownProps> = ({ schedule, highlightNextMinutes, activeDurationMinutes, active, sortable }) => {
   // ensure schedule is always an array
   const schedules = Array.isArray(schedule) ? schedule : [schedule];
 
@@ -52,7 +55,9 @@ export const CountDown: FC<CountDownProps> = ({ schedule, highlightNextMinutes, 
   // render active component if event is active
   const isActive = minutesSinceLast >= 0 && minutesSinceLast < activeDurationMinutes;
   if(isActive) {
-    return active;
+    return sortable
+      ? (<SortableDynamicDataTableCell value={0}>{active}</SortableDynamicDataTableCell>)
+      : active;
   }
 
   // calculate next event
@@ -66,11 +71,15 @@ export const CountDown: FC<CountDownProps> = ({ schedule, highlightNextMinutes, 
   // highlight countdown
   const Wrap = highlightNextMinutes && minutesUntilNext <= highlightNextMinutes ? 'strong' : 'span';
 
-  return (
+  const content = (
     <Wrap>
       in {remainingHours > 0 ? remainingHours + ':' : ''}{zeroPad(remainingMinutes)}:{zeroPad(remainingSeconds)}
     </Wrap>
   );
+
+  return sortable
+    ? (<SortableDynamicDataTableCell value={minutesUntilNext}>{content}</SortableDynamicDataTableCell>)
+    : content;
 };
 
 function zeroPad(number: number) {

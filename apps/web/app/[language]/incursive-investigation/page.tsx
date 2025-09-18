@@ -148,7 +148,7 @@ export default async function IncursiveInvestigationPage() {
         </timers.DynamicColumns>
       </timers.Table>
 
-      <AchievementTable achievements={achievements.filter((achievement) => achievement.achievementCategoryId === 461)} language={language}>
+      <AchievementTable achievements={achievements.filter((achievement) => achievement.achievementCategoryId === 461)} language={language} sort>
         {(table, columnSelect) => (
           <>
             <Headline id="achievements" actions={columnSelect}><Trans id="navigation.achievements"/></Headline>
@@ -158,7 +158,7 @@ export default async function IncursiveInvestigationPage() {
         )}
       </AchievementTable>
 
-      <AchievementTable achievements={achievements.filter((achievement) => achievement.achievementCategoryId === 462)} language={language}>
+      <AchievementTable achievements={achievements.filter((achievement) => achievement.achievementCategoryId === 462)} language={language} sort>
         {(table, columnSelect) => (
           <>
             <Headline id="achievements" actions={[<span key="reset"><Trans id="festival.time-remaining"/> <ResetTimer reset={bonusEventEndDate}/></span>, columnSelect]}><Trans id="incursive-investigation.bonus-event"/></Headline>

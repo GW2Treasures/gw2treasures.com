@@ -418,6 +418,7 @@
   "festival.wizards-vault.authorize": "You need to authorize gw2treasures.com to be able to see your accounts Wizard's Vault progress.",
   "festival.wizards-vault.login": "You need to login to be able to see your accounts Wizard's Vault progress.",
   "festival.drops": "Drops",
+  "festival.time-remaining": "Time Remaining:",
   "festival.wintersday": "Wintersday",
   "festival.wintersday.intro": "Bells are ringing, snowballs are flying, and Toymaster Tixx’s fantastic golem-shaped airship is hovering over Divinity’s Reach—the traditional Tyrian celebration of Wintersday is here again!",
   "festival.wintersday.description": "Keep track of your progress on all your accounts during Wintersday on gw2treasures.com.",
@@ -656,5 +657,8 @@
   "incursive-investigation.waypoint": "Waypoint",
   "incursive-investigation.active": "Active",
   "incursive-investigation.incursion": "Fractal incursion",
-  "incursive-investigation.achievements.description": "This is a list of all achievements in the Incursive Investigation category, that are either required to obtain the legendary gloves, or allow you to collect additional Fractalline Dust."
+  "incursive-investigation.achievements.description": "This is a list of all achievements in the Incursive Investigation category, that are either required to obtain the legendary gloves, or allow you to collect additional Fractalline Dust.",
+  "incursive-investigation.bonus-event": "Bonus Event: Fractal Incursion",
+  "incursive-investigation.bonus-event.description": "You can currently earn additional Fractalline Dust and other rewards from achievements during the current bonus event by completing Fractals in Quickplay mode.",
+  "incursive-investigation.bonus-event.wizards-vault": "There are also special objectives available in the Wizard's Vault."
 }

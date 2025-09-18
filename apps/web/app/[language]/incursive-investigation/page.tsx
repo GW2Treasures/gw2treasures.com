@@ -85,6 +85,7 @@ const getData = cache(async () => {
     db.achievement.findMany({
       where: { achievementCategoryId: 461 },
       include: {
+        icon: true,
         rewardsItem: { select: linkProperties },
         rewardsTitle: true,
       }

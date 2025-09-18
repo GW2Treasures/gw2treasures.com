@@ -237,7 +237,7 @@ function getAchievementUnlockState(
     .every((prerequisite) => prerequisite?.done);
 
   const requiresUnlock = flags.includes('RequiresUnlock');
-  const hasUnlock = progress?.unlocked;
+  const hasUnlock = !!(progress?.unlocked || progress?.done || progress?.current);
 
   if(requiresPrerequisites && !hasPrerequisites) {
     return { state: 'missing_prerequisites' };

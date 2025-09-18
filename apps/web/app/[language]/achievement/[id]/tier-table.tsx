@@ -93,7 +93,7 @@ const TierTableAccountRow: FC<TierTableAccountRowProps> = ({ achievement, accoun
       .every((prerequisite) => prerequisite?.done);
 
   const requiresUnlock = achievement.flags.includes('RequiresUnlock');
-  const hasUnlock = progress?.unlocked;
+  const hasUnlock = !!(progress?.unlocked || progress?.done || progress?.current);
 
   return (
     <tr>

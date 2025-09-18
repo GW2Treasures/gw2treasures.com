@@ -30,9 +30,9 @@ export const WizardsVaultTable: FC<WizardsVaultTableProps> = async ({ objectives
   const table = (
     <Objectives.Table>
       <Objectives.Column id="id" title={<Trans id="itemTable.column.id"/>} align="right" small hidden sortBy="id">{({ id }) => id}</Objectives.Column>
-      <Objectives.Column id="objective" title="Objective">{(objective) => localizedName(objective, language)}</Objectives.Column>
-      <Objectives.Column id="acclaim" title="Astral Acclaim" align="right" sortBy="acclaim">{({ acclaim }) => <AstralAcclaim value={acclaim}/>}</Objectives.Column>
-      <Objectives.DynamicColumns id="account-unlock" title="Account Progress" headers={<Gw2AccountHeaderCells requiredScopes={requiredScopes} small/>}>
+      <Objectives.Column id="objective" title={<Trans id="wizards-vault.objective"/>}>{(objective) => localizedName(objective, language)}</Objectives.Column>
+      <Objectives.Column id="acclaim" title={<Trans id="wizards-vault.astral-acclaim"/>} align="right" sortBy="acclaim">{({ acclaim }) => <AstralAcclaim value={acclaim}/>}</Objectives.Column>
+      <Objectives.DynamicColumns id="account-unlock" title={<Trans id="wizards-vault.progress"/>} headers={<Gw2AccountHeaderCells requiredScopes={requiredScopes} small/>}>
         {({ id }) => (
           <Gw2AccountBodyCells requiredScopes={requiredScopes}>
             <WizardsVaultObjectiveTableProgressCell objectiveId={id} accountId={undefined as never}/>

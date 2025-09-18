@@ -351,6 +351,7 @@
   "fractals.recommended": "Empfohlen",
   "fractals.tier.all": "Alle",
   "fractals.date": "Datum",
+  "festival.time-remaining": "Verbleibende Zeit:",
   "festival.wintersday": "Wintertag",
   "festival.wintersday.intro": "Die Glocken klingen, Schneebälle fliegen und das fantastische Golem-Luftschiff von Spielzeugmacher Tixx macht Halt über Götterfels – in Tyria wird einmal mehr das traditionelle Wintertag-Fest gefeiert.",
   "festival.wintersday.description": "Verfolge während des Wintertags deine Fortschritte auf allen deinen Konten auf gw2treasures.com.",
@@ -568,6 +569,9 @@
   "incursive-investigation.event": "Event",
   "incursive-investigation.waypoint": "Wegmarke",
   "incursive-investigation.active": "Aktiv",
-  "incursive-investigation.incursion": "Fraktale Invasion",
-  "incursive-investigation.achievements.description": "Dies ist eine Liste aller Erfolge in der Kategorie Überfall-Ermittlung, die entweder für die legendären Handschuhe erforderlich sind oder zusätzlichem Fraktalstaub als Belohnung haben."
+  "incursive-investigation.incursion": "Fraktalüberfall",
+  "incursive-investigation.achievements.description": "Dies ist eine Liste aller Erfolge in der Kategorie Überfall-Ermittlung, die entweder für die legendären Handschuhe erforderlich sind oder zusätzlichem Fraktalstaub als Belohnung haben.",
+  "incursive-investigation.bonus-event": "Bonus-Event: Fraktalüberfall",
+  "incursive-investigation.bonus-event.description": "Während des aktuellen Bonus-Events kannst du durch das Abschließen von Fraktalen im Schnellrunden-Modus zusätzlichen Fraktalstaub und andere Belohnungen aus Erfolgen erhalten.",
+  "incursive-investigation.bonus-event.wizards-vault": "Es gibt außerdem spezielle Ziele im Gewölbe des Zauberers."
 }

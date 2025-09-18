@@ -294,6 +294,7 @@
   "fractals.recommended": "Recomendado",
   "fractals.tier.all": "Todos",
   "fractals.date": "Fecha",
+  "festival.time-remaining": "Tiempo restante:",
   "festival.lunar-new-year": "Año nuevo lunar",
   "festival.lunar-new-year.description": "Controla tus progresos en todas tus cuentas durante el Año Nuevo Lunar en gw2treasures.com.",
   "festival.lunar-new-year.achievements.description": "Estos logros solo están disponibles durante el Año Nuevo Lunar.",
@@ -384,6 +385,9 @@
   "incursive-investigation.event": "Evento",
   "incursive-investigation.waypoint": "Punto de Ruta",
   "incursive-investigation.active": "Activo",
-  "incursive-investigation.incursion": "Incursión fractal",
-  "incursive-investigation.achievements.description": "Esta es una lista de todos los logros en la categoría de Investigación incursiva, que son necesarios para obtener los guantes legendarios o que te permiten recolectar Polvo fractalino adicional."
+  "incursive-investigation.incursion": "Incursión a fractales",
+  "incursive-investigation.achievements.description": "Esta es una lista de todos los logros en la categoría de Investigación incursiva, que son necesarios para obtener los guantes legendarios o que te permiten recolectar Polvo fractalino adicional.",
+  "incursive-investigation.bonus-event": "Evento de bonificación: Incursión a fractales",
+  "incursive-investigation.bonus-event.description": "Durante el evento de bonificación actual puedes obtener Polvo fractalino adicional y otras recompensas de logros al completar Fractales en modo Juego rápido.",
+  "incursive-investigation.bonus-event.wizards-vault": "También hay objetivos especiales disponibles en la Cámara del Brujo."
 }

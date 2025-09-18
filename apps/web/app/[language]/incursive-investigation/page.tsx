@@ -21,6 +21,11 @@ import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
 import { DataTableClientColumn, DataTableClientDynamicCell } from '@gw2treasures/ui/components/Table/DataTable.client';
 import og from './og.png';
 import { ChasingShadowsProgress } from './page.client';
+import { ResetTimer } from '@/components/Reset/ResetTimer';
+import { WizardsVaultTable } from '@/components/WizardsVault/WizardsVaultTable';
+import { Description } from '@/components/Layout/Description';
+
+const bonusEventEndDate = new Date('2025-10-07T19:00:00.000Z');
 
 type WorldBossId =
   // | 'admiral_taidha_covington'
@@ -81,9 +86,9 @@ const CHASING_SHADOWS_ACHIEVEMENT_IDS = [
 const FRACTALLINE_DUST_ITEM_ID = 105336;
 
 const getData = cache(async () => {
-  const [achievements, fractallineDust] = await Promise.all([
+  const [achievements, fractallineDust, wizardsVaultObjectives] = await Promise.all([
     db.achievement.findMany({
-      where: { achievementCategoryId: 461 },
+      where: { achievementCategoryId: { in: [461, 462] }},
       include: {
         icon: true,
         rewardsItem: { select: linkProperties },
@@ -94,16 +99,19 @@ const getData = cache(async () => {
       where: { id: FRACTALLINE_DUST_ITEM_ID },
       select: linkProperties,
     }),
+    db.wizardsVaultObjective.findMany({
+      where: { id: { in: [326, 323, 324, 325] }}
+    }),
   ]);
 
-  return { achievements, fractallineDust };
+  return { achievements, fractallineDust, wizardsVaultObjectives };
 }, ['incursive-investigation'], { revalidate: 60 });
 
 const requiredScopes = [Scope.GW2_Account, Scope.GW2_Progression];
 
 export default async function IncursiveInvestigationPage() {
   const language = await getLanguage();
-  const { achievements, fractallineDust } = await getData();
+  const { achievements, fractallineDust, wizardsVaultObjectives } = await getData();
   const achievementsById = groupById(achievements);
   const chasingShadowsAchievements = CHASING_SHADOWS_ACHIEVEMENT_IDS.map((id) => achievementsById.get(id)!);
 
@@ -140,7 +148,7 @@ export default async function IncursiveInvestigationPage() {
         </timers.DynamicColumns>
       </timers.Table>
 
-      <AchievementTable achievements={achievements} language={language}>
+      <AchievementTable achievements={achievements.filter((achievement) => achievement.achievementCategoryId === 461)} language={language}>
         {(table, columnSelect) => (
           <>
             <Headline id="achievements" actions={columnSelect}><Trans id="navigation.achievements"/></Headline>
@@ -149,6 +157,28 @@ export default async function IncursiveInvestigationPage() {
           </>
         )}
       </AchievementTable>
+
+      <AchievementTable achievements={achievements.filter((achievement) => achievement.achievementCategoryId === 462)} language={language}>
+        {(table, columnSelect) => (
+          <>
+            <Headline id="achievements" actions={[<span key="reset"><Trans id="festival.time-remaining"/> <ResetTimer reset={bonusEventEndDate}/></span>, columnSelect]}><Trans id="incursive-investigation.bonus-event"/></Headline>
+            <p><Trans id="incursive-investigation.bonus-event.description"/></p>
+            {table}
+          </>
+        )}
+      </AchievementTable>
+
+      <WizardsVaultTable objectives={wizardsVaultObjectives}>
+        {(table, columnSelect) => (
+          <>
+            <Description actions={columnSelect}>
+              <Trans id="incursive-investigation.bonus-event.wizards-vault"/>
+            </Description>
+
+            {table}
+          </>
+        )}
+      </WizardsVaultTable>
 
     </HeroLayout>
   );

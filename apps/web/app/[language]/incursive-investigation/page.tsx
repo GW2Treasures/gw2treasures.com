@@ -136,7 +136,7 @@ export default async function IncursiveInvestigationPage() {
           {({ id, schedule }) => (
             <DataTableClientDynamicCell id="countdown">
               <td style={{ whiteSpace: 'nowrap' }} align="right">
-                <CountDown schedule={schedule} activeDurationMinutes={id === 'fractal_incursion' ? 1 : 5} active={<Trans id="incursive-investigation.active"/>} highlightNextMinutes={10} sortable/>
+                <CountDown schedule={schedule} activeDurationMinutes={id === 'fractal_incursion' ? 1 : 5} active={<strong><Trans id="incursive-investigation.active"/></strong>} highlightNextMinutes={10} sortable/>
               </td>
             </DataTableClientDynamicCell>
           )}

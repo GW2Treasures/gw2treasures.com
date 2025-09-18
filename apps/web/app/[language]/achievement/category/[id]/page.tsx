@@ -16,6 +16,7 @@ import { Breadcrumb, BreadcrumbItem } from '@/components/Breadcrumb/Breadcrumb';
 import { getLanguage, getTranslate } from '@/lib/translate';
 import type { PageProps } from '@/lib/next';
 import { createMetadata } from '@/lib/metadata';
+import { incursiveInvestigationAchievementCategoryIds, IncursiveInvestigationBanner } from 'app/[language]/incursive-investigation/Banner';
 
 export type AchievementCategoryPageProps = PageProps<{ id: string }>;
 
@@ -76,6 +77,10 @@ async function AchievementCategoryPage({ params }: AchievementCategoryPageProps)
     >
       {achievementCategory.removedFromApi && (
         <RemovedFromApiNotice type="achievement category"/>
+      )}
+
+      {incursiveInvestigationAchievementCategoryIds.includes(achievementCategoryId) && (
+        <IncursiveInvestigationBanner/>
       )}
 
       {data.description && (

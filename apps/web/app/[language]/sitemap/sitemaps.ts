@@ -176,6 +176,7 @@ export const sitemaps: Record<string, Sitemap> = {
         '/review',
         '/item/empty-containers',
         '/achievement/uncategorized',
+        '/incursive-investigation',
 
         // wizards vault
         '/wizards-vault',

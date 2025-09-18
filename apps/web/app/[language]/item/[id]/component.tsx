@@ -50,6 +50,7 @@ import { format } from 'gw2-tooltip-html';
 import { ItemStatTable } from '@/components/ItemStat/table';
 import { Trans } from '@/components/I18n/Trans';
 import { RevisionTable } from '@/components/Revision/table';
+import { IncursiveInvestigationBanner, incursiveInvestigationItemIds } from '../../incursive-investigation/Banner';
 
 export interface ItemPageComponentProps {
   language: Language,
@@ -119,6 +120,10 @@ export const ItemPageComponent: FC<ItemPageComponentProps> = async ({ language, 
       )}
       {!fixedRevision && item.removedFromApi && (
         <RemovedFromApiNotice type="item"/>
+      )}
+
+      {incursiveInvestigationItemIds.includes(itemId) && (
+        <IncursiveInvestigationBanner/>
       )}
 
       <TableOfContentAnchor id="tooltip">Tooltip</TableOfContentAnchor>

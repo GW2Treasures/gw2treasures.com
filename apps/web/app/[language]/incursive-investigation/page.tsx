@@ -71,7 +71,7 @@ const worldBosses: (WorldBoss | FractalIncursion)[] = [
   // Threats to Tyria 2 (Claw of Jormag)
   { achievementId: 8847, bitIndex: 0, schedule: { offset: 150, repeat: 180 }, id: 'claw_of_jormag', waypointId: 634 },
   // Threats to Tyria 2 (The Shatterer)
-  { achievementId: 8847, bitIndex: 1, schedule: { offset: 120, repeat: 180 }, id: 'the_shatterer', waypointId: 846 },
+  { achievementId: 8847, bitIndex: 1, schedule: { offset: 60, repeat: 180 }, id: 'the_shatterer', waypointId: 846 },
   // Threats to Tyria 2 (Tequatl the Sunless)
   { achievementId: 8847, bitIndex: 2, schedule: [{ offset: 0 }, { offset: 180 }, { offset: 420 }, { offset: 690 }, { offset: 960 }, { offset: 1140 }], id: 'tequatl_the_sunless', waypointId: 464 },
   // Fractal Incursion

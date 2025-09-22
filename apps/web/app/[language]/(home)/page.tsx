@@ -156,4 +156,5 @@ const festivalHero: Partial<Record<Festival, WrapperConfig>> & { default: Wrappe
   [Festival.LunarNewYear]: { color: '#be3413', wrapper: LunarNewYearHero },
   [Festival.SuperAdventureFestival]: { color: '#25b2f9', wrapper: Fragment },
   [Festival.FourWinds]: undefined,
+  [Festival.Halloween]: { color: '#444', wrapper: Fragment },
 };

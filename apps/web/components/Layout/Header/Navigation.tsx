@@ -73,6 +73,8 @@ const FestivalNavigationItem: FC = () => {
       return (<NavigationItem href="/festival/dragon-bash" icon="dragon-bash" style={{ color: 'light-dark( #8a0009, #ff8a92)' }}><Trans id="festival.dragon-bash"/></NavigationItem>);
     case Festival.FourWinds:
       return (<NavigationItem href="/festival/four-winds" icon="four-winds" style={{ color: 'light-dark( #0288d1, #81d4fa)' }}><Trans id="festival.four-winds"/></NavigationItem>);
+    case Festival.Halloween:
+      return (<NavigationItem href="/festival/halloween" icon="halloween" style={{ color: 'light-dark( #c73000, #ffd08a)' }}><Trans id="festival.halloween"/></NavigationItem>);
     default:
       return null;
   }

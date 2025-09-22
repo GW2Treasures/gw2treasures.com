@@ -235,6 +235,11 @@ export const sitemaps: Record<string, Sitemap> = {
         '/festival/four-winds/minis',
         '/festival/four-winds/wizards-vault',
         '/festival/four-winds/zephyrite-box',
+        '/festival/halloween',
+        '/festival/halloween/achievements',
+        '/festival/halloween/skins',
+        '/festival/halloween/minis',
+        '/festival/halloween/wizards-vault',
         '/bonus-event/evon-gnashblades-birthday',
 
         // legendary armory

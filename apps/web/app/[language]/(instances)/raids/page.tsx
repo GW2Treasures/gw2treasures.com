@@ -61,6 +61,7 @@ export default async function RaidsPage() {
       <Description actions={<span style={{ lineHeight: '36px' }}>Reset: <ResetTimer reset="current-weekly"/></span>}>
         <Trans id="raids.description"/>
       </Description>
+      {emboldenedWing}
       <Table>
         <thead>
           <tr>
@@ -82,7 +83,7 @@ export default async function RaidsPage() {
                     <td rowSpan={wing.events.length}>
                       <FlexRow>
                         {wingNumber === emboldenedWing && <Tip tip={<Trans id="raids.emboldened"/>}><Icon icon="raid-emboldened"/></Tip>}
-                        {wingNumber === ((emboldenedWing + 1) % 8) && <Tip tip={<Trans id="raids.call-of-the-mists"/>}><Icon icon="raid-call-of-the-mists"/></Tip>}
+                        {wingNumber === ((emboldenedWing % 8) + 1) && <Tip tip={<Trans id="raids.call-of-the-mists"/>}><Icon icon="raid-call-of-the-mists"/></Tip>}
                       </FlexRow>
                     </td>
                   </>

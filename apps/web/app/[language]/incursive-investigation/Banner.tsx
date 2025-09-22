@@ -27,4 +27,7 @@ export const incursiveInvestigationAchievementCategoryIds = [
 export const incursiveInvestigationItemIds = [
   105336, // Fractalline Dust
   105311, // Eikasia, Mists-Grasper Choice
+  105317, // Eikasia, Mists-Grasper
+  105293, // Eikasia, Mists-Grasper
+  105171, // Eikasia, Mists-Grasper
 ];

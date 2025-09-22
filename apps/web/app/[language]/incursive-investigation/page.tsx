@@ -75,7 +75,7 @@ const worldBosses: (WorldBoss | FractalIncursion)[] = [
   // Threats to Tyria 2 (Tequatl the Sunless)
   { achievementId: 8847, bitIndex: 2, schedule: [{ offset: 0 }, { offset: 180 }, { offset: 420 }, { offset: 690 }, { offset: 960 }, { offset: 1140 }], id: 'tequatl_the_sunless', waypointId: 464 },
   // Threats to Tyria 3 (Triple Trouble)
-  { achievementId: undefined, schedule: [{ offset: 60 }, { offset: 4 * 60 }, { offset: 8 * 60 }, { offset: 12 * 60 + 30 }, { offset: 17 * 60 }, { offset: 22 * 60 }], id: 'triple_trouble_wurm', waypointId: 426 },
+  { achievementId: 8832, schedule: [{ offset: 60 }, { offset: 4 * 60 }, { offset: 8 * 60 }, { offset: 12 * 60 + 30 }, { offset: 17 * 60 }, { offset: 22 * 60 }], id: 'triple_trouble_wurm', waypointId: 426 },
   // Fractal Incursion
   { id: 'fractal_incursion', schedule: { offset: 0, repeat: 60 }}
 ];
@@ -164,7 +164,7 @@ export default async function IncursiveInvestigationPage() {
           {(event) => event.id === 'fractal_incursion'
             ? <Gw2AccountBodyCells requiredScopes={requiredScopes}><ChasingShadowsProgress achievements={chasingShadowsAchievements} accountId={null as never}/></Gw2AccountBodyCells>
             : event.achievementId && achievementsById.has(event.achievementId)
-              ? <AccountAchievementProgressRow achievement={achievementsById.get(event.achievementId)!} bitId={event.bitIndex!}/>
+              ? <AccountAchievementProgressRow achievement={achievementsById.get(event.achievementId)!} bitId={event.bitIndex!} type={'objective' as never}/>
               : <Gw2AccountBodyCells requiredScopes={requiredScopes}><td>?</td></Gw2AccountBodyCells>
           }
         </timers.DynamicColumns>

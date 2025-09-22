@@ -83,7 +83,7 @@ const worldBosses: (WorldBoss | FractalIncursion)[] = [
 const CHASING_SHADOWS_ACHIEVEMENT_IDS = [
   8848, // Chasing Shadows 1
   8821, // Chasing Shadows 2
-  // TODO: Chasing Shadows 3
+  8820, // Chasing Shadows 3
 ];
 
 const FRACTALLINE_DUST_ITEM_ID = 105336;

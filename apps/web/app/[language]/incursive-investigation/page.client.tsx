@@ -30,7 +30,7 @@ export const ChasingShadowsProgress: FC<ChasingShadowsProgressProps> = ({ accoun
     return <td>Error loading account</td>;
   }
 
-  const total = (achievements.length + 1) * OBJECTIVES_PER_ACHIEVEMENT;
+  const total = achievements.length * OBJECTIVES_PER_ACHIEVEMENT;
   const current = achievements.reduce(
     (current, achievement) => {
       const state = getAchievementObjectiveState(accountAchievements.data, achievement.id, { flags: achievement.flags as AchievementFlags[], prerequisitesIds: achievement.prerequisitesIds });

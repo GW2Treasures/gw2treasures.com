@@ -42,12 +42,12 @@ type WorldBossId =
   | 'svanir_shaman_chief'
   | 'tequatl_the_sunless'
   | 'the_shatterer'
-  // | 'triple_trouble_wurm'
+  | 'triple_trouble_wurm'
   ;
 
 interface WorldBoss {
   id: WorldBossId,
-  achievementId: number,
+  achievementId: number | undefined,
   bitIndex?: number,
   schedule: Schedule | Schedule[],
   waypointId: number,
@@ -74,6 +74,8 @@ const worldBosses: (WorldBoss | FractalIncursion)[] = [
   { achievementId: 8847, bitIndex: 1, schedule: { offset: 60, repeat: 180 }, id: 'the_shatterer', waypointId: 846 },
   // Threats to Tyria 2 (Tequatl the Sunless)
   { achievementId: 8847, bitIndex: 2, schedule: [{ offset: 0 }, { offset: 180 }, { offset: 420 }, { offset: 690 }, { offset: 960 }, { offset: 1140 }], id: 'tequatl_the_sunless', waypointId: 464 },
+  // Threats to Tyria 3 (Triple Trouble)
+  { achievementId: undefined, schedule: [{ offset: 60 }, { offset: 4 * 60 }, { offset: 8 * 60 }, { offset: 12 * 60 + 30 }, { offset: 17 * 60 }, { offset: 22 * 60 }], id: 'triple_trouble_wurm', waypointId: 426 },
   // Fractal Incursion
   { id: 'fractal_incursion', schedule: { offset: 0, repeat: 60 }}
 ];
@@ -81,6 +83,7 @@ const worldBosses: (WorldBoss | FractalIncursion)[] = [
 const CHASING_SHADOWS_ACHIEVEMENT_IDS = [
   8848, // Chasing Shadows 1
   8821, // Chasing Shadows 2
+  // TODO: Chasing Shadows 3
 ];
 
 const FRACTALLINE_DUST_ITEM_ID = 105336;
@@ -160,7 +163,10 @@ export default async function IncursiveInvestigationPage() {
         <timers.DynamicColumns id="account" title="Accounts" headers={<AccountAchievementProgressHeader/>}>
           {(event) => event.id === 'fractal_incursion'
             ? <Gw2AccountBodyCells requiredScopes={requiredScopes}><ChasingShadowsProgress achievements={chasingShadowsAchievements} accountId={null as never}/></Gw2AccountBodyCells>
-            : <AccountAchievementProgressRow achievement={achievementsById.get(event.achievementId)!} bitId={event.bitIndex!}/>}
+            : event.achievementId && achievementsById.has(event.achievementId)
+              ? <AccountAchievementProgressRow achievement={achievementsById.get(event.achievementId)!} bitId={event.bitIndex!}/>
+              : <Gw2AccountBodyCells requiredScopes={requiredScopes}><td>?</td></Gw2AccountBodyCells>
+          }
         </timers.DynamicColumns>
       </timers.Table>
 

@@ -47,7 +47,7 @@ type WorldBossId =
 
 interface WorldBoss {
   id: WorldBossId,
-  achievementId: number | undefined,
+  achievementId: number,
   bitIndex?: number,
   schedule: Schedule | Schedule[],
   waypointId: number,
@@ -163,7 +163,7 @@ export default async function IncursiveInvestigationPage() {
         <timers.DynamicColumns id="account" title="Accounts" headers={<AccountAchievementProgressHeader/>}>
           {(event) => event.id === 'fractal_incursion'
             ? <Gw2AccountBodyCells requiredScopes={requiredScopes}><ChasingShadowsProgress achievements={chasingShadowsAchievements} accountId={null as never}/></Gw2AccountBodyCells>
-            : event.achievementId && achievementsById.has(event.achievementId)
+            : achievementsById.has(event.achievementId)
               ? <AccountAchievementProgressRow achievement={achievementsById.get(event.achievementId)!} bitId={event.bitIndex!} type={'objective' as never}/>
               : <Gw2AccountBodyCells requiredScopes={requiredScopes}><td>?</td></Gw2AccountBodyCells>
           }

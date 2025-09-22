@@ -20,7 +20,7 @@ import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
 import { DataTableClientColumn, DataTableClientDynamicCell } from '@gw2treasures/ui/components/Table/DataTable.client';
 import og from './og.png';
-import { ChasingShadowsProgress } from './page.client';
+import { ChasingShadowsProgress, FractalIncursionWaypoint, type ScheduledWaypoint } from './page.client';
 import { ResetTimer } from '@/components/Reset/ResetTimer';
 import { WizardsVaultTable } from '@/components/WizardsVault/WizardsVaultTable';
 import { Description } from '@/components/Layout/Description';
@@ -117,6 +117,15 @@ export default async function IncursiveInvestigationPage() {
 
   const timers = createDataTable(worldBosses, ({ id }) => id);
 
+  const t = getTranslate(language);
+
+  const fractalIncursions: ScheduledWaypoint[] = [
+    { id: 18, title: t('incursive-investigation.incursion.kessex-hills'), schedule: { offset: 0, repeat: 60 * 4 }},
+    { id: 221, title: t('incursive-investigation.incursion.diessa-plateau'), schedule: { offset: 60, repeat: 60 * 4 }},
+    { id: 117, title: t('incursive-investigation.incursion.brisban-wildlands'), schedule: { offset: 120, repeat: 60 * 4 }},
+    { id: 180, title: t('incursive-investigation.incursion.snowden-drifs'), schedule: { offset: 180, repeat: 60 * 4 }},
+  ];
+
   return (
     <HeroLayout color="#663399" hero={<Headline id="incursive-investigation"><Trans id="incursive-investigation"/></Headline>}>
       <Gw2Accounts requiredScopes={requiredScopes} loading={null} loginMessage={<Trans id="festival.achievements.login"/>} authorizationMessage={<Trans id="festival.achievements.authorize"/>}/>
@@ -130,8 +139,15 @@ export default async function IncursiveInvestigationPage() {
       <p><Trans id="incursive-investigation.timer.description"/></p>
 
       <timers.Table initialSortBy="schedule.countdown" initialSortOrder="asc">
-        <timers.Column id="event" title={<Trans id="incursive-investigation.event"/>}>{({ id }) => <FlexRow><Icon icon={id === 'fractal_incursion' ? 'hand' : 'event-boss'}/><Trans id={id === 'fractal_incursion' ? 'incursive-investigation.incursion' : `worldboss.${id}`}/></FlexRow>}</timers.Column>
-        <timers.Column id="waypoint" title={<Trans id="incursive-investigation.waypoint"/>}>{({ id, waypointId }) => waypointId && <Waypoint id={waypointId} title={<Trans id={`worldboss.${id}.waypoint`}/>}/>}</timers.Column>
+        <timers.Column id="event" title={<Trans id="incursive-investigation.event"/>}>
+          {({ id }) => <FlexRow><Icon icon={id === 'fractal_incursion' ? 'hand' : 'event-boss'}/><Trans id={id === 'fractal_incursion' ? 'incursive-investigation.incursion' : `worldboss.${id}`}/></FlexRow>}
+        </timers.Column>
+        <timers.Column id="waypoint" title={<Trans id="incursive-investigation.waypoint"/>}>
+          {({ id, waypointId }) => id === 'fractal_incursion'
+            ? <FractalIncursionWaypoint waypoints={fractalIncursions}/>
+            : <Waypoint id={waypointId} title={<Trans id={`worldboss.${id}.waypoint`}/>}/>
+          }
+        </timers.Column>
         <timers.DynamicColumns id="schedule" title="Schedule" headers={<DataTableClientColumn id="countdown" sortable align="right"><Trans id="incursive-investigation.timer"/></DataTableClientColumn>}>
           {({ id, schedule }) => (
             <DataTableClientDynamicCell id="countdown">

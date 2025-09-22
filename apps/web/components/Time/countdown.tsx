@@ -89,7 +89,7 @@ function zeroPad(number: number) {
 const MINUTES_PER_DAY = 24 * 60;
 
 /** Returns the minutes since the last event in schedules */
-function findMinutesSinceLast(currentMinutes: number, schedules: Schedule[]): number {
+export function findMinutesSinceLast(currentMinutes: number, schedules: Schedule[]): number {
   return schedules.reduce((minSince, { offset, repeat }) => {
     const since = repeat
       // repeating events
@@ -104,7 +104,7 @@ function findMinutesSinceLast(currentMinutes: number, schedules: Schedule[]): nu
 }
 
 /** Returns the minutes until the next event in schedules */
-function findMinutesUntilNext(currentMinutes: number, schedules: Schedule[]): number {
+export function findMinutesUntilNext(currentMinutes: number, schedules: Schedule[]): number {
   return schedules.reduce((minUntil, { offset, repeat }) => {
     const until = repeat
       // repeating events

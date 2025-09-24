@@ -2,7 +2,7 @@ import { Code } from '@/components/Layout/Code';
 import { HeroLayout } from '@/components/Layout/HeroLayout';
 import { Highlight } from '@/components/Layout/Highlight';
 import { ExternalLink } from '@gw2treasures/ui/components/Link/ExternalLink';
-import { getCurrentUrl } from '@/lib/url';
+import { getBaseUrl } from '@/lib/url';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
 import Link from 'next/link';
@@ -28,10 +28,8 @@ const containerContentsSchema =
   >
 }>`;
 
-export default async function DeveloperIconsPage() {
-  const apiUrl = await getCurrentUrl();
-  apiUrl.hostname = `api.${process.env.GW2T_NEXT_DOMAIN}`;
-  apiUrl.pathname = '/';
+export default function DeveloperIconsPage() {
+  const apiUrl = getBaseUrl('api');
 
   return (
     <HeroLayout hero={<Headline id="api">API</Headline>} color="#2c8566" toc>

@@ -1,6 +1,5 @@
 import type { ResponseCookie } from 'next/dist/compiled/@edge-runtime/cookies';
-
-const baseDomain = process.env.GW2T_NEXT_DOMAIN;
+import { getBaseUrl } from '../url';
 
 /** Name of session cookie */
 export const SessionCookieName = 'gw2t-session';
@@ -12,7 +11,7 @@ export const expiresIn = 365 * 24 * 60 * 60; // 1 year
 export const authCookieSettings: Omit<ResponseCookie, 'value' | 'expires'> = {
   name: SessionCookieName,
 
-  domain: baseDomain,
+  domain: '.' + getBaseUrl().hostname,
   sameSite: 'lax',
   httpOnly: true,
   priority: 'high',

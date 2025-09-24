@@ -1,18 +1,11 @@
 import type { Language } from '@gw2treasures/database';
 
 export function localizedUrl(href: string, language: Language) {
-  const base = process.env.GW2T_NEXT_DOMAIN;
+  // get base url from env variable on server or html[data-base-url] on client
+  const baseUrl = process.env.GW2T_URL ?? document.documentElement.dataset.baseUrl!;
 
-  if(typeof window === 'undefined') {
-    // TODO: server side
-    const url = new URL(href, `http://${language}.${base}/`);
-    return url.href;
-  }
+  const base = new URL(baseUrl);
+  base.hostname = `${language}.${base.hostname}`;
 
-  const currentUrl = new URL(window.location.href);
-
-  const newUrl = new URL(href, currentUrl);
-  newUrl.hostname = language + currentUrl.hostname.substring(2);
-
-  return newUrl.href;
+  return new URL(href, base).toString();
 }

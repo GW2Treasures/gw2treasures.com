@@ -1,10 +1,10 @@
 import { Language } from '@gw2treasures/database';
 import type { NextMiddleware } from './types';
 import { NextResponse } from 'next/server';
+import { getBaseUrl } from '@/lib/url';
 
 const languages = Object.values(Language);
-const baseDomain = process.env.GW2T_NEXT_DOMAIN;
-const regex = new RegExp(`^https?://(${languages.join('|')})\\.${baseDomain?.replace('.', '\\.')}`);
+const validOrigins = languages.map((language) => getBaseUrl(language).origin);
 
 export const corsMiddleware: NextMiddleware = async (request, next, data) => {
   // skip this middleware for API
@@ -16,7 +16,7 @@ export const corsMiddleware: NextMiddleware = async (request, next, data) => {
 
   // allow the request if the origin is not set (no CORS request)
   // or if it matches the baseDomain
-  const isAllowed = !origin || origin.match(regex);
+  const isAllowed = !origin || validOrigins.includes(origin);
 
   if(!isAllowed) {
     console.error('Blocked CORS request.');

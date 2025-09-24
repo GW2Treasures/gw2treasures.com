@@ -1,11 +1,8 @@
-import { getCurrentUrl } from '@/lib/url';
+import { getBaseUrl } from '@/lib/url';
 import { Language } from '@gw2treasures/database';
 import { NextResponse } from 'next/server';
 
-export async function GET() {
-  const currentUrl = await getCurrentUrl();
-  const protocol = currentUrl.protocol;
-
+export function GET() {
   return NextResponse.json({
     id: '/',
     name: 'gw2treasures.com',
@@ -35,7 +32,7 @@ export async function GET() {
     theme_color: '#b7000d',
     background_color: '#ffffff',
     display: 'standalone',
-    scope_extensions: Object.values(Language).map((language) => ({ type: 'origin', origin: `${protocol}//${language}.${process.env.GW2T_NEXT_DOMAIN}` }))
+    scope_extensions: Object.values(Language).map((language) => ({ type: 'origin', origin: getBaseUrl(language).origin }))
   }, {
     headers: {
       'content-type': 'application/manifest+json'

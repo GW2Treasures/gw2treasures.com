@@ -21,6 +21,7 @@ import { client_id } from '@/lib/gw2me';
 import { AchievementProgressTypeProvider } from '@/components/Achievement/AchievementProgressTypeContext';
 import { getLanguage } from '@/lib/translate';
 import { SynchronizedTimeProvider } from '@/components/Time/synchronized-time';
+import { getBaseUrl } from '@/lib/url';
 
 const bitter = Bitter({
   subsets: ['latin'],
@@ -40,7 +41,7 @@ export default async function RootLayout({ children, modal }: LayoutProps & { mo
   const language = await getLanguage();
 
   return (
-    <html lang={language} className={cx(bitter.variable, wotfard.variable)}>
+    <html lang={language} className={cx(bitter.variable, wotfard.variable)} data-base-url={getBaseUrl().toString()}>
       <head>
         <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#b7000d"/>
       </head>

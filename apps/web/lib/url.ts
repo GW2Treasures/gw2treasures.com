@@ -1,29 +1,32 @@
 import { Language } from '@gw2treasures/database';
 import type { Metadata } from 'next';
 import { headers } from 'next/headers';
+import { getLanguage } from './translate';
+
+const baseUrl: undefined | Readonly<URL> = process.env.GW2T_URL ? new URL(process.env.GW2T_URL) : undefined;
+
+export function getBaseUrl(subdomain?: Language | 'api'): Readonly<URL> {
+  if(!baseUrl) {
+    throw new Error('Missing required environment variable GW2T_URL');
+  }
+
+  if(!subdomain) {
+    return baseUrl;
+  }
+
+  const localizedUrl = new URL(baseUrl);
+  localizedUrl.hostname = `${subdomain}.${localizedUrl.hostname}`;
+
+  return localizedUrl;
+}
+
+export async function getCurrentBaseUrl() {
+  const language = await getLanguage();
+  return getBaseUrl(language);
+}
 
 export async function getCurrentUrl() {
   return new URL((await headers()).get('x-gw2t-real-url')!);
-}
-
-/**
- * Check if the application is currently server with HTTPS,
- * determined by the HTTPS environment variable. If HTTPS is unset,
- * it defaults to true in NODE_ENV = production, otherwise false
- */
-export function isHttps() {
-  return process.env.HTTPS !== undefined
-    ? process.env.HTTPS === '1'
-    : process.env.NODE_ENV === 'production';
-}
-
-const baseDomain = process.env.GW2T_NEXT_DOMAIN!;
-
-export function getBaseUrl(subdomain?: Language | 'api') {
-  const protocol = isHttps() ? 'https:' : 'http:';
-  const domainParts = subdomain ? [subdomain, baseDomain] : [baseDomain];
-
-  return new URL(`${protocol}//${domainParts.join('.')}`);
 }
 
 export function getUrlFromRequest(request: Request) {
@@ -36,7 +39,7 @@ export function getUrlFromRequest(request: Request) {
 }
 
 export async function absoluteUrl(href: string) {
-  return new URL(href, await getCurrentUrl());
+  return new URL(href, await getCurrentBaseUrl());
 }
 
 const allLanguages = ['x-default', ...Object.values(Language)] as const;
@@ -48,12 +51,11 @@ export function getAlternateUrls(path: string, currentLanguage: Language) {
   // build alternate languages
   const alternates = allLanguages.filter(
     (language) => language !== currentLanguage
-  ).map<[language: string, domain: string]>(
-    (language) => [language, language === 'x-default' ? baseDomain : `${language}.${baseDomain}`]
+  ).map<[language: string, base: URL]>(
+    (language) => [language, language === 'x-default' ? getBaseUrl() : getBaseUrl(language)]
   ).map<[language: string, url: string]>(
-    ([language, domain]) => {
-      const url = new URL(canonical);
-      url.hostname = domain;
+    ([language, base]) => {
+      const url = new URL(path, base);
       return [language, url.toString()];
     }
   );

@@ -42,11 +42,11 @@ spec:
             configMapKeyRef:
               name: next
               key: db
-        - name: GW2T_NEXT_DOMAIN
+        - name: GW2T_URL
           valueFrom:
             configMapKeyRef:
               name: next
-              key: domain
+              key: url
         - name: GW2ME_CLIENT_ID
           valueFrom:
             configMapKeyRef:

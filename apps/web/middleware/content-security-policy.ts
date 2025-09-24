@@ -1,11 +1,10 @@
+import { getBaseUrl } from '@/lib/url';
 import type { NextMiddleware } from './types';
 import { Language } from '@gw2treasures/database';
 
-const baseDomain = process.env.GW2T_NEXT_DOMAIN;
 const languageSubdomains = [...Object.values(Language)];
 
 export const contentSecurityPolicyMiddleware: NextMiddleware = async (request, next, data) => {
-  const url = data.url;
   const subdomain = data.subdomain;
 
   // skip CSP for api.gw2treasures.com
@@ -16,13 +15,10 @@ export const contentSecurityPolicyMiddleware: NextMiddleware = async (request, n
   // generate nonce
   const nonce = Buffer.from(crypto.randomUUID()).toString('base64');
 
-  // set port if its not a default port (for local development) including `:`
-  const portSuffix = url?.port ? `:${url.port}` : '';
-
-  // generate list of alternate language domains
-  const alternateLanguageDomains = languageSubdomains
+  // generate list of alternate language hosts
+  const alternateLanguageHosts = languageSubdomains
     .filter((language) => language !== subdomain)
-    .map((language) => `${language}.${baseDomain}${portSuffix}`);
+    .map((language) => getBaseUrl(language).host);
 
   // construct CSP header
   const cspHeader = `
@@ -30,7 +26,7 @@ export const contentSecurityPolicyMiddleware: NextMiddleware = async (request, n
     script-src 'self' 'nonce-${nonce}' 'strict-dynamic' ${process.env.NODE_ENV !== 'production' ? '\'unsafe-eval\'' : ''};
     style-src 'self' 'unsafe-inline';
     img-src 'self' icons-gw2.darthmaim-cdn.com render.guildwars2.com wiki.guildwars2.com assets.gw2dat.com;
-    connect-src 'self' ${alternateLanguageDomains.join(' ')} api.guildwars2.com gw2.me;
+    connect-src 'self' ${alternateLanguageHosts.join(' ')} api.guildwars2.com gw2.me;
     font-src 'self';
     object-src 'none';
     base-uri 'self';

@@ -6,7 +6,7 @@ import { expiresAtFromExpiresIn } from '@/lib/expiresAtFromExpiresIn';
 import { getUser } from '@/lib/getUser';
 import { cookies } from 'next/headers';
 import { gw2me } from '@/lib/gw2me';
-import { getCurrentUrl } from '@/lib/url';
+import { absoluteUrl } from '@/lib/url';
 import { getReturnToUrl } from '@/lib/login-url';
 
 export async function GET(request: NextRequest) {
@@ -29,7 +29,7 @@ export async function GET(request: NextRequest) {
     }
 
     // build callback url
-    const callbackUrl = new URL('/auth/callback', await getCurrentUrl());
+    const callbackUrl = await absoluteUrl('/auth/callback');
 
     // exchange code for access token
     const token = await gw2me.getAccessToken({

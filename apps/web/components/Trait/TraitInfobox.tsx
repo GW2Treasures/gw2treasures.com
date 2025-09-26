@@ -1,5 +1,4 @@
 import { localizedName } from '@/lib/localizedName';
-import { getCurrentUrl } from '@/lib/url';
 import type { Trait as TraitData } from '@gw2api/types/data/trait';
 import type { Language, Trait } from '@gw2treasures/database';
 import { LinkButton } from '@gw2treasures/ui/components/Form/Button';
@@ -18,9 +17,8 @@ interface TraitInfoboxProps {
   language: Language,
 }
 
-export const TraitInfobox: FC<TraitInfoboxProps> = async ({ trait, language }) => {
+export const TraitInfobox: FC<TraitInfoboxProps> = ({ trait, language }) => {
   const chatlink = encode('trait', trait.id);
-  const currentUrl = await getCurrentUrl();
 
   return (
     <div>
@@ -31,7 +29,7 @@ export const TraitInfobox: FC<TraitInfoboxProps> = async ({ trait, language }) =
       <FlexRow wrap>
         <LinkButton appearance="tertiary" flex icon="external" external href={`https://api.guildwars2.com/v2/traits/${trait.id}?v=latest&lang=${language}`} target="api">API</LinkButton>
         <LinkButton appearance="tertiary" flex icon="external" external href={`https://wiki.guildwars2.com/index.php?title=Special%3ASearch&search=${encodeURIComponent(chatlink)}&go=Go`} target="wiki">Wiki</LinkButton>
-        <ShareButton appearance="tertiary" flex data={{ title: localizedName(trait, language), url: currentUrl.toString() }}/>
+        <ShareButton appearance="tertiary" flex data={{ title: localizedName(trait, language), url: `/traits/${trait.id}` }}/>
       </FlexRow>
 
       {chatlink && (<Chatlink chatlink={chatlink}/>)}

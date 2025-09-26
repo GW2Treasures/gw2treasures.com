@@ -1,8 +1,8 @@
-import { getCurrentUrl } from '@/lib/url';
+import { absoluteUrl } from '@/lib/url';
 import type { MetadataRoute } from 'next';
 
 export default async function robots(): Promise<MetadataRoute.Robots> {
-  const sitemapUrl = new URL('/sitemap', await getCurrentUrl());
+  const sitemapUrl = await absoluteUrl('/sitemap');
 
   return {
     rules: [{

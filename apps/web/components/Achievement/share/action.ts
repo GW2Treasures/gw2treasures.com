@@ -3,7 +3,7 @@
 import { fetchAccessTokens, fetchAccounts } from '@/components/Gw2Api/fetch-accounts-action';
 import { getUser } from '@/lib/getUser';
 import { db } from '@/lib/prisma';
-import { getCurrentUrl } from '@/lib/url';
+import { absoluteUrl } from '@/lib/url';
 import { fetchGw2Api } from '@gw2api/fetch';
 import { Scope } from '@gw2me/client';
 import type { AchievementProgressSnapshot } from './types';
@@ -57,7 +57,7 @@ export async function createAchievementSnapshotUrl(achievementId: number) {
     .sign(key);
 
   // create url
-  const url = new URL(`/achievement/${achievementId}`, await getCurrentUrl());
+  const url = await absoluteUrl(`/achievement/${achievementId}`);
   url.searchParams.set('snapshot', jwt);
 
   return { url: url.toString() };

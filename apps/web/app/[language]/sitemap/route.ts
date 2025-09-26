@@ -1,8 +1,8 @@
-import { getCurrentUrl } from '@/lib/url';
+import { absoluteUrl } from '@/lib/url';
 import { getSitemapsForType, sitemaps } from './sitemaps';
 
 export async function GET() {
-  const url = await getCurrentUrl();
+  const url = await absoluteUrl('/sitemap');
 
   const sitemapXml = (await Promise.all(Object.keys(sitemaps).map(getSitemapsForType(url.toString())))).join('');
 

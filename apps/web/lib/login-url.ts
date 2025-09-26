@@ -5,7 +5,7 @@ export async function getLoginUrlWithReturnTo(scopes?: Scope[]) {
   const url = await getCurrentUrl();
 
   const parameters = new URLSearchParams();
-  parameters.append('returnTo', url.pathname);
+  parameters.append('returnTo', url.pathname + url.search);
 
   if(scopes) {
     parameters.append('scopes', scopes.join(','));

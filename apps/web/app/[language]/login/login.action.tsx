@@ -4,7 +4,7 @@ import { expiresAtFromExpiresIn } from '@/lib/expiresAtFromExpiresIn';
 import { gw2me } from '@/lib/gw2me';
 import { isValidReturnToUrl } from '@/lib/login-url';
 import { db } from '@/lib/prisma';
-import { getCurrentUrl } from '@/lib/url';
+import { absoluteUrl } from '@/lib/url';
 import { Scope } from '@gw2me/client';
 import { generatePKCEPair, type PKCEChallenge } from '@gw2me/client/pkce';
 import { randomBytes } from 'node:crypto';
@@ -14,7 +14,7 @@ import 'server-only';
 export async function redirectToGw2Me(returnTo?: string, additionalScopes?: string) {
 
   // build redirect url
-  const redirect_uri = new URL('/auth/callback', await getCurrentUrl()).toString();
+  const redirect_uri = (await absoluteUrl('/auth/callback')).toString();
 
   // get scopes to request from gw2.me
   const scopes = getScopesFromString(additionalScopes);

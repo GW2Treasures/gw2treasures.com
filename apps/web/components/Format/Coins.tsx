@@ -4,16 +4,17 @@ import { FormatNumber } from './FormatNumber';
 
 interface CoinsProps {
   value: number,
+  long?: boolean,
 }
 
-export const Coins: FC<CoinsProps> = ({ value }) => {
+export const Coins: FC<CoinsProps> = ({ value, long }) => {
   const { gold, silver, copper } = coinsToGoldSilverCopper(value);
 
   return (
     <span className={styles.coins}>
       {gold > 0 && <span className={styles.g}><FormatNumber value={gold}/></span>}
-      {silver > 0 && <span className={styles.s}>{silver}</span>}
-      {(copper > 0 || value === 0) && <span className={styles.c}>{copper}</span>}
+      {(silver > 0 || (gold > 0 && long)) && <span className={styles.s}>{silver}</span>}
+      {(copper > 0 || value === 0 || long) && <span className={styles.c}>{copper}</span>}
     </span>
   );
 };

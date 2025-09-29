@@ -209,6 +209,7 @@ const pages: Page[] = [
   { href: '/festival/super-adventure', title: 'Super Adventure Festival', icon: 'sab' },
   { href: '/festival/dragon-bash', title: 'Dragon Bash', icon: 'dragon-bash' },
   { href: '/festival/four-winds', title: 'Festival of the Four Winds', icon: 'four-winds' },
+  { href: '/festival/halloween', title: 'Halloween', icon: 'halloween' },
   { href: '/bonus-event/evon-gnashblades-birthday', title: 'Evon Gnashblade’s “Birthday” celebration', icon: 'story' },
 ];
 

@@ -2,6 +2,7 @@ import { isFestivalActive, type FestivalInfo } from 'app/[language]/festival/fes
 import type { FC } from 'react';
 import { ResetTimer } from './ResetTimer';
 import type { BonusEventInfo } from 'app/[language]/bonus-event/bonus-events';
+import { Trans } from '../I18n/Trans';
 
 export interface FestivalTimerProps {
   festival?: FestivalInfo | BonusEventInfo,
@@ -17,13 +18,13 @@ export const FestivalTimer: FC<FestivalTimerProps> = ({ festival }) => {
 
   if(isActive) {
     return (
-      <span>Time remaining: <ResetTimer reset={festival.endsAt}/></span>
+      <span><Trans id="festival.time-remaining"/> <ResetTimer reset={festival.endsAt}/></span>
     );
   }
 
   if(festival.startsAt > now) {
     return (
-      <span>Starts in: <ResetTimer reset={festival.startsAt}/></span>
+      <span><Trans id="festival.starts-in"/> <ResetTimer reset={festival.startsAt}/></span>
     );
   }
 

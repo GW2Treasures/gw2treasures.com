@@ -43,5 +43,5 @@ export const festivals: FestivalInfo[] = [
   { type: Festival.SuperAdventureFestival, startsAt: new Date('2025-04-15T16:00:00.000Z'), endsAt: new Date('2025-05-06T19:00:00.000Z') },
   { type: Festival.DragonBash, startsAt: new Date('2025-06-17T16:00:00.000Z'), endsAt: new Date('2025-07-08T19:00:00.000Z') },
   { type: Festival.FourWinds, startsAt: new Date('2025-08-05T16:00:00.000Z'), endsAt: new Date('2025-08-26T19:00:00.000Z') },
-  // { type: Festival.Halloween, startsAt: new Date('2025-08-05T16:00:00.000Z'), endsAt: new Date('2025-10-28T19:00:00.000Z') },
+  { type: Festival.Halloween, startsAt: new Date('2025-10-07T16:00:00.000Z'), endsAt: new Date('2025-10-28T19:00:00.000Z') },
 ];

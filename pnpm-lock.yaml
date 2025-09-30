@@ -79,8 +79,8 @@ importers:
         specifier: 0.6.1
         version: 0.6.1
       '@gw2api/fetch':
-        specifier: 0.4.1
-        version: 0.4.1(@gw2api/types@0.0.37)
+        specifier: 0.4.2
+        version: 0.4.2(@gw2api/types@0.0.37)
       '@gw2efficiency/game-data':
         specifier: 0.1.65
         version: 0.1.65
@@ -278,8 +278,8 @@ importers:
   apps/worker:
     dependencies:
       '@gw2api/fetch':
-        specifier: 0.4.1
-        version: 0.4.1(@gw2api/types@0.0.37)
+        specifier: 0.4.2
+        version: 0.4.2(@gw2api/types@0.0.37)
       '@gw2treasures/database':
         specifier: workspace:*
         version: link:../../packages/database
@@ -991,8 +991,8 @@ packages:
   '@formatjs/intl-localematcher@0.6.1':
     resolution: {integrity: sha512-ePEgLgVCqi2BBFnTMWPfIghu6FkbZnnBVhO2sSxvLfrdFw7wCHAHiDoM2h4NRgjbaY7+B7HgOLZGkK187pZTZg==}
 
-  '@gw2api/fetch@0.4.1':
-    resolution: {integrity: sha512-JngDjnMVaXHF3k3MiadBUcEidLz4VRGhTuxP1cRGO9gAwc1KDBQ/kGQnMDs7/u0iSWhhFB1UKfoxcZbdzNRzpg==}
+  '@gw2api/fetch@0.4.2':
+    resolution: {integrity: sha512-eUJ73r+RmV3e3MjwH2DapHBt0QR5dryZIfYr/5o+lGgfoihhaPJX7AuQ4s4irQ4tqRlAQN6AbNYcFg9TTZdagA==}
     peerDependencies:
       '@gw2api/types': ~0.0.5
 
@@ -5066,7 +5066,7 @@ snapshots:
     dependencies:
       tslib: 2.8.1
 
-  '@gw2api/fetch@0.4.1(@gw2api/types@0.0.37)':
+  '@gw2api/fetch@0.4.2(@gw2api/types@0.0.37)':
     dependencies:
       '@gw2api/types': 0.0.37
 

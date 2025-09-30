@@ -13,7 +13,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@gw2api/fetch": "0.4.1",
+    "@gw2api/fetch": "0.4.2",
     "@gw2treasures/database": "workspace:*",
     "@gw2treasures/helper": "workspace:*",
     "cron-parser": "5.4.0",

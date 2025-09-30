@@ -17,7 +17,7 @@
     "@gw2treasures/database": "workspace:*",
     "@gw2treasures/helper": "workspace:*",
     "cron-parser": "5.4.0",
-    "dotenv": "17.2.1",
+    "dotenv": "17.2.3",
     "fast-average-color-node": "3.1.0",
     "gw2-tooltip-html": "0.1.0",
     "gw2e-chat-codes": "1.4.2",

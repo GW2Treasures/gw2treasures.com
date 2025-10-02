@@ -128,9 +128,6 @@ export const Gw2ApiProvider: FC<Gw2ApiProviderProps> = ({ children }) => {
     if(error === ErrorCode.NOT_LOGGED_IN) {
       triggerSilentFedCM();
     }
-  // react-hooks/exhaustive-deps doesn't correctly handle useEffectEvent yet
-  // eslint-disable-next-line react-compiler/react-compiler
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error]);
 
 

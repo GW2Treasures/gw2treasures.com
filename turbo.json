@@ -11,7 +11,11 @@
         "prisma:generate"
       ]
     },
-    "lint": {},
+    "lint": {
+      "env": [
+        "GITHUB_ACTIONS"
+      ]
+    },
     "prisma:generate": {
       "cache": false
     },

@@ -4,9 +4,12 @@ import { Trans } from '@/components/I18n/Trans';
 import { ItemLink } from '@/components/Item/ItemLink';
 import { OutputCount } from '@/components/Item/OutputCount';
 import { PriceTrend } from '@/components/Item/PriceTrend';
+import { Code } from '@/components/Layout/Code';
 import { PageLayout } from '@/components/Layout/PageLayout';
 import { StructuredData } from '@/components/StructuredData/StructuredData';
 import { ColumnSelect } from '@/components/Table/ColumnSelect';
+import { CountDown } from '@/components/Time/countdown';
+import { Waypoint } from '@/components/Waypoint/Waypoint';
 import { cache } from '@/lib/cache';
 import { linkProperties } from '@/lib/linkProperties';
 import { compareLocalizedName } from '@/lib/localizedName';
@@ -16,7 +19,9 @@ import { db } from '@/lib/prisma';
 import { getLanguage, getTranslate } from '@/lib/translate';
 import { absoluteUrl } from '@/lib/url';
 import { groupById } from '@gw2treasures/helper/group-by';
+import { CopyButton } from '@gw2treasures/ui/components/Form/Buttons/CopyButton';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
+import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
 import { Dashboard } from 'app/[language]/dashboard/dashboard';
 import type { Column } from 'app/[language]/dashboard/helper';
@@ -37,6 +42,29 @@ const itemIds = [
   ITEM_CANDY_CORN_COB,
   ITEM_TRICK_OR_TREAT_BAG,
 ];
+
+// event id: D92AF44A-647E-41CE-8E92-3E0CEE3AA38D
+const madKingSaysEmotes = [
+  'beckon',
+  'bow',
+  'cheer',
+  'cower',
+  'dance',
+  'kneel',
+  'laugh',
+  'no',
+  'point',
+  'ponder',
+  'salute',
+  'shrug',
+  'sit',
+  'sleep',
+  'surprised',
+  'threaten',
+  'wave',
+  'yes',
+] as const satisfies string[];
+type MadKingEmote = typeof madKingSaysEmotes[number];
 
 const loadData = cache(async function loadData() {
   const [items] = await Promise.all([
@@ -78,10 +106,11 @@ export default async function HalloweenFestivalPage() {
   ];
 
   const candyCornConversion = createDataTable(conversions, (_, i) => i);
+  const madKingSays = createDataTable(madKingSaysEmotes, (emote) => emote);
 
   return (
     <PageLayout>
-      <p><Trans id="festival.halloween.intro"/></p>
+      <p style={{ borderLeft: '4px solid var(--color-border-dark)', paddingLeft: 16 }}><Trans id="festival.halloween.intro"/></p>
       <p><Trans id="festival.halloween.description"/></p>
 
       <Headline id="conversion" actions={<ColumnSelect table={candyCornConversion}/>}><Trans id="festival.halloween.conversion"/></Headline>
@@ -98,6 +127,24 @@ export default async function HalloweenFestivalPage() {
       <Dashboard initialColumns={[
         ...items.map<Column>((item) => ({ type: 'item', id: item.id, item })),
       ]} embedded/>
+
+      <Headline id="mad-king" actions={[
+        <span key="countdown"><Trans id="festival.halloween.mad-king-says.countdown"/> <CountDown schedule={{ offset: 0, repeat: 120 }} active={<Trans id="incursive-investigation.active"/>} activeDurationMinutes={10}/></span>,
+        <Waypoint key="waypoint" id={1040} title={<Trans id="festival.halloween.mad-king-says.waypoint"/>} appearance="secondary"/>
+      ]}
+      >
+        <Trans id="festival.halloween.mad-king-says"/>
+      </Headline>
+      <p><Trans id="festival.halloween.mad-king-says.description"/></p>
+
+      <madKingSays.Table initialSortBy="says" initialSortOrder="asc">
+        <madKingSays.Column id="says" title={<Trans id="festival.halloween.mad-king-says"/>} sortBy={(emote: MadKingEmote) => t(`festival.halloween.mad-king-says.emote.${emote}`)}>
+          {(emote) => <Trans id={`festival.halloween.mad-king-says.emote.${emote}`}/>}
+        </madKingSays.Column>
+        <madKingSays.Column id="emote" title={<Trans id="festival.halloween.mad-king-says.emote"/>}>
+          {(emote) => <FlexRow><CopyButton copy={`/${emote}`} icon="copy" iconOnly/> <Code inline borderless>{`/${emote}`}</Code></FlexRow>}
+        </madKingSays.Column>
+      </madKingSays.Table>
 
       <Headline id="resources">External Resources</Headline>
       <FestivalResourceGrid>

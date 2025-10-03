@@ -5,6 +5,7 @@ import type { FC, ReactNode } from 'react';
 import { Skeleton } from '../Skeleton/Skeleton';
 import { useSynchronizedTime } from './synchronized-time';
 import { SortableDynamicDataTableCell } from '@gw2treasures/ui/components/Table/DataTable.client';
+import styles from './countdown.module.css';
 
 export interface Schedule {
   /** UTC offset in minutes */
@@ -72,7 +73,7 @@ export const CountDown: FC<CountDownProps> = ({ schedule, highlightNextMinutes, 
   const Wrap = highlightNextMinutes && minutesUntilNext <= highlightNextMinutes ? 'strong' : 'span';
 
   const content = (
-    <Wrap>
+    <Wrap className={styles.countdown}>
       in {remainingHours > 0 ? remainingHours + ':' : ''}{zeroPad(remainingMinutes)}:{zeroPad(remainingSeconds)}
     </Wrap>
   );

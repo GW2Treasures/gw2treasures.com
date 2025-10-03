@@ -24,7 +24,9 @@ exports[`CountDown test 3`] = `
 
 exports[`CountDown test 4`] = `
 <DocumentFragment>
-  <span>
+  <span
+    class="countdown"
+  >
     in 58:59
   </span>
   ,
@@ -33,7 +35,9 @@ exports[`CountDown test 4`] = `
 
 exports[`CountDown test 5`] = `
 <DocumentFragment>
-  <strong>
+  <strong
+    class="countdown"
+  >
     in 00:59
   </strong>
   ,
@@ -42,7 +46,9 @@ exports[`CountDown test 5`] = `
 
 exports[`CountDown test 6`] = `
 <DocumentFragment>
-  <strong>
+  <strong
+    class="countdown"
+  >
     in 00:00
   </strong>
   ,
@@ -57,7 +63,9 @@ exports[`CountDown test 7`] = `
 
 exports[`CountDown test 8`] = `
 <DocumentFragment>
-  <span>
+  <span
+    class="countdown"
+  >
     in 59:59
   </span>
   ,
@@ -66,7 +74,9 @@ exports[`CountDown test 8`] = `
 
 exports[`CountDown test 9`] = `
 <DocumentFragment>
-  <span>
+  <span
+    class="countdown"
+  >
     in 1:29:59
   </span>
   ,
@@ -75,7 +85,9 @@ exports[`CountDown test 9`] = `
 
 exports[`CountDown test 10`] = `
 <DocumentFragment>
-  <span>
+  <span
+    class="countdown"
+  >
     in 23:29:59
   </span>
   ,
@@ -84,7 +96,9 @@ exports[`CountDown test 10`] = `
 
 exports[`CountDown test 11`] = `
 <DocumentFragment>
-  <span>
+  <span
+    class="countdown"
+  >
     in 1:29:59
   </span>
   ,
@@ -93,7 +107,9 @@ exports[`CountDown test 11`] = `
 
 exports[`CountDown test 12`] = `
 <DocumentFragment>
-  <span>
+  <span
+    class="countdown"
+  >
     in 59:59
   </span>
   ,
@@ -102,7 +118,9 @@ exports[`CountDown test 12`] = `
 
 exports[`CountDown test 13`] = `
 <DocumentFragment>
-  <span>
+  <span
+    class="countdown"
+  >
     in 59:59
   </span>
   ,

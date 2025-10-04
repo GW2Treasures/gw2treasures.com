@@ -5,10 +5,10 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  react: 19.1.1
-  react-dom: 19.1.1
-  '@types/react': 19.1.13
-  '@types/react-dom': 19.1.9
+  react: 19.2.0
+  react-dom: 19.2.0
+  '@types/react': 19.2.0
+  '@types/react-dom': 19.2.0
 
 importers:
 
@@ -68,13 +68,13 @@ importers:
         version: 0.1.21
       '@dnd-kit/react':
         specifier: 0.1.21
-        version: 0.1.21(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
+        version: 0.1.21(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@floating-ui/react':
         specifier: 0.27.16
-        version: 0.27.16(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
+        version: 0.27.16(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@floating-ui/react-dom':
         specifier: 2.1.6
-        version: 2.1.6(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
+        version: 2.1.6(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@formatjs/intl-localematcher':
         specifier: 0.6.2
         version: 0.6.2
@@ -110,13 +110,13 @@ importers:
         version: 6.16.3
       '@visx/axis':
         specifier: 3.12.0
-        version: 3.12.0(react@19.1.1)
+        version: 3.12.0(react@19.2.0)
       '@visx/brush':
         specifier: 3.12.0
-        version: 3.12.0(react@19.1.1)
+        version: 3.12.0(react@19.2.0)
       '@visx/clip-path':
         specifier: 3.12.0
-        version: 3.12.0(react@19.1.1)
+        version: 3.12.0(react@19.2.0)
       '@visx/curve':
         specifier: 3.12.0
         version: 3.12.0
@@ -125,25 +125,25 @@ importers:
         version: 3.12.0
       '@visx/grid':
         specifier: 3.12.0
-        version: 3.12.0(react@19.1.1)
+        version: 3.12.0(react@19.2.0)
       '@visx/group':
         specifier: 3.12.0
-        version: 3.12.0(react@19.1.1)
+        version: 3.12.0(react@19.2.0)
       '@visx/responsive':
         specifier: 3.12.0
-        version: 3.12.0(react@19.1.1)
+        version: 3.12.0(react@19.2.0)
       '@visx/scale':
         specifier: 3.12.0
         version: 3.12.0
       '@visx/shape':
         specifier: 3.12.0
-        version: 3.12.0(react@19.1.1)
+        version: 3.12.0(react@19.2.0)
       '@visx/threshold':
         specifier: 3.12.0
-        version: 3.12.0(react@19.1.1)
+        version: 3.12.0(react@19.2.0)
       '@visx/tooltip':
         specifier: 3.12.0
-        version: 3.12.0(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
+        version: 3.12.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@wooorm/starry-night':
         specifier: 3.8.0
         version: 3.8.0
@@ -179,16 +179,16 @@ importers:
         version: 1.0.0
       next:
         specifier: 15.5.4
-        version: 15.5.4(@babel/core@7.24.6)(@playwright/test@1.55.1)(babel-plugin-react-compiler@19.0.0-beta-ebf51a3-20250411)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
+        version: 15.5.4(@babel/core@7.24.6)(@playwright/test@1.55.1)(babel-plugin-react-compiler@19.0.0-beta-ebf51a3-20250411)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       react:
-        specifier: 19.1.1
-        version: 19.1.1
+        specifier: 19.2.0
+        version: 19.2.0
       react-dom:
-        specifier: 19.1.1
-        version: 19.1.1(react@19.1.1)
+        specifier: 19.2.0
+        version: 19.2.0(react@19.2.0)
       react-error-boundary:
         specifier: 6.0.0
-        version: 6.0.0(react@19.1.1)
+        version: 6.0.0(react@19.2.0)
       schema-dts:
         specifier: 1.1.5
         version: 1.1.5
@@ -222,7 +222,7 @@ importers:
         version: 6.9.1
       '@testing-library/react':
         specifier: 16.3.0
-        version: 16.3.0(@testing-library/dom@10.0.0)(@types/react-dom@19.1.9(@types/react@19.1.13))(@types/react@19.1.13)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
+        version: 16.3.0(@testing-library/dom@10.0.0)(@types/react-dom@19.2.0(@types/react@19.2.0))(@types/react@19.2.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@types/d3-array':
         specifier: 3.2.2
         version: 3.2.2
@@ -236,11 +236,11 @@ importers:
         specifier: 22.18.8
         version: 22.18.8
       '@types/react':
-        specifier: 19.1.13
-        version: 19.1.13
+        specifier: 19.2.0
+        version: 19.2.0
       '@types/react-dom':
-        specifier: 19.1.9
-        version: 19.1.9(@types/react@19.1.13)
+        specifier: 19.2.0
+        version: 19.2.0(@types/react@19.2.0)
       babel-plugin-react-compiler:
         specifier: 19.0.0-beta-ebf51a3-20250411
         version: 19.0.0-beta-ebf51a3-20250411
@@ -373,8 +373,8 @@ importers:
         specifier: 7.37.5
         version: 7.37.5(eslint@9.37.0(jiti@2.4.2))
       eslint-plugin-react-hooks:
-        specifier: 6.1.0
-        version: 6.1.0(eslint@9.37.0(jiti@2.4.2))
+        specifier: 6.1.1
+        version: 6.1.1(eslint@9.37.0(jiti@2.4.2))
       typescript-eslint:
         specifier: 8.45.0
         version: 8.45.0(eslint@9.37.0(jiti@2.4.2))(typescript@5.9.3)
@@ -426,8 +426,8 @@ importers:
   packages/icons:
     dependencies:
       react:
-        specifier: 19.1.1
-        version: 19.1.1
+        specifier: 19.2.0
+        version: 19.2.0
     devDependencies:
       '@gw2treasures/tsconfig':
         specifier: workspace:*
@@ -493,10 +493,10 @@ importers:
     dependencies:
       '@floating-ui/react':
         specifier: 0.27.16
-        version: 0.27.16(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
+        version: 0.27.16(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@floating-ui/react-dom':
         specifier: 2.1.6
-        version: 2.1.6(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
+        version: 2.1.6(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@gw2treasures/helper':
         specifier: workspace:~0.0.5
         version: link:../helper
@@ -511,13 +511,13 @@ importers:
         version: 0.0.1
       next:
         specifier: ^15.0.0
-        version: 15.5.4(@babel/core@7.24.6)(@playwright/test@1.55.1)(babel-plugin-react-compiler@19.0.0-beta-ebf51a3-20250411)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
+        version: 15.5.4(@babel/core@7.24.6)(@playwright/test@1.55.1)(babel-plugin-react-compiler@19.0.0-beta-ebf51a3-20250411)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       react:
-        specifier: 19.1.1
-        version: 19.1.1
+        specifier: 19.2.0
+        version: 19.2.0
       react-dom:
-        specifier: 19.1.1
-        version: 19.1.1(react@19.1.1)
+        specifier: 19.2.0
+        version: 19.2.0(react@19.2.0)
       server-only:
         specifier: 0.0.1
         version: 0.0.1
@@ -526,11 +526,11 @@ importers:
         specifier: workspace:*
         version: link:../eslint-config
       '@types/react':
-        specifier: 19.1.13
-        version: 19.1.13
+        specifier: 19.2.0
+        version: 19.2.0
       '@types/react-dom':
-        specifier: 19.1.9
-        version: 19.1.9(@types/react@19.1.13)
+        specifier: 19.2.0
+        version: 19.2.0(@types/react@19.2.0)
       csstype:
         specifier: 3.1.3
         version: 3.1.3
@@ -770,8 +770,8 @@ packages:
   '@dnd-kit/react@0.1.21':
     resolution: {integrity: sha512-fxcr1tWF7+KSNq464ZOGvQETSH9zYb68VOdx8Ie3XoCUnNicJW5YBZrwvMeDhUDnvLS+W2iHiVuUjtXDKJjNeg==}
     peerDependencies:
-      react: 19.1.1
-      react-dom: 19.1.1
+      react: 19.2.0
+      react-dom: 19.2.0
 
   '@dnd-kit/state@0.1.21':
     resolution: {integrity: sha512-pdhntEPvn/QttcF295bOJpWiLsRqA/Iczh1ODOJUxGiR+E4GkYVz9VapNNm9gDq6ST0tr/e1Q2xBztUHlJqQgA==}
@@ -976,14 +976,14 @@ packages:
   '@floating-ui/react-dom@2.1.6':
     resolution: {integrity: sha512-4JX6rEatQEvlmgU80wZyq9RT96HZJa88q8hp0pBd+LrczeDI4o6uA2M+uvxngVHo4Ihr8uibXxH6+70zhAFrVw==}
     peerDependencies:
-      react: 19.1.1
-      react-dom: 19.1.1
+      react: 19.2.0
+      react-dom: 19.2.0
 
   '@floating-ui/react@0.27.16':
     resolution: {integrity: sha512-9O8N4SeG2z++TSM8QA/KTeKFBVCNEz/AGS7gWPJf6KFRzmRWixFRnCnkPHRDwSVZW6QPDO6uT0P2SpWNKCc9/g==}
     peerDependencies:
-      react: 19.1.1
-      react-dom: 19.1.1
+      react: 19.2.0
+      react-dom: 19.2.0
 
   '@floating-ui/utils@0.2.10':
     resolution: {integrity: sha512-aGTxbpbg8/b5JfU1HXSrbH3wXZuLPJcNEcZQFMxLs3oSzgtVu6nFPkbbGGUvBcUjKV2YyB9Wxxabo+HEH9tcRQ==}
@@ -1598,10 +1598,10 @@ packages:
     engines: {node: '>=18'}
     peerDependencies:
       '@testing-library/dom': ^10.0.0
-      '@types/react': 19.1.13
-      '@types/react-dom': 19.1.9
-      react: 19.1.1
-      react-dom: 19.1.1
+      '@types/react': 19.2.0
+      '@types/react-dom': 19.2.0
+      react: 19.2.0
+      react-dom: 19.2.0
     peerDependenciesMeta:
       '@types/react':
         optional: true
@@ -1729,13 +1729,13 @@ packages:
   '@types/node@22.18.8':
     resolution: {integrity: sha512-pAZSHMiagDR7cARo/cch1f3rXy0AEXwsVsVH09FcyeJVAzCnGgmYis7P3JidtTUjyadhTeSo8TgRPswstghDaw==}
 
-  '@types/react-dom@19.1.9':
-    resolution: {integrity: sha512-qXRuZaOsAdXKFyOhRBg6Lqqc0yay13vN7KrIg4L7N4aaHN68ma9OK3NE1BoDFgFOTfM7zg+3/8+2n8rLUH3OKQ==}
+  '@types/react-dom@19.2.0':
+    resolution: {integrity: sha512-brtBs0MnE9SMx7px208g39lRmC5uHZs96caOJfTjFcYSLHNamvaSMfJNagChVNkup2SdtOxKX1FDBkRSJe1ZAg==}
     peerDependencies:
-      '@types/react': 19.1.13
+      '@types/react': 19.2.0
 
-  '@types/react@19.1.13':
-    resolution: {integrity: sha512-hHkbU/eoO3EG5/MZkuFSKmYqPbSVk5byPFa3e7y/8TybHiLMACgI8seVYlicwk7H5K/rI2px9xrQp/C+AUDTiQ==}
+  '@types/react@19.2.0':
+    resolution: {integrity: sha512-1LOH8xovvsKsCBq1wnT4ntDUdCJKmnEakhsuoUSy6ExlHCkGP2hqnatagYTgFk6oeL0VU31u7SNjunPN+GchtA==}
 
   '@types/stack-utils@2.0.3':
     resolution: {integrity: sha512-9aEbYZ3TbYMznPdcdr3SmIrLXwC/AKZXQeCf9Pgao5CKb8CyHuEX5jzWPTkvregvhRJHcpRO6BFoGW9ycaOkYw==}
@@ -1821,23 +1821,23 @@ packages:
   '@visx/axis@3.12.0':
     resolution: {integrity: sha512-8MoWpfuaJkhm2Yg+HwyytK8nk+zDugCqTT/tRmQX7gW4LYrHYLXFUXOzbDyyBakCVaUbUaAhVFxpMASJiQKf7A==}
     peerDependencies:
-      react: 19.1.1
+      react: 19.2.0
 
   '@visx/bounds@3.12.0':
     resolution: {integrity: sha512-peAlNCUbYaaZ0IO6c1lDdEAnZv2iGPDiLIM8a6gu7CaMhtXZJkqrTh+AjidNcIqITktrICpGxJE/Qo9D099dvQ==}
     peerDependencies:
-      react: 19.1.1
-      react-dom: 19.1.1
+      react: 19.2.0
+      react-dom: 19.2.0
 
   '@visx/brush@3.12.0':
     resolution: {integrity: sha512-ceqQe/IlIi9X9FT/DuiO6b3l5YAGnux/aQMX8M1gvLdz4T8pXIW8nDv1OhqbZ7lmbQEUEEM9IexOkR9ix7pL+Q==}
     peerDependencies:
-      react: 19.1.1
+      react: 19.2.0
 
   '@visx/clip-path@3.12.0':
     resolution: {integrity: sha512-pjpjyoQ15lhOrgpDhxfWKAxC4IswzREHGOHhrdWtxQbPoGzVZvFH8HHvwRi4afL11uYDO10z235MDnaDwP8GnQ==}
     peerDependencies:
-      react: 19.1.1
+      react: 19.2.0
 
   '@visx/curve@3.12.0':
     resolution: {integrity: sha512-Ng1mefXIzoIoAivw7dJ+ZZYYUbfuwXgZCgQynShr6ZIVw7P4q4HeQfJP3W24ON+1uCSrzoycHSXRelhR9SBPcw==}
@@ -1845,7 +1845,7 @@ packages:
   '@visx/drag@3.12.0':
     resolution: {integrity: sha512-LXOoPVw//YPjpYhDJYBsCYDuv1QimsXjDV98duH0aCy4V94ediXMQpe2wHq4pnlDobLEB71FjOZMFrbFmqtERg==}
     peerDependencies:
-      react: 19.1.1
+      react: 19.2.0
 
   '@visx/event@3.12.0':
     resolution: {integrity: sha512-9Lvw6qJ0Fi+y1vsC1WspfdIKCxHTb7oy59Uql1uBdPGT8zChP0vuxW0jQNQRDbKgoefj4pCXAFi8+MF1mEtVTw==}
@@ -1853,12 +1853,12 @@ packages:
   '@visx/grid@3.12.0':
     resolution: {integrity: sha512-L4ex2ooSYhwNIxJ3XFIKRhoSvEGjPc2Y3YCrtNB4TV5Ofdj4q0UMOsxfrH23Pr8HSHuQhb6VGMgYoK0LuWqDmQ==}
     peerDependencies:
-      react: 19.1.1
+      react: 19.2.0
 
   '@visx/group@3.12.0':
     resolution: {integrity: sha512-Dye8iS1alVXPv7nj/7M37gJe6sSKqJLH7x6sEWAsRQ9clI0kFvjbKcKgF+U3aAVQr0NCohheFV+DtR8trfK/Ag==}
     peerDependencies:
-      react: 19.1.1
+      react: 19.2.0
 
   '@visx/point@3.12.0':
     resolution: {integrity: sha512-I6UrHoJAEVbx3RORQNupgTiX5EzjuZpiwLPxn8L2mI5nfERotPKi1Yus12Cq2WtXqEBR/WgqTnoImlqOXBykcA==}
@@ -1866,7 +1866,7 @@ packages:
   '@visx/responsive@3.12.0':
     resolution: {integrity: sha512-GV1BTYwAGlk/K5c9vH8lS2syPnTuIqEacI7L6LRPbsuaLscXMNi+i9fZyzo0BWvAdtRV8v6Urzglo++lvAXT1Q==}
     peerDependencies:
-      react: 19.1.1
+      react: 19.2.0
 
   '@visx/scale@3.12.0':
     resolution: {integrity: sha512-+ubijrZ2AwWCsNey0HGLJ0YKNeC/XImEFsr9rM+Uef1CM3PNM43NDdNTrdBejSlzRq0lcfQPWYMYQFSlkLcPOg==}
@@ -1874,23 +1874,23 @@ packages:
   '@visx/shape@3.12.0':
     resolution: {integrity: sha512-/1l0lrpX9tPic6SJEalryBKWjP/ilDRnQA+BGJTI1tj7i23mJ/J0t4nJHyA1GrL4QA/bM/qTJ35eyz5dEhJc4g==}
     peerDependencies:
-      react: 19.1.1
+      react: 19.2.0
 
   '@visx/text@3.12.0':
     resolution: {integrity: sha512-0rbDYQlbuKPhBqXkkGYKFec1gQo05YxV45DORzr6hCyaizdJk1G+n9VkuKSHKBy1vVQhBA0W3u/WXd7tiODQPA==}
     peerDependencies:
-      react: 19.1.1
+      react: 19.2.0
 
   '@visx/threshold@3.12.0':
     resolution: {integrity: sha512-HpbJbFBKaFOM7FiMiOQwZhQAoDtd5+xSUZRlZ3U7N7TF3S2oVKIBRNlMakhcu0eick7UNvmCl7ZTW2lI65IX4g==}
     peerDependencies:
-      react: 19.1.1
+      react: 19.2.0
 
   '@visx/tooltip@3.12.0':
     resolution: {integrity: sha512-pWhsYhgl0Shbeqf80qy4QCB6zpq6tQtMQQxKlh3UiKxzkkfl+Metaf9p0/S0HexNi4vewOPOo89xWx93hBeh3A==}
     peerDependencies:
-      react: 19.1.1
-      react-dom: 19.1.1
+      react: 19.2.0
+      react-dom: 19.2.0
 
   '@visx/vendor@3.12.0':
     resolution: {integrity: sha512-SVO+G0xtnL9dsNpGDcjCgoiCnlB3iLSM9KLz1sLbSrV7RaVXwY3/BTm2X9OWN1jH2a9M+eHt6DJ6sE6CXm4cUg==}
@@ -2597,8 +2597,8 @@ packages:
     peerDependencies:
       eslint: '>=7'
 
-  eslint-plugin-react-hooks@6.1.0:
-    resolution: {integrity: sha512-72mucw/WLzEqGvL2vwE6fWR6geO6UbmDjz3eAb3pezxTpFzgbfyUeFKzmZKr9LhwUWMXfTVh1g0rKEJoyKNdoA==}
+  eslint-plugin-react-hooks@6.1.1:
+    resolution: {integrity: sha512-St9EKZzOAQF704nt2oJvAKZHjhrpg25ClQoaAlHmPZuajFldVLqRDW4VBNAS01NzeiQF0m0qhG1ZA807K6aVaQ==}
     engines: {node: '>=18'}
     peerDependencies:
       eslint: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0 || ^9.0.0
@@ -3616,8 +3616,8 @@ packages:
       '@opentelemetry/api': ^1.1.0
       '@playwright/test': ^1.51.1
       babel-plugin-react-compiler: '*'
-      react: 19.1.1
-      react-dom: 19.1.1
+      react: 19.2.0
+      react-dom: 19.2.0
       sass: ^1.3.0
     peerDependenciesMeta:
       '@opentelemetry/api':
@@ -3885,15 +3885,15 @@ packages:
   rc9@2.1.2:
     resolution: {integrity: sha512-btXCnMmRIBINM2LDZoEmOogIZU7Qe7zn4BpomSKZ/ykbLObuBdvG+mFq11DL6fjH1DRwHhrlgtYWG96bJiC7Cg==}
 
-  react-dom@19.1.1:
-    resolution: {integrity: sha512-Dlq/5LAZgF0Gaz6yiqZCf6VCcZs1ghAJyrsu84Q/GT0gV+mCxbfmKNoGRKBYMJ8IEdGPqu49YWXD02GCknEDkw==}
+  react-dom@19.2.0:
+    resolution: {integrity: sha512-UlbRu4cAiGaIewkPyiRGJk0imDN2T3JjieT6spoL2UeSf5od4n5LB/mQ4ejmxhCFT1tYe8IvaFulzynWovsEFQ==}
     peerDependencies:
-      react: 19.1.1
+      react: 19.2.0
 
   react-error-boundary@6.0.0:
     resolution: {integrity: sha512-gdlJjD7NWr0IfkPlaREN2d9uUZUlksrfOx7SX62VRerwXbMY6ftGCIZua1VG1aXFNOimhISsTq+Owp725b9SiA==}
     peerDependencies:
-      react: 19.1.1
+      react: 19.2.0
 
   react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
@@ -3907,11 +3907,11 @@ packages:
   react-use-measure@2.1.1:
     resolution: {integrity: sha512-nocZhN26cproIiIduswYpV5y5lQpSQS1y/4KuvUCjSKmw7ZWIS/+g3aFnX3WdBkyuGUtTLif3UTqnLLhbDoQig==}
     peerDependencies:
-      react: 19.1.1
-      react-dom: 19.1.1
+      react: 19.2.0
+      react-dom: 19.2.0
 
-  react@19.1.1:
-    resolution: {integrity: sha512-w8nqGImo45dmMIfljjMwOGtbmC/mk4CMYhWIicdSflH91J9TyCyczcPFXJzrZ/ZXcgGRFeP6BU0BEJTw6tZdfQ==}
+  react@19.2.0:
+    resolution: {integrity: sha512-tmbWg6W31tQLeB5cdIBOicJDJRR2KzXsV7uSK9iNfLWQ5bIZfxuPEHp7M8wiHyHnn0DD1i7w3Zmin0FtkrwoCQ==}
     engines: {node: '>=0.10.0'}
 
   readdirp@4.0.2:
@@ -4012,8 +4012,8 @@ packages:
     resolution: {integrity: sha512-xAg7SOnEhrm5zI3puOOKyy1OMcMlIJZYNJY7xLBwSze0UjhPLnWfj2GF2EpT0jmzaJKIWKHLsaSSajf35bcYnA==}
     engines: {node: '>=v12.22.7'}
 
-  scheduler@0.26.0:
-    resolution: {integrity: sha512-NlHwttCI/l5gCPR3D1nNXtWABUmBwvZpEQiD4IXSbIDq8BzLIK/7Ir5gTFSGZDUu37K5cMNp0hFtzO38sC7gWA==}
+  scheduler@0.27.0:
+    resolution: {integrity: sha512-eNv+WrVbKu1f3vbYJT/xtiF5syA5HPIMtf9IgY/nKg0sWqzAUEvqY/xm7OcZc/qafLx/iO9FgOmeSAp4v5ti/Q==}
 
   schema-dts@1.1.5:
     resolution: {integrity: sha512-RJr9EaCmsLzBX2NDiO5Z3ux2BVosNZN5jo0gWgsyKvxKIUL5R3swNvoorulAeL9kLB0iTSX7V6aokhla2m7xbg==}
@@ -4198,7 +4198,7 @@ packages:
     peerDependencies:
       '@babel/core': '*'
       babel-plugin-macros: '*'
-      react: 19.1.1
+      react: 19.2.0
     peerDependenciesMeta:
       '@babel/core':
         optional: true
@@ -4899,13 +4899,13 @@ snapshots:
       '@dnd-kit/abstract': 0.1.21
       tslib: 2.8.1
 
-  '@dnd-kit/react@0.1.21(react-dom@19.1.1(react@19.1.1))(react@19.1.1)':
+  '@dnd-kit/react@0.1.21(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
     dependencies:
       '@dnd-kit/abstract': 0.1.21
       '@dnd-kit/dom': 0.1.21
       '@dnd-kit/state': 0.1.21
-      react: 19.1.1
-      react-dom: 19.1.1(react@19.1.1)
+      react: 19.2.0
+      react-dom: 19.2.0(react@19.2.0)
       tslib: 2.8.1
 
   '@dnd-kit/state@0.1.21':
@@ -5048,18 +5048,18 @@ snapshots:
       '@floating-ui/core': 1.7.3
       '@floating-ui/utils': 0.2.10
 
-  '@floating-ui/react-dom@2.1.6(react-dom@19.1.1(react@19.1.1))(react@19.1.1)':
+  '@floating-ui/react-dom@2.1.6(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
     dependencies:
       '@floating-ui/dom': 1.7.4
-      react: 19.1.1
-      react-dom: 19.1.1(react@19.1.1)
+      react: 19.2.0
+      react-dom: 19.2.0(react@19.2.0)
 
-  '@floating-ui/react@0.27.16(react-dom@19.1.1(react@19.1.1))(react@19.1.1)':
+  '@floating-ui/react@0.27.16(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
     dependencies:
-      '@floating-ui/react-dom': 2.1.6(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
+      '@floating-ui/react-dom': 2.1.6(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@floating-ui/utils': 0.2.10
-      react: 19.1.1
-      react-dom: 19.1.1(react@19.1.1)
+      react: 19.2.0
+      react-dom: 19.2.0(react@19.2.0)
       tabbable: 6.2.0
 
   '@floating-ui/utils@0.2.10': {}
@@ -5650,15 +5650,15 @@ snapshots:
       picocolors: 1.1.1
       redent: 3.0.0
 
-  '@testing-library/react@16.3.0(@testing-library/dom@10.0.0)(@types/react-dom@19.1.9(@types/react@19.1.13))(@types/react@19.1.13)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)':
+  '@testing-library/react@16.3.0(@testing-library/dom@10.0.0)(@types/react-dom@19.2.0(@types/react@19.2.0))(@types/react@19.2.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
     dependencies:
       '@babel/runtime': 7.26.0
       '@testing-library/dom': 10.0.0
-      react: 19.1.1
-      react-dom: 19.1.1(react@19.1.1)
+      react: 19.2.0
+      react-dom: 19.2.0(react@19.2.0)
     optionalDependencies:
-      '@types/react': 19.1.13
-      '@types/react-dom': 19.1.9(@types/react@19.1.13)
+      '@types/react': 19.2.0
+      '@types/react-dom': 19.2.0(@types/react@19.2.0)
 
   '@tootallnate/once@2.0.0': {}
 
@@ -5784,11 +5784,11 @@ snapshots:
     dependencies:
       undici-types: 6.21.0
 
-  '@types/react-dom@19.1.9(@types/react@19.1.13)':
+  '@types/react-dom@19.2.0(@types/react@19.2.0)':
     dependencies:
-      '@types/react': 19.1.13
+      '@types/react': 19.2.0
 
-  '@types/react@19.1.13':
+  '@types/react@19.2.0':
     dependencies:
       csstype: 3.1.3
 
@@ -5901,138 +5901,138 @@ snapshots:
 
   '@vercel/ncc@0.38.4': {}
 
-  '@visx/axis@3.12.0(react@19.1.1)':
+  '@visx/axis@3.12.0(react@19.2.0)':
     dependencies:
-      '@types/react': 19.1.13
-      '@visx/group': 3.12.0(react@19.1.1)
+      '@types/react': 19.2.0
+      '@visx/group': 3.12.0(react@19.2.0)
       '@visx/point': 3.12.0
       '@visx/scale': 3.12.0
-      '@visx/shape': 3.12.0(react@19.1.1)
-      '@visx/text': 3.12.0(react@19.1.1)
+      '@visx/shape': 3.12.0(react@19.2.0)
+      '@visx/text': 3.12.0(react@19.2.0)
       classnames: 2.4.0
       prop-types: 15.8.1
-      react: 19.1.1
+      react: 19.2.0
 
-  '@visx/bounds@3.12.0(react-dom@19.1.1(react@19.1.1))(react@19.1.1)':
+  '@visx/bounds@3.12.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
     dependencies:
-      '@types/react': 19.1.13
-      '@types/react-dom': 19.1.9(@types/react@19.1.13)
+      '@types/react': 19.2.0
+      '@types/react-dom': 19.2.0(@types/react@19.2.0)
       prop-types: 15.8.1
-      react: 19.1.1
-      react-dom: 19.1.1(react@19.1.1)
+      react: 19.2.0
+      react-dom: 19.2.0(react@19.2.0)
 
-  '@visx/brush@3.12.0(react@19.1.1)':
+  '@visx/brush@3.12.0(react@19.2.0)':
     dependencies:
-      '@visx/drag': 3.12.0(react@19.1.1)
+      '@visx/drag': 3.12.0(react@19.2.0)
       '@visx/event': 3.12.0
-      '@visx/group': 3.12.0(react@19.1.1)
+      '@visx/group': 3.12.0(react@19.2.0)
       '@visx/scale': 3.12.0
-      '@visx/shape': 3.12.0(react@19.1.1)
+      '@visx/shape': 3.12.0(react@19.2.0)
       classnames: 2.4.0
       prop-types: 15.8.1
-      react: 19.1.1
+      react: 19.2.0
 
-  '@visx/clip-path@3.12.0(react@19.1.1)':
+  '@visx/clip-path@3.12.0(react@19.2.0)':
     dependencies:
-      '@types/react': 19.1.13
+      '@types/react': 19.2.0
       prop-types: 15.8.1
-      react: 19.1.1
+      react: 19.2.0
 
   '@visx/curve@3.12.0':
     dependencies:
       '@types/d3-shape': 1.3.12
       d3-shape: 1.3.7
 
-  '@visx/drag@3.12.0(react@19.1.1)':
+  '@visx/drag@3.12.0(react@19.2.0)':
     dependencies:
-      '@types/react': 19.1.13
+      '@types/react': 19.2.0
       '@visx/event': 3.12.0
       '@visx/point': 3.12.0
       prop-types: 15.8.1
-      react: 19.1.1
+      react: 19.2.0
 
   '@visx/event@3.12.0':
     dependencies:
-      '@types/react': 19.1.13
+      '@types/react': 19.2.0
       '@visx/point': 3.12.0
 
-  '@visx/grid@3.12.0(react@19.1.1)':
+  '@visx/grid@3.12.0(react@19.2.0)':
     dependencies:
-      '@types/react': 19.1.13
+      '@types/react': 19.2.0
       '@visx/curve': 3.12.0
-      '@visx/group': 3.12.0(react@19.1.1)
+      '@visx/group': 3.12.0(react@19.2.0)
       '@visx/point': 3.12.0
       '@visx/scale': 3.12.0
-      '@visx/shape': 3.12.0(react@19.1.1)
+      '@visx/shape': 3.12.0(react@19.2.0)
       classnames: 2.4.0
       prop-types: 15.8.1
-      react: 19.1.1
+      react: 19.2.0
 
-  '@visx/group@3.12.0(react@19.1.1)':
+  '@visx/group@3.12.0(react@19.2.0)':
     dependencies:
-      '@types/react': 19.1.13
+      '@types/react': 19.2.0
       classnames: 2.4.0
       prop-types: 15.8.1
-      react: 19.1.1
+      react: 19.2.0
 
   '@visx/point@3.12.0': {}
 
-  '@visx/responsive@3.12.0(react@19.1.1)':
+  '@visx/responsive@3.12.0(react@19.2.0)':
     dependencies:
       '@types/lodash': 4.14.202
-      '@types/react': 19.1.13
+      '@types/react': 19.2.0
       lodash: 4.17.21
       prop-types: 15.8.1
-      react: 19.1.1
+      react: 19.2.0
 
   '@visx/scale@3.12.0':
     dependencies:
       '@visx/vendor': 3.12.0
 
-  '@visx/shape@3.12.0(react@19.1.1)':
+  '@visx/shape@3.12.0(react@19.2.0)':
     dependencies:
       '@types/d3-path': 1.0.11
       '@types/d3-shape': 1.3.12
       '@types/lodash': 4.14.202
-      '@types/react': 19.1.13
+      '@types/react': 19.2.0
       '@visx/curve': 3.12.0
-      '@visx/group': 3.12.0(react@19.1.1)
+      '@visx/group': 3.12.0(react@19.2.0)
       '@visx/scale': 3.12.0
       classnames: 2.4.0
       d3-path: 1.0.9
       d3-shape: 1.3.7
       lodash: 4.17.21
       prop-types: 15.8.1
-      react: 19.1.1
+      react: 19.2.0
 
-  '@visx/text@3.12.0(react@19.1.1)':
+  '@visx/text@3.12.0(react@19.2.0)':
     dependencies:
       '@types/lodash': 4.14.202
-      '@types/react': 19.1.13
+      '@types/react': 19.2.0
       classnames: 2.4.0
       lodash: 4.17.21
       prop-types: 15.8.1
-      react: 19.1.1
+      react: 19.2.0
       reduce-css-calc: 1.3.0
 
-  '@visx/threshold@3.12.0(react@19.1.1)':
+  '@visx/threshold@3.12.0(react@19.2.0)':
     dependencies:
-      '@types/react': 19.1.13
-      '@visx/clip-path': 3.12.0(react@19.1.1)
-      '@visx/shape': 3.12.0(react@19.1.1)
+      '@types/react': 19.2.0
+      '@visx/clip-path': 3.12.0(react@19.2.0)
+      '@visx/shape': 3.12.0(react@19.2.0)
       classnames: 2.4.0
       prop-types: 15.8.1
-      react: 19.1.1
+      react: 19.2.0
 
-  '@visx/tooltip@3.12.0(react-dom@19.1.1(react@19.1.1))(react@19.1.1)':
+  '@visx/tooltip@3.12.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
     dependencies:
-      '@types/react': 19.1.13
-      '@visx/bounds': 3.12.0(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
+      '@types/react': 19.2.0
+      '@visx/bounds': 3.12.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       classnames: 2.4.0
       prop-types: 15.8.1
-      react: 19.1.1
-      react-dom: 19.1.1(react@19.1.1)
-      react-use-measure: 2.1.1(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
+      react: 19.2.0
+      react-dom: 19.2.0(react@19.2.0)
+      react-use-measure: 2.1.1(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
 
   '@visx/vendor@3.12.0':
     dependencies:
@@ -6889,13 +6889,11 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-plugin-react-hooks@6.1.0(eslint@9.37.0(jiti@2.4.2)):
+  eslint-plugin-react-hooks@6.1.1(eslint@9.37.0(jiti@2.4.2)):
     dependencies:
       '@babel/core': 7.24.6
       '@babel/parser': 7.26.3
-      '@babel/plugin-proposal-private-methods': 7.18.6(@babel/core@7.24.6)
       eslint: 9.37.0(jiti@2.4.2)
-      hermes-parser: 0.25.1
       zod: 3.24.3
       zod-validation-error: 3.3.0(zod@3.24.3)
     transitivePeerDependencies:
@@ -8287,15 +8285,15 @@ snapshots:
 
   neo-async@2.6.2: {}
 
-  next@15.5.4(@babel/core@7.24.6)(@playwright/test@1.55.1)(babel-plugin-react-compiler@19.0.0-beta-ebf51a3-20250411)(react-dom@19.1.1(react@19.1.1))(react@19.1.1):
+  next@15.5.4(@babel/core@7.24.6)(@playwright/test@1.55.1)(babel-plugin-react-compiler@19.0.0-beta-ebf51a3-20250411)(react-dom@19.2.0(react@19.2.0))(react@19.2.0):
     dependencies:
       '@next/env': 15.5.4
       '@swc/helpers': 0.5.15
       caniuse-lite: 1.0.30001621
       postcss: 8.4.31
-      react: 19.1.1
-      react-dom: 19.1.1(react@19.1.1)
-      styled-jsx: 5.1.6(@babel/core@7.24.6)(react@19.1.1)
+      react: 19.2.0
+      react-dom: 19.2.0(react@19.2.0)
+      styled-jsx: 5.1.6(@babel/core@7.24.6)(react@19.2.0)
     optionalDependencies:
       '@next/swc-darwin-arm64': 15.5.4
       '@next/swc-darwin-x64': 15.5.4
@@ -8571,15 +8569,15 @@ snapshots:
       defu: 6.1.4
       destr: 2.0.5
 
-  react-dom@19.1.1(react@19.1.1):
+  react-dom@19.2.0(react@19.2.0):
     dependencies:
-      react: 19.1.1
-      scheduler: 0.26.0
+      react: 19.2.0
+      scheduler: 0.27.0
 
-  react-error-boundary@6.0.0(react@19.1.1):
+  react-error-boundary@6.0.0(react@19.2.0):
     dependencies:
       '@babel/runtime': 7.26.0
-      react: 19.1.1
+      react: 19.2.0
 
   react-is@16.13.1: {}
 
@@ -8587,13 +8585,13 @@ snapshots:
 
   react-is@18.3.1: {}
 
-  react-use-measure@2.1.1(react-dom@19.1.1(react@19.1.1))(react@19.1.1):
+  react-use-measure@2.1.1(react-dom@19.2.0(react@19.2.0))(react@19.2.0):
     dependencies:
       debounce: 1.2.1
-      react: 19.1.1
-      react-dom: 19.1.1(react@19.1.1)
+      react: 19.2.0
+      react-dom: 19.2.0(react@19.2.0)
 
-  react@19.1.1: {}
+  react@19.2.0: {}
 
   readdirp@4.0.2: {}
 
@@ -8725,7 +8723,7 @@ snapshots:
     dependencies:
       xmlchars: 2.2.0
 
-  scheduler@0.26.0: {}
+  scheduler@0.27.0: {}
 
   schema-dts@1.1.5: {}
 
@@ -8982,10 +8980,10 @@ snapshots:
     dependencies:
       inline-style-parser: 0.2.4
 
-  styled-jsx@5.1.6(@babel/core@7.24.6)(react@19.1.1):
+  styled-jsx@5.1.6(@babel/core@7.24.6)(react@19.2.0):
     dependencies:
       client-only: 0.0.1
-      react: 19.1.1
+      react: 19.2.0
     optionalDependencies:
       '@babel/core': 7.24.6
 

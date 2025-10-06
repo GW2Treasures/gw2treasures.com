@@ -24,8 +24,7 @@ import { ChasingShadowsProgress, FractalIncursionWaypoint, type ScheduledWaypoin
 import { ResetTimer } from '@/components/Reset/ResetTimer';
 import { WizardsVaultTable } from '@/components/WizardsVault/WizardsVaultTable';
 import { Description } from '@/components/Layout/Description';
-
-const bonusEventEndDate = new Date('2025-10-07T19:00:00.000Z');
+import { BonusEvent, getBonusEvent } from '../bonus-event/bonus-events';
 
 type WorldBossId =
   // | 'admiral_taidha_covington'
@@ -114,7 +113,10 @@ const requiredScopes = [Scope.GW2_Account, Scope.GW2_Progression];
 
 export default async function IncursiveInvestigationPage() {
   const language = await getLanguage();
+
+  const bonusEvent = getBonusEvent(BonusEvent.FractalIncursion);
   const now = new Date();
+  const isBonusEventActive = !!bonusEvent && bonusEvent.startsAt <= now && bonusEvent.endsAt > now;
 
   const { achievements, fractallineDust, wizardsVaultObjectives } = await getData();
   const achievementsById = groupById(achievements);
@@ -182,12 +184,12 @@ export default async function IncursiveInvestigationPage() {
         )}
       </AchievementTable>
 
-      {bonusEventEndDate > now && (
+      {isBonusEventActive && (
         <>
           <AchievementTable achievements={achievements.filter((achievement) => achievement.achievementCategoryId === 462)} language={language} sort>
             {(table, columnSelect) => (
               <>
-                <Headline id="achievements" actions={[<span key="reset"><Trans id="festival.time-remaining"/> <ResetTimer reset={bonusEventEndDate}/></span>, columnSelect]}><Trans id="incursive-investigation.bonus-event"/></Headline>
+                <Headline id="achievements" actions={[<span key="reset"><Trans id="festival.time-remaining"/> <ResetTimer reset={bonusEvent.endsAt}/></span>, columnSelect]}><Trans id="incursive-investigation.bonus-event"/></Headline>
                 <p><Trans id="incursive-investigation.bonus-event.description"/></p>
                 {table}
               </>

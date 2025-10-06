@@ -7,7 +7,7 @@ import type { Language } from '@gw2treasures/database';
 import { Composite, CompositeItem } from '@gw2treasures/ui/components/Focus/Composite';
 import type { IconColor, IconProp } from '@gw2treasures/ui';
 import { WizardsVaultNewSeasonBadge } from './WizardsVaultNewSeasonBadge';
-import { Festival, getActiveFestival } from 'app/[language]/festival/festivals';
+import { Festival, getActiveFestival, type FestivalInfo } from 'app/[language]/festival/festivals';
 import { BonusEvent, getActiveBonusEvent } from 'app/[language]/bonus-event/bonus-events';
 
 interface NavigationProps {
@@ -15,13 +15,14 @@ interface NavigationProps {
 }
 
 const Navigation: FC<NavigationProps> = ({ language }) => {
+  const festival = getActiveFestival();
   const bonusEvent = getActiveBonusEvent();
 
   return (
     <HorizontalOverflowContainer>
       <Composite render={<ul className={styles.navigation}/>}>
-        <FestivalNavigationItem/>
-        {getActiveFestival() === undefined && (<NavigationItem href="/incursive-investigation" icon="hand" style={{ color: 'light-dark(#663399, #debeff)' }}><Trans language={language} id="incursive-investigation"/></NavigationItem>)}
+        {festival && (<FestivalNavigationItem festival={festival}/>)}
+        {!festival && bonusEvent?.type === BonusEvent.FractalIncursion && (<NavigationItem href="/incursive-investigation" icon="hand" style={{ color: 'light-dark(#663399, #debeff)' }}><Trans language={language} id="incursive-investigation"/></NavigationItem>)}
         <NavigationItem href="/item" icon="item"><Trans language={language} id="navigation.items"/></NavigationItem>
         <NavigationItem href="/achievement" icon="achievement"><Trans language={language} id="navigation.achievements"/></NavigationItem>
         <NavigationItem href="/wizards-vault" icon="wizards-vault"><Trans language={language} id="navigation.wizardsVault"/><WizardsVaultNewSeasonBadge/></NavigationItem>
@@ -61,8 +62,8 @@ export const NavigationItem: FC<NavigationItemProps> = (props) => {
 
 export default Navigation;
 
-const FestivalNavigationItem: FC = () => {
-  switch(getActiveFestival()?.type) {
+const FestivalNavigationItem: FC<{ festival: FestivalInfo }> = ({ festival }) => {
+  switch(festival.type) {
     case Festival.Wintersday:
       return (<NavigationItem href="/festival/wintersday" icon="gift" style={{ color: 'light-dark( #00838f, #80deea)' }}><Trans id="festival.wintersday"/></NavigationItem>);
     case Festival.LunarNewYear:

@@ -8,15 +8,17 @@ import { Festival, getFestival, isFestivalActive } from '../festivals';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import { FestivalTimer } from '@/components/Reset/FestivalTimer';
 import { createMetadata } from '@/lib/metadata';
+import { HalloweenHero, heroNoImageClass } from './_hero/hero';
 
 export default function HalloweenFestivalLayout({ children }: LayoutProps<'/[language]/festival/halloween'>) {
   const festival = getFestival(Festival.Halloween);
 
   return (
-    <HeroLayout hero={(<Headline id="halloween" actions={<FestivalTimer festival={festival}/>}><div style={{ minWidth: '40vw' }}><Trans id="festival.halloween"/></div></Headline>)}
+    <HeroLayout hero={(<HalloweenHero><Headline id="halloween" actions={<FestivalTimer festival={festival}/>}><div style={{ minWidth: '40vw' }}><Trans id="festival.halloween"/></div></Headline></HalloweenHero>)}
+      heroClassName={heroNoImageClass}
       skipPreload
       skipLayout
-      color="#444"
+      color="#BB7D30"
       navBar={(
         <NavBar base="/festival/halloween/" items={[
           { segment: '(index)', href: '/festival/halloween', icon: 'halloween', label: <Trans id="festival.halloween"/> },

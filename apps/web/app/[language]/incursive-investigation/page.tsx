@@ -114,6 +114,8 @@ const requiredScopes = [Scope.GW2_Account, Scope.GW2_Progression];
 
 export default async function IncursiveInvestigationPage() {
   const language = await getLanguage();
+  const now = new Date();
+
   const { achievements, fractallineDust, wizardsVaultObjectives } = await getData();
   const achievementsById = groupById(achievements);
   const chasingShadowsAchievements = CHASING_SHADOWS_ACHIEVEMENT_IDS.map((id) => achievementsById.get(id)!);
@@ -180,28 +182,31 @@ export default async function IncursiveInvestigationPage() {
         )}
       </AchievementTable>
 
-      <AchievementTable achievements={achievements.filter((achievement) => achievement.achievementCategoryId === 462)} language={language} sort>
-        {(table, columnSelect) => (
-          <>
-            <Headline id="achievements" actions={[<span key="reset"><Trans id="festival.time-remaining"/> <ResetTimer reset={bonusEventEndDate}/></span>, columnSelect]}><Trans id="incursive-investigation.bonus-event"/></Headline>
-            <p><Trans id="incursive-investigation.bonus-event.description"/></p>
-            {table}
-          </>
-        )}
-      </AchievementTable>
+      {bonusEventEndDate > now && (
+        <>
+          <AchievementTable achievements={achievements.filter((achievement) => achievement.achievementCategoryId === 462)} language={language} sort>
+            {(table, columnSelect) => (
+              <>
+                <Headline id="achievements" actions={[<span key="reset"><Trans id="festival.time-remaining"/> <ResetTimer reset={bonusEventEndDate}/></span>, columnSelect]}><Trans id="incursive-investigation.bonus-event"/></Headline>
+                <p><Trans id="incursive-investigation.bonus-event.description"/></p>
+                {table}
+              </>
+            )}
+          </AchievementTable>
 
-      <WizardsVaultTable objectives={wizardsVaultObjectives}>
-        {(table, columnSelect) => (
-          <>
-            <Description actions={columnSelect}>
-              <Trans id="incursive-investigation.bonus-event.wizards-vault"/>
-            </Description>
+          <WizardsVaultTable objectives={wizardsVaultObjectives}>
+            {(table, columnSelect) => (
+              <>
+                <Description actions={columnSelect}>
+                  <Trans id="incursive-investigation.bonus-event.wizards-vault"/>
+                </Description>
 
-            {table}
-          </>
-        )}
-      </WizardsVaultTable>
-
+                {table}
+              </>
+            )}
+          </WizardsVaultTable>
+        </>
+      )}
     </HeroLayout>
   );
 }

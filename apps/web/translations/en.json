@@ -522,7 +522,7 @@
   "festival.halloween.mad-king-says": "Your Mad King says…",
   "festival.halloween.mad-king-says.countdown": "Next Event:",
   "festival.halloween.mad-king-says.waypoint": "Trader's Forum Waypoint",
-  "festival.halloween.mad-king-says.description": "\"Your Mad King says\" is an event in Lion's Arch. When the Mad King Thorn issues a command starting with \"Your Mad King says...\" or \"This Mad King says...\", you have to perform the associated emote listed in the below table.",
+  "festival.halloween.mad-king-says.description": "\"Your Mad King says\" is an event in Lion's Arch. When the Mad King Thorn issues a command starting with \"Your Mad King says...\" or \"This Mad King says...\", you have to perform the associated emote listed in the below table. This is most useful when playing in other languages than English, as the emotes do not 100% match what the Mad King says.",
   "festival.halloween.mad-king-says.emote": "Emote",
   "festival.halloween.mad-king-says.emote.beckon": "BECKON!",
   "festival.halloween.mad-king-says.emote.bow": "BOW!",

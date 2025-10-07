@@ -112,6 +112,10 @@ const skinIds: number[] = [
   12614, // Sanguine Staff
   12616, // Clawing Shadow Plate (Heavy)
   12617, // Clawing Shadow Plate (Medium)
+  13242, // Lunatic Jester's Trousers (Medium)
+  13260, // Lunatic Jester's Trousers (Light)
+  13234, // Lunatic Jester's Trousers (Heavy)
+  13255, // Plush Zhaia Backpack
 ];
 
 const skinSetNames: string[] = [
@@ -121,6 +125,7 @@ const skinSetNames: string[] = [
   'Grim Machine weapons',
   'Haunted weapons',
   'Royal Flame weapons',
+  'Unchained weapons',
 ];
 
 const loadData = cache(async function loadData() {

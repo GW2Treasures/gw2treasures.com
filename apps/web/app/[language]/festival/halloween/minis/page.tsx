@@ -43,6 +43,7 @@ const miniIds: number[] = [
   784, // Mini Mad Memories: Complete Edition
   787, // Mini Altosius the Flame Raven
   936, // Mini Pummel Spider
+  982, // Mini Candy Core Golem
 ];
 
 const loadData = cache(async function loadData() {

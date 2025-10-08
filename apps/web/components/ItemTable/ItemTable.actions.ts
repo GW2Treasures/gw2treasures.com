@@ -26,11 +26,12 @@ export async function loadItems<Model extends QueryModel>(query: Signed<ItemTabl
 
   const mapToItemSelect = (select: object) => mapToItem ? { [mapToItem]: { select }} : select;
 
-  const idSelect = model === 'mysticForgeRecipe' ? { id: true } : mapToItemSelect({ id: true });
+  const idSelect = model === 'content' ? {} : { id: true };
 
   const columns = await Promise.all(options.columns.map(verify));
   const selects = [
     idSelect,
+    mapToItemSelect({ id: true }),
     ...columns.map((column) => isString(column) ? mapToItemSelect(globalColumnDefinitions[column].select) : column)
   ];
   const select = deepmerge.all(selects);

@@ -10,6 +10,7 @@ import { Skeleton } from '../Skeleton/Skeleton';
 import { ProgressCell } from '../Achievement/ProgressCell';
 import { Gw2Accounts } from '../Gw2Api/Gw2Accounts';
 import { SkeletonTable } from '../Skeleton/SkeletonTable';
+import { Gw2ApiErrorBadge } from '../Gw2Api/api-error-badge';
 
 interface WizardsVaultObjectiveTableProps {
   objectiveId: number,
@@ -64,7 +65,7 @@ export const WizardsVaultObjectiveTableProgressCell: FC<WizardsVaultObjectiveTab
 
   if(wizardsVault.error) {
     return (
-      <td style={{ color: 'var(--color-error' }}>Error loading Wizard&quot;s Vault data for account</td>
+      <td><Gw2ApiErrorBadge/></td>
     );
   }
 

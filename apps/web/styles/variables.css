@@ -40,8 +40,8 @@
   --color-diff-removed: #F4433633;
   --color-diff-removed-light: #F4433622;
 
-  --color-error: #f44336;
-  --color-background-error: #f443361a;
+  --color-error: #d60012;
+  --color-background-error: #fdf3f4;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -61,8 +61,8 @@
 
     --color-focus: #3da9ff;
 
-    --color-error: #ef5350;
-    --color-background-error: #ef53501a;
+    --color-error: #dc626d;
+    --color-background-error: #483e44;
 
     --color-rarity-ascended-rgb: 255 0 107;
     --color-rarity-ascended: rgb(var(--color-rarity-ascended-rgb));

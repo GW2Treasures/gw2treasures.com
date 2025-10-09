@@ -41,7 +41,7 @@
   --color-diff-removed-light: #F4433622;
 
   --color-error: #d60012;
-  --color-background-error: #fdf3f4;
+  --color-background-error: #d600120d;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -62,7 +62,7 @@
     --color-focus: #3da9ff;
 
     --color-error: #dc626d;
-    --color-background-error: #483e44;
+    --color-background-error: #ff808a12;
 
     --color-rarity-ascended-rgb: 255 0 107;
     --color-rarity-ascended: rgb(var(--color-rarity-ascended-rgb));

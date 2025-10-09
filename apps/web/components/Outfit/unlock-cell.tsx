@@ -6,6 +6,7 @@ import { Skeleton } from '@/components/Skeleton/Skeleton';
 import { Scope } from '@gw2me/client';
 import { Icon } from '@gw2treasures/ui';
 import type { FC } from 'react';
+import { Gw2ApiErrorBadge } from '../Gw2Api/api-error-badge';
 
 export interface OutfitAccountUnlockCellProps {
   accountId: string,
@@ -22,7 +23,7 @@ export const OutfitAccountUnlockCell: FC<OutfitAccountUnlockCellProps> = ({ acco
   }
 
   if(unlockedOutfits.error) {
-    return (<td style={{ color: 'var(--color-error)' }}>Error loading outfit unlocks from Guild Wars 2 API</td>);
+    return (<td><Gw2ApiErrorBadge/></td>);
   }
 
   const unlocked = unlockedOutfits.data.includes(outfitId);

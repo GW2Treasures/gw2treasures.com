@@ -6,6 +6,7 @@ import { Skeleton } from '@/components/Skeleton/Skeleton';
 import { Scope } from '@gw2me/client';
 import type { FC } from 'react';
 import { AccountHomeNodeCell } from '../homestead.client';
+import { Gw2ApiErrorBadge } from '@/components/Gw2Api/api-error-badge';
 
 export interface GardenPlotAccountRowsProps {
   nodeIds: string[],
@@ -28,7 +29,7 @@ export const GardenPlotAccountRows: FC<GardenPlotAccountRowsProps> = ({ nodeIds 
   if(accounts.error) {
     return (
       <tr>
-        <td style={{ color: 'var(--color-error)' }} colSpan={nodeIds.length + 1}>Error loading accounts.</td>
+        <td colSpan={nodeIds.length + 1}><Gw2ApiErrorBadge/></td>
       </tr>
     );
   }

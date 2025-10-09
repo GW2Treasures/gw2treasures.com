@@ -16,6 +16,7 @@ import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { Gw2AccountName } from '@/components/Gw2Api/Gw2AccountName';
 import type { Achievement } from '@gw2api/types/data/achievement';
 import type { AchievementProgressSnapshot } from '@/components/Achievement/share/types';
+import { Gw2ApiErrorBadge } from '@/components/Gw2Api/api-error-badge';
 
 export interface TierTableProps {
   achievement: Achievement,
@@ -101,7 +102,7 @@ const TierTableAccountRow: FC<TierTableAccountRowProps> = ({ achievement, accoun
       {achievements.loading ? (
         <td colSpan={tiers.length + 1}><Skeleton/></td>
       ) : achievements.error ? (
-        <td colSpan={tiers.length + 1} style={{ color: 'var(--color-error)' }}>Error fetching data</td>
+        <td colSpan={tiers.length + 1}><Gw2ApiErrorBadge/></td>
       ) : (
         <>
           {tiers.map((tier, index) => {

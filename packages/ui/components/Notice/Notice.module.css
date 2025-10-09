@@ -15,7 +15,7 @@
 
 .error {
   border-left-color: var(--color-error);
-  background-color: #f4433622;
+  background-color: var(--color-background-error);
 }
 
 .notice .icon { --icon-color: #0288d1; }

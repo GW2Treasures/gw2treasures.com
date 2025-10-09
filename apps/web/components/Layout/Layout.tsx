@@ -53,8 +53,8 @@ const Layout: FC<LayoutProps> = ({ children, language }) => {
             <span>gw2treasures.com</span>
           </Link>
           <Search translations={searchTranslations}/>
-          <Tip tip={<span style={{ color: 'var(--color-error)' }}>The official Guild Wars 2 API is currently experiencing issues.</span>}>
-            <div style={{ padding: 10, color: 'var(--color-error)', borderRadius: 2, background: 'rgb(from var(--color-error) r g b / .1)' }}>
+          <Tip tip={<span style={{ color: 'var(--color-error)' }}>The official Guild Wars 2 API is currently experiencing issues</span>}>
+            <div style={{ padding: 10, color: 'var(--color-error)', borderRadius: 2, background: 'var(--color-background-error)' }}>
               <Icon icon="api-status"/>
             </div>
           </Tip>

@@ -18,6 +18,7 @@ import { AchievementProgressType, useAchievementProgressType } from './Achieveme
 import { AchievementPoints } from './AchievementPoints';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import type { AccountAchievement } from '@gw2api/types/data/account-achievements';
+import { Gw2ApiErrorBadge } from '../Gw2Api/api-error-badge';
 
 const requiredScopes = [Scope.GW2_Progression];
 
@@ -48,7 +49,7 @@ export const AccountAchievementProgressCell: FC<AccountAchievementProgressCellPr
   if(accountAchievements.loading || lastModified.loading) {
     return (<td><Skeleton/></td>);
   } else if (accountAchievements.error || lastModified.error) {
-    return (<td/>);
+    return (<td><Gw2ApiErrorBadge/></td>);
   }
 
   // get the reset when this achievement has last reset its progress

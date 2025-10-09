@@ -24,6 +24,7 @@ import { AccountAchievementProgressCell } from '@/components/Achievement/Account
 import { EditDialog } from './edit';
 import { Dialog } from '@gw2treasures/ui/components/Dialog/Dialog';
 import { cx } from '@gw2treasures/ui';
+import { Gw2ApiErrorBadge } from '@/components/Gw2Api/api-error-badge';
 
 const requiredScopes = [Scope.GW2_Account, Scope.GW2_Characters, Scope.GW2_Inventories, Scope.GW2_Unlocks, Scope.GW2_Tradingpost, Scope.GW2_Wallet, Scope.GW2_Progression];
 
@@ -120,7 +121,7 @@ const AccountItemCell: FC<AccountCellProps> = ({ account, id }) => {
   const total = useInventoryItemTotal(account.id, id);
 
   return (
-    <td align="right">{total.loading ? <Skeleton/> : total.error ? 'error' : <FormatNumber value={total.count}/>}</td>
+    <td align="right">{total.loading ? <Skeleton/> : total.error ? <Gw2ApiErrorBadge/> : <FormatNumber value={total.count}/>}</td>
   );
 };
 
@@ -135,7 +136,7 @@ const AccountCurrencyCell: FC<AccountCellProps> = ({ account, id }) => {
       {wallet.loading ? (
         <Skeleton/>
       ) : wallet.error ? (
-        <span style={{ color: 'var(--color-error)' }}>Error loading wallet.</span>
+        <span><Gw2ApiErrorBadge/></span>
       ) : (
         <CurrencyValue currencyId={id} value={currency?.value ?? 0}/>
       )}

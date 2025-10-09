@@ -24,6 +24,7 @@ import { useWizardsVault } from '@/components/WizardsVault/use-wizards-vault';
 import type { WizardsVaultObjectiveClientTranslations } from './translations';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { WizardsVaultTrackIcon } from '@/components/WizardsVault/track-icon';
+import { Gw2ApiErrorBadge } from '@/components/Gw2Api/api-error-badge';
 
 export interface WizardVaultObjectivesProps {
   seasonEnd?: Date,
@@ -118,7 +119,7 @@ const AccountOverviewRow: FC<AccountObjectivesProps> = ({ account, translations 
     return (
       <tr key={account.id}>
         <td><Gw2AccountName account={account}/> {wizardsVault.loading && <Icon icon="loading"/>}</td>
-        <td colSpan={4} align="right">{!wizardsVault.loading && wizardsVault.error && <span style={{ color: 'red' }}>Error loading Wizard&apos;s Vault progress from Guild Wars 2 API</span>}</td>
+        <td colSpan={4} align="right">{!wizardsVault.loading && wizardsVault.error && <Gw2ApiErrorBadge/>}</td>
       </tr>
     );
   }

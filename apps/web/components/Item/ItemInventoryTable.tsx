@@ -15,6 +15,7 @@ import { isTruthy } from '@gw2treasures/helper/is';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { useLocalStorageState } from '@/lib/useLocalStorageState';
 import { ProfessionIcon } from '../Profession/icon';
+import { Gw2ApiErrorBadge } from '../Gw2Api/api-error-badge';
 
 interface WardrobeProps {
   itemId: number,
@@ -91,7 +92,7 @@ const ItemInventoryAccountRows: FC<ItemInventoryAccountRowsProps> = ({ itemId, a
             <Gw2AccountName account={account}/>
           </FlexRow>
         </th>
-        <td style={{ color: 'var(--color-error)' }}>Error loading inventory</td>
+        <td><Gw2ApiErrorBadge/></td>
       </tr>
     );
   }

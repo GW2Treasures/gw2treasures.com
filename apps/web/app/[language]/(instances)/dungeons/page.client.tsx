@@ -1,6 +1,7 @@
 'use client';
 
 import { ProgressCell } from '@/components/Achievement/ProgressCell';
+import { Gw2ApiErrorBadge } from '@/components/Gw2Api/api-error-badge';
 import { useSubscriptionWithReset } from '@/components/Gw2Api/use-gw2-subscription';
 import { Skeleton } from '@/components/Skeleton/Skeleton';
 import { Scope } from '@gw2me/client';
@@ -29,7 +30,7 @@ export const DungeonDailyCell: FC<DungeonDailyCellProps> = ({ accountId, path })
 
   if(dungeons.error) {
     return (
-      <td style={{ color: 'var(--color-error)' }}>Could not load dungeon clears</td>
+      <td><Gw2ApiErrorBadge/></td>
     );
   }
 

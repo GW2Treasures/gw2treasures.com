@@ -6,6 +6,7 @@ import { Skeleton } from '@/components/Skeleton/Skeleton';
 import { Scope } from '@gw2me/client';
 import { Icon } from '@gw2treasures/ui';
 import type { FC } from 'react';
+import { Gw2ApiErrorBadge } from '../Gw2Api/api-error-badge';
 
 export interface GliderAccountUnlockCellProps {
   accountId: string,
@@ -22,7 +23,7 @@ export const GliderAccountUnlockCell: FC<GliderAccountUnlockCellProps> = ({ acco
   }
 
   if(unlockedGliders.error) {
-    return (<td style={{ color: 'var(--color-error)' }}>Error loading glider unlocks from Guild Wars 2 API</td>);
+    return (<td><Gw2ApiErrorBadge/></td>);
   }
 
   const unlocked = unlockedGliders.data.includes(gliderId);

@@ -9,6 +9,7 @@ import { Scope } from '@gw2me/client';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { Gw2AccountName } from '@/components/Gw2Api/Gw2AccountName';
 import { Gw2Accounts } from '@/components/Gw2Api/Gw2Accounts';
+import { Gw2ApiErrorBadge } from '@/components/Gw2Api/api-error-badge';
 
 interface WalletTableProps {
   currencyId: number,
@@ -56,7 +57,7 @@ export const WalletTableAccountRow: FC<WalletTableAccountRowProps> = ({ currency
         {wallet.loading ? (
           <Skeleton/>
         ) : wallet.error ? (
-          <span style={{ color: 'var(--color-error)' }}>Error loading wallet.</span>
+          <span><Gw2ApiErrorBadge/></span>
         ) : (
           <CurrencyValue currencyId={currencyId} value={currency?.value ?? 0}/>
         )}

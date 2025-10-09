@@ -1,0 +1,12 @@
+.badge {
+  border-radius: 2px;
+  padding: 4px 8px;
+  white-space: nowrap;
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  color: var(--color-error);
+  background-color: var(--color-background-error);
+  font-size: 14px;
+  line-height: 1;
+}

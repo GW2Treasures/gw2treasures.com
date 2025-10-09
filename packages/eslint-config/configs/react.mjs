@@ -16,7 +16,7 @@ export default defineConfig(
   },
 
   // extends eslint-plugin-react-hooks
-  reactHooks.configs['recommended-latest'],
+  reactHooks.configs.flat['recommended-latest'],
 
   // extend ./index
   config,

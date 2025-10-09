@@ -1,6 +1,5 @@
 import nextJsPlugin from '@gw2treasures/eslint-plugin-nextjs';
 import reactConfig from '@gw2treasures/eslint-config/react';
-import reactCompiler from 'eslint-plugin-react-compiler';
 import nextConfig from '@next/eslint-plugin-next';
 import { defineConfig, globalIgnores } from 'eslint/config';
 
@@ -17,10 +16,12 @@ export default defineConfig(
   // extend @gw2treasures/eslint-config/react
   ...reactConfig,
 
-  // enable enable react-compiler plugin (no flat preset yet)
+  // temporarily change some react-hook rules to warn:
   {
-    plugins: { 'react-compiler': reactCompiler },
-    rules: reactCompiler.configs.recommended.rules
+    rules: {
+      'react-hooks/set-state-in-effect': 'warn',
+      'react-hooks/refs': 'warn',
+    }
   },
 
   // enable @gw2treasures/nextjs plugin for page.tsx files (no flat preset yet)

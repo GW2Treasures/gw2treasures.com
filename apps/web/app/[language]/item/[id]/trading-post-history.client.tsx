@@ -535,6 +535,7 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
               {(visibility.sellPrice || visibility.buyPrice || visibility.sellQuantity || visibility.buyQuantity) && (
                 <TooltipWithBounds
                   // set this to random so it correctly updates with parent bounds
+                  // eslint-disable-next-line react-hooks/purity
                   key={Math.random()}
                   top={tooltipTop}
                   left={tooltipLeft ?? 0}

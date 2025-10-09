@@ -110,6 +110,7 @@ export class AccountSubscriptionManager {
   #subscriptions = new Set<ActiveSubscription<SubscriptionType>>();
   #timeouts = new Map<SubscriptionType, NodeJS.Timeout | 0>();
   #cache: { [T in SubscriptionType]?: { timestamp: Date, data: SubscriptionData<T> }} = {};
+  #errorCount = 0;
 
   constructor(accountId: string, paused: boolean) {
     this.#accountId = accountId;
@@ -193,6 +194,9 @@ export class AccountSubscriptionManager {
       // save cache to session storage
       sessionStorage.setItem(`gw2api.cache.${this.#accountId}`, JSON.stringify(this.#cache));
 
+      // reset error count
+      this.#errorCount = 0;
+
       response = { error: false, data, timestamp };
     } catch(e) {
       const cached = this.#cache[type];
@@ -200,13 +204,16 @@ export class AccountSubscriptionManager {
       // TODO: only respond with cached data if it is not too old
       response = cached ? { error: false, ...cached } : { error: true };
 
+      // increase error count
+      this.#errorCount++;
+
       const isRateLimitError = e instanceof Gw2ApiError && e.response.status === 429;
       if(!isRateLimitError) {
         // retry the errored request after 5 seconds, unless it was a rate limit error
-        nextTickMs = 5_000;
+        nextTickMs = Math.min(this.#errorCount * 5_000, 60_000);
       }
 
-      console.warn(`[AccountSubscriptionManager(${this.#accountId})] error fetching data` + (cached ? ' (fallback to cached data)' : ''), type, e);
+      console.warn(`[AccountSubscriptionManager(${this.#accountId})][${type}] error fetching data${cached ? ' (fallback to cached data)' : ''}\n`, e);
     }
 
     // call callbacks

@@ -189,6 +189,7 @@ export async function AchievementPageComponent({ language, achievementId, revisi
       )}
 
       {hasObjectives && (
+        // eslint-disable-next-line react-hooks/static-components
         <OptionalCategoryAchievementTable achievements={categoryAchievements} language={language}>
           {(categoryAchievementTable, columnSelect) => (
             <>

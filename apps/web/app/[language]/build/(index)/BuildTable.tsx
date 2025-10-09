@@ -43,5 +43,6 @@ export const BuildTable: FC<BuildTableProps> = ({ rows }) => {
   // TODO: replace with @gw2treasures/ui DataTable
   const BuildTable = useDataTable<BuildWithUpdates>(buildTableColumns, buildRowKey, group);
 
+  // eslint-disable-next-line react-hooks/static-components
   return <BuildTable rows={rows}/>;
 };

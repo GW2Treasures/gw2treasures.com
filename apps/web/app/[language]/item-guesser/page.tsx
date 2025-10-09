@@ -7,6 +7,7 @@ export default async function ItemGuesserPage() {
   const count = await db.item.count({ where: { removedFromApi: false }});
   const item = await db.item.findFirst({
     take: 1,
+    // eslint-disable-next-line react-hooks/purity
     skip: Math.floor(Math.random() * count),
     where: { removedFromApi: false },
     include: { icon: true }

@@ -23,6 +23,7 @@ import gw2treasuresSab from './gw2treasures-sab.png';
 import { getLanguage, getTranslate } from '@/lib/translate';
 import { BonusEvent, getActiveBonusEvent } from '../bonus-event/bonus-events';
 import { createMetadata } from '@/lib/metadata';
+import { HalloweenHero, heroNoImageClass } from '../festival/halloween/_hero/hero';
 
 async function HomePage() {
   const language = await getLanguage();
@@ -34,7 +35,7 @@ async function HomePage() {
   const hero = festivalHero[festival?.type ?? 'default'] ?? festivalHero.default;
 
   return (
-    <HeroLayout color={hero.color} heroClassName={hero === festivalHero.default ? styles.heroGradient : undefined} hero={(
+    <HeroLayout color={hero.color} heroClassName={hero.className} hero={(
       <hero.wrapper>
         <div className={styles.hero}>
           {festival?.type === Festival.SuperAdventureFestival ? (
@@ -149,12 +150,12 @@ export const generateMetadata = createMetadata({
   image: ogImage
 });
 
-type WrapperConfig = { color: string, wrapper: ComponentType<{ children: ReactNode }> };
+type WrapperConfig = { color: string, className?: string, wrapper: ComponentType<{ children: ReactNode }> };
 const festivalHero: Partial<Record<Festival, WrapperConfig>> & { default: WrapperConfig } = {
-  default: { color: '#b7000d', wrapper: Fragment },
+  default: { color: '#b7000d', className: styles.heroGradient, wrapper: Fragment },
   [Festival.Wintersday]: { color: '#7993a9', wrapper: Snow },
   [Festival.LunarNewYear]: { color: '#be3413', wrapper: LunarNewYearHero },
   [Festival.SuperAdventureFestival]: { color: '#25b2f9', wrapper: Fragment },
   [Festival.FourWinds]: undefined,
-  [Festival.Halloween]: { color: '#444', wrapper: Fragment },
+  [Festival.Halloween]: { color: '#444', className: heroNoImageClass, wrapper: HalloweenHero },
 };

@@ -15,6 +15,7 @@ import { currencyCategories, type CurrencyCategoryName } from '@gw2treasures/sta
 import { ReviewButton } from './Header/ReviewButton';
 import { PartnerButton } from './partner/button';
 import { PartnerLogo } from './partner/logo';
+import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 
 interface LayoutProps {
   children: ReactNode,
@@ -52,6 +53,11 @@ const Layout: FC<LayoutProps> = ({ children, language }) => {
             <span>gw2treasures.com</span>
           </Link>
           <Search translations={searchTranslations}/>
+          <Tip tip={<span style={{ color: 'var(--color-error)' }}>The official Guild Wars 2 API is currently experiencing issues.</span>}>
+            <div style={{ padding: 10, color: 'var(--color-error)', borderRadius: 2, background: 'rgb(from var(--color-error) r g b / .1)' }}>
+              <Icon icon="api-status"/>
+            </div>
+          </Tip>
           <div className={styles.right}>
             <PartnerButton/>
             <ReviewButton language={language}/>

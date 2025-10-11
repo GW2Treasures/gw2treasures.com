@@ -208,10 +208,12 @@ export class AccountSubscriptionManager {
       this.#errorCount++;
 
       const isRateLimitError = e instanceof Gw2ApiError && e.response.status === 429;
-      if(!isRateLimitError) {
-        // retry the errored request after 5 seconds, unless it was a rate limit error
-        nextTickMs = Math.min(this.#errorCount * 5_000, 60_000);
-      }
+      const isApiDisabled = e instanceof Gw2ApiError && e.message.includes('API not active');
+
+      // delay retry depending on error
+      nextTickMs = isApiDisabled ? 5 * 60 * 1000 : // 5 minutes
+        isRateLimitError ? 60_000 : // 1 minute
+        Math.min(this.#errorCount * 5_000, 60_000); // 5s -> 1 minute
 
       console.warn(`[AccountSubscriptionManager(${this.#accountId})][${type}] error fetching data${cached ? ' (fallback to cached data)' : ''}\n`, e);
     }

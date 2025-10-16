@@ -71,7 +71,7 @@ export async function submitToReview({ itemId, removedItems, addedItems, removed
     }
   });
 
-  revalidateTag('open-reviews');
+  revalidateTag('open-reviews', 'max');
 
   return true;
 }

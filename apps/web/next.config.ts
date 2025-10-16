@@ -13,17 +13,14 @@ const nextConfig: NextConfig = {
 
   // enable experimental features
   experimental: {
-    reactCompiler: true,
-
     // generate server source maps for better errors
     serverSourceMaps: true,
 
-    // taint is not actually used, this is just to opt Next.js into using react@experimental,
-    // so other APIs become available (e.g. useEffectEvent)
-    taint: true,
-
     // typed environment variables (.env)
     typedEnv: true,
+
+    // enable next/root-params
+    rootParams: true,
   },
 
   // enable production source maps
@@ -32,13 +29,14 @@ const nextConfig: NextConfig = {
   // Allow cross-origin requests during development
   allowedDevOrigins: ['*.gw2treasures.localhost'],
 
-  // disable eslint/typescript during some CI jobs, as there are separate jobs for it
-  eslint: { ignoreDuringBuilds: !!process.env.SKIP_LINT },
+  // disable typechecking during some CI jobs, as there are separate jobs for it
   typescript: { ignoreBuildErrors: !!process.env.SKIP_TYPES },
 
   // transpile @gw2treasures/ui package
   outputFileTracingRoot: path.join(__dirname, '../../'),
   transpilePackages: ['@gw2treasures/ui'],
+
+  reactCompiler: true,
 
   // add PrismaPlugin to ensure that prisma engines are bundled correctly
   webpack: (config, { isServer }) => {

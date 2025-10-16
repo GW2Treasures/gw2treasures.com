@@ -28,5 +28,3 @@ jobs:
         cache-key: build
     - name: Run Build
       run: pnpm run build
-      env:
-        SKIP_LINT: true

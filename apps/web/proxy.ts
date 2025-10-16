@@ -1,19 +1,19 @@
 import { NextResponse, NextRequest } from 'next/server';
-import { healthMiddleware } from './middleware/health';
-import type { NextMiddleware } from './middleware/types';
-import { logMiddleware } from './middleware/log';
-import { realUrlMiddleware } from './middleware/real-url';
-import { subdomainMiddleware } from './middleware/subdomain';
-import { languageMiddleware } from './middleware/language';
-import { sessionMiddleware } from './middleware/session';
-import { apiKeyMiddleware } from './middleware/api-key';
-import { rewriteMiddleware } from './middleware/rewrite';
-import { corsMiddleware } from './middleware/cors';
-import { userAgentMiddleware } from './middleware/user-agent';
-import { dropSearchParamsMiddleware } from './middleware/drop-search-params';
-import { contentSecurityPolicyMiddleware } from './middleware/content-security-policy';
+import { healthMiddleware } from './proxy/health';
+import type { NextMiddleware } from './proxy/types';
+import { logMiddleware } from './proxy/log';
+import { realUrlMiddleware } from './proxy/real-url';
+import { subdomainMiddleware } from './proxy/subdomain';
+import { languageMiddleware } from './proxy/language';
+import { sessionMiddleware } from './proxy/session';
+import { apiKeyMiddleware } from './proxy/api-key';
+import { rewriteMiddleware } from './proxy/rewrite';
+import { corsMiddleware } from './proxy/cors';
+import { userAgentMiddleware } from './proxy/user-agent';
+import { dropSearchParamsMiddleware } from './proxy/drop-search-params';
+import { contentSecurityPolicyMiddleware } from './proxy/content-security-policy';
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const middlewares: NextMiddleware[] = [
     logMiddleware,
     healthMiddleware,

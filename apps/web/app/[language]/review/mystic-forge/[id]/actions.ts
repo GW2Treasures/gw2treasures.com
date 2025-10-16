@@ -67,7 +67,7 @@ export async function approve(id: string): Promise<never> {
     }),
   ]);
 
-  revalidateTag('open-reviews');
+  revalidateTag('open-reviews', 'max');
 
   const nextId = await getRandomReviewId('MysticForge');
 
@@ -83,7 +83,7 @@ export async function reject(id: string): Promise<never> {
     data: { reviewerId: user.id, reviewedAt: new Date(), state: ReviewState.Rejected }
   });
 
-  revalidateTag('open-reviews');
+  revalidateTag('open-reviews', 'max');
 
   const nextId = await getRandomReviewId('MysticForge');
   redirect(nextId ? `/review/mystic-forge/${nextId}` : '/review');

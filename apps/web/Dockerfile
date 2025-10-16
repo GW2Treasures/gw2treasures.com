@@ -46,7 +46,6 @@ ARG pnpm_version
 ARG deployment_id
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
-ENV SKIP_LINT=true
 ENV SKIP_TYPES=true
 
 COPY --link --from=source /source/out/json/ .

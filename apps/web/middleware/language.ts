@@ -1,11 +1,13 @@
 import type { NextMiddleware } from './types';
 import { Language } from '@gw2treasures/database';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { match } from '@formatjs/intl-localematcher';
 import Negotiator from 'negotiator';
 import { getBaseUrl } from '@/lib/url';
+import { SessionCookieName } from '@/lib/auth/cookie';
+import { expiresAtFromExpiresIn } from '@/lib/expiresAtFromExpiresIn';
 
-export const languageMiddleware: NextMiddleware = (request, next, data) => {
+export const languageMiddleware: NextMiddleware = async (request, next, data) => {
   const url = data.url;
   const subdomain = data.subdomain;
 
@@ -16,11 +18,7 @@ export const languageMiddleware: NextMiddleware = (request, next, data) => {
   // handle language not found
   if(!subdomain) {
     // if no language was detected we need to redirect to the correct domain
-    const acceptLanguage = new Negotiator({ headers: Object.fromEntries(request.headers.entries()) }).languages();
-
-    const language = acceptLanguage.length === 1 && acceptLanguage[0] === '*'
-      ? Language.en
-      : match(acceptLanguage, Object.values(Language), Language.en) as Language;
+    const language = getLanguageFromCookie(request) ?? getLanguageFromAcceptLanguage(request);
 
     url.hostname = getBaseUrl(language).hostname;
 
@@ -43,7 +41,7 @@ export const languageMiddleware: NextMiddleware = (request, next, data) => {
 
   if(subdomain === 'api') {
     // handle api requests
-    // set languae based on `lang` search param, fallback to en
+    // set language based on `lang` search param, fallback to en
     const lang = request.nextUrl.searchParams.get('lang');
     const isValidLang = lang && lang in Language;
 
@@ -53,5 +51,41 @@ export const languageMiddleware: NextMiddleware = (request, next, data) => {
     request.headers.set('x-gw2t-lang', subdomain);
   }
 
-  return next(request);
+  const response = await next(request);
+
+  // if the user is logged in they have accepted cookies, so we can store the current language as a cookie
+  if(subdomain !== 'api' && request.cookies.has(SessionCookieName) && request.cookies.get('gw2t-l')?.value !== subdomain) {
+    response.cookies.set('gw2t-l', subdomain, {
+      domain: `.${getBaseUrl().hostname}`,
+      sameSite: 'lax',
+      httpOnly: true,
+      path: '/',
+      secure: true,
+      expires: expiresAtFromExpiresIn(365 * 24 * 60 * 60) // 1 year
+    });
+  }
+
+  return response;
 };
+
+
+function getLanguageFromCookie(request: NextRequest): Language | undefined {
+  const language = request.cookies.get('gw2t-l');
+
+  if(language?.value && language.value in Language) {
+    return language.value as Language;
+  }
+
+  return undefined;
+}
+
+function getLanguageFromAcceptLanguage(request: NextRequest): Language {
+  const acceptLanguage = new Negotiator({ headers: Object.fromEntries(request.headers.entries()) }).languages();
+
+  const language = acceptLanguage.length === 1 && acceptLanguage[0] === '*'
+    ? Language.en
+    : match(acceptLanguage, Object.values(Language), Language.en) as Language;
+
+  return language;
+}
+

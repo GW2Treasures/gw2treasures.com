@@ -6,7 +6,7 @@ import en from '../translations/en.json';
 import es from '../translations/es.json';
 import fr from '../translations/fr.json';
 import { headers } from 'next/headers';
-import { unstable_rootParams } from 'next/server';
+import { language as getLanguageParam } from 'next/root-params';
 
 export type TranslationId = keyof typeof en;
 
@@ -46,12 +46,14 @@ export function translateMany<T extends TranslationId>(ids: T[], language: Langu
 }
 
 export async function getLanguage(): Promise<Language> {
-  // TODO: replace with `next/rootParams`
-  const { language } = await unstable_rootParams();
-
-  return isValidLanguage(language)
-    ? language
-    : getFallbackLanguageFromHeaders();
+  try {
+    const { language } = await getLanguageParam();
+    return isValidLanguage(language)
+      ? language
+      : getFallbackLanguageFromHeaders();
+  } catch {
+    return getFallbackLanguageFromHeaders();
+  }
 }
 
 async function getFallbackLanguageFromHeaders(): Promise<Language> {

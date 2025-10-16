@@ -52,7 +52,7 @@ export async function approve(data: FormData) {
     }),
   ]);
 
-  revalidateTag('open-reviews');
+  revalidateTag('open-reviews', 'max');
 
   const nextId = await getRandomReviewId('ContainerContent');
 
@@ -68,7 +68,7 @@ export async function reject(data: FormData) {
     data: { reviewerId: user.id, reviewedAt: new Date(), state: ReviewState.Rejected }
   });
 
-  revalidateTag('open-reviews');
+  revalidateTag('open-reviews', 'max');
 
   const nextId = await getRandomReviewId('ContainerContent');
 

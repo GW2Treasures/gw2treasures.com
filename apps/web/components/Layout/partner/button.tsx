@@ -22,11 +22,11 @@ export const PartnerButton: FC = () => {
           <PartnerLogo/>
           <Trans id="partner.info"/>
         </div>
-        <LinkButton external appearance="menu" href="http://guildwars2.go2cloud.org/aff_c?offer_id=34&aff_id=758" icon="external" className={styles.buttonNoDelay}>
+        <LinkButton external appearance="menu" href="https://guildwars2.go2cloud.org/aff_c?offer_id=34&aff_id=758" icon="external" className={styles.buttonNoDelay}>
           <Trans id="partner.button.buy"/>
           <div className={styles.buySub}><Trans id="partner.button.buy.sub"/></div>
         </LinkButton>
-        <LinkButton external appearance="menu" href="http://guildwars2.go2cloud.org/aff_c?offer_id=19&aff_id=758" icon="external">
+        <LinkButton external appearance="menu" href="https://guildwars2.go2cloud.org/aff_c?offer_id=19&aff_id=758" icon="external">
           <Trans id="partner.button.try"/>
         </LinkButton>
       </MenuList>

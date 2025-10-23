@@ -11,11 +11,11 @@
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
   "dependencies": {
-    "@prisma/client": "6.17.1"
+    "@prisma/client": "6.18.0"
   },
   "devDependencies": {
     "@gw2treasures/tsconfig": "workspace:*",
-    "prisma": "6.17.1",
+    "prisma": "6.18.0",
     "typescript": "5.9.3"
   }
 }

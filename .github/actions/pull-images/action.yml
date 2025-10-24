@@ -10,7 +10,7 @@ runs:
   using: composite
   steps:
   - name: Download digests
-    uses: actions/download-artifact@v5
+    uses: actions/download-artifact@v6
     with:
       path: /tmp/digests
       pattern: docker-digests-${{ inputs.platform }}-*

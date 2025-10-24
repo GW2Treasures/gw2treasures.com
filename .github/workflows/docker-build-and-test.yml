@@ -64,7 +64,7 @@ jobs:
         digest=$(jq -cr '."${{ matrix.target }}"."containerimage.digest"' <<< '${{ steps.build.outputs.metadata }}')
         touch "/tmp/digests/${{ matrix.target }}/${digest#sha256:}"
     - name: Upload digest
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       with:
         name: docker-digests-${{ inputs.platform }}-${{ matrix.target }}
         path: /tmp/digests/*

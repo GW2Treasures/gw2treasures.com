@@ -5,7 +5,7 @@ import { match } from '@formatjs/intl-localematcher';
 import Negotiator from 'negotiator';
 import { getBaseUrl } from '@/lib/url';
 import { SessionCookieName } from '@/lib/auth/cookie';
-import { expiresAtFromExpiresIn } from '@/lib/expiresAtFromExpiresIn';
+import { createRememberLanguageCookie, rememberLanguageCookieName } from '@/lib/cookies';
 
 export const languageMiddleware: NextMiddleware = async (request, next, data) => {
   const url = data.url;
@@ -15,10 +15,13 @@ export const languageMiddleware: NextMiddleware = async (request, next, data) =>
     return new NextResponse('Internal Server Error', { status: 500 });
   }
 
+  // get remembered language from cookie
+  const rememberedLanguage = getLanguageFromCookie(request);
+
   // handle language not found
   if(!subdomain) {
     // if no language was detected we need to redirect to the correct domain
-    const language = getLanguageFromCookie(request) ?? getLanguageFromAcceptLanguage(request);
+    const language = rememberedLanguage ?? getLanguageFromAcceptLanguage(request);
 
     url.hostname = getBaseUrl(language).hostname;
 
@@ -54,15 +57,9 @@ export const languageMiddleware: NextMiddleware = async (request, next, data) =>
   const response = await next(request);
 
   // if the user is logged in they have accepted cookies, so we can store the current language as a cookie
-  if(subdomain !== 'api' && request.cookies.has(SessionCookieName) && request.cookies.get('gw2t-l')?.value !== subdomain) {
-    response.cookies.set('gw2t-l', subdomain, {
-      domain: `.${getBaseUrl().hostname}`,
-      sameSite: 'lax',
-      httpOnly: true,
-      path: '/',
-      secure: true,
-      expires: expiresAtFromExpiresIn(365 * 24 * 60 * 60) // 1 year
-    });
+  const userHasAcceptedCookies = request.cookies.has(SessionCookieName) || rememberedLanguage;
+  if(subdomain !== 'api' && userHasAcceptedCookies && rememberedLanguage !== subdomain) {
+    response.cookies.set(createRememberLanguageCookie(subdomain));
   }
 
   return response;
@@ -70,7 +67,7 @@ export const languageMiddleware: NextMiddleware = async (request, next, data) =>
 
 
 function getLanguageFromCookie(request: NextRequest): Language | undefined {
-  const language = request.cookies.get('gw2t-l');
+  const language = request.cookies.get(rememberLanguageCookieName);
 
   if(language?.value && language.value in Language) {
     return language.value as Language;

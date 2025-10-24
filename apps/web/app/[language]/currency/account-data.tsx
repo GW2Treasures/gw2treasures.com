@@ -5,6 +5,7 @@ import { useSubscription } from '@/components/Gw2Api/use-gw2-subscription';
 import { Skeleton } from '@/components/Skeleton/Skeleton';
 import { CurrencyValue } from '@/components/Currency/CurrencyValue';
 import { SortableDynamicDataTableCell } from '@gw2treasures/ui/components/Table/DataTable.client';
+import { Gw2ApiErrorBadge } from '@/components/Gw2Api/api-error-badge';
 
 export const AccountWalletCell: FC<{ currencyId: number, accountId: string }> = ({ currencyId, accountId }) => {
   const wallet = useSubscription('wallet', accountId);
@@ -12,7 +13,7 @@ export const AccountWalletCell: FC<{ currencyId: number, accountId: string }> = 
   if (wallet.loading) {
     return (<td><Skeleton/></td>);
   } else if (wallet.error) {
-    return (<td/>);
+    return (<td><Gw2ApiErrorBadge/></td>);
   }
 
   const currency = wallet.data.find(({ id }) => id === currencyId);

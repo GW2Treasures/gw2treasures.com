@@ -5,6 +5,7 @@ import { Skeleton } from '@/components/Skeleton/Skeleton';
 import type { FC } from 'react';
 import type { ArmorSlot } from './types';
 import { ProgressCell } from '@/components/Achievement/ProgressCell';
+import { Gw2ApiErrorBadge } from '@/components/Gw2Api/api-error-badge';
 
 export interface LegendaryArmorOverviewCellProps {
   accountId: string,
@@ -20,7 +21,7 @@ export const LegendaryArmorOverviewCell: FC<LegendaryArmorOverviewCellProps> = (
   }
 
   if(inventory.error) {
-    return <td>0 / 6</td>;
+    return <td><Gw2ApiErrorBadge/></td>;
   }
 
   const legendaryArmory = inventory.data.armory;

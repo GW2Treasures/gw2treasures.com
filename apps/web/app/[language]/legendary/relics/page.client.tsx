@@ -9,6 +9,7 @@ import { Icon } from '@gw2treasures/ui';
 import { useSubscription } from '@/components/Gw2Api/use-gw2-subscription';
 import { Skeleton } from '@/components/Skeleton/Skeleton';
 import type { Achievement } from '@gw2treasures/database';
+import { Gw2ApiErrorBadge } from '@/components/Gw2Api/api-error-badge';
 
 export type RelicUnlockCellProps = {
   set: RelicSet | undefined,
@@ -30,7 +31,7 @@ export const RelicUnlockCell: FC<RelicUnlockCellProps> = ({ set, accountId, ...p
   }
 
   if(account.error) {
-    return <td/>;
+    return (<td><Gw2ApiErrorBadge/></td>);
   }
 
   // if the set requires a specific expansion and the account doesn't have it unlocked show lock

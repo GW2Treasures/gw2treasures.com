@@ -2,6 +2,7 @@
 
 import { ProgressCell } from '@/components/Achievement/ProgressCell';
 import { FormatNumber } from '@/components/Format/FormatNumber';
+import { Gw2ApiErrorBadge } from '@/components/Gw2Api/api-error-badge';
 import { useInventoryItem, UseInventoryItemAccountLocation } from '@/components/Inventory/use-inventory';
 import { Skeleton } from '@/components/Skeleton/Skeleton';
 import type { FC } from 'react';
@@ -21,7 +22,7 @@ export const LegendaryArmoryCell: FC<LegendaryArmoryCellProps> = ({ itemId, acco
   }
 
   if(inventory.error) {
-    return <td/>;
+    return (<td><Gw2ApiErrorBadge/></td>);
   }
 
   // get items in legendary armory

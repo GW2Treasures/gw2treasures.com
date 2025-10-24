@@ -46,7 +46,7 @@
     "@gw2treasures/helper": "workspace:~0.0.5",
     "@gw2treasures/icons": "workspace:~0.1.2",
     "@gw2treasures/tsconfig": "workspace:~0.0.1",
-    "next": "^15.0.0 || 16.0.0-beta.0",
+    "next": "^15.0.0 || 16.0.0-beta.0 || 16.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },

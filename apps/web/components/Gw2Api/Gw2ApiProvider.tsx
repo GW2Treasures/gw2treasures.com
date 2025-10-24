@@ -1,6 +1,6 @@
 'use client';
 
-import { experimental_useEffectEvent as useEffectEvent, type FC, type ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useEffectEvent, type FC, type ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Gw2ApiContext, type GetAccountsOptions } from './Gw2ApiContext';
 import { fetchAccounts } from './fetch-accounts-action';
 import { ErrorCode, type Gw2Account } from './types';

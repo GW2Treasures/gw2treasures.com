@@ -11,7 +11,7 @@ export default defineConfig(
   ]),
 
   // extends next/core-web-vitals
-  nextConfig.flatConfig.coreWebVitals,
+  nextConfig.configs['core-web-vitals'],
 
   // extend @gw2treasures/eslint-config/react
   ...reactConfig,

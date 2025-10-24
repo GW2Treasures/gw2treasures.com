@@ -94,7 +94,7 @@ export async function submitEditMysticForge(_: unknown, data: SubmitEditMysticFo
     }
   });
 
-  revalidateTag('open-reviews');
+  revalidateTag('open-reviews', 'max');
 
   return { success: true };
 }

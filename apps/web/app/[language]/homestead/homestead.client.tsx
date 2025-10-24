@@ -10,6 +10,7 @@ import { FormatNumber } from '@/components/Format/FormatNumber';
 import { HomesteadGlyphSlot } from '@gw2treasures/database';
 import type { TranslationSubset } from '@/lib/translate';
 import { SortableDynamicDataTableCell } from '@gw2treasures/ui/components/Table/DataTable.client';
+import { Gw2ApiErrorBadge } from '@/components/Gw2Api/api-error-badge';
 
 export const requiredScopes = [Scope.GW2_Progression, Scope.GW2_Unlocks];
 
@@ -19,7 +20,7 @@ export const AccountHomeNodeCell: FC<{ nodeId: string, accountId: string }> = ({
   if (nodes.loading) {
     return (<td><Skeleton/></td>);
   } else if (nodes.error) {
-    return (<td/>);
+    return (<td><Gw2ApiErrorBadge/></td>);
   }
 
   const isUnlocked = nodes.data.includes(nodeId);
@@ -37,7 +38,7 @@ export const AccountHomeCatCell: FC<{ catId: number, accountId: string }> = ({ c
   if (cats.loading) {
     return (<td><Skeleton/></td>);
   } else if (cats.error) {
-    return (<td/>);
+    return (<td><Gw2ApiErrorBadge/></td>);
   }
 
   const isUnlocked = cats.data.includes(catId);
@@ -56,7 +57,7 @@ export const AccountHomesteadDecorationCell: FC<{ decorationId: number, accountI
   if (decorations.loading) {
     return (<td><Skeleton/></td>);
   } else if (decorations.error) {
-    return (<td/>);
+    return (<td><Gw2ApiErrorBadge/></td>);
   }
 
   const decoration = decorations.data.find(({ id }) => id === decorationId);
@@ -78,7 +79,7 @@ export const AccountHomesteadGlyphsCell: FC<{ glyphIdPrefix: string, accountId: 
   if (glyphs.loading) {
     return (<td colSpan={3}><Skeleton/></td>);
   } else if (glyphs.error) {
-    return (<td colSpan={3}/>);
+    return (<td colSpan={3}><Gw2ApiErrorBadge/></td>);
   }
 
   return Object.values(HomesteadGlyphSlot).map((slot) => {

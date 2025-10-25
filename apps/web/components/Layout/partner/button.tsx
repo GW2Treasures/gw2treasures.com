@@ -7,6 +7,7 @@ import layoutStyles from '../Layout.module.css';
 import styles from './button.module.css';
 import { Trans } from '@/components/I18n/Trans';
 import { PartnerLogo } from './logo';
+import { getBaseUrl } from '@/lib/url';
 
 export const PartnerButton: FC = () => {
   const button = (
@@ -22,11 +23,11 @@ export const PartnerButton: FC = () => {
           <PartnerLogo/>
           <Trans id="partner.info"/>
         </div>
-        <LinkButton external appearance="menu" href="https://guildwars2.go2cloud.org/aff_c?offer_id=34&aff_id=758" icon="external" className={styles.buttonNoDelay}>
+        <LinkButton external appearance="menu" href={new URL('/buy-gw2', getBaseUrl()).toString()} icon="external" className={styles.buttonNoDelay}>
           <Trans id="partner.button.buy"/>
           <div className={styles.buySub}><Trans id="partner.button.buy.sub"/></div>
         </LinkButton>
-        <LinkButton external appearance="menu" href="https://guildwars2.go2cloud.org/aff_c?offer_id=19&aff_id=758" icon="external">
+        <LinkButton external appearance="menu" href={new URL('/try-gw2', getBaseUrl()).toString()} icon="external">
           <Trans id="partner.button.try"/>
         </LinkButton>
       </MenuList>

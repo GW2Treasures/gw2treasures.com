@@ -12,6 +12,7 @@ import { corsMiddleware } from './proxy/cors';
 import { userAgentMiddleware } from './proxy/user-agent';
 import { dropSearchParamsMiddleware } from './proxy/drop-search-params';
 import { contentSecurityPolicyMiddleware } from './proxy/content-security-policy';
+import { affiliateMiddleware } from './proxy/affiliate';
 
 export async function proxy(request: NextRequest) {
   const middlewares: NextMiddleware[] = [
@@ -22,8 +23,9 @@ export async function proxy(request: NextRequest) {
     subdomainMiddleware,
     corsMiddleware,
     contentSecurityPolicyMiddleware,
-    languageMiddleware,
     userAgentMiddleware,
+    affiliateMiddleware,
+    languageMiddleware,
     sessionMiddleware,
     apiKeyMiddleware,
     rewriteMiddleware,

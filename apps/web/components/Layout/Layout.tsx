@@ -16,6 +16,7 @@ import { ReviewButton } from './Header/ReviewButton';
 import { PartnerButton } from './partner/button';
 import { PartnerLogo } from './partner/logo';
 import { FormatDate } from '../Format/FormatDate';
+import { getBaseUrl } from '@/lib/url';
 
 interface LayoutProps {
   children: ReactNode,
@@ -65,7 +66,7 @@ const Layout: FC<LayoutProps> = ({ children, language }) => {
           <b>The official Guild Wars 2 API will be disabled</b> from <FormatDate date={new Date('2025-10-24T17:00:00.000Z')}/> until <FormatDate date={new Date('2025-10-30T17:00:00.000Z')}/> to
           avoid spoilers during the launch of <b style={{ whiteSpace: 'nowrap' }}>Guild Wars 2: Visions of Eternity.</b><br/>
           <div style={{ fontSize: 15, opacity: .8 }}>New items, achievements, skills, and others will only be available after the API has been re-enabled. It will not be possible to access your account info (like inventories, achievements, ...) during this time.<br/></div>
-          <ExternalLink href="https://guildwars2.go2cloud.org/aff_c?offer_id=34&aff_id=758">Preorder the new expansion via our affiliate link to support us!</ExternalLink>
+          <ExternalLink href={new URL('/buy-gw2', getBaseUrl()).toString()}>Preorder the new expansion via our affiliate link to support us!</ExternalLink>
         </aside>
         {children}
         <footer className={styles.footer} data-nosnippet>

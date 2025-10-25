@@ -1,17 +1,16 @@
 import { Trans } from '@/components/I18n/Trans';
 import { HeroLayout } from '@/components/Layout/HeroLayout';
 import { NavBar } from '@/components/Layout/NavBar';
-import type { LayoutProps } from '@/lib/next';
-import { getLanguage, getTranslate } from '@/lib/translate';
+import { getTranslate } from '@/lib/translate';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { LunarNewYearHero } from './hero';
 import ogImage from './og.png';
 import { Festival, getFestival, isFestivalActive } from '../festivals';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import { FestivalTimer } from '@/components/Reset/FestivalTimer';
-import { createMetadata } from '@/lib/metadata';
+import { createLayoutMetadata } from '@/lib/metadata';
 
-export default function LunarNewYearFestivalLayout({ children }: LayoutProps) {
+export default function LunarNewYearFestivalLayout({ children }: LayoutProps<'/[language]/festival/lunar-new-year'>) {
   const lunarNewYear = getFestival(Festival.LunarNewYear);
 
   return (
@@ -37,8 +36,7 @@ export default function LunarNewYearFestivalLayout({ children }: LayoutProps) {
   );
 }
 
-export const generateMetadata = createMetadata(async () => {
-  const language = await getLanguage();
+export const generateMetadata = createLayoutMetadata((_, { language }) => {
   const t = getTranslate(language);
 
   return {

@@ -52,6 +52,7 @@ export const generateMetadata = createMetadata(async () => {
   const t = getTranslate(language);
 
   return {
-    title: t('navigation.skills')
+    title: t('navigation.skills'),
+    url: '/skills',
   };
 });

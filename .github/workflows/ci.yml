@@ -20,7 +20,7 @@ jobs:
     name: Docker (${{ matrix.platform }})
     strategy:
       matrix:
-        platform: [ amd64, arm64 ]
+        platform: [ amd64 ]
     uses: ./.github/workflows/docker-build-and-test.yml
     with:
       platform: ${{ matrix.platform }}

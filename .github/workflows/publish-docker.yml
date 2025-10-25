@@ -65,7 +65,7 @@ jobs:
 
         eval "docker buildx imagetools create $ARGS $SOURCES"
 
-        echo "digest=$(docker buildx imagetools inspect --format '{{json .Manifest}}' ghcr.io/gw2treasures/gw2treasures.com/web:pr-1526 | jq -cr '.digest')" >> "$GITHUB_OUTPUT"
+        echo "digest=$(docker buildx imagetools inspect --format '{{json .Manifest}}' ${{ env.IMAGE_ID }}:${{ steps.meta.outputs.version }} | jq -cr '.digest')" >> "$GITHUB_OUTPUT"
 
     - name: Attest
       uses: actions/attest-build-provenance@v3.0.0

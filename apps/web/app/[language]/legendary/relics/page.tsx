@@ -46,6 +46,8 @@ const knownAchievements: Record<number, RelicSet | undefined> = {
   8363: { order: 20, access: 'JanthirWilds' }, // Relics—Janthir Wilds Set 1
   8446: { order: 21, access: 'JanthirWilds' }, // Relics—Janthir Wilds Set 2
   8725: { order: 22, access: 'JanthirWilds' }, // Relics—Janthir Wilds Set 3
+  // TODO: add access (blocked by https://github.com/gw2-api/issues/issues/118)
+  8959: { order: 30, access: undefined }, // Relics—Visions of Eternity Set 1
 };
 
 const loadItems = cache(async () => {

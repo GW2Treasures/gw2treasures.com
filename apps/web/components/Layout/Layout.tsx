@@ -62,7 +62,7 @@ const Layout: FC<LayoutProps> = ({ children, language }) => {
         </Menu>
         <hr className={styles.headerShadow}/>
         <aside data-nosnippet="true" style={{ gridArea: 'notification', padding: 16, lineHeight: 1.5, background: '#03a9f422', marginTop: -1, borderBottom: '1px solid var(--color-border-transparent)', zIndex: 1 }}>
-          The new expansion <b>Guild Wars 2: Visions of Eternity</b> is now available! <ExternalLink href={new URL('/buy-gw2', getBaseUrl()).toString()}>Support gw2treasures.com by buying it using our affiliate link!</ExternalLink>
+          The new expansion <b>Guild Wars 2: Visions of Eternity</b> is now available! <ExternalLink href={new URL('/buy-gw2', getBaseUrl()).toString()}>Buy it using our affiliate link to support gw2treasures.com!</ExternalLink>
         </aside>
         {children}
         <footer className={styles.footer} data-nosnippet>

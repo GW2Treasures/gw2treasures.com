@@ -31,7 +31,7 @@ export const WizardsVaultSeasonJob: Job = {
       throw new Error('Invalid Wizard\'s Vault season received, start/end interval does not contain current');
     }
 
-    const isNew = !season || (apiSeasonStart.valueOf() !== season.start.valueOf());
+    const isNew = !season || (en.title !== season.name_en);
     const needsUpdate = isNew || season.lastCheckedAt < oneHourAgo;
 
     if(!needsUpdate) {

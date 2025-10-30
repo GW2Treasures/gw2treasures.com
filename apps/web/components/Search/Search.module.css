@@ -108,12 +108,10 @@
   border-radius: 2px;
   color: var(--color-text);
   text-decoration: none;
-  display: grid;
-  grid-template:
-    "icon title    external" min-content
-    "icon subtitle external" min-content /
-    32px  1fr auto;
-  gap: 0 8px;
+  line-height: 1.2;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .resultActive {
@@ -123,18 +121,40 @@
   text-decoration: none;
 }
 
-.title {
-  grid-area: title;
+.icon.icon {
+  background-color: var(--color-background-light-transparent);
+  border-radius: 2px;
+  padding: 8px;
+  width: 32px;
+  height: 32px;
+}
+
+.noIcon {
+  composes: icon;
+  text-align: center;
+  line-height: 16px;
+  color: var(--color-text-muted);
+}
+.noIcon::before {
+  content: '?';
+  opacity: .5;
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .subtitle {
   color: var(--color-text-muted);
-  grid-area: subtitle;
   font-size: 14px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .external {
-  grid-area: external;
   color: var(--color-text-muted);
   margin-left: 8px;
 }

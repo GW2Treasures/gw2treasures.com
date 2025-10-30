@@ -182,15 +182,21 @@ export const Search: FC<SearchProps> = ({ translations }) => {
                       onClick: (e) => !e.defaultPrevented && setOpen(false)
                     })}
                   >
-                    {result.icon}
-                    <div className={styles.title}>
-                      {result.title}
-                    </div>
-                    {result.subtitle && (
-                      <div className={styles.subtitle}>
-                        {result.subtitle}
+                    {typeof result.icon === 'string' ? (
+                      <Icon icon={result.icon} className={styles.icon}/>
+                    ) : result.icon === null ? (
+                      <div className={styles.noIcon}/>
+                    ) : result.icon}
+                    <div className={styles.content}>
+                      <div className={styles.title}>
+                        {result.title}
                       </div>
-                    )}
+                      {result.subtitle && (
+                        <div className={styles.subtitle}>
+                          {result.subtitle}
+                        </div>
+                      )}
+                    </div>
                     {isExternal && <span className={styles.external}><Icon icon="external"/></span>}
                   </Link>
                 );

@@ -21,9 +21,14 @@ export const EntityIcon: FC<EntityIconProps> = ({ icon, size = 64, type, classNa
   const iconSize = getIconSize(scaledIconSize);
 
   const [loading, setLoading] = useState(true);
+  const [errored, setErrored] = useState(false);
 
   const handleLoad = useCallback(() => {
     setLoading(false);
+  }, []);
+
+  const handleError = useCallback(() => {
+    setErrored(true);
   }, []);
 
   const handleRef: RefCallback<HTMLImageElement> = useCallback((img) => {
@@ -40,15 +45,16 @@ export const EntityIcon: FC<EntityIconProps> = ({ icon, size = 64, type, classNa
         loading="lazy"
         decoding="async"
         ref={handleRef}
-        src={getIconUrl(icon, iconSize)}
+        src={getIconUrl(icon, iconSize, errored)}
         width={size}
         height={size}
         alt=""
         referrerPolicy="no-referrer"
-        srcSet={iconSize < 64 ? `${getIconUrl(icon, iconSize * 2 as FixedIconSize)} 2x` : undefined}
+        srcSet={iconSize < 64 && !errored ? `${getIconUrl(icon, iconSize * 2 as FixedIconSize)} 2x` : undefined}
         style={style}
         className={cx(loading ? styles.loading : styles.icon)}
-        onLoad={handleLoad}/>
+        onLoad={handleLoad}
+        onError={handleError}/>
     </span>
   );
 };

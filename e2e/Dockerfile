@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1.19
 
-ARG node_version=22.21.0-alpine3.21
+ARG node_version=22.21.1-alpine3.21
 # renovate: datasource=npm packageName=pnpm
 ARG pnpm_version=10.20.0
 

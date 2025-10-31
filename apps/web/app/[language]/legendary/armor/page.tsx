@@ -3,7 +3,7 @@ import { ColumnSelect } from '@/components/Table/ColumnSelect';
 import { cache } from '@/lib/cache';
 import { linkProperties } from '@/lib/linkProperties';
 import { db } from '@/lib/prisma';
-import { getLanguage, getTranslate } from '@/lib/translate';
+import { getLanguage, getTranslate, translateMany } from '@/lib/translate';
 import { createItemTable, LegendaryItemDataTable } from '../table';
 import { TableFilterButton, TableFilterProvider, type TableFilterDefinition } from '@/components/Table/TableFilter';
 import type { SubType } from '@/components/Item/ItemType.types';
@@ -62,6 +62,16 @@ export default async function LegendaryRelicsPage() {
 
   const Overview = createDataTable<ArmorWeight>(['Light', 'Medium', 'Heavy'], (w) => w);
 
+  const overviewTranslations = translateMany([
+    'item.type.Armor.Helm',
+    'item.type.Armor.Shoulders',
+    'item.type.Armor.Coat',
+    'item.type.Armor.Gloves',
+    'item.type.Armor.Leggings',
+    'item.type.Armor.Boots',
+    'item.type.Armor.HelmAquatic',
+  ], language);
+
   return (
     <>
       <Gw2Accounts requiredScopes={requiredScopes} authorizationMessage={null} loginMessage={null} loading={null}>
@@ -74,7 +84,7 @@ export default async function LegendaryRelicsPage() {
             {(weight) => <Trans id={`weight.${weight}`}/>}
           </Overview.Column>
           <Overview.DynamicColumns id="account-unlock" title="Account Unlocks" headers={<Gw2AccountHeaderCells small requiredScopes={requiredScopes}/>}>
-            {(weight) => <Gw2AccountBodyCells requiredScopes={requiredScopes}><LegendaryArmorOverviewCell accountId={undefined as never} itemIdsBySlot={itemIdsByWeightBySlot[weight]}/></Gw2AccountBodyCells>}
+            {(weight) => <Gw2AccountBodyCells requiredScopes={requiredScopes}><LegendaryArmorOverviewCell accountId={undefined as never} itemIdsBySlot={itemIdsByWeightBySlot[weight]} translations={overviewTranslations}/></Gw2AccountBodyCells>}
           </Overview.DynamicColumns>
         </Overview.Table>
       </Gw2Accounts>

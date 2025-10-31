@@ -26,13 +26,16 @@ export const LegendaryArmorOverviewCell: FC<LegendaryArmorOverviewCellProps> = (
 
   const legendaryArmory = inventory.data.armory;
 
-  const unlocked = Object.values(itemIdsBySlot)
-    .filter((itemIds) => legendaryArmory.some(({ id }) => itemIds.includes(id)))
+  // TODO: add HelmAquatic, but needs better display (icon per slot?)
+  const slots: ArmorSlot[] = ['Helm', 'Shoulders', 'Coat', 'Gloves', 'Leggings', 'Boots'];
+
+  const unlocked = slots
+    .filter((slot) => legendaryArmory.some(({ id }) => itemIdsBySlot[slot].includes(id)))
     .length;
 
   return (
-    <ProgressCell progress={unlocked / 6}>
-      {unlocked} / 6
+    <ProgressCell progress={unlocked / slots.length}>
+      {unlocked} / {slots.length}
     </ProgressCell>
   );
 };

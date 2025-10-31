@@ -29,9 +29,9 @@ const loadItems = cache(async () => {
   });
 
   const itemIdsByWeightBySlot: Record<ArmorWeight, Record<ArmorSlot, number[]>> = {
-    Light: { Helm: [], Shoulders: [], Coat: [], Gloves: [], Leggings: [], Boots: [] },
-    Medium: { Helm: [], Shoulders: [], Coat: [], Gloves: [], Leggings: [], Boots: [] },
-    Heavy: { Helm: [], Shoulders: [], Coat: [], Gloves: [], Leggings: [], Boots: [] },
+    Light: { Helm: [], Shoulders: [], Coat: [], Gloves: [], Leggings: [], Boots: [], HelmAquatic: [] },
+    Medium: { Helm: [], Shoulders: [], Coat: [], Gloves: [], Leggings: [], Boots: [], HelmAquatic: [] },
+    Heavy: { Helm: [], Shoulders: [], Coat: [], Gloves: [], Leggings: [], Boots: [], HelmAquatic: [] },
   };
 
   for(const item of items) {

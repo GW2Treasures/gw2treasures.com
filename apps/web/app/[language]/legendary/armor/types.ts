@@ -8,4 +8,5 @@ export type ArmorSlot =
  | 'Coat'
  | 'Gloves'
  | 'Leggings'
- | 'Boots';
+ | 'Boots'
+ | 'HelmAquatic';

@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { ensureUserIsAdmin } from './admin';
 import { NavBar } from '@/components/Layout/NavBar';
-import { createMetadata } from '@/lib/metadata';
+import { createLayoutMetadata } from '@/lib/metadata';
 
 interface AdminLayoutProps {
   children: ReactNode,
@@ -24,7 +24,7 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
   );
 }
 
-export const generateMetadata = createMetadata({
+export const generateMetadata = createLayoutMetadata({
   title: {
     template: 'Admin: %s',
     default: ''

@@ -8,7 +8,7 @@ import { EntityIcon } from '../Entity/EntityIcon';
 import { ItemLinkTooltip } from '../Item/ItemLinkTooltip';
 import { Tooltip } from '../Tooltip/Tooltip';
 import { AchievementLinkTooltip } from '../Achievement/AchievementLinkTooltip';
-import { Icon, type IconName } from '@gw2treasures/ui';
+import { Icon, type IconName, type IconProp } from '@gw2treasures/ui';
 import { AchievementPoints } from '../Achievement/AchievementPoints';
 import { SkillLinkTooltip } from '../Skill/SkillLinkTooltip';
 import type { TranslationSubset } from '@/lib/translate';
@@ -33,7 +33,7 @@ export interface SearchResults<Id extends string> {
 export interface SearchResult {
   href: string,
   title: ReactNode,
-  icon: ReactNode,
+  icon: IconProp | null,
   subtitle?: ReactNode,
   render?: (link: ReactElement<HTMLProps<HTMLElement>>) => ReactNode,
 }
@@ -112,7 +112,7 @@ export function useSearchApiResults(searchValue: string, translations: Translati
 
   const groups = response.loading ? [] : response.data.achievementGroups.map<SearchResult>((group) => ({
     title: localizedName(group, language),
-    icon: <Icon icon="achievement"/>,
+    icon: 'achievement',
     href: `/achievement#${group.id}`,
   }));
 
@@ -126,7 +126,7 @@ export function useSearchApiResults(searchValue: string, translations: Translati
 
   const builds = response.loading ? [] : response.data.builds.map<SearchResult>((build) => ({
     title: `Build ${build.id}`,
-    icon: <Icon icon="builds"/>,
+    icon: 'builds',
     href: `/build/${build.id}`,
   }));
 
@@ -217,7 +217,7 @@ export function usePageResults(searchValue: string): SearchResults<'pages'> {
   const results = pages
     .filter(({ title }) => title.toLowerCase().includes(searchValue.toLowerCase()))
     .filter((_, index) => index < 5)
-    .map(({ title, icon, href }) => ({ title, href, icon: <Icon icon={icon}/> }));
+    .map(({ title, icon, href }) => ({ title, href, icon }));
 
   return { id: 'pages', results, loading: false };
 }

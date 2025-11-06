@@ -35,7 +35,6 @@
   "devDependencies": {
     "@gw2treasures/tsconfig": "workspace:*",
     "@types/node": "22.19.0",
-    "rimraf": "6.0.1",
     "svgo": "4.0.0",
     "ts-node": "10.9.2",
     "tslib": "2.8.1"

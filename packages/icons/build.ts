@@ -1,13 +1,12 @@
 #!/usr/bin/env ts-node
-import { mkdir, readFile, readdir, writeFile } from 'fs/promises';
-import { rimraf } from 'rimraf';
-import { join } from 'path';
+import { mkdir, readFile, readdir, writeFile, rm } from 'node:fs/promises';
+import { join } from 'node:path';
 import svgo from 'svgo';
 
 async function build() {
   // 1. clean
   console.log('Cleaning dist directory...');
-  await rimraf('dist');
+  await rm('dist', { recursive: true, force: true });
 
 
   // 2. create dir

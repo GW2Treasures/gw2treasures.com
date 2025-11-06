@@ -13,8 +13,6 @@ import { ItemTableContext } from '@/components/ItemTable/ItemTableContext';
 import { Gw2ApiProvider } from '@/components/Gw2Api/Gw2ApiProvider';
 import { UserProvider } from '@/components/User/UserProvider';
 import { DataTableContext } from '@gw2treasures/ui/components/Table/DataTableContext';
-import type { ReactNode } from 'react';
-import type { LayoutProps } from '@/lib/next';
 import type { Viewport } from 'next';
 import { Gw2MeProvider } from '@/components/gw2me/gw2me-context';
 import { client_id } from '@/lib/gw2me';
@@ -37,7 +35,7 @@ const wotfard = localFont({
   variable: '--font-wotfard',
 });
 
-export default async function RootLayout({ children, modal }: LayoutProps & { modal?: ReactNode }) {
+export default async function RootLayout({ children, modal }: LayoutProps<'/[language]'>) {
   const language = await getLanguage();
 
   return (

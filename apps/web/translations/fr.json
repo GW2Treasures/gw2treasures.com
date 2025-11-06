@@ -416,5 +416,7 @@
   "incursive-investigation.achievements.description": "Voici la liste de tous les succès de la catégorie Enquête invasive, qui sont soit nécessaires pour obtenir les gants légendaires, soit vous permettent de collecter de la Poussière fractale supplémentaire.",
   "incursive-investigation.bonus-event": "Événement bonus : Invasion des fractales",
   "incursive-investigation.bonus-event.description": "Pendant l’événement bonus actuel, vous pouvez obtenir de la Poussière fractale supplémentaire et d’autres récompenses de succès en complétant des Fractales en mode Jeu rapide.",
-  "incursive-investigation.bonus-event.wizards-vault": "Il existe également des objectifs spéciaux disponibles dans la Chambre forte du sorcier."
+  "incursive-investigation.bonus-event.wizards-vault": "Il existe également des objectifs spéciaux disponibles dans la Chambre forte du sorcier.",
+  "api.issues.slow": "L’API officielle de Guild\u00A0Wars\u00A02 répond actuellement plus lentement que d’habitude.",
+  "api.issues.error": "L’API officielle de Guild\u00A0Wars\u00A02 rencontre actuellement des problèmes."
 }

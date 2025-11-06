@@ -61,7 +61,9 @@ type ActiveSubscription<T extends SubscriptionType> = {
 export type CancelSubscription = () => void;
 
 export class SubscriptionManager {
-  #accounts = new Map<string, AccountSubscriptionManager>();
+  #accounts = new Map<string, { state: SubscriptionState, manager: AccountSubscriptionManager }>();
+  #state = { ...defaultState };
+  #stateListeners = new Set<(state: SubscriptionState) => void>();
 
   constructor() {
     // no additional setup required on the server
@@ -83,7 +85,7 @@ export class SubscriptionManager {
     console.debug('[SubscriptionManager] pause');
 
     for(const account of this.#accounts.values()) {
-      account.pause();
+      account.manager.pause();
     }
   }
 
@@ -91,26 +93,70 @@ export class SubscriptionManager {
     console.debug('[SubscriptionManager] resume');
 
     for(const account of this.#accounts.values()) {
-      account.resume();
+      account.manager.resume();
+    }
+  }
+
+  onStateChange(callback: (state: SubscriptionState) => void) {
+    this.#stateListeners.add(callback);
+
+    return () => {
+      this.#stateListeners.delete(callback);
+    };
+  }
+
+  getState() {
+    return this.#state;
+  }
+
+  #handleAccountStateChange(accountId: string, state: SubscriptionState) {
+    this.#accounts.get(accountId)!.state = state;
+    const mergedState = mergeStates(Array.from(this.#accounts.values()).map((account) => account.state));
+
+    if(mergedState.loading !== this.#state.loading || mergedState.health !== this.#state.health) {
+      this.#state = mergedState;
+      this.#stateListeners.forEach((callback) => callback(mergedState));
     }
   }
 
   subscribe<T extends SubscriptionType>(type: T, accountId: string, language: Language, callback: SubscriptionCallback<T>): CancelSubscription {
     if(!this.#accounts.has(accountId)) {
-      this.#accounts.set(accountId, new AccountSubscriptionManager(accountId, document.visibilityState === 'hidden'));
+      const manager = new AccountSubscriptionManager(accountId, document.visibilityState === 'hidden');
+      manager.onAccountStateChange((state) => this.#handleAccountStateChange(accountId, state));
+      this.#accounts.set(accountId, { state: { ...defaultState }, manager });
     }
 
-    return this.#accounts.get(accountId)!.subscribe(type, language, callback);
+    return this.#accounts.get(accountId)!.manager.subscribe(type, language, callback);
   }
 }
+
+export enum SubscriptionHealth {
+  Good = 0,
+  Slow = 1,
+  Error = 2,
+}
+
+export interface SubscriptionState {
+  loading: boolean,
+  health: SubscriptionHealth,
+}
+
+const defaultState = {
+  loading: false,
+  health: SubscriptionHealth.Good,
+};
 
 export class AccountSubscriptionManager {
   #accountId: string;
   #paused = false;
   #subscriptions = new Set<ActiveSubscription<SubscriptionType>>();
-  #timeouts = new Map<SubscriptionType, NodeJS.Timeout | 0>();
+  #timeouts = new Map<SubscriptionType, ReturnType<typeof setTimeout> | 0>();
   #cache: { [T in SubscriptionType]?: { timestamp: Date, data: SubscriptionData<T> }} = {};
   #errorCount = 0;
+
+  #subscriptionStates = new Map<SubscriptionType, SubscriptionState>();
+  #accountState: SubscriptionState = { ...defaultState };
+  #accountStateListeners = new Set<(state: SubscriptionState) => void>();
 
   constructor(accountId: string, paused: boolean) {
     this.#accountId = accountId;
@@ -175,17 +221,62 @@ export class AccountSubscriptionManager {
     await this.#tick(subscription.type, subscription.language);
   }
 
+  private setState(type: SubscriptionType, update: Partial<SubscriptionState>) {
+    const newState = {
+      ...defaultState,
+      ...this.#subscriptionStates.get(type),
+      ...update,
+    };
+    this.#subscriptionStates.set(type, newState);
+    this.handleUpdateState();
+  }
+
+  private removeState(type: SubscriptionType) {
+    this.#subscriptionStates.delete(type);
+    this.handleUpdateState();
+  }
+
+  private handleUpdateState() {
+    const previousState = this.#accountState;
+
+    this.#accountState = mergeStates(Array.from(this.#subscriptionStates.values()));
+
+    if(previousState.loading !== this.#accountState.loading || previousState.health !== this.#accountState.health) {
+      this.#accountStateListeners.forEach((callback) => callback(this.#accountState));
+    }
+  }
+
+  onAccountStateChange(callback: (state: SubscriptionState) => void) {
+    this.#accountStateListeners.add(callback);
+
+    return () => {
+      this.#accountStateListeners.delete(callback);
+    };
+  }
+
   async #tick<T extends SubscriptionType>(type: T, language: Language) {
     console.debug(`[AccountSubscriptionManager(${this.#accountId})] tick`, type);
 
-    // get access token
-    const accessToken = await accessTokenManager.getAccessToken(this.#accountId);
+    // create timeout to mark slow requests
+    let isSlow = false;
+    const slowRequestTimeout = setTimeout(() => {
+      isSlow = true;
+      this.setState(type, { health: SubscriptionHealth.Slow });
+    }, 5_000);
 
     // fetch data
     let response: SubscriptionResponse<SubscriptionType>;
     let nextTickMs = 60_000;
     try {
+      // get access token
+      const accessToken = await accessTokenManager.getAccessToken(this.#accountId);
+
       const timestamp = new Date();
+
+      // set loading state
+      this.setState(type, { loading: true });
+
+      // fetch data
       const data = await fetchers[type](accessToken.accessToken, language);
 
       // write to cache
@@ -197,12 +288,19 @@ export class AccountSubscriptionManager {
       // reset error count
       this.#errorCount = 0;
 
+      // update state
+      this.setState(type, { loading: false, health: isSlow ? SubscriptionHealth.Slow : SubscriptionHealth.Good });
+
+      // create response
       response = { error: false, data, timestamp };
     } catch(e) {
       const cached = this.#cache[type];
       // if cached data is available, respond with it instead of showing an error
       // TODO: only respond with cached data if it is not too old
       response = cached ? { error: false, ...cached } : { error: true };
+
+      // set error state
+      this.setState(type, { loading: false, health: SubscriptionHealth.Error });
 
       // increase error count
       this.#errorCount++;
@@ -217,6 +315,9 @@ export class AccountSubscriptionManager {
 
       console.warn(`[AccountSubscriptionManager(${this.#accountId})][${type}] error fetching data${cached ? ' (fallback to cached data)' : ''}\n`, e);
     }
+
+    // clear slow timeout
+    clearTimeout(slowRequestTimeout);
 
     // call callbacks
     this.#subscriptions.forEach((subscription) => {
@@ -248,6 +349,8 @@ export class AccountSubscriptionManager {
     // return a function to cancel the subscription
     return () => {
       this.#subscriptions.delete(subscription);
+
+      // TODO: handle last unsubscribe of a type (clear timeout and state)
     };
   }
 }
@@ -298,4 +401,19 @@ async function loadSab(accessToken: string) {
   ));
 
   return Object.fromEntries(entries);
+}
+
+function mergeStates(states: SubscriptionState[]): SubscriptionState {
+  const mergedState: SubscriptionState = { ...defaultState };
+
+  for (const state of states) {
+    mergedState.loading ||= state.loading;
+    mergedState.health = Math.max(mergedState.health, state.health);
+
+    if (mergedState.loading && mergedState.health === SubscriptionHealth.Error) {
+      break;
+    }
+  }
+
+  return mergedState;
 }

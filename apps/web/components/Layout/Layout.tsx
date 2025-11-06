@@ -16,6 +16,7 @@ import { ReviewButton } from './Header/ReviewButton';
 import { PartnerButton } from './partner/button';
 import { PartnerLogo } from './partner/logo';
 import { getBaseUrl } from '@/lib/url';
+import { Gw2ApiStateIndicator } from './Header/Gw2ApiStateIndicator';
 
 interface LayoutProps {
   children: ReactNode,
@@ -53,6 +54,7 @@ const Layout: FC<LayoutProps> = ({ children, language }) => {
             <span>gw2treasures.com</span>
           </Link>
           <Search translations={searchTranslations}/>
+          <Gw2ApiStateIndicator/>
           <div className={styles.right}>
             <PartnerButton/>
             <ReviewButton language={language}/>

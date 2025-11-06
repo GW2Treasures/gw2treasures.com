@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { SubscriptionManager, type SubscriptionCallback, type SubscriptionData, type SubscriptionResponse, type SubscriptionType } from './subscription-manager';
+import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
+import { SubscriptionHealth, SubscriptionManager, type SubscriptionCallback, type SubscriptionData, type SubscriptionResponse, type SubscriptionState, type SubscriptionType } from './subscription-manager';
 import type { WithLoadingState } from '@/lib/with';
 import { getResetDate, type Reset } from '../Reset/ResetTimer';
 import type { ResponseWithLoading, SuccessfulResponse } from '@/lib/response';
@@ -69,9 +69,28 @@ export function useSubscriptionWithReset<T extends SubscriptionType, E>(type: T,
     const isAfterReset = lastModified.date >= resetDate && response.timestamp >= resetDate;
 
     if(!isAfterReset) {
+      // eslint-disable-next-line react-hooks/refs
       return { loading: false, error: false, timestamp: response.timestamp, data: emptyRef.current };
     }
 
     return response;
   }, [lastModified, reset, response]);
+}
+
+
+interface SyncExternalStore<T> {
+  subscribe: (onStoreChange: () => void) => () => void,
+  getSnapshot: () => T,
+  getServerSnapshot: () => T,
+}
+
+const serverSnapshot: SubscriptionState = { loading: false, health: SubscriptionHealth.Good };
+const managerStateStore: SyncExternalStore<SubscriptionState> = {
+  subscribe: manager ? (onStoreChange: () => void) => manager.onStateChange(onStoreChange) : () => () => {},
+  getSnapshot: () => manager ? manager.getState() : serverSnapshot,
+  getServerSnapshot: () => serverSnapshot,
+};
+
+export function useGlobalSubscriptionState(): SubscriptionState {
+  return useSyncExternalStore(managerStateStore.subscribe, managerStateStore.getSnapshot, managerStateStore.getServerSnapshot);
 }

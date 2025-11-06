@@ -1,0 +1,29 @@
+.indicator {
+  display: flex;
+  padding: 10px;
+  border-radius: 2px;
+
+  animation: fade-in .3s ease-out;
+}
+
+@keyframes fade-in {
+  0% { opacity: 0; }
+}
+
+.slow {
+  composes: indicator;
+
+  background-color: #ffc10722;
+  color: #f9a825;
+}
+
+.error {
+  composes: indicator;
+
+  background-color: var(--color-background-error);
+  color: var(--color-error);
+}
+
+.errorText {
+  color: var(--color-error);
+}

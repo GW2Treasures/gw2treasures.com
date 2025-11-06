@@ -703,5 +703,7 @@
   "incursive-investigation.achievements.description": "This is a list of all achievements in the Incursive Investigation category, that are either required to obtain the legendary gloves, or allow you to collect additional Fractalline Dust.",
   "incursive-investigation.bonus-event": "Bonus Event: Fractal Incursion",
   "incursive-investigation.bonus-event.description": "You can currently earn additional Fractalline Dust and other rewards from achievements during the current bonus event by completing Fractals in Quickplay mode.",
-  "incursive-investigation.bonus-event.wizards-vault": "There are also special objectives available in the Wizard's Vault."
+  "incursive-investigation.bonus-event.wizards-vault": "There are also special objectives available in the Wizard's Vault.",
+  "api.issues.slow": "The official Guild\u00A0Wars\u00A02 API is currently responding slower than usual.",
+  "api.issues.error": "The official Guild\u00A0Wars\u00A02 API is currently experiencing issues."
 }

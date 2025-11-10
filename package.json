@@ -23,7 +23,7 @@
     "node": "20 || >=22",
     "npm": "please-use-pnpm",
     "yarn": "please-use-pnpm",
-    "pnpm": "10.20.0"
+    "pnpm": "10.21.0"
   },
   "pnpm": {
     "overrides": {
@@ -40,5 +40,5 @@
       "sharp"
     ]
   },
-  "packageManager": "pnpm@10.20.0"
+  "packageManager": "pnpm@10.21.0"
 }

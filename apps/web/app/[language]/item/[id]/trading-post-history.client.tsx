@@ -11,11 +11,11 @@ import { GridColumns, GridRows } from '@visx/grid';
 import { Group } from '@visx/group';
 import { ParentSize } from '@visx/responsive';
 import { scaleLinear, scaleTime } from '@visx/scale';
-import { Bar, Circle, Line, LinePath } from '@visx/shape';
+import { Bar, Circle, Line, LinePath, type AccessorForArrayItem } from '@visx/shape';
 import { Threshold } from '@visx/threshold';
-import { Tooltip, TooltipWithBounds as TooltipWithBoundsReact18, useTooltip } from '@visx/tooltip';
+import { Tooltip, TooltipWithBounds, useTooltip } from '@visx/tooltip';
 import { bisector, extent } from 'd3-array';
-import React, { useMemo, type FC, type MouseEvent, type TouchEvent, useState, useId, type ReactNode, useRef, type KeyboardEventHandler, useCallback, startTransition, type ComponentClass } from 'react';
+import React, { useMemo, type FC, type MouseEvent, type TouchEvent, useState, useId, type ReactNode, useRef, type KeyboardEventHandler, useCallback, startTransition, type MutableRefObject } from 'react';
 import tipStyles from '@gw2treasures/ui/components/Tip/Tip.module.css';
 import styles from './trading-post-history.module.css';
 import { Checkbox } from '@gw2treasures/ui/components/Form/Checkbox';
@@ -23,19 +23,15 @@ import { DropDown } from '@gw2treasures/ui/components/DropDown/DropDown';
 import { Button, LinkButton } from '@gw2treasures/ui/components/Form/Button';
 import { MenuList } from '@gw2treasures/ui/components/Layout/MenuList';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
-import type BaseBrush from '@visx/brush/lib/BaseBrush';
-import { Brush } from '@visx/brush';
-import type { Bounds, PartialBrushStartEnd, ResizeTriggerAreas } from '@visx/brush/lib/types';
+import { Brush, type Bounds, type BrushProps, type PartialBrushStartEnd, type ResizeTriggerAreas } from '@visx/brush';
 import { RectClipPath } from '@visx/clip-path';
-import type { AccessorForArrayItem } from '@visx/shape/lib/types';
 import { useLocalStorageState } from '@/lib/useLocalStorageState';
 import { CookieNotification } from '@/components/User/CookieNotification';
-import type { TooltipWithBoundsProps } from '@visx/tooltip/lib/tooltips/TooltipWithBounds';
 import { useFormatContext } from '@/components/Format/FormatContext';
 import { Switch } from '@gw2treasures/ui/components/Form/Switch';
 
-// override types of TooltipWithBounds for react@19 compatibility
-const TooltipWithBounds = TooltipWithBoundsReact18 as unknown as ComponentClass<TooltipWithBoundsProps>;
+// BaseBrush is not exported from @visx/brush, so we extract the type from BrushProps to use for the brush ref
+type BaseBrush = BrushProps['innerRef'] extends MutableRefObject<infer T | null> | undefined ? T : never;
 
 export interface TradingPostHistoryClientProps {
   history: TradingPostHistory[],

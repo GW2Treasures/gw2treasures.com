@@ -8,17 +8,13 @@ import { ParentSize } from '@visx/responsive';
 import { scaleLinear, scaleTime } from '@visx/scale';
 import { AreaClosed, Bar, Circle, Line, LinePath } from '@visx/shape';
 import { getColor } from './Chart';
-import { Fragment, type ComponentClass, type FC, type MouseEvent, type TouchEvent } from 'react';
-import { Tooltip, TooltipWithBounds as TooltipWithBoundsReact18, useTooltip } from '@visx/tooltip';
+import { Fragment, type FC, type MouseEvent, type TouchEvent } from 'react';
+import { Tooltip, TooltipWithBounds, useTooltip } from '@visx/tooltip';
 import { localPoint } from '@visx/event';
 import { bisector } from 'd3-array';
 import { FormatDate } from '../Format/FormatDate';
 import tipStyles from '@gw2treasures/ui/components/Tip/Tip.module.css';
 import { FormatNumber } from '../Format/FormatNumber';
-import type { TooltipWithBoundsProps } from '@visx/tooltip/lib/tooltips/TooltipWithBounds';
-
-// override types of TooltipWithBounds for react@19 compatibility
-const TooltipWithBounds = TooltipWithBoundsReact18 as unknown as ComponentClass<TooltipWithBoundsProps>;
 
 type Datum = { time: Date, value: number | null };
 

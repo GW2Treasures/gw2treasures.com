@@ -14,7 +14,7 @@ It's best to to open an issue first to discuss the changes you want to make. You
 
 These are the steps that are required to work on any of the gw2treasures.com components.
 
-1. You need Node.js 20+, docker and pnpm (`corepack enable`) installed.
+1. You need Node.js 22+, docker and pnpm (`corepack enable`) installed.
 2. Install dependencies by running `pnpm i` in the root directory. This will install dependencies for all apps and packages.
 3. Start the database in docker using `docker compose up -d database`.
 4. (Optional) To get data into the database, it is best to run workers with `docker compose up -d worker` in the background.

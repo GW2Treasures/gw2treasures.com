@@ -10,17 +10,13 @@ import { Group } from '@visx/group';
 import { ParentSize } from '@visx/responsive';
 import { scaleLinear, scaleTime } from '@visx/scale';
 import { Bar, Circle, Line, LinePath } from '@visx/shape';
-import { Tooltip, TooltipWithBounds as TooltipWithBoundsReact18, useTooltip } from '@visx/tooltip';
+import { Tooltip, TooltipWithBounds, useTooltip } from '@visx/tooltip';
 import { bisector } from 'd3-array';
-import type { ComponentClass, FC, MouseEvent, TouchEvent } from 'react';
+import type { FC, MouseEvent, TouchEvent } from 'react';
 import tipStyles from '@gw2treasures/ui/components/Tip/Tip.module.css';
 import { FormatDate } from '@/components/Format/FormatDate';
 import { ItemLink, type ItemLinkProps } from '@/components/Item/ItemLink';
 import { colorPalette } from './colors';
-import type { TooltipWithBoundsProps } from '@visx/tooltip/lib/tooltips/TooltipWithBounds';
-
-// override types of TooltipWithBounds for react@19 compatibility
-const TooltipWithBounds = TooltipWithBoundsReact18 as unknown as ComponentClass<TooltipWithBoundsProps>;
 
 export interface ChartProps {
   data: TradingPostHistory[],

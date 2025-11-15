@@ -201,3 +201,13 @@
 .emoji {
   text-decoration: none !important;
 }
+
+.notification {
+  grid-area: notification;
+  padding: 16px;
+  line-height: 1.5;
+  background: #03a9f422;
+  margin-top: -1px;
+  border-bottom: 1px solid var(--color-border-transparent);
+  z-index: 1;
+}

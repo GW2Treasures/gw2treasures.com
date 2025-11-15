@@ -15,8 +15,8 @@ import { currencyCategories, type CurrencyCategoryName } from '@gw2treasures/sta
 import { ReviewButton } from './Header/ReviewButton';
 import { PartnerButton } from './partner/button';
 import { PartnerLogo } from './partner/logo';
-import { getBaseUrl } from '@/lib/url';
 import { Gw2ApiStateIndicator } from './Header/Gw2ApiStateIndicator';
+import { Trans } from '../I18n/Trans';
 
 interface LayoutProps {
   children: ReactNode,
@@ -45,8 +45,13 @@ const Layout: FC<LayoutProps> = ({ children, language }) => {
     'trait.tier.1', 'trait.tier.2', 'trait.tier.3', 'trait.slot.Minor', 'trait.slot.Major',
   ], language);
 
+  const notification = null;
+  // const notification = (
+  //   <>The new expansion <b>Guild Wars 2: Visions of Eternity</b> is now available! <ExternalLink href={new URL('/buy-gw2', getBaseUrl()).toString()}>Buy it using our affiliate link to support gw2treasures.com!</ExternalLink></>
+  // );
+
   return (
-    <div>
+    <>
       <div className={styles.layout}>
         <Menu navigation={<Navigation language={language}/>}>
           <Link href="/" className={styles.title} aria-label="gw2treasures.com">
@@ -63,9 +68,11 @@ const Layout: FC<LayoutProps> = ({ children, language }) => {
           </div>
         </Menu>
         <hr className={styles.headerShadow}/>
-        <aside data-nosnippet="true" style={{ gridArea: 'notification', padding: 16, lineHeight: 1.5, background: '#03a9f422', marginTop: -1, borderBottom: '1px solid var(--color-border-transparent)', zIndex: 1 }}>
-          The new expansion <b>Guild Wars 2: Visions of Eternity</b> is now available! <ExternalLink href={new URL('/buy-gw2', getBaseUrl()).toString()}>Buy it using our affiliate link to support gw2treasures.com!</ExternalLink>
-        </aside>
+        {notification && (
+          <aside data-nosnippet="true" className={styles.notification}>
+            {notification}
+          </aside>
+        )}
         {children}
         <footer className={styles.footer} data-nosnippet>
           <div className={styles.footerLeft}>
@@ -85,8 +92,10 @@ const Layout: FC<LayoutProps> = ({ children, language }) => {
           </div>
         </footer>
       </div>
-      <div className={styles.disclaimer} data-nosnippet>© ArenaNet LLC. All rights reserved. NCSOFT, ArenaNet, Guild Wars, Guild Wars 2, GW2, Guild Wars 2: Heart of Thorns, Guild Wars 2: Path of Fire, Guild Wars 2: End of Dragons, and Guild Wars 2: Secrets of the Obscure and all associated logos, designs, and composite marks are trademarks or registered trademarks of NCSOFT Corporation.</div>
-    </div>
+      <aside className={styles.disclaimer} data-nosnippet>
+        <Trans id="disclaimer" language={language}/>
+      </aside>
+    </>
   );
 };
 

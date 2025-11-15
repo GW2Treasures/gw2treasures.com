@@ -1,19 +1,21 @@
-import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
+import { Trans } from '@/components/I18n/Trans';
 import { getUser } from '@/lib/getUser';
-import { redirect } from 'next/navigation';
-import { Icon } from '@gw2treasures/ui';
-import { Scope } from '@gw2me/client';
 import { getReturnToUrl } from '@/lib/login-url';
+import { createMetadata } from '@/lib/metadata';
+import { getLanguage, getTranslate, translateMany } from '@/lib/translate';
+import { Scope } from '@gw2me/client';
+import { Icon } from '@gw2treasures/ui';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
-import type { PageProps } from '@/lib/next';
+import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
+import { preload } from 'react-dom';
 import { LoginButton } from './login.client';
 import styles from './page.module.css';
-import { Trans } from '@/components/I18n/Trans';
-import { getLanguage, getTranslate, translateMany } from '@/lib/translate';
-import { createMetadata } from '@/lib/metadata';
 
-export default async function LoginPage({ searchParams }: PageProps) {
+const bgImage = new URL('./login.jpg', import.meta.url).toString();
+
+export default async function LoginPage({ searchParams }: PageProps<'/[language]/login'>) {
   const language = await getLanguage();
   const { returnTo: returnToParam, scopes: scopesParam, error } = await searchParams;
   const returnTo = Array.isArray(returnToParam) ? returnToParam[0] : returnToParam;
@@ -32,6 +34,9 @@ export default async function LoginPage({ searchParams }: PageProps) {
   // check if cookie exist to show logout message
   const cookieStore = await cookies();
   const showLogoutMessage = cookieStore.has('logout');
+
+  // preload bg image
+  preload(bgImage, { as: 'image' });
 
   return (
     <div className={styles.page}>

@@ -1,8 +1,8 @@
+import { cx } from '@gw2treasures/ui';
 import type { CSSProperties, FC, ReactNode } from 'react';
+import { preload } from 'react-dom';
 import styles from './HeroLayout.module.css';
 import { PageLayout } from './PageLayout';
-import { preload } from 'react-dom';
-import { cx } from '@gw2treasures/ui';
 
 const heroMask = new URL('./hero-mask.jpg', import.meta.url).toString();
 
@@ -23,7 +23,7 @@ export const HeroLayout: FC<HeroLayoutProps> = ({ children, hero, heroClassName,
   }
 
   return (
-    <div style={{ '--hero-color': color ?? '#b7000d' }}>
+    <div className={styles.layout} style={color ? { '--hero-color': color } : undefined}>
       <div className={cx(styles.hero, heroClassName)}>{hero}</div>
       {navBar}
       {skipLayout ? children : (

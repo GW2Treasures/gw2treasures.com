@@ -245,8 +245,8 @@ importers:
         specifier: 1.0.0
         version: 1.0.0
       csstype:
-        specifier: 3.2.2
-        version: 3.2.2
+        specifier: 3.2.3
+        version: 3.2.3
       eslint:
         specifier: 9.39.1
         version: 9.39.1(jiti@2.4.2)
@@ -526,8 +526,8 @@ importers:
         specifier: 19.2.3
         version: 19.2.3(@types/react@19.2.5)
       csstype:
-        specifier: 3.2.2
-        version: 3.2.2
+        specifier: 3.2.3
+        version: 3.2.3
       eslint:
         specifier: 9.39.1
         version: 9.39.1(jiti@2.4.2)
@@ -2244,8 +2244,8 @@ packages:
     resolution: {integrity: sha512-AZL67abkUzIuvcHqk7c09cezpGNcxUxU4Ioi/05xHk4DQeTkWmGYftIE6ctU6AEt+Gn4n1lDStOtj7FKycP71A==}
     engines: {node: '>=8'}
 
-  csstype@3.2.2:
-    resolution: {integrity: sha512-D80T+tiqkd/8B0xNlbstWDG4x6aqVfO52+OlSUNIdkTvmNw0uQpJLeos2J/2XvpyidAFuTPmpad+tUxLndwj6g==}
+  csstype@3.2.3:
+    resolution: {integrity: sha512-z1HGKcYy2xA8AGQfwrn0PAy+PB7X/GSj3UVJW9qKyn43xWa+gl5nXmU4qqLMRzWVLFC8KusUX8T/0kCiOYpAIQ==}
 
   d3-array@3.2.1:
     resolution: {integrity: sha512-gUY/qeHq/yNqqoCKNq4vtpFLdoCdvyNpWoC/KNjhGbhDuQpAM9sIQQKkXSNpXa9h5KySs/gzm7R88WkUutgwWQ==}
@@ -5682,7 +5682,7 @@ snapshots:
 
   '@types/react@19.2.5':
     dependencies:
-      csstype: 3.2.2
+      csstype: 3.2.3
 
   '@types/stack-utils@2.0.3': {}
 
@@ -6362,7 +6362,7 @@ snapshots:
     dependencies:
       cssom: 0.3.8
 
-  csstype@3.2.2: {}
+  csstype@3.2.3: {}
 
   d3-array@3.2.1:
     dependencies:

@@ -7,7 +7,7 @@ settings:
 overrides:
   react: 19.2.0
   react-dom: 19.2.0
-  '@types/react': 19.2.5
+  '@types/react': 19.2.6
   '@types/react-dom': 19.2.3
 
 importers:
@@ -222,7 +222,7 @@ importers:
         version: 6.9.1
       '@testing-library/react':
         specifier: 16.3.0
-        version: 16.3.0(@testing-library/dom@10.0.0)(@types/react-dom@19.2.3(@types/react@19.2.5))(@types/react@19.2.5)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+        version: 16.3.0(@testing-library/dom@10.0.0)(@types/react-dom@19.2.3(@types/react@19.2.6))(@types/react@19.2.6)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@types/d3-array':
         specifier: 3.2.2
         version: 3.2.2
@@ -236,11 +236,11 @@ importers:
         specifier: 24.10.1
         version: 24.10.1
       '@types/react':
-        specifier: 19.2.5
-        version: 19.2.5
+        specifier: 19.2.6
+        version: 19.2.6
       '@types/react-dom':
         specifier: 19.2.3
-        version: 19.2.3(@types/react@19.2.5)
+        version: 19.2.3(@types/react@19.2.6)
       babel-plugin-react-compiler:
         specifier: 1.0.0
         version: 1.0.0
@@ -520,11 +520,11 @@ importers:
         specifier: workspace:*
         version: link:../eslint-config
       '@types/react':
-        specifier: 19.2.5
-        version: 19.2.5
+        specifier: 19.2.6
+        version: 19.2.6
       '@types/react-dom':
         specifier: 19.2.3
-        version: 19.2.3(@types/react@19.2.5)
+        version: 19.2.3(@types/react@19.2.6)
       csstype:
         specifier: 3.2.3
         version: 3.2.3
@@ -1574,7 +1574,7 @@ packages:
     engines: {node: '>=18'}
     peerDependencies:
       '@testing-library/dom': ^10.0.0
-      '@types/react': 19.2.5
+      '@types/react': 19.2.6
       '@types/react-dom': 19.2.3
       react: 19.2.0
       react-dom: 19.2.0
@@ -1708,10 +1708,10 @@ packages:
   '@types/react-dom@19.2.3':
     resolution: {integrity: sha512-jp2L/eY6fn+KgVVQAOqYItbF0VY/YApe5Mz2F0aykSO8gx31bYCZyvSeYxCHKvzHG5eZjc+zyaS5BrBWya2+kQ==}
     peerDependencies:
-      '@types/react': 19.2.5
+      '@types/react': 19.2.6
 
-  '@types/react@19.2.5':
-    resolution: {integrity: sha512-keKxkZMqnDicuvFoJbzrhbtdLSPhj/rZThDlKWCDbgXmUg0rEUFtRssDXKYmtXluZlIqiC5VqkCgRwzuyLHKHw==}
+  '@types/react@19.2.6':
+    resolution: {integrity: sha512-p/jUvulfgU7oKtj6Xpk8cA2Y1xKTtICGpJYeJXz2YVO2UcvjQgeRMLDGfDeqeRW2Ta+0QNFwcc8X3GH8SxZz6w==}
 
   '@types/stack-utils@2.0.3':
     resolution: {integrity: sha512-9aEbYZ3TbYMznPdcdr3SmIrLXwC/AKZXQeCf9Pgao5CKb8CyHuEX5jzWPTkvregvhRJHcpRO6BFoGW9ycaOkYw==}
@@ -5542,15 +5542,15 @@ snapshots:
       picocolors: 1.1.1
       redent: 3.0.0
 
-  '@testing-library/react@16.3.0(@testing-library/dom@10.0.0)(@types/react-dom@19.2.3(@types/react@19.2.5))(@types/react@19.2.5)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
+  '@testing-library/react@16.3.0(@testing-library/dom@10.0.0)(@types/react-dom@19.2.3(@types/react@19.2.6))(@types/react@19.2.6)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
     dependencies:
       '@babel/runtime': 7.26.0
       '@testing-library/dom': 10.0.0
       react: 19.2.0
       react-dom: 19.2.0(react@19.2.0)
     optionalDependencies:
-      '@types/react': 19.2.5
-      '@types/react-dom': 19.2.3(@types/react@19.2.5)
+      '@types/react': 19.2.6
+      '@types/react-dom': 19.2.3(@types/react@19.2.6)
 
   '@tootallnate/once@2.0.0': {}
 
@@ -5676,11 +5676,11 @@ snapshots:
     dependencies:
       undici-types: 7.16.0
 
-  '@types/react-dom@19.2.3(@types/react@19.2.5)':
+  '@types/react-dom@19.2.3(@types/react@19.2.6)':
     dependencies:
-      '@types/react': 19.2.5
+      '@types/react': 19.2.6
 
-  '@types/react@19.2.5':
+  '@types/react@19.2.6':
     dependencies:
       csstype: 3.2.3
 
@@ -5795,7 +5795,7 @@ snapshots:
 
   '@visx/axis@4.0.1-alpha.0(react@19.2.0)':
     dependencies:
-      '@types/react': 19.2.5
+      '@types/react': 19.2.6
       '@visx/group': 4.0.1-alpha.0(react@19.2.0)
       '@visx/point': 4.0.1-alpha.0
       '@visx/scale': 4.0.1-alpha.0
@@ -5806,8 +5806,8 @@ snapshots:
 
   '@visx/bounds@4.0.1-alpha.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
     dependencies:
-      '@types/react': 19.2.5
-      '@types/react-dom': 19.2.3(@types/react@19.2.5)
+      '@types/react': 19.2.6
+      '@types/react-dom': 19.2.3(@types/react@19.2.6)
       react: 19.2.0
       react-dom: 19.2.0(react@19.2.0)
 
@@ -5823,7 +5823,7 @@ snapshots:
 
   '@visx/clip-path@4.0.1-alpha.0(react@19.2.0)':
     dependencies:
-      '@types/react': 19.2.5
+      '@types/react': 19.2.6
       react: 19.2.0
 
   '@visx/curve@4.0.1-alpha.0':
@@ -5832,19 +5832,19 @@ snapshots:
 
   '@visx/drag@4.0.1-alpha.0(react@19.2.0)':
     dependencies:
-      '@types/react': 19.2.5
+      '@types/react': 19.2.6
       '@visx/event': 4.0.1-alpha.0
       '@visx/point': 4.0.1-alpha.0
       react: 19.2.0
 
   '@visx/event@4.0.1-alpha.0':
     dependencies:
-      '@types/react': 19.2.5
+      '@types/react': 19.2.6
       '@visx/point': 4.0.1-alpha.0
 
   '@visx/grid@4.0.1-alpha.0(react@19.2.0)':
     dependencies:
-      '@types/react': 19.2.5
+      '@types/react': 19.2.6
       '@visx/curve': 4.0.1-alpha.0
       '@visx/group': 4.0.1-alpha.0(react@19.2.0)
       '@visx/point': 4.0.1-alpha.0
@@ -5855,7 +5855,7 @@ snapshots:
 
   '@visx/group@4.0.1-alpha.0(react@19.2.0)':
     dependencies:
-      '@types/react': 19.2.5
+      '@types/react': 19.2.6
       classnames: 2.4.0
       react: 19.2.0
 
@@ -5864,7 +5864,7 @@ snapshots:
   '@visx/responsive@4.0.1-alpha.0(react@19.2.0)':
     dependencies:
       '@types/lodash': 4.17.20
-      '@types/react': 19.2.5
+      '@types/react': 19.2.6
       lodash: 4.17.21
       react: 19.2.0
 
@@ -5875,7 +5875,7 @@ snapshots:
   '@visx/shape@4.0.1-alpha.0(react@19.2.0)':
     dependencies:
       '@types/lodash': 4.17.20
-      '@types/react': 19.2.5
+      '@types/react': 19.2.6
       '@visx/curve': 4.0.1-alpha.0
       '@visx/group': 4.0.1-alpha.0(react@19.2.0)
       '@visx/scale': 4.0.1-alpha.0
@@ -5887,7 +5887,7 @@ snapshots:
   '@visx/text@4.0.1-alpha.0(react@19.2.0)':
     dependencies:
       '@types/lodash': 4.17.20
-      '@types/react': 19.2.5
+      '@types/react': 19.2.6
       classnames: 2.4.0
       lodash: 4.17.21
       react: 19.2.0
@@ -5895,7 +5895,7 @@ snapshots:
 
   '@visx/threshold@4.0.1-alpha.0(react@19.2.0)':
     dependencies:
-      '@types/react': 19.2.5
+      '@types/react': 19.2.6
       '@visx/clip-path': 4.0.1-alpha.0(react@19.2.0)
       '@visx/shape': 4.0.1-alpha.0(react@19.2.0)
       classnames: 2.4.0
@@ -5903,7 +5903,7 @@ snapshots:
 
   '@visx/tooltip@4.0.1-alpha.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
     dependencies:
-      '@types/react': 19.2.5
+      '@types/react': 19.2.6
       '@visx/bounds': 4.0.1-alpha.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       classnames: 2.4.0
       react: 19.2.0

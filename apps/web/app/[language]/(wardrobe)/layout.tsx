@@ -1,12 +1,11 @@
 import { Trans } from '@/components/I18n/Trans';
 import { HeroLayout } from '@/components/Layout/HeroLayout';
 import { NavBar } from '@/components/Layout/NavBar';
-import { createMetadata } from '@/lib/metadata';
-import type { LayoutProps } from '@/lib/next';
-import { getLanguage, translate } from '@/lib/translate';
+import { createLayoutMetadata } from '@/lib/metadata';
+import { translate } from '@/lib/translate';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 
-export default function WardrobeLayout({ children }: LayoutProps) {
+export default function WardrobeLayout({ children }: LayoutProps<'/[language]'>) {
   return (
     <HeroLayout color="#397aa1"
       hero={<Headline id="wardrobe"><Trans id="navigation.wardrobe"/></Headline>}
@@ -35,9 +34,7 @@ export default function WardrobeLayout({ children }: LayoutProps) {
   );
 }
 
-export const generateMetadata = createMetadata(async () => {
-  const language = await getLanguage();
-
+export const generateMetadata = createLayoutMetadata((_, { language }) => {
   return {
     title: {
       template: `${translate('navigation.wardrobe', language)}: %s · gw2treasures.com`,

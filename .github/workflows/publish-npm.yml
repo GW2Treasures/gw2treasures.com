@@ -29,8 +29,6 @@ jobs:
       run: pnpm run publish-package --filter=@gw2treasures/${{ matrix.target }} --env-mode=loose
       id: publish
       env:
-        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        NPM_CONFIG_PROVENANCE: true
         GITHUB_EVENT_NAME: ${{ github.event_name }}
     - name: Find Comment
       if: github.event_name == 'pull_request'

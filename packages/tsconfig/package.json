@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/GW2Treasures/gw2treasures#readme",
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "provenance": true
   }
 }

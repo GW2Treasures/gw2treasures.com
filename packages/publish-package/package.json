@@ -1,6 +1,6 @@
 {
   "name": "@gw2treasures/publish-package",
-  "version": "0.1.0-rc.0",
+  "version": "0.1.0",
   "description": "gw2treasures.com publish package script",
   "bin": {
     "gw2treasures-publish-package": "bin/index.js"
@@ -40,6 +40,6 @@
   },
   "publishConfig": {
     "access": "public",
-    "tag": "rc"
+    "provenance": true
   }
 }

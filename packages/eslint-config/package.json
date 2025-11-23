@@ -43,6 +43,7 @@
     "eslint": "^9.22.0"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "provenance": true
   }
 }

@@ -2,6 +2,26 @@
   white-space: nowrap;
 }
 
+.short, .long {
+  composes: coins;
+}
+
+.short .hidden,
+.short .pad {
+  /** visually hide this, but still allow copying **/
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.long .pad {
+  opacity: .25;
+}
+
 .g + .s,
 .g + .c,
 .s + .c {

@@ -19,6 +19,17 @@ interface FormatNumberProps extends RefProp<HTMLDataElement> {
 const format = new Intl.NumberFormat(undefined, { useGrouping: true });
 
 export const FormatNumber: FC<FormatNumberProps> = ({ ref, value, className, unit, options, approx }) => {
+  const formatted = useFormattedNumber(value, options);
+
+  return (
+    <data ref={ref} className={cx(styles.format, className)} value={value?.toString() ?? undefined} suppressHydrationWarning>
+      {(formatted === '0' && value !== 0 && approx) ? '~0' : formatted}
+      {unit && <>{NARROW_NO_BREAK_SPACE}{unit}</>}
+    </data>
+  );
+};
+
+export function useFormattedNumber(value: number | bigint | undefined | null, options?: Intl.NumberFormatOptions): string {
   const { numberFormat, locale } = useFormatContext();
 
   const customFormat = useMemo(() => {
@@ -31,13 +42,8 @@ export const FormatNumber: FC<FormatNumberProps> = ({ ref, value, className, uni
 
   const formatted = value != null ? customFormat.format(value) : '?';
 
-  return (
-    <data ref={ref} className={cx(styles.format, className)} value={value?.toString() ?? undefined} suppressHydrationWarning>
-      {(formatted === '0' && value !== 0 && approx) ? '~0' : formatted}
-      {unit && <>{NARROW_NO_BREAK_SPACE}{unit}</>}
-    </data>
-  );
-};
+  return formatted;
+}
 
 export function formatNumber(value: number): string {
   return format.format(value);

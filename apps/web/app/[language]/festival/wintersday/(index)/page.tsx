@@ -92,7 +92,7 @@ export default async function WintersdayPage() {
       <SnowDiamondConversions.Table initialSortBy="price">
         <SnowDiamondConversions.Column id="item" title="Item" sort={(a, b) => compareLocalizedName(language)(a.item, b.item)}>{({ item, quantity }) => <OutputCount count={quantity ?? 1}><ItemLink item={item}/></OutputCount>}</SnowDiamondConversions.Column>
         <SnowDiamondConversions.Column id="type" title="Type" sortBy="type">{({ type }) => type === 'buy' ? 'Buy Price' : 'Sell Price'}</SnowDiamondConversions.Column>
-        <SnowDiamondConversions.Column id="price" title="Price" align="right" sortBy={(({ item, quantity, type }) => item[`${type}Price`]! * (quantity ?? 1))}>{({ item, quantity, type }) => <Coins value={item[`${type}Price`]! * (quantity ?? 1)}/>}</SnowDiamondConversions.Column>
+        <SnowDiamondConversions.Column id="price" title="Price" align="right" sortBy={(({ item, quantity, type }) => item[`${type}Price`]! * (quantity ?? 1))}>{({ item, quantity, type }) => <Coins value={item[`${type}Price`]! * (quantity ?? 1)} long/>}</SnowDiamondConversions.Column>
         <SnowDiamondConversions.Column id="trend" title="Price Trend (7d)" align="right">{({ item, type }) => <PriceTrend history={item.tpHistory} price={`${type}Price`}/>}</SnowDiamondConversions.Column>
       </SnowDiamondConversions.Table>
 

@@ -24,6 +24,7 @@ import { getLanguage, getTranslate } from '@/lib/translate';
 import { BonusEvent, getActiveBonusEvent } from '../bonus-event/bonus-events';
 import { createMetadata } from '@/lib/metadata';
 import { HalloweenHero, heroNoImageClass } from '../festival/halloween/_hero/hero';
+import { EvonGnashbladesBirthdayLink } from '../bonus-event/evon-gnashblades-birthday/EvonGnashbladesBirthdayLink';
 
 async function HomePage() {
   const language = await getLanguage();
@@ -58,6 +59,7 @@ async function HomePage() {
       </Suspense>
 
       {bonusEvent?.type === BonusEvent.DungeonRush && (<DungeonRushLink/>)}
+      {bonusEvent?.type === BonusEvent.EvonGnashbladesBirthday && (<EvonGnashbladesBirthdayLink/>)}
 
       <Headline id="new-items">
         <Trans language={language} id="items.new"/>

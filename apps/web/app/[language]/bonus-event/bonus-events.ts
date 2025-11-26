@@ -35,5 +35,6 @@ export function isBonusEventActive(bonusEvent: BonusEventInfo | undefined, times
 export const bonusEvents: BonusEventInfo[] = [
   { type: BonusEvent.EvonGnashbladesBirthday, startsAt: new Date('2024-11-25T17:00:00.000Z'), endsAt: new Date('2024-12-02T17:00:00.000Z') },
   { type: BonusEvent.DungeonRush, startsAt: new Date('2024-04-08T16:00:00.000Z'), endsAt: new Date('2025-04-15T19:00:00.000Z') },
-  { type: BonusEvent.FractalIncursion, startsAt: new Date('2025-09-09T16:00:00.000Z'), endsAt: new Date('2025-10-07T19:00:00.000Z') }
+  { type: BonusEvent.FractalIncursion, startsAt: new Date('2025-09-09T16:00:00.000Z'), endsAt: new Date('2025-10-07T19:00:00.000Z') },
+  { type: BonusEvent.EvonGnashbladesBirthday, startsAt: new Date('2025-11-24T17:00:00.000Z'), endsAt: new Date('2025-12-02T17:00:00.000Z') },
 ];

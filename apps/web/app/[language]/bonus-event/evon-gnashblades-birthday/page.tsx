@@ -15,29 +15,30 @@ import { Trans } from '@/components/I18n/Trans';
 import { Icon } from '@gw2treasures/ui';
 import { ExternalLink } from '@gw2treasures/ui/components/Link/ExternalLink';
 import ogImage from './og.png';
-import { WizardsVaultObjective } from '@/components/WizardsVault/WizardsVaultObjective';
 import { PageView } from '@/components/PageView/PageView';
-import Link from 'next/link';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import { createMetadata } from '@/lib/metadata';
 import { getLanguage } from '@/lib/translate';
+import { BonusEvent, getBonusEvent } from '../bonus-events';
 
-const endsAt = new Date('2024-12-02T17:00:00.000Z');
+const approvalItemId = 106773;
 
 const data = [
-  { itemId: 79696, materialId: 24350, quantity: 250, purchaseLimit: 1, gemPrice: null },
-  { itemId: 92209, materialId: 24356, quantity: 250, purchaseLimit: 1, gemPrice: 500 },
-  { itemId: 92203, materialId: 24341, quantity: 250, purchaseLimit: 1, gemPrice: 500 },
-  { itemId: 82060, materialId: 24282, quantity: 50, purchaseLimit: 5, gemPrice: null },
-  { itemId: 86694, materialId: 24288, quantity: 50, purchaseLimit: 5, gemPrice: null },
-  { itemId: 19980, materialId: 24357, quantity: 50, purchaseLimit: 3, gemPrice: 87 },
+  { itemId: 106797, materialId: 24294, quantity: 250, purchaseLimit: 1, gemPrice: null, approvals: 20 }, // Party Hat Skin
+  { itemId: 79696, materialId: 24288, quantity: 250, purchaseLimit: 1, gemPrice: null, approvals: 8 }, // Guaranteed Wardrobe Unlock
+  { itemId: 92209, materialId: 24356, quantity: 250, purchaseLimit: 1, gemPrice: 500, approvals: 8 }, // Build Template Expansion
+  { itemId: 92203, materialId: 24341, quantity: 250, purchaseLimit: 1, gemPrice: 500, approvals: 8 }, // Equipment Template Expansion
+  { itemId: 82060, materialId: 24282, quantity: 50, purchaseLimit: 5, gemPrice: null, approvals: 1 }, // Black Lion Booster
+  { itemId: 86694, materialId: 19748, quantity: 50, purchaseLimit: 5, gemPrice: null, approvals: 2 }, // Black Lion Statuette
+  { itemId: 19980, materialId: 19700, quantity: 150, purchaseLimit: 3, gemPrice: 87, approvals: 3 }, // Black Lion Chest Key
+  // { itemId: 86181, approvals: 1 } // Bead of Liquid Karma
 ];
 
 const loadItems = cache(async function loadItems() {
-  const itemIds = data.flatMap(({ itemId, materialId }) => [itemId, materialId]);
+  const itemIds = data.flatMap(({ itemId, materialId }) => materialId ? [itemId, materialId] : itemId);
 
   const items = await db.item.findMany({
-    where: { id: { in: itemIds }},
+    where: { id: { in: [approvalItemId, ...itemIds] }},
     select: {
       ...linkProperties,
       tpTradeable: true, tpCheckedAt: true,
@@ -50,29 +51,30 @@ const loadItems = cache(async function loadItems() {
   return Object.fromEntries(groupById(items).entries());
 }, ['evon-gnashblades-birthday'], { revalidate: 60 * 60 });
 
-const loadObjective = cache(async function loadObjective() {
-  const objective = await db.wizardsVaultObjective.findUnique({
-    where: { id: 290 }
-  });
+// const loadObjective = cache(async function loadObjective() {
+//   const objective = await db.wizardsVaultObjective.findUnique({
+//     where: { id: 290 }
+//   });
 
-  return objective!;
-}, ['evon-gnashblades-birthday-objective'], { revalidate: 60 * 60 * 24 });
+//   return objective!;
+// }, ['evon-gnashblades-birthday-objective'], { revalidate: 60 * 60 * 24 });
 
 export default async function EventPage() {
   const language = await getLanguage();
-  const [items, objective] = await Promise.all([loadItems(), loadObjective()]);
+  const [items] = await Promise.all([loadItems()/*, loadObjective()*/]);
   const Exchange = createDataTable(data, (_, index) => index);
 
-  const isOver = endsAt < new Date();
+  const event = getBonusEvent(BonusEvent.EvonGnashbladesBirthday);
+  const isOver = !event || event.endsAt < new Date();
 
   return (
     <HeroLayout color="#dacaa1" hero={<Headline id="birthday">Evon Gnashblade’s “Birthday” celebration</Headline>}>
       {isOver && <Notice>This bonus event is currently not active.</Notice>}
 
-      <Description actions={!isOver && <>Time remaining: <ResetTimer reset={endsAt}/></>}>
+      <Description actions={!isOver && <>Time remaining: <ResetTimer reset={event.endsAt}/></>}>
         From November 25 to December 2, the Black Lion Vaults will open with exclusive offerings and a chance to trade materials for a few limited-time surprises.
         There will also be new vendors, new displays, and a whole new look to the Vaults, so get ready to head over to Lion’s Arch next week.<br/>
-        <ExternalLink href="https://www.guildwars2.com/en/news/celebrate-evon-gnashblades-birthday-with-great-savings-and-improvements-to-the-vaults/">Read more on guildwars2.com</ExternalLink>
+        <ExternalLink href="https://www.guildwars2.com/en/news/the-gnashbash-birthday-celebration-is-back/">Read more on guildwars2.com</ExternalLink>
       </Description>
 
       <Headline id="materials" actions={<ColumnSelect table={Exchange}/>}>Material Exchange</Headline>
@@ -80,6 +82,17 @@ export default async function EventPage() {
 
       <Exchange.Table>
         <Exchange.Column title="Item" id="item">{({ itemId }) => <ItemLink item={items[itemId]}/>}</Exchange.Column>
+        <Exchange.Column title="Approvals" id="approvals">
+          {({ approvals }) => (
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, whiteSpace: 'nowrap' }}>
+              <span>
+                <span style={{ fontFeatureSettings: '"tnum"', minWidth: '3ch', display: 'inline-block', textAlign: 'right' }}>{approvals}</span>
+                {' × '}
+              </span>
+              <ItemLink item={items[approvalItemId]}>{null}</ItemLink>
+            </div>
+          )}
+        </Exchange.Column>
         <Exchange.Column title="Material" id="material">
           {({ materialId, quantity }) => (
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, whiteSpace: 'nowrap' }}>
@@ -130,10 +143,14 @@ export default async function EventPage() {
         <Exchange.Column title="Purchase Limit" id="limit" align="right">{({ purchaseLimit }) => <FormatNumber value={purchaseLimit}/>}</Exchange.Column>
       </Exchange.Table>
 
-      <Headline id="wizards-vault">Wizard&apos;s Vault</Headline>
-      <p>Go to <Link href="/wizards-vault">Wizard&apos;s Vault</Link> to view all your active Wizard&apos;s Vault objectives.</p>
+      {/* <Headline id="wizards-vault">Wizard&apos;s Vault</Headline>
 
       <WizardsVaultObjective objective={objective} language={language}/>
+
+      <p style={{ border: '1px solid var(--color-border)', marginTop: 48, padding: 16 }}>
+        <Icon icon="wizards-vault"/>{' '}
+        Visit the <Link href="/wizards-vault">Wizard&apos;s Vault page</Link> to view all your active Wizard&apos;s Vault objectives.
+      </p> */}
 
       <PageView page="bonus-event/evon-gnashblades-birthday"/>
     </HeroLayout>

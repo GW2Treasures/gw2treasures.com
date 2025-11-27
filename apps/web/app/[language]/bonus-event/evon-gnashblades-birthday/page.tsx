@@ -29,7 +29,7 @@ const data = [
   { itemId: 92209, materialId: 24356, quantity: 250, purchaseLimit: 1, gemPrice: 500, approvals: 8 }, // Build Template Expansion
   { itemId: 92203, materialId: 24341, quantity: 250, purchaseLimit: 1, gemPrice: 500, approvals: 8 }, // Equipment Template Expansion
   { itemId: 82060, materialId: 24282, quantity: 50, purchaseLimit: 5, gemPrice: null, approvals: 1 }, // Black Lion Booster
-  { itemId: 86694, materialId: 19748, quantity: 50, purchaseLimit: 5, gemPrice: null, approvals: 2 }, // Black Lion Statuette
+  { itemId: 86694, materialId: 19748, quantity: 250, purchaseLimit: 5, gemPrice: null, approvals: 2 }, // Black Lion Statuette
   { itemId: 19980, materialId: 19700, quantity: 150, purchaseLimit: 3, gemPrice: 87, approvals: 3 }, // Black Lion Chest Key
   // { itemId: 86181, approvals: 1 } // Bead of Liquid Karma
 ];

@@ -20,6 +20,7 @@ import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import { createMetadata } from '@/lib/metadata';
 import { getLanguage } from '@/lib/translate';
 import { BonusEvent, getBonusEvent } from '../bonus-events';
+import { AchievementTable } from '@/components/Achievement/AchievementTable';
 
 const approvalItemId = 106773;
 
@@ -33,6 +34,8 @@ const data = [
   { itemId: 19980, materialId: 19700, quantity: 150, purchaseLimit: 3, gemPrice: 87, approvals: 3 }, // Black Lion Chest Key
   // { itemId: 86181, approvals: 1 } // Bead of Liquid Karma
 ];
+
+const achievementCategoryId = 473; // Gnashbash "Birthday" Celebration
 
 const loadItems = cache(async function loadItems() {
   const itemIds = data.flatMap(({ itemId, materialId }) => materialId ? [itemId, materialId] : itemId);
@@ -59,19 +62,29 @@ const loadItems = cache(async function loadItems() {
 //   return objective!;
 // }, ['evon-gnashblades-birthday-objective'], { revalidate: 60 * 60 * 24 });
 
+const loadAchievements = cache(async function loadAchievements() {
+  const achievements = await db.achievement.findMany({
+    where: { achievementCategoryId },
+    include: { icon: true, rewardsItem: { select: linkProperties }, rewardsTitle: { select: { id: true, name_de: true, name_en: true, name_es: true, name_fr: true }}},
+  });
+
+  return achievements;
+}, ['evon-gnashblades-birthday-achievements'], { revalidate: 60 * 60 * 24 });
+
 export default async function EventPage() {
   const language = await getLanguage();
-  const [items] = await Promise.all([loadItems()/*, loadObjective()*/]);
+  const [items, achievements] = await Promise.all([loadItems(), loadAchievements() /*, loadObjective()*/]);
   const Exchange = createDataTable(data, (_, index) => index);
 
+  const now = new Date();
   const event = getBonusEvent(BonusEvent.EvonGnashbladesBirthday);
-  const isOver = !event || event.endsAt < new Date();
+  const isActive = event && event.startsAt < now && event.endsAt > now;
 
   return (
     <HeroLayout color="#dacaa1" hero={<Headline id="birthday">Evon Gnashblade’s “Birthday” celebration</Headline>}>
-      {isOver && <Notice>This bonus event is currently not active.</Notice>}
+      {!isActive && <Notice>This bonus event is currently not active.</Notice>}
 
-      <Description actions={!isOver && <>Time remaining: <ResetTimer reset={event.endsAt}/></>}>
+      <Description actions={isActive && <>Time remaining: <ResetTimer reset={event.endsAt}/></>}>
         From November 25 to December 2, the Black Lion Vaults will open with exclusive offerings and a chance to trade materials for a few limited-time surprises.
         There will also be new vendors, new displays, and a whole new look to the Vaults, so get ready to head over to Lion’s Arch next week.<br/>
         <ExternalLink href="https://www.guildwars2.com/en/news/the-gnashbash-birthday-celebration-is-back/">Read more on guildwars2.com</ExternalLink>
@@ -142,6 +155,15 @@ export default async function EventPage() {
 
         <Exchange.Column title="Purchase Limit" id="limit" align="right">{({ purchaseLimit }) => <FormatNumber value={purchaseLimit}/>}</Exchange.Column>
       </Exchange.Table>
+
+      <AchievementTable achievements={achievements} language={language}>
+        {(table, columnSelect) => (
+          <>
+            <Headline id="achievements" actions={columnSelect}>Achievements</Headline>
+            {table}
+          </>
+        )}
+      </AchievementTable>
 
       {/* <Headline id="wizards-vault">Wizard&apos;s Vault</Headline>
 

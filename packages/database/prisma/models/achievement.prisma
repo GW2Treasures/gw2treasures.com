@@ -80,6 +80,8 @@ enum MasteryRegion {
   Tundra
   Jade
   Sky
+  Wild
+  Magic
   Unknown
 }
 

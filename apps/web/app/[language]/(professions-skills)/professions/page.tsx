@@ -34,5 +34,6 @@ export const generateMetadata = createMetadata(async () => {
   return {
     title: t('navigation.professions'),
     image: ogImage,
+    url: '/professions'
   };
 });

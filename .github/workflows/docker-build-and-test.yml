@@ -61,7 +61,10 @@ jobs:
     - name: Export digest
       run: |
         mkdir -p /tmp/digests/${{ matrix.target }}
-        digest=$(jq -cr '."${{ matrix.target }}"."containerimage.digest"' <<< '${{ steps.build.outputs.metadata }}')
+        digest=$(jq -cr '."${{ matrix.target }}"."containerimage.digest"' << 'EOF'
+        ${{ steps.build.outputs.metadata }}
+        EOF
+        )
         touch "/tmp/digests/${{ matrix.target }}/${digest#sha256:}"
     - name: Upload digest
       uses: actions/upload-artifact@v5

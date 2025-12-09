@@ -39,6 +39,10 @@ export default async function WintersdayAchievementsPage() {
     <PageLayout>
       <Gw2Accounts requiredScopes={requiredScopes} loading={null} loginMessage={<Trans id="festival.wizards-vault.login"/>} authorizationMessage={<Trans id="festival.wizards-vault.authorize"/>}/>
 
+      <Notice type="warning">
+        The official Guild Wars 2 API currently has a bug and is not providing progress for festival special objectives.
+      </Notice>
+
       <p><Trans id="festival.wintersday.wizards-vault.description"/></p>
 
       {objectives.length > 0 ? objectives.map((objective) => (

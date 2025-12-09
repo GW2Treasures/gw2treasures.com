@@ -44,4 +44,5 @@ export const festivals: FestivalInfo[] = [
   { type: Festival.DragonBash, startsAt: new Date('2025-06-17T16:00:00.000Z'), endsAt: new Date('2025-07-08T19:00:00.000Z') },
   { type: Festival.FourWinds, startsAt: new Date('2025-08-05T16:00:00.000Z'), endsAt: new Date('2025-08-26T19:00:00.000Z') },
   { type: Festival.Halloween, startsAt: new Date('2025-10-07T16:00:00.000Z'), endsAt: new Date('2025-11-04T20:00:00.000Z') },
+  { type: Festival.Wintersday, startsAt: new Date('2025-12-09T17:00:00.000Z'), endsAt: new Date('2026-01-02T20:00:00.000Z') },
 ];

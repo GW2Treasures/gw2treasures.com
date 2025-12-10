@@ -21,11 +21,11 @@ export default function WintersdayLayout({ children }: LayoutProps<'/[language]/
       color="#7993a9"
       navBar={(
         <NavBar base="/festival/wintersday/" items={[
-          { segment: '(index)', href: '/festival/wintersday', label: <Trans id="festival.wintersday"/> },
-          { segment: 'achievements', label: <Trans id="navigation.achievements"/> },
-          { segment: 'skins', label: <Trans id="navigation.skins"/> },
-          { segment: 'minis', label: <Trans id="festival.wintersday.minis"/> },
-          { segment: 'wizards-vault', label: <Trans id="navigation.wizardsVault"/> },
+          { segment: '(index)', href: '/festival/wintersday', icon: 'gift', label: <Trans id="festival.wintersday"/> },
+          { segment: 'achievements', icon: 'achievement', label: <Trans id="navigation.achievements"/> },
+          { segment: 'skins', icon: 'skin', label: <Trans id="navigation.skins"/> },
+          { segment: 'minis', icon: 'mini', label: <Trans id="festival.wintersday.minis"/> },
+          { segment: 'wizards-vault', icon: 'wizards-vault', label: <Trans id="navigation.wizardsVault"/> },
         ]}/>
       )}
     >

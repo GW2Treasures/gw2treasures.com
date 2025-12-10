@@ -58,6 +58,10 @@ const skinIds = [
   12786, // Winter Mittens
   12765, // Winter Mittens
   12748, // Winter Mittens
+  13243, // Plush Jorms Backpack
+  13673, // Winter Snow Goggles (light)
+  13670, // Winter Snow Goggles (medium)
+  13669, // Winter Snow Goggles (heavy)
 ];
 
 const skinSetNames = [
@@ -69,7 +73,8 @@ const skinSetNames = [
   'Sparkling Wrapped weapons',
   'Sacred Solstice weapons',
   'Snowdrift weapons',
-  'Plush weapons'
+  'Plush weapons',
+  'Sugardrift weapons',
 ];
 
 const loadData = cache(async function loadData() {

@@ -32,9 +32,6 @@ export default function WintersdayLayout({ children }: LayoutProps) {
           <Notice>The Wintersday festival is currently not active!</Notice>
         </div>
       )}
-      <div style={{ margin: '16px 16px -16px' }}>
-        <Notice>This page is still showing information for last years Wintersday festival. It will be updated soon.</Notice>
-      </div>
 
       {children}
     </HeroLayout>

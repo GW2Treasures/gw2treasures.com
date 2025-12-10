@@ -114,14 +114,14 @@ export default async function DungeonsPage() {
   );
 }
 
-export const generateMetadata = createMetadata(async () => {
-  const language = await getLanguage();
+export const generateMetadata = createMetadata((_, { language }) => {
   const t = getTranslate(language);
 
   return {
     title: t('dungeons'),
     description: t('dungeons.description'),
     keywords: ['dungeon', 'dungeons', 'instance', 'PvE', 'group', 'story', 'explorable', 'tales of dungeon delving', 'coins', 'dungeon rush', 'daily', 'clear', 'completion'],
+    url: '/dungeons',
     image: ogImage
   };
 });

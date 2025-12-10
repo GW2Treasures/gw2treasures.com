@@ -1,23 +1,68 @@
 import type { Metadata, ResolvedMetadata, ResolvingMetadata } from 'next';
-import type { LayoutProps, PageProps } from './next';
-import { getAlternateUrls, getBaseUrl, getCurrentUrl } from './url';
+import { getAlternateUrls, getBaseUrl } from './url';
 import type { StaticImageData } from 'next/image';
 import type { TemplateString } from 'next/dist/lib/metadata/types/metadata-types';
 import type { Twitter } from 'next/dist/lib/metadata/types/twitter-types';
 import { getLanguage } from './translate';
 import type { Language } from '@gw2treasures/database';
+import type { AppRoutes, LayoutRoutes } from '.next/types/routes';
 
 interface CreateMetadataContext {
   language: Language,
 }
 
-type CreateMetadataCallback<T> = (props: T, context: CreateMetadataContext) => Promise<Meta> | Meta;
+type CreateMetadataCallback<T, M extends LayoutMeta | Meta> = (props: T, context: CreateMetadataContext) => Promise<M> | M;
 
 type GenerateMetadata<T> = (props: T, parent: ResolvingMetadata) => Promise<Metadata>;
 
-export function createMetadata<Props extends PageProps | LayoutProps>(
-  getMeta: CreateMetadataCallback<Props> | Meta
-): GenerateMetadata<Props> {
+export function createLayoutMetadata<LayoutRoute extends LayoutRoutes>(
+  getMeta: CreateMetadataCallback<LayoutProps<LayoutRoute>, LayoutMeta> | LayoutMeta
+): GenerateMetadata<LayoutProps<LayoutRoute>> {
+  return async (props, parent) => {// get current language (root param)
+    const language = await getLanguage();
+
+    // get meta from callback or object
+    const meta = typeof getMeta === 'function'
+      ? await getMeta(props, { language })
+      : getMeta;
+
+    // get metadata from parent layouts
+    const parentMeta = await parent;
+
+    // generate title
+    const title = meta.ogTitle ??
+      resolveTitle(meta.title, parentMeta.title).replace(' · gw2treasures.com', '');
+
+    // resolve absolute image url
+    const image = resolveImage(meta.image, getBaseUrl(language));
+
+    return {
+      title: meta.title,
+      description: meta.description,
+      keywords: meta.keywords,
+      robots: meta.robots,
+
+      openGraph: {
+        ...parentMeta.openGraph,
+        siteName: 'gw2treasures.com',
+        images: image ?? parentMeta.openGraph?.images,
+        url: undefined,
+        title,
+        description: meta.description ?? parentMeta.description ?? undefined
+      },
+      twitter: {
+        ...parentMeta.twitter as Twitter,
+        card: (image?.width && image.width > 128) ? 'summary_large_image' : parentMeta.twitter?.card as 'summary_large_image',
+        title,
+        description: meta.description ?? parentMeta.description ?? undefined
+      },
+    };
+  };
+}
+
+export function createMetadata<AppRoute extends AppRoutes>(
+  getMeta: CreateMetadataCallback<PageProps<AppRoute>, Meta> | Meta
+): GenerateMetadata<PageProps<AppRoute>> {
   return async (props, parent) => {
     // get current language (root param)
     const language = await getLanguage();
@@ -28,9 +73,7 @@ export function createMetadata<Props extends PageProps | LayoutProps>(
       : getMeta;
 
     // generate alternate urls
-    // TODO: require `meta.url` to be set for all pages to remove fallback to dynamic `getCurrentUrl`
-    const url = await getCurrentUrl();
-    const alternates = getAlternateUrls(meta.url ?? url.pathname, language);
+    const alternates = getAlternateUrls(meta.url, language);
 
     // get metadata from parent layouts
     const parentMeta = await parent;
@@ -67,12 +110,21 @@ export function createMetadata<Props extends PageProps | LayoutProps>(
   };
 }
 
+type LayoutMeta = {
+  title: string | TemplateString,
+  ogTitle?: string,
+  description?: string,
+  keywords?: string[],
+  image?: Image,
+  robots?: Metadata['robots'],
+};
+
 type Meta = {
   title: string | TemplateString,
   ogTitle?: string,
   description?: string,
   keywords?: string[],
-  url?: string,
+  url: string,
   image?: Image,
   robots?: Metadata['robots'],
 };

@@ -121,5 +121,6 @@ export const generateMetadata = createMetadata(async () => {
     title: t('raids'),
     description: t('raids.description'),
     keywords: ['raid', 'wing', 'instance', 'PvE', 'group', 'squad', 'weekly', 'emboldened', 'call of the mists', 'clear', 'completion'],
+    url: '/raids',
   };
 });

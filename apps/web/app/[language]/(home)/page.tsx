@@ -33,8 +33,7 @@ async function HomePage() {
   const festival = getActiveFestival();
   const bonusEvent = getActiveBonusEvent();
 
-  // const hero = festivalHero[festival?.type ?? 'default'] ?? festivalHero.default;
-  const hero = festivalHero.default;
+  const hero = festivalHero[festival?.type ?? 'default'] ?? festivalHero.default;
 
   return (
     <HeroLayout color={hero.color} heroClassName={hero.className} hero={(

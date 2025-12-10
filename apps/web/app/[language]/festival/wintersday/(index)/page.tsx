@@ -1,33 +1,28 @@
-import { Gw2Accounts } from '@/components/Gw2Api/Gw2Accounts';
-import { Trans } from '@/components/I18n/Trans';
-import { ItemInventoryTable } from '@/components/Item/ItemInventoryTable';
-import { ItemTable } from '@/components/ItemTable/ItemTable';
-import { ItemTableColumnsButton } from '@/components/ItemTable/ItemTableColumnsButton';
-import { ItemTableContext } from '@/components/ItemTable/ItemTableContext';
-import { PageLayout } from '@/components/Layout/PageLayout';
-import { pageView } from '@/lib/pageView';
-import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
-import { requiredScopes } from '../helper';
-import { db } from '@/lib/prisma';
-import { linkProperties } from '@/lib/linkProperties';
-import { cache } from '@/lib/cache';
-import { ItemLink } from '@/components/Item/ItemLink';
-import { getLanguage, getTranslate } from '@/lib/translate';
-import { Fragment } from 'react';
-import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
-import { OutputCount } from '@/components/Item/OutputCount';
-import { groupById } from '@gw2treasures/helper/group-by';
 import { Coins } from '@/components/Format/Coins';
-import { PriceTrend } from '@/components/Item/PriceTrend';
-import { compareLocalizedName } from '@/lib/localizedName';
-import { ColumnSelect } from '@/components/Table/ColumnSelect';
 import { FormatNumber } from '@/components/Format/FormatNumber';
-import { Festival, getFestival } from '../../festivals';
+import { Trans } from '@/components/I18n/Trans';
+import { ItemLink } from '@/components/Item/ItemLink';
+import { OutputCount } from '@/components/Item/OutputCount';
+import { PriceTrend } from '@/components/Item/PriceTrend';
+import { PageLayout } from '@/components/Layout/PageLayout';
 import { StructuredData } from '@/components/StructuredData/StructuredData';
-import ogImage from '../og.png';
-import { absoluteUrl } from '@/lib/url';
-import type { Event } from 'schema-dts';
+import { ColumnSelect } from '@/components/Table/ColumnSelect';
+import { cache } from '@/lib/cache';
+import { linkProperties } from '@/lib/linkProperties';
+import { compareLocalizedName } from '@/lib/localizedName';
 import { createMetadata } from '@/lib/metadata';
+import { pageView } from '@/lib/pageView';
+import { db } from '@/lib/prisma';
+import { getLanguage, getTranslate } from '@/lib/translate';
+import { absoluteUrl } from '@/lib/url';
+import { groupById } from '@gw2treasures/helper/group-by';
+import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
+import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
+import { Dashboard } from 'app/[language]/dashboard/dashboard';
+import type { Column } from 'app/[language]/dashboard/helper';
+import type { Event } from 'schema-dts';
+import { Festival, getFestival } from '../../festivals';
+import ogImage from '../og.png';
 
 const ITEM_SNOWFLAKE_ID = 86601;
 const ITEM_SNOW_DIAMOND_ID = 86627;
@@ -80,32 +75,24 @@ export default async function WintersdayPage() {
 
   return (
     <PageLayout>
-      <ItemTableContext id="wintersday">
-        <p><Trans id="festival.wintersday.intro"/></p>
-        <p><Trans id="festival.wintersday.description"/></p>
-        <Headline actions={<ItemTableColumnsButton/>} id="items"><Trans id="navigation.items"/></Headline>
-        <ItemTable query={{ where: { id: { in: itemIds }}}} defaultColumns={['item', 'rarity', 'type', 'buyPrice', 'buyPriceTrend', 'sellPrice', 'sellPriceTrend']}/>
-      </ItemTableContext>
+      <p style={{ borderLeft: '4px solid var(--color-border-dark)', paddingLeft: 16 }}><Trans id="festival.wintersday.intro"/></p>
+      <p><Trans id="festival.wintersday.description"/></p>
 
-      <Headline id="conversion" actions={<ColumnSelect table={SnowDiamondConversions}/>}>Snow Diamond Conversion</Headline>
+      <Headline id="conversion" actions={<ColumnSelect table={SnowDiamondConversions}/>}><Trans id="festival.wintersday.conversion"/></Headline>
       <p><FormatNumber value={1000}/> Snowflakes can be exchanged for 1 Snow Diamond at the &quot;Charity Corps Seraph&quot; vendor in Divinity&apos;s Reach.</p>
       <SnowDiamondConversions.Table initialSortBy="price">
-        <SnowDiamondConversions.Column id="item" title="Item" sort={(a, b) => compareLocalizedName(language)(a.item, b.item)}>{({ item, quantity }) => <OutputCount count={quantity ?? 1}><ItemLink item={item}/></OutputCount>}</SnowDiamondConversions.Column>
-        <SnowDiamondConversions.Column id="type" title="Type" sortBy="type">{({ type }) => type === 'buy' ? 'Buy Price' : 'Sell Price'}</SnowDiamondConversions.Column>
-        <SnowDiamondConversions.Column id="price" title="Price" align="right" sortBy={(({ item, quantity, type }) => item[`${type}Price`]! * (quantity ?? 1))}>{({ item, quantity, type }) => <Coins value={item[`${type}Price`]! * (quantity ?? 1)} long/>}</SnowDiamondConversions.Column>
-        <SnowDiamondConversions.Column id="trend" title="Price Trend (7d)" align="right">{({ item, type }) => <PriceTrend history={item.tpHistory} price={`${type}Price`}/>}</SnowDiamondConversions.Column>
+        <SnowDiamondConversions.Column id="item" title={<Trans id="itemTable.column.item"/>} sort={(a, b) => compareLocalizedName(language)(a.item, b.item)}>{({ item, quantity }) => <OutputCount count={quantity ?? 1}><ItemLink item={item}/></OutputCount>}</SnowDiamondConversions.Column>
+        <SnowDiamondConversions.Column id="type" title={<Trans id="itemTable.column.type"/>} sortBy="type">{({ type }) => type === 'buy' ? <Trans id="itemTable.column.buyPrice"/> : <Trans id="itemTable.column.sellPrice"/>}</SnowDiamondConversions.Column>
+        <SnowDiamondConversions.Column id="price" title={<Trans id="festival.halloween.conversion.price"/>} align="right" sortBy={(({ item, quantity, type }) => item[`${type}Price`]! * (quantity ?? 1))}>{({ item, quantity, type }) => <Coins value={item[`${type}Price`]! * (quantity ?? 1)} long/>}</SnowDiamondConversions.Column>
+        <SnowDiamondConversions.Column id="trend" title={<Trans id="festival.halloween.conversion.priceTrend"/>} align="right">{({ item, type }) => <PriceTrend history={item.tpHistory} price={`${type}Price`}/>}</SnowDiamondConversions.Column>
       </SnowDiamondConversions.Table>
 
-      <div style={{ marginTop: 32 }}/>
+      <Headline id="inventory">Account Dashboard</Headline>
+      <p><Trans id="festival.wintersday.items.description"/></p>
+      <Dashboard initialColumns={[
+        ...items.map<Column>((item) => ({ type: 'item', id: item.id, item })),
+      ]} embedded/>
 
-      <Gw2Accounts requiredScopes={requiredScopes} loading={null} loginMessage={<Trans id="festival.items.login"/>} authorizationMessage={<Trans id="festival.items.authorize"/>}>
-        {items.map((item) => (
-          <Fragment key={item.id}>
-            <Headline id={item.id.toString()}><ItemLink item={item}/></Headline>
-            <ItemInventoryTable itemId={item.id}/>
-          </Fragment>
-        ))}
-      </Gw2Accounts>
 
       {wintersday && (
         <StructuredData data={{

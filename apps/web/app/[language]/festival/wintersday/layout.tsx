@@ -1,29 +1,31 @@
 import { Trans } from '@/components/I18n/Trans';
 import { HeroLayout } from '@/components/Layout/HeroLayout';
 import { NavBar } from '@/components/Layout/NavBar';
-import type { LayoutProps } from '@/lib/next';
 import { getLanguage, getTranslate } from '@/lib/translate';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
-import { Snow } from 'app/[language]/festival/wintersday/snow';
 import ogImage from './og.png';
 import { Festival, getFestival, isFestivalActive } from '../festivals';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import { FestivalTimer } from '@/components/Reset/FestivalTimer';
 import { createMetadata } from '@/lib/metadata';
+import { heroNoImageClass, WintersdayHero } from './_hero/hero';
 
-export default function WintersdayLayout({ children }: LayoutProps) {
+export default function WintersdayLayout({ children }: LayoutProps<'/[language]/festival/wintersday'>) {
   const wintersday = getFestival(Festival.Wintersday);
 
   return (
-    <HeroLayout color="#7993a9" hero={(<Snow><Headline id="wintersday" actions={<FestivalTimer festival={wintersday}/>}><Trans id="festival.wintersday"/></Headline></Snow>)}
+    <HeroLayout hero={(<WintersdayHero><Headline id="wintersday" actions={<FestivalTimer festival={wintersday}/>}><div style={{ minWidth: '40vw' }}><Trans id="festival.wintersday"/></div></Headline></WintersdayHero>)}
+      heroClassName={heroNoImageClass}
+      skipPreload
       skipLayout
+      color="#7993a9"
       navBar={(
         <NavBar base="/festival/wintersday/" items={[
-          { segment: '(index)', href: '/festival/wintersday', label: <Trans id="festival.wintersday"/> },
-          { segment: 'achievements', label: <Trans id="navigation.achievements"/> },
-          { segment: 'skins', label: <Trans id="navigation.skins"/> },
-          { segment: 'minis', label: <Trans id="festival.wintersday.minis"/> },
-          { segment: 'wizards-vault', label: <Trans id="navigation.wizardsVault"/> },
+          { segment: '(index)', href: '/festival/wintersday', icon: 'gift', label: <Trans id="festival.wintersday"/> },
+          { segment: 'achievements', icon: 'achievement', label: <Trans id="navigation.achievements"/> },
+          { segment: 'skins', icon: 'skin', label: <Trans id="navigation.skins"/> },
+          { segment: 'minis', icon: 'mini', label: <Trans id="festival.wintersday.minis"/> },
+          { segment: 'wizards-vault', icon: 'wizards-vault', label: <Trans id="navigation.wizardsVault"/> },
         ]}/>
       )}
     >

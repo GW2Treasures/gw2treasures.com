@@ -1,0 +1,86 @@
+.hero {
+  background-position: center center;
+  background-size: cover;
+  background-image: url(./wintersday-bg.avif), linear-gradient(to bottom, #D4DBE6, #C5CFDB);
+  margin: -32px -16px -33px;
+  padding: 32px 16px 33px;
+  aspect-ratio: 10/1;
+  max-height: 200px;
+  display: flex;
+  align-items: center;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 1px;
+  background-color: var(--color-border-transparent);
+}
+
+.cliff {
+  position: absolute;
+  top: 0;
+  bottom: -1px;
+  background-color: red;
+}
+
+.left {
+  composes: cliff;
+  left: 0;
+  aspect-ratio: 93/30;
+  background: url(./wintersday-left.avif) left center / cover no-repeat;
+}
+
+.right {
+  composes: cliff;
+  right: 0;
+  aspect-ratio: 60/30;
+  background: url(./wintersday-right.avif) right center / cover no-repeat;
+}
+
+.content {
+  position: relative;
+  white-space: nowrap;
+  flex: 1;
+  text-shadow: 0 0 16px rgba(71 44 65 / .5);
+}
+
+.ilona {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  color: #fff;
+  opacity: .4;
+  transition: opacity .3s ease;
+}
+
+.ilona:hover {
+  opacity: .6;
+}
+
+.heroNoImageClass {
+  background-image: none;
+}
+
+@media (min-width: 2000px) {
+  .hero {
+    aspect-ratio: initial;
+    height: 200px;
+  }
+}
+
+@media (max-width: 800px) {
+  .hero {
+    aspect-ratio: initial;
+    background-position: 25% center;
+  }
+  .right {
+    display: none;
+  }
+  .content {
+    flex: 0;
+  }
+}

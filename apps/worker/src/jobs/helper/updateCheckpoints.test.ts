@@ -1,3 +1,4 @@
+import { describe, expect, test } from 'vitest';
 import { getUpdateCheckpoint } from './updateCheckpoints';
 
 describe('updateCheckpoints', () => {

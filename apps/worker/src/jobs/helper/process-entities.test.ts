@@ -1,26 +1,26 @@
-import { randomUUID } from 'node:crypto';
-import { InputDataLocalized, processLocalizedEntities } from './process-entities';
-import { LocalizedObject } from './types';
 import { Build, Prisma, Revision } from '@gw2treasures/database';
+import { randomUUID } from 'node:crypto';
+import { afterAll, describe, expect, test, vi } from 'vitest';
 import { db } from '../../db';
+import { InputDataLocalized, processLocalizedEntities } from './process-entities';
 import { createRevisionHash } from './revision';
+import { LocalizedObject } from './types';
 
 function loadFromApi<T extends { id: number }>(entity: T) {
   return Promise.resolve(new Map<number, LocalizedObject<T>>([[entity.id, { de: entity, en: entity, es: entity, fr: entity }]]));
 }
 
-jest.mock('./revision-create', () => ({
+vi.mock('./revision-create', () => ({
   createRevision: (data: Prisma.RevisionUncheckedCreateInput) => Promise.resolve({ id: `test-${data.type}-${randomUUID()}` })
 }));
 
-jest.mock('./getCurrentBuild', () => ({
+vi.mock('./getCurrentBuild', () => ({
   getCurrentBuild: () => Promise.resolve({ id: 1, createdAt: new Date(), updatedAt: new Date() } satisfies Build)
 }));
 
 // mock db.$transaction
 const originalTransaction = db.$transaction;
-// @ts-expect-error doesnt match the $transaction signature
-db.$transaction = jest.fn((fn) => fn(db));
+db.$transaction = vi.fn((fn) => fn(db));
 afterAll(() => { db.$transaction = originalTransaction; });
 
 type TestDbEntity = {

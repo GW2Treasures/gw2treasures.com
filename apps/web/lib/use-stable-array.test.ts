@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import { useStableArray } from './use-stable-array';
 import { renderHook } from '@testing-library/react';
 

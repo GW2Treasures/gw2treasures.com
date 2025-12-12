@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import { getResetDate, type Reset } from './ResetTimer';
 
 const testCases: { date: Date, reset: Date, type: Reset }[] = [

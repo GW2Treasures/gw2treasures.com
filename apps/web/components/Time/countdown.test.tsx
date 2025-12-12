@@ -1,6 +1,7 @@
 import { render } from '@testing-library/react';
 import { CountDown, type CountDownProps } from './countdown';
 import { SynchronizedTimeContext } from './synchronized-time';
+import { describe, expect, it } from 'vitest';
 
 const defaultProps: CountDownProps = {
   active: 'active',

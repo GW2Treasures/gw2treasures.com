@@ -1,0 +1,18 @@
+{
+  "extends": "@gw2treasures/tsconfig/base",
+  "compilerOptions": {
+    "composite": true,
+    "tsBuildInfoFile": "./dist/tsconfig.src.tsbuildinfo",
+
+    "noEmit": false,
+
+    "rootDir": "./src",
+    "outDir": "./dist",
+
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+
+    "declarationMap": true
+  },
+  "include": ["./src"]
+}

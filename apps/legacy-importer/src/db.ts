@@ -1,5 +1,8 @@
-import { PrismaClient } from '@gw2treasures/database';
-import { PrismaClient as LegacyPrismaClient } from '../.prisma/legacy';
+import { createPrismaClient } from '@gw2treasures/database/setup';
+import { PrismaPg } from '@prisma/adapter-pg';
+import { PrismaClient as LegacyPrismaClient } from './generated/prisma';
 
-export const db = new PrismaClient();
-export const legacy = new LegacyPrismaClient();
+export const db = createPrismaClient(process.env.DATABASE_URL!);
+
+const adapter = new PrismaPg({ connectionString: process.env.LEGACY_DATABASE_URL! });
+export const legacy = new LegacyPrismaClient({ adapter });

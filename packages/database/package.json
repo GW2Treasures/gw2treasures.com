@@ -1,21 +1,45 @@
 {
   "name": "@gw2treasures/database",
   "private": true,
+  "type": "module",
   "scripts": {
-    "prisma:generate": "prisma generate --schema ./prisma --no-hints",
-    "prisma:migrate": "prisma migrate deploy --schema ./prisma",
-    "prisma:migrate-dev": "prisma migrate dev --schema ./prisma --name",
-    "prisma:studio": "prisma studio --schema ./prisma",
-    "build": "tsc"
+    "prisma:generate": "prisma generate --no-hints",
+    "prisma:migrate": "prisma migrate deploy",
+    "prisma:migrate-dev": "prisma migrate dev --name",
+    "prisma:studio": "prisma studio",
+    "build": "rm -rf ./dist && tsc -b"
   },
-  "main": "./lib/index.js",
-  "types": "./lib/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/generated/prisma/client.d.ts",
+      "browser": "./dist/generated/prisma/browser.js",
+      "default": "./dist/generated/prisma/client.js"
+    },
+    "./enums": {
+      "types": "./dist/generated/prisma/enums.d.ts",
+      "default": "./dist/generated/prisma/enums.js"
+    },
+    "./models": {
+      "types": "./dist/generated/prisma/models.d.ts",
+      "default": "./dist/generated/prisma/models.js"
+    },
+    "./setup": {
+      "types": "./dist/setup.d.ts",
+      "default": "./dist/setup.js"
+    }
+  },
+  "files": [
+    "dist",
+    "prisma"
+  ],
   "dependencies": {
-    "@prisma/client": "6.19.0"
+    "@prisma/adapter-pg": "7.1.0",
+    "@prisma/client": "7.1.0"
   },
   "devDependencies": {
     "@gw2treasures/tsconfig": "workspace:*",
-    "prisma": "6.19.0",
+    "@types/node": "24.10.3",
+    "prisma": "7.1.0",
     "typescript": "5.9.3"
   }
 }

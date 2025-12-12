@@ -25,7 +25,7 @@ jobs:
         echo "IMAGE_ID=$IMAGE_ID" >> "$GITHUB_ENV"
 
     - name: Download digests
-      uses: actions/download-artifact@v6
+      uses: actions/download-artifact@v7
       with:
         path: /tmp/digests
         pattern: docker-digests-*

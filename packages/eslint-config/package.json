@@ -29,7 +29,7 @@
   },
   "homepage": "https://github.com/GW2Treasures/gw2treasures.com#readme",
   "dependencies": {
-    "@eslint/js": "9.39.1",
+    "@eslint/js": "9.39.2",
     "@stylistic/eslint-plugin": "5.6.1",
     "eslint-plugin-import": "2.32.0",
     "eslint-plugin-react": "7.37.5",
@@ -37,7 +37,7 @@
     "typescript-eslint": "8.49.0"
   },
   "devDependencies": {
-    "eslint": "9.39.1"
+    "eslint": "9.39.2"
   },
   "peerDependencies": {
     "eslint": "^9.22.0"

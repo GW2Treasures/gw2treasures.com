@@ -5,13 +5,12 @@
   ],
   "tasks": {
     "build": {
+      "dependsOn": [
+        "^build",
+        "prisma:generate"
+      ],
       "outputs": [
         "lib/**"
-      ]
-    },
-    "prisma:generate": {
-      "dependsOn": [
-        "@gw2treasures/database#prisma:generate"
       ]
     }
   }

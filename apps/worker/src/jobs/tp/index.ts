@@ -2,7 +2,7 @@ import { db } from '../../db';
 import { fetchApi } from '../helper/fetchApi';
 import { Job } from '../job';
 import { toId } from '../helper/toId';
-import { Prisma, PrismaPromise } from '@gw2treasures/database';
+import { Prisma } from '@gw2treasures/database';
 
 export const TpJob: Job = {
   async run() {
@@ -21,7 +21,7 @@ export const TpJob: Job = {
     const prices = await fetchApi(`/v2/commerce/prices?ids=${itemIds.map(toId).join(',')}`);
 
     const tpCheckedAt = new Date();
-    const updates: PrismaPromise<unknown>[] = [];
+    const updates: Prisma.PrismaPromise<unknown>[] = [];
     const history: Prisma.TradingPostHistoryCreateInput[] = [];
 
     // construct queries for each item

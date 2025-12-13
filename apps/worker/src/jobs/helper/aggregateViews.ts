@@ -1,4 +1,4 @@
-import { PrismaPromise } from '@gw2treasures/database';
+import type { Prisma } from '@gw2treasures/database';
 import { db } from '../../db';
 import { batch } from './batch';
 import { toId } from './toId';
@@ -15,8 +15,8 @@ type UpdateManyArgs = {
 
 export async function aggregateViews(
   table: 'item' | 'achievement' | 'skin' | 'skill',
-  findMany: (arg: typeof findManyArg) => PrismaPromise<{ id: number }[]>,
-  updateMany: (arg: UpdateManyArgs) => PrismaPromise<unknown>
+  findMany: (arg: typeof findManyArg) => Prisma.PrismaPromise<{ id: number }[]>,
+  updateMany: (arg: UpdateManyArgs) => Prisma.PrismaPromise<unknown>
 ) {
   // get date 7 days ago
   const pastWeek = new Date();

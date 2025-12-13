@@ -5,8 +5,12 @@
   ],
   "tasks": {
     "build": {
+      "dependsOn": [
+        "^build",
+        "prisma:generate"
+      ],
       "outputs": [
-        "lib/**"
+        "dist/**"
       ]
     }
   }

@@ -1,0 +1,9 @@
+{
+  "extends": "@gw2treasures/tsconfig/base",
+  "compilerOptions": {
+    "composite": true,
+
+    "noEmit": true
+  },
+  "include": ["./prisma.config.ts"]
+}

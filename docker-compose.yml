@@ -44,7 +44,7 @@ services:
     build:
       context: .
       dockerfile: apps/database-migration/Dockerfile
-    restart: on-failure
+    restart: on-failure:3
     depends_on:
       - database
     environment:

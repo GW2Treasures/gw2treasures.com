@@ -1,11 +1,11 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "../.prisma/legacy"
+  output = "../src/generated/prisma"
+  engineType = "client"
 }
 
 datasource db {
   provider = "mysql"
-  url      = env("LEGACY_DATABASE_URL")
 }
 
 model AchievementCategory {
@@ -225,7 +225,7 @@ model ItemView {
 
 model Item {
   @@map("items")
-  
+
   id                       Int          @id @db.UnsignedInt
   signature                String       @db.VarChar(40)
   file_id                  Int          @default(0) @db.UnsignedInt

@@ -2,7 +2,7 @@
 
 ARG node_version=24.12.0-alpine3.22
 # renovate: datasource=npm packageName=prisma
-ARG prisma_version=6.19.0
+ARG prisma_version=7.1.0
 
 FROM node:${node_version}
 WORKDIR /app
@@ -13,10 +13,11 @@ RUN addgroup --system --gid 1001 nodejs \
   && adduser --system --uid 1001 worker
 
 ARG prisma_version
-RUN npm i -g prisma@${prisma_version} && npm cache clean --force
+RUN npm i prisma@${prisma_version} && npm cache clean --force
 
 COPY --link --chown=1001:1001 packages/database/prisma ./prisma
+COPY --link --chown=1001:1001 packages/database/prisma.config.ts .
 
 USER worker
 
-CMD [ "prisma", "migrate", "deploy" ]
+CMD [ "node_modules/.bin/prisma", "migrate", "deploy" ]

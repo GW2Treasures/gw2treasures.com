@@ -1,9 +1,6 @@
 import type { NextConfig } from 'next';
 import path from 'node:path';
 
-// @ts-expect-error no types available
-import { PrismaPlugin } from '@prisma/nextjs-monorepo-workaround-plugin';
-
 const nextConfig: NextConfig = {
   // publish as standalone docker images
   output: 'standalone',
@@ -37,15 +34,6 @@ const nextConfig: NextConfig = {
   transpilePackages: ['@gw2treasures/ui'],
 
   reactCompiler: true,
-
-  // add PrismaPlugin to ensure that prisma engines are bundled correctly
-  webpack: (config, { isServer }) => {
-    if (isServer) {
-      config.plugins = [...config.plugins, new PrismaPlugin()];
-    }
-
-    return config;
-  },
 
   // permanently redirected pages
   redirects: () => Promise.resolve([

@@ -7,8 +7,7 @@
   "tasks": {
     "build": {
       "dependsOn": [
-        "^build",
-        "prisma:generate"
+        "^build"
       ]
     },
     "lint": {

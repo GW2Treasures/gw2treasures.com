@@ -12,9 +12,9 @@
     "test": "vitest"
   },
   "dependencies": {
-    "@dnd-kit/abstract": "0.1.21",
-    "@dnd-kit/helpers": "0.1.21",
-    "@dnd-kit/react": "0.1.21",
+    "@dnd-kit/abstract": "0.2.1",
+    "@dnd-kit/helpers": "0.2.1",
+    "@dnd-kit/react": "0.2.1",
     "@floating-ui/react": "0.27.16",
     "@floating-ui/react-dom": "2.1.6",
     "@formatjs/intl-localematcher": "0.6.2",

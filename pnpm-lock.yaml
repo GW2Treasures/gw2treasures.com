@@ -79,8 +79,8 @@ importers:
         specifier: 2.1.6
         version: 2.1.6(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       '@formatjs/intl-localematcher':
-        specifier: 0.7.0
-        version: 0.7.0
+        specifier: 0.7.1
+        version: 0.7.1
       '@gw2api/fetch':
         specifier: 0.4.2
         version: 0.4.2(@gw2api/types@0.0.38)
@@ -1108,8 +1108,8 @@ packages:
   '@floating-ui/utils@0.2.10':
     resolution: {integrity: sha512-aGTxbpbg8/b5JfU1HXSrbH3wXZuLPJcNEcZQFMxLs3oSzgtVu6nFPkbbGGUvBcUjKV2YyB9Wxxabo+HEH9tcRQ==}
 
-  '@formatjs/intl-localematcher@0.7.0':
-    resolution: {integrity: sha512-8zelnBhRs6H4ycJM7RhgR5NrJ56erkf4a6bRdqqXytR4lux5deCfz8J0k4OnHbtuIVVw+HJ5vt8LgIs3G4tiAw==}
+  '@formatjs/intl-localematcher@0.7.1':
+    resolution: {integrity: sha512-ttTpHMIuoVCeMrbpxU0sgfdQ8YG4rOdyLhFtmLHedYDTQFx9HcWakboMa1rPUCTC+Zhb3wLYw3XV1GVkdZ2rpQ==}
 
   '@gw2api/fetch@0.4.2':
     resolution: {integrity: sha512-eUJ73r+RmV3e3MjwH2DapHBt0QR5dryZIfYr/5o+lGgfoihhaPJX7AuQ4s4irQ4tqRlAQN6AbNYcFg9TTZdagA==}
@@ -4696,7 +4696,7 @@ snapshots:
 
   '@floating-ui/utils@0.2.10': {}
 
-  '@formatjs/intl-localematcher@0.7.0':
+  '@formatjs/intl-localematcher@0.7.1':
     dependencies:
       tslib: 2.8.1
 

@@ -31,6 +31,6 @@
     "eslint": "9.39.2",
     "typescript": "5.9.3",
     "vite-tsconfig-paths": "6.0.1",
-    "vitest": "4.0.15"
+    "vitest": "4.0.16"
   }
 }

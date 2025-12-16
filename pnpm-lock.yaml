@@ -18,8 +18,8 @@ importers:
         specifier: workspace:*
         version: link:packages/publish-package
       eslint-formatter-gha:
-        specifier: 1.6.0
-        version: 1.6.0
+        specifier: 2.0.1
+        version: 2.0.1
       turbo:
         specifier: 2.6.3
         version: 2.6.3
@@ -2428,16 +2428,16 @@ packages:
     resolution: {integrity: sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==}
     engines: {node: '>=10'}
 
-  eslint-formatter-gha@1.6.0:
-    resolution: {integrity: sha512-f+jY9I1qAlN4/bM6Cyiob/0W97yGbalp4uoMyHA4gelR0vp0sbusTlPXqRKtedBkq4MbEziAuL+0+STsaphM5Q==}
+  eslint-formatter-gha@2.0.1:
+    resolution: {integrity: sha512-HbiPXXjIley/JRcQ9zRZ4HJhhU8ZIf0wVLbfyQKm/7HIcbvOsA2xwl/Lblyd8fhYalUWxKcodJOwsOwxw7O0Cw==}
 
-  eslint-formatter-json@8.40.0:
-    resolution: {integrity: sha512-0bXo4At1EoEU23gFfN7wcDeqRXDHLJnvDOuQKD3Q6FkBlk7L2oVNPYg/sciIWdYrUnCBcKuMit3IWXkdSfzChg==}
-    engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
+  eslint-formatter-json@9.0.1:
+    resolution: {integrity: sha512-EQ/X+bPjiOUDo4frNbkY+5R6emaHTL7t2jHsJw5s8p8w1BTJ6ao6S7g/PaRyx/CqqaYcjJkWAPHH/onNyFlJBQ==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  eslint-formatter-stylish@8.40.0:
-    resolution: {integrity: sha512-blbD5ZSQnjNEUaG38VCO4WG9nfDQWE8/IOmt8DFRHXUIfZikaIXmsQTdWNFk0/e0j7RgIVRza86MpsJ+aHgFLg==}
-    engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
+  eslint-formatter-stylish@9.0.1:
+    resolution: {integrity: sha512-FlhMRUiDUHztGj+bhm3pYo5DJ6Gbjh/FGPClcDENme7f9+Sc3+HZg6wMq80KJmRD8/oj/Ib6gy4D/ppjmHfGVA==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
   eslint-import-resolver-node@0.3.9:
     resolution: {integrity: sha512-WFj2isz22JahUv+B788TlO3N6zL3nNJGU8CcZbPZvVEkBPaJdCV4vy5wyghty5ROFbCRnm132v8BScu5/1BQ8g==}
@@ -6161,14 +6161,14 @@ snapshots:
 
   escape-string-regexp@4.0.0: {}
 
-  eslint-formatter-gha@1.6.0:
+  eslint-formatter-gha@2.0.1:
     dependencies:
-      eslint-formatter-json: 8.40.0
-      eslint-formatter-stylish: 8.40.0
+      eslint-formatter-json: 9.0.1
+      eslint-formatter-stylish: 9.0.1
 
-  eslint-formatter-json@8.40.0: {}
+  eslint-formatter-json@9.0.1: {}
 
-  eslint-formatter-stylish@8.40.0:
+  eslint-formatter-stylish@9.0.1:
     dependencies:
       chalk: 4.1.2
       strip-ansi: 6.0.1

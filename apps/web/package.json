@@ -17,7 +17,7 @@
     "@dnd-kit/react": "0.2.1",
     "@floating-ui/react": "0.27.16",
     "@floating-ui/react-dom": "2.1.6",
-    "@formatjs/intl-localematcher": "0.7.1",
+    "@formatjs/intl-localematcher": "0.7.2",
     "@gw2api/fetch": "0.4.2",
     "@gw2efficiency/game-data": "0.1.67",
     "@gw2me/client": "0.9.1",

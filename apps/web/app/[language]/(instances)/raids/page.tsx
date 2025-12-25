@@ -61,7 +61,6 @@ export default async function RaidsPage() {
       <Description actions={<span style={{ lineHeight: '36px' }}>Reset: <ResetTimer reset="current-weekly"/></span>}>
         <Trans id="raids.description"/>
       </Description>
-      {emboldenedWing}
       <Table>
         <thead>
           <tr>

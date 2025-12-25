@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffectEvent, type FC, type ReactNode, useCallback, useEffect, useMemo, useRef, useState, Suspense } from 'react';
+import { type FC, type ReactNode, useCallback, useMemo, useRef, useState, Suspense } from 'react';
 import { Gw2ApiContext, type GetAccountsOptions } from './Gw2ApiContext';
 import { fetchAccounts } from './fetch-accounts-action';
 import { ErrorCode, type Gw2Account } from './types';
@@ -13,7 +13,6 @@ import { SubmitButton } from '@gw2treasures/ui/components/Form/Buttons/SubmitBut
 import type { Scope } from '@gw2me/client';
 import { usePathname } from 'next/navigation';
 import { useLocalStorageState } from '@/lib/useLocalStorageState';
-import { useFedCM } from '../gw2me/fedcm-context';
 
 export interface Gw2ApiProviderProps {
   children: ReactNode,
@@ -107,24 +106,6 @@ export const Gw2ApiProvider: FC<Gw2ApiProviderProps> = ({ children }) => {
   const setHidden = useCallback((id: string, hidden: boolean) => {
     setHiddenAccounts((hiddenAccounts) => hidden ? [...hiddenAccounts, id] : hiddenAccounts.filter((accountId) => accountId !== id));
   }, [setHiddenAccounts]);
-
-  const triggerFedCM = useFedCM();
-  // attempt silent logins
-  const triggerSilentFedCM = useEffectEvent(() => {
-    triggerFedCM({
-      returnTo: getReturnTo(),
-      scopes: missingScopes,
-      mediation: 'silent',
-      mode: 'passive',
-    });
-  });
-
-  useEffect(() => {
-    if(error === ErrorCode.NOT_LOGGED_IN) {
-      triggerSilentFedCM();
-    }
-  }, [error]);
-
 
   // make sure the context value only changes if getAccounts or error changes
   const value = useMemo(() => ({ getAccounts, setHidden, error, scopes }), [getAccounts, setHidden, scopes, error]);

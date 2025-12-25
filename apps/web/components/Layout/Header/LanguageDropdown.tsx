@@ -13,6 +13,7 @@ import { useRouter } from 'next/navigation';
 import { type FC, Suspense, useCallback, useState } from 'react';
 import styles from '../Layout.module.css';
 import { LanguageRememberAnonymous } from './LanguageRememberAnonymous';
+import type { TranslationSubset } from '@/lib/translate';
 
 const languages = {
   en: 'English',
@@ -21,7 +22,11 @@ const languages = {
   fr: 'Français',
 };
 
-export const LanguageDropdown: FC = () => {
+export interface LanguageDropdownProps {
+  translations: TranslationSubset<'language.remember' | 'language.formattingSettings'>,
+}
+
+export const LanguageDropdown: FC<LanguageDropdownProps> = ({ translations }) => {
   const { push } = useRouter();
 
   const [formatDialogOpen, setFormatDialogOpen] = useState(false);
@@ -50,9 +55,9 @@ export const LanguageDropdown: FC = () => {
           <Radiobutton checked={language === 'fr'} onChange={() => changeLanguage('fr')}>{languages.fr}</Radiobutton>
           <Separator/>
           <Suspense>
-            <LanguageRememberAnonymous language={language}/>
+            <LanguageRememberAnonymous language={language}>{translations['language.remember']}</LanguageRememberAnonymous>
           </Suspense>
-          <Button onClick={() => setFormatDialogOpen(true)} appearance="menu">Formatting Settings…</Button>
+          <Button onClick={() => setFormatDialogOpen(true)} appearance="menu">{translations['language.formattingSettings']}</Button>
         </MenuList>
       </DropDown>
       <FormatConfigDialog open={formatDialogOpen} onClose={() => setFormatDialogOpen(false)}/>

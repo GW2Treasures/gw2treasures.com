@@ -433,5 +433,7 @@
   "incursive-investigation.bonus-event.description": "Durante el evento de bonificación actual puedes obtener Polvo fractalino adicional y otras recompensas de logros al completar Fractales en modo Juego rápido.",
   "incursive-investigation.bonus-event.wizards-vault": "También hay objetivos especiales disponibles en la Cámara del Brujo.",
   "api.issues.slow": "La API oficial de Guild\u00A0Wars\u00A02 está respondiendo más lento de lo habitual.",
-  "api.issues.error": "La API oficial de Guild\u00A0Wars\u00A02 está experimentando problemas en este momento."
+  "api.issues.error": "La API oficial de Guild\u00A0Wars\u00A02 está experimentando problemas en este momento.",
+  "language.remember": "Recordar idioma",
+  "language.formattingSettings": "Configuración de formato…"
 }

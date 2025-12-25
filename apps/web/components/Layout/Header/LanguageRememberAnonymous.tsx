@@ -7,13 +7,14 @@ import { useCookie } from '@/lib/use-cookie';
 import type { Language } from '@gw2treasures/database';
 import { Checkbox } from '@gw2treasures/ui/components/Form/Checkbox';
 import { Separator } from '@gw2treasures/ui/components/Layout/Separator';
-import { type FC } from 'react';
+import { type FC, type ReactNode } from 'react';
 
 export interface LanguageRememberAnonymousProps {
   language: Language,
+  children: ReactNode,
 }
 
-export const LanguageRememberAnonymous: FC<LanguageRememberAnonymousProps> = ({ language }) => {
+export const LanguageRememberAnonymous: FC<LanguageRememberAnonymousProps> = ({ language, children }) => {
   const user = useUser();
   const [rememberedLanguage, setRememberedLanguage] = useCookie(rememberLanguageCookieName);
 
@@ -38,7 +39,7 @@ export const LanguageRememberAnonymous: FC<LanguageRememberAnonymousProps> = ({ 
   return (
     <>
       <CookieNotification/>
-      <Checkbox onChange={handleChange} checked={!!rememberedLanguage}>Remember Language</Checkbox>
+      <Checkbox onChange={handleChange} checked={!!rememberedLanguage}>{children}</Checkbox>
       <Separator/>
     </>
   );

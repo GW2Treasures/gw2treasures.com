@@ -624,5 +624,7 @@
   "incursive-investigation.bonus-event.description": "Während des aktuellen Bonus-Events kannst du durch das Abschließen von Fraktalen im Schnellrunden-Modus zusätzlichen Fraktalstaub und andere Belohnungen aus Erfolgen erhalten.",
   "incursive-investigation.bonus-event.wizards-vault": "Es gibt außerdem spezielle Ziele im Gewölbe des Zauberers.",
   "api.issues.slow": "Die offizielle Guild\u00A0Wars\u00A02 API antwortet derzeit langsamer als gewöhnlich.",
-  "api.issues.error": "Die offizielle Guild\u00A0Wars\u00A02 API hat derzeit technische Probleme."
+  "api.issues.error": "Die offizielle Guild\u00A0Wars\u00A02 API hat derzeit technische Probleme.",
+  "language.remember": "Sprache merken",
+  "language.formattingSettings": "Formatierungseinstellungen…"
 }

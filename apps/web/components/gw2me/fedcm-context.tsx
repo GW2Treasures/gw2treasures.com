@@ -25,25 +25,29 @@ export const FedCMProvider: FC<FedCMProviderProps> = ({ baseUrl, children }) => 
       return;
     }
 
-    // generate state and PKCE on server
-    const auth = await prepareAuthRequest(returnTo);
+    try {
+      // generate state and PKCE on server
+      const auth = await prepareAuthRequest(returnTo);
 
-    // trigger actual FedCM request
-    const credential = await gw2me.fedCM.request({
-      ...requestOptions,
-      ...auth.pkce,
-    });
+      // trigger actual FedCM request
+      const credential = await gw2me.fedCM.request({
+        ...requestOptions,
+        ...auth.pkce,
+      });
 
-    // check if we get a token back
-    if(credential) {
-      // generate callback url
-      const params = new URLSearchParams();
-      params.set('iss', baseUrl ?? 'https://gw2.me');
-      params.set('state', auth.state);
-      params.set('code', credential.token);
+      // check if we get a token back
+      if(credential) {
+        // generate callback url
+        const params = new URLSearchParams();
+        params.set('iss', baseUrl ?? 'https://gw2.me');
+        params.set('state', auth.state);
+        params.set('code', credential.token);
 
-      // redirect to callback url
-      location.href = `/auth/callback?${params}`;
+        // redirect to callback url
+        location.href = `/auth/callback?${params}`;
+      }
+    } catch {
+      // ignore errors (this just falls back to the regular login flow)
     }
   }, [baseUrl, gw2me.fedCM]);
 

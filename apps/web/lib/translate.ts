@@ -45,13 +45,18 @@ export function translateMany<T extends TranslationId>(ids: T[], language: Langu
   return Object.fromEntries(ids.map((id) => [id, translate(id)])) as TranslationSubset<T>;
 }
 
-export async function getLanguage(): Promise<Language> {
+export function getLanguage(): Promise<Language> {
   try {
-    const { language } = await getLanguageParam();
-    return isValidLanguage(language)
-      ? language
-      : getFallbackLanguageFromHeaders();
+    // for some reason await does not work with root params here (they will always return `undefined`)
+    // so we just use good old `.then()` to check that the root param contains a valid language and fallback to headers if not
+    return getLanguageParam().then((language: string) =>
+      isValidLanguage(language)
+        ? language
+        : getFallbackLanguageFromHeaders()
+    );
   } catch {
+    // route handlers don't support root params yet and will throw when using `getLanguageParam`
+    // we just fallback to getting the language from headers
     return getFallbackLanguageFromHeaders();
   }
 }

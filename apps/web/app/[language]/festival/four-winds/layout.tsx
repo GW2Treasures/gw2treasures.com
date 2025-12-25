@@ -1,7 +1,6 @@
 import { Trans } from '@/components/I18n/Trans';
 import { HeroLayout } from '@/components/Layout/HeroLayout';
 import { NavBar } from '@/components/Layout/NavBar';
-import type { LayoutProps } from '@/lib/next';
 import { getLanguage, getTranslate } from '@/lib/translate';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import ogImage from './og.png';
@@ -11,7 +10,7 @@ import { FestivalTimer } from '@/components/Reset/FestivalTimer';
 import { createMetadata } from '@/lib/metadata';
 import { FourWindsHero, heroNoImageClass } from './_hero/hero';
 
-export default function FourWindsFestivalLayout({ children }: LayoutProps) {
+export default function FourWindsFestivalLayout({ children }: LayoutProps<'/[language]/festival/four-winds'>) {
   const festival = getFestival(Festival.FourWinds);
 
   return (

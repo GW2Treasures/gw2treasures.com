@@ -2,11 +2,10 @@ import { Gw2Accounts } from '@/components/Gw2Api/Gw2Accounts';
 import { Trans } from '@/components/I18n/Trans';
 import { HeroLayout } from '@/components/Layout/HeroLayout';
 import { NavBar } from '@/components/Layout/NavBar';
-import type { LayoutProps } from '@/lib/next';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { requiredScopes } from './helper';
 
-export default function LegendaryLayout({ children }: LayoutProps) {
+export default function LegendaryLayout({ children }: LayoutProps<'/[language]/legendary'>) {
   return (
     <HeroLayout color="rgb(185 0 185)"
       hero={<Headline id="legendary-armory"><Trans id="legendary-armory"/></Headline>}

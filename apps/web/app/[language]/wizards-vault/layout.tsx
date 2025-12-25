@@ -2,11 +2,10 @@ import { Trans } from '@/components/I18n/Trans';
 import { HeroLayout } from '@/components/Layout/HeroLayout';
 import { NavBar } from '@/components/Layout/NavBar';
 import { createMetadata } from '@/lib/metadata';
-import type { LayoutProps } from '@/lib/next';
 import { getLanguage, translate } from '@/lib/translate';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 
-export default function WizardsVaultLayout({ children }: LayoutProps) {
+export default function WizardsVaultLayout({ children }: LayoutProps<'/[language]/wizards-vault'>) {
   return (
     <HeroLayout color="#ff9800" skipLayout
       hero={<Headline id="wizardsvault"><Trans id="navigation.wizardsVault"/></Headline>}

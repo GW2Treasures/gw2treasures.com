@@ -1,7 +1,6 @@
 import { Trans } from '@/components/I18n/Trans';
 import { HeroLayout } from '@/components/Layout/HeroLayout';
 import { NavBar } from '@/components/Layout/NavBar';
-import type { LayoutProps } from '@/lib/next';
 import { getLanguage, getTranslate } from '@/lib/translate';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { LunarNewYearHero } from './hero';
@@ -11,7 +10,7 @@ import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import { FestivalTimer } from '@/components/Reset/FestivalTimer';
 import { createMetadata } from '@/lib/metadata';
 
-export default function LunarNewYearFestivalLayout({ children }: LayoutProps) {
+export default function LunarNewYearFestivalLayout({ children }: LayoutProps<'/[language]/festival/lunar-new-year'>) {
   const lunarNewYear = getFestival(Festival.LunarNewYear);
 
   return (

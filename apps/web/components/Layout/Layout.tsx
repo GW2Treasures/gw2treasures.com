@@ -44,6 +44,10 @@ const Layout: FC<LayoutProps> = ({ children, language }) => {
     ...Object.values(MasteryRegion).map((mastery) => `mastery.${mastery}` as const),
     'trait.tier.1', 'trait.tier.2', 'trait.tier.3', 'trait.slot.Minor', 'trait.slot.Major',
   ], language);
+  const languageDropdownTranslations = translateMany([
+    'language.remember',
+    'language.formattingSettings',
+  ], language);
 
   const notification = null;
   // const notification = (
@@ -63,7 +67,7 @@ const Layout: FC<LayoutProps> = ({ children, language }) => {
           <div className={styles.right}>
             <PartnerButton/>
             <ReviewButton language={language}/>
-            <LanguageDropdown/>
+            <LanguageDropdown translations={languageDropdownTranslations}/>
             <UserButton language={language}/>
           </div>
         </Menu>

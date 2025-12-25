@@ -1,17 +1,19 @@
 'use client';
 
+import { FormatConfigDialog } from '@/components/Format/FormatConfigDialog';
+import { useLanguage } from '@/components/I18n/Context';
+import type { Language } from '@gw2treasures/database';
+import { Icon } from '@gw2treasures/ui';
 import { DropDown } from '@gw2treasures/ui/components/DropDown/DropDown';
 import { Button } from '@gw2treasures/ui/components/Form/Button';
 import { Radiobutton } from '@gw2treasures/ui/components/Form/Radiobutton';
-import { FormatConfigDialog } from '@/components/Format/FormatConfigDialog';
 import { MenuList } from '@gw2treasures/ui/components/Layout/MenuList';
-import { Icon } from '@gw2treasures/ui';
-import { type FC, useCallback, useState } from 'react';
 import { Separator } from '@gw2treasures/ui/components/Layout/Separator';
-import styles from '../Layout.module.css';
 import { useRouter } from 'next/navigation';
-import { useLanguage } from '@/components/I18n/Context';
-import type { Language } from '@gw2treasures/database';
+import { type FC, Suspense, useCallback, useState } from 'react';
+import styles from '../Layout.module.css';
+import { LanguageRememberAnonymous } from './LanguageRememberAnonymous';
+import type { TranslationSubset } from '@/lib/translate';
 
 const languages = {
   en: 'English',
@@ -20,7 +22,11 @@ const languages = {
   fr: 'Français',
 };
 
-export const LanguageDropdown: FC = () => {
+export interface LanguageDropdownProps {
+  translations: TranslationSubset<'language.remember' | 'language.formattingSettings'>,
+}
+
+export const LanguageDropdown: FC<LanguageDropdownProps> = ({ translations }) => {
   const { push } = useRouter();
 
   const [formatDialogOpen, setFormatDialogOpen] = useState(false);
@@ -48,7 +54,10 @@ export const LanguageDropdown: FC = () => {
           <Radiobutton checked={language === 'es'} onChange={() => changeLanguage('es')}>{languages.es}</Radiobutton>
           <Radiobutton checked={language === 'fr'} onChange={() => changeLanguage('fr')}>{languages.fr}</Radiobutton>
           <Separator/>
-          <Button onClick={() => setFormatDialogOpen(true)} appearance="menu">Formatting Settings…</Button>
+          <Suspense>
+            <LanguageRememberAnonymous language={language}>{translations['language.remember']}</LanguageRememberAnonymous>
+          </Suspense>
+          <Button onClick={() => setFormatDialogOpen(true)} appearance="menu">{translations['language.formattingSettings']}</Button>
         </MenuList>
       </DropDown>
       <FormatConfigDialog open={formatDialogOpen} onClose={() => setFormatDialogOpen(false)}/>

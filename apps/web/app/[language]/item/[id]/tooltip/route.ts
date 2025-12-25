@@ -14,7 +14,7 @@ const getItemRevision = cache(function (id: number, language: Language, revision
     : db.revision.findFirst({ where: { [`currentItem_${language}`]: { id }}});
 }, ['item-tooltip'], { revalidate: 60 });
 
-export const GET: RouteHandler<{ id: string }> = async (request, { params }) => {
+export const GET: RouteHandler<'/[language]/item/[id]/tooltip'> = async (request, { params }) => {
   const language = await getLanguage();
   const { id } = await params;
   const itemId = Number(id);

@@ -14,7 +14,7 @@ const getSkillRevision = cache((id: number, language: Language, revisionId?: str
     : db.revision.findFirst({ where: { [`currentSkill_${language}`]: { id }}});
 }, ['revision-skill'], { revalidate: 60 });
 
-export const GET: RouteHandler<{ id: string }> = async (request, { params }) => {
+export const GET: RouteHandler<'/[language]/skill/[id]/tooltip'> = async (request, { params }) => {
   const language = await getLanguage();
   const { id } = await params;
   const itemId = Number(id);

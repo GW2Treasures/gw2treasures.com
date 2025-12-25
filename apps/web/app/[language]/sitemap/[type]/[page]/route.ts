@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import type { RouteHandler } from '@/lib/next';
 import { getLanguage } from '@/lib/translate';
 
-export const GET: RouteHandler<{ type: string, page: string }> = async (_, { params }) => {
+export const GET: RouteHandler<'/[language]/sitemap/[type]/[page]'> = async (_, { params }) => {
   const language = await getLanguage();
   const { type, page } = await params;
 

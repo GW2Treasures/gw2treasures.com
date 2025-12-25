@@ -14,7 +14,7 @@ const getMiniRevision = cache((id: number, language: Language, revisionId?: stri
     : db.revision.findFirst({ where: { [`currentMini_${language}`]: { id }}});
 }, ['mini-revision'], { revalidate: 60 });
 
-export const GET: RouteHandler<{ id: string }> = async (request, { params }) => {
+export const GET: RouteHandler<'/[language]/minis/[id]/tooltip'> = async (request, { params }) => {
   const language = await getLanguage();
   const { id } = await params;
   const miniId = Number(id);

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffectEvent, type FC, type ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useEffectEvent, type FC, type ReactNode, useCallback, useEffect, useMemo, useRef, useState, Suspense } from 'react';
 import { Gw2ApiContext, type GetAccountsOptions } from './Gw2ApiContext';
 import { fetchAccounts } from './fetch-accounts-action';
 import { ErrorCode, type Gw2Account } from './types';
@@ -11,7 +11,7 @@ import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { useUserPromise } from '../User/use-user';
 import { SubmitButton } from '@gw2treasures/ui/components/Form/Buttons/SubmitButton';
 import type { Scope } from '@gw2me/client';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { useLocalStorageState } from '@/lib/useLocalStorageState';
 import { useFedCM } from '../gw2me/fedcm-context';
 
@@ -29,11 +29,6 @@ export const Gw2ApiProvider: FC<Gw2ApiProviderProps> = ({ children }) => {
   const [dismissed, setDismissed] = useState(false);
   const userPromise = useUserPromise();
   const [hiddenAccounts, setHiddenAccounts] = useLocalStorageState<string[]>('accounts.hidden', []);
-
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const returnTo = pathname + (searchParams.size > 0 ? '?' + searchParams : '');
-  const loginUrl = `/login?returnTo=${encodeURIComponent(returnTo)}&scopes=${encodeURIComponent(missingScopes.join(','))}`;
 
   const getAccounts = useCallback(async (requiredScopes: Scope[], optionalScopes: Scope[] = [], { includeHidden = false }: GetAccountsOptions = {}) => {
     // always return [] during SSR
@@ -117,7 +112,7 @@ export const Gw2ApiProvider: FC<Gw2ApiProviderProps> = ({ children }) => {
   // attempt silent logins
   const triggerSilentFedCM = useEffectEvent(() => {
     triggerFedCM({
-      returnTo,
+      returnTo: getReturnTo(),
       scopes: missingScopes,
       mediation: 'silent',
       mode: 'passive',
@@ -137,28 +132,57 @@ export const Gw2ApiProvider: FC<Gw2ApiProviderProps> = ({ children }) => {
   return (
     <Gw2ApiContext.Provider value={value}>
       {children}
-      {(error === ErrorCode.NOT_LOGGED_IN) && pathname !== '/login' && (
-        <div className={styles.dialog}>
-          <p>Login to gw2treasures.com to access your Guild Wars 2 accounts.</p>
-          <div>
-            <FlexRow>
-              <Button onClick={handleDismiss}>Later</Button>
-              <LinkButton icon="user" href={loginUrl}>Login</LinkButton>
-            </FlexRow>
-          </div>
-        </div>
-      )}
-      {(error === ErrorCode.REAUTHORIZE || error === ErrorCode.MISSING_PERMISSION || (missingScopes.some((scope) => !grantedScopes.includes(scope)) && !dismissed && grantedScopes !== initialGrantedScopes)) && (
-        <form className={styles.dialog} action={reauthorize.bind(null, missingScopes, undefined)}>
-          <p>Authorize gw2treasures.com to access your Guild Wars 2 accounts.</p>
-          <div>
-            <FlexRow>
-              <Button onClick={handleDismiss}>Later</Button>
-              <SubmitButton type="submit" icon="gw2me-outline">Authorize</SubmitButton>
-            </FlexRow>
-          </div>
-        </form>
-      )}
+      <Suspense>
+        <Gw2ApiErrorToast error={error} handleDismiss={handleDismiss} missingScopes={missingScopes} grantedScopes={grantedScopes} dismissed={dismissed}/>
+      </Suspense>
     </Gw2ApiContext.Provider>
   );
+};
+
+function getReturnTo() {
+  if(typeof window === 'undefined') {
+    return '/';
+  }
+
+  const url = new URL(window.location.href);
+  return url.pathname + url.search;
+}
+
+function getLoginUrl(missingScopes: Scope[]) {
+  return `/login?returnTo=${encodeURIComponent(getReturnTo())}&scopes=${encodeURIComponent(missingScopes.join(','))}`;
+}
+
+const Gw2ApiErrorToast: FC<{ error: ErrorCode | undefined, handleDismiss: () => void, missingScopes: Scope[], grantedScopes: Scope[], dismissed: boolean }> = ({ error, handleDismiss, missingScopes, grantedScopes, dismissed }) => {
+  const pathname = usePathname();
+  const loginUrl = getLoginUrl(missingScopes);
+
+  if(error === ErrorCode.NOT_LOGGED_IN && pathname !== '/login') {
+    return (
+      <div className={styles.dialog}>
+        <p>Login to gw2treasures.com to access your Guild Wars 2 accounts.</p>
+        <div>
+          <FlexRow>
+            <Button onClick={handleDismiss}>Later</Button>
+            <LinkButton icon="user" href={loginUrl}>Login</LinkButton>
+          </FlexRow>
+        </div>
+      </div>
+    );
+  }
+
+  if(error === ErrorCode.REAUTHORIZE || error === ErrorCode.MISSING_PERMISSION || (missingScopes.some((scope) => !grantedScopes.includes(scope)) && !dismissed && grantedScopes !== initialGrantedScopes)) {
+    return (
+      <form className={styles.dialog} action={reauthorize.bind(null, missingScopes, undefined)}>
+        <p>Authorize gw2treasures.com to access your Guild Wars 2 accounts.</p>
+        <div>
+          <FlexRow>
+            <Button onClick={handleDismiss}>Later</Button>
+            <SubmitButton type="submit" icon="gw2me-outline">Authorize</SubmitButton>
+          </FlexRow>
+        </div>
+      </form>
+    );
+  }
+
+  return null;
 };

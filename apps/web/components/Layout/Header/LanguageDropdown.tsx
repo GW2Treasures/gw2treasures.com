@@ -10,7 +10,7 @@ import { Radiobutton } from '@gw2treasures/ui/components/Form/Radiobutton';
 import { MenuList } from '@gw2treasures/ui/components/Layout/MenuList';
 import { Separator } from '@gw2treasures/ui/components/Layout/Separator';
 import { useRouter } from 'next/navigation';
-import { type FC, useCallback, useState } from 'react';
+import { type FC, Suspense, useCallback, useState } from 'react';
 import styles from '../Layout.module.css';
 import { LanguageRememberAnonymous } from './LanguageRememberAnonymous';
 
@@ -49,7 +49,9 @@ export const LanguageDropdown: FC = () => {
           <Radiobutton checked={language === 'es'} onChange={() => changeLanguage('es')}>{languages.es}</Radiobutton>
           <Radiobutton checked={language === 'fr'} onChange={() => changeLanguage('fr')}>{languages.fr}</Radiobutton>
           <Separator/>
-          <LanguageRememberAnonymous language={language}/>
+          <Suspense>
+            <LanguageRememberAnonymous language={language}/>
+          </Suspense>
           <Button onClick={() => setFormatDialogOpen(true)} appearance="menu">Formatting Settings…</Button>
         </MenuList>
       </DropDown>

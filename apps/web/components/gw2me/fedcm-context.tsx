@@ -1,9 +1,10 @@
 'use client';
 
-import type { FedCMRequestOptions } from '@gw2me/client';
+import { type FedCMRequestOptions } from '@gw2me/client';
 import { prepareAuthRequest } from 'app/[language]/login/login.action';
 import { createContext, use, useCallback, type FC, type ReactNode } from 'react';
 import { useGw2MeClient } from './gw2me-context';
+import { SilentFedCM } from './silent-fedcm';
 
 export interface FedCMTriggerOptions extends Omit<FedCMRequestOptions, 'state' | 'code_challenge' | 'code_challenge_method'> {
   returnTo?: string,
@@ -50,6 +51,7 @@ export const FedCMProvider: FC<FedCMProviderProps> = ({ baseUrl, children }) => 
   return (
     <FedCMContext value={trigger}>
       {children}
+      <SilentFedCM/>
     </FedCMContext>
   );
 };

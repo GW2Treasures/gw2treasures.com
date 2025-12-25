@@ -14,7 +14,7 @@ const getSkinRevision = cache((id: number, language: Language, revisionId?: stri
     : db.revision.findFirst({ where: { [`currentSkin_${language}`]: { id }}});
 }, ['skin-revision'], { revalidate: 60 });
 
-export const GET: RouteHandler<{ id: string }> = async (request, { params }) => {
+export const GET: RouteHandler<'/[language]/skin/[id]/tooltip'> = async (request, { params }) => {
   const language = await getLanguage();
   const { id } = await params;
   const skinId = Number(id);

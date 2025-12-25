@@ -14,7 +14,7 @@ const getCurrencyRevision = cache(function (id: number, language: Language, revi
     : db.revision.findFirst({ where: { [`currentCurrency_${language}`]: { id }}});
 }, ['currency-tooltip'], { revalidate: 60 });
 
-export const GET: RouteHandler<{ id: string }> = async (request, { params }) => {
+export const GET: RouteHandler<'/[language]/currency/[id]/tooltip'> = async (request, { params }) => {
   const language = await getLanguage();
   const { id } = await params;
   const currencyId = Number(id);

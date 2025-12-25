@@ -3,7 +3,7 @@ import { getSitemapsForType, sitemaps } from '../sitemaps';
 import { notFound } from 'next/navigation';
 import type { RouteHandler } from '@/lib/next';
 
-export const GET: RouteHandler<{ type: string }> = async (request, { params }) => {
+export const GET: RouteHandler<'/[language]/sitemap/[type]'> = async (request, { params }) => {
   const { type } = await params;
 
   if(!(type in sitemaps)) {

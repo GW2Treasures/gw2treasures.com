@@ -14,7 +14,7 @@ const getAchievementRevision = cache((id: number, language: Language, revisionId
     : db.revision.findFirst({ where: { [`currentAchievement_${language}`]: { id }}});
 }, ['achievement-revision'], { revalidate: 60 });
 
-export const GET: RouteHandler<{ id: string }> = async (request, { params }) => {
+export const GET: RouteHandler<'/[language]/achievement/[id]/tooltip'> = async (request, { params }) => {
   const language = await getLanguage();
   const { id } = await params;
   const achievementId = Number(id);

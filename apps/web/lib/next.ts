@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-object-type */
+import type { AppRouteHandlerRoutes } from '.next/types/routes';
 import type { SearchParams } from './searchParams';
 import type { NextRequest } from 'next/server';
 
@@ -10,9 +11,4 @@ export interface PageProps<P extends Params = {}> {
   searchParams: Promise<SearchParams>,
 }
 
-/** @deprecated Use Next.js `RouteContext` instead */
-export interface RouteProps<P extends Params = {}> {
-  params: Promise<P>,
-}
-
-export type RouteHandler<P extends Params = {}> = (request: NextRequest, context: RouteProps<P>) => Promise<Response>;
+export type RouteHandler<AppRouteHandlerRoute extends AppRouteHandlerRoutes> = (request: NextRequest, context: RouteContext<AppRouteHandlerRoute>) => Promise<Response>;

@@ -77,7 +77,7 @@
     "csstype": "3.2.3",
     "eslint": "9.39.2",
     "gw2-api-types": "0.0.8",
-    "jsdom": "27.3.0",
+    "jsdom": "27.4.0",
     "ts-node": "10.9.2",
     "tslib": "2.8.1",
     "typescript": "5.9.3",

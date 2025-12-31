@@ -73,7 +73,7 @@ function formatSize(size: bigint | null): ReactNode {
 
   const units = ['bytes', 'kB', 'MB', 'GB', 'TB'];
 
-  while(size > 8192) {
+  while(size > 10240) {
     size /= BigInt(1024);
     units.shift();
   }

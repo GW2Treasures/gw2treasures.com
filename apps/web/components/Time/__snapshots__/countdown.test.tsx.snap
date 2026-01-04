@@ -3,7 +3,7 @@
 exports[`CountDown > test 1`] = `
 <DocumentFragment>
   <span
-    class="_skeleton_dbbafd"
+    class="_skeleton_cnxzk_1"
     style="width: 64px;"
   />
   ,
@@ -25,7 +25,7 @@ exports[`CountDown > test 3`] = `
 exports[`CountDown > test 4`] = `
 <DocumentFragment>
   <span
-    class="_countdown_32ab4a"
+    class="_countdown_1nbe1_1"
   >
     in 58:59
   </span>
@@ -36,7 +36,7 @@ exports[`CountDown > test 4`] = `
 exports[`CountDown > test 5`] = `
 <DocumentFragment>
   <strong
-    class="_countdown_32ab4a"
+    class="_countdown_1nbe1_1"
   >
     in 00:59
   </strong>
@@ -47,7 +47,7 @@ exports[`CountDown > test 5`] = `
 exports[`CountDown > test 6`] = `
 <DocumentFragment>
   <strong
-    class="_countdown_32ab4a"
+    class="_countdown_1nbe1_1"
   >
     in 00:00
   </strong>
@@ -64,7 +64,7 @@ exports[`CountDown > test 7`] = `
 exports[`CountDown > test 8`] = `
 <DocumentFragment>
   <span
-    class="_countdown_32ab4a"
+    class="_countdown_1nbe1_1"
   >
     in 59:59
   </span>
@@ -75,7 +75,7 @@ exports[`CountDown > test 8`] = `
 exports[`CountDown > test 9`] = `
 <DocumentFragment>
   <span
-    class="_countdown_32ab4a"
+    class="_countdown_1nbe1_1"
   >
     in 1:29:59
   </span>
@@ -86,7 +86,7 @@ exports[`CountDown > test 9`] = `
 exports[`CountDown > test 10`] = `
 <DocumentFragment>
   <span
-    class="_countdown_32ab4a"
+    class="_countdown_1nbe1_1"
   >
     in 23:29:59
   </span>
@@ -97,7 +97,7 @@ exports[`CountDown > test 10`] = `
 exports[`CountDown > test 11`] = `
 <DocumentFragment>
   <span
-    class="_countdown_32ab4a"
+    class="_countdown_1nbe1_1"
   >
     in 1:29:59
   </span>
@@ -108,7 +108,7 @@ exports[`CountDown > test 11`] = `
 exports[`CountDown > test 12`] = `
 <DocumentFragment>
   <span
-    class="_countdown_32ab4a"
+    class="_countdown_1nbe1_1"
   >
     in 59:59
   </span>
@@ -119,7 +119,7 @@ exports[`CountDown > test 12`] = `
 exports[`CountDown > test 13`] = `
 <DocumentFragment>
   <span
-    class="_countdown_32ab4a"
+    class="_countdown_1nbe1_1"
   >
     in 59:59
   </span>

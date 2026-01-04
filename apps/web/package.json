@@ -65,7 +65,6 @@
     "@gw2treasures/eslint-plugin-nextjs": "workspace:*",
     "@gw2treasures/tsconfig": "workspace:*",
     "@next/eslint-plugin-next": "16.1.1",
-    "@testing-library/react": "16.3.1",
     "@types/d3-array": "3.2.2",
     "@types/negotiator": "0.6.4",
     "@types/node": "24.10.7",

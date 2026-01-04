@@ -1,128 +1,118 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CountDown > test 1`] = `
+exports[`CountDown > test 1 1`] = `
 <DocumentFragment>
   <span
     class="_skeleton_cnxzk_1"
     style="width: 64px;"
   />
-  ,
 </DocumentFragment>
 `;
 
-exports[`CountDown > test 2`] = `
+exports[`CountDown > test 2 1`] = `
 <DocumentFragment>
-  active,
+  active
 </DocumentFragment>
 `;
 
-exports[`CountDown > test 3`] = `
+exports[`CountDown > test 3 1`] = `
 <DocumentFragment>
-  active,
+  active
 </DocumentFragment>
 `;
 
-exports[`CountDown > test 4`] = `
+exports[`CountDown > test 4 1`] = `
 <DocumentFragment>
   <span
     class="_countdown_1nbe1_1"
   >
     in 58:59
   </span>
-  ,
 </DocumentFragment>
 `;
 
-exports[`CountDown > test 5`] = `
+exports[`CountDown > test 5 1`] = `
 <DocumentFragment>
   <strong
     class="_countdown_1nbe1_1"
   >
     in 00:59
   </strong>
-  ,
 </DocumentFragment>
 `;
 
-exports[`CountDown > test 6`] = `
+exports[`CountDown > test 6 1`] = `
 <DocumentFragment>
   <strong
     class="_countdown_1nbe1_1"
   >
     in 00:00
   </strong>
-  ,
 </DocumentFragment>
 `;
 
-exports[`CountDown > test 7`] = `
+exports[`CountDown > test 7 1`] = `
 <DocumentFragment>
-  active,
+  active
 </DocumentFragment>
 `;
 
-exports[`CountDown > test 8`] = `
+exports[`CountDown > test 8 1`] = `
 <DocumentFragment>
   <span
     class="_countdown_1nbe1_1"
   >
     in 59:59
   </span>
-  ,
 </DocumentFragment>
 `;
 
-exports[`CountDown > test 9`] = `
+exports[`CountDown > test 9 1`] = `
 <DocumentFragment>
   <span
     class="_countdown_1nbe1_1"
   >
     in 1:29:59
   </span>
-  ,
 </DocumentFragment>
 `;
 
-exports[`CountDown > test 10`] = `
+exports[`CountDown > test 10 1`] = `
 <DocumentFragment>
   <span
     class="_countdown_1nbe1_1"
   >
     in 23:29:59
   </span>
-  ,
 </DocumentFragment>
 `;
 
-exports[`CountDown > test 11`] = `
+exports[`CountDown > test 11 1`] = `
 <DocumentFragment>
   <span
     class="_countdown_1nbe1_1"
   >
     in 1:29:59
   </span>
-  ,
 </DocumentFragment>
 `;
 
-exports[`CountDown > test 12`] = `
+exports[`CountDown > test 12 1`] = `
 <DocumentFragment>
   <span
     class="_countdown_1nbe1_1"
   >
     in 59:59
   </span>
-  ,
 </DocumentFragment>
 `;
 
-exports[`CountDown > test 13`] = `
+exports[`CountDown > test 13 1`] = `
 <DocumentFragment>
   <span
     class="_countdown_1nbe1_1"
   >
     in 59:59
   </span>
-  ,
 </DocumentFragment>
 `;

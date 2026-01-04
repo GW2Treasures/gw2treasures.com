@@ -15,5 +15,8 @@ jobs:
       uses: ./.github/actions/setup-node-env
       with:
         cache-key: test
+    - name: Setup playwright
+      # install chromium including system dependencies and without headless shell (we use the real browser in headless mode)
+      run: pnpm dlx playwright install chromium --with-deps --no-shell
     - name: Run Test
       run: pnpm run test

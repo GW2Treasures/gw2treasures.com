@@ -13,7 +13,7 @@ export default defineConfig({
     include: ['**/*.test.{ts,tsx}'],
     browser: {
       enabled: true,
-      provider: playwright(),
+      provider: playwright({ launchOptions: { channel: 'chromium' }}),
       // https://vitest.dev/config/browser/playwright
       instances: [
         { browser: 'chromium' },

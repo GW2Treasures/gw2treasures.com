@@ -21,6 +21,7 @@ import type { Gw2Account } from '../Gw2Api/types';
 import { Gw2AccountName } from '../Gw2Api/Gw2AccountName';
 import { FormatNumber } from '../Format/FormatNumber';
 import { useJsonFetchPromise } from '@/lib/useFetch';
+import { TradingPost } from './TradingPost';
 
 export interface ItemLinkTooltipProps {
   item: WithIcon<Pick<Item, 'id' | 'rarity' | keyof LocalizedEntity>>,
@@ -41,6 +42,7 @@ export const ItemLinkTooltip: FC<ItemLinkTooltipProps> = ({ item, language, revi
           <ClientItemTooltip tooltip={tooltip}/>
         </Suspense>
       </ErrorBoundary>
+      <TradingPost itemId={item.id} className={styles.tradingPost} hideLoading compact/>
       <Suspense>
         <ItemLinkTooltipInventories itemId={item.id}/>
       </Suspense>

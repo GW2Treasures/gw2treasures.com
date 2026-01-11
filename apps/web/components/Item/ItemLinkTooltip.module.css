@@ -16,11 +16,15 @@
   display: none;
 }
 
-.accountInventories {
+.topBorder {
   border-top: 2px solid var(--color-border);
-  list-style: none;
-  margin: 16px 0 0 0;
+  margin: 12px 0 0 0;
   padding: 12px 0 0 0;
+}
+
+.accountInventories {
+  composes: topBorder;
+  list-style: none;
 }
 
 .accountInventories > li {
@@ -38,4 +42,8 @@
 
 .itemCount {
   font-feature-settings: "tnum";
+}
+
+.tradingPost {
+  composes: topBorder;
 }

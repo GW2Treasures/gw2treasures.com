@@ -1,5 +1,22 @@
-.tp {
+.tradingPost {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  font-feature-settings: "tnum";
+}
+
+.tradingPost > :is(dt, dd) {
   display: flex;
   justify-content: space-between;
-  margin: 8px 0 16px;
+  gap: 16px;
+  margin: 0;
+}
+
+.tradingPost > dd {
+  color: var(--color-text-muted);
+}
+
+.tradingPost:not(.compact) > dt:not(:first-child) {
+  margin-top: 8px;
 }

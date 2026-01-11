@@ -1,3 +1,4 @@
+import { isAbortError } from '@gw2treasures/helper/is';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 export function useFetch(url: string, callback: (response: Response) => void) {
@@ -8,7 +9,7 @@ export function useFetch(url: string, callback: (response: Response) => void) {
 
     fetch(url, { signal: controller.signal })
       .then(callback)
-      .catch((error) => error.name !== 'AbortError' && setError(() => { throw error; }));
+      .catch((error) => !isAbortError(error) && setError(() => { throw error; }));
 
     return () => controller.abort();
   }, [url, callback]);
@@ -52,10 +53,12 @@ export function createCachedFetch(url: string) {
       return response.json();
     }
 
-    throw new Error(`Request failed: ${url}`);
+    throw new FetchError(response);
   }).catch((error) => {
-    // remove the failed fetch from the cache
-    delete fetchCache[url];
+    if(!(error instanceof FetchError) || error.response.status >= 500) {
+      // remove the failed fetch from the cache
+      delete fetchCache[url];
+    }
 
     throw error;
   });
@@ -64,6 +67,15 @@ export function createCachedFetch(url: string) {
   fetchCache[url] = { time: now, promise };
 
   return promise;
+}
+
+class FetchError extends Error {
+  response: Response;
+
+  constructor(response: Response) {
+    super(`Request failed: ${response.url} (${response.status})`);
+    this.response = response;
+  }
 }
 
 export function useJsonFetchPromise<T = unknown>(url: string): Promise<T> {

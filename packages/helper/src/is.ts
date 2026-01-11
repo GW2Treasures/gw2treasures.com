@@ -24,3 +24,7 @@ export function isEmptyObject(obj: unknown): obj is Record<string, never> {
 export function isString(value: unknown): value is string {
   return typeof value === 'string';
 }
+
+export function isAbortError(error: unknown): error is Error {
+  return error instanceof Error && error.name === 'AbortError';
+}

@@ -257,12 +257,15 @@ export class AccountSubscriptionManager {
   async #tick<T extends SubscriptionType>(type: T, language: Language) {
     console.debug(`[AccountSubscriptionManager(${this.#accountId})] tick`, type);
 
+    const start = new Date();
+
     // create timeout to mark slow requests
     let isSlow = false;
     const slowRequestTimeout = setTimeout(() => {
       isSlow = true;
+      console.debug(`[AccountSubscriptionManager(${this.#accountId})][${type}] request is slow`);
       this.setState(type, { health: SubscriptionHealth.Slow });
-    }, 5_000);
+    }, 7_500);
 
     // fetch data
     let response: SubscriptionResponse<SubscriptionType>;
@@ -318,6 +321,8 @@ export class AccountSubscriptionManager {
 
     // clear slow timeout
     clearTimeout(slowRequestTimeout);
+
+    console.debug(`[AccountSubscriptionManager(${this.#accountId})][${type}] request took ${new Date().getTime() - start.getTime()}ms`);
 
     // call callbacks
     this.#subscriptions.forEach((subscription) => {

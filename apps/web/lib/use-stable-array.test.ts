@@ -1,17 +1,17 @@
 import { describe, expect, it } from 'vitest';
 import { useStableArray } from './use-stable-array';
-import { renderHook } from '@testing-library/react';
+import { renderHook } from 'vitest-browser-react';
 
 describe('useStableArray', () => {
-  it('returns stable array', () => {
+  it('returns stable array', async () => {
     const a = [1, 2, 3];
     const b = [1, 2, 3];
 
     expect(a).not.toBe(b);
 
     // render useStableArray(a)
-    const { result, rerender } = renderHook(
-      (array) => useStableArray(array),
+    const { result, rerender } = await renderHook(
+      (array) => useStableArray(array!),
       { initialProps: a }
     );
 
@@ -22,13 +22,13 @@ describe('useStableArray', () => {
     expect(result.current).toBe(a);
   });
 
-  it('updates if values change', () => {
+  it('updates if values change', async () => {
     const a = [1, 2, 3];
     const b = [4, 5, 6];
 
     // render useStableArray(a)
-    const { result, rerender } = renderHook(
-      (array) => useStableArray(array),
+    const { result, rerender } = await renderHook(
+      (array) => useStableArray(array!),
       { initialProps: a }
     );
 
@@ -39,13 +39,13 @@ describe('useStableArray', () => {
     expect(result.current).toBe(b);
   });
 
-  it('updates if length decreases', () => {
+  it('updates if length decreases', async () => {
     const a = [1, 2, 3];
     const b = [1, 2];
 
     // render useStableArray(a)
-    const { result, rerender } = renderHook(
-      (array) => useStableArray(array),
+    const { result, rerender } = await renderHook(
+      (array) => useStableArray(array!),
       { initialProps: a }
     );
 
@@ -56,13 +56,13 @@ describe('useStableArray', () => {
     expect(result.current).toBe(b);
   });
 
-  it('updates if length increases', () => {
+  it('updates if length increases', async () => {
     const a = [1, 2];
     const b = [1, 2, 3];
 
     // render useStableArray(a)
-    const { result, rerender } = renderHook(
-      (array) => useStableArray(array),
+    const { result, rerender } = await renderHook(
+      (array) => useStableArray(array!),
       { initialProps: a }
     );
 

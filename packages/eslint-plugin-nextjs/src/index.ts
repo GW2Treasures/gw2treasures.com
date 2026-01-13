@@ -1,12 +1,10 @@
-import { requireMetadata } from './require-metadata';
+import { requireMetadata } from './require-metadata.js';
 
-// `import`ing here would bypass the TSConfig's `"rootDir": "src"`
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const { name, version } = require('../package.json') as typeof import('../package.json');
+import packageJson from '../package.json' with { type: 'json' };
 
 // define plugin
 const plugin = {
-  meta: { name, version },
+  meta: { name: packageJson.name, version: packageJson.version },
   configs: {
     get recommended() {
       return recommended;
@@ -26,4 +24,4 @@ const recommended = {
   },
 };
 
-export = plugin;
+export default plugin;

@@ -104,13 +104,13 @@ export default async function DevAppPage({ params }: DevAppPageProps) {
 
 export const generateMetadata = createMetadata<DevAppPageProps>(async ({ params }) => {
   const { id } = await params;
-  const application = getApplication(id);
+  const application = await getApplication(id);
 
   if(!application) {
     return notFound();
   }
 
   return {
-    title: `Application: ${(await application).name}`
+    title: `Application: ${application.name}`
   };
 });

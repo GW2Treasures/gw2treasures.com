@@ -2,6 +2,7 @@ export enum BonusEvent {
   EvonGnashbladesBirthday,
   DungeonRush,
   FractalIncursion,
+  FractalRush,
 }
 
 export interface BonusEventInfo {
@@ -37,4 +38,5 @@ export const bonusEvents: BonusEventInfo[] = [
   { type: BonusEvent.DungeonRush, startsAt: new Date('2024-04-08T16:00:00.000Z'), endsAt: new Date('2025-04-15T19:00:00.000Z') },
   { type: BonusEvent.FractalIncursion, startsAt: new Date('2025-09-09T16:00:00.000Z'), endsAt: new Date('2025-10-07T19:00:00.000Z') },
   { type: BonusEvent.EvonGnashbladesBirthday, startsAt: new Date('2025-11-24T17:00:00.000Z'), endsAt: new Date('2025-12-02T17:00:00.000Z') },
+  { type: BonusEvent.FractalRush, startsAt: new Date('2026-01-13T17:00:00.000Z'), endsAt: new Date('2026-01-20T17:00:00.000Z') },
 ];

@@ -25,6 +25,9 @@ import { linkPropertiesWithoutRarity } from '@/lib/linkProperties';
 import { groupById } from '@gw2treasures/helper/group-by';
 import { AchievementLink } from '@/components/Achievement/AchievementLink';
 import { createMetadata } from '@/lib/metadata';
+import { BonusEvent, getBonusEvent, isBonusEventActive } from 'app/[language]/bonus-event/bonus-events';
+import { FestivalTimer } from '@/components/Reset/FestivalTimer';
+import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 
 // Kinfall and above have CM
 const firstCMScale = 95;
@@ -78,6 +81,7 @@ export default async function FractalsPage({ searchParams }: PageProps) {
       (fractal.isRecommended && fractal.tier <= tier)
     );
 
+  const fractalRush = getBonusEvent(BonusEvent.FractalRush);
 
   const Fractals = createDataTable(fractals, ({ scale }) => scale);
 
@@ -85,6 +89,17 @@ export default async function FractalsPage({ searchParams }: PageProps) {
 
   return (
     <>
+      {isBonusEventActive(fractalRush) && (
+        <Notice>
+          <FlexRow align="space-between" wrap>
+            <div>
+              Complete fractals during the <b>Fractal Rush</b> bonus event to earn additional rewards.
+            </div>
+            <FestivalTimer festival={fractalRush}/>
+          </FlexRow>
+        </Notice>
+      )}
+
       <Description actions={<span style={{ lineHeight: '36px' }}>Reset: <ResetTimer reset="current-daily"/></span>}>
         <Trans id="fractals.description"/>
       </Description>

@@ -9,6 +9,7 @@ import type { IconColor, IconProp } from '@gw2treasures/ui';
 import { WizardsVaultNewSeasonBadge } from './WizardsVaultNewSeasonBadge';
 import { Festival, getActiveFestival, type FestivalInfo } from 'app/[language]/festival/festivals';
 import { BonusEvent, getActiveBonusEvent } from 'app/[language]/bonus-event/bonus-events';
+import { Badge } from '@/components/Badge/Badge';
 
 interface NavigationProps {
   language: Language,
@@ -31,7 +32,7 @@ const Navigation: FC<NavigationProps> = ({ language }) => {
         {/* <NavigationItem href="/profession" icon="profession"><Trans language={language} id="navigation.professions"/></NavigationItem> */}
         {/* <NavigationItem href="/specialization" icon="specialization"><Trans language={language} id="navigation.specializations"/></NavigationItem> */}
         <NavigationItem href="/professions" icon="profession"><Trans language={language} id="navigation.professions"/></NavigationItem>
-        <NavigationItem href="/fractals" icon="fractals"><Trans language={language} id="navigation.instances"/></NavigationItem>
+        <NavigationItem href="/fractals" icon="fractals"><Trans language={language} id="navigation.instances"/>{bonusEvent?.type === BonusEvent.FractalRush && (<Badge>Fractal Rush</Badge>)}</NavigationItem>
         {bonusEvent?.type === BonusEvent.DungeonRush && (
           <NavigationItem href="/dungeons" icon="story" style={{ color: 'light-dark( #1c5133, #b8ffd6)' }}>Dungeon Rush</NavigationItem>
         )}

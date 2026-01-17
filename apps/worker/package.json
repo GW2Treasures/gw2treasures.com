@@ -15,7 +15,7 @@
     "@gw2api/fetch": "0.4.2",
     "@gw2treasures/database": "workspace:*",
     "@gw2treasures/helper": "workspace:*",
-    "cron-parser": "5.4.0",
+    "cron-parser": "5.5.0",
     "dotenv": "17.2.3",
     "fast-average-color-node": "3.2.0",
     "gw2-tooltip-html": "0.1.1",

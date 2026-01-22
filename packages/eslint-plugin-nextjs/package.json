@@ -43,7 +43,7 @@
     "@gw2treasures/tsconfig": "workspace:*",
     "@types/node": "24.10.9",
     "eslint": "9.39.2",
-    "tsdown": "0.19.0",
+    "tsdown": "0.20.0",
     "typescript": "5.9.3"
   },
   "peerDependencies": {

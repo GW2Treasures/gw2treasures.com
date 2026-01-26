@@ -4,7 +4,7 @@ on:
 
 env:
   # renovate: datasource=npm packageName=renovate
-  RENOVATE_VERSION: 42.84.2
+  RENOVATE_VERSION: 42.92.4
 
 jobs:
   validate-config:

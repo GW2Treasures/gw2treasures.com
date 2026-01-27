@@ -68,7 +68,7 @@
     "@types/d3-array": "3.2.2",
     "@types/negotiator": "0.6.4",
     "@types/node": "24.10.9",
-    "@types/react": "19.2.9",
+    "@types/react": "19.2.10",
     "@types/react-dom": "19.2.3",
     "@vitejs/plugin-react": "5.1.2",
     "@vitest/browser-playwright": "4.0.18",

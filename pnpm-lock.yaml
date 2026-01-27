@@ -5,8 +5,8 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  react: 19.2.3
-  react-dom: 19.2.3
+  react: 19.2.4
+  react-dom: 19.2.4
   '@types/react': 19.2.9
   '@types/react-dom': 19.2.3
 
@@ -37,7 +37,7 @@ importers:
         version: 7.3.0
       '@prisma/client':
         specifier: 7.3.0
-        version: 7.3.0(prisma@7.3.0(@types/react@19.2.9)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3))(typescript@5.9.3)
+        version: 7.3.0(prisma@7.3.0(@types/react@19.2.9)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(typescript@5.9.3))(typescript@5.9.3)
       gw2-api-types:
         specifier: 0.0.8
         version: 0.0.8
@@ -56,7 +56,7 @@ importers:
         version: 9.39.2(jiti@2.4.2)
       prisma:
         specifier: 7.3.0
-        version: 7.3.0(@types/react@19.2.9)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3)
+        version: 7.3.0(@types/react@19.2.9)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(typescript@5.9.3)
       typescript:
         specifier: 5.9.3
         version: 5.9.3
@@ -71,13 +71,13 @@ importers:
         version: 0.2.3
       '@dnd-kit/react':
         specifier: 0.2.3
-        version: 0.2.3(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+        version: 0.2.3(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       '@floating-ui/react':
         specifier: 0.27.16
-        version: 0.27.16(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+        version: 0.27.16(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       '@floating-ui/react-dom':
         specifier: 2.1.6
-        version: 2.1.6(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+        version: 2.1.6(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       '@formatjs/intl-localematcher':
         specifier: 0.8.0
         version: 0.8.0
@@ -110,13 +110,13 @@ importers:
         version: link:../../packages/ui
       '@visx/axis':
         specifier: 4.0.1-alpha.0
-        version: 4.0.1-alpha.0(react@19.2.3)
+        version: 4.0.1-alpha.0(react@19.2.4)
       '@visx/brush':
         specifier: 4.0.1-alpha.0
-        version: 4.0.1-alpha.0(react@19.2.3)
+        version: 4.0.1-alpha.0(react@19.2.4)
       '@visx/clip-path':
         specifier: 4.0.1-alpha.0
-        version: 4.0.1-alpha.0(react@19.2.3)
+        version: 4.0.1-alpha.0(react@19.2.4)
       '@visx/curve':
         specifier: 4.0.1-alpha.0
         version: 4.0.1-alpha.0
@@ -125,25 +125,25 @@ importers:
         version: 4.0.1-alpha.0
       '@visx/grid':
         specifier: 4.0.1-alpha.0
-        version: 4.0.1-alpha.0(react@19.2.3)
+        version: 4.0.1-alpha.0(react@19.2.4)
       '@visx/group':
         specifier: 4.0.1-alpha.0
-        version: 4.0.1-alpha.0(react@19.2.3)
+        version: 4.0.1-alpha.0(react@19.2.4)
       '@visx/responsive':
         specifier: 4.0.1-alpha.0
-        version: 4.0.1-alpha.0(react@19.2.3)
+        version: 4.0.1-alpha.0(react@19.2.4)
       '@visx/scale':
         specifier: 4.0.1-alpha.0
         version: 4.0.1-alpha.0
       '@visx/shape':
         specifier: 4.0.1-alpha.0
-        version: 4.0.1-alpha.0(react@19.2.3)
+        version: 4.0.1-alpha.0(react@19.2.4)
       '@visx/threshold':
         specifier: 4.0.1-alpha.0
-        version: 4.0.1-alpha.0(react@19.2.3)
+        version: 4.0.1-alpha.0(react@19.2.4)
       '@visx/tooltip':
         specifier: 4.0.1-alpha.0
-        version: 4.0.1-alpha.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+        version: 4.0.1-alpha.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       '@wooorm/starry-night':
         specifier: 3.9.0
         version: 3.9.0
@@ -179,16 +179,16 @@ importers:
         version: 1.0.0
       next:
         specifier: 16.1.5
-        version: 16.1.5(@babel/core@7.28.5)(@playwright/test@1.58.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+        version: 16.1.5(@babel/core@7.28.5)(@playwright/test@1.58.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       react:
-        specifier: 19.2.3
-        version: 19.2.3
+        specifier: 19.2.4
+        version: 19.2.4
       react-dom:
-        specifier: 19.2.3
-        version: 19.2.3(react@19.2.3)
+        specifier: 19.2.4
+        version: 19.2.4(react@19.2.4)
       react-error-boundary:
         specifier: 6.1.0
-        version: 6.1.0(react@19.2.3)
+        version: 6.1.0(react@19.2.4)
       schema-dts:
         specifier: 1.1.5
         version: 1.1.5
@@ -270,7 +270,7 @@ importers:
         version: 4.0.18(@types/node@24.10.9)(@vitest/browser-playwright@4.0.18)(jiti@2.4.2)(jsdom@27.4.0(postcss@8.5.6))
       vitest-browser-react:
         specifier: 2.0.4
-        version: 2.0.4(@types/react-dom@19.2.3(@types/react@19.2.9))(@types/react@19.2.9)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(vitest@4.0.18)
+        version: 2.0.4(@types/react-dom@19.2.3(@types/react@19.2.9))(@types/react@19.2.9)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(vitest@4.0.18)
 
   apps/worker:
     dependencies:
@@ -343,7 +343,7 @@ importers:
         version: 7.3.0
       '@prisma/client':
         specifier: 7.3.0
-        version: 7.3.0(prisma@7.3.0(@types/react@19.2.9)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3))(typescript@5.9.3)
+        version: 7.3.0(prisma@7.3.0(@types/react@19.2.9)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(typescript@5.9.3))(typescript@5.9.3)
     devDependencies:
       '@gw2treasures/tsconfig':
         specifier: workspace:*
@@ -353,7 +353,7 @@ importers:
         version: 24.10.9
       prisma:
         specifier: 7.3.0
-        version: 7.3.0(@types/react@19.2.9)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3)
+        version: 7.3.0(@types/react@19.2.9)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(typescript@5.9.3)
       typescript:
         specifier: 5.9.3
         version: 5.9.3
@@ -426,8 +426,8 @@ importers:
   packages/icons:
     dependencies:
       react:
-        specifier: 19.2.3
-        version: 19.2.3
+        specifier: 19.2.4
+        version: 19.2.4
     devDependencies:
       '@gw2treasures/tsconfig':
         specifier: workspace:*
@@ -490,10 +490,10 @@ importers:
     dependencies:
       '@floating-ui/react':
         specifier: 0.27.16
-        version: 0.27.16(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+        version: 0.27.16(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       '@floating-ui/react-dom':
         specifier: 2.1.6
-        version: 2.1.6(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+        version: 2.1.6(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       '@gw2treasures/helper':
         specifier: workspace:~0.0.5
         version: link:../helper
@@ -508,13 +508,13 @@ importers:
         version: 0.0.1
       next:
         specifier: ^15.0.0 || ^16.0.0
-        version: 16.1.5(@babel/core@7.28.5)(@playwright/test@1.58.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+        version: 16.1.5(@babel/core@7.28.5)(@playwright/test@1.58.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       react:
-        specifier: 19.2.3
-        version: 19.2.3
+        specifier: 19.2.4
+        version: 19.2.4
       react-dom:
-        specifier: 19.2.3
-        version: 19.2.3(react@19.2.3)
+        specifier: 19.2.4
+        version: 19.2.4(react@19.2.4)
       server-only:
         specifier: 0.0.1
         version: 0.0.1
@@ -728,8 +728,8 @@ packages:
   '@dnd-kit/react@0.2.3':
     resolution: {integrity: sha512-Jv8sWY0iN4CD9klQumaDFC1n84zBwXfz+Hfd695dWhGMMNjQWFrrh0Gngj961WGk1CKrEHB+IdMW6tElTxNWSQ==}
     peerDependencies:
-      react: 19.2.3
-      react-dom: 19.2.3
+      react: 19.2.4
+      react-dom: 19.2.4
 
   '@dnd-kit/state@0.2.3':
     resolution: {integrity: sha512-4o+Tc9QrgmMa5Snopc4mtTNaFQVtreYGbG1So8q6Tq7/4ogwCcrqmVhzJ4+/Ryif7km4CqduBo62r00/sVh9/A==}
@@ -969,14 +969,14 @@ packages:
   '@floating-ui/react-dom@2.1.6':
     resolution: {integrity: sha512-4JX6rEatQEvlmgU80wZyq9RT96HZJa88q8hp0pBd+LrczeDI4o6uA2M+uvxngVHo4Ihr8uibXxH6+70zhAFrVw==}
     peerDependencies:
-      react: 19.2.3
-      react-dom: 19.2.3
+      react: 19.2.4
+      react-dom: 19.2.4
 
   '@floating-ui/react@0.27.16':
     resolution: {integrity: sha512-9O8N4SeG2z++TSM8QA/KTeKFBVCNEz/AGS7gWPJf6KFRzmRWixFRnCnkPHRDwSVZW6QPDO6uT0P2SpWNKCc9/g==}
     peerDependencies:
-      react: 19.2.3
-      react-dom: 19.2.3
+      react: 19.2.4
+      react-dom: 19.2.4
 
   '@floating-ui/utils@0.2.10':
     resolution: {integrity: sha512-aGTxbpbg8/b5JfU1HXSrbH3wXZuLPJcNEcZQFMxLs3oSzgtVu6nFPkbbGGUvBcUjKV2YyB9Wxxabo+HEH9tcRQ==}
@@ -1345,8 +1345,8 @@ packages:
     resolution: {integrity: sha512-agdqaPEePRHcQ7CexEfkX1RvSH9uWDb6pXrZnhCRykhDFAV0/0P3d07WtfiY8hZWb7oRU4v+NkT4cGFHkQJIPg==}
     peerDependencies:
       '@types/react': 19.2.9
-      react: 19.2.3
-      react-dom: 19.2.3
+      react: 19.2.4
+      react-dom: 19.2.4
 
   '@quansync/fs@1.0.0':
     resolution: {integrity: sha512-4TJ3DFtlf1L5LDMaM6CanJ/0lckGNtJcMjQ1NAV6zDmA0tEHKZtxNKin8EgPaVX1YzljbxckyT2tJrpQKAtngQ==}
@@ -1762,23 +1762,23 @@ packages:
   '@visx/axis@4.0.1-alpha.0':
     resolution: {integrity: sha512-XzRsZ5vt6QAFsYeFSQAQtmrSafjLUVNfdygOT8auPbborsgXKSVryCMyf6afWITMrmpOg2FlkaNx2H/VvW9PKg==}
     peerDependencies:
-      react: 19.2.3
+      react: 19.2.4
 
   '@visx/bounds@4.0.1-alpha.0':
     resolution: {integrity: sha512-YcFN3lAZfqocPaOVUmeGebinqfBUo+YPcBHzsQt1jaEvkcVBUhDRS6mai4tm6jUGvwW9nEAzqTQ1L343lqitYw==}
     peerDependencies:
-      react: 19.2.3
-      react-dom: 19.2.3
+      react: 19.2.4
+      react-dom: 19.2.4
 
   '@visx/brush@4.0.1-alpha.0':
     resolution: {integrity: sha512-+Ib2OHP64Cu0WxAvL5fkSQ9C6SnksJ2vqXMUiRg9MoP5CUAZW9/xOi/OBffxFrYgN5L402GMwz/uJi+OkPBXZg==}
     peerDependencies:
-      react: 19.2.3
+      react: 19.2.4
 
   '@visx/clip-path@4.0.1-alpha.0':
     resolution: {integrity: sha512-A3LTXKfmqMmaq0S0SBWoq8A7YFhIqGr4PXGC1pMijm0e0QBtDZQCh2Bq0dbwcNDlM1og+iv2SsHJ80Py7nRAzA==}
     peerDependencies:
-      react: 19.2.3
+      react: 19.2.4
 
   '@visx/curve@4.0.1-alpha.0':
     resolution: {integrity: sha512-jRu61Uz274pV1zyioXmboyrLutYbnKsgjj4njSGCnhdXj5GkZvZbg+ThDb6oOzoAnJOBRLz4rzPlWvNJOzuVMg==}
@@ -1786,7 +1786,7 @@ packages:
   '@visx/drag@4.0.1-alpha.0':
     resolution: {integrity: sha512-nEs1YfMlnB8O1Yt/u406HzclkqAy3K3HF6gmjI2hIp7S5Jw8UVNQE5c30EIWKpLLgN5oOBjSz9XeFJRdb0cNZA==}
     peerDependencies:
-      react: 19.2.3
+      react: 19.2.4
 
   '@visx/event@4.0.1-alpha.0':
     resolution: {integrity: sha512-EQqCMSv/s8NbFjo+hz3FKsvvYfP+2QslsFJ/24/O5l/W+7UC6J6aAvO0ujVwrTwdYbuQ+vhxKi1xdPdKR/qj1g==}
@@ -1794,12 +1794,12 @@ packages:
   '@visx/grid@4.0.1-alpha.0':
     resolution: {integrity: sha512-rycutGmTHO+znNdPumheWMglm7YfpffvRwUkVy5zy4WoORIuKTMkDxwnOzHG2xMxU3EE/YCd37xFV5AxA30yeg==}
     peerDependencies:
-      react: 19.2.3
+      react: 19.2.4
 
   '@visx/group@4.0.1-alpha.0':
     resolution: {integrity: sha512-V19l7iQ7jccBv8kao/EByuI6o4xtxzzLV9nqVI1hRvmdzTVsuLpqlwzYCZUXJaTVvUWf8s4D2SQFjGkj/Nw+0w==}
     peerDependencies:
-      react: 19.2.3
+      react: 19.2.4
 
   '@visx/point@4.0.1-alpha.0':
     resolution: {integrity: sha512-ijTfr/Nx09f03vIj9nyTr3z4Xth4Y75427UaogJh6dnIRLMEFHQOwNu791sbfiNj0a+ZXuaE32h0vKrFe4/8Qg==}
@@ -1807,7 +1807,7 @@ packages:
   '@visx/responsive@4.0.1-alpha.0':
     resolution: {integrity: sha512-o+1zGywQZY0+yOx3Iw87wc4bbPJRr/HnIukTwfOz4UVyj9pB1OQNVHB7OORO1+LBHJceWpB31co/ZV9KHncKrA==}
     peerDependencies:
-      react: 19.2.3
+      react: 19.2.4
 
   '@visx/scale@4.0.1-alpha.0':
     resolution: {integrity: sha512-nzjeE87vFSAXGWFiiNfBpNLAf0Q8Qmf6syvKLjqNi4kGZkdhbUll3E/59YsgWXmjM8+llPLWzGsP+JPvo5eq1A==}
@@ -1815,23 +1815,23 @@ packages:
   '@visx/shape@4.0.1-alpha.0':
     resolution: {integrity: sha512-62QeiVNmPlterQGwhkEDcbq7M0MqY0lBsK5QKXtM9ZoPZWkuGV3aykA3+Xu20B2FAvyJq4LqJzBc7Sxr+EAdbA==}
     peerDependencies:
-      react: 19.2.3
+      react: 19.2.4
 
   '@visx/text@4.0.1-alpha.0':
     resolution: {integrity: sha512-wVLXR6DtaeU6TetPGsM3p6I/gCr48RFv1CZQ9+q21Q5G6CUDoObOpsIp+OR0yTlqkP3OSJYTmhsVdiU3LKkBxA==}
     peerDependencies:
-      react: 19.2.3
+      react: 19.2.4
 
   '@visx/threshold@4.0.1-alpha.0':
     resolution: {integrity: sha512-5CvS/BJuhmSlay+HrhR8wW3cWBaSjFhVoMkxvy0iKqWRKFtI8bkPrJAdBvPB1/k+4f5FiYwGupo07nbcQoXceA==}
     peerDependencies:
-      react: 19.2.3
+      react: 19.2.4
 
   '@visx/tooltip@4.0.1-alpha.0':
     resolution: {integrity: sha512-N7SAGDHyxFonpsRMTTSbN6O5bh2CAjrX0TpAtpAuLVP6Q2pN3Y0jSGGhs6rZsyPYP6AnveeoV9jjXZAayTjsbA==}
     peerDependencies:
-      react: 19.2.3
-      react-dom: 19.2.3
+      react: 19.2.4
+      react-dom: 19.2.4
 
   '@visx/vendor@4.0.0-alpha.0':
     resolution: {integrity: sha512-6I+MuqXBcv9jnlcVowHoHKSdk9gXTWkHLKyqBwRWg7LY6A3Ei8SHfubpqGV5rBUSppxMq2RszPJUS6w+H0YgmQ==}
@@ -3142,8 +3142,8 @@ packages:
       '@opentelemetry/api': ^1.1.0
       '@playwright/test': ^1.51.1
       babel-plugin-react-compiler: '*'
-      react: 19.2.3
-      react-dom: 19.2.3
+      react: 19.2.4
+      react-dom: 19.2.4
       sass: ^1.3.0
     peerDependenciesMeta:
       '@opentelemetry/api':
@@ -3394,15 +3394,15 @@ packages:
   rc9@2.1.2:
     resolution: {integrity: sha512-btXCnMmRIBINM2LDZoEmOogIZU7Qe7zn4BpomSKZ/ykbLObuBdvG+mFq11DL6fjH1DRwHhrlgtYWG96bJiC7Cg==}
 
-  react-dom@19.2.3:
-    resolution: {integrity: sha512-yELu4WmLPw5Mr/lmeEpox5rw3RETacE++JgHqQzd2dg+YbJuat3jH4ingc+WPZhxaoFzdv9y33G+F7Nl5O0GBg==}
+  react-dom@19.2.4:
+    resolution: {integrity: sha512-AXJdLo8kgMbimY95O2aKQqsz2iWi9jMgKJhRBAxECE4IFxfcazB2LmzloIoibJI3C12IlY20+KFaLv+71bUJeQ==}
     peerDependencies:
-      react: 19.2.3
+      react: 19.2.4
 
   react-error-boundary@6.1.0:
     resolution: {integrity: sha512-02k9WQ/mUhdbXir0tC1NiMesGzRPaCsJEWU/4bcFrbY1YMZOtHShtZP6zw0SJrBWA/31H0KT9/FgdL8+sPKgHA==}
     peerDependencies:
-      react: 19.2.3
+      react: 19.2.4
 
   react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
@@ -3414,11 +3414,11 @@ packages:
   react-use-measure@2.1.1:
     resolution: {integrity: sha512-nocZhN26cproIiIduswYpV5y5lQpSQS1y/4KuvUCjSKmw7ZWIS/+g3aFnX3WdBkyuGUtTLif3UTqnLLhbDoQig==}
     peerDependencies:
-      react: 19.2.3
-      react-dom: 19.2.3
+      react: 19.2.4
+      react-dom: 19.2.4
 
-  react@19.2.3:
-    resolution: {integrity: sha512-Ku/hhYbVjOQnXDZFv2+RibmLFGwFdeeKHFcOTlrt7xplBnya5OGn/hIRDsqDiSUcfORsDC7MPxwork8jBwsIWA==}
+  react@19.2.4:
+    resolution: {integrity: sha512-9nfp2hYpCwOjAN+8TZFGhtWEwgvWHXqESH8qT89AT/lWklpLON22Lc8pEtnpsZz7VmawabSU0gCjnj8aC0euHQ==}
     engines: {node: '>=0.10.0'}
 
   readdirp@4.0.2:
@@ -3678,7 +3678,7 @@ packages:
     peerDependencies:
       '@babel/core': '*'
       babel-plugin-macros: '*'
-      react: 19.2.3
+      react: 19.2.4
     peerDependenciesMeta:
       '@babel/core':
         optional: true
@@ -3987,8 +3987,8 @@ packages:
     peerDependencies:
       '@types/react': 19.2.9
       '@types/react-dom': 19.2.3
-      react: 19.2.3
-      react-dom: 19.2.3
+      react: 19.2.4
+      react-dom: 19.2.4
       vitest: ^4.0.0
     peerDependenciesMeta:
       '@types/react':
@@ -4368,13 +4368,13 @@ snapshots:
       '@dnd-kit/abstract': 0.2.3
       tslib: 2.8.1
 
-  '@dnd-kit/react@0.2.3(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
+  '@dnd-kit/react@0.2.3(react-dom@19.2.4(react@19.2.4))(react@19.2.4)':
     dependencies:
       '@dnd-kit/abstract': 0.2.3
       '@dnd-kit/dom': 0.2.3
       '@dnd-kit/state': 0.2.3
-      react: 19.2.3
-      react-dom: 19.2.3(react@19.2.3)
+      react: 19.2.4
+      react-dom: 19.2.4(react@19.2.4)
       tslib: 2.8.1
 
   '@dnd-kit/state@0.2.3':
@@ -4544,18 +4544,18 @@ snapshots:
       '@floating-ui/core': 1.7.3
       '@floating-ui/utils': 0.2.10
 
-  '@floating-ui/react-dom@2.1.6(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
+  '@floating-ui/react-dom@2.1.6(react-dom@19.2.4(react@19.2.4))(react@19.2.4)':
     dependencies:
       '@floating-ui/dom': 1.7.4
-      react: 19.2.3
-      react-dom: 19.2.3(react@19.2.3)
+      react: 19.2.4
+      react-dom: 19.2.4(react@19.2.4)
 
-  '@floating-ui/react@0.27.16(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
+  '@floating-ui/react@0.27.16(react-dom@19.2.4(react@19.2.4))(react@19.2.4)':
     dependencies:
-      '@floating-ui/react-dom': 2.1.6(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      '@floating-ui/react-dom': 2.1.6(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       '@floating-ui/utils': 0.2.10
-      react: 19.2.3
-      react-dom: 19.2.3(react@19.2.3)
+      react: 19.2.4
+      react-dom: 19.2.4(react@19.2.4)
       tabbable: 6.2.0
 
   '@floating-ui/utils@0.2.10': {}
@@ -4790,11 +4790,11 @@ snapshots:
 
   '@prisma/client-runtime-utils@7.3.0': {}
 
-  '@prisma/client@7.3.0(prisma@7.3.0(@types/react@19.2.9)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3))(typescript@5.9.3)':
+  '@prisma/client@7.3.0(prisma@7.3.0(@types/react@19.2.9)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(typescript@5.9.3))(typescript@5.9.3)':
     dependencies:
       '@prisma/client-runtime-utils': 7.3.0
     optionalDependencies:
-      prisma: 7.3.0(@types/react@19.2.9)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3)
+      prisma: 7.3.0(@types/react@19.2.9)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(typescript@5.9.3)
       typescript: 5.9.3
 
   '@prisma/config@7.3.0':
@@ -4861,11 +4861,11 @@ snapshots:
 
   '@prisma/query-plan-executor@7.2.0': {}
 
-  '@prisma/studio-core@0.13.1(@types/react@19.2.9)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
+  '@prisma/studio-core@0.13.1(@types/react@19.2.9)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)':
     dependencies:
       '@types/react': 19.2.9
-      react: 19.2.3
-      react-dom: 19.2.3(react@19.2.3)
+      react: 19.2.4
+      react-dom: 19.2.4(react@19.2.4)
 
   '@quansync/fs@1.0.0':
     dependencies:
@@ -5214,122 +5214,122 @@ snapshots:
 
   '@vercel/ncc@0.38.4': {}
 
-  '@visx/axis@4.0.1-alpha.0(react@19.2.3)':
+  '@visx/axis@4.0.1-alpha.0(react@19.2.4)':
     dependencies:
       '@types/react': 19.2.9
-      '@visx/group': 4.0.1-alpha.0(react@19.2.3)
+      '@visx/group': 4.0.1-alpha.0(react@19.2.4)
       '@visx/point': 4.0.1-alpha.0
       '@visx/scale': 4.0.1-alpha.0
-      '@visx/shape': 4.0.1-alpha.0(react@19.2.3)
-      '@visx/text': 4.0.1-alpha.0(react@19.2.3)
+      '@visx/shape': 4.0.1-alpha.0(react@19.2.4)
+      '@visx/text': 4.0.1-alpha.0(react@19.2.4)
       classnames: 2.4.0
-      react: 19.2.3
+      react: 19.2.4
 
-  '@visx/bounds@4.0.1-alpha.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
+  '@visx/bounds@4.0.1-alpha.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4)':
     dependencies:
       '@types/react': 19.2.9
       '@types/react-dom': 19.2.3(@types/react@19.2.9)
-      react: 19.2.3
-      react-dom: 19.2.3(react@19.2.3)
+      react: 19.2.4
+      react-dom: 19.2.4(react@19.2.4)
 
-  '@visx/brush@4.0.1-alpha.0(react@19.2.3)':
+  '@visx/brush@4.0.1-alpha.0(react@19.2.4)':
     dependencies:
-      '@visx/drag': 4.0.1-alpha.0(react@19.2.3)
+      '@visx/drag': 4.0.1-alpha.0(react@19.2.4)
       '@visx/event': 4.0.1-alpha.0
-      '@visx/group': 4.0.1-alpha.0(react@19.2.3)
+      '@visx/group': 4.0.1-alpha.0(react@19.2.4)
       '@visx/scale': 4.0.1-alpha.0
-      '@visx/shape': 4.0.1-alpha.0(react@19.2.3)
+      '@visx/shape': 4.0.1-alpha.0(react@19.2.4)
       classnames: 2.4.0
-      react: 19.2.3
+      react: 19.2.4
 
-  '@visx/clip-path@4.0.1-alpha.0(react@19.2.3)':
+  '@visx/clip-path@4.0.1-alpha.0(react@19.2.4)':
     dependencies:
       '@types/react': 19.2.9
-      react: 19.2.3
+      react: 19.2.4
 
   '@visx/curve@4.0.1-alpha.0':
     dependencies:
       '@visx/vendor': 4.0.0-alpha.0
 
-  '@visx/drag@4.0.1-alpha.0(react@19.2.3)':
+  '@visx/drag@4.0.1-alpha.0(react@19.2.4)':
     dependencies:
       '@types/react': 19.2.9
       '@visx/event': 4.0.1-alpha.0
       '@visx/point': 4.0.1-alpha.0
-      react: 19.2.3
+      react: 19.2.4
 
   '@visx/event@4.0.1-alpha.0':
     dependencies:
       '@types/react': 19.2.9
       '@visx/point': 4.0.1-alpha.0
 
-  '@visx/grid@4.0.1-alpha.0(react@19.2.3)':
+  '@visx/grid@4.0.1-alpha.0(react@19.2.4)':
     dependencies:
       '@types/react': 19.2.9
       '@visx/curve': 4.0.1-alpha.0
-      '@visx/group': 4.0.1-alpha.0(react@19.2.3)
+      '@visx/group': 4.0.1-alpha.0(react@19.2.4)
       '@visx/point': 4.0.1-alpha.0
       '@visx/scale': 4.0.1-alpha.0
-      '@visx/shape': 4.0.1-alpha.0(react@19.2.3)
+      '@visx/shape': 4.0.1-alpha.0(react@19.2.4)
       classnames: 2.4.0
-      react: 19.2.3
+      react: 19.2.4
 
-  '@visx/group@4.0.1-alpha.0(react@19.2.3)':
+  '@visx/group@4.0.1-alpha.0(react@19.2.4)':
     dependencies:
       '@types/react': 19.2.9
       classnames: 2.4.0
-      react: 19.2.3
+      react: 19.2.4
 
   '@visx/point@4.0.1-alpha.0': {}
 
-  '@visx/responsive@4.0.1-alpha.0(react@19.2.3)':
+  '@visx/responsive@4.0.1-alpha.0(react@19.2.4)':
     dependencies:
       '@types/lodash': 4.17.20
       '@types/react': 19.2.9
       lodash: 4.17.21
-      react: 19.2.3
+      react: 19.2.4
 
   '@visx/scale@4.0.1-alpha.0':
     dependencies:
       '@visx/vendor': 4.0.0-alpha.0
 
-  '@visx/shape@4.0.1-alpha.0(react@19.2.3)':
+  '@visx/shape@4.0.1-alpha.0(react@19.2.4)':
     dependencies:
       '@types/lodash': 4.17.20
       '@types/react': 19.2.9
       '@visx/curve': 4.0.1-alpha.0
-      '@visx/group': 4.0.1-alpha.0(react@19.2.3)
+      '@visx/group': 4.0.1-alpha.0(react@19.2.4)
       '@visx/scale': 4.0.1-alpha.0
       '@visx/vendor': 4.0.0-alpha.0
       classnames: 2.4.0
       lodash: 4.17.21
-      react: 19.2.3
+      react: 19.2.4
 
-  '@visx/text@4.0.1-alpha.0(react@19.2.3)':
+  '@visx/text@4.0.1-alpha.0(react@19.2.4)':
     dependencies:
       '@types/lodash': 4.17.20
       '@types/react': 19.2.9
       classnames: 2.4.0
       lodash: 4.17.21
-      react: 19.2.3
+      react: 19.2.4
       reduce-css-calc: 1.3.0
 
-  '@visx/threshold@4.0.1-alpha.0(react@19.2.3)':
+  '@visx/threshold@4.0.1-alpha.0(react@19.2.4)':
     dependencies:
       '@types/react': 19.2.9
-      '@visx/clip-path': 4.0.1-alpha.0(react@19.2.3)
-      '@visx/shape': 4.0.1-alpha.0(react@19.2.3)
+      '@visx/clip-path': 4.0.1-alpha.0(react@19.2.4)
+      '@visx/shape': 4.0.1-alpha.0(react@19.2.4)
       classnames: 2.4.0
-      react: 19.2.3
+      react: 19.2.4
 
-  '@visx/tooltip@4.0.1-alpha.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
+  '@visx/tooltip@4.0.1-alpha.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4)':
     dependencies:
       '@types/react': 19.2.9
-      '@visx/bounds': 4.0.1-alpha.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      '@visx/bounds': 4.0.1-alpha.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       classnames: 2.4.0
-      react: 19.2.3
-      react-dom: 19.2.3(react@19.2.3)
-      react-use-measure: 2.1.1(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      react: 19.2.4
+      react-dom: 19.2.4(react@19.2.4)
+      react-use-measure: 2.1.1(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
 
   '@visx/vendor@4.0.0-alpha.0':
     dependencies:
@@ -6986,16 +6986,16 @@ snapshots:
 
   negotiator@1.0.0: {}
 
-  next@16.1.5(@babel/core@7.28.5)(@playwright/test@1.58.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3):
+  next@16.1.5(@babel/core@7.28.5)(@playwright/test@1.58.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4):
     dependencies:
       '@next/env': 16.1.5
       '@swc/helpers': 0.5.15
       baseline-browser-mapping: 2.9.7
       caniuse-lite: 1.0.30001760
       postcss: 8.4.31
-      react: 19.2.3
-      react-dom: 19.2.3(react@19.2.3)
-      styled-jsx: 5.1.6(@babel/core@7.28.5)(react@19.2.3)
+      react: 19.2.4
+      react-dom: 19.2.4(react@19.2.4)
+      styled-jsx: 5.1.6(@babel/core@7.28.5)(react@19.2.4)
     optionalDependencies:
       '@next/swc-darwin-arm64': 16.1.5
       '@next/swc-darwin-x64': 16.1.5
@@ -7218,12 +7218,12 @@ snapshots:
 
   prelude-ls@1.2.1: {}
 
-  prisma@7.3.0(@types/react@19.2.9)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3):
+  prisma@7.3.0(@types/react@19.2.9)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(typescript@5.9.3):
     dependencies:
       '@prisma/config': 7.3.0
       '@prisma/dev': 0.20.0(typescript@5.9.3)
       '@prisma/engines': 7.3.0
-      '@prisma/studio-core': 0.13.1(@types/react@19.2.9)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      '@prisma/studio-core': 0.13.1(@types/react@19.2.9)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       mysql2: 3.15.3
       postgres: 3.4.7
     optionalDependencies:
@@ -7261,26 +7261,26 @@ snapshots:
       defu: 6.1.4
       destr: 2.0.5
 
-  react-dom@19.2.3(react@19.2.3):
+  react-dom@19.2.4(react@19.2.4):
     dependencies:
-      react: 19.2.3
+      react: 19.2.4
       scheduler: 0.27.0
 
-  react-error-boundary@6.1.0(react@19.2.3):
+  react-error-boundary@6.1.0(react@19.2.4):
     dependencies:
-      react: 19.2.3
+      react: 19.2.4
 
   react-is@16.13.1: {}
 
   react-refresh@0.18.0: {}
 
-  react-use-measure@2.1.1(react-dom@19.2.3(react@19.2.3))(react@19.2.3):
+  react-use-measure@2.1.1(react-dom@19.2.4(react@19.2.4))(react@19.2.4):
     dependencies:
       debounce: 1.2.1
-      react: 19.2.3
-      react-dom: 19.2.3(react@19.2.3)
+      react: 19.2.4
+      react-dom: 19.2.4(react@19.2.4)
 
-  react@19.2.3: {}
+  react@19.2.4: {}
 
   readdirp@4.0.2: {}
 
@@ -7635,10 +7635,10 @@ snapshots:
     dependencies:
       inline-style-parser: 0.2.4
 
-  styled-jsx@5.1.6(@babel/core@7.28.5)(react@19.2.3):
+  styled-jsx@5.1.6(@babel/core@7.28.5)(react@19.2.4):
     dependencies:
       client-only: 0.0.1
-      react: 19.2.3
+      react: 19.2.4
     optionalDependencies:
       '@babel/core': 7.28.5
 
@@ -7931,10 +7931,10 @@ snapshots:
       fsevents: 2.3.3
       jiti: 2.4.2
 
-  vitest-browser-react@2.0.4(@types/react-dom@19.2.3(@types/react@19.2.9))(@types/react@19.2.9)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(vitest@4.0.18):
+  vitest-browser-react@2.0.4(@types/react-dom@19.2.3(@types/react@19.2.9))(@types/react@19.2.9)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(vitest@4.0.18):
     dependencies:
-      react: 19.2.3
-      react-dom: 19.2.3(react@19.2.3)
+      react: 19.2.4
+      react-dom: 19.2.4(react@19.2.4)
       vitest: 4.0.18(@types/node@24.10.9)(@vitest/browser-playwright@4.0.18)(jiti@2.4.2)(jsdom@27.4.0(postcss@8.5.6))
     optionalDependencies:
       '@types/react': 19.2.9

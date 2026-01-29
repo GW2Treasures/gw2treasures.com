@@ -20,6 +20,7 @@ import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 import { RaidClearCell, requiredScopes } from './page.client';
 import { pageView } from '@/lib/pageView';
 import { createMetadata } from '@/lib/metadata';
+import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 
 function getEmboldenedIndex() {
   const offsetStart = new Date(Date.UTC(2025, 1, 17, 8, 30));
@@ -58,6 +59,9 @@ export default async function RaidsPage() {
 
   return (
     <>
+      <Notice>
+        The Guild Wars 2 Visions of Eternity <b>Quarterly Release 1</b> on <b>Feb 3rd</b> will include a <b>new Raid Encounter</b> and <b>unify Strikes and Raids</b>. It might take some time to update this page accordingly.
+      </Notice>
       <Description actions={<span style={{ lineHeight: '36px' }}>Reset: <ResetTimer reset="current-weekly"/></span>}>
         <Trans id="raids.description"/>
       </Description>

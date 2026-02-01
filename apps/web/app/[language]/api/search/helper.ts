@@ -1,16 +1,14 @@
 import { db } from '@/lib/prisma';
 import type { Prisma, Rarity } from '@gw2treasures/database';
-import type { decode } from 'gw2e-chat-codes';
 import { isDefined, isTruthy } from '@gw2treasures/helper/is';
 import { cache } from '@/lib/cache';
 import { linkPropertiesWithoutRarity } from '@/lib/linkProperties';
+import { ChatlinkType, type DecodedChatlink } from '@gw2/chatlink';
 
-type ChatCode = Exclude<ReturnType<typeof decode>, false>;
-type ChatCodeOfType<Type> = Type extends Exclude<ChatCode['type'], 'item' | 'objective' | 'build'> ? { type: Type, id: number } : Extract<ChatCode, { type: Type }>;
+const isChatlinkWithType = <T extends ChatlinkType>(expectedType: T) =>
+  (chatlink: DecodedChatlink): chatlink is DecodedChatlink<Extract<DecodedChatlink, { type: T }>['type']> =>
+    chatlink.type === expectedType;
 
-const isChatCodeWithType = <T extends ChatCode['type']>(expectedType: T) =>
-  (chatCode: ChatCode): chatCode is ChatCodeOfType<T> =>
-    chatCode.type === expectedType;
 
 export function splitSearchTerms(query: string): string[] {
   const terms = Array.from(query.matchAll(/"(?:\\\\.|[^\\\\"])+"|\S+/g)).map((term) => {
@@ -114,21 +112,21 @@ export type ItemFilters = {
   level?: number,
 };
 
-export const searchItems = cache(async (terms: string[], chatCodes: ChatCode[], filter?: ItemFilters) => {
+export const searchItems = cache(async (terms: string[], chatCodes: DecodedChatlink[], filter?: ItemFilters) => {
   const nameQueries = nameQuery(terms);
 
-  const itemChatCodes = chatCodes.filter(isChatCodeWithType('item'));
-  const itemIdsInChatCodes = itemChatCodes.flatMap((chatCode) => [chatCode.id, ...(chatCode.upgrades || [])]);
+  const itemChatlinks = chatCodes.filter(isChatlinkWithType(ChatlinkType.Item));
+  const itemIdsInChatlinks = itemChatlinks.flatMap((chatCode) => [chatCode.data.itemId, chatCode.data.upgrade1, chatCode.data.upgrade2].filter(isTruthy));
 
-  const recipeChatCodes = chatCodes.filter(isChatCodeWithType('recipe'));
-  const recipeIdsInChatCodes = recipeChatCodes.map((chatCode) => chatCode.id);
+  const recipeChatlinks = chatCodes.filter(isChatlinkWithType(ChatlinkType.Recipe));
+  const recipeIdsInChatlinks = recipeChatlinks.map((chatCode) => chatCode.data);
 
   const numberTerms = terms.map(toNumber).filter(isTruthy);
 
   const chatCodeWhere = [
-    { id: { in: itemIdsInChatCodes }},
-    { recipeOutput: { some: { id: { in: recipeIdsInChatCodes }}}},
-    { unlocksRecipeIds: { hasSome: recipeIdsInChatCodes }},
+    { id: { in: itemIdsInChatlinks }},
+    { recipeOutput: { some: { id: { in: recipeIdsInChatlinks }}}},
+    { unlocksRecipeIds: { hasSome: recipeIdsInChatlinks }},
   ];
 
   const joinedTerms = terms.join(' ');
@@ -170,37 +168,37 @@ export const searchItems = cache(async (terms: string[], chatCodes: ChatCode[], 
   return [...exactNameMatches, ...termMatches];
 }, ['search', 'search-items'], { revalidate: 60 });
 
-export const searchSkills = cache((terms: string[], chatCodes: ChatCode[]) => {
+export const searchSkills = cache((terms: string[], chatCodes: DecodedChatlink[]) => {
   const nameQueries = nameQuery(terms);
-  const skillChatCodes = chatCodes.filter(isChatCodeWithType('skill'));
-  const skillIdsInChatCodes = skillChatCodes.map(({ id }) => id);
+  const skillChatlinks = chatCodes.filter(isChatlinkWithType(ChatlinkType.Skill));
+  const skillIdsInChatlinks = skillChatlinks.map(({ data: id }) => id);
 
   return db.skill.findMany({
-    where: terms.length + chatCodes.length > 0 ? { OR: [...nameQueries, { id: { in: skillIdsInChatCodes }}] } : undefined,
+    where: terms.length + chatCodes.length > 0 ? { OR: [...nameQueries, { id: { in: skillIdsInChatlinks }}] } : undefined,
     take: 5,
     include: { icon: true },
     orderBy: { views: 'desc' },
   });
 }, ['search', 'search-skills'], { revalidate: 60 });
 
-export const searchTraits = cache(async (terms: string[], chatCodes: ChatCode[]) => {
+export const searchTraits = cache(async (terms: string[], chatCodes: DecodedChatlink[]) => {
   // don't show anything for empty search
   if(terms.length === 0) {
     return [];
   }
 
   const nameQueries = nameQuery(terms);
-  const traitChatCodes = chatCodes.filter(isChatCodeWithType('trait'));
-  const traitIdsInChatCodes = traitChatCodes.map(({ id }) => id);
+  const traitChatlinks = chatCodes.filter(isChatlinkWithType(ChatlinkType.Trait));
+  const traitIdsInChatlinks = traitChatlinks.map(({ data: id }) => id);
 
   return await db.trait.findMany({
-    where: terms.length + chatCodes.length > 0 ? { OR: [...nameQueries, { id: { in: traitIdsInChatCodes }}] } : undefined,
+    where: terms.length + chatCodes.length > 0 ? { OR: [...nameQueries, { id: { in: traitIdsInChatlinks }}] } : undefined,
     take: 5,
     include: { icon: true, specialization: { select: { ...linkPropertiesWithoutRarity, profession: { select: linkPropertiesWithoutRarity }}}},
   });
 }, ['search', 'search-traits'], { revalidate: 60 });
 
-export const searchProfession = cache(async (terms: string[], chatCodes: ChatCode[]) => {
+export const searchProfession = cache(async (terms: string[], chatCodes: DecodedChatlink[]) => {
   // don't show anything for empty search
   if(terms.length === 0) {
     return [];
@@ -208,27 +206,27 @@ export const searchProfession = cache(async (terms: string[], chatCodes: ChatCod
 
   const nameQueries = nameQuery(terms);
 
-  // const buildChatCodes = chatCodes.filter(isChatCodeWithType('build'));
-  // const professionCodesInChatCodes = buildChatCodes.map(({ profession }) => profession);
+  // const buildChatlinks = chatCodes.filter(isChatCodeWithType('build'));
+  // const professionCodesInChatlinks = buildChatlinks.map(({ profession }) => profession);
 
   return await db.profession.findMany({
-    where: terms.length + chatCodes.length > 0 ? { OR: [...nameQueries/*, { code: { in: professionCodesInChatCodes }}*/] } : undefined,
+    where: terms.length + chatCodes.length > 0 ? { OR: [...nameQueries/*, { code: { in: professionCodesInChatlinks }}*/] } : undefined,
     take: 5,
     include: { icon: true },
   });
 }, ['search', 'search-professions'], { revalidate: 60 });
 
-export const searchSkins = cache((terms: string[], chatCodes: ChatCode[]) => {
+export const searchSkins = cache((terms: string[], chatCodes: DecodedChatlink[]) => {
   const nameQueries = nameQuery(terms);
-  const itemChatCodes = chatCodes.filter(isChatCodeWithType('item'));
-  const skinChatCodes = chatCodes.filter(isChatCodeWithType('skin'));
-  const skinIdsInChatcodes = [
-    ...itemChatCodes.map(({ skin }) => skin).filter(isTruthy),
-    ...skinChatCodes.map(({ id }) => id)
+  const itemChatlinks = chatCodes.filter(isChatlinkWithType(ChatlinkType.Item));
+  const skinChatlinks = chatCodes.filter(isChatlinkWithType(ChatlinkType.Wardrobe));
+  const skinIdsInChatlinks = [
+    ...itemChatlinks.map(({ data: { skin }}) => skin).filter(isTruthy),
+    ...skinChatlinks.map(({ data: id }) => id)
   ];
 
   return db.skin.findMany({
-    where: terms.length + chatCodes.length > 0 ? { OR: [...nameQueries, { id: { in: skinIdsInChatcodes }}] } : undefined,
+    where: terms.length + chatCodes.length > 0 ? { OR: [...nameQueries, { id: { in: skinIdsInChatlinks }}] } : undefined,
     take: 5,
     include: { icon: true },
     orderBy: { views: 'desc' },

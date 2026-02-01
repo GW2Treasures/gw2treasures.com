@@ -1,12 +1,12 @@
-import { db } from '../../db';
-import { fetchApi } from '../helper/fetchApi';
-import { Job } from '../job';
+import { ChatlinkType, encodeChatlink } from '@gw2/chatlink';
 import { isEmptyObject } from '@gw2treasures/helper/is';
-import { Changes, type ProcessEntitiesData, createSubJobs, processLocalizedEntities } from '../helper/process-entities';
+import { db } from '../../db';
 import { createIcon } from '../helper/createIcon';
-import { encode } from 'gw2e-chat-codes';
+import { fetchApi } from '../helper/fetchApi';
 import { getNamesWithFallback } from '../helper/helper';
 import { loadLocalizedEntities } from '../helper/load-entities';
+import { Changes, type ProcessEntitiesData, createSubJobs, processLocalizedEntities } from '../helper/process-entities';
+import { Job } from '../job';
 
 const CURRENT_VERSION = 3;
 
@@ -30,7 +30,7 @@ export const SkinsJob: Job = {
         const iconId = await createIcon(skin.en.icon);
 
         // fallback to chatlink if name is empty
-        const chatLink = encode('skin', skin.en.id) || '';
+        const chatLink = encodeChatlink(ChatlinkType.Wardrobe, skin.en.id);
         const names = getNamesWithFallback(skin, chatLink);
 
         // for new skins we check if there are known items unlocking it

@@ -1,26 +1,26 @@
-import type { Skin } from '@gw2treasures/database';
-import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
-import type { FC, ReactNode } from 'react';
-import { Trans } from '../I18n/Trans';
-import { SkinLink } from './SkinLink';
-import type { WithIcon } from '@/lib/with';
-import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
-import { ColumnSelect } from '../Table/ColumnSelect';
-import { ItemType } from '../Item/ItemType';
 import { translations as itemTypeTranslations, type TypeTranslation } from '@/components/Item/ItemType.translations';
+import type { LocalizedEntity } from '@/lib/localizedName';
 import { getLanguage, translateMany } from '@/lib/translate';
 import type { Weight } from '@/lib/types/weight';
-import type { LocalizedEntity } from '@/lib/localizedName';
-import { Gw2AccountBodyCells, Gw2AccountHeaderCells } from '../Gw2Api/Gw2AccountTableCells';
-import { SkinAccountUnlockCell, requiredScopes } from './SkinAccountUnlockCell';
-import { FormatNumber } from '../Format/FormatNumber';
+import type { WithIcon } from '@/lib/with';
+import { ChatlinkType, encodeChatlink } from '@gw2/chatlink';
+import type { Skin } from '@gw2treasures/database';
+import { Icon } from '@gw2treasures/ui';
 import { DropDown } from '@gw2treasures/ui/components/DropDown/DropDown';
 import { Button, LinkButton } from '@gw2treasures/ui/components/Form/Button';
-import { Icon } from '@gw2treasures/ui';
-import { MenuList } from '@gw2treasures/ui/components/Layout/MenuList';
 import { CopyButton } from '@gw2treasures/ui/components/Form/Buttons/CopyButton';
-import { encode } from 'gw2e-chat-codes';
+import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
+import { MenuList } from '@gw2treasures/ui/components/Layout/MenuList';
+import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
+import type { FC, ReactNode } from 'react';
+import { FormatNumber } from '../Format/FormatNumber';
+import { Gw2AccountBodyCells, Gw2AccountHeaderCells } from '../Gw2Api/Gw2AccountTableCells';
+import { Trans } from '../I18n/Trans';
+import { ItemType } from '../Item/ItemType';
 import type { SubType, Type } from '../Item/ItemType.types';
+import { ColumnSelect } from '../Table/ColumnSelect';
+import { SkinAccountUnlockCell, requiredScopes } from './SkinAccountUnlockCell';
+import { SkinLink } from './SkinLink';
 
 export interface SkinTableProps {
   skins: WithIcon<Pick<Skin, 'id' | 'rarity' | 'weight' | 'type' | 'subtype' | 'unlocks' | keyof LocalizedEntity>>[],
@@ -53,7 +53,7 @@ export const SkinTable: FC<SkinTableProps> = async ({ skins, headline, headlineI
           <DropDown button={<Button iconOnly appearance="menu"><Icon icon="more"/></Button>} preferredPlacement="right-start">
             <MenuList>
               <LinkButton appearance="menu" icon="eye" href={`/skin/${id}`}>View Skin</LinkButton>
-              <CopyButton appearance="menu" icon="chatlink" copy={encode('skin', id) || ''}><Trans id="chatlink.copy"/></CopyButton>
+              <CopyButton appearance="menu" icon="chatlink" copy={encodeChatlink(ChatlinkType.Wardrobe, id)}><Trans id="chatlink.copy"/></CopyButton>
             </MenuList>
           </DropDown>
         )}

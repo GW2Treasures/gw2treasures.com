@@ -1,9 +1,9 @@
+import { ChatlinkType, encodeChatlink } from '@gw2/chatlink';
 import { Icon } from '@gw2treasures/ui';
 import { DropDown } from '@gw2treasures/ui/components/DropDown/DropDown';
 import { Button, type ButtonProps } from '@gw2treasures/ui/components/Form/Button';
 import { CopyButton } from '@gw2treasures/ui/components/Form/Buttons/CopyButton';
 import { MenuList } from '@gw2treasures/ui/components/Layout/MenuList';
-import { encode } from 'gw2e-chat-codes';
 import type { FC, ReactNode } from 'react';
 
 export interface WaypointProps {
@@ -13,7 +13,7 @@ export interface WaypointProps {
 }
 
 export const Waypoint: FC<WaypointProps> = ({ id, title, appearance = 'menu' }) => {
-  const chatlink = encode('map', id) as string;
+  const chatlink = encodeChatlink(ChatlinkType.Map, id);
 
   return (
     <DropDown button={<Button iconOnly={!title} appearance={appearance}><Icon icon="waypoint"/> {title}</Button>} preferredPlacement="bottom-start">

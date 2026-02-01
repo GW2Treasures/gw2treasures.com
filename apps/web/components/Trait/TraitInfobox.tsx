@@ -1,10 +1,10 @@
 import { localizedName } from '@/lib/localizedName';
+import { ChatlinkType, encodeChatlink } from '@gw2/chatlink';
 import type { Trait as TraitData } from '@gw2api/types/data/trait';
 import type { Language, Trait } from '@gw2treasures/database';
 import { LinkButton } from '@gw2treasures/ui/components/Form/Button';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
-import { encode } from 'gw2e-chat-codes';
 import type { FC } from 'react';
 import { Chatlink } from '../Infobox/Chatlink';
 import { LanguageLinks } from '../Infobox/LanguageLinks';
@@ -18,7 +18,7 @@ interface TraitInfoboxProps {
 }
 
 export const TraitInfobox: FC<TraitInfoboxProps> = ({ trait, language }) => {
-  const chatlink = encode('trait', trait.id);
+  const chatlink = encodeChatlink(ChatlinkType.Trait, trait.id);
 
   return (
     <div>
@@ -32,7 +32,7 @@ export const TraitInfobox: FC<TraitInfoboxProps> = ({ trait, language }) => {
         <ShareButton appearance="tertiary" flex data={{ title: localizedName(trait, language), url: `/traits/${trait.id}` }}/>
       </FlexRow>
 
-      {chatlink && (<Chatlink chatlink={chatlink}/>)}
+      <Chatlink chatlink={chatlink}/>
     </div>
   );
 };

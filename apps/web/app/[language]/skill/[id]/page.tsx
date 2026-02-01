@@ -1,16 +1,14 @@
-import { SkillPageComponent } from './component';
-import { notFound } from 'next/navigation';
-import { parseIcon } from '@/lib/parseIcon';
 import { getIconUrl } from '@/lib/getIconUrl';
-import { getRevision } from './getSkill';
-import type { PageProps } from '@/lib/next';
-import { encode } from 'gw2e-chat-codes';
 import { createMetadata } from '@/lib/metadata';
+import { parseIcon } from '@/lib/parseIcon';
 import { getLanguage, getTranslate } from '@/lib/translate';
+import { ChatlinkType, encodeChatlink } from '@gw2/chatlink';
+import { notFound } from 'next/navigation';
+import { SkillPageComponent } from './component';
+import { getRevision } from './getSkill';
 
-export type SkillPageProps = PageProps<{ id: string }>;
 
-export default async function SkillPage({ params }: SkillPageProps) {
+export default async function SkillPage({ params }: PageProps<'/[language]/skill/[id]'>) {
   const language = await getLanguage();
   const { id } = await params;
   const skillId: number = Number(id);
@@ -18,7 +16,7 @@ export default async function SkillPage({ params }: SkillPageProps) {
   return <SkillPageComponent language={language} skillId={skillId}/>;
 }
 
-export const generateMetadata = createMetadata<SkillPageProps>(async ({ params }) => {
+export const generateMetadata = createMetadata<PageProps<'/[language]/skill/[id]'>>(async ({ params }) => {
   const language = await getLanguage();
   const { id } = await params;
   const t = getTranslate(language);
@@ -32,7 +30,7 @@ export const generateMetadata = createMetadata<SkillPageProps>(async ({ params }
   const icon = parseIcon(data.icon);
 
   return {
-    title: data.name || encode('skill', skillId) || id,
+    title: data.name || encodeChatlink(ChatlinkType.Skill, skillId),
     description: t('legendary-armory.relics.description'),
     url: `/skill/${id}`,
     image: icon ? { src: getIconUrl(icon, 64), width: 64, height: 64 } : undefined,

@@ -1,17 +1,17 @@
-import 'server-only';
-import type * as Gw2Api from '@gw2api/types/data/item';
-import { ClientItemTooltip } from './ItemTooltip.client';
-import { getTranslate, type TranslationId } from '@/lib/translate';
-import type { Item, Language, Rarity, Revision } from '@gw2treasures/database';
-import { format } from 'gw2-tooltip-html';
-import { isTruthy } from '@gw2treasures/helper/is';
 import { getLinkProperties, linkProperties } from '@/lib/linkProperties';
-import type { WithIcon } from '@/lib/with';
 import { localizedName, type LocalizedEntity } from '@/lib/localizedName';
-import { db } from '@/lib/prisma';
 import { parseIcon } from '@/lib/parseIcon';
+import { db } from '@/lib/prisma';
+import { getTranslate, type TranslationId } from '@/lib/translate';
+import type { WithIcon } from '@/lib/with';
+import { ChatlinkType, encodeChatlink } from '@gw2/chatlink';
+import type * as Gw2Api from '@gw2api/types/data/item';
+import type { Item, Language, Rarity, Revision } from '@gw2treasures/database';
+import { isTruthy } from '@gw2treasures/helper/is';
+import { format } from 'gw2-tooltip-html';
 import type { FC } from 'react';
-import { encode } from 'gw2e-chat-codes';
+import 'server-only';
+import { ClientItemTooltip } from './ItemTooltip.client';
 
 export interface ItemTooltipProps {
   item: Gw2Api.Item,
@@ -109,7 +109,7 @@ export async function createTooltip(item: Gw2Api.Item, language: Language): Prom
 
   return {
     language,
-    name: format(item.name?.trim()) || encode('item', item.id) || '???',
+    name: format(item.name?.trim()) || encodeChatlink(ChatlinkType.Item, item.id),
     icon,
     weaponStrength: item.type === 'Weapon'
       ? { label: t('item.strength'), min: item.details?.min_power ?? 0, max: item.details?.max_power ?? 0 }

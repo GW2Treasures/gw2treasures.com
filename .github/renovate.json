@@ -40,6 +40,11 @@
       "matchPackageNames": ["node"],
       "matchUpdateTypes": ["major"],
       "enabled": false
+    }, {
+      "description": "Don't pin own docker images in base kubernetes manifests",
+      "matchFileNames": ["kubernetes/base/**/*.yaml"],
+      "matchPackageNames": ["ghcr.io/gw2treasures/gw2treasures.com/**"],
+      "pinDigests": false
     }
   ],
   "customManagers": [

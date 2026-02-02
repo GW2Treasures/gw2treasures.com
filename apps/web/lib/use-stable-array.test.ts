@@ -18,7 +18,7 @@ describe('useStableArray', () => {
     expect(result.current).toBe(a);
 
     // render useStableArray(b),
-    rerender(b);
+    await rerender(b);
     expect(result.current).toBe(a);
   });
 
@@ -35,7 +35,7 @@ describe('useStableArray', () => {
     expect(result.current).toBe(a);
 
     // render useStableArray(b)
-    rerender(b);
+    await rerender(b);
     expect(result.current).toBe(b);
   });
 
@@ -52,7 +52,7 @@ describe('useStableArray', () => {
     expect(result.current).toBe(a);
 
     // render useStableArray(b)
-    rerender(b);
+    await rerender(b);
     expect(result.current).toBe(b);
   });
 
@@ -69,7 +69,7 @@ describe('useStableArray', () => {
     expect(result.current).toBe(a);
 
     // render useStableArray(b)
-    rerender(b);
+    await rerender(b);
     expect(result.current).toBe(b);
   });
 });

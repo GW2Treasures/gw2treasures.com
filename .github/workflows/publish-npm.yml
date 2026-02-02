@@ -18,7 +18,7 @@ jobs:
       matrix:
         target: [ ui, icons, helper, tsconfig, publish-package, eslint-config, eslint-plugin-nextjs ]
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
     - name: Setup Node.js env
       uses: ./.github/actions/setup-node-env
       with:
@@ -32,7 +32,7 @@ jobs:
         GITHUB_EVENT_NAME: ${{ github.event_name }}
     - name: Find Comment
       if: github.event_name == 'pull_request'
-      uses: peter-evans/find-comment@v4
+      uses: peter-evans/find-comment@b30e6a3c0ed37e7c023ccd3f1db5c6c0b0c23aad # v4
       id: fc
       with:
         issue-number: ${{ github.event.pull_request.number }}
@@ -40,7 +40,7 @@ jobs:
         body-includes: Publish / npm / ${{ matrix.target }}
     - name: Delete comment if found but nothing will be published
       if: github.event_name == 'pull_request' && steps.fc.outputs.comment-id && !steps.publish.outputs.publish
-      uses: actions/github-script@v8
+      uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
       with:
         script: |
           github.rest.issues.deleteComment({
@@ -50,7 +50,7 @@ jobs:
           })
     - name: Add comment with packages to be published
       if: github.event_name == 'pull_request' && steps.publish.outputs.publish
-      uses: peter-evans/create-or-update-comment@v5
+      uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v5
       with:
         comment-id: ${{ steps.fc.outputs.comment-id }}
         issue-number: ${{ github.event.pull_request.number }}

@@ -17,13 +17,13 @@ jobs:
     # https://github.com/actions/virtual-environments/issues/1187
     - name: Tune linux network
       run: sudo ethtool -K eth0 tx off rx off
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       with:
         submodules: true
     - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
+      uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3
     - name: Login to GitHub Container Registry
-      uses: docker/login-action@v3
+      uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3
       with:
         registry: ghcr.io
         username: ${{ github.actor }}
@@ -36,13 +36,13 @@ jobs:
         echo "IMAGE_ID=$IMAGE_ID" >> "$GITHUB_ENV"
     - name: Docker meta
       id: meta
-      uses: docker/metadata-action@v5
+      uses: docker/metadata-action@c299e40c65443455700f0fdfc63efafe5b349051 # v5
       with:
         images: ${{ env.IMAGE_ID }}
         bake-target: ${{ matrix.target }}
     - name: Build the Docker image
       id: build
-      uses: docker/bake-action@v6.10.0
+      uses: docker/bake-action@5be5f02ff8819ecd3092ea6b2e6261c31774f2b4 # v6.10.0
       with:
         source: .
         files: |
@@ -67,7 +67,7 @@ jobs:
         )
         touch "/tmp/digests/${{ matrix.target }}/${digest#sha256:}"
     - name: Upload digest
-      uses: actions/upload-artifact@v6
+      uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
       with:
         name: docker-digests-${{ inputs.platform }}-${{ matrix.target }}
         path: /tmp/digests/*
@@ -82,7 +82,7 @@ jobs:
     steps:
     - name: Add hosts
       run: sudo echo "127.0.0.1 en.gw2treasures.localhost" | sudo tee -a /etc/hosts
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
     - uses: ./.github/actions/pull-images
       with:
         platform: ${{ inputs.platform }}
@@ -104,7 +104,7 @@ jobs:
     if: inputs.platform == 'amd64'
     needs: build
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
     - uses: nolar/setup-k3d-k3s@v1
       with:
         version: v1.33
@@ -129,7 +129,7 @@ jobs:
     if: inputs.platform == 'amd64'
     needs: build
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
     - uses: ./.github/actions/pull-images
       with:
         platform: ${{ inputs.platform }}

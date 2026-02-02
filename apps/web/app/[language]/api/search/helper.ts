@@ -121,16 +121,25 @@ export const searchItems = cache(async (terms: string[], chatCodes: DecodedChatl
   const recipeChatlinks = chatCodes.filter(isChatlinkWithType(ChatlinkType.Recipe));
   const recipeIdsInChatlinks = recipeChatlinks.map((chatCode) => chatCode.data);
 
+  const fashionChatlinks = chatCodes.filter(isChatlinkWithType(ChatlinkType.FashionTemplate));
+  const itemIdsInFashionChatlinks = fashionChatlinks.flatMap(({ data: template }) => [
+    template.aquabreather, template.backpack, template.boots, template.gloves, template.helm, template.leggings, template.shoulders,
+    template.weaponA1, template.weaponA2, template.weaponB1, template.weaponB2, template.weaponAquaticA, template.weaponAquaticB
+  ]).filter(isTruthy);
+
+  const outfitIdsInFashionChatlinks = fashionChatlinks.map(({ data: template }) => template.outfit).filter(isTruthy);
+
   const numberTerms = terms.map(toNumber).filter(isTruthy);
 
-  const chatCodeWhere = [
-    { id: { in: itemIdsInChatlinks }},
+  const chatCodeWhere: Prisma.ItemWhereInput[] = [
+    { id: { in: [...itemIdsInChatlinks, ...itemIdsInFashionChatlinks] }},
     { recipeOutput: { some: { id: { in: recipeIdsInChatlinks }}}},
     { unlocksRecipeIds: { hasSome: recipeIdsInChatlinks }},
+    { unlocksOutfits: { some: { id: { in: outfitIdsInFashionChatlinks }}}},
   ];
 
   const joinedTerms = terms.join(' ');
-  const exactWhere = [
+  const exactWhere: Prisma.ItemWhereInput[] = [
     filter,
     {
       OR: [

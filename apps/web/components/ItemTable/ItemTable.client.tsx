@@ -151,8 +151,10 @@ export const ItemTable = <ExtraColumnId extends string = never, Model extends Qu
               ? { item: (item as any)[query.data.mapToItem], [query.data.model]: item, translations: dynamicTranslations }
               : { item, translations: dynamicTranslations };
 
+            const id = item.id ?? properties.item.id;
+
             return (
-              <tr key={item.id ?? properties.item.id}>
+              <tr key={id}>
                 {columns.map((column) => {
                   return (
                     <td key={column.id} align={column.align}>
@@ -167,8 +169,8 @@ export const ItemTable = <ExtraColumnId extends string = never, Model extends Qu
                 <td>
                   <DropDown button={<Button iconOnly appearance="menu" aria-label={translations['actions']}><Icon icon="more"/></Button>} preferredPlacement="right-start">
                     <MenuList>
-                      <LinkButton appearance="menu" icon="eye" href={`/item/${item.id}`}>{translations['itemTable.viewItem']}</LinkButton>
-                      <CopyButton appearance="menu" icon="chatlink" copy={encodeChatlink(ChatlinkType.Item, item.id)}>{translations['chatlink.copy']}</CopyButton>
+                      <LinkButton appearance="menu" icon="eye" href={`/item/${id}`}>{translations['itemTable.viewItem']}</LinkButton>
+                      <CopyButton appearance="menu" icon="chatlink" copy={encodeChatlink(ChatlinkType.Item, id)}>{translations['chatlink.copy']}</CopyButton>
                     </MenuList>
                   </DropDown>
                 </td>

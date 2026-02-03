@@ -18,11 +18,11 @@ export default function LunarNewYearFestivalLayout({ children }: LayoutProps<'/[
       skipLayout
       navBar={(
         <NavBar base="/festival/lunar-new-year/" items={[
-          { segment: '(index)', href: '/festival/lunar-new-year', label: <Trans id="festival.lunar-new-year"/> },
-          { segment: 'achievements', label: <Trans id="navigation.achievements"/> },
-          { segment: 'skins', label: <Trans id="navigation.skins"/> },
-          { segment: 'minis', label: <Trans id="festival.lunar-new-year.minis"/> },
-          { segment: 'wizards-vault', label: <Trans id="navigation.wizardsVault"/> },
+          { segment: '(index)', href: '/festival/lunar-new-year', icon: 'lantern', label: <Trans id="festival.lunar-new-year"/> },
+          { segment: 'achievements', icon: 'achievement', label: <Trans id="navigation.achievements"/> },
+          { segment: 'skins', icon: 'skin', label: <Trans id="navigation.skins"/> },
+          { segment: 'minis', icon: 'mini', label: <Trans id="festival.lunar-new-year.minis"/> },
+          { segment: 'wizards-vault', icon: 'wizards-vault', label: <Trans id="navigation.wizardsVault"/> },
         ]}/>
       )}
     >

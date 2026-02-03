@@ -1,14 +1,14 @@
 import 'server-only';
-import type { Gw2Api } from 'gw2-api-types';
 import { ClientSkinTooltip } from './SkinTooltip.client';
 import type { Language, Rarity } from '@gw2treasures/database';
 import { format } from 'gw2-tooltip-html';
 import type { FC } from 'react';
 import { getTranslate, type TranslationId } from '@/lib/translate';
 import { parseIcon } from '@/lib/parseIcon';
+import type { Skin } from '@gw2api/types/data/skin';
 
 export interface SkinTooltipProps {
-  skin: Gw2Api.Skin,
+  skin: Skin,
   language: Language,
   hideTitle?: boolean,
 }
@@ -21,7 +21,7 @@ export const SkinTooltip: FC<SkinTooltipProps> = async ({ skin, language, hideTi
   );
 };
 
-export function createTooltip(skin: Gw2Api.Skin, language: Language): SkinTooltip {
+export function createTooltip(skin: Skin, language: Language): SkinTooltip {
   const t = getTranslate(language);
   const icon = parseIcon(skin.icon);
 

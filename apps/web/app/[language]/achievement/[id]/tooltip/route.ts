@@ -3,10 +3,10 @@ import { db } from '@/lib/prisma';
 import type { Language } from '@gw2treasures/database';
 import { NextResponse } from 'next/server';
 import { createTooltip } from '@/components/Achievement/AchievementTooltip';
-import type { Gw2Api } from 'gw2-api-types';
 import { cache } from '@/lib/cache';
 import type { RouteHandler } from '@/lib/next';
 import { getLanguage } from '@/lib/translate';
+import type { Achievement } from '@gw2api/types/data/achievement';
 
 const getAchievementRevision = cache((id: number, language: Language, revisionId?: string) => {
   return revisionId
@@ -28,7 +28,7 @@ export const GET: RouteHandler<'/[language]/achievement/[id]/tooltip'> = async (
     notFound();
   }
 
-  const data: Gw2Api.Achievement = JSON.parse(revision.data);
+  const data: Achievement = JSON.parse(revision.data);
   const tooltip = await createTooltip(data, language);
 
   return NextResponse.json(tooltip, {

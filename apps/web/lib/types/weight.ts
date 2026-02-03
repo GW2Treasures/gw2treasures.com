@@ -1,3 +1,3 @@
-import type { Gw2Api } from 'gw2-api-types';
+import type { Skin } from '@gw2api/types/data/skin';
 
-export type Weight = NonNullable<NonNullable<Gw2Api.Skin['details']>['weight_class']>;
+export type Weight = NonNullable<NonNullable<Skin['details']>['weight_class']>;

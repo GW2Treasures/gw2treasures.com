@@ -3,7 +3,6 @@ import { db } from '@/lib/prisma';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import DetailLayout from '@/components/Layout/DetailLayout';
 import { notFound } from 'next/navigation';
-import type { Gw2Api } from 'gw2-api-types';
 import { Json } from '@/components/Format/Json';
 import { Suspense } from 'react';
 import { SkeletonTable } from '@/components/Skeleton/SkeletonTable';
@@ -19,6 +18,7 @@ import { cache } from '@/lib/cache';
 import type { PageProps } from '@/lib/next';
 import { createMetadata } from '@/lib/metadata';
 import { getLanguage } from '@/lib/translate';
+import type { GuildUpgrade } from '@gw2api/types/data/guild';
 
 const getGuildUpgrade = cache(async (id: number) => {
   if(isNaN(id)) {
@@ -47,7 +47,7 @@ const getRevision = cache(async (id: number, language: Language, revisionId?: st
 
   return {
     revision,
-    data: revision ? JSON.parse(revision.data) as Gw2Api.Guild.Upgrade : undefined,
+    data: revision ? JSON.parse(revision.data) as GuildUpgrade : undefined,
   };
 }, ['guild-upgrade-revision'], { revalidate: 60 });
 

@@ -1,7 +1,6 @@
 import type { Language } from '@gw2treasures/database';
 import DetailLayout from '@/components/Layout/DetailLayout';
 import { db } from '@/lib/prisma';
-import type { Gw2Api } from 'gw2-api-types';
 import { compareLocalizedName, localizedName } from '@/lib/localizedName';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { Json } from '@/components/Format/Json';
@@ -17,6 +16,7 @@ import { getLanguage, getTranslate } from '@/lib/translate';
 import type { PageProps } from '@/lib/next';
 import { createMetadata } from '@/lib/metadata';
 import { incursiveInvestigationAchievementCategoryIds, IncursiveInvestigationBanner } from 'app/[language]/incursive-investigation/Banner';
+import type { AchievementCategory } from '@gw2api/types/data/achievement-category';
 
 export type AchievementCategoryPageProps = PageProps<{ id: string }>;
 
@@ -51,7 +51,7 @@ async function AchievementCategoryPage({ params }: AchievementCategoryPageProps)
 
   const { achievementCategory, revision } = await getAchievementCategory(achievementCategoryId, language);
 
-  const data: Gw2Api.Achievement.Category = JSON.parse(revision.data);
+  const data: AchievementCategory<undefined> = JSON.parse(revision.data);
 
   const achievements = achievementCategory.achievements.sort(compareLocalizedName(language));
   const [currentAchievements, historicAchievements] = achievements.reduce<[typeof achievements, typeof achievements]>(

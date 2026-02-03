@@ -3,7 +3,6 @@ import { db } from '@/lib/prisma';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import DetailLayout from '@/components/Layout/DetailLayout';
 import { notFound } from 'next/navigation';
-import type { Gw2Api } from 'gw2-api-types';
 import { Json } from '@/components/Format/Json';
 import { linkProperties } from '@/lib/linkProperties';
 import { ItemList } from '@/components/ItemList/ItemList';
@@ -23,6 +22,7 @@ import { parseIcon } from '@/lib/parseIcon';
 import { getIconUrl } from '@/lib/getIconUrl';
 import { createMetadata } from '@/lib/metadata';
 import { localizedName } from '@/lib/localizedName';
+import type { Currency } from '@gw2api/types/data/currency';
 
 const getCurrency = cache(async (id: number) => {
   if(isNaN(id)) {
@@ -50,7 +50,7 @@ const getRevision = cache(async (id: number, language: Language, revisionId?: st
 
   return {
     revision,
-    data: revision ? JSON.parse(revision.data) as Gw2Api.Currency : undefined,
+    data: revision ? JSON.parse(revision.data) as Currency : undefined,
   };
 }, ['currency-revision'], { revalidate: 60 });
 

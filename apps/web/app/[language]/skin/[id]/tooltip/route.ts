@@ -3,10 +3,10 @@ import { db } from '@/lib/prisma';
 import type { Language } from '@gw2treasures/database';
 import { NextResponse } from 'next/server';
 import { createTooltip } from '@/components/Skin/SkinTooltip';
-import type { Gw2Api } from 'gw2-api-types';
 import { cache } from '@/lib/cache';
 import type { RouteHandler } from '@/lib/next';
 import { getLanguage } from '@/lib/translate';
+import type { Skin } from '@gw2api/types/data/skin';
 
 const getSkinRevision = cache((id: number, language: Language, revisionId?: string) => {
   return revisionId
@@ -28,7 +28,7 @@ export const GET: RouteHandler<'/[language]/skin/[id]/tooltip'> = async (request
     notFound();
   }
 
-  const data: Gw2Api.Skin = JSON.parse(revision.data);
+  const data: Skin = JSON.parse(revision.data);
   const tooltip = await createTooltip(data, language);
 
   return NextResponse.json(tooltip, {

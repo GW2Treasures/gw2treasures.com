@@ -3,10 +3,10 @@ import { db } from '@/lib/prisma';
 import type { Language } from '@gw2treasures/database';
 import { NextResponse } from 'next/server';
 import { createTooltip } from '@/components/Currency/CurrencyTooltip';
-import type { Gw2Api } from 'gw2-api-types';
 import { cache } from '@/lib/cache';
 import type { RouteHandler } from '@/lib/next';
 import { getLanguage } from '@/lib/translate';
+import type { Currency } from '@gw2api/types/data/currency';
 
 const getCurrencyRevision = cache(function (id: number, language: Language, revisionId?: string) {
   return revisionId
@@ -28,7 +28,7 @@ export const GET: RouteHandler<'/[language]/currency/[id]/tooltip'> = async (req
     notFound();
   }
 
-  const data: Gw2Api.Currency = JSON.parse(revision.data);
+  const data: Currency = JSON.parse(revision.data);
   const tooltip = await createTooltip(data, language);
 
   return NextResponse.json(tooltip, {

@@ -76,7 +76,7 @@ export function useInventoryItem(accountId: string, itemId: number): UseInventor
       'SensoryArray',
       'Relic' // https://github.com/gw2-api/issues/issues/87
     ];
-    const inCharactersEquipmentOther = char.equipment?.filter(({ slot }) => otherSlots.includes(slot))
+    const inCharactersEquipmentOther = char.equipment?.filter(({ slot }) => slot && otherSlots.includes(slot))
       .flatMap((e) => mapItemWithUpgradesToItems(e as ItemStackLike))
       .filter(isItemId)
       .length;

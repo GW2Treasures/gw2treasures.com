@@ -19,6 +19,10 @@ import ogImage from '../og.png';
 import { ExternalLink } from '@gw2treasures/ui/components/Link/ExternalLink';
 import { createMetadata } from '@/lib/metadata';
 import type { Column } from 'app/[language]/dashboard/helper';
+import { FestivalResource, FestivalResourceGrid } from '@/components/Festival/resource';
+
+import thumbnailGttp from './thumbnail-gttp.png';
+import thumbnailWiki from './thumbnail-wiki.png';
 
 const ITEM_ENVELOPE = 68646;
 const ITEM_DB_CHAMPION_ENVELOPE = 68647;
@@ -88,6 +92,16 @@ export default async function LunarNewYearPage() {
       <Headline id="inventory">Account Dashboard</Headline>
       <p><Trans id="festival.lunar-new-year.items.description"/></p>
       <Dashboard initialColumns={[{ type: 'currency', id: 1, currency: coins! }, ...itemIds.map<Column>((id) => ({ type: 'item', id, item: itemsById.get(id) }))]} embedded/>
+
+      <Headline id="resources">External Resources</Headline>
+      <FestivalResourceGrid>
+        <FestivalResource href="https://www.youtube.com/watch?v=Eqg9No5Yo04" imgSrc={thumbnailGttp.src} type="YouTube">
+          Get To The Point: A Lunar New Year for Guild Wars 2
+        </FestivalResource>
+        <FestivalResource href="https://wiki.guildwars2.com/wiki/Lunar_New_Year" imgSrc={thumbnailWiki.src} type="Wiki">
+          Lunar New Year
+        </FestivalResource>
+      </FestivalResourceGrid>
 
       {lunarNewYear && (
         <StructuredData data={{

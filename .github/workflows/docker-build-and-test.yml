@@ -17,7 +17,7 @@ jobs:
     # https://github.com/actions/virtual-environments/issues/1187
     - name: Tune linux network
       run: sudo ethtool -K eth0 tx off rx off
-    - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
       with:
         submodules: true
     - name: Set up Docker Buildx
@@ -82,7 +82,7 @@ jobs:
     steps:
     - name: Add hosts
       run: sudo echo "127.0.0.1 en.gw2treasures.localhost" | sudo tee -a /etc/hosts
-    - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
     - uses: ./.github/actions/pull-images
       with:
         platform: ${{ inputs.platform }}
@@ -104,7 +104,7 @@ jobs:
     if: inputs.platform == 'amd64'
     needs: build
     steps:
-    - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
     - uses: nolar/setup-k3d-k3s@v1
       with:
         version: v1.33
@@ -129,7 +129,7 @@ jobs:
     if: inputs.platform == 'amd64'
     needs: build
     steps:
-    - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
     - uses: ./.github/actions/pull-images
       with:
         platform: ${{ inputs.platform }}

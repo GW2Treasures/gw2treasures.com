@@ -16,7 +16,6 @@ import type { Event } from 'schema-dts';
 import { absoluteUrl } from '@/lib/url';
 import { Festival, getFestival } from '../../festivals';
 import ogImage from '../og.png';
-import { ExternalLink } from '@gw2treasures/ui/components/Link/ExternalLink';
 import { createMetadata } from '@/lib/metadata';
 import type { Column } from 'app/[language]/dashboard/helper';
 import { FestivalResource, FestivalResourceGrid } from '@/components/Festival/resource';
@@ -76,10 +75,7 @@ export default async function LunarNewYearPage() {
 
   return (
     <PageLayout>
-      <p>
-        <Trans id="festival.lunar-new-year.intro"/>{' '}
-        If this is your first time participating or you just want a quick refresh, check out the YouTube video <ExternalLink href="https://www.youtube.com/watch?v=Eqg9No5Yo04">Get To The Point: A Lunar New Year for Guild Wars 2</ExternalLink> or read up on it on the <ExternalLink href="https://wiki.guildwars2.com/wiki/Lunar_New_Year">official Guild Wars 2 Wiki</ExternalLink>.
-      </p>
+      <p style={{ borderLeft: '4px solid var(--color-border-dark)', paddingLeft: 16 }}><Trans id="festival.lunar-new-year.intro"/></p>
       <p><Trans id="festival.lunar-new-year.description"/></p>
 
       <ItemTableContext id="lunar-new-year">

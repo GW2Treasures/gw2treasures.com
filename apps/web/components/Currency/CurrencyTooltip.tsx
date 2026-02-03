@@ -1,13 +1,13 @@
 import 'server-only';
-import type { Gw2Api } from 'gw2-api-types';
 import { ClientCurrencyTooltip } from './CurrencyTooltip.client';
 import type { Language } from '@gw2treasures/database';
 import { format } from 'gw2-tooltip-html';
 import { parseIcon } from '@/lib/parseIcon';
 import type { FC } from 'react';
+import type { Currency } from '@gw2api/types/data/currency';
 
 export interface CurrencyTooltipProps {
-  currency: Gw2Api.Currency,
+  currency: Currency,
   language: Language,
   hideTitle?: boolean,
 }
@@ -20,7 +20,7 @@ export const CurrencyTooltip: FC<CurrencyTooltipProps> = async ({ currency, lang
   );
 };
 
-export function createTooltip(currency: Gw2Api.Currency, language: Language): CurrencyTooltip {
+export function createTooltip(currency: Currency, language: Language): CurrencyTooltip {
   return {
     language,
     name: currency.name || '???',

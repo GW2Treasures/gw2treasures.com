@@ -1,5 +1,5 @@
 import 'server-only';
-import type { Gw2Api } from 'gw2-api-types';
+import type * as Gw2Api from '@gw2api/types/data/item';
 import { ClientItemTooltip } from './ItemTooltip.client';
 import { getTranslate, type TranslationId } from '@/lib/translate';
 import type { Item, Language, Rarity, Revision } from '@gw2treasures/database';

@@ -29,6 +29,9 @@ importers:
 
   apps/legacy-importer:
     dependencies:
+      '@gw2api/types':
+        specifier: 0.0.40
+        version: 0.0.40
       '@gw2treasures/database':
         specifier: workspace:*
         version: link:../../packages/database
@@ -38,9 +41,6 @@ importers:
       '@prisma/client':
         specifier: 7.3.0
         version: 7.3.0(prisma@7.3.0(@types/react@19.2.10)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(typescript@5.9.3))(typescript@5.9.3)
-      gw2-api-types:
-        specifier: 0.0.8
-        version: 0.0.8
     devDependencies:
       '@gw2treasures/eslint-config':
         specifier: workspace:*
@@ -247,9 +247,6 @@ importers:
       eslint:
         specifier: 9.39.2
         version: 9.39.2(jiti@2.4.2)
-      gw2-api-types:
-        specifier: 0.0.8
-        version: 0.0.8
       ts-node:
         specifier: 10.9.2
         version: 10.9.2(@types/node@24.10.10)(typescript@5.9.3)
@@ -2646,10 +2643,6 @@ packages:
 
   graphmatch@1.1.0:
     resolution: {integrity: sha512-0E62MaTW5rPZVRLyIJZG/YejmdA/Xr1QydHEw3Vt+qOKkMIOE8WDLc9ZX2bmAjtJFZcId4lEdrdmASsEy7D1QA==}
-
-  gw2-api-types@0.0.8:
-    resolution: {integrity: sha512-A9o8Gaxh26morzve6NAGctBsBxkD9Jdgy08i42tgu7ydkkW8PDuyHMjeYwF5A4IJQq8d5jsysXXH8+//5y1c6A==}
-    deprecated: Package no longer supported. Use `@gw2api/types` instead.
 
   gw2-tooltip-html@0.1.1:
     resolution: {integrity: sha512-BpczEF1qDScLpmYiou2752rJOknqLNXm92nuJqPUQCq5WahsOaWY2dVUxxpPQMlCJZUMWPJgYSNYkI/gNEQIwA==}
@@ -6369,8 +6362,6 @@ snapshots:
   grammex@3.1.12: {}
 
   graphmatch@1.1.0: {}
-
-  gw2-api-types@0.0.8: {}
 
   gw2-tooltip-html@0.1.1: {}
 

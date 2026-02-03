@@ -8,10 +8,10 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@gw2api/types": "0.0.40",
     "@gw2treasures/database": "workspace:*",
     "@prisma/adapter-pg": "7.3.0",
-    "@prisma/client": "7.3.0",
-    "gw2-api-types": "0.0.8"
+    "@prisma/client": "7.3.0"
   },
   "devDependencies": {
     "@gw2treasures/eslint-config": "workspace:*",

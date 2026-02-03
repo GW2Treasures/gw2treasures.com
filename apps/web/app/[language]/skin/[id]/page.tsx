@@ -3,7 +3,6 @@ import DetailLayout from '@/components/Layout/DetailLayout';
 import { db } from '@/lib/prisma';
 import rarityClasses from '@/components/Layout/RarityColor.module.css';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
-import type { Gw2Api } from 'gw2-api-types';
 import { notFound } from 'next/navigation';
 import { SkinInfobox } from '@/components/Skin/SkinInfobox';
 import { linkProperties } from '@/lib/linkProperties';
@@ -23,6 +22,7 @@ import { AchievementTable } from '@/components/Achievement/AchievementTable';
 import type { PageProps } from '@/lib/next';
 import { createMetadata } from '@/lib/metadata';
 import { getLanguage } from '@/lib/translate';
+import type { Skin } from '@gw2api/types/data/skin';
 
 const getSkin = cache(async (id: number, language: Language) => {
   const [skin, revision] = await Promise.all([
@@ -64,7 +64,7 @@ async function SkinPage ({ params }: SkinPageProps) {
   const { skin, revision, similar } = await getSkin(skinId, language);
   await pageView('skin', skinId);
 
-  const data: Gw2Api.Skin = JSON.parse(revision.data);
+  const data: Skin = JSON.parse(revision.data);
 
   return (
     <DetailLayout

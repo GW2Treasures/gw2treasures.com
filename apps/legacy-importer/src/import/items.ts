@@ -1,5 +1,5 @@
+import { Item } from '@gw2api/types/data/item';
 import { db, legacy } from '../db';
-import { Gw2Api } from 'gw2-api-types';
 
 export async function processItems(buildId: number) {
   const ids = await legacy.item.findMany({ select: { id: true }}).then((items) => items.map(({ id }) => id));
@@ -82,7 +82,7 @@ function fixupDetails(json: string): string {
   return JSON.stringify(data);
 }
 
-function getOldDetailsKey(data: Gw2Api.Item): string {
+function getOldDetailsKey(data: Item): string {
   switch(data.type) {
     case 'CraftingMaterial': return 'crafting_material';
     case 'MiniPet': return 'mini_pet';

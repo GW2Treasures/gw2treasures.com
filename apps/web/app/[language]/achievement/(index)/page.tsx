@@ -4,7 +4,7 @@ import { ItemList } from '@/components/ItemList/ItemList';
 import { HeroLayout } from '@/components/Layout/HeroLayout';
 import { localizedName } from '@/lib/localizedName';
 import { Fragment } from 'react';
-import type { Gw2Api } from 'gw2-api-types';
+import type { AchievementGroup } from '@gw2api/types/data/achievement-group';
 import { AchievementCategoryLink } from '@/components/Achievement/AchievementCategoryLink';
 import { RemovedFromApiNotice } from '@/components/Notice/RemovedFromApiNotice';
 import Link from 'next/link';
@@ -40,7 +40,7 @@ export default async function AchievementPage() {
   return (
     <HeroLayout hero={<Headline id="achievements" actions={<span>Reset: <ResetTimer/></span>}>Achievements</Headline>} color="#663399" toc>
       {groups.map((group) => {
-        const data: Gw2Api.Achievement.Group = JSON.parse(group[`current_${language}`].data);
+        const data: AchievementGroup = JSON.parse(group[`current_${language}`].data);
         const [active, historic] = group.achievementCategories.reduce<[typeof group.achievementCategories, typeof group.achievementCategories]>(
           ([a, h], category) => category.removedFromApi ? [a, [...h, category]] : [[...a, category], h],
           [[], []]

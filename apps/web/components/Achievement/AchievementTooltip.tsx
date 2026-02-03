@@ -1,13 +1,13 @@
 import 'server-only';
-import type { Gw2Api } from 'gw2-api-types';
 import { ClientAchievementTooltip } from './AchievementTooltip.client';
 import type { Language } from '@gw2treasures/database';
 import { format } from 'gw2-tooltip-html';
 import type { FC } from 'react';
 import { parseIcon } from '@/lib/parseIcon';
+import type { Achievement } from '@gw2api/types/data/achievement';
 
 export interface AchievementTooltipProps {
-  achievement: Gw2Api.Achievement,
+  achievement: Achievement,
   language: Language,
   hideTitle?: boolean,
 }
@@ -20,7 +20,7 @@ export const AchievementTooltip: FC<AchievementTooltipProps> = async ({ achievem
   );
 };
 
-export function createTooltip(achievement: Gw2Api.Achievement, language: Language): AchievementTooltip {
+export function createTooltip(achievement: Achievement, language: Language): AchievementTooltip {
   return {
     language,
     name: achievement.name,

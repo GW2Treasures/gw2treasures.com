@@ -1,8 +1,8 @@
 import type { Language } from '@gw2treasures/database';
 import { db } from '@/lib/prisma';
 import { linkProperties, linkPropertiesWithoutRarity } from '@/lib/linkProperties';
-import type { Gw2Api } from 'gw2-api-types';
 import { cache } from '@/lib/cache';
+import type { Item } from '@gw2api/types/data/item';
 
 export const getItem = cache((id: number, language: Language) => {
   return db.item.findUnique({
@@ -41,6 +41,6 @@ export const getRevision = cache(async (id: number, language: Language, revision
 
   return {
     revision,
-    data: revision ? JSON.parse(revision.data) as Gw2Api.Item : undefined,
+    data: revision ? JSON.parse(revision.data) as Item : undefined,
   };
 }, ['revision-item'], { revalidate: 60 });

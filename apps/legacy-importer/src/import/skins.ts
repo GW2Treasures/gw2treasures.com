@@ -1,5 +1,5 @@
+import { Skin } from '@gw2api/types/data/skin';
 import { db, legacy } from '../db';
-import { Gw2Api } from 'gw2-api-types';
 
 export async function processSkins(buildId: number) {
   const ids = await legacy.skin.findMany({ select: { id: true }}).then((skins) => skins.map(({ id }) => id));
@@ -89,7 +89,7 @@ function fixupDetails(json: string): string {
   return JSON.stringify(data);
 }
 
-function getOldDetailsKey(data: Gw2Api.Skin): string {
+function getOldDetailsKey(data: Skin): string {
   switch(data.type) {
     default: return data.type.toLowerCase();
   }

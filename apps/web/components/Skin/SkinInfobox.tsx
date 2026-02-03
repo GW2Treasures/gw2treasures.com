@@ -1,5 +1,5 @@
 import type { Skin, Language } from '@gw2treasures/database';
-import type { Gw2Api } from 'gw2-api-types';
+import type * as Gw2Api from '@gw2api/types/data/skin';
 import type { FC } from 'react';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { Chatlink } from '../Infobox/Chatlink';

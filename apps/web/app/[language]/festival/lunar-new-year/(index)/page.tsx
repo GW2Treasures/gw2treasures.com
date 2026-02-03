@@ -18,22 +18,23 @@ import { Festival, getFestival } from '../../festivals';
 import ogImage from '../og.png';
 import { ExternalLink } from '@gw2treasures/ui/components/Link/ExternalLink';
 import { createMetadata } from '@/lib/metadata';
+import type { Column } from 'app/[language]/dashboard/helper';
 
 const ITEM_ENVELOPE = 68646;
 const ITEM_DB_CHAMPION_ENVELOPE = 68647;
 const ITEM_LITTLE_ENVELOPE = 68645;
-const ITEM_TOKEN_CHAMPION = 92659;
-const ITEM_TOKEN_CHAMPION_FRAGMENT = 94668;
-const ITEM_TOKEN_DB_CHAMPION = 68618;
+// const ITEM_TOKEN_CHAMPION = 92659;
+// const ITEM_TOKEN_CHAMPION_FRAGMENT = 94668;
+// const ITEM_TOKEN_DB_CHAMPION = 68618;
 const ITEM_ESSENCE_OF_LUCK_EXOTIC = 45178;
 
 const itemIds = [
   ITEM_ENVELOPE,
   ITEM_DB_CHAMPION_ENVELOPE,
   ITEM_LITTLE_ENVELOPE,
-  ITEM_TOKEN_CHAMPION,
-  ITEM_TOKEN_CHAMPION_FRAGMENT,
-  ITEM_TOKEN_DB_CHAMPION,
+  // ITEM_TOKEN_CHAMPION,
+  // ITEM_TOKEN_CHAMPION_FRAGMENT,
+  // ITEM_TOKEN_DB_CHAMPION,
   ITEM_ESSENCE_OF_LUCK_EXOTIC,
 ];
 
@@ -78,15 +79,15 @@ export default async function LunarNewYearPage() {
       <p><Trans id="festival.lunar-new-year.description"/></p>
 
       <ItemTableContext id="lunar-new-year">
-        <Headline actions={<ItemTableColumnsButton/>} id="items"><Trans id="navigation.items"/></Headline>
-        <p><Trans id="festival.lunar-new-year.items.description"/></p>
-        <ItemTable query={{ where: { id: { in: itemIds }}}} defaultColumns={['item', 'rarity', 'type', 'buyPrice', 'buyPriceTrend', 'sellPrice', 'sellPriceTrend']}/>
+        <Headline actions={<ItemTableColumnsButton/>} id="items">Trading Post</Headline>
+        <ItemTable query={{ where: { id: { in: [ITEM_ENVELOPE, ITEM_DB_CHAMPION_ENVELOPE] }}}} defaultColumns={['item', 'rarity', 'type', 'buyPrice', 'buyPriceTrend', 'sellPrice', 'sellPriceTrend']}/>
       </ItemTableContext>
 
       <div style={{ marginTop: 32 }}/>
 
       <Headline id="inventory">Account Dashboard</Headline>
-      <Dashboard initialColumns={[{ type: 'currency', id: 1, currency: coins! }, { type: 'item', id: ITEM_ENVELOPE, item: itemsById.get(ITEM_ENVELOPE) }]} embedded/>
+      <p><Trans id="festival.lunar-new-year.items.description"/></p>
+      <Dashboard initialColumns={[{ type: 'currency', id: 1, currency: coins! }, ...itemIds.map<Column>((id) => ({ type: 'item', id, item: itemsById.get(id) }))]} embedded/>
 
       {lunarNewYear && (
         <StructuredData data={{

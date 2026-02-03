@@ -83,7 +83,7 @@ importers:
         version: 0.8.1
       '@gw2api/fetch':
         specifier: 0.4.2
-        version: 0.4.2(@gw2api/types@0.0.38)
+        version: 0.4.2(@gw2api/types@0.0.40)
       '@gw2efficiency/game-data':
         specifier: 0.1.70
         version: 0.1.70
@@ -203,8 +203,8 @@ importers:
         version: 0.34.5
     devDependencies:
       '@gw2api/types':
-        specifier: 0.0.38
-        version: 0.0.38
+        specifier: 0.0.40
+        version: 0.0.40
       '@gw2treasures/eslint-config':
         specifier: workspace:*
         version: link:../../packages/eslint-config
@@ -276,7 +276,7 @@ importers:
     dependencies:
       '@gw2api/fetch':
         specifier: 0.4.2
-        version: 0.4.2(@gw2api/types@0.0.38)
+        version: 0.4.2(@gw2api/types@0.0.40)
       '@gw2treasures/database':
         specifier: workspace:*
         version: link:../../packages/database
@@ -303,8 +303,8 @@ importers:
         version: 0.34.5
     devDependencies:
       '@gw2api/types':
-        specifier: 0.0.38
-        version: 0.0.38
+        specifier: 0.0.40
+        version: 0.0.40
       '@gw2treasures/eslint-config':
         specifier: workspace:*
         version: link:../../packages/eslint-config
@@ -992,8 +992,8 @@ packages:
     peerDependencies:
       '@gw2api/types': ~0.0.5
 
-  '@gw2api/types@0.0.38':
-    resolution: {integrity: sha512-m8aqjfTbiibDu7l98/QRLnRRX68n8xPQNi59/rIuWSxIePo+luON0HihtnoJcwaxilYr4EbX9pn3FAvDawsKvw==}
+  '@gw2api/types@0.0.40':
+    resolution: {integrity: sha512-RYAkaGzqbk/kW196GCvv0KekvFukNj4qGh+jREaFKYLFrFT+LMMIoNyhe4zrMjL/j1Qr74eStyNLgYQs73o4cg==}
 
   '@gw2efficiency/game-data@0.1.70':
     resolution: {integrity: sha512-SEmOJMwpmhz1uPu3kVZQnBIeJplNPBhBHPohUgPpBCPb+j4OhTaNCXydf0EeSxak14fD6wuHl1WcX/gZ4Acp5w==}
@@ -2649,6 +2649,7 @@ packages:
 
   gw2-api-types@0.0.8:
     resolution: {integrity: sha512-A9o8Gaxh26morzve6NAGctBsBxkD9Jdgy08i42tgu7ydkkW8PDuyHMjeYwF5A4IJQq8d5jsysXXH8+//5y1c6A==}
+    deprecated: Package no longer supported. Use `@gw2api/types` instead.
 
   gw2-tooltip-html@0.1.1:
     resolution: {integrity: sha512-BpczEF1qDScLpmYiou2752rJOknqLNXm92nuJqPUQCq5WahsOaWY2dVUxxpPQMlCJZUMWPJgYSNYkI/gNEQIwA==}
@@ -4569,11 +4570,11 @@ snapshots:
       '@formatjs/fast-memoize': 3.1.0
       tslib: 2.8.1
 
-  '@gw2api/fetch@0.4.2(@gw2api/types@0.0.38)':
+  '@gw2api/fetch@0.4.2(@gw2api/types@0.0.40)':
     dependencies:
-      '@gw2api/types': 0.0.38
+      '@gw2api/types': 0.0.40
 
-  '@gw2api/types@0.0.38': {}
+  '@gw2api/types@0.0.40': {}
 
   '@gw2efficiency/game-data@0.1.70': {}
 

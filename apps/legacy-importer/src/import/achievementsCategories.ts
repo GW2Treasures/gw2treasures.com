@@ -1,5 +1,5 @@
+import { AchievementCategory } from '@gw2api/types/data/achievement-category';
 import { db, legacy } from '../db';
-import { Gw2Api } from 'gw2-api-types';
 
 export async function processAchievementCategories(buildId: number) {
   const ids = await legacy.achievementCategory.findMany({ select: { id: true }}).then((achievementCategories) => achievementCategories.map(({ id }) => id));
@@ -25,7 +25,7 @@ export async function processAchievementCategories(buildId: number) {
       const revision_es = await db.revision.create({ data: { data: fixupDetails(achievementCategory.data_es), entity: 'AchievementCategory', language: 'es', buildId, description: 'Imported - No earlier history available', schema: '' }});
       const revision_fr = await db.revision.create({ data: { data: fixupDetails(achievementCategory.data_fr), entity: 'AchievementCategory', language: 'fr', buildId, description: 'Imported - No earlier history available', schema: '' }});
 
-      const data: Gw2Api.Achievement.Category = JSON.parse(achievementCategory.data_en);
+      const data: AchievementCategory = JSON.parse(achievementCategory.data_en);
 
       if(achievementCategory.file_id) {
         await db.icon.upsert({
@@ -79,7 +79,7 @@ export async function processAchievementCategories(buildId: number) {
 }
 
 function fixupDetails(json: string): string {
-  const data: Gw2Api.Achievement.Category = JSON.parse(json);
+  const data: AchievementCategory = JSON.parse(json);
 
   data.achievements = data.achievements.map((achievement) => typeof achievement === 'number' ? { id: achievement } : achievement);
 

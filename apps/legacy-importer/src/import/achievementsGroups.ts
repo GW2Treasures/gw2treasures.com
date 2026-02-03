@@ -1,5 +1,5 @@
+import { AchievementGroup } from '@gw2api/types/data/achievement-group';
 import { db, legacy } from '../db';
-import { Gw2Api } from 'gw2-api-types';
 
 export async function processAchievementGroups(buildId: number) {
   const ids = await legacy.achievementGroup.findMany({ select: { id: true }}).then((achievementGroups) => achievementGroups.map(({ id }) => id));
@@ -25,7 +25,7 @@ export async function processAchievementGroups(buildId: number) {
       const revision_es = await db.revision.create({ data: { data: achievementGroup.data_es, entity: 'AchievementGroup', language: 'es', buildId, description: 'Imported - No earlier history available', schema: '' }});
       const revision_fr = await db.revision.create({ data: { data: achievementGroup.data_fr, entity: 'AchievementGroup', language: 'fr', buildId, description: 'Imported - No earlier history available', schema: '' }});
 
-      const data: Gw2Api.Achievement.Group = JSON.parse(achievementGroup.data_en);
+      const data: AchievementGroup = JSON.parse(achievementGroup.data_en);
 
       await db.achievementGroup.create({
         data: {

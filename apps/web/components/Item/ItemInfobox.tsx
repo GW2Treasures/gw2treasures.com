@@ -1,16 +1,16 @@
-import type { Item, Language } from '@gw2treasures/database';
+import { localizedName } from '@/lib/localizedName';
+import { ChatlinkType, encodeChatlink } from '@gw2/chatlink';
 import type * as Gw2Api from '@gw2api/types/data/item';
-import type { FC } from 'react';
+import type { Item, Language } from '@gw2treasures/database';
+import { LinkButton } from '@gw2treasures/ui/components/Form/Button';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
+import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
+import type { FC } from 'react';
 import { Chatlink } from '../Infobox/Chatlink';
 import { LanguageLinks } from '../Infobox/LanguageLinks';
+import { ShareButton } from '../ShareButton/ShareButton';
 import { ItemLink } from './ItemLink';
 import { TradingPost } from './TradingPost';
-import { encode } from 'gw2e-chat-codes';
-import { localizedName } from '@/lib/localizedName';
-import { ShareButton } from '../ShareButton/ShareButton';
-import { LinkButton } from '@gw2treasures/ui/components/Form/Button';
-import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 
 interface ItemInfoboxProps {
   item: Item,
@@ -25,7 +25,7 @@ function isTpTradeable(data: Gw2Api.Item) {
 
 export const ItemInfobox: FC<ItemInfoboxProps> = ({ item, data, language }) => {
   const isTradeable = isTpTradeable(data);
-  const chatlink = encode('item', item.id);
+  const chatlink = encodeChatlink(ChatlinkType.Item, item.id);
 
   return (
     <div>
@@ -46,7 +46,7 @@ export const ItemInfobox: FC<ItemInfoboxProps> = ({ item, data, language }) => {
         <ShareButton appearance="tertiary" flex data={{ title: localizedName(item, language), url: `/item/${item.id}` }}/>
       </FlexRow>
 
-      {chatlink && (<Chatlink chatlink={chatlink}/>)}
+      <Chatlink chatlink={chatlink}/>
     </div>
   );
 };

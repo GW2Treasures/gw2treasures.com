@@ -4,10 +4,15 @@ import { Trans } from '@/components/I18n/Trans';
 import { ItemLink } from '@/components/Item/ItemLink';
 import { Description } from '@/components/Layout/Description';
 import { ColumnSelect } from '@/components/Table/ColumnSelect';
+import { TableFilterButton, TableFilterProvider, TableFilterRow, type TableFilterDefinition } from '@/components/Table/TableFilter';
 import { cache } from '@/lib/cache';
 import { linkProperties, linkPropertiesWithoutRarity } from '@/lib/linkProperties';
+import { localizedName } from '@/lib/localizedName';
+import { createMetadata } from '@/lib/metadata';
+import { pageView } from '@/lib/pageView';
 import { db } from '@/lib/prisma';
 import { getLanguage, getTranslate } from '@/lib/translate';
+import { ChatlinkType, encodeChatlink } from '@gw2/chatlink';
 import type { Achievement } from '@gw2api/types/data/achievement';
 import { isDefined } from '@gw2treasures/helper/is';
 import { Icon } from '@gw2treasures/ui';
@@ -18,15 +23,10 @@ import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { MenuList } from '@gw2treasures/ui/components/Layout/MenuList';
 import { Separator } from '@gw2treasures/ui/components/Layout/Separator';
 import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
-import { encode } from 'gw2e-chat-codes';
 import { requiredScopes, type RelicSet } from '../helper';
 import { createItemTable, LegendaryItemDataTable } from '../table';
-import { RelicUnlockCell } from './page.client';
-import { TableFilterButton, TableFilterProvider, TableFilterRow, type TableFilterDefinition } from '@/components/Table/TableFilter';
-import { localizedName } from '@/lib/localizedName';
 import ogImage from './og.png';
-import { pageView } from '@/lib/pageView';
-import { createMetadata } from '@/lib/metadata';
+import { RelicUnlockCell } from './page.client';
 
 // item id of the legendary relic
 const legendaryRelicId = 101582;
@@ -154,8 +154,8 @@ export default async function LegendaryRelicsPage() {
               <DropDown button={<Button iconOnly appearance="menu"><Icon icon="more"/></Button>} preferredPlacement="right-start">
                 <MenuList>
                   <LinkButton appearance="menu" icon="eye" href={`/item/${item.id}`}>View Item</LinkButton>
-                  <CopyButton appearance="menu" icon="chatlink" copy={encode('item', item.id) || ''}><Trans id="chatlink.copy"/></CopyButton>
-                  <LinkButton appearance="menu" icon="external" external href={`https://wiki.guildwars2.com/index.php?title=Special%3ASearch&search=${encodeURIComponent(encode('item', item.id))}&go=Go`} target="wiki" rel="noreferrer noopener">Wiki</LinkButton>
+                  <CopyButton appearance="menu" icon="chatlink" copy={encodeChatlink(ChatlinkType.Item, item.id)}><Trans id="chatlink.copy"/></CopyButton>
+                  <LinkButton appearance="menu" icon="external" external href={`https://wiki.guildwars2.com/index.php?title=Special%3ASearch&search=${encodeURIComponent(encodeChatlink(ChatlinkType.Item, item.id))}&go=Go`} target="wiki" rel="noreferrer noopener">Wiki</LinkButton>
                   <LinkButton appearance="menu" icon="external" external href={`https://api.guildwars2.com/v2/items/${item.id}?v=latest`} target="_blank" rel="noreferrer noopener">API</LinkButton>
                   <Separator/>
                   <LinkButton appearance="menu" icon="eye" href={`/achievement/${achievement.id}`}>View Achievement</LinkButton>

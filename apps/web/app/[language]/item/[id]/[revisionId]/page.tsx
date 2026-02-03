@@ -1,15 +1,12 @@
+import { createMetadata } from '@/lib/metadata';
+import { getLanguage } from '@/lib/translate';
+import { ChatlinkType, encodeChatlink } from '@gw2/chatlink';
+import { strip } from 'gw2-tooltip-html';
+import { notFound } from 'next/navigation';
 import { ItemPageComponent } from '../component';
 import { getRevision } from '../data';
-import { notFound } from 'next/navigation';
-import type { PageProps } from '@/lib/next';
-import { createMetadata } from '@/lib/metadata';
-import { strip } from 'gw2-tooltip-html';
-import { encode } from 'gw2e-chat-codes';
-import { getLanguage } from '@/lib/translate';
 
-type ItemRevisionPageProps = PageProps<{ id: string, revisionId: string }>;
-
-export default async function ItemPage({ params }: ItemRevisionPageProps) {
+export default async function ItemPage({ params }: PageProps<'/[language]/item/[id]/[revisionId]'>) {
   const language = await getLanguage();
   const { id, revisionId } = await params;
   const itemId = Number(id);
@@ -17,7 +14,7 @@ export default async function ItemPage({ params }: ItemRevisionPageProps) {
   return <ItemPageComponent language={language} itemId={itemId} revisionId={revisionId}/>;
 }
 
-export const generateMetadata = createMetadata<ItemRevisionPageProps>(async ({ params }) => {
+export const generateMetadata = createMetadata<PageProps<'/[language]/item/[id]/[revisionId]'>>(async ({ params }) => {
   const language = await getLanguage();
   const { id, revisionId } = await params;
   const itemId = Number(id);
@@ -28,7 +25,7 @@ export const generateMetadata = createMetadata<ItemRevisionPageProps>(async ({ p
   }
 
   return {
-    title: `${strip(data.name) || encode('item', itemId) || id} @ ${revisionId}`,
+    title: `${strip(data.name) || encodeChatlink(ChatlinkType.Item, itemId)} @ ${revisionId}`,
     robots: { index: false }
   };
 });

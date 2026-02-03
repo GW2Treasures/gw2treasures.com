@@ -1,18 +1,18 @@
-import type { Language, Skill } from '@gw2treasures/database';
+import { localizedName } from '@/lib/localizedName';
+import { ChatlinkType, encodeChatlink } from '@gw2/chatlink';
 import type { Skill as SkillData } from '@gw2api/types/data/skill';
-import type { FC } from 'react';
+import type { Language, Skill } from '@gw2treasures/database';
 import { isTruthy } from '@gw2treasures/helper/is';
+import { LinkButton } from '@gw2treasures/ui/components/Form/Button';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
+import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
+import type { FC } from 'react';
 import { Chatlink } from '../Infobox/Chatlink';
 import { DataList } from '../Infobox/DataList';
 import { LanguageLinks } from '../Infobox/LanguageLinks';
+import { ShareButton } from '../ShareButton/ShareButton';
 import { SkillLink } from './SkillLink';
 import { SlotRenderer } from './SlotRenderer';
-import { encode } from 'gw2e-chat-codes';
-import { localizedName } from '@/lib/localizedName';
-import { ShareButton } from '../ShareButton/ShareButton';
-import { LinkButton } from '@gw2treasures/ui/components/Form/Button';
-import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 
 interface SkillInfoboxProps {
   skill: Skill,
@@ -21,7 +21,7 @@ interface SkillInfoboxProps {
 }
 
 export const SkillInfobox: FC<SkillInfoboxProps> = ({ skill, data, language }) => {
-  const chatlink = encode('skill', skill.id);
+  const chatlink = encodeChatlink(ChatlinkType.Skill, skill.id);
 
   return (
     <div>
@@ -44,7 +44,7 @@ export const SkillInfobox: FC<SkillInfoboxProps> = ({ skill, data, language }) =
         <ShareButton appearance="tertiary" flex data={{ title: localizedName(skill, language), url: `/skill/${skill.id}` }}/>
       </FlexRow>
 
-      {chatlink && (<Chatlink chatlink={chatlink}/>)}
+      <Chatlink chatlink={chatlink}/>
     </div>
   );
 };

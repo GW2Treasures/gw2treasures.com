@@ -1,15 +1,14 @@
 import type { UnwrapJsonResponse } from '../helper';
-import { decode } from 'gw2e-chat-codes';
-import { isTruthy } from '@gw2treasures/helper/is';
 import { NextResponse } from 'next/server';
 import { searchAchievements, searchBuilds, searchCurrencies, searchItems, searchProfession, searchSkills, searchSkins, searchTraits, splitSearchTerms } from './helper';
+import { decodeAllChatlinks } from '@gw2/chatlink';
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const searchValue = searchParams.get('q') ?? '';
 
   const terms = splitSearchTerms(searchValue);
-  const chatCodes = terms.map(decode).filter(isTruthy);
+  const chatCodes = decodeAllChatlinks(searchValue);
 
   const [achievements, currencies, items, skills, traits, professions, skins, builds] = await Promise.all([
     searchAchievements(terms),

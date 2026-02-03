@@ -1,17 +1,17 @@
-import type { Skin, Language } from '@gw2treasures/database';
+import { localizedName } from '@/lib/localizedName';
+import { ChatlinkType, encodeChatlink } from '@gw2/chatlink';
 import type * as Gw2Api from '@gw2api/types/data/skin';
-import type { FC } from 'react';
+import type { Language, Skin } from '@gw2treasures/database';
+import { LinkButton } from '@gw2treasures/ui/components/Form/Button';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
+import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
+import { ExternalLink } from '@gw2treasures/ui/components/Link/ExternalLink';
+import type { FC } from 'react';
+import { FormatNumber } from '../Format/FormatNumber';
 import { Chatlink } from '../Infobox/Chatlink';
 import { LanguageLinks } from '../Infobox/LanguageLinks';
-import { ExternalLink } from '@gw2treasures/ui/components/Link/ExternalLink';
-import { SkinLink } from './SkinLink';
-import { encode } from 'gw2e-chat-codes';
-import { FormatNumber } from '../Format/FormatNumber';
-import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
-import { LinkButton } from '@gw2treasures/ui/components/Form/Button';
 import { ShareButton } from '../ShareButton/ShareButton';
-import { localizedName } from '@/lib/localizedName';
+import { SkinLink } from './SkinLink';
 
 interface SkinInfoboxProps {
   skin: Skin,
@@ -20,7 +20,7 @@ interface SkinInfoboxProps {
 }
 
 export const SkinInfobox: FC<SkinInfoboxProps> = ({ skin, language }) => {
-  const chatlink = encode('skin', skin.id);
+  const chatlink = encodeChatlink(ChatlinkType.Wardrobe, skin.id);
 
   return (
     <div>
@@ -39,7 +39,7 @@ export const SkinInfobox: FC<SkinInfoboxProps> = ({ skin, language }) => {
         <LinkButton appearance="tertiary" flex icon="external" external href={`https://wiki.guildwars2.com/index.php?title=Special%3ASearch&search=${encodeURIComponent(chatlink)}&go=Go`} target="wiki">Wiki</LinkButton>
         <ShareButton appearance="tertiary" flex data={{ title: localizedName(skin, language), url: `/skin/${skin.id}` }}/>
       </FlexRow>
-      {chatlink && <Chatlink chatlink={chatlink}/>}
+      <Chatlink chatlink={chatlink}/>
     </div>
   );
 };

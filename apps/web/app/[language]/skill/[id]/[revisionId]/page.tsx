@@ -1,14 +1,11 @@
+import { createMetadata } from '@/lib/metadata';
+import { getLanguage } from '@/lib/translate';
+import { ChatlinkType, encodeChatlink } from '@gw2/chatlink';
+import { notFound } from 'next/navigation';
 import { SkillPageComponent } from '../component';
 import { getRevision } from '../getSkill';
-import { notFound } from 'next/navigation';
-import type { PageProps } from '@/lib/next';
-import { createMetadata } from '@/lib/metadata';
-import { encode } from 'gw2e-chat-codes';
-import { getLanguage } from '@/lib/translate';
 
-type SkillRevisionPageProps = PageProps<{ id: string, revisionId: string }>;
-
-export default async function SkillPage({ params }: SkillRevisionPageProps) {
+export default async function SkillPage({ params }: PageProps<'/[language]/skill/[id]/[revisionId]'>) {
   const language = await getLanguage();
   const { id, revisionId } = await params;
   const skillId: number = Number(id);
@@ -16,7 +13,7 @@ export default async function SkillPage({ params }: SkillRevisionPageProps) {
   return <SkillPageComponent language={language} skillId={skillId} revisionId={revisionId}/>;
 }
 
-export const generateMetadata = createMetadata<SkillRevisionPageProps>(async ({ params }) => {
+export const generateMetadata = createMetadata<PageProps<'/[language]/skill/[id]/[revisionId]'>>(async ({ params }) => {
   const language = await getLanguage();
   const { id, revisionId } = await params;
   const skillId = Number(id);
@@ -27,7 +24,7 @@ export const generateMetadata = createMetadata<SkillRevisionPageProps>(async ({ 
   }
 
   return {
-    title: `${data.name || encode('skill', skillId) || id} @ ${revisionId}`,
+    title: `${data.name || encodeChatlink(ChatlinkType.Skill, skillId)} @ ${revisionId}`,
     robots: { index: false }
   };
 });

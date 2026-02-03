@@ -1,30 +1,30 @@
 'use client';
 
-import { createElement, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import type { Signed } from './query';
-import { type ItemTableLoadOptions } from './ItemTable.actions';
-import { SkeletonTable } from '../Skeleton/SkeletonTable';
-import { globalColumnRenderer } from './columns';
-import { Table } from '@gw2treasures/ui/components/Table/Table';
+import type { TranslationId, TranslationSubset } from '@/lib/translate';
+import { ChatlinkType, encodeChatlink } from '@gw2/chatlink';
+import { isEmptyObject } from '@gw2treasures/helper/is';
+import { Icon } from '@gw2treasures/ui';
 import { DropDown } from '@gw2treasures/ui/components/DropDown/DropDown';
 import { Button, LinkButton } from '@gw2treasures/ui/components/Form/Button';
-import { Icon } from '@gw2treasures/ui';
-import { isEmptyObject } from '@gw2treasures/helper/is';
-import { MenuList } from '@gw2treasures/ui/components/Layout/MenuList';
-import { encode } from 'gw2e-chat-codes';
 import { CopyButton } from '@gw2treasures/ui/components/Form/Buttons/CopyButton';
-import { Pagination, type PaginationProps } from '../Pagination/Pagination';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
-import { TableRowButton } from '@gw2treasures/ui/components/Table/TableRowButton';
-import { Skeleton } from '../Skeleton/Skeleton';
-import { useItemTableContext } from './context';
+import { MenuList } from '@gw2treasures/ui/components/Layout/MenuList';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
-import type { AvailableColumns, GlobalColumnId, ItemTableQuery, LoadItemsResult, QueryModel } from './types';
-import { getHistoryState, updateHistoryState } from './history-state';
-import type { TranslationId, TranslationSubset } from '@/lib/translate';
+import { Table } from '@gw2treasures/ui/components/Table/Table';
+import { TableRowButton } from '@gw2treasures/ui/components/Table/TableRowButton';
+import { createElement, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import scrollIntoView from 'scroll-into-view-if-needed';
 import { FormatNumber } from '../Format/FormatNumber';
 import { useLanguage } from '../I18n/Context';
-import scrollIntoView from 'scroll-into-view-if-needed';
+import { Pagination, type PaginationProps } from '../Pagination/Pagination';
+import { Skeleton } from '../Skeleton/Skeleton';
+import { SkeletonTable } from '../Skeleton/SkeletonTable';
+import { globalColumnRenderer } from './columns';
+import { useItemTableContext } from './context';
+import { getHistoryState, updateHistoryState } from './history-state';
+import { type ItemTableLoadOptions } from './ItemTable.actions';
+import type { Signed } from './query';
+import type { AvailableColumns, GlobalColumnId, ItemTableQuery, LoadItemsResult, QueryModel } from './types';
 
 const LOADING = false;
 type LOADING = typeof LOADING;
@@ -168,7 +168,7 @@ export const ItemTable = <ExtraColumnId extends string = never, Model extends Qu
                   <DropDown button={<Button iconOnly appearance="menu" aria-label={translations['actions']}><Icon icon="more"/></Button>} preferredPlacement="right-start">
                     <MenuList>
                       <LinkButton appearance="menu" icon="eye" href={`/item/${item.id}`}>{translations['itemTable.viewItem']}</LinkButton>
-                      <CopyButton appearance="menu" icon="chatlink" copy={encode('item', item.id) || ''}>{translations['chatlink.copy']}</CopyButton>
+                      <CopyButton appearance="menu" icon="chatlink" copy={encodeChatlink(ChatlinkType.Item, item.id)}>{translations['chatlink.copy']}</CopyButton>
                     </MenuList>
                   </DropDown>
                 </td>

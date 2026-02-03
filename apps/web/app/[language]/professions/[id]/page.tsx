@@ -1,37 +1,37 @@
-import type { Language } from '@gw2treasures/database';
-import { db } from '@/lib/prisma';
-import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
-import DetailLayout from '@/components/Layout/DetailLayout';
-import { notFound } from 'next/navigation';
+import { Breadcrumb, BreadcrumbItem } from '@/components/Breadcrumb/Breadcrumb';
 import { Json } from '@/components/Format/Json';
-import type { Metadata } from 'next';
-import { localizedName } from '@/lib/localizedName';
-import { pageView } from '@/lib/pageView';
-import { cache } from '@/lib/cache';
-import type { PageProps } from '@/lib/next';
-import type { Profession } from '@gw2api/types/data/profession';
-import { getIconUrl } from '@/lib/getIconUrl';
-import { getAlternateUrls } from '@/lib/url';
-import { linkPropertiesWithoutRarity } from '@/lib/linkProperties';
+import { Trans } from '@/components/I18n/Trans';
 import { ItemList } from '@/components/ItemList/ItemList';
-import { SkillLink } from '@/components/Skill/SkillLink';
-import { groupById } from '@gw2treasures/helper/group-by';
-import { Fragment } from 'react';
-import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
-import type { Skill } from '@gw2api/types/data/skill';
-import { range } from '@gw2treasures/helper/range';
+import DetailLayout from '@/components/Layout/DetailLayout';
 import { getProfessionColor } from '@/components/Profession/icon';
-import { isDefined, isTruthy } from '@gw2treasures/helper/is';
-import { jsxJoin } from '@gw2treasures/ui/lib/jsx';
+import { SkillLink } from '@/components/Skill/SkillLink';
 import { SpecializationLink } from '@/components/Specialization/SpecialiazationLink';
 import { Specialization } from '@/components/Specialization/Specialization';
-import { Trans } from '@/components/I18n/Trans';
-import { Breadcrumb, BreadcrumbItem } from '@/components/Breadcrumb/Breadcrumb';
-import { getLanguage, translate } from '@/lib/translate';
-import { Icon } from '@gw2treasures/ui';
-import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
-import { encode } from 'gw2e-chat-codes';
 import { TraitLink } from '@/components/Trait/TraitLink';
+import { cache } from '@/lib/cache';
+import { getIconUrl } from '@/lib/getIconUrl';
+import { linkPropertiesWithoutRarity } from '@/lib/linkProperties';
+import { localizedName } from '@/lib/localizedName';
+import type { PageProps } from '@/lib/next';
+import { pageView } from '@/lib/pageView';
+import { db } from '@/lib/prisma';
+import { getLanguage, translate } from '@/lib/translate';
+import { getAlternateUrls } from '@/lib/url';
+import { ChatlinkType, encodeChatlink } from '@gw2/chatlink';
+import type { Profession } from '@gw2api/types/data/profession';
+import type { Skill } from '@gw2api/types/data/skill';
+import type { Language } from '@gw2treasures/database';
+import { groupById } from '@gw2treasures/helper/group-by';
+import { isDefined, isTruthy } from '@gw2treasures/helper/is';
+import { range } from '@gw2treasures/helper/range';
+import { Icon } from '@gw2treasures/ui';
+import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
+import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
+import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
+import { jsxJoin } from '@gw2treasures/ui/lib/jsx';
+import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
+import { Fragment } from 'react';
 
 const getProfession = cache(async (id: string) => {
   const profession = await db.profession.findUnique({
@@ -154,8 +154,8 @@ export default async function ProfessionPage({ params }: ProfessionPageProps) {
             {training.track.map((track, i) => (
               <li key={`${track.type}-${track.skill_id ?? track.trait_id}`}>
                 {track.type === 'Skill'
-                  ? (skills.has(track.skill_id) ? <SkillLink skill={skills.get(track.skill_id)!}/> : <span>Unknown Skill ({encode('skill', track.skill_id)})</span>)
-                  : (traits.has(track.trait_id) ? <TraitLink trait={traits.get(track.trait_id)!}/> : <span>Unknown Trait ({encode('trait', track.trait_id)})</span>)
+                  ? (skills.has(track.skill_id) ? <SkillLink skill={skills.get(track.skill_id)!}/> : <span>Unknown Skill ({encodeChatlink(ChatlinkType.Skill, track.skill_id)})</span>)
+                  : (traits.has(track.trait_id) ? <TraitLink trait={traits.get(track.trait_id)!}/> : <span>Unknown Trait ({encodeChatlink(ChatlinkType.Trait, track.trait_id)})</span>)
                 }
                 <span style={{ color: 'var(--color-text-muted)' }}>{track.cost - (training.track[i - 1]?.cost || 0)} <Tip tip="Heropoint"><Icon icon="heropoint"/></Tip></span>
               </li>

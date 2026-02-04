@@ -1,12 +1,11 @@
 import type { Metadata, ResolvedMetadata, ResolvingMetadata } from 'next';
-import type { PageProps } from './next';
 import { getAlternateUrls, getBaseUrl, getCurrentUrl } from './url';
 import type { StaticImageData } from 'next/image';
 import type { TemplateString } from 'next/dist/lib/metadata/types/metadata-types';
 import type { Twitter } from 'next/dist/lib/metadata/types/twitter-types';
 import { getLanguage } from './translate';
 import type { Language } from '@gw2treasures/database';
-import type { LayoutRoutes } from '.next/types/routes';
+import type { AppRoutes, LayoutRoutes } from '.next/types/routes';
 
 interface CreateMetadataContext {
   language: Language,
@@ -16,7 +15,7 @@ type CreateMetadataCallback<T> = (props: T, context: CreateMetadataContext) => P
 
 type GenerateMetadata<T> = (props: T, parent: ResolvingMetadata) => Promise<Metadata>;
 
-export function createMetadata<Props extends PageProps | LayoutProps<LayoutRoutes>>(
+export function createMetadata<Props extends PageProps<AppRoutes> | LayoutProps<LayoutRoutes>>(
   getMeta: CreateMetadataCallback<Props> | Meta
 ): GenerateMetadata<Props> {
   return async (props, parent) => {

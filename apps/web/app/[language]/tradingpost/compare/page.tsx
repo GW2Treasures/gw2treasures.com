@@ -10,10 +10,9 @@ import { Chart } from './chart.client';
 import { colorPalette } from './colors';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
-import type { PageProps } from '@/lib/next';
 import { createMetadata } from '@/lib/metadata';
 
-export default async function TradingpostChartsPage({ searchParams }: PageProps) {
+export default async function TradingpostChartsPage({ searchParams }: PageProps<'/[language]/tradingpost/compare'>) {
   const { ids = [] } = await searchParams;
   const itemIds = (Array.isArray(ids) ? ids : [ids])
     .flatMap((rawIds) => rawIds.split(','))

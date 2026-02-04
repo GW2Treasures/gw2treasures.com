@@ -3,7 +3,6 @@ import { getRevision } from './data';
 import { notFound } from 'next/navigation';
 import { getIconUrl } from '@/lib/getIconUrl';
 import { parseIcon } from '@/lib/parseIcon';
-import type { PageProps } from '@/lib/next';
 import { strip } from 'gw2-tooltip-html';
 import { db } from '@/lib/prisma';
 import { jwtVerify } from 'jose';
@@ -12,7 +11,7 @@ import type { AchievementProgressSnapshot } from '@/components/Achievement/share
 import { createMetadata } from '@/lib/metadata';
 import { getLanguage } from '@/lib/translate';
 
-export type AchievementPageProps = PageProps<{ id: string }>;
+export type AchievementPageProps = PageProps<'/[language]/achievement/[id]'>;
 
 export default async function AchievementPage({ params, searchParams }: AchievementPageProps) {
   const language = await getLanguage();

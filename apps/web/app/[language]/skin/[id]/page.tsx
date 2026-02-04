@@ -19,7 +19,6 @@ import { Wardrobe } from './wardrobe';
 import { SkinTable } from '@/components/Skin/SkinTable';
 import { SkinTooltip } from '@/components/Skin/SkinTooltip';
 import { AchievementTable } from '@/components/Achievement/AchievementTable';
-import type { PageProps } from '@/lib/next';
 import { createMetadata } from '@/lib/metadata';
 import { getLanguage } from '@/lib/translate';
 import type { Skin } from '@gw2api/types/data/skin';
@@ -53,7 +52,7 @@ const getSkin = cache(async (id: number, language: Language) => {
   return { skin, revision, similar };
 }, ['get-skin'], { revalidate: 60 });
 
-type SkinPageProps = PageProps<{ id: string }>;
+type SkinPageProps = PageProps<'/[language]/skin/[id]'>;
 
 async function SkinPage ({ params }: SkinPageProps) {
   const language = await getLanguage();

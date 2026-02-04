@@ -12,7 +12,6 @@ import { notFound } from 'next/navigation';
 import { Fragment } from 'react';
 import { db } from '@/lib/prisma';
 import { cache } from '@/lib/cache';
-import type { PageProps } from '@/lib/next';
 import { createMetadata } from '@/lib/metadata';
 import type { Skill } from '@gw2api/types/data/skill';
 
@@ -29,7 +28,7 @@ const getRevisions = cache(async (idA: string, idB: string) => {
   return { a, b };
 }, ['skill-revisions-compare']);
 
-async function SkillDiffPage({ params }: PageProps<{ a: string, b: string }>) {
+async function SkillDiffPage({ params }: PageProps<'/[language]/skill/diff/[a]/[b]'>) {
   const { a: paramA, b: paramB } = await params;
 
   const idA = paramA.toString();

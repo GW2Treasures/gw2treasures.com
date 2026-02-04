@@ -18,7 +18,6 @@ import type { SubmitEditMysticForgeOrder } from 'app/[language]/item/[id]/edit-m
 import { OutputCountRange } from '@/components/Item/OutputCountRange';
 import { OutputCount } from '@/components/Item/OutputCount';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
-import type { PageProps } from '@/lib/next';
 import { createMetadata } from '@/lib/metadata';
 import { getLanguage } from '@/lib/translate';
 
@@ -45,7 +44,7 @@ const getReview = async function getReview(id: string) {
   return { review, item: review.relatedItem };
 };
 
-type ReviewMysticForgePageProps = PageProps<{ id: string }>;
+type ReviewMysticForgePageProps = PageProps<'/[language]/review/mystic-forge/[id]'>;
 
 export default async function ReviewMysticForgePage({ params }: ReviewMysticForgePageProps) {
   const { id } = await params;

@@ -13,7 +13,6 @@ import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
 import type { FC } from 'react';
 import { data, materials, type ConversionRate, type Efficiency, type Material } from './data';
 import { Switch } from '@gw2treasures/ui/components/Form/Switch';
-import type { PageProps } from '@/lib/next';
 import { UnknownItem } from '@/components/Item/UnknownItem';
 import { getLanguage, getTranslate } from '@/lib/translate';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
@@ -49,7 +48,7 @@ const getItems = cache(
 
 type Efficiencies = Record<Material, Efficiency>;
 
-export default async function RefinedMaterialsPage({ searchParams }: PageProps) {
+export default async function RefinedMaterialsPage({ searchParams }: PageProps<'/[language]/homestead/materials'>) {
   // get items from db
   const allItemIds = [
     ...Object.keys(data.wood.sources),

@@ -4,7 +4,6 @@ import { Trans } from '@/components/I18n/Trans';
 import { Description } from '@/components/Layout/Description';
 import { PageView } from '@/components/PageView/PageView';
 import { ResetTimer } from '@/components/Reset/ResetTimer';
-import type { PageProps } from '@/lib/next';
 import { getLanguage, getTranslate } from '@/lib/translate';
 import type { Language } from '@gw2treasures/database';
 import { dailies, fractal_details, getDayOfYearIndex, getInstabilities, instability_details, recommended, scales } from '@gw2treasures/static-data/fractals/index';
@@ -44,7 +43,7 @@ const achievementIds = [
   ...recommended.flatMap((recs) => recs.map(({ achievement_id }) => achievement_id)),
 ];
 
-export default async function FractalsPage({ searchParams }: PageProps) {
+export default async function FractalsPage({ searchParams }: PageProps<'/[language]/fractals'>) {
   const language = await getLanguage();
   const { tier: rawTier, date: rawDate } = await searchParams;
 
@@ -158,7 +157,7 @@ export default async function FractalsPage({ searchParams }: PageProps) {
   );
 }
 
-export const generateMetadata = createMetadata<PageProps>(async ({ searchParams }) => {
+export const generateMetadata = createMetadata<PageProps<'/[language]/fractals'>>(async ({ searchParams }) => {
   const language = await getLanguage();
   const { tier, date } = await searchParams;
   const t = getTranslate(language);

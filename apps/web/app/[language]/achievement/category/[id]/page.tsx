@@ -13,12 +13,11 @@ import { cache } from '@/lib/cache';
 import { AchievementTable } from '@/components/Achievement/AchievementTable';
 import { Breadcrumb, BreadcrumbItem } from '@/components/Breadcrumb/Breadcrumb';
 import { getLanguage, getTranslate } from '@/lib/translate';
-import type { PageProps } from '@/lib/next';
 import { createMetadata } from '@/lib/metadata';
 import { incursiveInvestigationAchievementCategoryIds, IncursiveInvestigationBanner } from 'app/[language]/incursive-investigation/Banner';
 import type { AchievementCategory } from '@gw2api/types/data/achievement-category';
 
-export type AchievementCategoryPageProps = PageProps<{ id: string }>;
+export type AchievementCategoryPageProps = PageProps<'/[language]/achievement/category/[id]'>;
 
 const getAchievementCategory = cache(async (id: number, language: Language) => {
   const [achievementCategory, revision] = await Promise.all([

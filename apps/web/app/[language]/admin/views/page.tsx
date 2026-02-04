@@ -6,7 +6,6 @@ import { db } from '@/lib/prisma';
 import { ensureUserIsAdmin } from '../admin';
 import { Chart } from '@/components/Chart/Chart';
 import { Switch } from '@gw2treasures/ui/components/Form/Switch';
-import type { PageProps } from '@/lib/next';
 import { createMetadata } from '@/lib/metadata';
 
 type Interval = 'hour' | 'day';
@@ -45,7 +44,7 @@ const getViews = cache(async function getViews(interval: Interval, days: Days) {
   return { views, mostViewed };
 });
 
-export default async function AdminUserPage({ searchParams }: PageProps) {
+export default async function AdminUserPage({ searchParams }: PageProps<'/[language]/admin/views'>) {
   await ensureUserIsAdmin();
   const { interval: intervalParam, days: daysParam } = await searchParams;
 

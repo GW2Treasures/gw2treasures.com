@@ -4,11 +4,11 @@ import { Description } from '@/components/Layout/Description';
 import { PageLayout } from '@/components/Layout/PageLayout';
 import { MiniTable } from '@/components/Mini/MiniTable';
 import { cache } from '@/lib/cache';
-import { db } from '@/lib/prisma';
-import { requiredScopes } from '../helper';
-import { pageView } from '@/lib/pageView';
-import { getLanguage, getTranslate } from '@/lib/translate';
 import { createMetadata } from '@/lib/metadata';
+import { pageView } from '@/lib/pageView';
+import { db } from '@/lib/prisma';
+import { getLanguage, getTranslate } from '@/lib/translate';
+import { requiredScopes } from '../helper';
 
 const miniIds = [
   317, // Mini Ram
@@ -27,6 +27,7 @@ const miniIds = [
   797, // Mini Lunar Rat
   882, // Mini Dachshund
   958, // Mini Snake
+  1001, // Mini Horse-Gourdon
 ];
 
 const loadData = cache(async function loadData() {

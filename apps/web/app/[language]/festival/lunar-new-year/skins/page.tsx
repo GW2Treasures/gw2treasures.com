@@ -4,11 +4,11 @@ import { Description } from '@/components/Layout/Description';
 import { PageLayout } from '@/components/Layout/PageLayout';
 import { SkinTable } from '@/components/Skin/SkinTable';
 import { cache } from '@/lib/cache';
-import { db } from '@/lib/prisma';
-import { requiredScopes } from '../helper';
-import { pageView } from '@/lib/pageView';
-import { getLanguage, getTranslate } from '@/lib/translate';
 import { createMetadata } from '@/lib/metadata';
+import { pageView } from '@/lib/pageView';
+import { db } from '@/lib/prisma';
+import { getLanguage, getTranslate } from '@/lib/translate';
+import { requiredScopes } from '../helper';
 
 const skinIds = [
   // weapons
@@ -65,6 +65,11 @@ const skinIds = [
   12003, // Lucky Dragon Lantern
   12007, // Lucky Great Dragon Lantern
   12828, // Lucky Great Snake Lantern
+  13691, // Hoofed Shoes
+  13724, // Hoofed Shoes
+  13705, // Hoofed Shoes
+  13257, // Plush Mordy Backpack
+  13725, // Lucky Great Horse Lantern
 ];
 
 const skinSetNames = [
@@ -74,6 +79,7 @@ const skinSetNames = [
   'Firework weapons',
   'Fortunate weapons',
   'Lantern weapons',
+  'Celestial\'s Firework weapons',
 ];
 
 const loadData = cache(async function loadData() {

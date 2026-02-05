@@ -19,7 +19,7 @@
     "dotenv": "17.2.3",
     "fast-average-color-node": "3.2.0",
     "gw2-tooltip-html": "0.1.1",
-    "@gw2/chatlink": "0.1.0",
+    "@gw2/chatlink": "0.1.1",
     "sharp": "0.34.5"
   },
   "devDependencies": {

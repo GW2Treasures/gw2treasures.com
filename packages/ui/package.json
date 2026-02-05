@@ -36,7 +36,7 @@
   },
   "devDependencies": {
     "@gw2treasures/eslint-config": "workspace:*",
-    "@types/react": "19.2.12",
+    "@types/react": "19.2.13",
     "@types/react-dom": "19.2.3",
     "csstype": "3.2.3",
     "eslint": "9.39.2",

@@ -13,11 +13,10 @@ import { SkeletonLink } from '@/components/Link/SkeletonLink';
 import { linkProperties } from '@/lib/linkProperties';
 import { pageView } from '@/lib/pageView';
 import { cache } from '@/lib/cache';
-import type { PageProps } from '@/lib/next';
 import { createMetadata } from '@/lib/metadata';
 import { getLanguage } from '@/lib/translate';
 
-type BuildPageProps = PageProps<{ id: string }>;
+type BuildPageProps = PageProps<'/[language]/build/[id]'>;
 
 function timed<Args extends unknown[], Out>(callback: (...args: Args) => Promise<Out>): (...args: Args) => Promise<Out> {
   const timedFunction = async (...args: Args): Promise<Out> => {

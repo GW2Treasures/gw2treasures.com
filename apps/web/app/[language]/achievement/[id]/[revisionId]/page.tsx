@@ -1,14 +1,13 @@
 import { AchievementPageComponent } from '../component';
 import { getRevision } from '../data';
 import { notFound } from 'next/navigation';
-import type { PageProps } from '@/lib/next';
 import { strip } from 'gw2-tooltip-html';
 import { parseIcon } from '@/lib/parseIcon';
 import { getIconUrl } from '@/lib/getIconUrl';
 import { createMetadata } from '@/lib/metadata';
 import { getLanguage } from '@/lib/translate';
 
-type AchievementRevisionPageProps = PageProps<{ id: string, revisionId: string }>;
+type AchievementRevisionPageProps = PageProps<'/[language]/achievement/[id]/[revisionId]'>;
 
 export default async function AchievementPage({ params }: AchievementRevisionPageProps) {
   const language = await getLanguage();

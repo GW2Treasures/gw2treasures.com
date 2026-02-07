@@ -10,7 +10,6 @@ import { ReloadCheckbox } from '@/components/Reload/ReloadCheckbox';
 import { PeriodSelect } from './period-select';
 import { availablePeriods } from './available-periods';
 import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
-import type { PageProps } from '@/lib/next';
 import { createMetadata } from '@/lib/metadata';
 
 async function getData(hours: number) {
@@ -48,7 +47,7 @@ async function getData(hours: number) {
   return { total: apiRequests.length, errors, endpoints, statusCodes, apiRequests };
 }
 
-export default async function StatusApiPage({ searchParams }: PageProps) {
+export default async function StatusApiPage({ searchParams }: PageProps<'/[language]/status/api'>) {
   const { period } = await searchParams;
   const hours = availablePeriods.find(({ value }) => value === period)?.hours ?? 24;
 

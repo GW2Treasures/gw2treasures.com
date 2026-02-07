@@ -14,7 +14,6 @@ import { CurrencyIngredientFor } from '@/components/Currency/CurrencyIngredientF
 import { pageView } from '@/lib/pageView';
 import { cache } from '@/lib/cache';
 import { WalletTable } from './wallet-table';
-import type { PageProps } from '@/lib/next';
 import { format, strip } from 'gw2-tooltip-html';
 import { Breadcrumb, BreadcrumbItem } from '@/components/Breadcrumb/Breadcrumb';
 import { getLanguage, getTranslate } from '@/lib/translate';
@@ -54,7 +53,7 @@ const getRevision = cache(async (id: number, language: Language, revisionId?: st
   };
 }, ['currency-revision'], { revalidate: 60 });
 
-type CurrencyPageProps = PageProps<{ id: string }>;
+type CurrencyPageProps = PageProps<'/[language]/currency/[id]'>;
 
 export default async function CurrencyPage({ params }: CurrencyPageProps) {
   const language = await getLanguage();

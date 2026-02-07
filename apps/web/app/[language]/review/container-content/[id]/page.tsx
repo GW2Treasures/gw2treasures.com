@@ -19,7 +19,6 @@ import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { Separator } from '@gw2treasures/ui/components/Layout/Separator';
 import { localizedName } from '@/lib/localizedName';
 import { getLoginUrlWithReturnTo } from '@/lib/login-url';
-import type { PageProps } from '@/lib/next';
 import { createMetadata } from '@/lib/metadata';
 import { getLanguage } from '@/lib/translate';
 
@@ -46,7 +45,7 @@ const getReview = async function getReview(id: string) {
   return { review, item: review.relatedItem };
 };
 
-type ReviewContainerContentPageProps = PageProps<{ id: string }>;
+type ReviewContainerContentPageProps = PageProps<'/[language]/review/container-content/[id]'>;
 
 export default async function ReviewContainerContentPage({ params, searchParams }: ReviewContainerContentPageProps) {
   const { id } = await params;

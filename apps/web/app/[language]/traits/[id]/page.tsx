@@ -11,7 +11,6 @@ import { cache } from '@/lib/cache';
 import { linkPropertiesWithoutRarity } from '@/lib/linkProperties';
 import { localizedName, selectLocalizedProp, type LocalizedEntity } from '@/lib/localizedName';
 import { createMetadata } from '@/lib/metadata';
-import type { PageProps } from '@/lib/next';
 import { db } from '@/lib/prisma';
 import { getLanguage } from '@/lib/translate';
 import type { Profession } from '@gw2api/types/data/profession';
@@ -20,7 +19,7 @@ import type { Language } from '@gw2treasures/database';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { notFound } from 'next/navigation';
 
-export type TraitPageProps = PageProps<{ id: string }>;
+export type TraitPageProps = PageProps<'/[language]/traits/[id]'>;
 
 const getTrait = cache(async (id: number, language: Language) => {
   const [trait] = await Promise.all([

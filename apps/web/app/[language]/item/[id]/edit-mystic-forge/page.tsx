@@ -1,10 +1,9 @@
 import { PageLayout } from '@/components/Layout/PageLayout';
 import { EditMysticForge } from './EditMysticForge';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
-import type { PageProps } from '@/lib/next';
 import { createMetadata } from '@/lib/metadata';
 
-export type EditMysticForgePageProps = PageProps<{ id: string }>;
+export type EditMysticForgePageProps = PageProps<'/[language]/item/[id]/edit-mystic-forge'>;
 
 export default async function EditMysticForgePage({ params, searchParams }: EditMysticForgePageProps) {
   const { id } = await params;

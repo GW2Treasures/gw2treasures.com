@@ -12,7 +12,6 @@ import { cache } from '@/lib/cache';
 import { getIconUrl } from '@/lib/getIconUrl';
 import { linkPropertiesWithoutRarity } from '@/lib/linkProperties';
 import { localizedName } from '@/lib/localizedName';
-import type { PageProps } from '@/lib/next';
 import { pageView } from '@/lib/pageView';
 import { db } from '@/lib/prisma';
 import { getLanguage, translate } from '@/lib/translate';
@@ -69,7 +68,7 @@ const getRevision = cache(async (id: string, language: Language, revisionId?: st
 }, ['profession-revision'], { revalidate: 60 });
 
 
-type ProfessionPageProps = PageProps<{ id: string }>;
+type ProfessionPageProps = PageProps<'/[language]/professions/[id]'>;
 
 export default async function ProfessionPage({ params }: ProfessionPageProps) {
   const language = await getLanguage();

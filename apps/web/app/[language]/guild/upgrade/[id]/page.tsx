@@ -15,7 +15,6 @@ import { RecipeBoxWrapper } from '@/components/Recipe/RecipeBoxWrapper';
 import { RecipeBox } from '@/components/Recipe/RecipeBox';
 import { pageView } from '@/lib/pageView';
 import { cache } from '@/lib/cache';
-import type { PageProps } from '@/lib/next';
 import { createMetadata } from '@/lib/metadata';
 import { getLanguage } from '@/lib/translate';
 import type { GuildUpgrade } from '@gw2api/types/data/guild';
@@ -52,7 +51,7 @@ const getRevision = cache(async (id: number, language: Language, revisionId?: st
 }, ['guild-upgrade-revision'], { revalidate: 60 });
 
 
-type GuildUpgradePageProps = PageProps<{ id: string }>;
+type GuildUpgradePageProps = PageProps<'/[language]/guild/upgrade/[id]'>;
 
 export default async function GuildUpgradePage({ params }: GuildUpgradePageProps) {
   const language = await getLanguage();

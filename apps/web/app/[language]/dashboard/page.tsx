@@ -1,4 +1,3 @@
-import type { PageProps } from '@/lib/next';
 import { Dashboard } from './dashboard';
 import { decodeColumns, type Column } from './helper';
 import { db } from '@/lib/prisma';
@@ -10,7 +9,7 @@ import { isDefined } from '@gw2treasures/helper/is';
 import { createMetadata } from '@/lib/metadata';
 import { getLanguage } from '@/lib/translate';
 
-export default async function DashboardPage({ searchParams }: PageProps) {
+export default async function DashboardPage({ searchParams }: PageProps<'/[language]/dashboard'>) {
   const { columns } = await searchParams;
   const initialColumns = await loadColumns(decodeColumns(columns));
 
@@ -71,7 +70,7 @@ function loadAchievements(ids: number[] | undefined) {
   });
 }
 
-export const generateMetadata = createMetadata<PageProps>(async ({ searchParams }) => {
+export const generateMetadata = createMetadata<PageProps<'/[language]/dashboard'>>(async ({ searchParams }) => {
   const language = await getLanguage();
   const { columns } = await searchParams;
   const initialColumns = await loadColumns(decodeColumns(columns));

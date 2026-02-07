@@ -14,7 +14,6 @@ import { pageView } from '@/lib/pageView';
 import { cache } from '@/lib/cache';
 import { MiniTooltip } from '@/components/Mini/MiniTooltip';
 import { AchievementTable } from '@/components/Achievement/AchievementTable';
-import type { PageProps } from '@/lib/next';
 import type { Mini } from '@gw2api/types/data/mini';
 import { Wardrobe } from './wardrobe';
 import { createMetadata } from '@/lib/metadata';
@@ -39,7 +38,7 @@ const getMini = cache(async (id: number, language: Language) => {
   return { mini, revision };
 }, ['get-mini'], { revalidate: 60 });
 
-type MiniPageProps = PageProps<{ id: string }>;
+type MiniPageProps = PageProps<'/[language]/minis/[id]'>;
 
 async function MiniPage ({ params }: MiniPageProps) {
   const language = await getLanguage();

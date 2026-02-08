@@ -122,17 +122,12 @@ export const searchItems = cache(async (terms: string[], chatCodes: DecodedChatl
   const recipeIdsInChatlinks = recipeChatlinks.map((chatCode) => chatCode.data);
 
   const fashionChatlinks = chatCodes.filter(isChatlinkWithType(ChatlinkType.FashionTemplate));
-  const itemIdsInFashionChatlinks = fashionChatlinks.flatMap(({ data: template }) => [
-    template.aquabreather, template.backpack, template.boots, template.gloves, template.helm, template.leggings, template.shoulders,
-    template.weaponA1, template.weaponA2, template.weaponB1, template.weaponB2, template.weaponAquaticA, template.weaponAquaticB
-  ]).filter(isTruthy);
-
   const outfitIdsInFashionChatlinks = fashionChatlinks.map(({ data: template }) => template.outfit).filter(isTruthy);
 
   const numberTerms = terms.map(toNumber).filter(isTruthy);
 
   const chatCodeWhere: Prisma.ItemWhereInput[] = [
-    { id: { in: [...itemIdsInChatlinks, ...itemIdsInFashionChatlinks] }},
+    { id: { in: itemIdsInChatlinks }},
     { recipeOutput: { some: { id: { in: recipeIdsInChatlinks }}}},
     { unlocksRecipeIds: { hasSome: recipeIdsInChatlinks }},
     { unlocksOutfits: { some: { id: { in: outfitIdsInFashionChatlinks }}}},
@@ -225,7 +220,7 @@ export const searchProfession = cache(async (terms: string[], chatCodes: Decoded
   });
 }, ['search', 'search-professions'], { revalidate: 60 });
 
-export const searchSkins = cache((terms: string[], chatCodes: DecodedChatlink[]) => {
+export const searchSkins = cache(async (terms: string[], chatCodes: DecodedChatlink[]) => {
   const nameQueries = nameQuery(terms);
   const itemChatlinks = chatCodes.filter(isChatlinkWithType(ChatlinkType.Item));
   const skinChatlinks = chatCodes.filter(isChatlinkWithType(ChatlinkType.Wardrobe));
@@ -234,12 +229,45 @@ export const searchSkins = cache((terms: string[], chatCodes: DecodedChatlink[])
     ...skinChatlinks.map(({ data: id }) => id)
   ];
 
-  return db.skin.findMany({
-    where: terms.length + chatCodes.length > 0 ? { OR: [...nameQueries, { id: { in: skinIdsInChatlinks }}] } : undefined,
-    take: 5,
+  const fashionChatlinks = chatCodes.filter(isChatlinkWithType(ChatlinkType.FashionTemplate));
+  const skinIdsInFashionChatlinks = fashionChatlinks.flatMap(({ data: template }) => [
+    template.aquabreather, template.backpack, template.boots, template.gloves, template.helm, template.leggings, template.shoulders,
+    template.weaponA1, template.weaponA2, template.weaponB1, template.weaponB2, template.weaponAquaticA, template.weaponAquaticB
+  ]).filter(isTruthy);
+
+  const numberTerms = terms.map(toNumber).filter(isTruthy);
+  const joinedTerms = terms.join(' ');
+
+  const chatCodeWhere: Prisma.SkinWhereInput = { id: { in: [...skinIdsInChatlinks, ...skinIdsInFashionChatlinks] }};
+
+  const exactWhere: Prisma.SkinWhereInput = {
+    OR: [
+      { name_de: { equals: joinedTerms, mode: 'insensitive' as const }},
+      { name_en: { equals: joinedTerms, mode: 'insensitive' as const }},
+      { name_es: { equals: joinedTerms, mode: 'insensitive' as const }},
+      { name_fr: { equals: joinedTerms, mode: 'insensitive' as const }},
+      { id: { in: numberTerms }},
+      chatCodeWhere,
+    ]
+  };
+
+  // get exact name matches first (only search if we are actually filtering for something)
+  const exactNameMatches = terms.length + chatCodes.length > 0 ? await db.skin.findMany({
+    where: exactWhere,
+    take: 50,
     include: { icon: true },
     orderBy: { views: 'desc' },
-  });
+  }) : [];
+
+  // if we have less then 5 exact matches, we fill the remainder with items that just contain the search terms
+  const termMatches = exactNameMatches.length < 5 ? await db.skin.findMany({
+    where: { AND: [{ OR: nameQueries }, { id: { notIn: exactNameMatches.map(({ id }) => id) }}] },
+    take: 5 - exactNameMatches.length,
+    include: { icon: true },
+    orderBy: { views: 'desc' },
+  }) : [];
+
+  return [...exactNameMatches, ...termMatches];
 }, ['search', 'search-skins'], { revalidate: 60 });
 
 export const searchBuilds = cache((terms: string[]) => {

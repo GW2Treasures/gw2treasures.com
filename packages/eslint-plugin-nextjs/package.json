@@ -36,7 +36,7 @@
   },
   "homepage": "https://github.com/GW2Treasures/gw2treasures.com#readme",
   "dependencies": {
-    "@typescript-eslint/utils": "8.55.0"
+    "@typescript-eslint/utils": "8.56.0"
   },
   "devDependencies": {
     "@gw2treasures/eslint-config": "workspace:*",

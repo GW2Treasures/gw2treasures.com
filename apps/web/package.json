@@ -15,7 +15,7 @@
     "@dnd-kit/abstract": "0.3.0",
     "@dnd-kit/helpers": "0.3.0",
     "@dnd-kit/react": "0.3.0",
-    "@floating-ui/react": "0.27.17",
+    "@floating-ui/react": "0.27.18",
     "@floating-ui/react-dom": "2.1.7",
     "@formatjs/intl-localematcher": "0.8.1",
     "@gw2api/fetch": "0.4.2",

@@ -16,7 +16,7 @@
   "devDependencies": {
     "@gw2treasures/publish-package": "workspace:*",
     "eslint-formatter-gha": "2.0.1",
-    "turbo": "2.8.9",
+    "turbo": "2.8.10",
     "typescript": "5.9.3"
   },
   "engines": {

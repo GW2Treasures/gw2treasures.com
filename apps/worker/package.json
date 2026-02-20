@@ -27,7 +27,7 @@
     "@gw2treasures/tsconfig": "workspace:*",
     "@types/node": "24.10.13",
     "@vercel/ncc": "0.38.4",
-    "eslint": "9.39.2",
+    "eslint": "9.39.3",
     "typescript": "5.9.3",
     "vite-tsconfig-paths": "6.1.1",
     "vitest": "4.0.18"

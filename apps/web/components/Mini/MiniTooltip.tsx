@@ -1,7 +1,6 @@
 import 'server-only';
 import { ClientMiniTooltip } from './MiniTooltip.client';
 import type { Language } from '@gw2treasures/database';
-import { format } from 'gw2-tooltip-html';
 import type { FC } from 'react';
 import { parseIcon } from '@/lib/parseIcon';
 import type { Mini } from '@gw2api/types/data/mini';
@@ -27,7 +26,7 @@ export function createTooltip(mini: Mini, language: Language): MiniTooltip {
     language,
     name: mini.name,
     icon,
-    description: mini.unlock ? format(mini.unlock) : undefined,
+    description: mini.unlock,
   };
 }
 

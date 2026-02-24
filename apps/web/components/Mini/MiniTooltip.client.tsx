@@ -2,6 +2,7 @@ import type { FC } from 'react';
 import { MiniTooltip } from './MiniTooltip';
 import styles from './MiniTooltip.module.css';
 import { EntityIcon } from '../Entity/EntityIcon';
+import { Gw2Markup } from '@gw2/markup-react';
 
 export interface ClientMiniTooltipProps {
   tooltip: MiniTooltip,
@@ -23,7 +24,7 @@ export const ClientMiniTooltip: FC<ClientMiniTooltipProps> = ({ tooltip, hideTit
       )}
 
       {tooltip.description && (
-        <div style={{ color: 'var(--color-text-muted)', lineHeight: 1.5 }} dangerouslySetInnerHTML={{ __html: tooltip.description }}/>
+        <div style={{ color: 'var(--color-text-muted)', lineHeight: 1.5 }}><Gw2Markup markup={tooltip.description}/></div>
       )}
     </div>
   );

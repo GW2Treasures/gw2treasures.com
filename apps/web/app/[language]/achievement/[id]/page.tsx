@@ -3,7 +3,7 @@ import { getRevision } from './data';
 import { notFound } from 'next/navigation';
 import { getIconUrl } from '@/lib/getIconUrl';
 import { parseIcon } from '@/lib/parseIcon';
-import { strip } from 'gw2-tooltip-html';
+import { stripGw2Markup } from '@gw2/markup-strip';
 import { db } from '@/lib/prisma';
 import { jwtVerify } from 'jose';
 import { signingKey } from '@/components/ItemTable/signingKey';
@@ -39,8 +39,8 @@ export const generateMetadata = createMetadata<AchievementPageProps>(async ({ pa
   }
 
   const description = [
-    strip(data.description),
-    data.requirement && strip(data.requirement.replace(/( |^)\/?( |$)/g, `$1${data.tiers[data.tiers.length - 1].count}$2`))
+    stripGw2Markup(data.description),
+    data.requirement && stripGw2Markup(data.requirement.replace(/( |^)\/?( |$)/g, `$1${data.tiers[data.tiers.length - 1].count}$2`))
   ].filter(Boolean).join('\n\n');
 
   // parse icon from revision

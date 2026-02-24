@@ -46,11 +46,11 @@ import { AchievementTable } from '@/components/Achievement/AchievementTable';
 import { Description } from '@/components/Layout/Description';
 import { MiniTable } from '@/components/Mini/MiniTable';
 import { HomesteadRefinedMaterial } from './homestead-refined-material';
-import { format } from 'gw2-tooltip-html';
 import { ItemStatTable } from '@/components/ItemStat/table';
 import { Trans } from '@/components/I18n/Trans';
 import { RevisionTable } from '@/components/Revision/table';
 import { IncursiveInvestigationBanner, incursiveInvestigationItemIds } from '../../incursive-investigation/Banner';
+import { Gw2Markup } from '@/components/Format/Gw2Markup';
 
 export interface ItemPageComponentProps {
   language: Language,
@@ -96,7 +96,7 @@ export const ItemPageComponent: FC<ItemPageComponentProps> = async ({ language, 
 
   return (
     <DetailLayout
-      title={data.name?.trim() ? <span dangerouslySetInnerHTML={{ __html: format(data.name) }}/> : data.chat_link}
+      title={data.name?.trim() ? <Gw2Markup markup={data.name} as="span"/> : data.chat_link}
       icon={icon?.id === item.icon?.id ? item.icon : (icon ? { ...icon, color: null } : null)}
       className={rarityClasses[data.rarity]}
       breadcrumb={(

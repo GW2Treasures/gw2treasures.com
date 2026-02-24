@@ -3,8 +3,8 @@ import styles from './SkillTooltip.module.css';
 import { Separator } from '@gw2treasures/ui/components/Layout/Separator';
 import type { SkillTooltip } from './SkillTooltip';
 import { EntityIcon } from '../Entity/EntityIcon';
-import { format } from 'gw2-tooltip-html';
 import { Fact } from './SkillFact';
+import { Gw2Markup } from '../Format/Gw2Markup';
 
 export interface ClientSkillTooltipProps {
   tooltip: SkillTooltip,
@@ -20,7 +20,7 @@ export const ClientSkillTooltip: FC<ClientSkillTooltipProps> = ({ tooltip, hideT
           {tooltip.name}
         </div>
       )}
-      <div dangerouslySetInnerHTML={{ __html: format(tooltip.description) }} className={styles.description}/>
+      <div className={styles.description}><Gw2Markup markup={tooltip.description}/></div>
       { /* eslint-disable-next-line react/no-array-index-key */ }
       {tooltip.facts?.map((fact, index) => <Fact key={index} fact={fact}/>)}
       {tooltip.facts && tooltip.traited_facts && tooltip.facts?.length > 0 && tooltip.traited_facts?.length > 0 && (<Separator/>)}

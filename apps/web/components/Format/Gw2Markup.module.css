@@ -1,0 +1,12 @@
+.abilitytype,
+.task {
+  color: light-dark(#797900, #a3a543);
+}
+
+.reminder {
+  color: var(--color-text-muted);
+}
+
+.flavor {
+  color: light-dark(#327d9b, #3ab3c0);
+}

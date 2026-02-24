@@ -3,6 +3,7 @@ import { AchievementTooltip } from './AchievementTooltip';
 import { AchievementPoints } from './AchievementPoints';
 import { EntityIcon } from '../Entity/EntityIcon';
 import styles from './AchievementTooltip.module.css';
+import { Gw2Markup } from '../Format/Gw2Markup';
 
 export interface ClientAchievementTooltipProps {
   tooltip: AchievementTooltip | Promise<AchievementTooltip>,
@@ -24,8 +25,8 @@ export const ClientAchievementTooltip: FC<ClientAchievementTooltipProps> = ({ to
         </div>
       )}
 
-      <div style={{ marginBottom: 8, lineHeight: 1.5 }} dangerouslySetInnerHTML={{ __html: tooltip.requirement }}/>
-      <div style={{ color: 'var(--color-text-muted)', marginBottom: 8, lineHeight: 1.5 }} dangerouslySetInnerHTML={{ __html: tooltip.description }}/>
+      <div style={{ marginBottom: 8, lineHeight: 1.5 }}><Gw2Markup markup={tooltip.requirement}/></div>
+      <div style={{ color: 'var(--color-text-muted)', marginBottom: 8, lineHeight: 1.5 }}><Gw2Markup markup={tooltip.description}/></div>
       <AchievementPoints points={tooltip.points}/>
     </div>
   );

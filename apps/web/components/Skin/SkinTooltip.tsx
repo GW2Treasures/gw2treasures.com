@@ -1,7 +1,6 @@
 import 'server-only';
 import { ClientSkinTooltip } from './SkinTooltip.client';
 import type { Language, Rarity } from '@gw2treasures/database';
-import { format } from 'gw2-tooltip-html';
 import type { FC } from 'react';
 import { getTranslate, type TranslationId } from '@/lib/translate';
 import { parseIcon } from '@/lib/parseIcon';
@@ -29,7 +28,7 @@ export function createTooltip(skin: Skin, language: Language): SkinTooltip {
     language,
     name: skin.name,
     icon,
-    description: skin.description ? format(skin.description) : undefined,
+    description: skin.description,
     type: skin.details?.type ? t(`item.type.${skin.type}.${skin.details.type}` as TranslationId) : t(`item.type.${skin.type}`),
     rarity: {
       label: t(`rarity.${skin.rarity}`),

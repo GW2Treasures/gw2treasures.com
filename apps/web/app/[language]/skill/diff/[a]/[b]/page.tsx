@@ -5,7 +5,6 @@ import { parseIcon } from '@/lib/parseIcon';
 import { FormatDate } from '@/components/Format/FormatDate';
 import { Fact } from '@/components/Skill/SkillFact';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
-import { format } from 'gw2-tooltip-html';
 import { Separator } from '@gw2treasures/ui/components/Layout/Separator';
 import { Json } from '@/components/Format/Json';
 import { notFound } from 'next/navigation';
@@ -14,6 +13,7 @@ import { db } from '@/lib/prisma';
 import { cache } from '@/lib/cache';
 import { createMetadata } from '@/lib/metadata';
 import type { Skill } from '@gw2api/types/data/skill';
+import { Gw2Markup } from '@/components/Format/Gw2Markup';
 
 const getRevisions = cache(async (idA: string, idB: string) => {
   const [a, b] = await Promise.all([
@@ -71,8 +71,8 @@ async function SkillDiffPage({ params }: PageProps<'/[language]/skill/diff/[a]/[
       )}
 
       <DiffLayoutRow changed={dataA.description !== dataB.description}
-        left={<p dangerouslySetInnerHTML={{ __html: format(dataA.description) }}/>}
-        right={<p dangerouslySetInnerHTML={{ __html: format(dataB.description) }}/>}/>
+        left={<Gw2Markup markup={dataA.description} as="p"/>}
+        right={<Gw2Markup markup={dataB.description} as="p"/>}/>
 
       {factsDiff.map(({ left, right }, index) => {
         // eslint-disable-next-line react/no-array-index-key

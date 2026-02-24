@@ -1,10 +1,10 @@
 import { Separator } from '@gw2treasures/ui/components/Layout/Separator';
-import { format } from 'gw2-tooltip-html';
 import type { FC } from 'react';
 import { EntityIcon } from '../Entity/EntityIcon';
 import { Fact } from './TraitFact';
 import type { TraitTooltip } from './TraitTooltip';
 import styles from './TraitTooltip.module.css';
+import { Gw2Markup } from '../Format/Gw2Markup';
 
 export interface ClientTraitTooltipProps {
   tooltip: TraitTooltip,
@@ -20,7 +20,7 @@ export const ClientTraitTooltip: FC<ClientTraitTooltipProps> = ({ tooltip, hideT
           {tooltip.name}
         </div>
       )}
-      <div dangerouslySetInnerHTML={{ __html: format(tooltip.description) }} className={styles.description}/>
+      <div className={styles.description}><Gw2Markup markup={tooltip.description}/></div>
       { /* eslint-disable-next-line react/no-array-index-key */ }
       {tooltip.facts?.map((fact, index) => <Fact key={index} fact={fact}/>)}
       {tooltip.facts && tooltip.traited_facts && tooltip.facts?.length > 0 && tooltip.traited_facts?.length > 0 && (<Separator/>)}

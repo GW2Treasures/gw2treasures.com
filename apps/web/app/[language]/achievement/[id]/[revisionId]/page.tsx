@@ -1,7 +1,7 @@
 import { AchievementPageComponent } from '../component';
 import { getRevision } from '../data';
 import { notFound } from 'next/navigation';
-import { strip } from 'gw2-tooltip-html';
+import { stripGw2Markup } from '@gw2/markup-strip';
 import { parseIcon } from '@/lib/parseIcon';
 import { getIconUrl } from '@/lib/getIconUrl';
 import { createMetadata } from '@/lib/metadata';
@@ -29,8 +29,8 @@ export const generateMetadata = createMetadata<AchievementRevisionPageProps>(asy
   }
 
   const description = [
-    strip(data.description),
-    data.requirement && strip(data.requirement.replace(/( |^)\/?( |$)/g, `$1${data.tiers[data.tiers.length - 1].count}$2`))
+    stripGw2Markup(data.description),
+    data.requirement && stripGw2Markup(data.requirement.replace(/( |^)\/?( |$)/g, `$1${data.tiers[data.tiers.length - 1].count}$2`))
   ].filter(Boolean).join('\n\n');
 
   const icon = parseIcon(data.icon);

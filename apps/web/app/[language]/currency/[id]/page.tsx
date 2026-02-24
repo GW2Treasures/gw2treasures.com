@@ -14,7 +14,6 @@ import { CurrencyIngredientFor } from '@/components/Currency/CurrencyIngredientF
 import { pageView } from '@/lib/pageView';
 import { cache } from '@/lib/cache';
 import { WalletTable } from './wallet-table';
-import { format, strip } from 'gw2-tooltip-html';
 import { Breadcrumb, BreadcrumbItem } from '@/components/Breadcrumb/Breadcrumb';
 import { getLanguage, getTranslate } from '@/lib/translate';
 import { parseIcon } from '@/lib/parseIcon';
@@ -22,6 +21,8 @@ import { getIconUrl } from '@/lib/getIconUrl';
 import { createMetadata } from '@/lib/metadata';
 import { localizedName } from '@/lib/localizedName';
 import type { Currency } from '@gw2api/types/data/currency';
+import { Gw2Markup } from '@/components/Format/Gw2Markup';
+import { stripGw2Markup } from '@gw2/markup-strip';
 
 const getCurrency = cache(async (id: number) => {
   if(isNaN(id)) {
@@ -77,7 +78,7 @@ export default async function CurrencyPage({ params }: CurrencyPageProps) {
       icon={currency.icon}
       breadcrumb={<Breadcrumb>{[<BreadcrumbItem key="currency" name={t('currency')} href="/currency"/>]}</Breadcrumb>}
     >
-      <p dangerouslySetInnerHTML={{ __html: format(data.description) }}/>
+      <Gw2Markup markup={data.description} as="p"/>
 
       <Headline id="wallet">Wallet</Headline>
       <WalletTable currencyId={currency.id}/>
@@ -139,7 +140,7 @@ export const generateMetadata = createMetadata<CurrencyPageProps>(async ({ param
 
   return {
     title: localizedName(currency, language),
-    description: strip(data?.description) || undefined,
+    description: stripGw2Markup(data?.description) || undefined,
     url: `/currency/${currencyId}`,
     image: icon ? { src: getIconUrl(icon, 64), width: 64, height: 64 } : undefined
   };

@@ -2,6 +2,7 @@ import { type FC, use } from 'react';
 import { CurrencyTooltip } from './CurrencyTooltip';
 import styles from './CurrencyTooltip.module.css';
 import { EntityIcon } from '@/components/Entity/EntityIcon';
+import { Gw2Markup } from '../Format/Gw2Markup';
 
 export interface ClientCurrencyTooltipProps {
   tooltip: CurrencyTooltip | Promise<CurrencyTooltip>,
@@ -20,7 +21,7 @@ export const ClientCurrencyTooltip: FC<ClientCurrencyTooltipProps> = ({ tooltip,
         </div>
       )}
 
-      {tooltip.description && <p dangerouslySetInnerHTML={{ __html: tooltip.description }}/>}
+      <Gw2Markup markup={tooltip.description} as="p"/>
     </div>
   );
 };

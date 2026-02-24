@@ -1,7 +1,6 @@
 import 'server-only';
 import { ClientCurrencyTooltip } from './CurrencyTooltip.client';
 import type { Language } from '@gw2treasures/database';
-import { format } from 'gw2-tooltip-html';
 import { parseIcon } from '@/lib/parseIcon';
 import type { FC } from 'react';
 import type { Currency } from '@gw2api/types/data/currency';
@@ -25,7 +24,7 @@ export function createTooltip(currency: Currency, language: Language): CurrencyT
     language,
     name: currency.name || '???',
     icon: parseIcon(currency.icon),
-    description: currency.description ? format(currency.description) : undefined,
+    description: currency.description,
   };
 }
 

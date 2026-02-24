@@ -14,7 +14,7 @@ import { scaleLinear, scaleTime } from '@visx/scale';
 import { Bar, Circle, Line, LinePath, type AccessorForArrayItem } from '@visx/shape';
 import { Threshold } from '@visx/threshold';
 import { Tooltip, TooltipWithBounds, useTooltip } from '@visx/tooltip';
-import { bisector, extent } from 'd3-array';
+import { bisector, extent, min } from 'd3-array';
 import React, { useMemo, type FC, type MouseEvent, type TouchEvent, useState, useId, type ReactNode, useRef, type KeyboardEventHandler, useCallback, startTransition, type MutableRefObject } from 'react';
 import tipStyles from '@gw2treasures/ui/components/Tip/Tip.module.css';
 import styles from './trading-post-history.module.css';
@@ -153,7 +153,11 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
   // data of the selected range
   const data = useMemo(() => getDataInRange(completeHistory, range), [completeHistory, range]);
 
-  const minListingPrice = useMemo(() => vendorValue ? Math.ceil(vendorValue / 0.85) : null, [vendorValue]);
+  // calculate min listing price (min 2c)
+  const minListingPrice = useMemo(
+    () => vendorValue !== null ? Math.max(2, Math.ceil(vendorValue / 0.85)) : 2,
+    [vendorValue]
+  );
 
   // calculate max values
   const max = useMemo(
@@ -177,6 +181,8 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
     [completeHistory]
   );
 
+  const minBuyPrice = min(data, (d) => d.buyPrice) ?? min(data, (d) => d.sellPrice);
+
   // settings
   const [storedVisibility, setVisibility] = useLocalStorageState<StoredVisibilitySettings>('chart.tp.visibility', {});
   const visibility = useMemo<VisibilitySettings>(() => ({
@@ -184,8 +190,8 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
     buyPrice: storedVisibility.buyPrice ?? true,
     sellQuantity: storedVisibility.sellQuantity ?? true,
     buyQuantity: storedVisibility.buyQuantity ?? true,
-    minListingPrice: storedVisibility.minListingPrice ?? (minListingPrice !== null ? (max.sellPrice < minListingPrice * 2 || max.buyPrice < minListingPrice * 2) : false),
-  }), [max.buyPrice, max.sellPrice, minListingPrice, storedVisibility]);
+    minListingPrice: storedVisibility.minListingPrice ?? (minBuyPrice ? (minBuyPrice < minListingPrice * 2 + 50) : false),
+  }), [minBuyPrice, minListingPrice, storedVisibility]);
   const [thresholdVisible, setThresholdVisible] = useLocalStorageState('chart.tp.threshold', true);
   const [smoothCurve, setSmoothCurve] = useLocalStorageState('chart.tp.smooth', true);
   const curve = smoothCurve ? curveMonotoneX : curveLinear;
@@ -200,7 +206,7 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
   const priceScale = useMemo(() => scaleLinear({
     range: [yMax, 0],
     round: true,
-    domain: [0, Math.max(max.sellPrice, max.buyPrice, minListingPrice ?? 0)],
+    domain: [0, Math.max(max.sellPrice, max.buyPrice, minListingPrice)],
     nice: 6,
   }), [max.buyPrice, max.sellPrice, minListingPrice, yMax]);
 
@@ -395,9 +401,9 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
           <ChartToggle checked={visibility.buyPrice} onChange={(buyPrice) => setVisibility({ ...storedVisibility, buyPrice })} color={colors.buyPrice} label={labels.buyPrice}>
             {current.buyPrice ? (<Coins value={current.buyPrice}/>) : <span>-</span>}
           </ChartToggle>
-          <Tip tip={<>The Minimum Listing Price is the Vendor Value plus taxes: <Fraction numerator={<Coins value={vendorValue ?? 0}/>} denominator={<FormatNumber value={0.85}/>}/></>}>
+          <Tip tip={<>The Minimum Listing Price is the Vendor Value plus taxes: {minListingPrice > 2 ? <Fraction numerator={<Coins value={vendorValue ?? 0}/>} denominator={<FormatNumber value={0.85}/>}/> : <Coins value={2}/>}</>}>
             <ChartToggle checked={visibility.minListingPrice} onChange={(minListingPrice) => setVisibility({ ...storedVisibility, minListingPrice })} color={colors.minListingPrice} dashed="mixed" label={labels.minListingPrice}>
-              {minListingPrice ? (<Coins value={minListingPrice}/>) : <span>-</span>}
+              <Coins value={minListingPrice}/>
             </ChartToggle>
           </Tip>
           <ChartToggle checked={visibility.sellQuantity} onChange={(sellQuantity) => setVisibility({ ...storedVisibility, sellQuantity })} color={colors.sellQuantity} dashed label={labels.sellQuantity}>
@@ -485,7 +491,7 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
 
               <RectClipPath id={clipPathId} x={0} y={0} width={xMax} height={yMax}/>
               <Group strokeWidth={2} strokeLinejoin="round" strokeLinecap="round" clipPath={`url(#${clipPathId})`}>
-                {visibility.minListingPrice && minListingPrice && (
+                {visibility.minListingPrice && (
                   <Line from={{ x: 0, y: priceScale(minListingPrice) }} to={{ x: xMax, y: priceScale(minListingPrice) }} stroke={colors.minListingPrice} strokeDasharray="1 6 4 6"/>
                 )}
                 <ChartLinesMemoized visibility={visibility} thresholdVisible={thresholdVisible} yMax={yMax} data={data} x={x} curve={curve} sellPrice={sellPrice} buyPrice={buyPrice} sellQuantity={sellQuantity} buyQuantity={buyQuantity}/>
@@ -500,7 +506,7 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
                   stroke="var(--color-border)"
                   strokeWidth={1}
                   pointerEvents="none"/>
-                {visibility.minListingPrice && minListingPrice && (
+                {visibility.minListingPrice && (
                   <Circle
                     cx={x(tooltipData) + dynamicMargin.left}
                     cy={priceScale(minListingPrice) + margin.top}
@@ -605,7 +611,7 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
                         <span className={styles.tooltipLineValue}>{tooltipData.buyPrice ? (<Coins value={tooltipData.buyPrice}/>) : '-'}</span>
                       </div>
                     )}
-                    {visibility.minListingPrice && minListingPrice && (
+                    {visibility.minListingPrice && (
                       <div className={styles.tooltipLine} style={{ '--_color': colors.minListingPrice }}>
                         <span className={styles.tooltipLineLabel}>{labels.minListingPrice}:</span>
                         <span className={styles.tooltipLineValue}><Coins value={minListingPrice}/></span>

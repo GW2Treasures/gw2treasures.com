@@ -5,15 +5,16 @@ import { Icon } from '@gw2treasures/ui';
 
 export interface TradingPostHistoryProps {
   itemId: number,
+  vendorValue: number | null,
 }
 
-export const TradingPostHistory: FC<TradingPostHistoryProps> = ({ itemId }) => {
+export const TradingPostHistory: FC<TradingPostHistoryProps> = ({ itemId, vendorValue }) => {
   return (
     <>
       <Headline id="tp">Trading Post History</Headline>
 
       <Suspense fallback={<TradingPostHistoryLoading/>}>
-        <TradingPostHistoryAsync itemId={itemId}/>
+        <TradingPostHistoryAsync itemId={itemId} vendorValue={vendorValue}/>
       </Suspense>
     </>
   );
@@ -21,7 +22,7 @@ export const TradingPostHistory: FC<TradingPostHistoryProps> = ({ itemId }) => {
 
 const TradingPostHistoryClientLazy = lazy(() => import('./trading-post-history.client').then(({ TradingPostHistoryClient }) => ({ default: TradingPostHistoryClient })));
 
-export const TradingPostHistoryAsync: FC<TradingPostHistoryProps> = async ({ itemId }) => {
+export const TradingPostHistoryAsync: FC<TradingPostHistoryProps> = async ({ itemId, vendorValue }) => {
   const history = await db.tradingPostHistory.findMany({
     where: { itemId },
     orderBy: { time: 'asc' },
@@ -41,7 +42,7 @@ export const TradingPostHistoryAsync: FC<TradingPostHistoryProps> = async ({ ite
   // ;`;
 
   return (
-    <TradingPostHistoryClientLazy history={history}/>
+    <TradingPostHistoryClientLazy history={history} vendorValue={vendorValue}/>
   );
 };
 

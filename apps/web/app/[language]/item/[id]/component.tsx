@@ -362,7 +362,7 @@ export const ItemPageComponent: FC<ItemPageComponentProps> = async ({ language, 
       )}
 
       {item.tpTradeable && !fixedRevision && (
-        <TradingPostHistory itemId={item.id}/>
+        <TradingPostHistory itemId={item.id} vendorValue={data.vendor_value}/>
       )}
 
       <Headline id="history"><Trans id="revisions.history"/></Headline>

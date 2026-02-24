@@ -29,12 +29,15 @@ import { useLocalStorageState } from '@/lib/useLocalStorageState';
 import { CookieNotification } from '@/components/User/CookieNotification';
 import { useFormatContext } from '@/components/Format/FormatContext';
 import { Switch } from '@gw2treasures/ui/components/Form/Switch';
+import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
+import { Fraction } from '@/components/Format/Fraction';
 
 // BaseBrush is not exported from @visx/brush, so we extract the type from BrushProps to use for the brush ref
 type BaseBrush = BrushProps['innerRef'] extends MutableRefObject<infer T | null> | undefined ? T : never;
 
 export interface TradingPostHistoryClientProps {
   history: TradingPostHistory[],
+  vendorValue: number | null,
 }
 
 export const TradingPostHistoryClient: FC<TradingPostHistoryClientProps> = (props) => {
@@ -45,6 +48,17 @@ export interface TradingPostHistoryClientInternalProps extends TradingPostHistor
   width: number,
 }
 
+interface VisibilitySettings {
+  sellPrice: boolean,
+  buyPrice: boolean,
+  sellQuantity: boolean,
+  buyQuantity: boolean,
+  minListingPrice: boolean,
+}
+type StoredVisibilitySettings = {
+  [key in keyof VisibilitySettings]?: VisibilitySettings[key] | null;
+};
+
 const bisectDate = bisector<TradingPostHistory, Date>((d) => d.time).left;
 
 // color config
@@ -53,6 +67,7 @@ const colors = {
   buyPrice: '#D32F2F',
   sellQuantity: '#4FC3F7',
   buyQuantity: '#FF7043',
+  minListingPrice: '#9c27b0',
 };
 
 const labels = {
@@ -60,6 +75,7 @@ const labels = {
   buyPrice: 'Buy Price',
   sellQuantity: 'Sell Listings',
   buyQuantity: 'Buy Orders',
+  minListingPrice: 'Min Listing Price',
 };
 
 const tickLabelProps = {
@@ -122,7 +138,7 @@ function getDataInRange(data: TradingPostHistory[], [start, end]: Range): Tradin
   return data.slice(startIndex, endIndex);
 }
 
-export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientInternalProps> = ({ history: completeHistory, width }) => {
+export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientInternalProps> = ({ history: completeHistory, width, vendorValue }) => {
   // reference to the brush element
   const brushRef = useRef<BaseBrush>(null);
 
@@ -137,11 +153,7 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
   // data of the selected range
   const data = useMemo(() => getDataInRange(completeHistory, range), [completeHistory, range]);
 
-  // settings
-  const [visibility, setVisibility] = useLocalStorageState('chart.tp.visibility', { sellPrice: true, buyPrice: true, sellQuantity: true, buyQuantity: true });
-  const [thresholdVisible, setThresholdVisible] = useLocalStorageState('chart.tp.threshold', true);
-  const [smoothCurve, setSmoothCurve] = useLocalStorageState('chart.tp.smooth', true);
-  const curve = smoothCurve ? curveMonotoneX : curveLinear;
+  const minListingPrice = useMemo(() => vendorValue ? Math.ceil(vendorValue / 0.85) : null, [vendorValue]);
 
   // calculate max values
   const max = useMemo(
@@ -165,6 +177,19 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
     [completeHistory]
   );
 
+  // settings
+  const [storedVisibility, setVisibility] = useLocalStorageState<StoredVisibilitySettings>('chart.tp.visibility', {});
+  const visibility = useMemo<VisibilitySettings>(() => ({
+    sellPrice: storedVisibility.sellPrice ?? true,
+    buyPrice: storedVisibility.buyPrice ?? true,
+    sellQuantity: storedVisibility.sellQuantity ?? true,
+    buyQuantity: storedVisibility.buyQuantity ?? true,
+    minListingPrice: storedVisibility.minListingPrice ?? (minListingPrice !== null ? (max.sellPrice < minListingPrice * 2 || max.buyPrice < minListingPrice * 2) : false),
+  }), [max.buyPrice, max.sellPrice, minListingPrice, storedVisibility]);
+  const [thresholdVisible, setThresholdVisible] = useLocalStorageState('chart.tp.threshold', true);
+  const [smoothCurve, setSmoothCurve] = useLocalStorageState('chart.tp.smooth', true);
+  const curve = smoothCurve ? curveMonotoneX : curveLinear;
+
   // sizing
   const isMobile = width < 720;
   const margin = isMobile ? marginMobile : marginDefault;
@@ -175,9 +200,9 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
   const priceScale = useMemo(() => scaleLinear({
     range: [yMax, 0],
     round: true,
-    domain: [0, Math.max(max.sellPrice, max.buyPrice)],
+    domain: [0, Math.max(max.sellPrice, max.buyPrice, minListingPrice ?? 0)],
     nice: 6,
-  }), [max.buyPrice, max.sellPrice, yMax]);
+  }), [max.buyPrice, max.sellPrice, minListingPrice, yMax]);
 
   const quantityScale = useMemo(() => scaleLinear({
     range: [yMax, 0],
@@ -203,9 +228,9 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
 
   // calculate left/right margin depending on y-scales
   const dynamicMargin = useMemo(() => isMobile ? { left: 0, right: 0 } : {
-    left: visibility.sellPrice || visibility.buyPrice ? priceScale.ticks(6).map((v) => estimateGoldTickLength(v) + 20).reduce((max, length) => Math.max(max, length), 0) : 0,
+    left: visibility.sellPrice || visibility.buyPrice || visibility.minListingPrice ? priceScale.ticks(6).map((v) => estimateGoldTickLength(v) + 20).reduce((max, length) => Math.max(max, length), 0) : 0,
     right: visibility.sellQuantity || visibility.buyQuantity ? quantityScale.ticks(6).map((value) => quantityScale.tickFormat(6)(value).length * 8 + 8).reduce((max, length) => Math.max(max, length), 0) : 0,
-  }, [isMobile, priceScale, quantityScale, visibility.buyPrice, visibility.buyQuantity, visibility.sellPrice, visibility.sellQuantity]);
+  }, [isMobile, priceScale, quantityScale, visibility.buyPrice, visibility.buyQuantity, visibility.sellPrice, visibility.sellQuantity, visibility.minListingPrice]);
 
   const xMax = width - dynamicMargin.left - dynamicMargin.right;
 
@@ -364,16 +389,21 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
     <>
       <FlexRow wrap align="space-between">
         <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-          <ChartToggle checked={visibility.sellPrice} onChange={(sellPrice) => setVisibility({ ...visibility, sellPrice })} color={colors.sellPrice} label={labels.sellPrice}>
+          <ChartToggle checked={visibility.sellPrice} onChange={(sellPrice) => setVisibility({ ...storedVisibility, sellPrice })} color={colors.sellPrice} label={labels.sellPrice}>
             {current.sellPrice ? (<Coins value={current.sellPrice}/>) : <span>-</span>}
           </ChartToggle>
-          <ChartToggle checked={visibility.buyPrice} onChange={(buyPrice) => setVisibility({ ...visibility, buyPrice })} color={colors.buyPrice} label={labels.buyPrice}>
+          <ChartToggle checked={visibility.buyPrice} onChange={(buyPrice) => setVisibility({ ...storedVisibility, buyPrice })} color={colors.buyPrice} label={labels.buyPrice}>
             {current.buyPrice ? (<Coins value={current.buyPrice}/>) : <span>-</span>}
           </ChartToggle>
-          <ChartToggle checked={visibility.sellQuantity} onChange={(sellQuantity) => setVisibility({ ...visibility, sellQuantity })} color={colors.sellQuantity} dashed label={labels.sellQuantity}>
+          <Tip tip={<>The Minimum Listing Price is the Vendor Value plus taxes: <Fraction numerator={<Coins value={vendorValue ?? 0}/>} denominator={<FormatNumber value={0.85}/>}/></>}>
+            <ChartToggle checked={visibility.minListingPrice} onChange={(minListingPrice) => setVisibility({ ...storedVisibility, minListingPrice })} color={colors.minListingPrice} dashed="mixed" label={labels.minListingPrice}>
+              {minListingPrice ? (<Coins value={minListingPrice}/>) : <span>-</span>}
+            </ChartToggle>
+          </Tip>
+          <ChartToggle checked={visibility.sellQuantity} onChange={(sellQuantity) => setVisibility({ ...storedVisibility, sellQuantity })} color={colors.sellQuantity} dashed label={labels.sellQuantity}>
             <FormatNumber value={current.sellQuantity}/>
           </ChartToggle>
-          <ChartToggle checked={visibility.buyQuantity} onChange={(buyQuantity) => setVisibility({ ...visibility, buyQuantity })} color={colors.buyQuantity} dashed label={labels.buyQuantity}>
+          <ChartToggle checked={visibility.buyQuantity} onChange={(buyQuantity) => setVisibility({ ...storedVisibility, buyQuantity })} color={colors.buyQuantity} dashed label={labels.buyQuantity}>
             <FormatNumber value={current.buyQuantity}/>
           </ChartToggle>
         </div>
@@ -385,6 +415,11 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
                 <CookieNotification/>
                 <Checkbox checked={thresholdVisible} onChange={setThresholdVisible}>Highlight Supply/Demand</Checkbox>
                 <Checkbox checked={smoothCurve} onChange={setSmoothCurve}>Smooth Curve</Checkbox>
+                <Tip tip="Only show the Minimum Listing Price if the Buy Price is close to it" preferredPlacement="bottom">
+                  <Checkbox checked={storedVisibility.minListingPrice == null} onChange={(auto) => setVisibility({ ...storedVisibility, minListingPrice: auto ? null : visibility.minListingPrice })}>
+                    Auto Min Listing Price
+                  </Checkbox>
+                </Tip>
               </MenuList>
             </DropDown>
           </FlexRow>
@@ -433,19 +468,26 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
           <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} style={{ overflow: 'visible' }}>
             <Group left={dynamicMargin.left} top={margin.top}>
               {/* horizontal grid lines */}
-              {(visibility.sellPrice || visibility.buyPrice) ? (
+              {(visibility.sellPrice || visibility.buyPrice || visibility.minListingPrice) ? (
                 <GridRows scale={priceScale} width={xMax} height={yMax} numTicks={6} stroke="var(--color-border-dark)" strokeDasharray="4 4"/>
               ) : (visibility.sellQuantity || visibility.buyQuantity) && (
                 <GridRows scale={quantityScale} width={xMax} height={yMax} numTicks={6} stroke="var(--color-border-dark)" strokeDasharray="4 4"/>
               )}
 
               {/* axis */}
-              {!isMobile && (visibility.sellPrice || visibility.buyPrice) && (<AxisLeft scale={priceScale} strokeWidth={0} tickComponent={renderGoldTick} tickFormat={String} numTicks={6}/>)}
-              {!isMobile && (visibility.sellQuantity || visibility.buyQuantity) && (<AxisRight scale={quantityScale} left={xMax} strokeWidth={0} tickLabelProps={tickLabelProps} tickFormat={(v) => numberFormat.format(v.valueOf())} tickComponent={renderTick} numTicks={6}/>)}
+              {!isMobile && (visibility.sellPrice || visibility.buyPrice || visibility.minListingPrice) && (
+                <AxisLeft scale={priceScale} strokeWidth={0} tickComponent={renderGoldTick} tickFormat={String} numTicks={6}/>
+              )}
+              {!isMobile && (visibility.sellQuantity || visibility.buyQuantity) && (
+                <AxisRight scale={quantityScale} left={xMax} strokeWidth={0} tickLabelProps={tickLabelProps} tickFormat={(v) => numberFormat.format(v.valueOf())} tickComponent={renderTick} numTicks={6}/>
+              )}
               <AxisBottom scale={xScale} top={yMax} stroke="var(--color-border)" strokeWidth={2} tickStroke="var(--color-border)" tickLabelProps={tickLabelProps} tickComponent={renderTick} numTicks={width >= 1000 ? 10 : 6}/>
 
               <RectClipPath id={clipPathId} x={0} y={0} width={xMax} height={yMax}/>
               <Group strokeWidth={2} strokeLinejoin="round" strokeLinecap="round" clipPath={`url(#${clipPathId})`}>
+                {visibility.minListingPrice && minListingPrice && (
+                  <Line from={{ x: 0, y: priceScale(minListingPrice) }} to={{ x: xMax, y: priceScale(minListingPrice) }} stroke={colors.minListingPrice} strokeDasharray="1 6 4 6"/>
+                )}
                 <ChartLinesMemoized visibility={visibility} thresholdVisible={thresholdVisible} yMax={yMax} data={data} x={x} curve={curve} sellPrice={sellPrice} buyPrice={buyPrice} sellQuantity={sellQuantity} buyQuantity={buyQuantity}/>
               </Group>
             </Group>
@@ -458,6 +500,17 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
                   stroke="var(--color-border)"
                   strokeWidth={1}
                   pointerEvents="none"/>
+                {visibility.minListingPrice && minListingPrice && (
+                  <Circle
+                    cx={x(tooltipData) + dynamicMargin.left}
+                    cy={priceScale(minListingPrice) + margin.top}
+                    r={4}
+                    fill={colors.minListingPrice}
+                    stroke="var(--color-background)"
+                    strokeWidth={2}
+                    style={{ filter: 'drop-shadow(0 0 4px rgba(0,0,0,0.12))' }}
+                    pointerEvents="none"/>
+                )}
                 {visibility.sellQuantity && (
                   <Circle
                     cx={x(tooltipData) + dynamicMargin.left}
@@ -528,7 +581,7 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
               >
                 <FormatDate date={tooltipData?.time}/>
               </Tooltip>
-              {(visibility.sellPrice || visibility.buyPrice || visibility.sellQuantity || visibility.buyQuantity) && (
+              {(visibility.sellPrice || visibility.buyPrice || visibility.minListingPrice || visibility.sellQuantity || visibility.buyQuantity) && (
                 <TooltipWithBounds
                   // set this to random so it correctly updates with parent bounds
                   // eslint-disable-next-line react-hooks/purity
@@ -550,6 +603,12 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
                       <div className={styles.tooltipLine} style={{ '--_color': colors.buyPrice }}>
                         <span className={styles.tooltipLineLabel}>{labels.buyPrice}:</span>
                         <span className={styles.tooltipLineValue}>{tooltipData.buyPrice ? (<Coins value={tooltipData.buyPrice}/>) : '-'}</span>
+                      </div>
+                    )}
+                    {visibility.minListingPrice && minListingPrice && (
+                      <div className={styles.tooltipLine} style={{ '--_color': colors.minListingPrice }}>
+                        <span className={styles.tooltipLineLabel}>{labels.minListingPrice}:</span>
+                        <span className={styles.tooltipLineValue}><Coins value={minListingPrice}/></span>
                       </div>
                     )}
                     {visibility.sellQuantity && (
@@ -616,10 +675,11 @@ interface ChartToggleProps {
   checked: boolean,
   onChange: (checked: boolean) => void,
   color: string,
-  dashed?: boolean,
+  dashed?: boolean | 'mixed',
+  ref?: React.Ref<HTMLLabelElement>,
 }
 
-const ChartToggle: FC<ChartToggleProps> = ({ label, children, checked, onChange, color, dashed }) => {
+const ChartToggle: FC<ChartToggleProps> = ({ label, children, checked, onChange, color, dashed, ref }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const id = useId();
 
@@ -635,9 +695,9 @@ const ChartToggle: FC<ChartToggleProps> = ({ label, children, checked, onChange,
   }, [checked, onChange]);
 
   return (
-    <label className={checked ? styles.toggle : styles.toggleUnchecked} htmlFor={id} tabIndex={0} onKeyDown={labelOnKeyDown}>
+    <label className={checked ? styles.toggle : styles.toggleUnchecked} htmlFor={id} tabIndex={0} onKeyDown={labelOnKeyDown} ref={ref}>
       <input className={styles.toggleCheckbox} type="checkbox" checked={checked} id={id} onChange={handleToggle} ref={inputRef}/>
-      <svg className={styles.toggleBorder} viewBox="0 0 1 7" preserveAspectRatio="none"><path d="M0,0 L0,7" strokeWidth={4} stroke={checked ? color : 'var(--color-border-dark)'} strokeDasharray={dashed ? '1.2 0.8' : undefined}/></svg>
+      <svg className={styles.toggleBorder} viewBox="0 0 1 7" preserveAspectRatio="none"><path d="M0,0 L0,7" strokeWidth={4} stroke={checked ? color : 'var(--color-border-dark)'} strokeDasharray={dashed === 'mixed' ? '1.4 0.5 0.5 0.5' : dashed ? '1.2 0.8' : undefined}/></svg>
       <div className={styles.toggleLabel}>{label}</div>
       <div className={styles.toggleValue}>{children}</div>
     </label>
@@ -667,7 +727,7 @@ const BrushChartLines: FC<BrushChartLinesProps> = ({ visibility, data, xBrush, c
 const BrushChartLinesMemoized = React.memo(BrushChartLines);
 
 interface ChartLinesProps {
-  visibility: { sellPrice: boolean, buyPrice: boolean, sellQuantity: boolean, buyQuantity: boolean },
+  visibility: VisibilitySettings,
   thresholdVisible: boolean,
   yMax: number,
   data: TradingPostHistory[],

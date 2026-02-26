@@ -4,7 +4,7 @@ import type { FC } from 'react';
 import { TraitLink } from './TraitLink';
 import type { SkillFactTraitedTooltip } from './TraitTooltip';
 import styles from './TraitTooltip.module.css';
-import { Gw2Markup } from '@gw2/markup-react';
+import { Gw2Markup } from '../Format/Gw2Markup';
 
 export interface FactProps {
   fact: SkillFact | SkillFactTraitedTooltip,

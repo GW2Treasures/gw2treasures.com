@@ -4,7 +4,7 @@ import type { FC } from 'react';
 import { TraitLink } from '../Trait/TraitLink';
 import type { SkillFactTraitedTooltip } from './SkillTooltip';
 import styles from './SkillTooltip.module.css';
-import { Gw2Markup } from '@gw2/markup-react';
+import { Gw2Markup } from '../Format/Gw2Markup';
 
 export interface FactProps {
   fact: SkillFact | SkillFactTraitedTooltip,
@@ -42,7 +42,7 @@ function renderText(fact: SkillFact) {
   switch (fact.type) {
     case 'AttributeAdjust':
       if (text) {
-        return (<span>{text} : +{fact.value} {/*fact.target !== 'None' && */fact.target}</span>);
+        return (<span>{text}: +{fact.value} {/*fact.target !== 'None' && */fact.target}</span>);
       }
       return (<span>{fact.target}: +{fact.value}</span>);
     case 'Buff':

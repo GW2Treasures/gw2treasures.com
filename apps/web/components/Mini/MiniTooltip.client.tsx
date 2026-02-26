@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import { MiniTooltip } from './MiniTooltip';
 import styles from './MiniTooltip.module.css';
 import { EntityIcon } from '../Entity/EntityIcon';
-import { Gw2Markup } from '@gw2/markup-react';
+import { Gw2Markup } from '../Format/Gw2Markup';
 
 export interface ClientMiniTooltipProps {
   tooltip: MiniTooltip,

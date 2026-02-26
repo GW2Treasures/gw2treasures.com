@@ -204,7 +204,7 @@ export async function AchievementPageComponent({ language, achievementId, revisi
                 Objectives
               </Headline>
               {data.requirement && (
-                <Gw2Markup markup={data.description.replace(/( |^)\/?( |$)/g, `$1${data.tiers[data.tiers.length - 1].count}$2`)} as="p"/>
+                <Gw2Markup markup={data.requirement.replace(/( |^)\/?( |$)/g, `$1${data.tiers[data.tiers.length - 1].count}$2`)} as="p"/>
               )}
 
               {Bits && (

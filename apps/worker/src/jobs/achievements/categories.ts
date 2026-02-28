@@ -201,19 +201,21 @@ async function updatedCategories(buildId: number, apiCategories: Map<number, Loc
 }
 
 async function processAchievements(id: number, iconId: number | undefined, achievements: AchievementCategory<SchemaVersion>['achievements'], tomorrow: AchievementCategory<SchemaVersion>['tomorrow']) {
-  const achievementIds = [...achievements, ...(tomorrow ?? [])].map(({ id }) => id);
+  const todaysAchievementIds = achievements.map(({ id }) => id);
+  const tomorrowsAchievementIds = tomorrow?.map(({ id }) => id).filter((id) => !todaysAchievementIds.includes(id)) ?? [];
+  const achievementIds = [...todaysAchievementIds, ...tomorrowsAchievementIds];
 
-  await Promise.all([
-    // set previous achievements to historic
-    db.achievement.updateMany({
-      where: { id: { notIn: achievementIds }, achievementCategoryId: id },
-      data: { historic: true },
-    }),
-
+  await db.$transaction([
     // set achievement category
     db.achievement.updateMany({
       where: { id: { in: achievementIds }},
       data: { achievementCategoryId: id, historic: false },
+    }),
+
+    // set previous achievements to historic
+    db.achievement.updateMany({
+      where: { id: { notIn: todaysAchievementIds }, achievementCategoryId: id },
+      data: { historic: true },
     }),
 
     // set icon if the achievement does not have an icon yet

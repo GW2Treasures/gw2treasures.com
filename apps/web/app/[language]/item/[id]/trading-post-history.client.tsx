@@ -30,7 +30,6 @@ import { CookieNotification } from '@/components/User/CookieNotification';
 import { useFormatContext } from '@/components/Format/FormatContext';
 import { Switch } from '@gw2treasures/ui/components/Form/Switch';
 import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
-import { Fraction } from '@/components/Format/Fraction';
 
 // BaseBrush is not exported from @visx/brush, so we extract the type from BrushProps to use for the brush ref
 type BaseBrush = BrushProps['innerRef'] extends MutableRefObject<infer T | null> | undefined ? T : never;
@@ -155,7 +154,7 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
 
   // calculate min listing price (min 2c)
   const minListingPrice = useMemo(
-    () => vendorValue !== null ? Math.max(2, Math.ceil(vendorValue / 0.85)) : 2,
+    () => vendorValue ? vendorValue + Math.max(1, Math.round(vendorValue * 0.10)) + (Math.max(1, Math.round(vendorValue * 0.05))) : 2,
     [vendorValue]
   );
 
@@ -182,6 +181,7 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
   );
 
   const minBuyPrice = min(data, (d) => d.buyPrice) ?? min(data, (d) => d.sellPrice);
+  console.log(minBuyPrice, min(data, (d) => d.buyPrice), min(data, (d) => d.sellPrice));
 
   // settings
   const [storedVisibility, setVisibility] = useLocalStorageState<StoredVisibilitySettings>('chart.tp.visibility', {});
@@ -190,7 +190,7 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
     buyPrice: storedVisibility.buyPrice ?? true,
     sellQuantity: storedVisibility.sellQuantity ?? true,
     buyQuantity: storedVisibility.buyQuantity ?? true,
-    minListingPrice: storedVisibility.minListingPrice ?? (minBuyPrice ? (minBuyPrice < minListingPrice * 2 + 50) : false),
+    minListingPrice: storedVisibility.minListingPrice ?? (minBuyPrice !== undefined ? (minBuyPrice < minListingPrice * 2 + 50) : false),
   }), [minBuyPrice, minListingPrice, storedVisibility]);
   const [thresholdVisible, setThresholdVisible] = useLocalStorageState('chart.tp.threshold', true);
   const [smoothCurve, setSmoothCurve] = useLocalStorageState('chart.tp.smooth', true);
@@ -401,7 +401,7 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
           <ChartToggle checked={visibility.buyPrice} onChange={(buyPrice) => setVisibility({ ...storedVisibility, buyPrice })} color={colors.buyPrice} label={labels.buyPrice}>
             {current.buyPrice ? (<Coins value={current.buyPrice}/>) : <span>-</span>}
           </ChartToggle>
-          <Tip tip={<>The Minimum Listing Price is the Vendor Value plus taxes: {minListingPrice > 2 ? <Fraction numerator={<Coins value={vendorValue ?? 0}/>} denominator={<FormatNumber value={0.85}/>}/> : <Coins value={2}/>}</>}>
+          <Tip tip="The Minimum Listing Price is the vendor value plus fees">
             <ChartToggle checked={visibility.minListingPrice} onChange={(minListingPrice) => setVisibility({ ...storedVisibility, minListingPrice })} color={colors.minListingPrice} dashed="mixed" label={labels.minListingPrice}>
               <Coins value={minListingPrice}/>
             </ChartToggle>

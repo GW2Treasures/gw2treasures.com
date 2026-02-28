@@ -1,6 +1,6 @@
 {
   "name": "@gw2treasures/eslint-config",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "ESLint config for gw2treasures",
   "exports": {
     ".": "./configs/index.mjs",
@@ -29,12 +29,12 @@
   },
   "homepage": "https://github.com/GW2Treasures/gw2treasures.com#readme",
   "dependencies": {
-    "@eslint/js": "9.39.3",
-    "@stylistic/eslint-plugin": "5.9.0",
-    "eslint-plugin-import": "2.32.0",
-    "eslint-plugin-react": "7.37.5",
-    "eslint-plugin-react-hooks": "7.0.1",
-    "typescript-eslint": "8.56.1"
+    "@eslint/js": "^9.39.3",
+    "@stylistic/eslint-plugin": "^5.9.0",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "typescript-eslint": "^8.56.1"
   },
   "devDependencies": {
     "eslint": "9.39.3"

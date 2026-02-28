@@ -7,9 +7,11 @@ jobs:
     name: ${{ matrix.target }}
     runs-on: ubuntu-24.04
     permissions:
+      contents: read
       id-token: write
       attestations: write
       packages: write
+      artifact-metadata: write
     strategy:
       matrix:
         target: [ web, worker, legacy-importer, database-migration ]
@@ -68,10 +70,11 @@ jobs:
         echo "digest=$(docker buildx imagetools inspect --format '{{json .Manifest}}' ${{ env.IMAGE_ID }}:${{ steps.meta.outputs.version }} | jq -cr '.digest')" >> "$GITHUB_OUTPUT"
 
     - name: Attest
-      uses: actions/attest-build-provenance@96278af6caaf10aea03fd8d33a09a777ca52d62f # v3.2.0
+      uses: actions/attest@59d89421af93a897026c735860bf21b6eb4f7b26 # v4.1.0
       with:
         subject-name: ${{ env.IMAGE_ID }}
         subject-digest: ${{ steps.image.outputs.digest }}
+        push-to-registry: true
 
     - name: Inspect image
       run: docker buildx imagetools inspect $(jq -cr '.tags[0]' <<< "$DOCKER_METADATA_OUTPUT_JSON")

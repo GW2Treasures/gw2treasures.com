@@ -355,22 +355,22 @@ importers:
   packages/eslint-config:
     dependencies:
       '@eslint/js':
-        specifier: 9.39.3
+        specifier: ^9.39.3
         version: 9.39.3
       '@stylistic/eslint-plugin':
-        specifier: 5.9.0
+        specifier: ^5.9.0
         version: 5.9.0(eslint@9.39.3(jiti@2.6.1))
       eslint-plugin-import:
-        specifier: 2.32.0
+        specifier: ^2.32.0
         version: 2.32.0(eslint@9.39.3(jiti@2.6.1))
       eslint-plugin-react:
-        specifier: 7.37.5
+        specifier: ^7.37.5
         version: 7.37.5(eslint@9.39.3(jiti@2.6.1))
       eslint-plugin-react-hooks:
-        specifier: 7.0.1
+        specifier: ^7.0.1
         version: 7.0.1(eslint@9.39.3(jiti@2.6.1))
       typescript-eslint:
-        specifier: 8.56.1
+        specifier: ^8.56.1
         version: 8.56.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3)
     devDependencies:
       eslint:
@@ -380,7 +380,7 @@ importers:
   packages/eslint-plugin-nextjs:
     dependencies:
       '@typescript-eslint/utils':
-        specifier: 8.56.1
+        specifier: ^8.56.1
         version: 8.56.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3)
     devDependencies:
       '@gw2treasures/eslint-config':

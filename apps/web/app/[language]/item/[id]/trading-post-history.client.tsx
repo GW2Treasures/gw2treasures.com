@@ -181,7 +181,6 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
   );
 
   const minBuyPrice = min(data, (d) => d.buyPrice) ?? min(data, (d) => d.sellPrice);
-  console.log(minBuyPrice, min(data, (d) => d.buyPrice), min(data, (d) => d.sellPrice));
 
   // settings
   const [storedVisibility, setVisibility] = useLocalStorageState<StoredVisibilitySettings>('chart.tp.visibility', {});

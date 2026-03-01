@@ -78,6 +78,14 @@ export default function DeveloperIconsPage() {
             <td>Get data of an achievement (same format as returned by the official Guild Wars 2 API)</td>
           </tr>
           <tr>
+            <th><Link href="#/currencies"><Code inline>/currencies</Code></Link></th>
+            <td>Get a list of all currency IDs</td>
+          </tr>
+          <tr>
+            <th><Link href="#/currencies/bulk/data"><Code inline>/currencies/bulk/data</Code></Link></th>
+            <td>Get data of multiple currencies (same format as returned by the official Guild Wars 2 API)</td>
+          </tr>
+          <tr>
             <th><Link href="#/items"><Code inline>/items</Code></Link></th>
             <td>Get a list of all item IDs</td>
           </tr>
@@ -125,6 +133,33 @@ export default function DeveloperIconsPage() {
           </tr>
         </tbody>
       </Table>
+
+
+      <Headline id="/currencies">GET <Code inline>/currencies</Code></Headline>
+      <p>Get a list of all currency IDs.</p>
+
+      <Headline id="/currencies/bulk/data">GET <Code inline>/currencies/bulk/data</Code></Headline>
+      <p>Get data of multiple currencies (same format as returned by the official Guild Wars 2 API).</p>
+
+      <Table>
+        <thead>
+          <tr>
+            <Table.HeaderCell small>Parameter</Table.HeaderCell>
+            <Table.HeaderCell>Description</Table.HeaderCell>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th><Code inline>ids</Code></th>
+            <td>Comma-separated list of currency ids (max 1000) or <Code inline>all</Code> to load all currencies in one request</td>
+          </tr>
+          <tr>
+            <th><Code inline>lang</Code></th>
+            <td>The language of the currency (<Code inline>de</Code>/<Code inline>en</Code>/<Code inline>es</Code>/<Code inline>fr</Code>)</td>
+          </tr>
+        </tbody>
+      </Table>
+
 
       <Headline id="/items">GET <Code inline>/items</Code></Headline>
       <p>Get a list of all item IDs.</p>

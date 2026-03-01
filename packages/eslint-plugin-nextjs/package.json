@@ -42,12 +42,12 @@
     "@gw2treasures/eslint-config": "workspace:*",
     "@gw2treasures/tsconfig": "workspace:*",
     "@types/node": "24.11.0",
-    "eslint": "9.39.3",
+    "eslint": "10.0.2",
     "tsdown": "0.20.3",
     "typescript": "5.9.3"
   },
   "peerDependencies": {
-    "eslint": "^8.56.0 || ^9.0.0"
+    "eslint": "^8.56.0 || ^9.0.0 || ^10.0.0"
   },
   "publishConfig": {
     "access": "public",

@@ -12,8 +12,9 @@
 .headline {
   grid-area: headline;
 
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border-transparent);
   background-color: var(--color-background-light);
+  background-image: linear-gradient(150deg, rgb(from var(--hero-color, var(--color-rarity)) r g b / .15), transparent 128px);
   /* background-color: color-mix(in srgb, var(--color-background), var(--hero-color, var(--color-rarity, #000)) 4.5%); */
   padding: 16px;
 

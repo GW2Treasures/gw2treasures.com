@@ -84,6 +84,12 @@ importers:
       '@gw2/chatlink':
         specifier: 0.1.1
         version: 0.1.1
+      '@gw2/markup-react':
+        specifier: 1.0.1
+        version: 1.0.1(react@19.2.4)
+      '@gw2/markup-strip':
+        specifier: 1.0.1
+        version: 1.0.1
       '@gw2api/fetch':
         specifier: 0.4.2
         version: 0.4.2(@gw2api/types@0.0.41)
@@ -159,9 +165,6 @@ importers:
       deepmerge:
         specifier: 4.3.1
         version: 4.3.1
-      gw2-tooltip-html:
-        specifier: 0.1.1
-        version: 0.1.1
       hast-util-to-jsx-runtime:
         specifier: 2.3.6
         version: 2.3.6
@@ -274,6 +277,9 @@ importers:
       '@gw2/chatlink':
         specifier: 0.1.1
         version: 0.1.1
+      '@gw2/markup-strip':
+        specifier: 1.0.1
+        version: 1.0.1
       '@gw2api/fetch':
         specifier: 0.4.2
         version: 0.4.2(@gw2api/types@0.0.41)
@@ -289,9 +295,6 @@ importers:
       fast-average-color-node:
         specifier: 3.2.0
         version: 3.2.0
-      gw2-tooltip-html:
-        specifier: 0.1.1
-        version: 0.1.1
       sharp:
         specifier: 0.34.5
         version: 0.34.5
@@ -925,6 +928,26 @@ packages:
   '@gw2/chatlink@0.1.1':
     resolution: {integrity: sha512-p/hQ0YdQC/oFkA8JWEILPu1jrQhqeHu6Yq/FrhMO1+F8bZcKZvhX8CoiJGdDVaT9wD/C/If0U4iS6XV5HKrjeQ==}
     engines: {node: '>=20'}
+
+  '@gw2/markup-ast@1.0.2':
+    resolution: {integrity: sha512-01/ya3pNcV3uQQax86XK9kCpN5hmmW56yS85tt2okLYh7Oz5RNg1WJ5ttB52DOq0QOmT1kmDKUiGJgULpHoShA==}
+
+  '@gw2/markup-parser@1.1.1':
+    resolution: {integrity: sha512-NmRB1K6LRWrVQuO5zHLn5dSZG5CXgV+pDQ58E4FJUu3JW0jAVPGvY4rHPR9IbF4T1BDydhAUXuSAMtwcJlP4QA==}
+
+  '@gw2/markup-react@1.0.1':
+    resolution: {integrity: sha512-bSb5QbPh9m6dJJdpuqN2165Aiw3ufrAJS3eWER7o433OZyxqND2l84qPMR6YvFoYbx3/KebBAZFo6hOU599oxA==}
+    peerDependencies:
+      react: 19.2.4
+
+  '@gw2/markup-strip@1.0.1':
+    resolution: {integrity: sha512-bW+MlDvWA80fUjMqrHxHCMNQ691UQCiTya5+P5SAPqPMT2QkUCiGv8cY7D0i2/H5mhlwnN0cbzOZFKnA5+uCqw==}
+
+  '@gw2/markup-to-jsx@1.0.1':
+    resolution: {integrity: sha512-W9prWK/Z2yT3lKKyNAYCa57bA7C3hioO2Pcc0h1zgs2whPk9e02IdEJXY2viIvy0gC7e0a6tx83kjLjgXo2frg==}
+
+  '@gw2/markup-to-text@1.0.1':
+    resolution: {integrity: sha512-+KEsijStqBSEN+VqM4Mea1ttnjW7EFduEFmhDrBEgLOW1REj3m1efClwl9NgDggbWGf5dxtlC7T2pU9XiYpbeg==}
 
   '@gw2api/fetch@0.4.2':
     resolution: {integrity: sha512-eUJ73r+RmV3e3MjwH2DapHBt0QR5dryZIfYr/5o+lGgfoihhaPJX7AuQ4s4irQ4tqRlAQN6AbNYcFg9TTZdagA==}
@@ -2584,9 +2607,6 @@ packages:
 
   graphmatch@1.1.1:
     resolution: {integrity: sha512-5ykVn/EXM1hF0XCaWh05VbYvEiOL2lY1kBxZtaYsyvjp7cmWOU1XsAdfQBwClraEofXDT197lFbXOEVMHpvQOg==}
-
-  gw2-tooltip-html@0.1.1:
-    resolution: {integrity: sha512-BpczEF1qDScLpmYiou2752rJOknqLNXm92nuJqPUQCq5WahsOaWY2dVUxxpPQMlCJZUMWPJgYSNYkI/gNEQIwA==}
 
   has-bigints@1.1.0:
     resolution: {integrity: sha512-R3pbpkcIqv2Pm3dUwgjclDRVmWpTJW2DcMzcIhEXEx1oh/CEMObMm3KLmRJOdvhM7o4uQBnwr8pzRK2sJWIqfg==}
@@ -4379,6 +4399,33 @@ snapshots:
 
   '@gw2/chatlink@0.1.1': {}
 
+  '@gw2/markup-ast@1.0.2':
+    dependencies:
+      '@types/unist': 3.0.3
+
+  '@gw2/markup-parser@1.1.1':
+    dependencies:
+      '@gw2/markup-ast': 1.0.2
+
+  '@gw2/markup-react@1.0.1(react@19.2.4)':
+    dependencies:
+      '@gw2/markup-parser': 1.1.1
+      '@gw2/markup-to-jsx': 1.0.1
+      react: 19.2.4
+
+  '@gw2/markup-strip@1.0.1':
+    dependencies:
+      '@gw2/markup-parser': 1.1.1
+      '@gw2/markup-to-text': 1.0.1
+
+  '@gw2/markup-to-jsx@1.0.1':
+    dependencies:
+      '@gw2/markup-ast': 1.0.2
+
+  '@gw2/markup-to-text@1.0.1':
+    dependencies:
+      '@gw2/markup-ast': 1.0.2
+
   '@gw2api/fetch@0.4.2(@gw2api/types@0.0.41)':
     dependencies:
       '@gw2api/types': 0.0.41
@@ -6160,8 +6207,6 @@ snapshots:
   grammex@3.1.12: {}
 
   graphmatch@1.1.1: {}
-
-  gw2-tooltip-html@0.1.1: {}
 
   has-bigints@1.1.0: {}
 

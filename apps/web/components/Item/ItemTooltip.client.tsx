@@ -12,6 +12,7 @@ import { DyeColor } from '../Color/DyeColor';
 import { hexToRgb } from '../Color/hex-to-rgb';
 import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 import rarityStyles from '../Layout/RarityColor.module.css';
+import { Gw2Markup } from '../Format/Gw2Markup';
 
 export interface ClientItemTooltipProps {
   tooltip: ItemTooltip | Promise<ItemTooltip>,
@@ -46,7 +47,7 @@ function renderBonuses(bonuses: ItemTooltip['bonuses']) {
         // eslint-disable-next-line react/no-array-index-key
         <Fragment key={index}>
           <dt className={styles.bonus}>({index + 1}):</dt>
-          <dd dangerouslySetInnerHTML={{ __html: bonus }}/>
+          <Gw2Markup markup={bonus} as="dd"/>
         </Fragment>
       ))}
     </dl>
@@ -90,7 +91,7 @@ function renderConsumable(consumable: ItemTooltip['consumable']) {
                   : consumable.name ? consumable.name : consumable.duration_ms && <>Duration: {formatDuration(consumable.duration_ms)}</>}
               </div>
             )}
-            {consumable.description && (<p className={styles.buff} dangerouslySetInnerHTML={{ __html: consumable.description }}/>)}
+            {consumable.description && (<p className={styles.buff}><Gw2Markup markup={consumable.description}/></p>)}
           </div>
         </div>
       )}
@@ -105,7 +106,7 @@ export const ClientItemTooltip: FC<ClientItemTooltipProps> = ({ tooltip, hideTit
     tooltip.weaponStrength && (<>{tooltip.weaponStrength.label}: <FormatNumber value={tooltip.weaponStrength.min} className={styles.value}/> – <FormatNumber value={tooltip.weaponStrength.max} className={styles.value}/></>),
     tooltip.defense && <>{tooltip.defense.label}: <FormatNumber value={tooltip.defense.value} className={styles.value}/></>,
     renderAttributes(tooltip.attributes),
-    tooltip.buff && (<p className={styles.buff} dangerouslySetInnerHTML={{ __html: tooltip.buff }}/>),
+    tooltip.buff && (<p className={styles.buff}><Gw2Markup markup={tooltip.buff}/></p>),
     renderConsumable(tooltip.consumable),
     renderBonuses(tooltip.bonuses),
     tooltip.upgrades && tooltip.upgrades.map((upgrade, slot) => !upgrade.item ? (
@@ -116,7 +117,7 @@ export const ClientItemTooltip: FC<ClientItemTooltipProps> = ({ tooltip, hideTit
       <div key={slot} className={styles.row}>
         <ItemLink item={upgrade.item} icon={16} language={tooltip.language}/>
         {renderAttributes(upgrade.item.attributes)}
-        {upgrade.item.buff && (<p className={styles.buff} dangerouslySetInnerHTML={{ __html: upgrade.item.buff }}/>)}
+        {upgrade.item.buff && (<p className={styles.buff}><Gw2Markup markup={upgrade.item.buff}/></p>)}
         {renderBonuses(upgrade.item.bonuses)}
       </div>
     )),
@@ -128,7 +129,7 @@ export const ClientItemTooltip: FC<ClientItemTooltipProps> = ({ tooltip, hideTit
               <>
                 <ItemLink item={infusion.item} icon={16} language={tooltip.language}/>
                 {renderAttributes(infusion.item.attributes)}
-                {infusion.item.buff && (<p className={styles.buff} dangerouslySetInnerHTML={{ __html: infusion.item.buff }}/>)}
+                {infusion.item.buff && (<p className={styles.buff}><Gw2Markup markup={infusion.item.buff}/></p>)}
                 {renderBonuses(infusion.item.bonuses)}
               </>
             )
@@ -154,7 +155,7 @@ export const ClientItemTooltip: FC<ClientItemTooltipProps> = ({ tooltip, hideTit
     tooltip.weightClass,
     tooltip.level && `${tooltip.level.label}: ${tooltip.level.value}`,
     // TODO: restrictions
-    tooltip.description && (<p className={styles.description} dangerouslySetInnerHTML={{ __html: tooltip.description }}/>),
+    tooltip.description && (<p className={styles.description}><Gw2Markup markup={tooltip.description}/></p>),
     ...tooltip.flags,
     tooltip.vendorValue && (<Coins value={tooltip.vendorValue}/>),
   ];
@@ -164,7 +165,7 @@ export const ClientItemTooltip: FC<ClientItemTooltipProps> = ({ tooltip, hideTit
       {!hideTitle && (
         <div className={cx(rarityStyles[tooltip.rarity.value], styles.title)}>
           {tooltip.icon && (<EntityIcon icon={tooltip.icon} size={32}/>)}
-          <span dangerouslySetInnerHTML={{ __html: tooltip.name }}/>
+          <Gw2Markup markup={tooltip.name} as="span"/>
         </div>
       )}
 

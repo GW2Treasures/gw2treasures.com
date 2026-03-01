@@ -3,6 +3,7 @@ import { SkinTooltip } from './SkinTooltip';
 import { Rarity } from '../Item/Rarity';
 import styles from './SkinTooltip.module.css';
 import { EntityIcon } from '../Entity/EntityIcon';
+import { Gw2Markup } from '../Format/Gw2Markup';
 
 export interface ClientSkinTooltipProps {
   tooltip: SkinTooltip,
@@ -21,7 +22,7 @@ export const ClientSkinTooltip: FC<ClientSkinTooltipProps> = ({ tooltip, hideTit
       )}
 
       {tooltip.description && (
-        <div style={{ color: 'var(--color-text-muted)', lineHeight: 1.5 }} dangerouslySetInnerHTML={{ __html: tooltip.description }}/>
+        <div style={{ color: 'var(--color-text-muted)', lineHeight: 1.5 }}><Gw2Markup markup={tooltip.description}/></div>
       )}
       <div><Rarity rarity={tooltip.rarity.value}>{tooltip.rarity.label}</Rarity></div>
       <div>{tooltip.type}</div>

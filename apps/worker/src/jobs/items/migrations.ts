@@ -5,7 +5,7 @@ import { toId } from '../helper/toId';
 import { LocalizedObject } from '../helper/types';
 import { Item } from '@gw2api/types/data/item';
 import { SchemaVersion } from '../helper/schema';
-import { strip } from 'gw2-tooltip-html';
+import { stripGw2Markup } from '@gw2/markup-strip';
 
 export const CURRENT_VERSION = 13;
 
@@ -62,10 +62,10 @@ export async function createMigrator() {
     const update: MigratedItem = {
       version: CURRENT_VERSION,
 
-      name_de: strip(de.name?.trim()),
-      name_en: strip(en.name?.trim()),
-      name_es: strip(es.name?.trim()),
-      name_fr: strip(fr.name?.trim()),
+      name_de: stripGw2Markup(de.name?.trim()),
+      name_en: stripGw2Markup(en.name?.trim()),
+      name_es: stripGw2Markup(es.name?.trim()),
+      name_fr: stripGw2Markup(fr.name?.trim()),
     };
 
     // Populate common fields

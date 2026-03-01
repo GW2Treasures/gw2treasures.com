@@ -15,9 +15,10 @@ import { Description } from '@/components/Layout/Description';
 import { getLanguage, getTranslate } from '@/lib/translate';
 import { Gw2Accounts } from '@/components/Gw2Api/Gw2Accounts';
 import { Scope } from '@gw2me/client';
-import { format, strip } from 'gw2-tooltip-html';
 import { createSearchIndex, TableFilterButton, TableFilterProvider, TableFilterRow, TableSearchInput } from '@/components/Table/TableFilter';
 import { createMetadata } from '@/lib/metadata';
+import { stripGw2Markup } from '@gw2/markup-strip';
+import { Gw2Markup } from '@/components/Format/Gw2Markup';
 
 const getDecorations = cache(
   () => db.homesteadDecoration.findMany({
@@ -51,7 +52,7 @@ export default async function HomesteadDecorationsPage() {
       .map(([, index]) => index)
   }));
 
-  const decorationSearchIndex = createSearchIndex(decorations, (decoration) => strip(decoration[`name_${language}`]));
+  const decorationSearchIndex = createSearchIndex(decorations, (decoration) => stripGw2Markup(decoration[`name_${language}`]));
 
   return (
     <>
@@ -71,7 +72,7 @@ export default async function HomesteadDecorationsPage() {
           <Decorations.Column id="id" title="Id" align="right" small hidden>{({ id }) => id}</Decorations.Column>
           <Decorations.Column id="name" title="Decoration" sortBy={(decoration) => decoration[`name_${language}`]}>
             {({ icon, ...decoration }) => (
-              <FlexRow>{icon ? <EntityIcon icon={icon} size={32}/> : <EntityIconMissing size={32}/>} <span dangerouslySetInnerHTML={{ __html: format(decoration[`name_${language}`]) }}/></FlexRow>
+              <FlexRow>{icon ? <EntityIcon icon={icon} size={32}/> : <EntityIconMissing size={32}/>} <Gw2Markup markup={decoration[`name_${language}`]} as="span"/></FlexRow>
             )}
           </Decorations.Column>
           <Decorations.Column id="categories" title="Categories">

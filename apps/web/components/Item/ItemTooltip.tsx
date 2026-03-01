@@ -8,7 +8,6 @@ import { ChatlinkType, encodeChatlink } from '@gw2/chatlink';
 import type * as Gw2Api from '@gw2api/types/data/item';
 import type { Item, Language, Rarity, Revision } from '@gw2treasures/database';
 import { isTruthy } from '@gw2treasures/helper/is';
-import { format } from 'gw2-tooltip-html';
 import type { FC } from 'react';
 import 'server-only';
 import { ClientItemTooltip } from './ItemTooltip.client';
@@ -44,8 +43,8 @@ export async function createTooltip(item: Gw2Api.Item, language: Language): Prom
     return {
       ...getLinkProperties(upgrade),
       attributes: data.details?.infix_upgrade?.attributes && data.details.infix_upgrade.attributes.length > 0 ? data.details.infix_upgrade.attributes.map((({ attribute, modifier }) => ({ label: t(`attribute.${attribute}`), value: modifier }))) : undefined,
-      buff: (!data.details?.infix_upgrade?.attributes || data.details.infix_upgrade.attributes.length === 0) && data.details?.infix_upgrade?.buff?.description ? format(data.details.infix_upgrade.buff.description) : undefined,
-      bonuses: data.details?.bonuses?.map(format),
+      buff: (!data.details?.infix_upgrade?.attributes || data.details.infix_upgrade.attributes.length === 0) ? data.details?.infix_upgrade?.buff?.description : undefined,
+      bonuses: data.details?.bonuses,
     };
   }
 
@@ -109,7 +108,7 @@ export async function createTooltip(item: Gw2Api.Item, language: Language): Prom
 
   return {
     language,
-    name: format(item.name?.trim()) || encodeChatlink(ChatlinkType.Item, item.id),
+    name: item.name?.trim() || encodeChatlink(ChatlinkType.Item, item.id),
     icon,
     weaponStrength: item.type === 'Weapon'
       ? { label: t('item.strength'), min: item.details?.min_power ?? 0, max: item.details?.max_power ?? 0 }
@@ -121,12 +120,12 @@ export async function createTooltip(item: Gw2Api.Item, language: Language): Prom
       ? item.details.infix_upgrade.attributes.map((({ attribute, modifier }) => ({ label: t(`attribute.${attribute}`), value: modifier })))
       : undefined,
     buff: (!item.details?.infix_upgrade?.attributes || item.details.infix_upgrade.attributes.length === 0) && item.details?.infix_upgrade?.buff?.description
-      ? format(item.details.infix_upgrade.buff.description)
+      ? item.details.infix_upgrade.buff.description
       : undefined,
     consumable: (item.type === 'Consumable' || (item.type === 'Container' && item.details?.type === 'GiftBox')) && item.details
-      ? { label: t('item.consume'), name: item.details.name, apply_count: item.details.apply_count, duration_ms: item.details.duration_ms, description: formatMarkup(item.details.description), icon: parseIcon(item.details.icon) }
+      ? { label: t('item.consume'), name: item.details.name, apply_count: item.details.apply_count, duration_ms: item.details.duration_ms, description: item.details.description, icon: parseIcon(item.details.icon) }
       : undefined,
-    bonuses: item.details?.bonuses?.map(format),
+    bonuses: item.details?.bonuses,
     upgrades: upgrades.length > 0 ? upgrades : undefined,
     infusions,
     unlocksColor: unlocksColor ? { id: unlocksColor.id, name: localizedName(unlocksColor, language), colors: { cloth: unlocksColor.cloth_rgb, leather: unlocksColor.leather_rgb, metal: unlocksColor.metal_rgb }} : undefined,
@@ -134,7 +133,7 @@ export async function createTooltip(item: Gw2Api.Item, language: Language): Prom
     type: item.details?.type ? t(`item.type.short.${item.type}.${item.details.type}` as TranslationId) : t(`item.type.${item.type}`),
     weightClass: item.details?.weight_class ? t(`weight.${item.details.weight_class}`) : undefined,
     level: item.level > 0 ? { label: t('item.level'), value: item.level } : undefined,
-    description: item.description ? format(item.description) : undefined,
+    description: item.description ? item.description : undefined,
     flags: [
       item.details?.stat_choices && t('item.selectStats'),
       item.flags.includes('Unique') && t('item.flag.Unique'),
@@ -146,10 +145,6 @@ export async function createTooltip(item: Gw2Api.Item, language: Language): Prom
     ].filter(isTruthy),
     vendorValue: !item.flags.includes('NoSell') ? item.vendor_value : undefined,
   };
-}
-
-function formatMarkup(value: string | undefined) {
-  return value ? format(value) : undefined;
 }
 
 export type ItemWithAttributes = WithIcon<LocalizedEntity> & {

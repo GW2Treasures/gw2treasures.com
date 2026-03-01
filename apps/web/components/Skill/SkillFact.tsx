@@ -1,10 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
 import type { SkillFact } from '@gw2api/types/data/skill';
-import { format } from 'gw2-tooltip-html';
 import type { FC } from 'react';
 import { TraitLink } from '../Trait/TraitLink';
 import type { SkillFactTraitedTooltip } from './SkillTooltip';
 import styles from './SkillTooltip.module.css';
+import { Gw2Markup } from '../Format/Gw2Markup';
 
 export interface FactProps {
   fact: SkillFact | SkillFactTraitedTooltip,
@@ -37,7 +37,7 @@ function renderIcon(fact: SkillFact) {
 }
 
 function renderText(fact: SkillFact) {
-  const text = renderMarkup(fact.text);
+  const text = <Gw2Markup markup={fact.text}/>;
 
   switch (fact.type) {
     case 'AttributeAdjust':
@@ -48,12 +48,12 @@ function renderText(fact: SkillFact) {
     case 'Buff':
     case 'PrefixedBuff': {
       const status = fact.status || fact.prefix?.status;
-      const description = renderMarkup(fact.description || (fact.prefix && fact.prefix.description));
+      const description = fact.description || (fact.prefix && fact.prefix.description);
       return (
         <span>
           {fact.apply_count ? fact.apply_count + '× ' : ''}
           {status}{fact.duration > 0 ? ' (' + fact.duration + 's)' : '' }
-          {description && <span>: <div className={styles.factDescription}>{description}</div></span>}
+          {description && <span>: <div className={styles.factDescription}><Gw2Markup markup={description}/></div></span>}
         </span>
       );
     }
@@ -82,6 +82,3 @@ function renderText(fact: SkillFact) {
   }
 }
 
-function renderMarkup(text: string | undefined) {
-  return text && (<span dangerouslySetInnerHTML={{ __html: format(text) }}/>);
-}

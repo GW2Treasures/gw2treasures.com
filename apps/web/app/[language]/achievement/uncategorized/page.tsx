@@ -6,7 +6,6 @@ import { AchievementPoints } from '@/components/Achievement/AchievementPoints';
 import { Icon } from '@gw2treasures/ui';
 import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
 import { linkProperties } from '@/lib/linkProperties';
-import { format } from 'gw2-tooltip-html';
 import { localizedName } from '@/lib/localizedName';
 import { ItemLink } from '@/components/Item/ItemLink';
 import { AccountAchievementProgressHeader, AccountAchievementProgressRow } from '@/components/Achievement/AccountAchievementProgress';
@@ -15,6 +14,7 @@ import { ColumnSelect } from '@/components/Table/ColumnSelect';
 import { cache } from '@/lib/cache';
 import { createMetadata } from '@/lib/metadata';
 import { getLanguage } from '@/lib/translate';
+import { Gw2Markup } from '@/components/Format/Gw2Markup';
 
 const getUncategorizedAchievements = cache(async () => {
   const achievements = await db.achievement.findMany({
@@ -51,7 +51,7 @@ async function AchievementUncategorizedPage() {
           {({ mastery }) => mastery}
         </UncategorizedAchievements.Column>
         <UncategorizedAchievements.Column id="title" title={<TitleColumnHeader/>} sortBy={({ rewardsTitle }) => rewardsTitle.length}>
-          {({ rewardsTitle }) => rewardsTitle.map((title) => <span key={title.id} dangerouslySetInnerHTML={{ __html: format(localizedName(title, language)) }}/>)}
+          {({ rewardsTitle }) => rewardsTitle.map((title) => <Gw2Markup key={title.id} markup={localizedName(title, language)}/>)}
         </UncategorizedAchievements.Column>
         <UncategorizedAchievements.Column id="items" title="Items" sortBy={({ rewardsItem }) => rewardsItem.length}>
           {({ rewardsItem }) => rewardsItem.length > 0 && (

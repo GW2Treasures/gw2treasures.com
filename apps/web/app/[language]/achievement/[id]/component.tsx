@@ -5,7 +5,6 @@ import { localizedName } from '@/lib/localizedName';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { Json } from '@/components/Format/Json';
 import { Icon } from '@gw2treasures/ui';
-import { format } from 'gw2-tooltip-html';
 import { notFound } from 'next/navigation';
 import styles from './page.module.css';
 import { Coins } from '@/components/Format/Coins';
@@ -41,6 +40,7 @@ import { DataTableClientColumn } from '@gw2treasures/ui/components/Table/DataTab
 import { RevisionTable } from '@/components/Revision/table';
 import { Trans } from '@/components/I18n/Trans';
 import { IncursiveInvestigationBanner, incursiveInvestigationAchievementCategoryIds } from 'app/[language]/incursive-investigation/Banner';
+import { Gw2Markup } from '@/components/Format/Gw2Markup';
 
 
 const notPartOfCategoryDisplayFlags: AchievementFlags[] = ['Repeatable', 'RequiresUnlock', 'Hidden', 'Daily', 'Weekly', 'IgnoreNearlyComplete'];
@@ -156,7 +156,7 @@ export async function AchievementPageComponent({ language, achievementId, revisi
       )}
 
       {data.description && (
-        <p dangerouslySetInnerHTML={{ __html: format(data.description) }}/>
+        <Gw2Markup markup={data.description} as="p"/>
       )}
 
       {data.flags.includes('RequiresUnlock') && (
@@ -204,7 +204,7 @@ export async function AchievementPageComponent({ language, achievementId, revisi
                 Objectives
               </Headline>
               {data.requirement && (
-                <p dangerouslySetInnerHTML={{ __html: format(data.requirement.replace(/( |^)\/?( |$)/g, `$1${data.tiers[data.tiers.length - 1].count}$2`)) }}/>
+                <Gw2Markup markup={data.requirement.replace(/( |^)\/?( |$)/g, `$1${data.tiers[data.tiers.length - 1].count}$2`)} as="p"/>
               )}
 
               {Bits && (
@@ -283,7 +283,7 @@ export async function AchievementPageComponent({ language, achievementId, revisi
                         <span className={styles.listIcon}>
                           <Icon icon="title"/>
                         </span>
-                        {title ? <span dangerouslySetInnerHTML={{ __html: format(localizedName(title, language)) }}/> : `Unknown (${reward.id})` }
+                        {title ? <Gw2Markup markup={localizedName(title, language)} as="span"/> : `Unknown (${reward.id})` }
                       </FlexRow>
                     </li>
                   );

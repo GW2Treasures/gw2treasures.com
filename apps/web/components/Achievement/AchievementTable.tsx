@@ -9,7 +9,6 @@ import { ItemList } from '../ItemList/ItemList';
 import { ItemLink } from '../Item/ItemLink';
 import type { With, WithIcon } from '@/lib/with';
 import { compareLocalizedName, localizedName, type LocalizedEntity } from '@/lib/localizedName';
-import { format } from 'gw2-tooltip-html';
 import { Icon } from '@gw2treasures/ui';
 import { FormatNumber } from '../Format/FormatNumber';
 import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
@@ -21,6 +20,7 @@ import { Mastery } from './Mastery';
 import { AchievementProgressToggle } from './AchievementProgressTypeContext';
 import { AchievementPoints } from './AchievementPoints';
 import { UserGate } from '../User/gate';
+import { Gw2Markup } from '../Format/Gw2Markup';
 
 export interface AchievementTableProps {
   language: Language,
@@ -85,7 +85,7 @@ export const AchievementTable: FC<AchievementTableProps> = ({ language, achievem
         {({ mastery }) => mastery && <Mastery mastery={mastery}/>}
       </Achievements.Column>
       <Achievements.Column id="title" title={<TitleColumnHeader/>} sortBy={({ rewardsTitle }) => rewardsTitle.length} hidden={showRewardsTitle === undefined ? !anyHasTitle : !showRewardsTitle}>
-        {({ rewardsTitle }) => rewardsTitle.map((title) => <span key={title.id} dangerouslySetInnerHTML={{ __html: format(localizedName(title, language)) }}/>)}
+        {({ rewardsTitle }) => rewardsTitle.map((title) => <Gw2Markup key={title.id} markup={localizedName(title, language)}/>)}
       </Achievements.Column>
       <Achievements.Column id="items" title="Items" sortBy={({ rewardsItem }) => rewardsItem.length} hidden={showRewardsItem === undefined ? !anyHasItem : !showRewardsItem}>
         {({ rewardsItem }) => rewardsItem.length > 0 && (

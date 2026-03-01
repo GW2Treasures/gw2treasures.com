@@ -1,7 +1,7 @@
 import { createMetadata } from '@/lib/metadata';
 import { getLanguage } from '@/lib/translate';
 import { ChatlinkType, encodeChatlink } from '@gw2/chatlink';
-import { strip } from 'gw2-tooltip-html';
+import { stripGw2Markup } from '@gw2/markup-strip';
 import { notFound } from 'next/navigation';
 import { ItemPageComponent } from '../component';
 import { getRevision } from '../data';
@@ -25,7 +25,7 @@ export const generateMetadata = createMetadata<PageProps<'/[language]/item/[id]/
   }
 
   return {
-    title: `${strip(data.name) || encodeChatlink(ChatlinkType.Item, itemId)} @ ${revisionId}`,
+    title: `${stripGw2Markup(data.name) || encodeChatlink(ChatlinkType.Item, itemId)} @ ${revisionId}`,
     robots: { index: false }
   };
 });

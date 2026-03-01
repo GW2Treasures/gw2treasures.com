@@ -1,7 +1,6 @@
 import 'server-only';
 import { ClientAchievementTooltip } from './AchievementTooltip.client';
 import type { Language } from '@gw2treasures/database';
-import { format } from 'gw2-tooltip-html';
 import type { FC } from 'react';
 import { parseIcon } from '@/lib/parseIcon';
 import type { Achievement } from '@gw2api/types/data/achievement';
@@ -25,8 +24,8 @@ export function createTooltip(achievement: Achievement, language: Language): Ach
     language,
     name: achievement.name,
     icon: parseIcon(achievement.icon),
-    description: format(achievement.description),
-    requirement: format(achievement.requirement.replace('  ', ` ${achievement.tiers.at(-1)?.count ?? ''} `)),
+    description: achievement.description,
+    requirement: achievement.requirement.replace('  ', ` ${achievement.tiers.at(-1)?.count ?? ''} `),
     points: achievement.tiers?.reduce((total, { points }) => total + points, 0) ?? 0,
   };
 }

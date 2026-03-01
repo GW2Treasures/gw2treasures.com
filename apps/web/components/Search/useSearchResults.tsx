@@ -15,7 +15,7 @@ import type { TranslationSubset } from '@/lib/translate';
 import type { translations as itemTypeTranslations, TypeTranslation } from '../Item/ItemType.translations';
 import { ItemType } from '../Item/ItemType';
 import type { Rarity, TraitSlot } from '@gw2treasures/database';
-import { strip } from 'gw2-tooltip-html';
+import { stripGw2Markup } from '@gw2/markup-strip';
 import type { Weight } from '@/lib/types/weight';
 import { SkinLinkTooltip } from '../Skin/SkinLinkTooltip';
 import type { SubType, Type } from '../Item/ItemType.types';
@@ -96,7 +96,7 @@ export function useSearchApiResults(searchValue: string, translations: Translati
       <>
         {(achievement.achievementCategory ? localizedName(achievement.achievementCategory, language) : 'Achievement')}
         {achievement.mastery && (<> ▪ <Icon icon="mastery"/> {achievement.mastery}</>)}
-        {achievement.rewardsTitle.map((title) => (<Fragment key={title.id}> ▪ <Icon icon="title"/> {strip(localizedName(title, language))}</Fragment>))}
+        {achievement.rewardsTitle.map((title) => (<Fragment key={title.id}> ▪ <Icon icon="title"/> {stripGw2Markup(localizedName(title, language))}</Fragment>))}
         {achievement.points > 0 && (<> ▪ <AchievementPoints points={achievement.points}/></>)}
       </>
     ),

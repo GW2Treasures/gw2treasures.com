@@ -25,7 +25,7 @@ const loadItems = cache(async () => {
   return items;
 }, ['legendary-weapons'], { revalidate: 60 * 60 });
 
-export default async function LegendaryRelicsPage() {
+export default async function LegendaryWeaponsPage() {
   const language = await getLanguage();
   const t = getTranslate(language);
 
@@ -49,7 +49,7 @@ export default async function LegendaryRelicsPage() {
       <Description actions={[<TableFilterButton key="filter" totalCount={items.length}/>, <ColumnSelect key="columns" table={Items}/>]}>
         <Trans id="legendary-armory.weapons.description"/>
       </Description>
-      <LegendaryItemDataTable language={language} table={Items}/>
+      <LegendaryItemDataTable language={language} table={Items} filtered/>
     </TableFilterProvider>
   );
 }

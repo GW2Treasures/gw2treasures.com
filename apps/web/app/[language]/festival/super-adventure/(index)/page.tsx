@@ -61,7 +61,7 @@ export default async function SuperAdventureFestivalPage() {
 
   return (
     <PageLayout>
-      <p><Trans id="festival.super-adventure.intro"/></p>
+      <p style={{ borderLeft: '4px solid var(--color-border-dark)', paddingLeft: 16 }}><Trans id="festival.super-adventure.intro"/></p>
       <p><Trans id="festival.super-adventure.description"/></p>
 
       <Headline id="inventory">Account Dashboard</Headline>

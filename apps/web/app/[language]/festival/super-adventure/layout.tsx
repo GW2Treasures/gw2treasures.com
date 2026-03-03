@@ -18,12 +18,12 @@ export default function SuperAdventureBoxFestivalLayout({ children }: LayoutProp
       skipLayout
       navBar={(
         <NavBar base="/festival/super-adventure/" items={[
-          { segment: '(index)', href: '/festival/super-adventure', label: <Trans id="festival.super-adventure"/> },
-          { segment: 'box', label: <Trans id="festival.super-adventure.sab"/> },
-          { segment: 'achievements', label: <Trans id="navigation.achievements"/> },
-          { segment: 'skins', label: <Trans id="navigation.skins"/> },
-          { segment: 'minis', label: <Trans id="minis"/> },
-          { segment: 'wizards-vault', label: <Trans id="navigation.wizardsVault"/> },
+          { segment: '(index)', href: '/festival/super-adventure', icon: 'sab', label: <Trans id="festival.super-adventure"/> },
+          { segment: 'box', icon: 'thunder-cloud', label: <Trans id="festival.super-adventure.sab"/> },
+          { segment: 'achievements', icon: 'achievement', label: <Trans id="navigation.achievements"/> },
+          { segment: 'skins', icon: 'skin', label: <Trans id="navigation.skins"/> },
+          { segment: 'minis', icon: 'mini', label: <Trans id="minis"/> },
+          { segment: 'wizards-vault', icon: 'wizards-vault', label: <Trans id="navigation.wizardsVault"/> },
         ]}/>
       )}
     >

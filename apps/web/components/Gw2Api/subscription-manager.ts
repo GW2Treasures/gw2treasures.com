@@ -8,6 +8,7 @@ import type { CharacterSab } from '@gw2api/types/data/character-sab';
 import type { AccountWizardsVaultMetaObjectives, AccountWizardsVaultSpecialObjectives } from '@gw2api/types/data/account-wizardsvault';
 import type { Response } from '@/lib/response';
 import type { Language } from '@gw2treasures/database';
+import type { CharacterCore } from '@gw2api/types/data/character';
 
 export type SubscriptionType = 'account'
   | 'achievements'
@@ -42,7 +43,7 @@ export type SubscriptionData<T extends SubscriptionType> =
   T extends 'homestead.decorations' ? AccountHomesteadDecoration[] :
   T extends 'homestead.glyphs' ? string[] :
   T extends 'dungeons' | 'raids' ? string[] :
-  T extends 'sab' ? Record<string, CharacterSab> :
+  T extends 'sab' ? { character: CharacterCore, data: CharacterSab }[] :
   never;
 
 export type SubscriptionResponse<T extends SubscriptionType> = Response<{
@@ -398,14 +399,17 @@ async function loadInventories(accessToken: string) {
 }
 
 async function loadSab(accessToken: string) {
-  const characters = await fetchGw2Api('/v2/characters', { accessToken });
+  // create a limited access token so the characters endpoint returns less data. We only want the profession here
+  const limitedAccessToken = await fetchGw2Api('/v2/createsubtoken?permissions=characters', { accessToken });
+
+  const characters = await fetchGw2Api('/v2/characters?ids=all', { accessToken: limitedAccessToken.subtoken, schema: '2022-03-23T19:00:00.000Z' });
 
   const entries = await Promise.all(characters.map(
-    (character) => fetchGw2Api(`/v2/characters/${character}/sab`, { accessToken, cache: 'no-cache' })
-      .then((data) => [character, data] as const)
+    (character) => fetchGw2Api(`/v2/characters/${character.name}/sab`, { accessToken, cache: 'no-cache' })
+      .then((data) => ({ character, data }))
   ));
 
-  return Object.fromEntries(entries);
+  return entries;
 }
 
 function mergeStates(states: SubscriptionState[]): SubscriptionState {

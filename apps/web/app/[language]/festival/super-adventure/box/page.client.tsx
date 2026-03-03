@@ -16,7 +16,7 @@ import { Checkbox } from '@gw2treasures/ui/components/Form/Checkbox';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
-import { useState, type FC } from 'react';
+import { type FC } from 'react';
 import { requiredScopes } from '../helper';
 import styles from './page.module.css';
 
@@ -24,6 +24,9 @@ import purseImg from './purse.png';
 import toteBagImg from './tote_bag.png';
 import backpackImg from './backpack.png';
 import questionmarkImg from './questionmark.png';
+import { useLocalStorageState } from '@/lib/useLocalStorageState';
+import type { CharacterCore } from '@gw2api/types/data/character';
+import { ProfessionIcon } from '@/components/Profession/icon';
 
 export interface SabAccountsProps {
   translations: TranslationSubset<
@@ -76,7 +79,7 @@ interface SabAccountProps extends SabAccountsProps {
 
 const SabAccount: FC<SabAccountProps> = ({ account, translations }) => {
   const sab = useSubscription('sab', account.id);
-  const [hideEmpty, setHideEmpty] = useState(false);
+  const [hideEmpty, setHideEmpty] = useLocalStorageState(`sab.${account.id}.hideEmpty`, false);
 
   return (
     <>
@@ -92,7 +95,7 @@ const SabAccount: FC<SabAccountProps> = ({ account, translations }) => {
 };
 
 interface SabAccountTableProps extends SabAccountsProps {
-  data: Record<string, CharacterSab>,
+  data: { character: CharacterCore, data: CharacterSab }[],
   hideEmpty: boolean,
 }
 
@@ -113,15 +116,15 @@ const SabAccountTable: FC<SabAccountTableProps> = ({ data, hideEmpty, translatio
         </tr>
       </thead>
       <tbody>
-        {Object.entries(data).map(([character, sab]) => {
+        {data.map(({ character, data: sab }) => {
           if(hideEmpty && sab.zones.length + sab.unlocks.length + sab.songs.length === 0) {
             return null;
           }
 
           const zones = sabZoneLookup(sab);
           return (
-            <tr key={character}>
-              <th>{character}</th>
+            <tr key={character.name}>
+              <th><ProfessionIcon profession={character.profession}/> {character.name}</th>
               <SabAccountTableZoneCell mode={zones[0]} translations={translations}/>
               <SabAccountTableZoneCell mode={zones[1]} translations={translations}/>
               <SabAccountTableZoneCell mode={zones[2]} translations={translations}/>

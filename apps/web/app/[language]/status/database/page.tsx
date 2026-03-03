@@ -3,14 +3,11 @@ import { PageLayout } from '@/components/Layout/PageLayout';
 import { cache } from '@/lib/cache';
 import { createMetadata } from '@/lib/metadata';
 import { db } from '@/lib/prisma';
-import { Prisma } from '@gw2treasures/database';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
 import type { ReactNode } from 'react';
 
 const getDbStats = cache(() => {
-  const hypertables = ['TradingPostHistory', 'PageView', 'ApplicationApiRequest'];
-
   return Promise.all([
     db.$queryRaw<{ table_name: string, size: bigint, size_index: bigint, size_total: bigint, rows: number }[]>`
       SELECT * FROM (
@@ -22,7 +19,7 @@ const getDbStats = cache(() => {
           reltuples as rows
         FROM pg_class c
         JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
-        WHERE relkind = 'r' AND nspname = CURRENT_SCHEMA AND relname NOT LIKE 'User%' AND relname NOT IN (${Prisma.join(hypertables)})
+        WHERE relkind = 'r' AND nspname = CURRENT_SCHEMA AND relname NOT LIKE 'User%' AND relname <> ALL (ARRAY['TradingPostHistory', 'PageView', 'ApplicationApiRequest']::name[])
         UNION SELECT 'TradingPostHistory' as table_name, table_bytes as size, index_bytes as size_index, total_bytes as size_total, approximate_row_count('"TradingPostHistory"') as rows FROM hypertable_detailed_size('"TradingPostHistory"')
         UNION SELECT 'PageView' as table_name, table_bytes as size, index_bytes as size_index, total_bytes as size_total, approximate_row_count('"PageView"') as rows FROM hypertable_detailed_size('"PageView"')
         UNION SELECT 'ApplicationApiRequest' as table_name, table_bytes as size, index_bytes as size_index, total_bytes as size_total, approximate_row_count('"ApplicationApiRequest"') as rows FROM hypertable_detailed_size('"ApplicationApiRequest"')
@@ -34,7 +31,6 @@ const getDbStats = cache(() => {
 
 export default async function StatusDatabasePage() {
   const [stats, total] = await getDbStats();
-
   const DbStats = createDataTable(stats, (row) => row.table_name);
 
   return (
@@ -42,7 +38,7 @@ export default async function StatusDatabasePage() {
       <Headline id="db">Database</Headline>
       <p>Total Size: {total[0].size}.</p>
       <DbStats.Table>
-        <DbStats.Column id="table" title="Table">
+        <DbStats.Column id="table" title="Table" sortBy="table_name">
           {({ table_name }) => table_name}
         </DbStats.Column>
         <DbStats.Column id="rows" align="right" title="Row Estimate" sortBy="rows">

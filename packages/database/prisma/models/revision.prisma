@@ -178,7 +178,7 @@ model Revision {
   currentTrait_fr Trait?         @relation("current_fr")
   traitHistory    TraitHistory[]
 
-  @@index([language, type])
+  @@index([language, type, entity, createdAt(sort: Desc)])
 }
 
 enum RevisionType {

@@ -33,13 +33,13 @@
     "prisma"
   ],
   "dependencies": {
-    "@prisma/adapter-pg": "7.4.2",
-    "@prisma/client": "7.4.2"
+    "@prisma/adapter-pg": "7.5.0",
+    "@prisma/client": "7.5.0"
   },
   "devDependencies": {
     "@gw2treasures/tsconfig": "workspace:*",
     "@types/node": "24.12.0",
-    "prisma": "7.4.2",
+    "prisma": "7.5.0",
     "typescript": "5.9.3"
   }
 }

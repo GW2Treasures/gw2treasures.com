@@ -82,6 +82,6 @@
     "typescript-eslint": "8.57.0",
     "vite-tsconfig-paths": "6.1.1",
     "vitest": "4.1.0",
-    "vitest-browser-react": "2.0.5"
+    "vitest-browser-react": "2.1.0"
   }
 }

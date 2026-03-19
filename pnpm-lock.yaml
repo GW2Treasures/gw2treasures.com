@@ -97,8 +97,8 @@ importers:
         specifier: 0.1.70
         version: 0.1.70
       '@gw2me/client':
-        specifier: 0.9.3
-        version: 0.9.3
+        specifier: 0.9.4
+        version: 0.9.4
       '@gw2treasures/database':
         specifier: workspace:*
         version: link:../../packages/database
@@ -791,8 +791,8 @@ packages:
   '@gw2efficiency/game-data@0.1.70':
     resolution: {integrity: sha512-SEmOJMwpmhz1uPu3kVZQnBIeJplNPBhBHPohUgPpBCPb+j4OhTaNCXydf0EeSxak14fD6wuHl1WcX/gZ4Acp5w==}
 
-  '@gw2me/client@0.9.3':
-    resolution: {integrity: sha512-mX6GBFOPJ7FMjUXFR/5qLd5cpEWnI8s9P5WEa/sRCoUkomkL/wsA8/0VX3AJVzbjIRtqlYuxBesYmuqst+5ZeQ==}
+  '@gw2me/client@0.9.4':
+    resolution: {integrity: sha512-lFmu6p5zhNIZUBIhKayI3/IW0Tg0ilqLIYjDbIjtAjuN23kkEndC9rCl/7sMV2rtc5Fe/1asZJGvA7zoi31sCg==}
 
   '@hono/node-server@1.19.9':
     resolution: {integrity: sha512-vHL6w3ecZsky+8P5MD+eFfaGTyCeOHUIFYMGpQGbrBTSmNNoxv0if69rEZ5giu36weC5saFuznL411gRX7bJDw==}
@@ -4148,7 +4148,7 @@ snapshots:
 
   '@gw2efficiency/game-data@0.1.70': {}
 
-  '@gw2me/client@0.9.3': {}
+  '@gw2me/client@0.9.4': {}
 
   '@hono/node-server@1.19.9(hono@4.11.4)':
     dependencies:

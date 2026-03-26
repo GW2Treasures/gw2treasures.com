@@ -29,7 +29,7 @@ export const Button: FC<ButtonProps> = ({ ref, children, icon, iconColor, appear
   );
 };
 
-export interface LinkButtonProps extends CommonButtonProps, RefProp<HTMLAnchorElement>, Pick<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'target' | 'rel'> {
+export interface LinkButtonProps extends CommonButtonProps, RefProp<HTMLAnchorElement>, Pick<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'target' | 'rel' | 'download'> {
   onClick?: MouseEventHandler<HTMLAnchorElement>,
   href: string,
   locale?: string | false,

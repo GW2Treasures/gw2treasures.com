@@ -6,6 +6,7 @@ import { Code } from '@/components/Layout/Code';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { createMetadata } from '@/lib/metadata';
 import { getBaseUrl } from '@/lib/url';
+import Link from 'next/link';
 
 export default function AboutPage() {
   return (
@@ -49,6 +50,10 @@ export default function AboutPage() {
           <tr><th>Fractal instabilities</th><th><ExternalLink href="https://github.com/Invisi/gw2-fotm-instabilities">github.com/Invisi/gw2-fotm-instabilities</ExternalLink></th></tr>
         </tbody>
       </Table>
+
+      <Headline id="branding">Branding</Headline>
+      <p>See the <Link href="/about/branding">branding guidelines</Link> if you want to refer to gw2treasures.com in your content.</p>
+
     </HeroLayout>
   );
 }

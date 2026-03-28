@@ -40,7 +40,7 @@
     "@types/react-dom": "19.2.3",
     "csstype": "3.2.3",
     "eslint": "9.39.4",
-    "typescript": "5.9.3"
+    "typescript": "6.0.2"
   },
   "peerDependencies": {
     "@gw2treasures/helper": "workspace:~0.0.5",

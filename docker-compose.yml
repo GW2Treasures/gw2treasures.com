@@ -27,7 +27,7 @@ services:
       replicas: 2
 
   database:
-    image: timescale/timescaledb:2.26.0-pg17@sha256:18d486ab4aa441636f007b24da25dddf02a59524b9f391b9b60ac85a4667f339
+    image: timescale/timescaledb:2.26.1-pg17@sha256:6a76fb806373ea6b5225339fc8e9792cbc9e8c59bd48fba84b6b9e3b32a9976d
     restart: unless-stopped
     environment:
       - POSTGRES_USER=gw2treasures

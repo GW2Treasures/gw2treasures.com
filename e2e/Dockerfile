@@ -24,7 +24,7 @@ RUN turbo prune e2e --docker
 
 
 # final image
-FROM mcr.microsoft.com/playwright:v1.58.2-jammy@sha256:4698a73749c5848d3f5fcd42a2174d172fcad2b2283e087843b115424303a565 AS tester
+FROM mcr.microsoft.com/playwright:v1.59.0-jammy@sha256:993f64042f2ebc3ad66601841b91f16335335a2f1c9126a51ca3c639f9e26ecb AS tester
 ARG pnpm_version
 WORKDIR /app
 

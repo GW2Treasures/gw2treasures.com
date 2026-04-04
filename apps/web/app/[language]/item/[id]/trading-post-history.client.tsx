@@ -154,7 +154,7 @@ export const TradingPostHistoryClientInternal: FC<TradingPostHistoryClientIntern
 
   // calculate min listing price (min 2c)
   const minListingPrice = useMemo(
-    () => vendorValue ? vendorValue + Math.max(1, Math.round(vendorValue * 0.10)) + (Math.max(1, Math.round(vendorValue * 0.05))) : 2,
+    () => vendorValue ? vendorValue + Math.max(1, Math.ceil(vendorValue * 0.10)) + (Math.max(1, Math.ceil(vendorValue * 0.05))) : 2,
     [vendorValue]
   );
 

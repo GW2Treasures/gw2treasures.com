@@ -22,7 +22,7 @@
     "@gw2/markup-react": "1.0.1",
     "@gw2/markup-strip": "1.0.1",
     "@gw2api/fetch": "0.4.2",
-    "@gw2efficiency/game-data": "0.1.72",
+    "@gw2efficiency/game-data": "0.1.74",
     "@gw2me/client": "0.9.4",
     "@gw2treasures/database": "workspace:*",
     "@gw2treasures/helper": "workspace:*",

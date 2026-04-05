@@ -40,6 +40,6 @@
     "@gw2treasures/tsconfig": "workspace:*",
     "@types/node": "24.12.2",
     "prisma": "7.6.0",
-    "typescript": "5.9.3"
+    "typescript": "6.0.2"
   }
 }

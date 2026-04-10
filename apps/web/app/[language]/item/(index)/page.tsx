@@ -12,7 +12,9 @@ import { getLanguage } from '@/lib/translate';
 import type { Language } from '@gw2treasures/database';
 import { range } from '@gw2treasures/helper/range';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
+import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import { Suspense } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
 
 const getRecentlyAddedItems = cache(() => {
   return db.item.findMany({
@@ -38,13 +40,17 @@ export default async function ItemPage() {
   return (
     <HeroLayout hero={<Headline id="items">Items</Headline>} toc>
       <Headline id="recent">Recently added</Headline>
-      <Suspense fallback={<SkeletonList/>}>
-        <RecentlyAddedList/>
-      </Suspense>
+      <ErrorBoundary fallback={<Notice type="error">Couldn&apos;t load recently added items.</Notice>}>
+        <Suspense fallback={<SkeletonList/>}>
+          <RecentlyAddedList/>
+        </Suspense>
+      </ErrorBoundary>
       <Headline id="updated">Recently updated</Headline>
-      <Suspense fallback={<SkeletonList/>}>
-        <RecentlyUpdatedList language={language}/>
-      </Suspense>
+      <ErrorBoundary fallback={<Notice type="error">Couldn&apos;t load recently updated items.</Notice>}>
+        <Suspense fallback={<SkeletonList/>}>
+          <RecentlyUpdatedList language={language}/>
+        </Suspense>
+      </ErrorBoundary>
     </HeroLayout>
   );
 }
@@ -72,7 +78,9 @@ async function RecentlyUpdatedList({ language }: { language: Language }) {
 
   return (
     <ItemList>
-      {recentlyUpdated.map((revision) => <li key={revision.id}><ItemLink item={revision.itemHistory!.item}/><FormatDate date={revision.createdAt} relative/></li>)}
+      {recentlyUpdated.filter((revision) => revision.itemHistory).map((revision) => (
+        <li key={revision.id}><ItemLink item={revision.itemHistory!.item}/><FormatDate date={revision.createdAt} relative/></li>
+      ))}
     </ItemList>
   );
 }

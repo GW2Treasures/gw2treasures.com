@@ -46,4 +46,5 @@ export const festivals: FestivalInfo[] = [
   { type: Festival.Halloween, startsAt: new Date('2025-10-07T16:00:00.000Z'), endsAt: new Date('2025-11-04T20:00:00.000Z') },
   { type: Festival.Wintersday, startsAt: new Date('2025-12-09T17:00:00.000Z'), endsAt: new Date('2026-01-06T20:00:00.000Z') },
   { type: Festival.LunarNewYear, startsAt: new Date('2026-02-03T17:00:00.000Z'), endsAt: new Date('2026-02-24T20:00:00.000Z') },
+  { type: Festival.SuperAdventureFestival, startsAt: new Date('2026-04-14T16:00:00.000Z'), endsAt: new Date('2026-05-05T19:00:00.000Z') },
 ];

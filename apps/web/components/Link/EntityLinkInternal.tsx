@@ -1,7 +1,7 @@
 'use client';
 
 import NextLink from 'next/link';
-import type { FC } from 'react';
+import { useState, type FC, type MouseEventHandler } from 'react';
 import { EntityIcon } from '../Entity/EntityIcon';
 import styles from './EntityLink.module.css';
 import rarityClasses from '../Layout/RarityColor.module.css';
@@ -12,14 +12,20 @@ import { localizedUrl } from '@/lib/localizedUrl';
 import { cx } from '@gw2treasures/ui';
 import { EntityIconMissing } from '../Entity/EntityIconMissing';
 
-export const EntityLinkInternal: FC<EntityLinkProps> = ({ ref, href, entity, icon = 32, language, iconType, children, ...props }) => {
+export const EntityLinkInternal: FC<EntityLinkProps> = ({ ref, href, entity, icon = 32, language, iconType, children, onMouseEnter, ...props }) => {
   const defaultLanguage = useLanguage();
+  const [hovered, setHovered] = useState(false);
 
   if(language && defaultLanguage !== language) {
     href = localizedUrl(href, language);
   } else {
     language = undefined;
   }
+
+  const handleMouseEnter: MouseEventHandler<HTMLAnchorElement> = (e) => {
+    setHovered(true);
+    onMouseEnter?.(e);
+  };
 
   return (
     <NextLink
@@ -29,6 +35,8 @@ export const EntityLinkInternal: FC<EntityLinkProps> = ({ ref, href, entity, ico
       hrefLang={language}
       ref={ref}
       key={href}
+      prefetch={hovered ? null : false}
+      onMouseEnter={handleMouseEnter}
       {...props}
     >
       <>

@@ -78,7 +78,7 @@ export default async function SuperAdventureFestivalPage() {
           Super Adventure Festival
         </FestivalResource>
 
-        <FestivalResource href="https://discord.gg/JwdJM52F" imgSrc={thumbnailJppe.src} type="Discord">
+        <FestivalResource href="https://discord.gg/73CJcth73H" imgSrc={thumbnailJppe.src} type="Discord">
           Jumping Puzzle Portal Escort - Community and Resources around SAB
         </FestivalResource>
       </FestivalResourceGrid>

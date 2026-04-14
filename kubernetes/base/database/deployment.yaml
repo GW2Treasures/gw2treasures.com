@@ -27,7 +27,7 @@ spec:
           medium: Memory
       containers:
       - name: database-pg17
-        image: timescale/timescaledb:2.26.2-pg17@sha256:af79ea8fa31ee989aa5c8b0183cff2e0170eaf741832ce698cca7e0241205808
+        image: timescale/timescaledb:2.26.3-pg17@sha256:54b5ad8328e2ec9a576d4ccdbaeeb790c0319fa65e3fccdd5df887ff3bc8de91
         args:
         - "postgres"
         - "-c"

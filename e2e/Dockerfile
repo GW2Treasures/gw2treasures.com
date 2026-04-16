@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1.23@sha256:2780b5c3bab67f1f76c781860de469442999ed1a0d7992a5efdf2cffc0e3d769
 
-ARG node_version=24.14.1-alpine3.22@sha256:4f33c7804fa7775b87875f512e25e515692210bfdeafd715eb8bc441c364e2f6
+ARG node_version=24.15.0-alpine3.22@sha256:71b5802142515f69d9f5eb2ac283fb73118f1cbe0bbe4941bb34bd924940038f
 # renovate: datasource=npm packageName=pnpm
 ARG pnpm_version=10.33.0
 

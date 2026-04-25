@@ -17,7 +17,7 @@
     "@dnd-kit/react": "0.3.2",
     "@floating-ui/react": "0.27.19",
     "@floating-ui/react-dom": "2.1.8",
-    "@formatjs/intl-localematcher": "0.8.3",
+    "@formatjs/intl-localematcher": "0.8.4",
     "@gw2/chatlink": "0.1.1",
     "@gw2/markup-react": "1.0.1",
     "@gw2/markup-strip": "1.0.1",

@@ -79,8 +79,8 @@ importers:
         specifier: 2.1.8
         version: 2.1.8(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
       '@formatjs/intl-localematcher':
-        specifier: 0.8.3
-        version: 0.8.3
+        specifier: 0.8.4
+        version: 0.8.4
       '@gw2/chatlink':
         specifier: 0.1.1
         version: 0.1.1
@@ -741,8 +741,8 @@ packages:
   '@formatjs/fast-memoize@3.1.2':
     resolution: {integrity: sha512-vPnriihkfK0lzoQGaXq+qXH23VsYyansRTkTgo2aTG0k1NjLFyZimFVdfj4C9JkSE5dm7CEngcQ5TTc1yAyBfQ==}
 
-  '@formatjs/intl-localematcher@0.8.3':
-    resolution: {integrity: sha512-pHUjWb9NuhnMs8+PxQdzBtZRFJHlGhrURGAbm6Ltwl82BFajeuiIR3jblSa7ia3r62rXe/0YtVpUG3xWr5bFCA==}
+  '@formatjs/intl-localematcher@0.8.4':
+    resolution: {integrity: sha512-J51dAnynnqJdVUEXidHoIWn+qYve+yNQEgmFk9Dyfr3p0okzm+5QhQ+9QmsMz08+BeWTVpc1HadIiLfZmRYbAQ==}
 
   '@gw2/chatlink@0.1.1':
     resolution: {integrity: sha512-p/hQ0YdQC/oFkA8JWEILPu1jrQhqeHu6Yq/FrhMO1+F8bZcKZvhX8CoiJGdDVaT9wD/C/If0U4iS6XV5HKrjeQ==}
@@ -4254,7 +4254,7 @@ snapshots:
 
   '@formatjs/fast-memoize@3.1.2': {}
 
-  '@formatjs/intl-localematcher@0.8.3':
+  '@formatjs/intl-localematcher@0.8.4':
     dependencies:
       '@formatjs/fast-memoize': 3.1.2
 

@@ -2,7 +2,7 @@
 
 ARG node_version=24.15.0-alpine3.22@sha256:b689d4005875ae167178471a7a622ec2909459a3bbb32277260be1971af7a99f
 # renovate: datasource=npm packageName=prisma
-ARG prisma_version=7.7.0
+ARG prisma_version=7.8.0
 
 FROM node:${node_version}
 WORKDIR /app

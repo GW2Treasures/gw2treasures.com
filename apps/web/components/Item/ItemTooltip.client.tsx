@@ -99,8 +99,8 @@ function renderConsumable(consumable: ItemTooltip['consumable']) {
   );
 }
 
-export const ClientItemTooltip: FC<ClientItemTooltipProps> = ({ tooltip, hideTitle = false }) => {
-  tooltip = 'then' in tooltip ? use(tooltip) : tooltip;
+export const ClientItemTooltip: FC<ClientItemTooltipProps> = ({ tooltip: tooltipMaybePromise, hideTitle = false }) => {
+  const tooltip = 'then' in tooltipMaybePromise ? use(tooltipMaybePromise) : tooltipMaybePromise;
 
   const data: ReactNode[] = [
     tooltip.weaponStrength && (<>{tooltip.weaponStrength.label}: <FormatNumber value={tooltip.weaponStrength.min} className={styles.value}/> – <FormatNumber value={tooltip.weaponStrength.max} className={styles.value}/></>),

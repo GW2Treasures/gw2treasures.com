@@ -9,8 +9,8 @@ export interface ClientCurrencyTooltipProps {
   hideTitle?: boolean,
 }
 
-export const ClientCurrencyTooltip: FC<ClientCurrencyTooltipProps> = ({ tooltip, hideTitle = false }) => {
-  tooltip = 'then' in tooltip ? use(tooltip) : tooltip;
+export const ClientCurrencyTooltip: FC<ClientCurrencyTooltipProps> = ({ tooltip: tooltipMaybePromise, hideTitle = false }) => {
+  const tooltip = 'then' in tooltipMaybePromise ? use(tooltipMaybePromise) : tooltipMaybePromise;
 
   return (
     <div>

@@ -11,8 +11,8 @@ export interface ClientAchievementTooltipProps {
   hideTitle?: boolean,
 }
 
-export const ClientAchievementTooltip: FC<ClientAchievementTooltipProps> = ({ tooltip, fallbackIcon, hideTitle = false }) => {
-  tooltip = 'then' in tooltip ? use(tooltip) : tooltip;
+export const ClientAchievementTooltip: FC<ClientAchievementTooltipProps> = ({ tooltip: tooltipMaybePromise, fallbackIcon, hideTitle = false }) => {
+  const tooltip = 'then' in tooltipMaybePromise ? use(tooltipMaybePromise) : tooltipMaybePromise;
 
   const icon = tooltip.icon ?? fallbackIcon;
 

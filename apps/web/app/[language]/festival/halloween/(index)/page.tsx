@@ -23,8 +23,8 @@ import { CopyButton } from '@gw2treasures/ui/components/Form/Buttons/CopyButton'
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
-import { Dashboard } from 'app/[language]/dashboard/dashboard';
-import type { Column } from 'app/[language]/dashboard/helper';
+import { Dashboard } from '@/app/[language]/dashboard/dashboard';
+import type { Column } from '@/app/[language]/dashboard/helper';
 import type { Event } from 'schema-dts';
 import { Festival, getFestival } from '../../festivals';
 import ogImage from '../og.png';

@@ -14,7 +14,7 @@ import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { Separator } from '@gw2treasures/ui/components/Layout/Separator';
 import { localizedName } from '@/lib/localizedName';
 import { Form } from '@gw2treasures/ui/components/Form/Form';
-import type { SubmitEditMysticForgeOrder } from 'app/[language]/item/[id]/edit-mystic-forge/action';
+import type { SubmitEditMysticForgeOrder } from '@/app/[language]/item/[id]/edit-mystic-forge/action';
 import { OutputCountRange } from '@/components/Item/OutputCountRange';
 import { OutputCount } from '@/components/Item/OutputCount';
 import { Table } from '@gw2treasures/ui/components/Table/Table';

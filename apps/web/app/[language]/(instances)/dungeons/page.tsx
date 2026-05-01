@@ -18,7 +18,7 @@ import { CurrencyLink } from '@/components/Currency/CurrencyLink';
 import { Coins } from '@/components/Format/Coins';
 import { groupById } from '@gw2treasures/helper/group-by';
 import ogImage from './og.png';
-import { BonusEvent, getBonusEvent, isBonusEventActive } from 'app/[language]/bonus-event/bonus-events';
+import { BonusEvent, getBonusEvent, isBonusEventActive } from '@/app/[language]/bonus-event/bonus-events';
 import { FestivalTimer } from '@/components/Reset/FestivalTimer';
 import { ResetTimer } from '@/components/Reset/ResetTimer';
 import { pageView } from '@/lib/pageView';

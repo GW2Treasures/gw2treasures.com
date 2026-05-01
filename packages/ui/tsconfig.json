@@ -1,8 +1,6 @@
 {
   "extends": "@gw2treasures/tsconfig/nextjs",
-  "compilerOptions": {
-    "baseUrl": "./"
-  },
+  "compilerOptions": {},
   "include": [
     "types.d.ts",
     "**/*.ts",

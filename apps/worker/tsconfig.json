@@ -1,6 +1,8 @@
 {
   "extends": "@gw2treasures/tsconfig/base",
   "compilerOptions": {
+    "rootDir": "./src",
+
     // don't emit anything, tsc is only used to validate types in worker
     "noEmit": true,
     "declaration": false,

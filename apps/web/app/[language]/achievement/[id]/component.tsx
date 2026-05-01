@@ -39,7 +39,7 @@ import type { AchievementProgressSnapshot } from '@/components/Achievement/share
 import { DataTableClientColumn } from '@gw2treasures/ui/components/Table/DataTable.client';
 import { RevisionTable } from '@/components/Revision/table';
 import { Trans } from '@/components/I18n/Trans';
-import { IncursiveInvestigationBanner, incursiveInvestigationAchievementCategoryIds } from 'app/[language]/incursive-investigation/Banner';
+import { IncursiveInvestigationBanner, incursiveInvestigationAchievementCategoryIds } from '@/app/[language]/incursive-investigation/Banner';
 import { Gw2Markup } from '@/components/Format/Gw2Markup';
 
 

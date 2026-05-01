@@ -9,7 +9,7 @@ import { db } from '@/lib/prisma';
 import { getLanguage, getTranslate } from '@/lib/translate';
 import { absoluteUrl } from '@/lib/url';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
-import { Dashboard } from 'app/[language]/dashboard/dashboard';
+import { Dashboard } from '@/app/[language]/dashboard/dashboard';
 import type { Event } from 'schema-dts';
 import { Festival, getFestival } from '../../festivals';
 import ogImage from '../og.png';

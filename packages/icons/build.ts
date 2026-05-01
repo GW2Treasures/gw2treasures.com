@@ -1,7 +1,7 @@
 #!/usr/bin/env ts-node
 import { mkdir, readFile, readdir, writeFile, rm } from 'node:fs/promises';
 import { join } from 'node:path';
-import svgo from 'svgo';
+import * as svgo from 'svgo';
 
 async function build() {
   // 1. clean

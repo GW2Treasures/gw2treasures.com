@@ -1,5 +1,5 @@
 import { getLinkProperties } from '@/lib/linkProperties';
-import type { ApiSearchResponse } from 'app/[language]/api/search/route';
+import type { ApiSearchResponse } from '@/app/[language]/api/search/route';
 import { Fragment, type HTMLProps, type ReactElement, type ReactNode } from 'react';
 import { localizedName } from '@/lib/localizedName';
 import { useJsonFetch, useStaleJsonResponse } from '@/lib/useFetch';

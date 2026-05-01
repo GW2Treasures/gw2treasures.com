@@ -25,9 +25,5 @@ export function getDayOfYearIndex(date: Date = new Date()) {
 export function getInstabilities(level: number, dayOfYearIndex: number) {
   const tier = Math.floor((level - 1) / 25);
 
-  if(tier !== 3) {
-    return [];
-  }
-
   return instabilities[level.toString() as keyof typeof instabilities][dayOfYearIndex].slice(0, tier);
 }

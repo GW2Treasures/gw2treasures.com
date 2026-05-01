@@ -1,11 +1,12 @@
 {
   "extends": "@gw2treasures/tsconfig/nextjs",
   "compilerOptions": {
-    "baseUrl": "./",
+    "allowArbitraryExtensions": true,
     "paths": {
-      "@/components/*": ["components/*"],
-      "@/data/*": ["data/*"],
-      "@/lib/*": ["lib/*"]
+      "@/app/*": ["./app/*"],
+      "@/components/*": ["./components/*"],
+      "@/data/*": ["./data/*"],
+      "@/lib/*": ["./lib/*"]
     }
   },
   "include": [

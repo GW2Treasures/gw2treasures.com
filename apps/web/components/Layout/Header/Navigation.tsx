@@ -7,8 +7,8 @@ import type { Language } from '@gw2treasures/database';
 import { Composite, CompositeItem } from '@gw2treasures/ui/components/Focus/Composite';
 import type { IconColor, IconProp } from '@gw2treasures/ui';
 import { WizardsVaultNewSeasonBadge } from './WizardsVaultNewSeasonBadge';
-import { Festival, getActiveFestival, type FestivalInfo } from 'app/[language]/festival/festivals';
-import { BonusEvent, getActiveBonusEvent } from 'app/[language]/bonus-event/bonus-events';
+import { Festival, getActiveFestival, type FestivalInfo } from '@/app/[language]/festival/festivals';
+import { BonusEvent, getActiveBonusEvent } from '@/app/[language]/bonus-event/bonus-events';
 import { Badge } from '@/components/Badge/Badge';
 
 interface NavigationProps {

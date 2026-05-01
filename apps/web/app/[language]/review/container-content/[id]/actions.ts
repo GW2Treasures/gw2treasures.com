@@ -5,7 +5,7 @@ import { db } from '@/lib/prisma';
 import { ReviewState } from '@gw2treasures/database';
 import { redirect } from 'next/navigation';
 import { getRandomReviewId } from '../../random';
-import type { EditContentOrder } from 'app/[language]/item/[id]/_edit-content/types';
+import type { EditContentOrder } from '@/app/[language]/item/[id]/_edit-content/types';
 import { revalidateTag } from 'next/cache';
 
 export async function approve(data: FormData) {

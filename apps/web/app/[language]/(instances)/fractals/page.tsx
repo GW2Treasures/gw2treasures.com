@@ -24,7 +24,7 @@ import { linkPropertiesWithoutRarity } from '@/lib/linkProperties';
 import { groupById } from '@gw2treasures/helper/group-by';
 import { AchievementLink } from '@/components/Achievement/AchievementLink';
 import { createMetadata } from '@/lib/metadata';
-import { BonusEvent, getBonusEvent, isBonusEventActive } from 'app/[language]/bonus-event/bonus-events';
+import { BonusEvent, getBonusEvent, isBonusEventActive } from '@/app/[language]/bonus-event/bonus-events';
 import { FestivalTimer } from '@/components/Reset/FestivalTimer';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 

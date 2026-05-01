@@ -10,14 +10,14 @@ import { linkProperties, linkPropertiesWithoutRarity } from '@/lib/linkPropertie
 import { cache } from '@/lib/cache';
 import { getLanguage, getTranslate } from '@/lib/translate';
 import { groupById } from '@gw2treasures/helper/group-by';
-import { Dashboard } from 'app/[language]/dashboard/dashboard';
+import { Dashboard } from '@/app/[language]/dashboard/dashboard';
 import { StructuredData } from '@/components/StructuredData/StructuredData';
 import type { Event } from 'schema-dts';
 import { absoluteUrl } from '@/lib/url';
 import { Festival, getFestival } from '../../festivals';
 import ogImage from '../og.png';
 import { createMetadata } from '@/lib/metadata';
-import type { Column } from 'app/[language]/dashboard/helper';
+import type { Column } from '@/app/[language]/dashboard/helper';
 import { FestivalResource, FestivalResourceGrid } from '@/components/Festival/resource';
 
 import thumbnailGttp from './thumbnail-gttp.png';

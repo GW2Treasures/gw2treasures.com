@@ -3,7 +3,7 @@
 import { gw2me } from '@/lib/gw2me';
 import { absoluteUrl, getCurrentUrl } from '@/lib/url';
 import { Scope, type AuthorizationUrlParams } from '@gw2me/client';
-import { prepareAuthRequest } from 'app/[language]/login/login.action';
+import { prepareAuthRequest } from '@/app/[language]/login/login.action';
 import { redirect } from 'next/navigation';
 import 'server-only';
 

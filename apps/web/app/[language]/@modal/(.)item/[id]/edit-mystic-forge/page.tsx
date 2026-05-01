@@ -1,7 +1,7 @@
 import { Skeleton } from '@/components/Skeleton/Skeleton';
 import { Modal } from './modal';
-import { EditMysticForge } from 'app/[language]/item/[id]/edit-mystic-forge/EditMysticForge';
-import type { EditMysticForgePageProps } from 'app/[language]/item/[id]/edit-mystic-forge/page';
+import { EditMysticForge } from '@/app/[language]/item/[id]/edit-mystic-forge/EditMysticForge';
+import type { EditMysticForgePageProps } from '@/app/[language]/item/[id]/edit-mystic-forge/page';
 import { Suspense } from 'react';
 import { createMetadata } from '@/lib/metadata';
 

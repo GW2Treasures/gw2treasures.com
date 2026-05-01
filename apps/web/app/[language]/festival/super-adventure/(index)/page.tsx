@@ -6,7 +6,7 @@ import { db } from '@/lib/prisma';
 import { linkProperties } from '@/lib/linkProperties';
 import { cache } from '@/lib/cache';
 import { getLanguage, getTranslate } from '@/lib/translate';
-import { Dashboard } from 'app/[language]/dashboard/dashboard';
+import { Dashboard } from '@/app/[language]/dashboard/dashboard';
 import { StructuredData } from '@/components/StructuredData/StructuredData';
 import type { Event } from 'schema-dts';
 import { absoluteUrl } from '@/lib/url';

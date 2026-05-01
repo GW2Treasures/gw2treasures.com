@@ -9,7 +9,7 @@ import { db } from '@/lib/prisma';
 import { getLanguage, getTranslate } from '@/lib/translate';
 import { absoluteUrl } from '@/lib/url';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
-import { Dashboard } from 'app/[language]/dashboard/dashboard';
+import { Dashboard } from '@/app/[language]/dashboard/dashboard';
 import type { Event } from 'schema-dts';
 import { Festival, getFestival } from '../../festivals';
 import ogImage from '../og.png';
@@ -18,7 +18,7 @@ import thumbnail100s from './thumbnail-100s.png';
 import thumbnailGttp from './thumbnail-gttp.png';
 import thumbnailWiki from './thumbnail-wiki.png';
 import { createMetadata } from '@/lib/metadata';
-import type { Column } from 'app/[language]/dashboard/helper';
+import type { Column } from '@/app/[language]/dashboard/helper';
 
 const CURRENCY_FESTIVAL_TOKEN = 50;
 const ITEM_ZEPHYRITE_SUPPLY_BOX = 88145;

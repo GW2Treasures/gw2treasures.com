@@ -7,7 +7,7 @@ import { redirect, unstable_rethrow as rethrow } from 'next/navigation';
 import { getRandomReviewId } from '../../random';
 import { revalidateTag } from 'next/cache';
 import type { FormState } from '@gw2treasures/ui/components/Form/Form';
-import type { SubmitEditMysticForgeOrder } from 'app/[language]/item/[id]/edit-mystic-forge/action';
+import type { SubmitEditMysticForgeOrder } from '@/app/[language]/item/[id]/edit-mystic-forge/action';
 
 class ReviewError extends Error {}
 

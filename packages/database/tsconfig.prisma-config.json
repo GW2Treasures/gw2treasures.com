@@ -3,6 +3,7 @@
   "compilerOptions": {
     "composite": true,
 
+    "types": ["node"],
     "noEmit": true
   },
   "include": ["./prisma.config.ts"]

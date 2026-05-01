@@ -14,7 +14,7 @@ import { AchievementTable } from '@/components/Achievement/AchievementTable';
 import { Breadcrumb, BreadcrumbItem } from '@/components/Breadcrumb/Breadcrumb';
 import { getLanguage, getTranslate } from '@/lib/translate';
 import { createMetadata } from '@/lib/metadata';
-import { incursiveInvestigationAchievementCategoryIds, IncursiveInvestigationBanner } from 'app/[language]/incursive-investigation/Banner';
+import { incursiveInvestigationAchievementCategoryIds, IncursiveInvestigationBanner } from '@/app/[language]/incursive-investigation/Banner';
 import type { AchievementCategory } from '@gw2api/types/data/achievement-category';
 
 export type AchievementCategoryPageProps = PageProps<'/[language]/achievement/category/[id]'>;

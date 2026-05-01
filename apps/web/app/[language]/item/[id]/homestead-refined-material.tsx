@@ -1,6 +1,6 @@
 import { Trans } from '@/components/I18n/Trans';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
-import { data, refinedMaterialItemIds, type Material } from 'app/[language]/homestead/materials/data';
+import { data, refinedMaterialItemIds, type Material } from '@/app/[language]/homestead/materials/data';
 import { loadItem } from '@/data/items';
 import Link from 'next/link';
 import type { FC } from 'react';

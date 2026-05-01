@@ -5,7 +5,7 @@ import type { TemplateString } from 'next/dist/lib/metadata/types/metadata-types
 import type { Twitter } from 'next/dist/lib/metadata/types/twitter-types';
 import { getLanguage } from './translate';
 import type { Language } from '@gw2treasures/database';
-import type { AppRoutes, LayoutRoutes } from '.next/types/routes';
+import type { AppRoutes, LayoutRoutes } from '../.next/types/routes';
 
 interface CreateMetadataContext {
   language: Language,

@@ -173,38 +173,17 @@ export const generateMetadata = createMetadata<PageProps<'/[language]/fractals'>
 
 
 const Instabilities = ({ scale, dayOfYearIndex, language }: { scale: number, dayOfYearIndex: number, language: Language }) => {
-  const t = getTranslate(language);
-
-  if(scale > 75) {
+  if(scale > 25) {
     return (
       <FlexRow>
         {getInstabilities(scale, dayOfYearIndex).map((instabilityIndex) => instability_details[instabilityIndex]).map((instability) => (
-          <Tip key={instability.name.en} tip={instability.name[language]}><img alt={instability.name[language]} src={`https://assets.gw2dat.com/${instability.icon_id}.png`} height={24} width={24} style={{ borderRadius: 2 }}/></Tip>
+          <Tip key={instability.evtc_id} tip={instability.name[language]}>
+            <img alt={instability.name[language]} src={`https://assets.gw2dat.com/${instability.icon_id}.png`} height={24} width={24} style={{ borderRadius: 2 }}/>
+          </Tip>
         ))}
-      </FlexRow>
-    );
-  } else if (scale > 50) {
-    return (
-      <FlexRow>
-        <Tip tip={t('fractals.instabilities.unknown')}><UnknownInstabilityIcon/></Tip>
-        <Tip tip={t('fractals.instabilities.unknown')}><UnknownInstabilityIcon/></Tip>
-      </FlexRow>
-    );
-  } else if (scale > 25) {
-    return (
-      <FlexRow>
-        <Tip tip={t('fractals.instabilities.unknown')}><UnknownInstabilityIcon/></Tip>
       </FlexRow>
     );
   }
 
   return null;
 };
-
-const UnknownInstabilityIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" width={24} height={24} viewBox="0 0 24 24">
-    <path fill="currentColor" d="M12.12 15.495a.625.625 0 1 1-1.25 0 .625.625 0 0 1 1.25 0Z"/>
-    <path stroke="currentColor" strokeLinecap="round" d="M11.5 13.5c0-1.5 2-2.5 2-4a2 2 0 1 0-4 0"/>
-    <path stroke="currentColor" d="m1.06 10.44 9.38-9.38a1.5 1.5 0 0 1 2.12 0l9.38 9.38a1.5 1.5 0 0 1 0 2.12l-9.38 9.38a1.5 1.5 0 0 1-2.12 0l-9.38-9.38a1.5 1.5 0 0 1 0-2.12Z"/>
-  </svg>
-);

@@ -91,8 +91,8 @@ importers:
         specifier: 1.0.1
         version: 1.0.1
       '@gw2api/fetch':
-        specifier: 0.4.2
-        version: 0.4.2(@gw2api/types@0.0.41)
+        specifier: 0.5.0
+        version: 0.5.0(@gw2api/types@0.0.41)
       '@gw2efficiency/game-data':
         specifier: 0.1.74
         version: 0.1.74
@@ -278,8 +278,8 @@ importers:
         specifier: 1.0.1
         version: 1.0.1
       '@gw2api/fetch':
-        specifier: 0.4.2
-        version: 0.4.2(@gw2api/types@0.0.41)
+        specifier: 0.5.0
+        version: 0.5.0(@gw2api/types@0.0.41)
       '@gw2treasures/database':
         specifier: workspace:*
         version: link:../../packages/database
@@ -762,8 +762,8 @@ packages:
   '@gw2/markup-to-text@1.0.1':
     resolution: {integrity: sha512-+KEsijStqBSEN+VqM4Mea1ttnjW7EFduEFmhDrBEgLOW1REj3m1efClwl9NgDggbWGf5dxtlC7T2pU9XiYpbeg==}
 
-  '@gw2api/fetch@0.4.2':
-    resolution: {integrity: sha512-eUJ73r+RmV3e3MjwH2DapHBt0QR5dryZIfYr/5o+lGgfoihhaPJX7AuQ4s4irQ4tqRlAQN6AbNYcFg9TTZdagA==}
+  '@gw2api/fetch@0.5.0':
+    resolution: {integrity: sha512-w8ahW2eaJrkEK4hO/mmIUZoXaOeHh7HrKnRqM2ykOHv3dRyCxm0iEIGGiDPJaJLWvG0zqaqNOZ3G4GZerrdozg==}
     peerDependencies:
       '@gw2api/types': ~0.0.5
 
@@ -4143,7 +4143,7 @@ snapshots:
     dependencies:
       '@gw2/markup-ast': 1.0.2
 
-  '@gw2api/fetch@0.4.2(@gw2api/types@0.0.41)':
+  '@gw2api/fetch@0.5.0(@gw2api/types@0.0.41)':
     dependencies:
       '@gw2api/types': 0.0.41
 

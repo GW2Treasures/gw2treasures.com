@@ -23,22 +23,14 @@
     "node": "22 || 24",
     "npm": "please-use-pnpm",
     "yarn": "please-use-pnpm",
-    "pnpm": "10.33.2"
+    "pnpm": "11.0.4"
   },
-  "pnpm": {
-    "overrides": {
-      "react": "19.2.5",
-      "react-dom": "19.2.5",
-      "@types/react": "19.2.14",
-      "@types/react-dom": "19.2.3"
-    },
-    "onlyBuiltDependencies": [
-      "@prisma/client",
-      "@prisma/engines",
-      "esbuild",
-      "prisma",
-      "sharp"
-    ]
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "11.0.4",
+      "onFail": "download"
+    }
   },
-  "packageManager": "pnpm@10.33.2"
+  "packageManager": "pnpm@11.0.4"
 }

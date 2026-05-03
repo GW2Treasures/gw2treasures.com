@@ -2,3 +2,26 @@ packages:
 - 'apps/*'
 - 'packages/*'
 - 'e2e'
+
+# disable update notifications in cli,
+# the pnpm version is managed by renovate
+updateNotifier: false
+
+# verify node_modules integrity before running scripts
+# the env var is used to allow disabling this in docker,
+# as this doesn't work with `turbo prune`
+verifyDepsBeforeRun: ${PNPM_VERIFY_DEPS_BEFORE_RUN:-prompt}
+
+# hoist eslint config to root node_modules
+# otherwise eslint will not find plugins
+# TODO: remove once everything uses flat config
+publicHoistPattern:
+- '*eslint*'
+
+
+allowBuilds: 
+  '@prisma/client': true
+  '@prisma/engines': true
+  'esbuild': true
+  'prisma': true
+  'sharp': true

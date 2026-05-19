@@ -41,7 +41,7 @@
   "devDependencies": {
     "@gw2treasures/eslint-config": "workspace:*",
     "@gw2treasures/tsconfig": "workspace:*",
-    "@types/node": "24.12.3",
+    "@types/node": "24.12.4",
     "eslint": "9.39.4",
     "tsdown": "0.22.0",
     "typescript": "6.0.3"

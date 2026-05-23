@@ -49,6 +49,7 @@ const knownAchievements: Record<number, RelicSet | undefined> = {
   // TODO: add access (blocked by https://github.com/gw2-api/issues/issues/118)
   8959: { order: 30, access: undefined }, // Relics—Visions of Eternity Set 1
   9101: { order: 31, access: undefined }, // Relics—Visions of Eternity Set 2
+  9266: { order: 32, access: undefined }, // Relics—Visions of Eternity Set 3
 };
 
 const loadItems = cache(async () => {

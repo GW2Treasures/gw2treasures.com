@@ -23,14 +23,14 @@
     "node": "22 || 24",
     "npm": "please-use-pnpm",
     "yarn": "please-use-pnpm",
-    "pnpm": "11.2.2"
+    "pnpm": "11.5.1"
   },
   "devEngines": {
     "packageManager": {
       "name": "pnpm",
-      "version": "11.2.2",
+      "version": "11.5.1",
       "onFail": "download"
     }
   },
-  "packageManager": "pnpm@11.2.2"
+  "packageManager": "pnpm@11.5.1"
 }

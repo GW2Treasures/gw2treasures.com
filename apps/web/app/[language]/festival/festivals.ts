@@ -47,4 +47,5 @@ export const festivals: FestivalInfo[] = [
   { type: Festival.Wintersday, startsAt: new Date('2025-12-09T17:00:00.000Z'), endsAt: new Date('2026-01-06T20:00:00.000Z') },
   { type: Festival.LunarNewYear, startsAt: new Date('2026-02-03T17:00:00.000Z'), endsAt: new Date('2026-02-24T20:00:00.000Z') },
   { type: Festival.SuperAdventureFestival, startsAt: new Date('2026-04-14T16:00:00.000Z'), endsAt: new Date('2026-05-05T19:00:00.000Z') },
+  { type: Festival.DragonBash, startsAt: new Date('2026-06-02T16:00:00.000Z'), endsAt: new Date('2026-06-23T20:00:00.000Z') },
 ];

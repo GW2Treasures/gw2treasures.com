@@ -6,11 +6,12 @@ import { db } from '@/lib/prisma';
 import { requiredScopes } from '../helper';
 import { pageView } from '@/lib/pageView';
 import Link from 'next/link';
-import { WizardsVaultObjective } from '@/components/WizardsVault/WizardsVaultObjective';
 import { getLanguage, getTranslate } from '@/lib/translate';
 import { Icon } from '@gw2treasures/ui';
 import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import { createMetadata } from '@/lib/metadata';
+import { WizardsVaultTable } from '@/components/WizardsVault/WizardsVaultTable';
+import { Description } from '@/components/Layout/Description';
 
 const objectiveIds: number[] = [
   255, // (Festival) Complete the (Annual) Hologram Herder Achievement
@@ -31,7 +32,6 @@ const loadData = cache(async function loadData() {
 
 
 export default async function DragonBashWizardsVaultPage() {
-  const language = await getLanguage();
   const { objectives } = await loadData();
   await pageView('festival/dragon-bash/wizards-vault');
 
@@ -39,13 +39,21 @@ export default async function DragonBashWizardsVaultPage() {
     <PageLayout>
       <Gw2Accounts requiredScopes={requiredScopes} loading={null} loginMessage={<Trans id="festival.wizards-vault.login"/>} authorizationMessage={<Trans id="festival.wizards-vault.authorize"/>}/>
 
-      <p><Trans id="festival.dragon-bash.wizards-vault.description"/></p>
+      <Notice type="warning">
+        The official Guild Wars 2 API currently has a bug and is not providing progress for festival special objectives.
+      </Notice>
 
-      {objectives.length > 0 ? objectives.map((objective) => (
-        <WizardsVaultObjective key={objective.id} objective={objective} language={language} disabledLoginNotification/>
-      )) : (
-        <Notice>No Wizard&apos;s Vault objectives for Dragon Bash festival are available in the Guild Wars 2 API yet.</Notice>
-      )}
+      <WizardsVaultTable objectives={objectives}>
+        {(table, columnSelect) => (
+          <>
+            <Description actions={columnSelect}>
+              <Trans id="festival.lunar-new-year.wizards-vault.description"/>
+            </Description>
+
+            {table}
+          </>
+        )}
+      </WizardsVaultTable>
 
       <p style={{ border: '1px solid var(--color-border)', marginTop: 48, padding: 16 }}>
         <Icon icon="wizards-vault"/>{' '}

@@ -42,6 +42,10 @@ const skinIds: number[] = [
   13051, // Raven-Blessed Visage
   13064, // Raven-Blessed Visage
   13069, // Raven-Blessed Visage
+  14011, // Bear-Blessed Visage
+  14001, // Bear-Blessed Visage
+  14013, // Bear-Blessed Visage
+  13241, // Plush Primo Backpack
 ];
 
 const skinSetNames: string[] = [
@@ -51,7 +55,8 @@ const skinSetNames: string[] = [
   'Holographic weapons',
   'Imbued Holographic weapons',
   'Sacred Crystal weapons',
-  'Sacred Raven\'s weapons'
+  'Sacred Raven\'s weapons',
+  'Icebone weapons',
 ];
 
 const loadData = cache(async function loadData() {

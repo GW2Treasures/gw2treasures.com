@@ -26,6 +26,7 @@ const miniIds: number[] = [
   889, // Mini Duckling
   924, // Mini Mystical Blue Orb
   968, // Mini Golden Labrador
+  1024, // Mini Papillon
 ];
 
 const loadData = cache(async function loadData() {

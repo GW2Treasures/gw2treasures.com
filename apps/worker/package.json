@@ -19,7 +19,7 @@
     "@gw2treasures/helper": "workspace:*",
     "cron-parser": "5.5.0",
     "fast-average-color-node": "3.2.0",
-    "sharp": "0.34.5"
+    "sharp": "0.35.1"
   },
   "devDependencies": {
     "@gw2api/types": "0.0.41",

@@ -15,6 +15,8 @@ jobs:
         target: [ web, worker, legacy-importer, database-migration, e2e ]
     steps:
     # https://github.com/actions/virtual-environments/issues/1187
+    - name: Set DNS config
+      run: sudo resolvectl dns eth0 8.8.8.8 8.8.4.4
     - name: Tune linux network
       run: sudo ethtool -K eth0 tx off rx off
     - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3

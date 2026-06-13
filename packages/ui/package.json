@@ -39,7 +39,7 @@
     "@types/react": "19.2.17",
     "@types/react-dom": "19.2.3",
     "csstype": "3.2.3",
-    "eslint": "9.39.4",
+    "eslint": "10.5.0",
     "typescript": "6.0.3"
   },
   "peerDependencies": {

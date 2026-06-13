@@ -223,8 +223,8 @@ importers:
   apps/legacy-importer:
     dependencies:
       '@gw2api/types':
-        specifier: 0.0.41
-        version: 0.0.41
+        specifier: 0.0.43
+        version: 0.0.43
       '@gw2treasures/database':
         specifier: workspace:*
         version: link:../../packages/database
@@ -285,7 +285,7 @@ importers:
         version: 1.0.1
       '@gw2api/fetch':
         specifier: 0.5.0
-        version: 0.5.0(@gw2api/types@0.0.41)
+        version: 0.5.0(@gw2api/types@0.0.43)
       '@gw2efficiency/game-data':
         specifier: 0.1.77
         version: 0.1.77
@@ -399,8 +399,8 @@ importers:
         version: 0.34.5
     devDependencies:
       '@gw2api/types':
-        specifier: 0.0.41
-        version: 0.0.41
+        specifier: 0.0.43
+        version: 0.0.43
       '@gw2treasures/eslint-config':
         specifier: workspace:*
         version: link:../../packages/eslint-config
@@ -472,7 +472,7 @@ importers:
         version: 1.0.1
       '@gw2api/fetch':
         specifier: 0.5.0
-        version: 0.5.0(@gw2api/types@0.0.41)
+        version: 0.5.0(@gw2api/types@0.0.43)
       '@gw2treasures/database':
         specifier: workspace:*
         version: link:../../packages/database
@@ -490,8 +490,8 @@ importers:
         version: 0.34.5
     devDependencies:
       '@gw2api/types':
-        specifier: 0.0.41
-        version: 0.0.41
+        specifier: 0.0.43
+        version: 0.0.43
       '@gw2treasures/eslint-config':
         specifier: workspace:*
         version: link:../../packages/eslint-config
@@ -960,8 +960,8 @@ packages:
     peerDependencies:
       '@gw2api/types': ~0.0.5
 
-  '@gw2api/types@0.0.41':
-    resolution: {integrity: sha512-sf4S8xfp7GcgA0X8xiYm7l7UC3QXrjl4dDwhBmyDQ83ZVaPUEJjgDKIKtUcmOM6Sa52XjpF0dgCgI6PjVvTE3g==}
+  '@gw2api/types@0.0.43':
+    resolution: {integrity: sha512-3Wtpn+3fBNGD1aWEhVlMkiCBtxX4T0F/ZXjet/4jxSm9tKjfbVTPFP6AL/0GXoivCpr+K9dNzj6/LYor/wCKKQ==}
 
   '@gw2efficiency/game-data@0.1.77':
     resolution: {integrity: sha512-R3C08FPRkHFsU2eNJtdXhNdDUW6iM8JszBembroOxei6O6LGB+OD/jcQQS98dxH782uSgBiDM24gIq67Xg7RGg==}
@@ -4438,11 +4438,11 @@ snapshots:
     dependencies:
       '@gw2/markup-ast': 1.0.2
 
-  '@gw2api/fetch@0.5.0(@gw2api/types@0.0.41)':
+  '@gw2api/fetch@0.5.0(@gw2api/types@0.0.43)':
     dependencies:
-      '@gw2api/types': 0.0.41
+      '@gw2api/types': 0.0.43
 
-  '@gw2api/types@0.0.41': {}
+  '@gw2api/types@0.0.43': {}
 
   '@gw2efficiency/game-data@0.1.77': {}
 

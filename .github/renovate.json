@@ -19,7 +19,7 @@
   "packageRules": [
     {
       "matchManagers": ["npm", "dockerfile"],
-      "matchPackageNames": ["mcr.microsoft.com/playwright", "@playwright/test"],
+      "matchPackageNames": ["mcr.microsoft.com/playwright", "@playwright/test", "playwright"],
       "groupName": "playwright"
     }, {
       "matchManagers": ["npm"],

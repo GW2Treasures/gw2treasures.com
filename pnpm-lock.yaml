@@ -365,8 +365,8 @@ importers:
         specifier: 2.3.6
         version: 2.3.6
       isbot:
-        specifier: 5.1.43
-        version: 5.1.43
+        specifier: 5.1.44
+        version: 5.1.44
       jose:
         specifier: 6.2.3
         version: 6.2.3
@@ -3085,8 +3085,8 @@ packages:
   isarray@2.0.5:
     resolution: {integrity: sha512-xHjhDr3cNBK0BzdUJSPXZntQUx/mwMS5Rw4A7lPJ90XGAO6ISP/ePDNuo0vhqOZU+UD5JoodwCAAoZQd3FeAKw==}
 
-  isbot@5.1.43:
-    resolution: {integrity: sha512-drJhFmibra4LO6Wd7D3Oi6UICRK9244vSZkmxzhlZP0TTdwCA2ueK4PEkUkzPYeuqug9+cqqdWPgihjk5+83Cg==}
+  isbot@5.1.44:
+    resolution: {integrity: sha512-PGEHtwMnKbZpeSEXW2Utx+/JWed7dp6DiH0WWg33vGSDA7RUvpUeJSVlLrVkQ1RCpvDOUc/eH9ql7VsdbBZ8pA==}
     engines: {node: '>=18'}
 
   isexe@2.0.0:
@@ -6774,7 +6774,7 @@ snapshots:
 
   isarray@2.0.5: {}
 
-  isbot@5.1.43: {}
+  isbot@5.1.44: {}
 
   isexe@2.0.0: {}
 

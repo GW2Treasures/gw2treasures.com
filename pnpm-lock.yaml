@@ -483,8 +483,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/helper
       cron-parser:
-        specifier: 5.6.0
-        version: 5.6.0
+        specifier: 5.6.1
+        version: 5.6.1
       fast-average-color-node:
         specifier: 3.2.0
         version: 3.2.0
@@ -2350,8 +2350,8 @@ packages:
   create-require@1.1.1:
     resolution: {integrity: sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==}
 
-  cron-parser@5.6.0:
-    resolution: {integrity: sha512-6159NDv4eDOjXYDmMTkvUtaVcIrNZI779ydTMOfDdi9fSjhPqmySx0icCHX2+nOyXgNSw6sFCsgLKxYs/2KPuQ==}
+  cron-parser@5.6.1:
+    resolution: {integrity: sha512-QBm4o1PwZiuY7KFbVvW7FLC8bozy7YWzv+Fz6KRS7sQghzcbDZCGxr/Bc5b6TQreAoSwuWVP491dIcK0THCX6A==}
     engines: {node: '>=18'}
 
   cross-spawn@7.0.6:
@@ -5928,7 +5928,7 @@ snapshots:
 
   create-require@1.1.1: {}
 
-  cron-parser@5.6.0:
+  cron-parser@5.6.1:
     dependencies:
       luxon: 3.7.2
 

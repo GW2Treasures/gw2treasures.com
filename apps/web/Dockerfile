@@ -2,7 +2,7 @@
 
 ARG node_version=24.17.0-alpine3.23@sha256:7c70d1235c0b4c2bc9eeed5393d19f1bbdde6885ba0d58ba62bb385d7b0f3ff1
 # renovate: datasource=npm packageName=turbo
-ARG turbo_version=2.9.18
+ARG turbo_version=2.10.0
 # renovate: datasource=npm packageName=sharp
 ARG sharp_version=0.35.2
 # renovate: datasource=npm packageName=pnpm

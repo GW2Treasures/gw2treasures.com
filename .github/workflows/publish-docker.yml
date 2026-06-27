@@ -70,7 +70,7 @@ jobs:
         echo "digest=$(docker buildx imagetools inspect --format '{{json .Manifest}}' ${{ env.IMAGE_ID }}:${{ steps.meta.outputs.version }} | jq -cr '.digest')" >> "$GITHUB_OUTPUT"
 
     - name: Attest
-      uses: actions/attest@59d89421af93a897026c735860bf21b6eb4f7b26 # v4.1.0
+      uses: actions/attest@a1948c3f048ba23858d222213b7c278aabede763 # v4.1.1
       with:
         subject-name: ${{ env.IMAGE_ID }}
         subject-digest: ${{ steps.image.outputs.digest }}

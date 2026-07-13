@@ -16,6 +16,9 @@
   },
   "minimumReleaseAge": "1 day",
   "postUpdateOptions": ["pnpmDedupe"],
+  "toolSettings": {
+    "nodeMaxMemory": 1536
+  },
   "packageRules": [
     {
       "matchManagers": ["npm", "dockerfile"],

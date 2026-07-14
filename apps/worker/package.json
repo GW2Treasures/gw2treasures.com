@@ -25,7 +25,7 @@
     "@gw2api/types": "0.0.43",
     "@gw2treasures/eslint-config": "workspace:*",
     "@gw2treasures/tsconfig": "workspace:*",
-    "@types/node": "24.13.2",
+    "@types/node": "24.13.3",
     "@vercel/ncc": "0.44.0",
     "eslint": "9.39.4",
     "typescript": "6.0.3",

@@ -29,6 +29,11 @@
       "matchDepNames": ["mcr.microsoft.com/playwright"],
       "groupName": "playwright"
     }, {
+      "description": "Group Docker GitHub Actions",
+      "matchManagers": ["github-actions"],
+      "matchPackageNames": ["docker/*-action"],
+      "groupName": "docker-actions"
+    }, {
       "matchManagers": ["npm"],
       "matchPackageNames": ["@floating-ui/**"],
       "groupName": "floating-ui"

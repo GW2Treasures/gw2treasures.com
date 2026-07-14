@@ -35,7 +35,7 @@
   "devDependencies": {
     "@gw2treasures/tsconfig": "workspace:*",
     "@types/node": "24.13.3",
-    "svgo": "4.0.1",
+    "svgo": "4.0.2",
     "ts-node": "10.9.2",
     "tslib": "2.8.1"
   },

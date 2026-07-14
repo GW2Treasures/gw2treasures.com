@@ -21,9 +21,18 @@
   },
   "packageRules": [
     {
-      "matchManagers": ["npm", "dockerfile"],
-      "matchPackageNames": ["mcr.microsoft.com/playwright", "@playwright/test", "playwright"],
+      "matchDatasources": ["npm"],
+      "matchDepNames": ["@playwright/test", "playwright"],
       "groupName": "playwright"
+    }, {
+      "matchDatasources": ["docker"],
+      "matchDepNames": ["mcr.microsoft.com/playwright"],
+      "groupName": "playwright"
+    }, {
+      "description": "Group Docker GitHub Actions",
+      "matchManagers": ["github-actions"],
+      "matchPackageNames": ["docker/*-action"],
+      "groupName": "docker-actions"
     }, {
       "matchManagers": ["npm"],
       "matchPackageNames": ["@floating-ui/**"],

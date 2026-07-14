@@ -27,6 +27,7 @@
     }, {
       "matchDatasources": ["docker"],
       "matchDepNames": ["mcr.microsoft.com/playwright"],
+      "minimumReleaseAge": null,
       "groupName": "playwright"
     }, {
       "description": "Group Docker GitHub Actions",

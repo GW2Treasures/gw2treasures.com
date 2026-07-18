@@ -1,6 +1,8 @@
-commonLabels:
-  app.kubernetes.io/component: backend
-  app.kubernetes.io/name: legacy-importer
+labels:
+- includeSelectors: true
+  pairs:
+    app.kubernetes.io/component: backend
+    app.kubernetes.io/name: legacy-importer
 
 resources:
 - job.yaml

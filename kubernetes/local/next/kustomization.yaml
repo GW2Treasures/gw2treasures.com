@@ -1,6 +1,8 @@
-commonLabels:
-  app.kubernetes.io/component: frontend
-  app.kubernetes.io/name: next
+labels:
+- includeSelectors: true
+  pairs:
+    app.kubernetes.io/component: frontend
+    app.kubernetes.io/name: next
 
 resources:
 - configMap.yaml

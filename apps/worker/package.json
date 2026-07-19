@@ -4,9 +4,9 @@
     "prisma": "prisma generate",
     "prebuild": "pnpm run clean && pnpm run types",
     "build": "pnpm run ncc",
-    "dev": "node dist/index.js",
+    "dev": "node --enable-source-maps dist/index.js",
     "lint": "eslint .",
-    "ncc": "ncc build src/index.ts --out dist --target es2023 --external sharp",
+    "ncc": "ncc build src/index.ts --out dist --target es2023 --external sharp --source-map",
     "clean": "rm -rf dist",
     "types": "tsc",
     "test": "vitest"
@@ -17,6 +17,7 @@
     "@gw2api/fetch": "0.5.0",
     "@gw2treasures/database": "workspace:*",
     "@gw2treasures/helper": "workspace:*",
+    "@sentry/node": "^10.66.0",
     "cron-parser": "5.6.2",
     "fast-average-color-node": "3.2.0",
     "sharp": "0.35.2"

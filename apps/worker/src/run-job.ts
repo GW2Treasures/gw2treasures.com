@@ -1,75 +1,97 @@
 import { Job } from '@gw2treasures/database';
+import * as Sentry from '@sentry/node';
 import { CronExpressionParser } from 'cron-parser';
+import { styleText } from 'node:util';
 import { db } from './db';
 import { jobs } from './jobs';
-import { styleText } from 'node:util';
 
-export async function runJob(job: Job) {
-  const startedAt = new Date();
+export function runJob(job: Job) {
+  return Sentry.withIsolationScope(async (scope) => {
+    scope.clearBreadcrumbs();
+    scope.setTransactionName(job.type);
+    scope.setTags({
+      'job': job.type,
+      'job.id': job.id,
+    });
+    scope.setContext('Job', {
+      'ID': job.id,
+      'Type': job.type,
+      'Flags': job.flags,
+      'Cron': job.cron ? 'Yes' : 'No',
+      'Priority': job.priority,
+      'Scheduled At': job.scheduledAt.toISOString(),
+    });
 
-  // update job in db to state 'Running'
-  // add the current job state as where condition, so we can detect if a different worker has already claimed this job
-  const q = await db.job.updateMany({ data: { state: 'Running', startedAt }, where: { id: job.id, state: job.state }});
+    const startedAt = new Date();
 
-  // if nothing was updated, the job is already claimed
-  if(q.count === 0) {
-    console.log(styleText('yellow', `Job ${job.id} already claimed by other worker`));
-    return;
-  }
+    // update job in db to state 'Running'
+    // add the current job state as where condition, so we can detect if a different worker has already claimed this job
+    const q = await db.job.updateMany({ data: { state: 'Running', startedAt }, where: { id: job.id, state: job.state }});
 
-  console.log(`Running ${styleText(['bold', 'blue'], job.type)} ${styleText('gray', `(${job.id}) (${(process.memoryUsage().heapTotal / 1024 / 1024).toFixed(2)} MB)`)}`);
-
-  try {
-    // get runner
-    const runner = jobs[job.type];
-
-    // throw error if this worker doesn't know the job
-    if(!runner) {
-      throw new Error(`Unknown job type ${job.type}`);
+    // if nothing was updated, the job is already claimed
+    if(q.count === 0) {
+      console.log(styleText('yellow', `Job ${job.id} already claimed by other worker`));
+      return;
     }
 
-    // run the job
-    const output = await runner.run(job.data as object ?? undefined);
+    console.log(`Running ${styleText(['bold', 'blue'], job.type)} ${styleText('gray', `(${job.id}) (${(process.memoryUsage().heapTotal / 1024 / 1024).toFixed(2)} MB)`)}`);
 
-    // store finish timestamp
-    const finishedAt = new Date();
+    try {
+      // get runner
+      const runner = jobs[job.type];
 
-    // update job in db
-    await db.job.update({
-      where: { id: job.id },
-      data: { state: 'Success', finishedAt, output: output ?? '' }
-    });
-
-    // calculate runtime
-    const runtime = finishedAt.valueOf() - startedAt.valueOf();
-
-    // print out output and runtime
-    console.log(`${styleText('green', '>')} ${output ?? 'Done.'} ${styleText('gray', `(${runtime} ms)`)}`);
-    console.log('');
-  } catch(error) {
-    console.error(styleText('red', '>'), error);
-    console.log('');
-
-    // set job as errored in db
-    await db.job.update({
-      where: { id: job.id },
-      data: {
-        state: 'Error',
-        finishedAt: new Date(),
-        output: (error as Error).stack || (error as Error).toString() || 'Unknown Error'
+      // throw error if this worker doesn't know the job
+      if(!runner) {
+        throw new Error(`Unknown job type ${job.type}`);
       }
-    });
-  } finally {
-    // if the job is a cron job, schedule again
-    if(job.cron) {
-      const interval = CronExpressionParser.parse(job.cron, { tz: 'utc', hashSeed: job.type });
 
+      // run the job
+      const output = await Sentry.startSpan(
+        { op: 'job', name: job.type },
+        () => runner.run(job.data as object ?? undefined)
+      );
+
+      // store finish timestamp
+      const finishedAt = new Date();
+
+      // update job in db
       await db.job.update({
         where: { id: job.id },
-        data: { scheduledAt: interval.next().toDate() }
+        data: { state: 'Success', finishedAt, output: output ?? '' }
       });
+
+      // calculate runtime
+      const runtime = finishedAt.valueOf() - startedAt.valueOf();
+
+      // print out output and runtime
+      console.log(`${styleText('green', '>')} ${output ?? 'Done.'} ${styleText('gray', `(${runtime} ms)`)}`);
+      console.log('');
+    } catch(error) {
+      Sentry.captureException(error);
+      console.error(styleText('red', '>'), error);
+      console.log('');
+
+      // set job as errored in db
+      await db.job.update({
+        where: { id: job.id },
+        data: {
+          state: 'Error',
+          finishedAt: new Date(),
+          output: (error as Error).stack || (error as Error).toString() || 'Unknown Error'
+        }
+      });
+    } finally {
+      // if the job is a cron job, schedule again
+      if(job.cron) {
+        const interval = CronExpressionParser.parse(job.cron, { tz: 'utc', hashSeed: job.type });
+
+        await db.job.update({
+          where: { id: job.id },
+          data: { scheduledAt: interval.next().toDate() }
+        });
+      }
     }
-  }
+  });
 }
 
 export async function startNewJob(type: string) {

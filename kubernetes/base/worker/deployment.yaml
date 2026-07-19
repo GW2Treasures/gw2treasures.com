@@ -38,6 +38,18 @@ spec:
               name: worker
               key: gw2-api-key
               optional: true
+        - name: SENTRY_DSN
+          valueFrom:
+            configMapKeyRef:
+              name: worker
+              key: sentry-dsn
+              optional: true
+        - name: SENTRY_ENVIRONMENT
+          valueFrom:
+            configMapKeyRef:
+              name: worker
+              key: sentry-environment
+              optional: true
         - name: HEALTH_PORT
           value: "9090"
         ports:

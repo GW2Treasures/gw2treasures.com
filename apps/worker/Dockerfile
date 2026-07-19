@@ -49,6 +49,8 @@ RUN pnpm run build --filter=worker
 # Production image, COPY --link all the files and run next
 FROM base AS runner
 ARG sharp_version
+ARG git_sha
+ENV SENTRY_RELEASE=${git_sha}
 ENV NODE_ENV=production
 WORKDIR /app
 
@@ -63,4 +65,4 @@ USER worker
 EXPOSE 3000
 ENV PORT=3000
 
-CMD [ "node", "index.js" ]
+CMD [ "node", "--enable-source-maps", "index.js" ]

@@ -1,9 +1,11 @@
-
 import './load-env';
+import './sentry';
+
 import { registerCronJobs } from './jobs/cron';
 import { worker } from './worker';
 import { healthServer } from './health-server';
 import { startNewJob } from './run-job';
+import * as Sentry from '@sentry/node';
 
 if(process.argv.length > 2) {
   // run a single job
@@ -33,6 +35,7 @@ function shutdownHandler() {
   console.log('Gracefully shutting down...');
   worker.shutdown();
   healthServer.close();
+  Sentry.flush();
 }
 
 process.on('SIGTERM', shutdownHandler);

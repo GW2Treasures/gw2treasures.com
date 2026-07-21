@@ -20,7 +20,7 @@
     "@sentry/node": "10.66.0",
     "cron-parser": "5.6.2",
     "fast-average-color-node": "3.2.0",
-    "sharp": "0.35.2"
+    "sharp": "0.35.3"
   },
   "devDependencies": {
     "@gw2api/types": "0.0.43",

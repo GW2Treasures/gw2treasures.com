@@ -36,6 +36,10 @@
       "groupName": "docker-actions"
     }, {
       "matchManagers": ["npm"],
+      "matchPackageNames": ["react", "react-dom", "@types/react", "@types/react-dom"],
+      "groupName": "react"
+    }, {
+      "matchManagers": ["npm"],
       "matchPackageNames": ["@floating-ui/**"],
       "groupName": "floating-ui"
     }, {

@@ -48,4 +48,5 @@ export const festivals: FestivalInfo[] = [
   { type: Festival.LunarNewYear, startsAt: new Date('2026-02-03T17:00:00.000Z'), endsAt: new Date('2026-02-24T20:00:00.000Z') },
   { type: Festival.SuperAdventureFestival, startsAt: new Date('2026-04-14T16:00:00.000Z'), endsAt: new Date('2026-05-05T19:00:00.000Z') },
   { type: Festival.DragonBash, startsAt: new Date('2026-06-02T16:00:00.000Z'), endsAt: new Date('2026-06-23T20:00:00.000Z') },
+  { type: Festival.FourWinds, startsAt: new Date('2026-08-11T16:00:00.000Z'), endsAt: new Date('2026-09-01T20:00:00.000Z') },
 ];

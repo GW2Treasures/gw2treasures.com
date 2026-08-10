@@ -11,6 +11,7 @@ import { getLanguage, getTranslate } from '@/lib/translate';
 import { Icon } from '@gw2treasures/ui';
 import Link from 'next/link';
 import { requiredScopes } from '../helper';
+import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 
 const objectiveIds: number[] = [
   261, // (Festival) Complete the (Annual) Commodities Trader Achievement
@@ -37,6 +38,10 @@ export default async function FourWindsWizardsVaultPage() {
   return (
     <PageLayout>
       <Gw2Accounts requiredScopes={requiredScopes} loading={null} loginMessage={<Trans id="festival.wizards-vault.login"/>} authorizationMessage={<Trans id="festival.wizards-vault.authorize"/>}/>
+
+      <Notice type="warning">
+        The official Guild Wars 2 API currently has a bug and is not providing progress for festival special objectives.
+      </Notice>
 
       <WizardsVaultTable objectives={objectives}>
         {(table, columnSelect) => (

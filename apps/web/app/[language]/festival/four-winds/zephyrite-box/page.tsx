@@ -17,6 +17,7 @@ import { getLanguage, getTranslate } from '@/lib/translate';
 import { groupById } from '@gw2treasures/helper/group-by';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
+import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
 import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
 import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 
@@ -140,6 +141,11 @@ export default async function FourWindsAchievementsPage() {
     <PageLayout>
       <Headline id="vendor" actions={<ColumnSelect table={vendorTable}/>}><Trans id="festival.four-winds.zephyrite-box.vendor"/></Headline>
       <p><Trans id="festival.four-winds.zephyrite-box.vendor.description"/></p>
+
+
+      <Notice type="warning">
+        This page still shows the costs of Zephyrite Supply Boxes during the Four Winds Festival 2025! The prices will be updated as soon as possible.
+      </Notice>
 
       <vendorTable.Table initialSortBy="buyPricePer" initialSortOrder="asc">
         <vendorTable.Column id="output" title="Output">

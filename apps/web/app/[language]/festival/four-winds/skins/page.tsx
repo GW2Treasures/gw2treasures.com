@@ -71,6 +71,10 @@ const skinIds: number[] = [
   13137, // Seashell Shield
   13149, // Seashell Focus
   13138, // Seashell Staff
+  14082, // Cloud Pteruges
+  14116, // Cloud Pteruges
+  14102, // Cloud Pteruges
+  13247, // Plush Kralky Backpack
 ];
 
 const skinSetNames: string[] = [
@@ -83,6 +87,7 @@ const skinSetNames: string[] = [
   'Watchwork weapons',
   'Zephyrite weapons',
   'Leviathan Bone weapons',
+  'Spellwork weapons',
 ];
 
 const loadData = cache(async function loadData() {

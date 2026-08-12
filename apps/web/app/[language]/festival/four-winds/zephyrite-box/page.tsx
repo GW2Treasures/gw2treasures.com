@@ -61,9 +61,7 @@ const vendor: Offer[] = [
   { quantity: 1, cost: { quantity: 2, itemId: 24277 }}, // Pile of Crystalline Dust
   { quantity: 4, cost: { quantity: 1, itemId: 19721 }}, // Glob of Ectoplasm
   { quantity: 5, cost: { quantity: 1, itemId: 66165 }}, // Recipe: Chaos of Lyssa
-  { quantity: 25, cost: { quantity: 1, itemId: 43562 }}, // Monocle
-  { quantity: 25, cost: { quantity: 1, itemId: 43563 }}, // Monocle
-  { quantity: 25, cost: { quantity: 1, itemId: 43564 }}, // Monocle
+  { quantity: 25, cost: { quantity: 1, itemId: 70266 }}, // Monocle
   { quantity: 1, cost: { quantity: 10, itemId: 43952 }}, // Desert Rose Skin
   { quantity: 1, cost: { quantity: 10, itemId: 48905 }}, // Toxic Spore Skin
   { quantity: 1, cost: { quantity: 10, itemId: 43906 }}, // Sun Catcher Skin

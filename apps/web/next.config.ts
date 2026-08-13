@@ -15,9 +15,6 @@ const nextConfig: NextConfig = {
 
     // typed environment variables (.env)
     typedEnv: true,
-
-    // enable next/root-params
-    rootParams: true,
   },
 
   // enable production source maps

@@ -486,8 +486,8 @@ importers:
         specifier: 10.70.0
         version: 10.70.0(@opentelemetry/core@2.10.0(@opentelemetry/api@1.9.1))(supports-color@7.2.0)
       cron-parser:
-        specifier: 5.9.0
-        version: 5.9.0
+        specifier: 5.10.0
+        version: 5.10.0
       fast-average-color-node:
         specifier: 3.2.0
         version: 3.2.0
@@ -2428,8 +2428,8 @@ packages:
   create-require@1.1.1:
     resolution: {integrity: sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==}
 
-  cron-parser@5.9.0:
-    resolution: {integrity: sha512-W42Tm/zNt2Z3HTXDoev3nrx+SF3eCaD1rFecnHx0zgwrzhO9I6EcKeB35XaV4FDX64wBXWFbhYLTPvQpvpR1lA==}
+  cron-parser@5.10.0:
+    resolution: {integrity: sha512-izNAxJyRWUP8ljBoDSub5WyrVOUlT4SLGShswE7eoRBpp6QUsSycYxLBMJlbshgPBMcPT/nrfgjNY2918ayv2A==}
     engines: {node: '>=18'}
 
   cross-spawn@7.0.6:
@@ -6121,7 +6121,7 @@ snapshots:
 
   create-require@1.1.1: {}
 
-  cron-parser@5.9.0:
+  cron-parser@5.10.0:
     dependencies:
       luxon: 3.7.2
 

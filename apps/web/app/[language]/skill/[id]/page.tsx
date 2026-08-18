@@ -1,11 +1,12 @@
 import { getIconUrl } from '@/lib/getIconUrl';
 import { createMetadata } from '@/lib/metadata';
 import { parseIcon } from '@/lib/parseIcon';
-import { getLanguage, getTranslate } from '@/lib/translate';
+import { getLanguage } from '@/lib/translate';
 import { ChatlinkType, encodeChatlink } from '@gw2/chatlink';
 import { notFound } from 'next/navigation';
 import { SkillPageComponent } from './component';
 import { getRevision } from './getSkill';
+import { stripGw2Markup } from '@gw2/markup-strip';
 
 
 export default async function SkillPage({ params }: PageProps<'/[language]/skill/[id]'>) {
@@ -16,10 +17,8 @@ export default async function SkillPage({ params }: PageProps<'/[language]/skill
   return <SkillPageComponent language={language} skillId={skillId}/>;
 }
 
-export const generateMetadata = createMetadata<PageProps<'/[language]/skill/[id]'>>(async ({ params }) => {
-  const language = await getLanguage();
+export const generateMetadata = createMetadata<PageProps<'/[language]/skill/[id]'>>(async ({ params }, { language }) => {
   const { id } = await params;
-  const t = getTranslate(language);
   const skillId = Number(id);
   const { data } = await getRevision(skillId, language);
 
@@ -30,8 +29,8 @@ export const generateMetadata = createMetadata<PageProps<'/[language]/skill/[id]
   const icon = parseIcon(data.icon);
 
   return {
-    title: data.name || encodeChatlink(ChatlinkType.Skill, skillId),
-    description: t('legendary-armory.relics.description'),
+    title: stripGw2Markup(data.name) || encodeChatlink(ChatlinkType.Skill, skillId),
+    description: stripGw2Markup(data.description) || undefined,
     url: `/skill/${id}`,
     image: icon ? { src: getIconUrl(icon, 64), width: 64, height: 64 } : undefined,
   };

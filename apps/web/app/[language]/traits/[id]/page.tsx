@@ -8,11 +8,13 @@ import { TraitInfobox } from '@/components/Trait/TraitInfobox';
 import { TraitLink } from '@/components/Trait/TraitLink';
 import { TraitTooltip } from '@/components/Trait/TraitTooltip';
 import { cache } from '@/lib/cache';
+import { getIconUrl } from '@/lib/getIconUrl';
 import { linkPropertiesWithoutRarity } from '@/lib/linkProperties';
 import { localizedName, selectLocalizedProp, type LocalizedEntity } from '@/lib/localizedName';
 import { createMetadata } from '@/lib/metadata';
 import { db } from '@/lib/prisma';
 import { getLanguage } from '@/lib/translate';
+import { stripGw2Markup } from '@gw2/markup-strip';
 import type { Profession } from '@gw2api/types/data/profession';
 import type { Trait } from '@gw2api/types/data/trait';
 import type { Language } from '@gw2treasures/database';
@@ -123,7 +125,8 @@ export const generateMetadata = createMetadata<TraitPageProps>(async ({ params }
 
   return {
     title: localizedName(trait, language),
-    description: data.description,
-    icon: trait.icon
+    description: stripGw2Markup(data.description),
+    url: `/traits/${id}`,
+    icon: trait.icon ? { src: getIconUrl(trait.icon, 64), width: 64, height: 64 } : undefined,
   };
 });

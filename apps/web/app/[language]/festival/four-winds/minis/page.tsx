@@ -27,6 +27,7 @@ const miniIds: number[] = [
   169, // Mini Watchknight
   170, // Mini Liadri the Concealing Dark
   971, // Mini Garenhoff Coon Cat
+  1026, // Mini Lightning Crystal
 ];
 
 const loadData = cache(async function loadData() {

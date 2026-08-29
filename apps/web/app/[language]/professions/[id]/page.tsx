@@ -12,10 +12,10 @@ import { cache } from '@/lib/cache';
 import { getIconUrl } from '@/lib/getIconUrl';
 import { linkPropertiesWithoutRarity } from '@/lib/linkProperties';
 import { localizedName } from '@/lib/localizedName';
+import { createMetadata } from '@/lib/metadata';
 import { pageView } from '@/lib/pageView';
 import { db } from '@/lib/prisma';
 import { getLanguage, translate } from '@/lib/translate';
-import { getAlternateUrls } from '@/lib/url';
 import { ChatlinkType, encodeChatlink } from '@gw2/chatlink';
 import type { Profession } from '@gw2api/types/data/profession';
 import type { Skill } from '@gw2api/types/data/skill';
@@ -28,7 +28,6 @@ import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 import { jsxJoin } from '@gw2treasures/ui/lib/jsx';
-import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Fragment } from 'react';
 
@@ -169,7 +168,7 @@ export default async function ProfessionPage({ params }: ProfessionPageProps) {
   );
 }
 
-export async function generateMetadata({ params }: ProfessionPageProps): Promise<Metadata> {
+export const generateMetadata = createMetadata<ProfessionPageProps>(async ({ params }) => {
   const language = await getLanguage();
   const { id } = await params;
   const profession = await getProfession(id);
@@ -180,13 +179,10 @@ export async function generateMetadata({ params }: ProfessionPageProps): Promise
 
   return {
     title: localizedName(profession, language),
-    openGraph: {
-      images: profession.iconBig ? [{ url: getIconUrl(profession.iconBig, 64), width: 64, height: 64, type: 'image/png' }] : []
-    },
-    twitter: { card: 'summary' },
-    alternates: getAlternateUrls(`/professions/${id}`, language)
+    url: `/professions/${id}`,
+    image: profession.iconBig ? { src: getIconUrl(profession.iconBig, 64), width: 64, height: 64 } : undefined,
   };
-}
+});
 
 interface WeaponInfo {
   id: Profession.Weapon.Type,

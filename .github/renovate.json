@@ -39,6 +39,10 @@
       "matchPackageNames": ["react", "react-dom", "@types/react", "@types/react-dom"],
       "groupName": "react"
     }, {
+      "matchDatasources": ["npm"],
+      "matchDepNames": ["prisma", "@prisma/**"],
+      "groupName": "prisma"
+    }, {
       "matchManagers": ["npm"],
       "matchPackageNames": ["@floating-ui/**"],
       "groupName": "floating-ui"

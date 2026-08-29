@@ -1,4 +1,4 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env node
 import { mkdir, readFile, readdir, writeFile, rm } from 'node:fs/promises';
 import { join } from 'node:path';
 import * as svgo from 'svgo';

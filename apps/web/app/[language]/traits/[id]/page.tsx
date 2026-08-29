@@ -127,6 +127,6 @@ export const generateMetadata = createMetadata<TraitPageProps>(async ({ params }
     title: localizedName(trait, language),
     description: stripGw2Markup(data.description),
     url: `/traits/${id}`,
-    icon: trait.icon ? { src: getIconUrl(trait.icon, 64), width: 64, height: 64 } : undefined,
+    image: trait.icon ? { src: getIconUrl(trait.icon, 64), width: 64, height: 64 } : undefined,
   };
 });

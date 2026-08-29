@@ -33,6 +33,7 @@ export const generateMetadata = createMetadata(async () => {
 
   return {
     title: t('navigation.professions'),
+    url: '/professions',
     image: ogImage,
   };
 });

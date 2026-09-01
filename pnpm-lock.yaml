@@ -350,8 +350,8 @@ importers:
         specifier: 4.0.1-alpha.0
         version: 4.0.1-alpha.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       '@wooorm/starry-night':
-        specifier: 3.10.0
-        version: 3.10.0
+        specifier: 3.11.0
+        version: 3.11.0
       client-only:
         specifier: 0.0.1
         version: 0.0.1
@@ -2037,8 +2037,8 @@ packages:
   '@vitest/utils@4.1.11':
     resolution: {integrity: sha512-zTCVGpyFsGWBhllOyKlTw/vnr6D9qxsfSDyfbyZmTyjHw5N/VuvzHpHoQjm2ZJzn4RJgx5w4r7V0er69CmLgPQ==}
 
-  '@wooorm/starry-night@3.10.0':
-    resolution: {integrity: sha512-JRp2va6hfbC14fXgYQTmwdl4j1+4ZID9KKkCD+Mn/+B/j1QMlzZYPUtXOFNxA+CWrEo+IPha6EMVbsap2OFZig==}
+  '@wooorm/starry-night@3.11.0':
+    resolution: {integrity: sha512-xs0DlS8BYDIoLIYAezO+XRSPPUjeVhAwHWbOno/p16S4Ik63JRfHFjfkHO1wJwQ8r0Cq6leGuWqHKpH7G1BS6g==}
 
   '@yuku-codegen/binding-android-arm64@0.8.7':
     resolution: {integrity: sha512-C/0zV5IhgVdYhGJTwrY0v8dknxlhiKwtVJkMUaexu9/QvRmzlV4vfU3hZlUSgqc2BxQHntL1mCVbDq8j0FRFDw==}
@@ -5689,7 +5689,7 @@ snapshots:
       convert-source-map: 2.0.0
       tinyrainbow: 3.1.1
 
-  '@wooorm/starry-night@3.10.0':
+  '@wooorm/starry-night@3.11.0':
     dependencies:
       '@types/hast': 3.0.5
       import-meta-resolve: 4.2.0

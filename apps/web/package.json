@@ -70,7 +70,7 @@
     "@types/negotiator": "0.6.5",
     "@types/node": "24.13.3",
     "@types/react": "19.2.18",
-    "@types/react-dom": "19.2.5",
+    "@types/react-dom": "19.2.7",
     "@vitejs/plugin-react": "6.1.1",
     "@vitest/browser-playwright": "4.1.11",
     "babel-plugin-react-compiler": "1.0.0",

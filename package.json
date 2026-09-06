@@ -16,7 +16,7 @@
   "devDependencies": {
     "@gw2treasures/publish-package": "workspace:*",
     "eslint-formatter-gha": "2.0.1",
-    "playwright": "1.62.1",
+    "playwright": "1.63.0",
     "turbo": "2.10.12",
     "typescript": "6.0.3"
   },

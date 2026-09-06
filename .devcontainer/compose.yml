@@ -1,0 +1,9 @@
+services:
+  dev:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    volumes:
+      - ..:/workspace/gw2treasures.com:cached
+    network_mode: host
+    command: sleep infinity

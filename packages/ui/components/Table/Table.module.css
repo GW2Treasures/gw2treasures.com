@@ -152,11 +152,16 @@
 
 .overflow {
   overflow-x: scroll;
+  overflow-y: clip;
   will-change: scroll-position;
   scrollbar-width: thin;
 }
 
 .overflow > .table > thead > tr > th { position: static; }
+
+@supports named-feature(single-axis-scroll-container) {
+  .overflow > .table > thead > tr > th { position: sticky; }
+}
 
 @media(max-width: 760px) {
   .table { width: max-content; min-width: 100%; }

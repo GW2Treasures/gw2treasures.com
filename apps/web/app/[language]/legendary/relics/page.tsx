@@ -50,6 +50,7 @@ const knownAchievements: Record<number, RelicSet | undefined> = {
   8959: { order: 30, access: undefined }, // Relics—Visions of Eternity Set 1
   9101: { order: 31, access: undefined }, // Relics—Visions of Eternity Set 2
   9266: { order: 32, access: undefined }, // Relics—Visions of Eternity Set 3
+  9361: { order: 33, access: undefined }, // Relics—Visions of Eternity Set 4
 };
 
 const loadItems = cache(async () => {

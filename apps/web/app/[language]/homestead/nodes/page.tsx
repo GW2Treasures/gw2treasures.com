@@ -1,5 +1,5 @@
 import { Trans } from '@/components/I18n/Trans';
-import homeNodes from '@gw2efficiency/game-data/home/nodes';
+import homeNodes from '@gw2treasures/static-data/nodes/index';
 import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
 import { linkProperties } from '@/lib/linkProperties';
 import { db } from '@/lib/prisma';

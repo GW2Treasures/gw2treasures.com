@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { Trans } from '@/components/I18n/Trans';
-import homeCats from '@gw2efficiency/game-data/home/cats';
+import homeCats from '@gw2treasures/static-data/cats/index';
 import { createDataTable } from '@gw2treasures/ui/components/Table/DataTable';
 import { ColumnSelect } from '@/components/Table/ColumnSelect';
 import { parseIcon } from '@/lib/parseIcon';

@@ -46,7 +46,6 @@ export default function AboutPage() {
         <tbody>
           <tr><th>Additional Item and Skin data</th><th><ExternalLink href="https://wiki.guildwars2.com/wiki/Main_Page">Guild Wars 2 Wiki</ExternalLink></th></tr>
           <tr><th>Unlock statistics</th><th><ExternalLink href="https://gw2efficiency.com">gw2efficiency.com</ExternalLink></th></tr>
-          <tr><th>Additional data</th><th><ExternalLink href="https://github.com/gw2efficiency/game-data">github.com/gw2efficiency/game-data</ExternalLink></th></tr>
           <tr><th>Fractal instabilities</th><th><ExternalLink href="https://github.com/Invisi/gw2-fotm-instabilities">github.com/Invisi/gw2-fotm-instabilities</ExternalLink></th></tr>
         </tbody>
       </Table>

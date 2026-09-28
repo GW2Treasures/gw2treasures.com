@@ -4,8 +4,8 @@ import { type FC, type ReactNode, useCallback, useActionState } from 'react';
 import { Notice } from '../Notice/Notice';
 
 export interface FormState {
-  error?: string,
-  success?: string,
+  error?: ReactNode,
+  success?: ReactNode,
 }
 
 export interface FormProps<State> {

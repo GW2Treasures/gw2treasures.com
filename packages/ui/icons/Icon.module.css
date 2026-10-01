@@ -5,3 +5,8 @@
   color: var(--icon-color, currentColor);
   flex-shrink: 0;
 }
+
+svg.icon {
+  /* Improve rasterization in firefox */
+  scale: 1.00001;
+}

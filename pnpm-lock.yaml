@@ -327,8 +327,8 @@ importers:
         specifier: 6.2.12
         version: 6.2.12
       let-it-go:
-        specifier: 1.1.0
-        version: 1.1.0
+        specifier: 2.1.0
+        version: 2.1.0
       negotiator:
         specifier: 1.1.0
         version: 1.1.0
@@ -3105,9 +3105,9 @@ packages:
   keyv@4.5.4:
     resolution: {integrity: sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw==}
 
-  let-it-go@1.1.0:
-    resolution: {integrity: sha512-STi9QnLD0e9+1WZfSlw1m/GUTrrZUKsbopji2S9cZp5OVp9SWoU/qX3cMcqMNGIer7OmaFw+t4TEn6ki72ZTHw==}
-    engines: {node: ^18.0.0 || >=20.0.0}
+  let-it-go@2.1.0:
+    resolution: {integrity: sha512-f3elrlzLFkwwR2k7ohYlEnhBrgDAiyLoBkh6rwEZzawg8Zh/ccBEzVT+GRqyNpPLvc/NkjHn2xzXBukzo6EiZg==}
+    engines: {node: '>=22'}
 
   levn@0.4.1:
     resolution: {integrity: sha512-+bT2uH4E5LGE7h/n3evcS/sQlJXCpIp6ym8OWJ5eV6+67Dsql/LaaT7qJBAt2rzfoa/5QBGBhxDix1dMt2kQKQ==}
@@ -5278,8 +5278,8 @@ snapshots:
 
   '@typescript-eslint/project-service@8.70.1(supports-color@8.1.1)(typescript@6.0.3)':
     dependencies:
-      '@typescript-eslint/tsconfig-utils': 8.71.0(typescript@6.0.3)
-      '@typescript-eslint/types': 8.71.0
+      '@typescript-eslint/tsconfig-utils': 8.70.1(typescript@6.0.3)
+      '@typescript-eslint/types': 8.70.1
       debug: 4.4.3(supports-color@8.1.1)
       typescript: 6.0.3
     transitivePeerDependencies:
@@ -6826,7 +6826,7 @@ snapshots:
     dependencies:
       json-buffer: 3.0.1
 
-  let-it-go@1.1.0: {}
+  let-it-go@2.1.0: {}
 
   levn@0.4.1:
     dependencies:

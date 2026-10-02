@@ -1,0 +1,47 @@
+{
+  "name": "gw2treasures.com Dev Container",
+
+  "dockerComposeFile": "./compose.yml",
+  "service": "dev",
+  "workspaceFolder": "/workspace/gw2treasures.com",
+  "shutdownAction": "stopCompose",
+  "remoteUser": "node",
+
+  "postCreateCommand": "pnpm i",
+
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "telemetry.enableTelemetry": false,
+        "redhat.telemetry.enabled": false,
+        "vulnCost.sendStatistics": false
+      },
+      "extensions": [
+        "clinyong.vscode-css-modules",
+        "dbaeumer.vscode-eslint",
+        "EditorConfig.EditorConfig",
+        "mikestead.dotenv",
+        "Prisma.prisma",
+        "redhat.vscode-yaml",
+        "streetsidesoftware.code-spell-checker",
+        "timonwong.shellcheck",
+        "usernamehw.errorlens"
+      ]
+    }
+  },
+
+  "features": {
+    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
+  },
+
+  "portsAttributes": {
+    "3000": {
+      "label": "gw2treasures.com web",
+      "onAutoForward": "openBrowserOnce"
+    },
+    "5555": {
+      "label": "prisma studio",
+      "onAutoForward": "silent"
+    }
+  }
+}

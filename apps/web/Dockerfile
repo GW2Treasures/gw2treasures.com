@@ -6,7 +6,7 @@ ARG turbo_version=2.11.7
 # renovate: datasource=npm packageName=sharp
 ARG sharp_version=0.35.5
 # renovate: datasource=npm packageName=pnpm
-ARG pnpm_version=12.8.1
+ARG pnpm_version=12.9.0
 
 
 # common base for all stages

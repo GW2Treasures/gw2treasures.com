@@ -37,6 +37,10 @@ jobs:
     name: Renovate
     uses: ./.github/workflows/renovate-validate-config.yml
 
+  prisma:
+    name: Prisma
+    uses: ./.github/workflows/prisma-pending-migrations.yml
+
   success:
     name: Success
     needs: [build, docker, test, lint, renovate]

@@ -1,5 +1,8 @@
 -- enable extension
-CREATE EXTENSION IF NOT EXISTS "timescaledb";
+-- CREATE EXTENSION IF NOT EXISTS "timescaledb";
+SELECT * FROM pg_extension;
+
+SELECT CURRENT_SCHEMA;
 
 -- create hypertable TradingPostHistory
 SELECT create_hypertable('"TradingPostHistory"', by_range('time'), migrate_data => true, create_default_indexes => false);

@@ -18,7 +18,7 @@
     "@gw2treasures/database": "workspace:*",
     "@gw2treasures/helper": "workspace:*",
     "@sentry/node": "11.6.0",
-    "cron-parser": "5.10.1",
+    "cron-parser": "5.10.2",
     "fast-average-color-node": "4.0.0",
     "sharp": "0.35.5"
   },

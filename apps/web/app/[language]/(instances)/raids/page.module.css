@@ -1,0 +1,16 @@
+.tableGroup {
+  border-left: 1px solid var(--color-border);
+  border-right: 1px solid var(--color-border);
+  font-weight: 500 !important;
+  background: linear-gradient(to right, var(--raid-color, var(--color-background-light)), var(--color-background-light));
+}
+
+.tipEvent {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tipEvent + .tipEvent {
+  margin-top: 0.25rem;
+}

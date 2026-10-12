@@ -42,11 +42,15 @@ export const Gw2AccountBodyCells: FC<Gw2AccountBodyCells> = withSuspense(({ chil
   //   This seems to work for now, but I need to create a reproduction for this and report it to get it fixed.
   if(children.$$typeof === Symbol.for('react.lazy')) { children = use(children._payload); }
 
-  const Cell = noDataTable ? Fragment : DataTableClientDynamicCell;
-
-  return !accounts.loading && !accounts.error && accounts.accounts.map((account) => (
-    <Cell id={account.id} key={account.id}>
-      {cloneElement(children, { accountId: account.id })}
-    </Cell>
-  ));
+  return !accounts.loading && !accounts.error && accounts.accounts.map((account) =>
+    noDataTable ? (
+      <Fragment key={account.id}>
+        {cloneElement(children, { accountId: account.id })}
+      </Fragment>
+    ) : (
+      <DataTableClientDynamicCell id={account.id} key={account.id}>
+        {cloneElement(children, { accountId: account.id })}
+      </DataTableClientDynamicCell>
+    )
+  );
 }, <td>Loading...</td>);

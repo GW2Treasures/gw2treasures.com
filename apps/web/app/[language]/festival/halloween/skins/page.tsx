@@ -116,6 +116,13 @@ const skinIds: number[] = [
   13260, // Lunatic Jester's Trousers (Light)
   13234, // Lunatic Jester's Trousers (Heavy)
   13255, // Plush Zhaia Backpack
+  14284, // Primeval King's Wrappings (Light)
+  14279, // Primeval King's Wrappings (Medium)
+  14270, // Primeval King's Wrappings (Heavy)
+  14267, // Primeval King's Uncovered Wrappings (Light)
+  14285, // Primeval King's Uncovered Wrappings (Medium)
+  14266, // Primeval King's Uncovered Wrappings (Heavy)
+  14290, // Plush Mad King Backpack
 ];
 
 const skinSetNames: string[] = [
@@ -126,6 +133,7 @@ const skinSetNames: string[] = [
   'Haunted weapons',
   'Royal Flame weapons',
   'Unchained weapons',
+  'Fog Machine weapons',
 ];
 
 const loadData = cache(async function loadData() {

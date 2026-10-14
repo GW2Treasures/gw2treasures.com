@@ -44,6 +44,7 @@ const miniIds: number[] = [
   787, // Mini Altosius the Flame Raven
   936, // Mini Pummel Spider
   982, // Mini Candy Core Golem
+  1038, // Mini Longhaired Black Cat
 ];
 
 const loadData = cache(async function loadData() {

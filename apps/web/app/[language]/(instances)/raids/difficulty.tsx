@@ -8,7 +8,7 @@ export interface RaidDifficultyProps {
 
 export const RaidDifficulty: FC<RaidDifficultyProps> = ({ difficulty }) => {
   return (
-    <span className={styles.difficulty} aria-label={`${difficulty} / 5`}>
+    <span className={styles.difficulty} role="img" aria-label={`${difficulty} / 5`}>
       {range(1, 6).map((d) => (
         <span key={d} className={d <= difficulty ? styles.dd : styles.d}/>
       ))}

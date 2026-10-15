@@ -27,6 +27,7 @@ import { Fragment } from 'react';
 import { RaidDifficulty } from './difficulty';
 import { DailyRaidBountyCell, RaidEncounterClearCell, RaidWingClearCell, requiredScopes } from './page.client';
 import styles from './page.module.css';
+import og from './og.png';
 
 const alpha = '25';
 const RaidCategoryColor: Record<RaidId, string> = {
@@ -119,7 +120,7 @@ export default async function RaidsPage() {
               <td><Trans id={`raids.encounter.${raidId}`}/></td>
               <td>{itemsById.has(raidBossCoffers[raidId]!) ? <ItemLink item={itemsById.get(raidBossCoffers[raidId]!)!}/> : null}</td>
               <Gw2AccountBodyCells requiredScopes={requiredScopes} noDataTable>
-                <DailyRaidBountyCell accountId={null} dailyAchievementId={dailyAchievementId[raidId]}/>
+                <DailyRaidBountyCell accountId={null as never} dailyAchievementId={dailyAchievementId[raidId]}/>
               </Gw2AccountBodyCells>
             </tr>
           ))}
@@ -133,7 +134,7 @@ export default async function RaidsPage() {
         <thead>
           <tr>
             <Table.HeaderCell><Trans id="raids.name"/></Table.HeaderCell>
-            <Table.HeaderCell><Trans id="raids.weekly"/></Table.HeaderCell>
+            <Table.HeaderCell><Trans id="raids.effect"/></Table.HeaderCell>
             <Table.HeaderCell><Trans id="raids.type"/></Table.HeaderCell>
             <Table.HeaderCell><Trans id="raids.difficulty"/></Table.HeaderCell>
             <Table.HeaderCell><Trans id="raids.achievements"/></Table.HeaderCell>
@@ -187,5 +188,7 @@ export const generateMetadata = createMetadata(async () => {
     title: t('raids'),
     description: t('raids.description'),
     keywords: ['raid', 'wing', 'instance', 'PvE', 'group', 'squad', 'weekly', 'daily', 'bounty', 'bounties', 'emboldened', 'call of the mists', 'clear', 'completion', 'coffer'],
+    image: og,
+    url: '/raids'
   };
 });

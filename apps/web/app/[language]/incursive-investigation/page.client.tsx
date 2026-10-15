@@ -3,6 +3,7 @@
 import { getAchievementObjectiveState } from '@/components/Achievement/AccountAchievementProgress';
 import { ProgressCell } from '@/components/Achievement/ProgressCell';
 import { FormatNumber } from '@/components/Format/FormatNumber';
+import { useGw2Account } from '@/components/Gw2Api/use-gw2-account';
 import { useSubscription } from '@/components/Gw2Api/use-gw2-subscription';
 import { Skeleton } from '@/components/Skeleton/Skeleton';
 import { findMinutesUntilNext, type Schedule } from '@/components/Time/countdown';
@@ -16,10 +17,10 @@ const OBJECTIVES_PER_ACHIEVEMENT = 3;
 
 export interface ChasingShadowsProgressProps {
   achievements: Pick<Achievement, 'id' | 'flags' | 'prerequisitesIds'>[],
-  accountId: string,
 }
 
-export const ChasingShadowsProgress: FC<ChasingShadowsProgressProps> = ({ accountId, achievements }) => {
+export const ChasingShadowsProgress: FC<ChasingShadowsProgressProps> = ({ achievements }) => {
+  const { id: accountId } = useGw2Account();
   const accountAchievements = useSubscription('achievements', accountId);
 
   if(accountAchievements.loading) {

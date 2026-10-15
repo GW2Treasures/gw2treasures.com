@@ -1,7 +1,8 @@
 'use client';
 
 import type { Scope } from '@gw2me/client';
-import { cloneElement, use, type FC, type ReactElement, Fragment } from 'react';
+import type { FC, ReactNode } from 'react';
+import { Gw2AccountContext } from './Gw2AccountContext';
 import { useGw2Accounts } from './use-gw2-accounts';
 import { Gw2AccountName } from './Gw2AccountName';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
@@ -29,28 +30,20 @@ export const Gw2AccountHeaderCells: FC<Gw2AccountHeaderCellsProps> = withSuspens
 
 export interface Gw2AccountBodyCells {
   requiredScopes: Scope[],
-  children: ReactElement<{ accountId: string }>,
+  children: ReactNode,
   noDataTable?: boolean,
 }
 
 export const Gw2AccountBodyCells: FC<Gw2AccountBodyCells> = withSuspense(({ children, requiredScopes, noDataTable }) => {
   const accounts = useGw2Accounts(requiredScopes);
 
-  // @ts-expect-error this is a workaround, because react@19 somehow broke passing children elements
-  //   (Gw2AccountBodyCells is a client component, children are sometimes server components).
-  //   Before react@19 `children` was `<Lazy/>`, now it is `{ $$typeof: Symbol(react.lazy) }`.
-  //   This seems to work for now, but I need to create a reproduction for this and report it to get it fixed.
-  if(children.$$typeof === Symbol.for('react.lazy')) { children = use(children._payload); }
-
-  return !accounts.loading && !accounts.error && accounts.accounts.map((account) =>
-    noDataTable ? (
-      <Fragment key={account.id}>
-        {cloneElement(children, { accountId: account.id })}
-      </Fragment>
-    ) : (
-      <DataTableClientDynamicCell id={account.id} key={account.id}>
-        {cloneElement(children, { accountId: account.id })}
-      </DataTableClientDynamicCell>
-    )
-  );
+  return !accounts.loading && !accounts.error && accounts.accounts.map((account) => (
+    <Gw2AccountContext key={account.id} value={account}>
+      {noDataTable ? children : (
+        <DataTableClientDynamicCell id={account.id}>
+          {children}
+        </DataTableClientDynamicCell>
+      )}
+    </Gw2AccountContext>
+  ));
 }, <td>Loading...</td>);

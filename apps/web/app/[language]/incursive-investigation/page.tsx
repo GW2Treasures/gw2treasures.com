@@ -166,7 +166,7 @@ export default async function IncursiveInvestigationPage() {
         </timers.DynamicColumns>
         <timers.DynamicColumns id="account" title="Accounts" headers={<AccountAchievementProgressHeader/>}>
           {(event) => event.id === 'fractal_incursion'
-            ? <Gw2AccountBodyCells requiredScopes={requiredScopes}><ChasingShadowsProgress achievements={chasingShadowsAchievements} accountId={null as never}/></Gw2AccountBodyCells>
+            ? <Gw2AccountBodyCells requiredScopes={requiredScopes}><ChasingShadowsProgress achievements={chasingShadowsAchievements}/></Gw2AccountBodyCells>
             : achievementsById.has(event.achievementId)
               ? <AccountAchievementProgressRow achievement={achievementsById.get(event.achievementId)!} bitId={event.bitIndex!} type={'objective' as never}/>
               : <Gw2AccountBodyCells requiredScopes={requiredScopes}><td>?</td></Gw2AccountBodyCells>

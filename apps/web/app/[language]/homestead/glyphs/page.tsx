@@ -80,7 +80,7 @@ export default async function HomesteadGlyphsPage() {
         <Glyphs.Column id="sellPriceTrend" title={<Trans id="itemTable.column.sellPriceTrend"/>} align="right" hidden>{({ unusedGlyph }) => unusedGlyph && itemTableColumn.sellPriceTrend(unusedGlyph, {}, language)}</Glyphs.Column>
         <Glyphs.Column id="sellQuantity" title={<Trans id="itemTable.column.sellQuantity"/>} sortBy={({ unusedGlyph }) => unusedGlyph?.sellQuantity} align="right" hidden>{({ unusedGlyph }) => unusedGlyph && itemTableColumn.sellQuantity(unusedGlyph, {}, language)}</Glyphs.Column>
         <Glyphs.DynamicColumns id="account-slots" title="Account Slots" headers={<Gw2AccountHeaderCells requiredScopes={requiredScopes} small colSpan={3} sortable={false}/>}>
-          {({ id }) => <Gw2AccountBodyCells requiredScopes={requiredScopes}><AccountHomesteadGlyphsCell glyphIdPrefix={id.split('_')[0]} accountId={undefined as never} slotTranslations={glyphSlotTranslations}/></Gw2AccountBodyCells>}
+          {({ id }) => <Gw2AccountBodyCells requiredScopes={requiredScopes}><AccountHomesteadGlyphsCell glyphIdPrefix={id.split('_')[0]} slotTranslations={glyphSlotTranslations}/></Gw2AccountBodyCells>}
         </Glyphs.DynamicColumns>
       </Glyphs.Table>
 

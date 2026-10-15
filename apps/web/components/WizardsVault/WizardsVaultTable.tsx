@@ -35,7 +35,7 @@ export const WizardsVaultTable: FC<WizardsVaultTableProps> = async ({ objectives
       <Objectives.DynamicColumns id="account-unlock" title={<Trans id="wizards-vault.progress"/>} headers={<Gw2AccountHeaderCells requiredScopes={requiredScopes} small/>}>
         {({ id }) => (
           <Gw2AccountBodyCells requiredScopes={requiredScopes}>
-            <WizardsVaultObjectiveTableProgressCell objectiveId={id} accountId={undefined as never}/>
+            <WizardsVaultObjectiveTableProgressCell objectiveId={id}/>
           </Gw2AccountBodyCells>
         )}
       </Objectives.DynamicColumns>

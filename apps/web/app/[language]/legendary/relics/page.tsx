@@ -150,7 +150,7 @@ export default async function LegendaryRelicsPage() {
             {({ achievement }) => <AchievementLink achievement={achievement}>{normalizeSetName(localizedName(achievement, language))}</AchievementLink>}
           </Relics.Column>
           <Relics.DynamicColumns id="account-unlock" title="Account Unlocks" headers={<Gw2AccountHeaderCells small requiredScopes={requiredScopes}/>}>
-            {({ achievement, bitId, set }) => <Gw2AccountBodyCells requiredScopes={requiredScopes}><RelicUnlockCell achievement={achievement} bitId={bitId} set={set} accountId={undefined as never}/></Gw2AccountBodyCells>}
+            {({ achievement, bitId, set }) => <Gw2AccountBodyCells requiredScopes={requiredScopes}><RelicUnlockCell achievement={achievement} bitId={bitId} set={set}/></Gw2AccountBodyCells>}
           </Relics.DynamicColumns>
           <Relics.Column id="actions" title="" small fixed>
             {({ item, achievement }) => (

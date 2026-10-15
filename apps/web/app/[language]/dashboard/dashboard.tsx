@@ -1,6 +1,7 @@
 'use client';
 
 import { Gw2AccountName } from '@/components/Gw2Api/Gw2AccountName';
+import { Gw2AccountContext } from '@/components/Gw2Api/Gw2AccountContext';
 import { Gw2Accounts } from '@/components/Gw2Api/Gw2Accounts';
 import type { Gw2Account } from '@/components/Gw2Api/types';
 import { type FC, Suspense, useEffect, useState } from 'react';
@@ -99,16 +100,18 @@ interface AccountRow {
 
 const AccountRow: FC<AccountRow> = ({ account, columns }) => {
   return (
-    <tr>
-      <td><Gw2AccountName account={account}/></td>
-      {columns.map((column) => column.type === 'item' ? (
-        <AccountItemCell key={`${column.type}-${column.id}`} account={account} id={column.id}/>
-      ) : column.type === 'currency' ? (
-        <AccountCurrencyCell key={`${column.type}-${column.id}`} account={account} id={column.id}/>
-      ) : column.type === 'achievement' ? (
-        <AccountAchievementProgressCell type="objective" key={`${column.type}-${column.id}`} accountId={account.id} achievement={column.achievement!}/>
-      ) : <td/>)}
-    </tr>
+    <Gw2AccountContext value={account}>
+      <tr>
+        <td><Gw2AccountName account={account}/></td>
+        {columns.map((column) => column.type === 'item' ? (
+          <AccountItemCell key={`${column.type}-${column.id}`} account={account} id={column.id}/>
+        ) : column.type === 'currency' ? (
+          <AccountCurrencyCell key={`${column.type}-${column.id}`} account={account} id={column.id}/>
+        ) : column.type === 'achievement' ? (
+          <AccountAchievementProgressCell type="objective" key={`${column.type}-${column.id}`} achievement={column.achievement!}/>
+        ) : <td/>)}
+      </tr>
+    </Gw2AccountContext>
   );
 };
 

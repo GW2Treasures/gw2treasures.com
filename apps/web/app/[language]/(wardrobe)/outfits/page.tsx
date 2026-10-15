@@ -65,7 +65,7 @@ export default async function OutfitsPage() {
         </Outfits.Column>
         <Outfits.DynamicColumns id="unlock" title={<Trans id="colors.unlocks"/>} headers={<Gw2AccountHeaderCells requiredScopes={requiredScopes} small/>}>
           {({ id }) => (
-            <Gw2AccountBodyCells requiredScopes={requiredScopes}><OutfitAccountUnlockCell outfitId={id} accountId={undefined as never}/></Gw2AccountBodyCells>
+            <Gw2AccountBodyCells requiredScopes={requiredScopes}><OutfitAccountUnlockCell outfitId={id}/></Gw2AccountBodyCells>
           )}
         </Outfits.DynamicColumns>
       </Outfits.Table>

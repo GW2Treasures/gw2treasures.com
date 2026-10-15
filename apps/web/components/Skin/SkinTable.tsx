@@ -44,7 +44,7 @@ export const SkinTable: FC<SkinTableProps> = async ({ skins, headline, headlineI
       <Skins.DynamicColumns id="account-unlock" title="Account Unlocks" headers={<Gw2AccountHeaderCells requiredScopes={requiredScopes} small/>}>
         {({ id }) => (
           <Gw2AccountBodyCells requiredScopes={requiredScopes}>
-            <SkinAccountUnlockCell skinId={id} accountId={undefined as never}/>
+            <SkinAccountUnlockCell skinId={id}/>
           </Gw2AccountBodyCells>
         )}
       </Skins.DynamicColumns>

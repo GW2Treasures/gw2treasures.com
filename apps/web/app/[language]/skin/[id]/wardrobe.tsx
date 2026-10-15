@@ -1,6 +1,7 @@
 'use client';
 
 import { Gw2AccountName } from '@/components/Gw2Api/Gw2AccountName';
+import { Gw2AccountContext } from '@/components/Gw2Api/Gw2AccountContext';
 import { Gw2Accounts } from '@/components/Gw2Api/Gw2Accounts';
 import { SkinAccountUnlockCell } from '@/components/Skin/SkinAccountUnlockCell';
 import { useUser } from '@/components/User/use-user';
@@ -36,10 +37,12 @@ export const Wardrobe: FC<WardrobeProps> = ({ skinId }) => {
             </thead>
             <tbody>
               {accounts.map((account) => (
-                <tr key={account.id}>
-                  <th><Gw2AccountName account={account}/></th>
-                  <SkinAccountUnlockCell accountId={account.id} skinId={skinId}/>
-                </tr>
+                <Gw2AccountContext key={account.id} value={account}>
+                  <tr>
+                    <th><Gw2AccountName account={account}/></th>
+                    <SkinAccountUnlockCell skinId={skinId}/>
+                  </tr>
+                </Gw2AccountContext>
               ))}
             </tbody>
           </Table>

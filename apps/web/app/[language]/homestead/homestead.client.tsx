@@ -2,6 +2,7 @@
 
 import { type FC } from 'react';
 import { Scope } from '@gw2me/client';
+import { useGw2Account } from '@/components/Gw2Api/use-gw2-account';
 import { useSubscription } from '@/components/Gw2Api/use-gw2-subscription';
 import { Skeleton } from '@/components/Skeleton/Skeleton';
 import { ProgressCell } from '@/components/Achievement/ProgressCell';
@@ -14,7 +15,8 @@ import { Gw2ApiErrorBadge } from '@/components/Gw2Api/api-error-badge';
 
 export const requiredScopes = [Scope.GW2_Progression, Scope.GW2_Unlocks];
 
-export const AccountHomeNodeCell: FC<{ nodeId: string, accountId: string }> = ({ nodeId, accountId }) => {
+export const AccountHomeNodeCell: FC<{ nodeId: string }> = ({ nodeId }) => {
+  const { id: accountId } = useGw2Account();
   const nodes = useSubscription('home.nodes', accountId);
 
   if (nodes.loading) {
@@ -32,7 +34,8 @@ export const AccountHomeNodeCell: FC<{ nodeId: string, accountId: string }> = ({
   );
 };
 
-export const AccountHomeCatCell: FC<{ catId: number, accountId: string }> = ({ catId, accountId }) => {
+export const AccountHomeCatCell: FC<{ catId: number }> = ({ catId }) => {
+  const { id: accountId } = useGw2Account();
   const cats = useSubscription('home.cats', accountId);
 
   if (cats.loading) {
@@ -51,7 +54,8 @@ export const AccountHomeCatCell: FC<{ catId: number, accountId: string }> = ({ c
 };
 
 
-export const AccountHomesteadDecorationCell: FC<{ decorationId: number, accountId: string }> = ({ decorationId, accountId }) => {
+export const AccountHomesteadDecorationCell: FC<{ decorationId: number }> = ({ decorationId }) => {
+  const { id: accountId } = useGw2Account();
   const decorations = useSubscription('homestead.decorations', accountId);
 
   if (decorations.loading) {
@@ -73,7 +77,8 @@ export const AccountHomesteadDecorationCell: FC<{ decorationId: number, accountI
 
 type GlyphSlotTranslations = TranslationSubset<'homestead.glyphs.slot.harvesting' | 'homestead.glyphs.slot.logging' | 'homestead.glyphs.slot.mining'>;
 
-export const AccountHomesteadGlyphsCell: FC<{ glyphIdPrefix: string, accountId: string, slotTranslations: GlyphSlotTranslations }> = ({ glyphIdPrefix, accountId, slotTranslations }) => {
+export const AccountHomesteadGlyphsCell: FC<{ glyphIdPrefix: string, slotTranslations: GlyphSlotTranslations }> = ({ glyphIdPrefix, slotTranslations }) => {
+  const { id: accountId } = useGw2Account();
   const glyphs = useSubscription('homestead.glyphs', accountId);
 
   if (glyphs.loading) {

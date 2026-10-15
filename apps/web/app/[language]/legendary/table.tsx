@@ -37,7 +37,7 @@ export const LegendaryItemDataTable: FC<LegendaryItemDataTableProps> = ({ langua
       <items.Column id="type" title={<Trans id="itemTable.column.type"/>} sortBy={({ subtype }) => subtype}>{(item) => <ItemType type={item.type as never} subtype={item.subtype as never} translations={translateMany(itemTypeTranslations.short, language)} display="short"/>}</items.Column>
       <items.Column id="maxCount" title={<Trans id="legendary-armory.max-count"/>}>{(item) => <FormatNumber value={item.legendaryArmoryMaxCount}/>}</items.Column>
       <items.DynamicColumns id="account-unlock" title="Account Unlocks" headers={<Gw2AccountHeaderCells small requiredScopes={requiredScopes}/>}>
-        {(item) => <Gw2AccountBodyCells requiredScopes={requiredScopes}><LegendaryArmoryCell itemId={item.id} accountId={undefined as never} maxCount={item.legendaryArmoryMaxCount}/></Gw2AccountBodyCells>}
+        {(item) => <Gw2AccountBodyCells requiredScopes={requiredScopes}><LegendaryArmoryCell itemId={item.id} maxCount={item.legendaryArmoryMaxCount}/></Gw2AccountBodyCells>}
       </items.DynamicColumns>
       <items.Column id="actions" title="" small fixed>
         {({ id }) => (

@@ -69,7 +69,7 @@ export default async function ColorPage() {
         </Colors.Column>
         <Colors.DynamicColumns id="unlock" title={<Trans id="colors.unlocks"/>} headers={<Gw2AccountHeaderCells requiredScopes={requiredScopes} small/>}>
           {({ id }) => (
-            <Gw2AccountBodyCells requiredScopes={requiredScopes}><ColorAccountUnlockCell colorId={id} accountId={undefined as never}/></Gw2AccountBodyCells>
+            <Gw2AccountBodyCells requiredScopes={requiredScopes}><ColorAccountUnlockCell colorId={id}/></Gw2AccountBodyCells>
           )}
         </Colors.DynamicColumns>
       </Colors.Table>

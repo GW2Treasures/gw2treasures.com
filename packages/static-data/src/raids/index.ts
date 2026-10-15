@@ -1,27 +1,62 @@
-export interface Raid {
-  id: string,
-  wings: Wing[],
+// The Id types are generic so that they can be inferred from the actual raid data.
+export interface RaidCategory<
+  RaidId extends string = string,
+  WingId extends string = string,
+  RaidWingEncounterId extends string = string,
+  RaidEncounterId extends string = string
+> {
+  id: RaidId,
+  wings: (Wing<WingId, RaidWingEncounterId> | Encounter<RaidEncounterId>)[],
 }
-export interface Wing {
-  id: string,
-  events: Event[],
-  achievementCategoryId: number,
+
+export interface Wing<WingId, RaidWingEncounterId> {
+  id: WingId,
+  type: 'wing',
+  events: Event<RaidWingEncounterId>[],
+  achievementCategoryId?: number,
+  difficulty: 1 | 2 | 3 | 4 | 5,
 }
-export interface Event {
-  id: string,
+export interface Event<RaidWingEncounterId> {
+  id: RaidWingEncounterId,
   type: 'Boss' | 'Checkpoint',
   icon?: string,
+  cofferItemId?: number,
 }
 
-export type RaidId = typeof raids[number]['id'];
-export type WingId = typeof raids[number]['wings'][number]['id'];
-export type EncounterId = typeof raids[number]['wings'][number]['events'][number]['id'];
+export interface Encounter<RaidEncounterId> {
+  id: RaidEncounterId,
+  type: 'encounter',
+  difficulty: 1 | 2 | 3 | 4 | 5,
+  /**
+   * The bit Id of the weekly raid encounter achievement used to track encounters not returned by /v2/raids
+   * @see https://en.gw2treasures.com/achievement/9125
+   */
+  bitId: number | undefined,
+  achievementCategoryId?: number,
+  cofferItemId?: number,
+}
 
-export const raids = [{
-  id: 'forsaken_thicket',
+export type RaidId = typeof raidData[number]['id'];
+export type WingId = Extract<typeof raidData[number]['wings'][number], { type: 'wing' }>['id'];
+export type RaidWingEncounterId = Extract<typeof raidData[number]['wings'][number], { type: 'wing' }>['events'][number]['id'];
+export type RaidEncounterId = Extract<typeof raidData[number]['wings'][number], { type: 'encounter' }>['id'];
+
+
+const raidData = [{
+  id: 'core',
+  wings: [{
+    id: 'olc',
+    type: 'encounter',
+    difficulty: 4,
+    bitId: 12,
+  }]
+}, {
+  id: 'heart_of_thorns',
   wings: [{
     id: 'spirit_vale',
+    type: 'wing',
     achievementCategoryId: 124,
+    difficulty: 2,
     events: [{
       id: 'vale_guardian',
       type: 'Boss',
@@ -41,7 +76,9 @@ export const raids = [{
     }]
   }, {
     id: 'salvation_pass',
+    type: 'wing',
     achievementCategoryId: 134,
+    difficulty: 3,
     events: [{
       id: 'slothasor',
       type: 'Boss',
@@ -57,7 +94,9 @@ export const raids = [{
     }]
   }, {
     id: 'stronghold_of_the_faithful',
+    type: 'wing',
     achievementCategoryId: 138,
+    difficulty: 3,
     events: [{
       id: 'escort',
       type: 'Boss',
@@ -75,12 +114,11 @@ export const raids = [{
       type: 'Boss',
       icon: 'https://render.guildwars2.com/file/551509B3B91270BFF016C020D2F9D99B550F93AA/1451174.png',
     }]
-  }]
-}, {
-  id: 'bastion_of_the_penitent',
-  wings: [{
+  }, {
     id: 'bastion_of_the_penitent',
+    type: 'wing',
     achievementCategoryId: 155,
+    difficulty: 3,
     events: [{
       id: 'cairn',
       type: 'Boss',
@@ -100,10 +138,12 @@ export const raids = [{
     }]
   }]
 }, {
-  id: 'hall_of_chains',
+  id: 'path_of_fire',
   wings: [{
     id: 'hall_of_chains',
+    type: 'wing',
     achievementCategoryId: 195,
+    difficulty: 4,
     events: [{
       id: 'soulless_horror',
       type: 'Boss',
@@ -121,12 +161,11 @@ export const raids = [{
       type: 'Boss',
       icon: 'https://render.guildwars2.com/file/5C4FEBC890B4D9D2D6A96E4837CD4C0CFA605AB7/1894937.png',
     }]
-  }]
-}, {
-  id: 'mythwright_gambit',
-  wings: [{
+  }, {
     id: 'mythwright_gambit',
+    type: 'wing',
     achievementCategoryId: 215,
+    difficulty: 4,
     events: [{
       id: 'conjured_amalgamate',
       type: 'Boss',
@@ -140,12 +179,11 @@ export const raids = [{
       type: 'Boss',
       icon: 'https://render.guildwars2.com/file/64ED38CE4F549E573DA3CE641A15BCB3C4FB48B3/2038618.png',
     }]
-  }]
-}, {
-  id: 'the_key_of_ahdashim',
-  wings: [{
+  }, {
     id: 'the_key_of_ahdashim',
+    type: 'wing',
     achievementCategoryId: 229,
+    difficulty: 4,
     events: [{
       id: 'gate',
       type: 'Checkpoint',
@@ -165,10 +203,86 @@ export const raids = [{
     }]
   }]
 }, {
-  id: 'mount_balrior',
+  id: 'icebrood_saga',
+  wings: [{
+    id: 'shiverpeaks_pass',
+    type: 'encounter',
+    difficulty: 1,
+    bitId: 0,
+  }, {
+    id: 'voice_claw',
+    type: 'encounter',
+    difficulty: 1,
+    bitId: 2,
+  }, {
+    id: 'fraenir_of_jormag',
+    type: 'encounter',
+    difficulty: 2,
+    bitId: 1,
+  }, {
+    id: 'boneskinner',
+    difficulty: 2,
+    type: 'encounter',
+    bitId: 4,
+  }, {
+    id: 'whisper_of_jormag',
+    difficulty: 2,
+    type: 'encounter',
+    bitId: 3,
+  }, {
+    id: 'forging_steel',
+    difficulty: 3,
+    type: 'encounter',
+    bitId: undefined
+  }, {
+    id: 'cold_war',
+    difficulty: 2,
+    type: 'encounter',
+    bitId: 5,
+  }],
+}, {
+  id: 'end_of_dragons',
+  wings: [{
+    id: 'aetherblade',
+    difficulty: 1,
+    type: 'encounter',
+    bitId: 6,
+  }, {
+    id: 'xunlai_jade_junkyard',
+    difficulty: 3,
+    type: 'encounter',
+    bitId: 7,
+  }, {
+    id: 'kaineng_overlook',
+    difficulty: 4,
+    type: 'encounter',
+    bitId: 8,
+  }, {
+    id: 'harvest_temple',
+    difficulty: 5,
+    type: 'encounter',
+    bitId: 9,
+  }]
+}, {
+  id: 'secrets_of_the_obscure',
+  wings: [{
+    id: 'cosmic_observatory',
+    difficulty: 2,
+    type: 'encounter',
+    bitId: 10,
+  }, {
+    id: 'temple_of_febe',
+    difficulty: 3,
+    type: 'encounter',
+    bitId: 11,
+  }]
+}, {
+  id: 'janthir_wilds',
   wings: [{
     id: 'mount_balrior',
+    type: 'wing',
     achievementCategoryId: 438,
+    difficulty: 5,
     events: [{
       id: 'camp',
       type: 'Checkpoint',
@@ -187,4 +301,21 @@ export const raids = [{
       icon: 'https://render.guildwars2.com/file/E8EBB7BA0819BFECD3D24F95126A2DED6F4A6B54/3441855.png',
     }]
   }]
-}] as const satisfies Raid[];
+}, {
+  id: 'visions_of_eternity',
+  wings: [{
+    id: 'guardians_glade',
+    type: 'encounter',
+    difficulty: 3,
+    bitId: 13,
+    achievementCategoryId: 480,
+  }, {
+    id: 'nexus_of_eternity',
+    type: 'encounter',
+    difficulty: 3,
+    bitId: undefined,
+    achievementCategoryId: 488,
+  }]
+}] as const satisfies RaidCategory[];
+
+export const raids = raidData as RaidCategory<RaidId, WingId, RaidWingEncounterId, RaidEncounterId>[];

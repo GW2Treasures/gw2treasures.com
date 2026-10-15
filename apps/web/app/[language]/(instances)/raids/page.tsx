@@ -1,26 +1,45 @@
 import { AchievementCategoryLink } from '@/components/Achievement/AchievementCategoryLink';
 import { AchievementLink } from '@/components/Achievement/AchievementLink';
-import { EntityIcon } from '@/components/Entity/EntityIcon';
+import { MasteryColors } from '@/components/Achievement/Mastery';
 import { Gw2AccountBodyCells, Gw2AccountHeaderCells } from '@/components/Gw2Api/Gw2AccountTableCells';
 import { Trans } from '@/components/I18n/Trans';
+import { ItemLink } from '@/components/Item/ItemLink';
 import { ItemList } from '@/components/ItemList/ItemList';
 import { Description } from '@/components/Layout/Description';
 import { ResetTimer } from '@/components/Reset/ResetTimer';
 import { cache } from '@/lib/cache';
-import { linkPropertiesWithoutRarity } from '@/lib/linkProperties';
-import { parseIcon } from '@/lib/parseIcon';
+import { linkProperties, linkPropertiesWithoutRarity } from '@/lib/linkProperties';
+import { createMetadata } from '@/lib/metadata';
+import { pageView } from '@/lib/pageView';
 import { db } from '@/lib/prisma';
 import { getLanguage, getTranslate } from '@/lib/translate';
-import { raids } from '@gw2treasures/static-data/raids/index';
+import { groupById } from '@gw2treasures/helper/group-by';
+import { getDayOfYearIndex } from '@gw2treasures/static-data/fractals/index';
+import { raidBossCoffers } from '@gw2treasures/static-data/raids/coffer';
+import { dailyAchievementId, getDailySet } from '@gw2treasures/static-data/raids/daily';
+import { raids, type RaidId } from '@gw2treasures/static-data/raids/index';
 import { Icon } from '@gw2treasures/ui';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
-import { RaidClearCell, requiredScopes } from './page.client';
-import { pageView } from '@/lib/pageView';
-import { createMetadata } from '@/lib/metadata';
-import { Notice } from '@gw2treasures/ui/components/Notice/Notice';
+import { Fragment } from 'react';
+import { RaidDifficulty } from './difficulty';
+import { DailyRaidBountyCell, RaidEncounterClearCell, RaidWingClearCell, requiredScopes } from './page.client';
+import styles from './page.module.css';
+import og from './og.png';
+
+const alpha = '25';
+const RaidCategoryColor: Record<RaidId, string> = {
+  core: MasteryColors.Tyria + alpha,
+  heart_of_thorns: MasteryColors.Maguuma + alpha,
+  path_of_fire: MasteryColors.Desert + alpha,
+  icebrood_saga: MasteryColors.Tundra + alpha,
+  end_of_dragons: MasteryColors.Jade + alpha,
+  secrets_of_the_obscure: MasteryColors.Sky + alpha,
+  janthir_wilds: MasteryColors.Wild + alpha,
+  visions_of_eternity: MasteryColors.Magic + alpha,
+};
 
 function getEmboldenedIndex() {
   const offsetStart = new Date(Date.UTC(2025, 1, 17, 8, 30));
@@ -50,60 +69,105 @@ const getRaidAchievements = cache(async () => {
   return { achievements, achievementCategories };
 }, ['raid-achievement-categories2'], { revalidate: 60 * 60 });
 
+const getRaidItems = cache(async () => {
+  const items = await db.item.findMany({
+    where: { id: { in: Object.values(raidBossCoffers) }},
+    select: linkProperties,
+    orderBy: { id: 'asc' },
+  });
+
+  return { items };
+}, ['raid-items'], { revalidate: 60 * 60 });
+
 export default async function RaidsPage() {
-  const { achievements, achievementCategories } = await getRaidAchievements();
+  const language = await getLanguage();
+  const translate = getTranslate(language);
+  const [{ items }, { achievements, achievementCategories }] = await Promise.all([getRaidItems(), getRaidAchievements()]);
   await pageView('/raids');
 
-  const emboldenedWing = getEmboldenedIndex() + 1;
-  let wingNumber = 0;
+  const weeklyWingIndex = getEmboldenedIndex() + 1;
+  const raidWingIds = raids.flatMap((r) => r.wings).filter((wing) => wing.type === 'wing').map(({ id }) => id);
+  const emboldenedWingId = raidWingIds[weeklyWingIndex - 1];
+  const callOfTheMistsWingId = raidWingIds[(weeklyWingIndex % 8)];
+
+  const itemsById = groupById(items);
+
+  const categories = groupById(achievementCategories);
+
+  const dayOfYearIndex = getDayOfYearIndex();
+  const dailySet = getDailySet(dayOfYearIndex);
 
   return (
     <>
-      <Notice>
-        The Guild Wars 2 Visions of Eternity <b>Quarterly Release 1</b> on <b>Feb 3rd</b> will include a <b>new Raid Encounter</b> and <b>unify Strikes and Raids</b>. It might take some time to update this page accordingly.
-      </Notice>
-      <Description actions={<span style={{ lineHeight: '36px' }}>Reset: <ResetTimer reset="current-weekly"/></span>}>
+      <Description>
         <Trans id="raids.description"/>
       </Description>
+
+      <Headline id="daily" actions={<FlexRow><span><Trans id="reset"/> <ResetTimer reset="current-daily"/></span></FlexRow>}>
+        <Trans id="raids.daily"/>
+      </Headline>
       <Table>
         <thead>
           <tr>
-            <Table.HeaderCell small align="right">#</Table.HeaderCell>
             <Table.HeaderCell><Trans id="raids.name"/></Table.HeaderCell>
-            <Table.HeaderCell><Trans id="raids.weekly"/></Table.HeaderCell>
-            <Table.HeaderCell><Trans id="raids.encounter"/></Table.HeaderCell>
+            <Table.HeaderCell><Trans id="raids.coffer"/></Table.HeaderCell>
             <Gw2AccountHeaderCells requiredScopes={requiredScopes} noDataTable small/>
           </tr>
         </thead>
-        {raids.flatMap((raid) => raid.wings.map((wing) => (
-          <tbody key={wing.id}>
-            {wing.events.map((event, index) => (
-              <tr key={event.id}>
-                {index === 0 && (
-                  <>
-                    <th rowSpan={wing.events.length} align="right">W{++wingNumber}</th>
-                    <th rowSpan={wing.events.length}><Trans id={`raids.wing.${wing.id}`}/></th>
-                    <td rowSpan={wing.events.length}>
-                      <FlexRow>
-                        {wingNumber === emboldenedWing && <Tip tip={<Trans id="raids.emboldened"/>}><Icon icon="raid-emboldened"/></Tip>}
-                        {wingNumber === ((emboldenedWing % 8) + 1) && <Tip tip={<Trans id="raids.call-of-the-mists"/>}><Icon icon="raid-call-of-the-mists"/></Tip>}
-                      </FlexRow>
-                    </td>
-                  </>
-                )}
-                <td>
-                  <FlexRow>
-                    {event.icon && <EntityIcon icon={parseIcon(event.icon)!} size={32}/>}
-                    <Trans id={`raids.event.${event.id}`}/>
-                  </FlexRow>
-                </td>
-                <Gw2AccountBodyCells requiredScopes={requiredScopes} noDataTable>
-                  <RaidClearCell accountId={null as never} eventId={event.id}/>
-                </Gw2AccountBodyCells>
-              </tr>
-            ))}
-          </tbody>
-        )))}
+        <tbody>
+          {dailySet.map((raidId) => (
+            <tr key={raidId}>
+              <td><Trans id={`raids.encounter.${raidId}`}/></td>
+              <td>{itemsById.has(raidBossCoffers[raidId]!) ? <ItemLink item={itemsById.get(raidBossCoffers[raidId]!)!}/> : null}</td>
+              <Gw2AccountBodyCells requiredScopes={requiredScopes} noDataTable>
+                <DailyRaidBountyCell accountId={null as never} dailyAchievementId={dailyAchievementId[raidId]}/>
+              </Gw2AccountBodyCells>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+
+      <Headline id="weekly" actions={<span><Trans id="reset"/> <ResetTimer reset="current-weekly"/></span>}>
+        <Trans id="raids.weekly"/>
+      </Headline>
+      <Table>
+        <thead>
+          <tr>
+            <Table.HeaderCell><Trans id="raids.name"/></Table.HeaderCell>
+            <Table.HeaderCell><Trans id="raids.effect"/></Table.HeaderCell>
+            <Table.HeaderCell><Trans id="raids.type"/></Table.HeaderCell>
+            <Table.HeaderCell><Trans id="raids.difficulty"/></Table.HeaderCell>
+            <Table.HeaderCell><Trans id="raids.achievements"/></Table.HeaderCell>
+            <Gw2AccountHeaderCells requiredScopes={requiredScopes} noDataTable small/>
+          </tr>
+        </thead>
+        <tbody>
+          {raids.map((raid) => (
+            <Fragment key={raid.id}>
+              <tr><th colSpan={99} style={{ '--raid-color': RaidCategoryColor[raid.id] }} className={styles.tableGroup}><Trans id={`raids.category.${raid.id}`}/></th></tr>
+              {raid.wings.map((wing) => (
+                <tr key={wing.id}>
+                  <th><Trans id={wing.type === 'encounter' ? `raids.encounter.${wing.id}` : `raids.wing.${wing.id}`}/></th>
+                  <th>
+                    <FlexRow>
+                      {wing.id === emboldenedWingId && <Tip tip={<Trans id="raids.emboldened"/>}><Icon icon="raid-emboldened"/></Tip>}
+                      {wing.id === callOfTheMistsWingId && <Tip tip={<Trans id="raids.call-of-the-mists"/>}><Icon icon="raid-call-of-the-mists"/></Tip>}
+                    </FlexRow>
+                  </th>
+                  <td style={{ color: 'var(--color-text-muted)', whiteSpace: 'nowrap' }}><Trans id={`raids.type.${wing.type}`}/></td>
+                  <td><RaidDifficulty difficulty={wing.difficulty}/></td>
+                  <td>{wing.achievementCategoryId && <AchievementCategoryLink achievementCategory={categories.get(wing.achievementCategoryId)!}/>}</td>
+                  <Gw2AccountBodyCells requiredScopes={requiredScopes} noDataTable>
+                    {wing.type === 'wing'
+                      ? <RaidWingClearCell accountId={null as never} events={wing.events.map((e) => ({ id: e.id, title: translate(`raids.encounter.${e.id}`) }))}/>
+                      : <RaidEncounterClearCell accountId={null as never} bitId={wing.bitId}/>
+                    }
+                  </Gw2AccountBodyCells>
+                </tr>
+              ))}
+            </Fragment>
+          ))}
+        </tbody>
       </Table>
 
       <Headline id="achievements"><Trans id="navigation.achievements"/></Headline>
@@ -123,6 +187,8 @@ export const generateMetadata = createMetadata(async () => {
   return {
     title: t('raids'),
     description: t('raids.description'),
-    keywords: ['raid', 'wing', 'instance', 'PvE', 'group', 'squad', 'weekly', 'emboldened', 'call of the mists', 'clear', 'completion'],
+    keywords: ['raid', 'wing', 'instance', 'PvE', 'group', 'squad', 'weekly', 'daily', 'bounty', 'bounties', 'emboldened', 'call of the mists', 'clear', 'completion', 'coffer'],
+    image: og,
+    url: '/raids'
   };
 });

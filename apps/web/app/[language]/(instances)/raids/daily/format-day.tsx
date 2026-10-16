@@ -9,9 +9,9 @@ export interface FormatDayProps {
 }
 
 const options = {
-  weekday: { weekday: 'short' },
+  'weekday': { weekday: 'short' },
   'weekday-long': { weekday: 'long' },
-  date: { year: 'numeric', month: '2-digit', day: '2-digit' },
+  'date': { year: 'numeric', month: '2-digit', day: '2-digit' },
 } satisfies Record<FormatDayProps['part'], Intl.DateTimeFormatOptions>;
 
 export const FormatDay: FC<FormatDayProps> = ({ date, part }) => {

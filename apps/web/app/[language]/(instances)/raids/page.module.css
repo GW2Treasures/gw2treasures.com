@@ -23,3 +23,17 @@
   color: var(--color-text-muted);
   white-space: nowrap;
 }
+
+.dailyDay {
+  text-transform: capitalize;
+}
+
+.dailyLater {
+  color: var(--color-text-muted);
+}
+
+.dailyBoss {
+  opacity: 0.66;
+  font-size: 0.875em;
+  text-wrap-style: pretty;
+}

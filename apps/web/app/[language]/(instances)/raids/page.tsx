@@ -17,14 +17,17 @@ import { groupById } from '@gw2treasures/helper/group-by';
 import { getDayOfYearIndex } from '@gw2treasures/static-data/fractals/index';
 import { raidBossCoffers } from '@gw2treasures/static-data/raids/coffer';
 import { dailyAchievementId, getDailySet } from '@gw2treasures/static-data/raids/daily';
-import { raids, type RaidId } from '@gw2treasures/static-data/raids/index';
+import { raids, type RaidEncounterId, type RaidId, type RaidWingEncounterId } from '@gw2treasures/static-data/raids/index';
 import { Icon } from '@gw2treasures/ui';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
 import { Switch } from '@gw2treasures/ui/components/Form/Switch';
 import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
-import { Fragment } from 'react';
+import { Fragment, type FC } from 'react';
+import { formatDate } from '../fractals/helper';
+import { getCurrentAndNextWeek } from './daily/helper';
+import { FormatDay } from './daily/format-day';
 import { RaidDifficulty } from './difficulty';
 import { getFilterUrl, getTypeFilter } from './filter';
 import { DailyRaidBountyCell, RaidEncounterClearCell, RaidWingClearCell, requiredScopes } from './page.client';
@@ -82,6 +85,25 @@ const getRaidItems = cache(async () => {
   return { items };
 }, ['raid-items'], { revalidate: 60 * 60 });
 
+interface NextDaily {
+  date: Date,
+  isToday: boolean,
+  bosses: string,
+}
+
+const NextDailyCell: FC<{ daily: NextDaily | undefined, showBoss: boolean }> = ({ daily, showBoss }) => {
+  if(!daily) {
+    return <td/>;
+  }
+
+  return (
+    <td className={daily.isToday ? styles.daily : `${styles.daily} ${styles.dailyLater}`}>
+      <div className={styles.dailyDay}>{daily.isToday ? <Trans id="raids.daily.today"/> : <FormatDay date={daily.date} part="weekday-long"/>}</div>
+      {showBoss && <div className={styles.dailyBoss}>{daily.bosses}</div>}
+    </td>
+  );
+};
+
 export default async function RaidsPage({ searchParams }: PageProps<'/[language]/raids'>) {
   const language = await getLanguage();
   const translate = getTranslate(language);
@@ -101,6 +123,25 @@ export default async function RaidsPage({ searchParams }: PageProps<'/[language]
 
   const dayOfYearIndex = getDayOfYearIndex();
   const dailySet = getDailySet(dayOfYearIndex);
+
+  const today = new Date(formatDate(new Date()));
+  const remainingDays = getCurrentAndNextWeek(today)
+    .filter(({ date, isNextWeek }) => !isNextWeek && date >= today)
+    .map(({ date }) => ({ date, bosses: getDailySet(getDayOfYearIndex(date)) as readonly (RaidWingEncounterId | RaidEncounterId)[] }));
+
+  const nextDailies = new Map(raids.flatMap((raid) => raid.wings).map((wing) => {
+    const bossIds = wing.type === 'wing' ? wing.events.map(({ id }) => id) : [wing.id];
+
+    for(const { date, bosses } of remainingDays) {
+      const dailyBossIds = bossIds.filter((id) => bosses.includes(id));
+
+      if(dailyBossIds.length > 0) {
+        return [wing.id, { date, isToday: date.valueOf() === today.valueOf(), bosses: dailyBossIds.map((id) => translate(`raids.encounter.${id}`)).join(', ') }] as const;
+      }
+    }
+
+    return [wing.id, undefined] as const;
+  }));
 
   const weeklyRaids = raids
     .map((raid) => ({ ...raid, wings: raid.wings.filter((wing) => !type || wing.type === type) }))
@@ -160,6 +201,7 @@ export default async function RaidsPage({ searchParams }: PageProps<'/[language]
             <Table.HeaderCell><Trans id="raids.type"/></Table.HeaderCell>
             <Table.HeaderCell><Trans id="raids.difficulty"/></Table.HeaderCell>
             <Table.HeaderCell><Trans id="raids.achievements"/></Table.HeaderCell>
+            <Table.HeaderCell><Trans id="fractals.daily"/></Table.HeaderCell>
             <Gw2AccountHeaderCells requiredScopes={requiredScopes} noDataTable small/>
           </tr>
         </thead>
@@ -180,6 +222,7 @@ export default async function RaidsPage({ searchParams }: PageProps<'/[language]
                   <td style={{ color: 'var(--color-text-muted)', whiteSpace: 'nowrap' }}><Trans id={`raids.type.${wing.type}`}/></td>
                   <td><RaidDifficulty difficulty={wing.difficulty}/></td>
                   <td>{wing.achievementCategoryId && <AchievementCategoryLink achievementCategory={categories.get(wing.achievementCategoryId)!}/>}</td>
+                  <NextDailyCell daily={nextDailies.get(wing.id)} showBoss={wing.type === 'wing'}/>
                   <Gw2AccountBodyCells requiredScopes={requiredScopes} noDataTable>
                     {wing.type === 'wing'
                       ? <RaidWingClearCell accountId={null as never} events={wing.events.map((e) => ({ id: e.id, title: translate(`raids.encounter.${e.id}`) }))}/>

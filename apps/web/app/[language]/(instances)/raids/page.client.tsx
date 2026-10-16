@@ -2,6 +2,7 @@
 
 import { ProgressCell } from '@/components/Achievement/ProgressCell';
 import { Gw2ApiErrorBadge } from '@/components/Gw2Api/api-error-badge';
+import { useGw2Account } from '@/components/Gw2Api/use-gw2-account';
 import { useSubscriptionWithReset } from '@/components/Gw2Api/use-gw2-subscription';
 import { Skeleton } from '@/components/Skeleton/Skeleton';
 import { Scope } from '@gw2me/client';
@@ -16,11 +17,11 @@ export const requiredScopes = [
 ];
 
 export interface RaidWingClearCellProps {
-  accountId: string,
   events: { id: string, title: string }[],
 }
 
-export const RaidWingClearCell: FC<RaidWingClearCellProps> = ({ accountId, events }) => {
+export const RaidWingClearCell: FC<RaidWingClearCellProps> = ({ events }) => {
+  const { id: accountId } = useGw2Account();
   const raids = useSubscriptionWithReset('raids', accountId, 'last-weekly', []);
 
   if(raids.loading) {
@@ -60,11 +61,11 @@ export const RaidWingClearCell: FC<RaidWingClearCellProps> = ({ accountId, event
 };
 
 export interface RaidEncounterClearCellProps {
-  accountId: string,
   bitId: number | undefined,
 }
 
-export const RaidEncounterClearCell: FC<RaidEncounterClearCellProps> = ({ accountId, bitId }) => {
+export const RaidEncounterClearCell: FC<RaidEncounterClearCellProps> = ({ bitId }) => {
+  const { id: accountId } = useGw2Account();
   const achievements = useSubscriptionWithReset('achievements', accountId, 'last-weekly', []);
 
   if (bitId === undefined) {
@@ -103,11 +104,11 @@ export const RaidEncounterClearCell: FC<RaidEncounterClearCellProps> = ({ accoun
 };
 
 export interface DailyRaidBountyCellProps {
-  accountId: string,
   dailyAchievementId: number,
 }
 
-export const DailyRaidBountyCell: FC<DailyRaidBountyCellProps> = ({ accountId, dailyAchievementId }) => {
+export const DailyRaidBountyCell: FC<DailyRaidBountyCellProps> = ({ dailyAchievementId }) => {
+  const { id: accountId } = useGw2Account();
   const achievements = useSubscriptionWithReset('achievements', accountId, 'last-daily', []);
 
   if(achievements.loading) {

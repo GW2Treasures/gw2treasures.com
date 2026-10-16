@@ -5,6 +5,7 @@ import { Skeleton } from '../Skeleton/Skeleton';
 import { Icon } from '@gw2treasures/ui';
 import { ProgressCell } from './ProgressCell';
 import { useAccountModificationDate, useSubscription } from '../Gw2Api/use-gw2-subscription';
+import { useGw2Account } from '../Gw2Api/use-gw2-account';
 import { Scope } from '@gw2me/client';
 import type { Achievement } from '@gw2treasures/database';
 import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
@@ -29,19 +30,18 @@ export type RowProps = (
   { bitId?: undefined, type?: undefined, achievement: Pick<Achievement, 'id' | 'flags' | 'prerequisitesIds' | 'points' | 'pointCap' | 'tiers'> }
 );
 
-export type AccountAchievementProgressCellProps = RowProps & {
-  accountId: string,
-};
+export type AccountAchievementProgressCellProps = RowProps;
 
 export const AccountAchievementProgressHeader: FC = () => <Gw2AccountHeaderCells requiredScopes={requiredScopes} small align="right"/>;
 
 export const AccountAchievementProgressRow: FC<RowProps> = (props) => (
   <Gw2AccountBodyCells requiredScopes={requiredScopes}>
-    <AccountAchievementProgressCell {...props} accountId={undefined as never}/>
+    <AccountAchievementProgressCell {...props}/>
   </Gw2AccountBodyCells>
 );
 
-export const AccountAchievementProgressCell: FC<AccountAchievementProgressCellProps> = ({ accountId, ...props }) => {
+export const AccountAchievementProgressCell: FC<AccountAchievementProgressCellProps> = (props) => {
+  const { id: accountId } = useGw2Account();
   const progressType = useAchievementProgressType();
   const accountAchievements = useSubscription('achievements', accountId);
   const lastModified = useAccountModificationDate(accountId);

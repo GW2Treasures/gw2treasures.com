@@ -33,7 +33,7 @@ export const MiniTable: FC<MiniTableProps> = ({ minis, headline, headlineId, chi
       <Minis.DynamicColumns id="account-unlock" title="Account Unlocks" headers={<Gw2AccountHeaderCells requiredScopes={requiredScopes} small/>}>
         {({ id }) => (
           <Gw2AccountBodyCells requiredScopes={requiredScopes}>
-            <MiniAccountUnlockCell miniId={id} accountId={undefined as never}/>
+            <MiniAccountUnlockCell miniId={id}/>
           </Gw2AccountBodyCells>
         )}
       </Minis.DynamicColumns>

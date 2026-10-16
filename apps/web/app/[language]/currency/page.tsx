@@ -45,7 +45,7 @@ export default async function CurrencyPage() {
         <Currencies.Column id="category" title={<Trans id="currency.category"/>}>{({ id }) => currencyCategoryById[id]?.map((category) => t(`currency.category.${category}`)).join(', ')}</Currencies.Column>
         <Currencies.Column id="order" title={<Trans id="currency.order"/>} sortBy="order" align="right" hidden>{({ order }) => order}</Currencies.Column>
         <Currencies.DynamicColumns id="account-wallet" title="Account Wallets" headers={<Gw2AccountHeaderCells requiredScopes={requiredScopes} align="right"/>}>
-          {({ id }) => <Gw2AccountBodyCells requiredScopes={requiredScopes}><AccountWalletCell currencyId={id} accountId={undefined as never}/></Gw2AccountBodyCells>}
+          {({ id }) => <Gw2AccountBodyCells requiredScopes={requiredScopes}><AccountWalletCell currencyId={id}/></Gw2AccountBodyCells>}
         </Currencies.DynamicColumns>
       </Currencies.Table>
     </HeroLayout>

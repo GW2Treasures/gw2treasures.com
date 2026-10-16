@@ -120,7 +120,7 @@ export default async function RaidsPage() {
               <td><Trans id={`raids.encounter.${raidId}`}/></td>
               <td>{itemsById.has(raidBossCoffers[raidId]!) ? <ItemLink item={itemsById.get(raidBossCoffers[raidId]!)!}/> : null}</td>
               <Gw2AccountBodyCells requiredScopes={requiredScopes} noDataTable>
-                <DailyRaidBountyCell accountId={null as never} dailyAchievementId={dailyAchievementId[raidId]}/>
+                <DailyRaidBountyCell dailyAchievementId={dailyAchievementId[raidId]}/>
               </Gw2AccountBodyCells>
             </tr>
           ))}
@@ -159,8 +159,8 @@ export default async function RaidsPage() {
                   <td>{wing.achievementCategoryId && <AchievementCategoryLink achievementCategory={categories.get(wing.achievementCategoryId)!}/>}</td>
                   <Gw2AccountBodyCells requiredScopes={requiredScopes} noDataTable>
                     {wing.type === 'wing'
-                      ? <RaidWingClearCell accountId={null as never} events={wing.events.map((e) => ({ id: e.id, title: translate(`raids.encounter.${e.id}`) }))}/>
-                      : <RaidEncounterClearCell accountId={null as never} bitId={wing.bitId}/>
+                      ? <RaidWingClearCell events={wing.events.map((e) => ({ id: e.id, title: translate(`raids.encounter.${e.id}`) }))}/>
+                      : <RaidEncounterClearCell bitId={wing.bitId}/>
                     }
                   </Gw2AccountBodyCells>
                 </tr>

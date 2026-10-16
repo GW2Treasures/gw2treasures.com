@@ -2,6 +2,7 @@
 
 import { ProgressCell } from '@/components/Achievement/ProgressCell';
 import { Gw2ApiErrorBadge } from '@/components/Gw2Api/api-error-badge';
+import { useGw2Account } from '@/components/Gw2Api/use-gw2-account';
 import { useSubscriptionWithReset } from '@/components/Gw2Api/use-gw2-subscription';
 import { Skeleton } from '@/components/Skeleton/Skeleton';
 import { Scope } from '@gw2me/client';
@@ -15,11 +16,11 @@ export const requiredScopes = [
 ];
 
 export interface DungeonDailyCellProps {
-  accountId: string,
   path: DungeonPathId,
 }
 
-export const DungeonDailyCell: FC<DungeonDailyCellProps> = ({ accountId, path }) => {
+export const DungeonDailyCell: FC<DungeonDailyCellProps> = ({ path }) => {
+  const { id: accountId } = useGw2Account();
   const dungeons = useSubscriptionWithReset('dungeons', accountId, 'last-daily', []);
 
   if(dungeons.loading) {

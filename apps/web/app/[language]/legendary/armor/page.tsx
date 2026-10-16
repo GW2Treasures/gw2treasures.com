@@ -84,7 +84,7 @@ export default async function LegendaryRelicsPage() {
             {(weight) => <Trans id={`weight.${weight}`}/>}
           </Overview.Column>
           <Overview.DynamicColumns id="account-unlock" title="Account Unlocks" headers={<Gw2AccountHeaderCells small requiredScopes={requiredScopes}/>}>
-            {(weight) => <Gw2AccountBodyCells requiredScopes={requiredScopes}><LegendaryArmorOverviewCell accountId={undefined as never} itemIdsBySlot={itemIdsByWeightBySlot[weight]} translations={overviewTranslations}/></Gw2AccountBodyCells>}
+            {(weight) => <Gw2AccountBodyCells requiredScopes={requiredScopes}><LegendaryArmorOverviewCell itemIdsBySlot={itemIdsByWeightBySlot[weight]} translations={overviewTranslations}/></Gw2AccountBodyCells>}
           </Overview.DynamicColumns>
         </Overview.Table>
       </Gw2Accounts>

@@ -65,7 +65,7 @@ export default async function GlidersPage() {
         </Gliders.Column>
         <Gliders.DynamicColumns id="unlock" title={<Trans id="colors.unlocks"/>} headers={<Gw2AccountHeaderCells requiredScopes={requiredScopes} small/>}>
           {({ id }) => (
-            <Gw2AccountBodyCells requiredScopes={requiredScopes}><GliderAccountUnlockCell gliderId={id} accountId={undefined as never}/></Gw2AccountBodyCells>
+            <Gw2AccountBodyCells requiredScopes={requiredScopes}><GliderAccountUnlockCell gliderId={id}/></Gw2AccountBodyCells>
           )}
         </Gliders.DynamicColumns>
       </Gliders.Table>

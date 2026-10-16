@@ -1,6 +1,7 @@
 'use client';
 
 import { Gw2AccountName } from '@/components/Gw2Api/Gw2AccountName';
+import { Gw2AccountContext } from '@/components/Gw2Api/Gw2AccountContext';
 import { useGw2Accounts } from '@/components/Gw2Api/use-gw2-accounts';
 import { Skeleton } from '@/components/Skeleton/Skeleton';
 import { Scope } from '@gw2me/client';
@@ -35,9 +36,11 @@ export const GardenPlotAccountRows: FC<GardenPlotAccountRowsProps> = ({ nodeIds 
   }
 
   return accounts.accounts.map((account) => (
-    <tr key={account.id}>
-      <td><Gw2AccountName account={account}/></td>
-      {nodeIds.map((id) => <AccountHomeNodeCell key={id} accountId={account.id} nodeId={id}/>)}
-    </tr>
+    <Gw2AccountContext key={account.id} value={account}>
+      <tr>
+        <td><Gw2AccountName account={account}/></td>
+        {nodeIds.map((id) => <AccountHomeNodeCell key={id} nodeId={id}/>)}
+      </tr>
+    </Gw2AccountContext>
   ));
 };

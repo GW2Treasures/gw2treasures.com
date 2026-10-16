@@ -107,7 +107,7 @@ export default async function DungeonsPage() {
           {({ rewards }) => rewards.talesOfDungeonDelving ? <><CurrencyLink currency={talesOfDungeonDelving} icon="none"><FlexRow><CurrencyValue currencyId={talesOfDungeonDelving.id} value={rewards.talesOfDungeonDelving}/> <EntityIcon icon={talesOfDungeonDelving.icon!} size={24}/></FlexRow></CurrencyLink></> : null}
         </Paths.Column>
         <Paths.DynamicColumns id="daily" title={<Trans id="dungeons.daily"/>} headers={<Gw2AccountHeaderCells requiredScopes={requiredScopes} small/>}>
-          {({ id }) => <Gw2AccountBodyCells requiredScopes={requiredScopes}><DungeonDailyCell path={id} accountId={undefined as never}/></Gw2AccountBodyCells> }
+          {({ id }) => <Gw2AccountBodyCells requiredScopes={requiredScopes}><DungeonDailyCell path={id}/></Gw2AccountBodyCells> }
         </Paths.DynamicColumns>
       </Paths.Table>
     </>

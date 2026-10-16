@@ -1,5 +1,6 @@
 'use client';
 
+import { useGw2Account } from '@/components/Gw2Api/use-gw2-account';
 import { useSubscription } from '@/components/Gw2Api/use-gw2-subscription';
 import { Skeleton } from '@/components/Skeleton/Skeleton';
 import type { FC } from 'react';
@@ -25,12 +26,12 @@ const slotIcons: Record<ArmorSlot, IconName> = {
 };
 
 export interface LegendaryArmorOverviewCellProps {
-  accountId: string,
   itemIdsBySlot: Record<ArmorSlot, number[]>,
   translations: TranslationSubset<'item.type.Armor.Helm' | 'item.type.Armor.Shoulders' | 'item.type.Armor.Coat' | 'item.type.Armor.Gloves' | 'item.type.Armor.Leggings' | 'item.type.Armor.Boots' | 'item.type.Armor.HelmAquatic'>,
 }
 
-export const LegendaryArmorOverviewCell: FC<LegendaryArmorOverviewCellProps> = ({ accountId, itemIdsBySlot, translations }) => {
+export const LegendaryArmorOverviewCell: FC<LegendaryArmorOverviewCellProps> = ({ itemIdsBySlot, translations }) => {
+  const { id: accountId } = useGw2Account();
   // TODO: only subscribe to legendary armory
   const inventory = useSubscription('inventories', accountId);
 

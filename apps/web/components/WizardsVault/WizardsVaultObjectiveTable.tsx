@@ -11,6 +11,8 @@ import { ProgressCell } from '../Achievement/ProgressCell';
 import { Gw2Accounts } from '../Gw2Api/Gw2Accounts';
 import { SkeletonTable } from '../Skeleton/SkeletonTable';
 import { Gw2ApiErrorBadge } from '../Gw2Api/api-error-badge';
+import { Gw2AccountContext } from '../Gw2Api/Gw2AccountContext';
+import { useGw2Account } from '../Gw2Api/use-gw2-account';
 
 interface WizardsVaultObjectiveTableProps {
   objectiveId: number,
@@ -37,10 +39,12 @@ export const WizardsVaultObjectiveTable: FC<WizardsVaultObjectiveTableProps> = (
           </thead>
           <tbody>
             {accounts.map((account) => (
-              <tr key={account.id}>
-                <td><Gw2AccountName account={account}/></td>
-                <WizardsVaultObjectiveTableProgressCell accountId={account.id} objectiveId={objectiveId}/>
-              </tr>
+              <Gw2AccountContext key={account.id} value={account}>
+                <tr>
+                  <td><Gw2AccountName account={account}/></td>
+                  <WizardsVaultObjectiveTableProgressCell objectiveId={objectiveId}/>
+                </tr>
+              </Gw2AccountContext>
             ))}
           </tbody>
         </Table>
@@ -51,10 +55,10 @@ export const WizardsVaultObjectiveTable: FC<WizardsVaultObjectiveTableProps> = (
 
 interface WizardsVaultObjectiveTableProgressCellProps {
   objectiveId: number,
-  accountId: string,
 }
 
-export const WizardsVaultObjectiveTableProgressCell: FC<WizardsVaultObjectiveTableProgressCellProps> = ({ objectiveId, accountId }) => {
+export const WizardsVaultObjectiveTableProgressCell: FC<WizardsVaultObjectiveTableProgressCellProps> = ({ objectiveId }) => {
+  const { id: accountId } = useGw2Account();
   const wizardsVault = useWizardsVault(accountId);
 
   if(wizardsVault.loading) {

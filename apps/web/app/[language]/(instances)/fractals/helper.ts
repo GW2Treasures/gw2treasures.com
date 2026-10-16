@@ -8,7 +8,7 @@ export function getTierOrFallback(value: string | undefined): TierFilter {
 }
 
 export function getDateOrFallback(value: string | undefined): string {
-  return value !== undefined && value === formatDate(new Date(value))
+  return value && value === formatDate(new Date(value))
     ? value
     : formatDate(new Date());
 }

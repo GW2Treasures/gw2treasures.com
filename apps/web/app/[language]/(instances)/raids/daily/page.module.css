@@ -1,0 +1,44 @@
+.bar {
+  margin-top: -8px;
+  margin-bottom: 16px;
+  margin-inline: -16px;
+  padding: 12px 16px;
+  background: var(--color-background-light);
+  border-block: 1px solid var(--color-border-dark);
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.dateLabel {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-left: auto;
+}
+
+.current td {
+  font-weight: 500 !important;
+}
+
+.nextWeek {
+  color: var(--color-text-muted);
+}
+
+tr:not(.nextWeek) + .nextWeek td {
+  border-top-width: 2px;
+}
+
+.weekday,
+.date {
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.weekday {
+  padding-right: 0 !important;
+  width: 1px;
+  text-transform: capitalize;
+}

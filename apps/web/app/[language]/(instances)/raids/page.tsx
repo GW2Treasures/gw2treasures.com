@@ -22,9 +22,11 @@ import { Icon } from '@gw2treasures/ui';
 import { Headline } from '@gw2treasures/ui/components/Headline/Headline';
 import { FlexRow } from '@gw2treasures/ui/components/Layout/FlexRow';
 import { Table } from '@gw2treasures/ui/components/Table/Table';
+import { Switch } from '@gw2treasures/ui/components/Form/Switch';
 import { Tip } from '@gw2treasures/ui/components/Tip/Tip';
 import { Fragment } from 'react';
 import { RaidDifficulty } from './difficulty';
+import { getFilterUrl, getTypeFilter } from './filter';
 import { DailyRaidBountyCell, RaidEncounterClearCell, RaidWingClearCell, requiredScopes } from './page.client';
 import styles from './page.module.css';
 import og from './og.png';
@@ -80,9 +82,11 @@ const getRaidItems = cache(async () => {
   return { items };
 }, ['raid-items'], { revalidate: 60 * 60 });
 
-export default async function RaidsPage() {
+export default async function RaidsPage({ searchParams }: PageProps<'/[language]/raids'>) {
   const language = await getLanguage();
   const translate = getTranslate(language);
+  const { weekly: rawType } = await searchParams;
+  const type = getTypeFilter(Array.isArray(rawType) ? rawType[0] : rawType);
   const [{ items }, { achievements, achievementCategories }] = await Promise.all([getRaidItems(), getRaidAchievements()]);
   await pageView('/raids');
 
@@ -97,6 +101,10 @@ export default async function RaidsPage() {
 
   const dayOfYearIndex = getDayOfYearIndex();
   const dailySet = getDailySet(dayOfYearIndex);
+
+  const weeklyRaids = raids
+    .map((raid) => ({ ...raid, wings: raid.wings.filter((wing) => !type || wing.type === type) }))
+    .filter((raid) => raid.wings.length > 0);
 
   return (
     <>
@@ -128,12 +136,25 @@ export default async function RaidsPage() {
         </tbody>
       </Table>
 
-      <Headline id="weekly" actions={<span><Trans id="reset"/> <ResetTimer reset="current-weekly"/></span>}>
+      <Headline
+        id="weekly"
+        actions={(
+          <FlexRow wrap>
+            <span className={styles.reset}><Trans id="reset"/> <ResetTimer reset="current-weekly"/></span>
+            <Switch>
+              <Switch.Control type="link" replace scroll={false} active={type === undefined} href={getFilterUrl()}><Trans id="table.filter.all"/></Switch.Control>
+              <Switch.Control type="link" replace scroll={false} active={type === 'wing'} href={getFilterUrl('wing')}><Trans id="raids.filter.wings"/></Switch.Control>
+              <Switch.Control type="link" replace scroll={false} active={type === 'encounter'} href={getFilterUrl('encounter')}><Trans id="raids.filter.encounters"/></Switch.Control>
+            </Switch>
+          </FlexRow>
+        )}
+      >
         <Trans id="raids.weekly"/>
       </Headline>
       <Table>
         <thead>
           <tr>
+            <Table.HeaderCell small>#</Table.HeaderCell>
             <Table.HeaderCell><Trans id="raids.name"/></Table.HeaderCell>
             <Table.HeaderCell><Trans id="raids.effect"/></Table.HeaderCell>
             <Table.HeaderCell><Trans id="raids.type"/></Table.HeaderCell>
@@ -143,11 +164,12 @@ export default async function RaidsPage() {
           </tr>
         </thead>
         <tbody>
-          {raids.map((raid) => (
+          {weeklyRaids.map((raid) => (
             <Fragment key={raid.id}>
               <tr><th colSpan={99} style={{ '--raid-color': RaidCategoryColor[raid.id] }} className={styles.tableGroup}><Trans id={`raids.category.${raid.id}`}/></th></tr>
               {raid.wings.map((wing) => (
                 <tr key={wing.id}>
+                  <td className={styles.label}>{wing.abbreviation}</td>
                   <th><Trans id={wing.type === 'encounter' ? `raids.encounter.${wing.id}` : `raids.wing.${wing.id}`}/></th>
                   <th>
                     <FlexRow>

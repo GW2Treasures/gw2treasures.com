@@ -18,3 +18,8 @@
 .reset {
   margin-right: 0.75rem;
 }
+
+.label {
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}

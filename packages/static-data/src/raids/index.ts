@@ -12,6 +12,7 @@ export interface RaidCategory<
 export interface Wing<WingId, RaidWingEncounterId> {
   id: WingId,
   type: 'wing',
+  abbreviation: string,
   events: Event<RaidWingEncounterId>[],
   achievementCategoryId?: number,
   difficulty: 1 | 2 | 3 | 4 | 5,
@@ -26,6 +27,7 @@ export interface Event<RaidWingEncounterId> {
 export interface Encounter<RaidEncounterId> {
   id: RaidEncounterId,
   type: 'encounter',
+  abbreviation: string,
   difficulty: 1 | 2 | 3 | 4 | 5,
   /**
    * The bit Id of the weekly raid encounter achievement used to track encounters not returned by /v2/raids
@@ -46,6 +48,7 @@ const raidData = [{
   id: 'core',
   wings: [{
     id: 'olc',
+    abbreviation: 'OLC',
     type: 'encounter',
     difficulty: 4,
     bitId: 12,
@@ -54,6 +57,7 @@ const raidData = [{
   id: 'heart_of_thorns',
   wings: [{
     id: 'spirit_vale',
+    abbreviation: 'W1',
     type: 'wing',
     achievementCategoryId: 124,
     difficulty: 2,
@@ -76,6 +80,7 @@ const raidData = [{
     }]
   }, {
     id: 'salvation_pass',
+    abbreviation: 'W2',
     type: 'wing',
     achievementCategoryId: 134,
     difficulty: 3,
@@ -94,6 +99,7 @@ const raidData = [{
     }]
   }, {
     id: 'stronghold_of_the_faithful',
+    abbreviation: 'W3',
     type: 'wing',
     achievementCategoryId: 138,
     difficulty: 3,
@@ -116,6 +122,7 @@ const raidData = [{
     }]
   }, {
     id: 'bastion_of_the_penitent',
+    abbreviation: 'W4',
     type: 'wing',
     achievementCategoryId: 155,
     difficulty: 3,
@@ -141,6 +148,7 @@ const raidData = [{
   id: 'path_of_fire',
   wings: [{
     id: 'hall_of_chains',
+    abbreviation: 'W5',
     type: 'wing',
     achievementCategoryId: 195,
     difficulty: 4,
@@ -163,6 +171,7 @@ const raidData = [{
     }]
   }, {
     id: 'mythwright_gambit',
+    abbreviation: 'W6',
     type: 'wing',
     achievementCategoryId: 215,
     difficulty: 4,
@@ -181,6 +190,7 @@ const raidData = [{
     }]
   }, {
     id: 'the_key_of_ahdashim',
+    abbreviation: 'W7',
     type: 'wing',
     achievementCategoryId: 229,
     difficulty: 4,
@@ -206,36 +216,43 @@ const raidData = [{
   id: 'icebrood_saga',
   wings: [{
     id: 'shiverpeaks_pass',
+    abbreviation: 'IBS 3',
     type: 'encounter',
     difficulty: 1,
     bitId: 0,
   }, {
     id: 'voice_claw',
+    abbreviation: 'IBS 3',
     type: 'encounter',
     difficulty: 1,
     bitId: 2,
   }, {
     id: 'fraenir_of_jormag',
+    abbreviation: 'IBS 3',
     type: 'encounter',
     difficulty: 2,
     bitId: 1,
   }, {
     id: 'boneskinner',
+    abbreviation: 'IBS 5',
     difficulty: 2,
     type: 'encounter',
     bitId: 4,
   }, {
     id: 'whisper_of_jormag',
+    abbreviation: 'IBS 5',
     difficulty: 2,
     type: 'encounter',
     bitId: 3,
   }, {
     id: 'forging_steel',
+    abbreviation: 'FS',
     difficulty: 3,
     type: 'encounter',
     bitId: undefined
   }, {
     id: 'cold_war',
+    abbreviation: 'CW',
     difficulty: 2,
     type: 'encounter',
     bitId: 5,
@@ -244,21 +261,25 @@ const raidData = [{
   id: 'end_of_dragons',
   wings: [{
     id: 'aetherblade',
+    abbreviation: 'AH',
     difficulty: 1,
     type: 'encounter',
     bitId: 6,
   }, {
     id: 'xunlai_jade_junkyard',
+    abbreviation: 'XJJ',
     difficulty: 3,
     type: 'encounter',
     bitId: 7,
   }, {
     id: 'kaineng_overlook',
+    abbreviation: 'KO',
     difficulty: 4,
     type: 'encounter',
     bitId: 8,
   }, {
     id: 'harvest_temple',
+    abbreviation: 'HT',
     difficulty: 5,
     type: 'encounter',
     bitId: 9,
@@ -267,11 +288,13 @@ const raidData = [{
   id: 'secrets_of_the_obscure',
   wings: [{
     id: 'cosmic_observatory',
+    abbreviation: 'CO',
     difficulty: 2,
     type: 'encounter',
     bitId: 10,
   }, {
     id: 'temple_of_febe',
+    abbreviation: 'ToF',
     difficulty: 3,
     type: 'encounter',
     bitId: 11,
@@ -280,6 +303,7 @@ const raidData = [{
   id: 'janthir_wilds',
   wings: [{
     id: 'mount_balrior',
+    abbreviation: 'W8',
     type: 'wing',
     achievementCategoryId: 438,
     difficulty: 5,
@@ -305,12 +329,14 @@ const raidData = [{
   id: 'visions_of_eternity',
   wings: [{
     id: 'guardians_glade',
+    abbreviation: 'Kela',
     type: 'encounter',
     difficulty: 3,
     bitId: 13,
     achievementCategoryId: 480,
   }, {
     id: 'nexus_of_eternity',
+    abbreviation: 'Vloxx',
     type: 'encounter',
     difficulty: 3,
     bitId: undefined,

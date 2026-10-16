@@ -28,6 +28,7 @@ import { RaidDifficulty } from './difficulty';
 import { DailyRaidBountyCell, RaidEncounterClearCell, RaidWingClearCell, requiredScopes } from './page.client';
 import styles from './page.module.css';
 import og from './og.png';
+import { LinkButton } from '@gw2treasures/ui/components/Form/Button';
 
 const alpha = '25';
 const RaidCategoryColor: Record<RaidId, string> = {
@@ -103,7 +104,7 @@ export default async function RaidsPage() {
         <Trans id="raids.description"/>
       </Description>
 
-      <Headline id="daily" actions={<FlexRow><span><Trans id="reset"/> <ResetTimer reset="current-daily"/></span></FlexRow>}>
+      <Headline id="daily" actions={<FlexRow><span className={styles.reset}><Trans id="reset"/> <ResetTimer reset="current-daily"/></span><LinkButton href="/raids/daily" icon="calendar"><Trans id="raids.daily.schedule"/></LinkButton></FlexRow>}>
         <Trans id="raids.daily"/>
       </Headline>
       <Table>

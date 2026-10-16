@@ -14,3 +14,7 @@
 .tipEvent + .tipEvent {
   margin-top: 0.25rem;
 }
+
+.reset {
+  margin-right: 0.75rem;
+}

@@ -77,7 +77,7 @@ jobs:
 
   test-compose:
     name: 'Test: docker compose'
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     if: inputs.platform == 'amd64'
     needs: build
     steps:
@@ -101,7 +101,7 @@ jobs:
 
   test-kubernetes:
     name: 'Test: kubernetes'
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     if: inputs.platform == 'amd64'
     needs: build
     steps:
@@ -126,7 +126,7 @@ jobs:
 
   test-e2e:
     name: 'Test: e2e'
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     if: inputs.platform == 'amd64'
     needs: build
     steps:

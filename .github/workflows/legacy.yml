@@ -10,7 +10,7 @@ on:
 jobs:
   build:
     name: Build ${{ matrix.target }}
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     strategy:
       matrix:
         target: [ web, reverse-proxy, assets, storage, wvw-crawler ]

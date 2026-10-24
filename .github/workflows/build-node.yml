@@ -6,7 +6,7 @@ env:
   # renovate: datasource=node-version packageName=node
   NODE_22_VERSION: 22.23.4
   # renovate: datasource=node-version packageName=node
-  NODE_24_VERSION: 24.22.0
+  NODE_24_VERSION: 24.22.1
 
 jobs:
   build:

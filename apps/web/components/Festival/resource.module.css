@@ -7,7 +7,7 @@
 .card {
   padding: 8px;
   background-color: #03a9f422;
-  border-radius: 2px;
+  border-radius: 4px;
   display: grid;
   grid-template:
     "icon        type  " min-content

@@ -1,7 +1,7 @@
 .indicator {
   display: flex;
   padding: 10px;
-  border-radius: 2px;
+  border-radius: 4px;
 
   animation: fade-in .3s ease-out;
 }

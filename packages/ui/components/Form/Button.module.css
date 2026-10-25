@@ -5,7 +5,7 @@
   text-decoration: none;
   line-height: 20px;
   transition: box-shadow .3s ease, background-color .1s ease;
-  border-radius: 2px;
+  border-radius: 4px;
   color: var(--color-text);
   cursor: pointer;
   display: inline-flex;

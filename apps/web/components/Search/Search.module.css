@@ -6,7 +6,7 @@
   background-color: var(--color-background-light);
   display: flex;
   align-items: center;
-  border-radius: 2px;
+  border-radius: 4px;
   transition: background-color .3s ease, box-shadow .3s ease;
   font-size: 14px;
   position: relative;
@@ -44,7 +44,7 @@
 
 .shortcut > kbd {
   border: 1px solid var(--color-border-dark);
-  border-radius: 2px;
+  border-radius: 4px;
   padding: 1px 3px;
 }
 
@@ -79,7 +79,7 @@
 .restriciton {
   padding: 4px 8px;
   background-color: var(--color-background);
-  border-radius: 2px;
+  border-radius: 4px;
 }
 
 .dropdown {
@@ -91,7 +91,7 @@
   background-color: var(--color-background);
   padding: 8px;
   box-shadow: var(--shadow);
-  border-radius: 2px;
+  border-radius: 4px;
   transition: opacity .3s ease;
   max-height: calc(100vh - 56px);
   overflow-y: auto;
@@ -106,7 +106,7 @@
 
 .result {
   padding: 8px 16px;
-  border-radius: 2px;
+  border-radius: 4px;
   color: var(--color-text);
   text-decoration: none;
   line-height: 1.2;

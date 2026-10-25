@@ -3,7 +3,7 @@
 
   border: 1px solid var(--dropdown-color-border);
   background: var(--color-background);
-  border-radius: 2px;
+  border-radius: 4px;
   box-shadow: var(--shadow);
   z-index: 10;
   max-height: var(--max-height);

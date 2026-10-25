@@ -21,7 +21,7 @@
   border: 1px solid var(--color-border);
   min-width: 500px;
   box-shadow: var(--shadow);
-  border-radius: 2px;
+  border-radius: 4px;
   overflow: hidden;
 
   --table-sticky-top: -16px;
@@ -55,7 +55,7 @@
   padding: 8px;
   background: var(--color-background);
   color: var(--color-text);
-  border-radius: 2px;
+  border-radius: 4px;
   cursor: pointer;
   transition: background-color .3s ease;
   line-height: 1;

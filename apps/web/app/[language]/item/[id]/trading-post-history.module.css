@@ -34,7 +34,7 @@
   gap: 8px;
   position: relative;
   padding: 8px 16px 8px 32px;
-  border-radius: 2px;
+  border-radius: 4px;
   transition: box-shadow .3s ease, background-color .1s ease;
 }
 

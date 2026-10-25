@@ -15,7 +15,7 @@
 
   border: 1px solid var(--color-border-dark);
   border-left: 0;
-  border-radius: 0 2px 2px 0;
+  border-radius: 0 4px 4px 0;
   background-color: var(--color-background-light);
   margin-left: -16px;
   padding: 16px;
@@ -28,7 +28,7 @@
 .inlineBorder {
   composes: inline border;
 
-  border-radius: 2px;
+  border-radius: 4px;
   padding: 0 4px;
   box-decoration-break: clone;
 }

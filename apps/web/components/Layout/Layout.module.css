@@ -146,17 +146,6 @@
   display: flex;
 }
 
-.loginLink {
-  color: var(--color-text);
-  padding: 8px;
-  border-radius: 2px;
-}
-
-.loginLink:hover {
-  text-decoration: none;
-  background-color: var(--color-background-light);
-}
-
 .footerFlex {
   display: flex;
   align-items: center;

@@ -125,6 +125,10 @@
   composes: headerNav;
 }
 
+.headerNavFocused {
+  composes: headerNavVisible;
+}
+
 .headerNavVisible,
 .headerMainScrolled + .headerNav:has(:focus-visible) {
   position: fixed;

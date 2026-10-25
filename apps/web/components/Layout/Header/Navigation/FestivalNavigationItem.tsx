@@ -4,7 +4,7 @@ import { Festival, type FestivalInfo } from '@/app/[language]/festival/festivals
 import { NavigationItem } from './NavigationItem';
 import { NavigationSubItem } from './NavigationSubItem';
 import { CountDown } from '@/components/Time/countdown';
-import { Separator } from '@gw2treasures/ui/components/Layout/Separator';
+import styles from './FestivalNavigationItem.module.css';
 
 export const FestivalNavigationItem: FC<{ festival: FestivalInfo }> = ({ festival }) => {
   switch(festival.type) {
@@ -108,11 +108,10 @@ export const FestivalNavigationItem: FC<{ festival: FestivalInfo }> = ({ festiva
           style={{ color: 'light-dark( #c73000, #ffd08a)' }}
           menu={(
             <>
-              <div style={{ padding: '8px 12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 16 }}>
-                <Trans id="festival.halloween.mad-king-says"/>
+              <div className={styles.madKingSays}>
+                <span><Trans id="festival.halloween.mad-king-says"/></span>
                 <CountDown schedule={{ offset: 0, repeat: 120 }} active={<Trans id="incursive-investigation.active"/>} activeDurationMinutes={10}/>
               </div>
-              <Separator/>
               <NavigationSubItem href="/festival/halloween/achievements" icon="achievement"><Trans id="navigation.achievements"/></NavigationSubItem>
               <NavigationSubItem href="/festival/halloween/skins" icon="skin"><Trans id="navigation.skins"/></NavigationSubItem>
               <NavigationSubItem href="/festival/halloween/minis" icon="mini"><Trans id="minis"/></NavigationSubItem>

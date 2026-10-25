@@ -1,0 +1,11 @@
+.madKingSays {
+  padding: 8px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  border-radius: 4px;
+  background: var(--color-background-light);
+  border: 1px solid var(--color-border-dark);
+  margin-bottom: 4px;
+}

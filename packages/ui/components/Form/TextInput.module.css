@@ -2,7 +2,7 @@
   composes: reset from '../../reset.module.css';
 
   border: 2px solid var(--color-border-dark);
-  border-radius: 2px;
+  border-radius: 4px;
   background-color: var(--color-background);
   color: var(--color-text);
   padding: 6px 16px;

@@ -38,14 +38,15 @@
   justify-content: center;
   padding: 48px 16px;
   background-color: var(--color-background-light);
-  border-radius: 2px;
+  border-radius: 4px;
   gap: 24px;
   margin: 16px;
 }
 
 .embedded {
   border: 1px solid var(--color-border-dark);
-  border-radius: 2px;
+  border-radius: 4px;
+  overflow: clip;
 }
 .embedded .table > thead > tr > th {
   border-top: none;

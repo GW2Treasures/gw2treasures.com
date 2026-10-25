@@ -17,7 +17,7 @@
   margin: 0 auto 32px auto;
   padding: 24px 32px;
   box-shadow: var(--shadow);
-  border-radius: 0 0 2px 2px;
+  border-radius: 0 0 4px 4px;
   background-color: var(--color-background);
   border: 1px solid var(--color-border-dark);
   border-top: 0;
@@ -31,7 +31,7 @@
   align-items: center;
   border-top: 1px solid var(--color-border-dark);
   margin: 32px -32px -24px;
-  padding: 24px 32px 24px;
+  padding: 16px 32px 16px;
   background-color: var(--color-background-light);
   font-size: 15px;
 }

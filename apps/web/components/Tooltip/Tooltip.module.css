@@ -1,6 +1,6 @@
 .tooltip {
   background-color: var(--color-background);
-  border-radius: 2px;
+  border-radius: 4px;
   max-width: 500px;
   max-width: min(500px, calc(100vw - 16px));
   padding: 16px;

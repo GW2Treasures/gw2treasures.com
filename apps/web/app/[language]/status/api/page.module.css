@@ -3,7 +3,7 @@
   width: 400px;
   display: flex;
   overflow: hidden;
-  border-radius: 2px;
+  border-radius: 4px;
 }
 
 .request {

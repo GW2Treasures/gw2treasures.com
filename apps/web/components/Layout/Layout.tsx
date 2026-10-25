@@ -1,7 +1,7 @@
 import type { FC, ReactNode } from 'react';
 import styles from './Layout.module.css';
 import { Icon } from '@gw2treasures/ui';
-import Navigation from './Header/Navigation';
+import Navigation from './Header/Navigation/Navigation';
 import Link from 'next/link';
 import { Search } from '../Search/Search';
 import { ExternalLink } from '@gw2treasures/ui/components/Link/ExternalLink';

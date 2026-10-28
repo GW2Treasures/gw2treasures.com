@@ -2,7 +2,7 @@
 
 ARG node_version=24.22.1-alpine3.23@sha256:0468540aa58203ff9e40c2aab3907c52644ab818af6176b1c70a026137dc92a2
 # renovate: datasource=npm packageName=pnpm
-ARG pnpm_version=12.15.0
+ARG pnpm_version=12.16.1
 
 # common base for all stages
 FROM node:${node_version} AS base

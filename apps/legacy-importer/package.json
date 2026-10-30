@@ -17,7 +17,7 @@
     "@gw2treasures/eslint-config": "workspace:*",
     "@gw2treasures/tsconfig": "workspace:*",
     "@types/node": "24.19.2",
-    "eslint": "9.39.5",
+    "eslint": "10.13.0",
     "prisma": "7.10.1",
     "typescript": "6.0.3"
   }

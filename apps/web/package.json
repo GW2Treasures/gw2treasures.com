@@ -45,7 +45,7 @@
     "client-only": "0.0.1",
     "d3-array": "3.2.4",
     "deepmerge": "4.3.1",
-    "hast-util-to-jsx-runtime": "2.3.6",
+    "hast-util-to-jsx-runtime": "2.3.7",
     "isbot": "5.2.2",
     "jose": "6.2.14",
     "let-it-go": "1.1.0",

@@ -4,9 +4,9 @@ on:
 
 env:
   # renovate: datasource=node-version packageName=node
-  NODE_22_VERSION: 22.23.4
-  # renovate: datasource=node-version packageName=node
   NODE_24_VERSION: 24.22.2
+  # renovate: datasource=node-version packageName=node
+  NODE_26_VERSION: 26.13.0
 
 jobs:
   build:
@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-26.04
     strategy:
       matrix:
-        node: [ 22, 24 ]
+        node: [ 24, 26 ]
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:

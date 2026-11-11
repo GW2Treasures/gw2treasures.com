@@ -22,8 +22,6 @@ import { DataTableClientColumn, DataTableClientDynamicCell } from '@gw2treasures
 import og from './og.png';
 import { ChasingShadowsProgress, FractalIncursionWaypoint, type ScheduledWaypoint } from './page.client';
 import { ResetTimer } from '@/components/Reset/ResetTimer';
-import { WizardsVaultTable } from '@/components/WizardsVault/WizardsVaultTable';
-import { Description } from '@/components/Layout/Description';
 import { BonusEvent, getBonusEvent } from '../bonus-event/bonus-events';
 
 type WorldBossId =
@@ -88,7 +86,7 @@ const CHASING_SHADOWS_ACHIEVEMENT_IDS = [
 const FRACTALLINE_DUST_ITEM_ID = 105336;
 
 const getData = cache(async () => {
-  const [achievements, fractallineDust, wizardsVaultObjectives] = await Promise.all([
+  const [achievements, fractallineDust] = await Promise.all([
     db.achievement.findMany({
       where: { achievementCategoryId: { in: [461, 462] }},
       include: {
@@ -101,12 +99,9 @@ const getData = cache(async () => {
       where: { id: FRACTALLINE_DUST_ITEM_ID },
       select: linkProperties,
     }),
-    db.wizardsVaultObjective.findMany({
-      where: { id: { in: [326, 323, 324, 325] }}
-    }),
   ]);
 
-  return { achievements, fractallineDust, wizardsVaultObjectives };
+  return { achievements, fractallineDust };
 }, ['incursive-investigation'], { revalidate: 60 });
 
 const requiredScopes = [Scope.GW2_Account, Scope.GW2_Progression];
@@ -118,7 +113,7 @@ export default async function IncursiveInvestigationPage() {
   const now = new Date();
   const isBonusEventActive = !!bonusEvent && bonusEvent.startsAt <= now && bonusEvent.endsAt > now;
 
-  const { achievements, fractallineDust, wizardsVaultObjectives } = await getData();
+  const { achievements, fractallineDust } = await getData();
   const achievementsById = groupById(achievements);
   const chasingShadowsAchievements = CHASING_SHADOWS_ACHIEVEMENT_IDS.map((id) => achievementsById.get(id)!);
 
@@ -195,18 +190,6 @@ export default async function IncursiveInvestigationPage() {
               </>
             )}
           </AchievementTable>
-
-          <WizardsVaultTable objectives={wizardsVaultObjectives}>
-            {(table, columnSelect) => (
-              <>
-                <Description actions={columnSelect}>
-                  <Trans id="incursive-investigation.bonus-event.wizards-vault"/>
-                </Description>
-
-                {table}
-              </>
-            )}
-          </WizardsVaultTable>
         </>
       )}
     </HeroLayout>

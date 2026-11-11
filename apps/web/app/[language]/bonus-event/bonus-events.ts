@@ -39,4 +39,5 @@ export const bonusEvents: BonusEventInfo[] = [
   { type: BonusEvent.FractalIncursion, startsAt: new Date('2025-09-09T16:00:00.000Z'), endsAt: new Date('2025-10-07T19:00:00.000Z') },
   { type: BonusEvent.EvonGnashbladesBirthday, startsAt: new Date('2025-11-24T17:00:00.000Z'), endsAt: new Date('2025-12-02T17:00:00.000Z') },
   { type: BonusEvent.FractalRush, startsAt: new Date('2026-01-13T17:00:00.000Z'), endsAt: new Date('2026-01-20T17:00:00.000Z') },
+  { type: BonusEvent.FractalIncursion, startsAt: new Date('2026-11-10T17:00:00.000Z'), endsAt: new Date('2026-12-01T19:00:00.000Z') },
 ];

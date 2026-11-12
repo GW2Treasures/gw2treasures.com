@@ -4,7 +4,7 @@ on:
 
 env:
   # renovate: datasource=node-version packageName=node
-  NODE_24_VERSION: 24.22.2
+  NODE_24_VERSION: 24.22.3
   # renovate: datasource=node-version packageName=node
   NODE_26_VERSION: 26.13.0
 

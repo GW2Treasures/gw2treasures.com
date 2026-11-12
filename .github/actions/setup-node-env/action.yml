@@ -5,7 +5,7 @@ inputs:
   node-version:
     description: Version of Node.js
     required: true
-    default: '24'
+    default: '26'
   cache-key:
     description: The cache key used for turbo caches or 'false' to disable caching
     required: false

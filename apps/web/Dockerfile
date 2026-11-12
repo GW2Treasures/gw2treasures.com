@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1.28@sha256:bb22d9815c728170f72750f4e5b0d672e06176142e1d602c7e66c050100b7e5b
 
-ARG node_version=24.22.2-alpine3.23@sha256:0efee1e068d21f6edcab7fa8c962fc4ecd50d4e28727bc23963379b63ee318ab
+ARG node_version=26.13.0-alpine3.24@sha256:8996bb5821d62a8fd9bb27c1cb07462f3fdce6e47d640c6a881ead0b064ce216
 # renovate: datasource=npm packageName=turbo
 ARG turbo_version=2.11.10
 # renovate: datasource=npm packageName=sharp

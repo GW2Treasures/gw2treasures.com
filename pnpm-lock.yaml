@@ -348,8 +348,8 @@ importers:
         specifier: 2.1.0
         version: 2.1.0
       scroll-into-view-if-needed:
-        specifier: 3.1.0
-        version: 3.1.0
+        specifier: 3.2.1
+        version: 3.2.1
       server-only:
         specifier: 0.0.1
         version: 0.0.1
@@ -2269,8 +2269,8 @@ packages:
     resolution: {integrity: sha512-yPVavfyCcRhmorC7rWlkHn15b4wDVgVmBA7kV4QVBsF7kv/9TKJAbAXVTxvTnwP8HHKjRCJDClKbciiYS7p0DQ==}
     engines: {node: '>=16'}
 
-  compute-scroll-into-view@3.1.1:
-    resolution: {integrity: sha512-VRhuHOLoKYOy4UbilLbUzbYg93XLjv2PncJC50EuTWPA3gaja1UjBsUP/D/9/juV3vQFr6XBEzn9KCAHdUvOHw==}
+  compute-scroll-into-view@3.2.2:
+    resolution: {integrity: sha512-X+jf3y2j3TbtxA3fq3/kBNiSnD1QlIChiIQdAc2Yo1LtOc0yjO1TzgxWJf8PwtKPGgSvSfWUlVvrb7vGx1eYWA==}
 
   concat-map@0.0.1:
     resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
@@ -3774,8 +3774,8 @@ packages:
   schema-dts@2.1.0:
     resolution: {integrity: sha512-Y/NvOvuJUZwrm+EmNqJF3M+bRufERJs1h5GJPLilUuK5D5b53ttU+XZgIjEFaAVRToh+ib+cQawFmxKC5Jt9ow==}
 
-  scroll-into-view-if-needed@3.1.0:
-    resolution: {integrity: sha512-49oNpRjWRvnU8NyGVmUaYG4jtTkNonFZI86MmGRDqBphEK2EXT9gdEUoQPZhuBM8yWHxCWbobltqYO5M4XrUvQ==}
+  scroll-into-view-if-needed@3.2.1:
+    resolution: {integrity: sha512-dgeJvJhSV9MY6hyhtsivbSxHoZVm+lumsWTObtUdAchJflwOGmKKHNkEpU8pVYMomZ8h/yrfzVQkcPlObQNDWQ==}
 
   semver@6.3.2:
     resolution: {integrity: sha512-GYrCADwpu6yV5OAvchkQ27Z5wwMxWAEMg5NNWjyHh/5DboFFqbdbvYNIvZouQpxXyeMPoTOh0vdPYKlf0ZswdQ==}
@@ -5836,7 +5836,7 @@ snapshots:
 
   commander@11.1.0: {}
 
-  compute-scroll-into-view@3.1.1: {}
+  compute-scroll-into-view@3.2.2: {}
 
   concat-map@0.0.1: {}
 
@@ -7601,9 +7601,9 @@ snapshots:
     dependencies:
       schema-dts-lib: 1.1.0
 
-  scroll-into-view-if-needed@3.1.0:
+  scroll-into-view-if-needed@3.2.1:
     dependencies:
-      compute-scroll-into-view: 3.1.1
+      compute-scroll-into-view: 3.2.2
 
   semver@6.3.2: {}
 

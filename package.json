@@ -24,12 +24,12 @@
     "node": "24 || 26",
     "npm": "please-use-pnpm",
     "yarn": "please-use-pnpm",
-    "pnpm": "12.18.0"
+    "pnpm": "12.21.0"
   },
   "devEngines": {
     "packageManager": {
       "name": "pnpm",
-      "version": "12.18.0",
+      "version": "12.21.0",
       "onFail": "download"
     }
   }

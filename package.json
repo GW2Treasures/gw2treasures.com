@@ -18,7 +18,7 @@
     "eslint-formatter-gha": "2.0.1",
     "playwright": "1.65.0",
     "turbo": "2.11.10",
-    "typescript": "6.0.3"
+    "typescript": "7.0.2"
   },
   "engines": {
     "node": "24 || 26",

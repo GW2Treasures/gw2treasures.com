@@ -4,7 +4,7 @@ ARG node_version=26.13.1-alpine3.24@sha256:6bd9ab43c0ec0190ca7b2d193906cb8b7edf6
 # renovate: datasource=npm packageName=turbo
 ARG turbo_version=2.11.13
 # renovate: datasource=npm packageName=pnpm
-ARG pnpm_version=12.21.0
+ARG pnpm_version=12.23.0
 
 
 # common base for all stages

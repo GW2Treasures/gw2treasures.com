@@ -253,8 +253,8 @@ importers:
         specifier: 2.1.9
         version: 2.1.9(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       '@formatjs/intl-localematcher':
-        specifier: 0.10.1
-        version: 0.10.1
+        specifier: 0.10.2
+        version: 0.10.2
       '@gw2/chatlink':
         specifier: 0.1.1
         version: 0.1.1
@@ -884,11 +884,11 @@ packages:
   '@floating-ui/utils@0.2.12':
     resolution: {integrity: sha512-HpCo8tmWzLVad5s2d19EhAz5zqrrQ6s69qd6moPMQvkOuSwDT1YgRfWSVuc4ennqrgv3OHppiOGMQ7oC13yIww==}
 
-  '@formatjs/fast-memoize@3.1.7':
-    resolution: {integrity: sha512-zXfhLpvA6T7+efdt9JLbBwZ00tT7NsBMDVnDu8rpHeNNv8KfRZAMo2gkG0k9lK/Nzc//3kJ9pImsfuJxk3KhUA==}
+  '@formatjs/fast-memoize@3.1.8':
+    resolution: {integrity: sha512-Y9YFFfeBDkAWmLWD3LVNHbHlyELsP2lYRNoY6+QhtPh1/ujCiX5QYBzAqe0cWdkCxKVezHLt0qjWz1veEUV7UA==}
 
-  '@formatjs/intl-localematcher@0.10.1':
-    resolution: {integrity: sha512-gBqglQK9rXuHsLmM8wzTMBy4Xo4d0jamirIVKuEL8F1rwbskWdpMA1kZarSkny+uvr5q/K6GSzE0Rcq1wZLl3g==}
+  '@formatjs/intl-localematcher@0.10.2':
+    resolution: {integrity: sha512-KvXcVOPLYRQ5s6O0MrHePLIIhkSUm5bZbsEHGmKI3xXoy7hvGxUoagaobAIi8/hc9YabgHvLDFeeqbrjPNIKwg==}
 
   '@gw2/chatlink@0.1.1':
     resolution: {integrity: sha512-p/hQ0YdQC/oFkA8JWEILPu1jrQhqeHu6Yq/FrhMO1+F8bZcKZvhX8CoiJGdDVaT9wD/C/If0U4iS6XV5HKrjeQ==}
@@ -4562,11 +4562,11 @@ snapshots:
 
   '@floating-ui/utils@0.2.12': {}
 
-  '@formatjs/fast-memoize@3.1.7': {}
+  '@formatjs/fast-memoize@3.1.8': {}
 
-  '@formatjs/intl-localematcher@0.10.1':
+  '@formatjs/intl-localematcher@0.10.2':
     dependencies:
-      '@formatjs/fast-memoize': 3.1.7
+      '@formatjs/fast-memoize': 3.1.8
 
   '@gw2/chatlink@0.1.1': {}
 

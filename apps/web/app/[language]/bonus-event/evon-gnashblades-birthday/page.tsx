@@ -25,13 +25,14 @@ import { AchievementTable } from '@/components/Achievement/AchievementTable';
 const approvalItemId = 106773;
 
 const data = [
+  { itemId: 110420, materialId: 19685, quantity: 250, purchaseLimit: 1, gemPrice: null, approvals: 20 }, // Party Crown Skin
   { itemId: 106797, materialId: 24294, quantity: 250, purchaseLimit: 1, gemPrice: null, approvals: 20 }, // Party Hat Skin
-  { itemId: 79696, materialId: 24288, quantity: 250, purchaseLimit: 1, gemPrice: null, approvals: 8 }, // Guaranteed Wardrobe Unlock
+  { itemId: 79696, materialId: 19735, quantity: 250, purchaseLimit: 1, gemPrice: null, approvals: 8 }, // Guaranteed Wardrobe Unlock
   { itemId: 92209, materialId: 24356, quantity: 250, purchaseLimit: 1, gemPrice: 500, approvals: 8 }, // Build Template Expansion
   { itemId: 92203, materialId: 24341, quantity: 250, purchaseLimit: 1, gemPrice: 500, approvals: 8 }, // Equipment Template Expansion
-  { itemId: 82060, materialId: 24282, quantity: 50, purchaseLimit: 5, gemPrice: null, approvals: 1 }, // Black Lion Booster
-  { itemId: 86694, materialId: 19748, quantity: 250, purchaseLimit: 5, gemPrice: null, approvals: 2 }, // Black Lion Statuette
-  { itemId: 19980, materialId: 19700, quantity: 150, purchaseLimit: 3, gemPrice: 87, approvals: 3 }, // Black Lion Chest Key
+  { itemId: 82060, materialId: 19747, quantity: 50, purchaseLimit: 5, gemPrice: null, approvals: 1 }, // Black Lion Booster
+  { itemId: 86694, materialId: 19684, quantity: 250, purchaseLimit: 5, gemPrice: null, approvals: 2 }, // Black Lion Statuette
+  { itemId: 19980, materialId: 19709, quantity: 150, purchaseLimit: 3, gemPrice: 87, approvals: 3 }, // Black Lion Chest Key
   // { itemId: 86181, approvals: 1 } // Bead of Liquid Karma
 ];
 
@@ -85,9 +86,8 @@ export default async function EventPage() {
       {!isActive && <Notice>This bonus event is currently not active.</Notice>}
 
       <Description actions={isActive && <>Time remaining: <ResetTimer reset={event.endsAt}/></>}>
-        From November 25 to December 2, the Black Lion Vaults will open with exclusive offerings and a chance to trade materials for a few limited-time surprises.
-        There will also be new vendors, new displays, and a whole new look to the Vaults, so get ready to head over to Lion’s Arch next week.<br/>
-        <ExternalLink href="https://www.guildwars2.com/en/news/the-gnashbash-birthday-celebration-is-back/">Read more on guildwars2.com</ExternalLink>
+        Experience a special Black Lion Trading Company event as Captain Evon Gnashblade invites you to a unique “birthday” celebration in Lion’s Arch. You don’t give Evon gifts on his “birthday”—instead, he provides deep discounts and spectacular offers! It’s an opportunity you can’t afford to miss!
+        <ExternalLink href="https://www.guildwars2.com/en/news/the-gnashbash-birthday-celebration-returns/">Read more on guildwars2.com</ExternalLink>
       </Description>
 
       <Headline id="materials" actions={<ColumnSelect table={Exchange}/>}>Material Exchange</Headline>
@@ -181,8 +181,7 @@ export default async function EventPage() {
 
 export const generateMetadata = createMetadata({
   title: 'Evon Gnashblade’s “Birthday” celebration',
-  description: 'From November 25 to December 2, the Black Lion Vaults will open with exclusive offerings and a chance to trade materials for a few limited-time surprises. ' +
-    'There will also be new vendors, new displays, and a whole new look to the Vaults, so get ready to head over to Lion’s Arch next week.',
+  description: 'Experience a special Black Lion Trading Company event as Captain Evon Gnashblade invites you to a unique “birthday” celebration in Lion’s Arch. You don’t give Evon gifts on his “birthday”—instead, he provides deep discounts and spectacular offers! It’s an opportunity you can’t afford to miss!',
   keywords: ['evon', 'gnashblade', 'birthday', 'material', 'festival', 'event', 'bonus', 'special', 'wizards vault'],
   image: ogImage
 });

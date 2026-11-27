@@ -38,7 +38,7 @@
   },
   "devDependencies": {
     "@gw2treasures/tsconfig": "workspace:*",
-    "@types/node": "26.6.6",
+    "@types/node": "26.6.11",
     "prisma": "7.10.1",
     "typescript": "6.0.3"
   }
